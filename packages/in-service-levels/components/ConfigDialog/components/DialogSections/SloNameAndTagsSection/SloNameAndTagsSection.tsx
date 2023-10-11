@@ -30,6 +30,8 @@ export default function SloNameAndTagsSection() {
 
   const isNameValid = isFieldValid(nameField);
 
+  const width = '14.7rem';
+
   return (
     <section>
       <Typography variant="heading-200" component="h2">
@@ -41,6 +43,7 @@ export default function SloNameAndTagsSection() {
             title={t('in-service-levels:createSloDialog.sloNameLabel')}
             titleHtmlFor="slo-name-input"
             hasError={!isNameValid}
+            titleWidth={width}
           >
             <Input
               id="slo-name-input"
@@ -58,7 +61,11 @@ export default function SloNameAndTagsSection() {
                 <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
               ))}
           </Section>
-          <Section title={t('in-service-levels:createSloDialog.tagsLabel')} titleHtmlFor="slo-tag-select">
+          <Section
+            title={t('in-service-levels:createSloDialog.tagsLabel')}
+            titleHtmlFor="slo-tag-select"
+            titleWidth={width}
+          >
             <CreatableTagSelect
               id="slo-tag-select"
               isLoading={isLoading}

@@ -16,9 +16,10 @@ import { t } from 'in-i18n';
 interface SloScopeWebsiteSectionProps {
   form: SloForm;
   onChange: SloFormOnChange;
+  width?: string;
 }
 
-export default function ApplicationTagFilterBuilder({ form, onChange }: SloScopeWebsiteSectionProps) {
+export default function ApplicationTagFilterBuilder({ form, onChange, width }: SloScopeWebsiteSectionProps) {
   const applicationIdField = form.getIn(['entity', 'entityId']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
@@ -30,6 +31,7 @@ export default function ApplicationTagFilterBuilder({ form, onChange }: SloScope
 
   return (
     <Section
+      titleWidth={width}
       actions={
         tagFilterExpressionField.value.length ? (
           <Button

@@ -28,6 +28,8 @@ export default function SloScopeApplicationSection() {
   const includeSyntheticField = form.getIn(['scope', 'includeSynthetic']);
   const serviceIdField = form.getIn(['scope', 'serviceId']);
 
+  const width = '14.7rem';
+
   return (
     <section>
       <Typography variant="heading-200" component="h2">
@@ -35,8 +37,7 @@ export default function SloScopeApplicationSection() {
       </Typography>
       <Stack gap="small">
         <Sections>
-          {/* Added titleWidth to perfectly align the label spacing with other value columns */}
-          <Section title={t('in-service-levels:general.boundary')} titleWidth="9.7rem">
+          <Section title={t('in-service-levels:general.boundary')} titleWidth={width}>
             <BoundaryScopeConfigurator
               value={boundaryField.value}
               onChange={scope =>
@@ -44,8 +45,7 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-          {/* Added titleWidth to perfectly align the label spacing with other value columns */}
-          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth="10.7rem">
+          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={width}>
             <HiddenCallsConfigurator
               includeInternal={includeInternalField.value}
               includeSynthetic={includeSyntheticField.value}
@@ -63,6 +63,7 @@ export default function SloScopeApplicationSection() {
             boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
             value={serviceIdField.value}
+            width={width}
             hasError={!serviceIdField.valid && serviceIdField.touched}
             onChange={value => onChange(['scope', 'serviceId'], () => serviceIdField.setValue(value!).setTouched(true))}
           />
@@ -71,12 +72,13 @@ export default function SloScopeApplicationSection() {
             applicationId={applicationIdField.value}
             serviceId={serviceIdField.value}
             value={endpointIdField.value}
+            width={width}
             hasError={!endpointIdField.valid && endpointIdField.touched}
             onChange={value =>
               onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))
             }
           />
-          <ApplicationTagFilterBuilder form={form} onChange={onChange} />
+          <ApplicationTagFilterBuilder form={form} onChange={onChange} width={width} />
         </Sections>
       </Stack>
     </section>

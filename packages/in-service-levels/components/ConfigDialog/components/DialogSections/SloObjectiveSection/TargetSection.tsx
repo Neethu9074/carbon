@@ -22,7 +22,7 @@ export default function TargetSection() {
   const isTargetFieldValid = isFieldValid(sloTargetField);
 
   return (
-    <Section title={t('in-service-levels:createSloDialog.sloTarget')}>
+    <Section title={t('in-service-levels:createSloDialog.sloTarget')} titleWidth="14.7rem">
       <PercentageInput
         id={'target'}
         value={sloTargetField.value}
