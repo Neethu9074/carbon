@@ -78,12 +78,15 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
       <ActionTable
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
+        title={t('in-automation:recommendedActions')}
+        isBeta
         event={event}
         volatileId={volatileId}
         pageSize={5}
         isSearchable={false}
         loadEntities={() => getUnusedSuggestedActions}
         scored
+        rightHeader={<></>} // required to get the title of the card to show with the beta badge
         tableActions={{
           select: {
             title: action => t('in-automation:associateActionWithName', { actionName: action.name }),
