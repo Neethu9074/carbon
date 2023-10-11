@@ -29,7 +29,7 @@ export default function AssociatedAndRecommendedActions({
 }: AssociatedAndRecommendedActionsProps) {
   const [reload, setReload] = useState(0);
   const [selectedType, setSelectedType] = useState('associatedActions');
-
+  const eventId = event?.id;
   return (
     <>
       <Row withoutSideMargin>
@@ -59,7 +59,7 @@ export default function AssociatedAndRecommendedActions({
             {selectedType === 'actionHistory' && role?.canViewAutomationActionInstances && (
               <Row withoutSideMargin>
                 <Col xs>
-                  <ActionHistoryTable />
+                  <ActionHistoryTable eventId={eventId} />
                 </Col>
               </Row>
             )}
