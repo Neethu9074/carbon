@@ -75,11 +75,6 @@
     "avatarUrlAlt": "来自 gravatar.com 的 {{email}} 头像。",
     "avatarNullAlt": "{{email}} 的后备头像。"
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "请求报价",
-    "buyNowBtn": "在 AWS 上购买",
-    "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "发行说明"
   },

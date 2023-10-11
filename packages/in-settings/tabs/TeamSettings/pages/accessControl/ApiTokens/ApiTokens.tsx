@@ -43,14 +43,17 @@ export default function ApiTokens() {
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
-      loadEntities={getApiTokens}
+      loadEntities={() => getApiTokens()}
       initialOrderBy="name"
       onCreateNew={() => onCreateNew(goToPath)}
       labelNew={t('in-settings:tabs.newApiToken')}
       searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
       searchPlaceholder={t('in-settings:components.search')}
+      noDataMessage={t('in-settings:tabs.noApiToken')}
       // @ts-ignore
-      getDetailsHref={(entity: any) => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId)}
+      getDetailsHref={(entity: any) => {
+        getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
+      }}
     />
   );
 }

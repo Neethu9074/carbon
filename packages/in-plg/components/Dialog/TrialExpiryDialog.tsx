@@ -9,7 +9,6 @@ import React from 'react';
 import { Typography } from '@instana/components';
 
 import { CustomButtons } from 'in-plg/components/Dialog/CustomButtons';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import BaseDialog from 'in-components/Dialog/BaseDialog';
 import { noop } from 'in-services/util/function';
@@ -21,7 +20,7 @@ interface OpenTrailExpiryDialogProps {
 }
 
 export function OpenTrialExpiryDialog({ message, isSevenDaysOver }: OpenTrailExpiryDialogProps) {
-  addActiveDialog(
+  return (
     <BaseDialog
       onSubmit={noop}
       title={

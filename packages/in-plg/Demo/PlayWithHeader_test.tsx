@@ -8,6 +8,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import PlayWithHeader from './PlayWithHeader';
+
 jest.mock('in-services/featureFlags', () => ({
   get playwithEnabled() {
     return true;

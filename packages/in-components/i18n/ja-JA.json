@@ -75,11 +75,6 @@
     "avatarUrlAlt": "gravatar.com からの {{email}} のアバター。",
     "avatarNullAlt": "{{email}} のフォールバック・アバター。"
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "見積もり依頼",
-    "buyNowBtn": "AWS で購入",
-    "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "リリース・ノート"
   },

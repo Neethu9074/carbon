@@ -75,11 +75,6 @@
     "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
     "avatarNullAlt": "Fallback do avatar para {{email}}."
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "Solicitar uma cotação",
-    "buyNowBtn": "Comprar na AWS",
-    "alreadyHaveLicense": "Já tem uma licença? Ative-a no <linkToDocker>Docker</linkToDocker> ou no <linkToKubernetes>Kubernetes</linkToKubernetes>."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Notas sobre a liberação"
   },

@@ -1,0 +1,13 @@
+{
+  "licenseBanner": {
+    "requestQuoteBtn": "見積もり依頼",
+    "buyNowBtn": "AWS で購入",
+    "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。"
+  },
+  "playwithinstana": {
+    "title": "Instana で再生",
+    "content": "独自の環境をモニターする準備ができました",
+    "bookdemo": " デモを予約する",
+    "freetrial": " 無料トライアル"
+  }
+}

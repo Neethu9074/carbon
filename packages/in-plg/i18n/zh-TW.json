@@ -1,0 +1,13 @@
+{
+  "licenseBanner": {
+    "requestQuoteBtn": "要求報價",
+    "buyNowBtn": "在 AWS 上購買",
+    "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。"
+  },
+  "playwithinstana": {
+    "title": "試驗 Instana",
+    "content": "準備好監視您自己的環境",
+    "bookdemo": " 預定展示",
+    "freetrial": " 免費試用"
+  }
+}

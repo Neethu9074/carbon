@@ -21,13 +21,13 @@ export default function KafkaDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.kafka.produceLatency')}>
+        <KpiKeyValue label={t('in-forge:plugins.kafka.totalProduceTime')}>
           <MetricValue snapshotId={snapshotId} metric="broker.totalTimeProduce" formatter={millis.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kafka.fetchConsumerLatency')}>
+        <KpiKeyValue label={t('in-forge:plugins.kafka.totalFetchConsumerTime')}>
           <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchConsumer" formatter={millis.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kafka.fetchFollowerLatency')}>
+        <KpiKeyValue label={t('in-forge:plugins.kafka.totalFetchFollowerTime')}>
           <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchFollower" formatter={millis.compact} />
         </KpiKeyValue>
       </KpiSection>

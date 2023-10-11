@@ -75,11 +75,6 @@
     "avatarUrlAlt": "gravatar.com 提供的 {{email}} 頭像。",
     "avatarNullAlt": "{{email}} 的備用頭像。"
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "要求報價",
-    "buyNowBtn": "在 AWS 上購買",
-    "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "版本注意事項"
   },

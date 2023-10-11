@@ -11,4 +11,9 @@
   .twoColumnGrid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .checkboxWrapper {
+    grid-template-rows: min-content auto;
+    align-items: start;
+  }
 }

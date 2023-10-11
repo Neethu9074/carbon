@@ -32,6 +32,10 @@ const regExpErrors: Array<[RegExp, TranslateCallback]> = [
     /The maximum number of application apdex configurations \((\d+)\) has been reached/,
     contextParams =>
       t('in-custom-dashboards:widgets.apdex.createApdexForm.limitReachedError.application', contextParams)
+  ],
+  [
+    /The maximum number of service level objective configurations (\((\d+)\)) has been reached/,
+    contextParams => t('in-service-levels:general.serverErrors.sloLimitReachedError', contextParams)
   ]
 ];
 

@@ -18,20 +18,12 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 
 let snapshotMap = {};
-
-const statusToColour = {
-  Yellow: theme.lib.colors.yellow800,
-  Grey: theme.lib.colors.success,
-  Green: theme.lib.colors.success,
-  Red: theme.lib.colors.failure,
-  Unknown: theme.lib.colors.N400
-};
 
 const cols = [
   {
@@ -50,7 +42,16 @@ const cols = [
       getValue(row) {
         return row.excepMainMetric.get('rating');
       },
-      getContent(args, row) {
+      getContent: function Content(args, row) {
+        const theme = useTheme();
+        const statusToColour = {
+          Yellow: theme.ids.color.option.yellow['500'],
+          Grey: theme.ids.color.option.green['500'],
+          Green: theme.ids.color.option.green['500'],
+          Red: theme.ids.color.option.red['500'],
+          Unknown: theme.ids.color.option.neutral['400']
+        };
+
         return (
           <div className={locals.center}>
             <HealthDot
@@ -59,7 +60,7 @@ const cols = [
               redToYellow={row.excepMainMetric.get('redToYellow')}
               yellowToRed={row.excepMainMetric.get('yellowToRed')}
               unit={row.excepMainMetric.get('unit')}
-              explanation={theme.lib.colors.success}
+              explanation={theme.ids.color.option.green['500']}
               color={statusToColour[args || statusToColour.Unknown]}
               iconSize={SvgIconSizes.xxs}
             />
@@ -102,6 +103,7 @@ export default connectTo(
   },
   function Exception({ data, configurationName }) {
     const { snapshotId, timeConfig } = snapshotMap;
+    const theme = useTheme();
     if (snapshotMap.techEventName === 'MISSING_METRICS') {
       return <DashboardNotification type="info">{snapshotMap.eventNames}</DashboardNotification>;
     }
@@ -148,7 +150,11 @@ export default connectTo(
                 t('in-sap:dashboards.yellowvalue'),
                 t('in-sap:dashboards.redvalue')
               ],
-              colors: [theme.lib.colors.success, theme.lib.colors.yellow800, theme.lib.colors.failure],
+              colors: [
+                theme.ids.color.option.green['500'],
+                theme.ids.color.option.yellow['500'],
+                theme.ids.color.option.red['500']
+              ],
               type: 'stackedBar',
               formatter: getSAPUnitFormatter(row.excepMainMetric.get('unit'))
             }}

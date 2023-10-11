@@ -38,10 +38,14 @@ interface DateInputProps {
   onChange: DateInputOnChange;
   iconType?: string;
   disabled?: boolean;
+  /* if set, this reduces the width of the input field to only use a
+   * small width, so that about 10 chars fit well into it.
+   */
+  fixedWidth?: boolean;
 }
 
 export default function DateInput(props: DateInputProps) {
-  const { value, onChange = identity, disabled, iconType } = props;
+  const { value, onChange = identity, disabled, iconType, fixedWidth } = props;
   const inputProps = assign({}, props);
 
   // @ts-expect-error ignoring the from a type perspective superfluous deletes here,
@@ -62,6 +66,7 @@ export default function DateInput(props: DateInputProps) {
         value={value || ''}
         // explicitly setting onChange to undefined here to avoid typescript conflicts with the signature of onChange from DateInputProps
         onChange={undefined}
+        className={fixedWidth ? locals.fixedWidth : undefined}
       />
     );
   }
@@ -75,6 +80,7 @@ export default function DateInput(props: DateInputProps) {
           inputProps={inputProps}
           close={close}
           iconType={iconType}
+          fixedWidth={fixedWidth}
         />
       )}
     </Overlay>
@@ -85,6 +91,7 @@ interface DatePickerInputProps {
   inputProps: DateInputProps;
   iconType?: DateInputProps['iconType'];
   onChange: DateInputOnChange;
+  fixedWidth?: boolean;
 
   open: () => void;
   close: () => void;
@@ -92,9 +99,10 @@ interface DatePickerInputProps {
   refSetter: OverlayContentProps['refSetter'];
 }
 
-function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType }: DatePickerInputProps) {
+function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType, fixedWidth }: DatePickerInputProps) {
   return (
     <Input
+      className={fixedWidth ? locals.fixedWidth : undefined}
       type="text"
       autoComplete="off"
       onKeyDown={e => {
