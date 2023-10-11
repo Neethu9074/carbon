@@ -16,10 +16,10 @@ import locals from 'in-alerting/components/ScopePath.mless';
 
 interface ScopePathProps {
   entries: ScopeEntryType[];
-  iconSize?: Size;
+  iconSize?: ScopePathIconSize;
   noBottomMargin?: boolean;
 }
-type Size = SvgIconProps['size'];
+export type ScopePathIconSize = SvgIconProps['size'];
 
 export type ScopeEntryType = {
   iconType: string;
@@ -48,12 +48,12 @@ const ScopePath = forwardRef<HTMLDivElement, ScopePathProps>((props, ref) => {
   );
 });
 
-function ArrowSeparator({ iconSize }: { iconSize: Size }) {
+function ArrowSeparator({ iconSize }: { iconSize: ScopePathIconSize }) {
   return <SvgIcon className={locals.separator} size={iconSize} type="lib_arrow_expand_right" />;
 }
 
 interface ScopeEntryProps extends ScopeEntryType {
-  iconSize: Size;
+  iconSize: ScopePathIconSize;
 }
 
 function ScopeEntry({ iconType, iconSize, label, href, href$ }: ScopeEntryProps) {
