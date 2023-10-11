@@ -119,7 +119,7 @@ type GetActionInstanceList = {
 
 export function GetActionInstanceListData({
   timeConfig,
-  orderBy = 'actionName',
+  orderBy = 'startDate',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,
