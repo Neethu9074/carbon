@@ -75,8 +75,8 @@ export default function ParameterDialog({ form, onChange, idToEdit, isNotEditabl
 
   return (
     <Dialog
-      titleIconType={'lib_openclose_add'}
-      title={t('in-automation:ActionCatalog.addParameter')}
+      titleIconType={idToEdit ? 'lib_actions_edit' : 'lib_openclose_add'}
+      title={idToEdit ? t('in-automation:ActionCatalog.editParameter') : t('in-automation:ActionCatalog.addParameter')}
       onClose={close}
       withoutBodyPadding
     >
