@@ -14,7 +14,7 @@ import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
-import { useTheme } from 'in-themes';
+import oldTheme, { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Errors({
@@ -44,7 +44,7 @@ export default function Errors({
     timeConfig: timeConfig,
     granularity,
     timeShift: 0,
-    color: theme.ids.color.option.red['500']
+    color: oldTheme.lib.carbonAlert.red60
   };
 
   let metrics;

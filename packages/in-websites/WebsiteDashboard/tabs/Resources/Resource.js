@@ -52,15 +52,19 @@ import locals from './Resource.mless';
 
 export const cacheTypes = {
   fullLoad: {
+    color: theme.lib.colors.chart.fourColorPalette[0],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesFullLoad')
   },
   validated: {
+    color: theme.lib.colors.chart.fourColorPalette[1],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesValidated')
   },
   cached: {
+    color: theme.lib.colors.chart.fourColorPalette[2],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesCached')
   },
   unknown: {
+    color: theme.lib.colors.chart.fourColorPalette[3],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesUnknown')
   }
 };
@@ -388,6 +392,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                   }
                 ]}
                 translateLabel={label => cacheTypes[label] && cacheTypes[label].long}
+                translateColor={label => cacheTypes[label] && cacheTypes[label].color}
                 renderPostChartContent={MarkerLanes}
               />
             </Col>

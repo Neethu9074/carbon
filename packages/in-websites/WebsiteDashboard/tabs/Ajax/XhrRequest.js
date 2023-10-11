@@ -396,13 +396,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 tooltipFormatter: number.compact,
                 fallbackMetricValue: 0,
                 metricIds: ['http1xx', 'http2xx', 'http3xx', 'http4xx', 'http5xx'],
-                colors: [
-                  theme.lib.colors.chart.strokeColors25[0],
-                  theme.lib.colors.chart.strokeColors25[1],
-                  theme.lib.colors.chart.strokeColors25[4],
-                  theme.lib.colors.chart.strokeColors25[2],
-                  theme.lib.colors.chart.strokeColors25[6]
-                ]
+                colors: theme.lib.colors.chart.fiveColorPalette
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -520,6 +514,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 ]}
                 translateLabel={label => cacheTypes[label] && cacheTypes[label].long}
+                translateColor={label => cacheTypes[label] && cacheTypes[label].color}
                 renderPostChartContent={MarkerLanes}
               />
             </Col>
