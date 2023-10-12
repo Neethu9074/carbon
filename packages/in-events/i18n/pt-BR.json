@@ -117,8 +117,7 @@
   "releaseOccurName": "Liberação: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados. No futuro, os Eventos customizados para esses três tipos de entidade serão removidos e você não receberá mais esta configuração {{issueOrIncident}}</strong><br/>Visualizar evento customizado para migrar para o Alerta inteligente. <documentationLink>Leia mais em nossa documentação</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "Ações associadas para o evento acionador",
-  "recommendedActions": "Ações recomendadas",
+  "associatedActionsForTriggeringEvent": "Ações associadas para evento acionador",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventos customizados requerem ação",
     "message": "Os eventos customizados no aplicativo, serviço e terminal foram descontinuados. Não será possível criar ou atualizar esses tipos de eventos customizados no futuro.",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Status com falha"
+  },
+  "RCA": {
+    "titlePRCA": "Eventos de causa raiz provável",
+    "AIGenBadgeText": "Gerados por IA",
+    "suggestionHelpfulText": "Esta sugestão foi útil?",
+    "noEventsErrorTitle": "Nenhum evento localizado",
+    "noEventsErrorDescription": "Uma entidade foi localizada como a causa raiz, mas nenhum evento relacionado pôde ser atribuído a ela",
+    "noEntitiesErrorTitle": "Nenhuma causa raiz provável localizada",
+    "noEntitiesErrorDescription": "Ops! Não conseguimos identificar uma causa raiz específica para este incidente.",
+    "regenerate": "Gerar novamente"
   }
 }

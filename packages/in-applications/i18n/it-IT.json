@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "Chiamata con errori senza messaggio di errore",
     "noLogMessage": "Nessun messaggio di log disponibile",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Chiamate sintetiche: {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "Nessun servizio disponibile",
       "servicesDescription": "Non è stato richiamato alcun servizio per l'intervallo di tempo selezionato.",
@@ -540,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "Visualizzazione applicazioni <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity> nel contesto di <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Visualizzazione servizi <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity> nel contesto di <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Ancora nessun servizio",
-    "servicesNoData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Docs]:https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -556,14 +555,6 @@
     "self": "Automatico",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-  },
-  "constants": {
-    "exclude": "Escludi",
-    "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
-    "include": "Includi",
-    "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono incluse nelle metriche.",
-    "only": "Solo",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche"
   },
   "traceDetail": {
     "beta": "BETA",
@@ -659,5 +650,6 @@
     "alternativeServicesOk": "<bold>È accettabile esaminare i servizi alternativi?</bold>",
     "alternativeServicesProblem": "<bold>No</bold>, se il nome del servizio corrente proviene dall'intestazione \"Host\" HTTP (regola di associazione dei servizi il cui l'ID è call.http.host) ma il nome del servizio alternativo no (poiché il relativo nome proviene da una regola che si basa sui tag dell'infrastruttura), o viceversa. Questi sono servizi duplicati.",
     "alternativeServicesPossibleProblem": "<bold>Forse</bold>, se il servizio corrente e i nomi dei servizi alternativi non provengono dall'intestazione \"Host\" HTTP, quindi sono servizi che risiedono dietro un proxy (validi) o sono servizi duplicati (non validi): alcuni dei servizi sono completamente collegati all'infrastruttura mentre altri sono collegati all'infrastruttura in modo parziale."
-  }
+  },
+  "labelSyntheticMonitoring": "Monitoraggio sintetico"
 }

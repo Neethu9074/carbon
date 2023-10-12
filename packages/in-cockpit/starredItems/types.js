@@ -25,3 +25,6 @@ export const service = 'SERVICE';
 // Website & Mobile App monitoring
 export const website = 'WEBSITE';
 export const mobileApp = 'MOBILE_APP';
+
+// Business Monitoring
+export const businessProcess = 'BUSINESS_PROCESS';

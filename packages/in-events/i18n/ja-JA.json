@@ -117,8 +117,7 @@
   "releaseOccurName": "リリース: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
   "deprecatedCustomEventWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨になりました。 今後、これらの 3 つのエンティティー・タイプのカスタム・イベントは削除され、スマート・アラートに移行するため、この {{issueOrIncident}}</strong><br/>ビュー・カスタム・イベント設定を受け取ることはできなくなります。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "トリガー・イベントに関連付けられたアクション",
-  "recommendedActions": "推奨アクション",
+  "associatedActionsForTriggeringEvent": "イベントをトリガーするための関連アクション",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}}カスタム・イベントにはアクションが必要です",
     "message": "アプリケーション、サービス、およびエンドポイントのカスタム・イベントは推奨されません。 今後、これらのタイプのカスタム・イベントを作成または更新することはできません。",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "失敗状況"
+  },
+  "RCA": {
+    "titlePRCA": "考えられる根本原因イベント",
+    "AIGenBadgeText": "AI 生成",
+    "suggestionHelpfulText": "この提案は役に立ちましたか?",
+    "noEventsErrorTitle": "イベントが見つかりません",
+    "noEventsErrorDescription": "エンティティーが根本原因として見つかりましたが、それに起因する関連イベントがありませんでした",
+    "noEntitiesErrorTitle": "考えられる根本原因が見つかりません",
+    "noEntitiesErrorDescription": "申し訳ありません。 このインシデントの特定の根本原因を特定できませんでした。",
+    "regenerate": "再生成"
   }
 }

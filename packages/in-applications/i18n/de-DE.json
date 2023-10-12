@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "Fehlerhafter Aufruf ohne Fehlernachricht",
     "noLogMessage": "Keine Protokollnachricht verfügbar",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetische Aufrufe: {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "Keine Services verfügbar",
       "servicesDescription": "Für den ausgewählten Zeitbereich wurden keine Services abgerufen.",
@@ -540,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Anwendungen werden im Kontext von <linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
     "showServicesScopeWithServiceLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Services werden im Kontext von <linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
     "titleNoService": "Noch keine Services",
-    "servicesNoData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs] :https://www.ibm.com/docs/de/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -556,14 +555,6 @@
     "self": "Selbst",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-  },
-  "constants": {
-    "exclude": "Ausschließen",
-    "syntheticCallsAreExcludedFromTheMetrics": "Synthetische Aufrufe werden von den Messdaten ausgeschlossen.",
-    "include": "Einschließen",
-    "syntheticCallsAreIncludedInTheMetrics": "Synthetische Aufrufe werden in die Messdaten eingeschlossen.",
-    "only": "Nur",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Nur synthetische Aufrufe werden angezeigt und in die Messdaten eingeschlossen"
   },
   "traceDetail": {
     "beta": "BETA",
@@ -659,5 +650,6 @@
     "alternativeServicesOk": "<bold>Sind alternative Services in Ordnung?</bold>",
     "alternativeServicesProblem": "<bold>Nein</bold>, wenn der Name des aktuellen Service aus dem HTTP-Header \"Host\" stammt (Servicezuordnungsregel mit der ID call.http.host) und der Name des alternativen Service nicht (weil sein Name aus einer Regel stammt, die auf Infrastrukturtags basiert) oder umgekehrt. Hierbei handelt es sich um doppelte Services.",
     "alternativeServicesPossibleProblem": "<bold>Möglicherweise</bold>, wenn der Name des aktuellen Service und der Name des alternativen Service nicht aus dem HTTP-Header \"Host\" stammen. Es handelt sich dann entweder um Services hinter einem Proxy (gut) oder um doppelte Services (schlecht): Einige der Services sind vollständig mit Infrastruktur verbunden, während andere teilweise mit Infrastruktur verbunden sind."
-  }
+  },
+  "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen"
 }

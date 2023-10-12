@@ -39,8 +39,8 @@
     "amd64": "AMD64",
     "s360x": "s390x",
     "curlCommand": "複製並執行 cUrl 指令",
-    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-amd64-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
-    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-s390x-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
+    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-amd64-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
+    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-s390x-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
     "footerButtonDone": "完成",
     "reportingAgents": "報告代理程式",
     "fqdn": "FQDN",
@@ -85,11 +85,13 @@
     "name": "名稱",
     "search": "搜尋類型",
     "explore": "瀏覽",
+    "health": "性能",
     "noIssues": "沒有問題",
     "count": "計數",
     "errors": {
-      "maximumNumberOfGroups": "此查詢有太多結果。 請使用更嚴格的過濾器或更廣泛的群組來縮小範圍",
-      "generalError": "發生非預期的錯誤。 請使用更嚴格的過濾器縮小範圍，然後再試一次"
+      "maximumNumberOfGroups": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
+      "maximumNumberOfMembers": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
+      "generalError": "發生非預期的錯誤。"
     },
     "entityTypes": "實體類型 {{count, parenthesis}}"
   },
@@ -125,6 +127,10 @@
     "collapseAll": "全部收合",
     "map": "圖",
     "comparisonTable": "對照表",
-    "infrastructureComparisonTable": "基礎架構對照表"
+    "infrastructureComparisonTable": "基礎架構對照表",
+    "smartAlerts": "智慧型警示"
+  },
+  "smartAlertView": {
+    "smartAlertTab": "基礎架構智慧型警示"
   }
 }

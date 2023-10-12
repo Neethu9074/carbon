@@ -29,6 +29,7 @@ import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFo
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
+import { autoFormatterTimeSeriesEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
@@ -142,15 +143,17 @@ export default function FormComponent({
 
   // Update metric formatter with builtin one
   useEffect(() => {
-    onChange([], form =>
-      form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
-    );
+    if (autoFormatterTimeSeriesEnabled) {
+      onChange([], form =>
+        form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricDefaultFormatter]);
 
   // Auto formatter
   useEffect(() => {
-    if (!metric || !axisForm || isFormatterSelected) {
+    if (!autoFormatterTimeSeriesEnabled || !metric || !axisForm || isFormatterSelected) {
       return;
     }
 

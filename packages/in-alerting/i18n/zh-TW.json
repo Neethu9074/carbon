@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "說明",
     "noChannelSelectedText": "目前，您尚未選取警示通道，而不會收到任何警示。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
+    "groupBy": "分組依據",
+    "noChannelAvailable": "沒有可用的警示通道",
     "revisionDropdownButton": {
       "revision": "修訂 {{alertRevision}}",
       "pause": "暫停",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "第 95 個",
         "aggregationTextP98": "第 98 個",
         "aggregationTextP99": "第 99 個"
+      },
+      "list": {
+        "labelConfirm": "請確認",
+        "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
+        "labelRemove": "移除"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "未選取綜合測試",
         "alertTestEntityName": "綜合測試 {{entityName}}",
         "testAttachedCount": "附加測試 ({{count}})",
-        "testAttached": "附加的測試"
+        "testAttached": "附加的測試",
+        "noTestAvailable": "沒有可用的虛構測試"
       },
       "details": {
         "threshold": "臨界值",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "自訂有效負載"
       }
     },
-    "inventory": {
-      "labelConfirm": "請確認",
-      "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
-      "labelRemove": "移除"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "選擇自訂事件",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "{{metricLabel}} 數目高於或等於預期。",
         "thresholdLowerOperatorText": "{{metricLabel}} 數目低於預期。",
         "thresholdLowerEqualsOperatorText": "{{metricLabel}} 數目低於或等於預期。"
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "警示配置",
+        "alertConfigurationTitleTrigger": "觸發",
+        "alertConfigurationTitleScope": "範圍",
+        "alertConfigurationTitleAlertChannels": "警示通道",
+        "alertConfigurationTitleTimeThreshold": "時間臨界值",
+        "alertConfigurationTitleAlertProperties": "警示內容",
+        "viewDetail": "檢視詳細資料"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "靜態臨界值，{{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_0": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_1": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_2": "+{{count}} 個以上的過濾器",
+        "filter": "過濾器",
+        "filter_plural": "過濾器",
+        "filter_0": "過濾器",
+        "filter_1": "過濾器",
+        "filter_2": "過濾器"
       }
     }
   }

@@ -33,7 +33,16 @@
     },
     "activity": {
       "pageTitle": "ビジネス・アクティビティー",
-      "summaryTab": "サマリー"
+      "summaryTab": "サマリー",
+      "widgets": {
+        "duration": "期間"
+      },
+      "timespans": {
+        "minute": "1 分",
+        "hour": "1 時間",
+        "day": "1 日",
+        "week": "1 週間"
+      }
     }
   }
 }

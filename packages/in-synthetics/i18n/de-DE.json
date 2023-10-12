@@ -242,6 +242,7 @@
     "synthetics": "Überwachung der synthetischen Transaktionen"
   },
   "dashboard": {
+    "deleted": "{{id}}-gelöscht",
     "testList": {
       "mainLabel": "Überwachung der synthetischen Transaktionen",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "Nicht zutreffend"
     },
     "locationList": {
+      "locationLiveModeDisabled": "Der Livemodus ist auf der Seite „Synthetic Locations“ nicht anwendbar.",
       "locationLabel": "Standortname",
       "locationDisplayLabel": "Anzeigename",
       "status": "Status",
@@ -365,6 +367,7 @@
       "success": "Erfolgreich"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "Der Livemodus ist auf der Detailseite des Ergebnisses des synthetischen Tests nicht anwendbar.",
       "timeLineWidget": "Zeitachse",
       "responseTimeChart": "Antwortzeit",
       "subtransactionStatus": "Status",
@@ -413,8 +416,9 @@
       "downloadLog": "Protokolle herunterladen",
       "downloadImages": "Screenshot herunterladen",
       "downloadVideo": "Aufzeichnung herunterladen",
-      "consoleLogs": "KONSOLE",
-      "browserLogs": "BROWSER",
+      "consoleLogsLevel": "KONSOLE",
+      "consoleLogs": "Konsole",
+      "browserLogs": "Browser",
       "browserDetails": {
         "page": {
           "request": "Anforderung",

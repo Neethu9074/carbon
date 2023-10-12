@@ -2,7 +2,6 @@
   "associatedActions": "Ações associadas",
   "recommendedActions": "Ações recomendadas",
   "failedToSaveAssocation": "Falha ao salvar a associação de ação.",
-  "actionSensorTimeout": "Não foi possível manipular a solicitação de back-end. Verifique a sua configuração do agente para ter certeza de que o sensor de ação está instalado.",
   "validVaultParameter": "Os parâmetros da área segura marcados como opcionais devem estar ambos em branco ou ambos não em branco.",
   "newAction": "Nova ação",
   "ok": "OK",
@@ -140,12 +139,14 @@
     "validName": "O nome do parâmetro não é válido: verifique se você está usando somente caracteres válidos e se ele é exclusivo.",
     "uniqueName": "Os nomes de parâmetros devem ser exclusivos.",
     "parameterNameHelp": "Os nomes de parâmetros podem conter somente a-z, A-Z, _, 0-9 e não podem começar com um número.",
+    "validUrl": "O link da documentação não é válido.",
     "actionCopy": "(Cópia de) {{name}}",
     "ActionAssociationsForEvent": "Associar eventos",
     "ActionAssociationsForSmartAlert": "Associar alertas inteligentes"
   },
   "actionHistory": {
     "actionHistory": "Histórico de ações",
+    "actionHistoryWithCount": "Histórico de ações ({{count}})",
     "noActionInstances": "Dados não disponíveis",
     "external": "Externo",
     "name": "Nome",
@@ -162,7 +163,6 @@
     "errorMessage": "Mensagem de erro",
     "actionContent": "Conteúdo da ação",
     "hostSnapshotId": "ID da captura instantânea do host",
-    "targetSnapshotId": "ID da captura instantânea do destino",
     "log": "Log",
     "success": "Sucesso",
     "failed": "Com falha",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "Obrigado por seu feedback.",
     "saveButton": "Salvar",
     "ansibleJob": "Tarefa Ansible",
-    "hostsLimit": "Limite de hosts"
+    "hostsLimit": "Limite de hosts",
+    "initiator": "Iniciador",
+    "submitted": "Enviado"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Investigar"
   }
 }

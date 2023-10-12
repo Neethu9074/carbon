@@ -39,5 +39,9 @@
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 个问题",
   "endOfInfiniteScroll": "没有更多日志可用",
   "liveModeDisabled": "分析日志时不支持实时方式",
-  "logLevels": "日志级别"
+  "logLevels": "日志级别",
+  "dockerContainer": "Docker 容器",
+  "containerdContainer": "容器化容器",
+  "crioContainer": "Crio 容器",
+  "gardenContainer": "Garden 容器"
 }

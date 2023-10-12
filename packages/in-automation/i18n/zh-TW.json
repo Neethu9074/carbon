@@ -2,7 +2,6 @@
   "associatedActions": "相關聯的動作",
   "recommendedActions": "建議的動作",
   "failedToSaveAssocation": "無法儲存動作關聯。",
-  "actionSensorTimeout": "無法處理後端要求。 請檢查代理程式配置，以確定已安裝「動作」感應器。",
   "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
   "newAction": "新增動作",
   "ok": "確定",
@@ -140,12 +139,14 @@
     "validName": "參數名稱無效：請檢查以確定您只使用有效的字元，且它是唯一的。",
     "uniqueName": "參數名稱必須是唯一的。",
     "parameterNameHelp": "參數名稱只能包含 a-z、A-Z、_、0-9，且不能以數字開頭。",
+    "validUrl": "文件鏈結無效。",
     "actionCopy": "（副本）{{name}}",
     "ActionAssociationsForEvent": "關聯事件",
     "ActionAssociationsForSmartAlert": "關聯智慧型警示"
   },
   "actionHistory": {
     "actionHistory": "動作歷程",
+    "actionHistoryWithCount": "動作歷程 ({{count}})",
     "noActionInstances": "沒有可用的資料",
     "external": "外部",
     "name": "名稱",
@@ -162,7 +163,6 @@
     "errorMessage": "錯誤訊息",
     "actionContent": "動作內容",
     "hostSnapshotId": "主機 Snapshot ID",
-    "targetSnapshotId": "目標 Snapshot ID",
     "log": "日誌",
     "success": "成功",
     "failed": "失敗",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "謝謝您的意見！",
     "saveButton": "儲存",
     "ansibleJob": "Ansible 工作",
-    "hostsLimit": "主機限制"
+    "hostsLimit": "主機限制",
+    "initiator": "起始器",
+    "submitted": "已提交"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "調查"
   }
 }

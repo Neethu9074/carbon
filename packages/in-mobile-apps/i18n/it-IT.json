@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} di avvii di sessione",
     "tabs": {
       "summaryLabel": "Riepilogo",
+      "crashLabel": "Arresti anomali",
       "httpRequestLabel": "Richieste HTTP",
       "geographyLabel": "Area geografica",
       "customEventsLabel": "Eventi personalizzati",
@@ -260,9 +261,12 @@
       "nameLabel": "Nome",
       "occurrencesLabel": "Ricorrenze",
       "affectedUsersLabel": "Utenti interessati",
-      "crashErrorGroupsTitle": "Gruppi di errori di arresto anomalo",
+      "uniqueUsersTitle": "Utenti univoci",
+      "crashActivityTitle": "Arresti anomali",
+      "crashErrorGroupsTitle": "Gruppi di arresti anomali principali",
       "crashErrorGroupsHelpInfo": "Visualizza i dati raccolti solo per gli utenti interessati identificati",
-      "analyzeCrashesLink": "Analizza arresti anomali",
+      "crashErrorGroupsNoDataMessage": "Nessun arresto anomalo in questo periodo",
+      "viewAllCrashes": "Visualizza tutti gli arresti anomali",
       "configurationTitle": "Configurazione",
       "optionsLabel": "Opzioni",
       "privacyLabel": "Privacy",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "Visualizza tutte le origini",
       "sessionStartsTitle": "Avvii di sessione",
       "viewInAnalyzeIconAction": "Visualizza in Analisi",
-      "crashFreeSessionRateTitle": "Tasso sessioni senza arresti anomali",
-      "crashFreeUserRateTitle": "Tasso utenti senza arresti anomali",
+      "crashAffectedSessionRateTitle": "Frequenza sessioni interessate da arresto anomalo",
+      "crashAffectedUserRateTitle": "Frequenza utenti interessati da arresto anomalo",
       "viewTransitionsTitle": "Transizioni vista",
       "activityCardTitle": "Attività",
       "sessionStartsLabel": "Avvii di sessione",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} utenti identificati",
       "sessionCount": "{{formattedCount}} sessione",
       "sessionCount_plural": "{{formattedCount}} sessioni",
+      "devices": "Dispositivi",
+      "viewAllDevices": "Visualizza tutti i dispositivi",
+      "osVersions": "Sistemi operativi",
+      "viewAllOs": "Visualizza tutto il sistema operativo",
+      "appVersions": "Versioni app",
+      "viewAllVersions": "Visualizza tutte le versioni",
+      "crashes": {
+        "crashesLabelErrorMessage": "Messaggio di errore",
+        "crashesLabelOccurrences": "Ricorrenze",
+        "crashesLabelAffectedUsers": "Utenti interessati",
+        "crashesButtonAnalyzeCrashes": "Analizza arresti anomali",
+        "crashesTableTitle": "Arresti anomali",
+        "crashInfoTitle": "Dettagli",
+        "crashInfoMessage": "Messaggio",
+        "backToCrashList": "Torna all'elenco degli arresti anomali",
+        "crashTitleMobileAppCrashDetails": "Dettagli arresto anomalo app per dispositivo mobile"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "Dettagli evento personalizzato app per dispositivi mobili",
         "customEventLabelBackToListOfCustomEvents": "Torna all'elenco degli eventi personalizzati",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "Nessuna richiesta HTTP disponibile",
       "httpRequestsDescription": "Non è stata richiamata alcuna richiesta HTTP per l'intervallo di tempo selezionato",
       "customEventsTitle": "Nessun evento personalizzato disponibile",
-      "customEventsDescription": "Non è stato richiamato alcun evento personalizzato per l'intervallo di tempo selezionato."
+      "customEventsDescription": "Non è stato richiamato alcun evento personalizzato per l'intervallo di tempo selezionato.",
+      "crashesTitle": "Nessun arresto anomalo disponibile",
+      "crashesDescription": "Non si sono verificati arresti anomali nell'intervallo di tempo selezionato."
     }
   },
   "appsList": {

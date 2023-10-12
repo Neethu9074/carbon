@@ -88,7 +88,7 @@ function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
       renderPreChartContent={LogsChartLegend}
       customHeight={customChartHeight}
       automaticallySize={false}
-      renderLegend={false}
+      renderLegend
       excludedContextMenuActions={['globalHighlight', 'download']}
       config={getLogsChartConfig(backendQueryModelWithFacets as TagFilterExpression, metric)}
     />
@@ -131,7 +131,7 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
       renderPreChartContent={LogsChartLegend}
       customHeight={customChartHeight}
       automaticallySize={false}
-      renderLegend={false}
+      renderLegend
       config={{
         y1: {
           colors,

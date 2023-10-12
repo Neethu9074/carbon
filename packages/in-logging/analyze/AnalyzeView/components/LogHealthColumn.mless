@@ -7,7 +7,7 @@
 
 :local {
   .pill {
-    min-width: 3.125rem;
+    width: 100%;
 
     .ellipsis();
   }

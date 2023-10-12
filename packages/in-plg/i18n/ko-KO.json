@@ -1,5 +1,12 @@
 {
+  "trialExpirationPopUp": {
+    "titleBeforeTrialPeriodEnd": "평가판이 만료됨",
+    "titleAfterTrialPeriodEnd": "평가판 사용 기간이 종료됨",
+    "trialExpirationPopUpDescription": "데이터 콜렉션이 종료되었습니다. 7일동안 제품을 계속 사용할 수 있습니다. 7일후에는 평가판에 액세스할 수 없습니다. 제품을 구매할 계획이라면 2주동안 데이터를 더 보관할 수 있습니다.",
+    "trialExpirationPopUpDescriptionAfterSevenDays": "Instancea를 탐색해 주셔서 감사합니다! 평가판이 종료되어 더 이상 제품에 액세스할 수 없습니다."
+  },
   "licenseBanner": {
+    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "견적 요청",
     "buyNowBtn": "AWS에서 구매",
     "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오."

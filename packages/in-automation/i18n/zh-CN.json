@@ -2,7 +2,6 @@
   "associatedActions": "关联的操作",
   "recommendedActions": "建议的操作",
   "failedToSaveAssocation": "未能保存操作关联。",
-  "actionSensorTimeout": "无法处理后端请求。 请检查代理程序配置以确保已安装操作传感器。",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "newAction": "新建操作",
   "ok": "确定",
@@ -140,12 +139,14 @@
     "validName": "参数名称无效：请检查以确保仅使用有效且唯一的字符。",
     "uniqueName": "参数名称必须唯一。",
     "parameterNameHelp": "参数名称只能包含 a-z、A-Z、_、0-9，并且不能以数字开头。",
+    "validUrl": "文档链接无效。",
     "actionCopy": "{{name}}（的副本）",
     "ActionAssociationsForEvent": "关联事件",
     "ActionAssociationsForSmartAlert": "关联智能警报"
   },
   "actionHistory": {
     "actionHistory": "操作历史记录",
+    "actionHistoryWithCount": "操作历史记录 ({{count}})",
     "noActionInstances": "无可用数据",
     "external": "外部",
     "name": "名称",
@@ -162,7 +163,6 @@
     "errorMessage": "错误消息",
     "actionContent": "操作内容",
     "hostSnapshotId": "主机快照标识",
-    "targetSnapshotId": "目标快照标识",
     "log": "日志",
     "success": "成功",
     "failed": "失败",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "谢谢您的反馈！",
     "saveButton": "保存",
     "ansibleJob": "Ansible 作业",
-    "hostsLimit": "主机限制"
+    "hostsLimit": "主机限制",
+    "initiator": "起始符",
+    "submitted": "已提交"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "调查"
   }
 }

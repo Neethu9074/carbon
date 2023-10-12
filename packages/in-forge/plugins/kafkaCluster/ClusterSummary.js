@@ -20,10 +20,10 @@ export default function ClusterSummary({ snapshot }) {
       <KpiKeyValue label={t('in-forge:plugins.kafkaCluster.rejectedTraffic')}>
         <MetricValue snapshotId={snapshotId} metric="broker.bytesRejected" formatter={bytesTwoDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label={t('in-forge:plugins.kafkaCluster.fetchConsumerLatency')}>
+      <KpiKeyValue label={t('in-forge:plugins.kafkaCluster.totalFetchConsumerTime')}>
         <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchConsumer" formatter={msZeroDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label={t('in-forge:plugins.kafkaCluster.fetchFollowerLatency')}>
+      <KpiKeyValue label={t('in-forge:plugins.kafkaCluster.totalFetchFollowerTime')}>
         <MetricValue snapshotId={snapshotId} metric="broker.totalTimeFetchFollower" formatter={msZeroDecimalPlaces} />
       </KpiKeyValue>
     </KpiSection>

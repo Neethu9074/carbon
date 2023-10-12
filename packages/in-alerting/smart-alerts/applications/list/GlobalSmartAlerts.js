@@ -17,7 +17,9 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -35,8 +37,8 @@ export default function GlobalSmartAlerts({ location }) {
         <ViewTrackingMeta
           data={{
             // i18n: no need for translation, it is only used within tracking
-            productArea: 'Applications',
-            pageRootName: 'Smart Alerts',
+            productArea: productAreas.applications,
+            pageRootName: pageNames.smart_alerts,
             pagePath: location?.pathname
           }}
         />

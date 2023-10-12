@@ -242,6 +242,7 @@
     "synthetics": "合成监视"
   },
   "dashboard": {
+    "deleted": "{{id}}-已删除",
     "testList": {
       "mainLabel": "合成监视",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "不适用"
     },
     "locationList": {
+      "locationLiveModeDisabled": "“实时方式”在“合成位置”页面中不适用",
       "locationLabel": "位置名称",
       "locationDisplayLabel": "显示名称",
       "status": "状态",
@@ -365,6 +367,7 @@
       "success": "成功"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "“实时方式”在“合成测试结果详细信息”页面中不适用",
       "timeLineWidget": "时间线",
       "responseTimeChart": "响应时间",
       "subtransactionStatus": "状态",
@@ -413,6 +416,7 @@
       "downloadLog": "下载日志",
       "downloadImages": "下载屏幕快照",
       "downloadVideo": "下载记录",
+      "consoleLogsLevel": "控制台",
       "consoleLogs": "控制台",
       "browserLogs": "浏览器",
       "browserDetails": {

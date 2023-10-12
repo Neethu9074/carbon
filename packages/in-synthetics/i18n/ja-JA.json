@@ -242,6 +242,7 @@
     "synthetics": "シンセティック・モニタリング"
   },
   "dashboard": {
+    "deleted": "{{id}}-削除済み",
     "testList": {
       "mainLabel": "シンセティック・モニタリング",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "該当なし"
     },
     "locationList": {
+      "locationLiveModeDisabled": "ライブ・モードは「シンセティック・ロケーション」ページには適用されません",
       "locationLabel": "ロケーション名",
       "locationDisplayLabel": "表示名",
       "status": "状況",
@@ -365,6 +367,7 @@
       "success": "成功"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "ライブ・モードは、シンセティック・テスト結果の詳細ページには適用されません",
       "timeLineWidget": "タイムライン",
       "responseTimeChart": "応答時間",
       "subtransactionStatus": "状況",
@@ -413,6 +416,7 @@
       "downloadLog": "ログのダウンロード",
       "downloadImages": "スクリーン・ショットのダウンロード",
       "downloadVideo": "記録のダウンロード",
+      "consoleLogsLevel": "コンソール",
       "consoleLogs": "コンソール",
       "browserLogs": "ブラウザー",
       "browserDetails": {

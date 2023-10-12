@@ -2,7 +2,6 @@
   "associatedActions": "연관된 조치",
   "recommendedActions": "권장 조치",
   "failedToSaveAssocation": "조치 연관을 저장하는 데 실패했습니다.",
-  "actionSensorTimeout": "백엔드 요청을 처리할 수 없습니다. 에이전트 구성을 확인하여 조치 센서가 설치되어 있는지 확인하십시오.",
   "validVaultParameter": "선택 사항으로 표시된 Vault 매개변수는 둘 다 비어 있거나 둘 다 비어 있지 않아야 합니다.",
   "newAction": "새 조치",
   "ok": "확인",
@@ -140,12 +139,14 @@
     "validName": "매개변수 이름이 유효하지 않음: 유효한 문자만 사용하고 있으며 고유한 문자를 사용 중인지 확인하십시오.",
     "uniqueName": "매개변수 이름은 고유해야 합니다.",
     "parameterNameHelp": "매개변수 이름은 a-z, A-Z, _, 0~9만 포함할 수 있으며 숫자로 시작할 수 없습니다.",
+    "validUrl": "문서 링크가 올바르지 않습니다.",
     "actionCopy": "{{name}} (사본 수)",
     "ActionAssociationsForEvent": "이벤트 연관",
     "ActionAssociationsForSmartAlert": "스마트 경보 연관"
   },
   "actionHistory": {
     "actionHistory": "조치 히스토리",
+    "actionHistoryWithCount": "조치 히스토리({{count}}개)",
     "noActionInstances": "사용 가능한 데이터 없음",
     "external": "외부",
     "name": "이름",
@@ -162,7 +163,6 @@
     "errorMessage": "오류 메시지",
     "actionContent": "조치 내용",
     "hostSnapshotId": "호스트 스냅샷 ID",
-    "targetSnapshotId": "대상 스냅샷 ID",
     "log": "log",
     "success": "성공",
     "failed": "실패함",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "의견을 주셔서 감사합니다!",
     "saveButton": "저장",
     "ansibleJob": "Ansible 작업",
-    "hostsLimit": "호스트 한계"
+    "hostsLimit": "호스트 한계",
+    "initiator": "개시자",
+    "submitted": "제출됨"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "조사"
   }
 }

@@ -33,7 +33,16 @@
     },
     "activity": {
       "pageTitle": "Actividad empresarial",
-      "summaryTab": "Resumen"
+      "summaryTab": "Resumen",
+      "widgets": {
+        "duration": "Duración"
+      },
+      "timespans": {
+        "minute": "1 minuto",
+        "hour": "1 hora",
+        "day": "1 día",
+        "week": "1 semana"
+      }
     }
   }
 }

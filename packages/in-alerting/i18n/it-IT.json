@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "Descrizione",
     "noChannelSelectedText": "Attualmente, non è stato selezionato un canale di avviso e non verrà ricevuto alcun avviso.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
+    "groupBy": "Raggruppa per",
+    "noChannelAvailable": "Nessun canale di avviso disponibile",
     "revisionDropdownButton": {
       "revision": "Revisione {{alertRevision}}",
       "pause": "Pausa",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95esimo",
         "aggregationTextP98": "98esimo",
         "aggregationTextP99": "99esimo"
+      },
+      "list": {
+        "labelConfirm": "Confermare",
+        "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere l'avviso <strong>{{configName}}</strong>?",
+        "labelRemove": "Rimuovi"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "Nessun test sintetico selezionato",
         "alertTestEntityName": "test sintetico {{entityName}}",
         "testAttachedCount": "Test collegati ({{count}})",
-        "testAttached": "Test collegati"
+        "testAttached": "Test collegati",
+        "noTestAvailable": "Nessun test sintetico disponibile"
       },
       "details": {
         "threshold": "Soglia",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "Payload personalizzati"
       }
     },
-    "inventory": {
-      "labelConfirm": "Confermare",
-      "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere l'avviso <strong>{{configName}}</strong>?",
-      "labelRemove": "Rimuovi"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "Scegli evento personalizzato",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "Il numero di {{metricLabel}} è maggiore o uguale al previsto.",
         "thresholdLowerOperatorText": "Il numero di {{metricLabel}} è minore del previsto.",
         "thresholdLowerEqualsOperatorText": "Il numero di {{metricLabel}} è minore o uguale al previsto."
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "Configurazione avviso",
+        "alertConfigurationTitleTrigger": "Trigger",
+        "alertConfigurationTitleScope": "Ambito",
+        "alertConfigurationTitleAlertChannels": "Canali di avviso",
+        "alertConfigurationTitleTimeThreshold": "Soglia temporale",
+        "alertConfigurationTitleAlertProperties": "Proprietà avviso",
+        "viewDetail": "Visualizza dettagli"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "Soglia statica, {{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+{{count}} altri filtri",
+        "moreFiltersWithCount_plural": "+{{count}} altri filtri",
+        "moreFiltersWithCount_0": "+{{count}} altri filtri",
+        "moreFiltersWithCount_1": "+{{count}} altri filtri",
+        "moreFiltersWithCount_2": "+{{count}} altri filtri",
+        "filter": "Filtro",
+        "filter_plural": "Filtri",
+        "filter_0": "Filtri",
+        "filter_1": "Filtri",
+        "filter_2": "Filtri"
       }
     }
   }

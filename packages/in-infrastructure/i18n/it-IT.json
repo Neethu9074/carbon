@@ -39,8 +39,8 @@
     "amd64": "AMD64",
     "s360x": "s390x",
     "curlCommand": "Copiare ed eseguire il comando cUrl",
-    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-amd64-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
-    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-s390x-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
+    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-amd64-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
+    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-s390x-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
     "footerButtonDone": "Fine",
     "reportingAgents": "Agent di segnalazione",
     "fqdn": "FQDN",
@@ -85,11 +85,13 @@
     "name": "Nome",
     "search": "Ricerca un tipo",
     "explore": "Esplora",
+    "health": "Integrità",
     "noIssues": "Nessun problema",
     "count": "Conteggio",
     "errors": {
-      "maximumNumberOfGroups": "Questa query ha troppi risultati. Ridurre utilizzando un filtro più restrittivo o dei gruppi più ampi",
-      "generalError": "Si è verificato un errore imprevisto. Limitare utilizzando un filtro più restrittivo e riprovare"
+      "maximumNumberOfGroups": "Questa query ha troppi risultati. Delimitare la ricerca utilizzando un filtro più restrittivo oppure abbreviare l'intervallo di tempo e ripetere l'operazione.",
+      "maximumNumberOfMembers": "Questa query ha troppi risultati. Delimitare la ricerca utilizzando un filtro più restrittivo oppure abbreviare l'intervallo di tempo e ripetere l'operazione.",
+      "generalError": "Si è verificato un errore non previsto."
     },
     "entityTypes": "Tipi di entità {{count, parenthesis}}"
   },
@@ -125,6 +127,10 @@
     "collapseAll": "Comprimi tutto",
     "map": "Mappa",
     "comparisonTable": "Tabella di confronto",
-    "infrastructureComparisonTable": "Tabella di confronto infrastrutture"
+    "infrastructureComparisonTable": "Tabella di confronto infrastrutture",
+    "smartAlerts": "Avvisi smart"
+  },
+  "smartAlertView": {
+    "smartAlertTab": "Avvisi intelligenti dell'infrastruttura"
   }
 }

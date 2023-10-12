@@ -2,7 +2,6 @@
   "associatedActions": "Azioni associate",
   "recommendedActions": "Azioni consigliate",
   "failedToSaveAssocation": "Impossibile salvare l'associazione dell'azione.",
-  "actionSensorTimeout": "Impossibile gestire la richiesta di backend. Controllare la configurazione dell'agent per assicurarsi che il sensore di azione sia installato.",
   "validVaultParameter": "I parametri del vault contrassegnati come facoltativi devono essere entrambi vuoti o non vuoti.",
   "newAction": "Nuova azione",
   "ok": "OK",
@@ -140,12 +139,14 @@
     "validName": "Il nome del parametro non è valido: assicurarsi di utilizzare solo caratteri validi e che tale nome sia univoco.",
     "uniqueName": "I nomi dei parametri devono essere univoci.",
     "parameterNameHelp": "I nomi dei parametri possono contenere solo a-z, A-Z, _, 0-9 e non possono iniziare con un numero.",
+    "validUrl": "Il link alla documentazione non è valido.",
     "actionCopy": "(Copia di) {{name}}",
     "ActionAssociationsForEvent": "Associa eventi",
     "ActionAssociationsForSmartAlert": "Associa avvisi smart"
   },
   "actionHistory": {
     "actionHistory": "Cronologia azioni",
+    "actionHistoryWithCount": "Cronologia azioni ({{count}})",
     "noActionInstances": "Nessun dato disponibile",
     "external": "Esterno",
     "name": "Nome",
@@ -162,7 +163,6 @@
     "errorMessage": "Messaggio di errore",
     "actionContent": "Contenuto azione",
     "hostSnapshotId": "ID istantanea host",
-    "targetSnapshotId": "ID istantanea destinazione",
     "log": "Log",
     "success": "Riuscito",
     "failed": "Non riuscito",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "Grazie per il tuo feedback!",
     "saveButton": "Salva",
     "ansibleJob": "Lavoro Ansible",
-    "hostsLimit": "Limite host"
+    "hostsLimit": "Limite host",
+    "initiator": "Programma di avvio",
+    "submitted": "Inviato"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Ricerca causa"
   }
 }

@@ -168,6 +168,14 @@
       "typeAndMetricConfigurator": {
         "pleaseSelectMetric": "請選取度量",
         "loadingMetrics": "正在載入度量..."
+      },
+      "regexMetricSelectorOverlay": {
+        "inputPlaceholder": "度量型樣（例如：metric_. *）",
+        "done": "完成"
+      },
+      "metricSelectionCategoryOverlay": {
+        "list": "清單",
+        "regex": "正規表示式"
       }
     },
     "srcMobileApp": {
@@ -209,6 +217,11 @@
       },
       "index": {
         "websitesBeacons": "網站（引標）"
+      }
+    },
+    "srcSyntheticMonitoring": {
+      "index": {
+        "syntheticMonitoring": "綜合監視"
       }
     },
     "metricConfigurator": {
@@ -340,7 +353,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - 入門",
-        "text": "Instana 是第一個也是唯一完全自動化的應用程式效能 (APM) 解決方案，專門針對管理微服務和雲端原生應用程式的挑戰而設計。\n\n入門很容易 1. 如果您尚未存取 Instana，請前往 [Instana.com] (https://www.instana.com) 並註冊「免費試用」。2. 探索包含數百種 [支援的技術] 的生態系統 (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies)。3. 使用其中一個 [代理程式] 開始收集資料 (https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana)。4. 瞭解針對您的使用案例 [如何使用 Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana)。5. 閱讀我們的獨特 [核心功能] (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities)。6. 使用我們的 [整合、SDK 和 API] 來延伸 Instana (https://www.ibm.com/docs/en/obi/current?topic = integrations-sdks-apis)。\n\n就這樣！\n\n找不到您要尋找的內容？ 跳至 [文件] (跳至 [文件] (https://www.ibm.com/docs/en/obi/current)！"
+        "text": "Instana 是第一個也是唯一完全自動化的應用程式效能 (APM) 解決方案，專門針對管理微服務和雲端原生應用程式的挑戰而設計。\n\n入門很容易 1. 如果您尚未存取 Instana，請移至 [Instana.com](https://www.instana.com) 並註冊免費試用版。\n2. 探索我們由數百種 [支援的技術] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies) 組成的生態系統。\n3. 使用其中一個 [代理程式] (https://ibm.biz/installing-agent) 開始收集資料。\n4. 針對您的使用案例進一步瞭解 [如何使用 Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana)。\n5. 閱讀我們的獨特 [核心功能] (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities)。\n6. 使用我們的 [整合、SDK 及 API] (https://ibm.biz/integrations-sdks-apis) 延伸 Instana。\n\n就這樣！\n\n找不到您要尋找的內容？ 跳至 [文件] (跳至 [文件] (https://www.ibm.com/docs/en/obi/current)！"
       },
       "formComp": {
         "whatULikeShow": "您想要顯示什麼？",
@@ -754,7 +767,17 @@
           "tableConfiguration": "表格配置",
           "tableDetails": "表格詳細資料",
           "showResult": "顯示 {{loadedItems}} 個結果，共 {{totalItems}} 個結果",
-          "loadingEntities": "載入實體"
+          "loadingEntities": "載入實體",
+          "datasets": "資料集",
+          "sortBy": "排序依據",
+          "sortDirection": "排序方向",
+          "defaultSortingSuffix": "名稱",
+          "validators": {
+            "theValueMustBeUnique": "已新增具有相同聚集值的所選度量值。 請選取不同的度量值或調整聚集值以繼續。"
+          },
+          "formatter": "格式製作程式",
+          "searchPlaceholder": "搜尋",
+          "countGroup": "顯示群組計數"
         }
       },
       "dataSource": {

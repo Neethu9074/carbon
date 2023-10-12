@@ -10,8 +10,24 @@ import {
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
+import { SvgIconProps } from '@instana/components';
 import ScopePath from 'in-alerting/components/ScopePath';
+import { TimeConfig, BoundaryScope } from 'in-types';
 
+type SvgIconSize = SvgIconProps['size'];
+interface ApplicationScopePathProps {
+  boundaryScope?: BoundaryScope;
+  applicationId: string;
+  applicationName?: string | null;
+  serviceId?: string;
+  serviceName?: string;
+  endpointId?: string;
+  endpointName?: string;
+  timeConfig?: TimeConfig;
+  iconSize?: SvgIconSize;
+  showDashboardLinks?: boolean;
+  noBottomMargin: boolean;
+}
 export default function ApplicationScopePath({
   boundaryScope,
   applicationId,
@@ -24,7 +40,7 @@ export default function ApplicationScopePath({
   iconSize,
   showDashboardLinks,
   noBottomMargin
-}) {
+}: ApplicationScopePathProps) {
   const entries = [];
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
@@ -35,13 +51,13 @@ export default function ApplicationScopePath({
       iconType: 'lib_application',
       label: applicationName,
       href:
-        showDashboardLinks &&
-        applicationId &&
-        getLinkToApplicationDashboard({
-          applicationId,
-          timeConfig,
-          boundaryScope
-        })
+        showDashboardLinks && applicationId
+          ? getLinkToApplicationDashboard({
+              applicationId,
+              timeConfig,
+              boundaryScope
+            })
+          : undefined
     });
   }
 
@@ -50,14 +66,14 @@ export default function ApplicationScopePath({
       iconType: 'lib_application_service',
       label: serviceName,
       href:
-        showDashboardLinks &&
-        serviceId &&
-        getLinkToServiceDashboard({
-          applicationId,
-          serviceId,
-          timeConfig,
-          boundaryScope
-        })
+        showDashboardLinks && serviceId
+          ? getLinkToServiceDashboard({
+              applicationId,
+              serviceId,
+              timeConfig,
+              boundaryScope
+            })
+          : undefined
     });
   }
 
@@ -66,15 +82,15 @@ export default function ApplicationScopePath({
       iconType: 'lib_application_endpoint',
       label: endpointName,
       href:
-        showDashboardLinks &&
-        endpointId &&
-        getLinkToEndpointDashboard({
-          applicationId,
-          serviceId,
-          endpointId,
-          timeConfig,
-          boundaryScope
-        })
+        showDashboardLinks && endpointId
+          ? getLinkToEndpointDashboard({
+              applicationId,
+              serviceId,
+              endpointId,
+              timeConfig,
+              boundaryScope
+            })
+          : undefined
     });
   }
 
