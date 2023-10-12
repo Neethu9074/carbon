@@ -52,7 +52,13 @@ export default function AssociatedAndRecommendedActions({
             {selectedType === 'recommendedActions' && (
               <Row withoutSideMargin>
                 <Col xs>
-                  <RecommendedActionsCard volatileId={volatileId} event={event} reload={reload} setReload={setReload} />
+                  <RecommendedActionsCard
+                    volatileId={volatileId}
+                    event={event}
+                    reload={reload}
+                    setReload={setReload}
+                    setSelectedType={setSelectedType}
+                  />
                 </Col>
               </Row>
             )}
