@@ -242,6 +242,7 @@
     "synthetics": "Monitoramento sintético"
   },
   "dashboard": {
+    "deleted": "{{id}}-deleted",
     "testList": {
       "mainLabel": "Monitoramento sintético",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "N/D"
     },
     "locationList": {
+      "locationLiveModeDisabled": "O Modo Ativo não é aplicável na página Locais do Synthetic",
       "locationLabel": "Nome do local",
       "locationDisplayLabel": "Nome de exibição",
       "status": "Status",
@@ -365,6 +367,7 @@
       "success": "Sucesso"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "O Modo Ativo não é aplicável na página de detalhes do resultado de teste do Synthetic",
       "timeLineWidget": "Linha de tempo",
       "responseTimeChart": "Tempo de resposta",
       "subtransactionStatus": "Status",
@@ -413,8 +416,9 @@
       "downloadLog": "Fazer download de logs",
       "downloadImages": "Fazer download da captura de tela",
       "downloadVideo": "Fazer download da gravação",
-      "consoleLogs": "CONSOLE",
-      "browserLogs": "NAVEGADOR",
+      "consoleLogsLevel": "Console",
+      "consoleLogs": "Console",
+      "browserLogs": "Navegador",
       "browserDetails": {
         "page": {
           "request": "Solicitação",

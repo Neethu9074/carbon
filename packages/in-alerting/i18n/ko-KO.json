@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "설명",
     "noChannelSelectedText": "현재 경보 채널을 선택하지 않았으므로 경보를 수신하지 않습니다.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "추가 필터",
+    "groupBy": "그룹화 기준",
+    "noChannelAvailable": "사용 가능한 경보 채널 없음",
     "revisionDropdownButton": {
       "revision": "개정 {{alertRevision}}",
       "pause": "일시정지",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95번째",
         "aggregationTextP98": "98번째",
         "aggregationTextP99": "99번째"
+      },
+      "list": {
+        "labelConfirm": "확인하십시오.",
+        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
+        "labelRemove": "제거"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "선택된 합성 테스트 없음",
         "alertTestEntityName": "합성 테스트 {{entityName}}",
         "testAttachedCount": "첨부된 ({{count}})개 테스트",
-        "testAttached": "첨부된 테스트"
+        "testAttached": "첨부된 테스트",
+        "noTestAvailable": "사용 가능한 합성 테스트 없음"
       },
       "details": {
         "threshold": "임계값",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "사용자 정의 페이로드"
       }
     },
-    "inventory": {
-      "labelConfirm": "확인하십시오.",
-      "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
-      "labelRemove": "제거"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "사용자 정의 이벤트 선택",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "{{metricLabel}} 수가 예상보다 높거나 같습니다.",
         "thresholdLowerOperatorText": "{{metricLabel}} 수가 예상보다 낮습니다.",
         "thresholdLowerEqualsOperatorText": "{{metricLabel}} 수가 예상보다 낮거나 같습니다."
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "경보 구성",
+        "alertConfigurationTitleTrigger": "트리거",
+        "alertConfigurationTitleScope": "범위",
+        "alertConfigurationTitleAlertChannels": "경보 채널",
+        "alertConfigurationTitleTimeThreshold": "시간 임계값",
+        "alertConfigurationTitleAlertProperties": "경보 특성",
+        "viewDetail": "세부사항 보기"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "정적 임계값, {{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "{{count}}개 추가 필터",
+        "moreFiltersWithCount_plural": "{{count}}개 추가 필터",
+        "moreFiltersWithCount_0": "{{count}}개 추가 필터",
+        "moreFiltersWithCount_1": "{{count}}개 추가 필터",
+        "moreFiltersWithCount_2": "{{count}}개 추가 필터",
+        "filter": "필터",
+        "filter_plural": "필터",
+        "filter_0": "필터",
+        "filter_1": "필터",
+        "filter_2": "필터"
       }
     }
   }

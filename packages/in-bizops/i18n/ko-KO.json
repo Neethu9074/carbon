@@ -33,7 +33,16 @@
     },
     "activity": {
       "pageTitle": "비즈니스 활동",
-      "summaryTab": "요약"
+      "summaryTab": "요약",
+      "widgets": {
+        "duration": "지속 기간"
+      },
+      "timespans": {
+        "minute": "1분",
+        "hour": "1시간",
+        "day": "1일",
+        "week": "1주"
+      }
     }
   }
 }

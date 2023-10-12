@@ -33,7 +33,16 @@
     },
     "activity": {
       "pageTitle": "Geschäftsaktivität",
-      "summaryTab": "Zusammenfassung"
+      "summaryTab": "Zusammenfassung",
+      "widgets": {
+        "duration": "Dauer"
+      },
+      "timespans": {
+        "minute": "1 Minute",
+        "hour": "1 Stunde",
+        "day": "1 Tag",
+        "week": "1 Woche"
+      }
     }
   }
 }

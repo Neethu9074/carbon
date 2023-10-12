@@ -2,7 +2,6 @@
   "associatedActions": "Actions associées",
   "recommendedActions": "Actions recommandées",
   "failedToSaveAssocation": "Echec de la sauvegarde de l'association d'action.",
-  "actionSensorTimeout": "Impossible de traiter la demande de back end. Vérifiez la configuration de votre agent pour vous assurer que le détecteur d'action est installé.",
   "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
   "newAction": "Nouvelle action",
   "ok": "OK",
@@ -140,12 +139,14 @@
     "validName": "Le nom de paramètre n'est pas valide : vérifiez que vous n'utilisez que des caractères valides et que le nom est unique.",
     "uniqueName": "Les noms de paramètre doivent être uniques.",
     "parameterNameHelp": "Les noms de paramètre ne peuvent contenir que les caractères a-z, A-Z, _, 0-9 et ne peuvent pas commencer par un chiffre.",
+    "validUrl": "Le lien vers la documentation n'est pas valide.",
     "actionCopy": "(Copie de) {{name}}",
     "ActionAssociationsForEvent": "Associer des événements",
     "ActionAssociationsForSmartAlert": "Associer des Smart Alerts"
   },
   "actionHistory": {
     "actionHistory": "Historique des actions",
+    "actionHistoryWithCount": "Historique des actions ({{count}})",
     "noActionInstances": "Aucune donnée disponible",
     "external": "Externe",
     "name": "Nom",
@@ -162,7 +163,6 @@
     "errorMessage": "Message d'erreur",
     "actionContent": "Contenu de l'action",
     "hostSnapshotId": "ID instantané de l'hôte",
-    "targetSnapshotId": "ID instantané cible",
     "log": "Journal",
     "success": "Succès",
     "failed": "Échec",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "Merci pour vos commentaires !",
     "saveButton": "Sauvegarder",
     "ansibleJob": "Travail Ansible",
-    "hostsLimit": "Nombre maximal d'hôtes"
+    "hostsLimit": "Nombre maximal d'hôtes",
+    "initiator": "Initiateur",
+    "submitted": "Soumis"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Enquêter"
   }
 }

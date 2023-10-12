@@ -117,8 +117,7 @@
   "releaseOccurName": "릴리스: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 전)",
   "deprecatedCustomEventWarning": "<strong>엔티티 유형 애플리케이션의 사용자 정의 이벤트, 서비스 및 엔드포인트는 더 이상 사용되지 않습니다. 앞으로 이 세 가지 엔티티 유형에 대한 사용자 정의 이벤트가 삭제되며, 이 {{issueOrIncident}}</strong>이(가) 더 이상 수신되지 않습니다. <br/>SMART 경보로 마이그레이션할 사용자 정의 이벤트 구성 보기. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "트리거링 이벤트와 관련된 작업",
-  "recommendedActions": "권장 조치",
+  "associatedActionsForTriggeringEvent": "이벤트 트리거를 위한 연관된 조치",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 사용자 정의 이벤트에 조치가 필요합니다.",
     "message": "애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 더 이상 사용되지 않습니다. 앞으로 이러한 유형의 사용자 정의 이벤트를 작성하거나 업데이트할 수 없습니다.",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "실패 상태"
+  },
+  "RCA": {
+    "titlePRCA": "가능한 근본 원인 이벤트",
+    "AIGenBadgeText": "AI 생성됨",
+    "suggestionHelpfulText": "이 제안이 도움이 되었습니까?",
+    "noEventsErrorTitle": "이벤트를 찾을 수 없음",
+    "noEventsErrorDescription": "근본 원인으로 엔티티가 발견되었지만 이에 따른 관련 이벤트가 없습니다.",
+    "noEntitiesErrorTitle": "가능한 근본 원인을 찾을 수 없음",
+    "noEntitiesErrorDescription": "죄송합니다. 이 인시던트의 구체적인 근본 원인을 정확히 찾아낼 수 없습니다.",
+    "regenerate": "재생성"
   }
 }

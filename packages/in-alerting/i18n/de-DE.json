@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "Beschreibung",
     "noChannelSelectedText": "Derzeit haben Sie keinen Alertkanal ausgewählt und erhalten keine Alerts.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Zusätzliche Filter",
+    "groupBy": "Gruppieren nach",
+    "noChannelAvailable": "Keine Alertkanäle verfügbar",
     "revisionDropdownButton": {
       "revision": "Überarbeitung {{alertRevision}}",
       "pause": "Pausieren",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95.",
         "aggregationTextP98": "98.",
         "aggregationTextP99": "99."
+      },
+      "list": {
+        "labelConfirm": "Bitte bestätigen",
+        "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden?",
+        "labelRemove": "Entfernen"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "Keine synthetischen Tests ausgewählt",
         "alertTestEntityName": "Synthetischer Test {{entityName}}",
         "testAttachedCount": "Angehängte Tests ({{count}})",
-        "testAttached": "Angehängte Tests"
+        "testAttached": "Angehängte Tests",
+        "noTestAvailable": "Keine synthetischen Tests verfügbar"
       },
       "details": {
         "threshold": "Schwellenwert",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "Angepasste Nutzdaten"
       }
     },
-    "inventory": {
-      "labelConfirm": "Bitte bestätigen",
-      "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden?",
-      "labelRemove": "Entfernen"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "Angepasstes Ereignis auswählen",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet oder wie erwartet.",
         "thresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist niedriger als erwartet.",
         "thresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als erwartet oder wie erwartet."
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "Alertkonfiguration",
+        "alertConfigurationTitleTrigger": "Auslöser",
+        "alertConfigurationTitleScope": "Umfang",
+        "alertConfigurationTitleAlertChannels": "Alertkanäle",
+        "alertConfigurationTitleTimeThreshold": "Zeitschwellenwert",
+        "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
+        "viewDetail": "Details anzeigen"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "Statischer Schwellenwert, {{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+{{count}} weiterer Filter",
+        "moreFiltersWithCount_plural": "+{{count}} weitere Filter",
+        "moreFiltersWithCount_0": "+{{count}} weitere Filter",
+        "moreFiltersWithCount_1": "+{{count}} weitere Filter",
+        "moreFiltersWithCount_2": "+{{count}} weitere Filter",
+        "filter": "Filter",
+        "filter_plural": "Filter",
+        "filter_0": "Filter",
+        "filter_1": "Filter",
+        "filter_2": "Filter"
       }
     }
   }

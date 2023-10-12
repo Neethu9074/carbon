@@ -292,7 +292,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "无可用 Kubernetes 数据。 有关故障诊断信息，请参阅[文档]。\n\n[文档]：https://ibm.biz/monitoring-k8s-tsg"
+    "noData": "无可用 Kubernetes 数据。 有关故障诊断信息，请参阅[文档]。\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"
   },
   "pod": {
     "pending": "Pod 处于暂挂状态",

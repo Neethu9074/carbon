@@ -117,8 +117,7 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso. En el futuro, los sucesos personalizados para estos tres tipos de entidad se eliminarán y ya no recibirá esta {{issueOrIncident}}</strong><br/>Ver configuración de sucesos personalizados para migrar a alerta inteligente. <documentationLink>Más información en nuestra documentación</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "Acciones asociadas para suceso desencadenante",
-  "recommendedActions": "Acciones recomendadas",
+  "associatedActionsForTriggeringEvent": "Acciones asociadas para suceso desencadenante",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} sucesos personalizados requieren una acción",
     "message": "Los sucesos personalizados en aplicación, servicio y punto final están en desuso. No podrá crear o actualizar estos tipos de sucesos personalizados en el futuro.",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Estado fallido"
+  },
+  "RCA": {
+    "titlePRCA": "Sucesos de causa raíz probables",
+    "AIGenBadgeText": "IA generada",
+    "suggestionHelpfulText": "¿Fue útil esta sugerencia?",
+    "noEventsErrorTitle": "No se han encontrado sucesos",
+    "noEventsErrorDescription": "Se ha encontrado una entidad como causa raíz, pero no se le ha podido atribuir ningún suceso relacionado",
+    "noEntitiesErrorTitle": "No se ha encontrado ninguna causa raíz probable",
+    "noEntitiesErrorDescription": "¡Ups! No hemos podido identificar una causa raíz específica para este incidente.",
+    "regenerate": "Volver a generar"
   }
 }

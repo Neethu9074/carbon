@@ -33,7 +33,16 @@
     },
     "activity": {
       "pageTitle": "Atividade de negócios",
-      "summaryTab": "Resumo"
+      "summaryTab": "Resumo",
+      "widgets": {
+        "duration": "Duração"
+      },
+      "timespans": {
+        "minute": "1 minuto",
+        "hour": "1 hora",
+        "day": "1 dia",
+        "week": "1 semana"
+      }
     }
   }
 }

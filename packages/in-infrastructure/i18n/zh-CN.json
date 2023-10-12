@@ -39,8 +39,8 @@
     "amd64": "AMD64",
     "s360x": "s390x",
     "curlCommand": "复制并运行 cUrl 命令",
-    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-amd64-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
-    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-s390x-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
+    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-amd64-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
+    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-s390x-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
     "footerButtonDone": "完成",
     "reportingAgents": "报告代理程序",
     "fqdn": "FQDN",
@@ -85,11 +85,13 @@
     "name": "名称",
     "search": "搜索类型",
     "explore": "浏览",
+    "health": "运行状况",
     "noIssues": "无问题",
     "count": "计数",
     "errors": {
-      "maximumNumberOfGroups": "此查询的结果过多。 请使用更严格的过滤器或更广泛的组来缩小范围",
-      "generalError": "发生意外错误。 请使用更严格的过滤器缩小范围，然后重试"
+      "maximumNumberOfGroups": "此查询的结果过多。 请使用限制性更强的过滤器缩小搜索范围或者缩小时间范围，然后重试。",
+      "maximumNumberOfMembers": "此查询的结果过多。 请使用限制性更强的过滤器缩小搜索范围或者缩小时间范围，然后重试。",
+      "generalError": "发生意外错误。"
     },
     "entityTypes": "实体类型 {{count, parenthesis}}"
   },
@@ -125,6 +127,10 @@
     "collapseAll": "全部折叠",
     "map": "图",
     "comparisonTable": "比较表",
-    "infrastructureComparisonTable": "基础架构比较表"
+    "infrastructureComparisonTable": "基础架构比较表",
+    "smartAlerts": "智能警报"
+  },
+  "smartAlertView": {
+    "smartAlertTab": "基础架构智能警报"
   }
 }

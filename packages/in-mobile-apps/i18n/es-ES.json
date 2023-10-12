@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} inicios de sesión",
     "tabs": {
       "summaryLabel": "Resumen",
+      "crashLabel": "Caídas",
       "httpRequestLabel": "Solicitudes HTTP",
       "geographyLabel": "Geografía",
       "customEventsLabel": "Sucesos personalizados",
@@ -260,9 +261,12 @@
       "nameLabel": "Nombre",
       "occurrencesLabel": "Apariciones",
       "affectedUsersLabel": "Usuarios afectados",
-      "crashErrorGroupsTitle": "Grupos de errores de caída",
+      "uniqueUsersTitle": "Usuarios únicos",
+      "crashActivityTitle": "Caídas",
+      "crashErrorGroupsTitle": "Grupos de caída principales",
       "crashErrorGroupsHelpInfo": "Muestra los datos recopilados sólo de los usuarios afectados identificados",
-      "analyzeCrashesLink": "Analizar caídas",
+      "crashErrorGroupsNoDataMessage": "No hay caídas para este periodo",
+      "viewAllCrashes": "Ver todas las caídas",
       "configurationTitle": "Configuración",
       "optionsLabel": "Opciones",
       "privacyLabel": "Privacidad",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "Ver todos los orígenes",
       "sessionStartsTitle": "Inicios de sesión",
       "viewInAnalyzeIconAction": "Ver en Analizar",
-      "crashFreeSessionRateTitle": "Tasa de sesiones sin caída",
-      "crashFreeUserRateTitle": "Tasa de usuarios sin caída",
+      "crashAffectedSessionRateTitle": "Tasa de sesiones afectadas por caída",
+      "crashAffectedUserRateTitle": "Tasa de usuarios afectados por caída",
       "viewTransitionsTitle": "Ver transiciones",
       "activityCardTitle": "Actividad",
       "sessionStartsLabel": "Inicios de sesión",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} usuarios identificados",
       "sessionCount": "{{formattedCount}} sesión",
       "sessionCount_plural": "{{formattedCount}} sesiones",
+      "devices": "Dispositivos",
+      "viewAllDevices": "Ver todos los dispositivos",
+      "osVersions": "Sistemas operativos",
+      "viewAllOs": "Ver todo el sistema operativo",
+      "appVersions": "Versiones de apps",
+      "viewAllVersions": "Ver todas las versiones",
+      "crashes": {
+        "crashesLabelErrorMessage": "Mensaje de error",
+        "crashesLabelOccurrences": "Apariciones",
+        "crashesLabelAffectedUsers": "Usuarios afectados",
+        "crashesButtonAnalyzeCrashes": "Analizar caídas",
+        "crashesTableTitle": "Caídas",
+        "crashInfoTitle": "Detalles",
+        "crashInfoMessage": "Mensaje",
+        "backToCrashList": "Volver a la lista de caídas",
+        "crashTitleMobileAppCrashDetails": "Detalles de caída de aplicación móvil"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "Detalles de suceso personalizado de aplicación móvil",
         "customEventLabelBackToListOfCustomEvents": "Volver a la lista de sucesos personalizados",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "No hay solicitudes HTTP disponibles",
       "httpRequestsDescription": "No se han recuperado solicitudes HTTP para el rango de tiempo seleccionado.",
       "customEventsTitle": "No hay sucesos personalizados disponibles",
-      "customEventsDescription": "No se han recuperado sucesos personalizados para el rango de tiempo seleccionado."
+      "customEventsDescription": "No se han recuperado sucesos personalizados para el rango de tiempo seleccionado.",
+      "crashesTitle": "No hay caídas disponibles",
+      "crashesDescription": "No se han producido caídas para el intervalo de tiempo seleccionado."
     }
   },
   "appsList": {

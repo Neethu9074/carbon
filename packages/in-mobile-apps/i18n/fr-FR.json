@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} démarrages de session",
     "tabs": {
       "summaryLabel": "Récapitulatif",
+      "crashLabel": "Pannes",
       "httpRequestLabel": "Demandes HTTP",
       "geographyLabel": "Géographie",
       "customEventsLabel": "Evénements personnalisés",
@@ -260,9 +261,12 @@
       "nameLabel": "Nom",
       "occurrencesLabel": "Occurrences",
       "affectedUsersLabel": "Utilisateurs affectés",
-      "crashErrorGroupsTitle": "Groupes d'erreurs de panne",
+      "uniqueUsersTitle": "Utilisateurs uniques",
+      "crashActivityTitle": "Pannes",
+      "crashErrorGroupsTitle": "Principaux groupes de pannes",
       "crashErrorGroupsHelpInfo": "Affiche uniquement les données collectées pour les utilisateurs affectés identifiés",
-      "analyzeCrashesLink": "Analyser les pannes",
+      "crashErrorGroupsNoDataMessage": "Aucune panne pour cette période",
+      "viewAllCrashes": "Afficher toutes les pannes",
       "configurationTitle": "Configuration",
       "optionsLabel": "Options",
       "privacyLabel": "Confidentialité",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "Afficher toutes les origines",
       "sessionStartsTitle": "Démarrages de session",
       "viewInAnalyzeIconAction": "Afficher dans l'analyse",
-      "crashFreeSessionRateTitle": "Taux de sessions sans panne",
-      "crashFreeUserRateTitle": "Taux d'utilisateurs sans panne",
+      "crashAffectedSessionRateTitle": "Taux de sessions affectées par les pannes",
+      "crashAffectedUserRateTitle": "Taux d'utilisateurs affectés par les pannes",
       "viewTransitionsTitle": "Transitions de vue",
       "activityCardTitle": "Activité",
       "sessionStartsLabel": "Démarrages de session",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} utilisateurs identifiés",
       "sessionCount": "{{formattedCount}} session",
       "sessionCount_plural": "{{formattedCount}} sessions",
+      "devices": "Unités",
+      "viewAllDevices": "Afficher toutes les unités",
+      "osVersions": "Systèmes d'exploitation",
+      "viewAllOs": "Afficher tous les systèmes d'exploitation",
+      "appVersions": "Versions d'application",
+      "viewAllVersions": "Afficher toutes les versions",
+      "crashes": {
+        "crashesLabelErrorMessage": "Message d'erreur",
+        "crashesLabelOccurrences": "Occurrences",
+        "crashesLabelAffectedUsers": "Utilisateurs affectés",
+        "crashesButtonAnalyzeCrashes": "Analyser les pannes",
+        "crashesTableTitle": "Pannes",
+        "crashInfoTitle": "Informations",
+        "crashInfoMessage": "Message",
+        "backToCrashList": "Retour à la liste des pannes",
+        "crashTitleMobileAppCrashDetails": "Détails de la panne d'application mobile"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "Détails de l'événement personnalisé d'application mobile",
         "customEventLabelBackToListOfCustomEvents": "Retour à la liste des événements personnalisés",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "Aucune demande HTTP disponible",
       "httpRequestsDescription": "Aucune demande HTTP n'a été extraite pour la période sélectionnée",
       "customEventsTitle": "Aucun événement personnalisé disponible",
-      "customEventsDescription": "Aucun événement personnalisé n'a été extrait pour la période sélectionnée"
+      "customEventsDescription": "Aucun événement personnalisé n'a été extrait pour la période sélectionnée",
+      "crashesTitle": "Aucune panne disponible",
+      "crashesDescription": "Il n'y a pas eu de pannes dans l'intervalle sélectionné."
     }
   },
   "appsList": {

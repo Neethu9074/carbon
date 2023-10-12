@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "説明",
     "noChannelSelectedText": "現在、アラート・チャネルが選択されていないため、アラートは受信されません。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "追加フィルター",
+    "groupBy": "グループ化の基準",
+    "noChannelAvailable": "使用可能なアラート・チャネルがありません",
     "revisionDropdownButton": {
       "revision": "リビジョン {{alertRevision}}",
       "pause": "一時停止",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95 パーセンタイル",
         "aggregationTextP98": "98 パーセンタイル",
         "aggregationTextP99": "99 パーセンタイル"
+      },
+      "list": {
+        "labelConfirm": "ご確認ください",
+        "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
+        "labelRemove": "削除"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "シンセティック・テストが選択されていません",
         "alertTestEntityName": "シンセティック・テスト{{entityName}}",
         "testAttachedCount": "接続されたテスト数 ({{count}})",
-        "testAttached": "接続されたテスト"
+        "testAttached": "接続されたテスト",
+        "noTestAvailable": "使用可能なシンセティック・テストがありません"
       },
       "details": {
         "threshold": "しきい値",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "カスタム・ペイロード"
       }
     },
-    "inventory": {
-      "labelConfirm": "ご確認ください",
-      "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
-      "labelRemove": "削除"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "カスタム・イベントの選択",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "{{metricLabel}} の数が予期される値以上です。",
         "thresholdLowerOperatorText": "{{metricLabel}} の数が予期される値を下回っています。",
         "thresholdLowerEqualsOperatorText": "{{metricLabel}} の数が予期される値以下です。"
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "アラートの構成",
+        "alertConfigurationTitleTrigger": "トリガー",
+        "alertConfigurationTitleScope": "範囲",
+        "alertConfigurationTitleAlertChannels": "アラート・チャネル",
+        "alertConfigurationTitleTimeThreshold": "時間しきい値",
+        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "viewDetail": "詳細の表示"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "静的しきい値、{{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_0": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_1": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_2": "さらに {{count}} 個のフィルター",
+        "filter": "フィルター",
+        "filter_plural": "フィルター",
+        "filter_0": "フィルター",
+        "filter_1": "フィルター",
+        "filter_2": "フィルター"
       }
     }
   }

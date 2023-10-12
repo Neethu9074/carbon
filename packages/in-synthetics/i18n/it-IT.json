@@ -242,6 +242,7 @@
     "synthetics": "Monitoraggio sintetico"
   },
   "dashboard": {
+    "deleted": "{{id}}-eliminato",
     "testList": {
       "mainLabel": "Monitoraggio sintetico",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "N/D"
     },
     "locationList": {
+      "locationLiveModeDisabled": "La modalità attiva non è applicabile nella pagina Ubicazioni sintetiche",
       "locationLabel": "Nome ubicazione",
       "locationDisplayLabel": "Nome di visualizzazione",
       "status": "Stato",
@@ -365,6 +367,7 @@
       "success": "Riuscito"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "La modalità attiva non è applicabile nella pagina dei dettagli del risultato del test sintetico",
       "timeLineWidget": "Scala temporale",
       "responseTimeChart": "Tempo di risposta",
       "subtransactionStatus": "Stato",
@@ -413,8 +416,9 @@
       "downloadLog": "Scarica log",
       "downloadImages": "Scarica screenshot",
       "downloadVideo": "Scarica registrazione",
-      "consoleLogs": "CONSOLE",
-      "browserLogs": "BROWSER",
+      "consoleLogsLevel": "CONSOLE",
+      "consoleLogs": "Console",
+      "browserLogs": "Browser",
       "browserDetails": {
         "page": {
           "request": "Richiesta",

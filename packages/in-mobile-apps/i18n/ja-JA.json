@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} 件のセッション開始",
     "tabs": {
       "summaryLabel": "サマリー",
+      "crashLabel": "異常終了",
       "httpRequestLabel": "HTTP 要求",
       "geographyLabel": "ジオグラフィー",
       "customEventsLabel": "カスタム・イベント",
@@ -260,9 +261,12 @@
       "nameLabel": "名前",
       "occurrencesLabel": "発生回数",
       "affectedUsersLabel": "影響を受けたユーザー",
-      "crashErrorGroupsTitle": "クラッシュ・エラー・グループ",
+      "uniqueUsersTitle": "固有ユーザー",
+      "crashActivityTitle": "異常終了",
+      "crashErrorGroupsTitle": "トップ・クラッシュ・グループ",
       "crashErrorGroupsHelpInfo": "特定された影響を受けるユーザーについてのみ、収集されたデータを表示します",
-      "analyzeCrashesLink": "クラッシュの分析",
+      "crashErrorGroupsNoDataMessage": "この期間の異常終了はありません",
+      "viewAllCrashes": "すべての異常終了の表示",
       "configurationTitle": "構成",
       "optionsLabel": "オプション",
       "privacyLabel": "プライバシー",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "すべての発信元を表示",
       "sessionStartsTitle": "セッション開始",
       "viewInAnalyzeIconAction": "分析に表示",
-      "crashFreeSessionRateTitle": "クラッシュ・フリー・セッション率",
-      "crashFreeUserRateTitle": "クラッシュ・フリー・ユーザー率",
+      "crashAffectedSessionRateTitle": "クラッシュの影響を受けるセッション率",
+      "crashAffectedUserRateTitle": "クラッシュの影響を受けるユーザー率",
       "viewTransitionsTitle": "遷移の表示",
       "activityCardTitle": "アクティビティー",
       "sessionStartsLabel": "セッション開始",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} 人のユーザーが識別されました",
       "sessionCount": "{{formattedCount}} 個のセッション",
       "sessionCount_plural": "{{formattedCount}} 個のセッション",
+      "devices": "デバイス",
+      "viewAllDevices": "すべてのデバイスの表示",
+      "osVersions": "オペレーティング・システム",
+      "viewAllOs": "すべてのオペレーティング・システムの表示",
+      "appVersions": "アプリケーション・バージョン",
+      "viewAllVersions": "すべてのバージョンを表示",
+      "crashes": {
+        "crashesLabelErrorMessage": "エラー・メッセージ",
+        "crashesLabelOccurrences": "発生件数",
+        "crashesLabelAffectedUsers": "影響を受けたユーザー",
+        "crashesButtonAnalyzeCrashes": "クラッシュの分析",
+        "crashesTableTitle": "異常終了",
+        "crashInfoTitle": "詳細",
+        "crashInfoMessage": "メッセージ",
+        "backToCrashList": "異常終了のリストに戻る",
+        "crashTitleMobileAppCrashDetails": "モバイル・アプリケーションの異常終了の詳細"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "モバイル・アプリケーション・カスタム・イベントの詳細",
         "customEventLabelBackToListOfCustomEvents": "カスタム・イベントのリストに戻る",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "表示可能な HTTP 要求がありません",
       "httpRequestsDescription": "選択された時刻範囲で取得された HTTP 要求はありません。",
       "customEventsTitle": "表示可能なカスタム・イベントはありません",
-      "customEventsDescription": "選択された時刻範囲で取得されたカスタム・イベントはありません。"
+      "customEventsDescription": "選択された時刻範囲で取得されたカスタム・イベントはありません。",
+      "crashesTitle": "使用可能な異常終了はありません",
+      "crashesDescription": "選択された時刻範囲の異常終了はありませんでした。"
     }
   },
   "appsList": {

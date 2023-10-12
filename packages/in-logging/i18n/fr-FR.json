@@ -39,5 +39,9 @@
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problèmes",
   "endOfInfiniteScroll": "Aucun autre journal disponible",
   "liveModeDisabled": "Le mode actif n'est pas pris en charge lors de l'analyse des journaux",
-  "logLevels": "Niveaux de journalisation"
+  "logLevels": "Niveaux de journalisation",
+  "dockerContainer": "Conteneur Docker",
+  "containerdContainer": "Conteneur Containerd",
+  "crioContainer": "Conteneur Crio",
+  "gardenContainer": "Conteneur Garden"
 }

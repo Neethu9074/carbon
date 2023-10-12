@@ -2,7 +2,6 @@
   "associatedActions": "Acciones asociadas",
   "recommendedActions": "Acciones recomendadas",
   "failedToSaveAssocation": "No se ha podido guardar la asociación de acción.",
-  "actionSensorTimeout": "No se ha podido manejar la solicitud de backend. Compruebe la configuración del agente para asegurarse de que el sensor de acción esté instalado.",
   "validVaultParameter": "Ambos parámetros de caja fuerte marcados como opcionales deberán estar en blanco o no en blanco.",
   "newAction": "Acción nueva",
   "ok": "Aceptar",
@@ -140,12 +139,14 @@
     "validName": "El nombre de parámetro no es válido: compruebe que está utilizando solo caracteres válidos y que es exclusivo.",
     "uniqueName": "Los nombres de parámetro deben ser exclusivos.",
     "parameterNameHelp": "Los nombres de parámetro solo pueden contener a-z, A-Z, _, 0-9 y no pueden empezar por un número.",
+    "validUrl": "El enlace de documentación no es válido.",
     "actionCopy": "(Copia de) {{name}}",
     "ActionAssociationsForEvent": "Asociar sucesos",
     "ActionAssociationsForSmartAlert": "Asociar alertas inteligentes"
   },
   "actionHistory": {
     "actionHistory": "Historial de acciones",
+    "actionHistoryWithCount": "Historial de acciones ({{count}})",
     "noActionInstances": "No hay datos disponibles.",
     "external": "Externo",
     "name": "Nombre",
@@ -162,7 +163,6 @@
     "errorMessage": "Mensaje de error",
     "actionContent": "Contenido de acción",
     "hostSnapshotId": "ID de instantánea de host",
-    "targetSnapshotId": "ID de instantánea de destino",
     "log": "Registro",
     "success": "Éxito",
     "failed": "Fallidas",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "Gracias por sus comentarios.",
     "saveButton": "Guardar",
     "ansibleJob": "Trabajo Ansible",
-    "hostsLimit": "Límite de hosts"
+    "hostsLimit": "Límite de hosts",
+    "initiator": "Iniciador",
+    "submitted": "Enviado"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Investigar"
   }
 }

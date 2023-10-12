@@ -117,8 +117,7 @@
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件。 将来，将移除这三种实体类型的定制事件，并且您将不再接收此 {{issueOrIncident}}</strong><br/>查看定制事件配置以迁移到智能警报。 <documentationLink>阅读文档中的更多信息</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "与触发事件关联的操作",
-  "recommendedActions": "建议的操作",
+  "associatedActionsForTriggeringEvent": "触发事件的关联操作",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 个定制事件需要操作",
     "message": "已弃用“应用程序”、“服务”和“端点”上的定制事件。 您在将来无法创建或更新这些类型的定制事件。",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "“已失败”状态"
+  },
+  "RCA": {
+    "titlePRCA": "可能的根本原因事件",
+    "AIGenBadgeText": "AI 生成",
+    "suggestionHelpfulText": "这个建议是否有帮助？",
+    "noEventsErrorTitle": "找不到事件",
+    "noEventsErrorDescription": "找到实体为根本原因，但无法将任何相关事件归因于该实体",
+    "noEntitiesErrorTitle": "找不到可能的根本原因",
+    "noEntitiesErrorDescription": "糟糕！ 我们无法确定此事件的特定根本原因。",
+    "regenerate": "重新生成"
   }
 }

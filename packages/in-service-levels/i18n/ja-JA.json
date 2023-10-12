@@ -7,6 +7,8 @@
     "boundary": "境界",
     "clear": "クリア",
     "custom": "カスタム",
+    "duration": "期間",
+    "from": "送信元",
     "saveButtonLabel": "保存",
     "cancelButtonLabel": "キャンセル",
     "editButtonLabel": "編集",
@@ -16,6 +18,9 @@
     "noSelection": "選択なし",
     "loadMore": "さらにロード",
     "noData": "表示可能なデータがありません",
+    "serverErrors": {
+      "sloLimitReachedError": "サービス・レベル目標構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
+    },
     "indicator": {
       "type": "不明なタイプ",
       "type_eventBased": "イベント数",
@@ -45,6 +50,7 @@
       "label_application": "アプリケーション",
       "label_website": "Web サイト"
     },
+    "preview": "プレビュー",
     "type": "タイプ",
     "selectLabel": "選択: {{selectedLabel}}",
     "serviceLevelObjective": "サービス・レベル目標",
@@ -52,6 +58,16 @@
       "type": "不明",
       "type_fixed": "固定",
       "type_rolling": "ローリング",
+      "option_day": "日",
+      "option_day_plural": "日数",
+      "option_day_0": "日数",
+      "option_day_1": "日",
+      "option_day_2": "日数",
+      "option_week": "週",
+      "option_week_plural": "週",
+      "option_week_0": "週",
+      "option_week_1": "週",
+      "option_week_2": "週",
       "size_month": "{{count}} 月",
       "size_month_plural": "{{count}} 月",
       "size_month_0": "{{count}} 月",
@@ -73,6 +89,7 @@
       "remainingBudget": "残りのエラー予算",
       "totalBudget": "エラー予算",
       "consumedBudget": "消費されたエラー予算",
+      "momentaryBudgetConsumption": "エラー予算の使用量",
       "beaconCount": "ビーコン数",
       "calls": "呼び出し",
       "latency": "待ち時間",
@@ -102,7 +119,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "カスタム・フィルター",
+    "customFilter": "カスタム・フィルター (オプション)",
     "title": "サービス・レベル目標 (SLO) の作成",
     "selectIndicator": "指標の選択",
     "selectEntityNavItem": "エンティティーの選択",
@@ -114,11 +131,26 @@
       "beaconLabel_pageLoad": "Web サイト・ページのロード",
       "beaconLabel_custom": "Web サイトのカスタム・イベント"
     },
+    "selectObjectiveNavItem": "目標の選択",
+    "selectObjectiveTitle": "目標の設定",
+    "sloTarget": "SLO ターゲット",
+    "timeWindow": "時間枠",
+    "length": "長さ",
+    "start": "開始",
+    "valueMissingTime": "— 分",
+    "errorBudgetPreviewTitle": "エラー予算",
+    "errorBudgetPreviewTitle_eventBased": "エラー予算見積",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "過去 $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} }) に基づく",
+    "errorTimeWindowDay": "時間枠のサイズは 31 日以下でなければなりません",
+    "errorTimeWindowWeek": "時間枠のサイズは 4 週間以下でなければなりません",
+    "errorTimeWindowMin": "時間枠は少なくとも 1 日の長さでなければなりません",
     "nameAndTagsTitle": "名前とタグ",
     "nameAndTagsNavItem": "名前 & タグ",
     "sloNameLabel": "SLO 名",
     "sloNamePlaceholder": "名前の入力",
-    "tagsLabel": "タグ",
+    "sloNameCopyTemplate": "{{name}}(のコピー)",
+    "tagsLabel": "タグ (オプション)",
     "tagsPlaceholder": "タグの入力",
     "tagsCreateLabel": "作成: {{tag}}",
     "messages": {
@@ -130,8 +162,8 @@
     },
     "indicatorSection": {
       "description_custom": "これは設計で欠落しているため、後で更新する必要があります",
-      "description_latency": "設定されたしきい値を超えてサービスが応答した速度を測定します。 例えば、ご使用のチェックアウト・サービスが 100ms よりも速く応答する速度の指標",
-      "description_availability": "サービスが適切に対応する頻度を測定します。 例えば、ご使用の checkout-service が HTTP 呼び出しで応答する頻度 > 400",
+      "description_latency": "設定されたしきい値を超えてサービスが応答した速度を測定します。 例えば、ご使用のチェックアウト・サービスが 100ms よりも速く応答する速度の指標。",
+      "description_availability": "サービスが適切に対応する頻度を測定します。 例えば、HTTP 呼び出しがエラーになる頻度などです。",
       "timeTypeExplanation": "分単位でグループ化された良好呼び出しと不良呼び出し",
       "eventTypeExplanation": "良好呼び出しと不良呼び出しの合計数",
       "eventCount": "イベント数",
@@ -141,6 +173,27 @@
       "thresholdLabel_availability": "エラー率 (%)",
       "setGoodCall": "サービスに対する良好な呼び出しを設定する",
       "setBadCall": "不正な呼び出しをサービスに設定する (オプション)"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "コール",
+      "unit_plural": "呼び出し",
+      "thousandCallsFormat": "{{count}}K 呼び出し"
+    },
+    "sloChartSummary": {
+      "status": "状況",
+      "target": "ターゲット:",
+      "errorBudgetSpent": "消費済みエラー・バジェット",
+      "errorBudget": "エラー・バジェット:",
+      "timeWindow": "時間枠",
+      "timeWindowType_dynamic": "動的時間枠",
+      "timeWindowType_rolling": "ローリング時間枠",
+      "timeWindowType_fixed": "固定時間枠"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "構成が不完全なため、プレビューを使用できません。",
+      "highlightMissingConfig": "欠落している構成の強調表示"
     }
   },
   "sloList": {
@@ -211,6 +264,9 @@
         "optionCompact": "コンパクト",
         "optionFull": "全消費量"
       },
+      "errorBudgetConsumptionChart": {
+        "title": "時間枠全体でのエラー予算の使用量"
+      },
       "trafficChart": {
         "title": "トラフィック"
       },
@@ -236,15 +292,17 @@
         "apBoundaryScope_INBOUND": "バインドされている呼び出し",
         "apHiddenCallsLabel": "非表示の呼び出し",
         "apHiddenCallsInternal": "内部呼び出しを含む",
+        "apHiddenCallsInternal_true": "内部呼び出しを含む",
+        "apHiddenCallsInternal_false": "内部呼び出しを含まない",
         "apHiddenCallsSynthetic": "合成呼び出しを含む",
+        "apHiddenCallsSynthetic_true": "合成呼び出しを含む",
+        "apHiddenCallsSynthetic_false": "合成呼び出しを含まない",
         "apServiceLabel": "サービス",
         "apAllServices": "すべてのサービス",
         "apEndpointLabel": "エンドポイント",
         "apAllEndpoints": "すべてのエンドポイント",
         "eumBeaconTypeLabel": "ビーコン・タイプ",
-        "customFilterLabel": "カスタム・フィルター",
-        "ariaLabelChecked": "選択済み",
-        "ariaLabelUnchecked": "選択されていない"
+        "customFilterLabel": "カスタム・フィルター"
       },
       "indicatorSection": {
         "title": "インディケーター",

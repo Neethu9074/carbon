@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "エラーのある呼び出し (エラー・メッセージなし)",
     "noLogMessage": "表示可能なログ・メッセージがありません",
-    "includeSyntheticCallsDropDownSyntheticCalls": "シンセティック呼び出し: {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "表示可能なサービスがありません",
       "servicesDescription": "選択された時刻範囲で取得されたサービスはありません。",
@@ -540,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "showServicesScopeWithServiceLabel": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "titleNoService": "サービスがまだありません",
-    "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[資料]:https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
     "batch": "バッチ",
@@ -556,14 +555,6 @@
     "self": "セルフ",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-  },
-  "constants": {
-    "exclude": "除外",
-    "syntheticCallsAreExcludedFromTheMetrics": "シンセティック呼び出しがメトリックから除外されます。",
-    "include": "包含",
-    "syntheticCallsAreIncludedInTheMetrics": "シンセティック呼び出しがメトリックに含められます。",
-    "only": "限定",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "シンセティック呼び出しのみが表示され、メトリックに含められます。"
   },
   "traceDetail": {
     "beta": "ベータ",
@@ -659,5 +650,6 @@
     "alternativeServicesOk": "<bold>代替サービスを表示してもよろしいですか?</bold>",
     "alternativeServicesProblem": "<bold>いいえ</bold>。現行のサービスの名前がHTTPの「Host」ヘッダー(IDがcall.http.hostのサービス・マッピング・ルール)に由来し、代替のサービスの名前がそうでない場合(その名前がインフラストラクチャー・タグに基づくルールにのため)、またはその逆の場合。 これらは重複するサービスです。",
     "alternativeServicesPossibleProblem": "<bold>多分</bold>は、現在のサービス名と代替サービス名がHTTPの「Host」ヘッダーからのものでない場合、それらはプロキシーの後ろにあるサービス(良好)か、重複するサービス(不良)のいずれかです。一部のサービスは完全にインフラストラクチャーにリンクされ、その他のサービスは部分的にインフラストラクチャーにリンクされます。"
-  }
+  },
+  "labelSyntheticMonitoring": "シンセティック・モニタリング"
 }

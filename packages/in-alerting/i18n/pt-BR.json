@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "Descrição",
     "noChannelSelectedText": "Atualmente, você não selecionou um canal de alerta e não receberá nenhum alerta.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros Adicionais",
+    "groupBy": "Agrupar por",
+    "noChannelAvailable": "Nenhum canal de alerta disponível",
     "revisionDropdownButton": {
       "revision": "Revisão {{alertRevision}}",
       "pause": "Pausar",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95º",
         "aggregationTextP98": "98º",
         "aggregationTextP99": "99º"
+      },
+      "list": {
+        "labelConfirm": "Confirme",
+        "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
+        "labelRemove": "Remover"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "Nenhum teste sintético selecionado",
         "alertTestEntityName": "teste sintético {{entityName}}",
         "testAttachedCount": "({{count}}) teste(s) anexado(s)",
-        "testAttached": "Testes anexados"
+        "testAttached": "Testes anexados",
+        "noTestAvailable": "Nenhum teste do Synthetic disponível"
       },
       "details": {
         "threshold": "Limite",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "Cargas úteis customizadas"
       }
     },
-    "inventory": {
-      "labelConfirm": "Confirme",
-      "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
-      "labelRemove": "Remover"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "Escolher um evento customizado",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "O número de {{metricLabel}} é maior ou igual ao esperado.",
         "thresholdLowerOperatorText": "O número de {{metricLabel}} é menor que o esperado.",
         "thresholdLowerEqualsOperatorText": "O número de {{metricLabel}} é menor ou igual ao esperado."
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "Configuração de alerta",
+        "alertConfigurationTitleTrigger": "Acionador",
+        "alertConfigurationTitleScope": "Escopo",
+        "alertConfigurationTitleAlertChannels": "Canais de alerta",
+        "alertConfigurationTitleTimeThreshold": "Limite de tempo",
+        "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
+        "viewDetail": "Visualizar detalhes"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "Limite estático, {{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+{{count}} mais filtro",
+        "moreFiltersWithCount_plural": "+{{count}} mais filtros",
+        "moreFiltersWithCount_0": "+{{count}} mais filtros",
+        "moreFiltersWithCount_1": "+{{count}} mais filtros",
+        "moreFiltersWithCount_2": "+{{count}} mais filtros",
+        "filter": "Filtro",
+        "filter_plural": "Filtros",
+        "filter_0": "Filtros",
+        "filter_1": "Filtros",
+        "filter_2": "Filtros"
       }
     }
   }

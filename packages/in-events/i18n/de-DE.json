@@ -117,8 +117,7 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
   "deprecatedCustomEventWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet. Zukünftig werden benutzerdefinierte Ereignisse für diese drei Entitätstypen entfernt und Sie erhalten diese {{issueOrIncident}}</strong><br/>Konfiguration benutzerdefinierter Ereignisse für die Migration auf Smart Alert nicht mehr. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "Für Auslöserereignis zugeordnete Aktionen",
-  "recommendedActions": "Empfohlene Aktionen",
+  "associatedActionsForTriggeringEvent": "Zugeordnete Aktionen zum Auslösen eines Ereignisses",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Angepasste Ereignisse erfordern eine Aktion",
     "message": "Angepasste Ereignisse für Anwendung, Service und Endpunkt sind veraltet. Sie können diese Typen von angepassten Ereignissen zukünftig nicht mehr erstellen oder aktualisieren.",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Status 'Fehlgeschlagen'"
+  },
+  "RCA": {
+    "titlePRCA": "Wahrscheinliche Fehlerursachen-Ereignisse",
+    "AIGenBadgeText": "KI-generiert",
+    "suggestionHelpfulText": "War dieser Vorschlag hilfreich?",
+    "noEventsErrorTitle": "Keine Ereignisse gefunden",
+    "noEventsErrorDescription": "Es wurde eine Entität als Ursache gefunden, aber ihr konnten keine zusammengehörigen Ereignisse zugeordnet werden.",
+    "noEntitiesErrorTitle": "Keine wahrscheinliche Fehlerursache gefunden",
+    "noEntitiesErrorDescription": "Hoppla! Wir konnten keine bestimmte Ursache für diesen Vorfall ermitteln.",
+    "regenerate": "Neu generieren"
   }
 }

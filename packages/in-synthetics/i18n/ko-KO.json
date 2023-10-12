@@ -242,6 +242,7 @@
     "synthetics": "합성 모니터링"
   },
   "dashboard": {
+    "deleted": "{{id}}-삭제됨",
     "testList": {
       "mainLabel": "합성 모니터링",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "해당사항 없음"
     },
     "locationList": {
+      "locationLiveModeDisabled": "합성 위치 페이지에서는 라이브 모드를 적용할 수 없음",
       "locationLabel": "위치 이름",
       "locationDisplayLabel": "표시 이름",
       "status": "상태",
@@ -365,6 +367,7 @@
       "success": "성공"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "합성 테스트 결과 세부사항 페이지에서는 라이브 모드를 적용할 수 없음",
       "timeLineWidget": "타임라인",
       "responseTimeChart": "응답 시간",
       "subtransactionStatus": "상태",
@@ -413,6 +416,7 @@
       "downloadLog": "로그 다운로드",
       "downloadImages": "스크린샷 다운로드",
       "downloadVideo": "다운로드 레코딩",
+      "consoleLogsLevel": "콘솔",
       "consoleLogs": "콘솔",
       "browserLogs": "브라우저",
       "browserDetails": {

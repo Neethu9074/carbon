@@ -168,6 +168,14 @@
       "typeAndMetricConfigurator": {
         "pleaseSelectMetric": "Selecionar uma métrica",
         "loadingMetrics": "Carregando métricas..."
+      },
+      "regexMetricSelectorOverlay": {
+        "inputPlaceholder": "Padrão de métrica (por exemplo, metric_.*)",
+        "done": "Concluído"
+      },
+      "metricSelectionCategoryOverlay": {
+        "list": "Lista",
+        "regex": "Expressão regular"
       }
     },
     "srcMobileApp": {
@@ -209,6 +217,11 @@
       },
       "index": {
         "websitesBeacons": "Websites (indicadores)"
+      }
+    },
+    "srcSyntheticMonitoring": {
+      "index": {
+        "syntheticMonitoring": "Monitoramento sintético"
       }
     },
     "metricConfigurator": {
@@ -340,7 +353,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Introdução",
-        "text": "Instana é a primeira e única Solução de desempenho de aplicativo (APM) totalmente automatizada projetada especificamente para os desafios de gerenciamento de microsserviço e aplicativos nativos de cloud.\n\nÉ fácil começar. 1. Se você ainda não tem acesso ao Instana, acesse [Instana.com](https://www.instana.com) e registre-se para uma Avaliação grátis. 2. Explore nosso ecossistema de centenas de [tecnologias suportadas] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies). 3. Comece a coletar dados com um de nossos [agentes](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana). 4. Aprenda [a usar o Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana) para seus casos de uso. 5. Leia sobre nossos [Recursos principais] exclusivos (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).6. Amplie o Instana com nossas [Integrações, SDK e APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis).\n\nÉ isso!\n\nNão encontrou o que procura? Pule para a [documentação] (https://www.ibm.com/docs/en/obi/current)."
+        "text": "Instana é a primeira e única Solução de desempenho de aplicativo (APM) totalmente automatizada projetada especificamente para os desafios de gerenciamento de microsserviço e aplicativos nativos de cloud.\n\nÉ fácil começar. 1. Se você ainda não tiver acesso à Instana, vá em frente para [Instana.com](https://www.instana.com) e registre-se para uma Avaliação grátis.\n2. Explore nosso ecossistema de centenas de [tecnologias suportadas] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).\n3. Comece a coletar dados com um de nossos [agents](https://ibm.biz/installing-agent).\n4. Aprenda [a usar o Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana) para seus casos de uso.\n5. Leia sobre nossos [Recursos principais] exclusivos (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Estenda a Instana com nossas [Integrações, SDK e APIs] (https://ibm.biz/integrations-sdks-apis).\n\nÉ isso!\n\nNão encontrou o que procura? Pule para a [documentação] (https://www.ibm.com/docs/en/obi/current)."
       },
       "formComp": {
         "whatULikeShow": "O que você gostaria de mostrar?",
@@ -754,7 +767,17 @@
           "tableConfiguration": "Configuração da tabela",
           "tableDetails": "Detalhes da tabela",
           "showResult": "Mostrando {{loadedItems}} de {{totalItems}} resultados",
-          "loadingEntities": "Carregando entidades"
+          "loadingEntities": "Carregando entidades",
+          "datasets": "Conjuntos de dados",
+          "sortBy": "Classificar por",
+          "sortDirection": "Direção da classificação",
+          "defaultSortingSuffix": "Nome",
+          "validators": {
+            "theValueMustBeUnique": "A métrica selecionada com o mesmo valor de agregação já foi adicionada. Selecione uma métrica diferente ou ajuste o valor de agregação para continuar."
+          },
+          "formatter": "Formatador",
+          "searchPlaceholder": "Procura",
+          "countGroup": "Mostrar contagem de grupos"
         }
       },
       "dataSource": {

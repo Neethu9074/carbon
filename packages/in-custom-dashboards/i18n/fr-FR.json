@@ -168,6 +168,14 @@
       "typeAndMetricConfigurator": {
         "pleaseSelectMetric": "Sélectionnez une métrique.",
         "loadingMetrics": "Chargement des métriques..."
+      },
+      "regexMetricSelectorOverlay": {
+        "inputPlaceholder": "Modèle de métrique (par exemple, métrique_.*)",
+        "done": "Terminé"
+      },
+      "metricSelectionCategoryOverlay": {
+        "list": "Liste",
+        "regex": "Expression régulière"
       }
     },
     "srcMobileApp": {
@@ -209,6 +217,11 @@
       },
       "index": {
         "websitesBeacons": "Sites Web (balises)"
+      }
+    },
+    "srcSyntheticMonitoring": {
+      "index": {
+        "syntheticMonitoring": "Surveillance synthétique"
       }
     },
     "metricConfigurator": {
@@ -340,7 +353,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Mise en route",
-        "text": "Instana est la première et la seule solution de performances des applications (APM) entièrement automatisée, conçue spécifiquement pour relever les défis de la gestion des applications de micro-services et des applications natives du cloud.\n\nLa mise en route est facile.1. Si vous n'avez pas encore accès à Instana, rendez-vous sur [Instana.com](https://www.instana.com) et inscrivez-vous pour un essai gratuit.2. Explorez notre ecosystème de centaines de [technologies prises en charge](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).3. Commencez à collecter des données avec l'un de nos [agents](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana).4. Apprenez [à utiliser Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) pour vos cas d'utilisation.5. Découvrez nos [fonctionnalités de base] uniques(https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).6. Etendez Instana avec nos [intégrations, SDK & APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis).\n\nC'est tout !\n\nVous ne trouvez pas ce que vous cherchez ? Consultez la [documentation](https: //www.ibm.com/docs/en/obi/current) !"
+        "text": "Instana est la première et la seule solution de performances des applications (APM) entièrement automatisée, conçue spécifiquement pour relever les défis de la gestion des applications de micro-services et des applications natives du cloud.\n\nLa mise en route est facile.1. Si vous n'avez pas encore accès à Instana, rendez-vous sur [Instana.com](https://www.instana.com) et inscrivez-vous pour un essai gratuit.\n2. Explorez notre écosystème de centaines de [technologies prises en charge] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).\n3. Commencez à collecter des données avec l'un de nos [agents](https://ibm.biz/installing-agent).\n4. Apprenez [à utiliser Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) pour vos cas d'utilisation.\n5. Découvrez nos [fonctionnalités de base] uniques(https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Etendez Instana avec nos [intégrations, logiciels SDK et API](https://ibm.biz/integrations-sdks-apis).\n\nC'est tout !\n\nVous ne trouvez pas ce que vous cherchez ? Consultez la [documentation](https: //www.ibm.com/docs/en/obi/current) !"
       },
       "formComp": {
         "whatULikeShow": "Que voulez-vous afficher ?",
@@ -754,7 +767,17 @@
           "tableConfiguration": "Configuration des tables",
           "tableDetails": "Détails de table",
           "showResult": "Affichage de {{loadedItems}} sur {{totalItems}} résultats",
-          "loadingEntities": "Chargement des entités"
+          "loadingEntities": "Chargement des entités",
+          "datasets": "Ensembles de données",
+          "sortBy": "Trier par",
+          "sortDirection": "Sens du tri",
+          "defaultSortingSuffix": "Nom",
+          "validators": {
+            "theValueMustBeUnique": "La métrique sélectionnée a déjà été ajoutée avec la même valeur d'agrégation. Sélectionnez une autre métrique ou ajustez la valeur d'agrégation pour continuer."
+          },
+          "formatter": "Formateur",
+          "searchPlaceholder": "Rechercher",
+          "countGroup": "Afficher le nombre de groupes"
         }
       },
       "dataSource": {
