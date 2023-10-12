@@ -27,7 +27,7 @@ interface RecommendedActionsCardAlertsProps {
   reload: number;
   setReload: (r: number) => void;
   alertConfig?: ApplicationAlertConfigWithMetadata;
-  setSelectedType: (v: string) => void;
+  setSelectedType: (str: string) => void;
 }
 
 export default function RecommendedActionsCardAlerts({
@@ -110,7 +110,7 @@ interface AssociateActionProps {
   triggerReload: () => void;
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
-  setSelectedType: (v: string) => void;
+  setSelectedType: (str: string) => void;
 }
 
 export function associateAction({

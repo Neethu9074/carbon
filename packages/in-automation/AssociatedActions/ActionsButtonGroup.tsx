@@ -17,7 +17,7 @@ import locals from './ActionsButtonGroup.mless';
 
 export interface ActionsButtonGroupProps {
   selectedType: string;
-  setSelectedType: (v: string) => void;
+  setSelectedType: (str: string) => void;
 }
 
 export default function ActionsButtonGroup({ selectedType, setSelectedType }: ActionsButtonGroupProps) {

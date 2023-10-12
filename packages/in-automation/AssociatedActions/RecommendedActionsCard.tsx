@@ -23,7 +23,7 @@ interface SuggestedActionsCardProps {
   volatileId: VolatileId;
   reload: number;
   setReload: (r: number) => void;
-  setSelectedType: (v: string) => void;
+  setSelectedType: (str: string) => void;
 }
 
 export default function RecommendedActionsCard({
@@ -119,7 +119,7 @@ interface AssociateActionProps {
   triggerReload: () => void;
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
-  setSelectedType: (v: string) => void;
+  setSelectedType: (str: string) => void;
 }
 
 function associateAction({
