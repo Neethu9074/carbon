@@ -6,15 +6,14 @@
 import React from 'react';
 
 //@ts-expect-error TS migration needed
-import ConjunctionsAndBrackets from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
-//@ts-expect-error TS migration needed
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import ConjunctionsAndBrackets from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 import { FormModelElement } from '../transformation/formModel';
 import { TagFilter } from 'in-types';
 
 interface ConjunctionTagSelectorOverlayProps {
-  tagCatalog: any;
+  tagCatalog: EnrichedTagCatalog;
   onChange: (arg: FormModelElement) => void;
   close: VoidFunction;
   withoutOrConjunction?: boolean;

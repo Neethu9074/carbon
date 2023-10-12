@@ -3,12 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { OPEN_BRACKET, CLOSE_BRACKET, CONJUNCTION } from 'in-components/QueryBuilder/transformation/formModel';
+import {
+  OPEN_BRACKET,
+  CLOSE_BRACKET,
+  CONJUNCTION,
+  FormModelElement
+} from 'in-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -16,7 +20,16 @@ import { t } from 'in-i18n';
 
 import locals from './ConjunctionsAndBrackets.mless';
 
-export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction = false, withoutBrackets = false }) {
+interface ConjunctionTagSelectorOverlayProps {
+  onChange: (arg: FormModelElement) => void;
+  withoutOrConjunction?: boolean;
+  withoutBrackets?: boolean;
+}
+export default function ConjunctionsAndBrackets({
+  onChange,
+  withoutOrConjunction = false,
+  withoutBrackets = false
+}: ConjunctionTagSelectorOverlayProps) {
   return (
     <HorizontalFlexWrapper className={locals.wrapper}>
       <div>
@@ -76,9 +89,3 @@ export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction
     </HorizontalFlexWrapper>
   );
 }
-
-ConjunctionsAndBrackets.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  withoutOrConjunction: PropTypes.bool,
-  withoutBrackets: PropTypes.bool
-};
