@@ -59,7 +59,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.usedBytes'),
+    title: t('in-sap:dashboards.extendedUsedBytes'),
     type: 'number',
     typeArgs: {
       getSnapshotId(row) {
@@ -140,7 +140,7 @@ export default connectTo(
               labels: [
                 t('in-sap:dashboards.totalMemory'),
                 t('in-sap:dashboards.heapMemory'),
-                t('in-sap:dashboards.usedBytes'),
+                t('in-sap:dashboards.extendedUsedBytes'),
                 t('in-sap:dashboards.maxBytes')
               ],
               type: 'line'

@@ -6,92 +6,159 @@
 
 import React from 'react';
 
-import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis, bytes } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
+let snapshotMap = {};
 
 const cols = [
   {
-    title: t('in-sap:dashboards.technicalUserId'),
+    title: t('in-sap:dashboards.account'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('TECHNICAL_USER_ID');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return row.userStats.get('account');
       }
     }
   },
   {
-    title: t('in-sap:dashboards.name'),
+    title: t('in-sap:dashboards.entryID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('NAME');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
+        return row.userStats.get('entryID');
       }
     }
   },
   {
-    title: t('in-sap:dashboards.tCode'),
-    type: 'string',
+    title: t('in-sap:dashboards.responseTime'),
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('TCODE');
+        return row.userStats.get('RESPTI');
       },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
+      getContent: millis.detailed
+    }
+  },
+  {
+    title: t('in-sap:dashboards.cpuTime'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.userStats.get('CPUTI');
+      },
+      getContent: millis.detailed
     }
   }
 ];
 
 export default connectTo(
   props => {
+    snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'userList')
     };
   },
-  function WorkProcessList({ data }) {
-    if (!data || !data.get('raw_payload')) {
+  function UserList({ data }) {
+    if (!data) {
       return null;
     }
 
-    const topQueries = data.get('raw_payload');
-    if (topQueries.size === 0) {
-      return null;
-    }
+    const { snapshotId, timeConfig } = snapshotMap;
+    const userStat = data.get('raw_payload', []);
+    const rows = userStat
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const userStats = userStat.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          userStats
+        };
+      });
 
-    const rows = topQueries.toArray().map((topQuery, idx) => {
-      return {
-        key: String(idx),
-        topQuery
-      };
-    });
-
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
+      }
+      return (
+        <div>
+          <Columize>
+            <DashboardSection title={t('in-sap:dashboards.userStats')}>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: ['userList.' + row.key + '.LUW_COUNT', 'userList.' + row.key + '.DCOUNT'],
+                  labels: [t('in-sap:dashboards.count'), t('in-sap:dashboards.dcount')],
+                  type: 'line',
+                  formatter: number
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+            <DashboardSection title={t('in-sap:dashboards.bytesRequested')}>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: ['userList.' + row.key + '.bytesRequested'],
+                  labels: [t('in-sap:dashboards.bytesRequested')],
+                  type: 'line',
+                  formatter: bytes.detailed
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+          <Columize>
+            <DashboardSection title={t('in-sap:dashboards.performanceStats')}>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: [
+                    'userList.' + row.key + '.RESPTI',
+                    'userList.' + row.key + '.CPUTI',
+                    'userList.' + row.key + '.QUEUETI'
+                  ],
+                  labels: [
+                    t('in-sap:dashboards.responseTime'),
+                    t('in-sap:dashboards.cpuTime'),
+                    t('in-sap:dashboards.waitTime')
+                  ],
+                  type: 'line',
+                  formatter: millis.detailed
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+        </div>
+      );
+    };
     return (
       <Table
         withoutPadding
-        cardTitle={
-          <TimeOfLastUpdateCardTitle title={t('in-sap:dashboards.userStats')} timestamp={data.get('timestamp')} />
-        }
+        cardTitle={t('in-sap:dashboards.userStats')}
         cols={cols}
         rows={rows}
-        initialSortColumn={1}
+        initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }
 );
-
-function Args({ args }) {
-  return <code className={locals.statement}>{args}</code>;
-}

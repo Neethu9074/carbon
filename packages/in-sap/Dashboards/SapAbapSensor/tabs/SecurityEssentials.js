@@ -8,12 +8,14 @@ import React, { Fragment } from 'react';
 
 import UserList from 'in-sap/Dashboards/SapAbapSensor/tabs/UserList.js';
 import RFCCalls from 'in-sap/Dashboards/SapAbapSensor/tabs/RFCCalls.js';
+import UserInfo from 'in-sap/Dashboards/SapAbapSensor/tabs/UserInfo.js';
 
-export default function SecurityEssentials({ data: sap }) {
+export default function SecurityEssentials({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
-      <UserList snapshotId={snapshotId} />
+      <UserInfo snapshotId={snapshotId} />
+      <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
       <RFCCalls snapshotId={snapshotId} />
     </Fragment>
   );
