@@ -4,15 +4,18 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
+//@ts-expect-error TS migration needed
 import * as typeToLabelMapping from 'in-components/QueryBuilder/tagFilter/typeToLabelMapping';
+//@ts-expect-error TS migration needed
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
+import { Nullish, TagTreeNodeUnion, TagType } from 'in-types';
 import { emptyArray } from 'in-services/fixedObjects';
 import { settings$ } from 'in-services/settings';
 import Pill from 'in-components/Pill';
@@ -20,7 +23,19 @@ import { useTheme } from 'in-themes';
 
 import locals from './TagSelectorOverlay.mless';
 
-export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTypeBadge }) {
+interface TagSelectorOverlayProps {
+  tagCatalog: EnrichedTagCatalog;
+  onChange: ({ name, tagType }: { name: string; tagType?: TagType }) => void;
+  close: VoidFunction;
+  showTypeBadge?: boolean;
+}
+
+interface NodeProps {
+  tagName: string;
+  tagType?: TagType;
+}
+
+export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTypeBadge }: TagSelectorOverlayProps) {
   const queryableOnly = useObservable(
     settings$.map(settings => get(settings, ['use_queryable_tags_enabled'], true)),
     []
@@ -37,7 +52,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
     <SelectorOverlay
       withIcons
       options={options}
-      onChange={node => {
+      onChange={(node: NodeProps) => {
         onChange({ name: node.tagName, tagType: node.tagType });
         close();
       }}
@@ -47,50 +62,79 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
   );
 }
 
-function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, queryableOnly) {
+interface Options {
+  label: string;
+  badge: JSX.Element | Nullish | false;
+  breadcrumbAndLabel: JSX.Element;
+  description?: string;
+  keywords: string;
+  tagName: string;
+  icon?: string;
+  children: Options[];
+  tagType?: TagType;
+}
+
+function toOptions(
+  tagCatalog: EnrichedTagCatalog,
+  tagTreeNodes: TagTreeNodeUnion[],
+  parentLabels: string[] = [],
+  showTypeBadge: boolean | Nullish,
+  queryableOnly: boolean
+): Options[] {
   const joinedParentLabels = parentLabels.join(' ');
   return tagTreeNodes
     .filter(tagTreeNode => {
       return (
         (!queryableOnly || tagTreeNode.type === 'LEVEL' || tagTreeNode.queryable !== false) &&
-        tagTreeNode.hidden !== true
+        ('hidden' in tagTreeNode && tagTreeNode.hidden) !== true
       );
     })
-    .map(tagTreeNode => {
-      const filteredChildren = tagTreeNode.children
-        ? toOptions(
-            tagCatalog,
-            tagTreeNode.children,
-            parentLabels.concat(tagTreeNode.label),
-            showTypeBadge,
-            queryableOnly
-          )
-        : emptyArray;
+    .map((tagTreeNode: TagTreeNodeUnion): Options | null => {
+      const filteredChildren =
+        'children' in tagTreeNode
+          ? toOptions(
+              tagCatalog,
+              tagTreeNode.children,
+              parentLabels.concat(tagTreeNode.label),
+              showTypeBadge,
+              queryableOnly
+            )
+          : (emptyArray as unknown as Options[]);
       // filter empty category nodes
-      return tagTreeNode.type === 'LEVEL' && filteredChildren.length === 0
+      return tagTreeNode.type === 'LEVEL' && filteredChildren?.length === 0
         ? null
         : {
             label: tagTreeNode.label,
-            badge: showTypeBadge && tagTreeNode.tagName && <Badge tagTreeNode={tagTreeNode} tagCatalog={tagCatalog} />,
+            badge:
+              showTypeBadge &&
+              'tagName' in tagTreeNode &&
+              Boolean(tagTreeNode.tagName) &&
+              ((<Badge tagTreeNode={tagTreeNode} tagCatalog={tagCatalog} />) as JSX.Element | Nullish),
             breadcrumbAndLabel: (
               <BreadcrumbAndLabel
                 path={parentLabels}
                 label={tagTreeNode.label}
-                hasChildren={tagTreeNode.children?.length > 0}
+                hasChildren={'children' in tagTreeNode && tagTreeNode.children?.length > 0}
               />
             ),
             description: tagTreeNode.description,
             keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
-            tagName: tagTreeNode.tagName,
+            tagName: 'tagName' in tagTreeNode ? tagTreeNode.tagName : '',
             icon: tagTreeNode.icon,
             children: filteredChildren,
-            tagType: tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type
+            tagType: 'tagName' in tagTreeNode ? tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type : undefined
           };
     })
-    .filter(Boolean);
+    .filter(Boolean) as Options[];
 }
 
-function BreadcrumbAndLabel({ path, label, hasChildren }) {
+interface BreadcrumbAndLabelProps {
+  path: string[];
+  label: string;
+  hasChildren: boolean;
+}
+
+function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLabelProps): JSX.Element {
   if (hasChildren) {
     return <>{label}</>;
   }
@@ -108,19 +152,17 @@ function BreadcrumbAndLabel({ path, label, hasChildren }) {
   );
 }
 
-function Badge({ tagTreeNode, tagCatalog }) {
+interface BadgeProps {
+  tagTreeNode: TagTreeNodeUnion;
+  tagCatalog: EnrichedTagCatalog;
+}
+
+function Badge({ tagTreeNode, tagCatalog }: BadgeProps): JSX.Element | null {
   const theme = useTheme();
   // only show for leaves
-  if (tagTreeNode.children?.length > 0) return null;
+  if ('children' in tagTreeNode && tagTreeNode.children?.length > 0) return null;
 
-  const tag = tagCatalog.tagsByName[tagTreeNode.tagName];
+  const tag = 'tagName' in tagTreeNode ? tagCatalog.tagsByName[tagTreeNode.tagName] : undefined;
   const type = typeToLabelMapping[tag?.type];
   return type && <Pill color={theme.ids.color.option.neutral['600']}>{type}</Pill>;
 }
-
-TagSelectorOverlay.propTypes = {
-  tagCatalog: PropTypes.any.isRequired,
-  showTypeBadge: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
-};

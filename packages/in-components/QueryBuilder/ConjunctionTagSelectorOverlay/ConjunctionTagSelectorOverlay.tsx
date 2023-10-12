@@ -5,16 +5,15 @@
 
 import React from 'react';
 
-//@ts-expect-error TS migration needed
-import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import ConjunctionsAndBrackets from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
-import { FormModelElement } from '../transformation/formModel';
-import { TagFilter } from 'in-types';
 
 interface ConjunctionTagSelectorOverlayProps {
   tagCatalog: EnrichedTagCatalog;
-  onChange: (arg: FormModelElement) => void;
+  onChange: (formModel: FormModelElement) => void;
   close: VoidFunction;
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
@@ -29,8 +28,8 @@ export default function ConjunctionTagSelectorOverlay({
   return (
     <>
       <ConjunctionsAndBrackets
-        onChange={(v: FormModelElement) => {
-          onChange(v);
+        onChange={(formModel: FormModelElement) => {
+          onChange(formModel);
           close();
         }}
         withoutOrConjunction={withoutOrConjunction}
@@ -39,12 +38,7 @@ export default function ConjunctionTagSelectorOverlay({
 
       <TagSelectorOverlay
         onChange={({ name }: { name: string }) => {
-          onChange({
-            type: 'TAG_FILTER',
-            name,
-            operator: 'EQUALS',
-            value: setDefaultValueWhenTagTypeBoolean(name, tagCatalog)
-          } as TagFilter);
+          onChange(tagFilter(name, 'EQUALS', setDefaultValueWhenTagTypeBoolean(name, tagCatalog)));
         }}
         close={close}
         tagCatalog={tagCatalog}
@@ -53,7 +47,7 @@ export default function ConjunctionTagSelectorOverlay({
   );
 }
 
-function setDefaultValueWhenTagTypeBoolean(tagName: string, tagCatalog: EnrichedTagCatalog) {
+function setDefaultValueWhenTagTypeBoolean(tagName: string, tagCatalog: EnrichedTagCatalog): boolean | undefined {
   const tagTreeNode = tagCatalog.tagsByName[tagName];
   if (tagTreeNode.type === 'BOOLEAN') {
     return true;

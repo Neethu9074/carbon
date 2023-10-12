@@ -21,7 +21,7 @@ import { t } from 'in-i18n';
 import locals from './ConjunctionsAndBrackets.mless';
 
 interface ConjunctionTagSelectorOverlayProps {
-  onChange: (arg: FormModelElement) => void;
+  onChange: (formModel: FormModelElement) => void;
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
 }
