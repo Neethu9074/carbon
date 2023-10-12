@@ -33,6 +33,8 @@ export default function TimeWindowSelector() {
   const isTimeFieldValid = isFieldValid(timeField);
   const isDateFieldValid = isFieldValid(dateField);
 
+  const width = '14.7rem';
+
   return (
     <>
       <SelectInSection
@@ -44,17 +46,13 @@ export default function TimeWindowSelector() {
             windowTypeField.setValue(e.target.value as TimeWindowType).setTouched(true)
           );
         }}
-        titleWidth="14.7rem"
+        titleWidth={width}
       >
         <option value="fixed">{t('in-service-levels:general.timeWindow.type_fixed')}</option>
         <option value="rolling">{t('in-service-levels:general.timeWindow.type_rolling')}</option>
       </SelectInSection>
 
-      <Section
-        title={t('in-service-levels:createSloDialog.length')}
-        titleHtmlFor="time-window-size"
-        titleWidth="14.7rem"
-      >
+      <Section title={t('in-service-levels:createSloDialog.length')} titleHtmlFor="time-window-size" titleWidth={width}>
         <Stack direction="horizontal" gap="medium">
           <Input
             type="number"
@@ -93,7 +91,7 @@ export default function TimeWindowSelector() {
       </Section>
 
       {isFixed && (
-        <Section title={t('in-service-levels:createSloDialog.start')} titleWidth="14.7rem">
+        <Section title={t('in-service-levels:createSloDialog.start')} titleWidth={width}>
           <Stack direction="horizontal" gap="xsmall" inline align="center">
             <DateInput
               fixedWidth
