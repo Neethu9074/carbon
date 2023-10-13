@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .issue {
     margin: 0;
@@ -70,7 +68,7 @@
   }
 
   .title {
-    font-size: @lib__typography__h200__font-size;
+    font-size: var(--ids-font-size-option-heading-200);
     color: var(--ids-color-option-neutral-900);
     margin: 0 0 0.5rem;
     display: flex;
@@ -85,7 +83,7 @@
 
   .description {
     margin: 0;
-    font-size: @lib__typography__h100__font-size;
+    font-size: var(--ids-font-size-option-heading-100);
 
     & p:last-child {
       margin-bottom: 0;

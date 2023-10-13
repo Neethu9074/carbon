@@ -20,7 +20,7 @@
     border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: var(--ids-border-radius-medium);
     font-weight: 500;
-    line-height: @lib__typography__line-height;
+    line-height: 1.15;
     cursor: pointer;
 
     &:focus,

@@ -87,7 +87,7 @@
 
   .customCloseBehaviour {
     display: flex;
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
     margin-left: auto;
     padding-right: 0.5rem;
   }

@@ -28,7 +28,7 @@
     color: var(--ids-color-option-neutral-700);
     display: flex;
     justify-content: space-between;
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
     min-height: 2rem;
     padding: 0.5rem;
 
