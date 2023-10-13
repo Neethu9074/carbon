@@ -28,14 +28,12 @@ export interface LimitingApplicationFilterProps<FORM_TYPE extends MapFormItems> 
     form: MapForm<FORM_TYPE>,
     setForm: (form: MapForm<FORM_TYPE>) => void
   ) => void;
-  updateApplicationScope: (form: MapForm<FORM_TYPE>) => void;
 }
 
 export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems>({
   form,
   setForm,
-  setTagFilterExpression,
-  updateApplicationScope
+  setTagFilterExpression
 }: LimitingApplicationFilterProps<FORM_TYPE>) {
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
@@ -80,7 +78,7 @@ export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems
         {t('in-settings:PermissionSection.limitation_downstreamCalls')}
       </Typography>
       <div className={locals.limitingFilter_applicationScope}>
-        <ApplicationScopeSelector form={form} updateForm={(form: MapForm<FORM_TYPE>) => updateApplicationScope(form)} />
+        <ApplicationScopeSelector form={form} updateForm={setForm} />
       </div>
     </div>
   );

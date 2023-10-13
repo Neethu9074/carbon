@@ -49,10 +49,6 @@ export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFo
     setForm(form.updateIn(['tagFilterExpression'], field => field.setValue(tagFilterExpression)));
   };
 
-  const updateApplicationScope = (form: MapForm<FORM_TYPE>) => {
-    setForm(form);
-  };
-
   function getStreamData([form, isValidTagFilterExpression]: any): Observable<Result<any>> {
     const jsForm = form.toJS();
     const downstreamScope = jsForm.scope;
@@ -72,12 +68,7 @@ export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFo
   }
   return (
     <div>
-      <LimitingApplicationFilter
-        form={form}
-        setForm={setForm}
-        setTagFilterExpression={setTagFilterExpressionField}
-        updateApplicationScope={updateApplicationScope}
-      />
+      <LimitingApplicationFilter form={form} setForm={setForm} setTagFilterExpression={setTagFilterExpressionField} />
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
         headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}
