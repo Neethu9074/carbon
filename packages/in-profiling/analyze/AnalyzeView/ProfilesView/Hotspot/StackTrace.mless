@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 :local {
   .line {
     display: flex;
@@ -17,11 +16,11 @@
   }
 
   .selectedLine {
-    background: @lib__colors__N300;
+    background: var(--ids-color-option-neutral-300);
   }
 
   .icon {
-    fill: @lib__colors__N700Medium;
+    fill: var(--ids-color-option-neutral-700);
   }
 
   .iconPlaceholder {
@@ -31,6 +30,6 @@
   .percent {
     margin-left: 0.25rem;
 
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
   }
 }

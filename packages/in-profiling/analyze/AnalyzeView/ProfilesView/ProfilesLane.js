@@ -16,7 +16,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
 import ProfileMarker from './ProfileMarker';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ProfilesLane.mless';
@@ -25,7 +25,7 @@ export default function ProfilesLane(props) {
   const clusteredProfiles = useClusteredTimestamps(props.chartWidth, props.timeConfig, props.profileTimestamps);
   const highlightedTimeframe = useObservable(highlightedTimeframe$, []);
   const { location, createHref } = useNavigation();
-
+  const theme = useTheme();
   return (
     <MarkerLane
       {...props}
@@ -37,9 +37,9 @@ export default function ProfilesLane(props) {
       iconConfig={{
         type: 'lib_datetime_timer',
         typeCluster: 'lib_datetime_timer_multiple',
-        color: theme.lib.colors.N700Medium
+        color: theme.ids.color.option.neutral['700']
       }}
-      color={theme.lib.colors.N700Medium}
+      color={theme.ids.color.option.neutral['700']}
       getHref$={({ from, to }) => {
         if (highlightedTimeframe && highlightedTimeframe[0] === from && highlightedTimeframe[1] === to) {
           addOrDeleteHighlightedTimeframeToParams(location);

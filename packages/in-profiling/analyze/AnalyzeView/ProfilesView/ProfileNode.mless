@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .row {
@@ -23,18 +22,18 @@
       width: 0.5rem;
       height: 1.25rem;
 
-      border-bottom: 1px solid @lib__colors__N400;
-      border-left: 1px solid @lib__colors__N400;
+      border-bottom: 1px solid var(--ids-color-option-neutral-400);
+      border-left: 1px solid var(--ids-color-option-neutral-400);
       content: '';
     }
   }
 
   .selectedRow {
-    background: @lib__colors__N200;
+    background: var(--ids-color-option-neutral-200);
   }
 
   .highlightedRow {
-    background: @lib__colors__primary1;
+    background: var(--ids-color-option-teal-500);
   }
 
   .nonHighlightedRow {
@@ -55,16 +54,16 @@
     bottom: 0;
     width: 1px;
     left: -0.5rem;
-    background: @lib__colors__N400;
+    background: var(--ids-color-option-neutral-400);
   }
 
   .expandIcon {
     margin-right: 0.5rem;
-    fill: @lib__colors__primary1;
+    fill: var(--ids-color-option-teal-500);
   }
 
   .focusedIcon {
-    fill: @lib__colors__cyan800;
+    fill: var(--ids-color-option-teal-400);
   }
 
   .iconPlaceHolder {
@@ -74,6 +73,6 @@
   }
 
   .iconPlaceHolderWithLine {
-    border-bottom: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
   }
 }
