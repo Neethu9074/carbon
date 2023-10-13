@@ -8,6 +8,8 @@
 
 'use strict';
 
+const carbonColors = require('@carbon/colors');
+
 // zIndex start at 100, because some components need to raise their content above
 // sibling content. This is typically achieved by adding zIndex: 1. We start at
 // zIndex 100 to avoid any conflicts.
@@ -75,7 +77,41 @@ module.exports = {
 };
 
 function buildLib() {
+  const carbonCategorical = {
+    purple70: carbonColors.purple70,
+    cyan50: carbonColors.cyan50,
+    teal70: carbonColors.teal70,
+    magenta70: carbonColors.magenta70,
+    red50: carbonColors.red50,
+    red90: carbonColors.red90,
+    green60: carbonColors.green60,
+    blue80: carbonColors.blue80,
+    magenta50: carbonColors.magenta50,
+    yellow50: carbonColors.yellow50,
+    teal50: carbonColors.teal50,
+    cyan90: carbonColors.cyan90,
+    orange70: carbonColors.orange70,
+    purple50: carbonColors.purple50
+  };
+  const carbonAlert = {
+    red60: carbonColors.red60,
+    green50: carbonColors.green50,
+    orange40: carbonColors.orange40,
+    orange60: carbonColors.orange60,
+    yellow30: carbonColors.yellow30,
+    yellow60: carbonColors.yellow60,
+    blue70: carbonColors.blue70,
+    purple50: carbonColors.purple50,
+    gray60: carbonColors.gray60
+  };
   const lib = {
+    carbonCategorical,
+    carbonAlert,
+    // Certain alert colors need outlines for visual accessibility
+    outlineForColor: {
+      [carbonAlert.orange40]: carbonAlert.orange60,
+      [carbonAlert.yellow30]: carbonAlert.yellow60
+    },
     colors: {
       // black & white
       white: '#FFFFFF',
@@ -214,25 +250,49 @@ function buildLib() {
   lib.colors.tableRowSelectedOdd = lib.colors.fadedTeal800;
   lib.colors.tableRowSelectedEven = lib.colors.fadedCyan800;
 
+  // carbon three color palette
+  lib.colors.chart.threeColorPalette = [
+    lib.carbonCategorical.magenta50,
+    lib.carbonCategorical.cyan50,
+    lib.carbonCategorical.purple70
+  ];
+
+  // carbon four color palette
+  lib.colors.chart.fourColorPalette = [
+    lib.carbonCategorical.purple70,
+    lib.carbonCategorical.cyan90,
+    lib.carbonCategorical.teal50,
+    lib.carbonCategorical.magenta50
+  ];
+
+  // carbon five color palette
+  lib.colors.chart.fiveColorPalette = [
+    lib.carbonCategorical.purple70,
+    lib.carbonCategorical.cyan50,
+    lib.carbonCategorical.teal70,
+    lib.carbonCategorical.magenta70,
+    lib.carbonCategorical.red90
+  ];
+
   // stroke colors
   lib.colors.chart.strokeColors100 = [
-    lib.colors.lightBlue800,
-    lib.colors.green800,
-    lib.colors.orange800,
-    lib.colors.deepPurple800,
-    lib.colors.cyan800,
-    lib.colors.lime800,
-    lib.colors.pink800,
-    lib.colors.teal800,
-    lib.colors.purple800,
-    lib.colors.indigo800,
-    lib.colors.batch,
-    lib.colors.database,
-    lib.colors.http,
-    lib.colors.messaging,
+    lib.carbonCategorical.cyan50,
+    lib.carbonCategorical.teal70,
+    lib.carbonCategorical.purple70,
+    lib.carbonCategorical.magenta70,
+    lib.carbonCategorical.red50,
+    lib.carbonCategorical.red90,
+    lib.carbonCategorical.green60,
+    lib.carbonCategorical.blue80,
+    lib.carbonCategorical.magenta50,
+    lib.carbonCategorical.yellow50,
+    lib.carbonCategorical.teal50,
+    lib.carbonCategorical.cyan90,
+    lib.carbonCategorical.orange70,
+    lib.carbonCategorical.purple50,
     lib.colors.rpc,
     lib.colors.event,
-    lib.colors.red800
+    lib.carbonAlert.red60
   ];
 
   lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => lighten(hex, 0.05));

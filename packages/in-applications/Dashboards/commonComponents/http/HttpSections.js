@@ -68,31 +68,31 @@ export default function HttpSections({
       config: defaultMetricConfig,
       metric: 'http.1xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel1XX'),
-      color: theme.lib.colors.chart.strokeColors25[8]
+      color: theme.lib.carbonAlert.purple50
     },
     {
       config: defaultMetricConfig,
       metric: 'http.2xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel2XX'),
-      color: theme.lib.colors.chart.strokeColors25[1]
+      color: theme.lib.carbonAlert.green50
     },
     {
       config: defaultMetricConfig,
       metric: 'http.3xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel3XX'),
-      color: theme.lib.colors.chart.strokeColors25[4]
+      color: theme.lib.carbonAlert.blue70
     },
     {
       config: defaultMetricConfig,
       metric: 'http.4xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel4XX'),
-      color: theme.lib.colors.warning
+      color: theme.lib.carbonAlert.orange40
     },
     {
       config: defaultMetricConfig,
       metric: 'http.5xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel5XX'),
-      color: theme.lib.colors.failure
+      color: theme.lib.carbonAlert.red60
     }
   ];
 

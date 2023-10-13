@@ -305,7 +305,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 formatter: number.forcedCompact,
                 labels: [t('in-websites:websiteDashboard.tabs.errors.errorLabelOccurrences')],
                 metricIds: ['errors'],
-                colors: [theme.lib.colors.failure]
+                colors: [theme.lib.carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,
