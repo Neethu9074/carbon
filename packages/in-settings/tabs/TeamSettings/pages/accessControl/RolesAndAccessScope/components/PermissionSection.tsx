@@ -148,7 +148,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
-                // limitedApplicationFilterEnabled = {productArea=== ProductArea.APPLICATION && role === AreaRole.OWNER}
               />
             )}
           </TabSelectPanel>
