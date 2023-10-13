@@ -37,6 +37,8 @@ import Dialog from 'in-components/Dialog/Dialog';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
+import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken.mless';
+
 const logger = createLogger('apiTokenConfig');
 
 export interface FormProp {
@@ -317,20 +319,7 @@ const ApiToken = (props: MatchParams): any => {
           </>
         }
       >
-        <SettingsDetailPage>
-          {apiToken ? (
-            <>
-              {' '}
-              <Title title={t('in-settings:tabs.apiToken')} />
-              <SubViewHeader>
-                {apiToken
-                  ? t('in-settings:tabs.apiTokenIs', { apiTokenName: apiToken.name })
-                  : t('in-settings:tabs.apiToken')}
-              </SubViewHeader>
-              <SectionLine />
-            </>
-          ) : null}
-
+        <SettingsDetailPage className={locals.dialogBody}>
           {state.message ? (
             <Section>
               <Notification failure={state.error} loading={state.loading}>
