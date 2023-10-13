@@ -21,9 +21,9 @@ import {
   ResultDetailsResponse,
   ResultMetadataResponse
 } from 'in-synthetics/utils/constants';
+import BrowserTestMainSection from 'in-synthetics/dashboards/details/components/browser/BrowserTestMainSection';
 import DashboardHeader, { ContextConfiguration } from 'in-components/DashboardHeader/DashboardHeader';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import { syntheticDetailsPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
@@ -248,7 +248,7 @@ export default function SyntheticAnalyzeView() {
               <Row>
                 <Col lg={12}>
                   {isBrowserTest ? (
-                    <BrowserTestTimeline
+                    <BrowserTestMainSection
                       details={timelineDetails}
                       startTime={startTime}
                       finishTime={finishTime}
