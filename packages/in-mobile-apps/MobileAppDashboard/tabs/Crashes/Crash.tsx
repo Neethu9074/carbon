@@ -77,8 +77,9 @@ export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
   if (crashId) {
     observables.result = getMobileAppBeacons({
       tagFilters: [
-        { name: 'mobileBeacon.error.message', stringValue: crashId, operator: 'EQUALS' },
-        { name: 'mobileBeacon.mobileApp.id', stringValue: mobileAppId, operator: 'EQUALS' }
+        { name: 'mobileBeacon.type', stringValue: beaconType, operator: 'EQUALS' },
+        { name: 'mobileBeacon.mobileApp.id', stringValue: mobileAppId, operator: 'EQUALS' },
+        { name: 'mobileBeacon.error.message', stringValue: crashId, operator: 'EQUALS' }
       ],
       timeConfig: timeConfig,
       order: {
@@ -151,6 +152,8 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
         groupbyTag: 'mobileBeacon.error.message'
       }
     };
+
+    const firstBeacon = result.data?.items?.[0]?.beacon;
 
     content = (
       <Fragment>
@@ -226,14 +229,14 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
           </Col>
         </Row>
 
-        {
+        {firstBeacon && (
           <Fragment>
             <Row>
               <Col lg={12}>
                 <Card title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoTitle')}>
                   <Dl>
                     <Di title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoMessage')}>
-                      {result.data.items[0].beacon.errorMessage}
+                      {firstBeacon.errorMessage}
                     </Di>
                   </Dl>
                 </Card>
@@ -242,11 +245,11 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
 
             <Row>
               <Col lg={12}>
-                <BeaconStack beacon={result.data.items[0].beacon} />
+                <BeaconStack beacon={firstBeacon} />
               </Col>
             </Row>
           </Fragment>
-        }
+        )}
 
         <Row>
           <Col lg={4}>
