@@ -118,7 +118,7 @@ export function createAPsList(applicationList) {
 
 function mapServicesToOptions(appId, services) {
   return (services ?? []).map(({ service }) => ({
-    appId,
+    applicationId: appId,
     id: service.id,
     icon: 'lib_application_service',
     label: service.label,
@@ -155,7 +155,7 @@ function mapServicesWithEndpointsToOptions(
 
   const serviceWithEndpointMetricsMapper = ({ service, metrics }) => {
     const withoutEndpoint = {
-      appId,
+      applicationId: appId,
       id: service.id,
       breadcrumbAndLabel: service.id, // used as a header above endpoints-list
       icon: 'lib_application_service',
@@ -182,7 +182,7 @@ function mapServicesWithEndpointsToOptions(
 function mapEndpointItemsToOptions(appId, service, itemsWithEndpoints) {
   return (itemsWithEndpoints ?? []).map(({ endpoint }) => ({
     serviceId: service.id,
-    appId,
+    applicationId: appId,
     label: endpoint.label,
     id: endpoint.id,
     type: 'ENDPOINT',
