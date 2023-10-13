@@ -52,7 +52,6 @@ export default function BizOpsList() {
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
-        {alert('hahhahhah')}
         <Title title={t('in-bizops:lists.pageTitle')} />
         <ViewTrackingMeta
           data={{
