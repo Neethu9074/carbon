@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .header {
@@ -29,7 +27,7 @@
 
   .button:hover,
   .buttonOpen {
-    background: @lib__colors__N800Dark;
+    background: var(--ids-color-option-neutral-800);
     .icon {
       fill: white;
     }
@@ -37,6 +35,6 @@
 
   .icon {
     margin: 0 0.3125rem;
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-400);
   }
 }

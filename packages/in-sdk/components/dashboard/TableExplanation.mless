@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .explanation {
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-size: 0.875rem;
     padding: 1rem;
     margin: 0 0 1rem;
