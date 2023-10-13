@@ -23,7 +23,8 @@ import {
   getAction,
   createAction,
   updateActionResourceAssociations,
-  getActionResourceAssociations
+  getActionResourceAssociations,
+  createGithubFields
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -34,6 +35,7 @@ import {
   isNotEditable,
   isScript,
   isWebhook,
+  isGithub,
   NO_AUTH
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -256,7 +258,6 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const timeout = (form.get('timeout') as FormField<string>).value;
   const fields: Field[] = [];
-
   if (isDocLink(type)) {
     const docLink = (form.get('docLink') as FormField<string>).value;
     fields.push(createDocLinkField(docLink));
@@ -264,6 +265,12 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
     const value = (form.get('script') as FormField<string>).value;
     const subtype = (form.get('subtype') as FormField<string>).value;
     fields.push(...createScriptFields({ value, subtype, timeout }));
+  } else if (isGithub(type)) {
+    const title = (form.get('title') as FormField<string>).value;
+    const body = (form.get('body') as FormField<string>).value;
+    const labels = (form.get('labels') as FormField<any>).value;
+    const labelsString = labels.map((tag: Tag) => tag.value).join(',');
+    fields.push(...createGithubFields({ title: title, body: body, labels: labelsString }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

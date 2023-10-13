@@ -145,7 +145,8 @@
     "validUrl":"Documentation link is not valid.",
     "actionCopy": "(Copy of) {{name}}",
     "ActionAssociationsForEvent": "Associate Events",
-    "ActionAssociationsForSmartAlert": "Associate Smart Alerts"
+    "ActionAssociationsForSmartAlert": "Associate Smart Alerts",
+    "noLabelsConfigured":"No labels are added."
   },
   "actionHistory": {
     "actionHistory": "Action History",

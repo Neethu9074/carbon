@@ -290,6 +290,33 @@ export const createWebhookFields = ({
   { ...createTimeoutField(timeout) }
 ];
 
+interface GithubFields {
+  title: string;
+  body: string;
+  labels: string;
+}
+
+export const createGithubFields = ({ title, body, labels }: GithubFields): Field[] => [
+  {
+    value: title,
+    description: 'github issue title',
+    encoding: 'ascii',
+    name: 'title'
+  },
+  {
+    value: body,
+    description: 'github issue body',
+    encoding: 'ascii',
+    name: 'body'
+  },
+  {
+    value: labels,
+    description: 'github issue labels',
+    encoding: 'ascii',
+    name: 'labels'
+  }
+];
+
 const createTimeoutField = (value: string): Field => ({
   value,
   description: 'timeout of the action execution in seconds',

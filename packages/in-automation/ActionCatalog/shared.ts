@@ -24,7 +24,7 @@ export const getType = (type: string) => {
   } else if (isAnsible(type)) {
     return t('in-automation:ActionCatalog.ansible');
   } else if (isGithub(type)) {
-    return t('in-automation:ActionCatalog.ansible');
+    return 'Github';
   } else if (isGitlab(type)) {
     return t('in-automation:ActionCatalog.ansible');
   } else {
@@ -62,7 +62,7 @@ export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Fiel
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
 export const getGithubTitleFromFields = (fields: Field[] | undefined): Field =>
-  getFieldsByNames(fields)?.title ?? { value: '', encoding: 'ascii', name: '' };
+  getFieldsByNames(fields)?.title ?? { value: '', encoding: 'ascii', name: 'title' };
 export const getGithubBodyFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
 export const getGithubLabelsFromFields = (fields: Field[] | undefined): Field =>

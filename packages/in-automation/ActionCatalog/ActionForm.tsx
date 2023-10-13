@@ -367,7 +367,7 @@ const ScriptSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCha
 const GithubSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
   const title = form.get('title') as Field<string>;
   const body = form.get('body') as Field<string>;
-  // const labels = form.get('labels') as Field<string>;
+  //const labels = form.get('labels') as Field<string>;
   // const assignees = form.get('assignees') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 

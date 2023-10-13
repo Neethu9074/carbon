@@ -24,7 +24,8 @@ import {
   isDocLink,
   isScript,
   isWebhook,
-  isAnsible
+  isAnsible,
+  isGithub
 } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
@@ -153,6 +154,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
   if (isDocLink(action.type)) form = putDocLinkField(form, action);
   else if (isScript(action.type)) form = putScriptField(form, action);
   else if (isWebhook(action.type)) form = putWebhookFields(form, action);
+  else if (isGithub(action.type)) form = putGithubFields(form, action);
   return form;
 }
 
@@ -223,7 +225,6 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
         validator: notBlankValidator
       })
     )
-    // TODO: add validator for URL???
     .put(
       'body',
       createField({
@@ -234,11 +235,29 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
     .put(
       'labels',
       createField({
-        value: labels.value
+        value: labels.value ? labels.value.split(',').map(label => ({ value: label, id: generateUniqueShortId() })) : []
+        // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
       })
     );
   return form;
 }
+
+// export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
+//   const value = getDocLinkFromFields(action.fields).value;
+
+//   // TODO: add validator for URL???
+//   return form.put(
+//     'docLink',
+//     createField({
+//       value: value,
+//       validator: composeAndShortCircuitOnError(notBlankValidator, isValidUrl)
+//     })
+//   );
+// }
+
+// export function removeDocLinkField(form: MapForm<any>) {
+//   return form.remove('docLink');
+// }
 
 export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {
   const { method, host, body, headerParsed, ignoreCertErrors, authenParsed } = getWebhookFields(action);

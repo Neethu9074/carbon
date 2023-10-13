@@ -1,72 +1,97 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
+import React, { ChangeEvent, useContext } from 'react';
 import { MapForm, Field } from 'formalistic';
-import React, { ChangeEvent } from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
+import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
-import Input from 'in-components/form/Input';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import Input from 'in-components/form/Input/Input';
+import { t } from 'in-i18n';
 
-interface SimpleTagsTableProps {
+import locals from './ServerTablePresenterWrapperConsumer.mless';
+
+// import { generateUniqueShortId } from '@instana/utils';
+
+// Adjust path if necessary
+
+interface LabelsTableProps {
   form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetFormFunction;
 }
 
-export default function LabelsTable({ form, onChange, setForm }: SimpleTagsTableProps) {
-  const labelsField = form.get('labels') as Field<string[]>;
-  const labels = labelsField?.value || [];
+export interface Label {
+  id: string;
+  value: string;
+}
 
-  const handleInputChange = (index: number, value: string) => {
-    const updatedLabels = [...labels];
-    updatedLabels[index] = value;
-    updateFormState('labels', updatedLabels);
-  };
-
-  const handleAddLabel = () => {
-    const updatedLabels = [...labels, ''];
-    updateFormState('labels', updatedLabels);
-  };
-
-  const handleRemoveLabel = (index: number) => {
-    const updatedLabels = [...labels];
-    updatedLabels.splice(index, 1);
-    updateFormState('labels', updatedLabels);
-  };
-
-  // This function updates the form state and also triggers the onChange handler
-  const updateFormState = (key: string, value: string[]) => {
-    setForm(
-      form.updateIn([key], f => {
-        const castedF = f as Field<string[]>;
-        return castedF.setValue(value).setTouched(true);
-      })
-    );
-
-    onChange(key, value);
-  };
-
-  return (
-    <div>
-      {labels.map((label, index) => (
-        <div key={index}>
-          <HorizontalFlexWrapper>
+const getColumnDefinitions = ({
+  form,
+  onChange,
+  isNotEditable
+}: Omit<LabelsTableProps, 'setForm'> & { isNotEditable: boolean }) => [
+  {
+    id: 'id',
+    sortable: false,
+    label: 'Labels',
+    getContent(item: Label) {
+      const labelsField = form.get('labels');
+      return (
+        <>
+          <HorizontalFlexWrapper className={locals.colName}>
             <Input
-              value={label}
-              // onChange={e => onChange('name', e.target.value)}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(index, e.target.value)}
+              className={locals.key}
+              value={item.value}
+              disabled={isNotEditable}
+              hasError={!labelsField?.valid && labelsField?.touched && item.value === ''}
+              onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                const labels = (labelsField as Field<Label[]>)?.value;
+                onChange(
+                  'labels',
+                  labels.map(label =>
+                    label?.id === item.id
+                      ? {
+                          id: label.id,
+                          value: target.value
+                        }
+                      : label
+                  )
+                );
+              }}
               maxLength={128}
             />
-            <button onClick={() => handleRemoveLabel(index)}>Remove</button>
           </HorizontalFlexWrapper>
-        </div>
-      ))}
-      <button onClick={handleAddLabel}>Add Label</button>
-    </div>
+          {item.value === '' && <TouchedMessages field={labelsField} />}
+        </>
+      );
+    }
+  }
+];
+
+export default function LabelsTable({ form, setForm, onChange }: LabelsTableProps) {
+  const isNotEditable = useContext(isNotEditableContext);
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
+  const labels = (form.get('labels') as Field<any>).value;
+
+  // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
+
+  return (
+    <ServerTablePresenterWrapper
+      columnDefinitions={columnDefinitions}
+      data={labels}
+      form={form}
+      formKey="labels"
+      customAddRowLabel="Add Label"
+      defaultRow={''}
+      setForm={setForm}
+      noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
+    />
   );
 }
