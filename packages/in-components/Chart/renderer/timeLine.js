@@ -4,14 +4,14 @@
  */
 
 import { formatTime, formatDateShort } from 'in-services/formatters/date';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
-const axisFontColor = theme.lib.colors.N800Dark;
-const dayAxisFontColor = theme.lib.colors.N900Primary;
+const axisFontColor = oldTheme.lib.colors.N800Dark;
+const dayAxisFontColor = oldTheme.lib.colors.N900Primary;
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
 // text alignments. This used to work with Safari 9 (and all other browsers).
-const axisFont = `10px ${theme.fontFamilySansSerif}`;
-const dayAxisFont = `9px ${theme.fontFamilySansSerif}`;
+const axisFont = `10px ${oldTheme.fontFamilySansSerif}`;
+const dayAxisFont = `9px ${oldTheme.fontFamilySansSerif}`;
 let timeLabelWidth;
 
 export default function axis(config, tickPositions) {
@@ -19,7 +19,7 @@ export default function axis(config, tickPositions) {
 
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle = theme.lib.colors.N300;
+  ctx.fillStyle = oldTheme.lib.colors.N300;
 
   drawLine(config);
   drawTicks(tickPositions, config);
@@ -76,7 +76,7 @@ function drawTicks(tickPositions, config) {
 }
 
 function renderTickLine(ctx, xPos, timeLineTop) {
-  ctx.fillStyle = theme.lib.colors.N300;
+  ctx.fillStyle = oldTheme.lib.colors.N300;
   ctx.rect(xPos, timeLineTop, 1, 6);
 }
 

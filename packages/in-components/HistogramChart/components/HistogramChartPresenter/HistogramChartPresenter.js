@@ -27,12 +27,10 @@ import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import Tooltip from 'in-components/HistogramChart/components/Tooltip/Tooltip';
 import VerticalAxis from 'in-components/Axis/VerticalAxis';
-import theme from 'in-themes';
+import oldTheme, { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './HistogramChartPresenter.mless';
-
-const { transparent, lightBlue800: distributionColor } = theme.lib.colors;
 
 export default function HistogramChartPresenter({
   height = 200,
@@ -48,6 +46,7 @@ export default function HistogramChartPresenter({
   selection,
   renderWidgetNotSupportedIndicator
 }) {
+  const theme = useTheme();
   const filteredDataSeriesRef = useRef(create());
 
   const filteredDataSeries$ = filteredDataSeriesRef.current;
@@ -117,6 +116,9 @@ export default function HistogramChartPresenter({
     applyFormatter: formatter,
     total
   });
+
+  const { transparent } = oldTheme.lib.colors;
+  const distributionColor = theme.ids.color.option.blue['500'];
 
   const chartConfig = {
     config: {

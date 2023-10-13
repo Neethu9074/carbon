@@ -12,7 +12,7 @@ import { Snapshot } from '@instana/types';
 
 import { noop } from 'in-services/util/function';
 import WithIcon from 'in-components/WithIcon';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './EntityLink.mless';
 
@@ -46,7 +46,8 @@ const EntityLink = forwardRef(function EntityLink(
   }: EntityLinkProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const iconColor = (href$ || href) && theme.lib.colors.blue800;
+  const theme = useTheme();
+  const iconColor = (href$ || href) && theme.ids.color.option.blue['500'];
 
   const link = (
     <>

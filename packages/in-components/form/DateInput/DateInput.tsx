@@ -19,16 +19,12 @@ import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import { t, activeLanguage } from 'in-i18n';
+import { useTheme } from 'in-themes';
 import { Nullish } from 'in-types';
-import theme from 'in-themes';
 
 import locals from './DateInput.mless';
 
 const { isTab } = keyCodes;
-const modifiersStyles = {
-  selected: { backgroundColor: theme.lib.colors.teal800 },
-  current: { color: theme.lib.colors.N900Primary }
-} as const;
 
 type DateInputValue = string | Nullish;
 type DateInputOnChange = (s: DateInputValue) => void;
@@ -127,7 +123,13 @@ interface DatePickerOverlayProps {
 }
 
 function DatePickerOverlay({ onChange, close, value }: DatePickerOverlayProps) {
+  const theme = useTheme();
   const dateValid = dateValidator(value) == null;
+
+  const modifiersStyles = {
+    selected: { backgroundColor: theme.ids.color.option.teal['500'] },
+    current: { color: theme.ids.color.option.neutral['900'] }
+  } as const;
 
   const modifiers = {
     selected: dateValid && !isBlank(value) ? new Date(value!) : undefined,
