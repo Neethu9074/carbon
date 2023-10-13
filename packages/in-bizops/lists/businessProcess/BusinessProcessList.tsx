@@ -18,9 +18,11 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ViewSwitcher from 'in-bizops/components/ViewSwitcher';
+import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -50,11 +52,12 @@ export default function BizOpsList() {
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
+        {alert('hahhahhah')}
         <Title title={t('in-bizops:lists.pageTitle')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'BizOps',
-            pageRootName: 'Business Processes'
+            productArea: productAreas.bizops,
+            pageRootName: pageNames.bizops_processes
           }}
         />
         <ServerTableWithUrlState
@@ -126,7 +129,7 @@ export function getBusinessProcessListData({
       pageSize
     },
     order: { by: orderBy, direction: orderDirection },
-    dataType: "PROCESS",
+    dataType: 'PROCESS',
     metrics: {
       started_processes: businessProcessMetric
     },

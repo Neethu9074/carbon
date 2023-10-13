@@ -19,10 +19,12 @@ import { ApplicationBreadcrumbs } from 'in-cloudfoundry/breadcrumbs';
 import tabs from 'in-cloudfoundry/Dashboards/Application/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -44,8 +46,8 @@ export default function ApplicationDashboard({ location }) {
       <Breadcrumbs items={ApplicationBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'Cloud Foundry',
-          pageRootName: 'CF Application'
+          productArea: productAreas.cloud_foundry,
+          pageRootName: pageNames.cloud_foundary_application_summary
         }}
       />
 
