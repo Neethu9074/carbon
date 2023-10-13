@@ -57,6 +57,7 @@ export default function DateInput(props: DateInputProps) {
   delete inputProps.overlayPosition;
   // @ts-expect-error
   delete inputProps.onChange;
+  delete inputProps.fixedWidth;
 
   if (disabled) {
     return (
