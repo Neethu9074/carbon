@@ -23,6 +23,10 @@ export const getType = (type: string) => {
     return t('in-automation:actionHistory.external');
   } else if (isAnsible(type)) {
     return t('in-automation:ActionCatalog.ansible');
+  } else if (isGithub(type)) {
+    return t('in-automation:ActionCatalog.ansible');
+  } else if (isGitlab(type)) {
+    return t('in-automation:ActionCatalog.ansible');
   } else {
     return type;
   }
@@ -57,6 +61,12 @@ export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
+export const getGithubTitleFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.title ?? { value: '', encoding: 'ascii', name: '' };
+export const getGithubBodyFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
+export const getGithubLabelsFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.labels ?? { value: '', encoding: 'ascii', name: 'labels' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -112,12 +122,27 @@ export function getAnsibleFields(action: Action | NewAction): AnsibleFields {
   return { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl };
 }
 
+interface GithubFields {
+  title: Field;
+  body: Field;
+  labels: Field;
+}
+
+export function getGithubFields(action: Action | NewAction): GithubFields {
+  const title = getGithubTitleFromFields(action.fields);
+  const body = getGithubBodyFromFields(action.fields);
+  const labels = getGithubLabelsFromFields(action.fields);
+  return { title, body, labels };
+}
+
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isManual = (type?: string) => type === MANUAL_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
+export const isGithub = (type?: string) => type === GITHUB_TYPE;
+export const isGitlab = (type?: string) => type === GITLAB_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const MANUAL_TYPE = 'MANUAL';
@@ -125,6 +150,8 @@ export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';
 export const ANSIBlE_TYPE = 'ANSIBLE';
+export const GITHUB_TYPE = 'GITHUB';
+export const GITLAB_TYPE = 'GITLAB';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);

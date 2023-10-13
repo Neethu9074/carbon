@@ -20,6 +20,7 @@ import {
   getScriptFromFields,
   getTimeoutFromFields,
   getWebhookFields,
+  getGithubFields,
   isDocLink,
   isScript,
   isWebhook,
@@ -202,6 +203,41 @@ export function putScriptField(form: MapForm<any>, action: ActionFormEntity): Ma
 
 export function removeScriptField(form: MapForm<any>) {
   return form.remove('script').remove('subtype');
+}
+
+export function removeGitlabField(form: MapForm<any>) {
+  return form.remove('github').remove('subtype');
+}
+
+export function removeGithubField(form: MapForm<any>) {
+  return form.remove('gitlab').remove('subtype');
+}
+
+export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
+  const { title, body, labels } = getGithubFields(action);
+  form = form
+    .put(
+      'title',
+      createField({
+        value: title.value,
+        validator: notBlankValidator
+      })
+    )
+    // TODO: add validator for URL???
+    .put(
+      'body',
+      createField({
+        value: body.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'labels',
+      createField({
+        value: labels.value
+      })
+    );
+  return form;
 }
 
 export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {
