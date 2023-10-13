@@ -11,12 +11,12 @@ import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instan
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
-import ApplicationFilterGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationFilterGroup/ApplicationFilterGroup';
 import {
   AreaRole,
   AreaRoleType,
@@ -34,6 +34,7 @@ import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { applicationContributionFilter } from 'in-services/featureFlags';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -158,8 +159,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         <SyntheticCommonSection form={form} setForm={setForm} />
       )}
       <Divider />
-      {entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
-        <ApplicationFilterGroup form={form} setForm={setForm} />
+      {applicationContributionFilter && entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
+        <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
       )}
 
       <StackItem>

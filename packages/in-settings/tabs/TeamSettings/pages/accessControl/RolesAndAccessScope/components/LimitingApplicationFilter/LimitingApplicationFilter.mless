@@ -1,0 +1,26 @@
+:local {
+  .limitingFilter {
+    &_heading {
+    }
+    &_descriptionText {
+    }
+    &_descriptionLink {
+    }
+    &_applicationScope {
+      color: red;
+      .in-applications_creation_components_ApplicationScopeSelector .applicationScopeSwitchContainer {
+        border: none;
+      }
+    }
+    &_queryBuilder {
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    &_queryBuilderExpression {
+      flex-grow: 1;
+    }
+  }
+}

@@ -7,8 +7,13 @@
 import { MapForm, Field, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
+
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
+// @ts-expect-error not migrated to typescript yet
+import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
 import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
@@ -25,6 +30,7 @@ import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { syntheticRbacEnabled } from 'in-services/featureFlags';
+import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t, Trans } from 'in-i18n';
@@ -48,7 +54,10 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const timeConfig = useTimeConfig();
 
   const groupNameField = getField<string>(form, 'name');
-
+  const tagFilterExpression = getField<string>(form, 'tagFilterExpression');
+  const validTagFilterExpressionResult: Result<boolean> =
+    useObservable(isQueryValid, [tagFilterExpression?.value, timeConfig]) ?? pendingResult;
+  const isValidTagFilterExpression = validTagFilterExpressionResult?.data;
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
     setForm
@@ -335,7 +344,9 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       navItems={hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms')}
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
-      disabledSaveButton={!form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value)}
+      disabledSaveButton={
+        !form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value) || !isValidTagFilterExpression
+      }
       noHeader
       noDivider
     />

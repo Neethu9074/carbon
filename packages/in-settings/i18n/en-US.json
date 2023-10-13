@@ -147,7 +147,11 @@
     "limitedAccessKubernetes_addNamespace": "Add Namespace",
     "addButton_syntheticTests": "Select Synthetic Tests",
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
-    "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access."
+    "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
+    "configuration_limitation":"Configuration Limitation",
+    "limitation_description":"The filter defined below will be included in at the beginning of all new application configurations. It cannot be removed, but can be refined.",
+    "limitation_description_link":"Read more about application configuration limitation",
+    "limitation_downstreamCalls": "Determine the maximum level of additional information that can be included in the application percepectives"
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -304,7 +308,7 @@
     "failedToUpdatePersonalApiToken": "Failed to update Personal API token.",
     "createdPersonalApiToken": "Personal API token created",
     "createPersonalApiToken": "Create Personal API token",
-    "createNewToken": "Create new API Token",    
+    "createNewToken": "Create new API Token",
     "createdApiToken": "API token created",
     "editApiToken": "Edit API Token",
     "editPersonalApiToken": "Edit Personal API token",

@@ -20,9 +20,9 @@ import {
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { createNewApplicationConfig } from 'in-api/applicationConfigs';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
-import { boundaryScopes } from 'in-applications/constants';
-import { isBlank } from 'in-services/util/string';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
   // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
@@ -48,12 +48,9 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
 
 export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
-  const application: any = {
-    label: '',
-    matchSpecification: [],
-    scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
-    boundaryScope: boundaryScopes.inbound
-  };
+  const applicationConfig = createNewApplicationConfig();
+  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const tagFilterExpression = fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) || [];
   return form
     .put(
       'id',
@@ -81,28 +78,15 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
       })
     )
     .put(
-      'label',
-      createField({
-        value: application.label,
-        validator: applicationLabelValidator
-      })
-    )
-    .put(
       'scope',
       createField({
-        value: application.scope
-      })
-    )
-    .put(
-      'boundaryScope',
-      createField({
-        value: application.boundaryScope
+        value: applicationScope
       })
     )
     .put(
       'tagFilterExpression',
       createField({
-        value: application.tagFilterExpression ?? [],
+        value: tagFilterExpression,
         validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
       })
     );
@@ -217,28 +201,6 @@ function addPermissionsByRoleForProductArea(
   }
 
   return newPermissions;
-}
-
-function applicationLabelValidator(name: string): any {
-  if (isBlank(name)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-applications:creation.form.theApplicationPerspectiveNameMustNotBeBlank')
-      }
-    ];
-  }
-
-  if (name.length > 128) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-applications:creation.form.theApplicationPerspectiveNameMustNotBeLargerThan128Characters')
-      }
-    ];
-  }
-
-  return null;
 }
 
 function tagFilterExpressionValidator(tagFilterExpression: any): any {

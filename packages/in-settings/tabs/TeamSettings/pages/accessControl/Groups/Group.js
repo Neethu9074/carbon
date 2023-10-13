@@ -17,6 +17,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/api/groups';
 import { RemoveUserDialog } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/RemoveUserDialog';
 import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
@@ -45,7 +46,6 @@ export default function Group({ match }) {
     // Update URL path to replace 'new' with actual new group id (will not cause a page reload)
     navigate(getEntityHref(teamSettingsAccessControlGroups, id), true);
   }
-
   return (
     <>
       <Title title={t('in-settings:tabs.group')} />
@@ -184,12 +184,28 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
   saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm, updateGroupId });
 }
 
+function getPermissionSetWithApFilters(form) {
+  const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
+  const limitingFilterConfig = {
+    tagFilterExpression: form.get('tagFilterExpression') ? backendModel : undefined,
+    scope: form.get('scope')?.value
+  };
+  const permissionSet = { ...form.get('permissionSet').value, ['restrictedApplicationFilter']: limitingFilterConfig };
+  return permissionSet;
+}
 function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
+  let isRestrictedFilter = form.get('tagFilterExpression').value && form.get('scope').value;
+  if (!form.hierarchyValid) {
+    setForm(form.setTouched(true, { recurse: true }));
+    setCanSaveItem(false);
+    return;
+  }
+
   const group = {
     id: form.get('id').value,
     name: form.get('name').value,
     members: form.get('members').value,
-    permissionSet: form.get('permissionSet').value
+    permissionSet: !isRestrictedFilter ? form.get('permissionSet').value : getPermissionSetWithApFilters(form)
   };
 
   setMessage({ text: t('in-settings:tabs.savingGroup'), type: 'neutral', isSaving: true });
