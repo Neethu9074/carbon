@@ -23,6 +23,7 @@ import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -31,6 +32,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import { podTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
@@ -49,10 +51,8 @@ export default function PodDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Kubernetes',
-          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
-            objectType: t('in-kubernetes:dashboards.pod')
-          })
+          productArea: productAreas.kubernetes,
+          pageRootName: pageNames.pod_summary
         }}
       />
       <KubernetesIdsForBreadcrumb

@@ -6,9 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
-import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -19,6 +19,7 @@ import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
@@ -27,6 +28,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
@@ -46,10 +48,8 @@ export default function NodeDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Kubernetes',
-          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
-            objectType: t('in-kubernetes:dashboards.node')
-          })
+          productArea: productAreas.kubernetes,
+          pageRootName: pageNames.node_summary
         }}
       />
 
