@@ -29,13 +29,13 @@ export function EntitySelectionOverlay({
           setEndpointName(node.label);
           setServiceId(node.serviceId);
           setServiceName(node.serviceName);
-          setApplicationId(node.appId);
+          setApplicationId(node.applicationId);
           props.close();
         }
         if (node.type === 'SERVICE' && isSelectServiceLevel) {
           setServiceId(node.id);
           setServiceName(node.label);
-          setApplicationId(node.appId);
+          setApplicationId(node.applicationId);
           props.close();
         }
         if (node.type === 'APPLICATION' && isSelectApLevel) {
