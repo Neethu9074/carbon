@@ -8,12 +8,13 @@ import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 
-import RecommendedActionsCard from './RecommendedActionsCard';
+import RecommendedActionsCard from 'in-automation/AssociatedActions/RecommendedActionsCard';
+import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
+import ActionsButtonGroup from 'in-automation/AssociatedActions/ActionsButtonGroup';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import AssociatedActions from './AssociatedActionsCard';
 import { Event, VolatileId } from 'in-types';
-import { t } from 'in-i18n';
+import { role } from 'in-stores/user';
 
 interface AssociatedAndRecommendedActionsProps {
   volatileId: VolatileId;
@@ -27,26 +28,47 @@ export default function AssociatedAndRecommendedActions({
   associatedActionsTitle
 }: AssociatedAndRecommendedActionsProps) {
   const [reload, setReload] = useState(0);
-
+  const [selectedType, setSelectedType] = useState('associatedActions');
+  const eventId = event?.id;
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
           <Card>
-            <AssociatedActions
-              title={associatedActionsTitle}
-              volatileId={volatileId}
-              event={event}
-              reload={reload}
-              setReload={setReload}
-            />
-          </Card>
-        </Col>
-      </Row>
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card title={t('in-automation:recommendedActions')} leftHeaderContent={<BetaBadge />}>
-            <RecommendedActionsCard volatileId={volatileId} event={event} reload={reload} setReload={setReload} />
+            <ActionsButtonGroup selectedType={selectedType} setSelectedType={setSelectedType} />
+            {selectedType === 'associatedActions' && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <AssociatedActions
+                    title={associatedActionsTitle}
+                    volatileId={volatileId}
+                    event={event}
+                    reload={reload}
+                    setReload={setReload}
+                  />
+                </Col>
+              </Row>
+            )}
+            {selectedType === 'recommendedActions' && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <RecommendedActionsCard
+                    volatileId={volatileId}
+                    event={event}
+                    reload={reload}
+                    setReload={setReload}
+                    setSelectedType={setSelectedType}
+                  />
+                </Col>
+              </Row>
+            )}
+            {selectedType === 'actionHistory' && role?.canViewAutomationActionInstances && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <ActionHistoryTable eventId={eventId} />
+                </Col>
+              </Row>
+            )}
           </Card>
         </Col>
       </Row>
