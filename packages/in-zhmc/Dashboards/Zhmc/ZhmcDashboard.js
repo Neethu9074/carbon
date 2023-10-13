@@ -9,9 +9,11 @@ import { get } from 'lodash';
 import { consoleId as matrixconsoleId } from 'in-zhmc/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { zhmcDashboard } from 'in-zhmc/navigation/paths';
 import tabs from 'in-zhmc/Dashboards/Zhmc/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -32,8 +34,8 @@ export default function ZhmcDashboard({ location }) {
       <Breadcrumbs items={ZhmcBreadcrumb(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Z HMC',
-          pageRootName: t('in-zhmc:dashboards.zhmc')
+          productArea: productAreas.ibmZ,
+          pageRootName: pageNames.zhmcs
         }}
       />
 

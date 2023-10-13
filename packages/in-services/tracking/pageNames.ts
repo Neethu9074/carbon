@@ -36,6 +36,7 @@ export const pageNames = Object.freeze({
   agents: 'Agents',
   comparison_table: 'Comparison Table',
   zhmcs: 'zHMCs',
+  ibm_zhmcs: 'IBM Z HMCs',
   systems: 'Systems',
   system_summary: 'System > summary',
   infrastructure: 'Infrastructure',

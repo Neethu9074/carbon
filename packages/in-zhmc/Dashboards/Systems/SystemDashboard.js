@@ -11,10 +11,12 @@ import { consoleId as matrixconsoleId } from 'in-zhmc/navigation/matrix';
 import { cpcId as matrixCpcId } from 'in-zhmc/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import tabs from 'in-zhmc/Dashboards/Systems/tabs/index';
 import { cpcDashboard } from 'in-zhmc/navigation/paths';
 import { SystemBreadcrumb } from 'in-zhmc/breadcrumbs';
@@ -37,8 +39,8 @@ export default function SystemDashboard({ location }) {
       <Breadcrumbs items={SystemBreadcrumb(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Z HMC',
-          pageRootName: t('in-zhmc:dashboards.systems')
+          productArea: productAreas.ibmZ,
+          pageRootName: pageNames.system_summary
         }}
       />
 
