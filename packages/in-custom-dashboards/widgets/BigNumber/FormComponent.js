@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Stack } from '@instana/components';
 
@@ -15,16 +15,16 @@ import {
   sourcePath,
   useFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-import sources from '../_shared/MetricConfigurator/sources';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
+import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { defaultFormatter } from 'in-stores/metric/formatters';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
-import { defaultFormatter } from 'in-stores/metric/formatters';
 
 export default function BigNumberWidgetFormComponent({ form, onChange }) {
   const metricConfig = form.get(metricConfigurationPath);
@@ -36,10 +36,28 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
   const metric = metricField.value;
   const aggregation = aggregationField.value;
   const formatters = getFormatter(source, metric, aggregation);
+  const isFormatterSelected = form.get('formatterSelected')?.value;
+  const metricFormatter = metricConfig.get(formatterPath)?.value;
 
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
   });
+
+  useEffect(
+    () => {
+      if (isFormatterSelected) {
+        return;
+      }
+
+      updateForm(
+        form
+          .updateIn([formatterPath], field => field.setValue(metricFormatter).setTouched(true))
+          .updateIn(['formatterSelected'], field => field.setValue(false).setTouched(true))
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [metricFormatter, isFormatterSelected]
+  );
 
   return (
     <Stack gap="normal">
@@ -54,9 +72,13 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
           onChangeSource(
             metricConfig,
             metricConfigurationForm =>
-              updateForm(form
-                .updateIn([metricConfigurationPath], () => metricConfigurationForm)
-                .updateIn([formatterPath], field => field.setValue(sources[newSource]?.defaultFormatterId ?? defaultFormatter.id))),
+              updateForm(
+                form
+                  .updateIn([metricConfigurationPath], () => metricConfigurationForm)
+                  .updateIn([formatterPath], field =>
+                    field.setValue(sources[newSource]?.defaultFormatterId ?? defaultFormatter.id)
+                  )
+              ),
             newSource
           )
         }
@@ -67,7 +89,11 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
               label={t('in-custom-dashboards:widgets.bigNumber.formComponent.formatter')}
               value={field.value}
               onChange={e =>
-                updateForm(form.updateIn([formatterPath], field => field.setValue(e.target.value).setTouched(true)))
+                updateForm(
+                  form
+                    .updateIn([formatterPath], field => field.setValue(e.target.value).setTouched(true))
+                    .updateIn(['formatterSelected'], field => field.setValue(true).setTouched(true))
+                )
               }
               hasError={!field.valid && field.touched}
               additionalContent={<TouchedMessages field={field} />}

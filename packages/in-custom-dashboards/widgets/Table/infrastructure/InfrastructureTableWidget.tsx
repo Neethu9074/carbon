@@ -97,7 +97,8 @@ function InfrastructureTable(props: TableWidgetProps) {
   useEffect(() => {
     setOrder(sorting);
     setTotalItemsCount(undefined);
-  }, [sorting, tagFilterExpression]);
+    setTagFilterExpression(baseTagFilterExpression);
+  }, [sorting, tagFilterExpression, baseTagFilterExpression]);
 
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
