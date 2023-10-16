@@ -28,13 +28,13 @@ import { defaultTimeShift } from 'in-stores/time/shifting';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/fixedObjects';
-import theme from 'in-themes';
+import oldTheme, { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
 
-const colorLatency = theme.lib.colors.chart.strokeColors100[0];
-const colorLatencyTimeShift = theme.lib.colors.timeShift;
+const colorLatency = oldTheme.lib.colors.chart.strokeColors100[0];
+const colorLatencyTimeShift = oldTheme.lib.colors.timeShift;
 
 export default function LatencyDistributionBase10ChartPresenter({
   height,
@@ -60,6 +60,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   isGrouped,
   setApproximateData = noop
 }) {
+  const theme = useTheme();
   // which metrics to hide on the chart
   const filteredDataSeriesRef = useRef(create());
   const filteredDataSeries$ = filteredDataSeriesRef.current;
@@ -268,11 +269,11 @@ export default function LatencyDistributionBase10ChartPresenter({
               height={chartHeight - percentileStripHeight}
               style={{
                 marginTop: percentileStripHeight,
-                backgroundColor: theme.lib.colors.white,
+                backgroundColor: theme.ids.color.option.white,
                 position: 'absolute',
                 zIndex: 1 // z-index__axisLabel from shared
               }}
-              tickLabelBackgroundColor={theme.lib.colors.white}
+              tickLabelBackgroundColor={theme.ids.color.option.white}
             />
           )
         }
