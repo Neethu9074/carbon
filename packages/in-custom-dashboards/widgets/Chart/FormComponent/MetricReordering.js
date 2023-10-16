@@ -103,8 +103,7 @@ export function Reorderer({ form, onChange, children }) {
               .updateIn([e.destination.droppableId, metricsPath], f =>
                 f.insert(e.destination.index, metric).setTouched(true)
               )
-              .updateIn([e.destination.droppableId, formatterPath], f => f.setValue(formatterSource).setTouched(true))
-              .updateIn([e.destination.droppableId, 'formatterSelected'], f => f.setValue(false).setTouched(true));
+              .updateIn([e.destination.droppableId, formatterPath], f => f.setValue(formatterSource).setTouched(true));
           })
         );
       }}
