@@ -23,11 +23,13 @@ import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScre
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { dataSourceTitles } from 'in-websites/tags';
 import useUrlState from 'in-hooks/useUrlState';
@@ -48,8 +50,8 @@ export default function PageLoadView(props) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Websites',
-          pageRootName: 'Analytics'
+          productArea: productAreas.websites_mobile_apps,
+          pageRootName: pageNames.analytics
         }}
       />
 

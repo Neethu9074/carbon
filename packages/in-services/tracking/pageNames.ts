@@ -13,6 +13,7 @@ export const pageNames = Object.freeze({
   services: 'Services',
   smart_alerts: 'Smart Alerts',
   websites: 'Websites',
+  website: 'Website',
   website_summary: 'Website > Summary',
   mobile_apps: 'Mobile Apps',
   processes: 'Processes',

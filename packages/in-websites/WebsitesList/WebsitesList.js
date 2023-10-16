@@ -26,8 +26,10 @@ import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { playwithEnabled } from 'in-services/featureFlags';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -141,8 +143,8 @@ export default connectTo(
           <Title title={t('in-websites:websitesList.websitesListTitleWebsites')} />
           <ViewTrackingMeta
             data={{
-              productArea: 'EUM: Websites',
-              pageRootName: 'Websites'
+              productArea: productAreas.websites_mobile_apps,
+              pageRootName: pageNames.websites
             }}
           />
           <WithEmptyStateFallback
