@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -16,7 +15,7 @@
     width: 0.625rem;
     height: 0.625rem;
     border-radius: 50%;
-    background-color: @lib__colors__N700Medium;
+    background-color: var(--ids-color-option-neutral-700);
   }
 
   .erroneous {

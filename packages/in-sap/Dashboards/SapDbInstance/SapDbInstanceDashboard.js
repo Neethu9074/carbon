@@ -15,12 +15,14 @@ import getSapDbInstance from 'in-sap/subscriptions/getSapDbInstance';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { sapDbInstanceDashboard } from 'in-sap/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-sap/Dashboards/SapDbInstance/tabs/index';
 import { SapDbInstanceBreadcrumbs } from 'in-sap/breadcrumbs';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -44,8 +46,8 @@ export default function SapDbInstanceDashboard({ location }) {
       <Breadcrumbs items={SapDbInstanceBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.sapdbinstance')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_db_instance
         }}
       />
 

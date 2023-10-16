@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--ids-border-radius-medium);
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
     font-weight: 600;
     color: #3d464d;
 

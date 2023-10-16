@@ -171,6 +171,7 @@ export interface AxisConfiguration {
   renderAllTickLabels?: boolean;
   detailedFormatting?: boolean;
 
+  outlineForColor?: { [k: string]: string };
   colors100?: Property.Color[];
   colors50?: Property.Color[];
 

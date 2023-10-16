@@ -39,5 +39,9 @@
   "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
   "endOfInfiniteScroll": "Keine weiteren Protokolle verfügbar",
   "liveModeDisabled": "Bei der Analyse von Protokollen wird der Livemodus nicht unterstützt",
-  "logLevels": "Protokollierungsstufen"
+  "logLevels": "Protokollierungsstufen",
+  "dockerContainer": "Docker-Container",
+  "containerdContainer": "Containerd-Container",
+  "crioContainer": "Crio-Container",
+  "gardenContainer": "Garden-Container"
 }

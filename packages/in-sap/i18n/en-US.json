@@ -278,7 +278,6 @@
     "Long-Running_Uncommitted_Write_Transactions": "Long-Running Uncommitted Write Transactions",
     "Size_of_Delta_Storage_of_Column-Store_Tables": "Size of Delta Storage of Column-Store Tables",
     "Table_Growth_of_Non-Partitioned_Column-Store_Tables": "Table Growth of Non-Partitioned Column-Store Tables",
-    "sapAbapSensor": "SAP ABAP Sensor",
     "workProcessCount": "Total Work Process Count",
     "dbConnectionCount": "Total DB Connections",
     "taskType": "Task Type",

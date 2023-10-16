@@ -16,7 +16,7 @@ import FormBoundInput from 'in-components/form/Input/FormBoundInput';
 import Form from 'in-components/form/binding/Form';
 import FormInput from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 
@@ -90,29 +90,33 @@ export const Default = args => (
 );
 Default.args = { title: 'Some title' };
 
-export const Custom = () => (
-  <div>
-    <DialogWithSlideInView
-      onClose={action('onClose')}
-      renderCustomCloseBehaviour={() => (
-        <Button
-          style={{
-            cursor: 'pointer',
-            color: theme.lib.colors.N800Dark
-          }}
-          onClick={action('onCustomClose')}
-        >
-          Custom close
-        </Button>
-      )}
-      title="Title with icon"
-      titleIconType="lib_flame"
-    >
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
-      cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
-    </DialogWithSlideInView>
-  </div>
-);
+export const Custom = () => {
+  const theme = useTheme();
+  return (
+    <div>
+      <DialogWithSlideInView
+        onClose={action('onClose')}
+        renderCustomCloseBehaviour={() => (
+          <Button
+            style={{
+              cursor: 'pointer',
+              color: theme.ids.color.option.neutral['800']
+            }}
+            onClick={action('onCustomClose')}
+          >
+            Custom close
+          </Button>
+        )}
+        title="Title with icon"
+        titleIconType="lib_flame"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
+        dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
+        consequuntur?
+      </DialogWithSlideInView>
+    </div>
+  );
+};
 export const SlideIn = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
@@ -154,6 +158,7 @@ export const SlideIn = () => {
   );
 };
 export const ResetScrollPosition = () => {
+  const theme = useTheme();
   const inner = React.useRef();
   return (
     <div>
@@ -163,7 +168,7 @@ export const ResetScrollPosition = () => {
           <Button
             style={{
               cursor: 'pointer',
-              color: theme.lib.colors.N800Dark
+              color: theme.ids.color.option.neutral['800']
             }}
             onClick={() => {
               inner.current.parentNode.scrollTo(0, 0);

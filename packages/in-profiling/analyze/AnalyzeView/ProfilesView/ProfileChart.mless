@@ -4,14 +4,13 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .chartWrapper {
     margin-bottom: 1rem;
     padding: 1rem 1rem 0 1rem;
 
-    border: 1px solid @lib__colors__N300;
-    background: @lib__colors__N100;
+    border: 1px solid var(--ids-color-option-neutral-300);
+    background: var(--ids-color-option-neutral-100);
   }
 }

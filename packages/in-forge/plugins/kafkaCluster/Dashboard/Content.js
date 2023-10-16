@@ -34,7 +34,7 @@ export default connectTo(
       <div>
         <ClusterSummary snapshot={snapshot} />
 
-        <DashboardSection title={t('in-forge:plugins.kafkaCluster.averageRequestLatencyVsThroughput')}>
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.totalRequestTimeVsThroughput')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -54,9 +54,9 @@ export default connectTo(
               tooltipFormatter: millis.detailed,
               metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
               labels: [
-                t('in-forge:plugins.kafkaCluster.produceLatency'),
-                t('in-forge:plugins.kafkaCluster.fetchConsumerLatency'),
-                t('in-forge:plugins.kafkaCluster.fetchFollowerLatency')
+                t('in-forge:plugins.kafkaCluster.totalProduceTime'),
+                t('in-forge:plugins.kafkaCluster.totalFetchConsumerTime'),
+                t('in-forge:plugins.kafkaCluster.totalFetchFollowerTime')
               ],
               type: 'line'
             }}

@@ -21,7 +21,6 @@ import ValidationMessages, {
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import { formatterPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -29,13 +28,13 @@ import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFo
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
+import { autoFormatterTimeSeriesEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
-import { defaultFormatter } from 'in-stores/metric/formatters';
 import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -51,9 +50,6 @@ import locals from './FormComponent.mless';
 
 export default function FormComponent({
   form,
-  axisForm,
-  axisName,
-  updateForm,
   onChange,
   dataSourceSection,
   labelSection,
@@ -76,11 +72,6 @@ export default function FormComponent({
   const metricLabelField = form.get('metricLabel');
   const metricPathField = form.get('metricPath');
   const regexField = form.get('regex');
-  const metricFormatter = form.get('formatter')?.value;
-
-  const axisYForm = axisForm?.get(axisName);
-  const axisMetrics = axisYForm?.get('metrics');
-  const isFormatterSelected = axisYForm?.get('formatterSelected')?.value;
 
   const grouping = getGrouping(form);
   const onDirectionChange = (direction, maxResults) =>
@@ -124,7 +115,11 @@ export default function FormComponent({
     setAggregation,
     setIsSumCrossSeriesAggregation,
     onTypeChange
-  } = formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesAggregationRestricted });
+  } = formCallbacks({
+    onChange,
+    metricDefaultFormatter,
+    isCrossSeriesAggregationRestricted
+  });
 
   useEffect(() => {
     if (metricCatalog.data) {
@@ -142,34 +137,13 @@ export default function FormComponent({
 
   // Update metric formatter with builtin one
   useEffect(() => {
-    onChange([], form =>
-      form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
-    );
+    if (autoFormatterTimeSeriesEnabled) {
+      onChange([], form =>
+        form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricDefaultFormatter]);
-
-  // Auto formatter
-  useEffect(() => {
-    if (!metric || !axisForm || isFormatterSelected) {
-      return;
-    }
-
-    // Get unique metrics formatters
-    const metricsFormatters = [...new Set(axisMetrics?.map(metric => metric?.get(formatterPath)?.value))];
-
-    // Check if it has different formatters
-    const hasDifferentFormatters = metricsFormatters.length > 1;
-
-    const defaultFormatterValue = hasDifferentFormatters ? defaultFormatter.id : metricFormatter;
-
-    updateForm(
-      axisForm
-        .updateIn([axisName, formatterPath], field => field.setValue(defaultFormatterValue).setTouched(true))
-        .updateIn([axisName, 'formatterSelected'], field => field.setValue(false).setTouched(true))
-    );
-
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metricFormatter, isFormatterSelected, metric]);
 
   const metricMetadata = {
     metric,

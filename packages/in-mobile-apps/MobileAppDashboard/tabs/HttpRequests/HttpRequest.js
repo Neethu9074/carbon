@@ -92,7 +92,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 t('in-mobile-apps:dashboard.tabs.erroneousCallsLabel')
               ],
               metricIds: ['calls', 'errors'],
-              colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
+              colors: [theme.lib.colors.chart.strokeColors100[0], theme.lib.carbonAlert.red60]
             }}
             metricsConfiguration={{
               timeConfig,
@@ -126,7 +126,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               formatter: percentage.detailed,
               labels: [t('in-mobile-apps:dashboard.tabs.erroneousCallRateLabel')],
               metricIds: ['errors'],
-              colors: [theme.lib.colors.failure]
+              colors: [theme.lib.carbonAlert.red60]
             }}
             metricsConfiguration={{
               timeConfig,

@@ -33,7 +33,7 @@ export default function UsageCharts({
                       ...tenantUnit,
                       metrics: ['licensed_apm_hosts'],
                       labels: [t('in-amp:components.usageCharts.purchased')],
-                      colors: [theme.lib.colors.failure]
+                      colors: [theme.lib.carbonAlert.red60]
                     }
                   : getEmptyMetricConfig()
               }
@@ -56,7 +56,7 @@ export default function UsageCharts({
                       ...tenantUnit,
                       metrics: ['licensed_infra_hosts'],
                       labels: [t('in-amp:components.usageCharts.purchased')],
-                      colors: [theme.lib.colors.failure]
+                      colors: [theme.lib.carbonAlert.red60]
                     }
                   : getEmptyMetricConfig()
               }

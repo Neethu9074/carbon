@@ -14,6 +14,7 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import getSapDbTenant from 'in-sap/subscriptions/getSapDbTenant';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { sapDbTenantDashboard } from 'in-sap/navigation/paths';
@@ -21,6 +22,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-sap/Dashboards/SapDbTenant/tabs/index';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { SapDbTenantBreadcrumbs } from 'in-sap/breadcrumbs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -44,8 +46,8 @@ export default function SapDbTenantDashboard({ location }) {
       <Breadcrumbs items={SapDbTenantBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.sapdbtenant')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_db_tenant
         }}
       />
 

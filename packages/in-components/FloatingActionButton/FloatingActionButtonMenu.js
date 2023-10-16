@@ -10,11 +10,12 @@ import classNames from 'classnames';
 import { SvgIcon } from '@instana/components';
 
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './FloatingActionButtonMenu.mless';
 
 export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
+  const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const filteredItems = children ? children.filter?.(Boolean) ?? [children] : [];
   const hasNoItems = filteredItems.length === 0;
@@ -45,7 +46,7 @@ export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
             <SvgIcon
               type={'lib_openclose_add'}
               className={menuOpen ? locals.rotate : ''}
-              color={theme.lib.colors.white}
+              color={theme.ids.color.option.white}
             />
             <label className={menuOpen ? locals.labelHidden : ''}>{label}</label>
           </div>

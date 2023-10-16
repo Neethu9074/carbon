@@ -7,6 +7,8 @@
     "boundary": "界限",
     "clear": "清除",
     "custom": "自訂",
+    "duration": "持續時間",
+    "from": "從",
     "saveButtonLabel": "儲存",
     "cancelButtonLabel": "取消",
     "editButtonLabel": "編輯",
@@ -16,6 +18,9 @@
     "noSelection": "未選取任何項目",
     "loadMore": "載入更多",
     "noData": "沒有可用的資料",
+    "serverErrors": {
+      "sloLimitReachedError": "已達到服務水準目標配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
+    },
     "indicator": {
       "type": "不明類型",
       "type_eventBased": "事件計數",
@@ -45,6 +50,7 @@
       "label_application": "應用程式",
       "label_website": "網站"
     },
+    "preview": "預覽",
     "type": "類型",
     "selectLabel": "選項：{{selectedLabel}}",
     "serviceLevelObjective": "服務水準目標",
@@ -52,6 +58,16 @@
       "type": "不明",
       "type_fixed": "已修正",
       "type_rolling": "輪替",
+      "option_day": "日",
+      "option_day_plural": "天數",
+      "option_day_0": "天數",
+      "option_day_1": "日",
+      "option_day_2": "天數",
+      "option_week": "週",
+      "option_week_plural": "週",
+      "option_week_0": "週",
+      "option_week_1": "週",
+      "option_week_2": "週",
       "size_month": "{{count}} 個月",
       "size_month_plural": "{{count}} 個月",
       "size_month_0": "{{count}} 個月",
@@ -73,6 +89,7 @@
       "remainingBudget": "剩餘的錯誤預算",
       "totalBudget": "錯誤預算",
       "consumedBudget": "耗用的錯誤預算",
+      "momentaryBudgetConsumption": "錯誤預算消耗",
       "beaconCount": "引標計數",
       "calls": "呼叫",
       "latency": "延遲",
@@ -102,7 +119,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "自訂過濾器",
+    "customFilter": "自訂過濾器（選用）",
     "title": "建立服務水準目標 (SLO)",
     "selectIndicator": "選取指示器",
     "selectEntityNavItem": "選取實體",
@@ -114,11 +131,26 @@
       "beaconLabel_pageLoad": "網站頁面載入",
       "beaconLabel_custom": "網站自訂事件"
     },
+    "selectObjectiveNavItem": "選取目標",
+    "selectObjectiveTitle": "設定目標",
+    "sloTarget": "SLO 目標",
+    "timeWindow": "時間範圍",
+    "length": "長度",
+    "start": "開始",
+    "valueMissingTime": "— 最小值",
+    "errorBudgetPreviewTitle": "錯誤預算",
+    "errorBudgetPreviewTitle_eventBased": "預估錯誤預算",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "根據過去 $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
+    "errorTimeWindowDay": "時間範圍大小必須小於或等於 31 天",
+    "errorTimeWindowWeek": "時間範圍大小必須小於或等於 4 週",
+    "errorTimeWindowMin": "時間範圍必須至少為一天",
     "nameAndTagsTitle": "名稱和標籤",
     "nameAndTagsNavItem": "名稱和標籤",
     "sloNameLabel": "SLO 名稱",
     "sloNamePlaceholder": "輸入名稱",
-    "tagsLabel": "標籤",
+    "sloNameCopyTemplate": "{{name}} 的副本",
+    "tagsLabel": "標籤（選用項目）",
     "tagsPlaceholder": "輸入標籤",
     "tagsCreateLabel": "建立：{{tag}}",
     "messages": {
@@ -130,17 +162,38 @@
     },
     "indicatorSection": {
       "description_custom": "這應該稍後更新，因為在設計中遺漏它",
-      "description_latency": "測量服務回應超過設定臨界值的速度。 例如，結帳服務回應速度比 100ms 快的測量",
-      "description_availability": "測量服務適當回應的頻率。 例如，結帳服務回應 HTTP 呼叫的頻率 > 400",
+      "description_latency": "測量服務回應超過設定臨界值的速度。 例如，測量您的移出服務回應速度比 100 毫秒還快的速度。",
+      "description_availability": "測量服務適當回應的頻率。 例如，HTTP 呼叫錯誤的頻率。",
       "timeTypeExplanation": "依分鐘分組的良好與不正確呼叫數",
       "eventTypeExplanation": "良好與不良呼叫總數",
       "eventCount": "事件計數",
       "eventType": "事件類型",
       "thresholdLabel": "不明類型",
       "thresholdLabel_latency": "臨界值（毫秒）",
-      "thresholdLabel_availability": "錯誤率 %",
+      "thresholdLabel_availability": "錯誤率 (%)",
       "setGoodCall": "將良好呼叫設為服務",
       "setBadCall": "將不正確的呼叫設為服務（選用）"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "呼叫",
+      "unit_plural": "呼叫",
+      "thousandCallsFormat": "{{count}}K 個呼叫"
+    },
+    "sloChartSummary": {
+      "status": "狀態",
+      "target": "目標：",
+      "errorBudgetSpent": "所耗費的錯誤預算",
+      "errorBudget": "錯誤預算：",
+      "timeWindow": "時間範圍",
+      "timeWindowType_dynamic": "動態時間範圍",
+      "timeWindowType_rolling": "輪詢時間範圍",
+      "timeWindowType_fixed": "固定時間範圍"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "無法使用預覽，因為配置不完整。",
+      "highlightMissingConfig": "強調顯示遺漏的配置"
     }
   },
   "sloList": {
@@ -211,6 +264,9 @@
         "optionCompact": "壓縮",
         "optionFull": "完全耗用"
       },
+      "errorBudgetConsumptionChart": {
+        "title": "整個時間範圍的錯誤預算耗用量"
+      },
       "trafficChart": {
         "title": "資料流量"
       },
@@ -236,15 +292,17 @@
         "apBoundaryScope_INBOUND": "入埠呼叫",
         "apHiddenCallsLabel": "隱藏呼叫",
         "apHiddenCallsInternal": "包括內部呼叫",
+        "apHiddenCallsInternal_true": "是否包含內部呼叫",
+        "apHiddenCallsInternal_false": "不包含內部呼叫",
         "apHiddenCallsSynthetic": "包括虛構呼叫",
+        "apHiddenCallsSynthetic_true": "包含虛構呼叫",
+        "apHiddenCallsSynthetic_false": "不包含虛構呼叫",
         "apServiceLabel": "服務",
         "apAllServices": "所有服務",
         "apEndpointLabel": "端點",
         "apAllEndpoints": "所有端點",
         "eumBeaconTypeLabel": "引標類型",
-        "customFilterLabel": "自訂過濾器",
-        "ariaLabelChecked": "已選取",
-        "ariaLabelUnchecked": "未選取"
+        "customFilterLabel": "自訂過濾器"
       },
       "indicatorSection": {
         "title": "指標",

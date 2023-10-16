@@ -2,7 +2,6 @@
   "associatedActions": "関連付けられたアクション",
   "recommendedActions": "推奨アクション",
   "failedToSaveAssocation": "アクションの関連付けを保存できませんでした。",
-  "actionSensorTimeout": "バックエンド要求を処理できませんでした。 エージェント構成を調べて、アクション・センサーがインストールされていることを確認してください。",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "newAction": "新規アクション",
   "ok": "OK",
@@ -140,12 +139,14 @@
     "validName": "パラメーター名が無効です。有効な文字のみを使用していること、および固有の文字を使用していることを確認してください。",
     "uniqueName": "パラメーター名は固有でなければなりません。",
     "parameterNameHelp": "パラメーター名に含めることができるのはaからz、AからZ、_、0から9のみです。また、数字から始めることはできません。",
+    "validUrl": "文書リンクが無効です。",
     "actionCopy": "{{name}}(のコピー)",
     "ActionAssociationsForEvent": "イベントの関連付け",
     "ActionAssociationsForSmartAlert": "スマート・アラートの関連付け"
   },
   "actionHistory": {
     "actionHistory": "アクション履歴",
+    "actionHistoryWithCount": "アクション履歴 ({{count}})",
     "noActionInstances": "表示可能なデータがありません",
     "external": "外部",
     "name": "名前",
@@ -162,7 +163,6 @@
     "errorMessage": "エラー・メッセージ",
     "actionContent": "アクション・コンテンツ",
     "hostSnapshotId": "ホスト・スナップショット ID",
-    "targetSnapshotId": "ターゲット・スナップショット ID",
     "log": "ログ",
     "success": "成功",
     "failed": "失敗",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "フィードバックをありがとうございました。",
     "saveButton": "保存",
     "ansibleJob": "Ansible ジョブ",
-    "hostsLimit": "ホスト制限"
+    "hostsLimit": "ホスト制限",
+    "initiator": "イニシエーター",
+    "submitted": "実行依頼済み"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "調査"
   }
 }

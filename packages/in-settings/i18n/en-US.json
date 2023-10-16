@@ -316,6 +316,7 @@
     "displayName": "Display name",
     "personalApiTokenDescription": "This personal API token inherits your permissions so that you can use to authenticate to the API.",
     "apiTokenDescription": "This unit specific API token can be seen/modified by anyone or any API token with the permission for API token configuration.",
+    "noApiToken": "No API Tokens",
     "newApiToken": "New API Token",
     "noPersonalApiTokens": "No Personal API Tokens",
     "newPersonalApiToken": "New Personal API Token",

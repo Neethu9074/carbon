@@ -16,11 +16,13 @@ import tabs from 'in-sap/Dashboards/SapJavaCentralInstance/tabs/index';
 import getJavaInstance from 'in-sap/subscriptions/getJavaInstance';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import { SapJavaInstanceBreadcrumbs } from 'in-sap/breadcrumbs';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -43,8 +45,8 @@ export default function SapJavaCentralInstanceDashboard({ location }) {
       <Breadcrumbs items={SapJavaInstanceBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.sapJavaInstance')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_java_instance
         }}
       />
 

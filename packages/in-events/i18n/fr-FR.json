@@ -117,8 +117,7 @@
   "releaseOccurName": "Mise en production : {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)",
   "deprecatedCustomEventWarning": "<strong>Les événements personnalisés sur les types d'entité Application, Service et Noeud final sont dépréciés. Dans le futur, les événements personnalisés pour ces trois types d'entité seront supprimés et vous ne recevrez plus ce {{issueOrIncident}}</strong><br/>Affichez la configuration d'événement personnalisé pour migrer en Smart Alert. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
-  "actionsAssociatedForTriggeringEvent": "Actions associées pour le déclenchement de l'événement",
-  "recommendedActions": "Actions recommandées",
+  "associatedActionsForTriggeringEvent": "Actions associées pour l'événement déclencheur",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} événements personnalisés requièrent une action",
     "message": "Les événements personnalisés dans l'application, le service et le noeud final ont été dépréciés. Vous ne pourrez plus créer ou mettre à jour ces types d'événements personnalisés à l'avenir.",
@@ -152,5 +151,15 @@
   },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Statut d'échec"
+  },
+  "RCA": {
+    "titlePRCA": "Evénements de cause première probables",
+    "AIGenBadgeText": "Généré par l'IA",
+    "suggestionHelpfulText": "Cette suggestion a-t-elle été utile ?",
+    "noEventsErrorTitle": "Aucun événement trouvé",
+    "noEventsErrorDescription": "Une entité a été trouvée comme cause première mais aucun événement connexe n'a pu lui être attribué",
+    "noEntitiesErrorTitle": "Aucune cause première probable n'a été trouvée",
+    "noEntitiesErrorDescription": "Oups ! Nous n'avons pas pu identifier de cause première spécifique pour cet incident.",
+    "regenerate": "Régénérer"
   }
 }

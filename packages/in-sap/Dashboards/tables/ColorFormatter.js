@@ -4,21 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
-export const colorFormatter = function (value) {
+export const colorFormatter = function Color(value) {
+  const theme = useTheme();
   switch (value) {
     case 'Green':
     case 'ACTIVE':
     case 'active':
-      return theme.lib.colors.success;
+      return theme.ids.color.option.green['500'];
     case 'Yellow':
-      return theme.lib.colors.yellow800;
+      return theme.ids.color.option.yellow['500'];
     case 'Red':
     case 'INACTIVE':
     case 'inactive':
-      return theme.lib.colors.failure;
+      return theme.ids.color.option.red['500'];
     default:
-      return theme.lib.colors.N400;
+      return theme.ids.color.option.neutral['400'];
   }
 };

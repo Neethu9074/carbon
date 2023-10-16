@@ -25,7 +25,9 @@ import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -93,8 +95,8 @@ export default function View(props) {
     <Fragment>
       <ViewTrackingMeta
         data={{
-          productArea: 'Settings',
-          pageRootName: 'User Settings'
+          productArea: productAreas.settings,
+          pageRootName: pageNames.user_settings
         }}
       />
 

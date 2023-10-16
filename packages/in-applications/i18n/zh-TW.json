@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "沒有錯誤訊息的錯誤呼叫",
     "noLogMessage": "沒有可用的日誌訊息",
-    "includeSyntheticCallsDropDownSyntheticCalls": "合成呼叫：{{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "沒有可用的服務",
       "servicesDescription": "所選的時間範圍內未擷取到任何的服務。",
@@ -540,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
     "showServicesScopeWithServiceLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚無服務",
-    "servicesNoData": "所選的時間範圍內沒有服務呼叫可用。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "所選的時間範圍內沒有服務呼叫可用。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -556,14 +555,6 @@
     "self": "自我",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-  },
-  "constants": {
-    "exclude": "排除",
-    "syntheticCallsAreExcludedFromTheMetrics": "合成呼叫會從度量中排除。",
-    "include": "併入",
-    "syntheticCallsAreIncludedInTheMetrics": "合成呼叫會包含在度量中。",
-    "only": "唯有",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "唯有合成呼叫會顯示及包含在度量中"
   },
   "traceDetail": {
     "beta": "測試版",
@@ -659,5 +650,6 @@
     "alternativeServicesOk": "<bold>可以看到替代服務嗎？</bold>",
     "alternativeServicesProblem": "<bold>否</bold>，如果現行服務的名稱來自 HTTP \"Host\" 標頭（ID 為 call.http.host 的服務對映規則），而替代服務的名稱則不是（因為其名稱來自基於基礎架構標籤的規則），反之亦然。 這些是重複的服務。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
-  }
+  },
+  "labelSyntheticMonitoring": "綜合監視"
 }

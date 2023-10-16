@@ -22,7 +22,12 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
 
   const labels = [];
   const metricIds = [];
-  const colors = [];
+  const colors = [
+    theme.lib.colors.chart.threeColorPalette[0],
+    theme.lib.carbonAlert.gray60,
+    theme.lib.colors.chart.threeColorPalette[1],
+    theme.lib.colors.chart.threeColorPalette[2]
+  ];
   const metricsConfiguration = {};
 
   labels.push(
@@ -32,7 +37,6 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
     t('in-applications:labelChanges')
   );
   metricIds.push('infraIssues', 'offline', 'online', 'changes');
-  colors.push(theme.lib.colors.pink800, '#9aa5a9', '#99e1e1', '#cdbcf0');
 
   metricsConfiguration.infraIssues = {
     query: `(event.type:warning OR event.type:critical) AND ${entityFilter}`,

@@ -115,17 +115,19 @@ type GetActionInstanceList = {
   timeConfig: TimeConfig;
   types: string[];
   actionStatuses: string[];
+  eventId?: string;
 };
 
 export function GetActionInstanceListData({
   timeConfig,
-  orderBy = 'actionName',
+  orderBy = 'startDate',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,
   query = '',
   types = [],
-  actionStatuses = []
+  actionStatuses = [],
+  eventId
 }: GetActionInstanceList) {
   return getActionInstances({
     pagination: {
@@ -140,11 +142,12 @@ export function GetActionInstanceListData({
     search: query,
     timeConfig,
     types: types,
-    actionStatuses: actionStatuses
+    actionStatuses: actionStatuses,
+    eventId: eventId
   });
 }
 
-export default function ActionHistoryTable() {
+export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
@@ -167,6 +170,7 @@ export default function ActionHistoryTable() {
       searchWidth={350}
       searchMaxWidth={450}
       searchPlaceholder={t('in-automation:actionHistory.filterNameOrActionInstanceId')}
+      eventId={eventId}
     />
   );
 }

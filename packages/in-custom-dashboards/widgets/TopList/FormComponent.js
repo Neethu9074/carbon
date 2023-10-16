@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   aggregationPath,
@@ -34,9 +34,32 @@ export default function ListWidgetFormComponent({ form, onChange }) {
   const aggregation = aggregationField.value;
   const formatters = getFormatter(source, metric, aggregation);
 
+  const isFormatterSelected = form.get('formatterSelected')?.value;
+  const formatter = form.get('formatter')?.value;
+  const metricFormatter = metricConfig.get(formatterPath)?.value;
+
   const updateForm = useFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
   });
+
+  useEffect(
+    () => {
+      if (isFormatterSelected) {
+        return;
+      }
+
+      const formatterValue = isFormatterSelected === undefined ? formatter : metricFormatter;
+
+      updateForm(
+        form
+          .updateIn([formatterPath], field => field.setValue(formatterValue).setTouched(true))
+          .updateIn(['formatterSelected'], field => field.setValue(false).setTouched(true))
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [metricFormatter]
+  );
+
   return (
     <>
       <Header>{t('in-custom-dashboards:widgets.topList.formComp.whatULikeShow')}</Header>
@@ -60,7 +83,11 @@ export default function ListWidgetFormComponent({ form, onChange }) {
               label={t('in-custom-dashboards:widgets.topList.formComp.formatter')}
               value={field.value}
               onChange={e =>
-                updateForm(form.updateIn([formatterPath], field => field.setValue(e.target.value).setTouched(true)))
+                updateForm(
+                  form
+                    .updateIn([formatterPath], field => field.setValue(e.target.value).setTouched(true))
+                    .updateIn(['formatterSelected'], field => field.setValue(true).setTouched(true))
+                )
               }
               hasError={!field.valid && field.touched}
               additionalContent={<TouchedMessages field={field} />}

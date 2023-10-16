@@ -118,6 +118,8 @@ export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
+export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatterTimeSeriesEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

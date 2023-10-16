@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 export const getLabel = ({ name }: { name: string }) => {
   const label = JSON.parse(name);
@@ -14,6 +14,6 @@ export const getLabel = ({ name }: { name: string }) => {
 };
 
 export const GROUP_COLORS = (() => {
-  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
-  return theme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
+  const maxGroupsOnChart = Math.min(5, oldTheme.lib.colors.chart.strokeColors100.length);
+  return oldTheme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
 })();

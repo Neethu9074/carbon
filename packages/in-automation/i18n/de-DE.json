@@ -2,7 +2,6 @@
   "associatedActions": "Zugeordnete Aktionen",
   "recommendedActions": "Empfohlene Aktionen",
   "failedToSaveAssocation": "Aktionszuordnung konnte nicht gespeichert werden.",
-  "actionSensorTimeout": "Die Back-End-Anforderung konnte nicht verarbeitet werden. Überprüfen Sie Ihre Agentenkonfiguration, um sicherzustellen, dass der Aktionssensor installiert ist.",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "newAction": "Neue Aktion",
   "ok": "Ok",
@@ -140,12 +139,14 @@
     "validName": "Parametername ist nicht gültig: Stellen Sie sicher, dass Sie nur gültige Zeichen verwenden und dass der Name eindeutig ist.",
     "uniqueName": "Parameternamen müssen eindeutig sein.",
     "parameterNameHelp": "Parameternamen dürfen nur a-z, A-Z, _, 0-9 enthalten und dürfen nicht mit einer Zahl beginnen.",
+    "validUrl": "Dokumentationslink ist ungültig.",
     "actionCopy": "(Kopie von) {{name}}",
     "ActionAssociationsForEvent": "Ereignisse zuordnen",
     "ActionAssociationsForSmartAlert": "Intelligente Alerts zuordnen"
   },
   "actionHistory": {
     "actionHistory": "Protokoll der Aktionen",
+    "actionHistoryWithCount": "Aktionsverlauf ({{count}})",
     "noActionInstances": "Keine Daten verfügbar",
     "external": "Extern",
     "name": "Name",
@@ -162,7 +163,6 @@
     "errorMessage": "Fehlernachricht",
     "actionContent": "Aktionsinhalt",
     "hostSnapshotId": "Hostmomentaufnahme-ID",
-    "targetSnapshotId": "Zielmomentaufnahme-ID",
     "log": "Protokollierung",
     "success": "Erfolgreich",
     "failed": "Fehlgeschlagen",
@@ -188,6 +188,11 @@
     "feedbackSuccessMessage": "Danke für Ihr Feedback!",
     "saveButton": "Speichern",
     "ansibleJob": "Ansible-Job",
-    "hostsLimit": "Hostgrenzwert"
+    "hostsLimit": "Hostgrenzwert",
+    "initiator": "Initiator",
+    "submitted": "Submitted"
+  },
+  "actionLanes": {
+    "buttonInvestigate": "Überprüfen"
   }
 }

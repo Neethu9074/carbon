@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactElement } from 'react';
 import invariant from 'invariant';
 import rpt from 'prop-types';
-import React, { ReactElement } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './Collapsible.mless';
 
@@ -24,13 +24,11 @@ interface HeaderProps {
   toggle: () => void;
   style?: React.CSSProperties;
   children: React.ReactNode;
-  className?: string;
 }
 
 interface ContentProps {
   isOpen: boolean;
   children: React.ReactNode;
-  className?: string;
 }
 
 class Collapsible extends React.PureComponent<CollapsibleProps> {
@@ -55,13 +53,11 @@ class Collapsible extends React.PureComponent<CollapsibleProps> {
     const contentProps = (children[1] as ReactElement)?.props as ContentProps;
     return (
       <div className={isOpen ? locals.collapsibleOpen : locals.collapsibleClosed}>
-        <Header className={header.className} style={header.style} toggle={this.toggle} isOpen={isOpen}>
+        <Header style={header.style} toggle={this.toggle} isOpen={isOpen}>
           {header.children}
         </Header>
 
-        <Content isOpen={isOpen} className={contentProps.className}>
-          {contentProps.children}
-        </Content>
+        <Content isOpen={isOpen}>{contentProps.children}</Content>
       </div>
     );
   }
@@ -77,6 +73,7 @@ class Collapsible extends React.PureComponent<CollapsibleProps> {
 export default Collapsible;
 
 function Header({ isOpen, toggle, style, children }: HeaderProps) {
+  const theme = useTheme();
   return (
     <div onClick={toggle} className={locals.header} style={style}>
       <span>{children}</span>
@@ -84,7 +81,7 @@ function Header({ isOpen, toggle, style, children }: HeaderProps) {
       <SvgIcon
         type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
         className={locals.toggle}
-        color={theme.lib.colors.N700Medium}
+        color={theme.ids.color.option.neutral['700']}
       />
     </div>
   );

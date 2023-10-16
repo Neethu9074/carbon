@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} 個階段作業啟動",
     "tabs": {
       "summaryLabel": "摘要",
+      "crashLabel": "損毀",
       "httpRequestLabel": "HTTP 要求",
       "geographyLabel": "地理位置",
       "customEventsLabel": "自訂事件",
@@ -260,9 +261,12 @@
       "nameLabel": "名稱",
       "occurrencesLabel": "出現次數",
       "affectedUsersLabel": "受影響的使用者",
-      "crashErrorGroupsTitle": "損毀錯誤群組",
+      "uniqueUsersTitle": "唯一使用者",
+      "crashActivityTitle": "損毀",
+      "crashErrorGroupsTitle": "排名最前的損毀群組",
       "crashErrorGroupsHelpInfo": "僅顯示針對已識別受影響使用者所收集的資料",
-      "analyzeCrashesLink": "分析損毀",
+      "crashErrorGroupsNoDataMessage": "這段期間沒有損毀",
+      "viewAllCrashes": "檢視所有損毀",
       "configurationTitle": "配置",
       "optionsLabel": "選項",
       "privacyLabel": "隱私權",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "檢視所有來源",
       "sessionStartsTitle": "階段作業啟動",
       "viewInAnalyzeIconAction": "在分析中檢視",
-      "crashFreeSessionRateTitle": "損毀可用階段作業率",
-      "crashFreeUserRateTitle": "損毀可用使用者速率",
+      "crashAffectedSessionRateTitle": "損毀影響階段作業率",
+      "crashAffectedUserRateTitle": "損毀影響的使用者速率",
       "viewTransitionsTitle": "視圖轉移",
       "activityCardTitle": "活動",
       "sessionStartsLabel": "階段作業啟動",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} 已識別使用者",
       "sessionCount": "{{formattedCount}} 個階段作業",
       "sessionCount_plural": "{{formattedCount}} 個階段作業",
+      "devices": "裝置",
+      "viewAllDevices": "檢視所有裝置",
+      "osVersions": "作業系統",
+      "viewAllOs": "檢視所有作業系統",
+      "appVersions": "應用程式版本",
+      "viewAllVersions": "檢視所有版本",
+      "crashes": {
+        "crashesLabelErrorMessage": "錯誤訊息",
+        "crashesLabelOccurrences": "出現項目數",
+        "crashesLabelAffectedUsers": "受影響的使用者",
+        "crashesButtonAnalyzeCrashes": "分析損毀",
+        "crashesTableTitle": "損毀",
+        "crashInfoTitle": "詳細資料",
+        "crashInfoMessage": "訊息",
+        "backToCrashList": "回到損毀清單",
+        "crashTitleMobileAppCrashDetails": "行動式應用程式損毀詳細資料"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "行動式應用程式自訂事件詳細資料",
         "customEventLabelBackToListOfCustomEvents": "回到自訂事件清單",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "沒有可用的 HTTP 要求",
       "httpRequestsDescription": "所選的時間範圍內未擷取到任何的 HTTP 要求。",
       "customEventsTitle": "沒有可用的自訂事件",
-      "customEventsDescription": "所選的時間範圍內未擷取到任何的自訂事件。"
+      "customEventsDescription": "所選的時間範圍內未擷取到任何的自訂事件。",
+      "crashesTitle": "沒有可用的損毀",
+      "crashesDescription": "在選取的時間範圍內沒有任何損毀。"
     }
   },
   "appsList": {

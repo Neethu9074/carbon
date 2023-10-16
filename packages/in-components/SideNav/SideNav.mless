@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -21,7 +20,7 @@
     margin: 1.25rem 0;
 
     color: var(--ids-color-option-neutral-600);
-    font-size: @lib__typography__body__font-size;
+    font-size: var(--ids-font-size-option-body-regular);
     line-height: 1.25rem;
 
     &:hover {

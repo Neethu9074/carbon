@@ -16,7 +16,7 @@ export default {
     },
     kind: {
       control: 'select',
-      options: ['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']
+      options: ['primary', 'primaryv2', 'secondary', 'action', 'create', 'danger', 'warning', 'info']
     },
     alignment: {
       control: 'select',

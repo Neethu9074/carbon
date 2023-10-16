@@ -116,6 +116,7 @@
     "username": "Username",
     "password": "Password",
     "addParameter": "Add Parameter",
+    "editParameter": "Edit Parameter",
     "noParametersConfigured": "No Parameters Configured",
     "required": "Value Required",
     "hiddenParam": "Hidden",

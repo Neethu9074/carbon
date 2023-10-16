@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     margin: 0.5rem;
@@ -12,7 +10,7 @@
 
   .headline {
     color: var(--ids-color-option-neutral-600);
-    font-size: @lib__typography__h200__font-size;
+    font-size: var(--ids-font-size-option-heading-200);
     font-weight: 600;
     line-height: 1.5rem;
     // allow beta badge placed besides the title
@@ -23,8 +21,8 @@
 
   .description {
     color: var(--ids-color-option-neutral-900);
-    font-size: @lib__typography__body-bold__font-size;
-    font-weight: @lib__typography__body-bold__font-weight;
+    font-size: var(--ids-font-size-option-body-bold);
+    font-weight: var(--ids-font-weight-option-body-large);
     line-height: 1.25rem;
     width: 100%;
   }

@@ -168,6 +168,14 @@
       "typeAndMetricConfigurator": {
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
         "loadingMetrics": "Metriken werden geladen..."
+      },
+      "regexMetricSelectorOverlay": {
+        "inputPlaceholder": "Metrikmuster (z. B. metric_.*)",
+        "done": "Erledigt"
+      },
+      "metricSelectionCategoryOverlay": {
+        "list": "Liste",
+        "regex": "Regex"
       }
     },
     "srcMobileApp": {
@@ -209,6 +217,11 @@
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
+      }
+    },
+    "srcSyntheticMonitoring": {
+      "index": {
+        "syntheticMonitoring": "Überwachung der synthetischen Transaktionen"
       }
     },
     "metricConfigurator": {
@@ -340,7 +353,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Erste Schritte",
-        "text": "Instana ist die erste und einzige voll automatisierte APM-Lösung (APM = Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Mikroservice- und cloudnativen Anwendungen entwickelt wurde.\n\nDer Einstieg ist einfach1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.2. Lernen Sie unser Ökosystem von Hunderten [unterstützten Technologien] kennen (https://www.ibm.com/docs/de/obi/current?topic=supported-technologies).3. Starten Sie die Datenerfassung mit einem unserer [Agenten] (https://www.ibm.com/docs/de/obi/current?topic=set-up-manage-instana).4. Erhalten Sie Einblicke in die [Verwendungsweise von Instana](https://www.ibm.com/docs/de/obi/current?topic=using-instana) für Ihre Anwendungsfälle.5. Erfahren Sie mehr über unsere einzigartigen [Kernfunktionen](https://www.ibm.com/docs/de/obi/current?topic=core-capabilities).6. Erweitern Sie Instana mit unseren [Integrationen, SDKs & APIs](https://www.ibm.com/docs/de/obi/current?topic=integrations-sdks-apis).\n\nDas ist alles!\n\nHaben Sie nicht gefunden, wonach Sie gesucht haben? Rufen Sie die [Dokumentation] auf (https://www.ibm.com/docs/de/obi/current)!"
+        "text": "Instana ist die erste und einzige voll automatisierte APM-Lösung (APM = Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Mikroservice- und cloudnativen Anwendungen entwickelt wurde.\n\nDer Einstieg ist einfach1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.\n2. Lernen Sie unser Ökosystem von Hunderten [unterstützten Technologien](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies) kennen.\n3. Starten Sie die Datenerfassung mit einem unserer [Agenten](https://ibm.biz/installing-agent).\n4. Hier erfahren Sie mehr über die [Verwendung von Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) für Ihre Anwendungsfälle.\n5. Lesen Sie mehr über unsere einzigartigen [Kernkompetenzen](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Erweitern Sie Instana mit [Integrationen, SDK und APIs](https://ibm.biz/integrations-sdks-apis).\n\nDas ist alles!\n\nHaben Sie nicht gefunden, wonach Sie gesucht haben? Rufen Sie die [Dokumentation] auf (https://www.ibm.com/docs/de/obi/current)!"
       },
       "formComp": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
@@ -754,7 +767,17 @@
           "tableConfiguration": "Tabellenkonfiguration",
           "tableDetails": "Tabellendetails",
           "showResult": "{{loadedItems}} von {{totalItems}} Ergebnissen werden angezeigt",
-          "loadingEntities": "Entitäten werden geladen"
+          "loadingEntities": "Entitäten werden geladen",
+          "datasets": "Datensätze",
+          "sortBy": "Sortieren nach",
+          "sortDirection": "Sortierrichtung",
+          "defaultSortingSuffix": "Name",
+          "validators": {
+            "theValueMustBeUnique": "Die ausgewählte Metrik mit demselben Aggregationswert wurde bereits hinzugefügt. Wählen Sie eine andere Metrik aus oder passen Sie den Aggregationswert an, um fortzufahren."
+          },
+          "formatter": "Formatierung",
+          "searchPlaceholder": "Suchen",
+          "countGroup": "Gruppenanzahl anzeigen"
         }
       },
       "dataSource": {

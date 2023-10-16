@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .flyoutMessage {
@@ -52,7 +51,7 @@
   .msg {
     max-width: 100%;
     color: var(--ids-color-option-neutral-700);
-    font-weight: @lib__typography__body__font-size;
+    font-weight: var(--ids-font-size-option-body-regular);
     .breakWord();
 
     em {
@@ -67,7 +66,7 @@
   }
 
   .title {
-    font-size: @lib__typography__h200__font-size;
+    font-size: var(--ids-font-size-option-heading-200);
     font-weight: 600;
     line-height: var(--line-height-title);
     margin: 0 0 0.25rem;

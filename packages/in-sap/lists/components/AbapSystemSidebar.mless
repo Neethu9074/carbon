@@ -4,11 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
 :local {
   .snapshotListPluginIcon {
     margin-right: 0.938rem;
-    fill: @lib__colors__light-blue800;
+    fill: var(--ids-color-option-blue-500);
   }
 
   .snapshotListHeader {

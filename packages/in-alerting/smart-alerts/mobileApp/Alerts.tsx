@@ -31,7 +31,9 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -43,8 +45,8 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'MobileApp Monitoring',
-          pageRootName: 'Smart Alerts List',
+          productArea: productAreas.websites_mobile_apps,
+          pageRootName: pageNames.smart_alerts,
           pagePath: location?.pathname
         }}
       />

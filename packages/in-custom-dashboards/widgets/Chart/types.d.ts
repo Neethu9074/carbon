@@ -23,6 +23,7 @@ export interface Config extends ContextMenuConfig {
 }
 
 type AxisParams =
+  | 'outlineForColor'
   | 'colors'
   | 'min'
   | 'max'

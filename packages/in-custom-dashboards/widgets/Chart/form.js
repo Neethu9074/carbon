@@ -82,7 +82,7 @@ export function createAxisForm(savedState, requiresAtLeastOneMetric = false, met
     .put(
       'formatterSelected',
       createField({
-        value: savedState?.formatterSelected || false,
+        value: savedState?.formatterSelected ?? undefined,
         validator: composeAndShortCircuitOnError(booleanValidator)
       })
     )

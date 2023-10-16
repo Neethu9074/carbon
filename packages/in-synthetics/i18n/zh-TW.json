@@ -242,6 +242,7 @@
     "synthetics": "綜合監視"
   },
   "dashboard": {
+    "deleted": "{{id}}- 已刪除",
     "testList": {
       "mainLabel": "綜合監視",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "N/A"
     },
     "locationList": {
+      "locationLiveModeDisabled": "即時模式不適用於虛構位置頁面",
       "locationLabel": "位置名稱",
       "locationDisplayLabel": "顯示名稱",
       "status": "狀態",
@@ -365,6 +367,7 @@
       "success": "成功"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "即時模式在虛構測試結果詳細資料頁面中不適用",
       "timeLineWidget": "時間表",
       "responseTimeChart": "回應時間",
       "subtransactionStatus": "狀態",
@@ -413,6 +416,7 @@
       "downloadLog": "下載日誌",
       "downloadImages": "下載擷取畫面",
       "downloadVideo": "下載記錄",
+      "consoleLogsLevel": "主控台",
       "consoleLogs": "主控台",
       "browserLogs": "瀏覽器",
       "browserDetails": {

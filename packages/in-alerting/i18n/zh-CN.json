@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "描述",
     "noChannelSelectedText": "当前，您尚未选择警报通道，并且不会接收任何警报。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
+    "groupBy": "分组依据",
+    "noChannelAvailable": "没有可用的警报通道",
     "revisionDropdownButton": {
       "revision": "修订版 {{alertRevision}}",
       "pause": "暂停",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "第 95 个",
         "aggregationTextP98": "第 98 个",
         "aggregationTextP99": "第 99 个"
+      },
+      "list": {
+        "labelConfirm": "请确认",
+        "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
+        "labelRemove": "除去"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "未选择合成测试",
         "alertTestEntityName": "合成测试 {{entityName}}",
         "testAttachedCount": "附加的测试（{{count}} 个）",
-        "testAttached": "附加的测试"
+        "testAttached": "附加的测试",
+        "noTestAvailable": "没有可用的合成测试"
       },
       "details": {
         "threshold": "阈值",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "定制有效内容"
       }
     },
-    "inventory": {
-      "labelConfirm": "请确认",
-      "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
-      "labelRemove": "除去"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "选择定制事件",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "{{metricLabel}} 数大于或等于预期。",
         "thresholdLowerOperatorText": "{{metricLabel}} 数小于预期。",
         "thresholdLowerEqualsOperatorText": "{{metricLabel}} 数小于或等于预期。"
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "警报配置",
+        "alertConfigurationTitleTrigger": "触发器",
+        "alertConfigurationTitleScope": "作用域",
+        "alertConfigurationTitleAlertChannels": "警报通道",
+        "alertConfigurationTitleTimeThreshold": "时间阈值",
+        "alertConfigurationTitleAlertProperties": "警报属性",
+        "viewDetail": "查看详细信息"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "静态阈值，{{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_0": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_1": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_2": "+其他 {{count}} 个过滤器",
+        "filter": "过滤",
+        "filter_plural": "过滤器",
+        "filter_0": "过滤器",
+        "filter_1": "过滤器",
+        "filter_2": "过滤器"
       }
     }
   }

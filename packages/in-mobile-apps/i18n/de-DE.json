@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} Sitzungstarts",
     "tabs": {
       "summaryLabel": "Zusammenfassung",
+      "crashLabel": "Abstürze",
       "httpRequestLabel": "HTTP-Anforderungen",
       "geographyLabel": "Geographie",
       "customEventsLabel": "Angepasste Ereignisse",
@@ -260,9 +261,12 @@
       "nameLabel": "Name",
       "occurrencesLabel": "Vorkommen",
       "affectedUsersLabel": "Betroffene Benutzer",
-      "crashErrorGroupsTitle": "Absturzfehlergruppen",
+      "uniqueUsersTitle": "Eindeutige Benutzer",
+      "crashActivityTitle": "Abstürze",
+      "crashErrorGroupsTitle": "Häufigste Absturzgruppen",
       "crashErrorGroupsHelpInfo": "Zeigt nur für identifizierte betroffene Benutzer erfasste Daten an",
-      "analyzeCrashesLink": "Abstürze analysieren",
+      "crashErrorGroupsNoDataMessage": "Keine Abstürze für diesen Zeitraum",
+      "viewAllCrashes": "Alle Abstürze anzeigen",
       "configurationTitle": "Konfiguration",
       "optionsLabel": "Optionen",
       "privacyLabel": "Datenschutz",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "Alle Ursprünge anzeigen",
       "sessionStartsTitle": "Sitzungsstarts",
       "viewInAnalyzeIconAction": "In Analyse anzeigen",
-      "crashFreeSessionRateTitle": "Absturzfreie Sitzungsrate",
-      "crashFreeUserRateTitle": "Absturzfreie Benutzerrate",
+      "crashAffectedSessionRateTitle": "Absturzrate betroffener Sitzungen",
+      "crashAffectedUserRateTitle": "Absturzrate betroffener Benutzer",
       "viewTransitionsTitle": "Anzeigewechsel",
       "activityCardTitle": "Aktivität",
       "sessionStartsLabel": "Sitzungsstarts",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} identifizierte Benutzer",
       "sessionCount": "{{formattedCount}} Sitzung",
       "sessionCount_plural": "{{formattedCount}} Sitzungen",
+      "devices": "Geräte",
+      "viewAllDevices": "Alle Einheiten anzeigen",
+      "osVersions": "Betriebssysteme",
+      "viewAllOs": "Alle Betriebssysteme anzeigen",
+      "appVersions": "App-Versionen",
+      "viewAllVersions": "Alle Versionen anzeigen",
+      "crashes": {
+        "crashesLabelErrorMessage": "Fehlernachricht",
+        "crashesLabelOccurrences": "Vorkommen",
+        "crashesLabelAffectedUsers": "Betroffene Benutzer",
+        "crashesButtonAnalyzeCrashes": "Abstürze analysieren",
+        "crashesTableTitle": "Abstürze",
+        "crashInfoTitle": "Details zu",
+        "crashInfoMessage": "Nachricht",
+        "backToCrashList": "Zurück zur Liste der Abstürze",
+        "crashTitleMobileAppCrashDetails": "Absturzdetails für mobile App"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "Angepasste Ereignisdetails der mobilen App",
         "customEventLabelBackToListOfCustomEvents": "Zurück zur Liste der angepassten Ereignisse",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "Keine HTTP-Anforderungen verfügbar",
       "httpRequestsDescription": "Es wurden keine HTTP-Anforderungen für den ausgewählten Zeitbereich abgerufen.",
       "customEventsTitle": "Keine angepassten Ereignisse verfügbar",
-      "customEventsDescription": "Es wurden keine angepassten Ereignisse für den ausgewählten Zeitraum abgerufen."
+      "customEventsDescription": "Es wurden keine angepassten Ereignisse für den ausgewählten Zeitraum abgerufen.",
+      "crashesTitle": "Keine Abstürze verfügbar",
+      "crashesDescription": "Für den ausgewählten Zeitraum sind keine Abstürze aufgetreten."
     }
   },
   "appsList": {

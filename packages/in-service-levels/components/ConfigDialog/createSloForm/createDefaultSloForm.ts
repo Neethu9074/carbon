@@ -12,7 +12,8 @@ import {
   targetFieldValidator,
   timeFieldValidator,
   dateFieldValidator,
-  timeWindowValidator
+  timeWindowValidator,
+  noInvalidTagFilterExpression
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   SloEntityFields,
@@ -41,7 +42,7 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
   includeInternal: createField({ value: false }),
   includeSynthetic: createField({ value: false }),
   serviceId: createField({ value: '' }),
-  tagFilterExpression: createField({ value: [] })
+  tagFilterExpression: createField({ value: [], validator: noInvalidTagFilterExpression })
 });
 
 export const getDefaultIndicatorFields = (): SloIndicatorFields => ({

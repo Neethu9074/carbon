@@ -18,6 +18,7 @@ import { t } from 'in-i18n';
 export default function SloScopeWebsiteSection() {
   const { form, onChange } = useContext(SloFormContext);
 
+  const websiteIdField = form.getIn(['entity', 'entityId']);
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
 
   return (
@@ -28,6 +29,7 @@ export default function SloScopeWebsiteSection() {
       <Sections>
         <Section title={t('in-service-levels:general.beacon')}>
           <BeaconSelector
+            disabled={!websiteIdField}
             onChange={newBeaconType =>
               onChange(['scope', 'beaconType'], () => beaconTypeField.setValue(newBeaconType).setTouched(true))
             }

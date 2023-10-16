@@ -7,8 +7,8 @@
 import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
+import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
-import Duration from 'in-bizops/dashboards/activity/tabs/summary/components/Duration';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -51,7 +51,7 @@ export default function Summary() {
         </Col>
         {bizopsFeatureEnabled && (
           <Col lg>
-            <Duration />
+            <DurationAndDistribution />
           </Col>
         )}
         <Col lg>

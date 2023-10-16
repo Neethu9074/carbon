@@ -27,9 +27,11 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-bizops/dashboards/activity/tabs/index';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -63,8 +65,8 @@ export default function BusinessActivitySummary() {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'BizOps',
-          pageRootName: 'Business Activity Dashboard'
+          productArea: productAreas.bizops,
+          pageRootName: pageNames.bizops_activity_summary
         }}
       />
       <TabView

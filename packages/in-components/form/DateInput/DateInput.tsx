@@ -19,16 +19,12 @@ import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import { t, activeLanguage } from 'in-i18n';
+import { useTheme } from 'in-themes';
 import { Nullish } from 'in-types';
-import theme from 'in-themes';
 
 import locals from './DateInput.mless';
 
 const { isTab } = keyCodes;
-const modifiersStyles = {
-  selected: { backgroundColor: theme.lib.colors.teal800 },
-  current: { color: theme.lib.colors.N900Primary }
-} as const;
 
 type DateInputValue = string | Nullish;
 type DateInputOnChange = (s: DateInputValue) => void;
@@ -38,10 +34,14 @@ interface DateInputProps {
   onChange: DateInputOnChange;
   iconType?: string;
   disabled?: boolean;
+  /* if set, this reduces the width of the input field to only use a
+   * small width, so that about 10 chars fit well into it.
+   */
+  fixedWidth?: boolean;
 }
 
 export default function DateInput(props: DateInputProps) {
-  const { value, onChange = identity, disabled, iconType } = props;
+  const { value, onChange = identity, disabled, iconType, fixedWidth } = props;
   const inputProps = assign({}, props);
 
   // @ts-expect-error ignoring the from a type perspective superfluous deletes here,
@@ -53,6 +53,7 @@ export default function DateInput(props: DateInputProps) {
   delete inputProps.overlayPosition;
   // @ts-expect-error
   delete inputProps.onChange;
+  delete inputProps.fixedWidth;
 
   if (disabled) {
     return (
@@ -62,6 +63,7 @@ export default function DateInput(props: DateInputProps) {
         value={value || ''}
         // explicitly setting onChange to undefined here to avoid typescript conflicts with the signature of onChange from DateInputProps
         onChange={undefined}
+        className={fixedWidth ? locals.fixedWidth : undefined}
       />
     );
   }
@@ -75,6 +77,7 @@ export default function DateInput(props: DateInputProps) {
           inputProps={inputProps}
           close={close}
           iconType={iconType}
+          fixedWidth={fixedWidth}
         />
       )}
     </Overlay>
@@ -85,6 +88,7 @@ interface DatePickerInputProps {
   inputProps: DateInputProps;
   iconType?: DateInputProps['iconType'];
   onChange: DateInputOnChange;
+  fixedWidth?: boolean;
 
   open: () => void;
   close: () => void;
@@ -92,9 +96,10 @@ interface DatePickerInputProps {
   refSetter: OverlayContentProps['refSetter'];
 }
 
-function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType }: DatePickerInputProps) {
+function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType, fixedWidth }: DatePickerInputProps) {
   return (
     <Input
+      className={fixedWidth ? locals.fixedWidth : undefined}
       type="text"
       autoComplete="off"
       onKeyDown={e => {
@@ -119,7 +124,13 @@ interface DatePickerOverlayProps {
 }
 
 function DatePickerOverlay({ onChange, close, value }: DatePickerOverlayProps) {
+  const theme = useTheme();
   const dateValid = dateValidator(value) == null;
+
+  const modifiersStyles = {
+    selected: { backgroundColor: theme.ids.color.option.teal['500'] },
+    current: { color: theme.ids.color.option.neutral['900'] }
+  } as const;
 
   const modifiers = {
     selected: dateValid && !isBlank(value) ? new Date(value!) : undefined,

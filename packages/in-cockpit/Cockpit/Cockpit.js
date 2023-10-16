@@ -25,7 +25,8 @@ import {
   hasVSphereAccess,
   hasWebsitesAccess,
   hasZHMCAccess,
-  hasSAPAccess
+  hasSAPAccess,
+  hasBizOpsAccess
 } from 'in-stores/permission';
 import {
   applicationsAlertingShowDeprecationBanner,
@@ -36,12 +37,14 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import BusinessMonitoringTopList from 'in-cockpit/Cockpit/components/BusinessMonitoringTopList';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { playwithEnabled, bizopsFeatureEnabled } from 'in-services/featureFlags';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
@@ -51,7 +54,6 @@ import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
@@ -129,6 +131,20 @@ if (hasEventsAccess) {
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'
   };
+}
+
+// adds the business monitoring section
+if (hasBizOpsAccess) {
+  // TODO:  Remove this FF once backend support for favorites is in place
+  if (bizopsFeatureEnabled) {
+    itemIds.push({ id: '6' });
+    LUT['6'] = BusinessMonitoringTopList;
+    configEnrichmentLookUpTable['6'] = {
+      label: t('in-cockpit:cockpit.bizops'),
+      icon: 'lib_bizops',
+      cardIcon: 'lib_bizops'
+    };
+  }
 }
 
 export default connectTo(

@@ -28,9 +28,9 @@ export default [
   {
     metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
     labels: [
-      t('in-forge:plugins.kafka.produceLatency'),
-      t('in-forge:plugins.kafka.fetchConsumerLatency'),
-      t('in-forge:plugins.kafka.fetchFollowerLatency')
+      t('in-forge:plugins.kafka.totalProduceTime'),
+      t('in-forge:plugins.kafka.totalFetchConsumerTime'),
+      t('in-forge:plugins.kafka.totalFetchFollowerTime')
     ],
     min: 0,
     category: [t('in-forge:plugins.kafka.latency')],

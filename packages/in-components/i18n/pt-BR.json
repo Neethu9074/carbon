@@ -75,11 +75,6 @@
     "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
     "avatarNullAlt": "Fallback do avatar para {{email}}."
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "Solicitar uma cotação",
-    "buyNowBtn": "Comprar na AWS",
-    "alreadyHaveLicense": "Já tem uma licença? Ative-a no <linkToDocker>Docker</linkToDocker> ou no <linkToKubernetes>Kubernetes</linkToKubernetes>."
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Notas sobre a liberação"
   },
@@ -100,7 +95,7 @@
     "formStateLabel": "Estado"
   },
   "searchBar": {
-    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura tem capacidades extensas para procurar usando buscas difusas e curingas, bem como operadores booleanos. Por exemplo, a consulta a seguir restringe as visualizações aos hosts de produção com menos de quatro CPUs:\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDynamic Focus leverages the [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) with the following differences from the Lucene standard:\n- **Default operator:** `AND`\n- **syntax constraints:** are listed in the [documentation](https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#Syntax-constraints)\n## Search Bar Interaction\nLa barra di ricerca supporta il completamento automatico per i campi di ricerca e la sintassi evidenzierà la query lucene durante la digitazione.\nDurante a digitação, a barra de procura proporá campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos pressionando `RETORNAR`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.\n## Folha de dicas de sintaxe da consulta Lucene \n- **Fielded search:** `entity.host.cpu.count:>4` \n- **Boolean operators:** `entity.host.cpu.count:<4 AND entity.zone:production` \n- **Grouping:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4` \n- **Wildcard searches:** `entity.type:container*`\n\nFare riferimento alla [documentazione](https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus) per ulteriori informazioni.",
+    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura tem capacidades extensas para procurar usando buscas difusas e curingas, bem como operadores booleanos. Por exemplo, a consulta a\nseguir restringe as visualizações para hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## O Syntax\nDynamic Focus alavanca a [sintaxe de consulta lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as seguintes diferenças do padrão Lucene:\n- ** Operador padrão:** `AND`.\n- ** Restrições de sintaxe:** são listadas na [documentação](https://ibm.biz/dynamic-focus-syntax-constraints)\n##Interação da barra de procura\n A barra de procura suporta a conclusão automática dos campos de procura e a sintaxe destaca a consulta lucene enquanto você digita.\nDurante a digitação, a barra de procura proporá campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos pressionando `RETORNAR`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.## Folha de dicas de sintaxe da consulta Lucene\n - **Procura em campos:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production)OR entity.host.cpu.count:>4`\n - **Procuras com curinga:** `entity.type:container*`\n\nConsulte a [documentação](https://ibm.biz/filtering-dynamic-focus) para obter informações adicionais.",
     "filtersBtn": "Filtros",
     "filterPresetsMenuHeading": "Filtros",
     "filterPresetsSaveFilters": "Salvar filtros para fácil acesso aqui",
@@ -757,7 +752,8 @@
       "notBlank": "tem valor não em branco",
       "startsWith": "começa com",
       "endsWith": "termina com"
-    }
+    },
+    "optional": "Opcional"
   },
   "applicationHealthOverview": {
     "indicatorBar": {

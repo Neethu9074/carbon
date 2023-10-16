@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Vous n'avez actuellement pas sélectionné de canal d'alerte ; vous ne recevrez donc aucune alerte.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtres supplémentaires",
+    "groupBy": "Regrouper par",
+    "noChannelAvailable": "Aucun canal d'alerte disponible",
     "revisionDropdownButton": {
       "revision": "Révision {{alertRevision}}",
       "pause": "Suspendre",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95e",
         "aggregationTextP98": "98e",
         "aggregationTextP99": "99e"
+      },
+      "list": {
+        "labelConfirm": "Veuillez confirmer",
+        "labelConfirmRemoveConfig": "Voulez-vous vraiment retirer l'alerte <strong>{{configName}}</strong> ?",
+        "labelRemove": "Retirer"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "Aucun test synthétique sélectionné",
         "alertTestEntityName": "test synthétique {{entityName}}",
         "testAttachedCount": "Tests joints ({{count}})",
-        "testAttached": "Tests joints"
+        "testAttached": "Tests joints",
+        "noTestAvailable": "Aucun test synthétique disponible"
       },
       "details": {
         "threshold": "Seuil",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "Contenus personnalisés"
       }
     },
-    "inventory": {
-      "labelConfirm": "Veuillez confirmer",
-      "labelConfirmRemoveConfig": "Voulez-vous vraiment retirer l'alerte <strong>{{configName}}</strong> ?",
-      "labelRemove": "Retirer"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "Choisir un événement personnalisé",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "Le nombre de {{metricLabel}} est supérieur ou égal à celui attendu.",
         "thresholdLowerOperatorText": "Le nombre de {{metricLabel}} est inférieur à celui attendu.",
         "thresholdLowerEqualsOperatorText": "Le nombre de {{metricLabel}} est inférieur ou égal à celui attendu."
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "Configuration d'alerte",
+        "alertConfigurationTitleTrigger": "Déclencheur",
+        "alertConfigurationTitleScope": "Portée",
+        "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
+        "alertConfigurationTitleTimeThreshold": "Seuil de temps",
+        "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
+        "viewDetail": "Afficher les détails"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "Seuil statique, {{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
+        "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
+        "moreFiltersWithCount_0": "+{{count}} filtres supplémentaires",
+        "moreFiltersWithCount_1": "+{{count}} filtres supplémentaires",
+        "moreFiltersWithCount_2": "+{{count}} filtres supplémentaires",
+        "filter": "Filtrer",
+        "filter_plural": "Filtres",
+        "filter_0": "Filtres",
+        "filter_1": "Filtres",
+        "filter_2": "Filtres"
       }
     }
   }

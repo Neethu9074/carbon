@@ -39,8 +39,8 @@
     "amd64": "AMD64",
     "s360x": "s390x",
     "curlCommand": "cUrl コマンドをコピーして実行します。",
-    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-amd64-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
-    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.3/instana-integration-proxy-linux-s390x-1.3.0-2023-03-09-17.3A56.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
+    "curlCommandForAMD64": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-amd64-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-amd64 && ./deploy.sh",
+    "curlCommandFors360x": "curl  https://github.com/instana/ibm-monitoring-integration/releases/download/v1.4/instana-integration-proxy-linux-s390x-1.4.0-2023-08-10-14.3A44.zip -L -o deploy.zip && unzip deploy.zip && cd ibm-monitoring-integration-linux-s390x && ./deploy.sh",
     "footerButtonDone": "完了",
     "reportingAgents": "レポート・エージェント",
     "fqdn": "FQDN",
@@ -85,11 +85,13 @@
     "name": "名前",
     "search": "タイプの検索",
     "explore": "探索",
+    "health": "正常性",
     "noIssues": "問題はありません",
     "count": "数",
     "errors": {
-      "maximumNumberOfGroups": "この照会の結果が多すぎます。 より限定的なフィルターまたはより広範囲のグループを使用して絞り込んでください",
-      "generalError": "予期しないエラーが発生しました。 よりきめ細かいフィルターを使用して絞り込んでから、再試行してください"
+      "maximumNumberOfGroups": "この照会の結果が多すぎます。 より制限的なフィルターを使用して検索を絞り込むか、時刻範囲を絞り込んでから再試行してください。",
+      "maximumNumberOfMembers": "この照会の結果が多すぎます。 より制限的なフィルターを使用して検索を絞り込むか、時刻範囲を絞り込んでから再試行してください。",
+      "generalError": "予期しないエラーが発生しました。"
     },
     "entityTypes": "エンティティー・タイプ {{count, parenthesis}}"
   },
@@ -125,6 +127,10 @@
     "collapseAll": "すべて折りたたみ",
     "map": "マップ",
     "comparisonTable": "比較表",
-    "infrastructureComparisonTable": "インフラストラクチャー比較表"
+    "infrastructureComparisonTable": "インフラストラクチャー比較表",
+    "smartAlerts": "スマート・アラート"
+  },
+  "smartAlertView": {
+    "smartAlertTab": "インフラストラクチャー・スマート・アラート"
   }
 }

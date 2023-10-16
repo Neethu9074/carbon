@@ -242,6 +242,7 @@
     "synthetics": "Surveillance synthétique"
   },
   "dashboard": {
+    "deleted": "{{id}} - supprimé",
     "testList": {
       "mainLabel": "Surveillance synthétique",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "Non disponible"
     },
     "locationList": {
+      "locationLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page Emplacements synthétiques",
       "locationLabel": "Nom de l'emplacement",
       "locationDisplayLabel": "Nom d'affichage",
       "status": "Statut",
@@ -365,6 +367,7 @@
       "success": "Succès"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page de détails des résultats de test synthétique",
       "timeLineWidget": "Chronologie",
       "responseTimeChart": "Temps de réponse",
       "subtransactionStatus": "Statut",
@@ -413,8 +416,9 @@
       "downloadLog": "Journaux de téléchargement",
       "downloadImages": "Télécharger la capture d'écran",
       "downloadVideo": "Télécharger l'enregistrement",
-      "consoleLogs": "CONSOLE",
-      "browserLogs": "NAVIGATEUR",
+      "consoleLogsLevel": "Console",
+      "consoleLogs": "Console",
+      "browserLogs": "Navigateur",
       "browserDetails": {
         "page": {
           "request": "Demande",

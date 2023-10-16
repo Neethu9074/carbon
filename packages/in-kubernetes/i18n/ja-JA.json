@@ -292,7 +292,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "使用可能な Kubernetes データがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[資料] :https://www.ibm.com/docs/en/obi/current?topic = instana-monitoring-kubernetes#why-am-i-not-view-any-kubernetes-clusters-or-namespaces"
+    "noData": "使用可能な Kubernetes データがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"
   },
   "pod": {
     "pending": "保留中のポッド",

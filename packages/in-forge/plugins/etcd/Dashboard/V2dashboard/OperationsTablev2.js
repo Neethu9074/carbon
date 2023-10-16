@@ -91,7 +91,7 @@ function getRowDetails(row) {
         metrics: ['storage.' + row.key + '_success', 'storage.' + row.key + '_fail'],
         labels: [t('in-forge:plugins.etcd.dashboard.success'), t('in-forge:plugins.etcd.dashboard.fail')],
         type: 'stackedBar',
-        colors: [theme.lib.colors.green800, theme.lib.colors.red800],
+        colors: [theme.lib.carbonAlert.green50, theme.lib.carbonAlert.red60],
         aggregation: 'sum'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

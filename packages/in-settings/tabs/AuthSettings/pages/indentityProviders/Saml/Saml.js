@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createField } from 'formalistic';
 
 import { Button } from '@instana/components';
@@ -31,10 +31,7 @@ import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Saml.mless';
 
 export default function Saml() {
-  const inputDOMNode = document.createElement('input');
-  const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
-  inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
   return (
     <ApiItemView
@@ -45,7 +42,7 @@ export default function Saml() {
       })}
       enrichForm={enrichForm}
       deleteItem={deleteItem}
-      input={input}
+      setFile={setFile}
       file={file}
       onCancelClick={() => {
         setFile(null);
@@ -85,12 +82,16 @@ export default function Saml() {
   );
 }
 
-function Content({ file, form, setForm, input, setCanSaveItem, result }) {
+function Content({ file, form, setForm, setFile, setCanSaveItem, result }) {
+  const inputFileRef = useRef < HTMLInputElement > null;
   useEffect(
     // allow only saving when idP metadata has been uploaded
     () => setCanSaveItem(!!file),
     [file, form, setCanSaveItem]
   );
+
+  const onInputFileChange = () =>
+    setFile((inputFileRef.current?.files?.length ?? 0) > 0 ? inputFileRef.current.files[0] : undefined);
 
   return (
     <>
@@ -219,15 +220,16 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             <Section restrictWidth="50rem">
               <h2>{t('in-settings:tabs.uploadIdPMetadata')}</h2>
               <div className={locals.flexWrapper}>
-                <Button
-                  kind="secondary"
-                  icon="lib_views_file"
-                  onClick={() => {
-                    input.type = 'file';
-                    input.accept = 'text/xml';
-                    input.click();
-                  }}
-                >
+                <Input
+                  id="idpMetadataFile"
+                  type="file"
+                  accept="text/xml"
+                  multiple={false}
+                  ref={r => (inputFileRef.current = r)}
+                  onChange={onInputFileChange}
+                  hidden
+                />
+                <Button kind="secondary" icon="lib_views_file" onClick={() => inputFileRef.current.click()}>
                   {file ? shorten(file.name, 32) : t('in-settings:tabs.chooseFile')}
                 </Button>
               </div>

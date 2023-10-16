@@ -386,7 +386,7 @@ export default connectTo(
                   labels: [t('in-forge:plugins.instanaAgent.dashboard.slowSensors')],
                   type: 'bar',
                   aggregation: 'sum',
-                  colors: [theme.lib.colors.failure],
+                  colors: [theme.lib.carbonAlert.red60],
                   formatter: number.compact
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -75,11 +75,6 @@
     "avatarUrlAlt": "来自 gravatar.com 的 {{email}} 头像。",
     "avatarNullAlt": "{{email}} 的后备头像。"
   },
-  "messageFlyout": {
-    "requestQuoteBtn": "请求报价",
-    "buyNowBtn": "在 AWS 上购买",
-    "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。"
-  },
   "releaseNotesDialog": {
     "releaseNotesTitle": "发行说明"
   },
@@ -100,7 +95,7 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下查询将视图限制为显示 CPU 少于四个的生产主机：\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法 \nDynamic Focus 利用的是 [Lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)，与 Lucene 标准查询有以下区别：\n- **缺省运算符：**`AND`\n- **语法约束**: 列于[文档](https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax-constraints)中\n## 搜索栏交互搜索\n支持搜索字段自动补全，并且在输入时语法会突出显示 Lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。\n\n## Lucene 查询语法备忘单 \n- **字段搜索：**`entity.host.cpu.count:>4` \n- **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production` \n- **分组：**`(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4` \n- **通配符搜索：**`entity.type:container*`\n\n请参阅[文档](https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus)以获取更多信息。",
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下\n查询将视图限制为具有少于四个 CPU 的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\n动态焦点利用 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) 与 Lucene 标准有以下差异：\n- **缺省运算符：** ` AND `\n- **语法约束：**在[文档](https://ibm.biz/dynamic-focus-syntax-constraints)\n中列出。##搜索栏交互\n搜索栏支持自动完成搜索字段，并在您输入时将语法突出显示 lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。## Lucene 查询语法备忘单\n - **字段搜索：**`entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n -**分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://ibm.biz/filtering-dynamic-focus)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
     "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
@@ -757,7 +752,8 @@
       "notBlank": "具有非空白值",
       "startsWith": "开头为",
       "endsWith": "结尾为"
-    }
+    },
+    "optional": "可选"
   },
   "applicationHealthOverview": {
     "indicatorBar": {

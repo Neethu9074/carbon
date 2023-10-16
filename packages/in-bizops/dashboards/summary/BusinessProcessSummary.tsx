@@ -17,9 +17,11 @@ import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { clickBizopsProcessTabsTracker } from 'in-bizops/tracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-bizops/dashboards/summary/tabs/index';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -53,8 +55,8 @@ export default function BusinessProcessDashboard() {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'BizOps',
-          pageRootName: 'Business Process Dashboard'
+          productArea: productAreas.bizops,
+          pageRootName: pageNames.bizops_process_summary
         }}
       />
       <TabView

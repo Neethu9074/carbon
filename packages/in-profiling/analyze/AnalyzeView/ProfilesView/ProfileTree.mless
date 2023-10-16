@@ -3,23 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .profile {
     padding: 0.5rem 0 0.5rem 0.5rem;
 
-    border-top: 1px solid @lib__colors__N300;
-    border-left: 1px solid @lib__colors__N300;
-    border-right: 1px solid @lib__colors__N300;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
+    border-left: 1px solid var(--ids-color-option-neutral-300);
+    border-right: 1px solid var(--ids-color-option-neutral-300);
     overflow-x: auto;
 
     &:last-child {
-      border-bottom: 1px solid @lib__colors__N300;
+      border-bottom: 1px solid var(--ids-color-option-neutral-300);
     }
 
     &:nth-child(odd) {
-      background: @lib__colors__N100;
+      background: var(--ids-color-option-neutral-100);
     }
   }
 }

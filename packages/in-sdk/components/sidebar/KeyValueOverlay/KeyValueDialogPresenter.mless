@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .body {
@@ -20,16 +19,16 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
-    background: @lib__colors__N200;
-    color: @lib__colors__N700Medium;
-    font-size: @lib__typography__h200__font-size;
+    background: var(--ids-color-option-neutral-200);
+    color: var(--ids-color-option-neutral-700);
+    font-size: var(--ids-font-size-option-heading-200);
     font-weight: 300;
   }
 
   .keyValueItem {
     display: flex;
     padding: 1rem 0;
-    border-top: 1px solid @lib__colors__N200;
+    border-top: 1px solid var(--ids-color-option-neutral-200);
   }
 
   .list {
@@ -40,10 +39,10 @@
 
   .listItem {
     display: flex;
-    border-top: 1px solid @lib__colors__N200;
+    border-top: 1px solid var(--ids-color-option-neutral-200);
     padding: 1rem 0;
     font-size: 0.75rem;
-    color: @lib__colors__N900Primary;
+    color: var(--ids-color-option-neutral-900);
     font-weight: bold;
     line-height: 1.15;
   }

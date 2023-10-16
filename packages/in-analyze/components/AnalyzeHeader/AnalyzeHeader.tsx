@@ -24,6 +24,7 @@ import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Label from 'in-analyze/components/AnalyzeHeader/Label';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
+import { pageNames } from 'in-services/tracking/pageNames';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { clickedDocsLink } from 'in-analyze/tracker';
 import Title from 'in-components/Title/Title';
@@ -117,7 +118,7 @@ export default function AnalyzeHeader({
       <ViewTrackingMeta
         data={{
           productArea: productAreaTrackingNames[activeConfiguration.productArea as never],
-          pageRootName: t('in-analyze:components.analyzeHeader.analytics')
+          pageRootName: pageNames.analytics
         }}
       />
       {renderQuickFilterBar && (

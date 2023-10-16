@@ -292,7 +292,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "Aucune donnée Kubernetes n'est disponible. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs] : https://ibm.biz/monitoring-k8s-tsg"
+    "noData": "Aucune donnée Kubernetes n'est disponible. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"
   },
   "pod": {
     "pending": "Pods en attente",

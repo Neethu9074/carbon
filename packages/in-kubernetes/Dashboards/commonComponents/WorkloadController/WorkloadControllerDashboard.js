@@ -20,15 +20,16 @@ import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
-import { t } from 'in-i18n';
 
 export default function WorkloadControllerDashboard({
   location,
@@ -60,10 +61,8 @@ export default function WorkloadControllerDashboard({
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Kubernetes',
-          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
-            objectType: props.headerTitle
-          })
+          productArea: productAreas.kubernetes,
+          pageRootName: pageNames.deployment_summary
         }}
       />
 

@@ -13,7 +13,9 @@ import ZhmcNoDataNotification from 'in-zhmc/lists/components/ZhmcNoDataNotificat
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import ZhmcLabel from 'in-zhmc/Dashboards/commonComponents/ZhmcLabel';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { zhmcList } from 'in-zhmc/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -72,8 +74,8 @@ export default connectTo(
         <Title title={t('in-zhmc:ibmzZhmcs')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'IBM Z HMC',
-            pageRootName: t('in-zhmc:ibmzZhmcs')
+            productArea: productAreas.ibmZ,
+            pageRootName: pageNames.ibm_zhmcs
           }}
         />
 

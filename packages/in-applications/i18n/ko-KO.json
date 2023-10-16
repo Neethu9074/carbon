@@ -441,7 +441,6 @@
     },
     "errorCallWithoutMessage": "오류 메시지가 없는 잘못된 호출",
     "noLogMessage": "사용 가능한 로그 메시지가 없음",
-    "includeSyntheticCallsDropDownSyntheticCalls": "합성 호출: {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "사용 가능한 서비스가 없음",
       "servicesDescription": "선택한 시간 범위에 대해 검색된 서비스가 없습니다.",
@@ -540,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication>의 컨텍스트에서 <linkToEntity>{{entityLabel}}</linkToEntity>의 애플리케이션 <bold>{{contextScope}}</bold> 표시",
     "showServicesScopeWithServiceLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication>의 컨텍스트에서 <linkToEntity>{{entityLabel}}</linkToEntity>의 서비스 <bold>{{contextScope}}</bold> 표시",
     "titleNoService": "아직 서비스 없음",
-    "servicesNoData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[Docs]:https://ibm.biz/not-seeing-any-services"
   },
   "endpointTypes": {
     "batch": "일괄처리",
@@ -556,14 +555,6 @@
     "self": "셀프",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-  },
-  "constants": {
-    "exclude": "제외",
-    "syntheticCallsAreExcludedFromTheMetrics": "메트릭에서 합성 호출이 제외됩니다.",
-    "include": "포함",
-    "syntheticCallsAreIncludedInTheMetrics": "메트릭에 합성 호출이 포함됩니다.",
-    "only": "전용",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "합성 호출만 표시되고 메트릭에 포함됨"
   },
   "traceDetail": {
     "beta": "베타",
@@ -659,5 +650,6 @@
     "alternativeServicesOk": "<bold>대체 서비스를 표시해도 될까요?</bold>",
     "alternativeServicesProblem": "<bold>아니오</bold>, 현재 서비스의 이름이 HTTP \"Host\" 헤더(ID가 call.http.host인 서비스 맵핑 규칙)에서 나오고 대체 서비스의 이름은 그렇지 않은 경우(해당 이름이 인프라 태그를 기반으로 하는 규칙에서 오기 때문에) 또는 그 반대의 경우입니다. 중복된 서비스입니다.",
     "alternativeServicesPossibleProblem": "<bold>아마도</bold>, 현재 서비스 및 대체 서비스 이름이 HTTP \"Host\" 헤더에서 오지 않는 경우에는 프록시 뒤에 있는 서비스(좋음) 또는 중복 서비스(나쁨)입니다. 일부 서비스는 인프라에 완전히 링크되어 있는 반면 다른 서비스는 부분적으로 링크되어 있습니다."
-  }
+  },
+  "labelSyntheticMonitoring": "합성 모니터링"
 }

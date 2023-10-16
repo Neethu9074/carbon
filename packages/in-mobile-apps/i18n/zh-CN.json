@@ -252,6 +252,7 @@
     "numSessionStarts": "{{num}} 次会话启动",
     "tabs": {
       "summaryLabel": "摘要",
+      "crashLabel": "崩溃",
       "httpRequestLabel": "HTTP 请求数",
       "geographyLabel": "地理",
       "customEventsLabel": "定制事件",
@@ -260,9 +261,12 @@
       "nameLabel": "名称",
       "occurrencesLabel": "出现次数",
       "affectedUsersLabel": "受影响的用户数",
-      "crashErrorGroupsTitle": "崩溃错误组",
+      "uniqueUsersTitle": "唯一用户数",
+      "crashActivityTitle": "崩溃",
+      "crashErrorGroupsTitle": "排名靠前的崩溃组",
       "crashErrorGroupsHelpInfo": "仅显示为已识别的受影响用户收集的数据",
-      "analyzeCrashesLink": "分析崩溃",
+      "crashErrorGroupsNoDataMessage": "在此期间没有崩溃",
+      "viewAllCrashes": "查看所有崩溃",
       "configurationTitle": "配置",
       "optionsLabel": "选项",
       "privacyLabel": "隐私",
@@ -317,8 +321,8 @@
       "viewAllOriginsLink": "查看所有源",
       "sessionStartsTitle": "会话启动数",
       "viewInAnalyzeIconAction": "查看分析",
-      "crashFreeSessionRateTitle": "崩溃可用会话速率",
-      "crashFreeUserRateTitle": "崩溃可用用户速率",
+      "crashAffectedSessionRateTitle": "崩溃影响的会话速率",
+      "crashAffectedUserRateTitle": "崩溃影响的用户速率",
       "viewTransitionsTitle": "视图转换数",
       "activityCardTitle": "活动",
       "sessionStartsLabel": "会话启动数",
@@ -330,6 +334,23 @@
       "uniqueUserCount_plural": "{{formattedCount}} 个标识的用户",
       "sessionCount": "{{formattedCount}} 个会话",
       "sessionCount_plural": "{{formattedCount}} 个会话",
+      "devices": "设备",
+      "viewAllDevices": "查看所有设备",
+      "osVersions": "操作系统",
+      "viewAllOs": "查看所有操作系统",
+      "appVersions": "应用程序版本",
+      "viewAllVersions": "查看所有版本",
+      "crashes": {
+        "crashesLabelErrorMessage": "错误消息",
+        "crashesLabelOccurrences": "出现次数",
+        "crashesLabelAffectedUsers": "受影响的用户数",
+        "crashesButtonAnalyzeCrashes": "分析崩溃",
+        "crashesTableTitle": "崩溃",
+        "crashInfoTitle": "详细信息",
+        "crashInfoMessage": "消息",
+        "backToCrashList": "返回到崩溃列表",
+        "crashTitleMobileAppCrashDetails": "移动应用程序崩溃详细信息"
+      },
       "customEvents": {
         "customEventTitleMobileAppCustomEventDetails": "移动应用程序定制事件详细信息",
         "customEventLabelBackToListOfCustomEvents": "返回到定制事件列表",
@@ -372,7 +393,9 @@
       "httpRequestsTitle": "无可用的 HTTP 请求",
       "httpRequestsDescription": "在所选时间范围内未检索到任何 HTTP 请求",
       "customEventsTitle": "无可用定制事件",
-      "customEventsDescription": "在所选时间范围内未检索到任何定制事件。"
+      "customEventsDescription": "在所选时间范围内未检索到任何定制事件。",
+      "crashesTitle": "没有可用的崩溃",
+      "crashesDescription": "所选时间范围没有崩溃。"
     }
   },
   "appsList": {

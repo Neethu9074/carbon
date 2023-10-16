@@ -9,6 +9,8 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
+import AlertsLaneTooltipContent from 'in-components/Chart/markerLanes/AlertsLane/AlertsLaneTooltipContent';
+import EventDurationIndicator from 'in-components/Chart/markerLanes/AlertsLane/EventDurationIndicator';
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
 import TwoIconsLaneItem from 'in-components/Chart/markerLanes/MarkerLane/TwoIconsLaneItem';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -16,15 +18,14 @@ import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
-import AlertsLaneTooltipContent from './AlertsLaneTooltipContent';
-import EventDurationIndicator from './EventDurationIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AlertsLanePresenter.mless';
 
 export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
+  const theme = useTheme();
   return (
     <>
       <MarkerLane
@@ -35,15 +36,15 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
           smartAlerts: {
             type: 'lib_events_critical',
             typeCluster: 'lib_alerts_multiple_alerts',
-            color: theme.lib.colors.red800
+            color: theme.ids.color.option.red['500']
           },
           incidents: {
             type: 'lib_events_incident',
             typeCluster: 'lib_alerts_multiple_alerts',
-            color: theme.lib.colors.red800
+            color: theme.ids.color.option.red['500']
           }
         }}
-        color={theme.lib.colors.red800}
+        color={theme.ids.color.option.red['500']}
         TooltipContent={AlertsLaneTooltipContent}
         LaneItem={TwoIconsLaneItem}
         HoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}

@@ -8,7 +8,7 @@ import { MouseEvent } from 'react';
 import { SvgIconSizes } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-export type Kind = 'primary' | 'primaryv2' | 'action' | 'create' | 'danger' | 'warning' | 'info';
+export type Kind = 'primary' | 'primaryv2' | 'secondary' | 'action' | 'create' | 'danger' | 'warning' | 'info';
 
 export interface IconComponentProps {
   type: string;

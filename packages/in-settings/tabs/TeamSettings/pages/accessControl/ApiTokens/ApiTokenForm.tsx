@@ -42,7 +42,7 @@ const permissionsForList = apiTokenPermissions.filter(permission => !permission.
 
 export default function ApiTokenForm({ form, onChange, disabled, createNewToken }: ApiTokenFormProps) {
   return (
-    <fieldset disabled={disabled}>
+    <fieldset data-testid="apitokenform" disabled={disabled}>
       {!createNewToken
         ? form.get('accessGrantingToken').map((field: Field<string>) => (
             <FormGroup noFlex>

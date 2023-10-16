@@ -73,13 +73,7 @@ export default connectTo(({ snapshot, timeConfig }) => {
               t('in-forge:plugins.labelRequests.4xx'),
               t('in-forge:plugins.labelRequests.5xx')
             ],
-            colors: [
-              theme.lib.colors.lightBlue800,
-              theme.lib.colors.green800,
-              theme.lib.colors.yellow800,
-              theme.lib.colors.orange800,
-              theme.lib.colors.red800
-            ],
+            colors: theme.lib.colors.chart.fiveColorPalette,
             type: 'stackedBar',
             aggregation: 'sum',
             formatter: number.compact

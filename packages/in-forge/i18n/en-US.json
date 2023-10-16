@@ -6822,7 +6822,6 @@
       "delete": "Delete",
       "set": "Set",
       "update": "Update"
-
     },
     "f5": {
       "dashboard": {
@@ -9128,15 +9127,15 @@
       "busyWorkers": "Busy workers",
       "httpd": "HTTPd"
     },
-    "ibmApiConnect":{
-      "ibmApic":"IBM API Connect",
-      "orgName":"APIC Provider Organization",
-      "apicVersion":"APIC Product Version",
-      "catalogs":"Catalogs",
-      "name":"Name",
-      "totalApiCalls":"Total API Calls",
-      "totalErrors":"Total Errors",
-      "maxApiResponse":"Maximum API Response(ms)"
+    "ibmApiConnect": {
+      "ibmApic": "IBM API Connect",
+      "orgName": "APIC Provider Organization",
+      "apicVersion": "APIC Product Version",
+      "catalogs": "Catalogs",
+      "name": "Name",
+      "totalApiCalls": "Total API Calls",
+      "totalErrors": "Total Errors",
+      "maxApiResponse": "Maximum API Response(ms)"
     },
     "ibmCloudClinicalData": {
       "labelApiCalls": "API Calls",
@@ -10590,9 +10589,9 @@
       "isrExpansions": "ISR Expansions",
       "activeControllerCount": "Active controller count",
       "troubleshootingDocs": "Troubleshooting docs",
-      "produceLatency": "Produce Latency",
-      "fetchConsumerLatency": "Fetch Consumer Latency",
-      "fetchFollowerLatency": "Fetch Follower Latency",
+      "totalProduceTime": "Total Produce Time",
+      "totalFetchConsumerTime": "Total Fetch Consumer Time",
+      "totalFetchFollowerTime": "Total Fetch Follower Time",
       "brokerTraffic": "Broker Traffic",
       "in": "In",
       "out": "Out",
@@ -10643,8 +10642,8 @@
       "partitionsPerNode": "Partitions Per Node",
       "allBrokersMessagesIn": "All Brokers Messages In",
       "rejectedTraffic": "Rejected Traffic",
-      "fetchConsumerLatency": "Fetch Consumer Latency",
-      "fetchFollowerLatency": "Fetch Follower Latency",
+      "totalFetchConsumerTime": "Total Fetch Consumer Time",
+      "totalFetchFollowerTime": "Total Fetch Follower Time",
       "consumerGroup": "Consumer Group",
       "consumerGroupAndTopicPlaceholder": "Consumer-Group#Topic",
       "topic": "Topic",
@@ -10656,11 +10655,11 @@
       "throttling": "Throttling",
       "latency": "Latency",
       "consumersWithCount": "Consumers ({{len}})",
-      "averageRequestLatencyVsThroughput": "Average Request Latency vs Throughput",
+      "totalRequestTimeVsThroughput": "Total Request Time vs Throughput",
       "produceThroughput": "Produce Throughput",
       "fetchConsumerThroughput": "Fetch Consumer Throughput",
       "fetchFollowerThroughput": "Fetch Follower Throughput",
-      "produceLatency": "Produce Latency",
+      "totalProduceTime": "Total Produce Time",
       "allBrokersTraffic": "All Brokers Traffic",
       "in": "In",
       "out": "Out",
@@ -11103,7 +11102,7 @@
       "datasourceJndi": "Datasource JNDI",
       "busyWorkerThreadCount": "Busy worker thread count",
       "workerQueueSize": "Worker queue size",
-      "connectionCount":"Count",
+      "connectionCount": "Count",
       "connectionCounts": "Connections ({{len}})",
       "workersCategory": "Workers",
       "connCount": "Connection Count"
@@ -13689,11 +13688,11 @@
       "curConn": "Current Connections",
       "maxQueue": "Maximum Queue",
       "peekQueue": "Peek Queue",
-      "curQueue" : "Current Queue",
-      "count" : "Count",
+      "curQueue": "Current Queue",
+      "count": "Count",
       "processed": "Processed",
       "pJPages": "PJ Pages",
-      "responseTime" : "Response Time",
+      "responseTime": "Response Time",
       "processTime": "Process Time",
       "cpuTime": "CPU Time"
     },

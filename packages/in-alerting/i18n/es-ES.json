@@ -26,6 +26,8 @@
     "alertPropertyInfosLabelDescription": "Descripción",
     "noChannelSelectedText": "Actualmente, no ha seleccionado un canal de alertas y no recibirá ninguna alerta.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionales",
+    "groupBy": "Agrupar por",
+    "noChannelAvailable": "No hay canales de alerta disponibles",
     "revisionDropdownButton": {
       "revision": "Revisión {{alertRevision}}",
       "pause": "Pausar",
@@ -794,6 +796,11 @@
         "aggregationTextP95": "95º",
         "aggregationTextP98": "98º",
         "aggregationTextP99": "99º"
+      },
+      "list": {
+        "labelConfirm": "Confírmelo",
+        "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la alerta <strong>{{configName}}</strong>?",
+        "labelRemove": "Eliminar"
       }
     },
     "websites": {
@@ -1008,7 +1015,8 @@
         "noTestSelectedText": "No se han seleccionado pruebas sintéticas",
         "alertTestEntityName": "prueba sintética {{entityName}}",
         "testAttachedCount": "Pruebas adjuntas ({{count}})",
-        "testAttached": "Pruebas adjuntas"
+        "testAttached": "Pruebas adjuntas",
+        "noTestAvailable": "No hay pruebas sintéticas disponibles"
       },
       "details": {
         "threshold": "Umbral",
@@ -1134,11 +1142,6 @@
         "payloadsTitle": "Cargas útiles personalizadas"
       }
     },
-    "inventory": {
-      "labelConfirm": "Confírmelo",
-      "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la alerta <strong>{{configName}}</strong>?",
-      "labelRemove": "Eliminar"
-    },
     "eum": {
       "customEvent": {
         "customEventSelectionSliderTitle": "Seleccione Suceso personalizado",
@@ -1185,6 +1188,34 @@
         "thresholdHigherEqualsOperatorText": "El número de {{metricLabel}} es superior o igual a lo previsto.",
         "thresholdLowerOperatorText": "El número de {{metricLabel}} es inferior a lo previsto.",
         "thresholdLowerEqualsOperatorText": "El número de {{metricLabel}} es inferior o igual a lo previsto."
+      }
+    },
+    "infrastructure": {
+      "alertDetails": {
+        "alertConfiguration": "Configuración de alertas",
+        "alertConfigurationTitleTrigger": "Activador",
+        "alertConfigurationTitleScope": "Ámbito",
+        "alertConfigurationTitleAlertChannels": "Canales de alerta",
+        "alertConfigurationTitleTimeThreshold": "Umbral de tiempo",
+        "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
+        "viewDetail": "Ver detalles"
+      },
+      "list": {
+        "columns": {
+          "name": {
+            "subtitleForStaticThreshold": "Umbral estático, {{metricName}} {{operator}} {{value}}"
+          }
+        },
+        "moreFiltersWithCount": "+{{count}} filtro más",
+        "moreFiltersWithCount_plural": "+{{count}} filtros más",
+        "moreFiltersWithCount_0": "+{{count}} filtros más",
+        "moreFiltersWithCount_1": "+{{count}} filtros más",
+        "moreFiltersWithCount_2": "+{{count}} filtros más",
+        "filter": "Filtrar",
+        "filter_plural": "Filtros",
+        "filter_0": "Filtros",
+        "filter_1": "Filtros",
+        "filter_2": "Filtros"
       }
     }
   }

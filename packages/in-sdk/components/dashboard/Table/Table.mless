@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .tableContainer {
     margin: 0 0 1.5rem 0;
@@ -28,7 +26,7 @@
   .headerCell {
     padding: 0;
     height: 100%;
-    border-bottom: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
     &:last-child {
       border-right: 0;
     }
@@ -42,7 +40,7 @@
   .headerToggleCell {
     background: #fff;
     width: 1.6rem;
-    border-bottom: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .cell {
@@ -61,7 +59,7 @@
   .expanded {
     padding: 1rem;
     line-height: 1;
-    border-bottom: 1px solid @lib__colors__N400;
+    border-bottom: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .columnHeader {

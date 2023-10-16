@@ -7,6 +7,8 @@
     "boundary": "Begrenzung",
     "clear": "Löschen",
     "custom": "Angepasst",
+    "duration": "Dauer",
+    "from": "Von",
     "saveButtonLabel": "Speichern",
     "cancelButtonLabel": "Abbrechen",
     "editButtonLabel": "Bearbeiten",
@@ -16,6 +18,9 @@
     "noSelection": "Keine Auswahl",
     "loadMore": "Weitere laden",
     "noData": "Keine Daten verfügbar",
+    "serverErrors": {
+      "sloLimitReachedError": "Die maximale Anzahl von Service-Level-Zielkonfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern."
+    },
     "indicator": {
       "type": "Unbekannter Typ",
       "type_eventBased": "Ereignisanzahl",
@@ -45,6 +50,7 @@
       "label_application": "Anwendung",
       "label_website": "Website"
     },
+    "preview": "Vorschau",
     "type": "Typ",
     "selectLabel": "Auswahl: {{selectedLabel}}",
     "serviceLevelObjective": "Service-Level-Ziel",
@@ -52,6 +58,16 @@
       "type": "unbekannt",
       "type_fixed": "Fest",
       "type_rolling": "Dynamisch",
+      "option_day": "Tag",
+      "option_day_plural": "Tage",
+      "option_day_0": "Tage",
+      "option_day_1": "Tag",
+      "option_day_2": "Tage",
+      "option_week": "Woche",
+      "option_week_plural": "Wochen",
+      "option_week_0": "Wochen",
+      "option_week_1": "Woche",
+      "option_week_2": "Wochen",
       "size_month": "{{count}} Monat",
       "size_month_plural": "{{count}} Monate",
       "size_month_0": "{{count}} Monate",
@@ -73,6 +89,7 @@
       "remainingBudget": "Verbleibendes Fehlerbudget",
       "totalBudget": "Fehlerbudget",
       "consumedBudget": "Fehlerbudget verbraucht",
+      "momentaryBudgetConsumption": "Fehlerbudgetverbrauch",
       "beaconCount": "Beacon-Anzahl",
       "calls": "Aufrufe",
       "latency": "Latenzzeit",
@@ -102,7 +119,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Angepasster Filter",
+    "customFilter": "Benutzerdefinierter Filter (optional)",
     "title": "Service Level Objective (SLO) erstellen",
     "selectIndicator": "Anzeiger auswählen",
     "selectEntityNavItem": "Entität auswählen",
@@ -114,11 +131,26 @@
       "beaconLabel_pageLoad": "Laden von Websites",
       "beaconLabel_custom": "Benutzerdefinierte Websiteereignisse"
     },
+    "selectObjectiveNavItem": "Zielsetzung auswählen",
+    "selectObjectiveTitle": "Zielsetzung festlegen",
+    "sloTarget": "SLO-Ziel",
+    "timeWindow": "Zeitfenster",
+    "length": "Länge",
+    "start": "Starten",
+    "valueMissingTime": "- Min.",
+    "errorBudgetPreviewTitle": "Fehlerbudget",
+    "errorBudgetPreviewTitle_eventBased": "Geschätztes Fehlerbudget",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "Basierend auf dem letzten $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
+    "errorTimeWindowDay": "Die Zeitfenstergröße muss kleiner-gleich 31 Tage sein.",
+    "errorTimeWindowWeek": "Die Zeitfenstergröße muss kleiner-gleich 4 Wochen sein.",
+    "errorTimeWindowMin": "Das Zeitfenster muss mindestens einen Tag lang sein.",
     "nameAndTagsTitle": "Name und Tags",
     "nameAndTagsNavItem": "Name & Tags",
     "sloNameLabel": "SLO-Name",
     "sloNamePlaceholder": "Name eingeben",
-    "tagsLabel": "Tags",
+    "sloNameCopyTemplate": "Kopie von {{name}}",
+    "tagsLabel": "Tags (optional)",
     "tagsPlaceholder": "Tags eingeben",
     "tagsCreateLabel": "Erstellen: {{tag}}",
     "messages": {
@@ -130,17 +162,38 @@
     },
     "indicatorSection": {
       "description_custom": "Dies sollte später aktualisiert werden, da es in den Designs fehlt.",
-      "description_latency": "Misst, wie schnell der Service oberhalb eines festgelegten Schwellenwerts reagiert hat. Beispiel: Die Kennzahl, wie schnell Ihr Check-out-Service schneller als 100 ms antwortet.",
-      "description_availability": "Misst, wie oft ein Service angemessen reagiert. Zum Beispiel wie oft Ihr Check-out-Service mit HTTP-Aufrufen > 400 antwortet",
+      "description_latency": "Misst, wie schnell der Service oberhalb eines festgelegten Schwellenwerts reagiert hat. Beispiel: Die Kennzahl, wie schnell Ihr Checkout-Service schneller als 100ms antwortet.",
+      "description_availability": "Misst, wie oft ein Service angemessen reagiert. Zum Beispiel, wie oft Ihre HTTP-Aufrufe fehlerhaft sind.",
       "timeTypeExplanation": "Gültige und fehlerhafte Aufrufe nach Minuten zusammengefasst",
       "eventTypeExplanation": "Gesamtzahl der gültigen und fehlerhaften Aufrufe",
       "eventCount": "Ereignisanzahl",
       "eventType": "Ereignistyp",
       "thresholdLabel": "Unbekannter Typ",
       "thresholdLabel_latency": "Schwellenwert (ms)",
-      "thresholdLabel_availability": "Fehlerrate %",
+      "thresholdLabel_availability": "Fehlerrate (%)",
       "setGoodCall": "Legen Sie die gültigen Aufrufe für einen Service fest",
       "setBadCall": "Legen Sie die fehlerhaften Aufrufe für einen Service fest (optional)"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "Aufruf",
+      "unit_plural": "Aufrufe",
+      "thousandCallsFormat": "{{count}}K Aufrufe"
+    },
+    "sloChartSummary": {
+      "status": "Status",
+      "target": "Ziel:",
+      "errorBudgetSpent": "Ausgegebenes Fehlerbudget",
+      "errorBudget": "Fehlerbudget:",
+      "timeWindow": "Zeitfenster",
+      "timeWindowType_dynamic": "Dynamisches Zeitfenster",
+      "timeWindowType_rolling": "Rotierendes Zeitfenster",
+      "timeWindowType_fixed": "Festes Zeitfenster"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "Die Vorschau ist nicht verfügbar, da die Konfiguration unvollständig ist.",
+      "highlightMissingConfig": "Fehlende Konfiguration hervorheben"
     }
   },
   "sloList": {
@@ -211,6 +264,9 @@
         "optionCompact": "Kompakt",
         "optionFull": "Vollständiger Verbrauch"
       },
+      "errorBudgetConsumptionChart": {
+        "title": "Fehlerbudgetverbrauch über das gesamte Zeitfenster"
+      },
       "trafficChart": {
         "title": "Datenverkehr"
       },
@@ -236,15 +292,17 @@
         "apBoundaryScope_INBOUND": "Eingehende Aufrufe",
         "apHiddenCallsLabel": "Verdeckte Aufrufe",
         "apHiddenCallsInternal": "Schließt interne Aufrufe ein",
+        "apHiddenCallsInternal_true": "Schließt interne Aufrufe ein",
+        "apHiddenCallsInternal_false": "Enthält keine internen Aufrufe",
         "apHiddenCallsSynthetic": "Schließt synthetische Aufrufe ein",
+        "apHiddenCallsSynthetic_true": "Schließt synthetische Aufrufe ein",
+        "apHiddenCallsSynthetic_false": "Enthält keine synthetischen Aufrufe",
         "apServiceLabel": "Service",
         "apAllServices": "Alle Services",
         "apEndpointLabel": "Endpunkt",
         "apAllEndpoints": "Alle Endpunkte",
         "eumBeaconTypeLabel": "Beacon-Typ",
-        "customFilterLabel": "Angepasster Filter",
-        "ariaLabelChecked": "ausgewählt",
-        "ariaLabelUnchecked": "nicht ausgewählt"
+        "customFilterLabel": "Angepasster Filter"
       },
       "indicatorSection": {
         "title": "Anzeiger",

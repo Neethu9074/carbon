@@ -39,5 +39,9 @@
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
   "endOfInfiniteScroll": "No hay más registros disponibles",
   "liveModeDisabled": "El modo activo no está soportado cuando se analizan registros",
-  "logLevels": "Niveles de registro"
+  "logLevels": "Niveles de registro",
+  "dockerContainer": "Contenedor de Docker",
+  "containerdContainer": "Contenedor de Containerd",
+  "crioContainer": "Contenedor de Crio",
+  "gardenContainer": "Contenedor de Garden"
 }

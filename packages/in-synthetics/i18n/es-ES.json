@@ -242,6 +242,7 @@
     "synthetics": "Supervisión sintética"
   },
   "dashboard": {
+    "deleted": "{{id}}-suprimido",
     "testList": {
       "mainLabel": "Supervisión sintética",
       "secondaryLabels": {
@@ -286,6 +287,7 @@
       "na": "N/A"
     },
     "locationList": {
+      "locationLiveModeDisabled": "La modalidad activa no es aplicable en la página Ubicaciones sintéticas",
       "locationLabel": "Nombre de ubicación",
       "locationDisplayLabel": "Nombre de visualización",
       "status": "Estado",
@@ -365,6 +367,7 @@
       "success": "Éxito"
     },
     "detailsPage": {
+      "detailLiveModeDisabled": "La modalidad activa no es aplicable en la página de detalles del resultado de la prueba sintética",
       "timeLineWidget": "Línea temporal",
       "responseTimeChart": "Tiempo de respuesta",
       "subtransactionStatus": "Estado",
@@ -413,8 +416,9 @@
       "downloadLog": "Descargar registros",
       "downloadImages": "Descargar captura de pantalla",
       "downloadVideo": "Descargar grabación",
-      "consoleLogs": "CONSOLA",
-      "browserLogs": "NAVEGADOR",
+      "consoleLogsLevel": "CONSOLA",
+      "consoleLogs": "Consola",
+      "browserLogs": "Navegador",
       "browserDetails": {
         "page": {
           "request": "Solicitud",

@@ -149,7 +149,7 @@ enum EntityEnum {
 type Icon = Record<string, string>;
 
 export type ProductArea = keyof typeof ProductAreaEnum;
-export type DataSourceType<T extends ProductArea> = keyof typeof icons[T];
+export type DataSourceType<T extends ProductArea> = keyof (typeof icons)[T];
 export type Entity = keyof typeof EntityEnum;
 
 export const entityNames = Object.freeze<Record<Entity, string>>({
@@ -216,10 +216,10 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
   },
   mobileApp: {
     sessionStart: 'lib_mobile_app_session',
-    viewChange: 'lib_mobile_app',
+    viewChange: 'lib_mobile_app_view',
     httpRequest: 'lib_mobile_app_request',
     custom: 'lib_mobile_app_custom_event',
-    crash: 'lib_mobile_app'
+    crash: 'lib_mobile_app_crash'
   },
   infrastructure: {
     infrastructure: 'lib_infrastructure',
@@ -234,5 +234,5 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
 });
 
 export function getIconByType<P extends ProductArea>(type: DataSourceType<P>, productArea: P): string {
-  return (get<typeof icons, P, DataSourceType<P>>(icons, [productArea, type]) as unknown) as string;
+  return get<typeof icons, P, DataSourceType<P>>(icons, [productArea, type]) as unknown as string;
 }

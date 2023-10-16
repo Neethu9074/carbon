@@ -17,10 +17,12 @@ import tabs from 'in-phmc/Dashboards/SharedProcessorPool/tabs/index';
 import { SharedProcessorPoolBreadcrumbs } from 'in-phmc/breadcrumbs';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { sppDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -41,8 +43,8 @@ export default function SharedProcessorPoolDashboard({ location }) {
       <Breadcrumbs items={SharedProcessorPoolBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Power HMC',
-          pageRootName: t('in-phmc:dashboards.sharedProcessorPool')
+          productArea: productAreas.ibmpower,
+          pageRootName: pageNames.shared_processor_pool
         }}
       />
 

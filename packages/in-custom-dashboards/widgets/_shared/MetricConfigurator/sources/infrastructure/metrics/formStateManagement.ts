@@ -69,7 +69,8 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
           form = form
             .updateIn(['metric'], field => field.setValue(regex))
             .updateIn(['metricLabel'], field => field.setValue(getLabelForRegex(regex)).setTouched(true))
-            .updateIn(['metricPath'], field => field.setValue(getPathForRegex(regex)).setTouched(false));
+            .updateIn(['metricPath'], field => field.setValue(getPathForRegex(regex)).setTouched(false))
+            .updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
         }
         return form.updateIn(['regex'], field => field.setValue(isRegex).setTouched(true));
       });
@@ -82,7 +83,8 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
           return form
             .updateIn(['metric'], field => field.setValue(regex).setTouched(true))
             .updateIn(['metricLabel'], field => field.setValue(getLabelForRegex(regex)).setTouched(true))
-            .updateIn(['metricPath'], field => field.setValue(getPathForRegex(regex)).setTouched(true));
+            .updateIn(['metricPath'], field => field.setValue(getPathForRegex(regex)).setTouched(true))
+            .updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
         } else {
           return form;
         }

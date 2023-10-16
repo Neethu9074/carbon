@@ -71,7 +71,9 @@ export default function ActionsLanePresenter({
           <div className={locals.tooltipContent}>
             {actionInstances.map(({ actionName, startDate, status }, i: number) => (
               <div key={`${startDate}${i}`}>
-                <time dateTime={new Date(startDate).toISOString()}>{formatDateTime(startDate)}</time>
+                <time dateTime={new Date(startDate).toISOString()}>
+                  {startDate ? formatDateTime(startDate) : formatDateTime(null)}
+                </time>
                 <div key={i} className={locals.name}>{`${actionName}`}</div>
                 <div key={`status${i}`} className={locals.name}>
                   {getStatus(status)}

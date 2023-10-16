@@ -39,5 +39,9 @@
   "tooltipEntityHealthIssues": "{{numberOfIssues}}개의 문제",
   "endOfInfiniteScroll": "사용 가능한 로그가 더 이상 없음",
   "liveModeDisabled": "로그 분석 시 라이브 모드가 지원되지 않음",
-  "logLevels": "로그 레벨"
+  "logLevels": "로그 레벨",
+  "dockerContainer": "Docker 컨테이너",
+  "containerdContainer": "컨테이너화된 컨테이너",
+  "crioContainer": "Crio 컨테이너",
+  "gardenContainer": "Garden 컨테이너"
 }

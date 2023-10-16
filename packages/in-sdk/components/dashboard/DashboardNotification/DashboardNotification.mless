@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .container {
     margin: 1.5rem;
 
     border: 1px solid transparent;
-    border-radius: @lib__shapes__radius_medium;
+    border-radius: var(--ids-border-radius-medium);
 
     p:last-child {
       margin-bottom: 0;

@@ -1,0 +1,20 @@
+{
+  "trialExpirationPopUp": {
+    "titleBeforeTrialPeriodEnd": "您的试用已到期",
+    "titleAfterTrialPeriodEnd": "您的试用期已结束",
+    "trialExpirationPopUpDescription": "数据收集已结束。 您可以继续使用该产品 7 天。 在 7 天后，您将无法访问该试用。 如果您计划购买该产品，我们可以将您的数据再保留 2 周。",
+    "trialExpirationPopUpDescriptionAfterSevenDays": "感谢您探索 Instana！ 您的试用结束时间已到，无法再访问该产品。"
+  },
+  "licenseBanner": {
+    "freeTrialBannerTitle": "IBM Instana",
+    "requestQuoteBtn": "请求报价",
+    "buyNowBtn": "在 AWS 上购买",
+    "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。"
+  },
+  "playwithinstana": {
+    "title": "使用 Instana",
+    "content": "准备好监视您自己的环境",
+    "bookdemo": " 预定演示",
+    "freetrial": " 免费试用"
+  }
+}

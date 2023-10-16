@@ -27,6 +27,7 @@ interface RecommendedActionsCardAlertsProps {
   reload: number;
   setReload: (r: number) => void;
   alertConfig?: ApplicationAlertConfigWithMetadata;
+  setSelectedType: (str: string) => void;
 }
 
 export default function RecommendedActionsCardAlerts({
@@ -34,7 +35,8 @@ export default function RecommendedActionsCardAlerts({
   volatileId,
   reload,
   setReload,
-  alertConfig
+  alertConfig,
+  setSelectedType
 }: RecommendedActionsCardAlertsProps) {
   const [error, setError] = useState(false);
 
@@ -75,6 +77,8 @@ export default function RecommendedActionsCardAlerts({
         showActionLink
         event={event}
         volatileId={volatileId}
+        title={t('in-automation:recommendedActions')}
+        rightHeader={<></>} // required to get the title of the card to show with the beta badge
         pageSize={5}
         isSearchable={false}
         loadEntities={() => getUnusedSuggestedActions}
@@ -89,7 +93,8 @@ export default function RecommendedActionsCardAlerts({
                 alertConfig,
                 triggerReload,
                 setError,
-                isCustomEvent
+                isCustomEvent,
+                setSelectedType
               })
           }
         }}
@@ -105,6 +110,7 @@ interface AssociateActionProps {
   triggerReload: () => void;
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
+  setSelectedType: (str: string) => void;
 }
 
 export function associateAction({
@@ -112,7 +118,8 @@ export function associateAction({
   alertConfig,
   triggerReload,
   setError,
-  existingActions
+  existingActions,
+  setSelectedType
 }: AssociateActionProps) {
   associateActionsTracker({
     eventName: alertConfig.name,
@@ -122,6 +129,7 @@ export function associateAction({
   const selectedActionsSet = new Set(existingActions?.data ?? []);
   const onSave = () => {
     triggerReload();
+    setSelectedType('associatedActions');
   };
   const handleErrors = () => setError(true);
   const updatedActionIds = [...selectedActionsSet, action].map(a => a.id);

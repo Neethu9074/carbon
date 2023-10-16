@@ -7,6 +7,8 @@
     "boundary": "Limite",
     "clear": "Cancella",
     "custom": "Personalizzato",
+    "duration": "Durata",
+    "from": "Da",
     "saveButtonLabel": "Salva",
     "cancelButtonLabel": "Annulla",
     "editButtonLabel": "Modifica",
@@ -16,6 +18,9 @@
     "noSelection": "Non è stata operata alcuna selezione",
     "loadMore": "Carica altro",
     "noData": "Nessun dato disponibile",
+    "serverErrors": {
+      "sloLimitReachedError": "È stato raggiunto il numero massimo di configurazioni dell'obiettivo del livello di servizio ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite."
+    },
     "indicator": {
       "type": "Tipo sconosciuto",
       "type_eventBased": "Numero eventi",
@@ -45,6 +50,7 @@
       "label_application": "Applicazione",
       "label_website": "Sito web"
     },
+    "preview": "Anteprima",
     "type": "Immettere",
     "selectLabel": "Selezione: {{selectedLabel}}",
     "serviceLevelObjective": "Obiettivo di livello di servizio (SLO)",
@@ -52,6 +58,16 @@
       "type": "sconosciuto",
       "type_fixed": "Fisso",
       "type_rolling": "Aggiornamento continuo",
+      "option_day": "Giorno",
+      "option_day_plural": "Giorni",
+      "option_day_0": "Giorni",
+      "option_day_1": "Giorno",
+      "option_day_2": "Giorni",
+      "option_week": "Settimana",
+      "option_week_plural": "Settimane",
+      "option_week_0": "Settimane",
+      "option_week_1": "Settimana",
+      "option_week_2": "Settimane",
       "size_month": "{{count}} mese",
       "size_month_plural": "{{count}} mesi",
       "size_month_0": "{{count}} mesi",
@@ -73,6 +89,7 @@
       "remainingBudget": "Budget di errore rimanente",
       "totalBudget": "Budget di errore",
       "consumedBudget": "Budget di errore utilizzato",
+      "momentaryBudgetConsumption": "Consumo budget di errore",
       "beaconCount": "Conteggio beacon",
       "calls": "Chiamate",
       "latency": "Latenza",
@@ -102,7 +119,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Filtro personalizzato",
+    "customFilter": "Filtro personalizzato (facoltativo)",
     "title": "Crea SLO (Service Level Objective)",
     "selectIndicator": "Seleziona indicatore",
     "selectEntityNavItem": "Seleziona entità",
@@ -114,11 +131,26 @@
       "beaconLabel_pageLoad": "Caricamenti pagine di siti web",
       "beaconLabel_custom": "Eventi personalizzati di siti web"
     },
+    "selectObjectiveNavItem": "Seleziona obiettivo",
+    "selectObjectiveTitle": "Imposta l'obiettivo",
+    "sloTarget": "Obiettivo SLO",
+    "timeWindow": "Finestra temporale",
+    "length": "Lunghezza",
+    "start": "Avvia",
+    "valueMissingTime": "— min",
+    "errorBudgetPreviewTitle": "Budget di errore",
+    "errorBudgetPreviewTitle_eventBased": "Budget di errore stimato",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "In base all'ultimo $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
+    "errorTimeWindowDay": "La dimensione della finestra temporale deve essere inferiore o uguale a 31 giorni",
+    "errorTimeWindowWeek": "La dimensione della finestra temporale deve essere inferiore o uguale a 4 settimane",
+    "errorTimeWindowMin": "La finestra temporale deve avere una lunghezza di almeno un giorno",
     "nameAndTagsTitle": "Nome e tag",
     "nameAndTagsNavItem": "Nome e tag",
     "sloNameLabel": "Nome SLO",
     "sloNamePlaceholder": "Immettere il nome",
-    "tagsLabel": "Tag",
+    "sloNameCopyTemplate": "Copia di {{name}}",
+    "tagsLabel": "Tag (facoltativo)",
     "tagsPlaceholder": "Immettere i tag",
     "tagsCreateLabel": "Crea: {{tag}}",
     "messages": {
@@ -126,21 +158,42 @@
       "creationSuccessfulContent": "La configurazione SLO \"{{name}}\" è stata creata.",
       "creationFailedTitle": "Impossibile creare la configurazione SLO",
       "creationFailedContent": "Si è verificato un problema durante la creazione di questa configurazione SLO: \"{{name}}\".",
-      "creationFailedUnexpectedContent": "Si è verificato un errore imprevisto durante la creazione di questa configurazione SLO; ritentare più tardi."
+      "creationFailedUnexpectedContent": "Si è verificato un errore imprevisto durante la creazione di questa configurazione dell'SLO (service level objective - obiettivo del livello di servizio), ripetere l'operazione successivamente."
     },
     "indicatorSection": {
       "description_custom": "Questo dovrebbe essere aggiornato in seguito in quanto manca nelle progettazioni",
-      "description_latency": "Misura la velocità con cui il servizio ha risposto al di sopra di una soglia impostata. Ad esempio, la misura di quanto rapidamente il servizio di checkout risponde più velocemente di 100ms",
-      "description_availability": "Misura la frequenza con cui un servizio risponde in modo appropriato. Ad esempio, la frequenza con cui il servizio di checkout risponde con chiamate HTTP> 400",
+      "description_latency": "Misura la velocità con cui il servizio ha risposto al di sopra di una soglia impostata. Ad esempio, la misura di quanto la velocità di risposta del proprio servizio di checkout è inferiore ai 100ms.",
+      "description_availability": "Misura la frequenza con cui un servizio risponde in modo appropriato. Ad esempio, la frequenza con cui le chiamate HTTP risultano errate.",
       "timeTypeExplanation": "Chiamate valide e non valide raggruppate per minuto",
       "eventTypeExplanation": "Conteggio totale di chiamate valide rispetto a quelle non valide",
       "eventCount": "Numero eventi",
       "eventType": "Tipo di evento",
       "thresholdLabel": "Tipo sconosciuto",
       "thresholdLabel_latency": "Soglia (ms)",
-      "thresholdLabel_availability": "Tasso di errore %",
+      "thresholdLabel_availability": "Frequenza di errore (%)",
       "setGoodCall": "Imposta chiamate valide a un servizio",
       "setBadCall": "Imposta chiamate non valide a un servizio (facoltativo)"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "chiamata",
+      "unit_plural": "chiamate",
+      "thousandCallsFormat": "{{count}} chiamate"
+    },
+    "sloChartSummary": {
+      "status": "Stato",
+      "target": "Obiettivo:",
+      "errorBudgetSpent": "Budget errore speso",
+      "errorBudget": "Badget errore:",
+      "timeWindow": "Finestra temporale",
+      "timeWindowType_dynamic": "Finestra temporale dinamica",
+      "timeWindowType_rolling": "Finestra temporale scorrevole",
+      "timeWindowType_fixed": "Finestra temporale fissa"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "Anteprima non disponibile perché la configurazione non è completa.",
+      "highlightMissingConfig": "Evidenzia la configurazione mancante"
     }
   },
   "sloList": {
@@ -211,6 +264,9 @@
         "optionCompact": "Compatto",
         "optionFull": "Pieno consumo"
       },
+      "errorBudgetConsumptionChart": {
+        "title": "Consumo del budget di errore per l'intera finestra temporale"
+      },
       "trafficChart": {
         "title": "Traffico"
       },
@@ -236,15 +292,17 @@
         "apBoundaryScope_INBOUND": "Chiamate in entrata",
         "apHiddenCallsLabel": "Chiamate nascoste",
         "apHiddenCallsInternal": "Include chiamate interne",
+        "apHiddenCallsInternal_true": "Include chiamate interne",
+        "apHiddenCallsInternal_false": "Non include chiamate interne",
         "apHiddenCallsSynthetic": "Include chiamate sintetiche",
+        "apHiddenCallsSynthetic_true": "Include chiamate sintetiche",
+        "apHiddenCallsSynthetic_false": "Non include chiamate sintetiche",
         "apServiceLabel": "Servizio",
         "apAllServices": "Tutti i servizi",
         "apEndpointLabel": "Endpoint",
         "apAllEndpoints": "Tutti gli endpoint",
         "eumBeaconTypeLabel": "Tipo di beacon",
-        "customFilterLabel": "Filtro personalizzato",
-        "ariaLabelChecked": "selezionati",
-        "ariaLabelUnchecked": "non selezionati"
+        "customFilterLabel": "Filtro personalizzato"
       },
       "indicatorSection": {
         "title": "Indicatore",

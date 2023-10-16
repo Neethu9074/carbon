@@ -7,6 +7,8 @@
     "boundary": "Limite",
     "clear": "Limpar",
     "custom": "Customizado",
+    "duration": "Duração",
+    "from": "De",
     "saveButtonLabel": "Salvar",
     "cancelButtonLabel": "Cancelar",
     "editButtonLabel": "Editar",
@@ -16,6 +18,9 @@
     "noSelection": "Nenhum(a) selecionado(a)",
     "loadMore": "Carregar mais",
     "noData": "Dados não disponíveis",
+    "serverErrors": {
+      "sloLimitReachedError": "O número máximo de configurações de objetivo de nível de serviço ({{0}}) foi atingido. Entre em contato com o suporte Instana para solicitar um aumento para este limite."
+    },
     "indicator": {
       "type": "Tipo desconhecido",
       "type_eventBased": "Contagem de evento",
@@ -45,6 +50,7 @@
       "label_application": "Aplicativo",
       "label_website": "Website"
     },
+    "preview": "Visualizar",
     "type": "Tipo",
     "selectLabel": "Seleção: {{selectedLabel}}",
     "serviceLevelObjective": "Objetivo de Nível de Serviço",
@@ -52,6 +58,16 @@
       "type": "desconhecido",
       "type_fixed": "Fixo",
       "type_rolling": "Rolagem",
+      "option_day": "Dia",
+      "option_day_plural": "Dias",
+      "option_day_0": "Dias",
+      "option_day_1": "Dia",
+      "option_day_2": "Dias",
+      "option_week": "Semana",
+      "option_week_plural": "Semanas",
+      "option_week_0": "Semanas",
+      "option_week_1": "Semana",
+      "option_week_2": "Semanas",
       "size_month": "{{count}} mês",
       "size_month_plural": "{{count}} meses",
       "size_month_0": "{{count}} meses",
@@ -73,6 +89,7 @@
       "remainingBudget": "Erro de orçamento restante",
       "totalBudget": "Orçamento errado",
       "consumedBudget": "Orçamento errado consumido",
+      "momentaryBudgetConsumption": "Consumo do orçamento de erro",
       "beaconCount": "Contagem de indicadores",
       "calls": "Chamadas",
       "latency": "Latência",
@@ -102,7 +119,7 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Filtro customizado",
+    "customFilter": "Filtro personalizado (opcional)",
     "title": "Criar Objetivo de nível de serviço (SLO)",
     "selectIndicator": "Selecionar indicador",
     "selectEntityNavItem": "Selecionar entidade",
@@ -114,11 +131,26 @@
       "beaconLabel_pageLoad": "Carregamentos de páginas do website",
       "beaconLabel_custom": "Eventos customizados do website"
     },
+    "selectObjectiveNavItem": "Selecionar objetivo",
+    "selectObjectiveTitle": "Definir o objetivo",
+    "sloTarget": "SLO de destino",
+    "timeWindow": "Espaço de tempo",
+    "length": "Length",
+    "start": "Início",
+    "valueMissingTime": "— mín",
+    "errorBudgetPreviewTitle": "Orçamento errado",
+    "errorBudgetPreviewTitle_eventBased": "Orçamento de erro estimado",
+    "errorBudgetPreviewTitle_customEventBased": "$t(in-service-levels:createSloDialog.errorBudgetPreviewTitle_eventBased)",
+    "estErrorBudgetMsg": "Com base nos últimos $t(in-service-levels:general.timeWindow.size_day, { \"count\": {{count}} })",
+    "errorTimeWindowDay": "O tamanho do espaço de tempo deve ser menor ou igual a 31 dias",
+    "errorTimeWindowWeek": "O tamanho do espaço de tempo deve ser menor ou igual a 4 semanas",
+    "errorTimeWindowMin": "O espaço de tempo deve ter pelo menos um dia de duração",
     "nameAndTagsTitle": "Nome e tags",
     "nameAndTagsNavItem": "Nome & tags",
     "sloNameLabel": "Nome do SLO",
     "sloNamePlaceholder": "Insira o nome",
-    "tagsLabel": "Tags",
+    "sloNameCopyTemplate": "Cópia de {{name}}",
+    "tagsLabel": "Tags (opcional)",
     "tagsPlaceholder": "Inserir tags",
     "tagsCreateLabel": "Criar: {{tag}}",
     "messages": {
@@ -126,21 +158,42 @@
       "creationSuccessfulContent": "A configuração do SLO \"{{name}}\" foi criada.",
       "creationFailedTitle": "Falha ao criar a configuração do SLO",
       "creationFailedContent": "Houve um problema ao criar esta configuração do SLO: \"{{name}}\".",
-      "creationFailedUnexpectedContent": "Ocorreu um erro inesperado ao criar esta configuração do SLO, tente novamente mais tarde."
+      "creationFailedUnexpectedContent": "Ocorreu um erro inesperado ao criar esta configuração de SLO, tente novamente mais tarde."
     },
     "indicatorSection": {
       "description_custom": "Isso deve ser atualizado posteriormente, pois está ausente nos designs",
-      "description_latency": "Mede a velocidade com que o serviço respondeu acima de um limite configurado. Por exemplo, a medida de quão rápido o seu serviço de check-out responde mais rápido do que 100ms",
-      "description_availability": "Mede com que frequência um serviço responde apropriadamente. Por exemplo, com que frequência seu serviço de check-out responde com chamadas HTTP > 400",
+      "description_latency": "Mede a velocidade com que o serviço respondeu acima de um limite configurado. Por exemplo, a medida da rapidez com que seu serviço de check-out responde mais rápido que 100ms.",
+      "description_availability": "Mede com que frequência um serviço responde apropriadamente. Por exemplo, a frequência com que suas chamadas HTTP são erradas.",
       "timeTypeExplanation": "Chamadas válidas versus inválidas agrupadas agregadas por minuto",
       "eventTypeExplanation": "Contagem total de chamadas válidas versus inválidas",
       "eventCount": "Contagem de evento",
       "eventType": "Tipo de evento",
       "thresholdLabel": "Tipo desconhecido",
       "thresholdLabel_latency": "Limite (ms)",
-      "thresholdLabel_availability": "% de taxa de erro",
+      "thresholdLabel_availability": "Taxa de erros (%)",
       "setGoodCall": "Configure as chamadas válidas para um serviço",
       "setBadCall": "Configure as chamadas inválidas para um serviço (opcional)"
+    }
+  },
+  "sloChart": {
+    "sloFormatter": {
+      "unit": "Chamada",
+      "unit_plural": "chamadas",
+      "thousandCallsFormat": "{{count}}K chamadas"
+    },
+    "sloChartSummary": {
+      "status": "Status",
+      "target": "Destino:",
+      "errorBudgetSpent": "Orçamento gasto com erro",
+      "errorBudget": "Orçamento com erro:",
+      "timeWindow": "Espaço de tempo",
+      "timeWindowType_dynamic": "Espaço de tempo dinâmico",
+      "timeWindowType_rolling": "Espaço de tempo contínuo",
+      "timeWindowType_fixed": "Espaço de tempo fixo"
+    },
+    "missingData": {
+      "previewNotAvailWidgetConfigIncomplete": "Visualização não disponível porque a configuração está incompleta.",
+      "highlightMissingConfig": "Destacar a configuração ausente"
     }
   },
   "sloList": {
@@ -211,6 +264,9 @@
         "optionCompact": "Compactar",
         "optionFull": "Consumo integral"
       },
+      "errorBudgetConsumptionChart": {
+        "title": "Erro de consumo do orçamento em todo o espaço de tempo"
+      },
       "trafficChart": {
         "title": "Tráfego"
       },
@@ -236,15 +292,17 @@
         "apBoundaryScope_INBOUND": "Chamadas de entrada",
         "apHiddenCallsLabel": "Chamadas ocultas",
         "apHiddenCallsInternal": "Inclui chamadas internas",
+        "apHiddenCallsInternal_true": "Inclui chamadas internas",
+        "apHiddenCallsInternal_false": "Não inclui chamadas internas",
         "apHiddenCallsSynthetic": "Inclui chamadas sintéticas",
+        "apHiddenCallsSynthetic_true": "Inclui chamadas do Synthetic",
+        "apHiddenCallsSynthetic_false": "Não inclui chamadas do Synthetic",
         "apServiceLabel": "Serviço",
         "apAllServices": "Todos os serviços",
         "apEndpointLabel": "Terminal",
         "apAllEndpoints": "Todos os terminais",
         "eumBeaconTypeLabel": "Tipo de indicador",
-        "customFilterLabel": "Filtro customizado",
-        "ariaLabelChecked": "selecionado",
-        "ariaLabelUnchecked": "não selecionado"
+        "customFilterLabel": "Filtro customizado"
       },
       "indicatorSection": {
         "title": "Indicador",

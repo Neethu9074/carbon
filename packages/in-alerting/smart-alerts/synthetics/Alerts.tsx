@@ -21,7 +21,9 @@ import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -38,8 +40,8 @@ export default function Alerts({ testId }: AlertsProps) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Synthetics Monitoring',
-          pageRootName: 'Smart Alerts List',
+          productArea: productAreas.synthetic_monitoring,
+          pageRootName: pageNames.smart_alerts,
           pagePath: location?.pathname
         }}
       />

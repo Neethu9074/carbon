@@ -14,8 +14,10 @@ import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPower
 import PowerVCLabel from 'in-powervc/Dashboards/commonComponents/PowerVCLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { percentage, kiloBytes } from 'in-services/formatters/number';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { powervcRegionList } from 'in-powervc/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -102,10 +104,11 @@ export default connectTo(
     return (
       <Fragment>
         <Title title={t('in-powervc:powervc')} />
+        {alert('blahhh')}
         <ViewTrackingMeta
           data={{
-            productArea: 'IBM POWERVC',
-            pageRootName: t('in-powervc:powervc')
+            productArea: productAreas.power_vc,
+            pageRootName: pageNames.power_vc
           }}
         />
 

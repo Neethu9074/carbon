@@ -5,14 +5,6 @@
 
 import { t } from 'in-i18n';
 
-// Document
-// Stylesheet
-// Image
-// Font
-// Script
-// Other
-// Media
-
 export const types = {
   document: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.document'),
@@ -49,10 +41,10 @@ export const types = {
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.other'),
     color: 'darkgray'
   }
-};
+} as const;
 
 export function getType(type: string) {
-  //@ts-expect-error any type
+  //@ts-expect-error No index signature found
   if (types[type]) {
     return type;
   }
@@ -60,9 +52,9 @@ export function getType(type: string) {
 }
 
 export function getFilterType(type: string) {
-  //@ts-expect-error any type
+  //@ts-expect-error No index signature found
   if (types[type]) {
-    //@ts-expect-error any type
+    //@ts-expect-error No index signature found
     return types[type].long;
   }
   return 'other';

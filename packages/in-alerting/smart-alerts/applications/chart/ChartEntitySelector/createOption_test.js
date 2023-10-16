@@ -61,7 +61,7 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
           Object {
             "children": Array [
               Object {
-                "appId": "0815",
+                "applicationId": "0815",
                 "icon": "lib_application_service",
                 "id": "0815",
                 "label": "testService",
@@ -100,7 +100,7 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
           Object {
             "children": Array [
               Object {
-                "appId": "0815",
+                "applicationId": "0815",
                 "breadcrumbAndLabel": "0815",
                 "children": Array [],
                 "icon": "lib_application_service",
@@ -136,7 +136,7 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
           Object {
             "children": Array [
               Object {
-                "appId": "0815",
+                "applicationId": "0815",
                 "breadcrumbAndLabel": "0815",
                 "children": undefined,
                 "icon": "lib_application_service",
