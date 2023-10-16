@@ -96,7 +96,12 @@ export default function RunActionDialogContent({
     const logLink = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     return (
       <Typography variant="body-small">
-        {error && <Typography variant="body-small">{error}</Typography>}
+        {error && (
+          <>
+            <Typography variant="body-small">{error}</Typography>
+            <Spacer horizontal="xsmall" />
+          </>
+        )}
         {role?.canViewAutomationActionInstances ? (
           <Trans
             i18nKey={'in-automation:linkToActionHistory'}
