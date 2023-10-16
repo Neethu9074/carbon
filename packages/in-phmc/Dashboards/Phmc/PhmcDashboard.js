@@ -9,9 +9,11 @@ import { get } from 'lodash';
 import { consoleId as matrixconsoleId } from 'in-phmc/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { phmcDashboard } from 'in-phmc/navigation/paths';
 import tabs from 'in-phmc/Dashboards/Phmc/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -31,8 +33,8 @@ export default function PhmcDashboard({ location }) {
       <Breadcrumbs items={PhmcBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM P',
-          pageRootName: t('in-phmc:dashboards.phmc')
+          productArea: productAreas.ibmpower,
+          pageRootName: pageNames.phmc_systems
         }}
       />
 

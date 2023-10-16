@@ -13,11 +13,13 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { sapHanaDashboard } from 'in-sap/navigation/paths';
+import { pageNames } from 'in-services/tracking/pageNames';
 import getSapHana from 'in-sap/subscriptions/getSapHana';
 import tabs from 'in-sap/Dashboards/SapHana/tabs/index';
 import { SapHanaBreadcrumbs } from 'in-sap/breadcrumbs';
@@ -44,8 +46,8 @@ export default function SapHanaDashboard({ location }) {
       <Breadcrumbs items={SapHanaBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.SapHana')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_hana
         }}
       />
 

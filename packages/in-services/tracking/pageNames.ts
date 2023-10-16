@@ -88,11 +88,17 @@ export const pageNames = Object.freeze({
   sap_db_tenant: 'DB Tenant',
   sap_java_instance: 'SAP Java Instance',
   sap_java_system: 'SAP Java System',
+  sap_hana_system: 'SAP Hana System',
+  sap_web_dispatcher: 'Sap Web Dispatcher',
+  sap_abap_sensor: 'SAP ABAP Sensor > Summary',
   events_all: 'All',
   local_alerts: 'Local Alert Details',
   global_alerts: 'Global Alert Details',
   instances: 'Instances',
-  deployment_summary: 'Deployment > Summary'
+  deployment_summary: 'Deployment > Summary',
+  powervc_hypervisors: 'RegionOne > Hypervisors',
+  powervc_regions: 'regions',
+  powervc: 'PowerVC'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
 export type PageName = (typeof pageNames)[PageNameKeys];

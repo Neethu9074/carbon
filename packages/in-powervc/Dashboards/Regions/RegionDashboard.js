@@ -13,12 +13,14 @@ import getPowerVCRegion from 'in-powervc/subscriptions/getPowerVCRegion';
 import { powervcRegionDashboard } from 'in-powervc/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-powervc/Dashboards/Regions/tabs/index';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { RegionBreadcrumbs } from 'in-powervc/breadcrumbs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -36,8 +38,8 @@ export default function RegionDashboard({ location }) {
       <Breadcrumbs items={RegionBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'PowerVC',
-          pageRootName: t('in-powervc:dashboards.regions')
+          productArea: productAreas.power_vc,
+          pageRootName: pageNames.powervc_regions
         }}
       />
 

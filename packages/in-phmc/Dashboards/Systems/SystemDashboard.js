@@ -11,11 +11,13 @@ import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
 import { systemId as matrixSystemId } from 'in-phmc/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { systemDashboard } from 'in-phmc/navigation/paths';
+import { pageNames } from 'in-services/tracking/pageNames';
 import tabs from 'in-phmc/Dashboards/Systems/tabs/index';
 import getSystem from 'in-phmc/subscriptions/getSystem';
 import { SystemBreadcrumbs } from 'in-phmc/breadcrumbs';
@@ -36,8 +38,8 @@ export default function SystemDashboard({ location }) {
       <Breadcrumbs items={SystemBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Power HMC',
-          pageRootName: t('in-phmc:dashboards.systems')
+          productArea: productAreas.ibmpower,
+          pageRootName: pageNames.systems
         }}
       />
 

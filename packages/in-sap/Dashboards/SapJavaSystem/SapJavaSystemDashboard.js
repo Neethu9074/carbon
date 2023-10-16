@@ -14,6 +14,7 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { sapJavaSystemDashboard } from 'in-sap/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import getJavaSystem from 'in-sap/subscriptions/getJavaSystem';
@@ -21,6 +22,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-sap/Dashboards/SapJavaSystem/tabs/index';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { JavaSystemBreadcrumbs } from 'in-sap/breadcrumbs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -44,8 +46,8 @@ export default function SapJavaSystemDashboard({ location }) {
       <Breadcrumbs items={JavaSystemBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.SapJavaSystem')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_java_system
         }}
       />
 

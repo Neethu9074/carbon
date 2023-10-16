@@ -23,7 +23,8 @@ export const productAreas = Object.freeze({
   ibmpower: 'Platforms - IBM Power HMC',
   sap: 'Platforms - SAP',
   custom_dashboard: 'Custom Dashboard',
-  agents: 'Agents'
+  agents: 'Agents',
+  power_vc: 'PowerVC'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;

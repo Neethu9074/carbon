@@ -14,12 +14,14 @@ import { regionId as matrixRegionId } from 'in-powervc/navigation/matrix';
 import { powervcHypervisorDashboard } from 'in-powervc/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import tabs from 'in-powervc/Dashboards/Hypervisors/tabs/index';
 import EntityVersionList from 'in-components/EntityVersionList';
 import { HypervisorBreadcrumbs } from 'in-powervc/breadcrumbs';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -37,8 +39,8 @@ export default function HypervisorDashboard({ location }) {
       <Breadcrumbs items={HypervisorBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'PowerVC',
-          pageRootName: t('in-powervc:dashboards.hypervisors')
+          productArea: productAreas.power_vc,
+          pageRootName: pageNames.powervc_hypervisors
         }}
       />
 
@@ -56,11 +58,7 @@ export default function HypervisorDashboard({ location }) {
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
-            <EntityVersionList
-              snapshotId={props.hypervisorId}
-              timeConfig={props.timeConfig}
-              errors={errors}
-            />
+            <EntityVersionList snapshotId={props.hypervisorId} timeConfig={props.timeConfig} errors={errors} />
           </CenterAlignmentColumn>
         )}
       />

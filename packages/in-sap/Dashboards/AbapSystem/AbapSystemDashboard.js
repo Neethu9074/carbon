@@ -13,6 +13,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import getAbapSystem from 'in-sap/subscriptions/getAbapSystem';
@@ -21,6 +22,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import tabs from 'in-sap/Dashboards/AbapSystem/tabs/index';
 import { AbapSystemBreadcrumbs } from 'in-sap/breadcrumbs';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -43,8 +45,8 @@ export default function AbapSystemDashboard({ location }) {
       <Breadcrumbs items={AbapSystemBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.AbapSystem')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.abap_system
         }}
       />
       <TabView

@@ -11,10 +11,12 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { viosDashboard } from 'in-phmc/navigation/paths';
 import tabs from 'in-phmc/Dashboards/Vios/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -37,8 +39,8 @@ export default function ViosDashboard({ location }) {
       <Breadcrumbs items={ViosBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'IBM Power',
-          pageRootName: t('in-phmc:dashboards.vios')
+          productArea: productAreas.ibmpower,
+          pageRootName: pageNames.vios_summary
         }}
       />
       <TabView

@@ -15,12 +15,14 @@ import getSapAbapSensor from 'in-sap/subscriptions/getSapAbapSensor';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { sapAbapSensorDashboard } from 'in-sap/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-sap/Dashboards/SapAbapSensor/tabs/index';
 import { SapAbapSensorBreadcrumbs } from 'in-sap/breadcrumbs';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -44,8 +46,8 @@ export default function SapAbapSensorDashboard({ location }) {
       <Breadcrumbs items={SapAbapSensorBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.sapAbapSensor')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_abap_sensor
         }}
       />
 
