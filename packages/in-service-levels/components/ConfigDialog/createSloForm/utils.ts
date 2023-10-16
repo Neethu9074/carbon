@@ -15,6 +15,7 @@ import {
   WebsiteSloEntity
 } from '@instana/types';
 
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -47,6 +48,11 @@ export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConf
 export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEntity {
   const entityType = form.getIn(['entity', 'type']).value;
 
+  const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
+  const tagFilterExpression = tagFilterExpressionField.valid
+    ? toBackendQueryModel(tagFilterExpressionField.value)
+    : emptyTagFilterExpression;
+
   if (entityType === 'application') {
     return {
       applicationId: form.getIn(['entity', 'entityId']).value,
@@ -55,7 +61,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
       endpointId: form.getIn(['scope', 'endpointId']).value || undefined,
       includeInternal: form.getIn(['scope', 'includeInternal']).value,
       includeSynthetic: form.getIn(['scope', 'includeSynthetic']).value,
-      tagFilterExpression: toBackendQueryModel(form.getIn(['scope', 'tagFilterExpression']).value),
+      tagFilterExpression,
       type: 'application'
     };
   }
@@ -64,7 +70,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
     return {
       websiteId: form.getIn(['entity', 'entityId']).value,
       beaconType: form.getIn(['scope', 'beaconType']).value,
-      tagFilterExpression: toBackendQueryModel(form.getIn(['scope', 'tagFilterExpression']).value),
+      tagFilterExpression,
       type: 'website'
     };
   }

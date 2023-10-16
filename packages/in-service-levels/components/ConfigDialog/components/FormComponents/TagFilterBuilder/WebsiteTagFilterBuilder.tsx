@@ -28,6 +28,8 @@ export default function WebsiteTagFilterBuilder({ form, onChange }: SloScopeWebs
     websiteId: websiteIdField.value
   });
 
+  const isScopeSelected = beaconTypeField.value && websiteIdField.value;
+
   return (
     <Section
       actions={
@@ -46,14 +48,20 @@ export default function WebsiteTagFilterBuilder({ form, onChange }: SloScopeWebs
       }
       title={t('in-service-levels:createSloDialog.customFilter')}
     >
-      <QueryBuilder
-        onChange={newFilterExpression =>
-          onChange(['scope', 'tagFilterExpression'], () =>
-            tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
-          )
-        }
-        value={tagFilterExpressionField.value}
-      />
+      {isScopeSelected ? (
+        <QueryBuilder
+          onChange={newFilterExpression =>
+            onChange(['scope', 'tagFilterExpression'], () =>
+              tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
+            )
+          }
+          value={tagFilterExpressionField.value}
+        />
+      ) : (
+        <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+          {t('in-components:queryBuilder.components.filterButtonAddFilter')}
+        </Button>
+      )}
     </Section>
   );
 }

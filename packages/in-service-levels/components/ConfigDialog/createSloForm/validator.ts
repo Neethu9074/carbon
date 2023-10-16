@@ -13,6 +13,8 @@ import {
   SloTimeWindowFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { maxValidator, minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -89,3 +91,18 @@ export const timeFieldValidator = composeAndShortCircuitOnError(timeValidator, n
 export const dateFieldValidator = composeAndShortCircuitOnError(notBlankValidator, dateValidator);
 
 export const timeWindowValidator = composeAndShortCircuitOnError(validateTimeWindow);
+
+export function noInvalidTagFilterExpression(tagFilterExpression: FormModelElement[]): ValidationResult {
+  try {
+    // The tag filter parser will raise an exception in cases the provided filters are invalid or incomplete.
+    toBackendQueryModel(tagFilterExpression);
+  } catch {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:createSloDialog.errorInvalidExpression')
+      }
+    ];
+  }
+  return undefined;
+}

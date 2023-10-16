@@ -28,6 +28,8 @@ export default function ApplicationTagFilterBuilder({ form, onChange }: SloScope
     applicationId: applicationIdField.value
   });
 
+  const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
+
   return (
     <Section
       actions={
@@ -46,14 +48,20 @@ export default function ApplicationTagFilterBuilder({ form, onChange }: SloScope
       }
       title={t('in-service-levels:createSloDialog.customFilter')}
     >
-      <QueryBuilder
-        onChange={newFilterExpression =>
-          onChange(['scope', 'tagFilterExpression'], () =>
-            tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
-          )
-        }
-        value={tagFilterExpressionField.value}
-      />
+      {isScopeSelected ? (
+        <QueryBuilder
+          onChange={newFilterExpression =>
+            onChange(['scope', 'tagFilterExpression'], () =>
+              tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
+            )
+          }
+          value={tagFilterExpressionField.value}
+        />
+      ) : (
+        <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+          {t('in-components:queryBuilder.components.filterButtonAddFilter')}
+        </Button>
+      )}
     </Section>
   );
 }
