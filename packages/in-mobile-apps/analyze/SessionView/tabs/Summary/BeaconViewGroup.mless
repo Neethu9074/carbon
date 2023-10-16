@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .group {
-    border-top: 1px solid @lib__colors__N400;
+    border-top: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .header {
@@ -19,7 +17,7 @@
     &:hover,
     &:focus {
       outline: 0;
-      background: @lib__colors__N300;
+      background: var(--ids-color-option-neutral-300);
       cursor: pointer;
     }
   }
@@ -32,7 +30,7 @@
   .viewName {
     font-size: 0.875rem;
     font-weight: 500;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin: 0 0 0 0.5rem;
   }
 
@@ -41,7 +39,7 @@
   }
 
   .viewIcon {
-    fill: @lib__colors__N900Primary;
+    fill: var(--ids-color-option-neutral-900);
   }
 
   .learnHow {

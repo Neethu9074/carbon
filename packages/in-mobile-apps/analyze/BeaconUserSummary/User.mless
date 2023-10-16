@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -38,7 +37,7 @@
   }
 
   .firstBeaconIsMissingUserData {
-    fill: @lib__colors__yellow800;
+    fill: var(--ids-color-option-yellow-500);
     margin: 0 0 0 0.4rem;
   }
 
