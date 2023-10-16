@@ -110,15 +110,15 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
   const tagFiltersWithCrashId = tagFilters.slice();
   tagFiltersWithCrashId.push(
     {
-      name: 'mobileBeacon.error.message',
-      stringValue: crashId,
+      name: 'mobileBeacon.type',
+      stringValue: 'crash',
       operator: 'EQUALS',
       type: 'TAG_FILTER',
       entity: 'NOT_APPLICABLE'
     },
     {
-      name: 'mobileBeacon.type',
-      stringValue: 'crash',
+      name: 'mobileBeacon.error.message',
+      stringValue: crashId,
       operator: 'EQUALS',
       type: 'TAG_FILTER',
       entity: 'NOT_APPLICABLE'
