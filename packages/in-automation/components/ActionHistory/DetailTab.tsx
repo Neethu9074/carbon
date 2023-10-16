@@ -7,8 +7,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Observable, just } from '@instana/observables';
 import { Li, Link, Ul } from '@instana/components';
-import { Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import {
@@ -27,6 +28,7 @@ import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import { ActionInstance, ActorType } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -78,6 +80,10 @@ export default function DetailTab({
   const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id, 'actionInstanceId');
   const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
+  const snapshot = useObservable(
+    () => (hostSnapshotId ? getSnapshot(hostSnapshotId).map(snapshot => snapshot.toJS()) : just({})),
+    [hostSnapshotId]
+  );
   const tableData = [
     { label: t('in-automation:actionHistory.status'), value: getStatus(status), actionLane: inActionLane },
     {
@@ -112,11 +118,11 @@ export default function DetailTab({
       stringLink: getLinkToEventDetails(eventId ?? '')
     },
     {
-      label: t('in-automation:actionHistory.hostSnapshotId'),
-      value: hostSnapshotId,
+      label: t('in-automation:actionHistory.hostSnapshot'),
+      value: snapshot?.label ?? hostSnapshotId,
       isLink: true,
       isObservable: true,
-      showCondition: hostSnapshotId,
+      showCondition: hostSnapshotId && snapshot,
       ObservableLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
     },
     {
