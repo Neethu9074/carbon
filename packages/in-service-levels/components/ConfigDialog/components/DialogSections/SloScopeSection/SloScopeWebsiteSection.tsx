@@ -12,6 +12,7 @@ import WebsiteTagFilterBuilder from 'in-service-levels/components/ConfigDialog/c
 import BeaconSelector from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
@@ -26,7 +27,7 @@ export default function SloScopeWebsiteSection() {
         {t('in-service-levels:createSloDialog.selectScopeTitle')}
       </Typography>
       <Sections>
-        <Section title={t('in-service-levels:general.beacon')}>
+        <Section title={t('in-service-levels:general.beacon')} titleWidth={titleWidth}>
           <BeaconSelector
             onChange={newBeaconType =>
               onChange(['scope', 'beaconType'], () => beaconTypeField.setValue(newBeaconType).setTouched(true))
