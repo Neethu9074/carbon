@@ -33,6 +33,8 @@ import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
+const titleWidth = '10.938rem';
+
 interface ApplicationSliFormProps {
   form: MapForm<any>;
   onChange: (path: string[], updater: (i: Item) => Item) => void;
@@ -151,6 +153,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
             <ConfigDialogTimeConfigContextModification>
               <Sections>
                 <ServiceSelectBox
+                  width={titleWidth}
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   value={serviceId}
@@ -165,6 +168,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
               <Sections>
                 <EndpointSelectBox
+                  width={titleWidth}
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   serviceId={serviceId}

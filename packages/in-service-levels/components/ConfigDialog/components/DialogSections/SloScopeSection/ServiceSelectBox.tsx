@@ -18,6 +18,7 @@ interface ServiceSelectBoxProps {
   boundaryScope: ApplicationBoundaryScope;
   value?: string | Nullish;
   onChange: (application?: string) => void;
+  width?: string;
 }
 
 export default function ServiceSelectBox({
@@ -25,7 +26,8 @@ export default function ServiceSelectBox({
   hasError,
   boundaryScope,
   value,
-  onChange
+  onChange,
+  width
 }: ServiceSelectBoxProps) {
   const [servicesPage, status] = useServices({
     application: applicationId,
@@ -37,7 +39,7 @@ export default function ServiceSelectBox({
   return (
     <SelectInSection
       id="new-sli-service-selection"
-      titleWidth={titleWidth}
+      titleWidth={width ? width : titleWidth}
       label={t('in-custom-dashboards:widgets.slo.servicesSelectBox.service')}
       disabled={isBlank(applicationId) || status !== 'resolved'}
       value={value ?? ''}

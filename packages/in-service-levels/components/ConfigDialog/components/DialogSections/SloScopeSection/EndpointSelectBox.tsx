@@ -19,6 +19,7 @@ interface EndpointSelectBoxProps {
   boundaryScope: ApplicationBoundaryScope;
   value: string | Nullish;
   onChange: (endpoint: string) => void;
+  width?: string;
 }
 
 export default function EndpointSelectBox({
@@ -27,7 +28,8 @@ export default function EndpointSelectBox({
   serviceId,
   boundaryScope,
   value,
-  onChange
+  onChange,
+  width
 }: EndpointSelectBoxProps) {
   const [endpointsPage, status] = useEndpoints({
     application: applicationId,
@@ -43,7 +45,7 @@ export default function EndpointSelectBox({
       label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
       disabled={isBlank(applicationId) || status !== 'resolved'}
       value={value ?? ''}
-      titleWidth={titleWidth}
+      titleWidth={width ? width : titleWidth}
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={hasError}
     >
