@@ -3,63 +3,67 @@
  * (c) Copyright Instana Inc.
  */
 
-.in-event-view-incident-event-list-item {
-  --time-indicator-margin-right: 0.625rem;
-  --time-indicator-width: 4rem;
-  --background-left: 0.438rem;
-  --right-max-width: calc(
-    100% - var(--time-indicator-margin-right) - var(--time-indicator-width) - var(--background-left)
-  );
+@import '~in-themes/active.less';
 
-  position: relative;
+:local {
+  .inEventViewIncidentEventListItem {
+    --time-indicator-margin-right: 0.625rem;
+    --time-indicator-width: 4rem;
+    --background-left: 0.438rem;
+    --right-max-width: calc(
+      100% - var(--time-indicator-margin-right) - var(--time-indicator-width) - var(--background-left)
+    );
 
-  display: flex;
-  align-items: stretch;
+    position: relative;
 
-  &__service-impact {
+    display: flex;
+    align-items: stretch;
+
+    &:first-child {
+      .line {
+        top: 1.375rem;
+      }
+    }
+
+    &:last-child {
+      .line {
+        bottom: ~'calc(100% - 1.375rem)';
+      }
+    }
+  }
+
+  .serviceImpact {
     margin-top: 1.5rem;
 
-    .in-event-view-incident-event-list-item__line {
+    .line {
       top: -1.5rem;
     }
   }
 
-  &:first-child {
-    .in-event-view-incident-event-list-item__line {
-      top: 1.375rem;
-    }
-  }
-
-  &:last-child {
-    .in-event-view-incident-event-list-item__line {
-      bottom: ~'calc(100% - 1.375rem)';
-    }
-  }
-
-  &__time-indicator {
+  .timeIndicator {
     position: relative;
     margin-right: var(--time-indicator-margin-right);
     min-width: var(--time-indicator-width);
     max-width: var(--time-indicator-width);
   }
 
-  &__time,
-  &__line,
-  &__dot {
+  .time,
+  .line,
+  .dot {
     position: absolute;
   }
 
-  &__time {
+  .time {
     top: 1rem;
     right: 0.625rem;
     text-decoration: underline;
-
-    &--triggering {
-      font-weight: bold;
-    }
   }
 
-  &__line {
+  .triggeringTime {
+    font-weight: bold;
+  }
+
+  .line {
     top: 0;
     bottom: 0;
     right: -2px;
@@ -67,7 +71,7 @@
     background-color: #d5dfe4;
   }
 
-  &__dot {
+  .dot {
     top: 1.375rem;
     right: -0.188rem;
 
@@ -77,7 +81,7 @@
     border-radius: 50%;
   }
 
-  &__right {
+  .right {
     position: relative;
 
     width: 100%;
@@ -90,14 +94,14 @@
     }
   }
 
-  &__left-border,
-  &__background {
+  .leftBorder,
+  .background {
     position: absolute;
     top: 0;
     bottom: 0;
   }
 
-  &__background {
+  .background {
     right: 0;
     left: var(--background-left);
     z-index: 1;
@@ -110,7 +114,7 @@
     }
   }
 
-  &__left-border {
+  .leftBorder {
     left: 0;
     width: 0.438rem;
     z-index: 2;
@@ -124,19 +128,19 @@
     }
   }
 
-  &__border {
+  .border {
     height: 1px;
     width: ~'calc(100% - .438rem)';
     margin-left: 0.438rem;
     opacity: 0.3;
   }
 
-  &__content-wrapper {
+  .contentWrapper {
     position: relative; // only required for z-index stacking
     z-index: 4;
   }
-
-  &__heading {
+  // potential for Stack component
+  .heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -145,12 +149,12 @@
     cursor: pointer;
   }
 
-  &__expanded-details {
+  .expandedDetails {
     padding: 0.5rem;
     padding-left: 1rem;
   }
 
-  &__icon-wrapper {
+  .iconWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -161,22 +165,22 @@
     border-radius: 50%;
   }
 
-  &__problem-text {
+  .problemText {
     margin-right: 0.5rem;
   }
 
-  &__left {
+  .left {
     display: flex;
     align-items: center;
   }
 
-  &__entity {
+  .entity {
     padding-left: 0.5rem;
     border-left: 1px solid #d5dfe4;
   }
 
-  &__affected-service-marker,
-  &__triggering-event-marker {
+  .affectedServiceMarker,
+  .triggeringEventMarker {
     position: absolute;
     bottom: ~'calc(100% - 2px)';
 
@@ -184,11 +188,11 @@
     z-index: 3;
   }
 
-  &__affected-service-marker {
+  .affectedServiceMarker {
     left: 4.625rem;
   }
 
-  &__triggering-event-marker {
+  .triggeringEventMarker {
     left: 11rem;
   }
 }
