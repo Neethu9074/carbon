@@ -13,36 +13,38 @@ import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCata
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import Input from 'in-components/form/Input/Input';
-import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapperConsumer.mless';
-
-// import { generateUniqueShortId } from '@instana/utils';
-
-// Adjust path if necessary
-
-interface LabelsTableProps {
-  form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetFormFunction;
-}
 
 export interface Label {
   id: string;
   value: string;
 }
 
+interface LabelsTableProps {
+  form: MapForm<any>;
+  onChange: OnEntityChange<ActionFormEntity>;
+  fieldName?: string;
+}
+
+interface FieldProps extends LabelsTableProps {
+  setForm: SetFormFunction;
+  customAddRowLabel: string;
+  noDataMessage: string;
+}
+
 const getColumnDefinitions = ({
   form,
   onChange,
-  isNotEditable
-}: Omit<LabelsTableProps, 'setForm'> & { isNotEditable: boolean }) => [
+  isNotEditable,
+  fieldName
+}: LabelsTableProps & { isNotEditable: boolean }) => [
   {
     id: 'id',
     sortable: false,
-    label: 'Labels',
+    label: fieldName ? `${fieldName}` : 'labels',
     getContent(item: Label) {
-      const labelsField = form.get('labels');
+      const labelsField = form.get(`${fieldName}`);
       return (
         <>
           <HorizontalFlexWrapper className={locals.colName}>
@@ -54,7 +56,7 @@ const getColumnDefinitions = ({
               onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
                 const labels = (labelsField as Field<Label[]>)?.value;
                 onChange(
-                  'labels',
+                  `${fieldName}`,
                   labels.map(label =>
                     label?.id === item.id
                       ? {
@@ -75,10 +77,17 @@ const getColumnDefinitions = ({
   }
 ];
 
-export default function LabelsTable({ form, setForm, onChange }: LabelsTableProps) {
+export default function FieldsTable({
+  form,
+  setForm,
+  onChange,
+  fieldName = 'labels',
+  customAddRowLabel,
+  noDataMessage
+}: FieldProps) {
   const isNotEditable = useContext(isNotEditableContext);
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
-  const labels = (form.get('labels') as Field<any>).value;
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, fieldName });
+  const labels = (form.get(`${fieldName}`) as Field<any>).value;
 
   // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
 
@@ -87,11 +96,11 @@ export default function LabelsTable({ form, setForm, onChange }: LabelsTableProp
       columnDefinitions={columnDefinitions}
       data={labels}
       form={form}
-      formKey="labels"
-      customAddRowLabel="Add Label"
+      formKey={fieldName}
+      customAddRowLabel={customAddRowLabel}
       defaultRow={''}
       setForm={setForm}
-      noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
+      noDataMessage={noDataMessage}
     />
   );
 }

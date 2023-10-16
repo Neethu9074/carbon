@@ -58,7 +58,7 @@ import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import LabelsTable from 'in-automation/ActionCatalog/LabelsTable';
+import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -408,7 +408,14 @@ const GithubSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form'
       ))}
 
       <FormGroup>
-        <LabelsTable form={form} setForm={setForm} onChange={onChange} />
+        <FieldsTable
+          form={form}
+          setForm={setForm}
+          onChange={onChange}
+          fieldName="labels"
+          customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
+          noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
+        />
       </FormGroup>
     </>
   );

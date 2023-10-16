@@ -146,7 +146,8 @@
     "actionCopy": "(Copy of) {{name}}",
     "ActionAssociationsForEvent": "Associate Events",
     "ActionAssociationsForSmartAlert": "Associate Smart Alerts",
-    "noLabelsConfigured":"No labels are added."
+    "noLabelsConfigured":"No labels are added.",
+    "addLabels":"Add Labels"
   },
   "actionHistory": {
     "actionHistory": "Action History",
