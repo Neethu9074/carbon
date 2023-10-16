@@ -1,5 +1,3 @@
-@import '~in-themes/active.less';
-
 :local {
   .permissionSectionHeader {
     background-color: var(--colors-blue-800-a08);

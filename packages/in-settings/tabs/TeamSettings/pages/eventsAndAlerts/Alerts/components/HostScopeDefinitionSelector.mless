@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/active.less';
-
 @host__scope__tag__line_height: 2.5;
 
 :local {

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .row {
     &:nth-child(even) {
@@ -25,6 +23,6 @@
   }
 
   .invalid {
-    color: @lib__colors__red800;
+    color: var(--ids-color-option-red-500);
   }
 }
