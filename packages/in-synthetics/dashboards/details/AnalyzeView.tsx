@@ -44,7 +44,9 @@ import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
 import { bytes, meanLatency } from 'in-services/formatters/number';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTestResultMetadata } from 'in-synthetics/api';
@@ -169,8 +171,8 @@ export default function SyntheticAnalyzeView() {
           <LeftRightPadding>
             <ViewTrackingMeta
               data={{
-                productArea: 'Synthetic Monitoring',
-                pageRootName: 'Synthetic Test Result Detail',
+                productArea: productAreas.synthetic_monitoring,
+                pageRootName: pageNames.synthetic_test_result,
                 pagePath: location?.pathname
               }}
             />

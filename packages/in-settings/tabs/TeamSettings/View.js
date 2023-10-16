@@ -75,8 +75,10 @@ import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub'
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { pageNames } from 'in-services/tracking/pageNames';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -348,8 +350,8 @@ export default function View(props) {
     <Fragment>
       <ViewTrackingMeta
         data={{
-          productArea: 'Settings',
-          pageRootName: 'Team Settings'
+          productArea: productAreas.settings,
+          pageRootName: pageNames.team_settings
         }}
       />
 

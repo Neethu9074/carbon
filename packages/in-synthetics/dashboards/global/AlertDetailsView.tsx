@@ -23,7 +23,9 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
@@ -52,8 +54,8 @@ export default function AlertDetailsView() {
         <LeftRightPadding>
           <ViewTrackingMeta
             data={{
-              productArea: 'Synthetic Monitoring',
-              pageRootName: 'Global Alert Details',
+              productArea: productAreas.synthetic_monitoring,
+              pageRootName: pageNames.global_alerts,
               pagePath: location?.pathname
             }}
           />
@@ -86,8 +88,8 @@ export default function AlertDetailsView() {
           <LeftRightPadding>
             <ViewTrackingMeta
               data={{
-                productArea: 'Synthetic Monitoring',
-                pageRootName: 'Local Alert Details',
+                productArea: productAreas.synthetic_monitoring,
+                pageRootName: pageNames.local_alerts,
                 pagePath: location?.pathname
               }}
             />
