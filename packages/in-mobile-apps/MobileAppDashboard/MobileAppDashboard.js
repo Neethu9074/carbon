@@ -170,7 +170,7 @@ function ButtonLine({ viewId, tagCatalogSessionStart, mobileAppLabel, tagFilters
       {viewId && (
         <Button
           kind="primary"
-          icon="lib_mobile_app"
+          icon="lib_mobile_app_view"
           href={
             tagCatalogSessionStart &&
             getLinkToMobileAppAnalyze({
