@@ -8,6 +8,7 @@ import React from 'react';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import useServices from 'in-applications/hooks/useServices';
+import { titleWidth } from 'in-service-levels/constants';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -17,7 +18,6 @@ interface ServiceSelectBoxProps {
   boundaryScope: ApplicationBoundaryScope;
   value?: string | Nullish;
   onChange: (application?: string) => void;
-  width?: string;
 }
 
 export default function ServiceSelectBox({
@@ -25,8 +25,7 @@ export default function ServiceSelectBox({
   hasError,
   boundaryScope,
   value,
-  onChange,
-  width
+  onChange
 }: ServiceSelectBoxProps) {
   const [servicesPage, status] = useServices({
     application: applicationId,
@@ -38,7 +37,7 @@ export default function ServiceSelectBox({
   return (
     <SelectInSection
       id="new-sli-service-selection"
-      titleWidth={width}
+      titleWidth={titleWidth}
       label={t('in-custom-dashboards:widgets.slo.servicesSelectBox.service')}
       disabled={isBlank(applicationId) || status !== 'resolved'}
       value={value ?? ''}

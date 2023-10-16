@@ -14,6 +14,7 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
+import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
@@ -30,8 +31,6 @@ export default function SloNameAndTagsSection() {
 
   const isNameValid = isFieldValid(nameField);
 
-  const width = '14.7rem';
-
   return (
     <section>
       <Typography variant="heading-200" component="h2">
@@ -43,7 +42,7 @@ export default function SloNameAndTagsSection() {
             title={t('in-service-levels:createSloDialog.sloNameLabel')}
             titleHtmlFor="slo-name-input"
             hasError={!isNameValid}
-            titleWidth={width}
+            titleWidth={titleWidth}
           >
             <Input
               id="slo-name-input"
@@ -64,7 +63,7 @@ export default function SloNameAndTagsSection() {
           <Section
             title={t('in-service-levels:createSloDialog.tagsLabel')}
             titleHtmlFor="slo-tag-select"
-            titleWidth={width}
+            titleWidth={titleWidth}
           >
             <CreatableTagSelect
               id="slo-tag-select"

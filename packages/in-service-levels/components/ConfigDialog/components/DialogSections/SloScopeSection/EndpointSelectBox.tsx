@@ -8,6 +8,7 @@ import React from 'react';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useEndpoints from 'in-applications/hooks/useEndpoints';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
+import { titleWidth } from 'in-service-levels/constants';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -17,7 +18,6 @@ interface EndpointSelectBoxProps {
   serviceId?: string | Nullish;
   boundaryScope: ApplicationBoundaryScope;
   value: string | Nullish;
-  width?: string;
   onChange: (endpoint: string) => void;
 }
 
@@ -27,7 +27,6 @@ export default function EndpointSelectBox({
   serviceId,
   boundaryScope,
   value,
-  width,
   onChange
 }: EndpointSelectBoxProps) {
   const [endpointsPage, status] = useEndpoints({
@@ -44,7 +43,7 @@ export default function EndpointSelectBox({
       label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
       disabled={isBlank(applicationId) || status !== 'resolved'}
       value={value ?? ''}
-      titleWidth={width}
+      titleWidth={titleWidth}
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={hasError}
     >

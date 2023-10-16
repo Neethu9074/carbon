@@ -14,6 +14,7 @@ import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/c
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -28,8 +29,6 @@ export default function SloScopeApplicationSection() {
   const includeSyntheticField = form.getIn(['scope', 'includeSynthetic']);
   const serviceIdField = form.getIn(['scope', 'serviceId']);
 
-  const width = '14.7rem';
-
   return (
     <section>
       <Typography variant="heading-200" component="h2">
@@ -37,7 +36,7 @@ export default function SloScopeApplicationSection() {
       </Typography>
       <Stack gap="small">
         <Sections>
-          <Section title={t('in-service-levels:general.boundary')} titleWidth={width}>
+          <Section title={t('in-service-levels:general.boundary')} titleWidth={titleWidth}>
             <BoundaryScopeConfigurator
               value={boundaryField.value}
               onChange={scope =>
@@ -45,7 +44,7 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={width}>
+          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={titleWidth}>
             <HiddenCallsConfigurator
               includeInternal={includeInternalField.value}
               includeSynthetic={includeSyntheticField.value}
@@ -63,7 +62,6 @@ export default function SloScopeApplicationSection() {
             boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
             value={serviceIdField.value}
-            width={width}
             hasError={!serviceIdField.valid && serviceIdField.touched}
             onChange={value => onChange(['scope', 'serviceId'], () => serviceIdField.setValue(value!).setTouched(true))}
           />
@@ -72,13 +70,12 @@ export default function SloScopeApplicationSection() {
             applicationId={applicationIdField.value}
             serviceId={serviceIdField.value}
             value={endpointIdField.value}
-            width={width}
             hasError={!endpointIdField.valid && endpointIdField.touched}
             onChange={value =>
               onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))
             }
           />
-          <ApplicationTagFilterBuilder form={form} onChange={onChange} width={width} />
+          <ApplicationTagFilterBuilder form={form} onChange={onChange} width={titleWidth} />
         </Sections>
       </Stack>
     </section>
