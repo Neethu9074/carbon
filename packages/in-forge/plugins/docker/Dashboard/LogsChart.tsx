@@ -37,7 +37,7 @@ export default function LogsChart(props: LogsChartProps) {
   return (
     <UnifiedMetricsChart
       automaticallySize={false}
-      renderLegend={false}
+      renderLegend
       config={{
         additionalContextMenuButtons,
         y1: {
