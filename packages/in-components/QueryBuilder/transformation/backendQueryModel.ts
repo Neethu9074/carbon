@@ -48,7 +48,8 @@ export function createTagFilterExpression(
 export function addTagFilters(
   backendQueryModel: TagFilterExpressionElementUnion | Nullish,
   tagFilters: TagFilterExpressionElementUnion[],
-  logicalOperator: LogicalOperator = OPERATOR_AND
+  logicalOperator: LogicalOperator = OPERATOR_AND,
+  insertToBegin: boolean = false
 ): TagFilterExpressionElementUnion {
   if (isEmptyExpression(backendQueryModel)) {
     if (tagFilters.length == 1) {
@@ -64,7 +65,7 @@ export function addTagFilters(
   return {
     type: EXPRESSION,
     logicalOperator,
-    elements: [backendQueryModel!, ...tagFilters]
+    elements: insertToBegin ? [...tagFilters, backendQueryModel!] : [backendQueryModel!, ...tagFilters]
   };
 }
 
