@@ -112,7 +112,6 @@ export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('cus
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
-export const infraSmartAlertsDetailsPageEnabled = isFeatureFlagEnabled('infraSmartAlertsDetailsPageEnabled');
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
