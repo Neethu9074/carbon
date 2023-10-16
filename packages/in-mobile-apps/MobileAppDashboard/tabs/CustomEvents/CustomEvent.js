@@ -50,8 +50,8 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
 
   const granularity = getChartGranularity(timeConfig);
   tagFilters = tagFilters.concat([
-    { name: 'mobileBeacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' },
-    { name: 'mobileBeacon.type', stringValue: 'custom', operator: 'EQUALS' }
+    { name: 'mobileBeacon.type', stringValue: 'custom', operator: 'EQUALS' },
+    { name: 'mobileBeacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' }
   ]);
   const viewInAnalytics = {
     mobileAppLabel,
