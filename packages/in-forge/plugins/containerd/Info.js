@@ -24,6 +24,9 @@ export default function ContainerdInfo({ snapshot }) {
         title={t('in-forge:plugins.containerd.infoUpdatedAt')}
         dateTime={data.get('updatedAt')}
       />
+      <DescriptionItem title={t('in-forge:plugins.containerd.containerdVersion')}>
+        {data.get('containerdVersion')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
