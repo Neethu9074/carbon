@@ -1,7 +1,7 @@
 :local {
   .limitingFilter {
     &_applicationScope {
-      margin-top: 10px;
+      margin: 10px 1rem 1rem 0;
     }
     &_queryBuilder {
       margin: 1rem 0;

@@ -49,9 +49,6 @@ export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems
 
       <DescriptionText className={locals.limitingFilter_descriptionText}>
         {t('in-settings:PermissionSection.limitation_description')}
-        <a className={locals.limitingFilter_descriptionLink} href="#">
-          {t('in-settings:PermissionSection.limitation_description_link')}{' '}
-        </a>
       </DescriptionText>
 
       <div className={locals.limitingFilter_queryBuilder}>
