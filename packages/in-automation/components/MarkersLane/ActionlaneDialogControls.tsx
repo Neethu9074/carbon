@@ -25,7 +25,7 @@ export default function ActionlaneDialogControls({
   actionId: string;
   eventData: ActionListCalloutProps;
 }) {
-  const { boundaryScope, labels, snapshotHostFqdn } = eventData;
+  const { boundaryScope, labels, snapshotHostFqdn, hasButtonInActionslane } = eventData;
   const { applicationLabel, serviceLabel, endpointLabel } = labels;
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
@@ -40,6 +40,9 @@ export default function ActionlaneDialogControls({
     formModel: snapshotHostFqdn ? [tagFilterExpression] : joinExpressions({ expressions: [[], []] }),
     groupBy: createGroupBy('application.name', DESTINATION)
   });
+  if (!hasButtonInActionslane) {
+    return null;
+  }
 
   return (
     <>
