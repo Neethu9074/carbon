@@ -208,15 +208,15 @@ export function removeScriptField(form: MapForm<any>) {
 }
 
 export function removeGitlabField(form: MapForm<any>) {
-  return form.remove('github').remove('subtype');
-}
-
-export function removeGithubField(form: MapForm<any>) {
   return form.remove('gitlab').remove('subtype');
 }
 
+export function removeGithubField(form: MapForm<any>) {
+  return form.remove('github').remove('subtype');
+}
+
 export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
-  const { title, body, labels } = getGithubFields(action);
+  const { title, body, labels, assignees } = getGithubFields(action);
   form = form
     .put(
       'title',
@@ -236,6 +236,15 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
       'labels',
       createField({
         value: labels.value ? labels.value.split(',').map(label => ({ value: label, id: generateUniqueShortId() })) : []
+        // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
+      })
+    )
+    .put(
+      'assignees',
+      createField({
+        value: assignees.value
+          ? assignees.value.split(',').map(assignee => ({ value: assignee, id: generateUniqueShortId() }))
+          : []
         // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
       })
     );

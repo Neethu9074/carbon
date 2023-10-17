@@ -147,7 +147,9 @@
     "ActionAssociationsForEvent": "Associate Events",
     "ActionAssociationsForSmartAlert": "Associate Smart Alerts",
     "noLabelsConfigured":"No labels are added.",
-    "addLabels":"Add Labels"
+    "addLabels":"Add Labels",
+    "addAssignees":"Add Assignees",
+    "noAssigneesConfigured":"No Assignees are added"
   },
   "actionHistory": {
     "actionHistory": "Action History",

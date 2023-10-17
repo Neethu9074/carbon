@@ -89,8 +89,6 @@ export default function FieldsTable({
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, fieldName });
   const labels = (form.get(`${fieldName}`) as Field<any>).value;
 
-  // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-
   return (
     <ServerTablePresenterWrapper
       columnDefinitions={columnDefinitions}

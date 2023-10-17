@@ -269,8 +269,10 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
     const title = (form.get('title') as FormField<string>).value;
     const body = (form.get('body') as FormField<string>).value;
     const labels = (form.get('labels') as FormField<any>).value;
+    const assignees = (form.get('assignees') as FormField<any>).value;
     const labelsString = labels.map((tag: Tag) => tag.value).join(',');
-    fields.push(...createGithubFields({ title: title, body: body, labels: labelsString }));
+    const assigneesString = assignees.map((tag: Tag) => tag.value).join(',');
+    fields.push(...createGithubFields({ title: title, body: body, labels: labelsString, assignees: assigneesString }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

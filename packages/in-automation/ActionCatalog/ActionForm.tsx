@@ -417,6 +417,17 @@ const GithubSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form'
           noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
         />
       </FormGroup>
+
+      <FormGroup>
+        <FieldsTable
+          form={form}
+          setForm={setForm}
+          onChange={onChange}
+          fieldName="assignees"
+          customAddRowLabel={t('in-automation:ActionCatalog.addAssignees')}
+          noDataMessage={t('in-automation:ActionCatalog.noAssigneesConfigured')}
+        />
+      </FormGroup>
     </>
   );
 };

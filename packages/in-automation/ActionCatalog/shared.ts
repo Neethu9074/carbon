@@ -67,6 +67,8 @@ export const getGithubBodyFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
 export const getGithubLabelsFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.labels ?? { value: '', encoding: 'ascii', name: 'labels' };
+export const getGithubAssigneesFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.assignees ?? { value: '', encoding: 'ascii', name: 'assignees' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -126,13 +128,15 @@ interface GithubFields {
   title: Field;
   body: Field;
   labels: Field;
+  assignees: Field;
 }
 
 export function getGithubFields(action: Action | NewAction): GithubFields {
   const title = getGithubTitleFromFields(action.fields);
   const body = getGithubBodyFromFields(action.fields);
   const labels = getGithubLabelsFromFields(action.fields);
-  return { title, body, labels };
+  const assignees = getGithubAssigneesFromFields(action.fields);
+  return { title, body, labels, assignees };
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;

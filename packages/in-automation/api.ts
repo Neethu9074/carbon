@@ -294,9 +294,10 @@ interface GithubFields {
   title: string;
   body: string;
   labels: string;
+  assignees: string;
 }
 
-export const createGithubFields = ({ title, body, labels }: GithubFields): Field[] => [
+export const createGithubFields = ({ title, body, labels, assignees }: GithubFields): Field[] => [
   {
     value: title,
     description: 'github issue title',
@@ -314,6 +315,12 @@ export const createGithubFields = ({ title, body, labels }: GithubFields): Field
     description: 'github issue labels',
     encoding: 'ascii',
     name: 'labels'
+  },
+  {
+    value: assignees,
+    description: 'github issue assignees',
+    encoding: 'ascii',
+    name: 'assignees'
   }
 ];
 
