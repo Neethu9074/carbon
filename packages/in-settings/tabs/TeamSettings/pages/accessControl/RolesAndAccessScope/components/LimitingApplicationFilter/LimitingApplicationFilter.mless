@@ -1,16 +1,7 @@
 :local {
   .limitingFilter {
-    &_heading {
-    }
-    &_descriptionText {
-    }
-    &_descriptionLink {
-    }
     &_applicationScope {
-      color: red;
-      .in-applications_creation_components_ApplicationScopeSelector .applicationScopeSwitchContainer {
-        border: none;
-      }
+      margin-top: 10px;
     }
     &_queryBuilder {
       margin: 1rem 0;

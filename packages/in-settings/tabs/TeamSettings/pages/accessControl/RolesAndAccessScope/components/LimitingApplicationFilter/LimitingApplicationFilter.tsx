@@ -13,6 +13,7 @@ import { Button, Typography } from '@instana/components';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 //@ts-expect-error not migrated to typescript yet
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
+import { updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -23,20 +24,22 @@ import locals from './LimitingApplicationFilter.mless';
 export interface LimitingApplicationFilterProps<FORM_TYPE extends MapFormItems> {
   form: MapForm<FORM_TYPE>;
   setForm: (form: MapForm<FORM_TYPE>) => void;
-  setTagFilterExpression: (
-    tagFilterExpression: FormModelElement[],
-    form: MapForm<FORM_TYPE>,
-    setForm: (form: MapForm<FORM_TYPE>) => void
-  ) => void;
 }
 
 export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems>({
   form,
-  setForm,
-  setTagFilterExpression
+  setForm
 }: LimitingApplicationFilterProps<FORM_TYPE>) {
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
+
+  const setTagFilterExpression = (
+    tagFilterExpression: FormModelElement[],
+    form: MapForm<any>,
+    setForm: (form: MapForm<any>) => void
+  ) => {
+    setForm(updateFormField(form, 'tagFilterExpression', tagFilterExpression, true));
+  };
 
   return (
     <div className={locals.limitingFilter}>

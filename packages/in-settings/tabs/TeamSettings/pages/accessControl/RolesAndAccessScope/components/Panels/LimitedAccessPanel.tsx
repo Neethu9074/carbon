@@ -33,8 +33,8 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { applicationContributionFilter } from 'in-services/featureFlags';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -159,7 +159,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         <SyntheticCommonSection form={form} setForm={setForm} />
       )}
       <Divider />
-      {applicationContributionFilter && entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
+      {applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
         <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
       )}
 

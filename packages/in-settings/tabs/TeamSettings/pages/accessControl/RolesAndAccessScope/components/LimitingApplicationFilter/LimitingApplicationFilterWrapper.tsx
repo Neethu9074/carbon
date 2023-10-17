@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MapForm, MapFormItems } from 'formalistic';
+import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { Observable } from '@instana/observables';
@@ -34,20 +34,13 @@ export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFo
   setForm
 }: LimitingApplicationFilterWrapperProps<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
-  const tagFilterExpressionField = getField<string>(form, 'tagFilterExpression');
+  const tagFilterExpressionField = getField<FormModelElement[]>(form, 'tagFilterExpression');
   const tagFilterExpression = tagFilterExpressionField?.value;
+
   const validTagFilterExpressionResult: Result<boolean> =
     useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
   const isValidTagFilterExpression = validTagFilterExpressionResult?.data;
   const servicesLiveList = useObservable(getStreamData, [form, isValidTagFilterExpression]);
-
-  const setTagFilterExpressionField = (
-    tagFilterExpression: FormModelElement[],
-    form: MapForm<any>,
-    setForm: (form: MapForm<any>) => void
-  ) => {
-    setForm(form.updateIn(['tagFilterExpression'], field => field.setValue(tagFilterExpression)));
-  };
 
   function getStreamData([form, isValidTagFilterExpression]: any): Observable<Result<any>> {
     const jsForm = form.toJS();
@@ -66,9 +59,10 @@ export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFo
       tagFilterExpression: toBackendQueryModel(tagFilterExpression)
     });
   }
+
   return (
     <div>
-      <LimitingApplicationFilter form={form} setForm={setForm} setTagFilterExpression={setTagFilterExpressionField} />
+      <LimitingApplicationFilter form={form} setForm={setForm} />
       <ServiceLiveList
         servicesLiveList={servicesLiveList}
         headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}

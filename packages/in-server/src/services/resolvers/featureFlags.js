@@ -429,5 +429,10 @@ module.exports = exports = [
     uiClientKey: 'playWithReleaseEnabled',
     instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationContributionFilterEnabled',
+    instanaCtlKey: 'feature.application.contributionFilter.enabled',
+    defaultValue: false
   }
 ];

@@ -91,5 +91,6 @@ module.exports = {
   regexMetricSelectionEnabled: true,
   infraSmartAlertsDetailsPageEnabled: true,
   logDeletionEnabled: true,
-  actionsLaneEnabled: true
+  actionsLaneEnabled: true,
+  applicationContributionFilterEnabled: true
 };

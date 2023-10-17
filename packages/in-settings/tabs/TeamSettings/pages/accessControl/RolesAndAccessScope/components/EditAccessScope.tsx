@@ -7,8 +7,8 @@
 import { MapForm, Field, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { PermissionSet, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
@@ -27,9 +27,10 @@ import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscr
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
+import { applicationContributionFilterEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
-import { syntheticRbacEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
@@ -54,10 +55,36 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const timeConfig = useTimeConfig();
 
   const groupNameField = getField<string>(form, 'name');
-  const tagFilterExpression = getField<string>(form, 'tagFilterExpression');
+  const tagFilterExpression = getField<FormModelElement[]>(form, 'tagFilterExpression')?.value ?? undefined;
+
   const validTagFilterExpressionResult: Result<boolean> =
-    useObservable(isQueryValid, [tagFilterExpression?.value, timeConfig]) ?? pendingResult;
-  const isValidTagFilterExpression = validTagFilterExpressionResult?.data;
+    useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
+
+  let isValidTagFilterExpression = true;
+
+  if (applicationContributionFilterEnabled) {
+    const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
+    const permissions = permissionSet?.permissions;
+    const limitedApplicationOwnerPermissons = [
+      'CAN_CONFIGURE_APPLICATIONS',
+      'LIMITED_APPLICATIONS_SCOPE',
+      'ACCESS_APPLICATIONS'
+    ];
+    const isApplicationOwnerAccess = limitedApplicationOwnerPermissons.every(permission => {
+      return permissions?.includes(permission);
+    });
+
+    if (isApplicationOwnerAccess) {
+      if (tagFilterExpression?.length === 0) {
+        isValidTagFilterExpression = false;
+      } else {
+        isValidTagFilterExpression = validTagFilterExpressionResult?.data as boolean;
+      }
+    } else {
+      isValidTagFilterExpression = true;
+    }
+  }
+
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
     setForm
