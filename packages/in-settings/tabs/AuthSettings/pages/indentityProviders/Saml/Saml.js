@@ -83,7 +83,7 @@ export default function Saml() {
 }
 
 function Content({ file, form, setForm, setFile, setCanSaveItem, result }) {
-  const inputFileRef = useRef < HTMLInputElement > null;
+  const inputFileRef = useRef<HTMLInputElement>(null);
   useEffect(
     // allow only saving when idP metadata has been uploaded
     () => setCanSaveItem(!!file),
@@ -220,12 +220,12 @@ function Content({ file, form, setForm, setFile, setCanSaveItem, result }) {
             <Section restrictWidth="50rem">
               <h2>{t('in-settings:tabs.uploadIdPMetadata')}</h2>
               <div className={locals.flexWrapper}>
-                <Input
+                <input
                   id="idpMetadataFile"
                   type="file"
                   accept="text/xml"
                   multiple={false}
-                  ref={r => (inputFileRef.current = r)}
+                  ref={r => inputFileRef.current = r}
                   onChange={onInputFileChange}
                   hidden
                 />
