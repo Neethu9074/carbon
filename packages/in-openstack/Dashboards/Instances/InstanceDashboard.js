@@ -13,12 +13,14 @@ import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { instanceDashboard } from 'in-openstack/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import tabs from 'in-openstack/Dashboards/Instances/tabs/index';
 import { InstanceBreadcrumbs } from 'in-openstack/breadcrumbs';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -37,8 +39,8 @@ export default function InstanceDashboard({ location }) {
       <Breadcrumbs items={InstanceBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'openstack',
-          pageRootName: t('in-openstack:dashboards.computeInstances')
+          productArea: productAreas.openstack,
+          pageRootName: pageNames.open_stack_region_compute_instance_summary
         }}
       />
 
