@@ -217,5 +217,44 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: 'https://ibm.biz/insta-hostagentcantbind'
+  },
+  turbonomic_sensor_exception: {
+    issueDescription: {
+      Component: function TurbonomicSensorException({ e }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.turbonomicSensorException" values={{ e }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current`
+  },
+  turbonomic_sensor_auth_exception: {
+    issueDescription: {
+      Component: function TurbonomicSensorAuthException({ e }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.turbonomicSensorException" values={{ e }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current`
+  },
+  turbonomic_sensor_warning: {
+    issueDescription: {
+      Component: function TurbonomicSensorWarning({ e }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.turbonomicSensorException" values={{ e }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current`
   }
 };

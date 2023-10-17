@@ -10537,7 +10537,8 @@
       "discoveryCount": "Discovery Count",
       "sensors": "Sensors",
       "hostname": "Hostname",
-      "startType": "Start Type"
+      "startType": "Start Type",
+      "turbonomicSensorException": "Turbonomic sensor produced the following exception : <code>{{e}}</code>."
     },
     "sparkStandalone": {
       "titleApplicationId": "Application Id",
