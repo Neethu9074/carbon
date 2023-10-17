@@ -152,16 +152,11 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
   );
 }
 
-function ReactTheme() {
-  const theme = useTheme();
-  return theme;
-}
-
 function RenderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
   const clusterManagement = get(result, ['data', 'clusterManagement']);
-  const theme = ReactTheme();
+  const theme = useTheme();
   return (
     <>
       {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}

@@ -60,7 +60,6 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const limits = theme.ids.color.option.orange['500'];
   const requests = theme.ids.color.option.lime['500'];
   const usage = theme.ids.color.option.blue['400'];
-
   const pods = oldTheme.lib.colors.slushGreen800; // We don't have any alternative ids color for slushGreen800 -- using oldTheme here
 
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
