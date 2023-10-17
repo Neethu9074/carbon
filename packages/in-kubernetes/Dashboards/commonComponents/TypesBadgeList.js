@@ -6,8 +6,9 @@
 import React from 'react';
 
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 export default function TypesBadgeList({ type, types }) {
-  return <BadgeList type={type} types={types} getColor={() => theme.lib.colors.purple800} />;
+  const theme = useTheme();
+  return <BadgeList type={type} types={types} getColor={() => theme.ids.color.option.purple['500']} />;
 }

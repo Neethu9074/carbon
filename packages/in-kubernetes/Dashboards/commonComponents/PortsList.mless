@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .fadedLabel {
-    color: @lib__colors__N400;
+    color: var(--ids-color-option-neutral-400);
   }
 }

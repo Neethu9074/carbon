@@ -32,15 +32,15 @@ const showUsage = k8sClusterUsageEnabled;
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
-  const {
-    green800: running,
-    teal800: capacity,
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated
-  } = theme.lib.colors;
+
+  // Removing the old destructuring syntax for colors
+  const running = theme.ids.color.option.green['500'];
+  const capacity = theme.ids.color.option.teal['500'];
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
+  const pending = theme.ids.color.option.orange['500'];
+  const allocated = theme.ids.color.option.blue['400'];
 
   const label = ' (cluster)';
   const clusterName = cluster.label.substr(0, cluster.label.length - label.length);

@@ -30,22 +30,22 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: statefulSet }: any) {
+  const theme = useTheme();
   const timeShift = useTimeShiftConfig();
 
-  const {
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready,
-    success: desired
-  } = theme.lib.colors;
+  // Removing the old destructuring syntax for colors
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
+  const pending = theme.ids.color.option.orange['500'];
+  const allocated = theme.ids.color.option.blue['400'];
+  const unscheduled = theme.ids.color.option['deep-purple']['500'];
+  const unready = theme.ids.color.option.pink['500'];
+  const desired = theme.ids.color.option.green['500'];
 
   const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
@@ -271,13 +271,13 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 metric: 'conditions.PodScheduled.False',
                 label: t('in-kubernetes:dashboards.unscheduled'),
                 color: unscheduled,
-                ...defaultChartMetricConfig,
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'conditions.Ready.False',
                 label: t('in-kubernetes:dashboards.unready'),
                 color: unready,
-                ...defaultChartMetricConfig,
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.pods')}
