@@ -3,30 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
 
-import {
-  getTraceIdTagFilter,
-  LOG_CUSTOM,
-  LOG_EXCEPTION_MESSAGE,
-  LOG_EXCEPTION_STACK_TRACE,
-  LOG_EXCEPTION_TYPE,
-  LOG_LEVEL,
-  LOG_SPAN_ID
-} from 'in-logging/queryBuilder';
-import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
-import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { getSpanIdFromTags } from 'in-components/Logging/TraceDetails/utils';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import getLogs from 'in-logging/subscriptions/getLogs';
-
-import locals from 'in-components/Logging/TraceDetails/components/Logs.mless';
 
 const columnDefinitions = [
   logLevelColumn,
@@ -38,11 +24,7 @@ const columnDefinitions = [
 ];
 
 export default function Logs(props) {
-  const { traceId, totalNumberOfLogs, selectedLogIdPair, selectLogId, timeConfigForLogs } = props;
-  const { items, errors, progress } = useLogsCursorPagination(
-    params => getData({ traceId, totalNumberOfLogs, timeConfigForLogs, ...params }),
-    [traceId]
-  );
+  const { items, progress, errors, selectLogId } = props;
 
   if (progress?.loading) {
     return <LoadingList numSkeletonRows={3} />;
@@ -55,18 +37,13 @@ export default function Logs(props) {
 
   return (
     <Ul space="disabled">
-      {items.map(log => {
+      {items?.map(log => {
         const id = log.itemId;
         const spanId = getSpanIdFromTags(log.tags);
-        const isSelected = selectedLogIdPair
-          ? selectedLogIdPair.logId === id && spanId === selectedLogIdPair.spanId
-          : false;
+
         return (
           <Li
             key={id}
-            className={classNames({
-              [locals.selectedRow]: isSelected
-            })}
             onClick={() => selectLogId({ logId: id, spanId })}
             renderNestedContent={() => <LogTagsTable item={log} />}
           >
@@ -76,25 +53,4 @@ export default function Logs(props) {
       })}
     </Ul>
   );
-}
-function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
-  const cappedRetrievalSize = totalNumberOfLogs < maxRetrievalSize ? totalNumberOfLogs : maxRetrievalSize;
-
-  return getLogs({
-    timeConfig: timeConfigForLogs,
-    retrievalSize: cappedRetrievalSize,
-    tagFilterExpression: getTraceIdTagFilter(traceId),
-    requestedTags: [
-      LOG_SPAN_ID,
-      LOG_LEVEL,
-      LOG_CUSTOM,
-      LOG_EXCEPTION_TYPE,
-      LOG_EXCEPTION_MESSAGE,
-      LOG_EXCEPTION_STACK_TRACE
-    ]
-  });
-}
-
-function getSpanIdFromTags(tags) {
-  return tags.filter(({ name }) => name === LOG_SPAN_ID)[0]?.stringValue;
 }

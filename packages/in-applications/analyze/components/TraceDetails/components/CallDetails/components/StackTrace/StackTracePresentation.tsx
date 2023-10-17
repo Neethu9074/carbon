@@ -7,14 +7,28 @@ import classNames from 'classnames';
 import React from 'react';
 
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
-import { t } from 'in-i18n';
+import { ParsedStackTrace } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
+import { SnapshotData } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './StackTracePresentation.mless';
 
 const STRIP_QUOTES_REGEX = /`|'/g;
 
-export default function StackTracePresentation({ stackTrace, isOnline, snapshot, noPadding }) {
+export interface StackTracePresentationProps {
+  noPadding: boolean;
+  snapshot: SnapshotData | null;
+  isOnline: boolean;
+  stackTrace: ParsedStackTrace[] | null;
+}
+
+export default function StackTracePresentation({
+  stackTrace,
+  isOnline,
+  snapshot,
+  noPadding
+}: StackTracePresentationProps) {
   let noCodeLinkMessage;
 
   if (isOnline === false) {
@@ -43,7 +57,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
   );
 }
 
-function combine(file, line) {
+function combine(file: string, line: string) {
   if (line != null) {
     return `${file}:${line}`;
   }
@@ -53,11 +67,11 @@ function combine(file, line) {
 // Some trace agents will record quotes in method names. We don't want to present these
 // as it looks ugly.
 // Ruby example: `<main>'
-function stripQuotes(s) {
+function stripQuotes(s: string) {
   return s.replace(STRIP_QUOTES_REGEX, '');
 }
 
-function ListContent({ stackTrace, isOnline, snapshot, noPadding }) {
+function ListContent({ stackTrace, isOnline, snapshot, noPadding }: StackTracePresentationProps) {
   return (
     <ol
       className={classNames({
@@ -65,7 +79,7 @@ function ListContent({ stackTrace, isOnline, snapshot, noPadding }) {
         [locals.noPadding]: noPadding
       })}
     >
-      {stackTrace.map((st, i) => {
+      {stackTrace?.map((st, i) => {
         const fileLine = combine(st.file, st.line);
         return (
           <li key={i}>

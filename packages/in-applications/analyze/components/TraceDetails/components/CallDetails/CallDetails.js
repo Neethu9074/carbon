@@ -27,7 +27,8 @@ import { t } from 'in-i18n';
 import locals from './CallDetails.mless';
 
 export default function CallDetails(props) {
-  const { rootCall, callId, traceId, correlationId, correlationType, startTime, getColor, onClose } = props;
+  const { rootCall, callId, traceId, correlationId, correlationType, startTime, getColor, onClose, logsCardProps } =
+    props;
   const callResult =
     useObservable(() => {
       return getTraceActivityTreeNodeDetails({
@@ -99,7 +100,13 @@ export default function CallDetails(props) {
         rightHeaderContent={<ActionButtons call={call} onClose={onClose} />}
       >
         <Stack direction="vertical" gap="normal">
-          <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
+          <ServiceComponent
+            selectLogId={props.selectLogId}
+            call={call}
+            websiteBeacon={websiteBeacon}
+            mobileAppBeacon={mobileAppBeacon}
+            logsCardProps={logsCardProps}
+          />
           <IsSynthetic call={call} />
         </Stack>
       </Card>
