@@ -16,9 +16,11 @@ import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/Navi
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
@@ -76,8 +78,8 @@ export default class extends React.Component {
       <div ref={table => (this.table = table)}>
         <ViewTrackingMeta
           data={{
-            productArea: 'Events',
-            pageRootName: 'Events List'
+            productArea: productAreas.events,
+            pageRootName: pageNames.events
           }}
         />
 
