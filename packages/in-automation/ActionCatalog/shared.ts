@@ -6,6 +6,7 @@
 
 import { keyBy } from 'lodash';
 
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
 import { Action, Field } from 'in-types';
 import { t } from 'in-i18n';
@@ -250,3 +251,7 @@ export const parseDynamicParameter = (str?: string) => {
 
 export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
   ((action?.metadata?.builtIn ?? false) && !isCopy) || isAnsible(action.type);
+
+export const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
+  return parameters.some(param => param.value.name === paramName);
+};

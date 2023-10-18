@@ -52,18 +52,28 @@ export interface ParameterDialogProps {
   idToEdit?: string;
   isNotEditable: boolean;
   isAnsible: boolean;
+  isGithub: boolean;
 }
 
-export default function ParameterDialog({ form, onChange, idToEdit, isNotEditable, isAnsible }: ParameterDialogProps) {
+export default function ParameterDialog({
+  form,
+  onChange,
+  idToEdit,
+  isNotEditable,
+  isAnsible,
+  isGithub = false
+}: ParameterDialogProps) {
   const parameter = (form.get('parameters') as Field<MappedParameter[]>).value.find(
     parameter => parameter.id === idToEdit
   );
 
-  // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
-  isNotEditable = isNotEditable && !isAnsible;
   const [parameterForm, setParameterForm] = useState(createForm({ parameter, form, idToEdit }));
 
   const type = parameterForm.get('type') as Field<string>;
+  const parameterName = parameterForm.get('name') as Field<string>;
+  const disableGithubParameter = isGithub && parameterName.value === 'ticketId';
+  // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
+  isNotEditable = isNotEditable && !isAnsible;
 
   const sectionProps = {
     parameterForm,
@@ -89,7 +99,7 @@ export default function ParameterDialog({ form, onChange, idToEdit, isNotEditabl
             onSubmit({ parameterForm: parameterForm as MapForm<any>, parameter, form, onChange, idToEdit })
           }
         >
-          <MetaDataSection {...sectionProps} isAnsible={isAnsible} />
+          <MetaDataSection {...sectionProps} isAnsible={isAnsible} disableGithubParameter={disableGithubParameter} />
           {type.value === 'static' && <StaticSection {...sectionProps} />}
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
@@ -113,8 +123,9 @@ const MetaDataSection = ({
   parameterForm,
   setParameterForm,
   isNotEditable,
-  isAnsible
-}: SectionProps & { isAnsible: boolean }) => {
+  isAnsible,
+  disableGithubParameter
+}: SectionProps & { isAnsible: boolean; disableGithubParameter: boolean }) => {
   const name = parameterForm.get('name') as Field<string>;
   const label = parameterForm.get('label') as Field<string>;
   const description = parameterForm.get('description') as Field<string>;
@@ -147,7 +158,7 @@ const MetaDataSection = ({
           id="parameter-name"
           type="text"
           // IMPORTANT: isNotEditable has been overridden for Ansible actions so we need to check isAnsible here to disable the input
-          disabled={isNotEditable || isAnsible}
+          disabled={isNotEditable || isAnsible || disableGithubParameter}
           value={name.value}
           onChange={e => onParameterChange({ fieldName: 'name', value: e.target.value, setParameterForm, parameter })}
           hasError={!name.valid && name.touched}
@@ -231,7 +242,7 @@ const MetaDataSection = ({
       </FormGroup>
       <FormGroup>
         <CheckboxFancy
-          disabled={hidden.value || isNotEditable}
+          disabled={hidden.value || isNotEditable || disableGithubParameter}
           checked={required.value}
           label={t('in-automation:ActionCatalog.required')}
           onChange={e =>
@@ -427,7 +438,7 @@ function onParameterChange<T>({
   });
 }
 
-interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable' | 'isAnsible'> {
+interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable' | 'isAnsible' | 'isGithub'> {
   parameterForm: MapForm<any>;
   parameter: MappedParameter | undefined;
 }

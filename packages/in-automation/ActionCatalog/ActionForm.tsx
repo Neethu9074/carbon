@@ -57,7 +57,8 @@ import {
   GH_TICKET_TYPES,
   OPEN,
   CLOSE,
-  ADD_COMMENT
+  ADD_COMMENT,
+  doesParameterExist
 } from 'in-automation/ActionCatalog/shared';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
@@ -384,6 +385,7 @@ const GithubSection = ({
   const repo = form.get('repo') as Field<string>;
   const ticketType = form.get('ticketType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
+  let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
   return (
     <>
@@ -444,46 +446,43 @@ const GithubSection = ({
                       updatedForm = putGithubOpenTicketFields(updatedForm, action);
                     } else if (type == CLOSE) {
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
-
-                      const parameterValue = [
-                        ...((form.get('parameters') as Field<MappedParameter[]>).value ?? []),
-                        {
+                      updatedForm = putGithubCloseAndCommentTicketFields(updatedForm, action);
+                      if (!doesParameterExist(parameters, 'ticketId')) {
+                        parameters.push({
                           id: generateUniqueShortId(),
                           value: {
-                            label: 'ticket name',
+                            label: 'Ticket Id',
                             name: 'ticketId',
+                            description: 'Github ticket id to close ticket',
                             required: true,
                             type: 'static',
                             valueType: 'string'
                           }
-                        }
-                      ];
-                      onChange('parameters', parameterValue);
-
-                      updatedForm = putGithubCloseAndCommentTicketFields(updatedForm, action);
+                        });
+                      }
+                      onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
                       updatedForm = putGithubCloseAndCommentTicketFields(updatedForm, action);
 
-                      const parameterValue = [
-                        ...((form.get('parameters') as Field<MappedParameter[]>).value ?? []),
-                        {
+                      if (!doesParameterExist(parameters, 'ticketId')) {
+                        parameters.push({
                           id: generateUniqueShortId(),
                           value: {
-                            label: 'ticket name',
+                            label: 'Ticket Id',
                             name: 'ticketId',
+                            description: 'Github ticket id to add comment',
                             required: true,
                             type: 'static',
                             valueType: 'string'
                           }
-                        }
-                      ];
-                      onChange('parameters', parameterValue);
+                        });
+                      }
+                      onChange('parameters', parameters);
                     }
                     return updatedForm;
                   })
                 }
-                // onChange={e => onChange('ticketActionType', e.target.value)}
                 hasError={!field.valid && field.touched}
               >
                 {GH_TICKET_TYPES.map(({ value, translation }) => (

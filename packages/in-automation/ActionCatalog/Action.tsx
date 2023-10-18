@@ -8,7 +8,6 @@ import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
 import React, { createContext } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -226,9 +225,6 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: Actio
   );
 };
 
-const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
-  return parameters.some(param => param.value.name === paramName);
-};
 function save(
   form: MapForm<any>,
   id: string | null,
@@ -298,24 +294,24 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
         type: 'close',
         comment
       };
-      if (!doesParameterExist(parameters, 'ticketId')) {
-        parameters.push({
-          id: generateUniqueShortId(),
-          value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
-        });
-      }
+      // if (!doesParameterExist(parameters, 'ticketId')) {
+      //   parameters.push({
+      //     id: generateUniqueShortId(),
+      //     value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
+      //   });
+      // }
     } else if (ticketType === ADD_COMMENT) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'addcomment',
         comment
       };
-      if (!doesParameterExist(parameters, 'ticketId')) {
-        parameters.push({
-          id: generateUniqueShortId(),
-          value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
-        });
-      }
+      // if (!doesParameterExist(parameters, 'ticketId')) {
+      //   parameters.push({
+      //     id: generateUniqueShortId(),
+      //     value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
+      //   });
+      // }
     }
     fields.push(...createGithubFields({ owner: owner, repo: repo, ticketType: type }));
   } else if (isWebhook(type)) {
