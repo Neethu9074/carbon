@@ -191,4 +191,4 @@ export const actionsLaneEnabled = isFeatureFlagEnabled('actionsLaneEnabled', fal
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
 
-export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', true);
+export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);

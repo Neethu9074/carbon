@@ -186,7 +186,7 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
 }
 
 function getPermissionSetWithApFilters(form) {
-  let isRestrictedFilter = form.get('tagFilterExpression').value?.length > 0;
+  const isRestrictedFilter = form.get('tagFilterExpression').value?.length > 0;
   let limitingFilterConfig = undefined;
   if (isRestrictedFilter) {
     const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);

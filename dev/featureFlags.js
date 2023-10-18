@@ -92,5 +92,5 @@ module.exports = {
   logDeletionEnabled: true,
   actionsLaneEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
-  applicationContributionFilterEnabled: true
+  applicationContributionFilterEnabled: false
 };
