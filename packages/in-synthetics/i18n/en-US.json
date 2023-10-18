@@ -414,7 +414,7 @@
       },
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
-      "downloadImages": "Download Screenshot",
+      "viewScreenshotsLabel": "View Screenshot(s)",
       "downloadVideo": "Download Recording",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
@@ -481,6 +481,14 @@
             "connect": "Connect"
           }
         }
+      },
+      "viewScreenshots":  {
+        "screenshotsDialogLabel": "Screeenshot(s)",
+        "allScreenshots": "All Screenshots",
+        "allImagesButton": "All Images",
+        "imageButton": "Image",
+        "ScreenshotsLoadingMessage": "Loading Screenshots",
+        "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
       }
     },
     "noDataAvailable": {
