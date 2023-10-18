@@ -1,0 +1,17 @@
+:local {
+  .limitingFilter {
+    &_applicationScope {
+      margin: 10px 1rem 1rem 0;
+    }
+    &_queryBuilder {
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    &_queryBuilderExpression {
+      flex-grow: 1;
+    }
+  }
+}

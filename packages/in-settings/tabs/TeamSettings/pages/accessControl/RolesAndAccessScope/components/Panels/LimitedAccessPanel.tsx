@@ -11,6 +11,7 @@ import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instan
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
@@ -32,6 +33,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -157,6 +159,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         <SyntheticCommonSection form={form} setForm={setForm} />
       )}
       <Divider />
+      {applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
+        <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
+      )}
+
       <StackItem>
         <Button
           kind="action"

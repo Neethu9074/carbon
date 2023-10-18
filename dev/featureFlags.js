@@ -91,5 +91,6 @@ module.exports = {
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,
   actionsLaneEnabled: true,
-  autoFormatterTimeSeriesEnabled: true
+  autoFormatterTimeSeriesEnabled: true,
+  applicationContributionFilterEnabled: false
 };

@@ -190,3 +190,5 @@ export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', tru
 export const actionsLaneEnabled = isFeatureFlagEnabled('actionsLaneEnabled', false);
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
+
+export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);

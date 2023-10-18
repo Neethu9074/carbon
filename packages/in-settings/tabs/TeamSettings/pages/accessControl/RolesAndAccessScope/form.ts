@@ -19,6 +19,9 @@ import {
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
+import { createNewApplicationConfig } from 'in-api/applicationConfigs';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
@@ -46,32 +49,36 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
 export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
 
-  return form
-    .put(
-      'id',
-      createField({
-        value: id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: permissionSet
-      })
-    );
+  if (!applicationContributionFilterEnabled) {
+    return form
+      .put(
+        'id',
+        createField({
+          value: id
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: name,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'members',
+        createField({
+          value: members
+        })
+      )
+      .put(
+        'permissionSet',
+        createField({
+          value: permissionSet
+        })
+      );
+  } else {
+    return createFilterForm(form, apiResult);
+  }
 }
 
 // Returns the AreaRole that matches the specified permissions
@@ -183,4 +190,49 @@ function addPermissionsByRoleForProductArea(
   }
 
   return newPermissions;
+}
+
+function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
+  const { id, name, members, permissionSet } = apiResult?.result.group || {};
+  const applicationConfig = createNewApplicationConfig();
+  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const tagFilterExpression = fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) || [];
+  return form
+    .put(
+      'id',
+      createField({
+        value: id
+      })
+    )
+    .put(
+      'name',
+      createField({
+        value: name,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'members',
+      createField({
+        value: members
+      })
+    )
+    .put(
+      'permissionSet',
+      createField({
+        value: permissionSet
+      })
+    )
+    .put(
+      'scope',
+      createField({
+        value: applicationScope
+      })
+    )
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: tagFilterExpression
+      })
+    );
 }
