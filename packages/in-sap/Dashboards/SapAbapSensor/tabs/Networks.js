@@ -11,6 +11,7 @@ import ICMServicesList from 'in-sap/Dashboards/SapAbapSensor/tabs/ICMServicesLis
 import ICMServiceList from 'in-sap/Dashboards/SapAbapSensor/tabs/ICMServiceList.js';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ICMThreadList from 'in-sap/Dashboards/SapAbapSensor/tabs/ICMThreadList.js';
+import LanInterface from 'in-sap/Dashboards/SapAbapSensor/tabs/LanInterface.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -22,6 +23,7 @@ export default function Networks({ timeConfig, data: sap }) {
   return (
     <Fragment>
       <GatewayConnections snapshotId={snapshotId} />
+      <LanInterface snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.icmInfo')}>
           <Chart

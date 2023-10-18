@@ -9,6 +9,7 @@ import { sapAbapSensorDashboardFullyQualified } from 'in-sap/navigation/paths';
 import Detailed from 'in-sap/Dashboards/SapAbapSensor/tabs/Detailed';
 import Networks from 'in-sap/Dashboards/SapAbapSensor/tabs/Networks';
 import Summary from 'in-sap/Dashboards/SapAbapSensor/tabs/Summary';
+import Idoc from 'in-sap/Dashboards/SapAbapSensor/tabs/Idoc';
 import { t } from 'in-i18n';
 
 export default [
@@ -31,5 +32,10 @@ export default [
     label: t('in-sap:dashboards.sapNetworks'),
     path: `${sapAbapSensorDashboardFullyQualified}/sapNetworks`,
     component: Networks
+  },
+  {
+    label: t('in-sap:dashboards.sapIdoc'),
+    path: `${sapAbapSensorDashboardFullyQualified}/sapIdoc`,
+    component: Idoc
   }
 ].filter(Boolean);

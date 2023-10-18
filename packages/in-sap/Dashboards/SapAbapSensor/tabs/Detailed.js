@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 
 import WorkProcessListMetric from 'in-sap/Dashboards/SapAbapSensor/tabs/WorkProcessListMetric.js';
 import DBConnectionProvider from 'in-sap/Dashboards/SapAbapSensor/tabs/DBConnectionProvider.js';
+import DatabaseHitList from 'in-sap/Dashboards/SapAbapSensor/tabs/DatabaseHitList.js';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import TotalMemory from 'in-sap/Dashboards/SapAbapSensor/tabs/TotalMemory.js';
@@ -78,6 +79,7 @@ export default function Detailed({ timeConfig, data: sap }) {
         </DashboardSection>
       </Columize>
       <DBConnectionProvider snapshotId={snapshotId} />
+      <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} />
     </Fragment>
   );
