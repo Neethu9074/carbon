@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import Lettering from 'in-components/Lettering';
-import AppIcon from 'in-themes/AppIcon';
 
 import locals from './Stan.mless';
 
@@ -14,7 +15,7 @@ export default function Stan() {
   return (
     <div className={locals.wrapper}>
       <div className={locals.content}>
-        <AppIcon />
+        <SvgIcon className={locals.icon} type="lib_application_icon" size="l" />
         <Lettering />
       </div>
     </div>

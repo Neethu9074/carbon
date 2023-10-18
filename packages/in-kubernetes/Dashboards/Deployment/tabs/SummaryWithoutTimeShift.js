@@ -24,23 +24,24 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { useDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
 const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deployment }) {
+  const theme = useTheme();
   const snapshotId = deployment.id;
-  const {
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready
-  } = theme.lib.colors;
+
+  // Removing the old destructuring syntax for colors
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
+  const pending = theme.ids.color.option.orange['500'];
+  const allocated = theme.ids.color.option.blue['400'];
+  const unscheduled = theme.ids.color.option['deep-purple']['500'];
+  const unready = theme.ids.color.option.pink['500'];
 
   const clusterTag = kubernetesClusterTagEquals(deployment.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(deployment.namespace);

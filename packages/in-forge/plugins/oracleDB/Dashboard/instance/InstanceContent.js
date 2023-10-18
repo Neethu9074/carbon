@@ -15,26 +15,31 @@ import {
   percentage,
   megaBytes
 } from 'in-services/formatters/number';
-import ListOfQueriesNotUsingBindVeriableInCodeTable from '../Tables/ListOfQueriesNotUsingBindVeriableInCodeTable';
+import ListOfQueriesNotUsingBindVeriableInCodeTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/ListOfQueriesNotUsingBindVeriableInCodeTable';
+import TopCPUConsumingSessionsLast10MinTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TopCPUConsumingSessionsLast10MinTable';
+import TopTenSQLWithHighIOLast24HrTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TopTenSQLWithHighIOLast24HrTable';
+import TopTenSQLWithHighIOLast1HrTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TopTenSQLWithHighIOLast1HrTable';
+import TopTenCPUConsumingSessionsTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TopTenCPUConsumingSessionsTable';
+import TopCPUQueriesLast24hrTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TopCPUQueriesLast24hrTable';
+import TopElapsedTimeQueriesTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TopElapsedTimeQueriesTable';
+import ActiveSessionHistoryTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/ActiveSessionHistoryTable';
+import SQLConsumingMoreCPUTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/SQLConsumingMoreCPUTable';
+import ForegroundSessionsTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/ForegroundSessionsTable';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
-import TopCPUConsumingSessionsLast10MinTable from '../Tables/TopCPUConsumingSessionsLast10MinTable';
-import TopTenSQLWithHighIOLast24HrTable from '../Tables/TopTenSQLWithHighIOLast24HrTable';
-import TopTenSQLWithHighIOLast1HrTable from '../Tables/TopTenSQLWithHighIOLast1HrTable';
-import TopTenCPUConsumingSessionsTable from '../Tables/TopTenCPUConsumingSessionsTable';
+import TablespaceUsagesTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/TablespaceUsagesTable.js';
+import BlockingSessionsTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/BlockingSessionsTable';
+import ProcessUtilization from 'in-forge/plugins/oracleDB/Dashboard/Charts/ProcessUtilization';
+import ProcessLimitUsage from 'in-forge/plugins/oracleDB/Dashboard/Charts/ProcessLimitUsage';
+import SGAPoolSizeTable from 'in-forge/plugins/oracleDB/Dashboard/Tables/SGAPoolSizeTable';
+import DbTimePerSecond from 'in-forge/plugins/oracleDB/Dashboard/Charts/DbTimePerSecond';
+import DbSlashCpuTime from 'in-forge/plugins/oracleDB/Dashboard/Charts/DbSlashCpuTime';
+import ActiveSessions from 'in-forge/plugins/oracleDB/Dashboard/Charts/ActiveSessions';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import TopCPUQueriesLast24hrTable from '../Tables/TopCPUQueriesLast24hrTable';
-import TopElapsedTimeQueriesTable from '../Tables/TopElapsedTimeQueriesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ActiveSessionHistoryTable from '../Tables/ActiveSessionHistoryTable';
-import SQLConsumingMoreCPUTable from '../Tables/SQLConsumingMoreCPUTable';
-import ForegroundSessionsTable from '../Tables/ForegroundSessionsTable';
-import TablespaceUsagesTable from '../Tables/TablespaceUsagesTable.js';
-import BlockingSessionsTable from '../Tables/BlockingSessionsTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import SGAPoolSizeTable from '../Tables/SGAPoolSizeTable';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
@@ -45,111 +50,39 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
   }
 
   const snapshotId = snapshot.get('id');
+  const data = snapshot.get('data');
+  const enablePDBMonitoring = data ? data.get('enablePDBMonitoring') : false;
   return (
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.oracleDB.runningProcessCount')}>
           <MetricValue snapshotId={snapshotId} metric="stats.runningProcessCount" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.oracleDB.processLimitUsage')}>
-          <MetricValue
-            snapshotId={snapshotId}
-            metric="stats.processUtilization.processLimit"
-            formatter={percentage.compact}
-          />
-        </KpiKeyValue>
+        {enablePDBMonitoring !== true ? (
+          <KpiKeyValue label={t('in-forge:plugins.oracleDB.processLimitUsage')}>
+            <MetricValue
+              snapshotId={snapshotId}
+              metric="stats.processUtilization.processLimit"
+              formatter={percentage.compact}
+            />
+          </KpiKeyValue>
+        ) : null}
         <KpiKeyValue label={t('in-forge:plugins.oracleDB.activeSessions')}>
           <MetricValue snapshotId={snapshotId} metric="stats.activeSessionsCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
+      {enablePDBMonitoring !== true ? (
+        <Columize>
+          <ProcessUtilization snapshot={snapshot} timeConfig={timeConfig} />
+          <ProcessLimitUsage snapshot={snapshot} timeConfig={timeConfig} />
+          <ActiveSessions snapshot={snapshot} timeConfig={timeConfig} />
+        </Columize>
+      ) : (
+        <ActiveSessions snapshot={snapshot} timeConfig={timeConfig} />
+      )}
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.oracleDB.processUtilization')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.compact,
-              metrics: [
-                'stats.processUtilization.maxUtilization',
-                'stats.processUtilization.currentUtilization',
-                'stats.processUtilization.initialAllocation',
-                'stats.processUtilization.limitValue'
-              ],
-              labels: [
-                t('in-forge:plugins.oracleDB.processMaxUtilization'),
-                t('in-forge:plugins.oracleDB.processCurrentUtilization'),
-                t('in-forge:plugins.oracleDB.processInitialAllocation'),
-                t('in-forge:plugins.oracleDB.processLimitValue')
-              ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.oracleDB.processLimitUsage')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: percentage.detailed,
-              min: 0,
-              max: 1,
-              metrics: ['stats.processUtilization.processLimit'],
-              labels: [t('in-forge:plugins.oracleDB.processLimit')],
-              type: 'area'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.oracleDB.activeSessions')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: number.detailed,
-              min: 0,
-              max: 1,
-              metrics: ['stats.activeSessionsCount'],
-              labels: [t('in-forge:plugins.oracleDB.count')],
-              type: 'area'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oracleDB.dbTimePerSecond')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: micros.detailed,
-              metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
-              labels: [
-                t('in-forge:plugins.oracleDB.db'),
-                t('in-forge:plugins.oracleDB.dbCpu'),
-                t('in-forge:plugins.oracleDB.sqlExecute'),
-                t('in-forge:plugins.oracleDB.parse')
-              ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.oracleDB.dbSlashCpuTime')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: hitRateTwoDecimalPlaces,
-              metrics: ['stats.cpuTimeDbTimeRatio'],
-              labels: [t('in-forge:plugins.oracleDB.ratio')],
-              type: 'area'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
+        <DbTimePerSecond snapshot={snapshot} timeConfig={timeConfig} />
+        <DbSlashCpuTime snapshot={snapshot} timeConfig={timeConfig} />
       </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.oracleDB.timeWaitedPerSecond')}>

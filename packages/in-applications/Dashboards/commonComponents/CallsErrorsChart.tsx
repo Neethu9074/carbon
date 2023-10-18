@@ -175,8 +175,8 @@ export default function CallsErrorsChart({
         })
       }
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset > 0}
-      reverseTooltipOrder={timeShiftConfig.offset > 0}
+      reverseLegendOrder={timeShiftConfig.offset !== 0}
+      reverseTooltipOrder={timeShiftConfig.offset !== 0}
       config={{
         y1: {
           metrics: metricConfigs,

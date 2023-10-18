@@ -10,3 +10,5 @@ import { TimeConfig } from '@instana/types';
 export type SnapshotData = { [index: string]: any };
 
 export function getSnapshot(snapshotId: string, timeConfig?: TimeConfig): Observable<SnapshotData>;
+
+export function isEntityOnline(snapshotId: string): Observable<boolean>;

@@ -21,11 +21,10 @@ import MobileAppBeaconDetails from 'in-applications/analyze/components/TraceDeta
 import WebsiteBeaconDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/WebsiteBeaconDetails';
 import ProfileInformation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ProfileInformation';
 import SpanDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SpanDetails';
-import CallLogs from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/CallLogs';
+import LogsCard from 'in-components/Logging/TraceDetails/components/LogDetails/LogsCard';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-components/ExpandableGroup';
-import { loggingEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
@@ -35,7 +34,7 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceComponent.mless';
 
-export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
+export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon, logsCardProps }) {
   const timeConfig = useTimeConfig();
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
@@ -62,12 +61,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const emptyDataAllowed = exitSpan?.name === 'ims.db';
   const foreignParentId = entrySpan?.foreignParentId;
 
-  const logs = call.logs;
-  const errorLogs = logs.filter(log => log.errorCount === 1);
-  const warnLogs = logs.filter(log => log.errorCount === 0);
-
   const canSeeCallDetails = role.canViewTraceDetails;
-  const canViewLogs = role.canViewLogs;
 
   const sourceProcessSnapshotId = sourcePhysicalContext?.process?.id;
   const destinationProcessSnapshotId = destinationPhysicalContext?.process?.id;
@@ -133,7 +127,6 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             )}
           </ExpandableGroup>
-          <Logs />
         </Stack>
       )
     );
@@ -353,34 +346,11 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               }
             />
           )}
-          <Logs />
+          <LogsCard {...logsCardProps} />
         </Stack>
       </div>
     </>
   );
-
-  function Logs() {
-    if (!canViewLogs || !logs || logs.length === 0 || loggingEnabled) {
-      return null;
-    }
-
-    return (
-      <ExpandableGroup
-        title={t('in-analyze:traceDetail.callDetails.serviceComponent.logs', {
-          errors:
-            errorLogs.length > 0
-              ? t('in-analyze:traceDetail.callDetails.serviceComponent.errors', { count: errorLogs.length })
-              : '',
-          warnings:
-            warnLogs.length > 0
-              ? t('in-analyze:traceDetail.callDetails.serviceComponent.warnings', { count: warnLogs.length })
-              : ''
-        })}
-      >
-        <CallLogs call={call} />
-      </ExpandableGroup>
-    );
-  }
 }
 
 function getSnapshotId(call, location) {

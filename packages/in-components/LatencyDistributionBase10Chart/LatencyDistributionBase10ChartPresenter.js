@@ -426,7 +426,9 @@ function createPercentileBuckets(buckets, percentiles) {
 function getMetricBuckets(isGrouped, loading, bucketArray, timeShiftBuckets, from, to, selection) {
   let metricBuckets =
     isGrouped && !loading
-      ? [...bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean)
+      ? // TODO: this needs investigation and adoption for case of [...undefined]
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        [...bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean)
       : [bucketArray?.slice(from, to), timeShiftBuckets?.slice(from, to)].filter(Boolean);
 
   if (
@@ -471,5 +473,7 @@ const updateChartConfig = (chartConfig, chartableDataSeries, metricBuckets) => {
     return !bucket.group;
   })
     ? [`var(--ids-color-option-neutral-300`]
-    : [...chartableDataSeries?.map(data => data.color), `var(--ids-color-option-neutral-600`];
+    : // TODO: this needs investigation and adoption for case of [...undefined]
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      [...chartableDataSeries?.map(data => data.color), `var(--ids-color-option-neutral-600`];
 };

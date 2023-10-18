@@ -4,22 +4,22 @@
  */
 
 import {
-  ApplicationItem,
-  GetApplicationsQuery,
+  GetApplicationsCursorPaginatedQuery,
   CursorPaginatedResult,
   Result,
   TimeConfig,
   OrderDirection,
   ContextScope,
-  TagFilter
+  TagFilter,
+  ApplicationCursorPaginatedItem
 } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 
 const getApplicationsCursorPaginated = createResultSubscriptionFactory<
-  GetApplicationsQuery,
-  Result<CursorPaginatedResult<ApplicationItem>>
+  GetApplicationsCursorPaginatedQuery,
+  Result<CursorPaginatedResult<ApplicationCursorPaginatedItem>>
 >({
   eventId: 'getApplicationsCursorPaginated',
   trackSubscriptionStatistics: true
@@ -53,8 +53,7 @@ export function getApplicationsCursorPaginatedWithDefaults({
 }: GetApplicationsCursorPaginatedWithDefaultsProps) {
   return getApplicationsCursorPaginated({
     pagination: {
-      page: 1,
-      pageSize: 20
+      retrievalSize: 20
     },
     order: {
       by: orderBy,

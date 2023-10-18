@@ -60,6 +60,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
         updateForm={jest.fn()}
         setFooter={jest.fn()}
         close={jest.fn}
+        filterExpressionValid
       >
         {null}
       </CreateSliForm>
@@ -105,6 +106,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
         updateForm={jest.fn()}
         setFooter={jest.fn()}
         close={jest.fn}
+        filterExpressionValid
       >
         {null}
       </CreateSliForm>
@@ -163,7 +165,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
     expect(close).toBeCalled();
   });
 
-  it('disables the save button if the filterExpression is invalid', () => {
+  it('does not call createSliConfiguration if the filterExpression is invalid', () => {
     // Given
     const entityType = 'application';
     const sliConfig = { sliName: 'someSliName' };
@@ -194,45 +196,10 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
       </CreateSliForm>
     );
     const wrapper = mount(<div>{footer}</div>);
+    wrapper.find(SaveButton).simulate('click');
 
     // Then
-    expect(wrapper.find(SaveButton).prop('disabled')).toBeTruthy();
-  });
-
-  it('disables the save button if the form has not been touched', () => {
-    // Given
-    const entityType = 'application';
-    const sliConfig = { sliName: 'someSliName' };
-    const mockApplication: Application = {
-      id: '1',
-      label: 'Stans Lab',
-      boundaryScope: 'INBOUND'
-    };
-    const form = createForm(entityType, sliConfig, '1', mockApplication);
-    let footer: React.ReactNode;
-    const setFooter = (f: React.ReactNode) => {
-      footer = f;
-    };
-    const filterExpressionValid = true;
-
-    // When
-    mount(
-      <CreateSliForm
-        entityType="application"
-        filterExpressionValid={filterExpressionValid}
-        form={form}
-        setFooter={setFooter}
-        close={jest.fn()}
-        updateForm={jest.fn()}
-        onSave={jest.fn()}
-      >
-        {null}
-      </CreateSliForm>
-    );
-    const wrapper = mount(<div>{footer}</div>);
-
-    // Then
-    expect(wrapper.find(SaveButton).prop('disabled')).toBeTruthy();
+    expect(createSliConfiguration).not.toHaveBeenCalled();
   });
 
   it.each([
@@ -337,6 +304,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
         updateForm={jest.fn()}
         setFooter={jest.fn()}
         close={jest.fn}
+        filterExpressionValid
       >
         {null}
       </CreateSliForm>

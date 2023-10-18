@@ -11,6 +11,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { regionDashboard } from 'in-openstack/navigation/paths';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
@@ -18,6 +19,7 @@ import tabs from 'in-openstack/Dashboards/Regions/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { RegionBreadcrumbs } from 'in-openstack/breadcrumbs';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -35,8 +37,8 @@ export default function RegionDashboard({ location }) {
       <Breadcrumbs items={RegionBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'OpenStack',
-          pageRootName: t('in-openstack:dashboards.regions')
+          productArea: productAreas.openstack,
+          pageRootName: pageNames.open_stack_region_hypervisors
         }}
       />
 

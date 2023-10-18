@@ -29,7 +29,6 @@
     "wait": "Wait",
     "system": "System",
     "name": "Name",
-    "vSphereEsXiHost": "vSphere ESXi Host",
     "esXiHost": "ESXi Host",
     "device": "Device",
     "url": "Url",

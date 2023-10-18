@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 import locals from './ExpandableGroup.mless';
 
 interface ExpandableGroupProps {
-  title: string;
+  title: string | JSX.Element;
   expandedTitle?: string;
   children: React.ReactNode;
   defaultExpanded?: boolean;

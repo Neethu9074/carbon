@@ -36,6 +36,8 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
   const outsideCallsShortTermStorage = isOutsideCallsShortTermStorage(globalTimeConfig);
 
   const configuredDataset = useMemo(() => {
+    // TODO: this needs investigation and adoption for case of [...undefined]
+    // eslint-disable-next-line no-unsafe-optional-chaining
     return [...config.y1?.metrics, ...config.y2?.metrics].find(hasPotentialProblems);
   }, [config]);
 

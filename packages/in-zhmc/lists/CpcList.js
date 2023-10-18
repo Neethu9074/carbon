@@ -99,7 +99,6 @@ export default connectTo(
     return (
       <Fragment>
         <Title title={t('in-zhmc:ibmzZhmcs')} />
-        {alert(t('in-zhmc:ibmzZhmcs'))}
         <ViewTrackingMeta
           data={{
             productArea: productAreas.ibmZ,

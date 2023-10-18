@@ -9,6 +9,7 @@ import toPx from 'in-services/formatters/toPx';
 
 describe('formatters.toPx', () => {
   it('should remove decimal places to avoid sub pixel rendering artifacts', () => {
+    // eslint-disable-next-line no-loss-of-precision
     expect(toPx(42.876328990321231)).to.equal('42px');
   });
 

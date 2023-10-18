@@ -50,6 +50,8 @@ const getColumnDefinitions = ({
               disabled={isNotEditable}
               hasError={!field?.valid && field?.touched && item.value[0] === ''}
               onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                // TODO: this needs investigation and adoption for case of [...undefined]
+                // eslint-disable-next-line no-unsafe-optional-chaining
                 const additionalHeaders = [...(field as Field<Header[]>)?.value];
                 const index = additionalHeaders.findIndex(header => header?.id === item.id);
                 additionalHeaders[index] = { id: item.id, value: [target.value, additionalHeaders[index].value[1]] };

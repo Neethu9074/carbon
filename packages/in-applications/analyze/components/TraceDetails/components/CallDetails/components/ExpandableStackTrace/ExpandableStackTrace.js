@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 
 import locals from './ExpandableStackTrace.mless';
 
-export default function ExpandableStackTrace({ call, log }) {
+export default function ExpandableStackTrace({ call, log, selectLogId }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const logData = log.data.log;
   const msg = logData && logData.message;
@@ -26,7 +26,7 @@ export default function ExpandableStackTrace({ call, log }) {
     <div className={locals.wrapper}>
       <div className={locals.header}>
         <div className={locals.headerContent}>
-          <LogIndicator log={log} />
+          <LogIndicator log={log} selectLogId={selectLogId} />
           <div className={isExpanded ? locals.headerLabelsExpanded : locals.headerLabels}>
             <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>
               {log.errorCount > 0

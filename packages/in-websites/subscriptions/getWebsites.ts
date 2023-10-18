@@ -6,12 +6,22 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { collationLanguage } from 'in-i18n';
+import { GetWebsitesQuery, OrderDirection, PaginatedResult, Result, TimeConfig, WebsiteItem } from '@instana/types';
 
-const getWebsites = createResultSubscriptionFactory({
+const getWebsites = createResultSubscriptionFactory<GetWebsitesQuery, Result<PaginatedResult<WebsiteItem>>>({
   eventId: 'getWebsites',
   trackSubscriptionStatistics: true
 });
 export default getWebsites;
+
+interface GetWebsitesWithDefaultsProps {
+  query?: string;
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  timeConfig: TimeConfig;
+}
 
 export function getWebsitesWithDefaults({
   query = '',
@@ -20,7 +30,7 @@ export function getWebsitesWithDefaults({
   orderBy = 'pageViewsAgg',
   orderDirection = 'DESC',
   timeConfig
-}) {
+}: GetWebsitesWithDefaultsProps) {
   return getWebsites({
     pagination: {
       page,

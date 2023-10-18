@@ -14,7 +14,7 @@ import {
   siPrefix,
   bytes
 } from 'in-services/formatters/number';
-import { isWindows, isZos, isLinux, supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
+import { isWindows, isZos, isLinux, supportsOpenFiles, isAixOs } from 'in-forge/plugins/host/hostUtils';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -164,7 +164,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         )}
-        {isLinux(snapshot) && (
+        {(isLinux(snapshot) || isAixOs(snapshot)) && (
           <Chart
             snapshotId={snapshot.get('id')}
             snapshotHostFqdn={snapshot.getIn(['data', 'fqdn'])}
@@ -175,6 +175,55 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               formatter: bytes.detailed,
               metrics: ['memory.swapTotal', 'memory.swapFree'],
               labels: [t('in-forge:plugins.host.dashboard.swapTotal'), t('in-forge:plugins.host.dashboard.swapFree')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        )}
+        {isAixOs(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.detailed,
+              metrics: ['memory.virtualTotal', 'memory.virtualFree', 'memory.virtualUsed'],
+              labels: [
+                t('in-forge:plugins.host.dashboard.virtualTotal'),
+                t('in-forge:plugins.host.dashboard.virtualFree'),
+                t('in-forge:plugins.host.dashboard.virtualUsed')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        )}
+        {isAixOs(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.detailed,
+              metrics: ['memory.computational', 'memory.nonComputational'],
+              labels: [
+                t('in-forge:plugins.host.dashboard.computational'),
+                t('in-forge:plugins.host.dashboard.nonComputational')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        )}
+        {isAixOs(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['memory.pageIn', 'memory.pageOut'],
+              labels: [t('in-forge:plugins.host.dashboard.pageIn'), t('in-forge:plugins.host.dashboard.pageOut')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

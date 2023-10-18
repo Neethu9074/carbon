@@ -12,12 +12,14 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { datacenterDashboard } from 'in-vsphere/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Datacenter/tabs/index';
 import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -37,8 +39,8 @@ export default function DatacenterDashboard({ location }) {
       <Breadcrumbs items={DatacenterBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'vSphere',
-          pageRootName: t('in-vsphere:dashboards.vSphereDatacenter')
+          productArea: productAreas.vsphere,
+          pageRootName: pageNames.vsphere_data_center
         }}
       />
 

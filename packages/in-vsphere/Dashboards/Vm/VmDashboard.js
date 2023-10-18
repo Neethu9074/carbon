@@ -12,10 +12,12 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { vmDashboard } from 'in-vsphere/navigation/paths';
 import { VmBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Vm/tabs/index';
@@ -38,8 +40,8 @@ export default function VMDashboard({ location }) {
       <Breadcrumbs items={VmBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'vSphere',
-          pageRootName: t('in-vsphere:dashboards.vSphereVm')
+          productArea: productAreas.vsphere,
+          pageRootName: pageNames.vsphere_vm
         }}
       />
 

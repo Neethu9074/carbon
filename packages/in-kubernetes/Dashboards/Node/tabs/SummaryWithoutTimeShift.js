@@ -27,12 +27,18 @@ import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
+  const theme = useTheme();
   const snapshotId = node.id;
-  const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  // Removing the old destructuring syntax for colors
+  const capacity = theme.ids.color.option.teal['500'];
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
 
   const clusterTag = kubernetesClusterTagEquals(node.clusterId);
   const workloadTag = tagEquals('kubernetes.node.name', node.name);

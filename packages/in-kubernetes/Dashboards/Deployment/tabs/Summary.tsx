@@ -32,7 +32,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
@@ -44,19 +44,20 @@ interface SummaryProps {
 }
 
 export default function Summary({ timeConfig, data: deployment }: SummaryProps) {
+  const theme = useTheme();
   const timeShift = useTimeShiftConfig();
 
   const snapshotId = deployment.id;
-  const {
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready,
-    success: desired
-  } = theme.lib.colors;
+
+  // Removing the old destructuring syntax for colors
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
+  const pending = theme.ids.color.option.orange['500'];
+  const allocated = theme.ids.color.option.blue['400'];
+  const unscheduled = theme.ids.color.option['deep-purple']['500'];
+  const unready = theme.ids.color.option.pink['500'];
+  const desired = theme.ids.color.option.green['500'];
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

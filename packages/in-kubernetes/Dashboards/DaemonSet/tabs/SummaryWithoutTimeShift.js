@@ -21,20 +21,21 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: daemonSet }) {
+  const theme = useTheme();
   const snapshotId = daemonSet.id;
-  const {
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready
-  } = theme.lib.colors;
+
+  // Removing the old destructuring syntax for colors
+  const limits = theme.ids.color.option.orange['500'];
+  const requests = theme.ids.color.option.lime['500'];
+  const usage = theme.ids.color.option.blue['400'];
+  const pending = theme.ids.color.option.orange['500'];
+  const allocated = theme.ids.color.option.blue['400'];
+  const unscheduled = theme.ids.color.option['deep-purple']['500'];
+  const unready = theme.ids.color.option.pink['500'];
 
   const clusterTag = kubernetesClusterTagEquals(daemonSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(daemonSet.namespace);

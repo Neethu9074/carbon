@@ -10,6 +10,9 @@ import { Result, Progress } from 'in-types';
 export const emptyObject = Object.freeze({});
 export const emptyJsMap = new Map();
 export const emptyArray = Object.freeze([]);
+
+// FIXME: this seems to be not used - can it be removed?
+// eslint-disable-next-line no-loss-of-precision
 export const javaLongMaxValue = 9223372036854775807;
 
 export const finishedProgress: Progress = Object.freeze({

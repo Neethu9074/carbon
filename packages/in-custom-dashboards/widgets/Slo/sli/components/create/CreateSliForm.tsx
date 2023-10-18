@@ -18,11 +18,11 @@ import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/u
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 
 interface CreateSliFormProps<SLI_TYPE extends SliType> {
   entityType: SLI_TYPE;
@@ -51,7 +51,6 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
 
   useSetFormFooterEffect({
     formId: 'createSliForm',
-    isDisabled: !filterExpressionValid || !form.hierarchyTouched,
     isSaving: submitStatus === 'pending',
     cloneOnly: editMode,
     onCancel: close,
@@ -109,8 +108,11 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
     );
   };
 
-  const handleSubmit = (submittedForm: Item) =>
+  const handleSubmit = (submittedForm: Item) => {
+    if (!filterExpressionValid) return;
+
     doSubmit({ payload: normalizeFormData(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
+  };
 
   return (
     <Form

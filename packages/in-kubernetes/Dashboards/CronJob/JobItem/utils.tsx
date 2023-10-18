@@ -12,21 +12,21 @@ import { t } from '@instana/i18n-react';
 import { PodMetrics } from 'in-kubernetes/Dashboards/CronJob/JobItem/PodMetrics';
 import { HealthDot } from 'in-kubernetes/Dashboards/CronJob/JobItem/HealthDot';
 import { formatDuration } from 'in-services/formatters/date';
-import theme from 'in-themes';
-
-const statusToColour = {
-  Completed: theme.lib.colors.success,
-  Running: theme.lib.colors.success,
-  Failed: theme.lib.colors.failure,
-  Unknown: theme.lib.colors.N400
-};
+import { useTheme } from 'in-themes';
 
 export const labelColumnDefinitions = [
   {
     id: 'health',
     width: '1.7rem',
     // @ts-expect-error
-    getContent({ item }) {
+    getContent: function Content({ item }) {
+      const theme = useTheme();
+      const statusToColour = {
+        Completed: theme.ids.color.option.green['500'],
+        Running: theme.ids.color.option.green['500'],
+        Failed: theme.ids.color.option.red['500'],
+        Unknown: theme.ids.color.option.neutral['400']
+      };
       // @ts-expect-error
       return <HealthDot color={statusToColour[item?.status || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />;
     }
