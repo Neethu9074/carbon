@@ -8,9 +8,8 @@ import React from 'react';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-// @ts-expect-error Module needs to be translated to TS
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { percentage } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { TimeConfig } from 'in-types';
