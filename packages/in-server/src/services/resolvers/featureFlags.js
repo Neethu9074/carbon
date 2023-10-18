@@ -434,5 +434,10 @@ module.exports = exports = [
     uiClientKey: 'autoFormatterTimeSeriesEnabled',
     instanaCtlKey: 'feature.auto.formatter.timeseries.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationContributionFilterEnabled',
+    instanaCtlKey: 'feature.application.contributionFilter.enabled',
+    defaultValue: false
   }
 ];

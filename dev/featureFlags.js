@@ -92,5 +92,6 @@ module.exports = {
   infraSmartAlertsDetailsPageEnabled: true,
   logDeletionEnabled: true,
   actionsLaneEnabled: true,
-  autoFormatterTimeSeriesEnabled: true
+  autoFormatterTimeSeriesEnabled: true,
+  applicationContributionFilterEnabled: true
 };

@@ -7,7 +7,6 @@
 import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
 
 import { PermissionSet } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import {
   AreaRole,
@@ -21,6 +20,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { createNewApplicationConfig } from 'in-api/applicationConfigs';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
 
@@ -48,48 +48,37 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
 
 export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
-  const applicationConfig = createNewApplicationConfig();
-  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
-  const tagFilterExpression = fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) || [];
-  return form
-    .put(
-      'id',
-      createField({
-        value: id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: permissionSet
-      })
-    )
-    .put(
-      'scope',
-      createField({
-        value: applicationScope
-      })
-    )
-    .put(
-      'tagFilterExpression',
-      createField({
-        value: tagFilterExpression,
-        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
-      })
-    );
+
+  if (!applicationContributionFilterEnabled) {
+    return form
+      .put(
+        'id',
+        createField({
+          value: id
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: name,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'members',
+        createField({
+          value: members
+        })
+      )
+      .put(
+        'permissionSet',
+        createField({
+          value: permissionSet
+        })
+      );
+  } else {
+    return createFilterForm(form, apiResult);
+  }
 }
 
 // Returns the AreaRole that matches the specified permissions
@@ -203,13 +192,47 @@ function addPermissionsByRoleForProductArea(
   return newPermissions;
 }
 
-function tagFilterExpressionValidator(tagFilterExpression: any): any {
-  if (tagFilterExpression.length === 0) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-applications:creation.form.theQueryIsNotValid')
-      }
-    ];
-  }
+function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
+  const { id, name, members, permissionSet } = apiResult?.result.group || {};
+  const applicationConfig = createNewApplicationConfig();
+  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const tagFilterExpression = fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) || [];
+  return form
+    .put(
+      'id',
+      createField({
+        value: id
+      })
+    )
+    .put(
+      'name',
+      createField({
+        value: name,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'members',
+      createField({
+        value: members
+      })
+    )
+    .put(
+      'permissionSet',
+      createField({
+        value: permissionSet
+      })
+    )
+    .put(
+      'scope',
+      createField({
+        value: applicationScope
+      })
+    )
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: tagFilterExpression
+      })
+    );
 }
