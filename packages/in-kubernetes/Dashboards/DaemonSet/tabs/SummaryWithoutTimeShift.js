@@ -21,21 +21,20 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: daemonSet }) {
-  const theme = useTheme();
   const snapshotId = daemonSet.id;
 
-  // Removing the old destructuring syntax for colors
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
-  const pending = theme.ids.color.option.orange['500'];
-  const allocated = theme.ids.color.option.blue['400'];
-  const unscheduled = theme.ids.color.option['deep-purple']['500'];
-  const unready = theme.ids.color.option.pink['500'];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
+
+  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
 
   const clusterTag = kubernetesClusterTagEquals(daemonSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(daemonSet.namespace);
@@ -186,6 +185,7 @@ export default function Summary({ timeConfig, data: daemonSet }) {
                   t('in-kubernetes:dashboards.unavailable'),
                   t('in-kubernetes:dashboards.misscheduled')
                 ],
+                colors: oldTheme.lib.colors.chart.fourColorPalette,
                 type: 'line'
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}

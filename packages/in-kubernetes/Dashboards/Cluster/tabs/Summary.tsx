@@ -38,7 +38,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const showUsage = k8sClusterUsageEnabled;
@@ -48,17 +48,16 @@ interface SummaryProps {
 }
 
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
-  const theme = useTheme();
   const timeShift = useTimeShiftConfig();
 
-  // Removing the old destructuring syntax for colors
-  const running = theme.ids.color.option.green['500'];
-  const capacity = theme.ids.color.option.teal['500'];
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
-  const pending = theme.ids.color.option.orange['500'];
-  const allocated = theme.ids.color.option.blue['400'];
+  const running = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const pending = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const allocated = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const capacity = oldTheme.lib.colors.chart.fourColorPalette[3];
+
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

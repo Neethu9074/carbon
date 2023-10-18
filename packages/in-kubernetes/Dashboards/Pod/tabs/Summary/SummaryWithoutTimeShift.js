@@ -30,21 +30,19 @@ import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
 export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
-  const theme = useTheme();
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
 
-  // Removing the old destructuring syntax for colors
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
 
   const kpiWidth = 2;
 

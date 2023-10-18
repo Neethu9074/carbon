@@ -32,7 +32,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
@@ -44,20 +44,21 @@ interface SummaryProps {
 }
 
 export default function Summary({ timeConfig, data: deployment }: SummaryProps) {
-  const theme = useTheme();
   const timeShift = useTimeShiftConfig();
 
   const snapshotId = deployment.id;
 
-  // Removing the old destructuring syntax for colors
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
-  const pending = theme.ids.color.option.orange['500'];
-  const allocated = theme.ids.color.option.blue['400'];
-  const unscheduled = theme.ids.color.option['deep-purple']['500'];
-  const unready = theme.ids.color.option.pink['500'];
-  const desired = theme.ids.color.option.green['500'];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
+
+  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
+
+  const available = oldTheme.lib.colors.chart.strokeColors100[0];
+  const desired = oldTheme.lib.colors.chart.strokeColors100[1];
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,
@@ -306,7 +307,7 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
               }
             ]}
             title={t('in-kubernetes:dashboards.replicas')}
-            colors={[allocated, desired]}
+            colors={[available, desired]}
             formatter="number.compact"
             tooltipFormatter={number.compact}
             paramTab="replicasTab"
