@@ -8,12 +8,14 @@ import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
 import React, { createContext } from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
   AdditionalHeaders,
   Authen,
+  TicketTypes,
   createDocLinkField,
   createScriptFields,
   createWebhookFields,
@@ -36,7 +38,10 @@ import {
   isScript,
   isWebhook,
   isGithub,
-  NO_AUTH
+  NO_AUTH,
+  OPEN,
+  CLOSE,
+  ADD_COMMENT
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -221,6 +226,9 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: Actio
   );
 };
 
+const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
+  return parameters.some(param => param.value.name === paramName);
+};
 function save(
   form: MapForm<any>,
   id: string | null,
@@ -255,7 +263,7 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
   const tags = (form.get('tags') as FormField<Tag[]>).value;
-  const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
+  let parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const timeout = (form.get('timeout') as FormField<string>).value;
   const fields: Field[] = [];
   if (isDocLink(type)) {
@@ -266,13 +274,50 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
     const subtype = (form.get('subtype') as FormField<string>).value;
     fields.push(...createScriptFields({ value, subtype, timeout }));
   } else if (isGithub(type)) {
-    const title = (form.get('title') as FormField<string>).value;
-    const body = (form.get('body') as FormField<string>).value;
-    const labels = (form.get('labels') as FormField<any>).value;
-    const assignees = (form.get('assignees') as FormField<any>).value;
-    const labelsString = labels.map((tag: Tag) => tag.value).join(',');
-    const assigneesString = assignees.map((tag: Tag) => tag.value).join(',');
-    fields.push(...createGithubFields({ title: title, body: body, labels: labelsString, assignees: assigneesString }));
+    const owner = (form.get('owner') as FormField<string>).value;
+    const repo = (form.get('repo') as FormField<string>).value;
+    const ticketType = (form.get('ticketType') as FormField<string>).value;
+    let type: TicketTypes | null = null;
+    if (ticketType === OPEN) {
+      const title = (form.get('title') as FormField<string>).value;
+      const body = (form.get('body') as FormField<string>).value;
+      const labels = (form.get('labels') as FormField<any>).value;
+      const assignees = (form.get('assignees') as FormField<any>).value;
+      const labelsString = labels.map((tag: Tag) => tag.value).join(',');
+      const assigneesString = assignees.map((tag: Tag) => tag.value).join(',');
+      type = {
+        type: 'open',
+        title,
+        body,
+        labels: labelsString,
+        assignees: assigneesString
+      };
+    } else if (ticketType === CLOSE) {
+      const comment = (form.get('comment') as FormField<string>).value;
+      type = {
+        type: 'close',
+        comment
+      };
+      if (!doesParameterExist(parameters, 'ticketId')) {
+        parameters.push({
+          id: generateUniqueShortId(),
+          value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
+        });
+      }
+    } else if (ticketType === ADD_COMMENT) {
+      const comment = (form.get('comment') as FormField<string>).value;
+      type = {
+        type: 'addcomment',
+        comment
+      };
+      if (!doesParameterExist(parameters, 'ticketId')) {
+        parameters.push({
+          id: generateUniqueShortId(),
+          value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
+        });
+      }
+    }
+    fields.push(...createGithubFields({ owner: owner, repo: repo, ticketType: type }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

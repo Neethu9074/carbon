@@ -61,6 +61,13 @@ export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
+export const getGithubOwnerFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.owner ?? { value: '', encoding: 'ascii', name: 'owner' };
+export const getGithubRepoFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.repo ?? { value: '', encoding: 'ascii', name: 'repo' };
+export const getGithubTicketTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.ticketType ?? { value: `${OPEN}`, encoding: 'ascii', name: 'ticketType' };
+
 export const getGithubTitleFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.title ?? { value: '', encoding: 'ascii', name: 'title' };
 export const getGithubBodyFromFields = (fields: Field[] | undefined): Field =>
@@ -69,6 +76,9 @@ export const getGithubLabelsFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.labels ?? { value: '', encoding: 'ascii', name: 'labels' };
 export const getGithubAssigneesFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.assignees ?? { value: '', encoding: 'ascii', name: 'assignees' };
+
+export const getGithubCommentFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.comment ?? { value: '', encoding: 'ascii', name: 'comment' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -124,19 +134,43 @@ export function getAnsibleFields(action: Action | NewAction): AnsibleFields {
   return { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl };
 }
 
-interface GithubFields {
+interface GithubOpenFields {
   title: Field;
   body: Field;
   labels: Field;
   assignees: Field;
 }
 
+interface GithubFields {
+  owner: Field;
+  repo: Field;
+  ticketType: Field;
+}
+
+interface GithubCloseFields {
+  comment: Field;
+}
+
 export function getGithubFields(action: Action | NewAction): GithubFields {
+  const owner = getGithubOwnerFromFields(action.fields);
+  const repo = getGithubRepoFromFields(action.fields);
+  const ticketType = getGithubTicketTypeFromFields(action.fields);
+  // const authen = getAuthenFromFields(action.fields);
+  // const ticketType: TicketTypes = JSON.parse(ticketTypeNonParsed.value);
+
+  return { owner, repo, ticketType };
+}
+export function getGithubOpenTicketFields(action: Action | NewAction): GithubOpenFields {
   const title = getGithubTitleFromFields(action.fields);
   const body = getGithubBodyFromFields(action.fields);
   const labels = getGithubLabelsFromFields(action.fields);
   const assignees = getGithubAssigneesFromFields(action.fields);
   return { title, body, labels, assignees };
+}
+
+export function getGithubOCloseAndCommentFields(action: Action | NewAction): GithubCloseFields {
+  const comment = getGithubCommentFromFields(action.fields);
+  return { comment };
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
@@ -159,6 +193,14 @@ export const GITLAB_TYPE = 'GITLAB';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
+export const OPEN = 'open';
+export const CLOSE = 'close';
+export const ADD_COMMENT = 'addcomment';
+export const GH_TICKET_TYPES = Object.freeze([
+  { value: OPEN, translation: 'Open Ticket' },
+  { value: CLOSE, translation: 'Close Ticket' },
+  { value: ADD_COMMENT, translation: 'Add Comment' }
+]);
 
 export const NO_AUTH = 'noAuth';
 export const BASIC_AUTH = 'basicAuth';

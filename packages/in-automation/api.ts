@@ -219,6 +219,7 @@ export interface ApiKeyAuth {
   apiKeyValue: string;
   apiKeyAddTo: string;
 }
+
 export type Authen = NoAuth | BasicAuth | BearerAuth | ApiKeyAuth;
 export type AdditionalHeaders = { [k: string]: string };
 
@@ -290,14 +291,44 @@ export const createWebhookFields = ({
   { ...createTimeoutField(timeout) }
 ];
 
-interface GithubFields {
-  title: string;
-  body: string;
-  labels: string;
-  assignees: string;
-}
+export const createGithubFields = ({ owner, repo, ticketType }: GithubFields): Field[] => {
+  // Extract ticketType properties.
+  const { type, ...githubSpecificFields } = ticketType as TicketTypes;
 
-export const createGithubFields = ({ title, body, labels, assignees }: GithubFields): Field[] => [
+  // Combine the fields.
+  const mainFields: Field[] = [
+    {
+      value: owner,
+      description: 'github issue owner/repo',
+      encoding: 'ascii',
+      name: 'owner'
+    },
+    {
+      value: repo,
+      description: 'github issue repo',
+      encoding: 'ascii',
+      name: 'repo'
+    },
+    {
+      value: type,
+      description: 'github issue type',
+      encoding: 'ascii',
+      name: 'ticketType'
+    }
+  ];
+
+  // If type is 'open', combine the fields with the GithubOpenFields.
+  if (type === 'open') {
+    return [...mainFields, ...createGithubOpenFields(githubSpecificFields as GithubOpenFields)];
+  } else if (type === 'close' || type === 'addcomment') {
+    return [...mainFields, ...createGithubCloseAndCommentFields(githubSpecificFields as GithubCloseAndCommentFields)];
+  }
+
+  // Otherwise, just return the mainFields.
+  return mainFields;
+};
+
+export const createGithubOpenFields = ({ title, body, labels, assignees }: GithubOpenFields): Field[] => [
   {
     value: title,
     description: 'github issue title',
@@ -323,6 +354,49 @@ export const createGithubFields = ({ title, body, labels, assignees }: GithubFie
     name: 'assignees'
   }
 ];
+
+export const createGithubCloseAndCommentFields = ({ comment }: GithubCloseAndCommentFields): Field[] => [
+  {
+    value: comment,
+    description: 'github issue comment',
+    encoding: 'ascii',
+    name: 'comment'
+  }
+];
+
+interface GithubFields {
+  owner: string;
+  repo: string;
+  ticketType: TicketTypes | null;
+}
+
+interface GithubOpenFields {
+  title: string;
+  body: string;
+  labels: string;
+  assignees: string;
+}
+
+interface GithubCloseAndCommentFields {
+  comment: string;
+}
+export interface OpenProps {
+  type: 'open';
+  title: string;
+  body: string;
+  labels: string;
+  assignees: string;
+}
+
+export interface CloseProps {
+  type: 'close';
+  comment: string;
+}
+export interface CommentProps {
+  type: 'addcomment';
+  comment: string;
+}
+export type TicketTypes = OpenProps | CloseProps | CommentProps;
 
 const createTimeoutField = (value: string): Field => ({
   value,

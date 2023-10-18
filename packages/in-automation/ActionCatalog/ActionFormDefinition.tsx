@@ -20,12 +20,17 @@ import {
   getScriptFromFields,
   getTimeoutFromFields,
   getWebhookFields,
-  getGithubFields,
+  getGithubOpenTicketFields,
+  getGithubOCloseAndCommentFields,
   isDocLink,
   isScript,
   isWebhook,
   isAnsible,
-  isGithub
+  isGithub,
+  OPEN,
+  CLOSE,
+  ADD_COMMENT,
+  getGithubFields
 } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
@@ -216,7 +221,38 @@ export function removeGithubField(form: MapForm<any>) {
 }
 
 export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
-  const { title, body, labels, assignees } = getGithubFields(action);
+  const { owner, repo, ticketType } = getGithubFields(action);
+  form = form
+    .put(
+      'owner',
+      createField({
+        value: owner.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'repo',
+      createField({
+        value: repo.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'ticketType',
+      createField({
+        value: ticketType.value,
+        validator: notBlankValidator
+      })
+    );
+  if (ticketType.value == OPEN) form = putGithubOpenTicketFields(form, action);
+  else if (ticketType.value == CLOSE) form = putGithubCloseAndCommentTicketFields(form, action);
+  else if (ticketType.value == ADD_COMMENT) form = putGithubCloseAndCommentTicketFields(form, action);
+  return form;
+}
+
+export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeGithubCloseAndCommentTicketFields(form);
+  const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
   form = form
     .put(
       'title',
@@ -249,6 +285,28 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
       })
     );
   return form;
+}
+
+export function putGithubCloseAndCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeGithubOpenTicketFields(form);
+  const { comment } = getGithubOCloseAndCommentFields(action);
+  form = form.put(
+    'comment',
+    createField({
+      value: comment.value,
+      validator: notBlankValidator
+    })
+  );
+
+  return form;
+}
+
+export function removeGithubOpenTicketFields(form: MapForm<any>) {
+  return form.remove('title').remove('body').remove('labels').remove('assignees');
+}
+
+export function removeGithubCloseAndCommentTicketFields(form: MapForm<any>) {
+  return form.remove('commment');
 }
 
 // export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
