@@ -6,7 +6,7 @@
 
 :local {
   .group {
-    border-top: 0px solid var(--ids-color-option-neutral-400);
+    border-top: 0rem solid var(--ids-color-option-neutral-400);
   }
 
   .header {

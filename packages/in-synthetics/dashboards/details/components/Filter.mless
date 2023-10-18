@@ -40,7 +40,7 @@
     &:first-child {
       padding: 0 0.3rem 0 0;
       margin: 0 0.3rem 0 0;
-      border-right: 1px solid var(--ids-color-option-neutral-600);
+      border-right: 0.0625rem solid var(--ids-color-option-neutral-600);
     }
   }
 

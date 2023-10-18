@@ -5,7 +5,7 @@
 
 :local {
   .baseContainer {
-    padding-bottom: 5px;
+    padding-bottom: 0.3125rem;
     display: grid;
     max-height: fit-content;
     grid-template-areas: 'content' 'errors';
@@ -19,8 +19,8 @@
   }
 
   .outerBox {
-    border: 1px solid var(--ids-color-option-neutral-300);
-    padding: 10px;
+    border: 0.0625rem solid var(--ids-color-option-neutral-300);
+    padding: 0.625rem;
     margin-bottom: 2%;
   }
 
@@ -38,6 +38,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 0.625rem;
   }
 }
