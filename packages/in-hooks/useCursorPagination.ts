@@ -22,11 +22,11 @@ import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fi
 import { shallowEquals } from 'in-services/util/object';
 
 export type GetCursorPaginated<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>> = (opts: {
-  cursor?: Cursor;
+  cursor?: CURSOR;
 }) => Observable<Result<CursorPaginatedResult<ITEM>>>;
 
 export type GetCursorPaginatedWithNext<CURSOR extends Cursor, ITEM> = (opts: {
-  cursor?: Cursor;
+  cursor?: CURSOR;
 }) => Observable<Result<CursorPaginatedWithNext<ITEM, CURSOR>>>;
 
 type SupportedResponseFormats<ITEM, CURSOR> = CursorPaginatedWithNext<ITEM, CURSOR> | CursorPaginatedResult<ITEM>;
