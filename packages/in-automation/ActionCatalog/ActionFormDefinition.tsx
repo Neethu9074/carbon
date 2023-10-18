@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
+import { createField, createMapForm, MapForm, ValidationResult, Field } from 'formalistic';
 import { List } from 'immutable';
 import mimeDb from 'mime-db';
 
@@ -33,6 +33,7 @@ import {
   getGithubFields
 } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
@@ -216,10 +217,6 @@ export function removeGitlabField(form: MapForm<any>) {
   return form.remove('gitlab').remove('subtype');
 }
 
-export function removeGithubField(form: MapForm<any>) {
-  return form.remove('github').remove('subtype');
-}
-
 export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
   const { owner, repo, ticketType } = getGithubFields(action);
   form = form
@@ -250,8 +247,21 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
   return form;
 }
 
+export function removeGithubFields(form: MapForm<any>) {
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  form = form.put('parameters', createField({ value: updatedParameters }));
+  form = removeGithubCloseAndCommentTicketFields(form);
+  return form.remove('owner').remove('repo').remove('ticketType');
+}
 export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGithubCloseAndCommentTicketFields(form);
+  form = removeGithubOpenTicketFields(form);
+  // Remove parameter with name "ticketId"
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  form = form.put('parameters', createField({ value: updatedParameters }));
+
   const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
   form = form
     .put(
@@ -308,23 +318,6 @@ export function removeGithubOpenTicketFields(form: MapForm<any>) {
 export function removeGithubCloseAndCommentTicketFields(form: MapForm<any>) {
   return form.remove('commment');
 }
-
-// export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
-//   const value = getDocLinkFromFields(action.fields).value;
-
-//   // TODO: add validator for URL???
-//   return form.put(
-//     'docLink',
-//     createField({
-//       value: value,
-//       validator: composeAndShortCircuitOnError(notBlankValidator, isValidUrl)
-//     })
-//   );
-// }
-
-// export function removeDocLinkField(form: MapForm<any>) {
-//   return form.remove('docLink');
-// }
 
 export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {
   const { method, host, body, headerParsed, ignoreCertErrors, authenParsed } = getWebhookFields(action);

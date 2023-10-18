@@ -23,7 +23,7 @@ import {
   removeDocLinkField,
   removeScriptField,
   removeWebhookFields,
-  removeGithubField,
+  removeGithubFields,
   removeGitlabField,
   putGithubFields,
   putGithubOpenTicketFields,
@@ -250,27 +250,27 @@ const TypeSection = ({
                 if (isDocLink(type)) {
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = putDocLinkField(updatedForm, action);
-                  updatedForm = removeGithubField(updatedForm);
+                  updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabField(updatedForm);
+                  updatedForm = putDocLinkField(updatedForm, action);
                 } else if (isScript(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = putScriptField(updatedForm, action);
-                  updatedForm = removeGithubField(updatedForm);
+                  updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabField(updatedForm);
+                  updatedForm = putScriptField(updatedForm, action);
                 } else if (isWebhook(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
-                  updatedForm = putWebhookFields(updatedForm, action);
-                  updatedForm = removeGithubField(updatedForm);
+                  updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabField(updatedForm);
+                  updatedForm = putWebhookFields(updatedForm, action);
                 } else if (isManual(type)) {
                   // manual actions don't have any associated fields
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubField(updatedForm);
+                  updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabField(updatedForm);
                 } else if (isGithub(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
@@ -283,7 +283,7 @@ const TypeSection = ({
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubField(updatedForm);
+                  updatedForm = removeGithubFields(updatedForm);
                 }
                 return updatedForm;
               })
