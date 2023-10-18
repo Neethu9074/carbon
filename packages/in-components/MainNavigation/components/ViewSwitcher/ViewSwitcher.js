@@ -32,6 +32,12 @@ import {
   hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import {
+  isBizOpsView,
+  businessProcessPath,
+  isAnalyzeView as isBizOpsAnalyzeView,
+  useLinkToAnalyze as useLinkToBizOpsAnalyze
+} from 'in-bizops/navigation/paths';
+import {
   useLinkToAnalyze as useLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView,
   mobileAppMonitoringPath
@@ -79,7 +85,6 @@ import { clickSyntheticMonitoringNavigationTracker } from 'in-synthetics/tracker
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
-import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -363,6 +368,9 @@ function Synthetics(props) {
 
 function BizOps(props) {
   const { matchLocation, createHrefToPath } = useNavigation();
+  // The BizOps analytics use the same root path, so we needed to make sure
+  // that the isActive prop is correctly set when we're looking at the analytics page
+  // i.e. #/businessProcesses vs businessProcesses/analyze
 
   if (!hasBizOpsAccess) {
     return null;
@@ -373,7 +381,7 @@ function BizOps(props) {
         id="main-nav-bizops"
         label={t('in-bizops:navigation.businessMonitoring')}
         icon={'lib_bizops'}
-        isActive={matchLocation(isBizOpsView)}
+        isActive={matchLocation(isBizOpsView) && !matchLocation(isBizOpsAnalyzeView)}
         href={createHrefToPath(businessProcessPath)}
         {...props}
       />
@@ -457,12 +465,13 @@ function Analyze(props) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+  const linkToBizOpsAnalyze = useLinkToBizOpsAnalyze();
 
   if (!hasAnalyzeAccess) {
     return null;
   }
 
-  const isActive = matchLocation(isAnalyzeView) | isActiveLegacy;
+  const isActive = matchLocation(isAnalyzeView) | matchLocation(isBizOpsAnalyzeView) | isActiveLegacy;
 
   return (
     <View
@@ -489,7 +498,8 @@ function Analyze(props) {
                 groupBy: {}
               })
             ),
-          hasInfrastructureAnalyzeAccess && just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))
+          hasInfrastructureAnalyzeAccess && just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams)),
+          hasBizOpsAccess && just(linkToBizOpsAnalyze)
         ].filter(Boolean)[0]
       }
       {...props}

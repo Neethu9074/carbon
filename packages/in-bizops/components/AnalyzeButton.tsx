@@ -8,16 +8,15 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { clickBizopsProcessAnalyzeInstancesTracker } from 'in-bizops/tracker';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { useLinkToAnalyze } from 'in-applications/navigation/paths';
+import { useLinkToAnalyze } from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
 
-/* This component directs the user to the Analyze page, with filters set
-to the specific Business Process they are currently in.  Filters also
-include the activity name if not empty */
+/* 
+This is the Analyze Instances button in the Business Monitoring page that
+leads the user to the Analytics page component in-bizops/analyze/AnalyzeView/AnalyzeView
+The routing can be found in in-bizops/navigation/routes
+*/
 interface AnalyzeButtonProps {
   businessProcessId: string;
   businessProcessName: string;
@@ -28,22 +27,12 @@ export default function AnalyzeButton({
   businessProcessName,
   businessActivityName
 }: AnalyzeButtonProps) {
-  const getLinkToAnalyze = useLinkToAnalyze();
+  const linkToAnalyze = useLinkToAnalyze(businessProcessName, businessActivityName);
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
-      href={getLinkToAnalyze({
-        formModel: formModelBuilder(businessProcessName, businessActivityName),
-        groupBy: {
-          groupbyTag: 'call.bpm.root.process.instance.id'
-        },
-        hiddenCalls: {
-          includeInternal: true,
-          includeSynthetic: false
-        },
-        fastQueryModeEnabled: true
-      })}
+      href={linkToAnalyze}
       onClick={() => {
         clickBizopsProcessAnalyzeInstancesTracker({
           processId: businessProcessId,
@@ -55,28 +44,4 @@ export default function AnalyzeButton({
       {t('in-bizops:dashboards.analyzeInstances')}
     </Button>
   );
-}
-
-function formModelBuilder(businessProcessName: string, businessActivityName: string) {
-  let formModel: FormModelElement[] = [tagFilter('call.bpm.process.definition.name', EQUALS, businessProcessName)];
-
-  // conditional filters
-  if (businessActivityName) {
-    formModel.push(
-      { type: 'CONJUNCTION', logicalOperator: 'AND' },
-      tagFilter('call.bpm.activity.name', EQUALS, businessActivityName)
-    );
-  }
-
-  // call types
-  formModel.push(
-    { type: 'CONJUNCTION', logicalOperator: 'AND' },
-    { type: 'OPEN_BRACKET' },
-    tagFilter('call.type', EQUALS, 'BATCH'),
-    { type: 'CONJUNCTION', logicalOperator: 'OR' },
-    tagFilter('call.type', EQUALS, 'INTERNAL'),
-    { type: 'CLOSE_BRACKET' }
-  );
-
-  return formModel;
 }

@@ -12,16 +12,23 @@ import BizActivitiesList from 'promise-loader?global,bizops!in-bizops/lists/BizA
 import SmartAlertsList from 'promise-loader?global,bizops!in-bizops/lists/SmartAlertsList';
 // @ts-ignore
 import BusinessActivitySummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/activity/BusinessActivitySummary';
-//@ts-ignore
+// @ts-ignore
 import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/summary/BusinessProcessSummary';
+// @ts-ignore
+import AnalyzeView from 'promise-loader?global,bizops!in-bizops/analyze/AnalyzeView/AnalyzeView';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import {
+  businessActivityDashboard,
+  businessProcessDashboard,
+  businessProcessPath,
+  smartAlertsPath,
+  activitiesPath,
+  analyzePath
+} from 'in-bizops/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { businessActivityDashboard, businessProcessDashboard, businessProcessPath } from 'in-bizops/navigation/paths';
-import { smartAlertsPath } from 'in-bizops/navigation/paths';
-import { activitiesPath } from 'in-bizops/navigation/paths';
 
 export default [
   <Route key="BusinessProcessesList" exact path={businessProcessPath}>
@@ -38,5 +45,8 @@ export default [
   </Route>,
   <Route key="businessProcessDashboard" path={businessProcessDashboard}>
     {renderAsyncRouteChildren(BusinessProcessSummaryDashboard)}
+  </Route>,
+  <Route key="bizopsAnalyze" path={analyzePath}>
+    {renderAsyncRouteChildren(AnalyzeView)}
   </Route>
 ];

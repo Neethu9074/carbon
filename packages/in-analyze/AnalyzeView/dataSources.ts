@@ -108,7 +108,8 @@ export const productAreaLabels = Object.freeze<Record<ProductArea, string>>({
   mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
-  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
+  bizops: t('in-analyze:analyzeView.dataSources.bizops')
 } as const);
 
 export const productAreaTrackingNames = Object.freeze({
@@ -117,7 +118,8 @@ export const productAreaTrackingNames = Object.freeze({
   mobileApp: t('in-analyze:analyzeView.dataSources.eumMobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
-  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
+  bizops: t('in-analyze:analyzeView.dataSources.bizops')
 } as const);
 
 enum ProductAreaEnum {
@@ -126,7 +128,8 @@ enum ProductAreaEnum {
   mobileApp,
   profiles,
   logs,
-  infrastructure
+  infrastructure,
+  bizops
 }
 
 enum EntityEnum {
@@ -143,7 +146,8 @@ enum EntityEnum {
   logs,
   sessionStart,
   viewChange,
-  crash
+  crash,
+  bizops
 }
 
 type Icon = Record<string, string>;
@@ -166,7 +170,8 @@ export const entityNames = Object.freeze<Record<Entity, string>>({
   logs: t('in-analyze:analyzeView.dataSources.logs'),
   sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
   viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions'),
-  crash: t('in-analyze:analyzeView.dataSources.crashes')
+  crash: t('in-analyze:analyzeView.dataSources.crashes'),
+  bizops: t('in-analyze:analyzeView.dataSources.bizops')
 });
 
 export const entityLabels = Object.freeze<Record<Entity, string>>({
@@ -183,7 +188,8 @@ export const entityLabels = Object.freeze<Record<Entity, string>>({
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
-  crash: t('in-analyze:analyzeView.dataSources.crashes')
+  crash: t('in-analyze:analyzeView.dataSources.crashes'),
+  bizops: t('in-analyze:analyzeView.dataSources.bizops')
 });
 
 export const getEntityNameByType = (type: Entity): string => entityNames[type] || type;
@@ -195,7 +201,8 @@ export const productAreaIcons = Object.freeze<Record<ProductArea, string>>({
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
   logs: 'lib_application_logging',
-  infrastructure: 'lib_infrastructure'
+  infrastructure: 'lib_infrastructure',
+  bizops: 'lib_bizops'
 });
 
 const icons = deepFreeze<Record<ProductArea, Icon>>({
@@ -230,6 +237,10 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
   },
   logs: {
     logs: 'lib_application_logging'
+  },
+  bizops: {
+    bizops: 'lib_bizops',
+    calls: 'lib_application_call'
   }
 });
 
