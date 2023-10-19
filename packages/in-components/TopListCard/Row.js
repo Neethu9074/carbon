@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 import locals from './Row.mless';
 
@@ -25,7 +25,7 @@ export default function TopListRow(props) {
   } = props;
   const percent = maxValue != 0 ? Math.min(metricValue / maxValue, 1) : 0;
   const positionPercent = `${percent * 100}%`;
-  const barColor = color || theme.lib.colors.chart.strokeColors100[0];
+  const barColor = color || oldTheme.lib.colors.chart.strokeColors100[0];
 
   return (
     <li className={locals.topListRow}>

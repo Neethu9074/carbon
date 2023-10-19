@@ -14,7 +14,7 @@ import SideNav, { NavItem } from 'in-components/SideNav';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './StepsContainer.mless';
 
@@ -26,6 +26,7 @@ interface StepsContainerProps {
 }
 
 export default function StepsContainer({ navItems, noHeader, noDivider, messages = [] }: StepsContainerProps) {
+  const theme = useTheme();
   useScrollToFirstInvalidNavItem(navItems);
 
   return (
@@ -48,7 +49,7 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
                                 <SvgIcon
                                   className={locals.helpicon}
                                   type="lib_help_error_error_outline"
-                                  color={theme.lib.colors.N600Light}
+                                  color={theme.ids.color.option.neutral['600']}
                                 />
                               </Tooltip>
                             )}
