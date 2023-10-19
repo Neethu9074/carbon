@@ -176,6 +176,10 @@ export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
   'recurrentMaintenanceWindowsTabsEnabled',
   false
 );
+export const syntheticsFilterForMaintenanceWindowsEnabled = isFeatureFlagEnabled(
+  'syntheticsFilterForMaintenanceWindowsEnabled',
+  false
+);
 
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
 

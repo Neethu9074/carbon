@@ -33,6 +33,8 @@ import {
   teamSettingsAlertingMaintenanceConfigurations,
   getEntityHref
 } from 'in-settings/navigation/paths';
+import { getQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -215,11 +217,13 @@ const columnDefinitions = [
       let txt = '';
       const entityAppNames = entity?.applicationNames || [];
       if (entityAppNames.length > 0) {
-        txt = 'Applications ' + entityAppNames.length + entity?.query;
+        txt = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
       } else if (entity?.query) {
-        txt = 'DFQ ' + entity?.query;
+        txt = `${t('in-settings:maintenanceWindow.dfqColumn')}` + entity?.query;
+      } else if (entity?.tagFilterExpressionEnabled) {
+        txt = t('in-settings:tabs.syntheticTests');
       } else if (!entityAppNames.length === 0 && !entity.query) {
-        txt = 'All Entities';
+        txt = t('in-settings:maintenanceWindow.allEntitiesColumn');
       }
       return txt;
     },
@@ -229,19 +233,30 @@ const columnDefinitions = [
 
       const entityAppNames = entity?.applicationNames || [];
       if (entityAppNames.length > 0) {
-        text = `${entityAppNames.length} Applications`;
+        text = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
         entityAppNames.forEach((app, idx) => {
-          if (idx < 5) tooltipContent = tooltipContent + app + ' ';
+          if (idx < 5) tooltipContent = tooltipContent + app;
           if (idx === 5) tooltipContent = tooltipContent + '...';
+
+          if (idx !== entityAppNames.length - 1) tooltipContent += ', ';
         });
       } else if (entity.query) {
-        text = 'DFQ';
+        text = t('in-settings:maintenanceWindow.dfqColumn');
         tooltipContent = entity.query;
+      } else if (entity.tagFilterExpressionEnabled) {
+        text = t('in-settings:tabs.syntheticTests');
+        const tagFilterExpression = fromBackendModel(entity.tagFilterExpression);
+        const { QueryBuilder } = getQueryBuilder();
+        tooltipContent = (
+          <div>
+            <QueryBuilder value={tagFilterExpression} readOnly />
+          </div>
+        );
       } else if (entityAppNames.length === 0 && !entity.query) {
-        text = 'All Entities';
+        text = t('in-settings:maintenanceWindow.allEntitiesColumn');
       }
       return (
-        <Tooltip content={tooltipContent} delay={500}>
+        <Tooltip content={tooltipContent} delay={500} themeStyle="light">
           <span>{text}</span>
         </Tooltip>
       );
