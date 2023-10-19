@@ -10,7 +10,6 @@ import React from 'react';
 
 //@ts-expect-error Need TS migartion
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
-//@ts-expect-error Need TS migartion
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
@@ -20,7 +19,7 @@ import locals from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpres
 
 export interface AlertTagFilterExpressionConfigProps {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   QueryBuilderComponent?: QueryBuilderComponent;
   headerTransparent?: boolean;
   label?: string;
