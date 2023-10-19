@@ -65,7 +65,8 @@ export default function OnboardingWidget(props) {
         onQueryChange={query => {
           setUrlState({
             selectedEntry: 0,
-            selectedSubEntry: null
+            selectedSubEntry: null,
+            query
           });
           trackingService.searchQueryChanged({ query });
         }}
