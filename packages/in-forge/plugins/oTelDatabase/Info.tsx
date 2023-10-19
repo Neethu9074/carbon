@@ -13,21 +13,13 @@ export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.hostName')}>
+      <DescriptionItem title={t('in-forge:plugins.oTelDatabase.hostName')}>
         {data.get('resource.hostname')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.remote')}>{data.get('remote')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.pid')}>{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.containerPid')}>
-        {data.get('containerPid')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.containerId')}>
-        {data.get('resource.container.id')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.serviceName')}>
+      <DescriptionItem title={t('in-forge:plugins.oTelDatabase.serviceName')}>
         {data.get('resource.service.name')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.openTelemetry.kind')}>{data.get('kind')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oTelDatabase.kind')}>{data.get('kind')}</DescriptionItem>
     </DescriptionList>
   );
 }
