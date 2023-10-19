@@ -74,6 +74,8 @@ export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashB
 
 export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', false);
 
+export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', false);
+
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',

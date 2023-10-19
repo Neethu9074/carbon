@@ -69,6 +69,7 @@ interface ListProps<ItemType extends Object> {
   renderNoDataAvailable?: (message?: string) => React.ReactNode;
   onCreateNew?: () => void;
   labelNew?: string;
+  customDialogMessage?: (entity: ItemType) => void;
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;

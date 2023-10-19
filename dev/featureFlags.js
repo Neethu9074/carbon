@@ -92,5 +92,6 @@ module.exports = {
   logDeletionEnabled: true,
   actionsLaneEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
+  disableInvitesWithIdpEnabled: false,
   applicationContributionFilterEnabled: false
 };

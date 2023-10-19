@@ -431,6 +431,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'disableInvitesWithIdpEnabled',
+    instanaCtlKey: 'feature.disable.invites.with.idp.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'applicationContributionFilterEnabled',
     instanaCtlKey: 'feature.application.contributionFilter.enabled',
     defaultValue: false
