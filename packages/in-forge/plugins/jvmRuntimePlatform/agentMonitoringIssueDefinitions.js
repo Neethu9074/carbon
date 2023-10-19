@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#unsupported-java-virtual-machine-version-8`
+    explanationLinkHref: `https://ibm.biz/insta-unsupportedjvm8`
   },
   jvm_incompatible_agent_detected: {
     issueDescription: {
