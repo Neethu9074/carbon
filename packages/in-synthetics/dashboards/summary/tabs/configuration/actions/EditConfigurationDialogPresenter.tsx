@@ -14,11 +14,11 @@ import { createLogger } from '@instana/logger';
 
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { BrowserScriptConfiguration, HttpScriptConfiguration, SyntheticTest } from 'in-types';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
-import { BrowserScriptConfiguration, HttpScriptConfiguration, SyntheticTest } from 'in-types';
 import { updateTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
@@ -83,7 +83,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     const headersKeys = Object.keys(headers);
     if (headersKeys.length) {
       const headersObject: ConfigItem[] = [];
-      headersKeys.map(key =>
+      headersKeys.forEach(key =>
         headersObject.push({
           id: generateUniqueShortId(),
           key: key,
@@ -118,7 +118,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     const customPropertyKeys = Object.keys(customProperties);
     if (customPropertyKeys.length) {
       const customPropertiesObject: ConfigItem[] = [];
-      customPropertyKeys.map(key =>
+      customPropertyKeys.forEach(key =>
         customPropertiesObject.push({
           id: generateUniqueShortId(),
           key: key,
@@ -160,27 +160,31 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     setIsSubmitting(true);
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
-    updatedForm =
-      ['HTTPScript','BrowserScript'].includes(form.get('configuration').get('syntheticType').value)
-        ? form.put('active', createField({ value: isActive })).put(
-            'configuration',
-            form
-              .get('configuration')
-              .put('retries', createField({ value: retries }))
-              .put('timeout', createField({ value: timeout }))
-              .put('retryInterval', createField({ value: retryInterval }))
-              .put('markSyntheticCall', createField({ value: markSyntheticCall }))
-              .put('scriptType', createField({ value: (test.configuration as ( BrowserScriptConfiguration | HttpScriptConfiguration )).scriptType }))
-          )
-        : form.put('active', createField({ value: isActive })).put(
-            'configuration',
-            form
-              .get('configuration')
-              .put('retries', createField({ value: retries }))
-              .put('timeout', createField({ value: timeout }))
-              .put('retryInterval', createField({ value: retryInterval }))
-              .put('markSyntheticCall', createField({ value: markSyntheticCall }))
-          );
+    updatedForm = ['HTTPScript', 'BrowserScript'].includes(form.get('configuration').get('syntheticType').value)
+      ? form.put('active', createField({ value: isActive })).put(
+          'configuration',
+          form
+            .get('configuration')
+            .put('retries', createField({ value: retries }))
+            .put('timeout', createField({ value: timeout }))
+            .put('retryInterval', createField({ value: retryInterval }))
+            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
+            .put(
+              'scriptType',
+              createField({
+                value: (test.configuration as BrowserScriptConfiguration | HttpScriptConfiguration).scriptType
+              })
+            )
+        )
+      : form.put('active', createField({ value: isActive })).put(
+          'configuration',
+          form
+            .get('configuration')
+            .put('retries', createField({ value: retries }))
+            .put('timeout', createField({ value: timeout }))
+            .put('retryInterval', createField({ value: retryInterval }))
+            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
+        );
     if (test.applicationLabel === '' || test.applicationLabel === undefined) {
       updatedForm = updatedForm.remove('applicationId');
     }

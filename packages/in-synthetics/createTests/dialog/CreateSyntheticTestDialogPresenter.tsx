@@ -102,7 +102,7 @@ const CreateSyntheticTestDialogPresenter = ({
     const headersKeys = Object.keys(headers);
     if (headersKeys.length) {
       const headersObject: ConfigItem[] = [];
-      headersKeys.map(key =>
+      headersKeys.forEach(key =>
         headersObject.push({
           id: generateUniqueShortId(),
           key: key,
@@ -137,7 +137,7 @@ const CreateSyntheticTestDialogPresenter = ({
     const customPropertyKeys = Object.keys(customProperties);
     if (customPropertyKeys.length) {
       const customPropertiesObject: ConfigItem[] = [];
-      customPropertyKeys.map(key =>
+      customPropertyKeys.forEach(key =>
         customPropertiesObject.push({
           id: generateUniqueShortId(),
           key: key,

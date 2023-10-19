@@ -206,7 +206,7 @@ function EntryBody({ entry }: EntryProps) {
             {content.mimeType}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.contentSize')}>
-            {bytesZeroDecimalPlaces(content.size < 0 ? 0 : 0)}
+            {bytesZeroDecimalPlaces(content.size < 0 ? 0 : content.size)}
           </Di>
         </Col>
         <Col lg={4}>
