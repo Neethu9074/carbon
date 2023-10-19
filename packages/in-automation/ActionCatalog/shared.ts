@@ -26,8 +26,6 @@ export const getType = (type: string) => {
     return t('in-automation:ActionCatalog.ansible');
   } else if (isGithub(type)) {
     return 'Github';
-  } else if (isGitlab(type)) {
-    return t('in-automation:ActionCatalog.ansible');
   } else {
     return type;
   }
@@ -156,8 +154,6 @@ export function getGithubFields(action: Action | NewAction): GithubFields {
   const owner = getGithubOwnerFromFields(action.fields);
   const repo = getGithubRepoFromFields(action.fields);
   const ticketType = getGithubTicketTypeFromFields(action.fields);
-  // const authen = getAuthenFromFields(action.fields);
-  // const ticketType: TicketTypes = JSON.parse(ticketTypeNonParsed.value);
 
   return { owner, repo, ticketType };
 }
@@ -181,7 +177,6 @@ export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
 export const isGithub = (type?: string) => type === GITHUB_TYPE;
-export const isGitlab = (type?: string) => type === GITLAB_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const MANUAL_TYPE = 'MANUAL';
@@ -190,7 +185,6 @@ export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';
 export const ANSIBlE_TYPE = 'ANSIBLE';
 export const GITHUB_TYPE = 'GITHUB';
-export const GITLAB_TYPE = 'GITLAB';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);

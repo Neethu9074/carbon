@@ -21,7 +21,14 @@ import {
   isWebhook,
   parseDynamicParameter,
   parseVaultParameter,
-  getAnsibleFields
+  getAnsibleFields,
+  isGithub,
+  getGithubFields,
+  getGithubOpenTicketFields,
+  getGithubOCloseAndCommentFields,
+  OPEN,
+  CLOSE,
+  ADD_COMMENT
 } from 'in-automation/ActionCatalog/shared';
 import {
   ActionExecutionParameter,
@@ -29,7 +36,9 @@ import {
   resolveDynamicParameters,
   runScriptAction,
   runWebhookAction,
-  runAnsibleAction
+  runAnsibleAction,
+  runGithubCloseAction,
+  runGithubOpenAction
 } from 'in-automation/api';
 import RunActionContent, { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -304,6 +313,45 @@ function onSave({
       interpreter,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
+  } else if (isGithub(action.type)) {
+    const { owner, repo, ticketType } = getGithubFields(action);
+    // {ticketType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
+    // {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+    // {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+    if (ticketType.value === OPEN) {
+      const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
+      runGithubOpenAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        owner,
+        repo,
+        ticketType,
+        title,
+        body,
+        labels,
+        assignees,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+
+    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+      const { comment } = getGithubOCloseAndCommentFields(action);
+      runGithubCloseAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        owner,
+        repo,
+        ticketType,
+        comment,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
   } else if (isWebhook(action.type)) {
     const { host, method, body, ignoreCertErrors, header, authen } = getWebhookFields(action);
     runWebhookAction({

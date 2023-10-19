@@ -213,10 +213,6 @@ export function removeScriptField(form: MapForm<any>) {
   return form.remove('script').remove('subtype');
 }
 
-export function removeGitlabField(form: MapForm<any>) {
-  return form.remove('gitlab').remove('subtype');
-}
-
 export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
   const { owner, repo, ticketType } = getGithubFields(action);
   form = form

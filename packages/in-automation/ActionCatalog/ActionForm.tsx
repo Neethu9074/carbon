@@ -24,7 +24,6 @@ import {
   removeScriptField,
   removeWebhookFields,
   removeGithubFields,
-  removeGitlabField,
   putGithubFields,
   putGithubOpenTicketFields,
   putGithubCloseAndCommentTicketFields,
@@ -38,7 +37,6 @@ import {
   BEARER_TOKEN,
   DOC_LINK_TYPE,
   GITHUB_TYPE,
-  GITLAB_TYPE,
   HTTP_METHODS,
   HTTP_METHODS_WITH_BODY,
   isDocLink,
@@ -53,7 +51,6 @@ import {
   isAnsible,
   getAnsibleFields,
   isGithub,
-  isGitlab,
   GH_TICKET_TYPES,
   OPEN,
   CLOSE,
@@ -111,7 +108,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
           {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
           {isAnsible(type) && <AnsibleSection entity={action} />}
           {isGithub(type) && <GithubSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
-          {isGitlab(type) && <GitlabSection form={form} onChange={onChange} />}
           {showTimeoutSection && (
             <>
               <TimeoutSection form={form} onChange={onChange} />
@@ -251,19 +247,16 @@ const TypeSection = ({
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabField(updatedForm);
                   updatedForm = putDocLinkField(updatedForm, action);
                 } else if (isScript(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabField(updatedForm);
                   updatedForm = putScriptField(updatedForm, action);
                 } else if (isWebhook(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabField(updatedForm);
                   updatedForm = putWebhookFields(updatedForm, action);
                 } else if (isManual(type)) {
                   // manual actions don't have any associated fields
@@ -271,19 +264,11 @@ const TypeSection = ({
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabField(updatedForm);
                 } else if (isGithub(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGitlabField(updatedForm);
                   updatedForm = putGithubFields(updatedForm, action);
-                } else if (isGitlab(type)) {
-                  // manual actions don't have any associated fields
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
                 }
                 return updatedForm;
               })
@@ -295,7 +280,6 @@ const TypeSection = ({
             <option value={WEBHOOK_TYPE}>{t('in-automation:ActionCatalog.http')}</option>
             <option value={MANUAL_TYPE}>{t('in-automation:ActionCatalog.manual')}</option>
             <option value={GITHUB_TYPE}>{t('in-automation:ActionCatalog.github')}</option>
-            <option value={GITLAB_TYPE}>{t('in-automation:ActionCatalog.gitlab')}</option>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
@@ -591,50 +575,6 @@ const GithubCloseAndCommentSection = ({ form, onChange }: Pick<ActionFormProps, 
             disabled={isNotEditable}
             onChange={e => onChange('comment', (e.target as HTMLTextAreaElement).value)}
             hasError={!field.valid && field.touched}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-        </FormGroup>
-      ))}
-    </>
-  );
-};
-
-const GitlabSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
-  const script = form.get('script') as Field<string>;
-  const subtype = form.get('subtype') as Field<string>;
-  const isNotEditable = useContext(isNotEditableContext);
-
-  return (
-    <>
-      {subtype.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-subtype" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.interpreter')}
-          </Label>
-          <Input
-            id="action-subtype"
-            type="text"
-            disabled={isNotEditable}
-            value={field.value}
-            onChange={e => onChange('subtype', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.interpreterHelper')}</HelpText>
-        </FormGroup>
-      ))}
-      {script.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.script')}
-          </Label>
-          <Code
-            readOnly={isNotEditable}
-            lineNumbers
-            mode={'shell'}
-            value={field.value}
-            onChange={value => onChange('script', value)}
           />
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>

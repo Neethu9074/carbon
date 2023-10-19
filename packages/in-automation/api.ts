@@ -27,7 +27,8 @@ import {
   DOC_LINK_TYPE,
   HTTP_METHODS_WITH_BODY,
   SCRIPT_TYPE,
-  WEBHOOK_TYPE
+  WEBHOOK_TYPE,
+  GITHUB_TYPE
 } from 'in-automation/ActionCatalog/shared';
 import submitActionExecution from './subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -590,6 +591,133 @@ interface RunWebhookActionParams extends RunActionBaseParams {
   ignoreCertErrors: Field;
   header: Field;
   authen: Field;
+}
+
+interface RunGithubOpenActionParams extends RunActionBaseParams {
+  owner: Field;
+  repo: Field;
+  ticketType: Field;
+  title: Field;
+  body: Field;
+  labels: Field;
+  assignees: Field;
+}
+
+export function runGithubOpenAction({
+  volatileId,
+  event,
+  actionName,
+  actionId,
+  inputParameters,
+  timeout,
+  owner,
+  repo,
+  ticketType,
+  title,
+  body,
+  labels,
+  assignees
+}: RunGithubOpenActionParams) {
+  return runAction({
+    type: GITHUB_TYPE,
+    volatileId,
+    event,
+    actionName,
+    timeout,
+    actionId,
+    inputParameters,
+    request: [
+      {
+        name: 'owner',
+        value: owner.value,
+        encoding: owner.encoding
+      },
+      {
+        name: 'repo',
+        value: repo.value,
+        encoding: repo.encoding
+      },
+
+      {
+        name: 'ticketActionType',
+        value: ticketType.value,
+        encoding: ticketType.encoding
+      },
+      {
+        name: 'title',
+        value: title.value,
+        encoding: title.encoding
+      },
+      {
+        name: 'body',
+        value: body.value,
+        encoding: body.encoding
+      },
+      {
+        name: 'labels',
+        value: labels.value,
+        encoding: labels.encoding
+      },
+      {
+        name: 'assignees',
+        value: assignees.value,
+        encoding: assignees.encoding
+      }
+    ]
+  });
+}
+
+interface RunGithubCloseActionParams extends RunActionBaseParams {
+  owner: Field;
+  repo: Field;
+  ticketType: Field;
+  comment: Field;
+}
+
+export function runGithubCloseAction({
+  volatileId,
+  event,
+  actionName,
+  actionId,
+  inputParameters,
+  timeout,
+  owner,
+  repo,
+  ticketType,
+  comment
+}: RunGithubCloseActionParams) {
+  return runAction({
+    type: GITHUB_TYPE,
+    volatileId,
+    event,
+    actionName,
+    timeout,
+    actionId,
+    inputParameters,
+    request: [
+      {
+        name: 'owner',
+        value: owner.value,
+        encoding: owner.encoding
+      },
+
+      {
+        name: 'repo',
+        value: repo.value,
+        encoding: repo.encoding
+      },
+      {
+        name: 'ticketActionType',
+        value: ticketType.value,
+        encoding: ticketType.encoding
+      },
+      {
+        name: 'comment',
+        value: comment.value,
+        encoding: comment.encoding
+      }
+    ]
+  });
 }
 
 interface RunAnsibleActionParams extends RunActionBaseParams {

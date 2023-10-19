@@ -21,9 +21,12 @@ import {
   getScriptFromFields,
   getType,
   getWebhookFields,
+  getGithubFields,
   isAnsible,
   isScript,
-  isWebhook
+  isWebhook,
+  isGithub,
+  GH_TICKET_TYPES
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -136,6 +139,7 @@ export default function RunActionDialogContent({
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}
         {isWebhook(action.type) && <WebhookActionContent action={action} />}
+        {isGithub(action.type) && <GithubActionContent action={action} />}
         {isAnsible(action.type) && (
           <AnsibleActionContent
             form={form}
@@ -293,6 +297,31 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
         )}
         <div>
           <Typography variant="body-small">{t('in-automation:authType', { authType })}</Typography>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { owner, repo, ticketType } = getGithubFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:request')}
+      >
+        <div>
+          <Typography variant="body-small">{t('in-automation:owner', { owner: owner.value })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">{t('in-automation:repo', { repo: repo.value })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:ticketType', { ticketType: ticketTypeTranslated })}
+          </Typography>
         </div>
       </DescriptionItem>
     </DescriptionList>
