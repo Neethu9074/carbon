@@ -30,22 +30,23 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: statefulSet }: any) {
-  const theme = useTheme();
   const timeShift = useTimeShiftConfig();
 
-  // Removing the old destructuring syntax for colors
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
-  const pending = theme.ids.color.option.orange['500'];
-  const allocated = theme.ids.color.option.blue['400'];
-  const unscheduled = theme.ids.color.option['deep-purple']['500'];
-  const unready = theme.ids.color.option.pink['500'];
-  const desired = theme.ids.color.option.green['500'];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
+
+  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
+
+  const available = oldTheme.lib.colors.chart.strokeColors100[0];
+  const desired = oldTheme.lib.colors.chart.strokeColors100[1];
 
   const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
@@ -307,7 +308,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
               {
                 metric: 'availableReplicas',
                 label: t('in-kubernetes:dashboards.available'),
-                color: allocated,
+                color: available,
                 ...defaultChartMetricConfig
               },
               {
@@ -318,7 +319,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
               }
             ]}
             title={t('in-kubernetes:dashboards.replicas')}
-            colors={[allocated, desired, pending, unscheduled]}
+            colors={[available, desired]}
             formatter="number.compact"
             tooltipFormatter={zeroDecimalPlaces}
             paramTab="replicaTab"

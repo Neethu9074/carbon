@@ -34,23 +34,20 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import oldTheme, { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const resourceQuotaSet = v => v !== -1;
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: namespace }) {
-  const theme = useTheme();
   const snapshotId = namespace.id;
 
-  // Removing the old destructuring syntax for colors
-  const hardLimits = theme.ids.color.option.indigo['500'];
-  const hardRequests = theme.ids.color.option.purple['500'];
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
-
-  const pods = oldTheme.lib.colors.slushGreen800; // We don't have any alternative ids color for slushGreen800 -- using oldTheme here
+  const hardLimits = oldTheme.lib.colors.chart.fiveColorPalette[2];
+  const hardRequests = oldTheme.lib.colors.chart.fiveColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.fiveColorPalette[3];
+  const requests = oldTheme.lib.colors.chart.fiveColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.fiveColorPalette[4];
+  const pods = oldTheme.lib.colors.chart.strokeColors100[0];
 
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(namespace.label);

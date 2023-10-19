@@ -42,7 +42,7 @@ import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -53,7 +53,6 @@ interface SummaryProps {
 }
 
 export default function Summary({ data: pod, timeConfig }: SummaryProps) {
-  const theme = useTheme();
   const timeShift = useTimeShiftConfig();
 
   const containerStatuses = pod.status?.containerStatuses || [];
@@ -91,9 +90,9 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   };
 
   // Removing the old destructuring syntax for colors
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

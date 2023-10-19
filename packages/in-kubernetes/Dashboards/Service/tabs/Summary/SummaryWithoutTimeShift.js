@@ -25,17 +25,15 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { useTheme } from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
-  const theme = useTheme();
   const snapshotId = service.id;
 
-  // Removing the old destructuring syntax for colors
-  const limits = theme.ids.color.option.orange['500'];
-  const requests = theme.ids.color.option.lime['500'];
-  const usage = theme.ids.color.option.blue['400'];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
 
   const clusterTag = kubernetesClusterTagEquals(service.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(service.namespace);
