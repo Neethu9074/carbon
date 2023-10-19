@@ -39,7 +39,7 @@ export default function ViewAnalyzeButton({ alertConfig }: { alertConfig: InfraA
   );
   return (
     <Stack gap="normal">
-      <Button className={locals.viewDetailButton} kind="secondary" icon="lib_analyze_inverted" href={linkToUA}>
+      <Button className={locals.viewDetailButton} kind="primaryv2" icon="lib_analyze_inverted" href={linkToUA}>
         {t('in-alerting:smartAlerts.infrastructure.alertDetails.viewDetail')}
       </Button>
     </Stack>

@@ -6,6 +6,8 @@
 
 import React, { useState } from 'react';
 
+import { Stack } from '@instana/components';
+
 import {
   InfraAlertConfigWithMetadata,
   InfraAlertRuleUnion,
@@ -110,16 +112,18 @@ export default function AlertConfigurationAlertConfiguration({
         darkFrame
       >
         <div className={locals.paddingBodyWrapper}>
-          <ScopeConfigPresenter
-            tagFilterFormModel={tagFilterFormModel}
-            queryBuilder={
-              (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
-            }
-            scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
-          />
+          <Stack gap="xsmall">
+            <ScopeConfigPresenter
+              tagFilterFormModel={tagFilterFormModel}
+              queryBuilder={
+                (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
+              }
+              scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
+            />
 
-          <AlertGrouping AlertQueryBuilder={AlertQueryBuilder} groupBy={groupBy} />
-          {groupBy.length > 0 ? <ViewAnalyzeButton alertConfig={alertConfig} /> : null}
+            <AlertGrouping AlertQueryBuilder={AlertQueryBuilder} groupBy={groupBy} />
+            {groupBy.length > 0 ? <ViewAnalyzeButton alertConfig={alertConfig} /> : null}
+          </Stack>
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard
