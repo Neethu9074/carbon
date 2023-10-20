@@ -141,6 +141,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   if (isScript(action.type)) query = 'entity.agent.capability:action-script';
   else if (isWebhook(action.type)) query = 'entity.agent.capability:action-http';
   else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
+  else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
