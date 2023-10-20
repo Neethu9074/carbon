@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/legacy';
@@ -10,7 +11,17 @@ import { Button } from '@instana/legacy';
 import { handleChangeTagFilterExpressionChange } from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import { t } from 'in-i18n';
 
-export function ClearTagFilterExpressionButton({ form, updateForm, customFormUpdater }) {
+interface ClearTagFilterExpressionButtonProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  customFormUpdater?: () => void;
+}
+
+export function ClearTagFilterExpressionButton({
+  form,
+  updateForm,
+  customFormUpdater
+}: ClearTagFilterExpressionButtonProps) {
   return (
     <Button
       kind="subtle"

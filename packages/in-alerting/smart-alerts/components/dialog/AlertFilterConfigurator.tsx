@@ -12,7 +12,7 @@ import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import locals from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator.mless';
 
 interface AlertFilterConfiguratorProps {
-  QueryBuilderComponent?: QueryBuilderComponent;
+  QueryBuilderComponent: QueryBuilderComponent;
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
 }
@@ -29,7 +29,6 @@ export default function AlertFilterConfigurator({
     <div className={locals.queryBuilderWrapper}>
       <span className={locals.queryBuilderPositionCorrection}>
         {
-          //@ts-expect-error
           <QueryBuilderComponent
             onChange={(tfe: FormModelElement[]) => handleChangeTagFilterExpressionChange(tfe, form, updateForm)}
             value={tagFilterExpression}

@@ -23,7 +23,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAler
 export interface SimpleAlertConfigDialogStep2Props {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  QueryBuilderComponent?: QueryBuilderComponent;
+  QueryBuilderComponent: QueryBuilderComponent;
   label: string;
   onChartViewConfigChange: (arg: number) => void;
   selectedChartViewConfigIndex: number;

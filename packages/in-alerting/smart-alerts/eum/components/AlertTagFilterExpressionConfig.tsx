@@ -8,7 +8,6 @@ import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-//@ts-expect-error Need TS migartion
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -20,7 +19,7 @@ import locals from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpres
 export interface AlertTagFilterExpressionConfigProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  QueryBuilderComponent?: QueryBuilderComponent;
+  QueryBuilderComponent: QueryBuilderComponent;
   headerTransparent?: boolean;
   label?: string;
   iconType: string;

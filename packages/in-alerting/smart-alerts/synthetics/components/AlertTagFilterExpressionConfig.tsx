@@ -8,7 +8,6 @@ import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-//@ts-expect-error
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
