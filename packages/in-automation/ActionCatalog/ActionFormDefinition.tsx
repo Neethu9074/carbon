@@ -238,8 +238,8 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
       })
     );
   if (ticketType.value == OPEN) form = putGithubOpenTicketFields(form, action);
-  else if (ticketType.value == CLOSE) form = putGithubCloseAndCommentTicketFields(form, action);
-  else if (ticketType.value == ADD_COMMENT) form = putGithubCloseAndCommentTicketFields(form, action);
+  else if (ticketType.value == CLOSE) form = putGithubCloseTicketFields(form, action);
+  else if (ticketType.value == ADD_COMMENT) form = putGithubCommentTicketFields(form, action);
   return form;
 }
 
@@ -293,7 +293,20 @@ export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionForm
   return form;
 }
 
-export function putGithubCloseAndCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+export function putGithubCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeGithubOpenTicketFields(form);
+  const { comment } = getGithubOCloseAndCommentFields(action);
+  form = form.put(
+    'comment',
+    createField({
+      value: comment.value
+    })
+  );
+
+  return form;
+}
+
+export function putGithubCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGithubOpenTicketFields(form);
   const { comment } = getGithubOCloseAndCommentFields(action);
   form = form.put(

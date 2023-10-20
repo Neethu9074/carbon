@@ -26,7 +26,8 @@ import {
   removeGithubFields,
   putGithubFields,
   putGithubOpenTicketFields,
-  putGithubCloseAndCommentTicketFields,
+  putGithubCloseTicketFields,
+  putGithubCommentTicketFields,
   removeGithubOpenTicketFields,
   removeGithubCloseAndCommentTicketFields
 } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -378,7 +379,7 @@ const GithubSection = ({
           {owner.map(field => (
             <FormGroup>
               <Label htmlFor="github-owner" hasError={!field.valid && field.touched}>
-                Owner/Organization
+                {t('in-automation:owner')}
               </Label>
               <Input
                 id="github-owner"
@@ -397,7 +398,7 @@ const GithubSection = ({
           {repo.map(field => (
             <FormGroup>
               <Label htmlFor="github-repo" hasError={!field.valid && field.touched}>
-                Repo
+                {t('in-automation:repo')}
               </Label>
               <Input
                 id="github-repo"
@@ -416,7 +417,7 @@ const GithubSection = ({
           {ticketType.map(field => (
             <FormGroup>
               <Label htmlFor="github-ticket-type" hasError={!field.valid && field.touched}>
-                Ticket Type
+                {t('in-automation:ticketType')}
               </Label>
               <Select
                 id="github-ticket-type"
@@ -430,7 +431,8 @@ const GithubSection = ({
                       updatedForm = putGithubOpenTicketFields(updatedForm, action);
                     } else if (type == CLOSE) {
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
-                      updatedForm = putGithubCloseAndCommentTicketFields(updatedForm, action);
+                      updatedForm = removeGithubCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = putGithubCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
                         parameters.push({
                           id: generateUniqueShortId(),
@@ -447,7 +449,8 @@ const GithubSection = ({
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
-                      updatedForm = putGithubCloseAndCommentTicketFields(updatedForm, action);
+                      updatedForm = removeGithubCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = putGithubCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
                         parameters.push({
@@ -499,7 +502,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
           {title.map(field => (
             <FormGroup>
               <Label htmlFor="github-title" hasError={!field.valid && field.touched}>
-                Title
+                {t('in-automation:title')}
               </Label>
               <Input
                 id="github-title"
@@ -511,7 +514,6 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>Help Text</HelpText>
             </FormGroup>
           ))}
         </Col>
@@ -519,7 +521,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
           {body.map(field => (
             <FormGroup>
               <Label htmlFor="github-body" hasError={!field.valid && field.touched}>
-                Body
+                {t('in-automation:body')}
               </Label>
               <TextArea
                 id="github-body"
@@ -538,6 +540,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
           form={form}
           setForm={setForm}
           onChange={onChange}
+          label={t('in-automation:labels')}
           fieldName="labels"
           customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
           noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
@@ -549,6 +552,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
           form={form}
           setForm={setForm}
           onChange={onChange}
+          label={t('in-automation:assignees')}
           fieldName="assignees"
           customAddRowLabel={t('in-automation:ActionCatalog.addAssignees')}
           noDataMessage={t('in-automation:ActionCatalog.noAssigneesConfigured')}
@@ -567,7 +571,7 @@ const GithubCloseAndCommentSection = ({ form, onChange }: Pick<ActionFormProps, 
       {comment.map(field => (
         <FormGroup>
           <Label htmlFor="github-ticket-comment" hasError={!field.valid && field.touched}>
-            Comment
+            {t('in-automation:comment')}
           </Label>
           <TextArea
             id="github-ticket-comment"

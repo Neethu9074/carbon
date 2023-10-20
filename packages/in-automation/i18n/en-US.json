@@ -44,9 +44,16 @@
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
   "hostsLimit": "Hosts Limit (optional)",
-  "owner": "Owner/Organization: {{owner}}",
-  "repo": "Repository: {{repo}}",
-  "ticketType": "Ticket Type: {{ticketType}}",
+  "ownerInfo": "Owner/Organization: {{owner}}",
+  "repoInfo": "Repository: {{repo}}",
+  "ticketTypeInfo": "Ticket Type: {{ticketType}}",
+  "owner":"Owner/Organization",
+  "repo":"Repository",
+  "ticketType":"Ticket type",
+  "title":"Title",
+  "labels":"Labels",
+  "assignees":"Assignees",
+  "comment": "Comment",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -151,7 +158,7 @@
     "noLabelsConfigured":"No labels are added.",
     "addLabels":"Add Labels",
     "addAssignees":"Add Assignees",
-    "noAssigneesConfigured":"No Assignees are added"
+    "noAssigneesConfigured":"No assignees are added"
   },
   "actionHistory": {
     "actionHistory": "Action History",

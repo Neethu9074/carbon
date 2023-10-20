@@ -313,14 +313,14 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         title={t('in-automation:request')}
       >
         <div>
-          <Typography variant="body-small">{t('in-automation:owner', { owner: owner.value })}</Typography>
+          <Typography variant="body-small">{t('in-automation:ownerInfo', { owner: owner.value })}</Typography>
         </div>
         <div>
-          <Typography variant="body-small">{t('in-automation:repo', { repo: repo.value })}</Typography>
+          <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>
         </div>
         <div>
           <Typography variant="body-small">
-            {t('in-automation:ticketType', { ticketType: ticketTypeTranslated })}
+            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
           </Typography>
         </div>
       </DescriptionItem>

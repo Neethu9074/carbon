@@ -25,6 +25,7 @@ interface LabelsTableProps {
   form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   fieldName?: string;
+  label: string;
 }
 
 interface FieldProps extends LabelsTableProps {
@@ -37,12 +38,13 @@ const getColumnDefinitions = ({
   form,
   onChange,
   isNotEditable,
-  fieldName
+  fieldName,
+  label
 }: LabelsTableProps & { isNotEditable: boolean }) => [
   {
     id: 'id',
     sortable: false,
-    label: fieldName ? `${fieldName}` : 'labels',
+    label: label ?? 'labels',
     getContent(item: Label) {
       const labelsField = form.get(`${fieldName}`);
       return (
@@ -83,10 +85,11 @@ export default function FieldsTable({
   onChange,
   fieldName = 'labels',
   customAddRowLabel,
+  label,
   noDataMessage
 }: FieldProps) {
   const isNotEditable = useContext(isNotEditableContext);
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, fieldName });
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, fieldName, label });
   const labels = (form.get(`${fieldName}`) as Field<any>).value;
 
   return (
