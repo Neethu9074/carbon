@@ -7,11 +7,18 @@
 import { List } from 'immutable';
 import React from 'react';
 
+import { combineLatest, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
+
+import getTuxedoIpcQueuesForMachine from '../subscriptions/getTuxedoIpcQueuesForMachine';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { SnapshotData, getSnapshot } from 'in-stores/snapshot/snapshot';
 import { number, percentage } from 'in-services/formatters/number';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const queueIdCol = {
@@ -120,6 +127,24 @@ const usageCol = {
 export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id') as string;
+  const ipcQueues = useObservable(
+    getTuxedoIpcQueuesForMachine({ snapshotId, timeConfig: timeConfig }).flatMap(result =>
+      result.data
+        ? combineLatest(result.data.map(ipcQueue => getSnapshot(ipcQueue, timeConfig))).map(ipcQueues =>
+            success(ipcQueues)
+          )
+        : just(pendingResult as Result<SnapshotData[]>)
+    ),
+    [snapshotId, timeConfig]
+  );
+
+  // eslint-disable-next-line no-console
+  console.log('ipcQueues ======= ', ipcQueues);
+
+  if (!ipcQueues?.data) {
+    return null;
+  }
+
   const ipcQueuesIds = snapshot.getIn(['data', 'ipcQueuesIds'], List());
   if (ipcQueuesIds.length === 0) {
     return null;
