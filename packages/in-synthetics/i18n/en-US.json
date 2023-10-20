@@ -497,7 +497,8 @@
       "testSummaryTitle": "No Synthetic tests available",
       "testSummaryDescription": "There are no Synthetic tests retrieved from the database.",
       "locationListTitle": "No Synthetic locations available",
-      "locationListDescription": "There are no Synthetic locations retrieved from the database."
+      "locationListDescription": "There are no Synthetic locations retrieved from the database.",
+      "configurationTab": "{{component}} details are not available for this test."
     },
     "alertList": {
       "timeThreshold": "Time Threshold",
