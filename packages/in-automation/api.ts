@@ -321,7 +321,7 @@ export const createGithubFields = ({ owner, repo, ticketType }: GithubFields): F
   // If type is 'open', combine the fields with the GithubOpenFields.
   if (type === 'open') {
     return [...mainFields, ...createGithubOpenFields(githubSpecificFields as GithubOpenFields)];
-  } else if (type === 'close' || type === 'addcomment') {
+  } else if (type === 'close' || type === 'add_comment') {
     return [...mainFields, ...createGithubCloseAndCommentFields(githubSpecificFields as GithubCloseAndCommentFields)];
   }
 
@@ -394,7 +394,7 @@ export interface CloseProps {
   comment: string;
 }
 export interface CommentProps {
-  type: 'addcomment';
+  type: 'add_comment';
   comment: string;
 }
 export type TicketTypes = OpenProps | CloseProps | CommentProps;

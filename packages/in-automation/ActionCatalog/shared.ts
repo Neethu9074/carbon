@@ -190,7 +190,7 @@ export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
 export const OPEN = 'open';
 export const CLOSE = 'close';
-export const ADD_COMMENT = 'addcomment';
+export const ADD_COMMENT = 'add_comment';
 export const GH_TICKET_TYPES = Object.freeze([
   { value: OPEN, translation: 'Open Ticket' },
   { value: CLOSE, translation: 'Close Ticket' },

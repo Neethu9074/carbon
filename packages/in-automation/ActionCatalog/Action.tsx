@@ -294,24 +294,12 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
         type: 'close',
         comment
       };
-      // if (!doesParameterExist(parameters, 'ticketId')) {
-      //   parameters.push({
-      //     id: generateUniqueShortId(),
-      //     value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
-      //   });
-      // }
     } else if (ticketType === ADD_COMMENT) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
-        type: 'addcomment',
+        type: 'add_comment',
         comment
       };
-      // if (!doesParameterExist(parameters, 'ticketId')) {
-      //   parameters.push({
-      //     id: generateUniqueShortId(),
-      //     value: { label: 'ticket name', name: 'ticketId', required: true, type: 'static', valueType: 'string' }
-      //   });
-      // }
     }
     fields.push(...createGithubFields({ owner: owner, repo: repo, ticketType: type }));
   } else if (isWebhook(type)) {
