@@ -9,13 +9,6 @@ import classNames from 'classnames';
 import { Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import {
-  infraExploreDataEnabled,
-  loggingEnabled,
-  mobileAppCrashBeaconEnabled,
-  businessObservabilityEnabled,
-  bizopsFeatureEnabled
-} from 'in-services/featureFlags';
 /* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 /* eslint-disable no-restricted-imports */
@@ -31,10 +24,10 @@ import {
   hasWebsitesAccess
 } from 'in-stores/permission';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
-import { useLinkToAnalyze as useLinkToBizOpsAnalyze } from 'in-bizops/navigation/paths';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
@@ -80,7 +73,6 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const linkToProfileAnalyze = useLinkToProfileAnalyze();
-  const linkToBizOpsAnalyze = useLinkToBizOpsAnalyze();
   const productAreas = [
     {
       productArea: 'logs',
@@ -277,20 +269,6 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
           dataSource: 'profiles',
           getHref: () => {
             return linkToProfileAnalyze;
-          }
-        }
-      ]
-    },
-    {
-      productArea: 'bizops',
-      hasAccess: businessObservabilityEnabled && bizopsFeatureEnabled,
-      dataSources: [
-        {
-          dataSource: 'bizops',
-          // This sets the destination link when the 'Business Processes' item is
-          // selected from the Analytics > drop down menu
-          getHref: () => {
-            return linkToBizOpsAnalyze;
           }
         }
       ]

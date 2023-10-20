@@ -14,7 +14,6 @@ import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-web
 import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import { analyzePath as profilingAnalyzePath } from 'in-components/Profiling/navigation/paths';
 import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navigation/matrix';
-import { dataSourceMatrixParameter as bizopsMatrix } from 'in-bizops/navigation/matrix';
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import { DataSourceMatrix } from 'in-analyze/components/AnalyzeHeader/types';
 import { logsPath as logsAnalyzePath } from 'in-logging/navigation/paths';
@@ -52,12 +51,6 @@ export const dataSourceSources: DataSourceMatrix[] = [
     matrixPath: '/explore',
     matrixParam: dataSourceTypeMatrixParameter,
     productArea: 'infrastructure'
-  },
-  {
-    pathPrefix: bizopsMatrix.path,
-    matrixPath: bizopsMatrix.path,
-    matrixParam: bizopsMatrix.name,
-    productArea: 'bizops'
   }
 ];
 

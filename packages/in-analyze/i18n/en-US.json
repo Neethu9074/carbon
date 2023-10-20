@@ -92,8 +92,7 @@
       "viewTransitions2": "View Transitions",
       "calls": "Calls",
       "traces": "Traces",
-      "crashes": "Crashes",
-      "bizops": "Business Processes"
+      "crashes": "Crashes"
     }
   },
   "traceDetail": {
