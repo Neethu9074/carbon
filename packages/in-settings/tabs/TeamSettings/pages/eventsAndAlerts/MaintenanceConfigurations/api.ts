@@ -9,17 +9,23 @@ import {
   MaintenanceConfig,
   MaintenanceConfigSchedulingUnion,
   MaintenanceConfigV2,
-  RecurrentMaintenanceWindow
+  RecurrentMaintenanceWindow,
+  Result,
+  TagFilterExpressionElementUnion,
+  TimeConfig
 } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
 import { Observable } from '@instana/observables';
 
 import { WindowObject } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
+import { GetSuggestionsProps, Suggestions, getSuggestions } from 'in-alerting/smart-alerts/synthetics/api/queryBuilder';
+import { CreateQueryBuilderResponse, createQueryBuilder } from 'in-components/QueryBuilder';
+import { getTagCatalog } from 'in-alerting/smart-alerts/synthetics/api/tagCatalog';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import http from 'in-services/http';
+import http, { Response } from 'in-services/http';
 import { t } from 'in-i18n';
 
-export function getMaintenanceConfigs() {
+export function getMaintenanceConfigs(): Observable<MaintenanceConfig> {
   return getMaintenanceConfigsMutable().map(fromJS);
 }
 
@@ -40,7 +46,7 @@ export function getMaintenanceConfigV2(id: string): Observable<MaintenanceConfig
 }
 
 export function saveMaintenanceConfigV2(config: MaintenanceConfigV2): Observable<MaintenanceConfigV2> {
-  return http({
+  return http<MaintenanceConfigV2>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -49,8 +55,8 @@ export function saveMaintenanceConfigV2(config: MaintenanceConfigV2): Observable
   }).map(response => fromJS(response.body));
 }
 
-export function deleteMaintenanceConfigV2(id: string) {
-  return http({
+export function deleteMaintenanceConfigV2(id: string): Observable<Response<MaintenanceConfig>> {
+  return http<MaintenanceConfig>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -58,8 +64,8 @@ export function deleteMaintenanceConfigV2(id: string) {
   });
 }
 
-export function resumeMaintenanceConfig(id: string) {
-  return http({
+export function resumeMaintenanceConfig(id: string): Observable<MaintenanceConfigV2> {
+  return http<MaintenanceConfigV2>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -67,8 +73,8 @@ export function resumeMaintenanceConfig(id: string) {
   }).map(response => fromJS(response.body));
 }
 
-export function pauseMaintenanceConfig(id: string) {
-  return http({
+export function pauseMaintenanceConfig(id: string): Observable<MaintenanceConfigV2> {
+  return http<MaintenanceConfigV2>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -76,8 +82,8 @@ export function pauseMaintenanceConfig(id: string) {
   }).map(response => fromJS(response.body));
 }
 
-export function getMaintenanceConfigsMutable() {
-  return http({
+export function getMaintenanceConfigsMutable(): Observable<MaintenanceConfig> {
+  return http<MaintenanceConfig>({
     method: 'GET',
     maxRetries: 3,
     url: `/api/settings/maintenance`
@@ -94,7 +100,7 @@ export function getMaintenanceConfig(id: string): Observable<MaintenanceConfig> 
 }
 
 export function saveMaintenanceConfig(config: MaintenanceConfig): Observable<MaintenanceConfig> {
-  return http({
+  return http<MaintenanceConfig>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -103,8 +109,8 @@ export function saveMaintenanceConfig(config: MaintenanceConfig): Observable<Mai
   }).map(response => fromJS(response.body));
 }
 
-export function deleteMaintenanceConfig(id: string) {
-  return http({
+export function deleteMaintenanceConfig(id: string): Observable<MaintenanceConfigV2> {
+  return http<MaintenanceConfigV2>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -112,12 +118,33 @@ export function deleteMaintenanceConfig(id: string) {
   }).map(response => fromJS(response.body));
 }
 
+export function getTagSuggestions(
+  args: GetSuggestionsProps,
+  suggestionTimeConfig?: TimeConfig
+): Observable<Result<Suggestions>> {
+  return getSuggestions({
+    ...args,
+    name: args.name,
+    timeConfig: suggestionTimeConfig ?? args.timeConfig,
+    key: args.key,
+    value: args.value
+  });
+}
+
+export function createBoundedAlertQueryBuilder(suggestionTimeConfig?: TimeConfig): CreateQueryBuilderResponse {
+  return createQueryBuilder({
+    //@ts-ignore-next-line
+    getTagCatalog: () => getTagCatalog({ useCase: 'MAINTENANCE_WINDOWS' }),
+    getSuggestions: args => getTagSuggestions(args, suggestionTimeConfig)
+  });
+}
+
 export function createMaintenanceConfig(
   id: string,
   name = t('in-settings:api.newMaintenanceWindowDefaultName'),
   query = '',
   windows = []
-) {
+): MaintenanceConfig {
   return {
     id: id || generateUniqueShortId(),
     name,
@@ -132,7 +159,8 @@ export function createMaintenanceConfigV2(
   name: string = '',
   query: string = '',
   scheduling: MaintenanceConfigSchedulingUnion = createDefaultSchedule(),
-  tagFilterExpressionEnabled: boolean = false
+  tagFilterExpressionEnabled?: boolean,
+  tagFilterExpression?: TagFilterExpressionElementUnion
 ): MaintenanceConfigV2 {
   return {
     id: id || generateUniqueShortId(),
@@ -140,7 +168,8 @@ export function createMaintenanceConfigV2(
     query,
     paused: paused || false,
     scheduling,
-    tagFilterExpressionEnabled
+    tagFilterExpressionEnabled: tagFilterExpressionEnabled || false,
+    tagFilterExpression
   };
 }
 

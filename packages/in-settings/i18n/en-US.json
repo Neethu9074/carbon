@@ -148,9 +148,9 @@
     "addButton_syntheticTests": "Select Synthetic Tests",
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
-    "configuration_limitation":"Configuration Limitation",
-    "limitation_description":"The filter defined below will be included in at the beginning of all new application configurations. It cannot be removed, but can be refined.",
-    "limitation_description_link":"Read more about application configuration limitation",
+    "configuration_limitation": "Configuration Limitation",
+    "limitation_description": "The filter defined below will be included in at the beginning of all new application configurations. It cannot be removed, but can be refined.",
+    "limitation_description_link": "Read more about application configuration limitation",
     "limitation_downstreamCalls": "Determine the maximum level of additional information that can be included in the application percepectives"
   },
   "selectItemForm": {
@@ -780,6 +780,7 @@
     "alert": "Alert",
     "unknownAlert": "Unknown Alert",
     "pleaseSelectAtLeastOneApplication": "Please select at least one application.",
+    "pleaseSelectAtLeastOneTagFilter": "Please select at least one tag filter.",
     "noAlertConfigured": "No alert configured.",
     "additionalScope": "Additional Scope",
     "state": "State…",
@@ -895,6 +896,7 @@
     "applyOn": "Apply on",
     "applicationPerspective": "Application Perspective",
     "selectedEntitiesDynamicFocusQuery": "Selected entities (Dynamic Focus query)",
+    "syntheticTests": "Synthetic Tests",
     "automaticallyCloseAfter": "Automatically close after",
     "selectedEntitiesHostByTag": "Selected entities (Scope hosts by tag)",
     "scopeHostsByTag": "Scope hosts by tag",
@@ -1146,7 +1148,10 @@
       "awesome": "Awesome!",
       "meh": "Meh!",
       "terrible": "Terrible!"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "All Entities",
+    "appQuery": "{{numApps}} Applications"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",
