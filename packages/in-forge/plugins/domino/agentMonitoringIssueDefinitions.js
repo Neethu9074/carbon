@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.domino.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-hcl-domino#metrics_include_regex_does_not_match_any_metric`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-hcl-domino#metrics-include-regex-does-not-match-any-metrics`
   },
 
   missing_domino_stats_file: {
@@ -36,6 +36,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.domino.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-hcl-domino#invalid_metrics_file_location`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-hcl-domino#invalid-domino-metric-file-location`
   }
 };
