@@ -192,9 +192,9 @@ export const OPEN = 'open';
 export const CLOSE = 'close';
 export const ADD_COMMENT = 'add_comment';
 export const GH_TICKET_TYPES = Object.freeze([
-  { value: OPEN, translation: 'Open Ticket' },
-  { value: CLOSE, translation: 'Close Ticket' },
-  { value: ADD_COMMENT, translation: 'Add Comment' }
+  { value: OPEN, translation: t('in-automation:openTicket') },
+  { value: CLOSE, translation: t('in-automation:closeTicket') },
+  { value: ADD_COMMENT, translation: t('in-automation:commentTicket') }
 ]);
 
 export const NO_AUTH = 'noAuth';

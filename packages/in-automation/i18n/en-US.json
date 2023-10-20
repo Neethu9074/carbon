@@ -54,6 +54,9 @@
   "labels":"Labels",
   "assignees":"Assignees",
   "comment": "Comment",
+  "openTicket":"Open ticket",
+  "closeTicket":"Close ticket",
+  "commentTicket":"Add comment",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
