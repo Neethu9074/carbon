@@ -15,12 +15,14 @@ import SloEntityTable, {
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useApplicationEntities from 'in-service-levels/hooks/useApplicationEntities';
-import useApplication from 'in-applications/hooks/useApplication';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
+import useApplication from 'in-applications/hooks/useApplication';
 
 export default function SloApplicationEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
@@ -34,6 +36,7 @@ export default function SloApplicationEntitySection() {
   const sloEntityTypeField = form.getIn(['entity', 'type']);
   const entityIdField = form.getIn(['entity', 'entityId']);
   const entityId = entityIdField.value;
+  const isEntityIdFieldValid = isFieldValid(entityIdField);
 
   const [separatelyLoadedEntity, , , labelProgress] = useApplication(entityId);
   const [entityResult, , , entitiesProgress] = useApplicationEntities({
@@ -64,13 +67,20 @@ export default function SloApplicationEntitySection() {
       title={t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
       rightHeaderContent={<SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />}
     >
-      <SloEntityTable
-        entityList={sortedEntities}
-        onChange={onEntityChange}
-        progress={progress}
-        canLoadMore={canLoadMore}
-        loadMore={loadMore}
-      />
+      <>
+        {!isEntityIdFieldValid &&
+          entityIdField.messages.map(({ message, path }, index) => (
+            <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
+          ))}
+        <SloEntityTable
+          hasError={!isEntityIdFieldValid}
+          entityList={sortedEntities}
+          onChange={onEntityChange}
+          progress={progress}
+          canLoadMore={canLoadMore}
+          loadMore={loadMore}
+        />
+      </>
     </Card>
   );
 }

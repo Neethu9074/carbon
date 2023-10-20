@@ -13,7 +13,8 @@ import {
   timeFieldValidator,
   dateFieldValidator,
   timeWindowValidator,
-  noInvalidTagFilterExpression
+  noInvalidTagFilterExpression,
+  noBlankEntitySelection
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   SloEntityFields,
@@ -31,7 +32,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
-  entityId: createField({ value: '' }),
+  entityId: createField({ value: '', validator: noBlankEntitySelection }),
   type: createField({ value: entityType })
 });
 

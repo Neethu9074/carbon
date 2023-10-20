@@ -15,6 +15,8 @@ import SloEntityTable, {
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -32,8 +34,8 @@ export default function SloWebsiteEntitySection() {
   } = useDebouncedValue(query, setQuery);
 
   const entityTypeField = form.getIn(['entity', 'type']);
-  const websiteIdField = form.getIn(['entity', 'entityId']);
-  const entityId = websiteIdField.value;
+  const entityIdField = form.getIn(['entity', 'entityId']);
+  const entityId = entityIdField.value;
 
   const [separatelyLoadedEntity, , , labelProgress] = useWebsite(entityId);
   const [entityResult, , , entitiesProgress] = useWebsiteEntities({
@@ -48,8 +50,10 @@ export default function SloWebsiteEntitySection() {
   const previouslyLoadedEntity = entityList?.find(({ id }) => id === entityId);
   const entityAlreadyLoaded = Boolean(previouslyLoadedEntity);
 
+  const isEntityIdFieldValid = isFieldValid(entityIdField);
+
   const onEntityChange = ({ id }: EntityData) => {
-    onChange(['entity', 'entityId'], () => websiteIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
   };
 
   const sortedEntities = [
@@ -64,13 +68,20 @@ export default function SloWebsiteEntitySection() {
       title={t('in-service-levels:general.select', { entity: entityTypeField.value })}
       rightHeaderContent={<SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />}
     >
-      <SloEntityTable
-        entityList={sortedEntities}
-        onChange={onEntityChange}
-        progress={progress}
-        canLoadMore={canLoadMore}
-        loadMore={loadMore}
-      />
+      <>
+        {!isEntityIdFieldValid &&
+          entityIdField.messages.map(({ message, path }, index) => (
+            <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
+          ))}
+        <SloEntityTable
+          hasError={!isEntityIdFieldValid}
+          entityList={sortedEntities}
+          onChange={onEntityChange}
+          progress={progress}
+          canLoadMore={canLoadMore}
+          loadMore={loadMore}
+        />
+      </>
     </Card>
   );
 }

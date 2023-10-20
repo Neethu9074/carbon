@@ -146,6 +146,7 @@
     "errorTimeWindowWeek": "The time window size has to be less or equal to 4 weeks",
     "errorTimeWindowMin": "The time window must be at least one day long",
     "errorInvalidExpression": "The filters entered are not valid",
+    "errorBlankEntity": "Please select an entity from the list",
     "nameAndTagsTitle": "Name and Tags",
     "nameAndTagsNavItem": "Name & Tags",
     "sloNameLabel": "SLO Name",

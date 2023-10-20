@@ -17,6 +17,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { noop } from 'in-services/fixedObjects';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable.mless';
+import classNames from 'classnames';
 
 export const SloEntityTablePageSize = 6;
 
@@ -31,9 +32,17 @@ interface SloEntityTableProps {
   progress: Progress;
   canLoadMore?: boolean;
   loadMore?: () => void;
+  hasError?: boolean;
 }
 
-export default function SloEntityTable({ entityList, onChange, progress, canLoadMore, loadMore }: SloEntityTableProps) {
+export default function SloEntityTable({
+  entityList,
+  onChange,
+  progress,
+  canLoadMore,
+  loadMore,
+  hasError
+}: SloEntityTableProps) {
   const { form } = useContext(SloFormContext);
 
   const entityId = form.getIn(['entity', 'entityId']);
@@ -45,7 +54,11 @@ export default function SloEntityTable({ entityList, onChange, progress, canLoad
   if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
 
   return (
-    <Ul>
+    <Ul
+      className={classNames({
+        [locals.withError]: hasError
+      })}
+    >
       {entityList.map(entityData => {
         return (
           <Li onClick={() => onChange(entityData)} key={entityData.id}>
