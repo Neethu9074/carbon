@@ -20,11 +20,11 @@ import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryT
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { isAnsible, isGithub } from 'in-automation/ActionCatalog/shared';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -166,6 +166,22 @@ export default function DetailTab({
         stringLink: jobUrl,
         actionLane: false,
         showCondition: ansibleJobId.value && ansibleUrl.value ? ansibleUrl.value : ''
+      });
+    }
+  }
+
+  if (isGithub(type)) {
+    const ticketId = metadata?.find(data => data.name === 'ticketId');
+    const ticketUrl = metadata?.find(data => data.name === 'ticketUrl');
+    if (ticketId && ticketUrl) {
+      const GHUrl = `${ticketUrl}/${ticketId.value}`;
+      tableData.push({
+        label: t('in-automation:actionHistory.githubUrl'),
+        value: ticketId.value ?? '',
+        isLink: true,
+        stringLink: GHUrl,
+        actionLane: false,
+        showCondition: ticketId.value && ticketUrl ? ticketId.value : ''
       });
     }
   }
