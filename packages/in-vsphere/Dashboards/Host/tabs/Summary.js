@@ -15,12 +15,13 @@ import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import DatastoreTable from './DatastoreTable';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: host }) {
+  const theme = useTheme();
   const snapshotId = host.id;
-  const { lightBlue800: usage } = theme.lib.colors;
+  const usage = theme.ids.color.option.blue['400'];
 
   return (
     <Fragment>
