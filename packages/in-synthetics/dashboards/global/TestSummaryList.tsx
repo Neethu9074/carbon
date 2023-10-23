@@ -191,15 +191,20 @@ export default function TestSummaryList() {
         />
       </LeftRightPadding>
       <Footer />
-      <FloatingActionButtons>
-        <FloatingActionButtonMenu>
-          {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-          <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
-            {t('in-synthetics:createSmartAlert.buttonLabel')}
-          </Button>
-        </FloatingActionButtonMenu>
-      </FloatingActionButtons>
+      {(role?.canConfigureSyntheticTests || role?.canConfigureGlobalAlertConfigs) && (
+        <FloatingActionButtons>
+          <FloatingActionButtonMenu>
+            {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+
+            {role?.canConfigureGlobalAlertConfigs && (
+              <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
+                {t('in-synthetics:createSmartAlert.buttonLabel')}
+              </Button>
+            )}
+          </FloatingActionButtonMenu>
+        </FloatingActionButtons>
+      )}
     </Sticky>
   );
 }

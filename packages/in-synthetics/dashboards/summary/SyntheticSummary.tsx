@@ -89,9 +89,11 @@ export default function SyntheticSummaryDashboard() {
         tabChangeTracker={props => trackSyntheticTabChange(props.tab)}
       />
       <Footer />
-      <FloatingActionButtons>
-        <CreateSmartAlert testId={testId} />
-      </FloatingActionButtons>
+      {role?.canConfigureGlobalAlertConfigs && (
+        <FloatingActionButtons>
+          <CreateSmartAlert testId={testId} />
+        </FloatingActionButtons>
+      )}
     </>
   );
 }

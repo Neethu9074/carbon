@@ -33,7 +33,7 @@ export interface AlertsProps {
 }
 
 export default function Alerts({ testId }: AlertsProps) {
-  const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
+  const handlers = (role as Role).canConfigureGlobalAlertConfigs ? actionHandlers : {};
   const location = useLocation();
 
   return (

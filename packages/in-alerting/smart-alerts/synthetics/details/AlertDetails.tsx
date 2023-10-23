@@ -82,6 +82,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       getAllowedPlaceholders={() => allowedPlaceholders}
+      isGlobalSmartAlert
     />
   );
 }
