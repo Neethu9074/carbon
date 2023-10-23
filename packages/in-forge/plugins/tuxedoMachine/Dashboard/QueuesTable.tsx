@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { List } from 'immutable';
 import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
@@ -26,7 +25,7 @@ const queueIdCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.key.split('/')[0];
+      return row.queueId;
     }
   }
 };
@@ -36,10 +35,10 @@ const messagesCol = {
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
-      return row.snapshotId;
+      return row.key;
     },
-    getMetricName(row: any) {
-      return 'ipcQueues.' + row.key + `.qnum`;
+    getMetricName() {
+      return `qnum`;
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -53,29 +52,17 @@ const senderServerCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      const senderServer = row.key.split('/')[1];
-      if (senderServer) {
-        return senderServer;
-      } else {
-        return '-';
-      }
+      return row.snapshot.getIn(['data', 'senderSrv']);
     }
   }
 };
 
 const senderPIDCol = {
   title: t('in-forge:plugins.tuxedoMachine.senderPID'),
-  type: 'metric',
+  type: 'string',
   typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'ipcQueues.' + row.key + `.senderPID`;
-    },
-    getContent: number.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'senderPID']).toString();
     }
   }
 };
@@ -85,24 +72,17 @@ const receiverServerCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.key.split('/')[2];
+      return row.snapshot.getIn(['data', 'receiverSrv']);
     }
   }
 };
 
 const receiverPIDCol = {
   title: t('in-forge:plugins.tuxedoMachine.receiverPID'),
-  type: 'metric',
+  type: 'string',
   typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'ipcQueues.' + row.key + `.receiverPID`;
-    },
-    getContent: number.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'receiverPID']).toString();
     }
   }
 };
@@ -112,10 +92,10 @@ const usageCol = {
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
-      return row.snapshotId;
+      return row.key;
     },
-    getMetricName(row: any) {
-      return 'ipcQueues.' + row.key + `.usage`;
+    getMetricName() {
+      return `usage`;
     },
     getContent: percentage.compact,
     getTimeWindowAggregation() {
@@ -127,6 +107,7 @@ const usageCol = {
 export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id') as string;
+
   const ipcQueues = useObservable(
     getTuxedoIpcQueuesForMachine({ snapshotId, timeConfig: timeConfig }).flatMap(result =>
       result.data
@@ -138,25 +119,18 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
     [snapshotId, timeConfig]
   );
 
-  // eslint-disable-next-line no-console
-  console.log('ipcQueues ======= ', ipcQueues);
-
   if (!ipcQueues?.data) {
     return null;
   }
 
-  const ipcQueuesIds = snapshot.getIn(['data', 'ipcQueuesIds'], List());
-  if (ipcQueuesIds.length === 0) {
-    return null;
-  }
-  const rows = ipcQueuesIds.toArray().map((key: any) => {
-    return {
-      key: key,
-      timeConfig,
-      snapshotId,
-      snapshot
-    };
-  });
+  const rows =
+    ipcQueues.data.map(ipcQueue => ({
+      key: ipcQueue.get('id'),
+      queueId: ipcQueue.getIn(['data', 'queueId']).toString(),
+      snapshot: ipcQueue,
+      snapshotId: snapshotId,
+      timeConfig
+    })) || [];
 
   const cols = [queueIdCol, messagesCol, senderServerCol, senderPIDCol, receiverServerCol, receiverPIDCol, usageCol];
   return (
@@ -171,7 +145,7 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
 }
 
 function getRowDetails(row: any) {
-  const snapshotId = row.snapshotId;
+  const snapshotId = row.key;
   const timeConfig = row.timeConfig;
 
   return (
@@ -180,7 +154,7 @@ function getRowDetails(row: any) {
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{
-          metrics: ['ipcQueues.' + row.key + `.cbytes`],
+          metrics: ['cbytes'],
           labels: [t('in-forge:plugins.tuxedoMachine.usedBytes')],
           type: 'bar',
           formatter: number.compact
@@ -190,7 +164,7 @@ function getRowDetails(row: any) {
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{
-          metrics: ['ipcQueues.' + row.key + `.qnum`],
+          metrics: ['qnum'],
           labels: [t('in-forge:plugins.tuxedoMachine.messages')],
           type: 'line',
           formatter: number.compact
