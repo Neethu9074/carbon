@@ -377,6 +377,7 @@
     "globalApplicationSmartAlert": "Global Application SmartAlert",
     "syntheticSmartAlert": "Synthetic SmartAlert",
     "mobileSmartAlert": "Mobile SmartAlert",
+    "infraSmartAlert": "Infrastructure SmartAlert",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "invalidQuery": "Invalid Query",
