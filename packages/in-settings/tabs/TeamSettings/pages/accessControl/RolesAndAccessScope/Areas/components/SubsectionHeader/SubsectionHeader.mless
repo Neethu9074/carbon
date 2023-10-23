@@ -1,5 +1,5 @@
 :local {
   .permissionSectionHeader {
-    background-color: var(--colors-blue-800-a08);
+    background-color: var(--ids-color-option-blue-100);
   }
 }
