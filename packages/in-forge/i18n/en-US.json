@@ -11399,12 +11399,15 @@
       "gcAfterPercentage": "After GC percentage"
     },
     "oTelDatabase": {
-      "hostName": "Host Name",
+      "name": "Name",
       "kind": "Kind",
       "serviceName": "Service Name",
       "oTelDatabase": "OTEL Database",
+      "entityType": "Entity Type",
+      "address": "Address",
+      "instanceId": "Instance ID",
       "databaseSystem": "Database System",
-      "version": "Version",
+      "version": "Database Version",
       "port": "Port",
       "dashboard": {
         "session": "Session",
