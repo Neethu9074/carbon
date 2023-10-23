@@ -39,7 +39,7 @@ export default function ServiceSelectBox({
   return (
     <SelectInSection
       id="new-sli-service-selection"
-      titleWidth={width ? width : titleWidth}
+      titleWidth={width ?? titleWidth}
       label={t('in-custom-dashboards:widgets.slo.servicesSelectBox.service')}
       disabled={isBlank(applicationId) || status !== 'resolved'}
       value={value ?? ''}
