@@ -10,6 +10,7 @@ import { t } from '@instana/i18n-react';
 import { deepFreeze } from 'in-services/util/object';
 
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
+export const titleWidth = '14.7rem';
 
 interface EntityTypeData {
   label: string;

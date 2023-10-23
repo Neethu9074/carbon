@@ -14,6 +14,7 @@ import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/c
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -35,7 +36,7 @@ export default function SloScopeApplicationSection() {
       </Typography>
       <Stack gap="small">
         <Sections>
-          <Section title={t('in-service-levels:general.boundary')} titleWidth="6rem">
+          <Section title={t('in-service-levels:general.boundary')} titleWidth={titleWidth}>
             <BoundaryScopeConfigurator
               value={boundaryField.value}
               onChange={scope =>
@@ -43,9 +44,7 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-        </Sections>
-        <Sections>
-          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth="6rem">
+          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={titleWidth}>
             <HiddenCallsConfigurator
               includeInternal={includeInternalField.value}
               includeSynthetic={includeSyntheticField.value}
@@ -59,8 +58,6 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-        </Sections>
-        <Sections>
           <ServiceSelectBox
             boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
@@ -78,7 +75,7 @@ export default function SloScopeApplicationSection() {
               onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))
             }
           />
-          <ApplicationTagFilterBuilder form={form} onChange={onChange} />
+          <ApplicationTagFilterBuilder form={form} onChange={onChange} width={titleWidth} />
         </Sections>
       </Stack>
     </section>

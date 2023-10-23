@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 
 import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
+import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
@@ -32,6 +33,7 @@ export default function WebsiteTagFilterBuilder({ form, onChange }: SloScopeWebs
 
   return (
     <Section
+      titleWidth={titleWidth}
       actions={
         tagFilterExpressionField.value.length ? (
           <Button
