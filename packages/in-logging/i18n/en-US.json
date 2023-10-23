@@ -47,5 +47,7 @@
   "error": "{{count}} Error",
   "error_plural": "{{count}} Errors",
   "warn": "{{count}} Warning",
-  "warn_plural": "{{count}} Warnings"
+  "warn_plural": "{{count}} Warnings",
+  "process": "Process",
+  "host": "Host"
 }
