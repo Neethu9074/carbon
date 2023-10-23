@@ -29,17 +29,16 @@ import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getMetricDefinition } from 'in-sdk/metrics';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface InfraAlertChartWrapperProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  predictions?: number[][];
 }
 
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
-  const theme = useTheme();
-  const { alertConfig, timeConfig } = props;
+  const { alertConfig, timeConfig, predictions } = props;
   const { entityType, metricName, aggregation } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
 
@@ -52,6 +51,8 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+
+  const displayPredictions = predictions && predictions?.length > 0 ? true : false;
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
@@ -74,7 +75,7 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       threshold,
       [],
       chartViewConfig,
-      theme
+      displayPredictions
     )
   };
 
@@ -98,7 +99,8 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       time: metricResult?.time,
       data: {
         [metricName]: metricValues,
-        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig)
+        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig),
+        predictions: predictions ? predictions : []
       }
     };
   }

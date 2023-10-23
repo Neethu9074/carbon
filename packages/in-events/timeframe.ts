@@ -13,10 +13,16 @@ const minEventEntityWindowSize = minutes.toMillis(3);
 
 export function getChartTimeConfigByEvent(
   event: EventMap,
-  to: number | null = (event.get('state') as string) === 'closed' ? (event.get('end') as number) : null
+  to: number | null = (event.get('state') as string) === 'closed' ? (event.get('end') as number) : null,
+  maxPredictionTime?: number
 ): TimeConfig {
   const from = event.getIn(['metadata', 'triggeringTime'], (event.get('start') as number) - minutes.toMillis(1));
   const isOpen = event.get('state') === 'open';
+
+  if (maxPredictionTime && to) {
+    to = to > maxPredictionTime ? to : maxPredictionTime;
+  }
+
   const timeConfig = {
     to,
     focusedMoment: to,

@@ -40,6 +40,7 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
+      "alertingChartLabelForecast": "Forecast",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
