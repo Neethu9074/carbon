@@ -4,31 +4,32 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 import { fromJS } from 'immutable';
+import { filter } from 'lodash';
 
 import { Spacer, Message, MessageTypes } from '@instana/components';
 import { EventSpecificationInfo } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
+import { getEventSpecificationsMutable } from 'in-api/eventSpecifications';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { t } from 'in-i18n';
 
-const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function (selectedEvents) {
+function getSelectedEventsForAlert(selectedEvents: string[], eventConfigs: Observable<EventSpecificationInfo[]>) {
   if (selectedEvents.length === 0) {
-    return alwaysEmptyArray as unknown as Observable<EventSpecificationInfo[]>;
+    return alwaysEmptyArray;
   }
-  // null is treated as a pending result when converting the HTTP response into a result
-  return getEventSpecificationByIds(selectedEvents).startWith(null);
-});
+  return eventConfigs.map((events: EventSpecificationInfo[]) =>
+    filter(events, app => selectedEvents.indexOf(app.id) >= 0)
+  );
+}
 
 function eventSelectionTableActions(form: MapForm<any>, setForm: SetFormFunction) {
   return {
@@ -64,12 +65,15 @@ interface Props {
 
 export default function EventsSelection({ form, setForm }: Props) {
   const selectedEvents = form.get('selectedEvents')?.value.toJS() ?? [];
+  const eventConfigs = useMemo(() => {
+    return getEventSpecificationsMutable();
+  }, []);
 
   return (
     <Fragment>
       <Events
         setTitle={false}
-        loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
+        loadEntities={() => getSelectedEventsForAlert(selectedEvents, eventConfigs)}
         hasRowNavigation={false}
         noDataMessage={t('in-settings:tabs.noEventsSelected')}
         tableActions={eventSelectionTableActions(form, setForm)}
@@ -88,7 +92,11 @@ export default function EventsSelection({ form, setForm }: Props) {
               ) : null
             }
             listComponent={(props: any) => (
-              <Events {...props} withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled} />
+              <Events
+                {...props}
+                loadEntities={() => eventConfigs}
+                withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled}
+              />
             )}
             hiddenIds={selectedEvents}
             limit={limitForConnectedEvents}
