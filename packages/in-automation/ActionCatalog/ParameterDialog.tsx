@@ -52,7 +52,7 @@ export interface ParameterDialogProps {
   idToEdit?: string;
   isNotEditable: boolean;
   isAnsible: boolean;
-  isGithub: boolean;
+  isGithuborGitlab: boolean;
 }
 
 export default function ParameterDialog({
@@ -61,7 +61,7 @@ export default function ParameterDialog({
   idToEdit,
   isNotEditable,
   isAnsible,
-  isGithub = false
+  isGithuborGitlab = false
 }: ParameterDialogProps) {
   const parameter = (form.get('parameters') as Field<MappedParameter[]>).value.find(
     parameter => parameter.id === idToEdit
@@ -71,7 +71,7 @@ export default function ParameterDialog({
 
   const type = parameterForm.get('type') as Field<string>;
   const parameterName = parameterForm.get('name') as Field<string>;
-  const disableGithubParameter = isGithub && parameterName.value === 'ticketId';
+  const disableGithubParameter = isGithuborGitlab && parameterName.value === 'ticketId';
   // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
   isNotEditable = isNotEditable && !isAnsible;
 
@@ -438,7 +438,7 @@ function onParameterChange<T>({
   });
 }
 
-interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable' | 'isAnsible' | 'isGithub'> {
+interface OnSubmitParams extends Omit<ParameterDialogProps, 'isNotEditable' | 'isAnsible' | 'isGithuborGitlab'> {
   parameterForm: MapForm<any>;
   parameter: MappedParameter | undefined;
 }

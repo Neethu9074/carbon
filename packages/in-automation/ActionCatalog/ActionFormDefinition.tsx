@@ -21,16 +21,19 @@ import {
   getTimeoutFromFields,
   getWebhookFields,
   getGithubOpenTicketFields,
-  getGithubOCloseAndCommentFields,
+  getGithubCloseAndCommentFields,
   isDocLink,
   isScript,
   isWebhook,
   isAnsible,
   isGithub,
+  isGitlab,
   OPEN,
   CLOSE,
   ADD_COMMENT,
-  getGithubFields
+  getGithubFields,
+  getGitlabFields,
+  getGitlabOpenTicketFields
 } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
@@ -161,6 +164,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
   else if (isScript(action.type)) form = putScriptField(form, action);
   else if (isWebhook(action.type)) form = putWebhookFields(form, action);
   else if (isGithub(action.type)) form = putGithubFields(form, action);
+  else if (isGitlab(action.type)) form = putGitlabFields(form, action);
   return form;
 }
 
@@ -295,7 +299,7 @@ export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionForm
 
 export function putGithubCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGithubOpenTicketFields(form);
-  const { comment } = getGithubOCloseAndCommentFields(action);
+  const { comment } = getGithubCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -308,7 +312,7 @@ export function putGithubCloseTicketFields(form: MapForm<any>, action: ActionFor
 
 export function putGithubCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGithubOpenTicketFields(form);
-  const { comment } = getGithubOCloseAndCommentFields(action);
+  const { comment } = getGithubCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -325,7 +329,112 @@ export function removeGithubOpenTicketFields(form: MapForm<any>) {
 }
 
 export function removeGithubCloseAndCommentTicketFields(form: MapForm<any>) {
-  return form.remove('commment');
+  return form.remove('comment');
+}
+
+export function putGitlabFields(form: MapForm<any>, action: ActionFormEntity) {
+  const { projectId, ticketType } = getGitlabFields(action);
+  form = form
+    .put(
+      'projectId',
+      createField({
+        value: projectId.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'ticketType',
+      createField({
+        value: ticketType.value,
+        validator: notBlankValidator
+      })
+    );
+  if (ticketType.value == OPEN) form = putGitlabOpenTicketFields(form, action);
+  else if (ticketType.value == CLOSE) form = putGitlabCloseTicketFields(form, action);
+  else if (ticketType.value == ADD_COMMENT) form = putGitlabCommentTicketFields(form, action);
+  return form;
+}
+
+export function removeGitlabFields(form: MapForm<any>) {
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  form = form.put('parameters', createField({ value: updatedParameters }));
+  form = removeGitlabCloseAndCommentTicketFields(form);
+  return form.remove('projectId').remove('ticketType');
+}
+export function putGitlabOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeGitlabCloseAndCommentTicketFields(form);
+  form = removeGitlabOpenTicketFields(form);
+  // Remove parameter with name "ticketId"
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  form = form.put('parameters', createField({ value: updatedParameters }));
+
+  const { title, gitlab_description, labels, issue_type } = getGitlabOpenTicketFields(action);
+  form = form
+    .put(
+      'title',
+      createField({
+        value: title.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'gitlab_description',
+      createField({
+        value: gitlab_description.value
+      })
+    )
+    .put(
+      'labels',
+      createField({
+        value: labels.value ? labels.value.split(',').map(label => ({ value: label, id: generateUniqueShortId() })) : []
+        // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
+      })
+    )
+    .put(
+      'issue_type',
+      createField({
+        value: issue_type.value,
+        validator: notBlankValidator
+      })
+    );
+  return form;
+}
+
+export function putGitlabCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeGitlabOpenTicketFields(form);
+  const { comment } = getGithubCloseAndCommentFields(action);
+  form = form.put(
+    'comment',
+    createField({
+      value: comment.value
+    })
+  );
+
+  return form;
+}
+
+export function putGitlabCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeGitlabOpenTicketFields(form);
+  const { comment } = getGithubCloseAndCommentFields(action);
+  form = form.put(
+    'comment',
+    createField({
+      value: comment.value,
+      validator: notBlankValidator
+    })
+  );
+
+  return form;
+}
+
+export function removeGitlabOpenTicketFields(form: MapForm<any>) {
+  return form.remove('title').remove('gitlab_description').remove('labels').remove('issue_type');
+}
+
+export function removeGitlabCloseAndCommentTicketFields(form: MapForm<any>) {
+  return form.remove('comment');
 }
 
 export function putWebhookFields(form: MapForm<any>, action: ActionFormEntity) {

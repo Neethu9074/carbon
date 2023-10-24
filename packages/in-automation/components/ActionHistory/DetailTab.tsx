@@ -18,10 +18,10 @@ import {
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
+import { isAnsible, isGithub, isGitlab } from 'in-automation/ActionCatalog/shared';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { isAnsible, isGithub } from 'in-automation/ActionCatalog/shared';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -176,13 +176,13 @@ export default function DetailTab({
     }
   }
 
-  if (isGithub(type)) {
+  if (isGithub(type) || isGitlab(type)) {
     const ticketId = metadata?.find(data => data.name === 'ticketId');
     const ticketUrl = metadata?.find(data => data.name === 'ticketUrl');
     if (ticketId && ticketUrl) {
       const GHUrl = `${ticketUrl}/${ticketId.value}`;
       tableData.push({
-        label: t('in-automation:actionHistory.githubUrl'),
+        label: isGithub(type) ? t('in-automation:actionHistory.githubUrl') : t('in-automation:actionHistory.gitlabUrl'),
         value: ticketId.value ?? '',
         isLink: true,
         stringLink: GHUrl,

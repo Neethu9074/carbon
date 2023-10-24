@@ -26,6 +26,8 @@ export const getType = (type: string) => {
     return t('in-automation:ActionCatalog.ansible');
   } else if (isGithub(type)) {
     return 'Github';
+  } else if (isGitlab(type)) {
+    return 'Gitlab';
   } else {
     return type;
   }
@@ -78,6 +80,13 @@ export const getGithubAssigneesFromFields = (fields: Field[] | undefined): Field
 
 export const getGithubCommentFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.comment ?? { value: '', encoding: 'ascii', name: 'comment' };
+
+export const getGitlabProjectIdFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.projectId ?? { value: '', encoding: 'ascii', name: 'projectId' };
+export const getGitlabDescriptionFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.gitlab_description ?? { value: '', encoding: 'ascii', name: 'gitlab_description' };
+export const getGitlabIssueTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.issue_type ?? { value: `${ISSUE}`, encoding: 'ascii', name: 'issue_type' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -165,9 +174,35 @@ export function getGithubOpenTicketFields(action: Action | NewAction): GithubOpe
   return { title, body, labels, assignees };
 }
 
-export function getGithubOCloseAndCommentFields(action: Action | NewAction): GithubCloseFields {
+export function getGithubCloseAndCommentFields(action: Action | NewAction): GithubCloseFields {
   const comment = getGithubCommentFromFields(action.fields);
   return { comment };
+}
+
+interface GitlabFields {
+  projectId: Field;
+  ticketType: Field;
+}
+
+export function getGitlabFields(action: Action | NewAction): GitlabFields {
+  const projectId = getGitlabProjectIdFromFields(action.fields);
+  const ticketType = getGithubTicketTypeFromFields(action.fields);
+
+  return { projectId, ticketType };
+}
+interface GitlabOpenFields {
+  title: Field;
+  gitlab_description: Field;
+  labels: Field;
+  issue_type: Field;
+}
+
+export function getGitlabOpenTicketFields(action: Action | NewAction): GitlabOpenFields {
+  const title = getGithubTitleFromFields(action.fields);
+  const gitlab_description = getGitlabDescriptionFromFields(action.fields);
+  const labels = getGithubLabelsFromFields(action.fields);
+  const issue_type = getGitlabIssueTypeFromFields(action.fields);
+  return { title, gitlab_description, labels, issue_type };
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
@@ -177,6 +212,7 @@ export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
 export const isGithub = (type?: string) => type === GITHUB_TYPE;
+export const isGitlab = (type?: string) => type === GITLAB_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const MANUAL_TYPE = 'MANUAL';
@@ -185,6 +221,7 @@ export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';
 export const ANSIBlE_TYPE = 'ANSIBLE';
 export const GITHUB_TYPE = 'GITHUB';
+export const GITLAB_TYPE = 'GITLAB';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
@@ -195,6 +232,15 @@ export const GH_TICKET_TYPES = Object.freeze([
   { value: OPEN, translation: t('in-automation:openTicket') },
   { value: CLOSE, translation: t('in-automation:closeTicket') },
   { value: ADD_COMMENT, translation: t('in-automation:commentTicket') }
+]);
+
+export const ISSUE = 'issue';
+export const INCIDENT = 'incident';
+export const TEST_CASE = 'test_case';
+export const GL_ISSUE_TYPES = Object.freeze([
+  { value: ISSUE, translation: 'Issue' },
+  { value: INCIDENT, translation: 'Incident' },
+  { value: TEST_CASE, translation: 'Testcase' }
 ]);
 
 export const NO_AUTH = 'noAuth';

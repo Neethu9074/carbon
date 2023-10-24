@@ -25,7 +25,8 @@ import {
   createAction,
   updateActionResourceAssociations,
   getActionResourceAssociations,
-  createGithubFields
+  createGithubFields,
+  createGitlabFields
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -37,6 +38,7 @@ import {
   isScript,
   isWebhook,
   isGithub,
+  isGitlab,
   NO_AUTH,
   OPEN,
   CLOSE,
@@ -302,6 +304,37 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
       };
     }
     fields.push(...createGithubFields({ owner: owner, repo: repo, ticketType: type }));
+  } else if (isGitlab(type)) {
+    const projectId = (form.get('projectId') as FormField<string>).value;
+    const ticketType = (form.get('ticketType') as FormField<string>).value;
+    let type: TicketTypes | null = null;
+    if (ticketType === OPEN) {
+      const title = (form.get('title') as FormField<string>).value;
+      const gitlab_description = (form.get('gitlab_description') as FormField<string>).value;
+      const labels = (form.get('labels') as FormField<any>).value;
+      const issue_type = (form.get('issue_type') as FormField<any>).value;
+      const labelsString = labels.map((tag: Tag) => tag.value).join(',');
+      type = {
+        type: 'open',
+        title,
+        gitlab_description,
+        labels: labelsString,
+        issue_type
+      };
+    } else if (ticketType === CLOSE) {
+      const comment = (form.get('comment') as FormField<string>).value;
+      type = {
+        type: 'close',
+        comment
+      };
+    } else if (ticketType === ADD_COMMENT) {
+      const comment = (form.get('comment') as FormField<string>).value;
+      type = {
+        type: 'add_comment',
+        comment
+      };
+    }
+    fields.push(...createGitlabFields({ projectId: projectId, ticketType: type }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

@@ -14,6 +14,7 @@ import { Link } from '@instana/components';
 import {
   isAnsible as isAnsibleFn,
   isGithub as isGithubFn,
+  isGitlab as isGitlabFn,
   doesParameterExist
 } from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
@@ -43,11 +44,11 @@ const getColumnDefinitions = ({
   onChange,
   isNotEditable,
   isAnsible,
-  GHParameterExist
+  GHorGLParameterExist
 }: Omit<ParametersTableProps, 'setForm'> & {
   isNotEditable: boolean;
   isAnsible: boolean;
-  GHParameterExist: boolean;
+  GHorGLParameterExist: boolean;
 }) => [
   {
     id: 'displayName',
@@ -69,7 +70,7 @@ const getColumnDefinitions = ({
                   form={form}
                   onChange={onChange}
                   isNotEditable={isNotEditable}
-                  isGithub={GHParameterExist}
+                  isGithuborGitlab={GHorGLParameterExist}
                 />
               );
             }}
@@ -124,9 +125,10 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
   const isNotEditable = useContext(isNotEditableContext);
   const isAnsible = isAnsibleFn((form.get('type') as Field<string>).value);
   const isGithub = isGithubFn((form.get('type') as Field<string>).value);
+  const isGitlab = isGitlabFn((form.get('type') as Field<string>).value);
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const GHParameterExist = isGithub && doesParameterExist(parameters, 'ticketId');
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, GHParameterExist });
+  const GHorGLParameterExist = (isGithub || isGitlab) && doesParameterExist(parameters, 'ticketId');
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, GHorGLParameterExist });
 
   return (
     <ServerTablePresenterWrapper
@@ -137,7 +139,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
       formKey="parameters"
       leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
       setForm={setForm}
-      isGithub={GHParameterExist}
+      isGithub={GHorGLParameterExist}
       customAddRow={
         isAnsible
           ? undefined
@@ -145,7 +147,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
               addActiveDialog(
                 <ParameterDialog
                   isAnsible={isAnsible}
-                  isGithub={GHParameterExist}
+                  isGithuborGitlab={GHorGLParameterExist}
                   form={form}
                   onChange={onChange}
                   isNotEditable={isNotEditable}

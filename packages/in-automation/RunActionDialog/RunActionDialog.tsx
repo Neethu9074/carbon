@@ -25,10 +25,13 @@ import {
   isGithub,
   getGithubFields,
   getGithubOpenTicketFields,
-  getGithubOCloseAndCommentFields,
+  getGithubCloseAndCommentFields,
   OPEN,
   CLOSE,
-  ADD_COMMENT
+  ADD_COMMENT,
+  getGitlabFields,
+  isGitlab,
+  getGitlabOpenTicketFields
 } from 'in-automation/ActionCatalog/shared';
 import {
   ActionExecutionParameter,
@@ -38,7 +41,9 @@ import {
   runWebhookAction,
   runAnsibleAction,
   runGithubCloseAction,
-  runGithubOpenAction
+  runGithubOpenAction,
+  runGitlabOpenAction,
+  runGitlabCloseAction
 } from 'in-automation/api';
 import RunActionContent, { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -142,6 +147,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isWebhook(action.type)) query = 'entity.agent.capability:action-http';
   else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
   else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
+  else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
@@ -339,7 +345,7 @@ function onSave({
     }
 
     if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
-      const { comment } = getGithubOCloseAndCommentFields(action);
+      const { comment } = getGithubCloseAndCommentFields(action);
       runGithubCloseAction({
         volatileId: selectedVolatileId,
         event,
@@ -348,6 +354,43 @@ function onSave({
         actionId,
         owner,
         repo,
+        ticketType,
+        comment,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+  } else if (isGitlab(action.type)) {
+    const { projectId, ticketType } = getGitlabFields(action);
+    // {ticketType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
+    // {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+    // {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+    if (ticketType.value === OPEN) {
+      const { title, gitlab_description, labels, issue_type } = getGitlabOpenTicketFields(action);
+      runGitlabOpenAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        projectId,
+        ticketType,
+        title,
+        body: gitlab_description,
+        labels,
+        issue_type,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+
+    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+      const { comment } = getGithubCloseAndCommentFields(action);
+      runGitlabCloseAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        projectId,
         ticketType,
         comment,
         inputParameters: allInputParameters

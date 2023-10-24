@@ -47,6 +47,7 @@
   "ownerInfo": "Owner/Organization: {{owner}}",
   "repoInfo": "Repository: {{repo}}",
   "ticketTypeInfo": "Ticket Type: {{ticketType}}",
+  "projectIdInfo": "Project Id: {{projectId}}",
   "owner":"Owner/Organization",
   "repo":"Repository",
   "ticketType":"Ticket type",
@@ -210,7 +211,8 @@
     "hostsLimit": "Hosts Limit",
     "initiator": "Initiator",
     "submitted":"Submitted",
-    "githubUrl":"Github url"
+    "githubUrl":"Github url",
+    "gitlabUrl":"Gitlab url"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"

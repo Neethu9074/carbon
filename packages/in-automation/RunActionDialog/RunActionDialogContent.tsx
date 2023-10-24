@@ -26,7 +26,9 @@ import {
   isScript,
   isWebhook,
   isGithub,
-  GH_TICKET_TYPES
+  isGitlab,
+  GH_TICKET_TYPES,
+  getGitlabFields
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -145,6 +147,7 @@ export default function RunActionDialogContent({
         {isScript(action.type) && <ScriptActionContent action={action} />}
         {isWebhook(action.type) && <WebhookActionContent action={action} />}
         {isGithub(action.type) && <GithubActionContent action={action} />}
+        {isGitlab(action.type) && <GitlabActionContent action={action} />}
         {isAnsible(action.type) && (
           <AnsibleActionContent
             form={form}
@@ -323,6 +326,33 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         <div>
           <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>
         </div>
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+          </Typography>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { projectId, ticketType } = getGitlabFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:request')}
+      >
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:projectIdInfo', { projectId: projectId.value })}
+          </Typography>
+        </div>
+        {/* <div>
+          <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>
+        </div> */}
         <div>
           <Typography variant="body-small">
             {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
