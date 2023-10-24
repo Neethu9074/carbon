@@ -28,7 +28,8 @@ import {
   HTTP_METHODS_WITH_BODY,
   SCRIPT_TYPE,
   WEBHOOK_TYPE,
-  GITHUB_TYPE
+  GITHUB_TYPE,
+  GITLAB_TYPE
 } from 'in-automation/ActionCatalog/shared';
 import submitActionExecution from './subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -827,7 +828,7 @@ export function runGitlabOpenAction({
   issue_type
 }: RunGitlabOpenActionParams) {
   return runAction({
-    type: GITHUB_TYPE,
+    type: GITLAB_TYPE,
     volatileId,
     event,
     actionName,
@@ -888,7 +889,7 @@ export function runGitlabCloseAction({
   comment
 }: RunGitlabCloseActionParams) {
   return runAction({
-    type: GITHUB_TYPE,
+    type: GITLAB_TYPE,
     volatileId,
     event,
     actionName,
