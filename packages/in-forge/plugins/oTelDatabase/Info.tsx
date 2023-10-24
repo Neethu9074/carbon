@@ -26,15 +26,24 @@ export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData
         {data.get('resource.server.address')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oTelDatabase.name')}>{data.get('resource.db.name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oTelDatabase.version')}>
+        {data.get('resource.db.version')}
+      </DescriptionItem>
+      {/* <DescriptionItem title={t('in-forge:plugins.oTelDatabase.dbStatus')}>
+        {data.get('db.status')}
+      </DescriptionItem> */}
       <DescriptionItem title={t('in-forge:plugins.oTelDatabase.instanceId')}>
         {data.get('resource.service.instance.id')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oTelDatabase.port')}>
         {data.get('resource.server.port')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.oTelDatabase.version')}>
-        {data.get('resource.db.version')}
+      {/* <DescriptionItem title={t('in-forge:plugins.oTelDatabase.dashboard.instance')}>
+        {data.get('db.instance.count')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oTelDatabase.dashboard.instanceActive')}>
+        {data.get('db.instance.active.count')}
+      </DescriptionItem> */}
       <DescriptionItem title={t('in-forge:plugins.oTelDatabase.kind')}>{data.get('kind')}</DescriptionItem>
     </DescriptionList>
   );
