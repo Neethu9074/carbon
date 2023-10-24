@@ -67,7 +67,6 @@
   "updated": "Updated",
   "imageSize": "Image Size (MB)",
   "dashboards": {
-    "regions": "Regions",
     "openstackRegions": "OpenStack Regions",
     "name": "Name",
     "hypervisors": "Hypervisors",

@@ -26,20 +26,20 @@ export const endpointNameTranslations = {
 };
 
 export const colorTranslation = {
-  BATCH: theme.lib.colors.batch,
-  SHELL: theme.lib.colors.yellow800,
-  DATABASE: theme.lib.colors.database,
-  HTTP: theme.lib.colors.http,
-  MESSAGING: theme.lib.colors.messaging,
-  RPC: theme.lib.colors.rpc,
-  EVENT: theme.lib.colors.event,
-  GRAPHQL: theme.lib.colors.lime800,
-  INTERNAL: theme.lib.colors.purple800,
-  UNDEFINED: theme.lib.colors.purple800,
-  UNKNOWN: theme.lib.colors.purple800,
-  SELF: theme.lib.colors.N400,
-  SDK: theme.lib.colors.N600Light,
-  OPENTELEMETRY: theme.lib.colors.N600Light
+  BATCH: theme.lib.carbonCategorical.purple70,
+  SHELL: theme.lib.carbonCategorical.cyan50,
+  DATABASE: theme.lib.carbonCategorical.teal70,
+  HTTP: theme.lib.carbonCategorical.magenta70,
+  MESSAGING: theme.lib.carbonCategorical.red50,
+  RPC: theme.lib.carbonCategorical.red90,
+  EVENT: theme.lib.carbonCategorical.green60,
+  GRAPHQL: theme.lib.carbonCategorical.blue80,
+  INTERNAL: theme.lib.carbonCategorical.magenta50,
+  UNDEFINED: theme.lib.carbonCategorical.yellow50,
+  UNKNOWN: theme.lib.carbonCategorical.teal50,
+  SELF: theme.lib.carbonCategorical.cyan90,
+  SDK: theme.lib.carbonCategorical.orange70,
+  OPENTELEMETRY: theme.lib.carbonCategorical.purple50
 };
 
 export function getColor(type) {

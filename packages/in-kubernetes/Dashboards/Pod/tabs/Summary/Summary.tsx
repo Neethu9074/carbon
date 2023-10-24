@@ -42,7 +42,7 @@ import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -89,7 +89,11 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
-  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+  // Removing the old destructuring syntax for colors
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
+
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,
     comparisonIncreaseColor: blue.id

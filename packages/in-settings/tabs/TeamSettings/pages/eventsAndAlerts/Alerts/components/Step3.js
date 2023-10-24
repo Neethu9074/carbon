@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 
 import { Link } from '@instana/components';
 
 import Applications, {
   getSelectedApplicationConfigsByName,
   applicationSelectionTableActions,
-  getSelectedApplicationsForAlert,
+  getSelectedApplicationsForAlertsEvents,
   submitApplicationSelection,
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
@@ -24,6 +24,7 @@ import { modeSelectedSmartAlerts } from 'in-settings/tabs/TeamSettings/pages/eve
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
@@ -57,6 +58,10 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
       selectedApplicationIds.push(app.id);
     });
   }
+
+  const applicationConfigs = useMemo(() => {
+    return getApplicationConfigs();
+  }, []);
 
   return (
     <Fragment>
@@ -121,7 +126,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
         <FormGroup>
           <Applications
             setTitle={false}
-            loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
+            loadEntities={() => getSelectedApplicationsForAlertsEvents(selectedApplicationIds, applicationConfigs)}
             hasRowNavigation={false}
             noDataMessage={t('in-settings:tabs.noApplicationPerspectivesSelected')}
             tableActions={applicationSelectionTableActions(form, setForm)}
@@ -131,7 +136,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                 onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
                 title={t('in-settings:tabs.addApplicationPerspectives')}
                 label={t('in-settings:tabs.addApplicationPerspectives')}
-                listComponent={Applications}
+                listComponent={props => <Applications {...props} loadEntities={() => applicationConfigs} />}
                 listComponentRightHeader={noRightHeader}
                 limit={10}
                 hiddenIds={selectedApplicationIds}

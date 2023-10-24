@@ -31,9 +31,11 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { close } from 'in-components/DialogPresenter/store';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { emptyList } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -70,8 +72,8 @@ export default connectTo(
       <>
         <ViewTrackingMeta
           data={{
-            productArea: 'Agents',
-            pageRootName: 'Agents'
+            productArea: productAreas.agents,
+            pageRootName: pageNames.agents
           }}
         />
 

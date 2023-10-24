@@ -19,8 +19,10 @@ import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { applicationList } from 'in-cloudfoundry/navigation/paths';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { DashboardLink } from './components/DashboardLink';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -136,8 +138,8 @@ export default connectTo(
         <Title title={t('in-cloudfoundry:cloudFoundryApplications')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Cloud Foundry',
-            pageRootName: 'CF Applications'
+            productArea: productAreas.cloud_foundry,
+            pageRootName: pageNames.cloud_foundary_applications
           }}
         />
 

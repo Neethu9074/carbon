@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 export default {
   component: KpiCard,
@@ -31,7 +31,9 @@ export const NullValueRaw = { args: { ...NullValue.args, raw: true } };
 export const FalseValue = { args: { ...UndefinedValue.args, title: 'Title', value: false } };
 export const FalseValueRaw = { args: { ...FalseValue.args, raw: true } };
 
-export const WithColor = { args: { ...Default.args, value: '10', title: 'Errors', color: theme.lib.colors.failure } };
+export const WithColor = {
+  args: { ...Default.args, value: '10', title: 'Errors', color: oldTheme.lib.colors.failure }
+};
 export const WithCompanionValue = { args: { ...WithTitle.args, companionValue: 'Companion Value' } };
 export const WithActions = { args: { ...WithTitle.args, actions: <div>Action</div> } };
 export const WithIconAction = {

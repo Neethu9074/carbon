@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .header {
@@ -21,14 +20,14 @@
   }
 
   .icon {
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
   }
 
   .numProfilesLabel {
     margin: 0 0.25rem 0 1.5rem;
 
     font-size: 0.875rem;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .searchInput {
@@ -47,7 +46,7 @@
   .timeselectionIndicator {
     margin-bottom: 1rem;
 
-    border: 1px solid @lib__colors__N300;
+    border: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .infiniteCircle {

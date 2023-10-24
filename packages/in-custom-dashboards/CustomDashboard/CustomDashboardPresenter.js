@@ -21,7 +21,9 @@ import { dashboardTvModeUrlParameter } from 'in-custom-dashboards/navigation/url
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
 import Tooltip from 'in-components/Tooltip';
@@ -115,8 +117,8 @@ export default function CustomDashboardPresenter(props) {
                     />
                     <ViewTrackingMeta
                       data={{
-                        productArea: 'Custom Dashboard',
-                        pageRootName: 'Custom Dashboard',
+                        productArea: productAreas.custom_dashboard,
+                        pageRootName: pageNames.custom_dashboard,
                         widgetTypes: uniqBy(config?.widgets.map(w => w.type) ?? []).join(', ')
                       }}
                     />

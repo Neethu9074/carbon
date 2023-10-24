@@ -56,6 +56,7 @@ export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps
       {...props}
       isClearable={isClearable}
       classNamePrefix="Select"
+      aria-label={props.name ?? 'label'}
       className={`${props.className} Select`}
       placeholder={props.placeholder ? props.placeholder : t('in-components:comboBox.placeholderSelect')}
       onChange={(option: Option | Options | null) => {

@@ -3,17 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .closeIcon {
     cursor: pointer;
-    fill: @lib__colors__N500;
+    fill: var(--ids-color-option-neutral-500);
     display: block;
     margin: 0 0 0 0.5rem;
 
     &:hover {
-      fill: @lib__colors__N700Medium;
+      fill: var(--ids-color-option-neutral-700);
     }
   }
 

@@ -12,11 +12,13 @@ import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { hostDashboard } from 'in-vsphere/navigation/paths';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { HostBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Host/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -37,8 +39,8 @@ export default function HostDashboard({ location }) {
       <Breadcrumbs items={HostBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'vSphere',
-          pageRootName: t('in-vsphere:dashboards.vSphereEsXiHost')
+          productArea: productAreas.vsphere,
+          pageRootName: pageNames.vsphere_esxi_host
         }}
       />
 

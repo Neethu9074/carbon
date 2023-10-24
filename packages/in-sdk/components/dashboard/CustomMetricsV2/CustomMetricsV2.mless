@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .pill {
     font-size: 0.6rem;
@@ -12,7 +10,7 @@
   }
 
   .pinned {
-    fill: @lib__colors__red800;
+    fill: var(--ids-color-option-red-500);
   }
 
   .unpinned {

@@ -4,9 +4,9 @@
  */
 
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
-const axisFont = `10px ${theme.fontFamilySansSerif}`;
+const axisFont = `10px ${oldTheme.fontFamilySansSerif}`;
 
 export default function render(
   canvas,
@@ -53,7 +53,7 @@ export default function render(
     }
 
     if (isSelected) {
-      ctx.fillStyle = theme.lib.colors.blue800;
+      ctx.fillStyle = oldTheme.lib.colors.blue800;
       ctx.fillRect(s_x, y - 1, s_width + 1, 1);
       ctx.fillRect(s_x, y - 1, 1, height);
       ctx.fillRect(s_x - 1 + s_width, y - 1, 1, height);
@@ -74,7 +74,7 @@ export default function render(
     const width = Math.max(0, s_width - 1);
     const selfTimeWidth = valueSelfTimeRatio * width;
     const valueWidth = width - selfTimeWidth;
-    ctx.fillStyle = theme.lib.colors.N400;
+    ctx.fillStyle = oldTheme.lib.colors.N400;
     ctx.fillRect(s_x, y, valueWidth, height - 1);
     ctx.fillStyle = node.color;
     ctx.fillRect(s_x + valueWidth, y, selfTimeWidth, height - 1);
@@ -82,7 +82,7 @@ export default function render(
 
   function drawText({ name: textToRender, s_x, y, s_width }) {
     ctx.font = axisFont;
-    ctx.fillStyle = theme.lib.colors.N900Primary;
+    ctx.fillStyle = oldTheme.lib.colors.N900Primary;
 
     let text = '';
     let textWidth = 0;

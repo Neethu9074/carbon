@@ -6,9 +6,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import StackTracePresentation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
-import StackTraceWrapper from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceWrapper';
-import { isEntityOnline, getSnapshot } from 'in-stores/snapshot';
+import StackTracePresentation
+  from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
+import StackTraceWrapper
+  from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceWrapper';
+import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 

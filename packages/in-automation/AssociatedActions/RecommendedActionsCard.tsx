@@ -23,9 +23,16 @@ interface SuggestedActionsCardProps {
   volatileId: VolatileId;
   reload: number;
   setReload: (r: number) => void;
+  setSelectedType: (str: string) => void;
 }
 
-export default function RecommendedActionsCard({ event, volatileId, reload, setReload }: SuggestedActionsCardProps) {
+export default function RecommendedActionsCard({
+  event,
+  volatileId,
+  reload,
+  setReload,
+  setSelectedType
+}: SuggestedActionsCardProps) {
   const [error, setError] = useState(false);
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
@@ -78,12 +85,14 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
       <ActionTable
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
+        title={t('in-automation:recommendedActions')}
         event={event}
         volatileId={volatileId}
         pageSize={5}
         isSearchable={false}
         loadEntities={() => getUnusedSuggestedActions}
         scored
+        rightHeader={<></>} // required to get the title of the card to show with the beta badge
         tableActions={{
           select: {
             title: action => t('in-automation:associateActionWithName', { actionName: action.name }),
@@ -94,7 +103,8 @@ export default function RecommendedActionsCard({ event, volatileId, reload, setR
                 event: eventSpecification,
                 triggerReload,
                 setError,
-                isCustomEvent
+                isCustomEvent,
+                setSelectedType
               })
           }
         }}
@@ -109,6 +119,7 @@ interface AssociateActionProps {
   triggerReload: () => void;
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
+  setSelectedType: (str: string) => void;
 }
 
 function associateAction({
@@ -117,14 +128,18 @@ function associateAction({
   triggerReload,
   setError,
   isCustomEvent,
-  existingActions
+  existingActions,
+  setSelectedType
 }: AssociateActionProps) {
   associateActionsTracker({
     eventName: event.name,
     actionNames: [action.name]
   });
 
-  const onSave = () => triggerReload();
+  const onSave = () => {
+    triggerReload();
+    setSelectedType('associatedActions');
+  };
   const handleErrors = () => setError(true);
   const updatedActions = 'message' in existingActions ? [action] : [...existingActions, action];
 

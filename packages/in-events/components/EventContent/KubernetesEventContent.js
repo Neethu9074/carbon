@@ -15,8 +15,10 @@ import SubEntityInformation from 'in-events/components/legacy/SubEntityInformati
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { isAgentMonitoringIssueEvent } from 'in-events/components/eventUtil';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -58,8 +60,8 @@ export function KubernetesEventContent({ event, timeConfig }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Events',
-          pageRootName: 'Event'
+          productArea: productAreas.events,
+          pageRootName: pageNames.event
         }}
       />
       <Row withoutSideMargin>

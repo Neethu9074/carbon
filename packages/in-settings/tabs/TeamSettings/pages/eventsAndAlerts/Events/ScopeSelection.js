@@ -4,15 +4,15 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Link } from '@instana/components';
 
 import Applications, {
-  getSelectedApplicationsForAlert,
   applicationSelectionTableActions,
   submitApplicationSelection,
-  noRightHeader
+  noRightHeader,
+  getSelectedApplicationsForAlertsEvents
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
   applyOnOptionsForHostAvailability,
@@ -28,6 +28,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
@@ -38,6 +39,10 @@ import Label from 'in-components/form/Label';
 import { t, Trans } from 'in-i18n';
 
 export default function ScopeSelection({ form, selectedApplicationIds, disabled, onChange, setForm }) {
+  const applicationConfigs = useMemo(() => {
+    return getApplicationConfigs();
+  }, []);
+
   return (
     <>
       <Row>
@@ -101,7 +106,7 @@ export default function ScopeSelection({ form, selectedApplicationIds, disabled,
           <FormGroup>
             <Applications
               setTitle={false}
-              loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
+              loadEntities={() => getSelectedApplicationsForAlertsEvents(selectedApplicationIds, applicationConfigs)}
               hasRowNavigation={false}
               noDataMessage={t('in-settings:tabs.noApplicationPerspectivesSelected')}
               tableActions={!disabled && applicationSelectionTableActions(form, setForm)}
@@ -112,7 +117,7 @@ export default function ScopeSelection({ form, selectedApplicationIds, disabled,
                     onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
                     title={t('in-settings:tabs.addApplicationPerspectives')}
                     label={t('in-settings:tabs.addApplicationPerspectives')}
-                    listComponent={Applications}
+                    listComponent={props => <Applications {...props} loadEntities={() => applicationConfigs} />}
                     listComponentRightHeader={noRightHeader}
                     limit={10}
                     hiddenIds={selectedApplicationIds}

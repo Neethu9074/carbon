@@ -12,7 +12,7 @@ import { SvgIcon } from '@instana/components';
 import WithHealthDot from 'in-components/health/WithHealthDot/WithHealthDot';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Tab.mless';
@@ -40,11 +40,18 @@ export default function Tab({
   healthSeverity,
   withoutBottomBorder
 }: TabProps) {
+  const theme = useTheme();
   let iconElement = icon && (
     <SvgIcon
       className={locals.tabIcon}
       type={icon}
-      color={isDisabled ? theme.lib.colors.N400 : isActive ? theme.lib.colors.N900Primary : theme.lib.colors.N600Light}
+      color={
+        isDisabled
+          ? theme.ids.color.option.neutral['400']
+          : isActive
+          ? theme.ids.color.option.neutral['900']
+          : theme.ids.color.option.neutral['600']
+      }
     />
   );
 

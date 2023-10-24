@@ -42,7 +42,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -53,14 +53,12 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
 
-  const {
-    indigo800: hardLimits,
-    purple800: hardRequests,
-    orange800: limits,
-    lime800: requests,
-    slushGreen800: pods,
-    lightBlue800: usage
-  } = theme.lib.colors;
+  const hardLimits = oldTheme.lib.colors.chart.fiveColorPalette[2];
+  const hardRequests = oldTheme.lib.colors.chart.fiveColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.fiveColorPalette[3];
+  const requests = oldTheme.lib.colors.chart.fiveColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.fiveColorPalette[4];
+  const pods = oldTheme.lib.colors.chart.strokeColors100[0];
 
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(namespace.label);
@@ -95,7 +93,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const isPodCountMetric = {
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'DISTINCT_COUNT' as AggregationType
-  }
+  };
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

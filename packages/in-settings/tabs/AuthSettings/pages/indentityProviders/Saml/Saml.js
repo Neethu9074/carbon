@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createField } from 'formalistic';
 
 import { Button } from '@instana/components';
@@ -15,7 +15,10 @@ import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'i
 import ConfigureIdPInfoMessage from 'in-settings/tabs/AuthSettings/pages/indentityProviders/ConfigureIdPInfoMessage';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -30,11 +33,8 @@ import { t, Trans } from 'in-i18n';
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Saml.mless';
 
-export default function Saml() {
-  const inputDOMNode = document.createElement('input');
-  const [input] = useState(inputDOMNode);
+export default function Saml(props) {
   const [file, setFile] = useState(null);
-  inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
   return (
     <ApiItemView
@@ -45,7 +45,7 @@ export default function Saml() {
       })}
       enrichForm={enrichForm}
       deleteItem={deleteItem}
-      input={input}
+      setFile={setFile}
       file={file}
       onCancelClick={() => {
         setFile(null);
@@ -59,38 +59,69 @@ export default function Saml() {
           });
           return;
         }
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = function (evt) {
-          if (evt.target.result.length > 2000000) {
-            setMessage({
-              text: t('in-settings:tabs.failedToSaveConfig', {
-                err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
-              }),
-              type: 'error'
-            });
-            return;
-          }
-          saveItem({
-            result,
-            idpMetadata: evt.target.result,
-            setMessage,
-            ownerEmail: form.get('ownerEmail').value,
-            spEntityId: form.get('spEntityId').value
-          });
-        };
+        if (isAnyInvitationsPending(props)) {
+          addActiveDialog(
+            <ConfirmationDialog
+              header={t('in-settings:components.pleaseConfirm')}
+              description={
+                <span>
+                  <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />
+                </span>
+              }
+              onSubmit={() => {
+                save(setMessage, form, result, file);
+                close();
+              }}
+              confirmButtonKind="create"
+              confirmButtonLabel={t('forms.actions.save')}
+            />
+          );
+        } else {
+          save(setMessage, form, result, file);
+        }
       }}
       Content={Content}
     />
   );
 }
 
-function Content({ file, form, setForm, input, setCanSaveItem, result }) {
+function isAnyInvitationsPending(props) {
+  return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
+}
+
+function save(setMessage, form, result, file) {
+  const reader = new FileReader();
+  reader.readAsText(file, 'UTF-8');
+  reader.onload = function (evt) {
+    if (evt.target.result.length > 2000000) {
+      setMessage({
+        text: t('in-settings:tabs.failedToSaveConfig', {
+          err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
+        }),
+        type: 'error'
+      });
+      return;
+    }
+    saveItem({
+      result,
+      idpMetadata: evt.target.result,
+      setMessage,
+      ownerEmail: form.get('ownerEmail').value,
+      spEntityId: form.get('spEntityId').value
+    });
+  };
+}
+
+function Content({ file, form, setForm, setFile, setCanSaveItem, result }) {
+  const inputFileRef = useRef(null);
   useEffect(
     // allow only saving when idP metadata has been uploaded
     () => setCanSaveItem(!!file),
     [file, form, setCanSaveItem]
   );
+
+  const onInputFileChange = () =>
+    setFile((inputFileRef.current?.files?.length ?? 0) > 0 ? inputFileRef.current.files[0] : undefined);
 
   return (
     <>
@@ -219,15 +250,16 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             <Section restrictWidth="50rem">
               <h2>{t('in-settings:tabs.uploadIdPMetadata')}</h2>
               <div className={locals.flexWrapper}>
-                <Button
-                  kind="secondary"
-                  icon="lib_views_file"
-                  onClick={() => {
-                    input.type = 'file';
-                    input.accept = 'text/xml';
-                    input.click();
-                  }}
-                >
+                <input
+                  id="idpMetadataFile"
+                  type="file"
+                  accept="text/xml"
+                  multiple={false}
+                  ref={r => (inputFileRef.current = r)}
+                  onChange={onInputFileChange}
+                  hidden
+                />
+                <Button kind="secondary" icon="lib_views_file" onClick={() => inputFileRef.current.click()}>
                   {file ? shorten(file.name, 32) : t('in-settings:tabs.chooseFile')}
                 </Button>
               </div>
@@ -272,8 +304,12 @@ function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId }) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig({ ownerEmail, idpMetadata, spEntityId });
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
+    () => {
+      setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+    },
+    error => {
+      setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' });
+    }
   );
 }
 

@@ -12,7 +12,9 @@ import {
   targetFieldValidator,
   timeFieldValidator,
   dateFieldValidator,
-  timeWindowValidator
+  timeWindowValidator,
+  noInvalidTagFilterExpression,
+  noBlankEntitySelection
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
   SloEntityFields,
@@ -30,7 +32,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
-  entityId: createField({ value: '' }),
+  entityId: createField({ value: '', validator: noBlankEntitySelection }),
   type: createField({ value: entityType })
 });
 
@@ -41,7 +43,7 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
   includeInternal: createField({ value: false }),
   includeSynthetic: createField({ value: false }),
   serviceId: createField({ value: '' }),
-  tagFilterExpression: createField({ value: [] })
+  tagFilterExpression: createField({ value: [], validator: noInvalidTagFilterExpression })
 });
 
 export const getDefaultIndicatorFields = (): SloIndicatorFields => ({

@@ -4,7 +4,7 @@
  */
 
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 function buildMapper(fromHex, toHex) {
   const fromRgb = hexToRGB(fromHex);
@@ -19,6 +19,6 @@ function buildMapper(fromHex, toHex) {
   };
 }
 
-export const cpuColorMapper = buildMapper(theme.lib.colors.yellow800, theme.lib.colors.red800);
+export const cpuColorMapper = buildMapper(oldTheme.lib.colors.yellow800, oldTheme.lib.colors.red800);
 export const memColorMapper = buildMapper('#e0d7ff', '#835cff');
 export const timeColorMapper = buildMapper('#b9dcfe', '#2a8cea');

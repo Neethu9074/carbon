@@ -11,10 +11,10 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import * as allComparisonColors from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { green, red } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { stringValidator, booleanValidator } from 'in-services/validators/jsonType';
 import { allFormatterIds, defaultFormatter } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { stringValidator } from 'in-services/validators/jsonType';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
@@ -35,6 +35,13 @@ export function createForm(savedState) {
           notBlankValidator,
           buildEnumValidator(allFormatterIds)
         )
+      })
+    )
+    .put(
+      'formatterSelected',
+      createField({
+        value: savedState?.formatterSelected ?? undefined,
+        validator: composeAndShortCircuitOnError(booleanValidator)
       })
     )
     .put(

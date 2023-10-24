@@ -16,7 +16,7 @@ import { ChartContentPostition } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './MarkerLane.mless';
@@ -266,6 +266,7 @@ interface MarkerLaneErrorMessageProps {
 }
 
 function MarkerLaneErrorMessage({ errorMessage, onRetry }: MarkerLaneErrorMessageProps) {
+  const theme = useTheme();
   return (
     <div className={locals.laneError}>
       <div className={locals.laneErrorIconText}>
@@ -273,7 +274,7 @@ function MarkerLaneErrorMessage({ errorMessage, onRetry }: MarkerLaneErrorMessag
           <HorizontalFlexWrapper className={locals.laneErrorIconTextWrapper}>
             <SvgIcon
               className={locals.laneErrorIcon}
-              color={theme.lib.colors.N600Light}
+              color={theme.ids.color.option.neutral['600']}
               type="lib_help_error_warning_outline"
               size="xs"
             />

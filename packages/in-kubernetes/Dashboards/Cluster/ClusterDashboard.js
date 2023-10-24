@@ -22,6 +22,7 @@ import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
@@ -30,12 +31,13 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function ClusterDashboard({ location }) {
@@ -49,10 +51,8 @@ export default function ClusterDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Kubernetes',
-          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
-            objectType: t('in-kubernetes:dashboards.cluster')
-          })
+          productArea: productAreas.kubernetes,
+          pageRootName: pageNames.cluster_summary
         }}
       />
 
@@ -102,7 +102,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
-      renderMetaInformation={renderMetaInformation}
+      renderMetaInformation={RenderMetaInformation}
     />
   );
 }
@@ -152,14 +152,14 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
   );
 }
 
-function renderMetaInformation({ result }) {
+function RenderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
   const clusterManagement = get(result, ['data', 'clusterManagement']);
-
+  const theme = useTheme();
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
+      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
       <TypesBadgeList
         type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
           clusterDistributionName: clusterBadgeName(clusterDistribution)

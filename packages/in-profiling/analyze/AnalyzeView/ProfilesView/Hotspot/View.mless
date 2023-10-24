@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .content {
     margin: 0 -1rem;
@@ -12,7 +10,6 @@
 
   .hotspotLine {
     position: relative;
-
     height: 2rem;
   }
 
@@ -20,12 +17,11 @@
     position: absolute;
     top: 0;
     height: 2rem;
-
     border: 1px solid transparent;
   }
 
   .item:hover {
-    border: 1px dashed @lib__colors__N500;
+    border: 1px dashed var(--ids-color-option-neutral-500);
   }
 
   .timeselectionIndicator {

@@ -73,6 +73,7 @@ module.exports = {
   playWithReleaseEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
+  syntheticsFilterForMaintenanceWindowsEnabled: false,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
@@ -89,8 +90,9 @@ module.exports = {
   rcaUIEnabled: false,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  infraSmartAlertsDetailsPageEnabled: true,
   logDeletionEnabled: true,
   actionsLaneEnabled: true,
-  autoFormatterTimeSeriesEnabled: true
+  autoFormatterTimeSeriesEnabled: true,
+  disableInvitesWithIdpEnabled: false,
+  applicationContributionFilterEnabled: false
 };

@@ -322,7 +322,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 formatter: number.forcedCompact,
                 labels: [t('in-mobile-apps:dashboard.tabs.crashLabel')],
                 metricIds: ['crashAffectedSessionCount'],
-                colors: [theme.lib.colors.failure]
+                colors: [theme.lib.carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,

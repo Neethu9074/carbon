@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Link } from '@instana/components';
 
@@ -14,13 +14,20 @@ import Applications, {
   submitApplicationSelection,
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+import { createBoundedAlertQueryBuilder } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/api';
+import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { syntheticsFilterForMaintenanceWindowsEnabled } from 'in-services/featureFlags';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
+import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
+import { days } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm.mless';
@@ -28,7 +35,38 @@ import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Maintena
 export default function MaintenanceScopeStep(props) {
   const { form, onChange, onChangeApplyOn, setForm } = props;
   const selectedApplicationIds = form.get('applicationIds') ? form.get('applicationIds').value : [];
+  const [tagFilterExpression, setTFE] = useState([]);
 
+  const tagSuggestionTimeConfig = useMemo(
+    () => ({
+      windowSize: days.toMillis(1),
+      autoRefresh: true
+    }),
+    []
+  );
+
+  const { getTagCatalog, QueryBuilder: AlertQueryBuilder } = useMemo(
+    () => createBoundedAlertQueryBuilder(tagSuggestionTimeConfig),
+    [tagSuggestionTimeConfig]
+  );
+
+  useRemoveInvalidTagsFromFilterExpression(getTagCatalog, tagFilterExpression, filteredTagFilterExpression => {
+    if (filteredTagFilterExpression.length !== tagFilterExpression) setTFE(filteredTagFilterExpression);
+  });
+
+  const getMaintenanceScopeOptions = () => {
+    const options = [];
+    options.push({ value: 'application', label: t('in-settings:tabs.applicationPerspective') });
+    options.push({
+      value: 'dfq',
+      label: t('in-settings:tabs.selectedEntitiesDynamicFocusQuery')
+    });
+    options.push({ value: 'all', label: t('in-settings:tabs.allAvailableEntities') });
+    if (syntheticsFilterForMaintenanceWindowsEnabled)
+      options.push({ value: 'synthetic', label: t('in-settings:tabs.syntheticTests') });
+
+    return options;
+  };
   return (
     <FormGroup className={locals.mwWrapper}>
       <div className={locals.inputContainer}>
@@ -40,14 +78,7 @@ export default function MaintenanceScopeStep(props) {
             <ComboBox
               name="maintenance-applyOn"
               value={field.value}
-              options={[
-                { value: 'application', label: t('in-settings:tabs.applicationPerspective') },
-                {
-                  value: 'dfq',
-                  label: t('in-settings:tabs.selectedEntitiesDynamicFocusQuery')
-                },
-                { value: 'all', label: t('in-settings:tabs.allAvailableEntities') }
-              ]}
+              options={getMaintenanceScopeOptions()}
               isClearable={false}
               onChange={e => {
                 const updatedForm = onChangeApplyOn(form, e ? e.value : null);
@@ -121,6 +152,27 @@ export default function MaintenanceScopeStep(props) {
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
+
+        {form.get('applyOn').value === 'synthetic' && (
+          <FormGroup>
+            <LightCard
+              title={
+                <IconLabel
+                  noBottomMargin
+                  type={'lib_synthetic'}
+                  text={t('in-alerting:smartAlerts.synthetics.selectTests.testAttached')}
+                />
+              }
+              darkFrame
+            >
+              <AlertFilterConfigurator
+                QueryBuilderComponent={AlertQueryBuilder}
+                form={form}
+                updateForm={form => setForm(form)}
+              />
+            </LightCard>
+          </FormGroup>
+        )}
       </div>
     </FormGroup>
   );

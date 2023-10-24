@@ -14,12 +14,12 @@ import { createLogger } from '@instana/logger';
 
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import { BrowserScriptConfiguration, HttpScriptConfiguration, SyntheticTest } from 'in-types';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
-import { SyntheticTest } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './EditConfigurationDialogPresenter.mless';
@@ -60,6 +60,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   });
   const isActive: boolean = test.active;
   const syntheticType: string = test.configuration.syntheticType;
+  const { retries, timeout, retryInterval, markSyntheticCall } = test.configuration;
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: {
       simple: syntheticType === 'HTTPAction',
@@ -82,7 +83,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     const headersKeys = Object.keys(headers);
     if (headersKeys.length) {
       const headersObject: ConfigItem[] = [];
-      headersKeys.map(key =>
+      headersKeys.forEach(key =>
         headersObject.push({
           id: generateUniqueShortId(),
           key: key,
@@ -117,7 +118,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     const customPropertyKeys = Object.keys(customProperties);
     if (customPropertyKeys.length) {
       const customPropertiesObject: ConfigItem[] = [];
-      customPropertyKeys.map(key =>
+      customPropertyKeys.forEach(key =>
         customPropertiesObject.push({
           id: generateUniqueShortId(),
           key: key,
@@ -159,24 +160,46 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     setIsSubmitting(true);
     let testConfig: SyntheticTest;
     let updatedForm: MapForm<any>;
-    updatedForm = form.put('active', createField({ value: isActive }));
+    updatedForm = ['HTTPScript', 'BrowserScript'].includes(form.get('configuration').get('syntheticType').value)
+      ? form.put('active', createField({ value: isActive })).put(
+          'configuration',
+          form
+            .get('configuration')
+            .put('retries', createField({ value: retries }))
+            .put('timeout', createField({ value: timeout }))
+            .put('retryInterval', createField({ value: retryInterval }))
+            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
+            .put(
+              'scriptType',
+              createField({
+                value: (test.configuration as BrowserScriptConfiguration | HttpScriptConfiguration).scriptType
+              })
+            )
+        )
+      : form.put('active', createField({ value: isActive })).put(
+          'configuration',
+          form
+            .get('configuration')
+            .put('retries', createField({ value: retries }))
+            .put('timeout', createField({ value: timeout }))
+            .put('retryInterval', createField({ value: retryInterval }))
+            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
+        );
     if (test.applicationLabel === '' || test.applicationLabel === undefined) {
-      updatedForm = form.remove('applicationId');
+      updatedForm = updatedForm.remove('applicationId');
     }
     if (
-      form.get('configuration').get('syntheticType').value === 'HTTPAction' &&
-      isEmpty(form.get('configuration').get('headers').value)
+      updatedForm.get('configuration').get('syntheticType').value === 'HTTPAction' &&
+      isEmpty(updatedForm.get('configuration').get('headers').value)
     ) {
-      updatedForm = form.put('configuration', form.get('configuration').remove('headers'));
+      updatedForm = updatedForm.put('configuration', updatedForm.get('configuration').remove('headers'));
       testConfig = {
-        active: true,
         id: testId,
         ...updatedForm.toJS()
       } as SyntheticTest;
     } else {
       testConfig = {
         id: testId,
-        active: true,
         ...updatedForm.toJS()
       } as SyntheticTest;
     }

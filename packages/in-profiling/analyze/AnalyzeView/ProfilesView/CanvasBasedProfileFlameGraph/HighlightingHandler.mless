@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .highlightedNode {
     position: absolute;
 
-    border: 1px solid @lib__colors__light-blue800;
+    border: 1px solid var(--ids-color-option-blue-400);
     cursor: pointer;
   }
 }

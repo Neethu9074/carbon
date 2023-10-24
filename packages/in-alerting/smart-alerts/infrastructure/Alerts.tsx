@@ -25,7 +25,6 @@ import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/const
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { infraSmartAlertsDetailsPageEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
@@ -49,7 +48,7 @@ export default function Alerts() {
         extraColumnDefinitions={getColumnDefinitions()}
         actionHandlers={handlers}
         getAlertConfigs={() => getAllAlertConfigsWithResult()}
-        createRowLinkLocation={infraSmartAlertsDetailsPageEnabled ? createRowLinkLocation : undefined}
+        createRowLinkLocation={createRowLinkLocation}
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         sortOptions={sortOptions}
         alertsTab={infraSmartAlerts}

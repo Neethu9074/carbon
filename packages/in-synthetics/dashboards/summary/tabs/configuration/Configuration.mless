@@ -14,8 +14,8 @@
   }
   // SettingsSection.tsx component.
   .configContainer {
-    border: 1px solid var(--ids-color-option-neutral-300);
-    padding: 10px;
+    border: 0.0625rem solid var(--ids-color-option-neutral-300);
+    padding: 0.625rem;
   }
   .configCheckbox {
     width: 50%;
@@ -31,7 +31,7 @@
     margin-bottom: 1rem;
   }
   .configRow {
-    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    border-bottom: 0.0625rem solid var(--ids-color-option-neutral-300);
     padding-bottom: 1rem;
   }
   .lastConfigRow {

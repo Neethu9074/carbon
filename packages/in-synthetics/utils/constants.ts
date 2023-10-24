@@ -495,3 +495,22 @@ export interface BrowserMessage {
   timestamp: number;
   type: string;
 }
+
+export interface ResultImages {
+  testId: string;
+  testResultId: string;
+  imageFiles: { [index: string]: string };
+}
+
+export const dummyTestResultImages: Result<ResultImages> = {
+  data: {} as ResultImages,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export interface ViewScreenshotsDialogProps {
+  testId: string;
+  resultId: string;
+}

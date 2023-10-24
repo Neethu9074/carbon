@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import ExpandableStackTrace from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
 
-export default function CallLogs({ call }) {
+export default function CallLogs({ call, selectLogId }) {
   const logs = call.logs;
 
   if (logs.length > 0) {
@@ -17,7 +17,7 @@ export default function CallLogs({ call }) {
           .slice()
           .sort(sortLogs)
           .map((log, i) => (
-            <ExpandableStackTrace key={i} call={call} log={log} />
+            <ExpandableStackTrace key={i} call={call} log={log} selectLogId={selectLogId} />
           ))}
       </Fragment>
     );

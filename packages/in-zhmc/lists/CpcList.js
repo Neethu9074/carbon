@@ -13,7 +13,9 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import ZhmcCpcLabel from 'in-zhmc/Dashboards/commonComponents/ZhmcCpcLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { getCpcsSubscribeEvent } from 'in-zhmc/subscriptions/getCpcs';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { timeConfig$ } from 'in-stores/time/config';
 import { cpcList } from 'in-zhmc/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
@@ -99,8 +101,8 @@ export default connectTo(
         <Title title={t('in-zhmc:ibmzZhmcs')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'IBM Z HMC',
-            pageRootName: t('in-zhmc:ibmzZhmcs')
+            productArea: productAreas.ibmZ,
+            pageRootName: pageNames.ibm_zhmcs
           }}
         />
         <WithEmptyStateFallback

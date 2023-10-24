@@ -11,11 +11,15 @@ import { hasPotentialProblems } from 'in-custom-dashboards/widgets/_shared/Metri
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
+import { autoFormatterTimeSeriesEnabled } from 'in-services/featureFlags';
 import { potentialProblemsEnabled } from 'in-services/featureFlags';
+import { defaultFormatter } from 'in-stores/metric/formatters';
 import { t } from 'in-i18n';
 
 export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
   const hasY2 = form.get('y2').get('metrics').size > 0;
+  const axisForm = form.get('y1');
+  const formatterSelected = axisForm?.get('formatterSelected')?.value;
 
   useEffect(
     () => {
@@ -23,7 +27,12 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
       const metricsFormSize = axisForm.get('metrics').size;
       if (!metricsFormSize) {
         autoOpen('y1', 0);
-        onChange(['y1', 'metrics'], f => f.push(createMetricForm()));
+        onChange([], form => {
+          const f = form
+            .updateIn(['y1', 'metrics'], field => field.push(createMetricForm()))
+            .updateIn(['y1', 'formatterSelected'], field => field.setValue(false).setTouched(true));
+          return f;
+        });
       }
     },
     // Run this only once when the component renders for the first time
@@ -38,6 +47,29 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
   const metrics2 = form.get('y2').get('metrics');
   const atLeastOnePPEnabled = [...metrics1.toJS(), ...metrics2.toJS()].find(hasPotentialProblems);
   const disabled = potentialProblemsEnabled && atLeastOnePPEnabled;
+
+  useEffect(() => {
+    const uniqueMetricsFormatters = [
+      ...new Set(metrics1?.map(metric => metric?.get('formatter')?.value).filter(Boolean))
+    ];
+    const hasUniqueMetrics = uniqueMetricsFormatters.length > 0;
+    const formatterValue = uniqueMetricsFormatters.length > 1 ? defaultFormatter.id : uniqueMetricsFormatters[0];
+    const shouldNotUpdateFormatter =
+      !autoFormatterTimeSeriesEnabled || !hasUniqueMetrics || formatterSelected === undefined || formatterSelected;
+
+    if (shouldNotUpdateFormatter) {
+      return;
+    }
+
+    onChange([], form => {
+      const f = form
+        .updateIn(['y1', 'formatter'], field => field.setValue(formatterValue).setTouched(true))
+        .updateIn(['y1', 'formatterSelected'], field => field.setValue(false).setTouched(true));
+      return f;
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [metrics1]);
 
   return (
     <Ul>

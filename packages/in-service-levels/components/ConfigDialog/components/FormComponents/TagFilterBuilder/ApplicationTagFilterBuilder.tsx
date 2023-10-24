@@ -16,9 +16,10 @@ import { t } from 'in-i18n';
 interface SloScopeWebsiteSectionProps {
   form: SloForm;
   onChange: SloFormOnChange;
+  width?: string;
 }
 
-export default function ApplicationTagFilterBuilder({ form, onChange }: SloScopeWebsiteSectionProps) {
+export default function ApplicationTagFilterBuilder({ form, onChange, width }: SloScopeWebsiteSectionProps) {
   const applicationIdField = form.getIn(['entity', 'entityId']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
@@ -28,8 +29,11 @@ export default function ApplicationTagFilterBuilder({ form, onChange }: SloScope
     applicationId: applicationIdField.value
   });
 
+  const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
+
   return (
     <Section
+      titleWidth={width}
       actions={
         tagFilterExpressionField.value.length ? (
           <Button
@@ -46,14 +50,20 @@ export default function ApplicationTagFilterBuilder({ form, onChange }: SloScope
       }
       title={t('in-service-levels:createSloDialog.customFilter')}
     >
-      <QueryBuilder
-        onChange={newFilterExpression =>
-          onChange(['scope', 'tagFilterExpression'], () =>
-            tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
-          )
-        }
-        value={tagFilterExpressionField.value}
-      />
+      {isScopeSelected ? (
+        <QueryBuilder
+          onChange={newFilterExpression =>
+            onChange(['scope', 'tagFilterExpression'], () =>
+              tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
+            )
+          }
+          value={tagFilterExpressionField.value}
+        />
+      ) : (
+        <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+          {t('in-components:queryBuilder.components.filterButtonAddFilter')}
+        </Button>
+      )}
     </Section>
   );
 }

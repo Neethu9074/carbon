@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
-
 :local {
   .title {
     font-weight: 600;

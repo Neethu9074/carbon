@@ -26,9 +26,11 @@ import { mobileAppSmartAlertsEnabled } from 'in-services/featureFlags';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import useUrlState from 'in-hooks/useUrlState';
@@ -92,8 +94,8 @@ export default function MobileAppDashboard() {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Mobile Apps',
-          pageRootName: props.viewId ? 'Mobile App View' : 'Mobile App',
+          productArea: productAreas.websites_mobile_apps,
+          pageRootName: props.viewId ? pageNames.mobile_app_view_summary : pageNames.mobile_app_summary,
           pagePath: location?.pathname
         }}
       />
@@ -170,7 +172,7 @@ function ButtonLine({ viewId, tagCatalogSessionStart, mobileAppLabel, tagFilters
       {viewId && (
         <Button
           kind="primary"
-          icon="lib_mobile_app"
+          icon="lib_mobile_app_view"
           href={
             tagCatalogSessionStart &&
             getLinkToMobileAppAnalyze({

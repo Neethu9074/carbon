@@ -28,7 +28,6 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { infraSmartAlertsDetailsPageEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -60,6 +59,7 @@ export default function InfraEventContent({ event }: Props) {
   const entityName = event.getIn(['metadata', 'entityName'], '');
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
   const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
+  const predictions = event.getIn(['metadata', 'predictions'], emptyMap).toJS();
 
   const tagFilterExpression = alertConfig.tagFilterExpression;
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
@@ -74,8 +74,17 @@ export default function InfraEventContent({ event }: Props) {
 
   const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
 
+  const maxPredictionTime =
+    predictions && predictions.length > 0
+      ? Math.max(
+          ...predictions.map((arr: any) => {
+            return arr[0];
+          })
+        )
+      : undefined;
+
   const timeConfig = {
-    ...getChartTimeConfigByEvent(event),
+    ...getChartTimeConfigByEvent(event, maxPredictionTime),
     autoRefresh: false,
     ...(windowSize && { windowSize })
   } as TimeConfig;
@@ -94,7 +103,7 @@ export default function InfraEventContent({ event }: Props) {
 
             {hasInfrastructureAnalyzeAccess && (
               <DescriptionButtons>
-                {infraSmartAlertsDetailsPageEnabled && <InfraAlertConfigButton alertConfig={alertConfig} />}
+                <InfraAlertConfigButton alertConfig={alertConfig} />
                 <AnalyzeInfraEventButton
                   alertConfig={alertConfigWithGroupingExpression}
                   timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
@@ -107,7 +116,11 @@ export default function InfraEventContent({ event }: Props) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <InfraAlertChartWrapper alertConfig={alertConfigWithGroupingExpression} timeConfig={timeConfig} />
+          <InfraAlertChartWrapper
+            alertConfig={alertConfigWithGroupingExpression}
+            timeConfig={timeConfig}
+            predictions={predictions}
+          />
         </Col>
       </Row>
 

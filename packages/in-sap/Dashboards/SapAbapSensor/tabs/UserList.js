@@ -42,7 +42,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.userStats.get('RESPTI');
+        return row.userStats.get('RESPTIME');
       },
       getContent: millis.detailed
     }
@@ -52,7 +52,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.userStats.get('CPUTI');
+        return row.userStats.get('CPUTIME');
       },
       getContent: millis.detailed
     }
@@ -130,9 +130,9 @@ export default connectTo(
                 y1={{
                   min: 0,
                   metrics: [
-                    'userList.' + row.key + '.RESPTI',
-                    'userList.' + row.key + '.CPUTI',
-                    'userList.' + row.key + '.QUEUETI'
+                    'userList.' + row.key + '.RESPTIME',
+                    'userList.' + row.key + '.CPUTIME',
+                    'userList.' + row.key + '.QUEUETIME'
                   ],
                   labels: [
                     t('in-sap:dashboards.responseTime'),

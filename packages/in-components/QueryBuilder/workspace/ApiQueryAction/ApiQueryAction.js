@@ -18,9 +18,11 @@ export default function ApiQueryAction({
   type,
   order,
   groupBy,
+  group,
   metrics,
   pagination,
   tracking,
+  hiddenCalls,
   endpointUrl,
   docsLink
 }) {
@@ -36,8 +38,10 @@ export default function ApiQueryAction({
         type,
         order,
         groupBy,
+        group,
         metrics,
         pagination,
+        hiddenCalls,
         endpointUrl,
         docsLink
       }}
@@ -68,8 +72,10 @@ ApiQueryAction.propTypes = {
   type: rpt.string,
   order: rpt.object,
   groupBy: rpt.array,
+  group: rpt.object,
   metrics: rpt.array,
   pagination: rpt.object,
+  hiddenCalls: rpt.object,
   endpointUrl: rpt.string,
   docsLink: rpt.string,
   tracking: rpt.shape({

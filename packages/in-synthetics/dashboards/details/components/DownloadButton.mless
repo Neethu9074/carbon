@@ -9,11 +9,11 @@
     width: fit-content;
     align-items: stretch;
     flex-direction: column-reverse;
-    margin-top: -12px;
+    margin-top: -0.75rem;
   }
 
   .buttonLabel {
     float: left;
-    margin-right: 12px;
+    margin-right: 0.75rem;
   }
 }

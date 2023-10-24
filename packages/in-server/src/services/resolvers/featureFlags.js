@@ -331,6 +331,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticsFilterForMaintenanceWindowsEnabled',
+    instanaCtlKey: 'feature.recurrent.maintenance.windows.synthetics.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'mobileAppSmartAlertsEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.enabled',
     defaultValue: true
@@ -406,11 +411,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraSmartAlertsDetailsPageEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.details.page.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'logDeletionEnabled',
     instanaCtlKey: 'feature.logging.logDeletion.enabled',
     defaultValue: true
@@ -433,6 +433,16 @@ module.exports = exports = [
   {
     uiClientKey: 'autoFormatterTimeSeriesEnabled',
     instanaCtlKey: 'feature.auto.formatter.timeseries.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'disableInvitesWithIdpEnabled',
+    instanaCtlKey: 'feature.disable.invites.with.idp.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationContributionFilterEnabled',
+    instanaCtlKey: 'feature.application.contributionFilter.enabled',
     defaultValue: false
   }
 ];

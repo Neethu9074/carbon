@@ -34,21 +34,20 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const resourceQuotaSet = v => v !== -1;
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
-  const {
-    indigo800: hardLimits,
-    purple800: hardRequests,
-    orange800: limits,
-    lime800: requests,
-    slushGreen800: pods,
-    lightBlue800: usage
-  } = theme.lib.colors;
+
+  const hardLimits = oldTheme.lib.colors.chart.fiveColorPalette[2];
+  const hardRequests = oldTheme.lib.colors.chart.fiveColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.fiveColorPalette[3];
+  const requests = oldTheme.lib.colors.chart.fiveColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.fiveColorPalette[4];
+  const pods = oldTheme.lib.colors.chart.strokeColors100[0];
 
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(namespace.label);

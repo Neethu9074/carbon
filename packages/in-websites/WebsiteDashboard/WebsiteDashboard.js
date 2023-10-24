@@ -26,10 +26,12 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import DashboardHeader from 'in-components/DashboardHeader';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
@@ -89,8 +91,8 @@ export default function WebsiteDashboard() {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Websites',
-          pageRootName: props.pageId ? 'Website Page' : 'Website',
+          productArea: productAreas.websites_mobile_apps,
+          pageRootName: props.pageId ? pageNames.website_summary : pageNames.website,
           pagePath: location?.pathname
         }}
       />

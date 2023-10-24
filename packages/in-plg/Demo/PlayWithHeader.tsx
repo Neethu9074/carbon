@@ -13,7 +13,7 @@ import {
   PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED,
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
-import { playwithEnabled } from 'in-services/featureFlags';
+import { playwithEnabled, playWithReleaseEnabled } from 'in-services/featureFlags';
 import Sticky from 'in-components/Sticky/Sticky';
 import { t } from 'in-i18n';
 
@@ -41,7 +41,7 @@ export default function PlayWithHeader() {
     <Sticky
       header={
         <>
-          {playwithEnabled && (
+          {(playwithEnabled || playWithReleaseEnabled) && (
             <div className={locals.playWithInstana}>
               <div className={locals.headerHeading}>
                 <Typography onDark variant="heading-600">

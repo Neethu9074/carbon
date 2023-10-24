@@ -83,7 +83,8 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
       </p>
       <canvas
         style={{
-          background: `url('data:image/png;base64,${base64EncodedQrCode}')`
+          background: `url('data:image/png;base64,${base64EncodedQrCode}')`,
+          backgroundSize: 'cover'
         }}
         className={locals.qrCanvas}
       />

@@ -30,7 +30,7 @@ import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function MobileAppsQueryBuilderWorkspace(props) {
@@ -50,10 +50,11 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
   } = props;
 
   const { hasError, errors } = validate(formModel);
+  const theme = useTheme();
   return (
     <Sticky
       header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
-      backgroundColor={theme.lib.colors.white}
+      backgroundColor={theme.ids.color.option.white}
     >
       <LeftRightPadding>
         <Stack gap="gutter">

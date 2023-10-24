@@ -136,7 +136,8 @@ function List({
   perCellLoadingIndicator,
   trackEvent,
   customSortEntities,
-  onPageChange
+  onPageChange,
+  customDialogMessage
 }) {
   const { goToPath } = useNavigation();
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
@@ -199,11 +200,13 @@ function List({
           setQuery(query);
         }}
         columnDefinitions={addTableActions({
+          title,
           columnDefinitions,
           tableActions,
           perCellLoadingIndicator,
           getEntityName,
-          setErrorMessage
+          setErrorMessage,
+          customDialogMessage
         })}
         leftHeader={leftHeader}
         orderBy={orderByState}
@@ -354,7 +357,15 @@ const NewEntityButton = forwardRef(function NewEntityButton(
   );
 });
 
-function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndicator, getEntityName, setErrorMessage }) {
+function addTableActions({
+  title,
+  columnDefinitions,
+  tableActions,
+  perCellLoadingIndicator,
+  getEntityName,
+  setErrorMessage,
+  customDialogMessage
+}) {
   let allColumns = columnDefinitions;
   if (tableActions.toggleEnabled) {
     allColumns = addToggleEnabledAction(
@@ -366,11 +377,13 @@ function addTableActions({ columnDefinitions, tableActions, perCellLoadingIndica
   }
   if (tableActions.delete) {
     allColumns = addDeleteAction(
+      title,
       allColumns,
       tableActions.delete,
       perCellLoadingIndicator,
       getEntityName,
-      setErrorMessage
+      setErrorMessage,
+      customDialogMessage
     );
   }
   if (tableActions.deselect) {
@@ -431,7 +444,15 @@ function doToggleEnabled(entity, enabled, toggle, setErrorMessage) {
   });
 }
 
-function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, getEntityName, setErrorMessage) {
+function addDeleteAction(
+  title,
+  columns,
+  actionDefinition,
+  perCellLoadingIndicator,
+  getEntityName,
+  setErrorMessage,
+  customDialogMessage
+) {
   return columns.concat({
     id: 'deleteAction',
     sortable: false,
@@ -456,6 +477,7 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
               getEntityName={getEntityName}
               doDelete={doDelete}
               setErrorMessage={setErrorMessage}
+              dialogMessage={customDialogMessage}
             />
           </Tooltip>
         </div>
@@ -721,7 +743,8 @@ List.propTypes = {
   // Disabled this line because
   // eslint-disable-next-line react/no-unused-prop-types
   initialPageNumber: PropTypes.number,
-  searchWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  searchWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  customDialogMessage: PropTypes.func
 };
 
 export function reload() {

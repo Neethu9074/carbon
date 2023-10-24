@@ -6,9 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
-import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCronJob from 'in-kubernetes/subscriptions/getKubernetesCronJob';
@@ -17,18 +17,20 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { cronJobDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { CronJobBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { cronJobTabChange } from 'in-kubernetes/tracker';
 import tabs from 'in-kubernetes/Dashboards/CronJob/tabs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function CronJobDashboard({ location }) {
@@ -42,10 +44,8 @@ export default function CronJobDashboard({ location }) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Kubernetes',
-          pageRootName: t('in-kubernetes:kubernetesPageRootName', {
-            objectType: t('in-kubernetes:dashboards.cronJob')
-          })
+          productArea: productAreas.kubernetes,
+          pageRootName: pageNames.cron_job_summary
         }}
       />
 
@@ -102,7 +102,7 @@ function Header(props) {
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={cronJobId} />}
-      renderMetaInformation={renderMetaInformation}
+      renderMetaInformation={RenderMetaInformation}
     />
   );
 }
@@ -118,12 +118,13 @@ function renderButtonLine({ cronJobId, timeConfig, result }) {
   );
 }
 
-function renderMetaInformation({ result }) {
+function RenderMetaInformation({ result }) {
+  const theme = useTheme();
   const version = get(result, ['data', 'version']);
 
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
+      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SCronJob')} />
       <KubernetesIndicator result={result} />
     </>

@@ -16,6 +16,8 @@ import {
   teamSettingsAlertingAlertChannels,
   teamSettingsAlertingConfigurations
 } from 'in-settings/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
+import { useGetAlertConfigLink as useGetInfraAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import {
   useAlertConfig as useApplicationsAlertConfig,
   useLinkToGlobalAlertConfigWithoutAPDashboard
@@ -44,7 +46,7 @@ import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannel.mless';
@@ -81,7 +83,7 @@ function createForm(alertChannel) {
 
 const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   const { entity, form, entityId, message, error, loading } = props;
-
+  const theme = useTheme();
   if (!entity || !form) {
     return <LoadingIndicator />;
   }
@@ -89,7 +91,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['800']}>
           {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />
@@ -199,7 +201,8 @@ const typeLabels = Object.freeze({
   WebsiteSmartAlert: t('in-settings:tabs.websiteSmartAlert'),
   MobileSmartAlert: t('in-settings:tabs.mobileSmartAlert'),
   GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert'),
-  SyntheticSmartAlert: t('in-settings:tabs.syntheticSmartAlert')
+  SyntheticSmartAlert: t('in-settings:tabs.syntheticSmartAlert'),
+  InfraSmartAlert: t('in-settings:tabs.infraSmartAlert')
 });
 
 function AlertChannelLabel({ entity }) {
@@ -207,6 +210,7 @@ function AlertChannelLabel({ entity }) {
   const getApplicationsAlertConfig = useApplicationsAlertConfig();
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToSyntheticAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutDashboard();
+  const getInfraAlertConfigLink = useGetInfraAlertConfigLink();
   const websiteAlertConfigLink = useAlertConfigLink(id, entityId);
   const mobileAlertConfigLink = useGetAlertConfigLink();
 
@@ -222,6 +226,8 @@ function AlertChannelLabel({ entity }) {
     href = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
   } else if (type === 'SyntheticSmartAlert') {
     href = getLinkToSyntheticAlertConfigWithoutAPDashboard(id);
+  } else if (type === 'InfraSmartAlert') {
+    href = getInfraAlertConfigLink(id, entity.created);
   } else {
     href$ = getEntityIdView(teamSettingsAlertingConfigurations, id);
   }

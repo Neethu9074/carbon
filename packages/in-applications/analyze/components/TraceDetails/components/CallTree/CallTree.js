@@ -37,7 +37,8 @@ export default function CallTree({
   expandedCalls,
   onCallExpanded,
   onCallCollapsed,
-  traceSummary
+  traceSummary,
+  selectLogId
 }) {
   if (isLoading(callTreeResult)) {
     return <LoadingCallTree progress={callTreeResult.progress} />;
@@ -63,6 +64,7 @@ export default function CallTree({
       onCallExpanded={onCallExpanded}
       onCallCollapsed={onCallCollapsed}
       traceSummary={traceSummary}
+      selectLogId={selectLogId}
     />
   );
 }
@@ -80,9 +82,9 @@ function LoadedCallTree({
   expandedCalls,
   onCallExpanded,
   onCallCollapsed,
-  traceSummary
+  traceSummary,
+  selectLogId
 }) {
-
   const [rootNode, onShowHiddenParentNestingLevel, onShowHiddenChildNestingLevel] = useLimitVisibleNestingLevels(
     callTreeResult,
     openedCallId
@@ -119,6 +121,7 @@ function LoadedCallTree({
         onCallCollapsed={onCallCollapsed}
         onShowHiddenParentNestingLevel={onShowHiddenParentNestingLevel}
         onShowHiddenChildNestingLevel={onShowHiddenChildNestingLevel}
+        selectLogId={selectLogId}
       />
     </div>
   );

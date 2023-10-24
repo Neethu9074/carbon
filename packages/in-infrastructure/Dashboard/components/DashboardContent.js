@@ -16,9 +16,11 @@ import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialo
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { nonServicePlugins } from 'in-forge/constants';
 import DefaultDashboard from './DefaultDashboard';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -91,8 +93,8 @@ export default connectTo(
         <Title title={t('in-infrastructure:dashboard.infrastructure')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Infrastructure',
-            pageRootName: 'Infrastructure'
+            productArea: productAreas.infrastructure,
+            pageRootName: pageNames.infrastructure_dashboard
           }}
         />
 

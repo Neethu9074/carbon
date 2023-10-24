@@ -15,8 +15,10 @@ import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatt
 import { datacenterList, useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -114,8 +116,8 @@ export default connectTo(
         <Title title={t('in-vsphere:vSphereDatacenters')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'vSphere',
-            pageRootName: t('in-vsphere:vSphereDatacenters')
+            productArea: productAreas.vsphere,
+            pageRootName: pageNames.vsphere
           }}
         />
 

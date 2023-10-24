@@ -16,7 +16,7 @@ import { millis } from 'in-services/formatters/number';
 import { deepFreeze } from 'in-services/util/object';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './OverviewChart.mless';
 
@@ -24,6 +24,7 @@ const barHeight = 8;
 
 export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp }) {
   const { ref, width } = useResizeObserverCustom();
+  const theme = useTheme();
 
   const scale = createScale();
   const beaconsStacked = applyLayout(beacons, earliestTimestamp, endTimestamp);
@@ -35,7 +36,6 @@ export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp
 
   const maxDepth = beaconsStacked.reduce((max, beacon) => Math.max(max, beacon.depth), 0);
   const chartHeight = (maxDepth + 1) * barHeight;
-
   return (
     <Fragment>
       {width && beacons.length > 0 && (
@@ -45,8 +45,8 @@ export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp
           formatter={millis.forcedCompactOnMs}
           detailedFormatting
           tickLength={8}
-          tickColor={theme.lib.colors.N400}
-          tickLabelColor={theme.lib.colors.N800Dark}
+          tickColor={theme.ids.color.option.neutral['400']}
+          tickLabelColor={theme.ids.color.option.neutral['800']}
           scale={{ from: 0, to: endTimestamp - earliestTimestamp }}
           fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
         />

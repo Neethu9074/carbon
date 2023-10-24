@@ -25,12 +25,15 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
   const snapshotId = service.id;
-  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
 
   const clusterTag = kubernetesClusterTagEquals(service.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(service.namespace);

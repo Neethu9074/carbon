@@ -16,7 +16,7 @@ import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
 import { settings$ } from 'in-services/settings';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './TagSelectorOverlay.mless';
 
@@ -25,11 +25,10 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
     settings$.map(settings => get(settings, ['use_queryable_tags_enabled'], true)),
     []
   );
-  const options = useMemo(() => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge, queryableOnly), [
-    showTypeBadge,
-    tagCatalog,
-    queryableOnly
-  ]);
+  const options = useMemo(
+    () => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge, queryableOnly),
+    [showTypeBadge, tagCatalog, queryableOnly]
+  );
 
   useDisabledBodyScroll();
   const [query, onQueryChange] = useState('');
@@ -110,12 +109,13 @@ function BreadcrumbAndLabel({ path, label, hasChildren }) {
 }
 
 function Badge({ tagTreeNode, tagCatalog }) {
+  const theme = useTheme();
   // only show for leaves
   if (tagTreeNode.children?.length > 0) return null;
 
   const tag = tagCatalog.tagsByName[tagTreeNode.tagName];
   const type = typeToLabelMapping[tag?.type];
-  return type && <Pill color={theme.lib.colors.N600Light}>{type}</Pill>;
+  return type && <Pill color={theme.ids.color.option.neutral['600']}>{type}</Pill>;
 }
 
 TagSelectorOverlay.propTypes = {

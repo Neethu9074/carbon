@@ -28,6 +28,7 @@ import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OI
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
+import { getInvitations$ } from 'in-api/users';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -88,7 +89,8 @@ export default connectTo(
     isLdapAvailable: isLdapAvailable(),
     ldapConfig: getLdapConfig(),
     isOidcAvailable: isOidcAvailable(),
-    oidcConfig: getOidcConfig()
+    oidcConfig: getOidcConfig(),
+    invitations: getInvitations$()
   },
 
   function View(props) {

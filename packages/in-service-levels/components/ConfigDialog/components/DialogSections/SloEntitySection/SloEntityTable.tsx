@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { Application, Progress, Website } from '@instana/types';
 import { Li, Stack, Ul } from '@instana/components';
@@ -17,6 +17,9 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { noop } from 'in-services/fixedObjects';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable.mless';
+import classNames from 'classnames';
+
+export const SloEntityTablePageSize = 6;
 
 export interface EntityData {
   id: string;
@@ -27,44 +30,51 @@ interface SloEntityTableProps {
   entityList?: Application[] | Website[];
   onChange: (entityData: EntityData) => void;
   progress: Progress;
-  query: string;
+  canLoadMore?: boolean;
+  loadMore?: () => void;
+  hasError?: boolean;
 }
 
-const dataPerRow = 6;
-
-export default function SloEntityTable({ entityList, onChange, progress, query }: SloEntityTableProps) {
+export default function SloEntityTable({
+  entityList,
+  onChange,
+  progress,
+  canLoadMore,
+  loadMore,
+  hasError
+}: SloEntityTableProps) {
   const { form } = useContext(SloFormContext);
-  const [next, setNext] = useState(dataPerRow);
 
   const entityId = form.getIn(['entity', 'entityId']);
 
   const isDataAvailable = entityList !== undefined && entityList.length > 0;
-
-  const loadMoreData = () => setNext(next + dataPerRow);
 
   if (progress.loading) return <SloEntityTableSkeleton />;
 
   if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
 
   return (
-    <Ul>
-      {entityList
-        .filter(({ label }) => label.includes(query))
-        .slice(0, next)
-        .map(entityData => {
-          return (
-            <Li onClick={() => onChange(entityData)} key={entityData.id}>
-              <Stack direction="horizontal">
-                <CheckboxFancy asRadioButton checked={entityData.id === entityId.value} onChange={noop} />
-                <div className={locals.checkBoxItem}>{entityData.label}</div>
-              </Stack>
-            </Li>
-          );
-        })}
+    <Ul
+      className={classNames({
+        [locals.withError]: hasError
+      })}
+    >
+      {entityList.map(entityData => {
+        return (
+          <Li onClick={() => onChange(entityData)} key={entityData.id}>
+            <Stack direction="horizontal">
+              <CheckboxFancy asRadioButton checked={entityData.id === entityId.value} onChange={noop} />
+              <div className={locals.checkBoxItem}>{entityData.label}</div>
+            </Stack>
+          </Li>
+        );
+      })}
 
-      <Li onClick={loadMoreData} className={locals.loadMore}>
-        {t('in-service-levels:general.loadMore')}
-      </Li>
+      {canLoadMore && loadMore && (
+        <Li onClick={loadMore} className={locals.loadMore}>
+          {t('in-service-levels:general.loadMore')}
+        </Li>
+      )}
     </Ul>
   );
 }

@@ -182,7 +182,7 @@ export default function AlertHeader({
               <Spacer horizontal="normal" />
             </>
           )}
-          {alertConfig.readOnly && !playwithEnabled && (
+          {allowActionButtons && alertConfig.readOnly && !playwithEnabled && (
             <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
                 kind="primaryv2"

@@ -16,14 +16,15 @@ export const productAreas = Object.freeze({
   settings: 'Settings',
   bizops: 'BizOps',
   cloud_foundry: 'Platforms - Cloud Foundry',
-  ibmZ: 'Platforms - IBM Z',
+  ibmZ: 'Platforms - IBM Z HMC',
   kubernetes: 'Platforms - Kubernetes',
   vsphere: 'Platforms - vSphere',
   openstack: 'Platforms - Openstack',
-  ibmpower: 'Platforms - IBM Power',
+  ibmpower: 'Platforms - IBM Power HMC',
   sap: 'Platforms - SAP',
   custom_dashboard: 'Custom Dashboard',
-  agents: 'Agents'
+  agents: 'Agents',
+  power_vc: 'PowerVC'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;

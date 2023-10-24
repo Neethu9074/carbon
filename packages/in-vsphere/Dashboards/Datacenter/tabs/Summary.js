@@ -20,12 +20,13 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cluster }) {
+  const theme = useTheme();
   const snapshotId = cluster.id;
-  const { lightBlue800: usage } = theme.lib.colors;
+  const usage = theme.ids.color.blue['400'];
 
   return (
     <Fragment>

@@ -8,14 +8,14 @@
 
 :local {
   .subtransactions {
-    height: 200px;
+    height: 12.5rem;
     position: relative;
   }
 
   .subtransaction {
     position: absolute;
-    height: 5px;
-    min-width: 1px;
+    height: 0.3125rem;
+    min-width: 0.0625rem;
 
     &:hover {
       cursor: pointer;

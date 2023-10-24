@@ -25,7 +25,9 @@ import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
@@ -33,17 +35,17 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function SmartAlertList() {
-  const handlers = (role as Role).canConfigureCustomAlerts ? actionHandlers : {};
+  const handlers = (role as Role).canConfigureGlobalAlertConfigs ? actionHandlers : {};
   const location = useLocation();
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
-            pageName: 'Synthetic Monitoring > Smart Alerts',
+            pageName: pageNames.synthetic_monitoring_alert,
             pagePath: location?.pathname,
-            productArea: 'Synthetics Monitoring',
-            pageRootName: 'Smart Alerts'
+            productArea: productAreas.synthetic_monitoring,
+            pageRootName: pageNames.smart_alerts
           }}
         />
         <AlertBaseList<SyntheticAlertConfigWithMetadata>
@@ -58,9 +60,11 @@ export default function SmartAlertList() {
         />
       </LeftRightPadding>
       <Footer />
-      <FloatingActionButtons>
-        <CreateSmartAlert />
-      </FloatingActionButtons>
+      {role?.canConfigureGlobalAlertConfigs && (
+        <FloatingActionButtons>
+          <CreateSmartAlert />
+        </FloatingActionButtons>
+      )}
     </Sticky>
   );
 }

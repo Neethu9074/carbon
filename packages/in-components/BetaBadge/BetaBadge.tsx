@@ -7,12 +7,13 @@
 import React from 'react';
 
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function BetaBadge() {
+  const theme = useTheme();
   return (
-    <Pill kind="primary" color={theme.lib.colors.blue800}>
+    <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
       {t('in-components:featureFeedback.labelBETA')}
     </Pill>
   );

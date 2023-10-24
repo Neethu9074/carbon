@@ -144,7 +144,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelErroneousCalls')
                 ],
                 metricIds: ['calls', 'errors'],
-                colors: [theme.lib.colors.lightPrimary240, theme.lib.colors.failure]
+                colors: [theme.lib.colors.chart.strokeColors100[0], theme.lib.carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -178,7 +178,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 formatter: percentage.detailed,
                 labels: [t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelErroneousCallRate')],
                 metricIds: ['errors'],
-                colors: [theme.lib.colors.failure]
+                colors: [theme.lib.carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -396,13 +396,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 tooltipFormatter: number.compact,
                 fallbackMetricValue: 0,
                 metricIds: ['http1xx', 'http2xx', 'http3xx', 'http4xx', 'http5xx'],
-                colors: [
-                  theme.lib.colors.chart.strokeColors25[0],
-                  theme.lib.colors.chart.strokeColors25[1],
-                  theme.lib.colors.chart.strokeColors25[4],
-                  theme.lib.colors.chart.strokeColors25[2],
-                  theme.lib.colors.chart.strokeColors25[6]
-                ]
+                colors: theme.lib.colors.chart.fiveColorPalette
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -453,6 +447,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
                 fallbackMetricValue: 0,
+                colors: theme.lib.colors.chart.fourColorPalette,
                 labels: [
                   t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelGET'),
                   t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelPOST'),
@@ -519,6 +514,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   }
                 ]}
                 translateLabel={label => cacheTypes[label] && cacheTypes[label].long}
+                translateColor={label => cacheTypes[label] && cacheTypes[label].color}
                 renderPostChartContent={MarkerLanes}
               />
             </Col>
@@ -537,6 +533,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     y1={{
                       renderer: Renderer.line,
                       formatter: bytes,
+                      colors: theme.lib.colors.chart.threeColorPalette,
                       labels: [
                         t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelTransferSize'),
                         t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelEncodedBodySize'),

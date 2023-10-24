@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import Pill, { Kind } from 'in-components/Pill';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './BadgeList.mless';
 
@@ -24,6 +24,7 @@ export default function BadgeList<T extends string>({
   kind?: Kind;
   limit?: number;
 }) {
+  const theme = useTheme();
   if (type && !types) {
     types = [type];
   }
@@ -38,7 +39,7 @@ export default function BadgeList<T extends string>({
 
   const remainingTooltip = limitRequired ? (
     <Tooltip align={'topMiddle'} content={remainingTypes.join(', ')}>
-      <Pill key={firstRemainingType} className={locals.badge} color={theme.lib.colors.purple800} kind={kind}>
+      <Pill key={firstRemainingType} className={locals.badge} color={theme.ids.color.option.purple['500']} kind={kind}>
         {'+' + remainingTypes.length}
       </Pill>
     </Tooltip>

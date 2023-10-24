@@ -65,11 +65,11 @@ const CallFrame = forwardRef(function CallFrame(props, ref) {
         {children &&
           children
             .filter(subCall => subCall.model === 'LOG')
-            .map(subCall => (
+            .map((subCall, idx) => (
               <LogIndicators
                 {...props}
                 parentCall={callFrame}
-                key={subCall.id}
+                key={subCall.id + idx}
                 top={top}
                 log={subCall}
                 x={totalDuration ? (subCall.start - traceStart) / totalDuration : 0}

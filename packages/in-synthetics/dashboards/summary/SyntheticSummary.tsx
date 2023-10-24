@@ -27,8 +27,10 @@ import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
@@ -68,8 +70,8 @@ export default function SyntheticSummaryDashboard() {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Synthetics',
-          pageRootName: 'Synthetics Test',
+          productArea: productAreas.synthetic_monitoring,
+          pageRootName: pageNames.synthetic_test,
           pagePath: location?.pathname
         }}
       />
@@ -87,9 +89,11 @@ export default function SyntheticSummaryDashboard() {
         tabChangeTracker={props => trackSyntheticTabChange(props.tab)}
       />
       <Footer />
-      <FloatingActionButtons>
-        <CreateSmartAlert testId={testId} />
-      </FloatingActionButtons>
+      {role?.canConfigureGlobalAlertConfigs && (
+        <FloatingActionButtons>
+          <CreateSmartAlert testId={testId} />
+        </FloatingActionButtons>
+      )}
     </>
   );
 }

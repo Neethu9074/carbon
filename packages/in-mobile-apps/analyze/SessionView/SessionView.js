@@ -21,11 +21,13 @@ import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScre
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import { useCloseSessionViewLink } from 'in-mobile-apps/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { productAreas } from 'in-services/tracking/productAreas';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getTabs from 'in-mobile-apps/analyze/SessionView/tabs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import { shorten } from 'in-services/util/string';
 import useUrlState from 'in-hooks/useUrlState';
@@ -45,8 +47,8 @@ export default function SessionView(props) {
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'EUM: Mobile Apps',
-          pageRootName: 'Analytics'
+          productArea: productAreas.websites_mobile_apps,
+          pageRootName: pageNames.mobile_app_session_start
         }}
       />
 

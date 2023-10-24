@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .list {
@@ -14,12 +13,12 @@
   }
 
   .item {
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     cursor: pointer;
     font-size: 0.75rem;
     padding: 0;
     margin: 0;
-    color: @lib__colors__blue800;
+    color: var(--ids-color-option-blue-500);
     .breakWord();
 
     &:last-child {

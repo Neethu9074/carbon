@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   teamSettings,
   teamSettingsAccessControlApiTokenEdit,
@@ -43,16 +45,24 @@ import {
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
+import {
+  alertsHubEnabled,
+  disableInvitesWithIdpEnabled,
+  logDeletionEnabled,
+  recurrentMaintenanceWindowEnabled
+} from 'in-services/featureFlags';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
-import { alertsHubEnabled, logDeletionEnabled, recurrentMaintenanceWindowEnabled } from 'in-services/featureFlags';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
+import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
@@ -75,13 +85,15 @@ import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub'
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { pageNames } from 'in-services/tracking/pageNames';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-function navigationTreeForRole(role) {
+function navigationTreeForRole(role, isAnyIDPActive) {
   const navigationTree = [];
 
   if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
@@ -99,11 +111,13 @@ function navigationTreeForRole(role) {
           }
         ]
       });
-      accessControlPages.push({
-        path: teamSettingsAccessControlInvites,
-        label: t('in-settings:tabs.pendingInvitations'),
-        component: InvitesPage
-      });
+      if (!isAnyIDPActive) {
+        accessControlPages.push({
+          path: teamSettingsAccessControlInvites,
+          label: t('in-settings:tabs.pendingInvitations'),
+          component: InvitesPage
+        });
+      }
     }
 
     if (role.canConfigureTeams) {
@@ -344,17 +358,24 @@ function navigationTreeForRole(role) {
 }
 
 export default function View(props) {
+  const isSamlConfigured = useObservable(getSamlConfig, []);
+  const isLdapConfigured = useObservable(getLdapConfig, []);
+  const isOidcConfigured = useObservable(getOidcConfig, []);
+
+  const isAnyIDPActive =
+    disableInvitesWithIdpEnabled &&
+    (isSamlConfigured?.data?.activated || isLdapConfigured?.data?.activated || isOidcConfigured?.data?.activated);
   return (
     <Fragment>
       <ViewTrackingMeta
         data={{
-          productArea: 'Settings',
-          pageRootName: 'Team Settings'
+          productArea: productAreas.settings,
+          pageRootName: pageNames.team_settings
         }}
       />
 
       <StickySidebarNavigationAndContent
-        navigationTree={navigationTreeForRole(role)}
+        navigationTree={navigationTreeForRole(role, isAnyIDPActive)}
         redirectToDefaultPage={findFirstPermittedTeamPage()}
         redirectFrom={teamSettings}
         NotFoundPage={NotFoundPage}

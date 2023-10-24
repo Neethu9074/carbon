@@ -11,8 +11,10 @@ import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getO
 import { regionList, useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -63,8 +65,8 @@ export default connectTo(
         <Title title={t('in-openstack:regions')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'openstack',
-            pageRootName: t('in-openstack:regions')
+            productArea: productAreas.openstack,
+            pageRootName: pageNames.open_stack_regions
           }}
         />
 

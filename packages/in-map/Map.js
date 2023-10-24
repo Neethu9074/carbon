@@ -13,10 +13,12 @@ import { view$, types as views } from 'in-infrastructure/perspectives';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { setCanvas, clear } from 'in-map/stores/indexStore';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getSingle } from 'in-services/settings/settings';
 import { isWebGLSupported } from 'in-map/services/webGL';
 import { getSetting$ } from 'in-services/settings';
@@ -90,8 +92,8 @@ export default function Map() {
     <div className={locals.map}>
       <ViewTrackingMeta
         data={{
-          productArea: 'Infrastructure',
-          pageRootName: t('in-map:infraMap')
+          productArea: productAreas.infrastructure,
+          pageRootName: pageNames.infra_map
         }}
       />
 

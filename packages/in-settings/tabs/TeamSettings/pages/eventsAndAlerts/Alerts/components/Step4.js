@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import { fromJS } from 'immutable';
+import { filter } from 'lodash';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertChannelsList, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
@@ -21,13 +21,17 @@ import { t } from 'in-i18n';
 export default function Step4({ form, setForm }) {
   const selectedChannels = form.get('selectedAlertChannels') ? form.get('selectedAlertChannels').value.toJS() : [];
 
+  const alertChannelInfos = useMemo(() => {
+    return getAlertChannelsInfosMutable();
+  }, []);
+
   return (
     <Fragment>
       <div style={{ marginTop: '2rem' }} />
       <SectionHeading>{t('in-settings:tabs.4Alerting')}</SectionHeading>
       <AlertChannelsList
         setTitle={false}
-        loadEntities={() => getSelectedAlertChannels(selectedChannels)}
+        loadEntities={() => getSelectedAlertChannels(selectedChannels, alertChannelInfos)}
         hasRowNavigation={false}
         noDataMessage={t('in-settings:tabs.noAlertChannelsSelected')}
         tableActions={alertChannelSelectionTableActions(form, setForm)}
@@ -37,7 +41,7 @@ export default function Step4({ form, setForm }) {
             onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
             title={t('in-settings:tabs.addAlertChannels')}
             label={t('in-settings:tabs.addAlertChannels')}
-            listComponent={AlertChannelsList}
+            listComponent={props => <AlertChannelsList {...props} loadEntities={() => alertChannelInfos} />}
             listComponentRightHeader={noRightHeader}
             hiddenIds={form.get('selectedAlertChannels').value.toJS()}
             limit={limitForConnectedAlertChannels}
@@ -55,13 +59,16 @@ export default function Step4({ form, setForm }) {
   );
 }
 
-const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function(selectedChannels) {
+function getSelectedAlertChannels(selectedChannels, alertChannelInfos) {
   if (selectedChannels.length === 0) {
     return alwaysEmptyArray;
   }
-  // null is treated as a pending result when converting the HTTP response into a result
-  return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
-});
+  return alertChannelInfos.map(channels =>
+    filter(channels, function (channel) {
+      return selectedChannels.indexOf(channel.id) >= 0;
+    })
+  );
+}
 
 function alertChannelSelectionTableActions(form, setForm) {
   return {

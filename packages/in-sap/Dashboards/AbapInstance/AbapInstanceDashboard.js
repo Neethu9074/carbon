@@ -14,6 +14,7 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import getAbapInstance from 'in-sap/subscriptions/getAbapInstance';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { abapInstanceDashboard } from 'in-sap/navigation/paths';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
@@ -21,6 +22,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-sap/Dashboards/AbapInstance/tabs/index';
 import { AbapInstanceBreadcrumbs } from 'in-sap/breadcrumbs';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -43,8 +45,8 @@ export default function AbapInstanceDashboard({ location }) {
       <Breadcrumbs items={AbapInstanceBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.AbapInstance')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.abap_instance
         }}
       />
 

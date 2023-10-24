@@ -14,6 +14,7 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
+import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 
 export default function TargetSection() {
@@ -22,7 +23,7 @@ export default function TargetSection() {
   const isTargetFieldValid = isFieldValid(sloTargetField);
 
   return (
-    <Section title={t('in-service-levels:createSloDialog.sloTarget')}>
+    <Section title={t('in-service-levels:createSloDialog.sloTarget')} titleWidth={titleWidth}>
       <PercentageInput
         id={'target'}
         value={sloTargetField.value}

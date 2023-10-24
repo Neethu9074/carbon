@@ -96,7 +96,12 @@ export default function InfrastructureIssuesAndChanges({ businessProcessId, busi
         renderer: Renderer.stackedBar,
         labels: ['Infra Issues', 'Offline', 'Online', 'Changes'],
         metricIds: ['issues', 'offline', 'online', 'change'],
-        colors: [theme.lib.colors.pink800, '#9aa5a9', '#99e1e1', '#cdbcf0'],
+        colors: [
+          theme.lib.colors.chart.threeColorPalette[0],
+          theme.lib.carbonAlert.gray60,
+          theme.lib.colors.chart.threeColorPalette[1],
+          theme.lib.colors.chart.threeColorPalette[2]
+        ],
         metrics: [],
         formatter: getFormatter('number.compact')
       }}

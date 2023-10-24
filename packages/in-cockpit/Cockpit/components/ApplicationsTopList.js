@@ -6,11 +6,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
+import { just } from '@instana/observables';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
@@ -97,66 +97,65 @@ export default function ApplicationsTopList({ applicationId, config }) {
 function getItem(id, timeConfig) {
   const granularity = getSparkChartGranularity(timeConfig);
 
-  return combineLatest([
-    getApplication({ id }),
-    getMetrics({
-      filter: {
-        timeConfig,
-        application: id
-      },
-      metrics: {
-        services: {
-          metric: 'services',
-          aggregation: 'DISTINCT_COUNT'
+  return getApplication({ id }).flatMap(applicationResult => {
+    if (isLoading(applicationResult) || hasError(applicationResult)) {
+      return just(applicationResult);
+    } else {
+      return getMetrics({
+        filter: {
+          timeConfig,
+          application: id,
+          applicationBoundaryScope: applicationResult.data.boundaryScope
         },
-        calls: {
-          metric: 'calls',
-          aggregation: 'SUM',
-          granularity
-        },
-        callsAgg: {
-          metric: 'calls',
-          aggregation: 'SUM'
-        },
-        latencyAgg: {
-          metric: 'latency',
-          aggregation: 'MEAN'
-        },
-        latency: {
-          metric: 'latency',
-          aggregation: 'MEAN',
-          granularity
-        },
-        errorsAgg: {
-          metric: 'errors',
-          aggregation: 'MEAN'
-        },
-        errors: {
-          metric: 'errors',
-          aggregation: 'MEAN',
-          granularity
+        metrics: {
+          services: {
+            metric: 'services',
+            aggregation: 'DISTINCT_COUNT'
+          },
+          calls: {
+            metric: 'calls',
+            aggregation: 'SUM',
+            granularity
+          },
+          callsAgg: {
+            metric: 'calls',
+            aggregation: 'SUM'
+          },
+          latencyAgg: {
+            metric: 'latency',
+            aggregation: 'MEAN'
+          },
+          latency: {
+            metric: 'latency',
+            aggregation: 'MEAN',
+            granularity
+          },
+          errorsAgg: {
+            metric: 'errors',
+            aggregation: 'MEAN'
+          },
+          errors: {
+            metric: 'errors',
+            aggregation: 'MEAN',
+            granularity
+          }
         }
-      }
-    })
-  ]).map(([applicationResult, metricResult]) => combineResults(applicationResult, metricResult));
-}
-
-function combineResults(applicationResult, metricResult) {
-  if (isLoading(applicationResult) || hasError(applicationResult)) {
-    return applicationResult;
-  }
-  if (isLoading(metricResult) || hasError(metricResult)) {
-    return metricResult;
-  }
-
-  return {
-    application: {
-      ...applicationResult.data
-    },
-    metrics: { ...metricResult.data },
-    mainKpiValue: get(metricResult.data, ['callsAgg', 0, 1]),
-    time: metricResult.time
-  };
+      }).map(metricResult => {
+        if (isLoading(metricResult) || hasError(metricResult)) {
+          return metricResult;
+        } else {
+          return {
+            application: {
+              ...applicationResult.data
+            },
+            metrics: { ...metricResult.data },
+            mainKpiValue: get(metricResult.data, ['callsAgg', 0, 1]),
+            time: metricResult.time
+          };
+        }
+      });
+    }
+  });
 }
 
 function BoundaryScopeColumn({ item }) {

@@ -70,15 +70,16 @@ interface GetListProps {
 
 function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }: GetListProps) {
   return getMobileAppPaginatedBeaconGroups({
-    tagFilters: tagFilters.concat([
+    tagFilters: [
       {
         name: 'mobileBeacon.type',
         stringValue: 'httpRequest',
         operator: 'EQUALS',
         type: 'TAG_FILTER',
         entity: 'NOT_APPLICABLE'
-      }
-    ]),
+      },
+      ...tagFilters
+    ],
     timeConfig,
     pagination: {
       page: 1,

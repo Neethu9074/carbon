@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 
@@ -20,7 +20,7 @@ interface HealthDotProps {
 }
 
 export default function HealthDot({
-  color = theme.lib.colors.fadedTeal800,
+  color = oldTheme.lib.colors.fadedTeal800, // We don't have a alternative ids color for fadedTeal800
   explanation,
   iconSize,
   className

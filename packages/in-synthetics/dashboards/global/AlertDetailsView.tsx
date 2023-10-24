@@ -23,12 +23,15 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 
 export default function AlertDetailsView() {
   const timeConfig = useTimeConfig();
@@ -52,8 +55,8 @@ export default function AlertDetailsView() {
         <LeftRightPadding>
           <ViewTrackingMeta
             data={{
-              productArea: 'Synthetic Monitoring',
-              pageRootName: 'Global Alert Details',
+              productArea: productAreas.synthetic_monitoring,
+              pageRootName: pageNames.global_alerts,
               pagePath: location?.pathname
             }}
           />
@@ -61,9 +64,11 @@ export default function AlertDetailsView() {
         </LeftRightPadding>
       )}
       <Footer />
-      <FloatingActionButtons>
-        <CreateSmartAlert />
-      </FloatingActionButtons>
+      {role?.canConfigureGlobalAlertConfigs && (
+        <FloatingActionButtons>
+          <CreateSmartAlert />
+        </FloatingActionButtons>
+      )}
     </Sticky>
   ) : (
     <>
@@ -86,8 +91,8 @@ export default function AlertDetailsView() {
           <LeftRightPadding>
             <ViewTrackingMeta
               data={{
-                productArea: 'Synthetic Monitoring',
-                pageRootName: 'Local Alert Details',
+                productArea: productAreas.synthetic_monitoring,
+                pageRootName: pageNames.local_alerts,
                 pagePath: location?.pathname
               }}
             />
@@ -95,9 +100,11 @@ export default function AlertDetailsView() {
           </LeftRightPadding>
         )}
         <Footer />
-        <FloatingActionButtons>
-          <CreateSmartAlert testId={testId} />
-        </FloatingActionButtons>
+        {role?.canConfigureGlobalAlertConfigs && (
+          <FloatingActionButtons>
+            <CreateSmartAlert testId={testId} />
+          </FloatingActionButtons>
+        )}
       </Sticky>
     </>
   );

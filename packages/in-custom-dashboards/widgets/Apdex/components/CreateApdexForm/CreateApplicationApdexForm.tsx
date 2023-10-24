@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Item } from 'formalistic';
 import React from 'react';
 
 import { ApplicationBoundaryScope } from '@instana/types';
@@ -65,12 +66,17 @@ export default function CreateApplicationApdexForm({
 
   useSetFormFooterEffect({
     formId: 'createApdexForm',
-    isDisabled: !form.hierarchyTouched || !form.hierarchyValid || !isFilterExpressionValid,
     cloneOnly: isEditing,
     isSaving,
     onCancel,
     setFooter
   });
+
+  const handleSubmit = (form: Item) => {
+    if (!isFilterExpressionValid) return;
+
+    onSubmit(form);
+  };
 
   // eslint-disable-next-line import/no-deprecated
   const apdexNameField = getField<string>(form, [apdexNameKey]);
@@ -80,7 +86,7 @@ export default function CreateApplicationApdexForm({
   const threshold = thresholdField?.value;
 
   return (
-    <Form form={form} setForm={f => onChange([], () => f)} onSubmit={onSubmit} formId="createApdexForm">
+    <Form form={form} setForm={f => onChange([], () => f)} onSubmit={handleSubmit} formId="createApdexForm">
       <Stack gap="large">
         {isEditing && <EditConfigNotice />}
         <Stack component="section" gap="normal">

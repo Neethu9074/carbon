@@ -53,7 +53,9 @@ import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
@@ -169,8 +171,8 @@ function CockpitInner({ settings, width }) {
         <Title title={t('in-cockpit:cockpit.home')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Home',
-            pageRootName: 'Home'
+            productArea: productAreas.home,
+            pageRootName: pageNames.home
           }}
         />
         <Sticky header={<Header />}>

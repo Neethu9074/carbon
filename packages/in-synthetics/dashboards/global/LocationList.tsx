@@ -19,7 +19,9 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLocationList from 'in-synthetics/subscriptions/getLocationList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { locationNameTagName } from 'in-synthetics/tags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
@@ -51,8 +53,8 @@ export default function LocationList() {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
-            productArea: 'Synthetic Monitoring',
-            pageRootName: 'Synthetic Location'
+            productArea: productAreas.synthetic_monitoring,
+            pageRootName: pageNames.locations
           }}
         />
         <ServerTableWithUrlState

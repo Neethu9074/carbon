@@ -64,8 +64,10 @@ import { ActionSection } from 'in-components/workspace/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityExploreHeader from '../components/EntityExploreHeader';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
@@ -163,8 +165,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
     >
       <ViewTrackingMeta
         data={{
-          productArea: 'Infrastructure',
-          pageRootName: 'Infra Explore'
+          productArea: productAreas.infrastructure,
+          pageRootName: pageNames.infra_explore
         }}
       />
 

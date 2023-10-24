@@ -1,12 +1,12 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2023
  * (c) Copyright Instana Inc.
  */
 
-import irpt from 'react-immutable-proptypes';
-import rpt from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -35,134 +35,111 @@ import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
-import 'in-events/components/legacy/EventListItem.less';
+import locals from './EventListItem.mless';
 
-const block = 'in-event-view-incident-event-list-item';
+export default function EventListItem({ triggeringProblemId, event, latestSnapshot, isRCA }) {
+  const theme = useTheme();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeEventBackground, setActiveEventBackground] = useState(
+    isRCA ? theme.ids.color.option['deep-purple'][500] : ''
+  );
+  const background =
+    useObservable(
+      getColorForEventAtFocusedMomentAsStream(event, {
+        defaultColor: isRCA ? theme.ids.color.option['deep-purple'][500] : theme.cds['background-active']
+      }),
+      [event]
+    ) ?? '';
 
-export default connectTo(
-  props => {
-    return {
-      background: getColorForEventAtFocusedMomentAsStream(props.event, { defaultColor: '#bababa' })
-    };
-  },
-  class extends React.Component {
-    static displayName = 'EventListItem';
-
-    static propTypes = {
-      triggeringProblemId: rpt.string,
-      event: irpt.map.isRequired,
-      background: rpt.string,
-      /**
-       * The latestSnapshot is present only for entityVerification or HostAvailability event
-       */
-      latestSnapshot: irpt.map,
-      isRCA: rpt.bool
-    };
-
-    state = {
-      isExpanded: false
-    };
-
-    render() {
-      const triggeringProblemId = this.props.triggeringProblemId;
-      const isExpanded = this.state.isExpanded;
-      const background = this.props.isRCA ? theme.lib.colors.deepPurple800 : this.props.background;
-      const event = this.props.event;
-      const latestSnapshot = this.props.latestSnapshot;
-      const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
-
-      let rightClassName = `${block}__right`;
-
-      const serviceImpact = hasServiceImpact(event);
-      let className = block;
-      if (serviceImpact) {
-        className += ` ${className}__service-impact`;
-      }
-
-      const isTriggeringEvent = triggeringProblemId === event.getIn(['problem', 'id']);
-
-      return (
-        <div className={className} id={`event-${event.get('id')}`}>
-          {serviceImpact && (
-            <Marker className={`${block}__affected-service-marker`} label={t('in-events:labelServiceImpact')} />
-          )}
-
-          {isTriggeringEvent && serviceImpact && (
-            <Marker className={`${block}__triggering-event-marker`} label={t('in-events:labelTriggeringEvent')} />
-          )}
-
-          <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
-
-          <div className={rightClassName}>
-            <div className={`${block}__background`} style={{ background }} />
-
-            <div className={`${block}__left-border`} style={{ background }} />
-
-            <div className={`${block}__content-wrapper`}>
-              <DetailsHeader
-                event={event}
-                iconType={isExpanded ? 'lib_openclose_remove_circle_outline' : 'lib_openclose_add_circle_outline'}
-                background={background}
-                timeConfig={timeConfigFromEvent}
-                onClick={() => this.setState({ isExpanded: !isExpanded })}
-                isRCA={this.props.isRCA}
-              />
-              {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
-              {isExpanded ? (
-                <div className={`${block}__expanded-details`}>
-                  <ListItemContent event={event} latestSnapshot={latestSnapshot} />
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </div>
-      );
+  useEffect(() => {
+    if (background && background !== activeEventBackground) {
+      setActiveEventBackground(background);
     }
-  }
-);
+  }, [activeEventBackground, background]);
+
+  const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+  const serviceImpact = hasServiceImpact(event);
+
+  const isTriggeringEvent = triggeringProblemId === event.getIn(['problem', 'id']);
+
+  return (
+    <div
+      className={classNames({ [locals.inEventViewIncidentEventListItem]: true, [locals.serviceImpact]: serviceImpact })}
+      id={`event-${event.get('id')}`}
+    >
+      {serviceImpact && <Marker className={locals.affectedServiceMarker} label={t('in-events:labelServiceImpact')} />}
+
+      {isTriggeringEvent && serviceImpact && (
+        <Marker className={locals.triggeringEventMarker} label={t('in-events:labelTriggeringEvent')} />
+      )}
+
+      <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
+
+      <div className={locals.right}>
+        <div className={locals.background} style={{ background }} />
+
+        <div className={locals.leftBorder} style={{ background }} />
+
+        <div className={locals.contentWrapper}>
+          <DetailsHeader
+            event={event}
+            iconType={isExpanded ? 'lib_openclose_remove_circle_outline' : 'lib_openclose_add_circle_outline'}
+            background={background}
+            timeConfig={timeConfigFromEvent}
+            onClick={() => setIsExpanded(!isExpanded)}
+            isRCA={isRCA}
+          />
+          {isExpanded ? <div className={locals.border} style={{ background }} /> : null}
+          {isExpanded ? (
+            <div className={locals.expandedDetails}>
+              <ListItemContent event={event} latestSnapshot={latestSnapshot} />
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function TimeIndicator({ event, isTriggeringEvent }) {
   const { location, createHref } = useNavigation();
   const { windowSize } = useTimeConfig();
 
-  let timeClass = `${block}__time`;
-  if (isTriggeringEvent) {
-    timeClass += ` ${timeClass}--triggering`;
-  }
   return (
-    <div className={`${block}__time-indicator`}>
+    <div className={locals.timeIndicator}>
       <Link href={createHref(getCurrentViewWithTimeFocusedAt(event.get('start'), windowSize, location))}>
-        <span className={timeClass}>{formatTime(event.get('start'))}</span>
+        <span className={classNames({ [locals.time]: true, [locals.triggeringTime]: isTriggeringEvent })}>
+          {formatTime(event.get('start'))}
+        </span>
       </Link>
-      <div className={`${block}__line`} />
-      <div className={`${block}__dot`} />
+      <div className={locals.line} />
+      <div className={locals.dot} />
     </div>
   );
 }
 
 function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA }) {
-  const className = `${block}__heading`;
-  if (isRCA) background = background + '80'; //50% opacity of background colour
+  const theme = useTheme();
+  if (isRCA) background = theme.ids.color.option.purple[500]; //50% opacity of background colour
   return (
-    <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
-      <div className={`${block}__left`}>
-        <div className={`${block}__icon-wrapper`} style={{ background }}>
+    <div className={locals.heading} id={`event-${event.get('id')}`} onClick={onClick}>
+      <div className={locals.left}>
+        <div className={locals.iconWrapper} style={{ background }}>
           <EventIcon
             event={event}
             tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
-            color={isRCA ? theme.lib.colors.white : undefined}
+            color={isRCA ? theme.ids.color.option.white : undefined}
           />
         </div>
 
-        <div className={`${block}__entity`}>
+        <div className={locals.entity}>
           <div>
-            <span className={`${block}__problem-text`}>{event.getIn(['problem', 'problemText'])}</span>
+            <span className={locals.problemText}>{event.getIn(['problem', 'problemText'])}</span>
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
@@ -170,7 +147,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA
         </div>
       </div>
 
-      <SvgIcon type={iconType} size="xs" color="#7b8e96" />
+      <SvgIcon type={iconType} size="xs" color={theme.ids.color.option.neutral[600]} />
     </div>
   );
 }

@@ -18,8 +18,10 @@ import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { getDashboardForEntity } from 'in-sap/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { sapInstanceList } from 'in-sap/navigation/paths';
 import { timeConfig$ } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink';
@@ -102,8 +104,8 @@ export default connectTo(
         <Title title={t('in-sap:abapOrJavaInstances')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'abapinstance',
-            pageRootName: t('in-sap:abapOrJavaInstances')
+            productArea: productAreas.sap,
+            pageRootName: pageNames.instances
           }}
         />
 

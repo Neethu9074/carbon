@@ -81,7 +81,7 @@ export default function CallsErrorsChart({
       id: 'erroneousCalls',
       metric: 'erroneousCalls',
       label: erroneousCallsLabel,
-      color: theme.lib.colors.failure
+      color: theme.lib.carbonAlert.red60
     }
   ];
 
@@ -175,8 +175,8 @@ export default function CallsErrorsChart({
         })
       }
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset > 0}
-      reverseTooltipOrder={timeShiftConfig.offset > 0}
+      reverseLegendOrder={timeShiftConfig.offset !== 0}
+      reverseTooltipOrder={timeShiftConfig.offset !== 0}
       config={{
         y1: {
           metrics: metricConfigs,

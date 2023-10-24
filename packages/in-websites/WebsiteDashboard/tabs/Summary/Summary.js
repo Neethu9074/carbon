@@ -327,7 +327,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               formatter: number.forcedCompact,
               labels: [t('in-websites:websiteDashboard.tabs.summary.summaryLabelJSErrors')],
               metricIds: ['errors'],
-              colors: [theme.lib.colors.failure]
+              colors: [theme.lib.carbonAlert.red60]
             }}
             metricsConfiguration={{
               timeConfig,

@@ -74,6 +74,8 @@ export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashB
 
 export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', false);
 
+export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', false);
+
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',
@@ -112,7 +114,6 @@ export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('cus
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
-export const infraSmartAlertsDetailsPageEnabled = isFeatureFlagEnabled('infraSmartAlertsDetailsPageEnabled');
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
@@ -175,6 +176,10 @@ export const recurrentMaintenanceWindowsTabsEnabled = isFeatureFlagEnabled(
   'recurrentMaintenanceWindowsTabsEnabled',
   false
 );
+export const syntheticsFilterForMaintenanceWindowsEnabled = isFeatureFlagEnabled(
+  'syntheticsFilterForMaintenanceWindowsEnabled',
+  false
+);
 
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
 
@@ -191,3 +196,5 @@ export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', tru
 export const actionsLaneEnabled = isFeatureFlagEnabled('actionsLaneEnabled', false);
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
+
+export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);

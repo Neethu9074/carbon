@@ -21,6 +21,7 @@ import { clusterList, useClusterDashboard } from 'in-kubernetes/navigation/paths
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -140,7 +141,7 @@ export default connectTo(
         <Title title={t('in-kubernetes:clusters')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Kubernetes',
+            productArea: productAreas.kubernetes,
             pageRootName: t('in-kubernetes:kubernetesPageRootName', {
               objectType: t('in-kubernetes:clusters')
             })

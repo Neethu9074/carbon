@@ -63,8 +63,10 @@ import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { minutes } from 'in-services/time/time';
@@ -172,10 +174,10 @@ export default function TestSummaryList() {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
-            pageName: 'Synthetic Monitoring > Tests',
+            pageName: pageNames.synthetic_monitoring_tests,
             pagePath: location?.pathname,
-            productArea: 'Synthetic Monitoring',
-            pageRootName: 'Synthetic Monitoring'
+            productArea: productAreas.synthetic_monitoring,
+            pageRootName: pageNames.synthetic_monitoring
           }}
         />
         <ServerTableWithUrlState
@@ -189,15 +191,20 @@ export default function TestSummaryList() {
         />
       </LeftRightPadding>
       <Footer />
-      <FloatingActionButtons>
-        <FloatingActionButtonMenu>
-          {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
 
-          <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
-            {t('in-synthetics:createSmartAlert.buttonLabel')}
-          </Button>
-        </FloatingActionButtonMenu>
-      </FloatingActionButtons>
+      {(role?.canConfigureSyntheticTests || role?.canConfigureGlobalAlertConfigs) && (
+        <FloatingActionButtons>
+          <FloatingActionButtonMenu>
+            {role?.canConfigureSyntheticTests && <CreateSyntheticTest onClose={close} />}
+
+            {role?.canConfigureGlobalAlertConfigs && (
+              <Button onClick={showSADialog} icon="lib_alerts_create" kind="primaryv2">
+                {t('in-synthetics:createSmartAlert.buttonLabel')}
+              </Button>
+            )}
+          </FloatingActionButtonMenu>
+        </FloatingActionButtons>
+      )}
     </Sticky>
   );
 }

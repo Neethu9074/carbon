@@ -21,9 +21,9 @@ import {
   ResultDetailsResponse,
   ResultMetadataResponse
 } from 'in-synthetics/utils/constants';
+import BrowserTestMainSection from 'in-synthetics/dashboards/details/components/browser/BrowserTestMainSection';
 import DashboardHeader, { ContextConfiguration } from 'in-components/DashboardHeader/DashboardHeader';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import { syntheticDetailsPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
@@ -44,7 +44,9 @@ import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
 import { bytes, meanLatency } from 'in-services/formatters/number';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTestResultMetadata } from 'in-synthetics/api';
@@ -169,8 +171,8 @@ export default function SyntheticAnalyzeView() {
           <LeftRightPadding>
             <ViewTrackingMeta
               data={{
-                productArea: 'Synthetic Monitoring',
-                pageRootName: 'Synthetic Test Result Detail',
+                productArea: productAreas.synthetic_monitoring,
+                pageRootName: pageNames.synthetic_test_result,
                 pagePath: location?.pathname
               }}
             />
@@ -248,7 +250,7 @@ export default function SyntheticAnalyzeView() {
               <Row>
                 <Col lg={12}>
                   {isBrowserTest ? (
-                    <BrowserTestTimeline
+                    <BrowserTestMainSection
                       details={timelineDetails}
                       startTime={startTime}
                       finishTime={finishTime}

@@ -65,17 +65,21 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   const updateForm = useSloFormSideEffects(form, setForm);
   const [submitStatus, doSubmit] = useFormSubmission(getFormSubmitAction(mode));
 
+  const entityIdField = form.getIn(['entity', 'entityId']);
+  const tagFilterField = form.getIn(['scope', 'tagFilterExpression']);
   const nameField = form.getIn(['nameTags', 'name']);
   const targetField = form.getIn(['objective', 'target']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const dateField = form.getIn(['objective', 'startTimestamp', 'date']);
   const timeField = form.getIn(['objective', 'startTimestamp', 'time']);
 
+  const isEntityIdFieldValid = isFieldValid(entityIdField);
   const isNameValid = isFieldValid(nameField);
   const isTargetFieldValid = isFieldValid(targetField);
   const isThresholdValid = isFieldValid(thresholdField);
   const isDateFieldValid = isFieldValid(dateField);
   const isTimeFieldValid = isFieldValid(timeField);
+  const tagFilterFieldValid = isFieldValid(tagFilterField);
 
   const navItems: Array<NavItem> = [
     {
@@ -83,14 +87,14 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
       label: t('in-service-levels:createSloDialog.selectEntityNavItem'),
       scrollId: '1-select-entity',
       title: t('in-service-levels:createSloDialog.selectEntityNavItem'),
-      valid: true
+      valid: isEntityIdFieldValid
     },
     {
       content: <SloScopeSection />,
       label: t('in-service-levels:createSloDialog.selectScopeNavItem'),
       scrollId: '2-select-scope',
       title: t('in-service-levels:createSloDialog.selectScopeNavItem'),
-      valid: true
+      valid: tagFilterFieldValid
     },
     {
       content: <SloBlueprintsSection />,

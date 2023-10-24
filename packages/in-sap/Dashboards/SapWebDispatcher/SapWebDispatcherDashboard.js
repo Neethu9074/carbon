@@ -10,17 +10,19 @@ import { get } from 'lodash';
 import { hostId as matrixHostId, systemPrefix, systemSnapShotPrefix } from 'in-sap/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import getSapWebDispatcher from 'in-sap/subscriptions/getSapWebDispatcher';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import { sapWebDispatcherDashboard } from 'in-sap/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { sapWebDispatcherDashboard } from 'in-sap/navigation/paths';
+import tabs from 'in-sap/Dashboards/SapWebDispatcher/tabs/index';
+import { SapWebDispatcherBreadcrumbs } from 'in-sap/breadcrumbs';
+import { productAreas } from 'in-services/tracking/productAreas';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import tabs from 'in-sap/Dashboards/SapWebDispatcher/tabs/index';
-import { SapWebDispatcherBreadcrumbs } from 'in-sap/breadcrumbs';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
@@ -44,8 +46,8 @@ export default function SapWebDispatcherDashboard({ location }) {
       <Breadcrumbs items={SapWebDispatcherBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
-          productArea: 'SAP',
-          pageRootName: t('in-sap:dashboards.sapWebDispatcher')
+          productArea: productAreas.sap,
+          pageRootName: pageNames.sap_web_dispatcher
         }}
       />
 
