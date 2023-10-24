@@ -25,9 +25,9 @@ export const getType = (type: string) => {
   } else if (isAnsible(type)) {
     return t('in-automation:ActionCatalog.ansible');
   } else if (isGithub(type)) {
-    return 'Github';
+    return t('in-automation:ActionCatalog.github');
   } else if (isGitlab(type)) {
-    return 'Gitlab';
+    return t('in-automation:ActionCatalog.gitlab');
   } else {
     return type;
   }
@@ -238,9 +238,9 @@ export const ISSUE = 'issue';
 export const INCIDENT = 'incident';
 export const TEST_CASE = 'test_case';
 export const GL_ISSUE_TYPES = Object.freeze([
-  { value: ISSUE, translation: 'Issue' },
-  { value: INCIDENT, translation: 'Incident' },
-  { value: TEST_CASE, translation: 'Testcase' }
+  { value: ISSUE, translation: t('in-automation:issue') },
+  { value: INCIDENT, translation: t('in-automation:incident') },
+  { value: TEST_CASE, translation: t('in-automation:testcase') }
 ]);
 
 export const NO_AUTH = 'noAuth';

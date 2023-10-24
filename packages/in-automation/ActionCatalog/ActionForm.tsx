@@ -628,7 +628,7 @@ const GitlabSection = ({
           {projectId.map(field => (
             <FormGroup>
               <Label htmlFor="gitlab-projectId" hasError={!field.valid && field.touched}>
-                Project Id
+                {t('in-automation:projectId')}
               </Label>
               <Input
                 id="gitlab-projectId"
@@ -752,7 +752,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
           {gitlab_description.map(field => (
             <FormGroup>
               <Label htmlFor="gitlab-description" hasError={!field.valid && field.touched}>
-                Description
+                {t('in-automation:ActionCatalog.description')}
               </Label>
               <TextArea
                 id="gitlab-description"
@@ -781,19 +781,13 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
       <FormGroup>
         {issue_type.map(field => (
           <FormGroup>
-            <Label htmlFor="github-ticket-type" hasError={!field.valid && field.touched}>
-              {t('in-automation:ticketType')}
+            <Label htmlFor="gitlab-issue-type" hasError={!field.valid && field.touched}>
+              {t('in-automation:issueType')}
             </Label>
             <Select
-              id="github-ticket-type"
+              id="gitlab-issue-type"
               value={field.value}
               disabled={isNotEditable}
-              // onChange={e =>
-              //   onChange('issue_type', e.target.value, updatedForm => {
-              //     const type = (updatedForm.get('issue_type') as Field<string>).value;
-              //     return updatedForm;
-              //   })
-              // }
               onChange={e => onChange('issue_type', e.target.value)}
               hasError={!field.valid && field.touched}
             >
