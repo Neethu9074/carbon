@@ -9,7 +9,7 @@
 :local {
   .main {
     cursor: not-allowed;
-    font-size: @lib__typography__h100__font-size;
+    font-size: var(--ids-font-size-option-heading-100);
 
     width: 100%;
   }

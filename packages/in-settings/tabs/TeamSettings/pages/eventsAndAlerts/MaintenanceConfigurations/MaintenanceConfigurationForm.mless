@@ -54,7 +54,7 @@
     margin-left: 0.5rem;
   }
   .stepTitle {
-    font-size: @lib__typography__h200__font-size;
+    font-size: var(--ids-font-size-option-heading-200);
     font-weight: 600;
     line-height: 1.5rem;
     // allow beta badge placed besides the title

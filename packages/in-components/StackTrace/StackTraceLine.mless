@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: space-between;
     color: var(--ids-color-option-neutral-500);
-    font-family: @font-family-sans-serif;
+    font-family: var(--typography-font-family-sans-serif);
 
     border: 1px solid var(--ids-color-option-neutral-500);
     border-top: 0;

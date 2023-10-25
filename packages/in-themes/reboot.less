@@ -58,14 +58,31 @@ section {
 //    the `inherit` value on things like `<th>` elements.
 
 body {
+  /*
+    Workaround, until the design tokens will be applied to body instead of
+    an element with a classname that references the theme like "g10"
+   */
+  --ids-font-family-option-sans-serif:
+          "IBM Plex Sans",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          ".SFNSText-Regular",
+          sans-serif;
+  --ids-font-size-option-body-small: 0.75rem;
+  --ids-color-option-neutral-100: #f7f9fa;
+
+  /* color nowhere defined anywhere else. Drop it? */
+  @font-color: #222627;
+
   margin: 0; // 1
-  font-family: @font-family-sans-serif;
-  font-size: 0.75rem;
+  font-family: var(--ids-font-family-option-sans-serif);
+  font-size: var(--ids-font-size-option-body-small);
   font-weight: normal;
   line-height: 1.15;
   color: @font-color;
   text-align: left; // 3
-  background-color: #f7f9fa; // 2
+  background-color: var(--ids-color-option-neutral-100);
 }
 
 // Suppress the focus outline on elements that cannot be accessed via keyboard.
@@ -445,7 +462,7 @@ legend {
   max-width: 100%; // 1
   padding: 0;
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: var(--ids-font-size-option-heading-400);
   line-height: inherit;
   color: inherit; // 2
   white-space: normal; // 1
