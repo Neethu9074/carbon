@@ -452,10 +452,11 @@ function List({
 
 export function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ metric, aggregation }) => ({
+    ({ metric, aggregation, label, regex }) => ({
       metric,
       aggregation,
-      label: mapData(metricMetadatas, data => data[metric]?.label)?.data
+      label: mapData(metricMetadatas, data => data[metric]?.label)?.data ?? label,
+      regex
     })
   );
 

@@ -37,12 +37,19 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
   query,
   onQueryChange
 }) {
-  const metrics = form.items.map(field => ({
-    label: mapData(metricMetadatas, data => data[field.get('metric').value]?.label)?.data,
-    metric:
-      mapData(metricMetadatas, data => data[field.get('metric').value]?.metric)?.data ?? field.get('metric')?.value,
-    aggregation: field.get('aggregation')?.value
-  }));
+  const metrics = form.items.map(field => {
+    const label =
+      mapData(metricMetadatas, data => data[field.get('metric').value]?.label)?.data ?? field.get('label')?.value;
+    const metric =
+      mapData(metricMetadatas, data => data[field.get('metric').value]?.metric)?.data ?? field.get('metric')?.value;
+    const aggregation = field.get('aggregation')?.value;
+
+    return {
+      label,
+      metric,
+      aggregation
+    };
+  });
 
   const uniqueMetricsLabels = getUniqueMetricsLabels(metrics);
 

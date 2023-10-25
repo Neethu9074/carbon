@@ -31,11 +31,14 @@ export function fromUrlMetrics({
       aggregation: 'MEAN'
     }));
   }
+
   return urlMetrics
     .map(m => ({
       metric: m.metric ?? m.metricId,
       aggregation: m.aggregation ?? m.aggregationId ?? 'MEAN',
-      crossSeriesAggregation: m.crossSeriesAggregation
+      crossSeriesAggregation: m.crossSeriesAggregation,
+      regex: m.regex ?? false,
+      label: m.label
     }))
     .filter(m => Boolean(m.metric));
 }

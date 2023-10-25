@@ -5,7 +5,7 @@
  */
 
 import { Item, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Li, Spacer, Stack } from '@instana/components';
 
@@ -72,9 +72,12 @@ export default function TableConfigurator({
   const isMetricsEnabled = metricsSize > 0;
   const metrics = getMetrics(datasetsColumnsField.get(metricsPath));
 
-  const sortingOptions: Metric[] = getSortingOptions(entityLabel, metrics, groups);
-  const isSortingEnabled = sortingOptions.length > 0;
+  const sortingOptions: Metric[] = useMemo(
+    () => getSortingOptions(entityLabel, metrics, groups),
+    [entityLabel, groups, metrics]
+  );
 
+  const isSortingEnabled = sortingOptions.length > 0;
   const isGroup = groups && groups?.length > 0;
 
   return (
@@ -140,12 +143,7 @@ export default function TableConfigurator({
 
             {isSortingEnabled && (
               <Sections>
-                <SortingConfigurator
-                  form={form}
-                  updateForm={updateForm}
-                  sortingOptions={sortingOptions}
-                  hasGroups={groups.length > 0}
-                />
+                <SortingConfigurator form={form} updateForm={updateForm} sortingOptions={sortingOptions} />
               </Sections>
             )}
           </Stack>
