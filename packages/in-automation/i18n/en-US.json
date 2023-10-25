@@ -53,6 +53,7 @@
   "ticketType":"Ticket type",
   "issueType":"Issue type",
   "projectId":"Project Id",
+  "project":"Project",
   "title":"Title",
   "labels":"Labels",
   "assignees":"Assignees",

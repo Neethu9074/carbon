@@ -26,7 +26,8 @@ import {
   updateActionResourceAssociations,
   getActionResourceAssociations,
   createGithubFields,
-  createGitlabFields
+  createGitlabFields,
+  createJiraFields
 } from 'in-automation/api';
 import {
   API_KEY,
@@ -39,6 +40,7 @@ import {
   isWebhook,
   isGithub,
   isGitlab,
+  isJira,
   NO_AUTH,
   OPEN,
   CLOSE,
@@ -335,6 +337,39 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
       };
     }
     fields.push(...createGitlabFields({ projectId: projectId, ticketType: type }));
+  } else if (isJira(type)) {
+    const project = (form.get('project') as FormField<string>).value;
+    const ticketType = (form.get('ticketType') as FormField<string>).value;
+    let type: TicketTypes | null = null;
+    if (ticketType === OPEN) {
+      const summary = (form.get('summary') as FormField<string>).value;
+      const jira_description = (form.get('jira_description') as FormField<string>).value;
+      const labels = (form.get('labels') as FormField<any>).value;
+      const assignee = (form.get('assignee') as FormField<string>).value;
+      const issue_type = (form.get('issue_type') as FormField<any>).value;
+      const labelsString = labels.map((tag: Tag) => tag.value).join(',');
+      type = {
+        type: 'open',
+        summary,
+        jira_description,
+        labels: labelsString,
+        assignee,
+        issue_type
+      };
+    } else if (ticketType === CLOSE) {
+      const comment = (form.get('comment') as FormField<string>).value;
+      type = {
+        type: 'close',
+        comment
+      };
+    } else if (ticketType === ADD_COMMENT) {
+      const comment = (form.get('comment') as FormField<string>).value;
+      type = {
+        type: 'add_comment',
+        comment
+      };
+    }
+    fields.push(...createJiraFields({ project: project, ticketType: type }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

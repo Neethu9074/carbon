@@ -28,6 +28,8 @@ export const getType = (type: string) => {
     return t('in-automation:ActionCatalog.github');
   } else if (isGitlab(type)) {
     return t('in-automation:ActionCatalog.gitlab');
+  } else if (isJira(type)) {
+    return 'Jira';
   } else {
     return type;
   }
@@ -87,6 +89,17 @@ export const getGitlabDescriptionFromFields = (fields: Field[] | undefined): Fie
   getFieldsByNames(fields)?.gitlab_description ?? { value: '', encoding: 'ascii', name: 'gitlab_description' };
 export const getGitlabIssueTypeFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.issue_type ?? { value: `${ISSUE}`, encoding: 'ascii', name: 'issue_type' };
+
+export const getJiraProjectFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.project ?? { value: '', encoding: 'ascii', name: 'project' };
+export const getJiraSummaryFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.summary ?? { value: '', encoding: 'ascii', name: 'summary' };
+export const getJiraDescriptionFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.jira_description ?? { value: '', encoding: 'ascii', name: 'jira_description' };
+export const getJiraAssigneeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.assignee ?? { value: '', encoding: 'ascii', name: 'assignee' };
+export const getJiraIssueTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.issue_type ?? { value: `${TASK}`, encoding: 'ascii', name: 'issue_type' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -205,6 +218,35 @@ export function getGitlabOpenTicketFields(action: Action | NewAction): GitlabOpe
   return { title, gitlab_description, labels, issue_type };
 }
 
+interface JiraOpenFields {
+  summary: Field;
+  jira_description: Field;
+  labels: Field;
+  assignee: Field;
+  issue_type: Field;
+}
+
+interface JiraFields {
+  project: Field;
+  ticketType: Field;
+}
+
+export function getJiraFields(action: Action | NewAction): JiraFields {
+  const project = getJiraProjectFromFields(action.fields);
+  const ticketType = getGithubTicketTypeFromFields(action.fields);
+
+  return { project, ticketType };
+}
+
+export function getJiraOpenTicketFields(action: Action | NewAction): JiraOpenFields {
+  const summary = getJiraSummaryFromFields(action.fields);
+  const jira_description = getJiraDescriptionFromFields(action.fields);
+  const labels = getGithubLabelsFromFields(action.fields);
+  const assignee = getJiraAssigneeFromFields(action.fields);
+  const issue_type = getJiraIssueTypeFromFields(action.fields);
+  return { summary, jira_description, labels, assignee, issue_type };
+}
+
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isManual = (type?: string) => type === MANUAL_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
@@ -213,6 +255,7 @@ export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
 export const isGithub = (type?: string) => type === GITHUB_TYPE;
 export const isGitlab = (type?: string) => type === GITLAB_TYPE;
+export const isJira = (type?: string) => type === JIRA_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const MANUAL_TYPE = 'MANUAL';
@@ -222,6 +265,7 @@ export const EXTERNAL_TYPE = 'EXTERNAL';
 export const ANSIBlE_TYPE = 'ANSIBLE';
 export const GITHUB_TYPE = 'GITHUB';
 export const GITLAB_TYPE = 'GITLAB';
+export const JIRA_TYPE = 'JIRA';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
@@ -241,6 +285,21 @@ export const GL_ISSUE_TYPES = Object.freeze([
   { value: ISSUE, translation: t('in-automation:issue') },
   { value: INCIDENT, translation: t('in-automation:incident') },
   { value: TEST_CASE, translation: t('in-automation:testcase') }
+]);
+
+export const EPIC = 'Epic';
+export const TASK = 'Task';
+export const SUBTASK = 'Subtask';
+export const BUG = 'Bug';
+export const IMPROVEMENT = 'Improvement';
+export const NEW_FEATURE = 'new_feature';
+export const JIRA_ISSUE_TYPES = Object.freeze([
+  { value: EPIC, translation: 'Epic' },
+  { value: TASK, translation: 'Task' },
+  { value: SUBTASK, translation: 'Sub Task' },
+  { value: BUG, translation: 'Bug' },
+  { value: IMPROVEMENT, translation: 'Improvement' },
+  { value: NEW_FEATURE, translation: 'New Feature' }
 ]);
 
 export const NO_AUTH = 'noAuth';

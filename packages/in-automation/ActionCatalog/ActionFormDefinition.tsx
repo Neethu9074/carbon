@@ -28,12 +28,15 @@ import {
   isAnsible,
   isGithub,
   isGitlab,
+  isJira,
   OPEN,
   CLOSE,
   ADD_COMMENT,
   getGithubFields,
   getGitlabFields,
-  getGitlabOpenTicketFields
+  getGitlabOpenTicketFields,
+  getJiraFields,
+  getJiraOpenTicketFields
 } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
@@ -165,6 +168,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
   else if (isWebhook(action.type)) form = putWebhookFields(form, action);
   else if (isGithub(action.type)) form = putGithubFields(form, action);
   else if (isGitlab(action.type)) form = putGitlabFields(form, action);
+  else if (isJira(action.type)) form = putJiraFields(form, action);
   return form;
 }
 
@@ -434,6 +438,118 @@ export function removeGitlabOpenTicketFields(form: MapForm<any>) {
 }
 
 export function removeGitlabCloseAndCommentTicketFields(form: MapForm<any>) {
+  return form.remove('comment');
+}
+
+export function putJiraFields(form: MapForm<any>, action: ActionFormEntity) {
+  const { project, ticketType } = getJiraFields(action);
+  form = form
+    .put(
+      'project',
+      createField({
+        value: project.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'ticketType',
+      createField({
+        value: ticketType.value,
+        validator: notBlankValidator
+      })
+    );
+  if (ticketType.value == OPEN) form = putJiraOpenTicketFields(form, action);
+  else if (ticketType.value == CLOSE) form = putJiraCloseTicketFields(form, action);
+  else if (ticketType.value == ADD_COMMENT) form = putJiraCommentTicketFields(form, action);
+  return form;
+}
+
+export function removeJiraFields(form: MapForm<any>) {
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  form = form.put('parameters', createField({ value: updatedParameters }));
+  form = removeJiraCloseAndCommentTicketFields(form);
+  return form.remove('project').remove('ticketType');
+}
+export function putJiraOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeJiraCloseAndCommentTicketFields(form);
+  form = removeJiraOpenTicketFields(form);
+  // Remove parameter with name "ticketId"
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  form = form.put('parameters', createField({ value: updatedParameters }));
+
+  const { summary, jira_description, labels, assignee, issue_type } = getJiraOpenTicketFields(action);
+  form = form
+    .put(
+      'summary',
+      createField({
+        value: summary.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'jira_description',
+      createField({
+        value: jira_description.value,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'labels',
+      createField({
+        value: labels.value ? labels.value.split(',').map(label => ({ value: label, id: generateUniqueShortId() })) : []
+        // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
+      })
+    )
+    .put(
+      'assignee',
+      createField({
+        value: assignee.value
+      })
+    )
+    .put(
+      'issue_type',
+      createField({
+        value: issue_type.value,
+        validator: notBlankValidator
+      })
+    );
+  return form;
+}
+
+export function putJiraCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeJiraOpenTicketFields(form);
+  const { comment } = getGithubCloseAndCommentFields(action);
+  form = form.put(
+    'comment',
+    createField({
+      value: comment.value
+    })
+  );
+
+  return form;
+}
+
+export function putJiraCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
+  form = removeJiraOpenTicketFields(form);
+  const { comment } = getGithubCloseAndCommentFields(action);
+  form = form.put(
+    'comment',
+    createField({
+      value: comment.value,
+      validator: notBlankValidator
+    })
+  );
+
+  return form;
+}
+
+export function removeJiraOpenTicketFields(form: MapForm<any>) {
+  return form.remove('summary').remove('jira_description').remove('labels').remove('assignee').remove('issue_type');
+}
+
+export function removeJiraCloseAndCommentTicketFields(form: MapForm<any>) {
   return form.remove('comment');
 }
 

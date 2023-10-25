@@ -17,8 +17,8 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
+import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
-import { isAnsible, isGithub, isGitlab } from 'in-automation/ActionCatalog/shared';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -176,7 +176,7 @@ export default function DetailTab({
     }
   }
 
-  if (isGithub(type) || isGitlab(type)) {
+  if (isGithub(type) || isGitlab(type) || isJira(type)) {
     const ticketId = metadata?.find(data => data.name === 'ticketId');
     const ticketUrl = metadata?.find(data => data.name === 'ticketUrl');
     if (ticketId && ticketUrl) {

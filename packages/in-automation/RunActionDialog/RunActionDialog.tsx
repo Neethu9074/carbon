@@ -19,6 +19,7 @@ import {
   isAnsible,
   isScript,
   isWebhook,
+  isJira,
   parseDynamicParameter,
   parseVaultParameter,
   getAnsibleFields,
@@ -31,7 +32,9 @@ import {
   ADD_COMMENT,
   getGitlabFields,
   isGitlab,
-  getGitlabOpenTicketFields
+  getGitlabOpenTicketFields,
+  getJiraFields,
+  getJiraOpenTicketFields
 } from 'in-automation/ActionCatalog/shared';
 import {
   ActionExecutionParameter,
@@ -43,7 +46,9 @@ import {
   runGithubCloseAction,
   runGithubOpenAction,
   runGitlabOpenAction,
-  runGitlabCloseAction
+  runGitlabCloseAction,
+  runJiraOpenAction,
+  runJiraCloseAction
 } from 'in-automation/api';
 import RunActionContent, { shouldHideParameter } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -148,6 +153,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
   else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
   else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
+  else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
@@ -361,9 +367,6 @@ function onSave({
     }
   } else if (isGitlab(action.type)) {
     const { projectId, ticketType } = getGitlabFields(action);
-    // {ticketType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
-    // {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
-    // {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
     if (ticketType.value === OPEN) {
       const { title, gitlab_description, labels, issue_type } = getGitlabOpenTicketFields(action);
       runGitlabOpenAction({
@@ -391,6 +394,41 @@ function onSave({
         timeout,
         actionId,
         projectId,
+        ticketType,
+        comment,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+  } else if (isJira(action.type)) {
+    const { project, ticketType } = getJiraFields(action);
+    if (ticketType.value === OPEN) {
+      const { summary, jira_description, assignee, labels, issue_type } = getJiraOpenTicketFields(action);
+      runJiraOpenAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        project,
+        ticketType,
+        summary,
+        body: jira_description,
+        assignee,
+        labels,
+        issue_type,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+
+    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+      const { comment } = getGithubCloseAndCommentFields(action);
+      runJiraCloseAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        project,
         ticketType,
         comment,
         inputParameters: allInputParameters

@@ -29,7 +29,8 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE,
   GITHUB_TYPE,
-  GITLAB_TYPE
+  GITLAB_TYPE,
+  JIRA_TYPE
 } from 'in-automation/ActionCatalog/shared';
 import submitActionExecution from './subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -441,6 +442,89 @@ export const createGitlabOpenFields = ({
   }
 ];
 
+interface JiraFields {
+  project: string;
+  ticketType: TicketTypes | null;
+}
+
+interface JiraOpenFields {
+  summary: string;
+  assignee: string;
+  jira_description: string;
+  labels: string;
+  issue_type: string;
+}
+
+export const createJiraFields = ({ project, ticketType }: JiraFields): Field[] => {
+  // Extract ticketType properties.
+  const { type, ...githubSpecificFields } = ticketType as TicketTypes;
+
+  // Combine the fields.
+  const mainFields: Field[] = [
+    {
+      value: project,
+      description: 'jira project',
+      encoding: 'ascii',
+      name: 'project'
+    },
+    {
+      value: type,
+      description: 'jira ticket type',
+      encoding: 'ascii',
+      name: 'ticketType'
+    }
+  ];
+
+  // If type is 'open', combine the fields with the GithubOpenFields.
+  if (type === 'open') {
+    return [...mainFields, ...createJiraOpenFields(githubSpecificFields as JiraOpenFields)];
+  } else if (type === 'close' || type === 'add_comment') {
+    return [...mainFields, ...createGithubCloseAndCommentFields(githubSpecificFields as GithubCloseAndCommentFields)];
+  }
+
+  // Otherwise, just return the mainFields.
+  return mainFields;
+};
+
+export const createJiraOpenFields = ({
+  summary,
+  jira_description,
+  assignee,
+  labels,
+  issue_type
+}: JiraOpenFields): Field[] => [
+  {
+    value: summary,
+    description: 'jira issue summary',
+    encoding: 'ascii',
+    name: 'summary'
+  },
+  {
+    value: jira_description,
+    description: 'jira issue description',
+    encoding: 'ascii',
+    name: 'jira_description'
+  },
+  {
+    value: assignee,
+    description: 'jira issue assignee',
+    encoding: 'ascii',
+    name: 'assignee'
+  },
+  {
+    value: labels,
+    description: 'github issue labels',
+    encoding: 'ascii',
+    name: 'labels'
+  },
+  {
+    value: issue_type,
+    description: 'gitlab issue type',
+    encoding: 'ascii',
+    name: 'issue_type'
+  }
+];
+
 interface GithubFields {
   owner: string;
   repo: string;
@@ -473,6 +557,15 @@ export interface OpenGLProps {
   issue_type: string;
 }
 
+export interface OpenJiraProps {
+  type: 'open';
+  summary: string;
+  jira_description: string;
+  assignee: string;
+  labels: string;
+  issue_type: string;
+}
+
 export interface CloseProps {
   type: 'close';
   comment: string;
@@ -481,7 +574,7 @@ export interface CommentProps {
   type: 'add_comment';
   comment: string;
 }
-export type TicketTypes = OpenProps | CloseProps | CommentProps | OpenGLProps;
+export type TicketTypes = OpenProps | CloseProps | CommentProps | OpenGLProps | OpenJiraProps;
 
 const createTimeoutField = (value: string): Field => ({
   value,
@@ -901,6 +994,125 @@ export function runGitlabCloseAction({
         name: 'projectId',
         value: projectId.value,
         encoding: projectId.encoding
+      },
+      {
+        name: 'ticketActionType',
+        value: ticketType.value,
+        encoding: ticketType.encoding
+      },
+      {
+        name: 'comment',
+        value: comment.value,
+        encoding: comment.encoding
+      }
+    ]
+  });
+}
+
+interface RunJiraOpenActionParams extends RunActionBaseParams {
+  ticketType: Field;
+  project: Field;
+  summary: Field;
+  assignee: Field;
+  body: Field;
+  labels: Field;
+  issue_type: Field;
+}
+
+export function runJiraOpenAction({
+  volatileId,
+  event,
+  actionName,
+  actionId,
+  inputParameters,
+  timeout,
+  project,
+  ticketType,
+  summary,
+  assignee,
+  body,
+  labels,
+  issue_type
+}: RunJiraOpenActionParams) {
+  return runAction({
+    type: JIRA_TYPE,
+    volatileId,
+    event,
+    actionName,
+    timeout,
+    actionId,
+    inputParameters,
+    request: [
+      {
+        name: 'project',
+        value: project.value,
+        encoding: project.encoding
+      },
+
+      {
+        name: 'ticketActionType',
+        value: ticketType.value,
+        encoding: ticketType.encoding
+      },
+      {
+        name: 'summary',
+        value: summary.value,
+        encoding: summary.encoding
+      },
+      {
+        name: 'assignee',
+        value: assignee.value,
+        encoding: assignee.encoding
+      },
+      {
+        name: 'body',
+        value: body.value,
+        encoding: body.encoding
+      },
+      {
+        name: 'labels',
+        value: labels.value,
+        encoding: labels.encoding
+      },
+      {
+        name: 'issue_type',
+        value: issue_type.value,
+        encoding: issue_type.encoding
+      }
+    ]
+  });
+}
+
+interface RunJiraCloseActionParams extends RunActionBaseParams {
+  project: Field;
+  ticketType: Field;
+  comment: Field;
+}
+
+export function runJiraCloseAction({
+  volatileId,
+  event,
+  actionName,
+  actionId,
+  inputParameters,
+  timeout,
+  project,
+  ticketType,
+  comment
+}: RunJiraCloseActionParams) {
+  return runAction({
+    type: JIRA_TYPE,
+    volatileId,
+    event,
+    actionName,
+    timeout,
+    actionId,
+    inputParameters,
+    request: [
+      {
+        name: 'project',
+        value: project.value,
+        encoding: project.encoding
       },
       {
         name: 'ticketActionType',

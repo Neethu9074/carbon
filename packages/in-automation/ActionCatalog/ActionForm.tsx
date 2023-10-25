@@ -25,6 +25,7 @@ import {
   removeWebhookFields,
   removeGithubFields,
   removeGitlabFields,
+  removeJiraFields,
   putGithubFields,
   putGithubOpenTicketFields,
   putGithubCloseTicketFields,
@@ -36,7 +37,13 @@ import {
   removeGitlabOpenTicketFields,
   putGitlabOpenTicketFields,
   putGitlabCloseTicketFields,
-  putGitlabCommentTicketFields
+  putGitlabCommentTicketFields,
+  putJiraFields,
+  removeJiraCloseAndCommentTicketFields,
+  removeJiraOpenTicketFields,
+  putJiraOpenTicketFields,
+  putJiraCloseTicketFields,
+  putJiraCommentTicketFields
 } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import {
   API_KEY,
@@ -60,13 +67,16 @@ import {
   getAnsibleFields,
   isGithub,
   isGitlab,
+  isJira,
   GH_TICKET_TYPES,
   OPEN,
   CLOSE,
   ADD_COMMENT,
   doesParameterExist,
   GL_ISSUE_TYPES,
-  GITLAB_TYPE
+  GITLAB_TYPE,
+  JIRA_TYPE,
+  JIRA_ISSUE_TYPES
 } from 'in-automation/ActionCatalog/shared';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
@@ -120,6 +130,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
           {isAnsible(type) && <AnsibleSection entity={action} />}
           {isGithub(type) && <GithubSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
           {isGitlab(type) && <GitlabSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
+          {isJira(type) && <JiraSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
           {showTimeoutSection && (
             <>
               <TimeoutSection form={form} onChange={onChange} />
@@ -260,18 +271,21 @@ const TypeSection = ({
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = removeJiraFields(updatedForm);
                   updatedForm = putDocLinkField(updatedForm, action);
                 } else if (isScript(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = removeJiraFields(updatedForm);
                   updatedForm = putScriptField(updatedForm, action);
                 } else if (isWebhook(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = removeJiraFields(updatedForm);
                   updatedForm = putWebhookFields(updatedForm, action);
                 } else if (isManual(type)) {
                   // manual actions don't have any associated fields
@@ -279,19 +293,29 @@ const TypeSection = ({
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = removeJiraFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
                 } else if (isGithub(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = removeJiraFields(updatedForm);
                   updatedForm = putGithubFields(updatedForm, action);
                 } else if (isGitlab(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
+                  updatedForm = removeJiraFields(updatedForm);
                   updatedForm = putGitlabFields(updatedForm, action);
+                } else if (isJira(type)) {
+                  updatedForm = removeDocLinkField(updatedForm);
+                  updatedForm = removeScriptField(updatedForm);
+                  updatedForm = removeWebhookFields(updatedForm);
+                  updatedForm = removeGithubFields(updatedForm);
+                  updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = putJiraFields(updatedForm, action);
                 }
                 return updatedForm;
               })
@@ -303,7 +327,8 @@ const TypeSection = ({
             <option value={WEBHOOK_TYPE}>{t('in-automation:ActionCatalog.http')}</option>
             <option value={MANUAL_TYPE}>{t('in-automation:ActionCatalog.manual')}</option>
             <option value={GITHUB_TYPE}>{t('in-automation:ActionCatalog.github')}</option>
-            <option value={GITLAB_TYPE}>Gitlab</option>
+            <option value={GITLAB_TYPE}>{t('in-automation:ActionCatalog.gitlab')}</option>
+            <option value={JIRA_TYPE}>Jira</option>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
@@ -800,6 +825,226 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           </FormGroup>
         ))}
+      </FormGroup>
+    </>
+  );
+};
+
+const JiraSection = ({
+  form,
+  onChange,
+  setForm,
+  entity: action
+}: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
+  const project = form.get('project') as Field<string>;
+  const ticketType = form.get('ticketType') as Field<string>;
+  const isNotEditable = useContext(isNotEditableContext);
+  let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
+
+  return (
+    <>
+      <Row>
+        <Col lg={8}>
+          {project.map(field => (
+            <FormGroup>
+              <Label htmlFor="jira-project" hasError={!field.valid && field.touched}>
+                {t('in-automation:project')}
+              </Label>
+              <Input
+                id="jira-project"
+                type="text"
+                disabled={isNotEditable}
+                value={field.value}
+                onChange={e => onChange('project', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={4}>
+          {ticketType.map(field => (
+            <FormGroup>
+              <Label htmlFor="jira-ticket-type" hasError={!field.valid && field.touched}>
+                {t('in-automation:ticketType')}
+              </Label>
+              <Select
+                id="jira-ticket-type"
+                value={field.value}
+                disabled={isNotEditable}
+                onChange={e =>
+                  onChange('ticketType', e.target.value, updatedForm => {
+                    const type = (updatedForm.get('ticketType') as Field<string>).value;
+                    if (type == OPEN) {
+                      updatedForm = removeJiraCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = putJiraOpenTicketFields(updatedForm, action);
+                    } else if (type == CLOSE) {
+                      updatedForm = removeJiraOpenTicketFields(updatedForm);
+                      updatedForm = removeJiraCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = putJiraCloseTicketFields(updatedForm, action);
+                      if (!doesParameterExist(parameters, 'ticketId')) {
+                        parameters.push({
+                          id: generateUniqueShortId(),
+                          value: {
+                            label: 'Ticket Id',
+                            name: 'ticketId',
+                            description: 'Jira ticket id to close ticket',
+                            required: true,
+                            type: 'static',
+                            valueType: 'string'
+                          }
+                        });
+                      }
+                      onChange('parameters', parameters);
+                    } else if (type == ADD_COMMENT) {
+                      updatedForm = removeJiraOpenTicketFields(updatedForm);
+                      updatedForm = removeJiraCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = putJiraCommentTicketFields(updatedForm, action);
+
+                      if (!doesParameterExist(parameters, 'ticketId')) {
+                        parameters.push({
+                          id: generateUniqueShortId(),
+                          value: {
+                            label: 'Ticket Id',
+                            name: 'ticketId',
+                            description: 'Jira ticket id to add comment',
+                            required: true,
+                            type: 'static',
+                            valueType: 'string'
+                          }
+                        });
+                      }
+                      onChange('parameters', parameters);
+                    }
+                    return updatedForm;
+                  })
+                }
+                hasError={!field.valid && field.touched}
+              >
+                {GH_TICKET_TYPES.map(({ value, translation }) => (
+                  <option key={value} value={value}>
+                    {translation}
+                  </option>
+                ))}
+              </Select>
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
+      {ticketType.value === OPEN && <JiraOpenSection form={form} onChange={onChange} setForm={setForm} />}
+      {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+    </>
+  );
+};
+
+const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
+  const summary = form.get('summary') as Field<string>;
+  const jira_description = form.get('jira_description') as Field<string>;
+  const assignee = form.get('assignee') as Field<string>;
+  const issue_type = form.get('issue_type') as Field<string>;
+  const isNotEditable = useContext(isNotEditableContext);
+
+  return (
+    <>
+      <Row>
+        <Col lg={6}>
+          {summary.map(field => (
+            <FormGroup>
+              <Label htmlFor="jira-summary" hasError={!field.valid && field.touched}>
+                {t('in-automation:title')}
+              </Label>
+              <Input
+                id="jira-summary"
+                type="text"
+                disabled={isNotEditable}
+                value={field.value}
+                onChange={e => onChange('summary', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={6}>
+          {jira_description.map(field => (
+            <FormGroup>
+              <Label htmlFor="jira-description" hasError={!field.valid && field.touched}>
+                {t('in-automation:ActionCatalog.description')}
+              </Label>
+              <TextArea
+                id="jira-description"
+                value={field.value}
+                disabled={isNotEditable}
+                onChange={e => onChange('jira_description', (e.target as HTMLTextAreaElement).value)}
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={6}>
+          {assignee.map(field => (
+            <FormGroup>
+              <Label htmlFor="jira-assignee" hasError={!field.valid && field.touched}>
+                Assignee
+              </Label>
+              <Input
+                id="jira-assignee"
+                type="text"
+                disabled={isNotEditable}
+                value={field.value}
+                onChange={e => onChange('assignee', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={6}>
+          <FormGroup>
+            {issue_type.map(field => (
+              <FormGroup>
+                <Label htmlFor="jira-issue-type" hasError={!field.valid && field.touched}>
+                  {t('in-automation:issueType')}
+                </Label>
+                <Select
+                  id="jira-issue-type"
+                  value={field.value}
+                  disabled={isNotEditable}
+                  onChange={e => onChange('issue_type', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                >
+                  {JIRA_ISSUE_TYPES.map(({ value, translation }) => (
+                    <option key={value} value={value}>
+                      {translation}
+                    </option>
+                  ))}
+                </Select>
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </FormGroup>
+        </Col>
+      </Row>
+
+      <FormGroup>
+        <FieldsTable
+          form={form}
+          setForm={setForm}
+          onChange={onChange}
+          label={t('in-automation:labels')}
+          fieldName="labels"
+          customAddRowLabel={t('in-automation:ActionCatalog.addLabels')}
+          noDataMessage={t('in-automation:ActionCatalog.noLabelsConfigured')}
+        />
       </FormGroup>
     </>
   );
