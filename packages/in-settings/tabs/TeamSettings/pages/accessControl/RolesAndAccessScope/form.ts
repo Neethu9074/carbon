@@ -11,6 +11,8 @@ import { PermissionSet } from '@instana/types';
 import {
   AreaRole,
   AreaRoleType,
+  AreaRoleWithContributer,
+  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -86,7 +88,7 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
 export function getAreaRoleFromPermissionSet(
   productArea: LimitableProductArea,
   permissionSet?: PermissionSet
-): AreaRoleWithCustomType | undefined {
+): AreaRoleWithCustomType | AreaRoleWithContributerType | undefined {
   if (!permissionSet) return;
 
   const { capabilities } = ProductAreaPermissionMap[productArea];
@@ -94,6 +96,9 @@ export function getAreaRoleFromPermissionSet(
   if (capabilities?.length > 0) {
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
+    if (hasAllCapabilities && permissionSet.restrictedApplicationFilter) {
+      return AreaRoleWithContributer.CONTRIBUTER;
+    }
     if (hasAllCapabilities) return AreaRole.OWNER;
 
     const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
@@ -125,9 +130,10 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleType | undefined = undefined
+  role: AreaRoleType | AreaRoleWithContributerType | undefined = undefined
 ): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+
   const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;
 
   // clean all permissions related to managed ProductArea
@@ -162,7 +168,7 @@ export function updatePermissionSetForLimitableProductArea(
 // Returns a new permission set containing all permissions related to the given product area and role
 function addPermissionsByRoleForProductArea(
   productArea: LimitableProductArea,
-  role: AreaRoleType | undefined,
+  role: AreaRoleType | AreaRoleWithContributerType | undefined,
   permissions: string[]
 ): string[] {
   //The additional Synthetic permissions set at owner's role should be removed
@@ -187,6 +193,9 @@ function addPermissionsByRoleForProductArea(
       Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
     ];
     newPermissions.push(...syntheticViewPermissions);
+  } else if (role === AreaRoleWithContributer.CONTRIBUTER && productArea == ProductArea.APPLICATION) {
+    const { capabilities } = ProductAreaPermissionMap[productArea];
+    newPermissions.push(...capabilities);
   }
 
   return newPermissions;

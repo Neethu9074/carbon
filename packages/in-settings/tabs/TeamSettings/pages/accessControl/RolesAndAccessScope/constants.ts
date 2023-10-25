@@ -27,9 +27,23 @@ export const AreaRole = Object.freeze({
 
 export type AreaRoleType = keyof typeof AreaRole;
 export const AreaRoles = Object.freeze(Object.values(AreaRole));
+export type AreaRoleOptionsType = typeof AreaRoles;
+
+export type AreaRolesType = keyof typeof AreaRoles;
+
+export const AreaRoleWithContributer = Object.freeze({
+  OWNER: 'OWNER',
+  VIEWER: 'VIEWER',
+  CONTRIBUTER: 'CONTRIBUTER'
+} as const);
+
+export const AreaRolesWithContributer = Object.freeze(Object.values(AreaRoleWithContributer));
+
+export type AreaRoleWithContributerType = AreaRoleType | 'CONTRIBUTER';
+export type AreaRolesWithContributerType = typeof AreaRolesWithContributer;
 
 // This is only necessary while in migration phase and should be removed after some releases
-export type AreaRoleWithCustomType = AreaRoleType | 'CUSTOM';
+export type AreaRoleWithCustomType = AreaRoleType | 'CONTRIBUTER' | 'CUSTOM';
 
 // These are the new product areas for the new, improved RBAC UI.
 export const ProductArea = Object.freeze({

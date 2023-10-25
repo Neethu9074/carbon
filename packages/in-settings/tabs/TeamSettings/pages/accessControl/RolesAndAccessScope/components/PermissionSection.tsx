@@ -12,7 +12,7 @@ import { PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
-  AreaRole,
+  AreaRoleWithContributer,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ScopedPermissionItem,
@@ -26,6 +26,9 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+// import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
+import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -43,7 +46,6 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds' | 'syntheticTestIds';
@@ -95,20 +97,29 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       limitation,
       selected
     );
-    if (applicationContributionFilterEnabled) {
-      if (
-        (entityPermissionKey === 'applicationIds' && limitation !== ScopedPermissionItem.LIMITED_ACCESS) ||
-        (entityPermissionKey === 'applicationIds' &&
-          limitation === ScopedPermissionItem.LIMITED_ACCESS &&
-          selected !== AreaRole.OWNER)
-      ) {
-        form = updateFormField(form, 'tagFilterExpression', []);
-        form = updateFormField(form, 'scope', 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING');
-      }
-    }
+    // if (applicationContributionFilterEnabled) {
+    //   if (
+    //     (entityPermissionKey === 'applicationIds' && limitation !== ScopedPermissionItem.LIMITED_ACCESS) ||
+    //     (entityPermissionKey === 'applicationIds' &&
+    //       limitation === ScopedPermissionItem.LIMITED_ACCESS &&
+    //       selected !== AreaRole.OWNER)
+    //   ) {
+    //     form = updateFormField(form, 'tagFilterExpression', []);
+    //     form = updateFormField(form, 'scope', 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING');
+    //   }
+    // }
+
+    const limitingFilterConfig = {
+      tagFilterExpression: [],
+      scope: 'INCLUDE_NO_DOWNSTREAM'
+    };
+    // const permissionSetFilter = { ...restPermissionSet, ['restrictedApplicationFilter']: limitingFilterConfig };
+
     const newPermissionSet = {
       ...restPermissionSet,
-      [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : []
+      [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
+      ['restrictedApplicationFilter']:
+        selected === AreaRoleWithContributer.CONTRIBUTER ? limitingFilterConfig : undefined
     };
 
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
@@ -136,13 +147,21 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
         {ScopedPermissionItems.map(context => (
           <TabSelectPanel key={context} id={context}>
             {context === ScopedPermissionItem.ACCESS_ALL && (
-              <AccessAllPanel
-                role={role}
-                onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
-                entityPermissionKey={entityPermissionKey}
-                roleTooltipText={roleTooltipText}
-                description={accessAllDescription}
-              />
+              <>
+                {' '}
+                <AccessAllPanel
+                  role={role}
+                  onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
+                  entityPermissionKey={entityPermissionKey}
+                  roleTooltipText={roleTooltipText}
+                  description={accessAllDescription}
+                />
+                {applicationContributionFilterEnabled &&
+                  entityPermissionKey === 'applicationIds' &&
+                  role === AreaRoleWithContributer.CONTRIBUTER && (
+                    <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
+                  )}
+              </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel />}
             {context === ScopedPermissionItem.LIMITED_ACCESS && (

@@ -126,7 +126,7 @@ export const createFilterForm = () => {
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper', () => {
   test('should render LimitingApplicationFilterWrapper', () => {
     render(<LimitingApplicationFilterWrapper form={createFilterForm()} setForm={jest.fn()} />);
-    expect(screen.getByText(t('in-settings:PermissionSection.configuration_limitation'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-settings:PermissionSection.contribution_filter'))).toBeInTheDocument();
     expect(screen.getByText(t('in-settings:PermissionSection.limitation_downstreamCalls'))).toBeInTheDocument();
   });
 });

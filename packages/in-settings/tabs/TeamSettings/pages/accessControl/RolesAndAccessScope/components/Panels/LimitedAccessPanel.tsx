@@ -11,17 +11,20 @@ import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instan
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import {
+  AreaRole,
+  AreaRoleType,
+  AreaRoleWithContributer,
+  AreaRoleWithContributerType,
+  AreaRoleWithCustomType,
+  AreaRolesWithContributer
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
-import {
-  AreaRole,
-  AreaRoleType,
-  AreaRoleWithCustomType
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
@@ -47,7 +50,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
       PermissionSectionProps<I, FORM_TYPE>,
       'setSubSlideConfig' | 'setShowSubSlide' | 'roleTooltipText' | 'entityPermissionKey'
     > {
-  role?: AreaRoleWithCustomType;
+  role?: AreaRoleWithCustomType | AreaRoleWithContributerType;
   description: string;
   addButtonLabel: string;
   entityPermissionKey: EntityPermissionKey;
@@ -154,14 +157,17 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         value={role}
         defaultRole={AreaRole.VIEWER}
         onChange={onChangeRole}
+        {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributer } : {})}
       />
       {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
         <SyntheticCommonSection form={form} setForm={setForm} />
       )}
       <Divider />
-      {applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds' && role === AreaRole.OWNER && (
-        <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
-      )}
+      {applicationContributionFilterEnabled &&
+        entityPermissionKey === 'applicationIds' &&
+        role === AreaRoleWithContributer.CONTRIBUTER && (
+          <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
+        )}
 
       <StackItem>
         <Button

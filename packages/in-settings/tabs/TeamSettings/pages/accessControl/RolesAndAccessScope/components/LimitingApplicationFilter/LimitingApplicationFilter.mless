@@ -13,5 +13,10 @@
     &_queryBuilderExpression {
       flex-grow: 1;
     }
+    &_groupLabel {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+    }
   }
 }

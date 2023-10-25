@@ -11,7 +11,8 @@ import { Stack, StackItem, Typography } from '@instana/components';
 import {
   AreaRole,
   AreaRoleType,
-  AreaRoleWithCustomType
+  AreaRoleWithCustomType,
+  AreaRolesWithContributer
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { t } from 'in-i18n';
@@ -50,6 +51,7 @@ export default function AccessAllPanel({
           value={role}
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
+          {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributer } : {})}
         />
       )}
     </Stack>
