@@ -16,7 +16,7 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { Capability } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './SyntheticCommonSection.mless';
@@ -25,6 +25,7 @@ export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItem
   form,
   setForm
 }: FormControlProps<FORM_TYPE>) {
+  const theme = useTheme();
   const productArea = ProductArea.SYNTHETICS;
   const useCredentialLabel = t('in-stores:permissionCanUseSyntheticCredentialsLabel');
   const configCredentialLabel = t('in-stores:permissionCanConfigureSyntheticCredentialsLabel');
@@ -84,7 +85,7 @@ export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItem
             <Stack gap="xsmall" direction="horizontal" align="start">
               <span>{productPermission.label}</span>
               <Tooltip content={productPermission.description} align="rightMiddle">
-                <SvgIcon type="lib_help_error_info_outline" size="s" color={theme.lib.colors.N800Dark} />
+                <SvgIcon type="lib_help_error_info_outline" size="s" color={theme.ids.color.option.neutral['800']} />
               </Tooltip>
             </Stack>
           }

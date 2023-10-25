@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .item {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: @lib__colors__N700Medium;
+    color: var(--ids-color-option-neutral-700);
     padding: 8px 10px;
     cursor: pointer;
 
@@ -25,7 +23,7 @@
 
   .subtleMetric {
     font-weight: 100;
-    color: @lib__colors__N500;
+    color: var(--ids-color-option-neutral-500);
     margin-left: 0.25rem;
   }
 }

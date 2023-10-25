@@ -3,16 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .eventSelection {
     margin-top: 2rem;
-    color: @lib__colors__primary1;
+    color: var(--ids-color-option-teal-500);
   }
 
   .eventTypes {
-    border-top: 1px solid @lib__colors__N300;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
   }
 
   .eventTypeSwitcher {

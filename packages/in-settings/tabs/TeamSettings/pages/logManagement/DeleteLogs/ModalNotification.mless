@@ -1,5 +1,3 @@
-@import '~in-themes/active.less';
-
 :local {
   .modalNotification {
     display: flex;
@@ -18,7 +16,7 @@
     }
     &-success {
       background: #e7f8f0;
-      border-color: @lib__colors__success;
+      border-color: var(--ids-color-option-green-500);
     }
     &-failure {
       background: #ffe0e0;

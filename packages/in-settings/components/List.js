@@ -32,7 +32,7 @@ import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './List.mless';
@@ -404,7 +404,8 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
     sortable: false,
     width: '4rem',
     widthInAbsoluteUnit: true,
-    getContent(entity) {
+    getContent: function Content(entity) {
+      const theme = useTheme();
       if (isCellLoading(perCellLoadingIndicator, entity, 'toggleEnabledAction')) {
         return <TableActionLoadingIndicator />;
       }
@@ -417,7 +418,7 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
             type={entityEnabled ? 'lib_actions_pause' : 'lib_actions_play'}
-            color={theme.lib.colors.primary2}
+            color={theme.ids.color.option.blue['500']}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               doToggleEnabled(entity, entityEnabled, actionDefinition.toggle, setErrorMessage);
@@ -506,14 +507,15 @@ function addSelectAction(columns, actionDefinition) {
     sortable: false,
     width: '4rem',
     widthInAbsoluteUnit: true,
-    getContent(entity) {
+    getContent: function Content(entity) {
+      const theme = useTheme();
       return (
         <Tooltip content={actionDefinition.title?.(entity) ?? t('in-settings:components.select')} delay={500}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
             type={'lib_openclose_add_circle_outline'}
-            color={theme.lib.colors.primary2}
+            color={theme.ids.color.option.blue['500']}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               actionDefinition.select(entity);
@@ -531,14 +533,15 @@ function addDeselectAction(columns, actionDefinition) {
     sortable: false,
     width: '4rem',
     widthInAbsoluteUnit: true,
-    getContent(entity) {
+    getContent: function Content(entity) {
+      const theme = useTheme();
       return (
         <Tooltip content={t('in-settings:components.deselect')} delay={500}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
             type={'lib_openclose_remove_circle_outline'}
-            color={theme.lib.colors.primary2}
+            color={theme.ids.color.option.blue['500']}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               actionDefinition.deselect(entity);
@@ -675,7 +678,8 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 }
 
 function TableActionLoadingIndicator() {
-  return <SvgIcon type={'lib_actions_loading'} color={theme.lib.colors.N600Light} spinning />;
+  const theme = useTheme();
+  return <SvgIcon type={'lib_actions_loading'} color={theme.ids.color.option.neutral['600']} spinning />;
 }
 
 List.propTypes = {
