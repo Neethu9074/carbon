@@ -1,25 +1,26 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
-import WebsiteOpenIssuesList from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteOpenIssuesList';
-import getWebsiteHealthInfo from 'in-websites/subscriptions/getWebsiteHealthInfo';
+import MobileOpenIssuesList from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileOpenIssuesList';
+import getMobileHealthInfo from 'in-mobile-apps/subscriptions/getMobileHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ websiteId, openIssues, maxSeverity, timeConfig }) => {
+  ({ mobileAppId, openIssues, maxSeverity, timeConfig }) => {
     // openIssues and maxSeverity may be provided externally in cases where this component is used in lists.
     if (openIssues != null && maxSeverity != null) {
       return {};
     }
 
-    const healthInfo$ = getWebsiteHealthInfo({
-      websiteId,
+    const healthInfo$ = getMobileHealthInfo({
+      mobileAppId,
       timeConfig
     }).filter(healthInfo => healthInfo.data != null);
 
@@ -30,7 +31,7 @@ export default connectTo(
       timeConfig: healthInfo$.map(result => getTimeConfigAlignedToResultTime(timeConfig, result))
     };
   },
-  function WebsiteHealthIndicatorBehavior(props) {
+  function MobileHealthIndicatorBehavior(props) {
     const { openIssues, maxSeverity, render, healthInfo } = props;
 
     if (render) {
@@ -46,7 +47,7 @@ export default connectTo(
     }
 
     return (
-      <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea} align="leftTop">
+      <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea} align="topLeft">
         {({ toggle, refSetter }) => (
           <props.IndicatorPresenter
             openIssues={openIssues}
@@ -61,5 +62,5 @@ export default connectTo(
 );
 
 function Content(props) {
-  return <WebsiteOpenIssuesList {...props} />;
+  return <MobileOpenIssuesList {...props} />;
 }
