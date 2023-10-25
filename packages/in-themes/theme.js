@@ -36,8 +36,6 @@ module.exports = {
     tooltips: ++zIndex
   },
   fontColor: '#222627',
-  fontFamilySansSerif: 'var(--typography-font-family-sans-serif)',
-  fontFamilyMonospace: 'var(--typography-font-family-monospace)',
   links: {
     decoration: 'none',
     hover: {
@@ -180,60 +178,6 @@ function buildLib() {
       pronounced: '0px 2px 5px 0px rgba(0, 0, 0, 0.24)',
       strong: '0px 3px 10px 0px rgba(0, 0, 0, 0.24)',
       soft: '0px 0px 25px 0px rgba(0, 0, 0, 0.3)'
-    },
-
-    typography: {
-      lineHeight: 1.15,
-      h900: {
-        fontSize: '5.375rem',
-        fontWeight: 300
-      },
-      h800: {
-        fontSize: '3.5rem',
-        fontWeight: 400
-      },
-      h700: {
-        fontSize: '2.375rem',
-        fontWeight: 300
-      },
-      h600: {
-        fontSize: '2.125rem',
-        fontWeight: 300
-      },
-      h500: {
-        fontSize: '1.625rem',
-        fontWeight: 200
-      },
-      h400: {
-        fontSize: '1.5rem',
-        fontWeight: 500
-      },
-      h300: {
-        fontSize: '1.375rem'
-      },
-      h200: {
-        fontSize: '1rem'
-      },
-      h100: {
-        fontSize: '0.75rem'
-      },
-      bodyLarge: {
-        fontSize: '1rem'
-      },
-      bodyBold: {
-        fontSize: '0.875rem',
-        fontWeight: 'bold'
-      },
-      body: {
-        fontSize: '0.875rem'
-      },
-      bodySmall: {
-        fontSize: '0.75rem'
-      },
-      button: {
-        fontSize: '0.875rem',
-        fontWeight: 500
-      }
     }
   };
 
