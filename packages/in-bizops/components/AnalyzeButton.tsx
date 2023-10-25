@@ -28,13 +28,15 @@ export default function AnalyzeButton({
   businessProcessName,
   businessActivityName
 }: AnalyzeButtonProps) {
+  // We use the applications analytics implementation since there is no point
+  // duplicating code.
   const getLinkToAnalyze = useLinkToAnalyze();
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
       href={getLinkToAnalyze({
-        formModel: formModelBuilder(businessProcessName, businessActivityName),
+        formModel: formModelBuilder(businessProcessId, businessActivityName),
         groupBy: {
           groupbyTag: 'call.bpm.root.process.instance.id'
         },
@@ -57,10 +59,11 @@ export default function AnalyzeButton({
   );
 }
 
-function formModelBuilder(businessProcessName: string, businessActivityName: string) {
-  let formModel: FormModelElement[] = [tagFilter('call.bpm.process.definition.name', EQUALS, businessProcessName)];
+function formModelBuilder(businessProcessId: string, businessActivityName: string) {
+  let formModel: FormModelElement[] = [tagFilter('call.bpm.process.definition.id', EQUALS, businessProcessId)];
 
-  // conditional filters
+  // For when the user clicks on analyze instances in
+  // the individual activity page
   if (businessActivityName) {
     formModel.push(
       { type: 'CONJUNCTION', logicalOperator: 'AND' },
@@ -68,7 +71,6 @@ function formModelBuilder(businessProcessName: string, businessActivityName: str
     );
   }
 
-  // call types
   formModel.push(
     { type: 'CONJUNCTION', logicalOperator: 'AND' },
     { type: 'OPEN_BRACKET' },
