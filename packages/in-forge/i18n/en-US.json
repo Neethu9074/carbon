@@ -11421,6 +11421,7 @@
         "total": "Total",
         "active": "Active",
         "transactionsPerSecond": "Transactions Per Second",
+        "lockCount": "Lock Count",
         "tps": "TPS",
         "task": "Task",
         "taskWait_count": "Wait Count",
@@ -11446,6 +11447,7 @@
         "qps": "QPS",
         "sqlLatency": "SQL Latency",
         "sqlAverageLatency": "Average Latency",
+        "elapsed_time": "Elapsed Time",
         "io_read_rate": "IO Read Rate"
       }
     },
