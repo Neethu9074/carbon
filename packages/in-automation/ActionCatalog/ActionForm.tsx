@@ -328,7 +328,7 @@ const TypeSection = ({
             <option value={MANUAL_TYPE}>{t('in-automation:ActionCatalog.manual')}</option>
             <option value={GITHUB_TYPE}>{t('in-automation:ActionCatalog.github')}</option>
             <option value={GITLAB_TYPE}>{t('in-automation:ActionCatalog.gitlab')}</option>
-            <option value={JIRA_TYPE}>Jira</option>
+            <option value={JIRA_TYPE}>{t('in-automation:ActionCatalog.jira')}</option>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
@@ -993,7 +993,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
           {assignee.map(field => (
             <FormGroup>
               <Label htmlFor="jira-assignee" hasError={!field.valid && field.touched}>
-                Assignee
+                {t('in-automation:assignee')}
               </Label>
               <Input
                 id="jira-assignee"

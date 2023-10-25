@@ -15,6 +15,7 @@ import {
   isAnsible as isAnsibleFn,
   isGithub as isGithubFn,
   isGitlab as isGitlabFn,
+  isJira as isJiraFn,
   doesParameterExist
 } from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
@@ -126,8 +127,9 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
   const isAnsible = isAnsibleFn((form.get('type') as Field<string>).value);
   const isGithub = isGithubFn((form.get('type') as Field<string>).value);
   const isGitlab = isGitlabFn((form.get('type') as Field<string>).value);
+  const isJira = isJiraFn((form.get('type') as Field<string>).value);
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const GHorGLParameterExist = (isGithub || isGitlab) && doesParameterExist(parameters, 'ticketId');
+  const GHorGLParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'ticketId');
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, GHorGLParameterExist });
 
   return (

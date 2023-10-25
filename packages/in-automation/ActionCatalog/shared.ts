@@ -29,7 +29,7 @@ export const getType = (type: string) => {
   } else if (isGitlab(type)) {
     return t('in-automation:ActionCatalog.gitlab');
   } else if (isJira(type)) {
-    return 'Jira';
+    return t('in-automation:ActionCatalog.jira');
   } else {
     return type;
   }

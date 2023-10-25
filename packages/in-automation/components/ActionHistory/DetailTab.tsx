@@ -182,7 +182,7 @@ export default function DetailTab({
     if (ticketId && ticketUrl) {
       const GHUrl = `${ticketUrl}/${ticketId.value}`;
       tableData.push({
-        label: isGithub(type) ? t('in-automation:actionHistory.githubUrl') : t('in-automation:actionHistory.gitlabUrl'),
+        label: t('in-automation:actionHistory.ticketUrl'),
         value: ticketId.value ?? '',
         isLink: true,
         stringLink: GHUrl,

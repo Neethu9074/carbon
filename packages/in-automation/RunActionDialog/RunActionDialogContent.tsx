@@ -376,7 +376,7 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
         title={t('in-automation:request')}
       >
         <div>
-          <Typography variant="body-small">{t('in-automation:projectIdInfo', { projectId: project.value })}</Typography>
+          <Typography variant="body-small">{t('in-automation:projectInfo', { project: project.value })}</Typography>
         </div>
         {/* <div>
           <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>

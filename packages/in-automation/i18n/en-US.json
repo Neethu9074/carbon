@@ -64,6 +64,8 @@
   "issue":"Issue",
   "incident":"Incident",
   "testcase":"Testcase",
+  "assignee":"Assignee",
+  "projectInfo":"Project: {{project}}",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -80,7 +82,7 @@
     "interpreterHelper": "Interpreter is the program that will execute the script. For example, bash or python. This can be the full path to the interpreter or just the name of the interpreter if it is in the PATH. This field is not required if the script has a shebang, or if the script uses the default interpreter.",
     "ansible": "Ansible",
     "github": "Github",
-    "gitlab": "Gitlab",
+    "jira": "Jira",
     "docLink": "Documentation Link",
     "actionTypeHelper": "Documentation link refers to a URL; Script is to run an automation script on Linux; HTTP is to invoke a webhook; Manual describes manual actions used for AI model training.",
     "noTagsConfigured": "No Tags Configured",
@@ -218,8 +220,7 @@
     "hostsLimit": "Hosts Limit",
     "initiator": "Initiator",
     "submitted":"Submitted",
-    "githubUrl":"Github url",
-    "gitlabUrl":"Gitlab url"
+    "ticketUrl":"Ticket url"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
