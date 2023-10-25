@@ -88,6 +88,7 @@ module.exports = {
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: false,
+  eventFeedbackEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,

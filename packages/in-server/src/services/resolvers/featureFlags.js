@@ -421,6 +421,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'eventFeedbackEnabled',
+    instanaCtlKey: 'feature.event.feedback.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'actionsLaneEnabled',
     instanaCtlKey: 'feature.actions.lane.enabled',
     defaultValue: false
