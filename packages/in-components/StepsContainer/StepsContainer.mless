@@ -38,7 +38,7 @@
   }
 
   .icon {
-    border-radius: 50%; // creates a round icon
+    border-radius: var(--ids-border-radius-round); // creates a round icon
     margin-left: 0.5rem;
     fill: var(--ids-color-option-white);
     background-color: var(--ids-color-option-red-500);

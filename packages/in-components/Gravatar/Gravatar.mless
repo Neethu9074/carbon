@@ -6,7 +6,7 @@
 :local {
   .regular,
   .l {
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
     background: var(--ids-color-option-neutral-200);
   }
 

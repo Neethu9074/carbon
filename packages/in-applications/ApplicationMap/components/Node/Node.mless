@@ -28,7 +28,7 @@
     justify-content: center;
 
     background: var(--ids-color-option-neutral-700);
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
     cursor: pointer;
 
     &:hover {

@@ -12,7 +12,7 @@
     font-weight: 500;
     color: var(--ids-color-option-neutral-50);
     background: var(--ids-color-option-neutral-600);
-    border-radius: 0.1rem;
+    border-radius: var(--ids-border-radius-small);
     padding: 0.2rem 0.625rem;
     pointer-events: none;
     .ellipsis();

@@ -42,7 +42,7 @@
     max-width: 20rem;
     min-width: 2px;
     height: 4px;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-small);
     background: var(--ids-color-option-blue-500);
     margin: 0 0 0 1rem;
   }

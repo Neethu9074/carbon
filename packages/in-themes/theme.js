@@ -166,13 +166,6 @@ function buildLib() {
       chart: {}
     },
 
-    shapes: {
-      radius_small: '2px',
-      radius_medium: '3px',
-      radius_large: '5px',
-      radius_round: '50%'
-    },
-
     shadows: {
       subtle: '0px 1px 4px 0px rgba(0, 0, 0, 0.16)',
       pronounced: '0px 2px 5px 0px rgba(0, 0, 0, 0.24)',

@@ -14,7 +14,7 @@
     display: block;
     background: #172429;
     padding: 0.5rem 0.6rem;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-small);
 
     &::-webkit-scrollbar {
       -webkit-appearance: none;
@@ -22,7 +22,7 @@
       height: 8px;
     }
     &::-webkit-scrollbar-thumb {
-      border-radius: 3px;
+      border-radius: var(--ids-border-radius-medium);
       background-color: #43565e;
       -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
     }

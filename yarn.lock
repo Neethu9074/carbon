@@ -2027,7 +2027,16 @@
     prismjs "^1.24.1"
     react-toggle "^4.1.2"
 
-"@instana/design-tokens@1.20.0", "@instana/design-tokens@^1.20.0":
+"@instana/design-tokens@1.20.2":
+  version "1.20.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.20.2.tgz#f69cbf778f2ad77e1a17fedd146b3ad89fa429e9"
+  integrity sha512-e5vbnJfohoBqZ0C2jAs+z79kunF9qHOOp+cGirYB5aF+Ki+4g6ZFgVyuek4ot/0+s0W7xpOo8ggRrTeHGso8qA==
+  dependencies:
+    ts-node "^10.9.1"
+    tslib "^2.4.1"
+    typescript "^4.8.4"
+
+"@instana/design-tokens@^1.20.0":
   version "1.20.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/design-tokens/-/@instana/design-tokens-1.20.0.tgz#32377d4c455d7543b7c480eddd46f886cf71e924"
   integrity sha512-rpFC42i20Vzngtbq8JPuFFDAQqrGDu1p5MkTIldZX/gCezIePiqXVsYyo9QHwDk6FhTQzUc3j9tXEG1qmT8o+Q==

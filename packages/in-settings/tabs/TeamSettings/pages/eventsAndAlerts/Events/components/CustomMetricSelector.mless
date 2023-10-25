@@ -17,7 +17,7 @@
     background-color: @lib__colors__N050;
     background-image: none;
     border: 1px solid @lib__colors__N400;
-    border-radius: 0.1875rem;
+    border-radius: var(--ids-border-radius-medium);
     font-size: 0.75rem;
     position: relative;
   }

@@ -10,7 +10,7 @@
     left: 2.6rem;
     width: 20.5rem;
     background: #fff;
-    border-radius: 0.125rem;
+    border-radius: var(--ids-border-radius-small);
     max-height: ~'calc(100vh - 200px)';
   }
 

@@ -19,6 +19,6 @@
   }
 
   .dot {
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
   }
 }

@@ -21,7 +21,7 @@
     padding: 0 0.5rem;
 
     background: white;
-    border-radius: 3px;
+    border-radius: var(--ids-border-radius-medium);
   }
 
   .loadingIcon,

@@ -8,7 +8,7 @@
 :local {
   .icon {
     background-color: @lib__colors__teal800;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
   }
 
   .container {
@@ -25,7 +25,7 @@
     width: 1.75rem;
     height: 1.75rem;
     background-color: @lib__colors__N400;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
     flex-shrink: 0;
   }
 

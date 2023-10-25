@@ -10,7 +10,7 @@
   pre.code {
     padding: 1rem;
     background: var(--ids-color-option-neutral-200);
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-small);
   }
 
   .address {

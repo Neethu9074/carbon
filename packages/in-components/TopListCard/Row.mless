@@ -24,7 +24,7 @@
     height: 0.1875rem;
     margin: 0.25rem 0 1.5rem 0;
     background: var(--ids-color-option-neutral-300);
-    border-radius: 0.125rem;
+    border-radius: var(--ids-border-radius-small);
   }
 
   .barInner {
@@ -32,7 +32,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    border-radius: 0.125rem 0 0 0.125rem;
+    border-radius: var(--ids-border-radius-small) 0 0 var(--ids-border-radius-small);
   }
 
   .hairLine {

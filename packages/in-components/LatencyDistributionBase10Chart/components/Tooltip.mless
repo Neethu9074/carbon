@@ -55,7 +55,7 @@
     min-height: 0.75rem;
     flex-shrink: 0;
     margin-right: 0.25rem;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
   }
 
   .label {

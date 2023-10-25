@@ -23,7 +23,7 @@
     height: 2.5rem;
     padding: 0 0.75rem;
     background: white;
-    border-radius: 3px;
+    border-radius: var(--ids-border-radius-medium);
     box-shadow: @lib__shadows__pronounced;
   }
 

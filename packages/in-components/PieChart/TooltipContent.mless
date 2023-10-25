@@ -16,7 +16,7 @@
     width: 0.65rem;
     height: 0.65rem;
     margin-right: 0.375rem;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-round);
   }
 
   .label {

@@ -13,7 +13,7 @@
 
   .issuePreview {
     padding: 0.5rem 0 0.5rem 0.5rem;
-    border-radius: 3px;
+    border-radius: var(--ids-border-radius-medium);
     background: #203036;
   }
 

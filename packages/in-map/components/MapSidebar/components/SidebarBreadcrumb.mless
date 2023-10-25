@@ -14,7 +14,7 @@
     width: 2.25rem;
 
     background: #fff;
-    border-radius: 0.125rem;
+    border-radius: var(--ids-border-radius-small);
   }
   .crumb {
     width: 2.25rem;
