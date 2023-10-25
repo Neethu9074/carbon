@@ -21,7 +21,7 @@ import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const queueIdCol = {
-  title: t('in-forge:plugins.tuxedoMachine.queueId'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.queueId'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -31,7 +31,7 @@ const queueIdCol = {
 };
 
 const messagesCol = {
-  title: t('in-forge:plugins.tuxedoMachine.messages'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.messages'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
@@ -48,7 +48,7 @@ const messagesCol = {
 };
 
 const senderServerCol = {
-  title: t('in-forge:plugins.tuxedoMachine.senderServer'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.senderServer'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -58,7 +58,7 @@ const senderServerCol = {
 };
 
 const senderPIDCol = {
-  title: t('in-forge:plugins.tuxedoMachine.senderPID'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.senderPID'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -68,7 +68,7 @@ const senderPIDCol = {
 };
 
 const receiverServerCol = {
-  title: t('in-forge:plugins.tuxedoMachine.receiverServer'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.receiverServer'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -78,7 +78,7 @@ const receiverServerCol = {
 };
 
 const receiverPIDCol = {
-  title: t('in-forge:plugins.tuxedoMachine.receiverPID'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.receiverPID'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -88,7 +88,7 @@ const receiverPIDCol = {
 };
 
 const usageCol = {
-  title: t('in-forge:plugins.tuxedoMachine.usage'),
+  title: t('in-forge:plugins.tuxedoIpcQueue.usage'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
@@ -136,10 +136,11 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.tuxedoMachine.queueWithCount', { len: rows.length })}
+      cardTitle={t('in-forge:plugins.tuxedoIpcQueue.queueWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
+      initialSortColumn={cols.indexOf(messagesCol)}
     />
   );
 }
@@ -155,7 +156,7 @@ function getRowDetails(row: any) {
         timeConfig={timeConfig}
         y1={{
           metrics: ['cbytes'],
-          labels: [t('in-forge:plugins.tuxedoMachine.usedBytes')],
+          labels: [t('in-forge:plugins.tuxedoIpcQueue.usedBytes')],
           type: 'bar',
           formatter: number.compact
         }}
@@ -165,7 +166,7 @@ function getRowDetails(row: any) {
         timeConfig={timeConfig}
         y1={{
           metrics: ['qnum'],
-          labels: [t('in-forge:plugins.tuxedoMachine.messages')],
+          labels: [t('in-forge:plugins.tuxedoIpcQueue.messages')],
           type: 'line',
           formatter: number.compact
         }}

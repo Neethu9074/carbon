@@ -191,6 +191,7 @@ import './sapHanaSystem';
 import './sapDbInstance';
 import './sapAbapSensor';
 import './powervcRegion';
+import './tuxedoIpcQueue';
 import './ibmMqMftZone';
 import './ibmCloudEtcd';
 import './awsBeanstalk';

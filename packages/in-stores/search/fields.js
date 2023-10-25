@@ -81,6 +81,7 @@ const helpTexts = {
   'entity.tuxedo.domain': t('in-stores:search.fieldsEntityTuxedoDomain'),
   'entity.tuxedo.machine': t('in-stores:search.fieldsEntityTuxedoMachine'),
   'entity.tuxedo.server': t('in-stores:search.fieldsEntityTuxedoServer'),
+  'entity.tuxedo.ipcqueue': t('in-stores:search.fieldsEntityTuxedoIpcQueue'),
   'entity.nomad': t('in-stores:search.fieldsEntityNomad'),
   'entity.gce': t('in-stores:search.fieldsEntityGce'),
   'entity.gcp': t('in-stores:search.fieldsEntityGcp'),
