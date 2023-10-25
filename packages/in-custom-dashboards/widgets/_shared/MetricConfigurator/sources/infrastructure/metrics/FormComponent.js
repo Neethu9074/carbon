@@ -97,7 +97,7 @@ export default function FormComponent({
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
-    type: isTypePrefilled ? type : undefined,
+    type: isTypePrefilled && type,
     query: catalogQuery.debouncedValue
   });
 

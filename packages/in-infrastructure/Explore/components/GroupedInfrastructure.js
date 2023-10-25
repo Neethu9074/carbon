@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useCallback } from 'react';
+import { isEqual } from 'lodash';
 
 import {
   ColumnizedContent,
@@ -52,6 +53,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import { mapData } from 'in-services/util/result';
 import SparkChart from 'in-components/SparkChart';
+import usePrevious from 'in-hooks/usePrevious';
 import { t } from 'in-i18n';
 
 import locals from './GroupedInfrastructure.mless';
@@ -75,9 +77,17 @@ export default function GroupedInfrastructure(props) {
     onItemClicked
   } = props;
 
+  const previousMetrics = usePrevious(metrics);
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize, isCounterVisible] : isTableMode ? [isCounterVisible] : [metrics];
+  const dependencies = getDependencies({
+    isPreview,
+    isCounterVisible,
+    isTableMode,
+    retrievalSize,
+    hasMetricsChanged: !isEqual(previousMetrics, metrics),
+    metrics
+  });
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -316,6 +326,7 @@ function columns({
 
   const iconColumn = {
     width: '3rem',
+    id: 'icon',
     getId: () => 'icon',
     widthInAbsoluteUnit: true,
     sortable: false,
@@ -339,6 +350,7 @@ function columns({
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
       getId: () => groupKey,
+      id: groupKey,
       cellClassName: locals.wordBreak,
       headCellProps: {
         className: locals.wordBreak
@@ -363,6 +375,7 @@ function columns({
 
   const spacerColumn = {
     width: '3rem',
+    id: 'space',
     getId: () => 'space',
     getContent() {
       return <div />;
@@ -371,6 +384,7 @@ function columns({
 
   const countLabelColumnTable = {
     width: '6rem',
+    id: countLabel,
     getId: () => countLabel,
     label: countLabel,
     sortable: false,
@@ -381,6 +395,7 @@ function columns({
 
   const countLabelColumn = {
     width: '8rem',
+    id: countLabel,
     getId: () => countLabel,
     getContent({ group }) {
       return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
@@ -394,6 +409,7 @@ function columns({
 
   const focusGroupColumn = {
     width: '3rem',
+    id: 'focusOnGroup',
     getContent({ group }) {
       return (
         <Tooltip content={t('in-infrastructure:explore.focusOnThisGroup')}>
@@ -453,7 +469,7 @@ export function getGroups({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric }) => metric !== undefined && metric !== null)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
           return [
@@ -463,7 +479,8 @@ export function getGroups({
                 metric,
                 granularity: kpiGranularity,
                 aggregation,
-                crossSeriesAggregation
+                crossSeriesAggregation,
+                regex
               }
             ],
             [
@@ -472,7 +489,8 @@ export function getGroups({
                 metric,
                 granularity,
                 aggregation,
-                crossSeriesAggregation
+                crossSeriesAggregation,
+                regex
               }
             ]
           ];
@@ -706,4 +724,16 @@ function getMetricsColumns(isTableMode, sharedProps) {
       });
     }
   };
+}
+
+function getDependencies({ isPreview, isCounterVisible, isTableMode, hasMetricsChanged, retrievalSize, metrics }) {
+  if (isPreview) {
+    return [retrievalSize, isCounterVisible, hasMetricsChanged && metrics];
+  }
+
+  if (isTableMode) {
+    return [isCounterVisible];
+  }
+
+  return [metrics];
 }
