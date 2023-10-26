@@ -1388,8 +1388,8 @@
   "pluginName_tuxedoMachine_plural": "Tuxedo Machines",
   "pluginName_tuxedoServer": "Tuxedo Server",
   "pluginName_tuxedoServer_plural": "Tuxedo Servers",
-  "pluginName_tuxedoIpcQueue": "Tuxedo IpcQueue",
-  "pluginName_tuxedoIpcQueue_plural": "Tuxedo IpcQueues",
+  "pluginName_tuxedoIpcQueue": "Tuxedo IPC Queue",
+  "pluginName_tuxedoIpcQueue_plural": "Tuxedo IPC Queues",
   "pluginName_tuxedoAppApplication": "TuxedoApp Application",
   "pluginName_tuxedoAppApplication_plural": "TuxedoApp Applications",
   "pluginName_tuxedoAppServiceBrokerProject": "TuxedoApp Service Broker Project",
@@ -11683,7 +11683,7 @@
       "stateMetric": "State Metric"
     },
     "tuxedoIpcQueue": {
-      "tuxedoIpcQueue": "Tuxedo IpcQueue",
+      "tuxedoIpcQueue": "Tuxedo IPC Queue",
       "lmid": "Logical Machine Identifier",
       "usage": "Usage",
       "usedBytes": "Bytes",
@@ -11694,7 +11694,8 @@
       "senderPID": "Sender PID",
       "receiverServer": "Receiver Server",
       "receiverPID": "Receiver PID",
-      "queueWithCount": "Queues ({{len}})"
+      "queueWithCount": "Queues ({{len}})",
+      "health": "Health"
     },
     "tuxedoAppApplication": {
       "tuxedoAppApplication": "Application",

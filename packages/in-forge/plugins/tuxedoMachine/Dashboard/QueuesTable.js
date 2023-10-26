@@ -8,12 +8,11 @@ import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Result } from '@instana/types';
 
 import getTuxedoIpcQueuesForMachine from '../subscriptions/getTuxedoIpcQueuesForMachine';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { SnapshotData, getSnapshot } from 'in-stores/snapshot/snapshot';
 import { number, percentage } from 'in-services/formatters/number';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -24,7 +23,7 @@ const queueIdCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.queueId'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
+    getValue(row) {
       return row.queueId;
     }
   }
@@ -34,7 +33,7 @@ const messagesCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.messages'),
   type: 'metric',
   typeArgs: {
-    getSnapshotId(row: any) {
+    getSnapshotId(row) {
       return row.key;
     },
     getMetricName() {
@@ -51,7 +50,7 @@ const senderServerCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.senderServer'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
+    getValue(row) {
       return row.snapshot.getIn(['data', 'senderSrv']);
     }
   }
@@ -61,7 +60,7 @@ const senderPIDCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.senderPID'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
+    getValue(row) {
       return row.snapshot.getIn(['data', 'senderPID']).toString();
     }
   }
@@ -71,7 +70,7 @@ const receiverServerCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.receiverServer'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
+    getValue(row) {
       return row.snapshot.getIn(['data', 'receiverSrv']);
     }
   }
@@ -81,7 +80,7 @@ const receiverPIDCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.receiverPID'),
   type: 'string',
   typeArgs: {
-    getValue(row: any) {
+    getValue(row) {
       return row.snapshot.getIn(['data', 'receiverPID']).toString();
     }
   }
@@ -91,7 +90,7 @@ const usageCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.usage'),
   type: 'metric',
   typeArgs: {
-    getSnapshotId(row: any) {
+    getSnapshotId(row) {
       return row.key;
     },
     getMetricName() {
@@ -104,9 +103,19 @@ const usageCol = {
   }
 };
 
-export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
+const health = {
+  title: t('in-forge:plugins.tuxedoIpcQueue.health'),
+  type: 'health',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.key;
+    }
+  }
+};
+
+export default function QueuesTable({ snapshot }) {
   const timeConfig = useTimeConfig();
-  const snapshotId = snapshot.get('id') as string;
+  const snapshotId = snapshot.get('id');
 
   const ipcQueues = useObservable(
     getTuxedoIpcQueuesForMachine({ snapshotId, timeConfig: timeConfig }).flatMap(result =>
@@ -114,7 +123,7 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
         ? combineLatest(result.data.map(ipcQueue => getSnapshot(ipcQueue, timeConfig))).map(ipcQueues =>
             success(ipcQueues)
           )
-        : just(pendingResult as Result<SnapshotData[]>)
+        : just(pendingResult)
     ),
     [snapshotId, timeConfig]
   );
@@ -132,7 +141,16 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
       timeConfig
     })) || [];
 
-  const cols = [queueIdCol, messagesCol, senderServerCol, senderPIDCol, receiverServerCol, receiverPIDCol, usageCol];
+  const cols = [
+    queueIdCol,
+    messagesCol,
+    senderServerCol,
+    senderPIDCol,
+    receiverServerCol,
+    receiverPIDCol,
+    usageCol,
+    health
+  ];
   return (
     <Table
       withoutPadding
@@ -140,12 +158,13 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
+      initialSortDirection="desc"
       initialSortColumn={cols.indexOf(messagesCol)}
     />
   );
 }
 
-function getRowDetails(row: any) {
+function getRowDetails(row) {
   const snapshotId = row.key;
   const timeConfig = row.timeConfig;
 
