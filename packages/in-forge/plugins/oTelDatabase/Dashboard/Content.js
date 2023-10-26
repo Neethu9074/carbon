@@ -169,7 +169,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytesTwoDecimalPlaces,
+              formatter: number.detailed,
               metrics: [
                 'db.cache.hit_RECYCLE',
                 'db.cache.hit_KEEP',
@@ -255,7 +255,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytesTwoDecimalPlaces,
+              formatter: number.detailed,
               metrics: [
                 'db.tablespace.utilization_SAMPLE',
                 'db.tablespace.utilization_SYSTEM',
@@ -283,7 +283,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytesTwoDecimalPlaces,
+              formatter: number.compact,
               metrics: [
                 'db.tablespace.max_SAMPLE',
                 'db.tablespace.max_SYSTEM',
