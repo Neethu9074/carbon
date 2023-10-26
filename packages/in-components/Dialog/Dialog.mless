@@ -39,7 +39,7 @@
     height: 5rem;
     padding: 1.5rem;
     background: var(--ids-color-option-white);
-    border-radius: var(--ids-border-radius-small) var(--ids-border-radius-small) 0 0;
+    border-radius: var(--ids-border-radius-option-small) var(--ids-border-radius-option-small) 0 0;
   }
 
   .title {
@@ -62,7 +62,7 @@
   }
 
   .withRoundedBottomBorder {
-    border-radius: 0 0 var(--ids-border-radius-small) var(--ids-border-radius-small);
+    border-radius: 0 0 var(--ids-border-radius-option-small) var(--ids-border-radius-option-small);
   }
 
   .withoutPadding {

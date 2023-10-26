@@ -60,7 +60,7 @@
     padding: 0.25rem 0.5rem;
     margin: 0.125rem;
 
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     background: var(--ids-color-option-neutral-200);
     color: var(--ids-color-option-neutral-800);
     cursor: pointer;

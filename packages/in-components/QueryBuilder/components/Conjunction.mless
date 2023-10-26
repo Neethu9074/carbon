@@ -18,7 +18,7 @@
 
     color: var(--ids-color-option-green-500);
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     font-weight: 500;
     line-height: 1.15;
     cursor: pointer;

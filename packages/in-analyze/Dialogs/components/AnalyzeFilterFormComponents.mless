@@ -65,7 +65,7 @@
   .fixedOperator {
     max-width: 3.5rem;
     padding-left: 0.5rem;
-    border-radius: var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large);
 
     &[disabled] {
       color: #fff;

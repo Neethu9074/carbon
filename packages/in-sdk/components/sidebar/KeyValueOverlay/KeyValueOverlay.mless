@@ -20,7 +20,7 @@
 
   .button,
   .buttonOpen {
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     padding: 0.25rem 0.1875rem;
     cursor: pointer;
   }

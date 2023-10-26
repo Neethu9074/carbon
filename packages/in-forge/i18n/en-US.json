@@ -5796,6 +5796,7 @@
       "infoNamespace": "Containerd namespace",
       "infoCreatedAt": "Created At",
       "infoUpdatedAt": "Updated At",
+      "containerdVersion": "Containerd Version",
       "labelCPUTotalTime": "CPU Total Time",
       "labelCPUThrottlingCount": "CPU Throttling Count",
       "labelUsage": "Usage",

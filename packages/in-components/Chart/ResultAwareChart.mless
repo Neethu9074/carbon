@@ -36,7 +36,7 @@
 
   .pieSkeleton {
     display: block;
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     padding: 1rem;
     margin: 0 auto;
   }

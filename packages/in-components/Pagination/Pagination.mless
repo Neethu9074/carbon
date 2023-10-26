@@ -27,12 +27,12 @@
     border-left: none;
 
     &:first-child {
-      border-radius: var(--ids-border-radius-small) 0 0 var(--ids-border-radius-small);
+      border-radius: var(--ids-border-radius-option-small) 0 0 var(--ids-border-radius-option-small);
       border-left: 1px solid var(--ids-color-option-neutral-300);
     }
 
     &:last-child {
-      border-radius: 0 var(--ids-border-radius-small) var(--ids-border-radius-small) 0;
+      border-radius: 0 var(--ids-border-radius-option-small) var(--ids-border-radius-option-small) 0;
     }
 
     &:hover {

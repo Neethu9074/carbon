@@ -32,7 +32,7 @@
     width: 1.125rem;
     height: 1.125rem;
 
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     font-weight: bold;
   }
 

@@ -15,7 +15,7 @@
     border: 0;
     background: none;
     border: solid 1px transparent;
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     padding: 0.5rem;
     margin-right: 0.25rem;
 
@@ -26,7 +26,7 @@
 
   .iconButton:before {
     position: absolute;
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     opacity: 0;
     pointer-events: none;
     top: 0%;

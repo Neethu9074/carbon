@@ -6,7 +6,7 @@
 :local {
   .icon {
     background-color: var(--ids-color-option-teal-500);
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
   }
 
   .container {
@@ -23,7 +23,7 @@
     width: 1.75rem;
     height: 1.75rem;
     background-color: var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     flex-shrink: 0;
   }
 

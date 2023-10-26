@@ -25,7 +25,7 @@
 
   .lightMode {
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large);
     box-shadow: var(--ids-shadow-option-subtle);
   }
 }
