@@ -8,7 +8,7 @@
 :local {
   .button {
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     position: relative;
     margin-left: 0.125rem;
   }

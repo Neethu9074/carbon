@@ -15,6 +15,6 @@
     width: 0.5rem;
     height: 0.5rem;
     border: 1px solid var(--ids-color-option-neutral-50);
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
   }
 }

@@ -12,7 +12,7 @@
   .bar {
     position: relative;
     background: #64aade;
-    border-radius: var(--ids-border-radius-small);
+    border-radius: var(--ids-border-radius-option-small);
     overflow: hidden;
     height: 7px;
     min-width: 6.25rem;

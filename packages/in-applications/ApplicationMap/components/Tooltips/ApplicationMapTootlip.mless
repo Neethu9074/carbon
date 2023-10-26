@@ -13,7 +13,7 @@
     padding: 1rem;
 
     background: #fff;
-    border-radius: var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large);
     border: 1px solid var(--ids-color-option-neutral-400);
 
     overflow: hidden;

@@ -82,12 +82,12 @@
   }
 
   .first {
-    border-top-left-radius: var(--ids-border-radius-medium);
-    border-bottom-left-radius: var(--ids-border-radius-medium);
+    border-top-left-radius: var(--ids-border-radius-option-medium);
+    border-bottom-left-radius: var(--ids-border-radius-option-medium);
   }
 
   .last {
-    border-top-right-radius: var(--ids-border-radius-medium);
-    border-bottom-right-radius: var(--ids-border-radius-medium);
+    border-top-right-radius: var(--ids-border-radius-option-medium);
+    border-bottom-right-radius: var(--ids-border-radius-option-medium);
   }
 }

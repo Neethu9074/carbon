@@ -18,7 +18,7 @@
       margin: 4px 8px 0px -13px;
       border: 5px solid;
       color: var(--ids-color-option-red-500);
-      border-radius: var(--ids-border-radius-round);
+      border-radius: var(--ids-border-radius-option-round);
     }
 
     &__success {

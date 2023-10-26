@@ -21,7 +21,7 @@
   }
 
   .list {
-    border-radius: var(--ids-border-radius-small);
+    border-radius: var(--ids-border-radius-option-small);
     padding: 0.25rem 0.688rem;
     font-size: 0.625rem;
     background: #f8f8f8;

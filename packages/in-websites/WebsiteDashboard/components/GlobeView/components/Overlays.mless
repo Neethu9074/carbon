@@ -28,7 +28,8 @@
     padding: 0.125rem 0.25rem;
 
     background: rgba(255, 255, 255, 0.31);
-    border-radius: 0 var(--ids-border-radius-medium) var(--ids-border-radius-medium) var(--ids-border-radius-medium);
+    border-radius: 0 var(--ids-border-radius-option-medium) var(--ids-border-radius-option-medium)
+      var(--ids-border-radius-option-medium);
     font-weight: 700;
   }
 
