@@ -180,14 +180,14 @@ export default function DetailTab({
     const ticketId = metadata?.find(data => data.name === 'ticketId');
     const ticketUrl = metadata?.find(data => data.name === 'ticketUrl');
     if (ticketId && ticketUrl) {
-      const GHUrl = `${ticketUrl}/${ticketId.value}`;
+      const GHUrl = `${ticketUrl.value}/${ticketId.value}`;
       tableData.push({
         label: t('in-automation:actionHistory.ticketUrl'),
         value: ticketId.value ?? '',
         isLink: true,
         stringLink: GHUrl,
         actionLane: false,
-        showCondition: ticketId.value && ticketUrl ? ticketId.value : ''
+        showCondition: ticketId.value && ticketUrl.value ? ticketId.value : ''
       });
     }
   }
