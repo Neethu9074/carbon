@@ -82,12 +82,10 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
   let steps;
 
-  const nodejsLayerVersionFallback = '71';
-  const nodejsLayerArn = useLambdaLayerVersionObservable('instana-nodejs', nodejsLayerVersionFallback);
-  const pythonLayerVersion = '27';
-  const pythonLayerArn = useLambdaLayerVersionObservable('instana-python', pythonLayerVersion);
-  const javaLayerVersion = '36';
-  const javaLayerArn = useLambdaLayerVersionObservable('instana-java', javaLayerVersion);
+  const layerVersionUnknown = '?';
+  const nodejsLayerArn = useLambdaLayerVersionObservable('instana-nodejs', layerVersionUnknown);
+  const pythonLayerArn = useLambdaLayerVersionObservable('instana-python', layerVersionUnknown);
+  const javaLayerArn = useLambdaLayerVersionObservable('instana-java', layerVersionUnknown);
 
   if (selectedRuntime === runtimeOptions[0]) {
     // Golang
