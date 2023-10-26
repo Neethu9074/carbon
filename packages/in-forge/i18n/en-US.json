@@ -11416,6 +11416,7 @@
         "transaction": "Transaction",
         "transactionCount": "Transaction Count",
         "session": "Session",
+        "sessionActive": "Active Session",
         "sql": "SQL",
         "sessions": "Sessions",
         "total": "Total",
@@ -11455,7 +11456,7 @@
         "qps": "QPS",
         "sqlLatency": "SQL Latency",
         "sqlAverageLatency": "Average Latency",
-        "sqlId": "The SQL Statement ID",
+        "sqlId": "SQL Statement ID",
         "sqlText": "SQL Text",
         "elapsed_time": "SQL Elapsed Time",
         "io_read_rate": "IO Read Rate"

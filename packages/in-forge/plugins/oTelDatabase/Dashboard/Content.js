@@ -21,16 +21,43 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.session')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.session.count" formatter={number.compact} />
+        <KpiKeyValue
+          label={
+            t('in-forge:plugins.oTelDatabase.dashboard.instanceActive') +
+            ' / ' +
+            t('in-forge:plugins.oTelDatabase.dashboard.instance')
+          }
+        >
+          <MetricValue snapshotId={snapshot.get('id')} metric="db.instance.active.count" formatter={number.compact} /> /{' '}
+          <MetricValue snapshotId={snapshot.get('id')} metric="db.instance.count" formatter={number.compact} />
         </KpiKeyValue>
 
+        <KpiKeyValue
+          label={
+            t('in-forge:plugins.oTelDatabase.dashboard.sessionActive') +
+            ' / ' +
+            t('in-forge:plugins.oTelDatabase.dashboard.session')
+          }
+        >
+          <MetricValue snapshotId={snapshot.get('id')} metric="db.session.active.count" formatter={number.compact} /> /{' '}
+          <MetricValue snapshotId={snapshot.get('id')} metric="db.session.count" formatter={number.compact} />
+        </KpiKeyValue>
+      </KpiSection>
+      <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.transaction')}>
           <MetricValue snapshotId={snapshot.get('id')} metric="db.transaction.count" formatter={number.compact} />
         </KpiKeyValue>
 
+        <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.tps')}>
+          <MetricValue snapshotId={snapshot.get('id')} metric="db.transaction.rate" formatter={number.detailed} />
+        </KpiKeyValue>
+
         <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.sql')}>
           <MetricValue snapshotId={snapshot.get('id')} metric="db.sql.count" formatter={number.compact} />
+        </KpiKeyValue>
+
+        <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.sqlPerSecond')}>
+          <MetricValue snapshotId={snapshot.get('id')} metric="db.sql.rate" formatter={number.detailed} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
@@ -51,6 +78,8 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
+      </Columize>
+      <Columize>
         <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.transaction')}>
           <Chart
             snapshotId={snapshotId}
@@ -72,9 +101,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.transaction')}>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.tps')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -104,8 +131,6 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-      </Columize>
-      <Columize>
         <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.sqlPerSecond')}>
           <Chart
             snapshotId={snapshotId}
@@ -115,26 +140,6 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
               formatter: number.detailed,
               metrics: ['db.sql.rate'],
               labels: [t('in-forge:plugins.oTelDatabase.dashboard.sqlPerSecond')],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <ElapsedTimeTable snapshot={snapshot} timeConfig={timeConfig} />
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.lockCount')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number.compact,
-              metrics: ['db.lock.count_OBJECT', 'db.lock.count_TID'],
-              labels: [
-                t('in-forge:plugins.oTelDatabase.dashboard.lockCountObject'),
-                t('in-forge:plugins.oTelDatabase.dashboard.lockCountTid')
-              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -158,6 +163,47 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               metrics: ['db.task.avg_wait_time'],
               labels: [t('in-forge:plugins.oTelDatabase.dashboard.avg_wait_time')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.ioPerSecond')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesTwoDecimalPlaces,
+              metrics: ['db.io.read.rate', 'db.io.write.rate'],
+              labels: [
+                t('in-forge:plugins.oTelDatabase.dashboard.read'),
+                t('in-forge:plugins.oTelDatabase.dashboard.write')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <ElapsedTimeTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.lockCount')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['db.lock.count_OBJECT', 'db.lock.count_TID'],
+              labels: [
+                t('in-forge:plugins.oTelDatabase.dashboard.lockCountObject'),
+                t('in-forge:plugins.oTelDatabase.dashboard.lockCountTid')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -301,25 +347,6 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
                 t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMain'),
                 t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceRoll'),
                 t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceBookShop')
-              ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
-      <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.ioPerSecond')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytesTwoDecimalPlaces,
-              metrics: ['db.io.read.rate', 'db.io.write.rate'],
-              labels: [
-                t('in-forge:plugins.oTelDatabase.dashboard.read'),
-                t('in-forge:plugins.oTelDatabase.dashboard.write')
               ],
               type: 'line'
             }}
