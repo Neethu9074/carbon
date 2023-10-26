@@ -100,13 +100,6 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
               labels: [t('in-forge:plugins.oTelDatabase.dashboard.sqlCount')],
               type: 'line'
             }}
-            y2={{
-              min: 0,
-              formatter: seconds.detailed,
-              metrics: ['db.sql.elapsed_time'],
-              labels: [t('in-forge:plugins.oTelDatabase.dashboard.elapsed_time')],
-              type: 'line'
-            }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
@@ -135,8 +128,11 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: ['db.lock.count'],
-              labels: [t('in-forge:plugins.oTelDatabase.dashboard.lockCount')],
+              metrics: ['db.lock.count_OBJECT', 'db.lock.count_TID'],
+              labels: [
+                t('in-forge:plugins.oTelDatabase.dashboard.lockCountObject'),
+                t('in-forge:plugins.oTelDatabase.dashboard.lockCountTid')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -195,19 +191,114 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.tableSpace')}>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSize')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: bytesTwoDecimalPlaces,
-              metrics: ['db.tablespace.size', 'db.tablespace.used', 'db.tablespace.utilization', 'db.tablespace.max'],
+              metrics: [
+                'db.tableSpace.size_SAMPLE',
+                'db.tablespace.size_SYSTEM',
+                'db.tablespace.size_TEMP',
+                'db.tablespace.size_MAIN',
+                'db.tablespace.size_ROLL',
+                'db.tablespace.size_BOOKSHOP'
+              ],
               labels: [
-                t('in-forge:plugins.oTelDatabase.dashboard.tablespaceSize'),
-                t('in-forge:plugins.oTelDatabase.dashboard.tablespaceUsed'),
-                t('in-forge:plugins.oTelDatabase.dashboard.tablespaceUtilization'),
-                t('in-forge:plugins.oTelDatabase.dashboard.tablespaceMax')
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSample'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSystem'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceTemp'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMain'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceRoll'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceBookShop')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceUsed')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesTwoDecimalPlaces,
+              metrics: [
+                'db.tablespace.used_SAMPLE',
+                'db.tablespace.used_SYSTEM',
+                'db.tablespace.used_TEMP',
+                'db.tablespace.used_MAIN',
+                'db.tablespace.used_ROLL',
+                'db.tablespace.used_BOOKSHOP'
+              ],
+              labels: [
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSample'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSystem'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceTemp'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMain'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceRoll'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceBookShop')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceUtilization')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesTwoDecimalPlaces,
+              metrics: [
+                'db.tablespace.utilization_SAMPLE',
+                'db.tablespace.utilization_SYSTEM',
+                'db.tablespace.utilization_TEMP',
+                'db.tablespace.utilization_MAIN',
+                'db.tablespace.utilization_ROLL',
+                'db.tablespace.utilization_BOOKSHOP'
+              ],
+              labels: [
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSample'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSystem'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceTemp'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMain'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceRoll'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceBookShop')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMax')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytesTwoDecimalPlaces,
+              metrics: [
+                'db.tablespace.max_SAMPLE',
+                'db.tablespace.max_SYSTEM',
+                'db.tablespace.max_TEMP',
+                'db.tablespace.max_MAIN',
+                'db.tablespace.max_ROLL',
+                'db.tablespace.max_BOOKSHOP'
+              ],
+              labels: [
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSample'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSystem'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceTemp'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMain'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceRoll'),
+                t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceBookShop')
               ],
               type: 'line'
             }}
