@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .valueFormatText {
     display: block;
@@ -33,7 +31,7 @@
   }
 
   .subTextFormField {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
     margin: 0.5rem 0 0 0.5rem;
   }
 

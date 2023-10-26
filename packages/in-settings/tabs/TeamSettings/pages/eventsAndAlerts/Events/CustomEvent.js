@@ -68,10 +68,11 @@ import { getPluginName } from 'in-sdk/pluginName';
 import { getAllActions } from 'in-automation/api';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
+  const theme = useTheme();
   const entityId = props.match.params.id;
   function mergeResultData() {
     const eventDetails$ = getCustomEventSpecificationMutable(entityId);
@@ -111,7 +112,7 @@ export default function CustomEvent(props) {
   } else if (errorLoading) {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownEvent')}
         </SubViewHeader>
         <SectionLine />

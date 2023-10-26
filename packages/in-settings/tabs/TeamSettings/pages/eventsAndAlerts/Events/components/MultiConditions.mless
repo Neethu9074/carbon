@@ -4,8 +4,6 @@
 * Copyright IBM Corp. 2022
 */
 
-@import '~in-themes/active.less';
-
 :local {
   .header {
     font-size: var(--ids-font-size-option-body-bold);
@@ -13,7 +11,7 @@
 
   .ruleBoxWithBorder {
     padding: 1rem;
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
   }
 
   .conditionWrapper {

@@ -17,11 +17,11 @@
     color: var(--query-builder-element-color);
 
     padding: 0.1875rem 0 0.1875rem 0.4375rem;
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
 
     flex: 1 0 8rem; // 8rem to easily fit into narrow AlertConfig dialog
 
-    border: 1px solid @lib__colors__N400;
+    border: 1px solid var(--ids-color-option-neutral-400);
     border-radius: var(--ids-border-radius-medium);
 
     display: flex;
@@ -53,10 +53,10 @@
     &:active,
     &:hover {
       outline: none;
-      color: @lib__colors__light-blue800;
+      color: var(--ids-color-option-blue-400);
 
       .icon {
-        fill: @lib__colors__light-blue800;
+        fill: var(--ids-color-option-blue-400);
       }
     }
   }
@@ -65,19 +65,19 @@
     // icons have a built in margin so we need to substract it when it is used in smaller frames
     margin: -0.5rem -0.25rem;
 
-    fill: @lib__colors__N400;
+    fill: var(--ids-color-option-neutral-400);
   }
 
   .keyEqualsOperator {
     padding: 0.0225rem 0.3125rem;
     margin: -0.25rem 0;
     border: none;
-    border-left: 1px solid @lib__colors__N300;
+    border-left: 1px solid var(--ids-color-option-neutral-300);
     line-height: 2;
 
     white-space: nowrap;
 
-    background: @lib__colors__N050;
+    background: var(--ids-color-option-neutral-50);
   }
 
   // To enforce expanding and filling the possible width

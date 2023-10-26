@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .dialog {
     width: 70vw;
@@ -16,7 +14,7 @@
     padding: 1rem 0;
     height: 4rem;
 
-    background-color: @lib__colors__N100;
-    border-top: 1px solid @lib__colors__N300;
+    background-color: var(--ids-color-option-neutral-100);
+    border-top: 1px solid var(--ids-color-option-neutral-300);
   }
 }
