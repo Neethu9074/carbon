@@ -203,7 +203,7 @@ function mapAndRefresh<T>(response: Response<T>): T {
 
 export function createNewGroup(): ApiGroup {
   return {
-    id: undefined,
+    id: '',
     name: '',
     members: [],
     permissionSet: createPermissionSet()
