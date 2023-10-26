@@ -27,6 +27,7 @@ import {
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
 // import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import TabSelect, {
@@ -88,7 +89,10 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
-
+  const isContributerRole =
+    applicationContributionFilterEnabled &&
+    entityPermissionKey === 'applicationIds' &&
+    role === AreaRoleWithContributer.CONTRIBUTER;
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
@@ -148,7 +152,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
           <TabSelectPanel key={context} id={context}>
             {context === ScopedPermissionItem.ACCESS_ALL && (
               <>
-                {' '}
+                {isContributerRole && <ContributerFilterWarning />}
                 <AccessAllPanel
                   role={role}
                   onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
@@ -156,11 +160,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   roleTooltipText={roleTooltipText}
                   description={accessAllDescription}
                 />
-                {applicationContributionFilterEnabled &&
-                  entityPermissionKey === 'applicationIds' &&
-                  role === AreaRoleWithContributer.CONTRIBUTER && (
-                    <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
-                  )}
+                {isContributerRole && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
               </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel />}

@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
 
 import { PermissionSet } from '@instana/types';
+import { t } from '@instana/i18n-react';
 
 import {
   AreaRole,
@@ -21,7 +22,7 @@ import {
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { createNewApplicationConfig } from 'in-api/applicationConfigs';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
@@ -241,7 +242,21 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
     .put(
       'tagFilterExpression',
       createField({
-        value: tagFilterExpression
+        value: tagFilterExpression,
+        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
       })
     );
 }
+
+const tagFilterExpressionValidator = (tagFilterExpression: FormModelElement[]): ValidationResult => {
+  if (tagFilterExpression.length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-applications:creation.form.theQueryIsNotValid')
+      }
+    ];
+  } else {
+    return null;
+  }
+};

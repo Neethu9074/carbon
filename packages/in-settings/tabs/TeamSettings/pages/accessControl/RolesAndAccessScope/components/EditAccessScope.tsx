@@ -65,11 +65,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   if (applicationContributionFilterEnabled) {
     const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
     const permissions = permissionSet?.permissions;
-    const limitedApplicationOwnerPermissons = [
-      'CAN_CONFIGURE_APPLICATIONS',
-      'LIMITED_APPLICATIONS_SCOPE',
-      'ACCESS_APPLICATIONS'
-    ];
+    const limitedApplicationOwnerPermissons = ['CAN_CONFIGURE_APPLICATIONS'];
     const isApplicationOwnerAccess = limitedApplicationOwnerPermissons.every(permission => {
       return permissions?.includes(permission);
     });

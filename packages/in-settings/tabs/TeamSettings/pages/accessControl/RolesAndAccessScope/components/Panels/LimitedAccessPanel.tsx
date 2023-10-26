@@ -82,7 +82,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
 
   const selectedIds = getFilteredScopeIds(scopeBindings);
   const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable, orderDirection });
-
+  const isContributer =
+    applicationContributionFilterEnabled &&
+    entityPermissionKey === 'applicationIds' &&
+    role === AreaRoleWithContributer.CONTRIBUTER;
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
     setForm(updatedForm);
@@ -162,13 +165,13 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
         <SyntheticCommonSection form={form} setForm={setForm} />
       )}
+      {isContributer && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
       <Divider />
-      {applicationContributionFilterEnabled &&
-        entityPermissionKey === 'applicationIds' &&
-        role === AreaRoleWithContributer.CONTRIBUTER && (
-          <LimitingApplicationFilterWrapper form={form} setForm={setForm} />
-        )}
-
+      {isContributer && (
+        <Typography variant="heading-200" component="div">
+          {t('in-settings:permissionScope.limitation_accessScope')}
+        </Typography>
+      )}
       <StackItem>
         <Button
           kind="action"
