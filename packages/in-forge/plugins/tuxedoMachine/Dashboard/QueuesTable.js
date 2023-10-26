@@ -103,16 +103,6 @@ const usageCol = {
   }
 };
 
-const health = {
-  title: t('in-forge:plugins.tuxedoIpcQueue.health'),
-  type: 'health',
-  typeArgs: {
-    getSnapshotId(row) {
-      return row.key;
-    }
-  }
-};
-
 export default function QueuesTable({ snapshot }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id');
@@ -141,16 +131,7 @@ export default function QueuesTable({ snapshot }) {
       timeConfig
     })) || [];
 
-  const cols = [
-    queueIdCol,
-    messagesCol,
-    senderServerCol,
-    senderPIDCol,
-    receiverServerCol,
-    receiverPIDCol,
-    usageCol,
-    health
-  ];
+  const cols = [queueIdCol, messagesCol, senderServerCol, senderPIDCol, receiverServerCol, receiverPIDCol, usageCol];
   return (
     <Table
       withoutPadding
