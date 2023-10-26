@@ -11455,7 +11455,9 @@
         "qps": "QPS",
         "sqlLatency": "SQL Latency",
         "sqlAverageLatency": "Average Latency",
-        "elapsed_time": "Elapsed Time",
+        "sqlId": "The SQL Statement ID",
+        "sqlText": "SQL Text",
+        "elapsed_time": "SQL Elapsed Time",
         "io_read_rate": "IO Read Rate"
       }
     },

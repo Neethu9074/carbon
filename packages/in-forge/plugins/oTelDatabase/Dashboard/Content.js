@@ -6,6 +6,7 @@
 import React from 'react';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
+import ElapsedTimeTable from 'in-forge/plugins/oTelDatabase/Dashboard/ElapsedTimeTable';
 import { number, bytesTwoDecimalPlaces, seconds } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -120,6 +121,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
+      <ElapsedTimeTable snapshot={snapshot} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-forge:plugins.oTelDatabase.dashboard.lockCount')}>
           <Chart
