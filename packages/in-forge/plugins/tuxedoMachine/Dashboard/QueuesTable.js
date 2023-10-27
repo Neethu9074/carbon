@@ -21,10 +21,10 @@ import { t } from 'in-i18n';
 
 const queueIdCol = {
   title: t('in-forge:plugins.tuxedoIpcQueue.queueId'),
-  type: 'string',
+  type: 'snapshotLink',
   typeArgs: {
-    getValue(row) {
-      return row.queueId;
+    getSnapshotId(row) {
+      return row.key;
     }
   }
 };

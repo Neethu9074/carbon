@@ -11647,12 +11647,9 @@
       "dequeue": "Dequeue",
       "initiated": "Initiated",
       "completed": "Completed",
-      "usedBytes": "Bytes",
       "state": "State",
       "health": "Health",
       "machinesWithCount": "Machines ({{len}})",
-      "ipcQueues": "IPC Queues",
-      "ipcQueueId": "IPC Queue Id",
       "machines": "Machines",
       "stateMetric": "State Metric"
     },
@@ -11694,8 +11691,7 @@
       "senderPID": "Sender PID",
       "receiverServer": "Receiver Server",
       "receiverPID": "Receiver PID",
-      "queueWithCount": "Queues ({{len}})",
-      "health": "Health"
+      "queueWithCount": "Queues ({{len}})"
     },
     "tuxedoAppApplication": {
       "tuxedoAppApplication": "Application",
