@@ -3,24 +3,33 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import ConjunctionsAndBrackets from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 
+interface ConjunctionTagSelectorOverlayProps {
+  tagCatalog: EnrichedTagCatalog;
+  onChange: (formModel: FormModelElement) => void;
+  close: VoidFunction;
+  withoutOrConjunction?: boolean;
+  withoutBrackets?: boolean;
+}
 export default function ConjunctionTagSelectorOverlay({
   tagCatalog,
   onChange,
   close,
   withoutOrConjunction = false,
   withoutBrackets = false
-}) {
+}: ConjunctionTagSelectorOverlayProps) {
   return (
     <>
       <ConjunctionsAndBrackets
-        onChange={v => {
-          onChange(v);
+        onChange={(formModel: FormModelElement) => {
+          onChange(formModel);
           close();
         }}
         withoutOrConjunction={withoutOrConjunction}
@@ -28,13 +37,8 @@ export default function ConjunctionTagSelectorOverlay({
       />
 
       <TagSelectorOverlay
-        onChange={({ name }) => {
-          onChange({
-            type: 'TAG_FILTER',
-            name,
-            operator: 'EQUALS',
-            value: setDefaultValueWhenTagTypeBoolean(name, tagCatalog)
-          });
+        onChange={({ name }: { name: string }) => {
+          onChange(tagFilter(name, 'EQUALS', setDefaultValueWhenTagTypeBoolean(name, tagCatalog)));
         }}
         close={close}
         tagCatalog={tagCatalog}
@@ -43,7 +47,7 @@ export default function ConjunctionTagSelectorOverlay({
   );
 }
 
-function setDefaultValueWhenTagTypeBoolean(tagName, tagCatalog) {
+function setDefaultValueWhenTagTypeBoolean(tagName: string, tagCatalog: EnrichedTagCatalog): boolean | undefined {
   const tagTreeNode = tagCatalog.tagsByName[tagName];
   if (tagTreeNode.type === 'BOOLEAN') {
     return true;
@@ -51,11 +55,3 @@ function setDefaultValueWhenTagTypeBoolean(tagName, tagCatalog) {
 
   return undefined;
 }
-
-ConjunctionTagSelectorOverlay.propTypes = {
-  tagCatalog: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired,
-  withoutOrConjunction: PropTypes.bool,
-  withoutBrackets: PropTypes.bool
-};
