@@ -6,8 +6,12 @@
 
 import { Field, MapForm } from 'formalistic';
 
+import { Granularity } from '@instana/types';
+
+import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/mobileApp/form/alertDialogFormDefinition';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { ThresholdType } from 'in-types';
 
@@ -42,31 +46,31 @@ export function onThresholdTypeChange(
 
   let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 
-  // const granularity = (form.get('granularity') as Field<Granularity>).value;
-  // updatedForm = updateFormIfAdaptiveBaseline(updatedForm, updatedThresholdType, granularity);
+  const granularity = (form.get('granularity') as Field<Granularity>).value;
+  updatedForm = updateFormIfAdaptiveBaseline(updatedForm, updatedThresholdType, granularity);
 
   updateForm(updatedForm);
 }
 
-// function updateFormIfAdaptiveBaseline(
-//   form: MapForm<any>,
-//   thresholdType: ThresholdType,
-//   granularity: Granularity
-// ): MapForm<any> {
-//   if (thresholdType != ADAPTIVE_BASELINE || granularity >= defaultAdaptiveBaselineTimeWindow) {
-//     return form;
-//   }
-//
-//   return (
-//     form
-//       // resetting to default granularity required
-//       .updateIn(['granularity'], f =>
-//         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
-//       )
-//       // also adjust properties such as timeThreshold window size which depend on the used granularity
-//       // @ts-expect-error ts has problems with nested updates if on MapForm<any> since the form structure is not known
-//       .updateIn(['timeThreshold', 'timeWindow'], f =>
-//         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
-//       )
-//   );
-// }
+function updateFormIfAdaptiveBaseline(
+  form: MapForm<any>,
+  thresholdType: ThresholdType,
+  granularity: Granularity
+): MapForm<any> {
+  if (thresholdType != ADAPTIVE_BASELINE || granularity >= defaultAdaptiveBaselineTimeWindow) {
+    return form;
+  }
+
+  return (
+    form
+      // resetting to default granularity required
+      .updateIn(['granularity'], f =>
+        (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
+      )
+      // also adjust properties such as timeThreshold window size which depend on the used granularity
+      // @ts-expect-error ts has problems with nested updates if on MapForm<any> since the form structure is not known
+      .updateIn(['timeThreshold', 'timeWindow'], f =>
+        (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
+      )
+  );
+}
