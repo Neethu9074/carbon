@@ -11,19 +11,22 @@ import { Stack, StackItem, Typography } from '@instana/components';
 import {
   AreaRole,
   AreaRoleType,
+  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   AreaRolesWithContributer
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { t } from 'in-i18n';
 
 interface AccessAllPanelProps {
   entityPermissionKey?: string;
-  role?: AreaRoleWithCustomType;
+  role?: AreaRoleWithCustomType | AreaRoleWithContributerType;
   roleTooltipText?: string | React.ReactElement;
   description: string;
   title?: string;
   onChangeRole?: (role: AreaRoleType) => void;
+  isContributerRole?: boolean;
 }
 
 export default function AccessAllPanel({
@@ -32,7 +35,8 @@ export default function AccessAllPanel({
   entityPermissionKey,
   roleTooltipText,
   description,
-  title
+  title,
+  isContributerRole
 }: AccessAllPanelProps) {
   return (
     <Stack direction="vertical">
@@ -44,6 +48,14 @@ export default function AccessAllPanel({
           {description}
         </Typography>
       </StackItem>
+      {isContributerRole && (
+        <>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.role_permissions')}
+          </Typography>
+          <ContributerFilterWarning />
+        </>
+      )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
         <RoleFormGroup
           htmlFor={`${entityPermissionKey}-role-select`}

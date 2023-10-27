@@ -13,23 +13,23 @@ import { Observable } from '@instana/observables';
 
 import {
   AreaRoleWithContributer,
+  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   LimitableProductArea,
+  ProductArea,
   ScopedPermissionItem,
   ScopedPermissionItems,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   getAreaRoleFromPermissionSet,
+  getDefaultApplicationConfig,
   getField,
   getScopeFromProductArea,
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
-import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
-// import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -47,6 +47,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
+import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds' | 'syntheticTestIds';
@@ -89,11 +90,17 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
+
+  const defaultApplicationConfig = getDefaultApplicationConfig(getField<string>(form, 'name')?.value);
   const isContributerRole =
     applicationContributionFilterEnabled &&
-    entityPermissionKey === 'applicationIds' &&
+    productArea === ProductArea.APPLICATION &&
     role === AreaRoleWithContributer.CONTRIBUTER;
-  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
+
+  const onUpdatePermissionSet = (
+    selected: AreaRoleWithCustomType | AreaRoleWithContributerType | undefined,
+    limitation: ScopedPermissionType
+  ) => {
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -101,29 +108,22 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       limitation,
       selected
     );
-    // if (applicationContributionFilterEnabled) {
-    //   if (
-    //     (entityPermissionKey === 'applicationIds' && limitation !== ScopedPermissionItem.LIMITED_ACCESS) ||
-    //     (entityPermissionKey === 'applicationIds' &&
-    //       limitation === ScopedPermissionItem.LIMITED_ACCESS &&
-    //       selected !== AreaRole.OWNER)
-    //   ) {
-    //     form = updateFormField(form, 'tagFilterExpression', []);
-    //     form = updateFormField(form, 'scope', 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING');
-    //   }
-    // }
-
-    const limitingFilterConfig = {
-      tagFilterExpression: [],
-      scope: 'INCLUDE_NO_DOWNSTREAM'
-    };
-    // const permissionSetFilter = { ...restPermissionSet, ['restrictedApplicationFilter']: limitingFilterConfig };
-
+    if (applicationContributionFilterEnabled) {
+      if (
+        (productArea === ProductArea.APPLICATION && selected !== AreaRoleWithContributer.CONTRIBUTER) ||
+        (productArea === ProductArea.APPLICATION && limitedPermission !== limitation)
+      ) {
+        form = updateFormField(form, 'tagFilterExpression', defaultApplicationConfig.tagFilterExpression);
+        form = updateFormField(form, 'scope', defaultApplicationConfig.scope);
+      } else if (productArea === ProductArea.APPLICATION && selected === AreaRoleWithContributer.CONTRIBUTER) {
+        form = updateFormField(form, 'label', getField<string>(form, 'name')?.value);
+      }
+    }
     const newPermissionSet = {
       ...restPermissionSet,
       [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
       ['restrictedApplicationFilter']:
-        selected === AreaRoleWithContributer.CONTRIBUTER ? limitingFilterConfig : undefined
+        selected === AreaRoleWithContributer.CONTRIBUTER ? defaultApplicationConfig : undefined
     };
 
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
@@ -152,13 +152,13 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
           <TabSelectPanel key={context} id={context}>
             {context === ScopedPermissionItem.ACCESS_ALL && (
               <>
-                {isContributerRole && <ContributerFilterWarning />}
                 <AccessAllPanel
                   role={role}
                   onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
                   entityPermissionKey={entityPermissionKey}
                   roleTooltipText={roleTooltipText}
                   description={accessAllDescription}
+                  isContributerRole={isContributerRole}
                 />
                 {isContributerRole && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
               </>
@@ -179,6 +179,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
+                isContributerRole={isContributerRole}
               />
             )}
           </TabSelectPanel>

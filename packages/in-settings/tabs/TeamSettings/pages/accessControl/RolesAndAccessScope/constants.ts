@@ -43,7 +43,7 @@ export type AreaRoleWithContributerType = AreaRoleType | 'CONTRIBUTER';
 export type AreaRolesWithContributerType = typeof AreaRolesWithContributer;
 
 // This is only necessary while in migration phase and should be removed after some releases
-export type AreaRoleWithCustomType = AreaRoleType | 'CONTRIBUTER' | 'CUSTOM';
+export type AreaRoleWithCustomType = AreaRoleType | 'CUSTOM';
 
 // These are the new product areas for the new, improved RBAC UI.
 export const ProductArea = Object.freeze({

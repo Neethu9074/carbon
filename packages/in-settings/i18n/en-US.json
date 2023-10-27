@@ -150,7 +150,8 @@
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
     "contribution_filter": "Contribution Filter",
     "limitation_description": "The filter will be inherited for creation of new application configurations. On the application perspective configuration it can be refined with further fiklter tag following an {{logicalOperator}} operator",
-    "limitation_downstreamCalls": "Determine the maximum level of additional information that can be included in the application percepectives"
+    "limitation_downstreamCalls": "Determine the maximum level of additional information that can be included in the application percepectives",
+    "filter_name":"Name"
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -178,7 +179,8 @@
     "roleTooltip_applications": "Viewer: Ability to view applications dashboards (configuration can't be viewed). <br /> Owner: Ability to create new applications; view, configure and delete applications dashboards.",
     "roleTooltip_synthetics": "Viewer: Ability to view Synthetic Test dashboards (configuration can't be viewed). <br /> Owner: Ability to create new Synthetic Tests; view, configure and delete Synthetic Tests, and view and delete Synthetic Locations.",
     "limitation_accessScope":"Limited access scope (Viewer)",
-    "contribution_filter_warning":"Any modification you will save, will update all application perspectives using this contribution filter. <br/> <br/>If you change the role, then the contribution filter will be deleted and all application perspectives using the contribution filter will become editable by any user with Owner access to applications.  This cannot be undone."
+    "contribution_filter_warning":"Any modification you will save, will update all application perspectives using this contribution filter. <br/> <br/>If you change the role, then the contribution filter will be deleted and all application perspectives using the contribution filter will become editable by any user with Owner access to applications.  This cannot be undone.",
+    "role_permissions":"Role / Permissions"
   },
   "cardTitle_Area": "Area",
   "cardTitle_Area_plural": "Areas",

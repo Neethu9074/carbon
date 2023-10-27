@@ -12,11 +12,20 @@ import { useObservable } from '@instana/hooks';
 
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
+import {
+  getAreaRoleFromPermissionSet,
+  getField,
+  updateFormField
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 // @ts-expect-error not migrated to typescript yet
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
 import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
+import {
+  AreaRoleWithContributer,
+  ProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
@@ -24,8 +33,6 @@ import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/s
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
-import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import { applicationContributionFilterEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
@@ -62,16 +69,12 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
 
   let isValidTagFilterExpression = true;
 
-  if (applicationContributionFilterEnabled) {
+  const isValidContributionFilter = () => {
     const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
-    const permissions = permissionSet?.permissions;
-    const limitedApplicationOwnerPermissons = ['CAN_CONFIGURE_APPLICATIONS'];
-    const isApplicationOwnerAccess = limitedApplicationOwnerPermissons.every(permission => {
-      return permissions?.includes(permission);
-    });
-
-    if (isApplicationOwnerAccess) {
-      if (tagFilterExpression?.length === 0) {
+    const role = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, permissionSet);
+    if (role === AreaRoleWithContributer.CONTRIBUTER) {
+      let isFilterNameValid = isBlank((form.get('label') as Field<string>).value);
+      if (tagFilterExpression?.length === 0 || isFilterNameValid) {
         isValidTagFilterExpression = false;
       } else {
         isValidTagFilterExpression = validTagFilterExpressionResult?.data as boolean;
@@ -79,8 +82,10 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     } else {
       isValidTagFilterExpression = true;
     }
+  };
+  if (applicationContributionFilterEnabled) {
+    isValidContributionFilter();
   }
-
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
     setForm

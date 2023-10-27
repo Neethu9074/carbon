@@ -26,6 +26,8 @@ import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
+import locals from './LimitingApplicationFilter.mless';
+
 export interface LimitingApplicationFilterWrapperProps<FORM_TYPE extends MapFormItems>
   extends FormControlProps<FORM_TYPE> {}
 
@@ -61,13 +63,15 @@ export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFo
   }
 
   return (
-    <div>
+    <div className={locals.limitingFilter_wrapper}>
       <LimitingApplicationFilter form={form} setForm={setForm} />
-      <ServiceLiveList
-        servicesLiveList={servicesLiveList}
-        headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}
-        isValidTagFilterExpression={validTagFilterExpressionResult?.data}
-      />
+      <div className={locals.limitingFilter_wrapper_servicesLiveList}>
+        <ServiceLiveList
+          servicesLiveList={servicesLiveList}
+          headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}
+          isValidTagFilterExpression={validTagFilterExpressionResult?.data}
+        />
+      </div>
     </div>
   );
 }

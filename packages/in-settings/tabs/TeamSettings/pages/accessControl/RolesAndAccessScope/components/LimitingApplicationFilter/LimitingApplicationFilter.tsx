@@ -35,7 +35,7 @@ export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems
 }: LimitingApplicationFilterProps<FORM_TYPE>) {
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
-  const groupNameField = getField<string>(form, 'name');
+  const groupNameField = getField<string>(form, 'label');
 
   const setTagFilterExpression = (
     tagFilterExpression: FormModelElement[],
@@ -56,10 +56,10 @@ export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems
       </DescriptionText>
 
       <Label className={locals.limitingFilter_groupLabel}>
-        <Typography variant="body-regular">{t('in-settings:groupSection.title')}</Typography>
+        {t('in-settings:PermissionSection.filter_name')}
         <Input
-          id="group-name"
-          onChange={e => setForm(updateFormField(form, 'name', e.target.value, true))}
+          id="filter-name"
+          onChange={e => setForm(updateFormField(form, 'label', e.target.value, true))}
           value={groupNameField?.value ?? ''}
         />
       </Label>

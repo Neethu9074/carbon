@@ -4,10 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
+import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
 
 import { PermissionSet } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import {
   AreaRole,
@@ -22,9 +21,8 @@ import {
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { createNewApplicationConfig } from 'in-api/applicationConfigs';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
@@ -204,9 +202,12 @@ function addPermissionsByRoleForProductArea(
 
 function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
-  const applicationConfig = createNewApplicationConfig();
+  const applicationConfig = getDefaultApplicationConfig(name);
   const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
-  const tagFilterExpression = fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) || [];
+  const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
+  const tagFilterExpression =
+    fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
+    applicationConfig.tagFilterExpression;
   return form
     .put(
       'id',
@@ -219,6 +220,13 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
       createField({
         value: name,
         validator: notBlankValidator
+      })
+    )
+    .put(
+      'label',
+      createField({
+        value: label
+        // validator: applicationLabelValidator
       })
     )
     .put(
@@ -242,21 +250,15 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
     .put(
       'tagFilterExpression',
       createField({
-        value: tagFilterExpression,
-        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
+        value: tagFilterExpression
       })
     );
 }
 
-const tagFilterExpressionValidator = (tagFilterExpression: FormModelElement[]): ValidationResult => {
-  if (tagFilterExpression.length === 0) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-applications:creation.form.theQueryIsNotValid')
-      }
-    ];
-  } else {
-    return null;
-  }
+export const getDefaultApplicationConfig = (filterName: string | undefined) => {
+  return {
+    label: filterName,
+    scope: 'INCLUDE_NO_DOWNSTREAM',
+    tagFilterExpression: []
+  };
 };

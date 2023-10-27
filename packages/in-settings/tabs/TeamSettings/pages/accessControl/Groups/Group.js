@@ -186,20 +186,19 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
 }
 
 function getPermissionSetWithApFilters(form) {
-  const isRestrictedFilter = form.get('tagFilterExpression').value?.length > 0;
-  let limitingFilterConfig = undefined;
-  if (isRestrictedFilter) {
-    const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
-    limitingFilterConfig = {
-      tagFilterExpression: form.get('tagFilterExpression') ? backendModel : undefined,
-      scope: form.get('scope')?.value
-    };
-  }
+  const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
+  const limitingFilterConfig = {
+    tagFilterExpression: backendModel,
+    scope: form.get('scope')?.value,
+    label: form.get('label')?.value
+  };
   const permissionSet = { ...form.get('permissionSet').value, ['restrictedApplicationFilter']: limitingFilterConfig };
   return permissionSet;
 }
 
 function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
+  const isRestrictedFilter = applicationContributionFilterEnabled && form.get('tagFilterExpression').value?.length > 0;
+
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
     setCanSaveItem(false);
@@ -210,9 +209,7 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = n
     id: form.get('id').value,
     name: form.get('name').value,
     members: form.get('members').value,
-    permissionSet: applicationContributionFilterEnabled
-      ? getPermissionSetWithApFilters(form)
-      : form.get('permissionSet').value
+    permissionSet: isRestrictedFilter ? getPermissionSetWithApFilters(form) : form.get('permissionSet').value
   };
 
   setMessage({ text: t('in-settings:tabs.savingGroup'), type: 'neutral', isSaving: true });

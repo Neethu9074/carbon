@@ -20,6 +20,7 @@ import {
   AreaRolesWithContributer
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
@@ -54,6 +55,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   description: string;
   addButtonLabel: string;
   entityPermissionKey: EntityPermissionKey;
+  isContributerRole?: boolean;
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
@@ -73,7 +75,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   extractName,
   onChangeRole,
   setShowSubSlide,
-  setSubSlideConfig
+  setSubSlideConfig,
+  isContributerRole
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const theme = useTheme();
@@ -154,24 +157,34 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
           {description}
         </Typography>
       </StackItem>
-      <RoleFormGroup
-        htmlFor={`${entityPermissionKey}-role-select`}
-        tooltipText={roleTooltipText}
-        value={role}
-        defaultRole={AreaRole.VIEWER}
-        onChange={onChangeRole}
-        {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributer } : {})}
-      />
-      {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
-        <SyntheticCommonSection form={form} setForm={setForm} />
+      {isContributerRole && (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.role_permissions')}
+          </Typography>
+          <ContributerFilterWarning />
+        </StackItem>
       )}
-      {isContributer && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
-      <Divider />
-      {isContributer && (
-        <Typography variant="heading-200" component="div">
-          {t('in-settings:permissionScope.limitation_accessScope')}
-        </Typography>
-      )}
+      <StackItem>
+        <RoleFormGroup
+          htmlFor={`${entityPermissionKey}-role-select`}
+          tooltipText={roleTooltipText}
+          value={role}
+          defaultRole={AreaRole.VIEWER}
+          onChange={onChangeRole}
+          {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributer } : {})}
+        />
+        {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+          <SyntheticCommonSection form={form} setForm={setForm} />
+        )}
+        {isContributer && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
+        <Divider />
+        {isContributer && (
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.limitation_accessScope')}
+          </Typography>
+        )}
+      </StackItem>
       <StackItem>
         <Button
           kind="action"
