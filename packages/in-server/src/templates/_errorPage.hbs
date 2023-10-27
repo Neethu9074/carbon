@@ -37,15 +37,9 @@
     </a>
   </div>
 
-  {{#if showStan}}
-    <img src="/errorPages/stan-pulling-the-plug.png"
-         alt="Stan pulling the plug (accidentally)"
-         class="right-side-stan">
-  {{/if}}
-
   <script nonce="{{nonce}}">
     if({{signOut}}) {
-      document.getElementById('access-denied-signout-form').setAttribute("action", '{{{signOutUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash));      
+      document.getElementById('access-denied-signout-form').setAttribute("action", '{{{signOutUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash));
     }
   </script>
 </body>
