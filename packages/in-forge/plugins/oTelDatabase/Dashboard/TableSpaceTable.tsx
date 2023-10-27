@@ -99,15 +99,16 @@ export default function tableSpaceTable({ snapshot, timeConfig }: { snapshot: Sn
   const rows = snapshot
     .getIn(['data', 'db.tablespace.size'], List())
     .map((_value: any, key: string) => {
-      // if (!uniqueKeys.has(key)) {
-      uniqueKeys.add(key);
-      return {
-        key: key,
-        name: key,
-        timeConfig,
-        snapshotId
-      };
-      // }
+      if (!uniqueKeys.has(key)) {
+        uniqueKeys.add(key);
+        return {
+          key: key,
+          name: key,
+          timeConfig,
+          snapshotId
+        };
+      }
+      return null;
     })
     .filter(Boolean)
     .valueSeq()

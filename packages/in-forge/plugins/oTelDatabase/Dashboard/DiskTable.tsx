@@ -65,15 +65,16 @@ export default function diskTable({ snapshot, timeConfig }: { snapshot: Snapshot
   const rows = snapshot
     .getIn(['data', 'db.disk.usage'], List())
     .map((_value: any, key: string) => {
-      // if (!uniqueKeys.has(key)) {
-      uniqueKeys.add(key);
-      return {
-        key: key,
-        name: key,
-        timeConfig,
-        snapshotId
-      };
-      // }
+      if (!uniqueKeys.has(key)) {
+        uniqueKeys.add(key);
+        return {
+          key: key,
+          name: key,
+          timeConfig,
+          snapshotId
+        };
+      }
+      return null;
     })
     .filter(Boolean)
     .valueSeq()
