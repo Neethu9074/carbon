@@ -9,7 +9,9 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -90,6 +92,39 @@ export default function diskTable({ snapshot, timeConfig }: { snapshot: Snapshot
       cardTitle={t('in-forge:plugins.oTelDatabase.dashboard.disk', { count: rows.length })}
       cols={cols}
       rows={rows}
+      getRowDetails={getRowDetails}
     />
+  );
+}
+
+function getRowDetails(row: any) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Columize>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['db.disk.usage_' + row.key],
+            labels: [t('in-forge:plugins.oTelDatabase.dashboard.diskUsage')],
+            type: 'line',
+            formatter: bytesTwoDecimalPlaces
+          }}
+        />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['db.disk.utilization_' + row.key],
+            labels: [t('in-forge:plugins.oTelDatabase.dashboard.diskUtilization')],
+            type: 'line',
+            formatter: number.detailed
+          }}
+        />
+      </Columize>
+    </div>
   );
 }

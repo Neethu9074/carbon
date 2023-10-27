@@ -9,6 +9,7 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -124,6 +125,41 @@ export default function tableSpaceTable({ snapshot, timeConfig }: { snapshot: Sn
       cardTitle={t('in-forge:plugins.oTelDatabase.dashboard.tableSpace', { count: rows.length })}
       cols={cols}
       rows={rows}
+      getRowDetails={getRowDetails}
     />
+  );
+}
+
+function getRowDetails(row: any) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          metrics: [
+            'db.tablespace.size_' + row.name,
+            'db.tablespace.used_' + row.name,
+            'db.tablespace.max_' + row.name
+          ],
+          labels: [
+            t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceSize'),
+            t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceUsed'),
+            t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceMax')
+          ],
+          type: 'line',
+          formatter: bytesTwoDecimalPlaces
+        }}
+        y2={{
+          metrics: ['db.tablespace.utilization_' + row.name],
+          labels: [t('in-forge:plugins.oTelDatabase.dashboard.tableSpaceUtilization')],
+          type: 'line',
+          formatter: number.detailed
+        }}
+      />
+    </div>
   );
 }
