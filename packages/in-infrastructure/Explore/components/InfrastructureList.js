@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
+import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { SeverityIndicatorCellContentWrapper, Ul } from '@instana/components';
@@ -36,6 +37,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
 import SparkChart from 'in-components/SparkChart';
 import { noop } from 'in-services/util/function';
+import usePrevious from 'in-hooks/usePrevious';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureList.mless';
@@ -69,7 +71,13 @@ export default function InfrastructureList({
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
-  const dependencies = isPreview ? [retrievalSize] : isSearchable ? [] : [metrics];
+  const previousMetrics = usePrevious(metrics);
+  const dependencies = getDependencies({
+    isPreview,
+    isSearchable,
+    hasMetricsChanged: !isEqual(previousMetrics, metrics),
+    metrics
+  });
 
   const {
     items,
@@ -234,12 +242,12 @@ function getTableData({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric, removeFromTable }) => metric !== undefined && metric !== null && !removeFromTable)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
           return [
-            [id, { metric, granularity: kpiGranularity, aggregation, crossSeriesAggregation }],
-            [getSeriesKey(id), { metric, granularity, aggregation, crossSeriesAggregation }]
+            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation }],
+            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation }]
           ];
         })
     )
@@ -341,6 +349,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
           const series = item.metrics[getSeriesKey(id)];
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
           const metricValue = getMetricValue(kpi, formatter);
+
           return (
             <SparkChart
               horizontalMetricValue={metricValue}
@@ -438,4 +447,16 @@ function getHeaderActions(props) {
       <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>
   );
+}
+
+function getDependencies({ isPreview, isSearchable, hasMetricsChanged, retrievalSize, metrics }) {
+  if (isPreview) {
+    return [retrievalSize, hasMetricsChanged && metrics];
+  }
+
+  if (isSearchable) {
+    return [];
+  }
+
+  return [metrics];
 }
