@@ -110,7 +110,7 @@ function ApiItemViewResultPresenter(props) {
   };
 
   const content = (
-    <div className={locals.wrapper}>
+    <div data-testid="api-item-view-content" className={locals.wrapper}>
       <div>
         <Header parentPath={parentPath} parentViewName={parentViewName} />
         <MessageWrapper message={message} />

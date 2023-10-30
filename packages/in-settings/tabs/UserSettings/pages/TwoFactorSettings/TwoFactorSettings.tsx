@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
-import React from 'react';
+import { MapForm, createField } from 'formalistic';
+import React, { FormEvent } from 'react';
 
 import { Message } from '@instana/components';
 
@@ -13,9 +13,10 @@ import {
   toggleTwoFactor,
   verifyTwoFactorToken
 } from 'in-settings/tabs/UserSettings/api/twoFactorAuth';
+// @ts-expect-error TS migration
+import ApiItemView from 'in-settings/components/ApiItemView';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import ApiItemView from 'in-settings/components/ApiItemView';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import Input from 'in-components/form/Input';
@@ -23,10 +24,39 @@ import { t } from 'in-i18n';
 
 import locals from './TwoFactorSettings.mless';
 
+export interface TwoFactorSettingsProps {
+  form: MapForm<any>;
+  setForm: (form: MapForm<any>) => void;
+  twoFactorCredentials: { verified: boolean; secret?: string; base64EncodedQrCode?: string; scratchCodes: [] };
+}
+
+interface MessageProps {
+  message?: string;
+  type?: string;
+  isSaving?: boolean;
+  text?: string;
+}
+
+export interface FormProps {
+  form: MapForm<any>;
+  setForm: (form: MapForm<any>) => void;
+  setMessage: ({ message, type, isSaving }: MessageProps) => void;
+  setCanSaveItem: (canSaveItem: boolean) => void;
+  setCanDeleteItem: (canDeleteItem: boolean) => void;
+  setSaveLabel: (savelabel: string) => void;
+  result: { twoFactorCredentials: string };
+}
+
+export interface DeleteItemProps {
+  form: MapForm<any>;
+  setMessage: ({ message, type, isSaving }: MessageProps) => void;
+}
+
 export default function Settings() {
   return (
     <ApiItemView
       getObservables={() => ({
+        // @ts-expect-error
         twoFactorCredentials: getTwoFactorCredentials()
       })}
       render={render}
@@ -39,7 +69,7 @@ export default function Settings() {
   );
 }
 
-function render(props) {
+function render(props: TwoFactorSettingsProps) {
   const { form, setForm } = props;
 
   const twoFactorCredentials = form.get('twoFactorCredentials').value;
@@ -68,13 +98,12 @@ function TwoFactorDisabled() {
   );
 }
 
-function TwoFactorEnabled(props) {
+function TwoFactorEnabled(props: TwoFactorSettingsProps) {
   return props.twoFactorCredentials.verified ? <TwoFactorVerified {...props} /> : <TwoFactorUnverified {...props} />;
 }
 
-function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
+function TwoFactorUnverified({ form, setForm, twoFactorCredentials }: TwoFactorSettingsProps) {
   const { secret, base64EncodedQrCode } = twoFactorCredentials;
-
   return (
     <>
       <p>
@@ -89,7 +118,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
         className={locals.qrCanvas}
       />
       <p>{t('in-settings:tabs.enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration')}</p>
-      {form.get('2faToken').map(field => (
+      {form.get('2faToken').map((field: any) => (
         <>
           <Input
             className={locals.input}
@@ -109,7 +138,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
   );
 }
 
-function TwoFactorVerified({ twoFactorCredentials }) {
+function TwoFactorVerified({ twoFactorCredentials }: TwoFactorSettingsProps) {
   return (
     <>
       <Message withIcon type="success">
@@ -130,7 +159,7 @@ function TwoFactorVerified({ twoFactorCredentials }) {
   );
 }
 
-function onSubmit(e, { form, setForm, setMessage }) {
+function onSubmit(e: FormEvent<HTMLFormElement>, { form, setForm, setMessage }: FormProps) {
   e.preventDefault();
 
   const twoFactorEnabled = !!form.get('twoFactorCredentials').value;
@@ -164,11 +193,11 @@ function onSubmit(e, { form, setForm, setMessage }) {
   );
 }
 
-function deleteItem(params) {
+function deleteItem(params: DeleteItemProps) {
   toggle2Fa(params);
 }
 
-function toggle2Fa({ form, setMessage }) {
+function toggle2Fa({ form, setMessage }: DeleteItemProps) {
   const twoFactorEnabled = !!form.get('twoFactorCredentials').value;
 
   setMessage({
@@ -189,7 +218,10 @@ function toggle2Fa({ form, setMessage }) {
   );
 }
 
-function enrichForm(form, { setCanSaveItem, setCanDeleteItem, setSaveLabel, result: { twoFactorCredentials } }) {
+function enrichForm(
+  form: MapForm<any>,
+  { setCanSaveItem, setCanDeleteItem, setSaveLabel, result: { twoFactorCredentials } }: FormProps
+) {
   if (!twoFactorCredentials) {
     setCanSaveItem(true);
     setSaveLabel(t('in-settings:tabs.enableTwoFactor'));
@@ -213,7 +245,7 @@ function enrichForm(form, { setCanSaveItem, setCanDeleteItem, setSaveLabel, resu
     );
 }
 
-function tokenValidator(token) {
+function tokenValidator(token: any): any {
   if (isNaN(token) || token.length === 0) {
     return [
       {
