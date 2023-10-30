@@ -240,7 +240,7 @@ function buildLib() {
   lib.colors.chart.self25 = lighten(lib.colors.chart.self100, 0.05);
 
   lib.colors.chartSelection = 'rgba(75, 165, 210, 0.2)';
-  lib.colors.timeShift = lib.colors.N400;
+  lib.colors.timeShift = carbonColors.gray60;
 
   lib.colors.primary240 = lighten(lib.colors.blue800, 0.4);
   lib.colors.lightPrimary240 = lighten(lib.colors.lightBlue800, 0.4);

@@ -422,3 +422,11 @@ export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.resul
 export const EVENT_RCA_SUGGESTION_HELPFUL = 'event.rca.suggestion.helpful';
 export const EVENT_RCA_SUGGESTION_UNHELPFUL = 'event.rca.suggestion.unhelpful';
 export const EVENT_RCA_EXPANDED_CARD = 'event.rca.expanded.card';
+
+// Events Page Feedback Tracking
+export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';
+export const EVENT_FEEDBACK_CLOSED_MANUALLY = 'event.feedback.closed.manually';
+export const EVENT_FEEDBACK_NEXT = 'event.feedback.next';
+export const EVENT_FEEDBACK_SKIP = 'event.feedback.skip';
+export const EVENT_FEEDBACK_POSITIVE = 'event.feedback.positive';
+export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';

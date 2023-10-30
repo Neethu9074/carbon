@@ -21,6 +21,8 @@
 - [ ] New user facing components were discussed with our design community
 - [ ] Add before/after screenshots
 - [ ] Affected areas were tested manually and everything works as expected
+- [ ] User facing change? Release Notes PR created and linked in references
+- [ ] Documentation needs an update? Docs PR created and linked in references
 - [ ] [Pull Request Guidelines](https://www.notion.so/instana/Pull-Request-reviews-8fd1ae2f48b84e53b1ef00accb0e52db?pvs=4) applied
 
 # References
@@ -30,8 +32,8 @@
 - [Story](http://example.com)
 - [Documentation](http://example.com)
 - [Zendesk](http://example.com)
-- [Release Notes PR](http://example.com)
-- [Documentation PR](http://example.com)
+- [Release Notes PR](https://github.ibm.com/instana/docs/compare)
+- [Documentation PR](https://github.ibm.com/instana/docs/compare)
 
 # Screenshots
 

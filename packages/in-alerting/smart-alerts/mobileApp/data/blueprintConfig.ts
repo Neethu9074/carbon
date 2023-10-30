@@ -136,7 +136,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   isRuleComplete: (alertRule: MobileAppAlertRule) => isNotBlank((alertRule as StatusCodeMobileAppAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.mobileApp.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
   getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
-  baselineEnabled: false
+  baselineEnabled: true
 });
 
 const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({

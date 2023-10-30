@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { List, Map } from 'immutable';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -44,9 +45,9 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const incidentHasRCAProperty = useMemo(() => incident.get('metadata').has('probableRootCause'), [incident]);
 
   const rcaSnapshotMap = useMemo(
-    () => (rcaUIEnabled && incidentHasRCAProperty ? incident.get('metadata').get('probableRootCause') || null : null),
+    () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
     [incident, incidentHasRCAProperty]
-  ); // Holds map of snapshot_ID: [event_id, event_id]
+  ); // Holds map of { snapshot_ID: [event_id, event_id] }
 
   const snapshots = useMemo(() => (rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()) : []), [rcaSnapshotMap]); // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
 
@@ -63,7 +64,7 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   useEffect(() => {
     if (currentRCAEntity) {
       const rcaEventList = rcaSnapshotMap.get(currentRCAEntity);
-      if (rcaEventList.size > 0) {
+      if (rcaEventList.length > 0) {
         setObservablesList(combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)));
       } else {
         setObservablesList(null);
@@ -152,4 +153,29 @@ function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
       </Col>
     </Row>
   );
+}
+
+function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled) {
+  //    () => (rcaUIEnabled && incidentHasRCAProperty ? incident.get('metadata').get('probableRootCause') || null : null),
+  if (!rcaUIEnabled || !incidentHasRCAProperty) return null;
+
+  const probableRootCauseFromIncident = incident.get('metadata').get('probableRootCause');
+  if (Array.isArray(probableRootCauseFromIncident)) {
+    return probableRootCauseFromIncident;
+  } else if (List.isList(probableRootCauseFromIncident)) {
+    let probableRootCauseWithSnapshotIDsAsKeys = Map();
+
+    probableRootCauseFromIncident.forEach(snapshot => {
+      if (!snapshot || !snapshot.has('RCASnapshotID') || !snapshot.has('rcaEvents')) return null;
+
+      const rcaEvents = snapshot.get('rcaEvents').toArray();
+      let snapshotID = '';
+
+      if (List.isList(snapshot.get('RCASnapshotID'))) {
+        snapshotID = snapshot.get('RCASnapshotID').first();
+      }
+      probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
+    });
+    return probableRootCauseWithSnapshotIDsAsKeys;
+  }
 }

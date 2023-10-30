@@ -10,11 +10,12 @@ import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+// eslint-disable-next-line import/no-deprecated
+import oldTheme from 'in-themes';
 import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
-import oldTheme, { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Errors({
@@ -33,7 +34,6 @@ export default function Errors({
   const errorsBlueprintConfig = getBlueprintConfig('errors');
   const timeShiftConfig = useTimeShiftConfig();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-  const theme = useTheme();
 
   const errorRate = {
     metric: 'errors',
@@ -44,6 +44,7 @@ export default function Errors({
     timeConfig: timeConfig,
     granularity,
     timeShift: 0,
+    // eslint-disable-next-line import/no-deprecated
     color: oldTheme.lib.carbonAlert.red60
   };
 
@@ -59,7 +60,8 @@ export default function Errors({
       // make sure the main metric renders over the time shifted metric
       errorRate
     ];
-    colors = [theme.ids.color.option.neutral['400'], errorRate.color];
+    // eslint-disable-next-line import/no-deprecated
+    colors = [oldTheme.lib.colors.timeShift, errorRate.color];
     renderer = line.id;
   } else {
     metrics = [errorRate];
