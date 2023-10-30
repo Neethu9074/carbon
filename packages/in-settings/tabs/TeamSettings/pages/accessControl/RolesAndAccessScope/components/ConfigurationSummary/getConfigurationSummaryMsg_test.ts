@@ -28,7 +28,6 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       const scopeContext = scope.toLowerCase();
 
       if (role === AreaRoleWithContributor.CONTRIBUTOR) {
-        // TODO modify when CONTRIBUTOR has been added as type
         expect(configSummaryMsg.accessLevelMessage).toEqual(
           t(
             'in-settings:configurationSummary.' +
