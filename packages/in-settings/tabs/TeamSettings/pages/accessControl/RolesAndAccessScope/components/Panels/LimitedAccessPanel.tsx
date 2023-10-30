@@ -89,12 +89,20 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
 
-  const selectedIds = getFilteredScopeIds(scopeBindings);
-  const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable, orderDirection });
-  const isContributor =
-    applicationContributionFilterEnabled &&
-    entityPermissionKey === 'applicationIds' &&
-    role === AreaRoleWithContributor.CONTRIBUTOR;
+  const isAppWithContributorFeature = applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds';
+  const isContributor = isAppWithContributorFeature && role === AreaRoleWithContributor.CONTRIBUTOR;
+
+  const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
+  const selectedEntities = useSelectedEntities({
+    selectedIds: isAppWithContributorFeature
+      ? getFilteredScopeIds(scopeBindings, isAppWithContributorFeature) // Exclude applications with contributor access
+      : selectedIds, // Show all selected ids
+    extractId,
+    extractName,
+    observable,
+    orderDirection
+  });
+
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
     setForm(updatedForm);
@@ -158,6 +166,19 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       }
     }
   ];
+
+  function getFilteredScopeIds(scopeBindings: ScopeBinding[], excludeContributor: boolean = false): Array<string> {
+    return scopeBindings
+      .filter(({ scopeId, scopeRoleId }) => {
+        if (excludeContributor) {
+          // Only scopeIds with Owner or Viewer access are returned
+          return scopeId !== undefined && scopeRoleId !== '-102'; // -102 is Contributor
+        } else {
+          return scopeId !== undefined;
+        }
+      })
+      .map<string>(({ scopeId }) => scopeId!);
+  }
 
   return (
     <Stack direction="vertical">
@@ -246,10 +267,6 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       />
     </Stack>
   );
-}
-
-function getFilteredScopeIds(scopeBindings: ScopeBinding[]): Array<string> {
-  return scopeBindings.filter(({ scopeId }) => scopeId !== undefined).map<string>(({ scopeId }) => scopeId!);
 }
 
 interface UseSelectEntitiesProps<I> {
