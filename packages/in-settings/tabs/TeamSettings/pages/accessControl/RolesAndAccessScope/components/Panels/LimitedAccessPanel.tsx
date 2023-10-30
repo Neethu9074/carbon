@@ -11,17 +11,23 @@ import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instan
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import {
+  AreaRole,
+  AreaRoleType,
+  AreaRoleWithCustomType,
+  LimitableProductArea,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
-import {
-  AreaRole,
-  AreaRoleType,
-  AreaRoleWithCustomType
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
@@ -55,6 +61,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   onChangeRole: (role: AreaRoleType) => void;
+  productArea: LimitableProductArea;
 }
 
 export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -64,6 +71,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   description,
   addButtonLabel,
   entityPermissionKey,
+  productArea,
   observable,
   setForm,
   extractId,
@@ -110,6 +118,12 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     updatePermissionSet({ ...permissionSet, [entityPermissionKey]: entityScopeBindings });
   };
 
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    productArea,
+    ScopedPermissionItem.LIMITED_ACCESS,
+    role
+  );
+
   const columnDefinition: Array<ColumnDefinition<I>> = [
     {
       id: 'name',
@@ -140,14 +154,20 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
 
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {t('in-settings:permissionScope.selection_limited_access')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {description}
-        </Typography>
-      </StackItem>
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.selection_limited_access')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
+        </StackItem>
+      )}
       <RoleFormGroup
         htmlFor={`${entityPermissionKey}-role-select`}
         tooltipText={roleTooltipText}

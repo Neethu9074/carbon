@@ -18,11 +18,16 @@ import {
   ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
+import {
   getField,
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 //@ts-ignore
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -82,16 +87,28 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     updatePermissionSet({ ...permissionSet, permissions: newPermissions });
   };
 
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    ProductArea.INFRASTRUCTURE,
+    ScopedPermissionItem.LIMITED_ACCESS,
+    AreaRole.OWNER
+  );
+
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {t('in-settings:PermissionSection.infrastructureAccessScope')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {description}
-        </Typography>
-      </StackItem>
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:PermissionSection.infrastructureAccessScope')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
+        </StackItem>
+      )}
       <StackItem>
         <Typography variant="body-regular" component="div">
           {t('in-settings:PermissionSection.infrastructureDfqUse')}&nbsp;

@@ -9,14 +9,21 @@ import React from 'react';
 
 import { Stack, StackItem, Typography } from '@instana/components';
 
-import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   AreaRole,
   AreaRoleType,
-  AreaRoleWithCustomType
+  AreaRoleWithCustomType,
+  ProductArea,
+  ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
+import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface SyntheticAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
@@ -36,16 +43,28 @@ export default function SyntheticAccessAllPanel<FORM_TYPE extends MapFormItems>(
   roleTooltipText,
   onChangeRole
 }: SyntheticAccessPanelProps<FORM_TYPE>) {
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    ProductArea.SYNTHETICS,
+    ScopedPermissionItem.ACCESS_ALL,
+    role
+  );
+
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {t('in-settings:permissionScope.description_access_all')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {description}
-        </Typography>
-      </StackItem>
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.description_access_all')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
+        </StackItem>
+      )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
         <RoleFormGroup
           htmlFor={`${entityPermissionKey}-role-select`}

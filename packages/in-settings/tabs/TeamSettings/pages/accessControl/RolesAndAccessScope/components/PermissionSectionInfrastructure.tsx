@@ -131,7 +131,7 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
           <InfrastructureAccessPanel description={viewerAccessDescription} role={role} form={form} setForm={setForm} />
         </TabSelectPanel>
         <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
-          <NoAccessPanel />
+          <NoAccessPanel productArea={ProductArea.INFRASTRUCTURE} />
         </TabSelectPanel>
       </TabSelectPanels>
     </TabSelect>

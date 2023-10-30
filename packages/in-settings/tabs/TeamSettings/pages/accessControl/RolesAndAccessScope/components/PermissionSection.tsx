@@ -142,9 +142,10 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 entityPermissionKey={entityPermissionKey}
                 roleTooltipText={roleTooltipText}
                 description={accessAllDescription}
+                productArea={productArea}
               />
             )}
-            {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel />}
+            {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
             {context === ScopedPermissionItem.LIMITED_ACCESS && (
               <LimitedAccessPanel
                 description={limitedAccessDescription}
@@ -160,6 +161,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
+                productArea={productArea}
               />
             )}
           </TabSelectPanel>
