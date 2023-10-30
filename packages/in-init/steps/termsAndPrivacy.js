@@ -6,6 +6,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
+import { ThemeProvider, getThemeOverride } from '@instana/components';
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
@@ -16,6 +17,7 @@ import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import GlobalTheme from 'in-themes/GlobalTheme';
 
 import 'in-themes/foundation.less';
 
@@ -25,10 +27,15 @@ export function init() {
   if (accepted) {
     return just(true);
   }
+  const currentTheme = getThemeOverride() ?? 'default';
 
   ReactDOM.render(
     <ErrorBoundary name="terms-and-privacy-dialog">
-      <TermsDialog onSave={onSave} fullTermsConfigEnabled={fullTermsConfigEnabled} />
+      <GlobalTheme>
+        <ThemeProvider theme={currentTheme}>
+          <TermsDialog onSave={onSave} fullTermsConfigEnabled={fullTermsConfigEnabled} />
+        </ThemeProvider>
+      </GlobalTheme>
     </ErrorBoundary>,
     document.getElementById('main')
   );
