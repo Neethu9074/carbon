@@ -11,7 +11,8 @@ import {
   AreaRolesWithContributorOptionsType,
   AreaRoleType,
   AreaRoleWithCustomType,
-  AreaRoleWithContributorType
+  AreaRoleWithContributorType,
+  AreaRoleOptionsType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import Select from 'in-components/form/Select/Select';
 import { t } from 'in-i18n';
@@ -20,7 +21,7 @@ export interface RoleSelectProps {
   value?: AreaRoleWithCustomType;
   defaultRole?: AreaRoleType;
   onChange: (role: AreaRoleType | AreaRoleWithContributorType) => void;
-  options?: AreaRolesWithContributorOptionsType;
+  options?: AreaRoleOptionsType | AreaRolesWithContributorOptionsType;
 }
 
 export default function RoleSelect({ value, onChange, options = AreaRoles }: RoleSelectProps) {
