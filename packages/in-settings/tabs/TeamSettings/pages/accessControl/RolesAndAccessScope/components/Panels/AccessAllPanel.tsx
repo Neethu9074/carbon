@@ -74,7 +74,7 @@ export default function AccessAllPanel({
       )}
       {isContributor && (
         <StackItem>
-          <Typography variant="heading-200" component="h4">
+          <Typography variant="heading-200" component="h2">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
           <ContributorFilterWarning />
