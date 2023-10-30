@@ -13,9 +13,15 @@ import {
   AreaRoleType,
   AreaRoleWithContributer,
   AreaRoleWithCustomType,
-  AreaRolesWithContributer
+  AreaRolesWithContributer,
+  ProductAreaType,
+  ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
@@ -27,6 +33,7 @@ interface AccessAllPanelProps {
   description: string;
   title?: string;
   onChangeRole?: (role: AreaRoleType) => void;
+  productArea: ProductAreaType;
 }
 
 export default function AccessAllPanel({
@@ -35,22 +42,35 @@ export default function AccessAllPanel({
   entityPermissionKey,
   roleTooltipText,
   description,
-  title
+  title,
+  productArea
 }: AccessAllPanelProps) {
   const isContributer =
     applicationContributionFilterEnabled &&
     entityPermissionKey === 'applicationIds' &&
     role === AreaRoleWithContributer.CONTRIBUTER;
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    productArea,
+    ScopedPermissionItem.ACCESS_ALL,
+    role
+  );
+
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {title ?? t('in-settings:permissionScope.description_access_all')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {description}
-        </Typography>
-      </StackItem>
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {title ?? t('in-settings:permissionScope.description_access_all')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
+        </StackItem>
+      )}
       {isContributer && (
         <StackItem>
           <Typography variant="heading-200" component="h4">

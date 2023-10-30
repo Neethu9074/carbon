@@ -39,14 +39,14 @@ const mockFormData = {
     mobileAppIds: [
       {
         scopeId: '4vzOR2zuSKuNjV-D5I_c3g',
-        scopeRoleId: '-500'
+        scopeRoleId: '-1'
       }
     ],
     syntheticTestIds: [],
     restrictedApplicationFilter: null,
     infraDfqFilter: {
       scopeId: '',
-      scopeRoleId: '-600'
+      scopeRoleId: '-1'
     },
     applicationIds: [
       {
@@ -55,11 +55,11 @@ const mockFormData = {
       },
       {
         scopeId: '1qvXgVfLTNqi8gGTcCaNUw',
-        scopeRoleId: '-100'
+        scopeRoleId: '-101'
       },
       {
         scopeId: 'HI73c60kS32GANJz44dfIw',
-        scopeRoleId: '-100'
+        scopeRoleId: '-102'
       }
     ]
   },
