@@ -10,7 +10,7 @@ import { Message } from '@instana/components';
 
 import { Trans } from 'in-i18n';
 
-export const ContributerFilterWarning = () => {
+export const ContributorFilterWarning = () => {
   return (
     <Message type="warning" small>
       <p>

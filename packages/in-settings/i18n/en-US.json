@@ -174,7 +174,6 @@
     "roleSelection": "Role",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
-    "role_contributer": "Contributer",
     "role_custom": "Custom",
     "role_contributor": "Contributor",
     "role_permissions": "Role / Permissions",
@@ -186,8 +185,7 @@
     "contribution_filter_warning": {
       "firstParagraph": "Any modification you will save, will update all application perspectives using this contribution filter.",
       "secondParagraph": "If you change the role, then the contribution filter will be deleted and all application perspectives using the contribution filter will become editable by any user with Owner access to Applications section. This cannot be undone."
-    },
-    "role_permissions": "Role / Permissions"
+    }
   },
   "configurationSummary": {
     "application": {

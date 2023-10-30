@@ -12,7 +12,8 @@ import { PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
-  AreaRoleWithContributer,
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -91,12 +92,15 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
   const defaultApplicationConfig = getDefaultApplicationConfig(getField<string>(form, 'name')?.value);
-  const isContributerRole =
+  const isContributorRole =
     applicationContributionFilterEnabled &&
     productArea === ProductArea.APPLICATION &&
-    role === AreaRoleWithContributer.CONTRIBUTER;
+    role === AreaRoleWithContributor.CONTRIBUTOR;
 
-  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
+  const onUpdatePermissionSet = (
+    selected: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined,
+    limitation: ScopedPermissionType
+  ) => {
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -106,12 +110,12 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     );
     if (applicationContributionFilterEnabled) {
       if (
-        (productArea === ProductArea.APPLICATION && selected !== AreaRoleWithContributer.CONTRIBUTER) ||
+        (productArea === ProductArea.APPLICATION && selected !== AreaRoleWithContributor.CONTRIBUTOR) ||
         (productArea === ProductArea.APPLICATION && limitedPermission !== limitation)
       ) {
         form = updateFormField(form, 'tagFilterExpression', defaultApplicationConfig.tagFilterExpression);
         form = updateFormField(form, 'scope', defaultApplicationConfig.scope);
-      } else if (productArea === ProductArea.APPLICATION && selected === AreaRoleWithContributer.CONTRIBUTER) {
+      } else if (productArea === ProductArea.APPLICATION && selected === AreaRoleWithContributor.CONTRIBUTOR) {
         form = updateFormField(form, 'label', getField<string>(form, 'name')?.value);
       }
     }
@@ -119,7 +123,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       ...restPermissionSet,
       [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
       ['restrictedApplicationFilter']:
-        selected === AreaRoleWithContributer.CONTRIBUTER ? defaultApplicationConfig : undefined
+        selected === AreaRoleWithContributor.CONTRIBUTOR ? defaultApplicationConfig : undefined
     };
 
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
@@ -156,7 +160,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   description={accessAllDescription}
                   productArea={productArea}
                 />
-                {isContributerRole && <ContributionFilterWrapper form={form} setForm={setForm} />}
+                {isContributorRole && <ContributionFilterWrapper form={form} setForm={setForm} />}
               </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}

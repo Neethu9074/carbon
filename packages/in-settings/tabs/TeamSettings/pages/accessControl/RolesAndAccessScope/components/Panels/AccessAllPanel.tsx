@@ -11,13 +11,14 @@ import { Stack, StackItem, Typography } from '@instana/components';
 import {
   AreaRole,
   AreaRoleType,
-  AreaRoleWithContributer,
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
-  AreaRolesWithContributer,
+  AreaRolesWithContributor,
   ProductAreaType,
   ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
+import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
@@ -32,7 +33,7 @@ interface AccessAllPanelProps {
   roleTooltipText?: string | React.ReactElement;
   description: string;
   title?: string;
-  onChangeRole?: (role: AreaRoleType) => void;
+  onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: ProductAreaType;
 }
 
@@ -45,10 +46,10 @@ export default function AccessAllPanel({
   title,
   productArea
 }: AccessAllPanelProps) {
-  const isContributer =
+  const isContributor =
     applicationContributionFilterEnabled &&
     entityPermissionKey === 'applicationIds' &&
-    role === AreaRoleWithContributer.CONTRIBUTER;
+    role === AreaRoleWithContributor.CONTRIBUTOR;
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
     productArea,
     ScopedPermissionItem.ACCESS_ALL,
@@ -71,12 +72,12 @@ export default function AccessAllPanel({
           </Typography>
         </StackItem>
       )}
-      {isContributer && (
+      {isContributor && (
         <StackItem>
           <Typography variant="heading-200" component="h4">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
-          <ContributerFilterWarning />
+          <ContributorFilterWarning />
         </StackItem>
       )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
@@ -87,7 +88,7 @@ export default function AccessAllPanel({
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
           {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
-            ? { options: AreaRolesWithContributer }
+            ? { options: AreaRolesWithContributor }
             : {})}
         />
       )}

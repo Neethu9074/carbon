@@ -10,7 +10,9 @@ import {
   ProductArea,
   ScopedPermissionItem,
   ScopedPermissionType,
-  ProductAreaType
+  ProductAreaType,
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { t } from 'in-i18n';
 
@@ -23,7 +25,7 @@ interface ConfigurationSummaryMsg {
 export const getConfigurationSummaryMsg = (
   productArea: ProductAreaType,
   scope: ScopedPermissionType,
-  role?: AreaRoleWithCustomType | 'CONTRIBUTOR' | undefined // TODO modify when CONTRIBUTOR has been added as type
+  role?: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined
 ): ConfigurationSummaryMsg => {
   const areaContext = productArea.toLowerCase();
   const roleContext = role ? role?.toLowerCase() : '';
@@ -50,7 +52,7 @@ export const getConfigurationSummaryMsg = (
     }
 
     // Specific message for Contributor (Application only at the moment)
-    if (productArea === ProductArea.APPLICATION && role === 'CONTRIBUTOR') {
+    if (productArea === ProductArea.APPLICATION && role === AreaRoleWithContributor.CONTRIBUTOR) {
       // TODO modify when CONTRIBUTOR has been added as type
       accessLevelMessage = t('in-settings:configurationSummary.' + areaScopeContext + '.access_level', {
         context: scope === ScopedPermissionItem.LIMITED_ACCESS ? roleContext : ''

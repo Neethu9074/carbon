@@ -7,11 +7,11 @@
 import React from 'react';
 
 import {
-  AreaRoleOptionsType,
   AreaRoles,
-  AreaRolesWithContributerType,
+  AreaRolesWithContributorOptionsType,
   AreaRoleType,
-  AreaRoleWithCustomType
+  AreaRoleWithCustomType,
+  AreaRoleWithContributorType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import Select from 'in-components/form/Select/Select';
 import { t } from 'in-i18n';
@@ -19,13 +19,17 @@ import { t } from 'in-i18n';
 export interface RoleSelectProps {
   value?: AreaRoleWithCustomType;
   defaultRole?: AreaRoleType;
-  onChange: (role: AreaRoleType) => void;
-  options?: AreaRolesWithContributerType | AreaRoleOptionsType;
+  onChange: (role: AreaRoleType | AreaRoleWithContributorType) => void;
+  options?: AreaRolesWithContributorOptionsType;
 }
 
 export default function RoleSelect({ value, onChange, options = AreaRoles }: RoleSelectProps) {
   return (
-    <Select useFullWidth={false} onChange={e => onChange(e.target.value as AreaRoleType)} value={value}>
+    <Select
+      useFullWidth={false}
+      onChange={e => onChange(e.target.value as AreaRoleType | AreaRoleWithContributorType)}
+      value={value}
+    >
       <option value="" disabled>
         {t('in-settings:permissionScope.role')}
       </option>

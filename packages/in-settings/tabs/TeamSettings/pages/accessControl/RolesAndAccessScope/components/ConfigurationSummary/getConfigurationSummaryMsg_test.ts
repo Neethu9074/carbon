@@ -7,7 +7,8 @@
 import {
   ProductArea,
   ScopedPermissionItem,
-  AreaRole
+  AreaRole,
+  AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getConfigurationSummaryMsg } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import { t } from 'in-i18n';
@@ -17,17 +18,16 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     test.each([
       [ProductArea.APPLICATION, ScopedPermissionItem.ACCESS_ALL, AreaRole.OWNER],
       [ProductArea.APPLICATION, ScopedPermissionItem.ACCESS_ALL, AreaRole.VIEWER],
-      [ProductArea.APPLICATION, ScopedPermissionItem.ACCESS_ALL, 'CONTRIBUTOR'], // TODO modify when CONTRIBUTOR has been added as type
+      [ProductArea.APPLICATION, ScopedPermissionItem.ACCESS_ALL, AreaRoleWithContributor.CONTRIBUTOR],
       [ProductArea.APPLICATION, ScopedPermissionItem.LIMITED_ACCESS, AreaRole.OWNER],
       [ProductArea.APPLICATION, ScopedPermissionItem.LIMITED_ACCESS, AreaRole.VIEWER],
-      [ProductArea.APPLICATION, ScopedPermissionItem.LIMITED_ACCESS, 'CONTRIBUTOR'] // TODO modify when CONTRIBUTOR has been added as type
+      [ProductArea.APPLICATION, ScopedPermissionItem.LIMITED_ACCESS, AreaRoleWithContributor.CONTRIBUTOR]
     ])('%s: shows correct messages for %s with role %s', (productArea, scope, role) => {
-      // @ts-expect-error TODO remove once CONTRIBUTOR has been added as type
       let configSummaryMsg = getConfigurationSummaryMsg(productArea, scope, role);
       const productContext = productArea.toLowerCase();
       const scopeContext = scope.toLowerCase();
 
-      if (role === 'CONTRIBUTOR') {
+      if (role === AreaRoleWithContributor.CONTRIBUTOR) {
         // TODO modify when CONTRIBUTOR has been added as type
         expect(configSummaryMsg.accessLevelMessage).toEqual(
           t(

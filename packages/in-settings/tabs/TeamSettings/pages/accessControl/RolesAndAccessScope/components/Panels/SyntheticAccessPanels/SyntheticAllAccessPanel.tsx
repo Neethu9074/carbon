@@ -12,6 +12,7 @@ import { Stack, StackItem, Typography } from '@instana/components';
 import {
   AreaRole,
   AreaRoleType,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   ProductArea,
   ScopedPermissionItem
@@ -31,7 +32,7 @@ interface SyntheticAccessPanelProps<FORM_TYPE extends MapFormItems> extends Form
   role?: AreaRoleWithCustomType;
   roleTooltipText?: string | React.ReactElement;
   description: string;
-  onChangeRole?: (role: AreaRoleType) => void;
+  onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
 }
 
 export default function SyntheticAccessAllPanel<FORM_TYPE extends MapFormItems>({

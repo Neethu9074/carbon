@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import { SvgIcon, Typography } from '@instana/components';
 
 import {
-  AreaRolesWithContributerType,
+  AreaRolesWithContributorOptionsType,
   AreaRoleOptionsType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import RoleSelect, {
@@ -27,7 +27,7 @@ interface RoleFormGroupProps extends Omit<RoleSelectProps, 'defaultRole'> {
   defaultRole: AreaRoleType;
   htmlFor: string;
   tooltipText: string | React.ReactElement;
-  options?: AreaRolesWithContributerType | AreaRoleOptionsType;
+  options?: AreaRolesWithContributorOptionsType | AreaRoleOptionsType;
 }
 
 export default function RoleFormGroup({

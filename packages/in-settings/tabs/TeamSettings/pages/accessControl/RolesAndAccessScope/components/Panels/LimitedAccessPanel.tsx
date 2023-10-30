@@ -13,15 +13,16 @@ import { Observable } from '@instana/observables';
 
 import {
   AreaRole,
-  AreaRoleType,
   AreaRoleWithCustomType,
-  AreaRoleWithContributer,
-  AreaRolesWithContributer,
+  AreaRoleWithContributor,
+  AreaRolesWithContributor,
   LimitableProductArea,
-  ScopedPermissionItem
+  ScopedPermissionItem,
+  AreaRoleWithContributorType,
+  AreaRoleType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
-import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
+import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
@@ -63,7 +64,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
-  onChangeRole: (role: AreaRoleType) => void;
+  onChangeRole: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: LimitableProductArea;
 }
 
@@ -90,10 +91,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
 
   const selectedIds = getFilteredScopeIds(scopeBindings);
   const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable, orderDirection });
-  const isContributer =
+  const isContributor =
     applicationContributionFilterEnabled &&
     entityPermissionKey === 'applicationIds' &&
-    role === AreaRoleWithContributer.CONTRIBUTER;
+    role === AreaRoleWithContributor.CONTRIBUTOR;
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
     setForm(updatedForm);
@@ -174,12 +175,12 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
           </Typography>
         </StackItem>
       )}
-      {isContributer && (
+      {isContributor && (
         <StackItem>
           <Typography variant="heading-200" component="h4">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
-          <ContributerFilterWarning />
+          <ContributorFilterWarning />
         </StackItem>
       )}
       <StackItem>
@@ -190,16 +191,16 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
           {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
-            ? { options: AreaRolesWithContributer }
+            ? { options: AreaRolesWithContributor }
             : {})}
         />
         {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
           <SyntheticCommonSection form={form} setForm={setForm} />
         )}
-        {isContributer && <ContributionFilterWrapper form={form} setForm={setForm} />}
+        {isContributor && <ContributionFilterWrapper form={form} setForm={setForm} />}
       </StackItem>
       <Divider />
-      {isContributer && (
+      {isContributor && (
         <StackItem>
           <Typography variant="heading-200" component="h4">
             {t('in-settings:permissionScope.contribution_filter_accessScope')}

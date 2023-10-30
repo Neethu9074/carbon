@@ -21,7 +21,7 @@ import {
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
 import {
-  AreaRoleWithContributer,
+  AreaRoleWithContributor,
   ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
@@ -72,7 +72,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const isValidContributionFilter = () => {
     const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
     const role = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, permissionSet);
-    if (role === AreaRoleWithContributer.CONTRIBUTER) {
+    if (role === AreaRoleWithContributor.CONTRIBUTOR) {
       let isFilterNameValid = isBlank((form.get('label') as Field<string>).value);
       if (tagFilterExpression?.length === 0 || isFilterNameValid) {
         isValidTagFilterExpression = false;

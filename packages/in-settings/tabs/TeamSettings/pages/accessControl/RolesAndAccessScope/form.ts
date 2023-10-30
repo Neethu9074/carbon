@@ -10,7 +10,8 @@ import { PermissionSet } from '@instana/types';
 
 import {
   AreaRole,
-  AreaRoleWithContributer,
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -94,7 +95,7 @@ export function getAreaRoleFromPermissionSet(
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
     if (hasAllCapabilities && permissionSet.restrictedApplicationFilter) {
-      return AreaRoleWithContributer.CONTRIBUTER;
+      return AreaRoleWithContributor.CONTRIBUTOR;
     }
     if (hasAllCapabilities) return AreaRole.OWNER;
 
@@ -127,7 +128,7 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleWithCustomType | undefined = undefined
+  role: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined = undefined
 ): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
 
@@ -165,7 +166,7 @@ export function updatePermissionSetForLimitableProductArea(
 // Returns a new permission set containing all permissions related to the given product area and role
 function addPermissionsByRoleForProductArea(
   productArea: LimitableProductArea,
-  role: AreaRoleWithCustomType | undefined,
+  role: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined,
   permissions: string[]
 ): string[] {
   //The additional Synthetic permissions set at owner's role should be removed
@@ -182,7 +183,7 @@ function addPermissionsByRoleForProductArea(
   // as starting with clean permissions for the area
   if (
     role === AreaRole.OWNER ||
-    (role === AreaRoleWithContributer.CONTRIBUTER && productArea == ProductArea.APPLICATION)
+    (role === AreaRoleWithContributor.CONTRIBUTOR && productArea == ProductArea.APPLICATION)
   ) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     newPermissions.push(...capabilities);
