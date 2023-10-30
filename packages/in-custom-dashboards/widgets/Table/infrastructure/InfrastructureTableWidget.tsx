@@ -6,13 +6,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  AggregationType,
-  Group,
-  TagFilterExpressionElementUnion,
-  TagFilter,
-  TagFilterExpression
-} from '@instana/types';
+import { AggregationType, Group, TagFilterExpressionElementUnion } from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
 import {
@@ -28,8 +22,8 @@ import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-cus
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
@@ -286,18 +280,28 @@ function getTagFilterExpressionFromQuery({
 }: {
   backendGroupBy: string[];
   query: string;
-  setTagFilterExpression: React.Dispatch<React.SetStateAction<TagFilter | FormModelElement[] | TagFilterExpression>>;
-  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
+  setTagFilterExpression: React.Dispatch<
+    React.SetStateAction<FormModelElement | FormModelElement[] | TagFilterExpressionElementUnion>
+  >;
+  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion | FormModelElement;
 }) {
   if (query.trim() !== '') {
     const tagFiltersFromEntity = tagFilter('label', 'CONTAINS', query);
     const tagFiltersFromGroups = backendGroupBy.map((group: string) => tagFilter(group, 'CONTAINS', query));
+
     const updatedTagFilterExpression = toBackendQueryModel(
       joinExpressions({
-        logicalOperator: or,
-        expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
+        logicalOperator: and,
+        expressions: [
+          joinExpressions({
+            logicalOperator: or,
+            expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
+          }),
+          tagFilterExpression as FormModelElement | FormModelElement[]
+        ]
       })
     );
+
     setTagFilterExpression(updatedTagFilterExpression);
   } else {
     setTagFilterExpression(tagFilterExpression);

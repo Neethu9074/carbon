@@ -17,7 +17,7 @@ export interface TableFormConfiguration {
   columns?: string[];
   tableSize?: number;
   entityType?: string;
-  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
+  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion | FormModelElement;
   grouping?: Grouping[];
   datasets?: any;
   sorting?: Order;
