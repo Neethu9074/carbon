@@ -149,11 +149,8 @@
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
     "contribution_filter": "Contribution filter",
-    "contributionFilter_description": {
-      "firstLine": "The filter will be inherited for creation of new application configurations.",
-      "secondLine": "On the application perspective configuration it can be refined with further filter tag following an {{logicalOperator}} operator"
-    },
-    "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application percepectives",
+    "contributionFilter_description": "The filter will be inherited for creation of new application configurations. On the application perspective configuration it can be refined with further filter tag following an {{logicalOperator}} operator",
+    "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
     "contributionFilter_name": "Name"
   },
   "selectItemForm": {

@@ -18,6 +18,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     render(<ApplicationContributionFilter form={createFilterForm()} setForm={jest.fn()} />);
     expect(screen.getByText(t('in-settings:PermissionSection.contributionFilter_downstreamCalls'))).toBeInTheDocument();
     expect(screen.getByText(t('in-applications:creation.advanced.clear'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-settings:PermissionSection.contributionFilter_name'))).toBeInTheDocument();
   });
 
   test('should hide clear button if no filter applied', () => {

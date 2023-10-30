@@ -15,7 +15,6 @@ import {
   AreaRole,
   AreaRoleType,
   AreaRoleWithContributer,
-  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   AreaRolesWithContributer
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
@@ -51,11 +50,10 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
       PermissionSectionProps<I, FORM_TYPE>,
       'setSubSlideConfig' | 'setShowSubSlide' | 'roleTooltipText' | 'entityPermissionKey'
     > {
-  role?: AreaRoleWithCustomType | AreaRoleWithContributerType;
+  role?: AreaRoleWithCustomType;
   description: string;
   addButtonLabel: string;
   entityPermissionKey: EntityPermissionKey;
-  isContributerRole?: boolean;
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
@@ -75,8 +73,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   extractName,
   onChangeRole,
   setShowSubSlide,
-  setSubSlideConfig,
-  isContributerRole
+  setSubSlideConfig
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const theme = useTheme();
@@ -157,7 +154,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
           {description}
         </Typography>
       </StackItem>
-      {isContributerRole && (
+      {isContributer && (
         <StackItem>
           <Typography variant="heading-200" component="h4">
             {t('in-settings:permissionScope.role_permissions')}

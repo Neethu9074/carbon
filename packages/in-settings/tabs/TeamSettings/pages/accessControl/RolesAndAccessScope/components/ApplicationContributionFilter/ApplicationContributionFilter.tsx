@@ -51,14 +51,13 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
       </Typography>
 
       <DescriptionText className={locals.contributionFilter_descriptionText}>
-        {t('in-settings:PermissionSection.contributionFilter_description.firstLine')}
-        {t('in-settings:PermissionSection.contributionFilter_description.secondLine', { logicalOperator: 'AND' })}
+        {t('in-settings:PermissionSection.contributionFilter_description', { logicalOperator: 'AND' })}
       </DescriptionText>
 
       <Label className={locals.contributionFilter_groupLabel}>
         {t('in-settings:PermissionSection.contributionFilter_name')}
         <Input
-          id="contributionFilter-name"
+          id="application-contribution-filter-name"
           onChange={e => setForm(updateFormField(form, 'label', e.target.value, true))}
           value={groupNameField?.value ?? ''}
         />
@@ -72,7 +71,6 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
             }}
           />
         </div>
-
         <HorizontalFlexWrapper>
           {tagFilterExpression?.length > 0 && (
             <Button

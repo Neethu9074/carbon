@@ -14,6 +14,7 @@ import { t } from 'in-i18n';
 const mockFormData = {
   id: 'jqNSMP8vT7a4giHqIlwzqw',
   name: 'test_group',
+  label: 'test_group_filter',
   members: [
     {
       userId: '64e47335fcc73b0001b87dd0',
@@ -62,16 +63,7 @@ const mockFormData = {
       }
     ]
   },
-  scope: {
-    value: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
-    hierarchyTouched: false,
-    touched: false,
-    messages: [],
-    maxSeverity: 'ok',
-    valid: true,
-    maxSeverityOfHierarchy: 'ok',
-    hierarchyValid: true
-  },
+  scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING',
   tagFilterExpression: [
     {
       type: 'TAG_FILTER',
@@ -83,7 +75,7 @@ const mockFormData = {
 };
 
 export const createFilterForm = () => {
-  const { id, name, members, permissionSet, scope, tagFilterExpression } = { ...mockFormData };
+  const { id, name, label, members, permissionSet, scope, tagFilterExpression } = { ...mockFormData };
 
   return createMapForm()
     .put(
@@ -96,6 +88,12 @@ export const createFilterForm = () => {
       'name',
       createField({
         value: name
+      })
+    )
+    .put(
+      'label',
+      createField({
+        value: label
       })
     )
     .put(

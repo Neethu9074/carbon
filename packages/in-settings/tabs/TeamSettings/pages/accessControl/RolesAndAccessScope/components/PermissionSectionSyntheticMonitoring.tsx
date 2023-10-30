@@ -12,20 +12,19 @@ import { PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
-  AreaRoleWithContributerType,
-  AreaRoleWithCustomType,
-  ProductArea,
-  ScopedPermissionItem,
-  ScopedPermissionItems,
-  ScopedPermissionType
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import {
   getAreaRoleFromPermissionSet,
   getField,
   getScopeFromProductArea,
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  AreaRoleWithCustomType,
+  ProductArea,
+  ScopedPermissionItem,
+  ScopedPermissionItems,
+  ScopedPermissionType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import SyntheticAccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticAllAccessPanel';
 import TabSelect, {
   TabSelectHeader,
@@ -83,10 +82,7 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
-  const onUpdatePermissionSet = (
-    selected: AreaRoleWithCustomType | AreaRoleWithContributerType | undefined,
-    limitation: ScopedPermissionType
-  ) => {
+  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
 
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(

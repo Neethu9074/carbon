@@ -18,7 +18,6 @@ import {
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import {
-  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   ProductArea,
   ScopedPermissionItem,
@@ -71,7 +70,7 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
     : VIEWER_ACCESS;
 
   const onUpdatePermissionSet = (
-    role: AreaRoleWithCustomType | AreaRoleWithContributerType | undefined,
+    role: AreaRoleWithCustomType | undefined,
     limitation: ScopedPermissionType | typeof VIEWER_ACCESS
   ) => {
     if (!permissionSet || role === 'CUSTOM') return;

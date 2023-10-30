@@ -10,9 +10,7 @@ import { PermissionSet } from '@instana/types';
 
 import {
   AreaRole,
-  AreaRoleType,
   AreaRoleWithContributer,
-  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -87,7 +85,7 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
 export function getAreaRoleFromPermissionSet(
   productArea: LimitableProductArea,
   permissionSet?: PermissionSet
-): AreaRoleWithCustomType | AreaRoleWithContributerType | undefined {
+): AreaRoleWithCustomType | undefined {
   if (!permissionSet) return;
 
   const { capabilities } = ProductAreaPermissionMap[productArea];
@@ -129,7 +127,7 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleType | AreaRoleWithContributerType | undefined = undefined
+  role: AreaRoleWithCustomType | undefined = undefined
 ): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
 
@@ -167,7 +165,7 @@ export function updatePermissionSetForLimitableProductArea(
 // Returns a new permission set containing all permissions related to the given product area and role
 function addPermissionsByRoleForProductArea(
   productArea: LimitableProductArea,
-  role: AreaRoleType | AreaRoleWithContributerType | undefined,
+  role: AreaRoleWithCustomType | undefined,
   permissions: string[]
 ): string[] {
   //The additional Synthetic permissions set at owner's role should be removed
@@ -182,7 +180,10 @@ function addPermissionsByRoleForProductArea(
     });
   }
   // as starting with clean permissions for the area
-  if (role === AreaRole.OWNER) {
+  if (
+    role === AreaRole.OWNER ||
+    (role === AreaRoleWithContributer.CONTRIBUTER && productArea == ProductArea.APPLICATION)
+  ) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     newPermissions.push(...capabilities);
   } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {
@@ -192,9 +193,6 @@ function addPermissionsByRoleForProductArea(
       Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
     ];
     newPermissions.push(...syntheticViewPermissions);
-  } else if (role === AreaRoleWithContributer.CONTRIBUTER && productArea == ProductArea.APPLICATION) {
-    const { capabilities } = ProductAreaPermissionMap[productArea];
-    newPermissions.push(...capabilities);
   }
 
   return newPermissions;
@@ -226,7 +224,6 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
       'label',
       createField({
         value: label
-        // validator: applicationLabelValidator
       })
     )
     .put(
@@ -255,9 +252,9 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
     );
 }
 
-export const getDefaultApplicationConfig = (filterName: string | undefined) => {
+export const getDefaultApplicationConfig = (applicationContributionfilterName: string | undefined) => {
   return {
-    label: filterName,
+    label: applicationContributionfilterName,
     scope: 'INCLUDE_NO_DOWNSTREAM',
     tagFilterExpression: []
   };

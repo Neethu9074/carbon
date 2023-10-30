@@ -15,8 +15,7 @@ import {
   AreaRole,
   AreaRoleWithCustomType,
   ScopedPermissionItem,
-  ProductArea,
-  AreaRoleWithContributerType
+  ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   getField,
@@ -36,7 +35,7 @@ import { t } from 'in-i18n';
 import locales from './InfrastructureAccessPanel.mless';
 
 interface InfrastructureAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
-  role?: AreaRoleWithCustomType | AreaRoleWithContributerType;
+  role?: AreaRoleWithCustomType;
   description: string;
 }
 

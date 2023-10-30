@@ -13,7 +13,6 @@ import { Observable } from '@instana/observables';
 
 import {
   AreaRoleWithContributer,
-  AreaRoleWithContributerType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -97,10 +96,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     productArea === ProductArea.APPLICATION &&
     role === AreaRoleWithContributer.CONTRIBUTER;
 
-  const onUpdatePermissionSet = (
-    selected: AreaRoleWithCustomType | AreaRoleWithContributerType | undefined,
-    limitation: ScopedPermissionType
-  ) => {
+  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -158,7 +154,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   entityPermissionKey={entityPermissionKey}
                   roleTooltipText={roleTooltipText}
                   description={accessAllDescription}
-                  isContributerRole={isContributerRole}
                 />
                 {isContributerRole && <ContributionFilterWrapper form={form} setForm={setForm} />}
               </>
@@ -179,7 +174,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
-                isContributerRole={isContributerRole}
               />
             )}
           </TabSelectPanel>

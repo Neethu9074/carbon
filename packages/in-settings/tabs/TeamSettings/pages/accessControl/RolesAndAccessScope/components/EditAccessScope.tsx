@@ -20,12 +20,12 @@ import {
 // @ts-expect-error not migrated to typescript yet
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
-import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
-import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import {
   AreaRoleWithContributer,
   ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
+import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
@@ -106,7 +106,10 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           content: (
             <GroupNameSection
               value={groupNameField?.value}
-              setValue={(value: string) => setForm(updateFormField(form, 'name', value, true))}
+              setValue={(value: string) => {
+                const updatedForm = updateFormField(form, 'name', value, true);
+                setForm(updateFormField(updatedForm, 'label', value, true));
+              }}
             />
           )
         }
