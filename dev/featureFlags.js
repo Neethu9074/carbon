@@ -95,5 +95,5 @@ module.exports = {
   actionsLaneEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
-  applicationContributionFilterEnabled: true
+  applicationContributionFilterEnabled: false
 };

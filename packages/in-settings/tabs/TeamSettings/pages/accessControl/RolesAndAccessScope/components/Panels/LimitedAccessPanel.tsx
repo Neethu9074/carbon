@@ -169,7 +169,9 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
           value={role}
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
-          {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributer } : {})}
+          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+            ? { options: AreaRolesWithContributer }
+            : {})}
         />
         {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
           <SyntheticCommonSection form={form} setForm={setForm} />

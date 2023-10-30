@@ -108,7 +108,11 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               value={groupNameField?.value}
               setValue={(value: string) => {
                 const updatedForm = updateFormField(form, 'name', value, true);
-                setForm(updateFormField(updatedForm, 'label', value, true));
+                if (applicationContributionFilterEnabled) {
+                  setForm(updateFormField(updatedForm, 'label', value, true));
+                } else {
+                  setForm(updatedForm);
+                }
               }}
             />
           )

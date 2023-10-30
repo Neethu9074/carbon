@@ -66,7 +66,9 @@ export default function AccessAllPanel({
           value={role}
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
-          {...(entityPermissionKey === 'applicationIds' ? { options: AreaRolesWithContributer } : {})}
+          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+            ? { options: AreaRolesWithContributer }
+            : {})}
         />
       )}
     </Stack>
