@@ -108,25 +108,25 @@ const mockPermissionsWithFullAccess = [
 
 export const mockPermissionsSetWithData = {
   applicationIds: [
-    { scopeId: '1', scopeRoleId: '11' },
-    { scopeId: '2', scopeRoleId: '22' }
+    { scopeId: '1', scopeRoleId: '-101' },
+    { scopeId: '2', scopeRoleId: '-102' }
   ],
   infraDfqFilter: {},
   kubernetesClusterUUIDs: [
-    { scopeId: '3', scopeRoleId: '33' },
-    { scopeId: '4', scopeRoleId: '44' }
+    { scopeId: '3', scopeRoleId: '-1' },
+    { scopeId: '4', scopeRoleId: '-1' }
   ],
   kubernetesNamespaceUIDs: [
-    { scopeId: '5', scopeRoleId: '55' },
-    { scopeId: '6', scopeRoleId: '66' }
+    { scopeId: '5', scopeRoleId: '-1' },
+    { scopeId: '6', scopeRoleId: '-1' }
   ],
   mobileAppIds: [
-    { scopeId: '7', scopeRoleId: '77' },
-    { scopeId: '8', scopeRoleId: '88' }
+    { scopeId: '7', scopeRoleId: '-1' },
+    { scopeId: '8', scopeRoleId: '-1' }
   ],
   websiteIds: [
-    { scopeId: '11', scopeRoleId: '1111' },
-    { scopeId: '12', scopeRoleId: '1212' }
+    { scopeId: '11', scopeRoleId: '-1' },
+    { scopeId: '12', scopeRoleId: '-1' }
   ],
   syntheticTestIds: [],
   permissions: mockPermissionsWithLimitedAccess

@@ -72,7 +72,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
 
     const limitation = !infraDfq ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.LIMITED_ACCESS;
     const restPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, limitation);
-    const infraScope = { scopeId: infraDfq ? infraDfq : '', scopeRoleId: '-600' };
+    const infraScope = { scopeId: infraDfq ? infraDfq : '', scopeRoleId: '-1' };
     updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: infraScope });
   };
 
