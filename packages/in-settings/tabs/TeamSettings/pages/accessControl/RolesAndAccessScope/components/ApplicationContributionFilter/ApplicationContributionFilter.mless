@@ -1,5 +1,5 @@
 :local {
-  .limitingFilter {
+  .contributionFilter {
     border: 1px solid var(--ids-color-option-neutral-300);
     border-radius: var(--ids-border-radius-option-small);
     padding: 1rem 1rem 0rem 1rem;

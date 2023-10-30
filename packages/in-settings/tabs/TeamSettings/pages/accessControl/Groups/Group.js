@@ -187,12 +187,15 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
 
 function getPermissionSetWithApFilters(form) {
   const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
-  const limitingFilterConfig = {
+  const contributionFilterConfig = {
     tagFilterExpression: backendModel,
     scope: form.get('scope')?.value,
     label: form.get('label')?.value
   };
-  const permissionSet = { ...form.get('permissionSet').value, ['restrictedApplicationFilter']: limitingFilterConfig };
+  const permissionSet = {
+    ...form.get('permissionSet').value,
+    ['restrictedApplicationFilter']: contributionFilterConfig
+  };
   return permissionSet;
 }
 

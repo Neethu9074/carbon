@@ -29,7 +29,7 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -160,7 +160,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   description={accessAllDescription}
                   isContributerRole={isContributerRole}
                 />
-                {isContributerRole && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
+                {isContributerRole && <ContributionFilterWrapper form={form} setForm={setForm} />}
               </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel />}

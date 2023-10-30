@@ -8,7 +8,7 @@ import { createField, createMapForm } from 'formalistic';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { t } from 'in-i18n';
 
 const mockFormData = {
@@ -123,10 +123,10 @@ export const createFilterForm = () => {
       })
     );
 };
-describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper', () => {
-  test('should render LimitingApplicationFilterWrapper', () => {
-    render(<LimitingApplicationFilterWrapper form={createFilterForm()} setForm={jest.fn()} />);
+describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper', () => {
+  test('should render ContributionFilterWrapper', () => {
+    render(<ContributionFilterWrapper form={createFilterForm()} setForm={jest.fn()} />);
     expect(screen.getByText(t('in-settings:PermissionSection.contribution_filter'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-settings:PermissionSection.limitation_downstreamCalls'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-settings:PermissionSection.contributionFilter_downstreamCalls'))).toBeInTheDocument();
   });
 });

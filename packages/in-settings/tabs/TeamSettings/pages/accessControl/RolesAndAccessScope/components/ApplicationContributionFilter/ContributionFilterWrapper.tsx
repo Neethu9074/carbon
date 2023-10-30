@@ -12,7 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import LimitingApplicationFilter from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilter';
+import ApplicationContributionFilter from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ApplicationContributionFilter';
 // @ts-expect-error not migrated to typescript yet
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 //@ts-expect-error not migrated to typescript yet
@@ -26,15 +26,14 @@ import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-import locals from './LimitingApplicationFilter.mless';
+import locals from './ApplicationContributionFilter.mless';
 
-export interface LimitingApplicationFilterWrapperProps<FORM_TYPE extends MapFormItems>
-  extends FormControlProps<FORM_TYPE> {}
+export interface ContributionFilterWrapperProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {}
 
-export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFormItems>({
+export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems>({
   form,
   setForm
-}: LimitingApplicationFilterWrapperProps<FORM_TYPE>) {
+}: ContributionFilterWrapperProps<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
   const tagFilterExpressionField = getField<FormModelElement[]>(form, 'tagFilterExpression');
   const tagFilterExpression = tagFilterExpressionField?.value;
@@ -63,9 +62,9 @@ export default function LimitingApplicationFilterWrapper<FORM_TYPE extends MapFo
   }
 
   return (
-    <div className={locals.limitingFilter_wrapper}>
-      <LimitingApplicationFilter form={form} setForm={setForm} />
-      <div className={locals.limitingFilter_wrapper_servicesLiveList}>
+    <div className={locals.contributionFilter_wrapper}>
+      <ApplicationContributionFilter form={form} setForm={setForm} />
+      <div className={locals.contributionFilter_wrapper_servicesLiveList}>
         <ServiceLiveList
           servicesLiveList={servicesLiveList}
           headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}

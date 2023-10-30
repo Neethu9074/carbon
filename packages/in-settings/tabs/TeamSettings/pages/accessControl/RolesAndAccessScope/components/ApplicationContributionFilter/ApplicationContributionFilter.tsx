@@ -9,12 +9,11 @@ import React from 'react';
 
 import { Button, Typography } from '@instana/components';
 
-// import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
-import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 //@ts-expect-error not migrated to typescript yet
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 //@ts-expect-error not migrated to typescript yet
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
+import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -22,17 +21,17 @@ import Input from 'in-components/form/Input/Input';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
-import locals from './LimitingApplicationFilter.mless';
+import locals from './ApplicationContributionFilter.mless';
 
-export interface LimitingApplicationFilterProps<FORM_TYPE extends MapFormItems> {
+export interface ApplicationContributionFilterProps<FORM_TYPE extends MapFormItems> {
   form: MapForm<FORM_TYPE>;
   setForm: (form: MapForm<FORM_TYPE>) => void;
 }
 
-export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems>({
+export default function ApplicationContributionFilter<FORM_TYPE extends MapFormItems>({
   form,
   setForm
-}: LimitingApplicationFilterProps<FORM_TYPE>) {
+}: ApplicationContributionFilterProps<FORM_TYPE>) {
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
   const groupNameField = getField<string>(form, 'label');
@@ -46,25 +45,26 @@ export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems
   };
 
   return (
-    <div className={locals.limitingFilter}>
+    <div className={locals.contributionFilter}>
       <Typography variant="body-regular" component="div">
         {t('in-settings:PermissionSection.contribution_filter')}
       </Typography>
 
-      <DescriptionText className={locals.limitingFilter_descriptionText}>
-        {t('in-settings:PermissionSection.limitation_description', { logicalOperator: 'AND' })}
+      <DescriptionText className={locals.contributionFilter_descriptionText}>
+        {t('in-settings:PermissionSection.contributionFilter_description.firstLine')}
+        {t('in-settings:PermissionSection.contributionFilter_description.secondLine', { logicalOperator: 'AND' })}
       </DescriptionText>
 
-      <Label className={locals.limitingFilter_groupLabel}>
-        {t('in-settings:PermissionSection.filter_name')}
+      <Label className={locals.contributionFilter_groupLabel}>
+        {t('in-settings:PermissionSection.contributionFilter_name')}
         <Input
-          id="filter-name"
+          id="contributionFilter-name"
           onChange={e => setForm(updateFormField(form, 'label', e.target.value, true))}
           value={groupNameField?.value ?? ''}
         />
       </Label>
-      <div className={locals.limitingFilter_queryBuilder}>
-        <div className={locals.limitingFilter_queryBuilderExpression}>
+      <div className={locals.contributionFilter_queryBuilder}>
+        <div className={locals.contributionFilter_queryBuilderExpression}>
           <CreateApplicationQueryBuilder
             value={tagFilterExpression}
             onChange={(tagFilterExpression: FormModelElement[]) => {
@@ -87,9 +87,9 @@ export default function LimitingApplicationFilter<FORM_TYPE extends MapFormItems
         </HorizontalFlexWrapper>
       </div>
       <Typography variant="body-regular" component="div">
-        {t('in-settings:PermissionSection.limitation_downstreamCalls')}
+        {t('in-settings:PermissionSection.contributionFilter_downstreamCalls')}
       </Typography>
-      <div className={locals.limitingFilter_applicationScope}>
+      <div className={locals.contributionFilter_applicationScope}>
         <ApplicationScopeSelector form={form} updateForm={setForm} />
       </div>
     </div>

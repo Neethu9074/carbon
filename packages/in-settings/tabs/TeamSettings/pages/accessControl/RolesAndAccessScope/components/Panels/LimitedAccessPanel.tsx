@@ -19,7 +19,7 @@ import {
   AreaRoleWithCustomType,
   AreaRolesWithContributer
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import LimitingApplicationFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/LimitingApplicationFilter/LimitingApplicationFilterWrapper';
+import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { ContributerFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributerFilterWarning/ContributerFilterWarning';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
@@ -159,7 +159,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       </StackItem>
       {isContributerRole && (
         <StackItem>
-          <Typography variant="heading-200" component="div">
+          <Typography variant="heading-200" component="h4">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
           <ContributerFilterWarning />
@@ -177,14 +177,16 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
           <SyntheticCommonSection form={form} setForm={setForm} />
         )}
-        {isContributer && <LimitingApplicationFilterWrapper form={form} setForm={setForm} />}
-        <Divider />
-        {isContributer && (
-          <Typography variant="heading-200" component="div">
-            {t('in-settings:permissionScope.limitation_accessScope')}
-          </Typography>
-        )}
+        {isContributer && <ContributionFilterWrapper form={form} setForm={setForm} />}
       </StackItem>
+      <Divider />
+      {isContributer && (
+        <StackItem>
+          <Typography variant="heading-200" component="h4">
+            {t('in-settings:permissionScope.contribution_filter_accessScope')}
+          </Typography>
+        </StackItem>
+      )}
       <StackItem>
         <Button
           kind="action"

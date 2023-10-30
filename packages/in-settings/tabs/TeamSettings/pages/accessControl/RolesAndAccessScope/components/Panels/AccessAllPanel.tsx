@@ -49,12 +49,12 @@ export default function AccessAllPanel({
         </Typography>
       </StackItem>
       {isContributerRole && (
-        <>
-          <Typography variant="heading-200" component="div">
+        <StackItem>
+          <Typography variant="heading-200" component="h4">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
           <ContributerFilterWarning />
-        </>
+        </StackItem>
       )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
         <RoleFormGroup

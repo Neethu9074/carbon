@@ -10,12 +10,13 @@ import { Message } from '@instana/components';
 
 import { Trans } from 'in-i18n';
 
-import locals from './ContributerFilterWarning.mless';
-
 export const ContributerFilterWarning = () => {
   return (
-    <Message className={locals.message} type="warning" small>
-      <Trans i18nKey="in-settings:permissionScope.contribution_filter_warning" />
+    <Message type="warning" small>
+      <p>
+        <Trans i18nKey="in-settings:permissionScope.contribution_filter_warning.firstParagraph" />
+      </p>
+      <Trans i18nKey="in-settings:permissionScope.contribution_filter_warning.secondParagraph" />
     </Message>
   );
 };
