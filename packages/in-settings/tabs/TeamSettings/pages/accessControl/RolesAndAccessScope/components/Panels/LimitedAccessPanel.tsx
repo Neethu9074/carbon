@@ -176,7 +176,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       )}
       {isContributer && (
         <StackItem>
-          <Typography variant="heading-200" component="h4">
+          <Typography variant="heading-200" component="h2">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
           <ContributerFilterWarning />
