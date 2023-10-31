@@ -5,8 +5,9 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/ibmApiConnect/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/ibmApiConnect/kpiDefinitions';
+//@ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
+import kpiDefinitions from 'in-forge/plugins/ibmApiConnect/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 

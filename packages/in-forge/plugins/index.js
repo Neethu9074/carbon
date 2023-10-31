@@ -74,6 +74,7 @@ import './kubernetesDaemonSet';
 import './kubernetesNamespace';
 import './redisEnterpriseNode';
 import './rubyRuntimePlatform';
+import './ibmApiConnectCatalog';
 import './ibmMqMftCoordiQmgr';
 import './ibmDataPowerDomain';
 import './aceIntegrationNode';

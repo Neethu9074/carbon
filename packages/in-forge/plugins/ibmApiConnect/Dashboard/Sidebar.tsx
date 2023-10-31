@@ -7,10 +7,15 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Info from 'in-forge/plugins/ibmApiConnect/Info';
 import { t } from 'in-i18n';
 
-export default function IbmApiConnectSidebar({ snapshot }) {
+interface IbmApiConnectProps {
+  snapshot: SnapshotData;
+}
+
+const IbmApiConnectSidebar = ({ snapshot }: IbmApiConnectProps) => {
   return (
     <div>
       <Collapsible initiallyOpen>
@@ -21,4 +26,6 @@ export default function IbmApiConnectSidebar({ snapshot }) {
       </Collapsible>
     </div>
   );
-}
+};
+
+export default IbmApiConnectSidebar;

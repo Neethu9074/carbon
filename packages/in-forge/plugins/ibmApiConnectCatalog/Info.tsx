@@ -7,15 +7,16 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export default function IbmApiConnectInfo({ snapshot }) {
+export default function IbmApiConnectCatalogInfo({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
-
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.ibmApiConnect.orgName')}>{data.get('orgName')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmApiConnect.apicVersion')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmApiConnectCatalog.apicCatalogName')}>
+        {data.get('name')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

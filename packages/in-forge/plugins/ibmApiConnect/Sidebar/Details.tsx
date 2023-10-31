@@ -4,5 +4,5 @@
  * Copyright IBM Corp. 2023
  */
 
-import Details from '../Dashboard/Sidebar';
+import Details from 'in-forge/plugins/ibmApiConnect/Dashboard/Sidebar';
 export default Details;
