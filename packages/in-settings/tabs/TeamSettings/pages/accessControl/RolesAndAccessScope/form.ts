@@ -10,7 +10,8 @@ import { PermissionSet } from '@instana/types';
 
 import {
   AreaRole,
-  AreaRoleType,
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -21,7 +22,6 @@ import {
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { createNewApplicationConfig } from 'in-api/applicationConfigs';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
@@ -94,6 +94,9 @@ export function getAreaRoleFromPermissionSet(
   if (capabilities?.length > 0) {
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
+    if (hasAllCapabilities && permissionSet.restrictedApplicationFilter) {
+      return AreaRoleWithContributor.CONTRIBUTOR;
+    }
     if (hasAllCapabilities) return AreaRole.OWNER;
 
     const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
@@ -125,9 +128,10 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleType | undefined = undefined
+  role: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined = undefined
 ): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+
   const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;
 
   // clean all permissions related to managed ProductArea
@@ -162,7 +166,7 @@ export function updatePermissionSetForLimitableProductArea(
 // Returns a new permission set containing all permissions related to the given product area and role
 function addPermissionsByRoleForProductArea(
   productArea: LimitableProductArea,
-  role: AreaRoleType | undefined,
+  role: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined,
   permissions: string[]
 ): string[] {
   //The additional Synthetic permissions set at owner's role should be removed
@@ -177,7 +181,10 @@ function addPermissionsByRoleForProductArea(
     });
   }
   // as starting with clean permissions for the area
-  if (role === AreaRole.OWNER) {
+  if (
+    role === AreaRole.OWNER ||
+    (role === AreaRoleWithContributor.CONTRIBUTOR && productArea == ProductArea.APPLICATION)
+  ) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     newPermissions.push(...capabilities);
   } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {
@@ -194,9 +201,12 @@ function addPermissionsByRoleForProductArea(
 
 function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
-  const applicationConfig = createNewApplicationConfig();
+  const applicationConfig = getDefaultApplicationConfig(name);
   const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
-  const tagFilterExpression = fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) || [];
+  const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
+  const tagFilterExpression =
+    fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
+    applicationConfig.tagFilterExpression;
   return form
     .put(
       'id',
@@ -209,6 +219,12 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
       createField({
         value: name,
         validator: notBlankValidator
+      })
+    )
+    .put(
+      'label',
+      createField({
+        value: label
       })
     )
     .put(
@@ -236,3 +252,11 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
       })
     );
 }
+
+export const getDefaultApplicationConfig = (applicationContributionfilterName: string | undefined) => {
+  return {
+    label: applicationContributionfilterName,
+    scope: 'INCLUDE_NO_DOWNSTREAM',
+    tagFilterExpression: []
+  };
+};

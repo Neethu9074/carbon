@@ -8,6 +8,10 @@ import React, { useEffect } from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
 
+import {
+  AreaRolesWithContributorOptionsType,
+  AreaRoleOptionsType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import RoleSelect, {
   RoleSelectProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleSelect';
@@ -23,9 +27,17 @@ interface RoleFormGroupProps extends Omit<RoleSelectProps, 'defaultRole'> {
   defaultRole: AreaRoleType;
   htmlFor: string;
   tooltipText: string | React.ReactElement;
+  options?: AreaRolesWithContributorOptionsType | AreaRoleOptionsType;
 }
 
-export default function RoleFormGroup({ htmlFor, tooltipText, value, defaultRole, onChange }: RoleFormGroupProps) {
+export default function RoleFormGroup({
+  htmlFor,
+  tooltipText,
+  value,
+  defaultRole,
+  onChange,
+  options
+}: RoleFormGroupProps) {
   // We want to update all permissions accordingly when we set the role to the default value
   useEffect(() => {
     if (value === undefined) {
@@ -41,7 +53,7 @@ export default function RoleFormGroup({ htmlFor, tooltipText, value, defaultRole
           <SvgIcon type="lib_help_error_info_outline" size="xs" />
         </Tooltip>
       </Label>
-      <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} />
+      <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
     </FormGroup>
   );
 }

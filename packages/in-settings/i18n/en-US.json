@@ -148,10 +148,10 @@
     "addButton_syntheticTests": "Select Synthetic Tests",
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
-    "configuration_limitation": "Configuration Limitation",
-    "limitation_description": "The filter defined below will be included in at the beginning of all new application configurations. It cannot be removed, but can be refined.",
-    "limitation_description_link": "Read more about application configuration limitation",
-    "limitation_downstreamCalls": "Determine the maximum level of additional information that can be included in the application percepectives"
+    "contribution_filter": "Contribution filter",
+    "contributionFilter_description": "The filter will be inherited for creation of new application configurations. On the application perspective configuration it can be refined with further filter tag following an {{logicalOperator}} operator",
+    "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
+    "contributionFilter_name": "Name"
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -180,7 +180,12 @@
     "roleTooltip_websites": "Viewer: Ability to view website dashboards (configuration can't be viewed). <br /> Owner: Ability to create new websites; view, configure and delete website dashboards.",
     "roleTooltip_mobileApps": "Viewer: Ability to view mobile apps dashboards (configuration can't be viewed). <br /> Owner: Ability to create new mobile apps; view, configure and delete mobile apps dashboards.",
     "roleTooltip_applications": "Viewer: Ability to view applications dashboards (configuration can't be viewed). <br /> Owner: Ability to create new applications; view, configure and delete applications dashboards.",
-    "roleTooltip_synthetics": "Viewer: Ability to view Synthetic Test dashboards (configuration can't be viewed). <br /> Owner: Ability to create new Synthetic Tests; view, configure and delete Synthetic Tests, and view and delete Synthetic Locations."
+    "roleTooltip_synthetics": "Viewer: Ability to view Synthetic Test dashboards (configuration can't be viewed). <br /> Owner: Ability to create new Synthetic Tests; view, configure and delete Synthetic Tests, and view and delete Synthetic Locations.",
+    "contribution_filter_accessScope": "Limited access scope (Viewer)",
+    "contribution_filter_warning": {
+      "firstParagraph": "Any modification you will save, will update all application perspectives using this contribution filter.",
+      "secondParagraph": "If you change the role, then the contribution filter will be deleted and all application perspectives using the contribution filter will become editable by any user with Owner access to Applications section. This cannot be undone."
+    }
   },
   "configurationSummary": {
     "application": {

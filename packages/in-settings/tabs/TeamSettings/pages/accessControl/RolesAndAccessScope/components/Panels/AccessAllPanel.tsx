@@ -11,10 +11,14 @@ import { Stack, StackItem, Typography } from '@instana/components';
 import {
   AreaRole,
   AreaRoleType,
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
+  AreaRolesWithContributor,
   ProductAreaType,
   ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
@@ -29,7 +33,7 @@ interface AccessAllPanelProps {
   roleTooltipText?: string | React.ReactElement;
   description: string;
   title?: string;
-  onChangeRole?: (role: AreaRoleType) => void;
+  onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: ProductAreaType;
 }
 
@@ -42,6 +46,10 @@ export default function AccessAllPanel({
   title,
   productArea
 }: AccessAllPanelProps) {
+  const isContributor =
+    applicationContributionFilterEnabled &&
+    entityPermissionKey === 'applicationIds' &&
+    role === AreaRoleWithContributor.CONTRIBUTOR;
   const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
     productArea,
     ScopedPermissionItem.ACCESS_ALL,
@@ -64,6 +72,14 @@ export default function AccessAllPanel({
           </Typography>
         </StackItem>
       )}
+      {isContributor && (
+        <StackItem>
+          <Typography variant="heading-200" component="h2">
+            {t('in-settings:permissionScope.role_permissions')}
+          </Typography>
+          <ContributorFilterWarning />
+        </StackItem>
+      )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
         <RoleFormGroup
           htmlFor={`${entityPermissionKey}-role-select`}
@@ -71,6 +87,9 @@ export default function AccessAllPanel({
           value={role}
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
+          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+            ? { options: AreaRolesWithContributor }
+            : {})}
         />
       )}
     </Stack>
