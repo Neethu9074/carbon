@@ -221,7 +221,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   headline: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.httpRequest),
-  baselineEnabled: false,
+  baselineEnabled: true,
   defaultMetric: 'httpxxx',
   getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName],

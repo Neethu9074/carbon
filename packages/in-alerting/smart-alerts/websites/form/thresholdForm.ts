@@ -34,7 +34,6 @@ export default function createThresholdForm(
 
   switch (alertType) {
     case 'specificJsError':
-    case 'statusCode':
       return createStaticThresholdForm(threshold as StaticThresholdConfig);
     default:
       return createBaselineEnabledForm(threshold);

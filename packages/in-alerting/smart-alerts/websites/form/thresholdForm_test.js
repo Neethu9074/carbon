@@ -40,9 +40,25 @@ describe('in-websites/alerting/form/thresholdForm', () => {
   });
 
   describe('when alertType is statusCode', () => {
-    it('should contain fields: type, operator, lastUpdated, value', () => {
-      const thresholdForm = createThresholdForm({}, 'statusCode').toJS();
-      expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');
+    describe('when thresholdType is STATIC_THRESHOLD', () => {
+      it('should contain fields: type, operator, lastUpdated, value', () => {
+        const thresholdForm = createThresholdForm({ type: STATIC_THRESHOLD }, 'statusCode').toJS();
+        expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');
+      });
+    });
+
+    describe('when thresholdType includes HISTORIC_BASELINE', () => {
+      it('should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
+        const thresholdForm = createThresholdForm({ type: HISTORIC_BASELINE }, 'statusCode').toJS();
+        expect(thresholdForm).to.have.keys(
+          'type',
+          'operator',
+          'lastUpdated',
+          'seasonality',
+          'baseline',
+          'deviationFactor'
+        );
+      });
     });
   });
 });
