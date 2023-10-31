@@ -16,7 +16,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 16
     commands:
       # Set up the shared tooling
       - ./build/download-ci-shared-tools.bash
