@@ -70,7 +70,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
   {
     id: 'process_name',
     sortable: true,
-    defaultOrderDirection: 'ASC',
+    defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),
     getContent: BusinessProcessNameColumnContent
   },
@@ -109,10 +109,9 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
   },
   {
     id: 'health',
-    sortable: false,
-    defaultOrderDirection: 'ASC',
+    sortable: true,
+    defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.healthLabel'),
-    /* When backend is ready, the health icon needs to be driven by item.openIssues */
     getContent(item: BusinessProcessItem, { result, timeConfig }) {
       return (
         <ApplicationEntityHealthIndicatorBehavior
