@@ -3,9 +3,10 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2023
  */
+
 :local {
   .statement {
-    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-family: var(--ids-font-family-option-monospace);
     line-height: 1.4;
     font-size: 0.688rem;
   }

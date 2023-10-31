@@ -58,7 +58,7 @@
 
   .signature {
     overflow: hidden;
-    font-family: var(--typography-font-family-monospace);
+    font-family: var(--ids-font-family-option-monospace);
   }
 
   .selectedLine {
@@ -74,7 +74,7 @@
   }
 
   .rightmost {
-    font-family: var(--typography-font-family-monospace);
+    font-family: var(--ids-font-family-option-monospace);
     margin-left: 0.25rem;
 
     color: var(--ids-color-option-neutral-500);
