@@ -16,6 +16,7 @@ const localStorageKey = 'nextPopDialogReminderAfter';
 describe('pop-dialog-reminder', () => {
   describe('calculateNextOccurrence', () => {
     it('should return the current time plus the specified increment', () => {
+      jest.setSystemTime(Date.now());
       const increment = 1000;
       const expectedTime = Date.now() + increment;
       const nextOccurrence = calculateNextOccurrence(increment);
