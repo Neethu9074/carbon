@@ -11399,7 +11399,7 @@
       "gcAfterPercentage": "After GC percentage"
     },
     "oTelDatabase": {
-      "name": "Name",
+      "name": "Database Name",
       "kind": "Kind",
       "serviceName": "Service Name",
       "oTelDatabase": "OTEL Database",
