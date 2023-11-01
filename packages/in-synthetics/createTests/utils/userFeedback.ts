@@ -37,11 +37,11 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
   });
 }
 
-export function showErrorMessage(type?: ActionType, context?: string): void {
+export function showErrorMessage(type?: ActionType, context?: string, error?: string): void {
   let message = '';
   switch (type) {
     case 'create':
-      message = t('in-synthetics:dialog.feedback.failureMessageCreate');
+      message = t('in-synthetics:dialog.feedback.failureMessageCreate', { errorMessage: error });
       break;
     case 'update':
       message = t('in-synthetics:dialog.feedback.failureMessageUpdate');
@@ -58,13 +58,13 @@ export function showErrorMessage(type?: ActionType, context?: string): void {
   }
   addMessage({
     type: 'danger',
-    timeout: 4000,
+    timeout: 10000,
     title: t('in-synthetics:dialog.feedback.failureTitle'),
     content: message
   });
 }
 
-export const showCreateErrorMessage = () => showErrorMessage('create');
+export const showCreateErrorMessage = (error: string) => showErrorMessage('create', undefined, error);
 
 export const showUpdateErrorMessage = () => showErrorMessage('update');
 

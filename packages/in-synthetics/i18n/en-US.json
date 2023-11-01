@@ -217,7 +217,7 @@
       "successMessageUpdate": "Successfully updated synthetic test",
       "successMessageDelete": "Successfully deleted the synthetic test",
       "failureTitle": "Failed!",
-      "failureMessageCreate": "Failed to create a synthetic test. Please try again later",
+      "failureMessageCreate": "{{errorMessage}}",
       "failureMessageUpdate": "Failed to update the synthetic test. Please try again later",
       "failuteMesssageDelete": "Failed to delete the synthetic test. Please try again later"
     },
