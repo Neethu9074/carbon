@@ -21,4 +21,12 @@
   .errorMessageContainer {
     width: 17rem;
   }
+  .entityDescription {
+    background: var(--ids-color-option-neutral-50);
+    border: 0.1rem var(--ids-color-option-neutral-300) solid;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    width: 99.4%;
+  }
 }

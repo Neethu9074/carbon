@@ -4,9 +4,12 @@
  */
 
 import { ThumbsUp, ThumbsUpFilled, ThumbsDown, ThumbsDownFilled } from '@carbon/icons-react';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { List, Map } from 'immutable';
 
-import { Button, Card, Message, Stack, Typography } from '@instana/components';
+import { Button, Card, Link, Message, Stack, SvgIcon, Typography } from '@instana/components';
+import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import {
   expandedRCAEventCardTracker,
@@ -16,26 +19,93 @@ import {
 import { default as EmptyStateMagnifyingGlass } from './assets/empty-state-magnifying-glass.svg';
 import EventListPagination from 'in-components/EventListPagination/EventListPagination';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
+import getApplication from 'in-applications/subscriptions/getApplication';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import { getSnapshotVersions } from 'in-stores/snapshot';
+import { pendingResult } from 'in-services/fixedObjects';
+import { rcaUIEnabled } from 'in-services/featureFlags';
+import { setTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
+import { getSnapshot } from 'in-stores/snapshot';
+import { getEvent } from 'in-stores/events';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
-export default function AIEventListRow({
-  title,
-  events,
-  triggeringProblemId,
-  latestSnapshot,
-  isRCA,
-  rcaSnapshotID,
-  RegenerateComponentOnClick,
-  pageNum,
-  totalPages,
-  setPageNum
-}) {
+const endpointIDURLParameter = 'endpointId';
+const serviceIDURLParameter = 'serviceId';
+const appIDURLParameter = 'appId';
+
+export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
   const [feedbackState, setFeedbackState] = useState({ thumbsUp: false, thumbsDown: false });
+
+  // Holds map of { snapshot_ID: [event_id, event_id] }
+  const rcaSnapshotMap = useMemo(
+    () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
+    [incident, incidentHasRCAProperty]
+  );
+
+  // gets an array of snapshot_IDs [snapshot_ID_1, snapshot_ID_2 ...]
+  const snapshots = useMemo(() => (rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()) : []), [rcaSnapshotMap]);
+
+  // Selects a given snapshot ID
+  const [currentRCAEntity, setCurrentRCAEntity] = useState(
+    rcaSnapshotMap && rcaSnapshotMap.size > 0 ? snapshots[0] : null
+  );
+
+  //Pagination for different snapshots
+  const [pageNum, setPageNum] = useState(1);
+
+  // Holds the list of observables for RCA Events
+  const [observablesList, setObservablesList] = useState(
+    currentRCAEntity ? combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)).throttle(250) : null
+  );
+
+  // generates a list of event information based on Observables
+  const eventsRelatedToEntity =
+    useObservable(currentRCAEntity ? observablesList : null, [currentRCAEntity, observablesList])?.sort(
+      (a, b) => a.get('start') - b.get('start')
+    ) ?? pendingResult;
+
+  const RegenerateButtonOnClick = () => {
+    setPageNum(pageNum);
+  };
+
+  useEffect(() => {
+    if (currentRCAEntity) setObservablesList(combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)));
+  }, [currentRCAEntity, rcaSnapshotMap]);
+
+  useEffect(() => {
+    setCurrentRCAEntity(snapshots[pageNum - 1]);
+  }, [pageNum, snapshots]);
+
+  if (!currentRCAEntity) {
+    return (
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card
+            title={title}
+            leftHeaderContent={<BetaBadge />}
+            rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
+          >
+            <RCAErrorMessage
+              title={t('in-events:RCA.noEntitiesErrorTitle')}
+              description={t('in-events:RCA.noEntitiesErrorDescription')}
+            />
+          </Card>
+        </Col>
+      </Row>
+    );
+  }
+
+  if (eventsRelatedToEntity?.progress?.loading) return <LoadingIndicator />;
+
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -46,72 +116,70 @@ export default function AIEventListRow({
         >
           <Stack direction="vertical" gap="medium">
             <div className={locals.timeline}>
-              {!events && <LoadingIndicator />}
-              {events?.map(_event => (
+              {!eventsRelatedToEntity && <LoadingIndicator />}
+              <RootCauseEntityDetails
+                selectedSnapshotMetadata={incident
+                  .get('metadata')
+                  .get('probableRootCauseSnapshotMetadata')
+                  .get(currentRCAEntity)}
+                eventsRelatedToEntity={eventsRelatedToEntity}
+              />
+
+              {eventsRelatedToEntity?.map(_event => (
                 <div onClick={expandedRCAEventCardTracker}>
                   <EventListItem
                     key={_event.get('id')}
-                    triggeringProblemId={triggeringProblemId}
+                    triggeringProblemId={eventsRelatedToEntity.length > 0 && eventsRelatedToEntity[0].get('id')}
                     event={_event}
                     latestSnapshot={latestSnapshot}
-                    isRCA={isRCA}
+                    isRCA
                   />
                 </div>
               ))}
-              {rcaSnapshotID && events.length === 0 && (
-                <RCAErrorMessage
-                  title={t('in-events:RCA.noEventsErrorTitle')}
-                  description={t('in-events:RCA.noEventsErrorDescription')}
-                />
-              )}
-              {!rcaSnapshotID && (
-                <RCAErrorMessage
-                  title={t('in-events:RCA.noEntitiesErrorTitle')}
-                  description={t('in-events:RCA.noEntitiesErrorDescription')}
-                />
-              )}
             </div>
-            {rcaSnapshotID && (
-              <Stack direction="horizontal" distribution="spaceBetween">
-                <Stack direction="horizontal" gap="small" align="center">
-                  <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
-                  <Button
-                    kind="subtle"
-                    size="compact"
-                    onClick={() => {
-                      setFeedbackState({ thumbsDown: false, thumbsUp: true });
-                      helpfulRCASuggestionTracker();
-                    }}
-                  >
-                    {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
-                  </Button>
-                  <Button
-                    kind="subtle"
-                    size="compact"
-                    onClick={() => {
-                      setFeedbackState({ thumbsDown: true, thumbsUp: false });
-                      unhelpfulRCASuggestionTracker();
-                    }}
-                  >
-                    {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
-                  </Button>
-                </Stack>
-
-                <Stack direction="horizontal" gap="normal" distribution="end" align="center">
-                  <EventListPagination pageNum={pageNum} numPages={totalPages} setPageNum={setPageNum} />
-                  <Button
-                    icon="lib_actions_sync"
-                    size="compact"
-                    kind="secondary"
-                    onClick={RegenerateComponentOnClick}
-                    disabled
-                    className={locals.rcaRegenerate}
-                  >
-                    {t('in-events:RCA.regenerate')}
-                  </Button>
-                </Stack>
+            <Stack direction="horizontal" distribution="spaceBetween">
+              <Stack direction="horizontal" gap="small" align="center">
+                <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+                <Button
+                  kind="subtle"
+                  size="compact"
+                  onClick={() => {
+                    setFeedbackState({ thumbsDown: false, thumbsUp: true });
+                    helpfulRCASuggestionTracker();
+                  }}
+                >
+                  {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
+                </Button>
+                <Button
+                  kind="subtle"
+                  size="compact"
+                  onClick={() => {
+                    setFeedbackState({ thumbsDown: true, thumbsUp: false });
+                    unhelpfulRCASuggestionTracker();
+                  }}
+                >
+                  {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
+                </Button>
               </Stack>
-            )}
+
+              <Stack direction="horizontal" gap="normal" distribution="end" align="center">
+                <EventListPagination
+                  pageNum={pageNum}
+                  numPages={rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()).length : null}
+                  setPageNum={setPageNum}
+                />
+                <Button
+                  icon="lib_actions_sync"
+                  size="compact"
+                  kind="secondary"
+                  onClick={RegenerateButtonOnClick}
+                  disabled
+                  className={locals.rcaRegenerate}
+                >
+                  {t('in-events:RCA.regenerate')}
+                </Button>
+              </Stack>
+            </Stack>
           </Stack>
         </Card>
       </Col>
@@ -131,4 +199,147 @@ function RCAErrorMessage({ title, description }) {
       </Stack>
     </Stack>
   );
+}
+// Eventually should be directly retrieved once all RCA inclusive events don't use the old data structure anymore
+// See https://github.ibm.com/instana/ui-client/pull/13705
+function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled) {
+  //    () => (rcaUIEnabled && incidentHasRCAProperty ? incident.get('metadata').get('probableRootCause') || null : null),
+  if (!rcaUIEnabled || !incidentHasRCAProperty) return null;
+  const probableRootCauseFromIncident = incident.get('metadata').get('probableRootCause');
+  if (Array.isArray(probableRootCauseFromIncident)) {
+    return probableRootCauseFromIncident;
+  } else if (List.isList(probableRootCauseFromIncident)) {
+    let probableRootCauseWithSnapshotIDsAsKeys = Map();
+
+    probableRootCauseFromIncident.forEach(snapshot => {
+      if (!snapshot || !snapshot.has('RCASnapshotID') || !snapshot.has('rcaEvents')) return null;
+
+      const rcaEvents = snapshot.get('rcaEvents').toArray();
+      let snapshotID = '';
+
+      if (List.isList(snapshot.get('RCASnapshotID'))) {
+        snapshotID = snapshot.get('RCASnapshotID').first();
+      }
+      probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
+    });
+    return probableRootCauseWithSnapshotIDsAsKeys;
+  }
+}
+
+function useGenerateLinksForEntity(entityType, originalID, location) {
+  const { createHref } = useNavigation();
+
+  const query = { ...location.query };
+  const matrixParam = {};
+  let pathname = '';
+
+  if (entityType === 'infrastructure' || entityType === 'process') {
+    query[snapshotIdUrlParameter.name] = originalID;
+    pathname = '/physical/dashboard';
+  } else if (entityType === 'endpoint') {
+    pathname = '/endpoint/summary';
+    matrixParam['/endpoint'] = { [endpointIDURLParameter]: originalID };
+  } else if (entityType === 'service') {
+    pathname = '/service/summary';
+    matrixParam['/service'] = { [serviceIDURLParameter]: originalID };
+    //query[serviceIDURLParameter] = originalID;
+  } else if (entityType === 'application') {
+    pathname = '/application/summary';
+    matrixParam['/application'] = { [appIDURLParameter]: originalID };
+  }
+
+  if (pathname !== '') {
+    return createHref({
+      ...location,
+      pathname,
+      query,
+      matrix: matrixParam
+    });
+  }
+}
+
+function RootCauseEntityDetails({ selectedSnapshotMetadata, eventsRelatedToEntity }) {
+  const [query, setQuery] = useState(null);
+  const theme = useTheme();
+  const { location } = useNavigation();
+  const entityType = selectedSnapshotMetadata.get('EntityType');
+  const originalID = selectedSnapshotMetadata.get('UntransformedEntityID');
+  const urlForEntity = useGenerateLinksForEntity(entityType, originalID, location);
+
+  // generates a list of event information based on Observables
+  const entityInformation = useObservable(query, [query], { resetStateOnObservableChange: true }) ?? null;
+
+  useEffect(() => {
+    if (entityType === 'infrastructure' || entityType === 'process') {
+      // Need to get snapshot versions first and then retrieve appropriate snapshot
+      setQuery(
+        getSnapshotVersions(originalID).map(versions => {
+          if (List.isList(versions)) {
+            const snapVersions = versions.toJS();
+            if (snapVersions.length > 0) {
+              const { to, from } = snapVersions[snapVersions.length - 1];
+
+              const timeConfigFromSnapVersion = {
+                windowSize: (to || Date.now()) - from,
+                to,
+                focusedMoment: to
+              };
+              setTimeConfig(location, timeConfigFromSnapVersion);
+              setQuery(getSnapshot(originalID, timeConfigFromSnapVersion));
+            }
+          }
+        })
+      );
+    } else if (entityType === 'endpoint') {
+      setQuery(getEndpointInfo({ id: originalID }).map(data => data.data));
+    } else if (entityType === 'service') {
+      setQuery(getServiceLabel({ id: originalID }).map(data => data.data));
+    } else if (entityType === 'application') {
+      setQuery(getApplication({ id: originalID }).map(data => data.data));
+    }
+  }, [originalID, entityType, selectedSnapshotMetadata, location]);
+
+  if (entityInformation === null || (entityInformation?.progress && entityInformation.progress?.loading)) {
+    return <LoadingIndicator />;
+  }
+
+  return (
+    <div className={locals.entityDescription}>
+      <Stack gap="small">
+        <Stack direction="horizontal" gap="small" align="center">
+          <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
+          {entityInformation !== null && (
+            <Link href={urlForEntity}>
+              <Stack direction="horizontal" align="center" gap="xxsmall">
+                <SvgIcon type={getIcon(entityType)} color={theme.cds.link.primary} />
+                {Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label}
+              </Stack>
+            </Link>
+          )}
+        </Stack>
+
+        <Typography variant="body-regular">
+          {t('in-events:RCA.relatedEventsLabel', {
+            number_of_events: Array.isArray(eventsRelatedToEntity) ? eventsRelatedToEntity.length : 0
+          })}
+        </Typography>
+      </Stack>
+    </div>
+  );
+}
+
+function getIcon(entityType) {
+  if (entityType === 'infrastructure') {
+    return 'lib_infrastructure';
+  } else if (entityType === 'process') {
+    return 'lib_infra_process';
+  } else if (entityType === 'endpoint') {
+    return 'lib_infra_endpoint';
+  } else if (entityType === 'service') {
+    return 'lib_infra_service';
+  } else if (entityType === 'application') {
+    return 'lib_application';
+  } else {
+    return 'lib_infra_unknownIcon';
+  }
 }
