@@ -154,9 +154,7 @@ const tableActions = {
 function CustomUserListInfo() {
   return (
     <Message type={MessageTypes.neutral} withIcon>
-      <MessageContentModernDesign>
-        <Trans i18nKey="in-settings:tabs.customUserListInformation" />
-      </MessageContentModernDesign>
+      <MessageContentModernDesign>{t('in-settings:tabs.customUserListInformation')}</MessageContentModernDesign>
     </Message>
   );
 }
