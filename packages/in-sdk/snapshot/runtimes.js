@@ -7,7 +7,7 @@ import { t } from 'in-i18n';
 
 const runtimes = [
   {
-    key: 'dotnetcore',
+    key: 'dotnet',
     label: t('in-sdk:snapshot.runtimeLabelNet')
   },
   {
