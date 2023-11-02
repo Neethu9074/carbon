@@ -70,15 +70,15 @@ body {
   --ids-font-size-option-body-small: 0.75rem;
   --ids-color-option-neutral-100: #f7f9fa;
 
-  /* color nowhere defined anywhere else. Drop it? */
-  @font-color: #222627;
-
   margin: 0; // 1
   font-family: var(--ids-font-family-option-sans-serif);
   font-size: var(--ids-font-size-option-body-small);
   font-weight: normal;
   line-height: 1.15;
-  color: @font-color;
+
+  /* legacy setting - we need to revisit this value */
+  color: #222627;
+
   text-align: left; // 3
   background-color: var(--ids-color-option-neutral-100);
 }
@@ -221,14 +221,13 @@ sup {
 //
 
 a {
-  color: @lib__colors__blue800;
-  text-decoration: @links__decoration;
+  color: var(--ids-color-option-blue-500);
   background-color: transparent; // Remove the gray background on active links in IE 10.
   -webkit-text-decoration-skip: objects; // Remove gaps in links underline in iOS 8+ and Safari 8+.
 
   &:hover,
   &:active {
-    text-decoration: @links__hover__decoration;
+    text-decoration: underline;
   }
 }
 
