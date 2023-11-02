@@ -831,9 +831,9 @@
       },
       "components": {
         "errorMessage": "Error Message",
-        "noDataMessage": "No alert configured.",
         "selectJSErrorHelpText": "Select JS error message as template (optional)",
-        "selectJSErrorTitle": "Select JS Error"
+        "selectJSErrorTitle": "Select JS Error",
+        "noJSErrorFound": "No JS error found"
       },
       "data": {
         "errorCount": "Error Count",
