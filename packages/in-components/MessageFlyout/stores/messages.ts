@@ -20,6 +20,7 @@ export interface Message {
   isLicenseUsageMsg?: boolean;
   timeout?: number;
   activeLicense?: string;
+  latestExpiredLicenseType?: string;
   remainingDays?: number;
   expiryDate?: number;
 }
@@ -50,6 +51,7 @@ export function addMessage(messageParam: Message, id: MessageId = idCounter++) {
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
     isLicenseUsageMsg: !!messageParam.isLicenseUsageMsg,
     activeLicense: messageParam.activeLicense,
+    latestExpiredLicenseType: messageParam.latestExpiredLicenseType,
     remainingDays: messageParam.remainingDays,
     expiryDate: messageParam.expiryDate
   };
