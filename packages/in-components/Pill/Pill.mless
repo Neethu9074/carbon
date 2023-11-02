@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .pill {
     display: inline-block;
@@ -33,7 +31,7 @@
   }
 
   .info {
-    background: @lib__colors__chart__self100;
+    background: var(--ids-color-option-neutral-500);
     color: var(--ids-color-option-white);
   }
 }
