@@ -35,12 +35,6 @@ module.exports = {
     messageFlyout: ++zIndex,
     tooltips: ++zIndex
   },
-  links: {
-    decoration: 'none',
-    hover: {
-      decoration: 'underline'
-    }
-  },
   chart: {
     strokeColors: [
       '#5da6da',
