@@ -17,11 +17,17 @@ import { t } from 'in-i18n';
 
 interface IndicatorThresholdFieldProps {
   blueprint: CustomBlueprintType;
+  disabled?: boolean;
   field: Field<number | undefined>;
   onChange: SloFormOnChange;
 }
 
-export default function IndicatorThresholdField({ blueprint, field, onChange }: IndicatorThresholdFieldProps) {
+export default function IndicatorThresholdField({
+  blueprint,
+  disabled = false,
+  field,
+  onChange
+}: IndicatorThresholdFieldProps) {
   const isThresholdValid = isFieldValid(field);
 
   return (
@@ -30,9 +36,10 @@ export default function IndicatorThresholdField({ blueprint, field, onChange }: 
         {t('in-service-levels:createSloDialog.indicatorSection.thresholdLabel', { context: blueprint })}
       </Typography>
       <ThresholdInput
-        value={field.value}
+        disabled={disabled}
         hasError={!isThresholdValid}
         handleChange={value => onChange(['indicator', 'threshold'], () => field.setValue(value).setTouched(true))}
+        value={field.value}
       />
       {!isThresholdValid &&
         field.messages.map(({ message }, index) => (

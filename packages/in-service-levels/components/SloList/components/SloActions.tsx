@@ -21,12 +21,14 @@ interface Props {
 }
 
 export default function SloActions({ item }: Props) {
+  const { configuration } = item;
+
   const openCloneDialog = () => {
     addActiveDialog(
       <CreateSloDialog
         mode="CLONE"
         configuration={{
-          ...item.configuration,
+          ...configuration,
           id: undefined,
           lastUpdated: undefined,
           name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: item.configuration.name })
@@ -35,10 +37,14 @@ export default function SloActions({ item }: Props) {
     );
   };
 
+  const openEditDialog = () => {
+    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} />);
+  };
+
   return (
     <Stack align="end">
       <MoreMenu kind="subtle">
-        <MoreMenuButton icon="lib_actions_edit" disabled>
+        <MoreMenuButton icon="lib_actions_edit" onClick={openEditDialog}>
           {t('in-service-levels:general.editButtonLabel')}
         </MoreMenuButton>
         <MoreMenuButton icon="lib_actions_copy" onClick={openCloneDialog}>

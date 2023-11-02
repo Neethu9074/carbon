@@ -88,17 +88,19 @@
   }
 
   .itemDisabled {
-    cursor: auto;
-    background-color: var(--ids-color-option-neutral-300);
+    cursor: not-allowed;
+    background-color: var(--ids-color-option-neutral-200);
     color: var(--ids-color-option-neutral-600);
+    -webkit-user-select: none;
+    user-select: none;
 
     &:hover,
     &:focus {
-      background-color: var(--ids-color-option-neutral-300) !important;
+      background-color: var(--ids-color-option-neutral-200) !important;
     }
 
     & > label {
-      cursor: auto;
+      cursor: not-allowed;
     }
   }
 

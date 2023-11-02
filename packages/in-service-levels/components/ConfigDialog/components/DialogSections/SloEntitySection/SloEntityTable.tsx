@@ -5,6 +5,8 @@
  */
 
 import React, { useContext } from 'react';
+import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import { Application, Progress, Website } from '@instana/types';
 import { Li, Stack, Ul } from '@instana/components';
@@ -14,10 +16,8 @@ import SloEntityTableSkeleton from 'in-service-levels/components/ConfigDialog/co
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { noop } from 'in-services/fixedObjects';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable.mless';
-import classNames from 'classnames';
 
 export const SloEntityTablePageSize = 6;
 
@@ -27,6 +27,7 @@ export interface EntityData {
 }
 
 interface SloEntityTableProps {
+  disabled?: boolean;
   entityList?: Application[] | Website[];
   onChange: (entityData: EntityData) => void;
   progress: Progress;
@@ -36,22 +37,25 @@ interface SloEntityTableProps {
 }
 
 export default function SloEntityTable({
-  entityList,
-  onChange,
-  progress,
   canLoadMore,
+  disabled = false,
+  entityList,
+  hasError,
   loadMore,
-  hasError
+  onChange,
+  progress
 }: SloEntityTableProps) {
   const { form } = useContext(SloFormContext);
 
   const entityId = form.getIn(['entity', 'entityId']);
 
-  const isDataAvailable = entityList !== undefined && entityList.length > 0;
-
   if (progress.loading) return <SloEntityTableSkeleton />;
 
+  const isDataAvailable = entityList !== undefined && entityList.length > 0;
+
   if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
+
+  const shouldRenderMoreButton = canLoadMore && loadMore && !disabled;
 
   return (
     <Ul
@@ -61,16 +65,22 @@ export default function SloEntityTable({
     >
       {entityList.map(entityData => {
         return (
-          <Li onClick={() => onChange(entityData)} key={entityData.id}>
+          <Li
+            className={classNames({
+              [locals.disabled]: disabled
+            })}
+            onClick={disabled ? noop : () => onChange(entityData)}
+            key={entityData.id}
+          >
             <Stack direction="horizontal">
-              <CheckboxFancy asRadioButton checked={entityData.id === entityId.value} onChange={noop} />
+              <CheckboxFancy asRadioButton checked={entityData.id === entityId.value} disabled={disabled} />
               <div className={locals.checkBoxItem}>{entityData.label}</div>
             </Stack>
           </Li>
         );
       })}
 
-      {canLoadMore && loadMore && (
+      {shouldRenderMoreButton && (
         <Li onClick={loadMore} className={locals.loadMore}>
           {t('in-service-levels:general.loadMore')}
         </Li>

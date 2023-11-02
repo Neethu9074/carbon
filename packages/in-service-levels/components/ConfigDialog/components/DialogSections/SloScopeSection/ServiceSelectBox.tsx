@@ -13,20 +13,22 @@ import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 interface ServiceSelectBoxProps {
-  hasError?: boolean;
   applicationId: string;
   boundaryScope: ApplicationBoundaryScope;
-  value?: string | Nullish;
+  disabled?: boolean;
+  hasError?: boolean;
   onChange: (application?: string) => void;
+  value?: string | Nullish;
   width?: string;
 }
 
 export default function ServiceSelectBox({
   applicationId,
-  hasError,
   boundaryScope,
-  value,
+  disabled = false,
+  hasError,
   onChange,
+  value,
   width
 }: ServiceSelectBoxProps) {
   const [servicesPage, status] = useServices({
@@ -41,7 +43,7 @@ export default function ServiceSelectBox({
       id="new-sli-service-selection"
       titleWidth={width ?? titleWidth}
       label={t('in-custom-dashboards:widgets.slo.servicesSelectBox.service')}
-      disabled={isBlank(applicationId) || status !== 'resolved'}
+      disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
       value={value ?? ''}
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={hasError}

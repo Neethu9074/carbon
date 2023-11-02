@@ -38,9 +38,13 @@ export default function SloActionButtons({ configuration }: SloActionButtonsProp
     );
   };
 
+  const openEditDialog = () => {
+    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} />);
+  };
+
   return (
     <Stack align="end" direction="horizontal" gap="disabled">
-      <IconButton type="lib_actions_edit" buttonType="button" kind="primary" disabled />
+      <IconButton type="lib_actions_edit" buttonType="button" kind="primary" onClick={openEditDialog} />
       <IconButton type="lib_actions_copy" buttonType="button" kind="primary" onClick={openCloneDialog} />
       <IconButton type="lib_actions_delete" buttonType="button" kind="primary" onClick={doDelete} />
     </Stack>

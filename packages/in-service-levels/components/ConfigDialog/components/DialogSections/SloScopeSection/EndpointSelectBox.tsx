@@ -14,21 +14,23 @@ import { t } from 'in-i18n';
 
 interface EndpointSelectBoxProps {
   applicationId: string;
-  hasError?: boolean;
-  serviceId?: string | Nullish;
   boundaryScope: ApplicationBoundaryScope;
-  value: string | Nullish;
+  disabled?: boolean;
+  hasError?: boolean;
   onChange: (endpoint: string) => void;
   width?: string;
+  serviceId?: string | Nullish;
+  value: string | Nullish;
 }
 
 export default function EndpointSelectBox({
   applicationId,
-  hasError,
-  serviceId,
   boundaryScope,
-  value,
+  disabled = false,
+  hasError,
   onChange,
+  serviceId,
+  value,
   width
 }: EndpointSelectBoxProps) {
   const [endpointsPage, status] = useEndpoints({
@@ -41,13 +43,13 @@ export default function EndpointSelectBox({
 
   return (
     <SelectInSection
+      disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
+      hasError={hasError}
       id="new-sli-endpoint-selection"
       label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
-      disabled={isBlank(applicationId) || status !== 'resolved'}
-      value={value ?? ''}
-      titleWidth={width ? width : titleWidth}
       onChange={({ target }) => onChange?.(target?.value)}
-      hasError={hasError}
+      titleWidth={width ? width : titleWidth}
+      value={value ?? ''}
     >
       {status === 'pending' ? (
         <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>

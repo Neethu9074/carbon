@@ -17,11 +17,16 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
 
 interface IndicatorAggregationFieldProps {
+  disabled?: boolean;
   field: Field<AggregationType>;
   onChange: SloFormOnChange;
 }
 
-export default function IndicatorAggregationField({ field, onChange }: IndicatorAggregationFieldProps) {
+export default function IndicatorAggregationField({
+  disabled = false,
+  field,
+  onChange
+}: IndicatorAggregationFieldProps) {
   const isAggregationValid = isFieldValid(field);
 
   return (
@@ -30,11 +35,12 @@ export default function IndicatorAggregationField({ field, onChange }: Indicator
         {t('in-service-levels:general.aggregation')}
       </Typography>
       <AggregationSelectorInput
-        value={field.value}
+        disabled={disabled}
         hasError={!isAggregationValid}
         handleChange={({ target }) =>
           onChange(['indicator', 'aggregation'], () => field.setValue(target.value as AggregationType).setTouched(true))
         }
+        value={field.value}
       />
       {!isAggregationValid &&
         field.messages.map(({ message }, index) => (

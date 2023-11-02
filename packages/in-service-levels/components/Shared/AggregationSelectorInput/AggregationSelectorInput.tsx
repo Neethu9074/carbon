@@ -12,18 +12,20 @@ import { timeAggregationOptions } from 'in-service-levels/constants';
 import Select from 'in-components/form/Select';
 
 interface AggregationSelectorInputProps {
+  disabled?: boolean;
   hasError?: boolean;
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   value: AggregationType;
 }
 
 export default function AggregationSelectorInput({
+  disabled = false,
+  hasError = false,
   value,
-  handleChange,
-  hasError = false
+  handleChange
 }: AggregationSelectorInputProps) {
   return (
-    <Select onChange={handleChange} value={value} hasError={hasError}>
+    <Select disabled={disabled} hasError={hasError} onChange={handleChange} value={value}>
       {timeAggregationOptions.map(({ label, value }) => (
         <option value={value} key={value}>
           {label}

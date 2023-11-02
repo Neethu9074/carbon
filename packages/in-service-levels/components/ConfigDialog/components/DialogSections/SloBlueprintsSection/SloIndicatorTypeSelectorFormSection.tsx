@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelector.mless';
 
 export default function SloIndicatorTypeSelectorFormSection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const typeField = form.getIn(['indicator', 'type']);
   const blueprintField = form.getIn(['indicator', 'blueprint']);
@@ -26,6 +26,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
   const isIndicatorCustomEventBased = typeField.value === 'customEventBased';
 
   const isIndicatorCustomBased = blueprintField.value === 'custom';
+  const isFormInEditMode = mode === 'EDIT';
 
   return (
     <Stack gap="xsmall">
@@ -42,6 +43,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
           <CheckboxFancy
             asRadioButton
             checked={isIndicatorTimeBased}
+            disabled={isFormInEditMode}
             explanation={t('in-service-levels:createSloDialog.indicatorSection.timeTypeExplanation')}
             label={t('in-service-levels:general.time')}
             onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('timeBased').setTouched(true))}
@@ -54,6 +56,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
           <CheckboxFancy
             asRadioButton
             checked={isIndicatorEventBased}
+            disabled={isFormInEditMode}
             explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}
             label={t('in-service-levels:createSloDialog.indicatorSection.eventCount')}
             onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('eventBased').setTouched(true))}
@@ -66,6 +69,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
           <CheckboxFancy
             asRadioButton
             checked={isIndicatorCustomEventBased}
+            disabled={isFormInEditMode}
             explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}
             label={t('in-service-levels:createSloDialog.indicatorSection.eventCount')}
             onChange={() =>
