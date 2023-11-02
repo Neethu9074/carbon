@@ -164,13 +164,6 @@ function buildLib() {
       transparent: 'rgba(255, 255, 255, 0)',
 
       chart: {}
-    },
-
-    shadows: {
-      subtle: '0px 1px 4px 0px rgba(0, 0, 0, 0.16)',
-      pronounced: '0px 2px 5px 0px rgba(0, 0, 0, 0.24)',
-      strong: '0px 3px 10px 0px rgba(0, 0, 0, 0.24)',
-      soft: '0px 0px 25px 0px rgba(0, 0, 0, 0.3)'
     }
   };
 

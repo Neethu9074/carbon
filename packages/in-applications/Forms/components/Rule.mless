@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .rule {
@@ -32,7 +31,7 @@
   .reorderable {
     cursor: unset;
     &:hover {
-      box-shadow: @lib__shadows__subtle;
+      box-shadow: var(--ids-shadow-option-subtle);
     }
   }
 
