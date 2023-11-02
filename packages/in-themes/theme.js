@@ -35,7 +35,6 @@ module.exports = {
     messageFlyout: ++zIndex,
     tooltips: ++zIndex
   },
-  fontColor: '#222627',
   links: {
     decoration: 'none',
     hover: {
