@@ -5,7 +5,7 @@
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const serverConfig = require('../../serverConfig.js');
-const featureFlagDefinitions = require('in-server/src/services/resolvers/featureFlags');
+const featureFlagDefinitions = require('./featureFlags');
 
 exports.getFeatureFlags = () => {
   const presetWithEnabledFlags = featureFlagDefinitions.reduce((presetWithEnabledFlags, flag) => {
