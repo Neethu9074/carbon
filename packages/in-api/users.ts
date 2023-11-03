@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilterExpressionElementUnion } from '@instana/types';
 import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -40,6 +41,17 @@ export interface UserResult {
   readonly lastLoggedIn: number | null | undefined;
   readonly groupCount: number | null | undefined;
   readonly tfaEnabled: boolean | null | undefined;
+}
+
+export interface RestrictedFilter {
+  readonly label: string;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
+}
+
+export interface UserRestrictedApplication {
+  readonly id: string;
+  readonly filter: RestrictedFilter;
+  readonly restrictedApplications: string[];
 }
 
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
@@ -133,4 +145,14 @@ export function revokeInvitation(email: string) {
     refreshSignalInvitations.emit(email);
     return v;
   });
+}
+
+export function getUserRestrictedApplications() {
+  return createObservable(
+    http<UserRestrictedApplication[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `api/settings/rbac/user/restrictions`
+    })
+  );
 }

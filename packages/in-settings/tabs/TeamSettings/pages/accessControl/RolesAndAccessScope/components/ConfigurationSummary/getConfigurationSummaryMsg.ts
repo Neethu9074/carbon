@@ -11,8 +11,7 @@ import {
   ScopedPermissionItem,
   ScopedPermissionType,
   ProductAreaType,
-  AreaRoleWithContributor,
-  AreaRoleWithContributorType
+  AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { t } from 'in-i18n';
 
@@ -25,7 +24,7 @@ interface ConfigurationSummaryMsg {
 export const getConfigurationSummaryMsg = (
   productArea: ProductAreaType,
   scope: ScopedPermissionType,
-  role?: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined
+  role?: AreaRoleWithCustomType | undefined
 ): ConfigurationSummaryMsg => {
   const areaContext = productArea.toLowerCase();
   const roleContext = role ? role?.toLowerCase() : '';

@@ -13,7 +13,6 @@ import { Observable } from '@instana/observables';
 
 import {
   AreaRoleWithContributor,
-  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -97,10 +96,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     productArea === ProductArea.APPLICATION &&
     role === AreaRoleWithContributor.CONTRIBUTOR;
 
-  const onUpdatePermissionSet = (
-    selected: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined,
-    limitation: ScopedPermissionType
-  ) => {
+  const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
