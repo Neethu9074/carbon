@@ -25,12 +25,13 @@ import { useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { Row, Col } from 'in-components/layout/Grid';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const showUsage = k8sClusterUsageEnabled;
 
 export default function Summary({ timeConfig, data: cluster }) {
+  const theme = useTheme();
   const snapshotId = cluster.id;
 
   // Removing the old destructuring syntax for colors
