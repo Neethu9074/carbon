@@ -10535,7 +10535,12 @@
         "logLevel_TRACE": "TRACE",
         "changeTheMonitoringDetailLevelOfThisAgent": "Change the monitoring detail level of this agent. Currently, this agent is running in the <strong>{{currentMode}}</strong> mode. Mode changes become active within a few seconds.",
         "buttonUpdate": "Update",
-        "buttonInitialize": "Initialize"
+        "buttonInitialize": "Initialize",
+        "AgentPoolStats": "Agent PoolStats",
+        "scheduler": "Scheduler",
+        "executor": "Executor",
+        "agenthttp": "Agent-http",
+        "agentsocket": "Agent-socket"
       },
       "disabled": "Disabled",
       "infrastructure": "Infrastructure",

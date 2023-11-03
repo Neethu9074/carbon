@@ -393,6 +393,100 @@ export default connectTo(
               />
             </DashboardSection>
             <SensorTimingList snapshot={snapshot} />
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.AgentPoolStats')}>
+              <Columize>
+                <>
+                  <h3>Runtime</h3>
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      min: 0,
+                      metrics: [
+                        'sensors.scheduler.poolStats.scheduler.runtime',
+                        'sensors.scheduler.poolStats.executor.runtime',
+                        'sensors.scheduler.poolStats.agent-http.runtime',
+                        'sensors.scheduler.poolStats.agent-socket.runtime'
+                      ],
+                      labels: [
+                        t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
+                        t('in-forge:plugins.instanaAgent.dashboard.executor'),
+                        t('in-forge:plugins.instanaAgent.dashboard.agenthttp'),
+                        t('in-forge:plugins.instanaAgent.dashboard.agentsocket')
+                      ],
+                      type: 'line',
+                      formatter: time
+                    }}
+                    renderPostChartContent={PluginDashboardsMarkerLanes}
+                  />
+                </>
+                <>
+                  <h3>ActiveCount</h3>
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      min: 0,
+                      metrics: [
+                        'sensors.scheduler.poolStats.scheduler.activeCount',
+                        'sensors.scheduler.poolStats.executor.activeCount'
+                      ],
+                      labels: [
+                        t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
+                        t('in-forge:plugins.instanaAgent.dashboard.executor'),
+                      ],
+                      type: 'line',
+                      formatter: number.compact
+                    }}
+                    renderPostChartContent={PluginDashboardsMarkerLanes}
+                  />
+                </>
+              </Columize>
+              <Columize>
+                <>
+                  <h3>QueueSize</h3>
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      min: 0,
+                      metrics: [
+                        'sensors.scheduler.poolStats.scheduler.queueSize',
+                        'sensors.scheduler.poolStats.executor.queueSize'
+                      ],
+                      labels: [
+                        t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
+                        t('in-forge:plugins.instanaAgent.dashboard.executor')
+                      ],
+                      type: 'line',
+                      formatter: number.compact
+                    }}
+                    renderPostChartContent={PluginDashboardsMarkerLanes}
+                  />
+                </>
+                <>
+                    <h3>PoolSize</h3>
+                    <Chart
+                      snapshotId={snapshotId}
+                      timeConfig={timeConfig}
+                      y1={{
+                        min: 0,
+                        metrics: [
+                          'sensors.scheduler.poolStats.scheduler.poolSize',
+                          'sensors.scheduler.poolStats.executor.poolSize'
+                        ],
+                        labels: [
+                          t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
+                          t('in-forge:plugins.instanaAgent.dashboard.executor')
+                        ],
+                        type: 'line',
+                        formatter: number.compact
+                      }}
+                      renderPostChartContent={PluginDashboardsMarkerLanes}
+                    />
+                  </>
+              </Columize>
+            </DashboardSection>
             <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
             <BundleList snapshot={snapshot} />
 
