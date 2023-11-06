@@ -93,7 +93,12 @@ export function getAreaRoleFromPermissionSet(
   if (capabilities?.length > 0) {
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
-    if (permissionSet.restrictedApplicationFilter) {
+    // Contributor role is only available for Application
+    if (
+      applicationContributionFilterEnabled &&
+      productArea === ProductArea.APPLICATION &&
+      permissionSet.restrictedApplicationFilter
+    ) {
       return AreaRoleWithContributor.CONTRIBUTOR;
     }
     if (hasAllCapabilities) return AreaRole.OWNER;

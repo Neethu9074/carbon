@@ -16,6 +16,7 @@ import RoleSelect, {
   RoleSelectProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleSelect';
 import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import Label from 'in-components/form/Label/Label';
 import Tooltip from 'in-components/Tooltip';
@@ -49,9 +50,13 @@ export default function RoleFormGroup({
     <FormGroup>
       <Label htmlFor={htmlFor} className={locals.label}>
         <Typography variant="body-regular">{t('in-settings:permissionScope.roleSelection')}</Typography>
-        <Tooltip content={tooltipText} delay={500} align="bottomMiddle">
-          <SvgIcon type="lib_help_error_info_outline" size="xs" />
-        </Tooltip>
+        {applicationContributionFilterEnabled ? (
+          <></>
+        ) : (
+          <Tooltip content={tooltipText} delay={500} align="bottomMiddle">
+            <SvgIcon type="lib_help_error_info_outline" size="xs" />
+          </Tooltip>
+        )}
       </Label>
       <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
     </FormGroup>
