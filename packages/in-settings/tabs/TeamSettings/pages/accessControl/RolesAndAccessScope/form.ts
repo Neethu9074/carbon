@@ -11,7 +11,6 @@ import { PermissionSet } from '@instana/types';
 import {
   AreaRole,
   AreaRoleWithContributor,
-  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -94,7 +93,7 @@ export function getAreaRoleFromPermissionSet(
   if (capabilities?.length > 0) {
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
-    if (hasAllCapabilities && permissionSet.restrictedApplicationFilter) {
+    if (permissionSet.restrictedApplicationFilter) {
       return AreaRoleWithContributor.CONTRIBUTOR;
     }
     if (hasAllCapabilities) return AreaRole.OWNER;
@@ -128,7 +127,7 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined = undefined
+  role: AreaRoleWithCustomType | undefined = undefined
 ): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
 
@@ -166,7 +165,7 @@ export function updatePermissionSetForLimitableProductArea(
 // Returns a new permission set containing all permissions related to the given product area and role
 function addPermissionsByRoleForProductArea(
   productArea: LimitableProductArea,
-  role: AreaRoleWithCustomType | AreaRoleWithContributorType | undefined,
+  role: AreaRoleWithCustomType | undefined,
   permissions: string[]
 ): string[] {
   //The additional Synthetic permissions set at owner's role should be removed
@@ -181,10 +180,7 @@ function addPermissionsByRoleForProductArea(
     });
   }
   // as starting with clean permissions for the area
-  if (
-    role === AreaRole.OWNER ||
-    (role === AreaRoleWithContributor.CONTRIBUTOR && productArea == ProductArea.APPLICATION)
-  ) {
+  if (role === AreaRole.OWNER) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     newPermissions.push(...capabilities);
   } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {

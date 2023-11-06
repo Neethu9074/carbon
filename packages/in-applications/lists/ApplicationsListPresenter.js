@@ -8,6 +8,7 @@ import React from 'react';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { TableEntityCounter } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -32,6 +33,7 @@ import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { getUserRestrictedApplications } from 'in-api/users';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { boundaryScopes } from 'in-applications/constants';
 import Tooltip from 'in-components/Tooltip';
@@ -214,7 +216,14 @@ export default function ApplicationsListPresenter({
       }
     />
   );
+  const hasContributionFilter = useObservable(
+    getUserRestrictedApplications()
+      .map(result => result?.data)
+      .map(data => data.filter(el => el.filter !== null)),
+    []
+  );
 
+  const isCanConfigureApplications = role.canConfigureApplications || hasContributionFilter?.length > 0;
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
@@ -248,7 +257,7 @@ export default function ApplicationsListPresenter({
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>
-          {role.canConfigureApplications && (
+          {isCanConfigureApplications && (
             <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
           )}
 
