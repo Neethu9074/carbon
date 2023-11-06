@@ -60,15 +60,11 @@ body {
     Workaround, until the design tokens will be applied to body instead of
     an element with a classname that references the theme like "g10"
    */
-  --ids-font-family-option-sans-serif:
-          "IBM Plex Sans",
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          ".SFNSText-Regular",
-          sans-serif;
+  --ids-font-family-option-sans-serif: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont,
+    '.SFNSText-Regular', sans-serif;
   --ids-font-size-option-body-small: 0.75rem;
   --ids-color-option-neutral-100: #f7f9fa;
+  --ids-color-text-primary-on-light: #1b2733;
 
   margin: 0; // 1
   font-family: var(--ids-font-family-option-sans-serif);
@@ -76,11 +72,9 @@ body {
   font-weight: normal;
   line-height: 1.15;
 
-  /* legacy setting - we need to revisit this value */
-  color: #222627;
-
+  color: var(--ids-color-text-primary-on-light);
   text-align: left; // 3
-  background-color: var(--ids-color-option-neutral-100);
+  background-color: var(--ids-color-option-neutral-100); // 2
 }
 
 // Suppress the focus outline on elements that cannot be accessed via keyboard.
