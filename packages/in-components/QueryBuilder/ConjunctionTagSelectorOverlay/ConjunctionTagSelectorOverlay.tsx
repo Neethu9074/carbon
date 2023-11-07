@@ -5,10 +5,13 @@
 
 import React from 'react';
 
+import { TagFilter } from '@instana/types';
+
 import ConjunctionsAndBrackets from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { type } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 
 interface ConjunctionTagSelectorOverlayProps {
@@ -38,7 +41,12 @@ export default function ConjunctionTagSelectorOverlay({
 
       <TagSelectorOverlay
         onChange={({ name }: { name: string }) => {
-          onChange(tagFilter(name, 'EQUALS', setDefaultValueWhenTagTypeBoolean(name, tagCatalog)));
+          onChange({
+            type,
+            name,
+            operator: EQUALS,
+            value: setDefaultValueWhenTagTypeBoolean(name, tagCatalog)
+          } as TagFilter);
         }}
         close={close}
         tagCatalog={tagCatalog}
