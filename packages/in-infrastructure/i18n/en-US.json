@@ -77,8 +77,7 @@
     "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored"
   },
   "explore": {
-    "beta": "Beta",
-    "tryBetaInfraAnalytics": "Try the new Infrastructure analytics",
+    "analyzeInfrastructure": "Analyze Infrastructure",
     "focusOnThisGroup": "Focus on this group",
     "theQueryConfigurationIsInvalid": "The query configuration is invalid. Please address the validation failures before continuing.",
     "allInfrastructure": "All Infrastructure",

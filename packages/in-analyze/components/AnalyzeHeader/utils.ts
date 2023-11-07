@@ -22,8 +22,7 @@ export function getActiveConfiguration(location: Location): ActiveConfiguration 
       return {
         productArea,
         dataSource,
-        ua2: true,
-        beta: dataSource === 'infrastructure'
+        ua2: true
       };
     }
   }
