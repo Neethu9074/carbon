@@ -120,7 +120,7 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
       [snapshotId, timeConfig]
     ) ?? pendingResult;
 
-  if (!ipcQueues?.data && isLoading(ipcQueues) && !hasError(ipcQueues)) {
+  if ((isLoading(ipcQueues) && !hasError(ipcQueues)) || !ipcQueues?.data) {
     return null;
   }
 
