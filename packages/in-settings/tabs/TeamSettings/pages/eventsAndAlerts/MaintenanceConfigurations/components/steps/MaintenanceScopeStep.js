@@ -6,7 +6,7 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { Link } from '@instana/components';
+import { Link, Stack } from '@instana/components';
 
 import Applications, {
   applicationSelectionTableActions,
@@ -23,6 +23,7 @@ import LightCard from 'in-alerting/components/LightCard/LightCard';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
@@ -61,9 +62,18 @@ export default function MaintenanceScopeStep(props) {
       value: 'dfq',
       label: t('in-settings:tabs.selectedEntitiesDynamicFocusQuery')
     });
-    options.push({ value: 'all', label: t('in-settings:tabs.allAvailableEntities') });
+    // Im sorry, I have sinned and not provided a string to the label property. Forgive me TypeScript gods (required for beta tag)
     if (syntheticsFilterForMaintenanceWindowsEnabled)
-      options.push({ value: 'synthetic', label: t('in-settings:tabs.syntheticTests') });
+      options.push({
+        value: 'synthetic',
+        label: (
+          <Stack direction="horizontal" distribution="spaceBetween" align="center">
+            {t('in-settings:tabs.syntheticTests')}
+            <BetaBadge />
+          </Stack>
+        )
+      });
+    options.push({ value: 'all', label: t('in-settings:tabs.allAvailableEntities') });
 
     return options;
   };
