@@ -69,20 +69,29 @@ You will need an account for our [delivery.instana.io](https://delivery.instana.
  - Instana employees should follow the [employee onboarding guide](https://www.notion.so/instana/New-Engineering-Hire-Survival-Guide-5f4be1878333477b8d6f07739a0e259b#e18b6bf976c04bdca3f6d36de6aa209c) to gain access.
  - Others, e.g., contributors from IBM, should request access via a **Instana Slack workspace** channel they have access to. We will not grant access based on private messages.
 
-Please follow either approach and come back here once you have access. Then execute the following snippet on your terminal. Please select the proposed defaults for the first two questions. Answer the third and fourth question with your Artifactory credentials. The following picture shows how to find your user name and API token within Artifactory.
+Please follow either approach and come back here once you have access. 
+Then execute the following snippet on your terminal.
+* You can accept the proposed defaults for the first two questions.
+* Answer the third and fourth question with your Artifactory credentials:
+  * After log-in (use SAML-based sign-in) and 
+    opening the Edit-Me page https://delivery.instana.io/ui/user_profile
+  * Username has the `@instana.com` suffix
+  * password is just use your API token
+  * ![Finding your user name and API token within Artifactory](./screenshots/artifactory-config.png)
+
+With this information, please run this in a shell:
 
 ```sh
-# Question 0 is "Ok to proceed? (y)". Type y and enter,
-# end then there will be 4 further questions.
-# You can accept the defaults proposed for the first two questions.
-# Answer the third and fourth question with your Artifactory credentials.
 REGISTRY="https://delivery.instana.io" \
   REPOSITORY_KEY="int-npm-virtual" \
   NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
   npx create-artifactory-access-config@1.3.0
 ```
 
-![Finding your user name and API token within Artifactory](./screenshots/artifactory-config.png)
+It will look like this:
+* ![Finding your user name and API token within Artifactory](./screenshots/artifactory-login.png)
+
+
 
 ## Install Project Dependencies
 
