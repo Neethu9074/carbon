@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -20,6 +21,16 @@ const queueNameCol = {
   typeArgs: {
     getValue(row: any) {
       return row.key;
+    }
+  }
+};
+
+const stateCol = {
+  title: t('in-forge:plugins.webSphereLibertyAppContainer.titleQueueState'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.state;
     }
   }
 };
@@ -49,16 +60,24 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
     return null;
   }
 
-  const rows = queueNames.toArray().map((key: any) => {
-    return {
-      key,
-      timeConfig,
-      snapshotId,
-      snapshot
-    };
-  });
+  const rows = queueNames
+    .map((queue: Map<string, any>, name: string) => {
+      return {
+        key: name,
+        state: queue.get('state'),
+        timeConfig,
+        snapshotId
+      };
+    })
+    .valueSeq()
+    .toArray()
+    .filter(Boolean);
 
-  const cols = [queueNameCol, depthCol];
+  if (rows.length === 0) {
+    return null;
+  }
+
+  const cols = [queueNameCol, stateCol, depthCol];
   return (
     <Table
       withoutPadding

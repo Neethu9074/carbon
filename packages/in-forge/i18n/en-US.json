@@ -12135,6 +12135,7 @@
       "titleSessionsCount": "Sessions ({{len}})",
       "titleQueueName": "Queue Name",
       "titleDepth": "Depth",
+      "titleQueueState": "State",
       "titleQueuesCount": "Queues ({{len}})",
       "headerWebSphereLibertyServerInfo": "WebSphere Liberty Server Info",
       "headerApplicationStates": "Application States",
