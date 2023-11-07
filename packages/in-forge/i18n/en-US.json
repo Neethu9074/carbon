@@ -12137,6 +12137,8 @@
       "titleDepth": "Depth",
       "titleQueueState": "State",
       "titleQueuesCount": "Queues ({{len}})",
+      "labelQueue": "Queue",
+      "labelQueues": "Queues",
       "headerWebSphereLibertyServerInfo": "WebSphere Liberty Server Info",
       "headerApplicationStates": "Application States",
       "headerPorts": "Ports",
