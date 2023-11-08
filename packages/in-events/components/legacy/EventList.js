@@ -44,7 +44,13 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const incidentHasRCAProperty = useMemo(() => incident.get('metadata').has('probableRootCause'), [incident]);
 
   if (!events) {
-    return <ListRow title={t('in-events:titleTriggerEvent')} />;
+    return (
+      <>
+        {rcaUIEnabled && <ListRow title={t('in-events:RCA.titlePRCA')} />}
+
+        <ListRow title={t('in-events:titleTriggerEvent')} />
+      </>
+    );
   }
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 

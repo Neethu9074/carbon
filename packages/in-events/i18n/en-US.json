@@ -158,7 +158,9 @@
     "AIGenBadgeText": "AI Generated",
     "suggestionHelpfulText": "Was this suggestion helpful?",
     "noEntitiesErrorTitle": "No Probable Root Cause Found",
-    "noEntitiesErrorDescription": "Oops! We couldn't pinpoint a specific root cause for this incident.",
+    "noEntitiesErrorDescription": "This usually occurs when the incident did not have significant service impact",
+    "noEntitiesErrorTooltip": "This usually occurs when the incident did not have significant service impact",
+    "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
     "regenerate": "Regenerate",
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Entity events found: {{number_of_events}}"

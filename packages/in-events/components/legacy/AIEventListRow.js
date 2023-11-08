@@ -33,6 +33,7 @@ import { setTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getEvent } from 'in-stores/events';
+import Tooltip from 'in-components/Tooltip';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -91,8 +92,15 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
         <Col xs>
           <Card
             title={title}
-            leftHeaderContent={<BetaBadge />}
+            leftHeaderContent={
+              <Tooltip align="rightTop" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
+                <div>
+                  <BetaBadge />
+                </div>
+              </Tooltip>
+            }
             rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
+            hasMarginBottom
           >
             <RCAErrorMessage
               title={t('in-events:RCA.noEntitiesErrorTitle')}
@@ -104,26 +112,33 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
     );
   }
 
-  if (eventsRelatedToEntity?.progress?.loading) return <LoadingIndicator />;
+  //if (eventsRelatedToEntity?.progress?.loading) return <LoadingIndicator />;
 
   return (
     <Row withoutSideMargin>
       <Col xs>
         <Card
           title={title}
-          leftHeaderContent={<BetaBadge />}
+          leftHeaderContent={
+            <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
+              <BetaBadge />
+            </Tooltip>
+          }
           rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
         >
           <Stack direction="vertical" gap="medium">
             <div className={locals.timeline}>
-              {!eventsRelatedToEntity && <LoadingIndicator />}
-              <RootCauseEntityDetails
-                selectedSnapshotMetadata={incident
-                  .get('metadata')
-                  .get('probableRootCauseSnapshotMetadata')
-                  .get(currentRCAEntity)}
-                eventsRelatedToEntity={eventsRelatedToEntity}
-              />
+              {(eventsRelatedToEntity?.progress?.loading || !eventsRelatedToEntity) && <LoadingIndicator />}
+              {eventsRelatedToEntity &&
+                incident.has('metadata')?.has('probableRootCauseSnapshotMetadata')?.has(currentRCAEntity) && (
+                  <RootCauseEntityDetails
+                    selectedSnapshotMetadata={incident
+                      .get('metadata')
+                      .get('probableRootCauseSnapshotMetadata')
+                      .get(currentRCAEntity)}
+                    eventsRelatedToEntity={eventsRelatedToEntity}
+                  />
+                )}
 
               {eventsRelatedToEntity?.map(_event => (
                 <div onClick={expandedRCAEventCardTracker}>
@@ -138,29 +153,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
               ))}
             </div>
             <Stack direction="horizontal" distribution="spaceBetween">
-              <Stack direction="horizontal" gap="small" align="center">
-                <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
-                <Button
-                  kind="subtle"
-                  size="compact"
-                  onClick={() => {
-                    setFeedbackState({ thumbsDown: false, thumbsUp: true });
-                    helpfulRCASuggestionTracker();
-                  }}
-                >
-                  {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
-                </Button>
-                <Button
-                  kind="subtle"
-                  size="compact"
-                  onClick={() => {
-                    setFeedbackState({ thumbsDown: true, thumbsUp: false });
-                    unhelpfulRCASuggestionTracker();
-                  }}
-                >
-                  {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
-                </Button>
-              </Stack>
+              <FeedbackComponent feedbackState={feedbackState} setFeedbackState={setFeedbackState} />
 
               <Stack direction="horizontal" gap="normal" distribution="end" align="center">
                 <EventListPagination
@@ -187,15 +180,49 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
   );
 }
 
-function RCAErrorMessage({ title, description }) {
+function FeedbackComponent({ feedbackState, setFeedbackState }) {
+  return (
+    <Stack direction="horizontal" gap="small" align="center">
+      <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+      <Button
+        kind="subtle"
+        size="compact"
+        onClick={() => {
+          setFeedbackState({ thumbsDown: false, thumbsUp: true });
+          helpfulRCASuggestionTracker();
+        }}
+      >
+        {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
+      </Button>
+      <Button
+        kind="subtle"
+        size="compact"
+        onClick={() => {
+          setFeedbackState({ thumbsDown: true, thumbsUp: false });
+          unhelpfulRCASuggestionTracker();
+        }}
+      >
+        {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
+      </Button>
+    </Stack>
+  );
+}
+
+function RCAErrorMessage({ title, description, tooltipDescription }) {
+  const theme = useTheme();
   return (
     <Stack direction="horizontal" gap="small" distribution="center">
-      <img src={EmptyStateMagnifyingGlass} />
+      <img className={locals.errorImg} src={EmptyStateMagnifyingGlass} />
       <Stack direction="vertical" gap="xxsmall">
         <Typography variant="heading-200">{title}</Typography>
-        <div className={locals.errorMessageContainer}>
+        <Stack direction="horizontal" gap="xxsmall">
           <Typography variant="body-regular">{description}</Typography>
-        </div>
+          {tooltipDescription && (
+            <Tooltip align="rightMiddle" content={tooltipDescription}>
+              <SvgIcon type="lib_help_error_help_outline" size="s" color={theme.ids.color.option.neutral['700']} />
+            </Tooltip>
+          )}
+        </Stack>
       </Stack>
     </Stack>
   );
