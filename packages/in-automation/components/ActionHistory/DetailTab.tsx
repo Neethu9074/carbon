@@ -155,9 +155,14 @@ export default function DetailTab({
       actionLane: false,
       value: (
         <Ul framed={false}>
-          {(metadata?.find(data => data.name === 'hostsLimit')?.value ?? '').split(',').map(host => (
-            <Li key={host}>{host}</Li>
-          ))}
+          {(() => {
+            const hostsLimit = (metadata?.find(data => data.name === 'hostsLimit')?.value ?? '').split(',');
+            return hostsLimit.map(host => (
+              <Li key={host} className={classNames({ [locals.singleHostLimit]: hostsLimit.length === 1 })}>
+                {host}
+              </Li>
+            ));
+          })()}
         </Ul>
       )
     });
