@@ -64,6 +64,10 @@
       display: flex;
       align-items: center;
     }
+
+    .singleHostLimit {
+      padding-left: 0px;
+    }
   }
 
   .ActionLaneTable {
