@@ -288,9 +288,7 @@ function getTagFilterExpressionFromQuery({
   if (query.trim() !== '') {
     const tagFiltersFromEntity = tagFilter('label', 'CONTAINS', query);
     const tagFiltersFromGroups = backendGroupBy.map((group: string) => tagFilter(group, 'CONTAINS', query));
-    const tagFilterExpressionFromBackendModel = fromBackendModel(
-      tagFilterExpression as TagFilterExpressionElementUnion
-    );
+    const uiTagFilterExpression = fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion);
 
     const updatedTagFilterExpression = toBackendQueryModel(
       joinExpressions({
@@ -300,7 +298,7 @@ function getTagFilterExpressionFromQuery({
             logicalOperator: or,
             expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
           }),
-          tagFilterExpressionFromBackendModel
+          uiTagFilterExpression
         ]
       })
     );
