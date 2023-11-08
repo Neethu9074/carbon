@@ -53,7 +53,7 @@ const infrastructureRoutes = [
     {renderAsyncRouteChildren(TableView)}
   </Route>,
   <Route key="infraGraph" path={graphPath}>
-    renderAsyncRouteChildren{GraphView}
+    {renderAsyncRouteChildren(GraphView)}
   </Route>
 ];
 if (hasInfrastructureAnalyzeAccess) {
