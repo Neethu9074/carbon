@@ -88,9 +88,11 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const theme = useTheme();
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
-
   const isAppWithContributorFeature = applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds';
   const isContributor = isAppWithContributorFeature && role === AreaRoleWithContributor.CONTRIBUTOR;
+  const isAppContributionFilterConfigured =
+    applicationContributionFilterEnabled &&
+    permissionSetField?.value?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
 
   const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
   const selectedEntities = useSelectedEntities({
@@ -201,7 +203,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
           <Typography variant="heading-200" component="h2">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
-          <ContributorFilterWarning />
+          {isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
         </StackItem>
       )}
       <StackItem>

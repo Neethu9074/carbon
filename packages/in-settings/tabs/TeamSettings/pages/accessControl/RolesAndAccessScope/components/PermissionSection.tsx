@@ -95,6 +95,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     applicationContributionFilterEnabled &&
     productArea === ProductArea.APPLICATION &&
     role === AreaRoleWithContributor.CONTRIBUTOR;
+  const isAppContributionFilterConfigured =
+    applicationContributionFilterEnabled &&
+    permissionSet?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
 
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
@@ -118,10 +121,12 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     const newPermissionSet = {
       ...restPermissionSet,
       [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
-      ['restrictedApplicationFilter']:
-        selected === AreaRoleWithContributor.CONTRIBUTOR ? defaultApplicationConfig : undefined
+      ...(applicationContributionFilterEnabled &&
+        entityPermissionKey === 'applicationIds' && {
+          ['restrictedApplicationFilter']:
+            limitation === ScopedPermissionItem.NO_ACCESS ? undefined : defaultApplicationConfig
+        })
     };
-
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
 
@@ -155,6 +160,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   roleTooltipText={roleTooltipText}
                   description={accessAllDescription}
                   productArea={productArea}
+                  contributionFilterConfigured={isAppContributionFilterConfigured}
                 />
                 {isContributorRole && <ContributionFilterWrapper form={form} setForm={setForm} />}
               </>

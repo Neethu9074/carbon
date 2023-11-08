@@ -35,6 +35,7 @@ interface AccessAllPanelProps {
   title?: string;
   onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: ProductAreaType;
+  contributionFilterConfigured?: boolean;
 }
 
 export default function AccessAllPanel({
@@ -44,7 +45,8 @@ export default function AccessAllPanel({
   roleTooltipText,
   description,
   title,
-  productArea
+  productArea,
+  contributionFilterConfigured
 }: AccessAllPanelProps) {
   const isContributor =
     applicationContributionFilterEnabled &&
@@ -77,7 +79,7 @@ export default function AccessAllPanel({
           <Typography variant="heading-200" component="h2">
             {t('in-settings:permissionScope.role_permissions')}
           </Typography>
-          <ContributorFilterWarning />
+          {contributionFilterConfigured ? <ContributorFilterWarning /> : null}
         </StackItem>
       )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
