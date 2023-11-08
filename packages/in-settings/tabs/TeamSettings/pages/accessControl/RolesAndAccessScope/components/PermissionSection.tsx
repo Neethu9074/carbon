@@ -124,7 +124,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       ...(applicationContributionFilterEnabled &&
         entityPermissionKey === 'applicationIds' && {
           ['restrictedApplicationFilter']:
-            limitation === ScopedPermissionItem.NO_ACCESS ? undefined : defaultApplicationConfig
+            limitation === ScopedPermissionItem.NO_ACCESS || selected !== AreaRoleWithContributor.CONTRIBUTOR
+              ? undefined
+              : defaultApplicationConfig
         })
     };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
