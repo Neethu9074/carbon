@@ -13,6 +13,7 @@ import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ConnectionPoolsTable from './ConnectionPoolsTable';
 import ServletsTable from './ServletsTable';
 import SessionsTable from './SessionsTable';
+import QueuesTable from './QueuesTable';
 import { t } from 'in-i18n';
 
 export default function WebSphereDashboard({ snapshot, timeConfig }) {
@@ -54,6 +55,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
       <ServletsTable snapshot={snapshot} timeConfig={timeConfig} />
       <ConnectionPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
       <SessionsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <QueuesTable snapshot={snapshot} />
     </div>
   );
 }
