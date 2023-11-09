@@ -209,6 +209,7 @@ import './db2ZDatabase';
 import './tuxedoDomain';
 import './tuxedoServer';
 import './abapInstance';
+import './oTelDatabase';
 import './syntheticPoP';
 import './processGroup';
 import './websiteHttpd';
