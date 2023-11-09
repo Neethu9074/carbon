@@ -11408,7 +11408,6 @@
       "instanceId": "Instance ID",
       "databaseSystem": "Database System",
       "version": "Database Version",
-      "dbStatus": "Status",
       "port": "Port",
       "dashboard": {
         "instance": "Instance",
