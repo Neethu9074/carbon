@@ -16,49 +16,49 @@ import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
-const pathCol = {
-  title: t('in-forge:plugins.oTelDatabase.dashboard.diskPath'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.name;
+const cols = [
+  {
+    title: t('in-forge:plugins.oTelDatabase.dashboard.diskPath'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.oTelDatabase.dashboard.diskUsage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return 'db.disk.usage_' + row.name;
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.oTelDatabase.dashboard.diskUtilization'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return 'db.disk.utilization_' + row.name;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
-};
-
-const usedCol = {
-  title: t('in-forge:plugins.oTelDatabase.dashboard.diskUsage'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'db.disk.usage_' + row.name;
-    },
-    getContent: bytesTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const utilizationCol = {
-  title: t('in-forge:plugins.oTelDatabase.dashboard.diskUtilization'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'db.disk.utilization_' + row.name;
-    },
-    getContent: number.detailed,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
+];
 
 export default function diskTable({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig }) {
   const snapshotId = snapshot.get('id') as string;
@@ -85,7 +85,6 @@ export default function diskTable({ snapshot, timeConfig }: { snapshot: Snapshot
   if (rows.length === 0) {
     return null;
   }
-  const cols = [pathCol, usedCol, utilizationCol];
   return (
     <Table
       withoutPadding

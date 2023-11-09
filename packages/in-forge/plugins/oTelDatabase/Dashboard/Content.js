@@ -34,8 +34,8 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             t('in-forge:plugins.oTelDatabase.dashboard.instance')
           }
         >
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.instance.active.count" formatter={number.compact} /> /{' '}
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.instance.count" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="db.instance.active.count" formatter={number.compact} /> /{' '}
+          <MetricValue snapshotId={snapshotId} metric="db.instance.count" formatter={number.compact} />
         </KpiKeyValue>
 
         <KpiKeyValue
@@ -45,25 +45,25 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
             t('in-forge:plugins.oTelDatabase.dashboard.session')
           }
         >
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.session.active.count" formatter={number.compact} /> /{' '}
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.session.count" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="db.session.active.count" formatter={number.compact} /> /{' '}
+          <MetricValue snapshotId={snapshotId} metric="db.session.count" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.transaction')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.transaction.count" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="db.transaction.count" formatter={number.compact} />
         </KpiKeyValue>
 
         <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.tps')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.transaction.rate" formatter={number.detailed} />
+          <MetricValue snapshotId={snapshotId} metric="db.transaction.rate" formatter={number.detailed} />
         </KpiKeyValue>
 
         <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.sql')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.sql.count" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="db.sql.count" formatter={number.compact} />
         </KpiKeyValue>
 
         <KpiKeyValue label={t('in-forge:plugins.oTelDatabase.dashboard.sqlPerSecond')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="db.sql.rate" formatter={number.detailed} />
+          <MetricValue snapshotId={snapshotId} metric="db.sql.rate" formatter={number.detailed} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>

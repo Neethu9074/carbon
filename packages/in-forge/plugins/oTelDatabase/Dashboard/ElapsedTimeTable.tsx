@@ -14,42 +14,42 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
-const sqlIdCol = {
-  title: t('in-forge:plugins.oTelDatabase.dashboard.sqlId'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.name;
+const cols = [
+  {
+    title: t('in-forge:plugins.oTelDatabase.dashboard.sqlId'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.name;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.oTelDatabase.dashboard.sqlText'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.elapsedTime.get('sql_text');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.oTelDatabase.dashboard.elapsed_time'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.snapshotId;
+      },
+      getMetricName(row: any) {
+        return 'db.sql.elapsed_time.' + row.key + '.value';
+      },
+      getContent: seconds.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
-};
-
-const sqlTextCol = {
-  title: t('in-forge:plugins.oTelDatabase.dashboard.sqlText'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.elapsedTime.get('sql_text');
-    }
-  }
-};
-
-const sqlValueCol = {
-  title: t('in-forge:plugins.oTelDatabase.dashboard.elapsed_time'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'db.sql.elapsed_time.' + row.key + '.value';
-    },
-    getContent: seconds.detailed,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
+];
 
 export default function elapsedTimeTable({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig }) {
   const snapshotId = snapshot.get('id') as string;
@@ -72,7 +72,7 @@ export default function elapsedTimeTable({ snapshot, timeConfig }: { snapshot: S
   if (rows.length === 0) {
     return null;
   }
-  const cols = [sqlIdCol, sqlTextCol, sqlValueCol];
+
   return (
     <Table
       withoutPadding
