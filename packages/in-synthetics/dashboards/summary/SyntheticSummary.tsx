@@ -25,6 +25,7 @@ import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -40,7 +41,7 @@ import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';
 
-export default function SyntheticSummaryDashboard() {
+const SyntheticSummaryDashboard = () => {
   const [count, setReloadCount] = useState(0);
 
   const location: Location = useLocation();
@@ -96,11 +97,11 @@ export default function SyntheticSummaryDashboard() {
       )}
     </>
   );
-}
+};
 
-function Header(
+const Header = (
   props: Omit<DashboardHeaderProps, 'icon' | 'title' | 'label' | 'renderButtonLine' | 'renderMetaInformation'>
-) {
+) => {
   return (
     <DashboardHeader
       {...props}
@@ -111,13 +112,13 @@ function Header(
       renderMetaInformation={RenderMetaInformation}
     />
   );
-}
+};
 
 interface RenderMetaInformationProps {
   test: TestResponse;
 }
 
-function RenderMetaInformation({ test }: RenderMetaInformationProps) {
+const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
   const testType: string = test.data?.configuration?.syntheticType ?? '';
@@ -136,29 +137,47 @@ function RenderMetaInformation({ test }: RenderMetaInformationProps) {
       {isBrowserTest ? <BetaBadge /> : null}
     </div>
   );
-}
+};
 
 interface RenderButtonLineProps {
   test: TestResponse;
   setReloadCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function RenderButtonLine({ test, setReloadCount }: RenderButtonLineProps) {
+const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
   const totalLocations: number = test.data?.locations?.length ?? 0;
 
-  function pauseOrResume(data: SyntheticTest) {
-    const { active } = data;
-    updateTest({ ...data, active: !active }).once(
+  const pauseOrResume = (data: SyntheticTest) => {
+    const { active, customProperties, configuration } = data;
+    const syntheticType: string = configuration.syntheticType;
+    let updatedConfiguration = configuration;
+
+    if (syntheticType === 'HTTPAction') {
+      updatedConfiguration = {
+        ...configuration,
+        // @ts-expect-error headers property can be available for some test types
+        headers: hasEmptyStrings(configuration?.headers) ? {} : configuration.headers
+      };
+    }
+
+    const testConfig: SyntheticTest = {
+      ...data,
+      active: !active,
+      customProperties: hasEmptyStrings(customProperties || {}) ? {} : customProperties,
+      configuration: updatedConfiguration
+    };
+
+    updateTest(testConfig).once(
       () => {
-        setReloadCount((count: number) => ++count);
+        setReloadCount(count => ++count);
       },
       () => {
         showUpdateErrorMessage();
       }
     );
-  }
+  };
 
   return errorCode === 'NOT_FOUND' ? (
     <Button kind="primary" disabled icon={'lib_actions_delete'}>
@@ -176,4 +195,6 @@ function RenderButtonLine({ test, setReloadCount }: RenderButtonLineProps) {
       {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
     </Button>
   );
-}
+};
+
+export default SyntheticSummaryDashboard;
