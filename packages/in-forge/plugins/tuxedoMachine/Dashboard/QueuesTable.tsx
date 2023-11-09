@@ -8,16 +8,20 @@ import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 import { Result } from '@instana/types';
 
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection/DashboardSection';
 import getTuxedoIpcQueuesForMachine from '../subscriptions/getTuxedoIpcQueuesForMachine';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { SnapshotData, getSnapshot } from 'in-stores/snapshot/snapshot';
 import { hasError, isLoading, success } from 'in-services/util/result';
 import { number, percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const queueIdCol = {
@@ -107,6 +111,7 @@ const usageCol = {
 export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id');
+  const theme = useTheme();
 
   const ipcQueues =
     useObservable(
@@ -120,8 +125,19 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
       [snapshotId, timeConfig]
     ) ?? pendingResult;
 
-  if ((isLoading(ipcQueues) && !hasError(ipcQueues)) || !ipcQueues?.data) {
-    return null;
+  if (isLoading(ipcQueues)) {
+    return (
+      <DashboardSection title={t('in-forge:plugins.tuxedoIpcQueue.queueWithCount', { len: 0 })}>
+        <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
+      </DashboardSection>
+    );
+  }
+  if (hasError(ipcQueues)) {
+    return (
+      <DashboardSection title={t('in-forge:plugins.tuxedoIpcQueue.queueWithCount', { len: 0 })}>
+        {valueMissingPlaceholder}
+      </DashboardSection>
+    );
   }
 
   const rows =
