@@ -19,7 +19,10 @@
     height: fit-content;
   }
   .errorMessageContainer {
-    width: 17rem;
+    width: 28rem;
+  }
+  .errorImg {
+    width: 3rem;
   }
   .entityDescription {
     background: var(--ids-color-option-neutral-50);
