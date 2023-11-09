@@ -9,7 +9,7 @@
   .list {
     position: absolute;
     // avoid list elements to be below tag input fields and make them on the same level as addIndicators
-    z-index: @z-index__overlays;
+    z-index: var(--ids-z-index-option-overlays);
     left: 0;
 
     max-height: 12.875rem;

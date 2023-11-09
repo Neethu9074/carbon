@@ -8,7 +8,7 @@
 :local {
   .overlay {
     position: fixed;
-    z-index: @z-index__overlays;
+    z-index: var(--ids-z-index-option-overlays);
 
     &::after,
     &::before {
@@ -44,10 +44,10 @@
 
   .inContentArea {
     position: absolute;
-    z-index: @z-index__overlays-in-content-area;
+    z-index: var(--ids-z-index-option-overlays-in-content-area);
   }
 
   .behindSidebar {
-    z-index: @z-index__overlays-behind-sidebar;
+    z-index: var(--ids-z-index-option-overlays-behind-sidebar);
   }
 }

@@ -32,7 +32,7 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.24);
 
     overflow: hidden;
-    z-index: @z-index__main-navigation;
+    z-index: var(--ids-z-index-option-main-navigation);
   }
 
   .expandedNavigation {
@@ -44,6 +44,6 @@
     right: 0;
 
     background: rgba(216, 216, 216, 0.5);
-    z-index: @z-index__main-navigation-background;
+    z-index: var(--ids-z-index-option-main-navigation-background);
   }
 }

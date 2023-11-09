@@ -14,7 +14,7 @@
     right: 0;
     padding: @spacing;
     display: flex;
-    z-index: @z-index__sticky-header;
+    z-index: var(--ids-z-index-option-sticky-header);
 
     > *:not(:last-child) {
       margin-right: @spacing;

@@ -14,7 +14,7 @@
     bottom: 0;
 
     background-color: rgba(71, 82, 93, 0.5); // --ids-color-option-neutral-700
-    z-index: @z-index__dialog;
+    z-index: var(--ids-z-index-option-dialog);
 
     display: flex;
     align-items: center;
