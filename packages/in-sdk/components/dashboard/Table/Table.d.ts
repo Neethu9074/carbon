@@ -14,6 +14,7 @@ interface TableProps {
   initialSortColumn?: number;
   disableSorting?: boolean;
   showExpandAll?: boolean;
+  initialSortDirection?: string;
 }
 
 declare function TableComponent(props: TableProps): JSX.Element;

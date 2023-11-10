@@ -282,6 +282,7 @@ export const nonServicePlugins = {
   tuxedoDomain: 'tuxedoDomain',
   tuxedoMachine: 'tuxedoMachine',
   tuxedoServer: 'tuxedoServer',
+  tuxedoIpcQueue: 'tuxedoIpcQueue',
   tuxedoAppApplication: 'tuxedoAppApplication',
   tuxedoAppServiceBrokerProject: 'tuxedoAppServiceBrokerProject',
   tuxedoAppTuxedoService: 'tuxedoAppTuxedoService',
@@ -647,6 +648,7 @@ export const fullyQualifiedPlugins = {
   tuxedoDomain: 'com.instana.forge.infrastructure.application.tuxedo.TuxedoDomain',
   tuxedoMachine: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.machine.TuxedoMachine',
   tuxedoServer: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.server.TuxedoServer',
+  tuxedoIpcQueue: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.ipcqueue.TuxedoIpcQueue',
   tuxedoAppApplication:
     'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.application.TuxedoAppApplication',
   tuxedoAppServiceBrokerProject:
