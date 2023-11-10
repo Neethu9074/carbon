@@ -104,7 +104,6 @@ export default connectTo(
     return (
       <Fragment>
         <Title title={t('in-powervc:powervc')} />
-        {alert('blahhh')}
         <ViewTrackingMeta
           data={{
             productArea: productAreas.power_vc,
