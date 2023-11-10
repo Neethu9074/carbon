@@ -1,21 +1,6 @@
 {
   "zIndex": {
-    "timeline": 100,
-    "overlaysInContentArea": 101,
-    "selectBoxFlyouts": 102,
-    "mapOverlayControls": 103,
-    "stickyHeader": 124,
-    "overlaysBehindSidebar": 125,
-    "detailPopupPresenter": 126,
-    "graphView": 127,
-    "slideInView": 128,
-    "mainNavigationBackground": 129,
-    "mainNavigation": 130,
-    "dialog": 131,
-    "tvMode": 132,
-    "overlays": 133,
-    "messageFlyout": 134,
-    "tooltips": 135
+    "stickyHeader": 124
   },
   "chart": {
     "strokeColors": [
