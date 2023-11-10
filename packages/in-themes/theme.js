@@ -10,31 +10,7 @@
 
 const carbonColors = require('@carbon/colors');
 
-// zIndex start at 100, because some components need to raise their content above
-// sibling content. This is typically achieved by adding zIndex: 1. We start at
-// zIndex 100 to avoid any conflicts.
-let zIndex = 100;
-
 module.exports = {
-  zIndex: {
-    timeline: zIndex++,
-    overlaysInContentArea: zIndex++,
-    // a select box can be within an overlay
-    selectBoxFlyouts: zIndex++,
-    mapOverlayControls: zIndex++,
-    stickyHeader: (zIndex += 20),
-    overlaysBehindSidebar: ++zIndex,
-    detailPopupPresenter: ++zIndex,
-    graphView: ++zIndex,
-    slideInView: ++zIndex,
-    mainNavigationBackground: ++zIndex,
-    mainNavigation: ++zIndex,
-    dialog: ++zIndex,
-    tvMode: ++zIndex,
-    overlays: ++zIndex,
-    messageFlyout: ++zIndex,
-    tooltips: ++zIndex
-  },
   chart: {
     strokeColors: [
       '#5da6da',
