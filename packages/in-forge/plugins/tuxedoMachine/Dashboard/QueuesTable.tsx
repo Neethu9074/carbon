@@ -14,7 +14,7 @@ import { Result } from '@instana/types';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection/DashboardSection';
 import getTuxedoIpcQueuesForMachine from '../subscriptions/getTuxedoIpcQueuesForMachine';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { SnapshotData, getSnapshot } from 'in-stores/snapshot/snapshot';
 import { hasError, isLoading, success } from 'in-services/util/result';
 import { number, percentage } from 'in-services/formatters/number';
@@ -132,10 +132,13 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
       </DashboardSection>
     );
   }
+
   if (hasError(ipcQueues)) {
+    let content;
+    content = <ErrorList errors={ipcQueues.errors} />;
     return (
       <DashboardSection title={t('in-forge:plugins.tuxedoIpcQueue.queueWithCount', { len: 0 })}>
-        {valueMissingPlaceholder}
+        {content}
       </DashboardSection>
     );
   }
