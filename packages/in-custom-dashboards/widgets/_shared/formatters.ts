@@ -8,6 +8,8 @@ import { MetricSource } from '@instana/types/typeDefinitions';
 import { AggregationType } from '@instana/types';
 
 import {
+  bytesCompact,
+  bytesDetailed,
   defaultFormatter,
   Formatter,
   latencyDetailed,
@@ -36,6 +38,21 @@ export function getFormatter(source: MetricSource, metric: string, aggregation: 
   switch (source) {
     case 'APPLICATION':
       return getApplicationMetricFormatter(metric, aggregation);
+    case 'SYNTHETICS':
+      return getSyntheticMetricFormatter(metric);
+  }
+  return publicFormatters;
+}
+
+function getSyntheticMetricFormatter(metric: string): Formatter[] {
+  if (metric === 'id' || metric === 'location_id') {
+    return [numberCompact];
+  } else if (metric === 'response_time') {
+    return [latencyDetailed];
+  } else if (metric === 'status') {
+    return [percentageDetailed, percentageCompact];
+  } else if (metric === 'response_size') {
+    return [bytesCompact, bytesDetailed];
   }
   return publicFormatters;
 }

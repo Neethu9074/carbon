@@ -6,10 +6,19 @@
 import { Observable } from '@instana/observables';
 import { create } from '@instana/observables';
 
+import {
+  Result,
+  SyntheticLocation,
+  SyntheticTest,
+  CatalogUseCase,
+  TagCatalog,
+  TimeConfig,
+  MetricSource
+} from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { Result, SyntheticLocation, SyntheticTest } from 'in-types';
+import { roundDownToWeek } from 'in-services/util/date';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
@@ -18,6 +27,7 @@ const testsUrl = `/api/synthetics/settings/tests`;
 const locationUrl = `/api/synthetics/settings/locations`;
 const resultUrl = `/api/synthetics/results`;
 const applicationsListUrl = `/api/application-monitoring/settings/application`;
+const tagCatalogUrl = `/api/synthetics/catalog`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -151,3 +161,22 @@ export function getApplicationsList(): Observable<unknown> {
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
+
+export const getSyntheticTagCatalog =
+  ({ dataSource, useCase }: { dataSource: MetricSource; useCase: CatalogUseCase }) =>
+  ({ timeConfig }: { timeConfig: TimeConfig }): Observable<Result<TagCatalog>> => {
+    // round down the from timestamp to the beginning of the week to make the caching more efficient
+    const from = timeConfig ? roundDownToWeek((timeConfig.to || Date.now()) - timeConfig.windowSize) : undefined;
+
+    return http<TagCatalog>({
+      method: 'GET',
+      maxRetries: 3,
+      url: tagCatalogUrl,
+      mapToResultObject: true,
+      queryParams: {
+        from,
+        dataSource,
+        useCase
+      }
+    }).map(response => deepFreeze(response));
+  };

@@ -220,6 +220,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "Please select",
+        "metric": "Metric",
+        "selectMetric": "Please select a metric",
+        "aggregation": "Aggregation",
+        "successRate": "Success Rate",
+        "locations": "Locations",
+        "responseTime": "Response Time",
+        "responsesize": "Response Size"
+      },
       "index": {
         "syntheticMonitoring": "Synthetic Monitoring"
       }
