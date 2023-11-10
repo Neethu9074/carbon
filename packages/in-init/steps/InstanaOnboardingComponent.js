@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { getThemeOverride, ThemeProvider } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
@@ -14,6 +15,7 @@ import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
+import GlobalTheme from 'in-themes/GlobalTheme';
 import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
 
@@ -29,27 +31,31 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
 
   return (
     <ErrorBoundary name="Instana onboarding dialog">
-      <DialogPresenter />
+      <GlobalTheme>
+        <ThemeProvider theme={getThemeOverride() ?? 'default'}>
+          <DialogPresenter />
 
-      <MessageFlyout onlyShowUsageRelatedMessages />
-      <FullViewOnboardingWidget
-        isAgentDeployed={apiCallSatisfied}
-        isBackendAvailable
-        disableAwsSensorDocumentation
-        agentKey={keys.agentKey}
-        downloadKey={keys.downloadKey}
-        tenant={config.tenant}
-        tenantUnit={config.tenantUnit}
-        butlerDomain={config.butlerDomain}
-        trackingIdPrefix="onboarding"
-        getRedirectButtonProperties={() => ({
-          children: 'Go to Instana!',
-          onClick: onDialogSkip
-        })}
-        agentEndpoint={config.agentEndpoint}
-        agentEndpointPort={config.agentEndpointPort}
-        serverlessEndpoint={config.serverlessEndpoint}
-      />
+          <MessageFlyout onlyShowUsageRelatedMessages />
+          <FullViewOnboardingWidget
+            isAgentDeployed={apiCallSatisfied}
+            isBackendAvailable
+            disableAwsSensorDocumentation
+            agentKey={keys.agentKey}
+            downloadKey={keys.downloadKey}
+            tenant={config.tenant}
+            tenantUnit={config.tenantUnit}
+            butlerDomain={config.butlerDomain}
+            trackingIdPrefix="onboarding"
+            getRedirectButtonProperties={() => ({
+              children: 'Go to Instana!',
+              onClick: onDialogSkip
+            })}
+            agentEndpoint={config.agentEndpoint}
+            agentEndpointPort={config.agentEndpointPort}
+            serverlessEndpoint={config.serverlessEndpoint}
+          />
+        </ThemeProvider>
+      </GlobalTheme>
     </ErrorBoundary>
   );
 }
