@@ -11,6 +11,6 @@
     top: 6rem;
     right: 1.25rem;
 
-    z-index: @z-index__message-flyout;
+    z-index: var(--ids-z-index-option-graph-view);
   }
 }

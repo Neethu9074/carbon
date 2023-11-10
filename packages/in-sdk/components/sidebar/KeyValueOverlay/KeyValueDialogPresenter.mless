@@ -12,7 +12,7 @@
     background: #fff;
     overflow-y: auto;
     padding: 0 1.5rem;
-    z-index: @z-index__detail-popup-presenter;
+    z-index: var(--ids-z-index-option-detail-popup-presenter);
   }
   .header {
     display: flex;

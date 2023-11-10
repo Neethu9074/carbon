@@ -10,7 +10,7 @@
 :local {
   .list {
     position: absolute;
-    z-index: @z-index__overlays;
+    z-index: var(--ids-z-index-option-overlays);
 
     // align popup above the input field
     right: 0;
