@@ -27,6 +27,7 @@ export interface StackTraceThreadFrameDesc {
   a?: string; // address
   f?: string; // function
   o?: string; // offset
+  t?: string; // translated function
 }
 
 export interface BinaryImageDesc {
@@ -75,7 +76,7 @@ function formatStackTraceJsonAsText(stacktrace: StackTraceType): string {
     const isCrashed = t.state === 'attributed';
     buffArr.push(`Thread ${idx}${isCrashed ? ' Crashed' : ''}:`);
     for (const [frameIdx, frame] of (t.st ?? []).entries()) {
-      buffArr.push(`${frameIdx} ${frame.n} ${frame.a} ${frame.f}${frame.o ? ' + ' + frame.o : ''}`);
+      buffArr.push(`${frameIdx} ${frame.n} ${frame.a} ${frame.t || frame.f}${frame.o ? ' + ' + frame.o : ''}`);
     }
     buffArr.push(SEPERATOR);
   }
