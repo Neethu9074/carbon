@@ -18,12 +18,14 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { compareIgnoreCase } from 'in-services/util/string';
 import http, { Response } from 'in-services/http';
 
+const configUrl = `/api/website-monitoring/config`;
+
 export function getWebsiteConfigurations(): Observable<Result<WebsiteConfiguration[]>> {
   return http<WebsiteConfiguration[]>({
     method: 'GET',
     maxRetries: 3,
     mapToResultObject: true,
-    url: `/api/website-monitoring/config`
+    url: configUrl
   });
 }
 
@@ -31,7 +33,7 @@ export function getWebsites(): Observable<WebsiteConfiguration[]> {
   return http<WebsiteConfiguration[]>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config`
+    url: configUrl
   }).map(response => {
     const keys = response.body || [];
     keys.sort((a, b) => compareIgnoreCase(a.name, b.name));
@@ -43,7 +45,7 @@ export function removeWebsite(id: string): Observable<never> {
   return http<never>({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(id)}`,
+    url: `${configUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
@@ -51,7 +53,7 @@ export function removeWebsite(id: string): Observable<never> {
 export function addWebsite(name: string): Observable<WebsiteConfiguration> {
   return http<WebsiteConfiguration>({
     method: 'POST',
-    url: `/api/website-monitoring/config`,
+    url: configUrl,
     headers: getCsrfHeader(),
     queryParams: {
       name
@@ -63,7 +65,7 @@ export function renameWebsite(id: string, name: string): Observable<Response<Web
   return http<WebsiteConfiguration>({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(id)}`,
+    url: `${configUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     queryParams: {
       name
@@ -75,7 +77,7 @@ export function getSourceMapDownloadConfigurations(id: string): Observable<Array
   return http<Array<SourceMapDownloadConfig>>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourceMapDownload`,
+    url: `${configUrl}/${encodeURIComponent(id)}/sourceMapDownload`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
@@ -86,7 +88,7 @@ export function addSourceMapDownloadConfiguration(
 ): Observable<SourceMapDownloadConfig> {
   return http<SourceMapDownloadConfig>({
     method: 'POST',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapDownload`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/sourceMapDownload`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
@@ -98,9 +100,7 @@ export function updateSourceMapDownloadConfiguration(
 ): Observable<SourceMapDownloadConfig> {
   return http<SourceMapDownloadConfig>({
     method: 'PUT',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapDownload/${encodeURIComponent(
-      config.id
-    )}`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/sourceMapDownload/${encodeURIComponent(config.id)}`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
@@ -110,9 +110,7 @@ export function removeSourceMapDownloadConfiguration(websiteId: string, sourceMa
   return http<never>({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapDownload/${encodeURIComponent(
-      sourceMapConfigId
-    )}`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/sourceMapDownload/${encodeURIComponent(sourceMapConfigId)}`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
@@ -123,7 +121,7 @@ export function addSourceMapUploadConfiguration(
 ): Observable<SourceMapUploadConfig> {
   return http<SourceMapUploadConfig>({
     method: 'POST',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/sourcemap-upload`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
@@ -135,9 +133,7 @@ export function updateSourceMapUploadConfiguration(
 ): Observable<SourceMapUploadConfig> {
   return http<SourceMapUploadConfig>({
     method: 'PUT',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload/${encodeURIComponent(
-      config.id
-    )}`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/sourcemap-upload/${encodeURIComponent(config.id)}`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
@@ -147,7 +143,7 @@ export function getSourceMapUploadConfigurations(id: string): Observable<Array<S
   return http<SourceMapUploadConfigs>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourcemap-upload`,
+    url: `${configUrl}/${encodeURIComponent(id)}/sourcemap-upload`,
     headers: getCsrfHeader()
   }).map(response => response.body.configs);
 }
@@ -156,9 +152,7 @@ export function removeSourceMapUploadConfiguration(websiteId: string, sourceMapC
   return http<never>({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourcemap-upload/${encodeURIComponent(
-      sourceMapConfigId
-    )}`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/sourcemap-upload/${encodeURIComponent(sourceMapConfigId)}`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
@@ -167,7 +161,7 @@ export function getIpMaskingConfiguration(websiteId: string): Observable<Result<
   return http<IpMaskingConfiguration>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/ip-masking`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/ip-masking`,
     headers: getCsrfHeader(),
     mapToResultObject: true
   });
@@ -180,7 +174,7 @@ export function updateIpMaskingConfiguration(
   return http<IpMaskingConfiguration>({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/ip-masking`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/ip-masking`,
     headers: getCsrfHeader(),
     mapToResultObject: true,
     data: ipMaskingConfiguration
@@ -191,7 +185,7 @@ export function getGeoLocationConfiguration(websiteId: string): Observable<Resul
   return http<GeoLocationConfiguration>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/geo-location`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/geo-location`,
     headers: getCsrfHeader(),
     mapToResultObject: true
   });
@@ -204,7 +198,7 @@ export function updateGeoLocationConfiguration(
   return http<GeoLocationConfiguration>({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/geo-location`,
+    url: `${configUrl}/${encodeURIComponent(websiteId)}/geo-location`,
     headers: getCsrfHeader(),
     mapToResultObject: true,
     data: ipMaskingConfiguration
