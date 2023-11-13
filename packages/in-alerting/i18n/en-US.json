@@ -41,6 +41,8 @@
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
       "alertingChartLabelForecast": "Forecast",
+      "alertingChartLabelUpperBound": "Upper Bound",
+      "alertingChartLabelLowerBound": "Lower Bound",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",

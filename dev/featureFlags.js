@@ -95,5 +95,6 @@ module.exports = {
   actionsLaneEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
-  applicationContributionFilterEnabled: false
+  applicationContributionFilterEnabled: false,
+  infraSmartAlertsPredictionsEnabled: true
 };

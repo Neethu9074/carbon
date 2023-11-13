@@ -35,10 +35,12 @@ interface InfraAlertChartWrapperProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
   predictions?: number[][];
+  lowerBound?: number[][];
+  upperBound?: number[][];
 }
 
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
-  const { alertConfig, timeConfig, predictions } = props;
+  const { alertConfig, timeConfig, predictions, lowerBound, upperBound } = props;
   const { entityType, metricName, aggregation } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
 
@@ -46,13 +48,14 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
   const formatter = metricDefinition.formatter;
 
   const highlight = undefined;
-  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, []);
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   const displayPredictions = predictions && predictions?.length > 0 ? true : false;
+
+  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], displayPredictions);
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
@@ -93,14 +96,18 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
     };
   } else {
     const metricValues = getMetricValues(metricResult);
+    const predictionMaxTime =
+      predictions && predictions.length > 0 ? predictions[predictions.length - 1][0] : undefined;
     metricResults = {
       progress: finishedProgress,
       errors: {},
-      time: metricResult?.time,
+      time: predictionMaxTime ?? metricResult?.time,
       data: {
         [metricName]: metricValues,
         threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig),
-        predictions: predictions ? predictions : []
+        predictions: predictions ?? [],
+        lowerBound: lowerBound ?? [],
+        upperBound: upperBound ?? []
       }
     };
   }

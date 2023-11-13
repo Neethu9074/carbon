@@ -401,6 +401,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'infraSmartAlertsPredictionsEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.predictions.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'apiTokenDialogEnabled',
     instanaCtlKey: 'feature.apitoken.dialog.enabled',
     defaultValue: false

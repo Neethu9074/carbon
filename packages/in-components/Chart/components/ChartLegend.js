@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import rpt from 'prop-types';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import Legend from 'in-components/Chart/components/Legend';
 
@@ -13,6 +14,7 @@ export default function ChartLegend({ chart }) {
   const filteredDataSeries = useObservable(chart.config.filteredDataSeries$, [chart.config.filteredDataSeries$], {
     pure: false
   });
+
   const y1Lables = getLabelsMapFromAxis(chart.config.y1, filteredDataSeries, chart);
   const y2Lables = getLabelsMapFromAxis(chart.config.y2, filteredDataSeries, chart, 'y2');
   return (
@@ -34,14 +36,20 @@ ChartLegend.propTypes = {
  * This function generates an array of LabelsMaps
  * It removes most of the unecessary fields Legends used to receive
  * Each label entry in the legends will represent each object in the return array
+ * The function also filters the items passed in excludedLabelsFromLegend array, to not to display as legends, and display only in tooltip.
  * @param {Object} axis
  * @param {Set} filteredDataSeries
  * @param {Object} chart
  * @param {String} axisName
  */
 function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1') {
+  const axisLabels =
+    axis?.excludedLabelsFromLegend?.length > 0
+      ? axis.labels.filter(label => axis.excludedLabelsFromLegend.indexOf(label) == -1)
+      : axis?.labels;
+
   return (
-    axis?.labels?.map((label, i) => {
+    axisLabels?.map((label, i) => {
       const isToggleable =
         !axis.nonToggleableSeries ||
         !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
