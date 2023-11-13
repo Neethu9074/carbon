@@ -131,7 +131,7 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
                 i18nKey="in-mobile-apps:dashboard.tabs.configurations.symbolFileConfig.fileUploadConfigurationDialogOpenAPIHelp"
                 components={{
                   documentation: (
-                    <Link href="https://ibm.biz/javascript-source-maps" external>
+                    <Link href="https://ibm.biz/ios-symbol-file-upload" external>
                       null
                     </Link>
                   )
