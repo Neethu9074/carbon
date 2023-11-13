@@ -7,19 +7,23 @@
 import { PermissionSet } from '@instana/types';
 
 import {
+  ProductArea,
+  ProductAreaType,
+  ScopedPermissionItem,
+  AreaRoleWithContributor,
+  ScopeRoles
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import {
+  Capability,
   hasApplicationsAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess,
   LimitedAccessScope,
   LimitedAccessScopeType
 } from 'in-stores/permission';
-import {
-  ProductArea,
-  ProductAreaType,
-  ScopedPermissionItem
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 type ProductAreaWithApplicationData = Extract<ProductAreaType, 'WEBSITE' | 'APPLICATION' | 'MOBILE_APP'>;
@@ -38,6 +42,9 @@ interface AreaData {
   hasFullAreaAccess: boolean;
   shouldRenderContent: boolean;
   isDisabled: boolean;
+  contributorAccessItemIds?: (string | undefined)[];
+  contributorAccessHeadline?: string;
+  areaAccessHeadline?: string;
 }
 
 interface getAreaDataProps {
@@ -74,20 +81,60 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
   const hasAreaItemsAdded = areaItemIds.length !== 0;
   const areaRole = getAreaRoleFromPermissionSet(area, permissionsSet);
   const hasFullAreaAccess = areaAccessScope === ScopedPermissionItem.ACCESS_ALL;
-
-  const areaItemIdsWithAccess = areaItemIds.map(areaItemData => areaItemData.scopeId);
+  const isApplicationSectionWithContributor =
+    applicationContributionFilterEnabled &&
+    area === ProductArea.APPLICATION &&
+    areaRole === AreaRoleWithContributor.CONTRIBUTOR;
+  const areaItemIdsWithAccess = isApplicationSectionWithContributor
+    ? areaItemIds.filter(x => x.scopeRoleId !== ScopeRoles.Contributor).map(x => x.scopeId)
+    : areaItemIds.map(areaItemData => areaItemData.scopeId);
 
   const shouldRenderContent = Boolean(hasAreaAccess && areaRole && hasAreaItemsAdded);
+  const hasApplicationsConfigureAccess = permissionsSet.permissions.includes(Capability.CAN_CONFIGURE_APPLICATIONS);
+  const contributorAccessItemIds = areaItemIds
+    .filter(x => x.scopeRoleId === ScopeRoles.Contributor)
+    .map(x => x.scopeId);
 
   let areaColumnHeadline = '';
-  if (areaAccessScope === ScopedPermissionItem.NO_ACCESS) {
-    areaColumnHeadline = t('in-settings:productAreas.no_access');
+  let contributorAccessHeadline = '';
+  let areaAccessHeadline = '';
+
+  if (isApplicationSectionWithContributor) {
+    areaAccessHeadline = hasApplicationsConfigureAccess
+      ? t('in-settings:permissionScope.selection_owner_access')
+      : t('in-settings:permissionScope.selection_viewer_access');
+    contributorAccessHeadline = t('in-settings:permissionScope.selection_contributor_access');
+    let quantityOfAreas = hasFullAreaAccess ? t('in-settings:general.all') : areaItemIdsWithAccess?.length;
+    if (hasApplicationsConfigureAccess) {
+      areaColumnHeadline = t('in-settings:productAreas.role_permissions_contributor_and_owner', {
+        quantityOfAreas: quantityOfAreas,
+        quantityOfAreasContributor: contributorAccessItemIds?.length
+      });
+    } else {
+      areaColumnHeadline = t('in-settings:productAreas.role_permissions_contributor_and_viewer', {
+        quantityOfAreas: quantityOfAreas,
+        quantityOfAreasContributor: contributorAccessItemIds?.length
+      });
+    }
   } else {
-    areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
-      context: areaRole?.toLowerCase(),
-      quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : areaItemIds.length
-    });
+    if (areaAccessScope === ScopedPermissionItem.NO_ACCESS) {
+      areaColumnHeadline = t('in-settings:productAreas.no_access');
+    } else {
+      areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
+        context: areaRole?.toLowerCase(),
+        quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : areaItemIds.length
+      });
+    }
   }
 
-  return { areaColumnHeadline, hasFullAreaAccess, areaItemIdsWithAccess, shouldRenderContent, isDisabled };
+  return {
+    areaColumnHeadline,
+    hasFullAreaAccess,
+    areaItemIdsWithAccess,
+    shouldRenderContent,
+    isDisabled,
+    contributorAccessItemIds,
+    contributorAccessHeadline,
+    areaAccessHeadline
+  };
 };

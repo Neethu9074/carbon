@@ -11,6 +11,7 @@ import { ApplicationsSectionContent } from 'in-settings/tabs/TeamSettings/pages/
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 
 export const ApplicationsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
@@ -19,7 +20,8 @@ export const ApplicationsSection = () => {
     permissionsSet
   });
 
-  if (hasFullAreaAccess) return <ApplicationSectionFullAccessContent />;
-
+  if (hasFullAreaAccess && !applicationContributionFilterEnabled) return <ApplicationSectionFullAccessContent />;
+  if (hasFullAreaAccess && applicationContributionFilterEnabled && !permissionsSet.restrictedApplicationFilter)
+    return <ApplicationSectionFullAccessContent />;
   return <ApplicationsSectionContent />;
 };

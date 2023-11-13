@@ -14,6 +14,7 @@ import { getGroupsOfASingleUserAsResult } from 'in-settings/tabs/TeamSettings/pa
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { fallBackPermissions } from 'in-stores/permission';
 import { ownerRoleId } from 'in-stores/user';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 interface RoleAndAccessScopeColumnsProps {
@@ -52,7 +53,7 @@ export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAcc
   }
 
   return (
-    <LightCard title={t('in-settings:roleAndAccessScope.productArea')}>
+    <LightCard title={t('in-settings:roleAndAccessScope.productArea', { tenantUnit: config.tenantUnit })}>
       {permissionsSet && <RolesAndAccessScopeOverview permissionsSet={permissionsSet} />}
     </LightCard>
   );
@@ -117,7 +118,16 @@ function enrich(permissionSet: any, group: any) {
       group.permissionSet.infraDfqFilter.scopeId.trim()
     );
   }
-
+  if (group.permissionSet.restrictedApplicationFilter) {
+    if (permissionSet.restrictedApplicationFilter) {
+      permissionSet.restrictedApplicationFilter = removeDuplicates([
+        ...permissionSet.restrictedApplicationFilter,
+        { ...group.permissionSet.restrictedApplicationFilter }
+      ]);
+    } else {
+      permissionSet.restrictedApplicationFilter = [group.permissionSet.restrictedApplicationFilter];
+    }
+  }
   permissionSet.syntheticTestIds = removeDuplicates([
     ...permissionSet.syntheticTestIds,
     ...group.permissionSet.syntheticTestIds

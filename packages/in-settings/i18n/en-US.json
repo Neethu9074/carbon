@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "Create new group",
     "dialogTitle_edit": "Edit access scope",
-    "editButton": "Edit access scope",
-    "productArea": "Role and access scope"
+    "editButton": "Edit",
+    "productArea": "Access configuration for {{tenantUnit}}"
   },
   "productAreas": {
     "allApplications": "All applications",
@@ -78,6 +78,8 @@
     "role_permissions_owner": "Owner - Access {{quantityOfAreas}}",
     "role_permissions_viewer": "Viewer - Access {{quantityOfAreas}}",
     "role_permission_scope_all": "all",
+    "role_permissions_contributor_and_owner": "Owner Access {{quantityOfAreas}} & Contributor Access {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "Viewer Access {{quantityOfAreas}} & Contributor Access {{quantityOfAreasContributor}}",
     "no_access": "No access",
     "platform_permissions": "Access {{quantityOfAreas}}",
     "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
@@ -168,9 +170,12 @@
     "selection_limited_access": "Limited access",
     "selection_no_access": "No access",
     "selection_viewer_access": "Viewer access",
+    "selection_owner_access": "Owner access",
+    "selection_contributor_access": "Contributor access",
     "description_no_access": "Can't use this area at all",
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_access_all": "Access all without limitation",
+    "description_access_all_except_contributor": "Access all - except the ones accessed as contributor",
     "role": "Select a role",
     "roleSelection": "Role",
     "role_owner": "Owner",

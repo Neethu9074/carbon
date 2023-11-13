@@ -37,6 +37,12 @@ export const AreaRoleWithContributor = Object.freeze({
   CONTRIBUTOR: 'CONTRIBUTOR'
 } as const);
 
+export const ScopeRoles = Object.freeze({
+  Owner: '-100',
+  Viewer: '-101',
+  Contributor: '-102'
+});
+
 export const AreaRolesWithContributor = Object.freeze(Object.values(AreaRoleWithContributor));
 
 export type AreaRoleWithContributorType = keyof typeof AreaRoleWithContributor;
@@ -114,7 +120,7 @@ export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissio
 
 const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM_APPLICATIONS];
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
-const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
+export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
 export const syntheticOtherCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,

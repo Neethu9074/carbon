@@ -70,16 +70,27 @@ export default function ApplicationDashboard({ location }) {
     [appId, timeConfig, boundaryScope]
   );
 
-  const restrictedApplications = useObservable(
+  const contributorApplications = useObservable(
     getUserRestrictedApplications()
       .map(result => result?.data)
       .map(data =>
-        data.filter(el => el.restrictedApplications?.length !== 0 && el.restrictedApplications.find(id => id === appId))
+        data.filter(
+          el =>
+            el.restrictedApplications?.length !== 0 &&
+            el.restrictedApplications.find(contributorApplicationId => contributorApplicationId === appId)
+        )
       ),
     [appId]
   );
 
-  const isConfigureApplication = role.canConfigureApplications || restrictedApplications?.length > 0;
+  let isConfigureApplication = false; // Viewer: readonly configuration
+  if (role.canConfigureApplications && contributorApplications?.length === 0) {
+    // Owner access due to canConfigureApplications and current application is not restricted
+    isConfigureApplication = true;
+  } else if (contributorApplications?.length > 0) {
+    // Contributor access
+    isConfigureApplication = true;
+  }
 
   const props = {
     applicationId: appId,

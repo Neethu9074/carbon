@@ -18,6 +18,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col } from 'in-components/layout/Grid/Grid';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 export interface FormControlProps<FORM_TYPE extends MapFormItems> {
@@ -75,7 +76,7 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
   return (
     <Col lg={6}>
       <LightCard
-        title={t('in-settings:roleAndAccessScope.productArea')}
+        title={t('in-settings:roleAndAccessScope.productArea', { tenantUnit: config.tenantUnit })}
         header={
           !readOnly && (
             <Button onClick={openAccessScopeDialog} kind="action">

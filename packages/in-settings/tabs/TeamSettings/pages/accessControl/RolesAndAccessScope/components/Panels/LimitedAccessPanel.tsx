@@ -19,7 +19,9 @@ import {
   LimitableProductArea,
   ScopedPermissionItem,
   AreaRoleWithContributorType,
-  AreaRoleType
+  AreaRoleType,
+  ProductArea,
+  ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
@@ -119,7 +121,15 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     }
 
     const keepedScopes = scopeBindings.filter(({ scopeId }) => scopeId && entityIds.includes(scopeId));
-    const newScopes = entityIds.map(id => ({ scopeId: id, scopeRoleId: '-1' }));
+
+    // For limited application with contributor role additional selected applications should have viewer scope role
+    const newScopeRoleId =
+      applicationContributionFilterEnabled &&
+      productArea === ProductArea.APPLICATION &&
+      role === AreaRoleWithContributor.CONTRIBUTOR
+        ? ScopeRoles.Viewer
+        : '-1'; // TODO change "-1" to ScopeRoles.Owner once feature is fully integrated
+    const newScopes = entityIds.map(id => ({ scopeId: id, scopeRoleId: newScopeRoleId }));
 
     updatePermissionSet({
       ...permissionSet,
@@ -174,7 +184,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       .filter(({ scopeId, scopeRoleId }) => {
         if (excludeContributor) {
           // Only scopeIds with Owner or Viewer access are returned
-          return scopeId !== undefined && scopeRoleId !== '-102'; // -102 is Contributor
+          return scopeId !== undefined && scopeRoleId !== ScopeRoles.Contributor;
         } else {
           return scopeId !== undefined;
         }
