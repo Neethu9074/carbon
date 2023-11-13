@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .loadingBarContainer {
     width: 100%;
@@ -35,5 +37,9 @@
   }
   .disabledWidget {
     background-color: var(--ids-color-option-neutral-50);
+  }
+
+  .scrollbar {
+    .visibleScrollbar();
   }
 }

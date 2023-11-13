@@ -23,4 +23,8 @@
 
     transition: color 0.25s ease-in-out;
   }
+
+  .scrollbar {
+    padding-right: 5px;
+  }
 }

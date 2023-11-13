@@ -80,7 +80,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       title={title}
       result={result}
       getItemsFromResult={result => result.data}
-      getMetricValueFromItem={(selectedMetric, item) => item.values?.[0]?.[1]}
+      getMetricValueFromItem={(_, item) => item.values?.[0]?.[1]}
       selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
       selectedMetricColor={isErroneous ? theme.ids.color.option.red['500'] : null}
       Label={Label}
@@ -89,6 +89,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       tagCatalog={tagCatalog}
       renderHistoricDataIndicator
       hasApproximateData={hasApproximateData}
+      isScrollbarVisible
       header={
         <>
           {dragHandle}
