@@ -155,7 +155,7 @@ pipeline {
       steps {
         // Only allow 1 concurrent build is allowed to run at a time
         lock(resource: "retag-backend-images") {
-          timeout(time: 45, unit: 'MINUTES') {
+          timeout(time: 60, unit: 'MINUTES') {
             timestamps {
               script {
                 if (isDeliveryBranch) {
