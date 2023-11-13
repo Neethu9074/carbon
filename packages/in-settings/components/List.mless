@@ -9,7 +9,7 @@
   }
 
   a:not([href]):not([tabindex]).createNewButton {
-    color: var(--colors-primary1);
+    color: var(--ids-color-option-teal-500);
   }
 
   .selectCheckbox {

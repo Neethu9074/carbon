@@ -17,7 +17,7 @@
 
   .contextLink {
     font-size: inherit;
-    color: var(--colors-gray-600) !important;
+    color: var(--ids-color-option-neutral-600) !important;
     // needs important, - else gets overruled by of :visited, or :active styling
   }
 }
