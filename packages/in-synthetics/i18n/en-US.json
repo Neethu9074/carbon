@@ -309,7 +309,8 @@
       "cancelButton": "Cancel",
       "deleteLocationLabel": "Delete Location",
       "success": "Success",
-      "failure": "Failed"
+      "failure": "Failed",
+      "popVersion": "Version"
     },
     "summary": {
       "successRate": "Success Rate",

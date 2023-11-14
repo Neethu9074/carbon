@@ -192,6 +192,19 @@ let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] =
     }
   },
   {
+    id: 'pop_version',
+    label: t('in-synthetics:dashboard.locationList.popVersion'),
+    sortable: true,
+    defaultOrderDirection: 'DESC',
+    getContent(item: LocationListItem) {
+      return (
+        <div>
+          <h4 className={locals.label}>{item.popVersion}</h4>
+        </div>
+      );
+    }
+  },
+  {
     id: 'health',
     label: t('in-synthetics:dashboard.locationList.health'),
     sortable: false,
