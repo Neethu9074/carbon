@@ -23,7 +23,7 @@
   }
 
   .highlighted {
-    background: @lib__colors__faded-blue800;
+    background: var(--ids-color-option-blue-500);
   }
 
   .input,
