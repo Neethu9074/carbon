@@ -337,7 +337,7 @@
       "devices": "Devices",
       "viewAllDevices": "View all devices",
       "osVersions": "Operating Systems",
-      "viewAllOs": "View all operating system",
+      "viewAllOs": "View all operating systems",
       "appVersions": "App Versions",
       "viewAllVersions": "View all versions",
       "configurations": {
@@ -379,7 +379,7 @@
         "crashesTableTitle": "Crashes",
         "crashInfoTitle": "Details",
         "crashInfoMessage": "Message",
-        "backToCrashList": "Back to list of crashes",
+        "backToCrashList": "Back to Crash Groups",
         "crashTitleMobileAppCrashDetails": "Mobile App Crash Details"
       },
       "customEvents": {
