@@ -112,7 +112,24 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
     );
   }
 
-  //if (eventsRelatedToEntity?.progress?.loading) return <LoadingIndicator />;
+  if (eventsRelatedToEntity?.progress?.loading || !eventsRelatedToEntity)
+    return (
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card
+            title={title}
+            leftHeaderContent={
+              <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
+                <BetaBadge />
+              </Tooltip>
+            }
+            rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
+          >
+            <LoadingIndicator />
+          </Card>
+        </Col>
+      </Row>
+    );
 
   return (
     <Row withoutSideMargin>
@@ -130,7 +147,8 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             <div className={locals.timeline}>
               {(eventsRelatedToEntity?.progress?.loading || !eventsRelatedToEntity) && <LoadingIndicator />}
               {eventsRelatedToEntity &&
-                incident.has('metadata')?.has('probableRootCauseSnapshotMetadata')?.has(currentRCAEntity) && (
+                incident &&
+                incident.get('metadata')?.get('probableRootCauseSnapshotMetadata')?.get(currentRCAEntity) && (
                   <RootCauseEntityDetails
                     selectedSnapshotMetadata={incident
                       .get('metadata')
