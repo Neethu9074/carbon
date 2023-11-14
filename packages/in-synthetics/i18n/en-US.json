@@ -305,7 +305,6 @@
       },
       "deletionReason": "Reasons for deletion",
       "typeToContinue": "Type {{location}} to continue",
-      "location": "LOCATION",
       "deletionSuccess": "The location has been deleted",
       "cancelButton": "Cancel",
       "deleteLocationLabel": "Delete Location",
@@ -550,7 +549,7 @@
         "reasonTitle": "Reason for deletion",
         "typingValidationTitle": "Type {{synthetic}} to continue",
         "cancelButton": "Cancel",
-        "deleteButton": "Delete"
+        "deleteButton": "Delete Test"
       },
       "configurationEditAction": "Edit",
       "configurationDeleteAction": "Delete"
