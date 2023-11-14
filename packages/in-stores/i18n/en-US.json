@@ -194,6 +194,7 @@
     "fieldsEntityAzureServiceApimApi": "Azure API Management Service API",
     "fieldsEntityAzureServiceAppservice": "Azure App Service",
     "fieldsEntityAzureServiceCosmosdb": "Azure CosmosDB",
+    "fieldsEntityAzureServiceDataFactory": "Azure DataFactory",
     "fieldsEntityAzureServiceMySql": "Azure MySQL",
     "fieldsEntityAzureServiceRediscache": "Azure Redis Cache",
     "fieldsEntityAzureServiceSqldb": "Azure SQL Database",

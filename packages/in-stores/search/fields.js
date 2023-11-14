@@ -38,6 +38,7 @@ const helpTexts = {
   'entity.azure.service.apim': t('in-stores:search.fieldsEntityAzureServiceApim'),
   'entity.azure.service.apim.api': t('in-stores:search.fieldsEntityAzureServiceApimApi'),
   'entity.azure.service.appservice': t('in-stores:search.fieldsEntityAzureServiceAppservice'),
+  'entity.azure.service.datafactory': t('in-stores:search.fieldsEntityAzureServiceDataFactory'),
   'entity.azure.service.mysql': t('in-stores:search.fieldsEntityAzureServiceMySql'),
   'entity.azure.service.cosmosdb': t('in-stores:search.fieldsEntityAzureServiceCosmosdb'),
   'entity.azure.service.rediscache': t('in-stores:search.fieldsEntityAzureServiceRediscache'),
