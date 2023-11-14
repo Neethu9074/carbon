@@ -141,6 +141,7 @@
 
     font-weight: 500;
     color: var(--ids-color-option-red-500);
+    //@lib__colors__failure10 could not be replaced
     background: @lib__colors__failure10;
     border: 1px solid var(--ids-color-option-red-500);
     border-radius: var(--ids-border-radius-option-medium);
@@ -159,6 +160,7 @@
       border-style: solid;
       pointer-events: none;
       border-color: var(--ids-color-option-red-500);
+      //@lib__colors__failure10 could not be replaced
       background: @lib__colors__failure10;
       transform: rotateZ(45deg);
       width: 0.375rem;

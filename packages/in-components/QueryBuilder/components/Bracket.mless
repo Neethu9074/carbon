@@ -41,6 +41,7 @@
   }
 
   .invalid {
+    //@lib__colors__failure10 could not be replaced
     background: @lib__colors__failure10;
     color: var(--ids-color-option-red-500);
     border: 1px solid var(--ids-color-option-red-500);

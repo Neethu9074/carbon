@@ -62,6 +62,7 @@
     border-left: 1px solid var(--ids-color-option-red-500);
     margin-right: -1px; // to avoid having two borders next to each other
     border-right: 1px solid var(--ids-color-option-red-500);
+    //@lib__colors__failure10 could not be replaced
     background: @lib__colors__failure10;
   }
 
