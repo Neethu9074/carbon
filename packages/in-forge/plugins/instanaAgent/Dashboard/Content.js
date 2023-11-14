@@ -22,6 +22,8 @@ import ConfigurationManagementDialog from 'in-forge/plugins/instanaAgent/Dashboa
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
 import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
+import SupportButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/SupportButtonSection';
+import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -49,9 +51,10 @@ import { t } from 'in-i18n';
 export default connectTo(
   ({ snapshot }) => ({
     isInternalVisible: isInternalVisible$,
-    hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot)
+    hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot),
+    isTroubleshootingModeEnabled: isTroubleshootingModeEnabled$
   }),
-  function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot }) {
+  function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot, isTroubleshootingModeEnabled }) {
     const snapshotId = snapshot.get('id');
     const metricIds = snapshot.get('metricIds');
     const collectors = metricIds
@@ -85,6 +88,11 @@ export default connectTo(
             <ConfigurationManagement snapshot={snapshot} />
           </DashboardSection>
         </Columize>
+        {(isTroubleshootingModeEnabled || isInternalVisible) && (
+          <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.support')}>
+            <SupportButtonSection snapshot={snapshot} />
+          </DashboardSection>
+        )}
         {(agentMonitoringIssuesEnabled || isInternalVisible) && (
           <IssueList snapshot={snapshot} timeConfig={timeConfig} />
         )}
