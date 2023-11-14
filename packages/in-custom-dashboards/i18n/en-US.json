@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "Unknown Entity",
+    "unknownEntityLabel_application": "Unknown Application",
+    "unknownEntityLabel_website": "Unknown Website",
     "invalidWidgetTypeErrorMessage": "<strong>Invalid widget type</strong><br/>This widget has invalid type, you can fix it by editing the dashboard JSON or removing the widget.",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "Please select",
         "sliConfigComputeErrBudgetSliVal": "SLI configuration used to compute error budget and SLI values",
         "typeSloThreshold": "Type in your desired SLO threshold from <code>{{compact}}</code> to <code>{{detailed}}</code>.",
-        "valType": "Value Type"
+        "valType": "Value Type",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "Service-Level Indicators"
@@ -679,8 +683,6 @@
         "tooltip_application": "Application Apdex"
       },
       "widget": {
-        "unknownEntityLabel_application": "Unknown Application",
-        "unknownEntityLabel_website": "Unknown Website",
         "previewDataInfo": "Preview data is shown for the last 7 days. The final widget will only include data since creation of the Apdex configuration."
       },
       "applicationScopeConfigurator": {
