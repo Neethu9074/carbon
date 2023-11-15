@@ -159,7 +159,11 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
       types={types}
-      actionStatuses={actionStatuses}
+      actionStatuses={
+        actionStatuses.length === 0
+          ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED']
+          : actionStatuses
+      }
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
         actionHistoryInstanceViewTracker({
