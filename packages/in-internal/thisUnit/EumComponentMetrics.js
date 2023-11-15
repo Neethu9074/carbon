@@ -10,7 +10,6 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Columize from 'in-sdk/components/dashboard/Columize';
 import { bytes } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -29,37 +28,49 @@ export default connectTo(
           <div>
             <h1>{t('in-internal:monitoringUnit.eum.overview.jsStackTraceTrxDataPreProc')}</h1>
 
-            <Columize>
-              <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.eum.sourceMapUsedStorageSize')}>
-                <Chart
-                  snapshotIds={rows.map(r => r.get('id'))}
-                  timeConfig={timeConfig}
-                  minRollup={5000}
-                  y1={{
-                    min: 0,
-                    formatter: bytes.compact,
-                    metrics: rows.map(() => 'sourceMapUsedStorageSize'),
-                    type: 'line',
-                    labels: ['']
-                  }}
-                />
-              </DashboardSection>
+            <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.eum.websiteMonitoring')}>
+              <Chart
+                snapshotIds={rows.map(r => r.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: bytes.compact,
+                  metrics: rows.map(() => 'sourceMapUsedStorageSize'),
+                  type: 'line',
+                  labels: [t('in-internal:monitoringUnit.thisUnit.eum.UsedStorageSize')]
+                }}
+                y2={{
+                  min: 0,
+                  formatter: bytes.compact,
+                  metrics: rows.map(() => 'sourceMapUploadedFilesSize'),
+                  type: 'line',
+                  labels: [t('in-internal:monitoringUnit.thisUnit.eum.sourceMapUploadedFilesSize')]
+                }}
+              />
+            </DashboardSection>
 
-              <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.eum.sourceMapUploadedFilesSize')}>
-                <Chart
-                  snapshotIds={rows.map(r => r.get('id'))}
-                  timeConfig={timeConfig}
-                  minRollup={5000}
-                  y1={{
-                    min: 0,
-                    formatter: bytes.compact,
-                    metrics: rows.map(() => 'sourceMapUploadedFilesSize'),
-                    type: 'line',
-                    labels: ['']
-                  }}
-                />
-              </DashboardSection>
-            </Columize>
+            <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.eum.mobileAppMonitoring')}>
+              <Chart
+                snapshotIds={rows.map(r => r.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: bytes.compact,
+                  metrics: rows.map(() => 'symbolicationUsedStorageSize'),
+                  type: 'line',
+                  labels: [t('in-internal:monitoringUnit.thisUnit.eum.UsedStorageSize')]
+                }}
+                y2={{
+                  min: 0,
+                  formatter: bytes.compact,
+                  metrics: rows.map(() => 'symbolicationUploadedFilesSize'),
+                  type: 'line',
+                  labels: [t('in-internal:monitoringUnit.thisUnit.eum.symbolicationUploadedFilesSize')]
+                }}
+              />
+            </DashboardSection>
           </div>
         )}
       </InternalViewWrapper>
