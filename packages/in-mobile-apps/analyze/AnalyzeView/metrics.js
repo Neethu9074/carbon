@@ -69,6 +69,42 @@ const uniqueUsersOrSessions = {
   min: 0
 };
 
+const crashAffectedSessionCount = {
+  metric: 'crashAffectedSessionCount',
+  label: t('in-mobile-apps:analyzeView.crash.crashAffectedSessionCount'),
+  formatter: number,
+  supportedAggregations: ['DISTINCT_COUNT'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
+};
+
+const crashAffectedSessionRate = {
+  metric: 'crashAffectedSessionRate',
+  label: t('in-mobile-apps:analyzeView.crash.crashAffectedSessionRate'),
+  formatter: percentage,
+  supportedAggregations: ['MEAN'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
+};
+
+const crashAffectedUserCount = {
+  metric: 'crashAffectedUserCount',
+  label: t('in-mobile-apps:analyzeView.crash.crashAffectedUserCount'),
+  formatter: number,
+  supportedAggregations: ['DISTINCT_COUNT'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
+};
+
+const crashAffectedUserRate = {
+  metric: 'crashAffectedUserRate',
+  label: t('in-mobile-apps:analyzeView.crash.crashAffectedUserRate'),
+  formatter: percentage,
+  supportedAggregations: ['MEAN'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0
+};
+
 const errorRate = {
   metric: 'beaconErrorRate',
   label: t('in-mobile-apps:analyzeView.errorRate.label'),
@@ -251,6 +287,10 @@ export const availableMetrics = {
       metric: 'beaconCount',
       label: t('in-mobile-apps:analyzeView.availableMetrics.crashBeaconCountLabel')
     }),
-    uniqueUsersOrSessions
+    uniqueUsersOrSessions,
+    crashAffectedSessionCount,
+    crashAffectedSessionRate,
+    crashAffectedUserCount,
+    crashAffectedUserRate
   ]
 };
