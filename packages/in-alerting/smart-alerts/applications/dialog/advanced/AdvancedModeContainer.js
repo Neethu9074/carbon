@@ -285,6 +285,6 @@ export default function AdvancedModeContainer(props) {
       return false;
     }
 
-    return !(thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message);
+    return true;
   }
 }

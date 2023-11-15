@@ -96,5 +96,6 @@ module.exports = {
   autoFormatterTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
   applicationContributionFilterEnabled: false,
-  infraSmartAlertsPredictionsEnabled: true
+  infraSmartAlertsPredictionsEnabled: true,
+  syntheticInstanaHostedPoPEnabled: true
 };

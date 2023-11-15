@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { Fragment, forwardRef, useState, useEffect, useRef } from 'react';
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
-import { compose, lifecycle, withState } from 'recompose';
-import React, { Fragment, forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -16,8 +15,6 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-// eslint-disable-next-line
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -54,48 +51,40 @@ function clearPerCellLoadingIndicator() {
   setTimeout(() => perCellLoadingIndicator$.emit(null), 500);
 }
 
-export default compose(
-  withState('errorMessage', 'setErrorMessage', null),
-  connectTo(({ loadEntities, setErrorMessage }) => {
-    // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
-    // rendered
-    // 2. The reloadEntitiesSignal$.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the
-    // entities (for example, if one has been deleted).
-    // 3. The merge with emptyListOnError$ gives us a hook to set the list of entities to an empty array in case loading
-    // the entities fails (HTTP error etc.)
-    // 4. Finally, loadEntities().tap(clearPerCellLoadingIndicator) makes sure the per cell loading indicator
-    // (triggered by table actions like toggleEnabled or delete) is cleared when the reload is done.
-    const entityObservable = reloadEntitiesSignal$
-      .flatMap(() => loadEntities().tap(clearPerCellLoadingIndicator))
-      .merge(loadEntities(), emptyListOnError$);
-    entityObservable.errors().subscribe(error => {
-      const errorMessage = `Failed to load the requested data: ${error.message}`;
-      logger.error(errorMessage, error);
-      setErrorMessage(errorMessage);
-      // emit an empty array of entities when loading the entities results in an error, this makes the table presenter
-      // switch from its "loading" state into the "no data available" state.
-      emptyListOnError$.emit([]);
-    });
-    return {
-      entities: entityObservable,
-      perCellLoadingIndicator: perCellLoadingIndicator$
-    };
-  }),
-  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => initialOrderBy ?? 'name'),
-  withState('orderDirectionState', 'setOrderDirection', ({ initalOrderDir }) => initalOrderDir ?? 'ASC'),
-  withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', ({ initialPageNumber = 1 }) => initialPageNumber),
-  lifecycle({
-    componentDidUpdate({ extraFilterValues: nextExtraFilterValues }) {
-      if (!isEqual(this.props.extraFilterValues, nextExtraFilterValues)) {
-        this.props.setPage(1);
-        this.props.onPageChange?.(1);
-      }
-    }
-  })
-)(List);
+export default function ListWithErrorState(props) {
+  const [errorMessage, setErrorMessage] = useState(null);
 
-function List({
+  return <List {...props} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />;
+}
+
+const List = connectTo(({ loadEntities, setErrorMessage }) => {
+  // 1. The `merge(loadEntities())` makes sure loadEntities() is called right at the start, when the component is first
+  // rendered
+  // 2. The reloadEntitiesSignal$.flatMap(() => loadEntities()) part gives us a hook to trigger a refresh of the
+  // entities (for example, if one has been deleted).
+  // 3. The merge with emptyListOnError$ gives us a hook to set the list of entities to an empty array in case loading
+  // the entities fails (HTTP error etc.)
+  // 4. Finally, loadEntities().tap(clearPerCellLoadingIndicator) makes sure the per cell loading indicator
+  // (triggered by table actions like toggleEnabled or delete) is cleared when the reload is done.
+  const entityObservable = reloadEntitiesSignal$
+    .flatMap(() => loadEntities().tap(clearPerCellLoadingIndicator))
+    .merge(loadEntities(), emptyListOnError$);
+  entityObservable.errors().subscribe(error => {
+    const errorMessage = `Failed to load the requested data: ${error.message}`;
+    logger.error(errorMessage, error);
+    setErrorMessage(errorMessage);
+    // emit an empty array of entities when loading the entities results in an error, this makes the table presenter
+    // switch from its "loading" state into the "no data available" state.
+    emptyListOnError$.emit([]);
+  });
+  return {
+    entities: entityObservable,
+    perCellLoadingIndicator: perCellLoadingIndicator$
+  };
+})(InnerList);
+function InnerList({
+  errorMessage,
+  setErrorMessage,
   title,
   getHeader,
   getCustomHeader,
@@ -116,30 +105,42 @@ function List({
   withBottomPadding = false,
   searchAttributes = [],
   extraFilters,
+  extraFilterValues,
   searchPlaceholder,
   searchMaxWidth,
   entities,
   noDataMessage,
   renderNoDataAvailable,
   pageSize = 20,
-  pageState,
-  setPage,
   hideWhenEmpty,
-  orderByState,
-  setOrderBy,
-  orderDirectionState,
-  setOrderDirection,
-  queryState,
-  setQuery,
-  errorMessage,
-  setErrorMessage,
   perCellLoadingIndicator,
   trackEvent,
   customSortEntities,
   onPageChange,
+  initialOrderBy,
+  initalOrderDir,
+  initialPageNumber,
   customDialogMessage
 }) {
+  const [orderByState, setOrderBy] = useState(initialOrderBy ?? 'name');
+  const [orderDirectionState, setOrderDirection] = useState(initalOrderDir ?? 'ASC');
+  const [queryState, setQuery] = useState('');
+  const [pageState, setPage] = useState(initialPageNumber ?? 1);
+
   const { goToPath } = useNavigation();
+  const prevExtraFilterValues = useRef();
+  useEffect(() => {
+    const extraFilterValuesChanged = !isEqual(prevExtraFilterValues.current, extraFilterValues);
+    if (extraFilterValuesChanged) {
+      setPage(1);
+      onPageChange?.(1);
+    }
+
+    prevExtraFilterValues.current = extraFilterValues;
+    // ignoring onPageChange
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [extraFilterValues]);
+
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
   }
@@ -694,6 +695,7 @@ List.propTypes = {
   entities: PropTypes.array,
   errorMessage: PropTypes.node,
   extraFilters: PropTypes.array,
+  extraFilterValues: PropTypes.array,
   /**
    * The 'getHeader' function renders content inside of an H1 tag.
    * For custom content like buttos etc. this leads to invalid HTML
@@ -719,6 +721,8 @@ List.propTypes = {
   noDataMessage: PropTypes.string,
   onCreateNew: PropTypes.func,
   onRowClick: PropTypes.func,
+  initialOrderBy: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  initalOrderDir: PropTypes.oneOf(['ASC', 'DESC']),
   orderByState: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   orderDirectionState: PropTypes.oneOf(['ASC', 'DESC']),
   pageSize: PropTypes.number,

@@ -7,14 +7,14 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { KeyValue, SvgIcon } from '@instana/components';
 
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
 import { getBusinessProcessListData } from 'in-bizops/lists/businessProcess/BusinessProcessList';
 import EmptyStateContent from 'in-cockpit/widgets/BusinessMonitoringTopList/EmptyStateContent';
 import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -23,8 +23,6 @@ import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import { add, remove } from 'in-cockpit/starredItems';
-import { getSnapshot } from 'in-stores/snapshot';
-import { getMetric } from 'in-stores/metric';
 import { t } from 'in-i18n';
 
 export default function BusinessMonitoringTopList({ config }) {
@@ -35,12 +33,12 @@ export default function BusinessMonitoringTopList({ config }) {
       {...config}
       getItems={getBusinessProcessListData} // subscription to get data for list
       getItem={getItem}
-      pinnedItemTypes={[businessProcessType]}
+      pinnedItemTypes={businessProcessType}
       getId={getId}
       pinItem={(id, item) =>
         add({
           id,
-          label: item.businessProcess.label,
+          label: item.businessProcess.definitionName,
           type: businessProcessType
         })
       }
@@ -55,17 +53,19 @@ export default function BusinessMonitoringTopList({ config }) {
 }
 
 function getItem(id, timeConfig) {
-  return getSnapshot(id, timeConfig).flatMap(snapshot =>
-    getMetricById(snapshot.get('id')).map(mainKpiValue => ({ snapshot, mainKpiValue }))
-  );
-}
-
-function getMetricById(snapshotId) {
-  return getMetric({
-    snapshotId,
-    metric: 'started_processes',
-    timeWindowAggregation: 'sum',
-    forceTimeWindowAggregation: true
+  // Have to use the endpoint to fetch ONE process instead of
+  // getBusinessProcesses that fetches an ARRAY of processes due
+  // to how the StarredItemList works
+  return getBusinessProcess({
+    timeConfig,
+    metrics: {
+      started_processes: {
+        aggregation: 'DISTINCT_COUNT',
+        granularity: getChartGranularity(timeConfig),
+        metric: 'bpm_root_process_id'
+      }
+    },
+    definitionId: id
   });
 }
 
@@ -124,7 +124,7 @@ const columnDefinitions = [
     }
   },
   {
-    width: '12rem', // started instances count spark chart
+    width: '12rem', // started instances spark chart and count
     getContent({ item, result, timeConfig }) {
       return (
         <SparkChart

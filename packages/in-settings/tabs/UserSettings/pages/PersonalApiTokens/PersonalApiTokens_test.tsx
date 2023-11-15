@@ -98,7 +98,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // loading
     expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument(); // no pagination
     expect(getPersonalApiTokens).toHaveBeenCalled();
-    waitFor(() => expect(getByText(token.name)).toBeInTheDocument());
+    await waitFor(() => expect(getByText(token.name)).toBeInTheDocument());
     expect(getByText(token.name)).toBeInTheDocument();
     expect(getByText('my-t********************')).toBeInTheDocument();
   });
