@@ -310,7 +310,9 @@
       "deleteLocationLabel": "Delete Location",
       "success": "Success",
       "failure": "Failed",
-      "popVersion": "Version"
+      "popVersion": "Version",
+      "noActionsAllowed": "NA",
+      "deleteRestrictedDescription": "Delete is not an option for Managed locations"
     },
     "summary": {
       "successRate": "Success Rate",
