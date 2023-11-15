@@ -95,7 +95,7 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       data: {}
     };
   } else {
-    const metricValues = getMetricValues(metricResult);
+    const metricValues = getMetricValues(metricResult) ?? [];
     const predictionMaxTime =
       predictions && predictions.length > 0 ? predictions[predictions.length - 1][0] : undefined;
     metricResults = {
@@ -113,11 +113,10 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
   }
 
   const metricChartProps = { ...chartProps, result: metricResults as Result<MetricData> };
-
   return (
     <Card title={t('in-events:titleMetrics')}>
       <ChartWrapper
-        showNoDataInfoWhenEmpty={false}
+        showNoDataInfoWhenEmpty
         {...metricChartProps}
         metricsConfiguration={extendMetricConfiguration(chartProps)}
         granularity={granularity}
