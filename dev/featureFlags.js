@@ -92,7 +92,6 @@ module.exports = {
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,
-  actionsLaneEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
   applicationContributionFilterEnabled: true,

@@ -6,19 +6,18 @@
 import React from 'react';
 
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import { actionsLaneEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default function PluginDashboardsMarkerLanes(props) {
   return (
     <MarkerLanesPresenter {...props}>
       <ReleasesLane />
-      {props.hasActionlane &&
-        actionsLaneEnabled &&
-        actionAutomationEnabled &&
-        role?.canViewAutomationActionInstances && <ActionsLane snapshotId={props.snapshotId} {...props} />}
+      {props.hasActionlane && actionAutomationEnabled && role?.canViewAutomationActionInstances && (
+        <ActionsLane snapshotId={props.snapshotId} {...props} />
+      )}
     </MarkerLanesPresenter>
   );
 }
