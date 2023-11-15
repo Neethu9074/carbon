@@ -352,7 +352,7 @@ export function useGenerateLinkToPageLoad() {
   };
 }
 
-export const useAlertConfigLink = (alertConfigId: string, websiteId: string, alertConfigVersion?: string) => {
+export const useAlertConfigLink = (alertConfigId: string, websiteId: string, alertConfigVersion?: number) => {
   const { createHref, location } = useNavigation();
   fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
   return createHref(location);
@@ -361,7 +361,7 @@ export const useAlertConfigLink = (alertConfigId: string, websiteId: string, ale
 export const useGetAlertConfigLink = () => {
   const { createHref, location } = useNavigation();
 
-  return (alertConfigId: string, websiteId: string, alertConfigVersion?: string) => {
+  return (alertConfigId: string, websiteId: string, alertConfigVersion?: number) => {
     fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
     return createHref(location);
   };
@@ -371,7 +371,7 @@ function fillAlertTabSpecificValues(
   params: Location,
   websiteId: string,
   alertConfigId: string,
-  alertConfigVersion?: string
+  alertConfigVersion?: number
 ) {
   params.pathname = alertsTabDetailsFullyQualified;
   setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParam, websiteId);

@@ -4,12 +4,17 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { MapForm } from 'formalistic';
 
+import { WebsiteAlertConfig, WebsiteAlertConfigWithMetadata } from '@instana/types';
+
+import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+//@ts-expect-error
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { DuplicateWebsiteAlertConfig } from 'in-alerting/smart-alerts/websites/details/AlertDetails';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
@@ -19,19 +24,31 @@ import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigDialog({ onClose, alertConfig, editMode, startWithSimpleMode }) {
+interface AlertConfigDialogProps {
+  onClose: () => void;
+  alertConfig: (WebsiteAlertConfigWithMetadata & { duplicateFrom?: string }) | DuplicateWebsiteAlertConfig;
+  editMode?: boolean;
+  startWithSimpleMode?: boolean;
+}
+
+export default function AlertConfigDialog({
+  onClose,
+  alertConfig,
+  editMode = false,
+  startWithSimpleMode = false
+}: AlertConfigDialogProps) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<EnrichedError[]>([]);
   const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
   const getLinkToAlertConfig = useGetAlertConfigLink();
   const duplicateFrom = alertConfig?.duplicateFrom;
-  const withTrackCreate = eumType => {
+  const withTrackCreate = (eumType: string) => {
     createOrSaveAlert({
       form,
       setForm,
@@ -60,7 +77,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
       editMode={editMode}
       startWithSimpleMode={startWithSimpleMode}
       granularity={form.get('granularity').value}
-      withTrackClose={() => onClose({})}
+      withTrackClose={() => onClose()}
       withTrackCreate={() => withTrackCreate(eumType)}
       isSaving={isSaving}
       messages={messages}
@@ -69,12 +86,18 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   );
 }
 
-function createOnChange(setForm, externalForm) {
-  return (form, fieldName, fieldValue, ...atomicAddFields) => {
+function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: MapForm<any>) {
+  return (
+    form: MapForm<any>,
+    fieldName: string,
+    fieldValue: string,
+    ...atomicAddFields: Array<{ name: string; value: string }>
+  ) => {
     // Alternative (new and desired) method signature
     if (form instanceof Array) {
       const path = form;
       const fn = fieldName;
+      // @ts-expect-error ts cant determine nested fields of MapForm<any>
       setForm(externalForm.updateIn(path, fn));
       return;
     }
@@ -90,7 +113,7 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function toAlertConfig(form) {
+function toAlertConfig(form: MapForm<any>): Readonly<WebsiteAlertConfig> {
   const tagFilterFormModel = form.get(fieldNames.tagFilterExpression).value;
 
   return Object.freeze({
@@ -109,19 +132,3 @@ function toAlertConfig(form) {
     customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }
-
-AlertConfigDialog.propTypes = {
-  alertConfig: PropTypes.shape({
-    websiteId: PropTypes.string,
-    calculateThresholdOnBackend: PropTypes.bool,
-    /**
-     * The backed model of tagFilterExpression
-     */
-    tagFilterExpression: PropTypes.object,
-    name: PropTypes.string,
-    duplicateFrom: PropTypes.string
-  }).isRequired,
-  onClose: PropTypes.func.isRequired,
-  editMode: PropTypes.bool,
-  startWithSimpleMode: PropTypes.bool
-};
