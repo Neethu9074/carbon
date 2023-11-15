@@ -41,6 +41,7 @@ interface SyntheticFormComponentProps {
   withAggregationInMetrics: boolean;
   withGrouping: boolean;
   maxGrouping: number;
+  labelSection: JSX.Element;
 }
 
 const FormComponent = ({
@@ -51,7 +52,8 @@ const FormComponent = ({
   timeShiftConfiguration,
   withAggregationInMetrics = true,
   withGrouping = true,
-  maxGrouping = 20
+  maxGrouping = 20,
+  labelSection
 }: SyntheticFormComponentProps) => {
   const timeConfig = useTimeConfig();
 
@@ -191,6 +193,8 @@ const FormComponent = ({
       />
 
       {timeShiftConfiguration}
+
+      {labelSection}
     </Stack>
   );
 };
