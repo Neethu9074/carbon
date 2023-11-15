@@ -78,9 +78,14 @@
   }
 
   .toggleButton {
-    fill: #999;
+    fill: var(--colors-gray-500);
   }
 
+  .clearButton {
+    fill: var(--colors-gray-500);
+    padding: 0.188rem;
+    border-left: solid 1px var(--colors-gray-300);
+  }
   .higlightedText {
     color: var(--ids-color-option-teal-500);
   }
