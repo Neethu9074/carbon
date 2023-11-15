@@ -49,7 +49,10 @@ export type FormatedStackTrace = {
 } & RawStackData;
 
 function isIOS(beacon: MobileAppMonitoringBeacon) {
-  return beacon.platform?.toLowerCase() === 'ios';
+  // TODO: we should have a reliable way to check the format of crash beacon
+  // this will be an issue when we start to add crash support for flutter and react-native
+  // maybe save our mobile agent type in agentVersion
+  return ['ios', 'ipados', 'macos'].includes(beacon.platform?.toLowerCase() ?? '');
 }
 
 function isAndroid(beacon: MobileAppMonitoringBeacon) {

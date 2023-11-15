@@ -56,7 +56,7 @@ export default function RawStack(props: RawStackProp) {
             <div key={i} className={locals.line}>
               <HorizontalFlexWrapper className={locals.signature}>
                 {icon}
-                <MethodName frameType={frameType} methodName={line.f} />
+                <MethodName frameType={frameType} methodName={line.t || line.f} />
                 <At />
                 <FileNameAndLine file={line.n} line={line.o} />
               </HorizontalFlexWrapper>

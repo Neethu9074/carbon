@@ -51,26 +51,34 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
 
   const lines = [`# examples`];
   lines.push(``);
-  lines.push(`# Upload iOS app symbolication file (Compress dSYM folder into one tgz file.)`);
+  lines.push(`# Prepare iOS app symbolication file`);
+  lines.push(``);
+  lines.push(`# Compress the app's dSYM folder into one tgz file.`);
   lines.push(
-    `# If the compressed file is larger than 10MB, split the file into multiple blob and upload each part with blob index.`
+    `# To compress the app's dSYM folder, run following command 'tar czf your_app.dSYM.tgz your_app.dSYM_folder'.`
   );
+  lines.push(`# If the compressed file is larger than 10MB, split the file into multiple blobs.`);
+  lines.push(
+    `# To split the tgz file, run following command 'split -b 9m your_dSYM_file.tgz your_dSYM_file.tgz_blob_'.`
+  );
+  lines.push(``);
+  lines.push(`# Upload iOS app symbolication file blob by blob`);
   lines.push(`curl --location --request PUT \\`);
   lines.push(`    '${apiUploadUrl}' \\`);
   lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\`);
-  lines.push(`    --form 'fileId="unique_id_of_symbol_file"' \\`);
+  lines.push(`    --form 'fileId="identifer of your version of app, for example, com.mycompany.MyApp-1.0"' \\`);
   lines.push(`    --form 'fileType="dSYM"' \\`);
   lines.push(`    --form 'blobIndex=1' \\`);
-  lines.push(`    --form 'sourceMap=@"/path-to-your-symbol-file/example.symbol.file.tgz.1"'`);
+  lines.push(`    --form 'sourceMap=@"/path-to-your-symbol-file/example.symbol.file.tgz_blob_aa"'`);
   lines.push(``);
   lines.push(`# After the tgz file or all blobs are uploaded, call the commit API to finish the uploading.`);
   lines.push(`curl --location --request PUT \\`);
   lines.push(`    '${apiCommitUrl}' \\`);
   lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\`);
-  lines.push(`    --form 'fileId="unique_id_of_symbol_file"' \\`);
-  lines.push(`    --form 'fileType="dSYM"' \\`);
+  lines.push(`    --form 'fileId="identifer of your version of app, for example, com.mycompany.MyApp-1.0"' \\`);
+  lines.push(`    --form 'fileType="dSYM"'`);
   lines.push(``);
-  lines.push(`# remove all files in the upload configuration`);
+  lines.push(`# Remove all files in the upload configuration`);
   lines.push(`curl --location --request PUT \\`);
   lines.push(`    '${apiClearUrl}' \\`);
   lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx'`);
