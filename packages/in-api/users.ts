@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilterExpressionElementUnion } from '@instana/types';
+import { UserGroupRestrictions } from '@instana/types';
 import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -43,16 +43,7 @@ export interface UserResult {
   readonly tfaEnabled: boolean | null | undefined;
 }
 
-export interface RestrictedFilter {
-  readonly label: string;
-  readonly tagFilterExpression: TagFilterExpressionElementUnion;
-}
-
-export interface UserRestrictedApplication {
-  readonly id: string;
-  readonly filter: RestrictedFilter;
-  readonly restrictedApplications: string[];
-}
+export type UserRestrictedApplication = UserGroupRestrictions;
 
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
 function getUsersAsResultObservableInternal() {

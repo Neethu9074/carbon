@@ -457,7 +457,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'applicationContributionFilterEnabled',
-    instanaCtlKey: 'feature.application.contributionFilter.enabled',
+    instanaCtlKey: 'feature.application.contribution.filter.enabled',
     defaultValue: false
   }
 ];

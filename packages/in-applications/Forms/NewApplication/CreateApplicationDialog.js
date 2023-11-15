@@ -245,6 +245,12 @@ function getInitialForm(application) {
       })
     )
     .put(
+      'groupId',
+      createField({
+        value: application.groupId
+      })
+    )
+    .put(
       'scope',
       createField({
         value: application.scope

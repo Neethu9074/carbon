@@ -3,16 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { MapForm, ValidationResult, createField, createMapForm } from 'formalistic';
+
+import { TagFilterExpression } from '@instana/types';
 
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export function removeMatchSpecification(i, form, updateForm) {
-  updateForm(form.updateIn(['matchSpecification'], list => list.remove(i).setTouched(true)));
+export function updateTagFilterExpressionValidator(
+  form: MapForm<any>,
+  groupId: string | null | undefined
+): MapForm<any> {
+  const field = form.getIn(['tagFilterExpression']);
+  const optionalTagFilterExpression = groupId != null;
+  return form.put(
+    'tagFilterExpression',
+    createField({
+      value: field.value,
+      touched: field.touched,
+      validator: optionalTagFilterExpression ? undefined : tagFilterExpressionValidator
+    })
+  );
 }
 
-export function createApplicationPerspectiveForm(application) {
+export function createApplicationPerspectiveForm(application: any): MapForm<any> {
   const form = createMapForm()
     .put(
       'id',
@@ -25,6 +39,12 @@ export function createApplicationPerspectiveForm(application) {
       createField({
         value: application.label,
         validator: applicationLabelValidator
+      })
+    )
+    .put(
+      'groupId',
+      createField({
+        value: application.groupId
       })
     )
     .put(
@@ -56,7 +76,7 @@ export function createApplicationPerspectiveForm(application) {
   return form;
 }
 
-function applicationLabelValidator(name) {
+function applicationLabelValidator(name: string | null | undefined): ValidationResult {
   if (isBlank(name)) {
     return [
       {
@@ -66,7 +86,7 @@ function applicationLabelValidator(name) {
     ];
   }
 
-  if (name.length > 128) {
+  if (name!.length > 128) {
     return [
       {
         severity: 'error',
@@ -78,7 +98,7 @@ function applicationLabelValidator(name) {
   return null;
 }
 
-function tagFilterExpressionValidator(tagFilterExpression) {
+export function tagFilterExpressionValidator(tagFilterExpression: TagFilterExpression[]): ValidationResult {
   if (tagFilterExpression.length === 0) {
     return [
       {
@@ -87,4 +107,5 @@ function tagFilterExpressionValidator(tagFilterExpression) {
       }
     ];
   }
+  return null;
 }

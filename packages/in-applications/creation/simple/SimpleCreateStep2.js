@@ -11,6 +11,8 @@ import CreateApplicationFilterExpression from 'in-applications/creation/componen
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { hasError, isLoading } from 'in-services/util/result';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
@@ -23,8 +25,25 @@ export default function SimpleCreateStep2({
   updateForm,
   servicesLiveList,
   blueprintCatalogResult,
-  isValidTagFilterExpression
+  isValidTagFilterExpression,
+  userRestrictedApplicationsResult
 }) {
+  const groupIdField = form.get('groupId');
+
+  if (isLoading(userRestrictedApplicationsResult) || hasError(userRestrictedApplicationsResult)) {
+    // keep showing a loading indicator even on error, until we a proper design for error handling
+    return (
+      <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step2.headline')}>
+        <div className={locals.loadingIndicator}>
+          <LoadingIndicator />
+        </div>
+      </SimpleModeStepContentWrapper>
+    );
+  }
+
+  const userRestrictedApplications = userRestrictedApplicationsResult.data;
+  const selectedUserGroupRestrictions = userRestrictedApplications.find(r => r.id === groupIdField.value);
+
   return (
     <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step2.headline')}>
       <div className={locals.filterWrapper}>
@@ -34,10 +53,16 @@ export default function SimpleCreateStep2({
           selectedBlueprint={selectedBlueprint}
           timeConfig={timeConfig}
           updateForm={updateForm}
+          userRestrictedApplications={userRestrictedApplications}
         />
         <Spacer vertical="normal" />
         <Label>{t('in-applications:creation.simple.step2.includeDownstreamServices')}</Label>
-        <ApplicationScopeSelector form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
+        <ApplicationScopeSelector
+          form={form}
+          updateForm={updateForm}
+          selectedBlueprint={selectedBlueprint}
+          maxScope={selectedUserGroupRestrictions?.filter?.scope}
+        />
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}

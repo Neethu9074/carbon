@@ -46,7 +46,8 @@ export default function SimpleModeContainer({
   onCreate,
   isValidTagFilterExpression,
   errorMessage,
-  isSaving
+  isSaving,
+  userRestrictedApplicationsResult
 }) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const servicesLiveList = useObservable(getStreamData, [form, isValidTagFilterExpression]);
@@ -111,6 +112,7 @@ export default function SimpleModeContainer({
                   servicesLiveList={servicesLiveList}
                   blueprintCatalogResult={blueprintCatalogResult}
                   isValidTagFilterExpression={isValidTagFilterExpression}
+                  userRestrictedApplicationsResult={userRestrictedApplicationsResult}
                 />
               );
             case 2:

@@ -21,6 +21,7 @@ import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedMod
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
 import { addApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getUserRestrictedApplications } from 'in-api/users';
 import { pendingResult } from 'in-services/fixedObjects';
 
 const logger = createLogger('in-applications/creation/Dialog/CreateApplicationDialog');
@@ -31,6 +32,8 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const [isSaving, setIsSaving] = useState(false);
   const [simpleMode, setSimpleMode] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const userRestrictedApplicationsResult = useObservable(getUserRestrictedApplications, []) ?? pendingResult;
 
   const tagFilterExpression = form.get('tagFilterExpression')?.value;
   const validTagFilterExpressionResult =
@@ -95,6 +98,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       withTrackClose={withTrackClose}
       footer={footer}
       isValidTagFilterExpression={validTagFilterExpressionResult?.data}
+      userRestrictedApplicationsResult={userRestrictedApplicationsResult}
       errorMessage={errorMessage}
     />
   );

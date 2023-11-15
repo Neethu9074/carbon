@@ -8,6 +8,9 @@ import React from 'react';
 import { Button } from '@instana/components';
 import { Li } from '@instana/components';
 
+import ContributionFilterDropdown, {
+  showContributionFilterDropdown
+} from 'in-applications/creation/components/ContributionFilterDropdown';
 import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterExpressionConfigurationWrapper';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -25,10 +28,12 @@ export default function CreateApplicationFilterExpression({
   selectedBlueprint,
   timeConfig,
   updateForm,
-  blueprintCatalogResult
+  blueprintCatalogResult,
+  userRestrictedApplications
 }) {
-  const categories = blueprintCatalogResult.data?.tagTree.find(category => category.label === selectedBlueprint.type)
-    .children;
+  const categories = blueprintCatalogResult.data?.tagTree.find(
+    category => category.label === selectedBlueprint.type
+  ).children;
 
   const tagFilterExpressionField = form.get('tagFilterExpression');
 
@@ -80,30 +85,42 @@ export default function CreateApplicationFilterExpression({
         )
       }
       queryBuilder={
-        <Li component="div" noAlternatingBg>
-          <div className={locals.queryBuilder}>
-            <div className={locals.queryBuilderExpression}>
-              <CreateApplicationQueryBuilder
-                value={tagFilterExpressionField.value}
-                onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
-                autoFocusInput
+        <>
+          {showContributionFilterDropdown(userRestrictedApplications) && (
+            <div className={locals.contributionFilter}>
+              <ContributionFilterDropdown
+                userRestrictedApplications={userRestrictedApplications}
+                form={form}
+                updateForm={updateForm}
+                className={locals.listItem}
               />
             </div>
+          )}
+          <Li component="div" noAlternatingBg>
+            <div className={locals.queryBuilder}>
+              <div className={locals.queryBuilderExpression}>
+                <CreateApplicationQueryBuilder
+                  value={tagFilterExpressionField.value}
+                  onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
+                  autoFocusInput
+                />
+              </div>
 
-            <HorizontalFlexWrapper>
-              {tagFilterExpressionField.value.length > 0 && (
-                <Button
-                  kind="subtle"
-                  icon="lib_openclose_cancel"
-                  size="compact"
-                  onClick={() => setTagFilterExpression([], form, updateForm)}
-                >
-                  {t('in-applications:buttonClear')}
-                </Button>
-              )}
-            </HorizontalFlexWrapper>
-          </div>
-        </Li>
+              <HorizontalFlexWrapper>
+                {tagFilterExpressionField.value.length > 0 && (
+                  <Button
+                    kind="subtle"
+                    icon="lib_openclose_cancel"
+                    size="compact"
+                    onClick={() => setTagFilterExpression([], form, updateForm)}
+                  >
+                    {t('in-applications:buttonClear')}
+                  </Button>
+                )}
+              </HorizontalFlexWrapper>
+            </div>
+          </Li>
+        </>
       }
     />
   );
