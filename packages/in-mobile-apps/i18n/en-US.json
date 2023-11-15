@@ -21,6 +21,12 @@
       "transferSizeLabel": "Transfer Size",
       "transferSizeCategory": "Resource Sizing"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Crash Affected Session Count",
+      "crashAffectedSessionRate": "Crash Affected Session Rate",
+      "crashAffectedUserCount": "Crash Affected User Count",
+      "crashAffectedUserRate": "Crash Affected User Rate"
+    },
     "errorRate": {
       "label": "Error Rate",
       "rawDataLabel": "Error Count"
@@ -215,6 +221,7 @@
       "crashLabel": "Crash",
       "metaHeader": "Meta",
       "stackTrace": "Stack Trace",
+      "stackTraceLastOccurrence": "Stack Trace(Last Occurrence)",
       "stackTraceButtonPrettyStackTrace": "Pretty Stack Trace",
       "stackTraceButtonRawStackTrace": "Raw Stack Trace"
     },
