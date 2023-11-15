@@ -15,7 +15,7 @@ import {
   ValidationResult,
   ValidationMessage
 } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Link, SvgIcon, Message } from '@instana/components';
 
@@ -78,7 +78,173 @@ const INSTANA_GROUPS = 'instanaGroups';
 const GROUP_ID = 'groupId';
 const TRACKING = 'tracking';
 
+interface RenderProps {
+  readonly form: MapForm<any>;
+  readonly setForm: (newForm: MapForm<any>) => void
+}
+
 export default function GroupMapping() {
+  const [page, setPage] = useState<number>(1);
+  const pageSize = 25;
+
+  function render({ form, setForm }: RenderProps): JSX.Element {
+    if (!form.get('hasIdp')?.value) {
+      return (
+        <>
+          <Title title={t('in-settings:tabs.configureGroupMapping')} />
+          <SubViewHeader>{t('in-settings:tabs.groupMapping')}</SubViewHeader>
+          <div className={locals.margin}>{t('in-settings:tabs.failIfNoIdp')}</div>
+          <Trans
+            i18nKey="in-settings:tabs.failIfNoIdpDocs"
+            components={{
+              gmLink: (
+                // @ts-expect-error
+                <Link external href="https://ibm.biz/idp-group-mapping" />
+              ),
+              authLink: (
+                // @ts-expect-error
+                <Link external href="https://ibm.biz/configuring-authentication" />
+              )
+            }}
+          />
+        </>
+      );
+    }
+
+    let instanaGroups: InstanaGroup[] = [];
+    if (form.get(INSTANA_GROUPS)) {
+      const groupsField: Field<InstanaGroup[]> = form.get(INSTANA_GROUPS);
+      instanaGroups = groupsField.value;
+    }
+
+    let denyAccess = false;
+    if (form.get(DENY_ACCESS)) {
+      const denyAccessField: Field<boolean> = form.get(DENY_ACCESS);
+      denyAccess = denyAccessField.value;
+    }
+
+    const shouldShowDenyIssue = internalCheckThereIsAtLeastOneGroupMappingIfDenyIsChecked(
+      form.get(GROUP_MAPPINGS),
+      form.get(DENY_ACCESS)
+    );
+
+    const groupMappings: MapForm<any>[] = form.get(GROUP_MAPPINGS) ?? [];
+    const firstItem = (page - 1) * pageSize; // 1. => 0., 2 => 26
+    let lastItem = pageSize * page; // 1. => 25, 2. => 50
+    // @ts-expect-error invalid type
+    if (lastItem > (groupMappings.items?.length ?? 0)) {
+      // @ts-expect-error invalid type
+      lastItem = groupMappings.items.length;
+    }
+
+    return (
+      <>
+        <Title title={t('in-settings:tabs.configureGroupMapping')} />
+        <SubViewHeader>{t('in-settings:tabs.groupMapping')}</SubViewHeader>
+        <CheckboxFancy
+          label={t('in-settings:tabs.denyUserWithNoGroup')}
+          checked={denyAccess}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setForm(
+              form
+                .updateIn([DENY_ACCESS], () =>
+                  createField({
+                    value: e.target.checked
+                  })
+                )
+                .setTouched(true)
+            );
+          }}
+        />
+        <Message className={locals.description} type="neutral" withIcon small>
+          <Trans
+            i18nKey="in-settings:tabs.denyUserWithNoGroupDocs"
+            components={{
+              authLink: (
+                // @ts-expect-error
+                <Link external href="https://ibm.biz/configuring-authentication" />
+              )
+            }}
+          />
+        </Message>
+        <div className={locals.description}>{t('in-settings:tabs.groupMappingInfoText')}</div>
+        {shouldShowDenyIssue && shouldShowDenyIssue.length > 0 && (
+          <ValidationBlock className="">{shouldShowDenyIssue[0].message}</ValidationBlock>
+        )}
+        <ServerTablePresenter<MapForm<any>, GroupMappingTableProps>
+          isSearchable={false}
+          columnDefinitions={[
+            keyColumnDefinition,
+            valueColumnDefinition,
+            instanaGroupColumnDefinition(instanaGroups),
+            deleteRowColumnDefinition
+          ]}
+          noDataMessage={t('in-settings:tabs.noGroupMapping')}
+          orderBy="label"
+          orderDirection="ASC"
+          rightHeader={<RightHeader addRow={addRow} />}
+          getRowIndex={getRowIndex}
+          deleteRow={deleteRow}
+          updateIn={updateIn}
+          result={{
+            progress: {
+              loading: false
+            },
+            errors: [],
+            data: {
+              // @ts-ignore
+              items: groupMappings.items?.slice(firstItem , lastItem) ?? [],
+              pageSize,
+              // @ts-ignore
+              totalHits: groupMappings.items?.length ?? 0,
+              page
+            }
+          }}
+          page={page}
+          pageSize={pageSize}
+          onChange={({ page: nextPage }) => {
+            if (nextPage) {
+              setPage(nextPage);
+            }
+          }}
+        />
+      </>
+    );
+
+    function addRow() {
+      setForm(
+        form.updateIn(
+          [GROUP_MAPPINGS],
+          (f: Item): Item =>
+            (f as ListForm<any>).push(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
+        )
+      );
+    }
+
+    function deleteRow(payloadField: MapForm<any>) {
+      const entryPosition = getRowIndex(payloadField);
+
+      if (entryPosition >= 0) {
+        setForm(
+          form.updateIn([GROUP_MAPPINGS], (f: Item) => (f as ListForm<any>).remove(entryPosition).setTouched(true))
+        );
+      }
+    }
+
+    function getRowIndex(payloadField: Item): number {
+      if (form.get(GROUP_MAPPINGS)) {
+        const groupMappings: ListForm<any> = form.get(GROUP_MAPPINGS);
+        return groupMappings.reduce((acc: number, item: Item, i: number) => (item === payloadField ? i : acc), -1);
+      }
+      return -1;
+    }
+
+    function updateIn(path: string[], updater: Updater) {
+      // @ts-ignore Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
+      setForm(form.updateIn([GROUP_MAPPINGS, ...path], (f: Item) => updater(f).setTouched(true)));
+    }
+  }
+
   return (
     <ApiItemView
       getObservables={() => ({
@@ -97,149 +263,7 @@ export default function GroupMapping() {
   );
 }
 
-function render({ form, setForm }: { form: MapForm<any>; setForm: (newForm: MapForm<any>) => void }): JSX.Element {
-  if (!form.get('hasIdp')?.value) {
-    return (
-      <>
-        <Title title={t('in-settings:tabs.configureGroupMapping')} />
-        <SubViewHeader>{t('in-settings:tabs.groupMapping')}</SubViewHeader>
-        <div className={locals.margin}>{t('in-settings:tabs.failIfNoIdp')}</div>
-        <Trans
-          i18nKey="in-settings:tabs.failIfNoIdpDocs"
-          components={{
-            gmLink: (
-              // @ts-expect-error
-              <Link external href="https://ibm.biz/idp-group-mapping" />
-            ),
-            authLink: (
-              // @ts-expect-error
-              <Link external href="https://ibm.biz/configuring-authentication" />
-            )
-          }}
-        />
-      </>
-    );
-  }
 
-  let instanaGroups: InstanaGroup[] = [];
-  if (form.get(INSTANA_GROUPS)) {
-    const groupsField: Field<InstanaGroup[]> = form.get(INSTANA_GROUPS);
-    instanaGroups = groupsField.value;
-  }
-
-  let denyAccess = false;
-  if (form.get(DENY_ACCESS)) {
-    const denyAccessField: Field<boolean> = form.get(DENY_ACCESS);
-    denyAccess = denyAccessField.value;
-  }
-
-  const shouldShowDenyIssue = internalCheckThereIsAtLeastOneGroupMappingIfDenyIsChecked(
-    form.get(GROUP_MAPPINGS),
-    form.get(DENY_ACCESS)
-  );
-
-  const groupMappings: MapForm<any>[] = form.get(GROUP_MAPPINGS) ?? [];
-
-  return (
-    <>
-      <Title title={t('in-settings:tabs.configureGroupMapping')} />
-      <SubViewHeader>{t('in-settings:tabs.groupMapping')}</SubViewHeader>
-      <CheckboxFancy
-        label={t('in-settings:tabs.denyUserWithNoGroup')}
-        checked={denyAccess}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setForm(
-            form
-              .updateIn([DENY_ACCESS], () =>
-                createField({
-                  value: e.target.checked
-                })
-              )
-              .setTouched(true)
-          );
-        }}
-      />
-      <Message className={locals.description} type="neutral" withIcon small>
-        <Trans
-          i18nKey="in-settings:tabs.denyUserWithNoGroupDocs"
-          components={{
-            authLink: (
-              // @ts-expect-error
-              <Link external href="https://ibm.biz/configuring-authentication" />
-            )
-          }}
-        />
-      </Message>
-      <div className={locals.description}>{t('in-settings:tabs.groupMappingInfoText')}</div>
-      {shouldShowDenyIssue && shouldShowDenyIssue.length > 0 && (
-        <ValidationBlock className="">{shouldShowDenyIssue[0].message}</ValidationBlock>
-      )}
-      <ServerTablePresenter<MapForm<any>, GroupMappingTableProps>
-        isSearchable={false}
-        columnDefinitions={[
-          keyColumnDefinition,
-          valueColumnDefinition,
-          instanaGroupColumnDefinition(instanaGroups),
-          deleteRowColumnDefinition
-        ]}
-        noDataMessage={t('in-settings:tabs.noGroupMapping')}
-        orderBy="label"
-        orderDirection="ASC"
-        rightHeader={<RightHeader addRow={addRow} />}
-        getRowIndex={getRowIndex}
-        deleteRow={deleteRow}
-        updateIn={updateIn}
-        result={{
-          progress: {
-            loading: false
-          },
-          errors: [],
-          data: {
-            items: groupMappings,
-            pageSize: groupMappings.length,
-            totalHits: groupMappings.length,
-            page: 1
-          }
-        }}
-        page={1}
-        pageSize={groupMappings.length}
-      />
-    </>
-  );
-
-  function addRow() {
-    setForm(
-      form.updateIn(
-        [GROUP_MAPPINGS],
-        (f: Item): Item =>
-          (f as ListForm<any>).push(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
-      )
-    );
-  }
-
-  function deleteRow(payloadField: MapForm<any>) {
-    const entryPosition = getRowIndex(payloadField);
-
-    if (entryPosition >= 0) {
-      setForm(
-        form.updateIn([GROUP_MAPPINGS], (f: Item) => (f as ListForm<any>).remove(entryPosition).setTouched(true))
-      );
-    }
-  }
-
-  function getRowIndex(payloadField: Item): number {
-    if (form.get(GROUP_MAPPINGS)) {
-      const groupMappings: ListForm<any> = form.get(GROUP_MAPPINGS);
-      return groupMappings.reduce((acc: number, item: Item, i: number) => (item === payloadField ? i : acc), -1);
-    }
-    return -1;
-  }
-
-  function updateIn(path: string[], updater: Updater) {
-    // @ts-ignore Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
-    setForm(form.updateIn([GROUP_MAPPINGS, ...path], (f: Item) => updater(f).setTouched(true)));
-  }
-}
 
 type OnChangeInput = (path: string[], doThis: (f: Item) => Field<string>) => void;
 
