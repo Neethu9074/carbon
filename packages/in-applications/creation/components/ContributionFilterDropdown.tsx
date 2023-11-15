@@ -22,7 +22,8 @@ interface ContributionFilterDropdownProps {
   userRestrictedApplications: UserRestrictedApplication[];
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  className: string;
+  disabled: boolean;
+  className?: string;
 }
 interface OptionsProps {
   value: string | null;
@@ -40,6 +41,7 @@ export default function ContributionFilterDropdown({
   userRestrictedApplications,
   form,
   updateForm,
+  disabled = false,
   className
 }: ContributionFilterDropdownProps): JSX.Element {
   const groupIdField = form.get('groupId');
@@ -68,7 +70,7 @@ export default function ContributionFilterDropdown({
     >
       {({ elementProps, isOpen }) => (
         // @ts-expect-error not fully matching expected type
-        <DropdownButton {...elementProps} kind="secondary" expanded={isOpen}>
+        <DropdownButton {...elementProps} kind="secondary" expanded={isOpen} disabled={disabled}>
           {renderSelectedOption(options, groupIdField.value)}
         </DropdownButton>
       )}
