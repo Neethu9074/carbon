@@ -39,7 +39,7 @@ export default function GroupingConfiguration({
       {withGrouping && (
         <Sections>
           <GroupingConfiguratorSection
-            value={grouping?.by}
+            value={grouping?.by ?? grouping?.groupBys}
             tagCatalog={tagCatalog}
             GroupingConfigurator={GroupingConfigurator}
             tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
@@ -101,6 +101,7 @@ GroupingConfiguration.propTypes = {
   GroupingConfigurator: PropTypes.elementType.isRequired,
   grouping: PropTypes.shape({
     by: PropTypes.any,
+    groupBys: PropTypes.array,
     direction: PropTypes.any,
     includeOthers: PropTypes.any,
     maxResults: PropTypes.number

@@ -93,6 +93,7 @@ module.exports = {
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
+  multiGroupTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
   applicationContributionFilterEnabled: true,
   infraSmartAlertsPredictionsEnabled: true,

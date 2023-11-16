@@ -100,8 +100,8 @@ export default function FormComponent({
   const grouping = groupingField?.get(0)?.toJS();
 
   const onByChange = by => onChangeGrouping(onChange, { ...grouping, by });
-  const onDirectionChange = (direction, maxResults) =>
-    onChangeGrouping(onChange, { ...grouping, direction, maxResults });
+  const onDirectionChange = (direction, maxResults, groupKey) =>
+    onChangeGrouping(onChange, { ...grouping, direction, maxResults }, groupKey);
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
   const aggregators = getAggregations(metricField.value);
   const isSingleAggregator = aggregators?.length < 2;

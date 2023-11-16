@@ -125,6 +125,8 @@ export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSele
 
 export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatterTimeSeriesEnabled');
 
+export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeSeriesEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

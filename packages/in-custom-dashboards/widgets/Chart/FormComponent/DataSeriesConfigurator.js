@@ -118,6 +118,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
 function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetricKey }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
+  const type = form.get('type')?.value;
 
   return (
     <>
@@ -130,6 +131,7 @@ function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetr
           onChange={onChange}
           axisName={axisName}
           form={form}
+          type={type}
           getShortMetricKey={getShortMetricKey}
         />
       ))}

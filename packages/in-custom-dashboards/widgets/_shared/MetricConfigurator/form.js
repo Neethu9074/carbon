@@ -40,8 +40,8 @@ export function createForm(
           validator: composeAndShortCircuitOnError(potentialProblemsOnDatasetValidator, regexValidator)
         }
       : {
-        validator: regexValidator
-      }
+          validator: regexValidator
+        }
   )
     .put(
       'source',
@@ -138,9 +138,12 @@ export function createForm(
   const validator = withMandatoryGrouping ? validateMandatoryGrouping : null;
 
   if (savedState?.grouping?.length > 0) {
+    const group = savedState?.grouping[0];
+    const groupKey = group?.groupBys ? 'groupBys' : 'by';
+
     form = form.put(
       'grouping',
-      createListForm({ validator: validator }).push(createGroupingForm(savedState.grouping[0]))
+      createListForm({ validator: validator }).push(createGroupingForm({ groupKey, grouping: group ?? group.groupBys }))
     );
   } else {
     if (withMandatoryGrouping) {
@@ -230,38 +233,47 @@ function validateMandatoryGrouping(form) {
   }
 }
 
-export function createGroupingForm(grouping) {
+function createGroupItem(item) {
   return createMapForm()
     .put(
-      'by',
-      createMapForm()
-        .put(
-          'groupbyTag',
-          createField({
-            value: grouping?.by?.groupbyTag ?? '',
-            validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-          })
-        )
-        .put(
-          'groupbyTagSecondLevelKey',
-          createField({
-            value: grouping?.by?.groupbyTagSecondLevelKey ?? '',
-            validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
-          })
-        )
-        .put(
-          'groupbyTagEntity',
-          createField({
-            value: grouping?.by?.groupbyTagEntity ?? 'NOT_APPLICABLE',
-            validator: composeAndShortCircuitOnError(
-              notUndefinedValidator,
-              stringValidator,
-              notBlankValidator,
-              buildEnumValidator(['NOT_APPLICABLE', 'DESTINATION', 'SOURCE'])
-            )
-          })
-        )
+      'groupbyTag',
+      createField({
+        value: item?.groupbyTag ?? '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
     )
+    .put(
+      'groupbyTagSecondLevelKey',
+      createField({
+        value: item?.groupbyTagSecondLevelKey ?? '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+      })
+    )
+    .put(
+      'groupbyTagEntity',
+      createField({
+        value: item?.groupbyTagEntity ?? 'NOT_APPLICABLE',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(['NOT_APPLICABLE', 'DESTINATION', 'SOURCE'])
+        )
+      })
+    );
+}
+
+export function createGroupingForm({ groupKey = 'by', grouping }) {
+  const isGroupBysKey = groupKey === 'groupBys';
+
+  const createGroupItems = isGroupBysKey
+    ? createListForm({
+        items: grouping?.groupBys?.map(item => createGroupItem(item))
+      })
+    : createGroupItem(grouping?.by);
+
+  return createMapForm()
+    .put(groupKey, createGroupItems)
     .put(
       'direction',
       createField({
@@ -295,10 +307,21 @@ export function createGroupingForm(grouping) {
     );
 }
 
-export function onChangeGrouping(onChange, newGrouping) {
+const createGroupingField = ({ form, validator, groupKey, newGrouping }) => {
+  return form.put(
+    'grouping',
+    createListForm({ validator: validator })
+      .push(createGroupingForm({ groupKey, grouping: newGrouping }))
+      .setTouched(true, { recurse: true })
+  );
+};
+
+export function onChangeGrouping(onChange, newGrouping, groupKey = 'by') {
   onChange([], form => {
     const validator = isRequiringGroupingConfiguration(form) ? validateMandatoryGrouping : null;
-    if (!newGrouping?.by?.groupbyTag) {
+    const hasNoGroups = (!newGrouping?.by?.groupbyTag && !newGrouping?.groupBys) || newGrouping?.groupBys?.length === 0;
+
+    if (hasNoGroups) {
       if (validator) {
         return form.put(
           'grouping',
@@ -308,12 +331,12 @@ export function onChangeGrouping(onChange, newGrouping) {
         return form.remove('grouping');
       }
     } else {
-      return form.put(
-        'grouping',
-        createListForm({ validator: validator })
-          .push(createGroupingForm(newGrouping))
-          .setTouched(true, { recurse: true })
-      );
+      return createGroupingField({
+        form,
+        validator,
+        groupKey,
+        newGrouping
+      });
     }
   });
 }

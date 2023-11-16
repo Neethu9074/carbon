@@ -5,8 +5,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import { Message } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -44,16 +43,15 @@ import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { getDefaultOrder, getUpdatedOrder, toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import { removeDuplicatesFromArrayObjects } from 'in-custom-dashboards/widgets/Chart/util';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
-import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';

@@ -147,6 +147,7 @@ export default function MetricConfigurator({
         withAggregationInMetrics={withAggregationInMetrics}
         withFiltering={withFiltering}
         isTypePrefilled={isTypePrefilled}
+        type={type}
         maxGrouping={maxGrouping}
         withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
         dataSourceSection={dataSource ? undefined : dataSourceSection}
