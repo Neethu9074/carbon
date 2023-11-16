@@ -4,10 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
+import { TimeConfig } from '@instana/types';
+
 export interface WidgetProps<T> {
   actions: React.ReactNode;
   config: T;
   title: string;
   dragHandle: React.ReactNode;
   isPreview?: boolean;
+  timeConfig: TimeConfig;
 }
