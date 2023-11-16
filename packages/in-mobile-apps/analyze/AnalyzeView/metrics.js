@@ -78,29 +78,11 @@ const crashAffectedSessionCount = {
   min: 0
 };
 
-const crashAffectedSessionRate = {
-  metric: 'crashAffectedSessionRate',
-  label: t('in-mobile-apps:analyzeView.crash.crashAffectedSessionRate'),
-  formatter: percentage,
-  supportedAggregations: ['MEAN'],
-  preferredRenderer: Renderer.stackedBar,
-  min: 0
-};
-
 const crashAffectedUserCount = {
   metric: 'crashAffectedUserCount',
   label: t('in-mobile-apps:analyzeView.crash.crashAffectedUserCount'),
   formatter: number,
   supportedAggregations: ['DISTINCT_COUNT'],
-  preferredRenderer: Renderer.stackedBar,
-  min: 0
-};
-
-const crashAffectedUserRate = {
-  metric: 'crashAffectedUserRate',
-  label: t('in-mobile-apps:analyzeView.crash.crashAffectedUserRate'),
-  formatter: percentage,
-  supportedAggregations: ['MEAN'],
   preferredRenderer: Renderer.stackedBar,
   min: 0
 };
@@ -289,8 +271,6 @@ export const availableMetrics = {
     }),
     uniqueUsersOrSessions,
     crashAffectedSessionCount,
-    crashAffectedSessionRate,
-    crashAffectedUserCount,
-    crashAffectedUserRate
+    crashAffectedUserCount
   ]
 };

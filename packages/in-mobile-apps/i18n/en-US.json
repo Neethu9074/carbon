@@ -23,9 +23,7 @@
     },
     "crash": {
       "crashAffectedSessionCount": "Crash Affected Session Count",
-      "crashAffectedSessionRate": "Crash Affected Session Rate",
-      "crashAffectedUserCount": "Crash Affected User Count",
-      "crashAffectedUserRate": "Crash Affected User Rate"
+      "crashAffectedUserCount": "Crash Affected User Count"
     },
     "errorRate": {
       "label": "Error Rate",
