@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { themes } from '@instana/design-tokens';
+
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import oldTheme from 'in-themes';
 
-const axisFont = `10px ${oldTheme.fontFamilySansSerif}`;
+const axisFont = `10px ${themes.default.ids.font.family.option['sans-serif']}`;
 
 export default function render(
   canvas,
