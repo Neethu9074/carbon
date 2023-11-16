@@ -122,20 +122,14 @@ const mockPermissionsApplicationsAccessAllOwner = [
   ...mockPermissionsApplicationsAccessAllViewer,
   'CAN_CONFIGURE_APPLICATIONS'
 ];
-const mockPermissionsApplicationsAccessAllContributor = [
-  ...mockPermissionsApplicationsAccessAllViewer,
-  'CAN_CONFIGURE_APPLICATIONS'
-];
+const mockPermissionsApplicationsAccessAllContributor = [...mockPermissionsApplicationsAccessAllViewer];
 
 const mockPermissionsApplicationsLimitedAccessViewer = ['LIMITED_APPLICATIONS_SCOPE', 'ACCESS_APPLICATIONS'];
 const mockPermissionsApplicationsLimitedAccessOwner = [
   ...mockPermissionsApplicationsLimitedAccessViewer,
   'CAN_CONFIGURE_APPLICATIONS'
 ];
-const mockPermissionsApplicationsLimitedAccessContributor = [
-  ...mockPermissionsApplicationsLimitedAccessViewer,
-  'CAN_CONFIGURE_APPLICATIONS'
-];
+const mockPermissionsApplicationsLimitedAccessContributor = [...mockPermissionsApplicationsLimitedAccessViewer];
 
 const mockApplicationContributionFilter = {
   label: 'Mock contribution filter',

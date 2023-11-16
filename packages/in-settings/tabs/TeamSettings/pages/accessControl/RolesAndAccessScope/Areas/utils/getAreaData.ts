@@ -13,6 +13,7 @@ import {
   ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
+  Capability,
   hasApplicationsAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess,
@@ -85,15 +86,14 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
     area === ProductArea.APPLICATION &&
     permissionsSet.restrictedApplicationFilter;
   const areaItemIdsWithAccess = isApplicationSectionWithContributor
-    ? areaItemIds.filter(x => x.scopeRoleId !== ScopeRoles.Contributor).map(x => x.scopeId)
+    ? areaItemIds.filter(areaItem => areaItem.scopeRoleId !== ScopeRoles.Contributor).map(areaItem => areaItem.scopeId)
     : areaItemIds.map(areaItemData => areaItemData.scopeId);
 
   const shouldRenderContent = Boolean(hasAreaAccess && areaRole && hasAreaItemsAdded);
   const contributorAccessItemIds = areaItemIds
-    .filter(x => x.scopeRoleId === ScopeRoles.Contributor)
-    .map(x => x.scopeId);
-  const hasItemsWithOwnerAccess = areaItemIds.some(x => x.scopeRoleId === ScopeRoles.Owner);
-
+    .filter(areaItem => areaItem.scopeRoleId === ScopeRoles.Contributor)
+    .map(areaItem => areaItem.scopeId);
+  const hasItemsWithOwnerAccess = permissionsSet.permissions.includes(Capability.CAN_CONFIGURE_APPLICATIONS);
   let areaColumnHeadline = '';
   let contributorAccessHeadline = '';
   let areaAccessHeadline = '';
