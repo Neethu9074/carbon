@@ -39,7 +39,7 @@
   }
 
   .highlighted {
-    background: @lib__colors__faded-blue800;
+    background: var(--ids-color-option-blue-500);
   }
 
   .input {
@@ -68,7 +68,7 @@
   .invalid:focus:not(.hideValidityInformationOnFocus) {
     border-left: 1px solid var(--ids-color-option-red-500);
     border-right: 1px solid var(--ids-color-option-red-500);
-    background: @lib__colors__failure10;
+    background: @lib__colors__failure10; //@lib__colors__failure10 could not be replaced
   }
 
   // To enforce expanding and filling the possible width

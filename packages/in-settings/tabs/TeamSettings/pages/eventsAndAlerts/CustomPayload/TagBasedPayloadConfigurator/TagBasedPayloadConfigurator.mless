@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .configurator {
     // same height as all other input fields on this page
@@ -39,7 +37,7 @@
 
   .tagName {
     margin-right: 0.5rem;
-    background: @lib__colors__transparent;
+    background: transparent;
     flex: 1 1 0%;
     min-width: 5rem;
     width: 5rem;

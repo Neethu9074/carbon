@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/mixins.less';
+@import 'in-themes/active.less';
 
 :local {
   .list {
@@ -23,7 +24,7 @@
   }
 
   .highlighted {
-    background: @lib__colors__faded-blue800;
+    background: var(--ids-color-option-blue-500);
   }
 
   .input,
@@ -62,7 +63,7 @@
     border-left: 1px solid var(--ids-color-option-red-500);
     margin-right: -1px; // to avoid having two borders next to each other
     border-right: 1px solid var(--ids-color-option-red-500);
-    background: @lib__colors__failure10;
+    background: @lib__colors__failure10; //@lib__colors__failure10 could not be replaced
   }
 
   .option {

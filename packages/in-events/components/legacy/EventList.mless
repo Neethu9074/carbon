@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .timeline {
     width: 100%;
     padding: 0.2rem 0;
   }
   .rcaAIMessage {
-    color: @lib__colors__deep-purple800;
+    color: var(--ids-color-option-deep-purple-500);
     background-color: #e6ddf7; //Above colour tinted to 20% opactiy
     padding: 0 0.25rem;
   }
