@@ -10,6 +10,7 @@ import { SyntheticTest, TestResultListItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -53,8 +54,8 @@ const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) =
       () => {
         setReloadCount(count => ++count);
       },
-      () => {
-        showUpdateErrorMessage();
+      error => {
+        showUpdateErrorMessage(deserializeErrorMessage(error.message));
       }
     );
   };

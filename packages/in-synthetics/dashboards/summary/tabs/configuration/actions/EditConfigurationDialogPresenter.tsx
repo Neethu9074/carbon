@@ -16,6 +16,7 @@ import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
@@ -166,9 +167,13 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
         showUpdateSuccessMessage();
       },
       error => {
+        onClose();
         setIsSubmitting(false);
-        showUpdateErrorMessage();
-        logger.error(`failed to save updated test configuration : ${testConfig} ${error.message}`, error);
+        showUpdateErrorMessage(deserializeErrorMessage(error.message));
+        logger.error(
+          `failed to save updated test configuration : ${testConfig} ${deserializeErrorMessage(error.message)}`,
+          error
+        );
       }
     );
   }

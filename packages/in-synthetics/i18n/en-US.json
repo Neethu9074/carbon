@@ -218,7 +218,7 @@
       "successMessageDelete": "Successfully deleted the synthetic test",
       "failureTitle": "Failed!",
       "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "Failed to update the synthetic test. Please try again later",
+      "failureMessageUpdate": "Failed to update the synthetic test. {{errorMessage}}. Refresh the page and try again.",
       "failuteMesssageDelete": "Failed to delete the synthetic test. Please try again later"
     },
     "locationFeedback": {
@@ -312,7 +312,7 @@
       "failure": "Failed",
       "popVersion": "Version",
       "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Delete is not an option for Managed locations"
+      "deleteRestrictedDescription": "Managed locations cannot be deleted."
     },
     "summary": {
       "successRate": "Success Rate",

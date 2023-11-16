@@ -19,6 +19,7 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
@@ -173,8 +174,8 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
       () => {
         setReloadCount(count => ++count);
       },
-      () => {
-        showUpdateErrorMessage();
+      error => {
+        showUpdateErrorMessage(deserializeErrorMessage(error.message));
       }
     );
   };

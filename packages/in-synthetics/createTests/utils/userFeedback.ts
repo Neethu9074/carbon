@@ -44,7 +44,7 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
       message = t('in-synthetics:dialog.feedback.failureMessageCreate', { errorMessage: error });
       break;
     case 'update':
-      message = t('in-synthetics:dialog.feedback.failureMessageUpdate');
+      message = t('in-synthetics:dialog.feedback.failureMessageUpdate', { errorMessage: error });
       break;
     case 'delete':
       message =
@@ -66,7 +66,7 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
 
 export const showCreateErrorMessage = (error: string) => showErrorMessage('create', undefined, error);
 
-export const showUpdateErrorMessage = () => showErrorMessage('update');
+export const showUpdateErrorMessage = (error: string) => showErrorMessage('update', undefined, error);
 
 export const showDeleteErrorMessage = (context?: string) => showErrorMessage('delete', context);
 
