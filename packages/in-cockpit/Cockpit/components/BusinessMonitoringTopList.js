@@ -26,7 +26,7 @@ import { add, remove } from 'in-cockpit/starredItems';
 import { t } from 'in-i18n';
 
 export default function BusinessMonitoringTopList({ config }) {
-  const { createHrefToPath } = useNavigation();
+  const { location, createHref, createHrefToPath } = useNavigation();
 
   return (
     <TopListWidget
@@ -44,7 +44,7 @@ export default function BusinessMonitoringTopList({ config }) {
       }
       unpinItem={(id, type) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
-      getItemLink={GetItemLink}
+      getItemLink={item => getItemLink(item, location, createHref)}
       fullListViewLinkTitle={t('in-cockpit:component.bizopsTopList.allProcesses')}
       fullListView={createHrefToPath(businessProcessPath)}
       EmptyStateComponent={EmptyStateContent}
@@ -74,9 +74,7 @@ function getId(item) {
 }
 
 // Creates a link to the business process clicked by the user
-function GetItemLink(item) {
-  const { location, createHref } = useNavigation();
-
+function getItemLink(item, location, createHref) {
   location.pathname = `${businessProcessDashboard}${summaryTab}`;
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', item.businessProcess.definitionName);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', item.businessProcess.definitionId);
