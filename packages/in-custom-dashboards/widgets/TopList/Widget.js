@@ -280,7 +280,7 @@ function LinkContent({ item, groupBy }) {
     return t('in-custom-dashboards:widgets.topList.widget.tagNoValue', { labelname: label });
   }
 
-  return item.label;
+  return item.label ?? null;
 }
 
 function getConvertedValue(value) {
