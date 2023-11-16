@@ -10,11 +10,9 @@ import {
   ProductArea,
   ProductAreaType,
   ScopedPermissionItem,
-  AreaRoleWithContributor,
   ScopeRoles
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
-  Capability,
   hasApplicationsAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess,
@@ -80,32 +78,34 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
   const hasAreaAccess = areaItemData.hasAreaAccess;
   const hasAreaItemsAdded = areaItemIds.length !== 0;
   const areaRole = getAreaRoleFromPermissionSet(area, permissionsSet);
+
   const hasFullAreaAccess = areaAccessScope === ScopedPermissionItem.ACCESS_ALL;
   const isApplicationSectionWithContributor =
     applicationContributionFilterEnabled &&
     area === ProductArea.APPLICATION &&
-    areaRole === AreaRoleWithContributor.CONTRIBUTOR;
+    permissionsSet.restrictedApplicationFilter;
   const areaItemIdsWithAccess = isApplicationSectionWithContributor
     ? areaItemIds.filter(x => x.scopeRoleId !== ScopeRoles.Contributor).map(x => x.scopeId)
     : areaItemIds.map(areaItemData => areaItemData.scopeId);
 
   const shouldRenderContent = Boolean(hasAreaAccess && areaRole && hasAreaItemsAdded);
-  const hasApplicationsConfigureAccess = permissionsSet.permissions.includes(Capability.CAN_CONFIGURE_APPLICATIONS);
   const contributorAccessItemIds = areaItemIds
     .filter(x => x.scopeRoleId === ScopeRoles.Contributor)
     .map(x => x.scopeId);
+  const hasItemsWithOwnerAccess = areaItemIds.some(x => x.scopeRoleId === ScopeRoles.Owner);
 
   let areaColumnHeadline = '';
   let contributorAccessHeadline = '';
   let areaAccessHeadline = '';
 
   if (isApplicationSectionWithContributor) {
-    areaAccessHeadline = hasApplicationsConfigureAccess
+    areaAccessHeadline = hasItemsWithOwnerAccess
       ? t('in-settings:permissionScope.selection_owner_access')
       : t('in-settings:permissionScope.selection_viewer_access');
     contributorAccessHeadline = t('in-settings:permissionScope.selection_contributor_access');
     let quantityOfAreas = hasFullAreaAccess ? t('in-settings:general.all') : areaItemIdsWithAccess?.length;
-    if (hasApplicationsConfigureAccess) {
+
+    if (hasItemsWithOwnerAccess) {
       areaColumnHeadline = t('in-settings:productAreas.role_permissions_contributor_and_owner', {
         quantityOfAreas: quantityOfAreas,
         quantityOfAreasContributor: contributorAccessItemIds?.length
