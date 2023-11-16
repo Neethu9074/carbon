@@ -5,7 +5,7 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { t } from '@instana/i18n-react';
 
@@ -17,12 +17,16 @@ import {
   metric as metricFieldName,
   tagFilterExpression
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+// @ts-expect-error needs ts migration
+import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import SelectInSection from 'in-components/form/Select/SelectInSection';
-import Section from 'in-components/workspace/Section/Section';
+import DropdownButton from 'in-components/Button/DropdownButton';
+import Section from 'in-components/workspace/Section';
+import Overlay from 'in-components/overlays/Overlay';
 
 import locals from 'in-components/GroupingConfigurator/LoadingIndicator.mless';
 
@@ -45,27 +49,26 @@ export default function EntityInfraTypeSelector({
   setTagFilterExpression,
   entityItems
 }: EntityInfraTypeSelectorProps) {
+  const [searchQuery, setSearchQuery] = useState('');
   const metricsForm = form.get(datasets).get(metricsPath);
   const metricsFormSize = metricsForm.size;
+  const entityTypeField = form.get(entityType);
+  const entityLabel = t('in-custom-dashboards:widgets.table.form.infrastructure.entityType');
 
-  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // Update metrics fields and clear values in case entity type has changed
+  // Update metrics fields and clear values in case entity type has changed
+  const onChange = ({ type }: EntityItem, close: () => void) => {
     if (metricsFormSize > 0) {
       let updatedForm = updateMetricsFields(form, metricsFormSize, metricFieldName, '');
-
       updatedForm = updateMetricsFields(updatedForm, metricsFormSize, metricLabel, '');
-      updatedForm = updateMetricsFields(updatedForm, metricsFormSize, 'type', event.target.value);
-
-      updateEntityInfraType(updatedForm, event.target.value, updateForm);
+      updatedForm = updateMetricsFields(updatedForm, metricsFormSize, 'type', type);
+      updateEntityInfraType(updatedForm, type, updateForm);
     } else {
-      updateEntityInfraType(form, event.target.value, updateForm);
+      updateEntityInfraType(form, type, updateForm);
     }
 
     setTagFilterExpression([]);
+    close();
   };
-
-  const entityTypeField = form.get(entityType);
-  const entityLabel = t('in-custom-dashboards:widgets.table.form.infrastructure.entityType');
 
   if (!entityItems) {
     return (
@@ -80,24 +83,44 @@ export default function EntityInfraTypeSelector({
     );
   }
 
-  return entityTypeField?.map((field: Field<string>) => (
-    <SelectInSection
-      id={entityType}
-      label={entityLabel}
-      value={field.value}
-      disabled={!entityItems}
-      hasError={!field.valid && field.touched}
-      onChange={onChange}
-      additionalContent={<TouchedMessages field={entityTypeField} />}
-    >
-      <option value="">{t('in-custom-dashboards:widgets.table.form.pleaseSelect')}</option>
-      {entityItems?.map(({ id, type, label }: any, index: number) => (
-        <option key={`${id}-${index}`} value={type}>
-          {label}
-        </option>
-      ))}
-    </SelectInSection>
-  ));
+  return entityTypeField?.map((field: Field<string>) => {
+    const options = getEntityOptions(entityItems);
+    const selectedEntity = options.find(({ type }) => type === field.value)?.label;
+    const buttonLabel = selectedEntity || t('in-custom-dashboards:widgets.table.form.pleaseSelect');
+    const hasError = entityTypeField?.messages.length > 0 && entityTypeField?.touched;
+
+    return (
+      <Section key={entityType} title={entityLabel} hasError={hasError}>
+        <Overlay
+          content={({ close }) => (
+            <SelectorOverlay
+              options={options}
+              onChange={(entity: EntityItem) => onChange(entity, close)}
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              shouldTriggerWindowResize
+              disabled={!options}
+              strict
+              withIcons
+            />
+          )}
+          align="bottomLeft"
+          withoutWrapper
+        >
+          {({ toggle, refSetter }) => (
+            <DropdownButton
+              kind="secondary"
+              onClick={toggle}
+              refSetter={refSetter as React.MutableRefObject<HTMLButtonElement>}
+            >
+              {buttonLabel}
+            </DropdownButton>
+          )}
+        </Overlay>
+        {hasError && <TouchedMessages field={entityTypeField} />}
+      </Section>
+    );
+  });
 }
 
 export function updateMetricsFields(
@@ -125,4 +148,16 @@ function updateEntityInfraType(form: MapForm<any>, newEntityValue: string, updat
       .updateIn([grouping], (field: Item) => (field as Field<string[]>).setValue([]).setTouched(true))
       .updateIn([entityType], (field: Item) => (field as Field<string>).setValue(newEntityValue).setTouched(true))
   );
+}
+
+function getEntityOptions(entityItems: EntityItem[]) {
+  if (!entityItems || entityItems.length === 0) {
+    return [];
+  }
+
+  return entityItems.map((entity: EntityItem) => ({
+    ...entity,
+    breadcrumbAndLabel: entity.label,
+    icon: getInfraIconType(entity.type)
+  }));
 }

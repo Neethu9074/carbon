@@ -97,7 +97,7 @@ export default function FormComponent({
                 withoutWrapper
               >
                 {({ toggle, refSetter }) => (
-                  <DropdownButton kind="secondary" size="compact" onClick={toggle} refSetter={refSetter}>
+                  <DropdownButton kind="secondary" onClick={toggle} refSetter={refSetter}>
                     {buttonLabel}
                   </DropdownButton>
                 )}
