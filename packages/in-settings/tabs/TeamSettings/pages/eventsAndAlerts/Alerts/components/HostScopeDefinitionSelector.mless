@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @host__scope__tag__line_height: 2.5;
 
 :local {
@@ -28,7 +27,7 @@
 
   .tagName {
     margin-right: 0.5rem;
-    background: @lib__colors__transparent;
+    background: transparent;
   }
 
   .icon {
