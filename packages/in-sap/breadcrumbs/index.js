@@ -8,6 +8,7 @@ import React from 'react';
 
 import SapDbInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/SapDbInstanceHomeViewBreadcrumb';
 import AbapInstanceHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapInstanceHomeViewBreadcrumb';
+import SapAbapSystemSensorBreadcrumb from 'in-sap/breadcrumbs/SapAbapSystemSensorBreadcrumb';
 import AbapSystemHomeViewBreadcrumb from 'in-sap/breadcrumbs/AbapSystemHomeViewBreadcrumb';
 import RelatedResourcesBreadcrumbs from 'in-sap/breadcrumbs/RelatedResourcesBreadcrumbs';
 import SapWebDispatcherBreadcrumb from 'in-sap/breadcrumbs/SapWebDispatcherBreadcrumb';
@@ -29,6 +30,15 @@ export function AbapInstanceBreadcrumbs(props) {
     return RelatedResourcesBreadcrumbs(props);
   } else {
     return [<AbapInstanceHomeViewBreadcrumb />, hostId && <AbapInstanceBreadcrumb {...props} />];
+  }
+}
+
+export function SapAbapSystemSensorBreadcrumbs(props) {
+  const { hostId, systemPrefix } = props;
+  if (systemPrefix) {
+    return RelatedResourcesBreadcrumbs(props);
+  } else {
+    return [<AbapSystemHomeViewBreadcrumb />, hostId && <SapAbapSystemSensorBreadcrumb {...props} />];
   }
 }
 

@@ -4,21 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
+import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard';
 // the following components are all part of the same bundle (kubernetes)
 import SapMainView from 'promise-loader?global,sap!in-sap/SapMainView';
+import SapAbapInstanceSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapInstanceSensor/SapAbapInstanceSensorDashboard';
 import AbapCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapCentralInstance/AbapCentralInstanceDashboard';
-import SapJavaCentralInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaCentralInstance/SapJavaCentralInstanceDashboard';
+import SapAbapSystemSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapSystemSensor/SapAbapSystemSensorDashboard';
+import SapWebDispatcherDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard';
 import SapJavaInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaInstance/SapJavaInstanceDashboard';
 import SapJavaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapJavaSystem/SapJavaSystemDashboard';
 import SapHanaSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHanaSystem/SapHanaSystemDashboard';
-import SapWebDispatcherDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapWebDispatcher/SapWebDispatcherDashboard';
 import SapDbInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbInstance/SapDbInstanceDashboard';
 import AbapInstanceDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapInstance/AbapInstanceDashboard';
 import SapDbTenantDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbTenant/SapDbTenantDashboard';
 import AbapSystemDashboard from 'promise-loader?global,sap!in-sap/Dashboards/AbapSystem/AbapSystemDashboard';
 import SapDbmsDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapDbms/SapDbmsDashboard';
 import SapHanaDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapHana/SapHanaDashboard';
-import SapAbapSensorDashboard from 'promise-loader?global,sap!in-sap/Dashboards/SapAbapSensor/SapAbapSensorDashboard';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -36,7 +37,8 @@ import {
   sapJavaCentralInstanceDashboardFullyQualified,
   sapDbTenantDashboardFullyQualified,
   sapDbInstanceDashboardFullyQualified,
-  sapAbapSensorDashboardFullyQualified
+  sapAbapInstanceSensorDashboardFullyQualified,
+  sapAbapSystemSensorDashboardFullyQualified
 } from 'in-sap/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 
@@ -76,21 +78,21 @@ export default [
     path={sapHanaSystemDashboardFullyQualified}
     component={createAsyncViewComponent(SapHanaSystemDashboard)}
   />,
-    <Route
-      key="sapWebDispatcherDashboard"
-      path={sapWebDispatcherDashboardFullyQualified}
-      component={createAsyncViewComponent(SapWebDispatcherDashboard)}
-    />,
+  <Route
+    key="sapWebDispatcherDashboard"
+    path={sapWebDispatcherDashboardFullyQualified}
+    component={createAsyncViewComponent(SapWebDispatcherDashboard)}
+  />,
   <Route
     key="sapJavaInstanceDashboard"
     path={sapJavaInstanceDashboardFullyQualified}
     component={createAsyncViewComponent(SapJavaInstanceDashboard)}
   />,
-    <Route
-      key="sapJavaCentralInstanceDashboard"
-      path={sapJavaCentralInstanceDashboardFullyQualified}
-      component={createAsyncViewComponent(SapJavaCentralInstanceDashboard)}
-    />,
+  <Route
+    key="sapJavaCentralInstanceDashboard"
+    path={sapJavaCentralInstanceDashboardFullyQualified}
+    component={createAsyncViewComponent(SapJavaCentralInstanceDashboard)}
+  />,
   <Route
     key="SapDbTenantDashboard"
     path={sapDbTenantDashboardFullyQualified}
@@ -101,10 +103,15 @@ export default [
     path={sapDbInstanceDashboardFullyQualified}
     component={createAsyncViewComponent(SapDbInstanceDashboard)}
   />,
-    <Route
-      key="sapAbapSensorDashboard"
-      path={sapAbapSensorDashboardFullyQualified}
-      component={createAsyncViewComponent(SapAbapSensorDashboard)}
-    />,
+  <Route
+    key="sapAbapSystemSensorDashboard"
+    path={sapAbapSystemSensorDashboardFullyQualified}
+    component={createAsyncViewComponent(SapAbapSystemSensorDashboard)}
+  />,
+  <Route
+    key="sapAbapInstanceSensorDashboard"
+    path={sapAbapInstanceSensorDashboardFullyQualified}
+    component={createAsyncViewComponent(SapAbapInstanceSensorDashboard)}
+  />,
   <Route key="sapMainView" path={sap} component={createAsyncViewComponent(SapMainView)} />
 ];

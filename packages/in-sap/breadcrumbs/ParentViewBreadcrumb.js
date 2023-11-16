@@ -28,7 +28,6 @@ export default connectTo(
     const id = get(parent, ['data', 'id']);
     const name = get(parent, ['data', 'name']);
     const label = get(parent, ['data', 'label']);
-
     switch (systemPrefix) {
       case 'abapinstances.':
         return (
@@ -130,12 +129,22 @@ export default connectTo(
             {name}
           </Breadcrumb>
         );
-      case 'sapabap.':
+      case 'abapinstancessensor.':
         return (
           <Breadcrumb
             label={label}
-            icon={getIconType(plugins.sapAbap)}
-            href$={getDashboardForEntity(id, plugins.sapAbap, label)}
+            icon={getIconType(plugins.sapAbapInstanceSensor)}
+            href$={getDashboardForEntity(id, plugins.sapAbapInstanceSensor, label)}
+          >
+            {name}
+          </Breadcrumb>
+        );
+      case 'abapsystemssensor.':
+        return (
+          <Breadcrumb
+            label={label}
+            icon={getIconType(plugins.sapAbapSystemSensor)}
+            href$={getDashboardForEntity(id, plugins.sapAbapSystemSensor, label)}
           >
             {name}
           </Breadcrumb>

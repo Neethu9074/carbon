@@ -22,7 +22,7 @@ export default connectTo(
   }),
   function SapAbapSensorBreadcrumb({ sapAbap }) {
     return (
-      <Breadcrumb label={t('in-sap:breadcrumbs.sapAbapInstanceSensor')} icon="lib_sap_instances">
+      <Breadcrumb label={t('in-sap:breadcrumbs.sapAbapSystemSensor')} icon="lib_sap_system">
         {sapAbap && sapAbap.name}
       </Breadcrumb>
     );
