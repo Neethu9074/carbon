@@ -54,7 +54,7 @@ export default function MetricConfigurator({
 
   // If datasource is defined, makes the selection by default
   useEffect(() => {
-    if (sourceField.value && type) {
+    if (sourceField.value && type && type !== 'TIME_SERIES') {
       onChange(['type'], field => field.setValue(type).setTouched(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
