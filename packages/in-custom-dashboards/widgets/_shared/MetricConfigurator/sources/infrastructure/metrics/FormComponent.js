@@ -154,7 +154,7 @@ export default function FormComponent({
 
   // In case multi group is enabled, it should change the groupKey from "by" to "groupBys" for backward compatibility.
   useEffect(() => {
-    if (isMultiGroup && !grouping?.groupBys) {
+    if (isMultiGroup && grouping && !grouping?.groupBys) {
       const filteredGrouping = grouping && Object.fromEntries(Object.entries(grouping).filter(([key]) => key !== 'by'));
       onChangeGrouping(onChange, { ...filteredGrouping, [groupKey]: [grouping?.by] }, groupKey);
     }
