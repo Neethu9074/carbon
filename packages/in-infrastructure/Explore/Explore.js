@@ -243,7 +243,8 @@ function Content({
   });
 
   const metricsIds = metrics.map(metric => metric.metric);
-  const queries = [...metricsIds];
+  const chartedMetricsIds = chartedMetrics.map(metric => metric.metric);
+  const queries = [...metricsIds, ...chartedMetricsIds];
 
   if (catalogQuery.debouncedValue !== '') {
     queries.push(catalogQuery.debouncedValue);
