@@ -89,6 +89,8 @@ module.exports = {
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: false,
   eventFeedbackEnabled: true,
+  incidentSummarizationEnabled: false,
+  incidentSummarizationTimelineEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,

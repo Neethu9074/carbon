@@ -436,6 +436,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'incidentSummarizationEnabled',
+    instanaCtlKey: 'feature.incident.summarization.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'incidentSummarizationTimelineEnabled',
+    instanaCtlKey: 'feature.incident.summarization.timeline.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'playWithReleaseEnabled',
     instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false

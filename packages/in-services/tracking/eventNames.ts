@@ -430,3 +430,11 @@ export const EVENT_FEEDBACK_NEXT = 'event.feedback.next';
 export const EVENT_FEEDBACK_SKIP = 'event.feedback.skip';
 export const EVENT_FEEDBACK_POSITIVE = 'event.feedback.positive';
 export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
+
+// Incident Summarization Feedback Tracking
+export const INCIDENT_SUMMARIZATION_HELPFUL = 'incident.summarization.feedback.helpful';
+export const INCIDENT_SUMMARIZATION_UNHELPFUL = 'incident.summarization.feedback.unhelpful';
+export const INCIDENT_SUMMARIZATION_SUBMIT = 'incident.summarization.feedback.submit';
+export const INCIDENT_SUMMARIZATION_CLOSED_MANUALLY = 'incident.summarization.feedback.manually';
+export const INCIDENT_SUMMARIZATION_NEXT = 'incident.summarization.feedback.next';
+export const INCIDENT_SUMMARIZATION_SKIP = 'incident.summarization.feedback.skip';
