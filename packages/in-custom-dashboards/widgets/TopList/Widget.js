@@ -137,8 +137,9 @@ function Label({ item, config, result, tagCatalog }) {
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
+  //Synthetic monitoring does not have Analytics page yet so no link to it.
   if (config.metricConfiguration.source === 'SYNTHETICS') {
-    return <div className={locals.italic}>{item.id}</div>;
+    return <div className={locals.italic}>{item.label}</div>;
   }
 
   let filters = config.metricConfiguration.tagFilters;
