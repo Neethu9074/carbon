@@ -109,6 +109,8 @@
   "headerEnd": "End",
   "headerOn": "On",
   "headerTimeline": "Timeline",
+  "eventHelpfulText": "Was this event helpful?",
+  "thankYouForYourFeedback": "Thank you for your feedback!",
   "hostOffLineEventProblemChangeTime": "Click the link below to go to the last version of the host monitored by Instana. Doing so will change the start of your time window to a point in time when the host was monitored by Instana",
   "offLineEventProblemChangeTime": "Click the link below to go to the last version of the process monitored by Instana. Doing so will change the start of your time window to a point in time when the process was monitored by Instana",
   "offLineEventProblemNoMatch": "Instana could not find a reference to any previous entity matching the custom event.",
@@ -163,5 +165,17 @@
     "regenerate": "Regenerate",
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Entity events found: {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "Skip",
+    "descriptionUnpleasant": {
+      "firstLineApology": "We are sorry you did not have a pleasant experience.",
+      "secondLineQuestion": "Can you help us identify where things went wrong?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "Please describe them",
+    "contactMeYes": "Yes, please contact me",
+    "contactMeNo": "No, I prefer not to be contacted.",
+    "appreciateResponse": "We appreciate your response!",
+    "followUpQuestion": "Would you like us to follow up with you regarding your technical feedback for further clarification or discussion?"
   }
 }
