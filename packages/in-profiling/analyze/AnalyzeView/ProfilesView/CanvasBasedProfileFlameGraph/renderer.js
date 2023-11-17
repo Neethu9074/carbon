@@ -4,7 +4,6 @@
  */
 
 import { themes } from '@instana/design-tokens';
-
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import oldTheme from 'in-themes';
 

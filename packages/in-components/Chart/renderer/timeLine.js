@@ -4,7 +4,6 @@
  */
 
 import { themes } from '@instana/design-tokens';
-
 import { formatTime, formatDateShort } from 'in-services/formatters/date';
 import oldTheme from 'in-themes';
 
