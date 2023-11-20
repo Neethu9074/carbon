@@ -19,7 +19,8 @@ import { getUsersAsResultObservable } from 'in-api/users';
 jest.mock('in-api/users');
 jest.mock('in-i18n', () => ({
   ...jest.requireActual('in-i18n'),
-  t: (key: string) => key
+  t: (key: string) => key,
+  Trans: ({ i18nKey }: { i18nKey: string }) => i18nKey
 }));
 
 jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog');
