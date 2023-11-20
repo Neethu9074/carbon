@@ -29,9 +29,20 @@ export default connectTo(
     query: query$.distinct().startWith('')
   },
   class DfqSearchBar extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+
     componentDidMount() {
       refresh();
       setQueryInput(this.props.queryValue, '', true);
+    }
+
+    componentDidUpdate(prevProps) {
+      if (this.props?.queryValue !== prevProps?.queryValue) {
+        refresh();
+        setQueryInput(this.props?.queryValue, '', true);
+      }
     }
 
     componentWillUnmount() {
@@ -48,6 +59,7 @@ export default connectTo(
         queryValue,
         disabled
       } = this.props;
+
       const buttonClass = classNames({
         [locals.button]: true,
         [locals[`button${theme}`]]: theme

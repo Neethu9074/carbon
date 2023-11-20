@@ -119,22 +119,29 @@ function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetr
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
   const type = form.get('type')?.value;
-
+  let eventIndex = 0;
   return (
     <>
-      {metricsForm.map((metricForm, i) => (
-        <MetricConfiguration
-          key={i}
-          index={startNumber + i}
-          indexInAxis={i}
-          metricForm={metricForm}
-          onChange={onChange}
-          axisName={axisName}
-          form={form}
-          type={type}
-          getShortMetricKey={getShortMetricKey}
-        />
-      ))}
+      {metricsForm.map((metricForm, i) => {
+        if (metricForm.get('source').value === 'EVENT') {
+          eventIndex++;
+        }
+
+        return (
+          <MetricConfiguration
+            key={i}
+            index={startNumber + i}
+            indexInAxis={i}
+            metricForm={metricForm}
+            onChange={onChange}
+            axisName={axisName}
+            form={form}
+            type={type}
+            getShortMetricKey={getShortMetricKey}
+            displayDFQ={eventIndex > 1 ? false : true}
+          />
+        );
+      })}
     </>
   );
 }
