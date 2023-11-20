@@ -443,7 +443,7 @@ module.exports = exports = [
   {
     uiClientKey: 'disableInvitesWithIdpEnabled',
     instanaCtlKey: 'feature.disable.invites.with.idp.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'applicationContributionFilterEnabled',
