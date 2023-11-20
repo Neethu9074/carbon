@@ -7,10 +7,10 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import ParentOTelDatabase from 'in-forge/plugins/oTelDatabase/ParentOTelDatabase';
 import { t } from 'in-i18n';
 
-export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData }) {
+export default function OpenTelemetryInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
@@ -37,6 +37,7 @@ export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData
         {data.get('resource.server.port')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oTelDatabase.kind')}>{data.get('kind')}</DescriptionItem>
+      <ParentOTelDatabase snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
 }

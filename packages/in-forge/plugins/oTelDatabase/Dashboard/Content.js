@@ -16,6 +16,7 @@ import CacheHitTable from 'in-forge/plugins/oTelDatabase/Dashboard/CacheHitTable
 import LockTimeTable from 'in-forge/plugins/oTelDatabase/Dashboard/LockTimeTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import OTelDatabaseList from 'in-forge/plugins/oTelDatabase/OTelDatabaseList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DiskTable from 'in-forge/plugins/oTelDatabase/Dashboard/DiskTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -243,6 +244,7 @@ export default function OTelDatabaseDashboard({ snapshot, timeConfig }) {
         titlePrefix={t('in-forge:plugins.oTelDatabase.oTelDatabase')}
         specs={SPECS}
       />
+      <OTelDatabaseList snapshotId={snapshotId} />
     </div>
   );
 }
