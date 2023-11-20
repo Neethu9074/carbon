@@ -38,11 +38,8 @@ import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
-  var memoryUsedMetrics = ['memory.used', 'memory.swapUsed'];
-  var memoryUsedMetricsLabels = [
-    t('in-forge:plugins.host.dashboard.used'),
-    t('in-forge:plugins.host.dashboard.swapUsed')
-  ];
+  var memoryUsedMetrics = ['memory.used'];
+  var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
   if (isAixOs(snapshot)) {
     memoryUsedMetrics = ['memory.used', 'memory.compUsed', 'memory.nonCompUsed'];
     memoryUsedMetricsLabels = [
