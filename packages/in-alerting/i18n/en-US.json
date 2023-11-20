@@ -1215,6 +1215,32 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Scope",
+          "title": "Scope: Where is the condition happening?"
+        },
+        "threshold": {
+          "label": "Threshold",
+          "title": "Threshold: When is the condition violated?"
+        },
+        "timeThreshold": {
+          "label": "Time Threshold",
+          "title": "Time Threshold: When do you want to be alerted?"
+        },
+        "alertChannel": {
+          "label": "Alert Channels",
+          "title": "Alert Channels: Who needs to be alerted?"
+        },
+        "properties": {
+          "label": "Properties",
+          "title": "Additional Alert Properties"
+        },
+        "customPayloads": {
+          "label": "Payloads",
+          "title": "Custom Payload"
+        }
       }
     }
   }
