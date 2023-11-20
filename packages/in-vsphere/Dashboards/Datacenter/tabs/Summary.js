@@ -26,7 +26,7 @@ import { t } from 'in-i18n';
 export default function Summary({ timeConfig, data: cluster }) {
   const theme = useTheme();
   const snapshotId = cluster.id;
-  const usage = theme.ids.color.blue['400'];
+  const usage = theme.ids.color.option.blue['400'];
 
   return (
     <Fragment>
