@@ -115,7 +115,7 @@ function SliManageListContent<S extends SliType>({
   };
   const onEditConfig = (config: SliConfigBySliType<S>) => {
     track(SLI_MANAGEMENT_EDIT_START, { entityType });
-    setSliConfigToEdit(config);
+    setSliConfigToEdit({ ...config, sliName: t('in-custom-dashboards:editor.copyOf', { title: config.sliName }) });
     onShowCreateForm(true);
   };
   const onDeleteConfig = (id: string) => {
