@@ -469,5 +469,10 @@ module.exports = exports = [
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'infraSmartAlertsDialogEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.dialog.enabled',
+    defaultValue: false
   }
 ];

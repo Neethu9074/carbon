@@ -99,5 +99,6 @@ module.exports = {
   disableInvitesWithIdpEnabled: false,
   applicationContributionFilterEnabled: true,
   infraSmartAlertsPredictionsEnabled: true,
-  syntheticInstanaHostedPoPEnabled: true
+  syntheticInstanaHostedPoPEnabled: true,
+  infraSmartAlertsDialogEnabled: true
 };
