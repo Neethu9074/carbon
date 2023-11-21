@@ -38,7 +38,8 @@ export default function MetricConfigurator({
   withPotentialProblemsConfiguration,
   dataSource,
   type,
-  maxGrouping
+  maxGrouping,
+  displayDFQ = true
 }) {
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
@@ -151,6 +152,7 @@ export default function MetricConfigurator({
         maxGrouping={maxGrouping}
         withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
         dataSourceSection={dataSource ? undefined : dataSourceSection}
+        displayDFQ={displayDFQ}
       />
     );
   }

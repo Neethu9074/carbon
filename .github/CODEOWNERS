@@ -26,6 +26,7 @@ packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cockpit                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-cockpit/Cockpit/components/BusinessMonitoringTopList      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
 packages/in-components              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-connection              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
