@@ -6,11 +6,12 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { PermissionSet, ApiGroup, ScopeBinding } from '@instana/types';
 import { Li, LoadingSkeleton } from '@instana/components';
-import { PermissionSet, ApiGroup } from '@instana/types';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import { getGroupsOfASingleUserAsResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/hooks/useGetGroupsForEmail';
+import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { fallBackPermissions } from 'in-stores/permission';
 import { ownerRoleId } from 'in-stores/user';
@@ -92,13 +93,47 @@ function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): Permi
 
 const removeDuplicates = (array: any[]) => Array.from(new Set(array));
 
+// If scope binding contains same ids with different scopeRoleIds return only most permissive pair
+const transformToMostPermissive = (scopeBindings: ScopeBinding[]): ScopeBinding[] => {
+  const newBinding: ScopeBinding[] = [];
+  const mostPermissiveMap: { [key: string]: string } = {};
+  for (const binding of scopeBindings) {
+    const scopeRoleId = binding?.scopeRoleId ? binding?.scopeRoleId : '-1';
+
+    if (binding?.scopeId) {
+      if (binding.scopeId in mostPermissiveMap) {
+        const prevScopeRoleId = mostPermissiveMap[binding.scopeId];
+        // Scope roles viewer, contributor and -1 are candidates for being updated with more permissive scope role e.g. owner
+        if (
+          (prevScopeRoleId === ScopeRoles.Viewer &&
+            (scopeRoleId === ScopeRoles.Owner || scopeRoleId === ScopeRoles.Contributor)) ||
+          (prevScopeRoleId === ScopeRoles.Contributor && scopeRoleId === ScopeRoles.Owner) ||
+          prevScopeRoleId === '-1'
+        ) {
+          // Update with more permissive scopeRoleId
+          mostPermissiveMap[binding.scopeId] = scopeRoleId;
+        }
+      } else {
+        // Add scopeRoleId to most permissive map
+        mostPermissiveMap[binding.scopeId] = scopeRoleId;
+      }
+    }
+  }
+
+  // Return most permissive scopeRoleId for scopeId
+  for (const scopeId in mostPermissiveMap) {
+    newBinding.push({ scopeId: scopeId, scopeRoleId: mostPermissiveMap[scopeId] });
+  }
+
+  return newBinding;
+};
+
 function enrich(permissionSet: any, group: any) {
   permissionSet.websiteIds = removeDuplicates([...permissionSet.websiteIds, ...group.permissionSet.websiteIds]);
   permissionSet.mobileAppIds = removeDuplicates([...permissionSet.mobileAppIds, ...group.permissionSet.mobileAppIds]);
-  permissionSet.applicationIds = removeDuplicates([
-    ...permissionSet.applicationIds,
-    ...group.permissionSet.applicationIds
-  ]);
+  permissionSet.applicationIds = transformToMostPermissive(
+    removeDuplicates([...permissionSet.applicationIds, ...group.permissionSet.applicationIds])
+  );
   permissionSet.kubernetesClusterUUIDs = removeDuplicates([
     ...permissionSet.kubernetesClusterUUIDs,
     ...group.permissionSet.kubernetesClusterUUIDs
