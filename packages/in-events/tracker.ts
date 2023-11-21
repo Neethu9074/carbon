@@ -15,6 +15,10 @@ import {
   EVENT_FEEDBACK_SKIP,
   EVENT_FEEDBACK_POSITIVE,
   EVENT_FEEDBACK_NEGATIVE,
+  EVENT_RCA_FEEDBACK_NEXT,
+  EVENT_RCA_FEEDBACK_SKIP,
+  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+  EVENT_RCA_FEEDBACK_SUBMIT,
   INCIDENT_SUMMARIZATION_HELPFUL,
   INCIDENT_SUMMARIZATION_UNHELPFUL,
   INCIDENT_SUMMARIZATION_SUBMIT,
@@ -26,6 +30,10 @@ import {
 export const helpfulRCASuggestionTracker = (e: Object) => track(EVENT_RCA_SUGGESTION_HELPFUL, e);
 export const unhelpfulRCASuggestionTracker = (e: Object) => track(EVENT_RCA_SUGGESTION_UNHELPFUL, e);
 export const expandedRCAEventCardTracker = (e: Object) => track(EVENT_RCA_EXPANDED_CARD, e);
+export const RCAFeedbackNextTracker = (e: Object) => track(EVENT_RCA_FEEDBACK_NEXT, e);
+export const RCAFeedbackSkipTracker = (e: Object) => track(EVENT_RCA_FEEDBACK_SKIP, e);
+export const RCAFeedbackClosedManuallyTracker = (e: Object) => track(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, e);
+export const RCAFeedbackSubmitTracker = (e: Object) => track(EVENT_RCA_FEEDBACK_SUBMIT, e);
 
 export const eventFeedbackSubmitTracker = (e: Object) => track(EVENT_FEEDBACK_SUBMIT, e);
 export const eventFeedbackClosedManuallyTracker = (e: Object) => track(EVENT_FEEDBACK_CLOSED_MANUALLY, e);
