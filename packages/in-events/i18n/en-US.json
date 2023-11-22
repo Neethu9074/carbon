@@ -166,6 +166,13 @@
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Entity events found: {{number_of_events}}"
   },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "Incident Summary",
+    "thisIncident": "This incident appears to be:",
+    "errorTitle": "No summarization found",
+    "errorDescription": "No summarization could be created for this event",
+    "summarizationHelpfulText": "Was this summarization helpful?"
+  },
   "feedback": {
     "skip": "Skip",
     "descriptionUnpleasant": {
