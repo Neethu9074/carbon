@@ -189,16 +189,16 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
     const addRowButton = groupMappingScreen.getByText(t('in-settings:tabs.addGroupMapping'));
     clickOn(addRowButton);
 
-    setKeyAt(2, 'MyNewKey');
-    setValueAt(2, 'MyNewValue');
-    setGroupIdAt(2, 'InstaGroupC');
+    setKeyAt(1, 'MyNewKey');
+    setValueAt(1, 'MyNewValue');
+    setGroupIdAt(1, 'InstaGroupC');
 
     const saveButton = groupMappingScreen.getByText(t('forms.actions.save'));
     clickOn(saveButton);
 
     expect(fakeSetMappings).toHaveBeenLastCalledWith([
-      { id: 'ABC', groupId: 'InstaGroupA', key: 'Akey', value: 'AValue' },
-      { id: null, groupId: 'InstaGroupC', key: 'MyNewKey', value: 'MyNewValue' }
+      { id: null, groupId: 'InstaGroupC', key: 'MyNewKey', value: 'MyNewValue' },
+      { id: 'ABC', groupId: 'InstaGroupA', key: 'Akey', value: 'AValue' }
     ]);
   });
 
