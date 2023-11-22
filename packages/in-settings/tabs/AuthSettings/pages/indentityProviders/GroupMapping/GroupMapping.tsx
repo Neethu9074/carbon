@@ -58,6 +58,7 @@ import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 import locals from './GroupMapping.mless';
+import { compareIgnoreCase } from 'in-services/util/string';
 
 interface InstanaGroup {
   id: string;
@@ -85,7 +86,7 @@ interface RenderProps {
 
 export default function GroupMapping() {
   const [page, setPage] = useState<number>(1);
-  const pageSize = 25;
+  const pageSize = 100;
 
   function render({ form, setForm }: RenderProps): JSX.Element {
     if (!form.get('hasIdp')?.value) {
@@ -129,8 +130,8 @@ export default function GroupMapping() {
     );
 
     const groupMappings: MapForm<any>[] = form.get(GROUP_MAPPINGS) ?? [];
-    const firstItem = (page - 1) * pageSize; // 1. => 0., 2 => 26
-    let lastItem = pageSize * page; // 1. => 25, 2. => 50
+    const firstItem = (page - 1) * pageSize; // 1. => 0., 2 => 101
+    let lastItem = pageSize * page; // 1. => 100, 2. => 200
     // @ts-expect-error invalid type
     if (lastItem > (groupMappings.items?.length ?? 0)) {
       // @ts-expect-error invalid type
@@ -216,7 +217,7 @@ export default function GroupMapping() {
         form.updateIn(
           [GROUP_MAPPINGS],
           (f: Item): Item =>
-            (f as ListForm<any>).push(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
+            (f as ListForm<any>).unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
         )
       );
     }
@@ -458,14 +459,31 @@ function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm<any> {
   });
 }
 
+const idpGroupMappingComparator = (a: IdpGroupMapping, b: IdpGroupMapping): 1|0|-1 => {
+    const keyCompare = compareIgnoreCase(a?.key ?? '', b?.key ?? '');
+    if (keyCompare !== 0) {
+      return keyCompare;
+    }
+
+    const valueCompare = compareIgnoreCase(a?.value ?? '', b?.value ?? '');
+    if (valueCompare !== 0) {
+      return valueCompare;
+    }
+
+    return compareIgnoreCase(a?.groupId ?? '', b?.groupId ?? '');
+};
+
 function enrichForm(_form: MapForm<any>, { result }: { result: any }) {
   const hasIdp = result.samlConfig?.activated || result.oidcConfig?.activated || result.ldapConfig?.url;
-
   if (!hasIdp) {
     return createMapForm({ items: { hasIdp: createField({ value: false }) } });
   }
 
-  const formRows = result.mappings.map((e: IdpGroupMapping) => newEntry(e));
+
+  const formRows = result.mappings?.slice()
+    .sort(idpGroupMappingComparator)
+    .map((e: IdpGroupMapping) => newEntry(e));
+
   const denyCheck: IdentityProviderPatch = result.denyCheck;
   const mappingsListForm = createListForm({ items: formRows });
   return createMapForm({
