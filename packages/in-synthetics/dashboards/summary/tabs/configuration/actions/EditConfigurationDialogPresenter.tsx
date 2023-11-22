@@ -4,22 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, MapForm, createField } from 'formalistic';
 import React, { useState, ReactNode } from 'react';
+import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
-import { isEmpty } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
 
+import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { BrowserScriptConfiguration, HttpScriptConfiguration, SyntheticTest } from 'in-types';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
+import { SyntheticTest } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './EditConfigurationDialogPresenter.mless';
@@ -42,7 +42,6 @@ interface Props {
 }
 
 export default function EditConfigurationDialogPresenter({ test, onClose, setReloadCount }: Props) {
-  const testId: string = test.id || '';
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState(() => updateForm(test));
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
@@ -58,9 +57,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     applicationId: form.get('applicationId').value,
     script: form.get('script')?.value
   });
-  const isActive: boolean = test.active;
+
   const syntheticType: string = test.configuration.syntheticType;
-  const { retries, timeout, retryInterval, markSyntheticCall } = test.configuration;
+
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: {
       simple: syntheticType === 'HTTPAction',
@@ -156,53 +155,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     setSlideInViewVisible(isVisible);
   };
 
-  function onSubmit(form: MapForm<any>) {
+  function onSubmit(form: MapForm<any>, test: SyntheticTest) {
     setIsSubmitting(true);
-    let testConfig: SyntheticTest;
-    let updatedForm: MapForm<any>;
-    updatedForm = ['HTTPScript', 'BrowserScript'].includes(form.get('configuration').get('syntheticType').value)
-      ? form.put('active', createField({ value: isActive })).put(
-          'configuration',
-          form
-            .get('configuration')
-            .put('retries', createField({ value: retries }))
-            .put('timeout', createField({ value: timeout }))
-            .put('retryInterval', createField({ value: retryInterval }))
-            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
-            .put(
-              'scriptType',
-              createField({
-                value: (test.configuration as BrowserScriptConfiguration | HttpScriptConfiguration).scriptType
-              })
-            )
-        )
-      : form.put('active', createField({ value: isActive })).put(
-          'configuration',
-          form
-            .get('configuration')
-            .put('retries', createField({ value: retries }))
-            .put('timeout', createField({ value: timeout }))
-            .put('retryInterval', createField({ value: retryInterval }))
-            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
-        );
-    if (test.applicationLabel === '' || test.applicationLabel === undefined) {
-      updatedForm = updatedForm.remove('applicationId');
-    }
-    if (
-      updatedForm.get('configuration').get('syntheticType').value === 'HTTPAction' &&
-      isEmpty(updatedForm.get('configuration').get('headers').value)
-    ) {
-      updatedForm = updatedForm.put('configuration', updatedForm.get('configuration').remove('headers'));
-      testConfig = {
-        id: testId,
-        ...updatedForm.toJS()
-      } as SyntheticTest;
-    } else {
-      testConfig = {
-        id: testId,
-        ...updatedForm.toJS()
-      } as SyntheticTest;
-    }
+    const testConfig = cleanConfigurationForm(form, test);
 
     updateTest(testConfig).once(
       () => {
@@ -230,7 +185,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
         configForm.get('url') &&
         !configForm.get('url').valid) ||
       (syntheticTypeField.value === 'HTTPAction' &&
-        (configForm.get('headers') &&
+        configForm.get('headers') &&
         headers.filter(
           header =>
             (header.error.name.invalid && !header.error.value.invalid) ||
@@ -239,7 +194,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       invalidHeader.invalid ||
       (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
       invalidJSON.invalid ||
-      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)) ||
+      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       ((syntheticTypeField.value === 'HTTPScript' ||
         syntheticTypeField.value === 'WebpageScript' ||
@@ -303,7 +258,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
         id={formId}
         onSubmit={e => {
           e.preventDefault();
-          onSubmit(form);
+          onSubmit(form, test);
         }}
         className={classNames({
           [locals.form]: true,
