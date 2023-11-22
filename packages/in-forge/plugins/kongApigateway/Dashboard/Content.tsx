@@ -11,6 +11,7 @@ import { TimeConfig } from '@instana/types';
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import KongUpstreamLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatencyRoute';
+import KongRequestLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongRequestLatencyRoute';
 import KongKongLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatencyRoute';
 import KongUpstreamLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatency';
 import KongRequestLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongRequestLatency';
@@ -24,6 +25,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
+import { valueOrDash } from 'in-forge/plugins/kongApigateway/valueOrDash';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { number } from 'in-services/formatters/number';
@@ -33,7 +35,6 @@ interface KongApiGatewayDashboardProps {
   snapshot: SnapshotData;
   timeConfig: TimeConfig;
 }
-
 const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snapshot, timeConfig }) => {
   const snapshotId = snapshot.get('id');
   const data = snapshot.get('data');
@@ -46,19 +47,21 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
           {yesOrNo(data.get('datastoreReachable'))}
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
-          {data.get('totalNumberofDB')}
+          {valueOrDash(data.get('totalNumberofDB'))}
         </KpiKeyValue>
       </KpiSection>
 
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
-          {data.get('kongDbEntitiesTotal')}
+          {valueOrDash(data.get('kongDbEntitiesTotal'))}
         </KpiKeyValue>
 
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongNgnixMetricErrors')}>
-          {data.get('kongNgnixMetricErrors')}
+          {valueOrDash(data.get('kongNginxMetricErrorsTotal'))}
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>{data.get('errorsInLic')}</KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.kongApigateway.errorsInLic')}>
+          {valueOrDash(data.get('kongEnterpriseLicenseErrors'))}
+        </KpiKeyValue>
       </KpiSection>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.kongApigateway.prometheusEnabled')}>
@@ -118,6 +121,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
       <KongKongLatency snapshotId={snapshotId} timeConfig={timeConfig} />
       <KongKongLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
       <KongRequestLatency snapshotId={snapshotId} timeConfig={timeConfig} />
+      <KongRequestLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
       <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
       <KongUpstreamLatency snapshotId={snapshotId} timeConfig={timeConfig} />
       <KongUpstreamLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
