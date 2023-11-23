@@ -7,8 +7,6 @@ import { Field, MapFormItems } from 'formalistic';
 
 import { generateUniqueShortId } from '@instana/utils';
 
-import { eventFeedbackSubmitTracker } from 'in-events/tracker';
-
 export interface FeedbackConfigEvent {
   id: string;
   thingsWentWrong: string;
@@ -23,8 +21,8 @@ export interface FeedbackConfigEventForm extends MapFormItems {
   contactMe: Field<boolean | undefined>;
 }
 
-export function saveEventFeedbackForm(config: FeedbackConfigEvent) {
-  eventFeedbackSubmitTracker(config);
+export function saveEventFeedbackForm(config: FeedbackConfigEvent, feedbackSubmitTracker: (e: Object) => void) {
+  feedbackSubmitTracker(config);
 }
 
 export function createFeedbackForm(): FeedbackConfigEvent {

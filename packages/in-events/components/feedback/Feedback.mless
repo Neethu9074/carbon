@@ -35,4 +35,15 @@
     background: var(--ids-color-option-blue-400);
     height: 0.3rem;
   }
+  .controls {
+    padding: 1rem 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    button {
+      min-width: 6.25rem;
+    }
+  }
 }

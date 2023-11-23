@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ThumbsUp, ThumbsUpFilled, ThumbsDown, ThumbsDownFilled } from '@carbon/icons-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
@@ -12,12 +11,17 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
+  RCAFeedbackClosedManuallyTracker,
+  RCAFeedbackNextTracker,
+  RCAFeedbackSkipTracker,
+  RCAFeedbackSubmitTracker,
   expandedRCAEventCardTracker,
   helpfulRCASuggestionTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
 import { default as EmptyStateMagnifyingGlass } from './assets/empty-state-magnifying-glass.svg';
 import EventListPagination from 'in-components/EventListPagination/EventListPagination';
+import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -25,6 +29,8 @@ import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import EventFeedbackDialog from '../feedback/EventFeedbackDialog';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getSnapshotVersions } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -43,9 +49,9 @@ const endpointIDURLParameter = 'endpointId';
 const serviceIDURLParameter = 'serviceId';
 const appIDURLParameter = 'appId';
 
-export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
-  const [feedbackState, setFeedbackState] = useState({ thumbsUp: false, thumbsDown: false });
+const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
 
+export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
   // Holds map of { snapshot_ID: [event_id, event_id] }
   const rcaSnapshotMap = useMemo(
     () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
@@ -67,16 +73,13 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
   const [observablesList, setObservablesList] = useState(
     currentRCAEntity ? combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)).throttle(250) : null
   );
+  const [feedbackState, setFeedbackState] = useState({ default: defaultFeedbackState });
 
   // generates a list of event information based on Observables
   const eventsRelatedToEntity =
     useObservable(currentRCAEntity ? observablesList : null, [currentRCAEntity, observablesList])?.sort(
       (a, b) => a.get('start') - b.get('start')
     ) ?? pendingResult;
-
-  const RegenerateButtonOnClick = () => {
-    setPageNum(pageNum);
-  };
 
   useEffect(() => {
     if (currentRCAEntity) setObservablesList(combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)));
@@ -85,6 +88,11 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
   useEffect(() => {
     setCurrentRCAEntity(snapshots[pageNum - 1]);
   }, [pageNum, snapshots]);
+
+  useEffect(() => {
+    if (currentRCAEntity && !feedbackState[currentRCAEntity])
+      setFeedbackState({ ...feedbackState, [currentRCAEntity]: defaultFeedbackState });
+  }, [currentRCAEntity, feedbackState]);
 
   if (!currentRCAEntity) {
     return (
@@ -100,11 +108,16 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
               </Tooltip>
             }
             rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
-            hasMarginBottom
           >
             <RCAErrorMessage
               title={t('in-events:RCA.noEntitiesErrorTitle')}
               description={t('in-events:RCA.noEntitiesErrorDescription')}
+            />
+            <FeedbackComponent
+              feedbackState={feedbackState}
+              setFeedbackState={setFeedbackState}
+              currentEntity={currentRCAEntity ?? 'default'}
+              incident={incident}
             />
           </Card>
         </Col>
@@ -171,25 +184,20 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
               ))}
             </div>
             <Stack direction="horizontal" distribution="spaceBetween">
-              <FeedbackComponent feedbackState={feedbackState} setFeedbackState={setFeedbackState} />
-
-              <Stack direction="horizontal" gap="normal" distribution="end" align="center">
-                <EventListPagination
-                  pageNum={pageNum}
-                  numPages={rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()).length : null}
-                  setPageNum={setPageNum}
-                />
-                <Button
-                  icon="lib_actions_sync"
-                  size="compact"
-                  kind="secondary"
-                  onClick={RegenerateButtonOnClick}
-                  disabled
-                  className={locals.rcaRegenerate}
-                >
-                  {t('in-events:RCA.regenerate')}
-                </Button>
-              </Stack>
+              <FeedbackComponent
+                feedbackState={feedbackState}
+                setFeedbackState={setFeedbackState}
+                incident={incident}
+                snapshotMetadata={
+                  incident.get('metadata')?.get('probableRootCauseSnapshotMetadata')?.get(currentRCAEntity) ?? null
+                }
+                currentEntity={currentRCAEntity ?? 'default'}
+              />
+              <EventListPagination
+                pageNum={pageNum}
+                numPages={rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()).length : null}
+                setPageNum={setPageNum}
+              />
             </Stack>
           </Stack>
         </Card>
@@ -198,30 +206,72 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
   );
 }
 
-function FeedbackComponent({ feedbackState, setFeedbackState }) {
+function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshotMetadata, currentEntity }) {
+  const theme = useTheme();
+  useEffect(() => {
+    if (feedbackState[currentEntity] && feedbackState[currentEntity].thumbsDown) {
+      addActiveDialog(
+        <EventFeedbackDialog
+          stepConfig={rcaStepConfig}
+          nextStepTracker={RCAFeedbackNextTracker}
+          skipStepTracker={RCAFeedbackSkipTracker}
+          closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
+          submitTracker={RCAFeedbackSubmitTracker}
+          submitMetadata={extractFeedbackMetadataFromIncident(incident, snapshotMetadata)}
+        />
+      );
+    }
+  }, [feedbackState, incident, snapshotMetadata, currentEntity]);
+  /*
+{'default': {thumbsUp: false, thumbsDown: false}}
+*/
   return (
     <Stack direction="horizontal" gap="small" align="center">
-      <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+      {feedbackState[currentEntity]?.thumbsDown || feedbackState[currentEntity]?.thumbsUp ? (
+        <Typography variant="body-small">{t('in-events:RCA.thankYouForYourFeedback')}</Typography>
+      ) : (
+        <Typography variant="body-small">{t('in-events:RCA.suggestionHelpfulText')}</Typography>
+      )}
       <Button
         kind="subtle"
+        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
+        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
+        style={
+          feedbackState[currentEntity]?.thumbsUp ? { background: `${theme.ids.color.option.neutral[300]}` } : undefined
+        }
         size="compact"
+        icon={'lib_thumbs_up'}
+        iconSize="s"
         onClick={() => {
-          setFeedbackState({ thumbsDown: false, thumbsUp: true });
           helpfulRCASuggestionTracker();
+          if (feedbackState[currentEntity]?.thumbsUp) {
+            setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
+          } else {
+            setFeedbackState({ ...feedbackState, [currentEntity]: { ...defaultFeedbackState, thumbsUp: true } });
+          }
         }}
-      >
-        {feedbackState.thumbsUp ? <ThumbsUpFilled /> : <ThumbsUp />}
-      </Button>
+      />
       <Button
         kind="subtle"
+        // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
+        //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
+        style={
+          feedbackState[currentEntity]?.thumbsDown
+            ? { background: `${theme.ids.color.option.neutral[300]}` }
+            : undefined
+        }
         size="compact"
+        iconSize="s"
+        icon={'lib_thumbs_down'}
         onClick={() => {
-          setFeedbackState({ thumbsDown: true, thumbsUp: false });
           unhelpfulRCASuggestionTracker();
+          if (feedbackState[currentEntity]?.thumbsDown) {
+            setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
+          } else {
+            setFeedbackState({ ...feedbackState, [currentEntity]: { ...defaultFeedbackState, thumbsDown: true } });
+          }
         }}
-      >
-        {feedbackState.thumbsDown ? <ThumbsDownFilled /> : <ThumbsDown />}
-      </Button>
+      />
     </Stack>
   );
 }
@@ -245,10 +295,25 @@ function RCAErrorMessage({ title, description, tooltipDescription }) {
     </Stack>
   );
 }
+
+function extractFeedbackMetadataFromIncident(incident, snapshotMetadata) {
+  let entityType = '';
+
+  const metrics = incident.get('metadata')?.get('metrics') ?? new List();
+
+  const metricInfo = metrics
+    .map(metricObject => {
+      return metricObject.get('metricName');
+    })
+    .toArray();
+  if (snapshotMetadata && snapshotMetadata.has('EntityType')) entityType = snapshotMetadata.get('EntityType');
+
+  return { entityType, metricInfo };
+}
+
 // Eventually should be directly retrieved once all RCA inclusive events don't use the old data structure anymore
 // See https://github.ibm.com/instana/ui-client/pull/13705
 function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled) {
-  //    () => (rcaUIEnabled && incidentHasRCAProperty ? incident.get('metadata').get('probableRootCause') || null : null),
   if (!rcaUIEnabled || !incidentHasRCAProperty) return null;
   const probableRootCauseFromIncident = incident.get('metadata').get('probableRootCause');
   if (Array.isArray(probableRootCauseFromIncident)) {
