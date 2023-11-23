@@ -19,6 +19,7 @@ import {
 } from 'in-applications/navigation/paths';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
+import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -38,8 +39,8 @@ import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { getApplicationConfigScopeRoleId } from 'in-api/users';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { getUserRestrictedApplications } from 'in-api/users';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -70,27 +71,13 @@ export default function ApplicationDashboard({ location }) {
     [appId, timeConfig, boundaryScope]
   );
 
-  const contributorApplications = useObservable(
-    getUserRestrictedApplications()
-      .map(result => result?.data)
-      .map(data =>
-        data.filter(
-          el =>
-            el.restrictedApplications?.length !== 0 &&
-            el.restrictedApplications.find(contributorApplicationId => contributorApplicationId === appId)
-        )
-      ),
-    [appId]
+  const canConfigureApplications = useObservable(
+    role.canConfigureApplications
+      ? getApplicationConfigScopeRoleId(appId)
+          .map(result => result?.data?.toString())
+          .map(data => data === ScopeRoles.Owner || data === ScopeRoles.Contributor)
+      : false, [appId]
   );
-
-  let isConfigureApplication = false; // Viewer: readonly configuration
-  if (role.canConfigureApplications && contributorApplications?.length === 0) {
-    // Owner access due to canConfigureApplications and current application is not restricted
-    isConfigureApplication = true;
-  } else if (contributorApplications?.length > 0) {
-    // Contributor access
-    isConfigureApplication = true;
-  }
 
   const props = {
     applicationId: appId,
@@ -117,7 +104,7 @@ export default function ApplicationDashboard({ location }) {
       <TabView
         HeaderComponent={Header}
         location={location}
-        tabs={getApplicationTabs(isConfigureApplication)}
+        tabs={getApplicationTabs(canConfigureApplications)}
         props={props}
         result$={getApplication({ id: props.applicationId })}
         withProps={({ result }) => ({
