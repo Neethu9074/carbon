@@ -10,11 +10,18 @@ import { Button, Stack, SvgIcon, Typography } from '@instana/components';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
+import {
+  eventFeedbackClosedManuallyTracker,
+  eventFeedbackNegativeTracker,
+  eventFeedbackNextTracker,
+  eventFeedbackPositiveTracker,
+  eventFeedbackSkipTracker,
+  eventFeedbackSubmitTracker
+} from 'in-events/tracker';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import { eventFeedbackNegativeTracker, eventFeedbackPositiveTracker } from 'in-events/tracker';
-import FeedbackDialog from 'in-events/components/feedback/FeedbackDialog';
+import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -23,6 +30,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import { eventFeedbackEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { isAppDataEntityType } from 'in-services/entityUtils';
+import { eventStepConfig } from './feedback/eventStepConfig';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventsList from 'in-events/components/EventsList';
@@ -187,7 +195,16 @@ function FeedbackComponents() {
 
   // If user pressed thumbs down then bring up feedback dialog
   useEffect(() => {
-    if (feedbackState === tdown) addActiveDialog(<FeedbackDialog />);
+    if (feedbackState === tdown)
+      addActiveDialog(
+        <EventFeedbackDialog
+          stepConfig={eventStepConfig}
+          closedManuallyTracker={eventFeedbackClosedManuallyTracker}
+          nextStepTracker={eventFeedbackNextTracker}
+          skipStepTracker={eventFeedbackSkipTracker}
+          submitTracker={eventFeedbackSubmitTracker}
+        />
+      );
   }, [feedbackState]);
 
   return (

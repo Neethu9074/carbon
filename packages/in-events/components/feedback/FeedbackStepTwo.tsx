@@ -10,7 +10,7 @@ import { Field, MapForm } from 'formalistic';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { FeedbackStepConfigs } from 'in-events/components/feedback/stepConfig';
+import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 
 export default function FeedbackStepOne({ form, setForm }: FeedbackStepConfigs) {

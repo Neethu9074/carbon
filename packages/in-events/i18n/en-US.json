@@ -159,12 +159,13 @@
     "titlePRCA": "Probable Root Cause",
     "AIGenBadgeText": "AI Generated",
     "suggestionHelpfulText": "Was this suggestion helpful?",
+    "thankYouForYourFeedback": "Thank you for your feedback!",
     "noEntitiesErrorTitle": "No Probable Root Cause Found",
     "noEntitiesErrorDescription": "This usually occurs when the incident did not have significant service impact",
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
-    "regenerate": "Regenerate",
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
-    "relatedEventsLabel": "Entity events found: {{number_of_events}}"
+    "relatedEventsLabel": "Entity events found: {{number_of_events}}",
+    "entitiesNumber": "Entities"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
@@ -178,6 +179,9 @@
     "descriptionUnpleasant": {
       "firstLineApology": "We are sorry you did not have a pleasant experience.",
       "secondLineQuestion": "Can you help us identify where things went wrong?"
+    },
+    "rca": {
+      "apology": "We are sorry you did not have a pleasant experience. Help us uncover the potential of Instana's Root Cause Analysis feature by sharing your insights and experiences"
     },
     "pleaseDescribeWhatWentWrongTextBox": "Please describe them",
     "contactMeYes": "Yes, please contact me",

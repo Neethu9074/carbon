@@ -7,21 +7,16 @@
 import { MapForm, createField, createMapForm } from 'formalistic';
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Button, Stack, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import {
-  eventFeedbackClosedManuallyTracker,
-  eventFeedbackNextTracker,
-  eventFeedbackSkipTracker,
-  eventFeedbackSubmitTracker
-} from 'in-events/tracker';
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
+import { IStepConfig } from 'in-events/components/feedback/eventStepConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { stepConfigs } from 'in-events/components/feedback/stepConfig';
 import { LoadingEnd } from 'in-events/components/feedback/LoadingEnd';
+import FormFooter from 'in-components/form/FormFooter/FormFooter';
+import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
@@ -29,7 +24,23 @@ import { t } from 'in-i18n';
 
 import locals from 'in-events/components/feedback/Feedback.mless';
 
-export default function FeedbackDialog() {
+interface FeedbackDialogProps {
+  stepConfig: IStepConfig;
+  closedManuallyTracker: (e: Object) => void;
+  nextStepTracker: (e: Object) => void;
+  skipStepTracker: (e: Object) => void;
+  submitTracker: (e: Object) => void;
+  submitMetadata?: Object; // meant to be any additional data you want to send to mixpanel so I generalized it to be Object
+}
+
+export default function EventFeedbackDialog({
+  stepConfig,
+  closedManuallyTracker,
+  nextStepTracker,
+  skipStepTracker,
+  submitTracker,
+  submitMetadata = {}
+}: FeedbackDialogProps) {
   const [step, setStep] = useState<string>('start_0');
   const [form, setForm] = useState<MapForm<FeedbackConfigEventForm>>(createForm());
   const { location } = useNavigation();
@@ -43,14 +54,14 @@ export default function FeedbackDialog() {
       setStep(step.split('_')[0] + `_${stepNum + 1}`);
     }
   };
-  const currentStepConfig = stepConfigs[step];
+  const currentStepConfig = stepConfig[step];
   const onSubmit = (e: FormEvent | null) => {
     if (e) e.preventDefault();
     if (!form.hierarchyValid) {
       form.setTouched(true, { recurse: true });
       return;
     }
-    save(form, location, eventFeedbackSubmitTracker);
+    save(form, location, submitTracker, submitMetadata);
   };
 
   useEffect(() => {
@@ -62,34 +73,41 @@ export default function FeedbackDialog() {
   }, [currentStepConfig, step]);
 
   const footer = currentStepConfig.hasFooter ? (
-    <DialogFooter
-      form={form}
-      primaryActionText={
-        currentStepConfig.lastStep
+    <FormFooter className={locals.controls}>
+      {currentStepConfig.canSkip && (
+        <Button
+          kind="secondary"
+          onClick={() => {
+            skipStepTracker({
+              stepTitle: currentStepConfig.title,
+              eventID: location.matrix[eventsPath]?.eventId,
+              eventType: location.matrix[eventsPath]?.view
+            });
+            nextStep();
+          }}
+        >
+          {t('in-events:feedback.skip')}
+        </Button>
+      )}
+      <SaveButton
+        type="submit"
+        kind="primary"
+        form={form}
+        disabled={!form.hierarchyValid || (currentStepConfig.validateStep && currentStepConfig.validateStep(form))}
+        onClick={() => {
+          nextStepTracker({
+            stepTitle: currentStepConfig.title,
+            eventID: location.matrix[eventsPath]?.eventId,
+            eventType: location.matrix[eventsPath]?.view
+          });
+          nextStep();
+        }}
+      >
+        {currentStepConfig.lastStep
           ? t('in-settings:maintenanceWindow.feedback.submit')
-          : t('in-components:blueprintFormMultistep.buttonNext')
-      }
-      primaryActionDisabled={
-        !form.hierarchyValid || (currentStepConfig.validateStep && currentStepConfig.validateStep(form))
-      }
-      onPrimaryActionClick={() => {
-        eventFeedbackNextTracker({
-          stepTitle: currentStepConfig.title,
-          eventID: location.matrix[eventsPath]?.eventId,
-          eventType: location.matrix[eventsPath]?.view
-        });
-        nextStep();
-      }}
-      secondaryActionText={t('in-events:feedback.skip')}
-      onSecondaryActionClick={() => {
-        eventFeedbackSkipTracker({
-          stepTitle: currentStepConfig.title,
-          eventID: location.matrix[eventsPath]?.eventId,
-          eventType: location.matrix[eventsPath]?.view
-        });
-        nextStep();
-      }}
-    />
+          : t('in-components:blueprintFormMultistep.buttonNext')}
+      </SaveButton>
+    </FormFooter>
   ) : null;
   return (
     <form onSubmit={onSubmit}>
@@ -100,7 +118,7 @@ export default function FeedbackDialog() {
           const id = form.get('id').value;
 
           const contactMe = form.get('contactMe').value;
-          eventFeedbackClosedManuallyTracker({
+          closedManuallyTracker({
             id,
             thingsWentWrong,
             contactMe,
@@ -110,6 +128,7 @@ export default function FeedbackDialog() {
           close();
         }}
         footer={footer}
+        doNotCloseOnOutsideClick
       >
         <div className={locals.dialog}>
           <Stack distribution="center" align="center">
@@ -156,19 +175,23 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
   });
 }
 
-function save(form: MapForm<FeedbackConfigEventForm>, location: Location, submitTracker: (e: Object) => void) {
+function save(
+  form: MapForm<FeedbackConfigEventForm>,
+  location: Location,
+  submitTracker: (e: Object) => void,
+  submitMetadata: Object
+) {
   const thingsWentWrong = form.get('thingsWentWrong').value;
   const id = form.get('id').value;
 
   const contactMe = form.get('contactMe').value;
-  return saveEventFeedbackForm(
-    {
-      id,
-      thingsWentWrong,
-      contactMe,
-      eventID: location.matrix[eventsPath]?.eventId || '',
-      eventType: location.matrix[eventsPath]?.view || ''
-    },
-    submitTracker
-  );
+  const config = {
+    id,
+    thingsWentWrong,
+    contactMe,
+    eventID: location.matrix[eventsPath]?.eventId || '',
+    eventType: location.matrix[eventsPath]?.view || '',
+    additionalInformation: { ...submitMetadata }
+  };
+  return saveEventFeedbackForm(config, submitTracker);
 }

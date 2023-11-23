@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { FeedbackStepConfigs } from 'in-events/components/feedback/stepConfig';
+import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
 import FormTextArea from 'in-components/form/TextArea';
 import { t } from 'in-i18n';
 
