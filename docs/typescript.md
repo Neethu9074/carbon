@@ -27,7 +27,7 @@ ui-client. You can find these screencasts over on [Google Drive].
 
 ## Migration Approach
 
-Our migration approach is to add typings to ui-client over time. We starting
+Our migration approach is to add typings to ui-client over time. We are starting
 to translate [commonly imported modules](https://docs.google.com/spreadsheets/d/11zWrlFq-thfgCElw9kqNvUfrxfoe6SIvODK3vwvoZvY/edit#gid=632086686) and work ourselves
 towards more end-user facing modules.
 
@@ -117,12 +117,12 @@ implementation whenever possible. This means code like the following:
 
 ```typescript
 export interface BananaProps {
-  …
+  // …
 }
 
-export default function Banana({ … }: BananaProps) {
+export default function Banana(props: BananaProps) {
   return (
-    …
+    // …
   );
 }
 ```
@@ -141,12 +141,12 @@ However, we should generally try to avoid this.
 
 We generally prefer not to add separate type declaration files for JavaScript files that
 are under our control. Instead, please translate the JavaScript files to TypeScript.
-Occassionally, this means that translation take a lot more time. We are aware of this
+Occasionally, this means that translation take a lot more time. We are aware of this
 and accept this downside.
 
 ### On React higher-order components (HOCs)
 
-React HOCs, e.g., `recompose`, `connectTo` and others within the `in-hoc` package
+React HOCs, e.g., `connectTo` and others within the `in-hoc` package
 shall not be translated to TypeScript. Instead, refactor the file leveraging HOCs
 to use React hooks instead.
 
