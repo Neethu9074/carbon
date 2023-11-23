@@ -147,3 +147,13 @@ export function getUserRestrictedApplications() {
     })
   );
 }
+
+export function getApplicationConfigScopeRoleId(appId: string) {
+  return createObservable(
+    http<String>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `api/settings/rbac/user/application/${encodeURIComponent(appId)}`
+    })
+  );
+}
