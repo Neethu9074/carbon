@@ -43,7 +43,6 @@
   "zoomOut": "축소",
   "selectThisEntity": "이 엔티티를 선택하십시오.",
   "openDashboard": "대시보드 열기",
-  "infraMap": "인프라 맵",
   "infrastructureContainerMap": "인프라 컨테이너 맵",
   "infrastructureHostMap": "인프라 호스트 맵",
   "unknownView": "알 수 없는 보기",

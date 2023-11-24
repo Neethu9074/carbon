@@ -43,7 +43,6 @@
   "zoomOut": "Zoom arrière",
   "selectThisEntity": "Sélectionnez cette entité.",
   "openDashboard": "Ouvrir le tableau de bord",
-  "infraMap": "Mappe d'infrastructure",
   "infrastructureContainerMap": "Mappe de conteneur d'infrastructure",
   "infrastructureHostMap": "Mappe d'hôte d'infrastructure",
   "unknownView": "Vue inconnue",

@@ -217,8 +217,8 @@
       "successMessageUpdate": "Test sintetico aggiornato correttamente",
       "successMessageDelete": "Test sintetico eliminato correttamente",
       "failureTitle": "Non riuscito.",
-      "failureMessageCreate": "Impossibile creare un test sintetico. Riprovare successivamente",
-      "failureMessageUpdate": "Impossibile aggiornare il test sintetico. Riprovare successivamente",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "Impossibile aggiornare il test sintetico. {{errorMessage}}. Aggiornare la pagina e riprovare.",
       "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "Motivi dell'eliminazione",
       "typeToContinue": "Immettere {{location}} per continuare",
-      "location": "UBICAZIONE",
       "deletionSuccess": "L'ubicazione è stata eliminata",
       "cancelButton": "Annulla",
       "deleteLocationLabel": "Elimina ubicazione",
       "success": "Riuscito",
-      "failure": "Non riuscito"
+      "failure": "Non riuscito",
+      "popVersion": "Versione",
+      "noActionsAllowed": "NA",
+      "deleteRestrictedDescription": "Le ubicazioni gestite non possono essere eliminate."
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "Scarica file HAR",
       "downloadLog": "Scarica log",
-      "downloadImages": "Scarica screenshot",
+      "viewScreenshotsLabel": "Visualizza screenshot",
       "downloadVideo": "Scarica registrazione",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
@@ -481,6 +483,14 @@
             "connect": "Connetti"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "Screenshot",
+        "allScreenshots": "Tutti gli screenshot",
+        "allImagesButton": "Tutte le immagini",
+        "imageButton": "Immagine",
+        "ScreenshotsLoadingMessage": "Caricamento degli screenshot",
+        "noScreenshotsAvailableMessage": "Screenshot non disponibili per questo risultato del test"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "Nessun test sintetico disponibile",
       "testSummaryDescription": "Non ci sono test sintetici richiamati dal database.",
       "locationListTitle": "Posizioni Non Sintetiche disponibili",
-      "locationListDescription": "Non ci sono posizioni Synthetic richiamate dal database."
+      "locationListDescription": "Non ci sono posizioni Synthetic richiamate dal database.",
+      "configurationTab": "I dettagli di {{component}} non sono disponibili per questo test."
     },
     "alertList": {
       "timeThreshold": "Soglia temporale",
@@ -541,7 +552,7 @@
         "reasonTitle": "Motivo dell'eliminazione",
         "typingValidationTitle": "Immettere {{synthetic}} per continuare",
         "cancelButton": "Annulla",
-        "deleteButton": "Elimina"
+        "deleteButton": "Elimina test"
       },
       "configurationEditAction": "Modifica",
       "configurationDeleteAction": "Elimina"

@@ -72,6 +72,12 @@
       "views": "Visualizações",
       "website": "Website",
       "mobileApp": "Aplicativo móvel"
+    },
+    "bizopsTopList": {
+      "businessProcess": "Processo de negócios",
+      "activities": "Atividades",
+      "count": "Contagem",
+      "allProcesses": "Todos os processos de negócios"
     }
   },
   "cockpit": {
@@ -93,6 +99,7 @@
     "websites": "Websites",
     "mobileApps": "Aplicativos móveis",
     "websitesMobileApps": "Websites e aplicativos móveis",
+    "bizops": "Monitoramento de negócios",
     "customEventDeprecatedWarning": "<strong>{{count}} evento customizado no aplicativo, serviço e terminal requer ação</strong><affectedCustomEvents>Visualizar evento customizado afetado</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>{{count}} eventos customizados no aplicativo, serviço e terminal requerem ação</strong><affectedCustomEvents>Visualizar eventos customizados afetados</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>{{count}} eventos customizados no aplicativo, serviço e terminal requerem ação</strong><affectedCustomEvents>Visualizar eventos customizados afetados</affectedCustomEvents>",
@@ -116,6 +123,10 @@
       "createWebsite": "Criar website",
       "createMobileApp": "Criar aplicativo móvel",
       "noLabelYet": "Ainda nenhum {{nolabel}}"
+    },
+    "bizops": {
+      "noProcessYet": "Ainda não há nenhum processo de negócios",
+      "noData": "O Instana Business Monitoring torna os negócios de aplicativos de TI observáveis fornecendo contexto de negócios em tempo real para eventos.  Os processos de negócios aparecerão aqui, assim forem ativados por um administrador de conta."
     }
   }
 }

@@ -77,8 +77,7 @@
     "metricExplosion": "{{numberOfMetrics}} 個のみが保管されたため、このダッシュボードにすべてのメトリックが表示されない可能性があります"
   },
   "explore": {
-    "beta": "ベータ",
-    "tryBetaInfraAnalytics": "新しいインフラストラクチャー分析を試す",
+    "analyzeInfrastructure": "インフラストラクチャーの分析",
     "focusOnThisGroup": "このグループにフォーカス",
     "theQueryConfigurationIsInvalid": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "allInfrastructure": "すべてのインフラストラクチャー",

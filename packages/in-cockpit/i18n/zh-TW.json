@@ -72,6 +72,12 @@
       "views": "視圖",
       "website": "網站",
       "mobileApp": "行動式應用程式"
+    },
+    "bizopsTopList": {
+      "businessProcess": "商業程序",
+      "activities": "活動",
+      "count": "計數",
+      "allProcesses": "所有商業程序"
     }
   },
   "cockpit": {
@@ -93,6 +99,7 @@
     "websites": "網站",
     "mobileApps": "行動式應用程式",
     "websitesMobileApps": "網站和行動式應用程式",
+    "bizops": "商業監視",
     "customEventDeprecatedWarning": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
@@ -116,6 +123,10 @@
       "createWebsite": "建立網站",
       "createMobileApp": "建立行動式應用程式",
       "noLabelYet": "尚無 {{nolabel}}"
+    },
+    "bizops": {
+      "noProcessYet": "尚無商業程序",
+      "noData": "Instana Business Monitoring 透過提供事件的即時商業環境定義，讓 IT 應用程式可觀察到商業。  帳戶管理者啟用商業程序後，它們即會顯示在這裡。"
     }
   }
 }

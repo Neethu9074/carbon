@@ -3,9 +3,9 @@
   "sum": "合計",
   "bar": "バー",
   "logsOverTime": "時系列に沿ったログ",
-  "logsOverTime_ERROR": "時系列に沿ったエラー・ログ",
-  "logsOverTime_WARN": "時系列に沿った警告ログ",
-  "logsOverTime_INFO": "時系列に沿った情報ログ",
+  "logsOverTime_ERROR": "エラー",
+  "logsOverTime_WARN": "警告 ",
+  "logsOverTime_INFO": "情報",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
   "addAsFilter": "フィルターとして追加",
   "addAsGroup": "グループとして追加",
@@ -43,5 +43,11 @@
   "dockerContainer": "Docker コンテナー",
   "containerdContainer": "Containerd コンテナー",
   "crioContainer": "クリオコンテナ",
-  "gardenContainer": "Garden コンテナー"
+  "gardenContainer": "Garden コンテナー",
+  "error": "{{count}} 個のエラー",
+  "error_plural": "{{count}} 個のエラー",
+  "warn": "{{count}} 個の警告",
+  "warn_plural": "{{count}} 個の警告",
+  "process": "プロセス",
+  "host": "ホスト"
 }

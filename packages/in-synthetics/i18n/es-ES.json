@@ -217,8 +217,8 @@
       "successMessageUpdate": "Prueba sintética actualizada correctamente",
       "successMessageDelete": "La prueba sintética se ha suprimido correctamente",
       "failureTitle": "Failed!",
-      "failureMessageCreate": "No se ha podido crear una prueba sintética. Repita la operación más tarde",
-      "failureMessageUpdate": "No se ha podido actualizar la prueba sintética. Inténtelo más tarde.",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "No se ha podido actualizar la prueba sintética. {{errorMessage}}. Renueve la página e inténtelo de nuevo.",
       "failuteMesssageDelete": "No se ha podido suprimir la prueba sintética. Inténtelo más tarde."
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "Motivos de la supresión",
       "typeToContinue": "Escriba {{location}} para continuar",
-      "location": "UBICACIÓN",
       "deletionSuccess": "La ubicación se ha suprimido",
       "cancelButton": "Cancelar",
       "deleteLocationLabel": "Suprimir ubicación",
       "success": "Éxito",
-      "failure": "Fallidas"
+      "failure": "Fallidas",
+      "popVersion": "Versión",
+      "noActionsAllowed": "N/D",
+      "deleteRestrictedDescription": "Las ubicaciones gestionadas no se pueden suprimir."
     },
     "summary": {
       "successRate": "Tasa de éxito",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "Descargar archivo HAR",
       "downloadLog": "Descargar registros",
-      "downloadImages": "Descargar captura de pantalla",
+      "viewScreenshotsLabel": "Ver capturas de pantalla",
       "downloadVideo": "Descargar grabación",
       "consoleLogsLevel": "CONSOLA",
       "consoleLogs": "Consola",
@@ -481,6 +483,14 @@
             "connect": "Conectar"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "Capturas de pantalla",
+        "allScreenshots": "Todas las capturas de pantalla",
+        "allImagesButton": "Todas las imágenes",
+        "imageButton": "Imagen",
+        "ScreenshotsLoadingMessage": "Cargando capturas de pantalla",
+        "noScreenshotsAvailableMessage": "Capturas de pantalla no disponibles para este resultado de prueba"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "No hay pruebas sintéticas disponibles",
       "testSummaryDescription": "No hay pruebas sintéticas recuperadas de la base de datos.",
       "locationListTitle": "No hay ubicaciones de Synthetic disponibles",
-      "locationListDescription": "No hay ubicaciones de Synthetic recuperadas de la base de datos."
+      "locationListDescription": "No hay ubicaciones de Synthetic recuperadas de la base de datos.",
+      "configurationTab": "Los detalles de {{component}} no están disponibles para esta prueba."
     },
     "alertList": {
       "timeThreshold": "Umbral de tiempo",
@@ -541,7 +552,7 @@
         "reasonTitle": "Motivo de la supresión",
         "typingValidationTitle": "Escriba {{synthetic}} para continuar",
         "cancelButton": "Cancelar",
-        "deleteButton": "Suprimir"
+        "deleteButton": "Suprimir prueba"
       },
       "configurationEditAction": "Editar",
       "configurationDeleteAction": "Suprimir"

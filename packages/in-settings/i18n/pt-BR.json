@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "Criar novo grupo",
     "dialogTitle_edit": "Editar escopo de acesso",
-    "editButton": "Editar escopo de acesso",
-    "productArea": "Escopo de função e acesso"
+    "editButton": "Editar",
+    "productArea": "Configuração de acesso para {{tenantUnit}}"
   },
   "productAreas": {
     "allApplications": "Todos os Aplicativos",
@@ -74,9 +74,12 @@
     "role_owner": "Proprietário",
     "role_viewer": "Visualizador",
     "role_permissions": "Desconhecido - Acesso {{quantityOfAreas}}",
+    "role_permissions_contributor": "Acesso de contribuidor {{quantityOfAreas}}",
     "role_permissions_owner": "Proprietário - Acesso {{quantityOfAreas}}",
     "role_permissions_viewer": "Visualizador  - Acesso {{quantityOfAreas}}",
     "role_permission_scope_all": "todos",
+    "role_permissions_contributor_and_owner": "Acesso de proprietário {{quantityOfAreas}} & acesso do contribuidor {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "Acesso de visualizador {{quantityOfAreas}} & acesso de contribuidor {{quantityOfAreasContributor}}",
     "no_access": "Sem acesso",
     "platform_permissions": "Acessar {{quantityOfAreas}}",
     "analyticsContentMessage": "Pode visualizar dados no Analytics definidos pelo escopo de acesso em websites, apps móveis, aplicativos, plataformas e infraestrutura",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "Incluir namespace",
     "addButton_syntheticTests": "Selecionar testes sintéticos",
     "descriptionAccessAll_synthetics": "Todos os testes do Synthetic podem ser acessados com a função selecionada.",
-    "descriptionLimitedAccess_synthetics": "Selecione a função e inclua os testes do Synthetic abaixo para conceder acesso."
+    "descriptionLimitedAccess_synthetics": "Selecione a função e inclua os testes do Synthetic abaixo para conceder acesso.",
+    "contribution_filter": "Filtro de contribuição",
+    "contributionFilter_description": "O filtro será herdado para a criação de novas configurações de aplicativo. Na configuração da perspectiva do aplicativo, ele pode ser refinado com tag de filtro adicional seguindo um operador {{logicalOperator}}",
+    "contributionFilter_downstreamCalls": "Determinar o nível máximo de informações adicionais que podem ser incluídas nas perspectivas de aplicativo",
+    "contributionFilter_name": "Nome"
   },
   "selectItemForm": {
     "doneButton": "Concluído"
@@ -156,23 +163,96 @@
     "nameColumnHead": "Nome"
   },
   "permissionScope": {
+    "access_level": "Nível de acesso",
+    "configuration_summary": "Resumo da configuração",
     "selection": "Não disponível",
     "selection_access_all": "Acessar todos",
     "selection_limited_access": "Acesso limitado",
     "selection_no_access": "Sem acesso",
     "selection_viewer_access": "Acesso de visualizador",
+    "selection_owner_access": "Acesso de proprietário",
+    "selection_contributor_access": "Acesso de contribuidor",
     "description_no_access": "Não é possível usar esta área de forma alguma",
     "description_no_access_kubernetes": "Não há acesso a namespaces e clusters.",
     "description_access_all": "Acessar tudo sem limitação",
+    "description_access_all_except_contributor": "Acessar todos, exceto aqueles acessados como contribuidor",
     "role": "Selecionar uma função",
     "roleSelection": "Função",
     "role_owner": "Proprietário",
     "role_viewer": "Visualizador",
     "role_custom": "Customizado",
+    "role_contributor": "Contribuidor",
+    "role_permissions": "Função / permissões",
     "roleTooltip_websites": "Visualizador: capacidade de visualizar painéis do website (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos websites; visualizar, configurar e excluir painéis do website.",
     "roleTooltip_mobileApps": "Visualizador: capacidade de visualizar painéis de apps móveis (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos apps móveis; visualizar, configurar e excluir painéis de apps móveis.",
     "roleTooltip_applications": "Visualizador: capacidade de visualizar painéis de aplicativos (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos aplicativos; visualizar, configurar e excluir painéis de aplicativos.",
-    "roleTooltip_synthetics": "Visualizador: capacidade de visualizar painéis de teste sintético (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos testes sintéticos; visualizar, configurar e excluir testes sintéticos e visualizar e excluir localizações sintéticas."
+    "roleTooltip_synthetics": "Visualizador: capacidade de visualizar painéis de teste sintético (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos testes sintéticos; visualizar, configurar e excluir testes sintéticos e visualizar e excluir localizações sintéticas.",
+    "contribution_filter_accessScope": "Escopo de acesso limitado (visualizador)",
+    "contribution_filter_warning": {
+      "firstParagraph": "Qualquer modificação que for salva, atualizará todas as perspectivas de aplicativo usando este filtro de contribuição.",
+      "secondParagraph": "Se modificar a função, o filtro de contribuição será excluído e todas as perspectivas de aplicativo que usam o filtro de contribuição se tornarão editáveis por qualquer usuário com acesso de proprietário à seção Aplicativos. Isto não pode ser desfeito."
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "Acesso para todas as perspectivas de aplicativo sob esta unidade.",
+        "role_permissions_contributor": "Visualize todos os painéis do aplicativo sob esta unidade. Crie, configure ou exclua painéis de aplicativos usando o filtro de contribuição."
+      },
+      "limited_access": {
+        "access_level": "Acesso limitado para os aplicativos selecionados abaixo.",
+        "access_level_contributor": "Visualize os painéis do aplicativo selecionados abaixo",
+        "role_permissions_contributor": "Crie, configure ou exclua painéis de aplicativos usando o filtro de contribuição. (Os painéis de aplicativos criados por contribuidores serão visíveis na visão geral do grupo e na lista da seção Aplicativos.)"
+      },
+      "role_permissions_owner": "Crie, configure, visualize e exclua os painéis de aplicativos.",
+      "role_permissions_viewer": "Visualize os painéis da perspectiva do aplicativo e sua configuração."
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "Acesso a todos os painéis de entidade sob esta unidade, que estão relacionados ao acesso concedido a aplicativos e plataformas."
+      },
+      "role_permissions_owner": "Visualize os painéis de entidade.",
+      "role_permissions_viewer": "Visualize os painéis de entidade."
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "Acesso para todos os namespaces e clusters sob esta unidade."
+      },
+      "limited_access": {
+        "access_level": "Acesso limitado para namespaces e clusters selecionados abaixo."
+      },
+      "role_permissions": "Visualize namespaces e clusters."
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "Acesso para todos os aplicativos móveis sob esta unidade."
+      },
+      "limited_access": {
+        "access_level": "Acesso limitado para os aplicativos móveis selecionados abaixo."
+      },
+      "role_permissions_owner": "Crie, configure, visualize e exclua os aplicativos móveis.",
+      "role_permissions_viewer": "Visualize os aplicativos móveis e suas configurações."
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "Acesso para todos os testes sintéticos nesta unidade."
+      },
+      "limited_access": {
+        "access_level": "Acesso limitado para os testes sintéticos selecionados abaixo."
+      },
+      "role_permissions_owner": "Crie, configure, visualize e exclua os testes sintéticos.",
+      "role_permissions_viewer": "Visualize os testes sintéticos e suas configurações."
+    },
+    "website": {
+      "access_all": {
+        "access_level": "Acesso para todos os websites nesta unidade."
+      },
+      "limited_access": {
+        "access_level": "Acesso limitado para os websites selecionados abaixo."
+      },
+      "role_permissions_owner": "Crie, visualize e exclua os websites.",
+      "role_permissions_viewer": "Visualize os websites e suas configurações."
+    }
   },
   "cardTitle_Area": "Área",
   "cardTitle_Area_plural": "Áreas",
@@ -225,7 +305,8 @@
         "placeholder": "Sinalizador",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OU",
-        "logicalOperatorInfo": "O operador lógico selecionado será aplicado às condições a seguir."
+        "logicalOperatorInfo": "O operador lógico selecionado será aplicado às condições a seguir.",
+        "clearMetricSeclection": "Limpar seleção"
       },
       "customPayload": {
         "unknownTag": "Identificação desconhecida: {{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "Aplicativo global SmartAlert",
     "syntheticSmartAlert": "SmartAlert sintético",
     "mobileSmartAlert": "Dispositivo móvel SmartAlert",
+    "infraSmartAlert": "Infraestrutura SmartAlert",
     "enabled": "Ativado",
     "disabled": "Desativado",
     "invalidQuery": "Consulta inválida",
@@ -776,6 +858,7 @@
     "alert": "Alerta",
     "unknownAlert": "Alerta desconhecido",
     "pleaseSelectAtLeastOneApplication": "Selecione pelo menos um aplicativo.",
+    "pleaseSelectAtLeastOneTagFilter": "Selecione pelo menos um filtro de tag.",
     "noAlertConfigured": "Nenhum alerta configurado.",
     "additionalScope": "Escopo adicional",
     "state": "Estado…",
@@ -891,6 +974,7 @@
     "applyOn": "Aplicar em",
     "applicationPerspective": "Perspectiva de aplicativo",
     "selectedEntitiesDynamicFocusQuery": "Entidades selecionadas (consulta do Dynamic Focus)",
+    "syntheticTests": "Testes sintéticos",
     "automaticallyCloseAfter": "Fechar automaticamente após",
     "selectedEntitiesHostByTag": "Entidades selecionadas (hosts de escopo por tag)",
     "scopeHostsByTag": "Hosts de escopo por tag",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "Este evento descontinuado foi migrado. Para obter mais informações, <documentationLink>consulte a nossa documentação</documentationLink>.",
     "deprecatedEventSelectedMessage": "Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados. No futuro, não será possível criar novos eventos para esses três tipos de entidade. Como alternativa, recomendamos criar um Alerta inteligente. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
     "customEventListDeprecatedWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados</strong><br/>No futuro, não será possível criar ou atualizar Eventos customizados nesses três tipos de entidade. <documentationLink>Leia mais em nossa documentação</documentationLink>",
+    "customUserListInformation": "<strong>Os usuários são provisionados automaticamente de seu provedor de identidade (IdP).</strong><br/>Os usuários aparecem nesta seção após se conectarem ao Instana com SSO (conexão única).",
     "deletedEventMessage": "Você está vendo uma configuração de evento excluído. Modificações não são possíveis.",
     "serviceNowUrl": "URL de ServiceNow",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "Segredo do consumidor",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "URL da organização do Salesforce",
-    "alertChannelDocumentationMessage": "Para obter mais detalhes sobre como configurar esse canal de alerta, <documentationLink>consulte nossa documentação</documentationLink>"
+    "alertChannelDocumentationMessage": "Para obter mais detalhes sobre como configurar esse canal de alerta, <documentationLink>consulte nossa documentação</documentationLink>",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Garanta que o acesso de usuário ao Instana esteja desativado em seu provedor de identidade.",
+    "createIDPConfirmationDescription": "Convites pendentes serão excluídos. Os usuários são provisionados automaticamente de seu provedor de identidade (IdP)."
   },
   "languageSelection": {
     "language": "Idioma",
@@ -1139,7 +1226,10 @@
       "awesome": "Incrível!",
       "meh": "Meu Deus!",
       "terrible": "Terrível!"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "Todas as entidades",
+    "appQuery": "{{numApps}} aplicativos"
   },
   "terms": {
     "failedToSaveSettings": "falha ao salvar configurações: {{settings}} {{err}}",

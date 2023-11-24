@@ -77,8 +77,7 @@
     "metricExplosion": "Questo dashboard non può visualizzare tutte le metriche poiché solo {{numberOfMetrics}} sono state archiviate"
   },
   "explore": {
-    "beta": "Beta",
-    "tryBetaInfraAnalytics": "Prova la nuova analitica di infrastruttura",
+    "analyzeInfrastructure": "Analizza infrastruttura",
     "focusOnThisGroup": "Concentrati su questo gruppo",
     "theQueryConfigurationIsInvalid": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
     "allInfrastructure": "Tutte le infrastrutture",

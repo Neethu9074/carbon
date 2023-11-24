@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "创建新组",
     "dialogTitle_edit": "编辑访问作用域",
-    "editButton": "编辑访问作用域",
-    "productArea": "角色和访问作用域"
+    "editButton": "编辑",
+    "productArea": "{{tenantUnit}} 的访问配置"
   },
   "productAreas": {
     "allApplications": "所有应用程序",
@@ -74,9 +74,12 @@
     "role_owner": "所有者",
     "role_viewer": "查看者",
     "role_permissions": "未知 - 访问 {{quantityOfAreas}}",
+    "role_permissions_contributor": "添加者 - 访问权 {{quantityOfAreas}}",
     "role_permissions_owner": "所有者 - 访问 {{quantityOfAreas}}",
     "role_permissions_viewer": "查看者 - 访问 {{quantityOfAreas}}",
     "role_permission_scope_all": "全部",
+    "role_permissions_contributor_and_owner": "所有者访问权 {{quantityOfAreas}} & 添加者访问权 {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "查看者访问权 {{quantityOfAreas}} & 添加者访问权 {{quantityOfAreasContributor}}",
     "no_access": "无访问权",
     "platform_permissions": "访问 {{quantityOfAreas}}",
     "analyticsContentMessage": "可以在 Web 站点、移动应用程序、应用程序、平台和基础架构中的访问范围定义的分析中查看数据",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "添加名称空间",
     "addButton_syntheticTests": "选择合成测试",
     "descriptionAccessAll_synthetics": "可以使用所选角色访问所有合成测试。",
-    "descriptionLimitedAccess_synthetics": "选择角色并在下面添加合成测试以授予访问权。"
+    "descriptionLimitedAccess_synthetics": "选择角色并在下面添加合成测试以授予访问权。",
+    "contribution_filter": "添加项过滤器",
+    "contributionFilter_description": "将继承过滤器以创建新的应用程序配置。 在应用程序透视图配置上，可以在 {{logicalOperator}} 操作程序之后使用进一步的过滤器标记对其进行优化",
+    "contributionFilter_downstreamCalls": "确定可以包含在应用程序透视图中的其他信息的最大级别",
+    "contributionFilter_name": "名称"
   },
   "selectItemForm": {
     "doneButton": "完成"
@@ -156,23 +163,96 @@
     "nameColumnHead": "名称"
   },
   "permissionScope": {
+    "access_level": "访问级别",
+    "configuration_summary": "配置摘要",
     "selection": "不可用",
     "selection_access_all": "全部访问",
     "selection_limited_access": "访问受限",
     "selection_no_access": "无访问权",
     "selection_viewer_access": "查看者访问权",
+    "selection_owner_access": "所有者访问权",
+    "selection_contributor_access": "添加者访问权",
     "description_no_access": "根本无法使用此区域",
     "description_no_access_kubernetes": "无法访问名称空间和集群。",
     "description_access_all": "全部访问，但不限于",
+    "description_access_all_except_contributor": "全部访问 - 作为添加者访问的对象除外",
     "role": "选择一个角色",
     "roleSelection": "角色",
     "role_owner": "所有者",
     "role_viewer": "查看者",
     "role_custom": "定制",
+    "role_contributor": "添加者",
+    "role_permissions": "角色/许可权",
     "roleTooltip_websites": "查看者：能够查看 Web 站点仪表板（无法查看配置）。 <br /> 所有者：能够创建新的 Web 站点；查看、配置和删除 Web 站点仪表板。",
     "roleTooltip_mobileApps": "查看者：能够查看移动应用程序仪表板（无法查看配置）。 <br /> 所有者：能够创建新的移动应用程序；查看、配置和删除移动应用程序仪表板。",
     "roleTooltip_applications": "查看者：能够查看应用程序仪表板（无法查看配置）。 <br /> 所有者：能够创建新应用程序；查看、配置和删除应用程序仪表板。",
-    "roleTooltip_synthetics": "查看者：能够查看合成测试仪表板（无法查看配置）。 <br /> 所有者：能够创建新的合成测试；查看、配置和删除合成测试，以及查看和删除合成位置。"
+    "roleTooltip_synthetics": "查看者：能够查看合成测试仪表板（无法查看配置）。 <br /> 所有者：能够创建新的合成测试；查看、配置和删除合成测试，以及查看和删除合成位置。",
+    "contribution_filter_accessScope": "受限访问作用域（查看者）",
+    "contribution_filter_warning": {
+      "firstParagraph": "您将保存的所有修改都将使用此添加项过滤器更新所有应用程序透视图。",
+      "secondParagraph": "如果您更改角色，那么将删除添加项过滤器，并且具有“应用程序”部分的“所有者”访问权的任何用户都将可编辑使用添加项过滤器的所有应用程序透视图。 此操作无法撤销。"
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "此单元下所有应用程序透视图的访问权。",
+        "role_permissions_contributor": "查看此单元下的所有应用程序仪表板。 使用添加项过滤器创建、配置和删除应用程序仪表板。"
+      },
+      "limited_access": {
+        "access_level": "以下所选应用程序的访问权受限。",
+        "access_level_contributor": "查看以下所选应用程序仪表板",
+        "role_permissions_contributor": "使用添加项过滤器创建、配置和删除应用程序仪表板。 （由添加者创建的应用程序仪表板将显示在组概述和“应用程序”部分的列表中。）"
+      },
+      "role_permissions_owner": "创建、配置、查看和删除应用程序仪表板。",
+      "role_permissions_viewer": "查看应用程序透视图仪表板及其配置。"
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "此单元下所有实体仪表板的访问权，这些访问权与授予应用程序和平台的访问权相关。"
+      },
+      "role_permissions_owner": "查看实体仪表板。",
+      "role_permissions_viewer": "查看实体仪表板。"
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "此单元下所有名称空间和集群的访问权。"
+      },
+      "limited_access": {
+        "access_level": "以下所选名称空间和集群的访问权受限。"
+      },
+      "role_permissions": "查看名称空间和集群。"
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "此单元下所有移动应用程序的访问权。"
+      },
+      "limited_access": {
+        "access_level": "以下所选移动应用程序的访问权受限。"
+      },
+      "role_permissions_owner": "创建、配置、查看和删除移动应用程序。",
+      "role_permissions_viewer": "查看移动应用程序及其配置。"
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "此单元下所有合成测试的访问权。"
+      },
+      "limited_access": {
+        "access_level": "以下所选合成测试的访问权受限。"
+      },
+      "role_permissions_owner": "创建、配置、查看和删除合成测试。",
+      "role_permissions_viewer": "查看合成测试及其配置。"
+    },
+    "website": {
+      "access_all": {
+        "access_level": "此单元下的所有 Web 站点的访问权。"
+      },
+      "limited_access": {
+        "access_level": "以下所选 Web 站点的访问受限。"
+      },
+      "role_permissions_owner": "创建、查看和删除 Web 站点。",
+      "role_permissions_viewer": "查看 Web 站点及其配置。"
+    }
   },
   "cardTitle_Area": "区域",
   "cardTitle_Area_plural": "区域",
@@ -225,7 +305,8 @@
         "placeholder": "占位符",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "所选逻辑运算符将应用于以下条件。"
+        "logicalOperatorInfo": "所选逻辑运算符将应用于以下条件。",
+        "clearMetricSeclection": "清除选择"
       },
       "customPayload": {
         "unknownTag": "未知标记：{{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "全局应用程序 SmartAlert",
     "syntheticSmartAlert": "合成 SmartAlert",
     "mobileSmartAlert": "移动 SmartAlert",
+    "infraSmartAlert": "基础架构 SmartAlert",
     "enabled": "已启用",
     "disabled": "已禁用",
     "invalidQuery": "无效查询",
@@ -776,6 +858,7 @@
     "alert": "警报",
     "unknownAlert": "未知警报",
     "pleaseSelectAtLeastOneApplication": "请至少选择一个应用程序。",
+    "pleaseSelectAtLeastOneTagFilter": "请至少选择一个标记过滤器。",
     "noAlertConfigured": "未配置任何警报。",
     "additionalScope": "其他作用域",
     "state": "状态...",
@@ -891,6 +974,7 @@
     "applyOn": "应用",
     "applicationPerspective": "应用程序透视图",
     "selectedEntitiesDynamicFocusQuery": "所选实体（动态焦点查询）",
+    "syntheticTests": "合成测试",
     "automaticallyCloseAfter": "以下时段后自动关闭",
     "selectedEntitiesHostByTag": "所选实体（按标记限定主机作用域）",
     "scopeHostsByTag": "按标记限定主机作用域",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "这将迁移此弃用的事件。有关更多信息，<documentationLink>请参阅我们的文档</documentationLink>。",
     "deprecatedEventSelectedMessage": "不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件。 未来您将无法为这三种实体类型创建新事件。 我们建议改为创建“智能警报”。 <documentationLink>阅读文档中的更多信息</documentationLink>。",
     "customEventListDeprecatedWarning": "<strong>不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件</strong><br/>未来您将无法在这三种实体类型上创建或更新定制事件。 <documentationLink>阅读文档中的更多信息</documentationLink>",
+    "customUserListInformation": "<strong>用户是从身份提供者 (IdP) 自动供应的。</strong><br/>用户使用单点登录 (SSO) 登录 Instana 后，将在此部分中显示这些用户。",
     "deletedEventMessage": "您正在查看已删除的事件配置。 无法进行修改。",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "使用者私钥",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "Salesforce Organization URL",
-    "alertChannelDocumentationMessage": "有关设置此警报通道的更多详细信息，请<documentationLink>查看我们的文档</documentationLink>"
+    "alertChannelDocumentationMessage": "有关设置此警报通道的更多详细信息，请<documentationLink>查看我们的文档</documentationLink>",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "确保在身份提供者中已禁用用户对 Instana 的访问权。",
+    "createIDPConfirmationDescription": "将删除暂挂邀请。 将从身份提供者 (IdP) 自动供应用户。"
   },
   "languageSelection": {
     "language": "语言",
@@ -1139,7 +1226,10 @@
       "awesome": "非常棒！",
       "meh": "一般！",
       "terrible": "太糟糕了！"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "所有实体",
+    "appQuery": "{{numApps}} 个应用程序"
   },
   "terms": {
     "failedToSaveSettings": "未能保存设置：{{settings}} {{err}}",

@@ -72,6 +72,12 @@
       "views": "Vues",
       "website": "Site Web",
       "mobileApp": "Application mobile"
+    },
+    "bizopsTopList": {
+      "businessProcess": "Processus métier",
+      "activities": "Activités",
+      "count": "Nombre",
+      "allProcesses": "Tous les processus métier"
     }
   },
   "cockpit": {
@@ -93,6 +99,7 @@
     "websites": "Sites Web",
     "mobileApps": "Applications mobiles",
     "websitesMobileApps": "Sites Web et applications mobiles",
+    "bizops": "Surveillance métier",
     "customEventDeprecatedWarning": "<strong>{{count}} événement personnalisé dans l'application, le service et le noeud final requiert une action</strong><affectedCustomEvents>Afficher l'événement personnalisé affecté</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>{{count}} événements personnalisés dans l'application, le service et le noeud final requièrent une action</strong><affectedCustomEvents>Afficher les événements personnalisés affectés</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>{{count}} événements personnalisés dans l'application, le service et le noeud final requièrent une action</strong><affectedCustomEvents>Afficher les événements personnalisés affectés</affectedCustomEvents>",
@@ -116,6 +123,10 @@
       "createWebsite": "Créer un site Web",
       "createMobileApp": "Créer une application mobile",
       "noLabelYet": "Pas de {{nolabel}} pour le moment"
+    },
+    "bizops": {
+      "noProcessYet": "Aucun processus métier pour le moment",
+      "noData": "Instana Business Monitoring rend les applications informatiques observables en fournissant un contexte métier en temps réel aux événements.  Les processus métier apparaissent ici une fois activés par un administrateur de compte."
     }
   }
 }

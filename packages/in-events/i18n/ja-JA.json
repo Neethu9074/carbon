@@ -109,6 +109,8 @@
   "headerEnd": "終了",
   "headerOn": "発生場所",
   "headerTimeline": "タイムライン",
+  "eventHelpfulText": "このイベントは役に立ちましたか?",
+  "thankYouForYourFeedback": "フィードバックをありがとうございました。",
   "hostOffLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたホストの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってホストがモニターされていた時点に変更されます",
   "offLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたプロセスの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってプロセスがモニターされていた時点に変更されます",
   "offLineEventProblemNoMatch": "カスタム・イベントに一致する、以前のエンティティーへの参照を検出できませんでした。",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "失敗状況"
   },
   "RCA": {
-    "titlePRCA": "考えられる根本原因イベント",
+    "titlePRCA": "考えられる根本原因",
     "AIGenBadgeText": "AI 生成",
     "suggestionHelpfulText": "この提案は役に立ちましたか?",
-    "noEventsErrorTitle": "イベントが見つかりません",
-    "noEventsErrorDescription": "エンティティーが根本原因として見つかりましたが、それに起因する関連イベントがありませんでした",
     "noEntitiesErrorTitle": "考えられる根本原因が見つかりません",
-    "noEntitiesErrorDescription": "申し訳ありません。 このインシデントの特定の根本原因を特定できませんでした。",
-    "regenerate": "再生成"
+    "noEntitiesErrorDescription": "これは通常、インシデントがサービスに大きな影響を与えなかった場合に発生します。",
+    "performanceConstantlyEvaluated": "パフォーマンスは、ベータ期間中に積極的に評価され、改善されています。 AIの改善に役立つフィードバックをお寄せください",
+    "regenerate": "再生成",
+    "probableRootCauseLabel": "推定される根本原因エンティティー: {{entity_name}}",
+    "relatedEventsLabel": "検出されたエンティティー・イベント: {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "スキップ",
+    "descriptionUnpleasant": {
+      "firstLineApology": "お気の毒に申し訳ありません。",
+      "secondLineQuestion": "どこで問題が発生したかを特定できますか?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "説明してください",
+    "contactMeYes": "はい、連絡してください",
+    "contactMeNo": "いいえ、連絡は不要です。",
+    "appreciateResponse": "ご回答ありがとうございました。",
+    "followUpQuestion": "技術的なフィードバックについて、さらに詳しいご説明やディスカッションのためのフォローアップをご希望ですか?"
   }
 }

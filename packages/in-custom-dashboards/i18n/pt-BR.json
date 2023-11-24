@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "Entidade desconhecida",
+    "unknownEntityLabel_application": "Aplicativo desconhecido",
+    "unknownEntityLabel_website": "Website desconhecido",
     "invalidWidgetTypeErrorMessage": "<strong>Tipo de widget inválido</strong><br/>Esse widget tem um tipo inválido, é possível corrigi-lo editando o JSON do painel ou removendo o widget.",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "Selecionar",
         "sliConfigComputeErrBudgetSliVal": "Configuração de SLI usada para calcular o orçamento de erros e valores de SLI",
         "typeSloThreshold": "Digite o limite de SLO desejado de <code>{{compact}}</code> a <code>{{detailed}}</code>.",
-        "valType": "Tipo de valor"
+        "valType": "Tipo de valor",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "Indicadores de nível de serviço"
@@ -220,6 +224,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "Selecionar",
+        "metric": "Métrica",
+        "selectMetric": "Selecionar uma métrica",
+        "aggregation": "Agregação",
+        "successRate": "Taxa de sucesso",
+        "locations": "Locais",
+        "responseTime": "Tempo de resposta",
+        "responsesize": "Tamanho da resposta"
+      },
       "index": {
         "syntheticMonitoring": "Monitoramento sintético"
       }
@@ -669,8 +683,6 @@
         "tooltip_application": "Apdex do aplicativo"
       },
       "widget": {
-        "unknownEntityLabel_application": "Aplicativo desconhecido",
-        "unknownEntityLabel_website": "Website desconhecido",
         "previewDataInfo": "Os dados da visualização são mostrados para os últimos 7 dias. O widget final incluirá apenas dados desde a criação da configuração do Apdex."
       },
       "applicationScopeConfigurator": {

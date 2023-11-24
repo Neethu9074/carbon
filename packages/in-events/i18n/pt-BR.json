@@ -109,6 +109,8 @@
   "headerEnd": "Término",
   "headerOn": "Ativado",
   "headerTimeline": "Linha de tempo",
+  "eventHelpfulText": "Este evento foi útil?",
+  "thankYouForYourFeedback": "Obrigado por seu feedback.",
   "hostOffLineEventProblemChangeTime": "Clique no link abaixo para acessar a última versão do host monitorado por Instana. Fazer isso mudará o início de seu espaço de tempo para um momento no qual o host foi monitorado por Instana",
   "offLineEventProblemChangeTime": "Clique no link abaixo para acessar a última versão do processo monitorado pelo Instana. Isso mudará o início do seu espaço de tempo para um momento no qual o processo foi monitorado pelo Instana",
   "offLineEventProblemNoMatch": "O Instana não pôde localizar uma referência a qualquer entidade anterior correspondente ao evento customizado.",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "Status com falha"
   },
   "RCA": {
-    "titlePRCA": "Eventos de causa raiz provável",
+    "titlePRCA": "Causa raiz provável",
     "AIGenBadgeText": "Gerados por IA",
     "suggestionHelpfulText": "Esta sugestão foi útil?",
-    "noEventsErrorTitle": "Nenhum evento localizado",
-    "noEventsErrorDescription": "Uma entidade foi localizada como a causa raiz, mas nenhum evento relacionado pôde ser atribuído a ela",
     "noEntitiesErrorTitle": "Nenhuma causa raiz provável localizada",
-    "noEntitiesErrorDescription": "Ops! Não conseguimos identificar uma causa raiz específica para este incidente.",
-    "regenerate": "Gerar novamente"
+    "noEntitiesErrorDescription": "Isso geralmente ocorre quando o incidente não teve impacto significativo no serviço",
+    "performanceConstantlyEvaluated": "O desempenho está sendo ativamente avaliado e melhorado durante o Beta. Deixe o seu feedback para nos ajudar a melhorar nossa IA",
+    "regenerate": "Gerar novamente",
+    "probableRootCauseLabel": "Entidade de causa raiz provável: {{entity_name}}",
+    "relatedEventsLabel": "Eventos de entidade localizados: {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "Ignorar",
+    "descriptionUnpleasant": {
+      "firstLineApology": "Lamentamos que você não tenha tido uma experiência agradável.",
+      "secondLineQuestion": "Você pode nos ajudar a identificar o que deu errado?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "Descreva-os",
+    "contactMeYes": "Sim, contacte-me",
+    "contactMeNo": "Não, prefiro não ser contactado.",
+    "appreciateResponse": "Agradecemos a sua resposta!",
+    "followUpQuestion": "Gostaria que o acompanhássemos em relação ao seu feedback técnico para esclarecimentos adicionais ou discussões?"
   }
 }

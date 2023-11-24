@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "임계값",
       "alertingChartLabelViolations": "위반",
+      "alertingChartLabelForecast": "예측",
+      "alertingChartLabelUpperBound": "상한",
+      "alertingChartLabelLowerBound": "하한",
       "alertingChartMessageInvalidFilterQuery": "필터 조회가 올바르지 않습니다.",
       "alertingChartMessageEmptyApplicationSelection": "선택된 애플리케이션이 없습니다.",
       "chartAlertsLaneErrorMessage": "경보를 로드할 수 없음",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "오류 메시지",
-        "noDataMessage": "경보가 구성되어 있지 않습니다.",
         "selectJSErrorHelpText": "JS 오류 메시지를 템플리트로 선택(선택사항)",
-        "selectJSErrorTitle": "JS 오류 선택"
+        "selectJSErrorTitle": "JS 오류 선택",
+        "noJSErrorFound": "JS 오류를 찾을 수 없음"
       },
       "data": {
         "errorCount": "오류 개수",
@@ -1216,6 +1219,32 @@
         "filter_0": "필터",
         "filter_1": "필터",
         "filter_2": "필터"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "범위",
+          "title": "범위: 조건이 발생하는 위치"
+        },
+        "threshold": {
+          "label": "임계값",
+          "title": "임계값: 조건이 위반되는 경우는 언제입니까?"
+        },
+        "timeThreshold": {
+          "label": "시간 임계값",
+          "title": "시간 임계값: 경보를 수신하려는 항목"
+        },
+        "alertChannel": {
+          "label": "경보 채널",
+          "title": "경보 채널: 경보 수신 대상"
+        },
+        "properties": {
+          "label": "특성",
+          "title": "추가 경보 특성"
+        },
+        "customPayloads": {
+          "label": "페이로드",
+          "title": "사용자 정의 페이로드"
+        }
       }
     }
   }

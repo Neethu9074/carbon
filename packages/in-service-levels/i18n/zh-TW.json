@@ -118,6 +118,11 @@
       "delete": "刪除"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "未配置任何自訂過濾器"
+    }
+  },
   "createSloDialog": {
     "customFilter": "自訂過濾器（選用）",
     "title": "建立服務水準目標 (SLO)",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "時間範圍大小必須小於或等於 31 天",
     "errorTimeWindowWeek": "時間範圍大小必須小於或等於 4 週",
     "errorTimeWindowMin": "時間範圍必須至少為一天",
+    "errorInvalidExpression": "輸入的過濾器無效",
+    "errorBlankEntity": "請從清單中選取實體",
     "nameAndTagsTitle": "名稱和標籤",
     "nameAndTagsNavItem": "名稱和標籤",
     "sloNameLabel": "SLO 名稱",

@@ -109,6 +109,8 @@
   "headerEnd": "Ende",
   "headerOn": "Unter",
   "headerTimeline": "Zeitachse",
+  "eventHelpfulText": "War dieses Ereignis hilfreich?",
+  "thankYouForYourFeedback": "Danke für Ihr Feedback!",
   "hostOffLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Hosts zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Host von Instana überwacht wurde",
   "offLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Prozesses zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Prozess von Instana überwacht wurde",
   "offLineEventProblemNoMatch": "Instana konnte keine Referenz zu einer vorherigen Entität finden, die mit dem angepassten Ereignis übereinstimmt.",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "Status 'Fehlgeschlagen'"
   },
   "RCA": {
-    "titlePRCA": "Wahrscheinliche Fehlerursachen-Ereignisse",
+    "titlePRCA": "Wahrscheinliche Fehlerursache",
     "AIGenBadgeText": "KI-generiert",
     "suggestionHelpfulText": "War dieser Vorschlag hilfreich?",
-    "noEventsErrorTitle": "Keine Ereignisse gefunden",
-    "noEventsErrorDescription": "Es wurde eine Entität als Ursache gefunden, aber ihr konnten keine zusammengehörigen Ereignisse zugeordnet werden.",
     "noEntitiesErrorTitle": "Keine wahrscheinliche Fehlerursache gefunden",
-    "noEntitiesErrorDescription": "Hoppla! Wir konnten keine bestimmte Ursache für diesen Vorfall ermitteln.",
-    "regenerate": "Neu generieren"
+    "noEntitiesErrorDescription": "Dies tritt normalerweise auf, wenn der Vorfall keine signifikanten Auswirkungen auf den Service hatte",
+    "performanceConstantlyEvaluated": "Die Leistung wird während der Betaphase aktiv bewertet und verbessert. Bitte geben Sie uns Feedback, damit wir unsere KI weiter verbessern können",
+    "regenerate": "Neu generieren",
+    "probableRootCauseLabel": "Wahrscheinliche Fehlerursache für Entität: {{entity_name}}",
+    "relatedEventsLabel": "Gefundene Entitätsereignisse: {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "Überspringen",
+    "descriptionUnpleasant": {
+      "firstLineApology": "Es tut uns leid, dass Sie keine angenehme Erfahrung hatten.",
+      "secondLineQuestion": "Können Sie uns helfen, herauszufinden, wo etwas schiefgelaufen ist?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "Bitte geben Sie Beschreibungen an",
+    "contactMeYes": "Ja, bitte nehmen Sie Kontakt mit mir auf",
+    "contactMeNo": "Nein, ich möchte nicht kontaktiert werden.",
+    "appreciateResponse": "Wir schätzen Ihre Antwort!",
+    "followUpQuestion": "Möchten Sie, dass wir uns bezüglich Ihres technischen Feedbacks zur weiteren Klärung oder Diskussion mit Ihnen in Verbindung setzen?"
   }
 }

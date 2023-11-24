@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "Unbekannte Entität",
+    "unknownEntityLabel_application": "Unbekannte Anwendung",
+    "unknownEntityLabel_website": "Unbekannte Website",
     "invalidWidgetTypeErrorMessage": "<strong>Ungültiger Widgettyp</strong><br/>Dieses Widget weist einen ungültigen Typ auf. Sie können den Typ korrigieren, indem Sie die JSON des Dashboards bearbeiten oder das Widget entfernen.",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "Bitte auswählen",
         "sliConfigComputeErrBudgetSliVal": "SLI-Konfiguration zur Berechnung des Fehlerbudgets und der SLI-Werte",
         "typeSloThreshold": "Geben Sie Ihren gewünschten SLO-Schwellenwert von <code>{{compact}}</code> in <code>{{detailed}}</code> ein.",
-        "valType": "Wertetyp"
+        "valType": "Wertetyp",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "Service-Level-Indikatoren"
@@ -220,6 +224,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "Bitte auswählen",
+        "metric": "Metrik",
+        "selectMetric": "Wählen Sie einen Messwert aus",
+        "aggregation": "Aggregation",
+        "successRate": "Erfolgsquote",
+        "locations": "Standorte",
+        "responseTime": "Antwortzeit",
+        "responsesize": "Antwortgröße"
+      },
       "index": {
         "syntheticMonitoring": "Überwachung der synthetischen Transaktionen"
       }
@@ -669,8 +683,6 @@
         "tooltip_application": "Anwendungs-Apdex"
       },
       "widget": {
-        "unknownEntityLabel_application": "Unbekannte Anwendung",
-        "unknownEntityLabel_website": "Unbekannte Website",
         "previewDataInfo": "Für die letzten 7 Tage werden Vorschaudaten angezeigt. Das endgültige Widget enthält nur Daten seit der Erstellung der Apdex-Konfiguration."
       },
       "applicationScopeConfigurator": {

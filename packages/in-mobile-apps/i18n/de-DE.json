@@ -21,6 +21,10 @@
       "transferSizeLabel": "Übertragungsvolumen",
       "transferSizeCategory": "Ressourcendimensionierung"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Anzahl der vom Absturz betroffenen Sitzungen",
+      "crashAffectedUserCount": "Anzahl der vom Absturz betroffenen Benutzer"
+    },
     "errorRate": {
       "label": "Fehlerrate",
       "rawDataLabel": "Fehleranzahl"
@@ -215,6 +219,7 @@
       "crashLabel": "Absturz",
       "metaHeader": "Meta",
       "stackTrace": "Stack-Trace",
+      "stackTraceLastOccurrence": "Stack-Trace (letztes Auftreten)",
       "stackTraceButtonPrettyStackTrace": "Stack-Trace-Quelltextformatierung",
       "stackTraceButtonRawStackTrace": "Unformatierter Stack-Trace"
     },
@@ -340,6 +345,37 @@
       "viewAllOs": "Alle Betriebssysteme anzeigen",
       "appVersions": "App-Versionen",
       "viewAllVersions": "Alle Versionen anzeigen",
+      "configurations": {
+        "symbolFileConfigLabel": "Stack-Trace-Umsetzung",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "API \"Alle Dateien entfernen\"",
+          "dialogMessageConfigurationUpdated": "Konfiguration aktualisiert.",
+          "dialogMessageFailedToSaveConfiguration": "Fehler beim Speichern der Konfiguration: {{message}}",
+          "dialogMessageNewConfigurationSaved": "Neue Konfiguration gespeichert.",
+          "dialogMessageSavingConfiguration": "Konfiguration wird gespeichert...",
+          "fileCommitUrl": "API für Festschreibung von Symboldateien",
+          "fileUploadConfigurationDialogTitleEdit": "Konfiguration für den Symboldateiupload bearbeiten",
+          "fileUploadConfigurationDialogTitleNew": "Neue Konfiguration für den Symboldateiupload",
+          "fileUploadConfigurationDialogLabelDescription": "Beschreibung",
+          "fileUploadConfigurationDialogHeadingDescription": "Beschreibung",
+          "fileUploadConfigurationDialogDescriptionHelp": "Eine Uploadkonfiguration hilft Ihnen, Ihre hochgeladenen Dateien besser zu organisieren.",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "Symboldateien werden hochgeladen",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Laden Sie Ihre Symboldateien hoch, indem Sie die Web-REST-API von Instana aufrufen. Dies könnte zur automatisierten Bereitstellung in Ihren Pipelineprozess integriert werden. Die Erläuterung und Verwendung unserer Web-REST-API ist in <documentation>Dokumentation</documentation> definiert.",
+          "fileUploadUrl": "Symboldatei-API hochladen",
+          "stackTraceTranslationLabelConfiguration": "Konfiguration",
+          "stackTraceTranslationLabelFiles": "Dateien",
+          "stackTraceTranslationLabelTotalSize": "Gesamtgröße",
+          "stackTraceTranslationLabelLastModified": "Letzte Änderung",
+          "stackTraceTranslationExplanationWithUploadFeature": "Um Stack-Traces besser lesbar zu machen, z. B. um Verweise auf nicht minifizierte Dateien und Zeilen anzuzeigen, muss Instana Code mit Symboldateien interpretieren. Wenn Sie hier eine Upload-Konfiguration hinzufügen, wird dadurch das Hochladen von Symboldateien über die Instana Web-REST-API durch Ihre mobile App zugelassen. Dann kann Instana mehr Einblicke in Fehler beim Absturz mobiler Apps bereitstellen.",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Stack-Trace-Umsetzung",
+          "stackTraceTranslationLearnMoreLabel": "Weitere Informationen zur Stack-Trace-Umsetzung",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Konfigurationen für Stack-Trace-Umsetzungen",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "Konfigurationen für den Symboldateiupload",
+          "stackTraceTranslationNoUploadDataMessage": "Keine Konfigurationen für den Symboldateiupload verfügbar.",
+          "stackTraceTranslationButtonAddConfiguration": "Konfiguration hinzufügen",
+          "stackTraceTranslationLabelFileUploadConfiguration": "Konfiguration für den Symboldateiupload {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "Fehlernachricht",
         "crashesLabelOccurrences": "Vorkommen",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "Abstürze",
         "crashInfoTitle": "Details zu",
         "crashInfoMessage": "Nachricht",
-        "backToCrashList": "Zurück zur Liste der Abstürze",
+        "backToCrashList": "Zurück zu Absturzgruppen",
         "crashTitleMobileAppCrashDetails": "Absturzdetails für mobile App"
       },
       "customEvents": {

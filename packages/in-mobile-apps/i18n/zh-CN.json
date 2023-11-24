@@ -21,6 +21,10 @@
       "transferSizeLabel": "传输大小",
       "transferSizeCategory": "调整资源大小"
     },
+    "crash": {
+      "crashAffectedSessionCount": "崩溃影响的会话计数",
+      "crashAffectedUserCount": "崩溃影响的用户计数"
+    },
     "errorRate": {
       "label": "错误率",
       "rawDataLabel": "错误计数"
@@ -215,6 +219,7 @@
       "crashLabel": "崩溃",
       "metaHeader": "元",
       "stackTrace": "堆栈跟踪",
+      "stackTraceLastOccurrence": "堆栈跟踪（最近一次出现）",
       "stackTraceButtonPrettyStackTrace": "漂亮的堆栈跟踪",
       "stackTraceButtonRawStackTrace": "原始堆栈跟踪"
     },
@@ -340,6 +345,37 @@
       "viewAllOs": "查看所有操作系统",
       "appVersions": "应用程序版本",
       "viewAllVersions": "查看所有版本",
+      "configurations": {
+        "symbolFileConfigLabel": "堆栈跟踪转换",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "除去所有文件 API",
+          "dialogMessageConfigurationUpdated": "配置已更新。",
+          "dialogMessageFailedToSaveConfiguration": "无法保存配置：{{message}}",
+          "dialogMessageNewConfigurationSaved": "已保存新配置。",
+          "dialogMessageSavingConfiguration": "正在保存配置...",
+          "fileCommitUrl": "落实符号文件 API",
+          "fileUploadConfigurationDialogTitleEdit": "编辑符号文件上载配置",
+          "fileUploadConfigurationDialogTitleNew": "新建符号文件上载配置",
+          "fileUploadConfigurationDialogLabelDescription": "描述",
+          "fileUploadConfigurationDialogHeadingDescription": "描述",
+          "fileUploadConfigurationDialogDescriptionHelp": "上载配置将帮助您更好地组织已上载的文件。",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "正在上载符号文件",
+          "fileUploadConfigurationDialogOpenAPIHelp": "通过调用 Instana 的 Web REST API 来上载符号文件。 这可以集成到管道流程中以进行自动化部署。 在我们的<documentation>文档</documentation>中定义了 Web REST API 的说明和用法。",
+          "fileUploadUrl": "上载符号文件 API",
+          "stackTraceTranslationLabelConfiguration": "配置",
+          "stackTraceTranslationLabelFiles": "文件",
+          "stackTraceTranslationLabelTotalSize": "总大小",
+          "stackTraceTranslationLabelLastModified": "上次修改时间",
+          "stackTraceTranslationExplanationWithUploadFeature": "为了使堆栈跟踪更容易读取，例如，为了显示对非压缩文件和行的引用，Instana 需要使用符号文件对代码进行整数编码。 在此处添加上载配置可允许通过 Instana Web REST API 上载移动应用程序符号文件。 然后，Instana 可以提供有关移动应用程序崩溃错误的更多洞察。",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "堆栈跟踪转换",
+          "stackTraceTranslationLearnMoreLabel": "了解有关堆栈跟踪转换的更多信息",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "堆栈跟踪转换配置",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "符号文件上载配置",
+          "stackTraceTranslationNoUploadDataMessage": "没有可用的符号文件上载配置。",
+          "stackTraceTranslationButtonAddConfiguration": "添加配置",
+          "stackTraceTranslationLabelFileUploadConfiguration": "符号文件上载配置 {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "错误消息",
         "crashesLabelOccurrences": "出现次数",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "崩溃",
         "crashInfoTitle": "详细信息",
         "crashInfoMessage": "消息",
-        "backToCrashList": "返回到崩溃列表",
+        "backToCrashList": "返回到崩溃组",
         "crashTitleMobileAppCrashDetails": "移动应用程序崩溃详细信息"
       },
       "customEvents": {

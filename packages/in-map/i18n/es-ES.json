@@ -43,7 +43,6 @@
   "zoomOut": "Reducir",
   "selectThisEntity": "Seleccione esta entidad.",
   "openDashboard": "Abrir panel de control",
-  "infraMap": "Mapa de infraestructura",
   "infrastructureContainerMap": "Mapa de contenedores de la infraestructura",
   "infrastructureHostMap": "Mapa de host de infraestructura",
   "unknownView": "Vista desconocida",

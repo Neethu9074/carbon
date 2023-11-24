@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "臨界值",
       "alertingChartLabelViolations": "違規",
+      "alertingChartLabelForecast": "預測",
+      "alertingChartLabelUpperBound": "上限",
+      "alertingChartLabelLowerBound": "下限",
       "alertingChartMessageInvalidFilterQuery": "無效的過濾查詢。",
       "alertingChartMessageEmptyApplicationSelection": "未選取應用程式。",
       "chartAlertsLaneErrorMessage": "無法載入警示",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "錯誤訊息",
-        "noDataMessage": "未配置警示。",
         "selectJSErrorHelpText": "選取 JS 錯誤訊息作為範本（選用）",
-        "selectJSErrorTitle": "選取 JS 錯誤"
+        "selectJSErrorTitle": "選取 JS 錯誤",
+        "noJSErrorFound": "找不到 JS 錯誤"
       },
       "data": {
         "errorCount": "錯誤計數",
@@ -1216,6 +1219,32 @@
         "filter_0": "過濾器",
         "filter_1": "過濾器",
         "filter_2": "過濾器"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "範圍",
+          "title": "範圍：該狀況發生在何處？"
+        },
+        "threshold": {
+          "label": "臨界值",
+          "title": "臨界值：何時違反條件？"
+        },
+        "timeThreshold": {
+          "label": "時間臨界值",
+          "title": "時間臨界值：您希望何時收到警示？"
+        },
+        "alertChannel": {
+          "label": "警示通道",
+          "title": "警示通道：誰需要收到警示？"
+        },
+        "properties": {
+          "label": "內容",
+          "title": "其他警示內容"
+        },
+        "customPayloads": {
+          "label": "有效負載",
+          "title": "自訂有效負載"
+        }
       }
     }
   }

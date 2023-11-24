@@ -248,6 +248,8 @@
     "newAP": "Neue Anwendungsperspektive",
     "switchSimpleMode": "Zum einfachen Modus wechseln",
     "switchAdvancedMode": "Zum erweiterten Modus wechseln",
+    "selectContributionFilter": "Beitragsfilter auswählen",
+    "noRestrictions": "Keine Beschränkungen",
     "simple": {
       "step1Title": "Schritt 1: Modell auswählen",
       "step1": {

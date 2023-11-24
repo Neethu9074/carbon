@@ -118,6 +118,11 @@
       "delete": "Excluir"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "Não há nenhum filtro customizado configurado"
+    }
+  },
   "createSloDialog": {
     "customFilter": "Filtro personalizado (opcional)",
     "title": "Criar Objetivo de nível de serviço (SLO)",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "O tamanho do espaço de tempo deve ser menor ou igual a 31 dias",
     "errorTimeWindowWeek": "O tamanho do espaço de tempo deve ser menor ou igual a 4 semanas",
     "errorTimeWindowMin": "O espaço de tempo deve ter pelo menos um dia de duração",
+    "errorInvalidExpression": "Os filtros inseridos não são válidos",
+    "errorBlankEntity": "Selecione uma entidade na lista",
     "nameAndTagsTitle": "Nome e tags",
     "nameAndTagsNavItem": "Nome & tags",
     "sloNameLabel": "Nome do SLO",

@@ -109,6 +109,8 @@
   "headerEnd": "종료",
   "headerOn": "설정",
   "headerTimeline": "타임라인",
+  "eventHelpfulText": "이 이벤트가 도움이 되었습니까?",
+  "thankYouForYourFeedback": "의견을 주셔서 감사합니다!",
   "hostOffLineEventProblemChangeTime": "Instana에서 모니터하는 호스트의 마지막 버전으로 이동하려면 아래 링크를 클릭하십시오. 그러면 시간 창의 시작이 Instana에서 호스트를 모니터한 시점으로 변경됩니다.",
   "offLineEventProblemChangeTime": "Instana에서 모니터한 프로세스의 마지막 버전으로 이동하려면 아래 링크를 클릭하십시오. 그러면 시간 창의 시작이 Instana에서 프로세스를 모니터한 시점으로 변경됩니다.",
   "offLineEventProblemNoMatch": "Instana가 사용자 정의 이벤트와 일치하는 이전 엔티티에 대한 참조를 찾을 수 없습니다.",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "실패 상태"
   },
   "RCA": {
-    "titlePRCA": "가능한 근본 원인 이벤트",
+    "titlePRCA": "가능한 근본 원인",
     "AIGenBadgeText": "AI 생성됨",
     "suggestionHelpfulText": "이 제안이 도움이 되었습니까?",
-    "noEventsErrorTitle": "이벤트를 찾을 수 없음",
-    "noEventsErrorDescription": "근본 원인으로 엔티티가 발견되었지만 이에 따른 관련 이벤트가 없습니다.",
     "noEntitiesErrorTitle": "가능한 근본 원인을 찾을 수 없음",
-    "noEntitiesErrorDescription": "죄송합니다. 이 인시던트의 구체적인 근본 원인을 정확히 찾아낼 수 없습니다.",
-    "regenerate": "재생성"
+    "noEntitiesErrorDescription": "이는 일반적으로 인시던트에 중요한 서비스 영향이 없는 경우에 발생합니다.",
+    "performanceConstantlyEvaluated": "베타 기간 동안 성능이 적극적으로 평가되고 개선됩니다. AI를 개선하는 데 도움이 되도록 피드백을 남겨주십시오.",
+    "regenerate": "재생성",
+    "probableRootCauseLabel": "가능한 근본 원인 엔티티: {{entity_name}}",
+    "relatedEventsLabel": "찾은 엔티티 이벤트: {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "건너뛰기",
+    "descriptionUnpleasant": {
+      "firstLineApology": "즐거운 경험을 하지 못하셨다니 죄송합니다.",
+      "secondLineQuestion": "무엇이 잘못되었는지 확인할 수 있도록 도와주실 수 있으십니까?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "설명을 입력하십시오.",
+    "contactMeYes": "예, 연락 주십시오.",
+    "contactMeNo": "아니요, 연락을 받지 않는 것이 좋습니다.",
+    "appreciateResponse": "응답해 주셔서 감사합니다!",
+    "followUpQuestion": "추가 설명 또는 토론을 위해 귀하의 기술적 피드백과 관련하여 귀하와 함께 후속 조치를 수행하시겠습니까?"
   }
 }
