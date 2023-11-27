@@ -71,7 +71,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
             }}
           />
         </div>
-        <HorizontalFlexWrapper>
+        <HorizontalFlexWrapper className={locals.contributionFilter_clearButton}>
           {tagFilterExpression?.length > 0 && (
             <Button
               kind="subtle"

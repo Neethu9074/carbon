@@ -22,13 +22,18 @@
     }
     &_queryBuilder {
       margin: 1rem 0;
-      display: flex;
+      display: block;
       align-items: center;
       width: 100%;
     }
 
     &_queryBuilderExpression {
-      flex-grow: 1;
+      width: 85%;
+      display: inline-block;
+    }
+    &_clearButton {
+      width: 15%;
+      display: inline-block;
     }
     &_groupLabel {
       display: flex;
