@@ -112,6 +112,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
       markerPaneHeight: chart?.config?.markerPaneHeight,
       snapshotId: snapshotId || chart?.config?.snapshotId,
       snapshotHostFqdn: snapshotHostFqdn || chart?.config?.snapshotHostFqdn,
+      //props for actions lane
       hasActionlane: hasActionlane,
       hasButtonInActionslane: hasButtonInActionslane
     };

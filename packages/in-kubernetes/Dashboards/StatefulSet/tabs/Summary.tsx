@@ -36,6 +36,7 @@ import { t } from 'in-i18n';
 export default function Summary({ timeConfig, data: statefulSet }: any) {
   const timeShift = useTimeShiftConfig();
 
+  const snapshotId = statefulSet.id;
   const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
   const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
   const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
@@ -213,6 +214,9 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -247,6 +251,9 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             paramTab="memTab"
             paramMetric="memMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -288,6 +295,9 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             paramTab="podTab"
             paramMetric="podMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>
@@ -325,6 +335,9 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             paramTab="replicaTab"
             paramMetric="replicaMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>
