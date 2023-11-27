@@ -9,6 +9,8 @@ import React from 'react';
 import { AggregationType } from '@instana/types';
 
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
+import { getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { t } from 'in-i18n';
 
 interface MetricLabelProps {
@@ -27,6 +29,8 @@ export function MetricLabel({
   value
 }: MetricLabelProps): JSX.Element {
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+  const metricFormat = getMetricFormat();
+  const formattedValue = value ? formatMetricValue(metricFormat, value) : 0;
 
   return (
     <>
@@ -34,7 +38,7 @@ export function MetricLabel({
         ? t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitleForStaticThreshold', {
             metricName: metricLabel,
             operator: humanReadableOperator,
-            value
+            value: formattedValue
           })
         : t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitleForStaticThreshold')}
     </>
