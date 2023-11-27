@@ -100,8 +100,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, actionTypesUrlParameter, actionStatusesUrlParameter],
   columnDefinitions: columnDefinitions,
-  defaultOrderBy: 'actionName',
-  defaultOrderDirection: 'ASC',
+  defaultOrderBy: 'startDate',
+  defaultOrderDirection: 'DESC',
   pathSegment,
   matrixPrefix
 });
@@ -121,7 +121,7 @@ type GetActionInstanceList = {
 export function GetActionInstanceListData({
   timeConfig,
   orderBy = 'startDate',
-  orderDirection = 'ASC',
+  orderDirection = 'DESC',
   page = 1,
   pageSize = 20,
   query = '',
