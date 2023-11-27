@@ -33,8 +33,8 @@ export type AreaRolesType = keyof typeof AreaRoles;
 
 export const AreaRoleWithContributor = Object.freeze({
   OWNER: 'OWNER',
-  VIEWER: 'VIEWER',
-  CONTRIBUTOR: 'CONTRIBUTOR'
+  CONTRIBUTOR: 'CONTRIBUTOR',
+  VIEWER: 'VIEWER'
 } as const);
 
 export const ScopeRoles = Object.freeze({
