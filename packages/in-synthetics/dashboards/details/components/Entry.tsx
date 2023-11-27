@@ -33,7 +33,7 @@ interface EntryProps {
 const Entry = ({ entry, earliestTimestamp, endTimestamp }: EntryProps) => {
   const { width, ref } = useResizeObserverCustom<HTMLDivElement>();
   const [expanded, setExpanded] = useState(false);
-  const type = getType(entry.response.content.type.toLowerCase());
+  const type = getType(entry.response.content.type?.toLowerCase());
   // @ts-expect-error Element has any type
   const typeDefinition = types[type];
 

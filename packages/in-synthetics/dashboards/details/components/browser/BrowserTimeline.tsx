@@ -71,7 +71,7 @@ const OverviewChart = ({ width, entries, earliestTimestamp, endTimestamp }: Over
           const startingPointInTime = new Date(entry.startedDateTime).getTime();
           const startX = scale.getRange(startingPointInTime);
           const endX = scale.getRange(startingPointInTime + Math.floor(entry.time));
-          const type = getType(entry.response.content.type.toLowerCase());
+          const type = getType(entry.response.content.type?.toLowerCase());
           //@ts-expect-error No index signature found
           const typeDefinition = types[type];
           return (
