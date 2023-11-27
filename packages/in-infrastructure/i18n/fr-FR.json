@@ -77,8 +77,7 @@
     "metricExplosion": "Ce tableau de bord ne peut pas afficher toutes les métriques car seules {{numberOfMetrics}} ont été stockées"
   },
   "explore": {
-    "beta": "Bêta",
-    "tryBetaInfraAnalytics": "Essayez la nouvelle analyse d'infrastructure",
+    "analyzeInfrastructure": "Analyser l'infrastructure",
     "focusOnThisGroup": "Axer sur ce groupe",
     "theQueryConfigurationIsInvalid": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
     "allInfrastructure": "Toutes les infrastructures",

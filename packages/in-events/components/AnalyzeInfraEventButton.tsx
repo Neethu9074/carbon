@@ -50,7 +50,7 @@ export function getLinkToUnboundAnalytics(
     getLinkToInfraEntityExplore({
       tagFilterExpression: tagFilterFormModel,
       type: entityType,
-      ...(timeConfig ? timeConfig : {}),
+      timeConfig,
       metrics: [
         {
           metric: metricName,

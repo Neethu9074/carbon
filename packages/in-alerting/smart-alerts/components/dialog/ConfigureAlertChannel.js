@@ -3,21 +3,21 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { filter } from 'lodash';
 
 import { Button } from '@instana/components';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import { getAlertChannelsInfosMutable, getAlertChannelsAsResultObservable } from 'in-api/alertChannels';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
-import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import SaveButton from 'in-components/form/SaveButton';
@@ -33,11 +33,20 @@ export default function ConfigureAlertChannel({
   setCustomSlideInHeaderConfig,
   numberOfAlertChannelListRows = 5
 }) {
+  const alertChannelInfos = getAlertChannelsAsResultObservable('')
+    .map(result => {
+      if (result == null || result?.progress?.loading) {
+        return null;
+      }
+      return result?.data ?? [];
+    })
+    .startWith(null);
+
   return (
     <>
       <AlertChannelsList
         setTitle={false}
-        loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
+        loadEntities={() => getSelectedAlertChannelsInfos(form.get('alertChannelIds').value, alertChannelInfos)}
         hasRowNavigation={false}
         renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, onChange)}
@@ -88,13 +97,16 @@ function SelectListDialogContent({
 }) {
   const initialState = false;
   const [slideInContentVisible, setSlideInContentVisible] = useState(initialState);
+  const alertChannelInfos = useMemo(() => {
+    return getAlertChannelsInfosMutable().startWith(null);
+  }, []);
 
   return (
     <SlideInView
       staticContent={
         <AlertConfigSlideInContentWrapper>
           <SelectListDialogContentComponent
-            listComponent={AlertChannelsList}
+            listComponent={props => <AlertChannelsList {...props} loadEntities={() => alertChannelInfos} />}
             listComponentRightHeader={
               role.canConfigureIntegrations && (
                 <Button
@@ -165,13 +177,12 @@ function SelectListDialogContent({
   );
 }
 
-const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(function (selectedChannels) {
+function getSelectedAlertChannelsInfos(selectedChannels, alertChannelInfos) {
   if (selectedChannels.length === 0) {
     return alwaysEmptyArray;
   }
-  // null is treated as a pending result when converting the HTTP response into a result
-  return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
-});
+  return alertChannelInfos.map(channels => filter(channels, channel => selectedChannels.indexOf(channel.id) >= 0));
+}
 
 function alertChannelSelectionTableActions(form, onChange) {
   return {

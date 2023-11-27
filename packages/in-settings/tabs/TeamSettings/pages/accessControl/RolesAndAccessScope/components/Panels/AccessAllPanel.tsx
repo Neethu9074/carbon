@@ -11,9 +11,20 @@ import { Stack, StackItem, Typography } from '@instana/components';
 import {
   AreaRole,
   AreaRoleType,
-  AreaRoleWithCustomType
+  AreaRoleWithContributor,
+  AreaRoleWithContributorType,
+  AreaRoleWithCustomType,
+  AreaRolesWithContributor,
+  ProductAreaType,
+  ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface AccessAllPanelProps {
@@ -22,7 +33,9 @@ interface AccessAllPanelProps {
   roleTooltipText?: string | React.ReactElement;
   description: string;
   title?: string;
-  onChangeRole?: (role: AreaRoleType) => void;
+  onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
+  productArea: ProductAreaType;
+  contributionFilterConfigured?: boolean;
 }
 
 export default function AccessAllPanel({
@@ -31,18 +44,44 @@ export default function AccessAllPanel({
   entityPermissionKey,
   roleTooltipText,
   description,
-  title
+  title,
+  productArea,
+  contributionFilterConfigured
 }: AccessAllPanelProps) {
+  const isContributor =
+    applicationContributionFilterEnabled &&
+    entityPermissionKey === 'applicationIds' &&
+    role === AreaRoleWithContributor.CONTRIBUTOR;
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    productArea,
+    ScopedPermissionItem.ACCESS_ALL,
+    role
+  );
+
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {title ?? t('in-settings:permissionScope.description_access_all')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {description}
-        </Typography>
-      </StackItem>
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {title ?? t('in-settings:permissionScope.description_access_all')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
+        </StackItem>
+      )}
+      {isContributor && (
+        <StackItem>
+          <Typography variant="heading-200" component="h2">
+            {t('in-settings:permissionScope.role_permissions')}
+          </Typography>
+          {contributionFilterConfigured ? <ContributorFilterWarning /> : null}
+        </StackItem>
+      )}
       {roleTooltipText && onChangeRole && entityPermissionKey && (
         <RoleFormGroup
           htmlFor={`${entityPermissionKey}-role-select`}
@@ -50,6 +89,9 @@ export default function AccessAllPanel({
           value={role}
           defaultRole={AreaRole.VIEWER}
           onChange={onChangeRole}
+          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+            ? { options: AreaRolesWithContributor }
+            : {})}
         />
       )}
     </Stack>

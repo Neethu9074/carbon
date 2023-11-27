@@ -37,7 +37,7 @@ import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function ClusterDashboard({ location }) {
@@ -102,7 +102,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
-      renderMetaInformation={renderMetaInformation}
+      renderMetaInformation={RenderMetaInformation}
     />
   );
 }
@@ -152,14 +152,14 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
   );
 }
 
-function renderMetaInformation({ result }) {
+function RenderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
   const clusterManagement = get(result, ['data', 'clusterManagement']);
-
+  const theme = useTheme();
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
+      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
       <TypesBadgeList
         type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
           clusterDistributionName: clusterBadgeName(clusterDistribution)

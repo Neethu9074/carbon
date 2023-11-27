@@ -6,13 +6,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  AggregationType,
-  Group,
-  TagFilterExpressionElementUnion,
-  TagFilter,
-  TagFilterExpression
-} from '@instana/types';
+import { AggregationType, Group, TagFilterExpressionElementUnion } from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
 import {
@@ -24,13 +18,12 @@ import {
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 // @ts-expect-error
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { removeDuplicatesFromArrayObjects } from 'in-custom-dashboards/widgets/Chart/util';
-import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
@@ -55,6 +48,7 @@ export interface MetricItem {
   crossSeriesAggregation: string;
   metricLabel: string;
   label: string;
+  regex: boolean;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -97,8 +91,11 @@ function InfrastructureTable(props: TableWidgetProps) {
   useEffect(() => {
     setOrder(sorting);
     setTotalItemsCount(undefined);
-    setTagFilterExpression(baseTagFilterExpression);
-  }, [sorting, tagFilterExpression, baseTagFilterExpression]);
+
+    if (query === '') {
+      setTagFilterExpression(baseTagFilterExpression);
+    }
+  }, [sorting, tagFilterExpression, baseTagFilterExpression, query]);
 
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
@@ -255,12 +252,13 @@ function InfrastructureTable(props: TableWidgetProps) {
 
 function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ aggregation, metric, formatter, label, metricLabel }) => ({
+    ({ aggregation, metric, formatter, label, metricLabel, regex }) => ({
       aggregation,
       formatterId: formatter,
       label: label !== '' ? label : metricLabel,
       metricLabel,
-      metric
+      metric,
+      regex
     })
   );
 
@@ -282,18 +280,29 @@ function getTagFilterExpressionFromQuery({
 }: {
   backendGroupBy: string[];
   query: string;
-  setTagFilterExpression: React.Dispatch<React.SetStateAction<TagFilter | FormModelElement[] | TagFilterExpression>>;
-  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion;
+  setTagFilterExpression: React.Dispatch<
+    React.SetStateAction<FormModelElement | FormModelElement[] | TagFilterExpressionElementUnion>
+  >;
+  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion | FormModelElement;
 }) {
   if (query.trim() !== '') {
     const tagFiltersFromEntity = tagFilter('label', 'CONTAINS', query);
     const tagFiltersFromGroups = backendGroupBy.map((group: string) => tagFilter(group, 'CONTAINS', query));
+    const uiTagFilterExpression = fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion);
+
     const updatedTagFilterExpression = toBackendQueryModel(
       joinExpressions({
-        logicalOperator: or,
-        expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
+        logicalOperator: and,
+        expressions: [
+          joinExpressions({
+            logicalOperator: or,
+            expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
+          }),
+          uiTagFilterExpression
+        ]
       })
     );
+
     setTagFilterExpression(updatedTagFilterExpression);
   } else {
     setTagFilterExpression(tagFilterExpression);

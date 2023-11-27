@@ -4,15 +4,14 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .delete {
     cursor: pointer;
-    fill: @lib__colors__primary2;
+    fill: var(--ids-color-option-blue-500);
 
     &:hover {
-      fill: @lib__colors__N700Medium;
+      fill: var(--ids-color-option-neutral-700);
     }
   }
 

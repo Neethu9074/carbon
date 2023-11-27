@@ -21,6 +21,10 @@
       "transferSizeLabel": "転送サイズ",
       "transferSizeCategory": "リソースのサイジング"
     },
+    "crash": {
+      "crashAffectedSessionCount": "クラッシュの影響を受けたセッション数",
+      "crashAffectedUserCount": "クラッシュの影響を受けたユーザー数"
+    },
     "errorRate": {
       "label": "エラー率",
       "rawDataLabel": "エラー件数"
@@ -215,6 +219,7 @@
       "crashLabel": "異常終了",
       "metaHeader": "メタ",
       "stackTrace": "スタック・トレース",
+      "stackTraceLastOccurrence": "スタック・トレース(最後の発生)",
       "stackTraceButtonPrettyStackTrace": "プリティー・スタック・トレース",
       "stackTraceButtonRawStackTrace": "未加工のスタック・トレース"
     },
@@ -337,9 +342,40 @@
       "devices": "デバイス",
       "viewAllDevices": "すべてのデバイスの表示",
       "osVersions": "オペレーティング・システム",
-      "viewAllOs": "すべてのオペレーティング・システムの表示",
+      "viewAllOs": "すべてのオペレーティング・システムを表示",
       "appVersions": "アプリケーション・バージョン",
       "viewAllVersions": "すべてのバージョンを表示",
+      "configurations": {
+        "symbolFileConfigLabel": "スタック・トレース変換",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "すべてのファイル API を削除",
+          "dialogMessageConfigurationUpdated": "構成が更新されました。",
+          "dialogMessageFailedToSaveConfiguration": "構成の保存に失敗しました: {{message}}",
+          "dialogMessageNewConfigurationSaved": "新しい構成が保存されました。",
+          "dialogMessageSavingConfiguration": "構成を保存しています…",
+          "fileCommitUrl": "シンボル・ファイルのコミットAPI",
+          "fileUploadConfigurationDialogTitleEdit": "シンボル・ファイル・アップロード構成の編集",
+          "fileUploadConfigurationDialogTitleNew": "新規シンボル・ファイル・アップロード構成",
+          "fileUploadConfigurationDialogLabelDescription": "説明",
+          "fileUploadConfigurationDialogHeadingDescription": "説明",
+          "fileUploadConfigurationDialogDescriptionHelp": "アップロード構成を使用すると、アップロードしたファイルを適切に整理することができます。",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "シンボル・ファイルのアップロード",
+          "fileUploadConfigurationDialogOpenAPIHelp": "InstanaのWeb REST APIを呼び出して、シンボル・ファイルをアップロードします。 これは、デプロイメントの自動化で使用しているパイプライン・プロセスに統合できます。 Web REST API の説明と使用法は、<documentation>資料</documentation>でご確認ください。",
+          "fileUploadUrl": "シンボル・ファイルのアップロードAPI",
+          "stackTraceTranslationLabelConfiguration": "構成",
+          "stackTraceTranslationLabelFiles": "ファイル",
+          "stackTraceTranslationLabelTotalSize": "合計サイズ",
+          "stackTraceTranslationLabelLastModified": "最終変更日時",
+          "stackTraceTranslationExplanationWithUploadFeature": "スタック・トレースを読みやすくする(例えば、非縮小ファイルおよび行への参照を示す)ために、Instanaはシンボル・ファイルを使用してコードを解釈する必要があります。 ここでアップロード構成を追加すると、Instana Web REST APIを介してモバイル・アプリケーション・シンボル・ファイルをアップロードできるようになります。 これにより、Instanaは、モバイル・アプリケーションの異常終了エラーについて、より多くの洞察を提供できます。",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "スタック・トレース変換",
+          "stackTraceTranslationLearnMoreLabel": "スタック・トレース変換の詳細はこちら",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "スタック・トレース変換構成",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "シンボル・ファイル・アップロード構成",
+          "stackTraceTranslationNoUploadDataMessage": "使用可能なシンボル・ファイル・アップロード構成がありません。",
+          "stackTraceTranslationButtonAddConfiguration": "構成の追加",
+          "stackTraceTranslationLabelFileUploadConfiguration": "シンボル・ファイル・アップロード構成{{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "エラー・メッセージ",
         "crashesLabelOccurrences": "発生件数",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "異常終了",
         "crashInfoTitle": "詳細",
         "crashInfoMessage": "メッセージ",
-        "backToCrashList": "異常終了のリストに戻る",
+        "backToCrashList": "クラッシュ・グループに戻る",
         "crashTitleMobileAppCrashDetails": "モバイル・アプリケーションの異常終了の詳細"
       },
       "customEvents": {

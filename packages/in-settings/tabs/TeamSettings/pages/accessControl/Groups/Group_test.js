@@ -61,7 +61,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group', () =>
           mobileAppIds: [],
           infraDfqFilter: {
             scopeId: '',
-            scopeRoleId: ''
+            scopeRoleId: '-1'
           }
         }
       })
@@ -98,7 +98,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group', () =>
           mobileAppIds: [],
           infraDfqFilter: {
             scopeId: '',
-            scopeRoleId: ''
+            scopeRoleId: '-1'
           }
         }
       })

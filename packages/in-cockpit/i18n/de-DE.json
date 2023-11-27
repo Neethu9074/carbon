@@ -72,6 +72,12 @@
       "views": "Ansichten",
       "website": "Website",
       "mobileApp": "Mobile App"
+    },
+    "bizopsTopList": {
+      "businessProcess": "Geschäftsprozess",
+      "activities": "Aktivitäten",
+      "count": "Anzahl",
+      "allProcesses": "Alle Geschäftsprozesse"
     }
   },
   "cockpit": {
@@ -93,6 +99,7 @@
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites und mobile Apps",
+    "bizops": "Business Monitoring",
     "customEventDeprecatedWarning": "<strong>{{count}} Angepasstes Ereignis für Anwendung, Service und Endpunkt erfordert eine Aktion</strong><affectedCustomEvents>Betroffenes angepasstes Ereignis anzeigen</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>{{count}} Angepasste Ereignisse für Anwendung, Service und Endpunkt erfordern eine Aktion</strong><affectedCustomEvents>Betroffene angepasste Ereignisse anzeigen</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>{{count}} Angepasste Ereignisse für Anwendung, Service und Endpunkt erfordern eine Aktion</strong><affectedCustomEvents>Betroffene angepasste Ereignisse anzeigen</affectedCustomEvents>",
@@ -116,6 +123,10 @@
       "createWebsite": "Website erstellen",
       "createMobileApp": "Mobile App erstellen",
       "noLabelYet": "Noch keine {{nolabel}} "
+    },
+    "bizops": {
+      "noProcessYet": "Noch keine Geschäftsprozesse vorhanden",
+      "noData": "Durch Instana Business Monitoring werden IT-Anwendungen für Unternehmen beobachtbar, indem es Ereignisse in Echtzeit in einen geschäftlichen Kontext stellt.  Geschäftsprozesse werden hier angezeigt, sobald ein Kontoadministrator sie aktiviert hat."
     }
   }
 }

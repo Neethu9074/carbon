@@ -77,6 +77,8 @@ export const configurationOptions = '/options';
 export const configurationOptionsFullyQualified = `${configurationTabFullyQualified}${configurationOptions}`;
 export const configurationPrivacy = '/privacy';
 export const configurationPrivacyFullyQualified = `${configurationTabFullyQualified}${configurationPrivacy}`;
+export const configurationSymbolFiles = '/symbolFiles';
+export const configurationSymbolFilesFullyQualified = `${configurationTabFullyQualified}${configurationSymbolFiles}`;
 export const configurationCustomGeoDetails = '/customGeoDetails';
 export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
 

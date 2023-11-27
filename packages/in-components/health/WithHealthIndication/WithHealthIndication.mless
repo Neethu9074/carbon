@@ -17,7 +17,7 @@
     width: 0.5rem;
     height: 0.5rem;
 
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-option-round);
     border: 1px solid var(--ids-color-option-neutral-50);
   }
 }

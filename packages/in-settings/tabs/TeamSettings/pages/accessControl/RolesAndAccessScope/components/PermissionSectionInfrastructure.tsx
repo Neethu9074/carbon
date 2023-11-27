@@ -97,7 +97,7 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
         : restPermissionSet.permissions;
     // infraDfqFilter is cleared in case limitation not set to LIMITED_ACCESS
     const newInfraFilter =
-      limitation === ScopedPermissionItem.LIMITED_ACCESS ? infraFilter : { scopeId: '', scopeRoleId: '-600' };
+      limitation === ScopedPermissionItem.LIMITED_ACCESS ? infraFilter : { scopeId: '', scopeRoleId: '-1' };
     const newPermissionSet = {
       ...restPermissionSet,
       permissions: newPermissions,
@@ -131,7 +131,7 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
           <InfrastructureAccessPanel description={viewerAccessDescription} role={role} form={form} setForm={setForm} />
         </TabSelectPanel>
         <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
-          <NoAccessPanel />
+          <NoAccessPanel productArea={ProductArea.INFRASTRUCTURE} />
         </TabSelectPanel>
       </TabSelectPanels>
     </TabSelect>

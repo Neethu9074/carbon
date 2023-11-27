@@ -50,7 +50,7 @@
     top: 0;
     bottom: 0;
     background: var(--ids-color-option-neutral-600);
-    border-radius: 5px;
+    border-radius: var(--ids-border-radius-option-large);
   }
 
   .smallColumn {

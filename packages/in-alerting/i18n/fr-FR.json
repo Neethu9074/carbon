@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "Seuil",
       "alertingChartLabelViolations": "Violations",
+      "alertingChartLabelForecast": "Prévision",
+      "alertingChartLabelUpperBound": "Limite supérieure",
+      "alertingChartLabelLowerBound": "Limite inférieure",
       "alertingChartMessageInvalidFilterQuery": "Requête de filtre non valide.",
       "alertingChartMessageEmptyApplicationSelection": "Aucune application sélectionnée.",
       "chartAlertsLaneErrorMessage": "Impossible de charger les alertes",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "Message d'erreur",
-        "noDataMessage": "Aucune alerte définie.",
         "selectJSErrorHelpText": "Sélectionner le message d'erreur JS comme modèle (facultatif))",
-        "selectJSErrorTitle": "Sélectionner une erreur JS"
+        "selectJSErrorTitle": "Sélectionner une erreur JS",
+        "noJSErrorFound": "Aucune erreur JS trouvée"
       },
       "data": {
         "errorCount": "Nombre d'erreurs",
@@ -1216,6 +1219,32 @@
         "filter_0": "Filtres",
         "filter_1": "Filtres",
         "filter_2": "Filtres"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Portée",
+          "title": "Porté : où cette condition se produit-elle ?"
+        },
+        "threshold": {
+          "label": "Seuil",
+          "title": "Seuil : Quand la condition n'est-elle pas respectée ?"
+        },
+        "timeThreshold": {
+          "label": "Seuil de temps",
+          "title": "Seuil de temps : quand voulez-vous être alerté ?"
+        },
+        "alertChannel": {
+          "label": "Canaux d'alerte",
+          "title": "Canaux d'alerte : qui doit être alerté ?"
+        },
+        "properties": {
+          "label": "Propriétés",
+          "title": "Propriétés d'alerte supplémentaires"
+        },
+        "customPayloads": {
+          "label": "Contenus",
+          "title": "Contenu personnalisé"
+        }
       }
     }
   }

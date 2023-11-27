@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -15,7 +14,7 @@
     bottom: 0;
 
     background-color: rgba(71, 82, 93, 0.5); // --ids-color-option-neutral-700
-    z-index: @z-index__dialog;
+    z-index: var(--ids-z-index-option-dialog);
 
     display: flex;
     align-items: center;
@@ -39,7 +38,7 @@
     height: 5rem;
     padding: 1.5rem;
     background: var(--ids-color-option-white);
-    border-radius: var(--ids-border-radius-small) var(--ids-border-radius-small) 0 0;
+    border-radius: var(--ids-border-radius-option-small) var(--ids-border-radius-option-small) 0 0;
   }
 
   .title {
@@ -62,7 +61,7 @@
   }
 
   .withRoundedBottomBorder {
-    border-radius: 0 0 var(--ids-border-radius-small) var(--ids-border-radius-small);
+    border-radius: 0 0 var(--ids-border-radius-option-small) var(--ids-border-radius-option-small);
   }
 
   .withoutPadding {

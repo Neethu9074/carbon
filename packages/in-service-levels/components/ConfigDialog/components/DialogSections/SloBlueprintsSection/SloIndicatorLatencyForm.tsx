@@ -16,7 +16,7 @@ import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/compo
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
 export default function SloIndicatorLatencyForm() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const aggregationField = form.getIn(['indicator', 'aggregation']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
@@ -26,6 +26,7 @@ export default function SloIndicatorLatencyForm() {
 
   const isTimeBased = indicatorType === 'timeBased';
   const isEventBased = indicatorType === 'eventBased';
+  const isFormInEditMode = mode === 'EDIT';
 
   return (
     <Stack gap="medium">
@@ -33,10 +34,26 @@ export default function SloIndicatorLatencyForm() {
       <SloIndicatorTypeSelectorFormSection />
       <IndicatorFieldsSection>
         {/* Time-based SLI fields */}
-        {isTimeBased && <IndicatorAggregationField field={aggregationField} onChange={onChange} />}
-        {isTimeBased && <IndicatorThresholdField blueprint={blueprint} field={thresholdField} onChange={onChange} />}
+        {isTimeBased && (
+          <IndicatorAggregationField disabled={isFormInEditMode} field={aggregationField} onChange={onChange} />
+        )}
+        {isTimeBased && (
+          <IndicatorThresholdField
+            blueprint={blueprint}
+            disabled={isFormInEditMode}
+            field={thresholdField}
+            onChange={onChange}
+          />
+        )}
         {/* Event-based SLI fields */}
-        {isEventBased && <IndicatorThresholdField blueprint={blueprint} field={thresholdField} onChange={onChange} />}
+        {isEventBased && (
+          <IndicatorThresholdField
+            blueprint={blueprint}
+            disabled={isFormInEditMode}
+            field={thresholdField}
+            onChange={onChange}
+          />
+        )}
       </IndicatorFieldsSection>
     </Stack>
   );

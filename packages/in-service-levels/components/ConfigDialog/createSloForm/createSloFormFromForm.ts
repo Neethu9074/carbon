@@ -9,6 +9,14 @@ import { createField, createMapForm } from 'formalistic';
 import { DurationUnitType } from '@instana/types';
 
 import {
+  dateFieldValidator,
+  noBlankEntitySelection,
+  noInvalidTagFilterExpression,
+  targetFieldValidator,
+  timeFieldValidator,
+  timeWindowValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
+import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
@@ -19,10 +27,8 @@ import {
   createIndicatorThresholdField,
   createSloNameTagsFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import {
-  dateFieldValidator,
-  timeFieldValidator
-} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 
 export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
   const name = form.getIn(['nameTags', 'name']).value;
@@ -35,7 +41,10 @@ export const getEntityFieldsFromForm = (form: SloForm): SloEntityFields => {
   const entityIdValue = form.getIn(['entity', 'entityId']).value;
   const entityTypeValue = form.getIn(['entity', 'type']).value;
 
-  return { entityId: createField({ value: entityIdValue }), type: createField({ value: entityTypeValue }) };
+  return {
+    entityId: createField({ value: entityIdValue, validator: noBlankEntitySelection }),
+    type: createField({ value: entityTypeValue })
+  };
 };
 
 export const getScopeFieldsFromForm = (form: SloForm): SloScopeFields => {
@@ -54,7 +63,7 @@ export const getScopeFieldsFromForm = (form: SloForm): SloScopeFields => {
     includeInternal: createField({ value: includeInternalValue }),
     includeSynthetic: createField({ value: includeSyntheticValue }),
     serviceId: createField({ value: serviceIdValue }),
-    tagFilterExpression: createField({ value: tagFilterExpressionValue })
+    tagFilterExpression: createField({ value: tagFilterExpressionValue, validator: noInvalidTagFilterExpression })
   };
 };
 
@@ -105,8 +114,11 @@ export const getObjectiveFieldsFromForm = (form: SloForm) => {
   const timeWindowType = form.getIn(['objective', 'type']).value;
 
   return {
-    target: createField<number | undefined>({ value: targetFieldValue }),
-    duration: createField<number>({ value: durationFieldValue }),
+    target: createField<number | undefined>({ value: targetFieldValue, validator: targetFieldValidator }),
+    duration: createField<number>({
+      value: durationFieldValue,
+      validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator)
+    }),
     durationUnit: createField<DurationUnitType>({ value: durationUnitFieldValue }),
     startTimestamp: createMapForm({ items: getTimeFields(form) }),
     type: createField({ value: timeWindowType })
@@ -125,7 +137,8 @@ export const createSloFormFromForm = (form: SloForm): SloForm => {
         items: getScopeFieldsFromForm(form)
       }),
       objective: createMapForm({
-        items: getObjectiveFieldsFromForm(form)
+        items: getObjectiveFieldsFromForm(form),
+        validator: timeWindowValidator
       }),
       nameTags: createMapForm({
         items: getNameTagFieldsFromForm(form)

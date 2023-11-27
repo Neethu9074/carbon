@@ -77,8 +77,7 @@
     "metricExplosion": "In diesem Dashboard werden möglicherweise nicht alle Metriken angezeigt, da nur {{numberOfMetrics}} gespeichert wurden."
   },
   "explore": {
-    "beta": "Betaversion",
-    "tryBetaInfraAnalytics": "Testen Sie die neue Infrastrukturanalyse",
+    "analyzeInfrastructure": "Infrastruktur analysieren",
     "focusOnThisGroup": "Auf diese Gruppe konzentrieren",
     "theQueryConfigurationIsInvalid": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
     "allInfrastructure": "Gesamte Infrastruktur",

@@ -12,6 +12,8 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import Input from 'in-components/form/Input';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './CustomMetricSelector.mless';
 
@@ -52,12 +54,21 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, dis
       getToggleButtonProps
     }) => {
       const lowerCaseInputValue = inputValue.toLowerCase();
-      const filteredOptions = options.filter(
+      let filteredOptions = options.filter(
         item => !inputValue || item.label.toLowerCase().includes(lowerCaseInputValue)
       );
       const toggleButtonProps = getToggleButtonProps();
       const onClick = disabled ? undefined : toggleButtonProps.onClick;
 
+      function metricClearClick() {
+        onChange('metricName', '', updatedForm => {
+          updatedForm = updatedForm
+            .updateIn(['formatter'], f => f.setValue(null).setTouched(false))
+            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+          return updatedForm;
+        });
+      }
       return (
         <div className={locals.wrapper}>
           <div
@@ -78,6 +89,11 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, dis
               onClick={onClick}
               type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
             />
+            {selectedItem && (
+              <Tooltip content={t('in-settings:tabs.team.events.clearMetricSeclection')} align="topMiddle" delay={300}>
+                <SvgIcon className={locals.clearButton} onClick={metricClearClick} type="lib_openclose_cancel" />
+              </Tooltip>
+            )}
           </div>
           {filteredOptions.length > 0 && (
             <ul

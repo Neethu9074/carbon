@@ -106,18 +106,7 @@
         "sourceMonitoredByAnotherProvider": "Otro proveedor de rastreo distribuido ha rastreado el origen de esta llamada. Puede encontrar más información sobre el origen realizando una búsqueda en el espacio padre de este proveedor con el ID {{foreignParentId}}.",
         "notMonitored": "No supervisado por Instana",
         "source": "origen",
-        "destination": "destino",
-        "logs": "Registros ( {{errors}}{{warnings}} )",
-        "errors": "{{count}} error",
-        "errors_plural": "{{count}} errores",
-        "errors_0": "{{count}} errores",
-        "errors_1": "{{count}} errores",
-        "errors_2": "{{count}} errores",
-        "warnings": "{{count}} aviso",
-        "warnings_plural": "{{count}} avisos",
-        "warnings_0": "{{count}} avisos",
-        "warnings_1": "{{count}} avisos",
-        "warnings_2": "{{count}} avisos"
+        "destination": "destino"
       }
     },
     "tabs": {
@@ -279,10 +268,8 @@
     }
   },
   "logDetails": {
-    "title": "Registro",
     "titleTags": "Códigos",
     "titleParameters": "Parámetros",
-    "tooltipCloseLogDetails": "Cerrar detalles del registro",
     "analyzeLogsLabel": "Analizar registros",
     "similarLogs": "Registros similares",
     "similarServiceLogs": "Mostrar registros en contexto de este servicio",

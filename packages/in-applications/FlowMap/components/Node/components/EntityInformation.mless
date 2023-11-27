@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     position: relative;
@@ -23,8 +21,8 @@
     height: 2.5rem;
     padding: 0 0.75rem;
     background: white;
-    border-radius: 3px;
-    box-shadow: @lib__shadows__pronounced;
+    border-radius: var(--ids-border-radius-option-medium);
+    box-shadow: var(--ids-shadow-option-pronounced);
   }
 
   .rootEntity {

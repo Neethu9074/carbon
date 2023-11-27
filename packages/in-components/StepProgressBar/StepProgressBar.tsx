@@ -7,11 +7,9 @@ import classNames from 'classnames';
 import invariant from 'invariant';
 import React from 'react';
 
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './StepProgressBar.mless';
-
-const colors = [theme.lib.colors.lightBlue800, theme.lib.colors.cyan800, theme.lib.colors.green800];
 
 export interface StepProgressBarProps {
   stepTitles: string[];
@@ -19,6 +17,13 @@ export interface StepProgressBarProps {
 }
 
 export default function StepProgressBar({ stepTitles, step = 0 }: StepProgressBarProps) {
+  const theme = useTheme();
+  const colors = [
+    theme.ids.color.option.blue['400'],
+    theme.ids.color.option.teal['400'],
+    theme.ids.color.option.green['500']
+  ];
+
   validateStep(stepTitles, step);
   return (
     <div className={locals.container}>

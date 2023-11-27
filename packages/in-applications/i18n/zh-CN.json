@@ -248,6 +248,8 @@
     "newAP": "新建应用程序透视图",
     "switchSimpleMode": "切换到简单模式",
     "switchAdvancedMode": "切换到高级模式",
+    "selectContributionFilter": "选择添加项过滤器",
+    "noRestrictions": "无限制",
     "simple": {
       "step1Title": "步骤 1：选择模型",
       "step1": {

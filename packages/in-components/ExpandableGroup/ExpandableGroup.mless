@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
@@ -33,7 +32,7 @@
   }
 
   .expandIcon {
-    border-radius: var(--ids-border-radius-small);
+    border-radius: var(--ids-border-radius-option-small);
     min-width: 0.75rem;
     min-height: 0.75rem;
     margin-right: 0.5rem;

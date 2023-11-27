@@ -20,6 +20,7 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
+import { lighten } from 'in-services/formatters/color';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -125,28 +126,59 @@ export function getY1(
   granularity,
   threshold,
   eventBasedAdaptiveBaseline,
-  viewConfig
+  viewConfig,
+  displayPredictions = false
 ) {
-  const chartColors = [theme.lib.carbonCategorical.cyan50, theme.lib.carbonAlert.red60];
+  let chartColors = [theme.lib.carbonCategorical.cyan50, theme.lib.carbonAlert.red60];
 
-  const legendColors = [
+  let metricIds = [metricName, 'threshold'];
+
+  let legendColors = [
     theme.lib.carbonCategorical.cyan50,
     theme.lib.carbonAlert.red60,
     getColorWithTransparency(theme.lib.carbonAlert.red60).c50
   ];
 
+  let iconTypes = ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'];
+
+  let excludedLabelsFromLegend = [];
+
+  // If we want to show predictions in the chart, we must set the 'chartColors', 'legendColors', and 'iconTypes' for the predictions, lower and upper bounds.
+  if (displayPredictions) {
+    chartColors = [
+      ...chartColors,
+      '',
+      theme.lib.colors.deepPurple800,
+      lighten(theme.lib.carbonAlert.purple50, 0.4),
+      lighten(theme.lib.carbonAlert.purple50, 0.4)
+    ];
+    metricIds = [...metricIds, 'violations', 'predictions', 'lowerBound', 'upperBound'];
+    legendColors = [...legendColors, theme.lib.colors.deepPurple800];
+
+    //We don't need lower and upper bounds displayed in the legends area for predictions, so it's added to excludedLabelsFromLegend and removed from legends.
+    excludedLabelsFromLegend = [
+      t('in-alerting:components.chart.alertingChartLabelLowerBound'),
+      t('in-alerting:components.chart.alertingChartLabelUpperBound')
+    ];
+
+    // There are only three icons required for smart alerts, the last icon, 'lib_actions_stop,' is added to `iconTypes` for potential problems but is not displayed in alerting charts. However, when predictions are included in smart alerts, we must display 'lib_line_chart' as the fourth icon for legends, so removing the last icon from iconTypes ('lib_actions_stop') and replacing it with the prediction-appropriate icon.
+    iconTypes.pop();
+    iconTypes = [...iconTypes, 'lib_line_chart'];
+  }
+
   return {
     colors: chartColors,
-    metricIds: [metricName, 'threshold'],
+    metricIds: metricIds,
     // i18n: Violations does not need to be translated, it is an internal name
     excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
     nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
-    labels: enhanceLabels(metricLabel, highlight),
+    labels: enhanceLabels(metricLabel, highlight, displayPredictions),
+    excludedLabelsFromLegend: excludedLabelsFromLegend,
     tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
     formatter: value => formatter.detailed(value),
     renderer,
     icons: {
-      types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+      types: iconTypes,
       colors: [...legendColors, highlight?.color[0]].filter(Boolean)
     },
     thresholdGranularity: granularity,
@@ -159,7 +191,8 @@ export function getY1(
     sensitivity: threshold.deviationFactor,
     baseline: threshold.baseline,
     eventBasedAdaptiveBaseline,
-    getMax: computeMax
+    getMax: computeMax,
+    displayPredictions
   };
 
   function computeMax(metricsMaxValue) {
@@ -199,10 +232,16 @@ function isValidTimeThreshold(timeThreshold) {
   return true;
 }
 
-export function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
+export function getRendererBasedOnThresholdType(
+  threshold,
+  highlight,
+  granularity,
+  eventBasedAdaptiveBaseline,
+  displayPredictions = false
+) {
   switch (threshold.type) {
     case STATIC_THRESHOLD:
-      return createLineWithThreshold(threshold.operator, threshold.value);
+      return createLineWithThreshold(threshold.operator, threshold.value, displayPredictions);
     case HISTORIC_BASELINE:
       return createLineWithBaselineAndOptionalPotentialProblem(threshold, granularity, highlight);
     default:
@@ -256,12 +295,20 @@ function shouldRequestAlertsPreview(threshold) {
   return threshold.baseline;
 }
 
-function enhanceLabels(label, highlight) {
+function enhanceLabels(label, highlight, displayPredictions) {
   const labels = [
     label,
     t('in-alerting:components.chart.alertingChartLabelThreshold'),
     t('in-alerting:components.chart.alertingChartLabelViolations')
   ];
+
+  if (displayPredictions) {
+    labels.push(
+      t('in-alerting:components.chart.alertingChartLabelForecast'),
+      t('in-alerting:components.chart.alertingChartLabelLowerBound'),
+      t('in-alerting:components.chart.alertingChartLabelUpperBound')
+    );
+  }
 
   if (highlight) {
     labels.push(highlight.label);
@@ -276,7 +323,8 @@ function enhanceNonToggleableSeries(metricName, highlight) {
     ['alerts', null],
     // i18n: Violations does not need to be translated, it is an internal name
     ['Violations', null],
-    [metricName, null]
+    [metricName, null],
+    ['predictions', null]
   ]);
 
   if (highlight) {

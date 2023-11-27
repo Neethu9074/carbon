@@ -38,7 +38,8 @@ export default function MetricConfigurator({
   withPotentialProblemsConfiguration,
   dataSource,
   type,
-  maxGrouping
+  maxGrouping,
+  displayDFQ = true
 }) {
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
@@ -54,7 +55,7 @@ export default function MetricConfigurator({
 
   // If datasource is defined, makes the selection by default
   useEffect(() => {
-    if (sourceField.value && type) {
+    if (sourceField.value && type && type !== 'TIME_SERIES') {
       onChange(['type'], field => field.setValue(type).setTouched(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,9 +148,11 @@ export default function MetricConfigurator({
         withAggregationInMetrics={withAggregationInMetrics}
         withFiltering={withFiltering}
         isTypePrefilled={isTypePrefilled}
+        type={type}
         maxGrouping={maxGrouping}
         withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
         dataSourceSection={dataSource ? undefined : dataSourceSection}
+        displayDFQ={displayDFQ}
       />
     );
   }

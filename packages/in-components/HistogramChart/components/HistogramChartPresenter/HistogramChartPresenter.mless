@@ -5,7 +5,6 @@
  */
 
 @import 'in-components/HistogramChart/shared.less';
-@import '~in-themes/active.less';
 
 :local {
   .container {

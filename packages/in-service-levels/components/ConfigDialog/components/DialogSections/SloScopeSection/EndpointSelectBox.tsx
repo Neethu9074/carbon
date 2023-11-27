@@ -8,25 +8,30 @@ import React from 'react';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useEndpoints from 'in-applications/hooks/useEndpoints';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
+import { titleWidth } from 'in-service-levels/constants';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 interface EndpointSelectBoxProps {
   applicationId: string;
-  hasError?: boolean;
-  serviceId?: string | Nullish;
   boundaryScope: ApplicationBoundaryScope;
-  value: string | Nullish;
+  disabled?: boolean;
+  hasError?: boolean;
   onChange: (endpoint: string) => void;
+  width?: string;
+  serviceId?: string | Nullish;
+  value: string | Nullish;
 }
 
 export default function EndpointSelectBox({
   applicationId,
-  hasError,
-  serviceId,
   boundaryScope,
+  disabled = false,
+  hasError,
+  onChange,
+  serviceId,
   value,
-  onChange
+  width
 }: EndpointSelectBoxProps) {
   const [endpointsPage, status] = useEndpoints({
     application: applicationId,
@@ -38,12 +43,13 @@ export default function EndpointSelectBox({
 
   return (
     <SelectInSection
+      disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
+      hasError={hasError}
       id="new-sli-endpoint-selection"
       label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
-      disabled={isBlank(applicationId) || status !== 'resolved'}
-      value={value ?? ''}
       onChange={({ target }) => onChange?.(target?.value)}
-      hasError={hasError}
+      titleWidth={width ? width : titleWidth}
+      value={value ?? ''}
     >
       {status === 'pending' ? (
         <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>

@@ -118,6 +118,11 @@
       "delete": "削除"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "カスタム・フィルターが構成されていません"
+    }
+  },
   "createSloDialog": {
     "customFilter": "カスタム・フィルター (オプション)",
     "title": "サービス・レベル目標 (SLO) の作成",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "時間枠のサイズは 31 日以下でなければなりません",
     "errorTimeWindowWeek": "時間枠のサイズは 4 週間以下でなければなりません",
     "errorTimeWindowMin": "時間枠は少なくとも 1 日の長さでなければなりません",
+    "errorInvalidExpression": "入力されたフィルターは無効です",
+    "errorBlankEntity": "リストからエンティティーを選択してください",
     "nameAndTagsTitle": "名前とタグ",
     "nameAndTagsNavItem": "名前 & タグ",
     "sloNameLabel": "SLO 名",

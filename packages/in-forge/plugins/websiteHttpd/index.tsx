@@ -9,14 +9,10 @@ import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/websiteHttpd/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/websiteHttpd/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
-import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.websiteHttpd,
 
   kpiDefinitions,
-  metricDefinitions,
-  technologyDescriptor: {
-    label: t('in-forge:plugins.eum.website')
-  }
+  metricDefinitions
 });

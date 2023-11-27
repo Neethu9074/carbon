@@ -1177,8 +1177,11 @@
         "perPluginEntityAndMetricCount": "Per Plugin Entity and Metric Counts"
       },
       "eum": {
-        "sourceMapUsedStorageSize": "Total External Storage Used",
-        "sourceMapUploadedFilesSize": "Total Size of Uploaded Source Map Files"
+        "websiteMonitoring": "Website Monitoring",
+        "mobileAppMonitoring":"Mobile App Monitoring",
+        "UsedStorageSize": "Total External Storage Used",
+        "sourceMapUploadedFilesSize": "Total Size of Uploaded Source Map Files",
+        "symbolicationUploadedFilesSize": "Total Size of Uploaded Symbol Files"
       }
     }
   },

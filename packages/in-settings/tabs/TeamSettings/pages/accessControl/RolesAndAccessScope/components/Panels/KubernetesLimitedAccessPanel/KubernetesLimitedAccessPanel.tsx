@@ -13,12 +13,21 @@ import { t } from '@instana/i18n-react';
 
 import KubernetesAddEntityButton from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesAddEntityButton';
 import KubernetesEntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/KubernetesEntityTable';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import { KubernetesEntityType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/KubernetesLimitedAccessPanel/utils';
 import { getAllKubernetesNamespacesForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesNamespacesForEntitySelection';
 import { getAllKubernetesClustersForEntitySelectionWithDefaults } from 'in-kubernetes/subscriptions/getAllKubernetesClustersForEntitySelection';
+import {
+  ProductArea,
+  ScopedPermissionItem
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -46,16 +55,27 @@ export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormI
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;
 
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    ProductArea.KUBERNETES,
+    ScopedPermissionItem.LIMITED_ACCESS
+  );
+
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {t('in-settings:permissionScope.selection_limited_access')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {t('in-settings:PermissionSection.descriptionAccessLimited_kubernetes')}
-        </Typography>
-      </StackItem>
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.selection_limited_access')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {t('in-settings:PermissionSection.descriptionAccessLimited_kubernetes')}
+          </Typography>
+        </StackItem>
+      )}
       <StackItem>
         <div className={locals.contentHeader}>
           <Typography variant="body-bold" component="div">

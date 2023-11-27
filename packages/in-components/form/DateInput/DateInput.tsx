@@ -133,7 +133,7 @@ function DatePickerOverlay({ onChange, close, value }: DatePickerOverlayProps) {
   } as const;
 
   const modifiers = {
-    selected: dateValid && !isBlank(value) ? new Date(value!) : undefined,
+    selected: dateValid && !isBlank(value) ? parseDate(value!) : undefined,
     current: new Date()
   };
 

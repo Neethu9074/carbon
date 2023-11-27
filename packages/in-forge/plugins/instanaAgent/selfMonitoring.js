@@ -87,6 +87,16 @@ export function rebootAgent(snapshot) {
   });
 }
 
+export function profileAgent(snapshot) {
+  createAgentResponseObservable({
+    action: 'runAgentProfiler',
+    target: snapshot.get('volatileId'),
+    args: {}
+  }).once(response => {
+    logger.info('Agent Profiling response', response);
+  });
+}
+
 export function listSensors(snapshot) {
   return createAgentResponseObservable({
     action: 'agent.sensors.list',

@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "Umbral",
       "alertingChartLabelViolations": "Infracciones",
+      "alertingChartLabelForecast": "Previsión",
+      "alertingChartLabelUpperBound": "Límite superior",
+      "alertingChartLabelLowerBound": "Límite inferior",
       "alertingChartMessageInvalidFilterQuery": "Consulta de filtro no válida.",
       "alertingChartMessageEmptyApplicationSelection": "No se ha seleccionado ninguna aplicación.",
       "chartAlertsLaneErrorMessage": "No se han podido cargar las alertas",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "Mensaje de error",
-        "noDataMessage": "No hay ninguna alerta configurada.",
         "selectJSErrorHelpText": "Seleccione el mensaje de error JS como plantilla (opcional)",
-        "selectJSErrorTitle": "Seleccionar error JS"
+        "selectJSErrorTitle": "Seleccionar error JS",
+        "noJSErrorFound": "No se ha encontrado ningún error de JS"
       },
       "data": {
         "errorCount": "Número de errores",
@@ -1216,6 +1219,32 @@
         "filter_0": "Filtros",
         "filter_1": "Filtros",
         "filter_2": "Filtros"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Ámbito",
+          "title": "Ámbito: ¿Dónde se está produciendo la condición?"
+        },
+        "threshold": {
+          "label": "Umbral",
+          "title": "Umbral: ¿Cuándo se infringe la condición?"
+        },
+        "timeThreshold": {
+          "label": "Umbral de tiempo",
+          "title": "Umbral de tiempo: ¿Cuándo desea ser alertado?"
+        },
+        "alertChannel": {
+          "label": "Canales de alerta",
+          "title": "Canales de alertas: ¿Quién necesita ser alertado?"
+        },
+        "properties": {
+          "label": "Propiedades",
+          "title": "Propiedades de alerta adicionales"
+        },
+        "customPayloads": {
+          "label": "Cargas útiles",
+          "title": "Carga útil personalizada"
+        }
       }
     }
   }

@@ -27,6 +27,7 @@ export interface StackTraceThreadFrameDesc {
   a?: string; // address
   f?: string; // function
   o?: string; // offset
+  t?: string; // translated function
 }
 
 export interface BinaryImageDesc {
@@ -48,7 +49,10 @@ export type FormatedStackTrace = {
 } & RawStackData;
 
 function isIOS(beacon: MobileAppMonitoringBeacon) {
-  return beacon.platform?.toLowerCase() === 'ios';
+  // TODO: we should have a reliable way to check the format of crash beacon
+  // this will be an issue when we start to add crash support for flutter and react-native
+  // maybe save our mobile agent type in agentVersion
+  return ['ios', 'ipados', 'macos'].includes(beacon.platform?.toLowerCase() ?? '');
 }
 
 function isAndroid(beacon: MobileAppMonitoringBeacon) {
@@ -75,7 +79,7 @@ function formatStackTraceJsonAsText(stacktrace: StackTraceType): string {
     const isCrashed = t.state === 'attributed';
     buffArr.push(`Thread ${idx}${isCrashed ? ' Crashed' : ''}:`);
     for (const [frameIdx, frame] of (t.st ?? []).entries()) {
-      buffArr.push(`${frameIdx} ${frame.n} ${frame.a} ${frame.f}${frame.o ? ' + ' + frame.o : ''}`);
+      buffArr.push(`${frameIdx} ${frame.n} ${frame.a} ${frame.t || frame.f}${frame.o ? ' + ' + frame.o : ''}`);
     }
     buffArr.push(SEPERATOR);
   }

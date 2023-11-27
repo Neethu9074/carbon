@@ -17,9 +17,11 @@ import {
 } from 'in-settings/tabs/TeamSettings/api/groups';
 import { RemoveUserDialog } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/RemoveUserDialog';
 import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -45,7 +47,6 @@ export default function Group({ match }) {
     // Update URL path to replace 'new' with actual new group id (will not cause a page reload)
     navigate(getEntityHref(teamSettingsAccessControlGroups, id), true);
   }
-
   return (
     <>
       <Title title={t('in-settings:tabs.group')} />
@@ -184,12 +185,34 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
   saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm, updateGroupId });
 }
 
+function getPermissionSetWithApFilters(form) {
+  const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
+  const contributionFilterConfig = {
+    tagFilterExpression: backendModel,
+    scope: form.get('scope')?.value,
+    label: form.get('label')?.value
+  };
+  const permissionSet = {
+    ...form.get('permissionSet').value,
+    ['restrictedApplicationFilter']: contributionFilterConfig
+  };
+  return permissionSet;
+}
+
 function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
+  const isRestrictedFilter = applicationContributionFilterEnabled && form.get('tagFilterExpression').value?.length > 0;
+
+  if (!form.hierarchyValid) {
+    setForm(form.setTouched(true, { recurse: true }));
+    setCanSaveItem(false);
+    return;
+  }
+
   const group = {
     id: form.get('id').value,
     name: form.get('name').value,
     members: form.get('members').value,
-    permissionSet: form.get('permissionSet').value
+    permissionSet: isRestrictedFilter ? getPermissionSetWithApFilters(form) : form.get('permissionSet').value
   };
 
   setMessage({ text: t('in-settings:tabs.savingGroup'), type: 'neutral', isSaving: true });

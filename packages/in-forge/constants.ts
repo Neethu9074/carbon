@@ -55,6 +55,7 @@ export const nonServicePlugins = {
   azureApiManagement: 'azureApiManagement',
   azureAppService: 'azureAppService',
   azureCosmosDb: 'azureCosmosDb',
+  azureDataFactory: 'azureDataFactory',
   azureMySql: 'azureMySql',
   azureRedisCache: 'azureRedisCache',
   azureSqlDb: 'azureSqlDb',
@@ -124,6 +125,7 @@ export const nonServicePlugins = {
   host: 'host',
   httpd: 'httpd',
   ibmApiConnect: 'ibmApiConnect',
+  ibmApiConnectCatalog: 'ibmApiConnectCatalog',
   ibmCics: 'ibmCics',
   ibmCtg: 'ibmCtg',
   ibmCloudClinicalData: 'ibmCloudClinicalData',
@@ -226,6 +228,7 @@ export const nonServicePlugins = {
   openLDAP: 'openLDAP',
   openshiftDeploymentConfig: 'openshiftDeploymentConfig',
   openTelemetry: 'openTelemetry',
+  oTelDatabase: 'oTelDatabase',
   otelHost: 'otelHost',
   otelProcess: 'otelProcess',
   packet: 'packet',
@@ -280,6 +283,7 @@ export const nonServicePlugins = {
   tuxedoDomain: 'tuxedoDomain',
   tuxedoMachine: 'tuxedoMachine',
   tuxedoServer: 'tuxedoServer',
+  tuxedoIpcQueue: 'tuxedoIpcQueue',
   tuxedoAppApplication: 'tuxedoAppApplication',
   tuxedoAppServiceBrokerProject: 'tuxedoAppServiceBrokerProject',
   tuxedoAppTuxedoService: 'tuxedoAppTuxedoService',
@@ -315,7 +319,8 @@ export const nonServicePlugins = {
   sapJavaSystem: 'sapJavaSystem',
   sapHanaSystem: 'sapHanaSystem',
   sapWebDispatcher: 'sapWebDispatcher',
-  sapAbapSensor: 'sapAbapSensor',
+  sapAbapInstanceSensor: 'sapAbapInstanceSensor',
+  sapAbapSystemSensor: 'sapAbapSystemSensor',
   remoteHost: 'remoteHost',
   processGroup: 'processGroup'
 };
@@ -397,6 +402,7 @@ export const fullyQualifiedPlugins = {
   azureApiManagement: 'com.instana.forge.hardware.virtual.azure.apimanagement.AzureApiManagement',
   azureAppService: 'com.instana.forge.hardware.virtual.azure.appservice.AzureAppService',
   azureCosmosDb: 'com.instana.forge.hardware.virtual.azure.cosmosdb.AzureCosmosDb',
+  azureDataFactory: 'com.instana.forge.hardware.virtual.azure.datafactory.AzureDataFactory',
   azureMySql: 'com.instana.forge.hardware.virtual.azure.mysql.AzureMySql',
   azureRedisCache: 'com.instana.forge.hardware.virtual.azure.rediscache.AzureRedisCache',
   azureStorage: 'com.instana.forge.hardware.virtual.azure.storage.AzureStorage',
@@ -471,6 +477,8 @@ export const fullyQualifiedPlugins = {
   host: 'com.instana.forge.infrastructure.os.host.Host',
   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
   ibmApiConnect: 'com.instana.forge.infrastructure.apigateway.ibmapiconnect.IbmApiConnect',
+  ibmApiConnectCatalog:
+    'com.instana.forge.infrastructure.apigateway.ibmapiconnect.derivedentity.catalog.IbmApiConnectCatalog',
   ibmCics: 'com.instana.forge.infrastructure.application.ibmzos.IbmCics',
   ibmCloudClinicalData: 'com.instana.forge.infrastructure.machine_learning.ibmcloud.clinicaldata.IbmCloudClinicalData',
   ibmCloudCloudant: 'com.instana.forge.infrastructure.database.ibmcloud.cloudant.IbmCloudCloudant',
@@ -589,6 +597,7 @@ export const fullyQualifiedPlugins = {
   openshiftDeploymentConfig:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.openshift.deploymentconfig.OpenshiftDeploymentConfig',
   openTelemetry: 'com.instana.forge.infrastructure.custom.opentelemetry.OpenTelemetry',
+  oTelDatabase: 'com.instana.forge.infrastructure.custom.sensorsdk.database.OTelDatabase',
   otelHost: 'com.instana.forge.infrastructure.os.otelhost.OtelHost',
   otelProcess: 'com.instana.forge.infrastructure.os.otelprocess.OtelProcess',
   packet: 'com.instana.forge.hardware.virtual.Packet',
@@ -642,6 +651,7 @@ export const fullyQualifiedPlugins = {
   tuxedoDomain: 'com.instana.forge.infrastructure.application.tuxedo.TuxedoDomain',
   tuxedoMachine: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.machine.TuxedoMachine',
   tuxedoServer: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.server.TuxedoServer',
+  tuxedoIpcQueue: 'com.instana.forge.infrastructure.application.tuxedo.derivedentity.ipcqueue.TuxedoIpcQueue',
   tuxedoAppApplication:
     'com.instana.forge.infrastructure.application.tuxedoApp.derivedentity.application.TuxedoAppApplication',
   tuxedoAppServiceBrokerProject:
@@ -684,7 +694,8 @@ export const fullyQualifiedPlugins = {
   sapJavaInstance: 'com.instana.forge.infrastructure.paas.sap.derivedentity.javainstance.SapJavaInstance',
   sapHanaSystem: 'com.instana.forge.infrastructure.paas.sap.derivedentity.saphanasystem.SapHanaSystem',
   sapWebDispatcher: 'com.instana.forge.infrastructure.paas.sap.derivedentity.sapwebdispatcher.SapWebDispatcher',
-  sapAbapSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapSensor',
+  sapAbapInstanceSensor: 'com.instana.forge.infrastructure.paas.sapjco.SapAbapInstanceSensor',
+  sapAbapSystemSensor: 'com.instana.forge.infrastructure.paas.sapjco.derivedentity.system.SapAbapSystemSensor',
   remoteHost: 'com.instana.forge.infrastructure.remote.remotehost.RemoteHost',
   processGroup: 'com.instana.forge.infrastructure.remote.processgroup.ProcessGroup'
 };

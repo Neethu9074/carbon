@@ -19,6 +19,7 @@ export default function HomeViewBreadcrumb(props) {
   switch (props.systemPrefix) {
     case 'abapinstances.':
     case 'sapjavainstances.':
+    case 'abapinstancessensor.':
       return (
         <Breadcrumb href$={getView(sapInstanceListFullyQualified)} icon="lib_sap_instances">
           {t('in-sap:breadcrumbs.sapInstances')}
@@ -37,7 +38,7 @@ export default function HomeViewBreadcrumb(props) {
     case 'abapsystems.':
     case 'saphanasystems.':
     case 'sapwebdispatchers.':
-    case 'sapabap.':
+    case 'abapsystemssensor.':
       return (
         <Breadcrumb href$={getView(sapSystemListFullyQualified)} icon="lib_sap_host">
           {t('in-sap:breadcrumbs.abapSystems')}

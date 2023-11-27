@@ -16,39 +16,46 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import locals from './BoundaryScopeConfigurator.mless';
 
 interface BoundaryScopeConfiguratorProps {
-  value: ApplicationBoundaryScope;
+  disabled?: boolean;
   onChange?: (value: ApplicationBoundaryScope) => void;
+  value: ApplicationBoundaryScope;
 }
 
-export default function BoundaryScopeConfigurator({ value, onChange }: BoundaryScopeConfiguratorProps) {
+export default function BoundaryScopeConfigurator({
+  disabled = false,
+  value,
+  onChange
+}: BoundaryScopeConfiguratorProps) {
   return (
     <Row>
-      <Col md={5} xs={5}>
+      <Col md={6} xs={5}>
         <OptionBox
+          asRadioButton
+          checked={value === 'INBOUND'}
           className={classNames({
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: value !== 'INBOUND'
           })}
-          icon="lib_application_boundary_inbound_calls"
-          title={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.inbound.title')}
           description={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.inbound.description')}
+          disabled={disabled}
+          icon="lib_application_boundary_inbound_calls"
           onChange={() => onChange?.('INBOUND')}
-          checked={value === 'INBOUND'}
-          asRadioButton
+          title={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.inbound.title')}
         />
       </Col>
-      <Col md={5} xs={5}>
+      <Col md={6} xs={5}>
         <OptionBox
+          asRadioButton
           className={classNames({
             [locals.optionBox]: true,
             [locals.optionBoxUnchecked]: value !== 'ALL'
           })}
-          icon="lib_application_boundary_all_calls"
-          title={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.all.title')}
-          description={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.all.description')}
-          onChange={() => onChange?.('ALL')}
           checked={value === 'ALL'}
-          asRadioButton
+          description={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.all.description')}
+          disabled={disabled}
+          icon="lib_application_boundary_all_calls"
+          onChange={() => onChange?.('ALL')}
+          title={t('in-custom-dashboards:widgets.slo.boundaryScopeConfigurator.all.title')}
         />
       </Col>
     </Row>

@@ -11,7 +11,7 @@ import { Observable } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
-import List, { TableActions, leftHeaderWithSelectAll } from 'in-settings/components/List';
+import List, { ColumnDefinition, TableActions, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-synthetics/createTests/advanced/LocationsSection.mless';
@@ -69,7 +69,7 @@ export default function LocationsSection({
   );
 }
 
-export function columnDefinitions() {
+export function columnDefinitions(): Array<ColumnDefinition<SyntheticLocation>> {
   return [
     {
       id: 'location_name',

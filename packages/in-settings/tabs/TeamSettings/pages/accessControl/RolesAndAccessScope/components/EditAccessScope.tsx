@@ -7,9 +7,23 @@
 import { MapForm, Field, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { PermissionSet, Result } from '@instana/types';
+import { useObservable } from '@instana/hooks';
+
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
+import {
+  getAreaRoleFromPermissionSet,
+  getField,
+  updateFormField
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+// @ts-expect-error not migrated to typescript yet
+import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection';
+import {
+  AreaRoleWithContributor,
+  ProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getAllSyntheticTestsForEntitySelectionWithDefaults } from 'in-synthetics/subscriptions/getAllSyntheticTestsForEntitySelection';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
@@ -19,12 +33,12 @@ import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/s
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
-import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
+import { applicationContributionFilterEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
-import { syntheticRbacEnabled } from 'in-services/featureFlags';
+import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t, Trans } from 'in-i18n';
@@ -48,7 +62,30 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const timeConfig = useTimeConfig();
 
   const groupNameField = getField<string>(form, 'name');
+  const tagFilterExpression = getField<FormModelElement[]>(form, 'tagFilterExpression')?.value ?? undefined;
 
+  const validTagFilterExpressionResult: Result<boolean> =
+    useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
+
+  let isValidTagFilterExpression = true;
+
+  const isValidContributionFilter = () => {
+    const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
+    const role = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, permissionSet);
+    if (role === AreaRoleWithContributor.CONTRIBUTOR) {
+      let isFilterNameValid = isBlank((form.get('label') as Field<string>).value);
+      if (tagFilterExpression?.length === 0 || isFilterNameValid) {
+        isValidTagFilterExpression = false;
+      } else {
+        isValidTagFilterExpression = validTagFilterExpressionResult?.data as boolean;
+      }
+    } else {
+      isValidTagFilterExpression = true;
+    }
+  };
+  if (applicationContributionFilterEnabled) {
+    isValidContributionFilter();
+  }
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
     setForm
@@ -69,7 +106,14 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           content: (
             <GroupNameSection
               value={groupNameField?.value}
-              setValue={(value: string) => setForm(updateFormField(form, 'name', value, true))}
+              setValue={(value: string) => {
+                const updatedForm = updateFormField(form, 'name', value, true);
+                if (applicationContributionFilterEnabled) {
+                  setForm(updateFormField(updatedForm, 'label', value, true));
+                } else {
+                  setForm(updatedForm);
+                }
+              }}
             />
           )
         }
@@ -335,7 +379,9 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       navItems={hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms')}
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
-      disabledSaveButton={!form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value)}
+      disabledSaveButton={
+        !form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value) || !isValidTagFilterExpression
+      }
       noHeader
       noDivider
     />

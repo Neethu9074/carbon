@@ -13,6 +13,10 @@
     .ellipsis();
   }
 
+  .action {
+    padding-right: 1rem;
+  }
+
   .label {
     font-weight: var(--ids-font-weight-option-heading-400);
     margin-bottom: 0.25rem;

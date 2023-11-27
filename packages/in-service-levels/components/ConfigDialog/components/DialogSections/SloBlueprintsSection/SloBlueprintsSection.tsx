@@ -24,9 +24,11 @@ import { defaultBlueprint } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
 export default function SloBlueprintsSection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
+
+  const isFormInEditMode = mode === 'EDIT';
 
   return (
     <TabSelect<CustomBlueprintType>
@@ -41,13 +43,13 @@ export default function SloBlueprintsSection() {
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        <TabSelectItem<CustomBlueprintType> forId="latency" withRadioButton>
+        <TabSelectItem<CustomBlueprintType> forId="latency" disabled={isFormInEditMode} withRadioButton>
           <span>{t('in-service-levels:general.latency')}</span>
         </TabSelectItem>
-        <TabSelectItem<CustomBlueprintType> forId="availability" withRadioButton>
+        <TabSelectItem<CustomBlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
           <span>{t('in-service-levels:general.availability')}</span>
         </TabSelectItem>
-        <TabSelectItem<CustomBlueprintType> forId="custom" withRadioButton>
+        <TabSelectItem<CustomBlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
           <span>{t('in-service-levels:general.custom')}</span>
         </TabSelectItem>
       </TabSelectMenu>

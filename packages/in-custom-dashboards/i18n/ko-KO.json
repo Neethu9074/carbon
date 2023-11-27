@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "알 수 없는 엔티티",
+    "unknownEntityLabel_application": "알 수 없는 애플리케이션",
+    "unknownEntityLabel_website": "알 수 없는 웹 사이트",
     "invalidWidgetTypeErrorMessage": "<strong>올바르지 않은 위젯 유형</strong><br/>이 위젯에는 올바르지 않은 유형이 있습니다. 대시보드 JSON을 편집하거나 위젯을 제거하여 이를 수정할 수 있습니다.",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "선택하십시오.",
         "sliConfigComputeErrBudgetSliVal": "오류 예산 및 SLI 값을 계산하는 데 사용되는 SLI 구성",
         "typeSloThreshold": "<code>{{compact}}</code> - <code>{{detailed}}</code> 사이의 원하는 SLO 임계값을 입력하십시오.",
-        "valType": "값 유형"
+        "valType": "값 유형",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "SLI(Service-Level Indicator)"
@@ -220,6 +224,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "선택",
+        "metric": "메트릭",
+        "selectMetric": "메트릭을 선택하십시오.",
+        "aggregation": "집계",
+        "successRate": "성공률",
+        "locations": "위치",
+        "responseTime": "응답 시간",
+        "responsesize": "응답 크기"
+      },
       "index": {
         "syntheticMonitoring": "합성 모니터링"
       }
@@ -669,8 +683,6 @@
         "tooltip_application": "애플리케이션 Apdex"
       },
       "widget": {
-        "unknownEntityLabel_application": "알 수 없는 애플리케이션",
-        "unknownEntityLabel_website": "알 수 없는 웹 사이트",
         "previewDataInfo": "미리보기 데이터는 지난 7일에 대해 표시됩니다. 최종 위젯은 Apdex 구성을 작성한 이후의 데이터만 포함합니다."
       },
       "applicationScopeConfigurator": {

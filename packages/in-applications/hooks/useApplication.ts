@@ -4,13 +4,22 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { FetchedState } from 'in-hooks/utils/types';
+import { isBlank } from 'in-services/util/string';
+import { error } from 'in-services/util/result';
 import { Application } from 'in-types';
 
 export default function useApplication(applicationId: string): FetchedState<Application> {
-  const result = useObservable(() => getApplication({ id: applicationId }), [applicationId]);
+  const result = useObservable(() => {
+    if (isBlank(applicationId)) {
+      return just(error<Application>([{ code: 'CLIENT', message: 'Application Id may not be blank' }]));
+    }
+
+    return getApplication({ id: applicationId });
+  }, [applicationId]);
   return resultToFetchedStateResponse(result);
 }

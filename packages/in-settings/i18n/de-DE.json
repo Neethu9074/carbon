@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "Neue Gruppe erstellen",
     "dialogTitle_edit": "Zugriffsbereich bearbeiten",
-    "editButton": "Zugriffsbereich bearbeiten",
-    "productArea": "Rolle und Zugriffsbereich"
+    "editButton": "Bearbeiten",
+    "productArea": "Auf Konfiguration für {{tenantUnit}} zugreifen"
   },
   "productAreas": {
     "allApplications": "Alle Anwendungen",
@@ -74,9 +74,12 @@
     "role_owner": "Eigner",
     "role_viewer": "Anzeigeberechtigter",
     "role_permissions": "Unbekannt - Zugriff auf {{quantityOfAreas}}",
+    "role_permissions_contributor": "Beitragender – Zugriff auf {{quantityOfAreas}}",
     "role_permissions_owner": "Eigentümer - Zugriff auf {{quantityOfAreas}}",
     "role_permissions_viewer": "Anzeigeberechtigter - Zugriff auf {{quantityOfAreas}}",
     "role_permission_scope_all": "alle",
+    "role_permissions_contributor_and_owner": "Eigner – Zugriff auf {{quantityOfAreas}} & Beitragender – Zugriff auf {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "Anzeigeberechtigter – Zugriff auf {{quantityOfAreas}} & Beitragender – Zugriff auf {{quantityOfAreasContributor}}",
     "no_access": "Kein Zugriff",
     "platform_permissions": "Zugriff auf {{quantityOfAreas}}",
     "analyticsContentMessage": "Kann Daten in Analytics anzeigen, die durch den Zugriffsbereich in Websites, mobilen Apps, Anwendungen, Plattformen und Infrastruktur definiert sind",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "Namensbereich hinzufügen",
     "addButton_syntheticTests": "Synthetische Tests auswählen",
     "descriptionAccessAll_synthetics": "Auf alle synthetischen Tests kann mit der ausgewählten Rolle zugegriffen werden.",
-    "descriptionLimitedAccess_synthetics": "Wählen Sie die Rolle aus und fügen Sie unten synthetische Tests hinzu, um Zugriff zu erteilen."
+    "descriptionLimitedAccess_synthetics": "Wählen Sie die Rolle aus und fügen Sie unten synthetische Tests hinzu, um Zugriff zu erteilen.",
+    "contribution_filter": "Filter für Beiträge",
+    "contributionFilter_description": "Der Filter wird bei der Erstellung neuer Anwendungskonfigurationen übernommen. In der Konfiguration der Anwendungsperspektive kann er durch weitere Filtertags nach einem Operator vom Typ {{logicalOperator}} eingegrenzt werden",
+    "contributionFilter_downstreamCalls": "Bestimmen Sie die maximale Ebene zusätzlicher Informationen, die in die Anwendungsperspektiven eingebunden werden können",
+    "contributionFilter_name": "Name"
   },
   "selectItemForm": {
     "doneButton": "Erledigt"
@@ -156,23 +163,96 @@
     "nameColumnHead": "Name"
   },
   "permissionScope": {
+    "access_level": "Zugriffsebene",
+    "configuration_summary": "Konfigurationszusammenfassung",
     "selection": "Nicht verfügbar",
     "selection_access_all": "Auf alle zugreifen",
     "selection_limited_access": "Eingeschränkter Zugriff",
     "selection_no_access": "Kein Zugriff",
     "selection_viewer_access": "Zugriffsberechtigung eines Anzeigeberechtigten",
+    "selection_owner_access": "Eigner – Zugriff",
+    "selection_contributor_access": "Beitragender – Zugriff",
     "description_no_access": "Dieser Bereich kann überhaupt nicht verwendet werden",
     "description_no_access_kubernetes": "Kein Zugriff auf Namensbereiche und Cluster.",
     "description_access_all": "Zugriff auf alle ohne Einschränkung",
+    "description_access_all_except_contributor": "Zugriff auf alles (mit Ausnahme derjenigen, auf die als Beitragender zugegriffen wird)",
     "role": "Rolle auswählen",
     "roleSelection": "Rolle",
     "role_owner": "Eigner",
     "role_viewer": "Anzeigeberechtigter",
     "role_custom": "Angepasst",
+    "role_contributor": "Beitragender",
+    "role_permissions": "Rolle/Berechtigungen",
     "roleTooltip_websites": "Viewer: Berechtigung zum Anzeigen von Website-Dashboards (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Berechtigung zum Erstellen neuer Websites; Website-Dashboards anzeigen, konfigurieren und löschen.",
     "roleTooltip_mobileApps": "Viewer: Berechtigung zum Anzeigen von Dashboards für mobile Apps (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Berechtigung zum Erstellen neuer mobiler Apps; Dashboards für mobile Apps anzeigen, konfigurieren und löschen.",
     "roleTooltip_applications": "Viewer: Berechtigung zum Anzeigen von Anwendungsdashboards (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Berechtigung zum Erstellen neuer Anwendungen; Anwendungsdashboards anzeigen, konfigurieren und löschen.",
-    "roleTooltip_synthetics": "Viewer: Möglichkeit zum Anzeigen von Dashboards für synthetische Tests (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Möglichkeit zum Erstellen neuer synthetischer Tests. Sie können synthetische Tests anzeigen, konfigurieren und löschen sowie synthetische Positionen anzeigen und löschen."
+    "roleTooltip_synthetics": "Viewer: Möglichkeit zum Anzeigen von Dashboards für synthetische Tests (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Möglichkeit zum Erstellen neuer synthetischer Tests. Sie können synthetische Tests anzeigen, konfigurieren und löschen sowie synthetische Positionen anzeigen und löschen.",
+    "contribution_filter_accessScope": "Bereich mit eingeschränktem Zugriff (Anzeigeberechtigter)",
+    "contribution_filter_warning": {
+      "firstParagraph": "Jede von Ihnen gespeicherte Änderung bewirkt eine Aktualisierung aller Anwendungsperspektiven, die diesen Beitragsfilter verwenden.",
+      "secondParagraph": "Wenn Sie die Rolle ändern, wird der Beitragsfilter gelöscht, und alle Anwendungsperspektiven, die den Beitragsfilter verwenden, können von jedem Benutzer mit dem Zugriff vom Typ „Eigner“ auf den Bereich „Anwendungen“ bearbeitet werden. Dieser Vorgang kann nicht rückgängig gemacht werden."
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "Zugriff für alle Anwendungsperspektiven unter dieser Einheit.",
+        "role_permissions_contributor": "Alle Anwendungsdashboards unter dieser Einheit anzeigen. Erstellen, konfigurieren und löschen Sie Anwendungsdashboards mithilfe des Beitragsfilters."
+      },
+      "limited_access": {
+        "access_level": "Eingeschränkter Zugriff für die unten ausgewählten Anwendungen.",
+        "access_level_contributor": "Unten ausgewählte Anwendungsdashboards anzeigen",
+        "role_permissions_contributor": "Erstellen, konfigurieren und löschen Sie Anwendungsdashboards mithilfe des Beitragsfilters. (Anwendungsdashboards, die von Beitragenden erstellt wurden, werden in der Gruppenübersicht und in der Liste im Abschnitt „Anwendungen“ angezeigt.)"
+      },
+      "role_permissions_owner": "Erstellen, konfigurieren, sichten und löschen Sie Anwendungsdashboards.",
+      "role_permissions_viewer": "Zeigen Sie die Dashboards der Anwendungsperspektive und ihre Konfiguration an."
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "Zugriff auf alle dieser Einheit untergeordneten Entitätsdashboards, die sich auf den Zugriff auf Anwendungen und Plattformen beziehen."
+      },
+      "role_permissions_owner": "Entitätsdashboards anzeigen.",
+      "role_permissions_viewer": "Entitätsdashboards anzeigen."
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "Zugriff für alle Namensbereiche und Cluster unter dieser Einheit."
+      },
+      "limited_access": {
+        "access_level": "Eingeschränkter Zugriff für die unten ausgewählten Namensbereiche und Cluster."
+      },
+      "role_permissions": "Namensbereiche und Cluster anzeigen."
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "Zugriff für alle mobilen Apps unter dieser Einheit."
+      },
+      "limited_access": {
+        "access_level": "Eingeschränkter Zugriff für die unten ausgewählten mobilen Apps."
+      },
+      "role_permissions_owner": "Mobile Apps erstellen, konfigurieren, anzeigen und löschen.",
+      "role_permissions_viewer": "Mobile Apps und ihre Konfiguration anzeigen."
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "Zugriff für alle synthetischen Tests unter dieser Einheit."
+      },
+      "limited_access": {
+        "access_level": "Eingeschränkter Zugriff für die unten ausgewählten synthetischen Tests."
+      },
+      "role_permissions_owner": "Synthetische Tests erstellen, konfigurieren, anzeigen und löschen.",
+      "role_permissions_viewer": "Synthetische Tests und ihre Konfiguration anzeigen."
+    },
+    "website": {
+      "access_all": {
+        "access_level": "Zugriff für alle Websites unter dieser Einheit."
+      },
+      "limited_access": {
+        "access_level": "Eingeschränkter Zugriff auf die unten ausgewählten Websites."
+      },
+      "role_permissions_owner": "Websites erstellen, anzeigen und löschen.",
+      "role_permissions_viewer": "Websites und ihre Konfiguration anzeigen."
+    }
   },
   "cardTitle_Area": "Bereich",
   "cardTitle_Area_plural": "Produktbereiche",
@@ -225,7 +305,8 @@
         "placeholder": "Platzhalter",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "ODER",
-        "logicalOperatorInfo": "Der ausgewählte logische Operator wird auf die folgenden Bedingungen angewendet:"
+        "logicalOperatorInfo": "Der ausgewählte logische Operator wird auf die folgenden Bedingungen angewendet:",
+        "clearMetricSeclection": "Auswahl löschen"
       },
       "customPayload": {
         "unknownTag": "Unbekannter Tag: {{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "SmartAlert für globale Anwendung",
     "syntheticSmartAlert": "Synthetischer SmartAlert",
     "mobileSmartAlert": "Mobiler SmartAlert",
+    "infraSmartAlert": "Smart Alert für Infrastruktur",
     "enabled": "Aktiviert",
     "disabled": "Inaktiviert",
     "invalidQuery": "Ungültige Abfrage",
@@ -776,6 +858,7 @@
     "alert": "Alert",
     "unknownAlert": "Unbekannter Alert",
     "pleaseSelectAtLeastOneApplication": "Wählen Sie mindestens eine Anwendung aus.",
+    "pleaseSelectAtLeastOneTagFilter": "Wählen Sie mindestens einen Tagfilter aus.",
     "noAlertConfigured": "Kein Alert konfiguriert.",
     "additionalScope": "Zusätzlicher Bereich",
     "state": "Status...",
@@ -891,6 +974,7 @@
     "applyOn": "Anwenden auf",
     "applicationPerspective": "Anwendungsperspektive",
     "selectedEntitiesDynamicFocusQuery": "Ausgewählte Entitäten (Abfrage 'Dynamischer Fokus')",
+    "syntheticTests": "Synthetische Tests",
     "automaticallyCloseAfter": "Automatisch schließen nach",
     "selectedEntitiesHostByTag": "Ausgewählte Entitäten (Bereichshosts nach Tag)",
     "scopeHostsByTag": "Bereichshosts nach Tag",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "Dieses veraltete Ereignis wird migriert. Weitere Informationen finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
     "deprecatedEventSelectedMessage": "Angepasste Ereignisse für die Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet. Zukünftig können Sie keine neuen Ereignisse für diese drei Entitätstypen erstellen. Es wird empfohlen, stattdessen einen Smart Alert zu erstellen. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
     "customEventListDeprecatedWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet</strong><br/>Zukünftig können Sie keine angepassten Ereignisse für diese drei Entitätstypen erstellen oder aktualisieren. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
+    "customUserListInformation": "<strong>Benutzer werden automatisch von Ihrem Identitätsprovider (IdP) bereitgestellt.</strong><br/>Die Benutzer werden in diesem Abschnitt angezeigt, nachdem sie sich bei Instana mit Single Sign-on (SSO) angemeldet haben.",
     "deletedEventMessage": "Sie suchen eine gelöschte Ereigniskonfiguration. Änderungen sind nicht möglich.",
     "serviceNowUrl": "ServiceNow-URL",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "Geheimer Nutzerschlüssel",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "URL des Salesforce-Unternehmens",
-    "alertChannelDocumentationMessage": "Weitere Informationen zum Einrichten dieses Alertkanals finden Sie in der <documentationLink>Dokumentation</documentationLink>."
+    "alertChannelDocumentationMessage": "Weitere Informationen zum Einrichten dieses Alertkanals finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Stellen Sie sicher, dass der Benutzerzugriff auf Instana in Ihrem Identitätsprovider inaktiviert ist.",
+    "createIDPConfirmationDescription": "Anstehende Einladungen werden gelöscht. Benutzer werden automatisch von Ihrem Identitätsprovider (IdP) bereitgestellt."
   },
   "languageSelection": {
     "language": "Sprache",
@@ -1139,7 +1226,10 @@
       "awesome": "Klasse!",
       "meh": "Ach!",
       "terrible": "Schrecklich!"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "Alle Entitäten",
+    "appQuery": "{{numApps}} Anwendungen"
   },
   "terms": {
     "failedToSaveSettings": "Fehler beim Speichern der Einstellungen: {{settings}} {{err}}",

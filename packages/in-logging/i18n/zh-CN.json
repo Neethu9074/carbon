@@ -3,9 +3,9 @@
   "sum": "总和",
   "bar": "条形图",
   "logsOverTime": "一段时间内的日志数",
-  "logsOverTime_ERROR": "一段时间内的错误日志数",
-  "logsOverTime_WARN": "一段时间内的警告日志数",
-  "logsOverTime_INFO": "一段时间内的参考日志数",
+  "logsOverTime_ERROR": "错误",
+  "logsOverTime_WARN": "警告 ",
+  "logsOverTime_INFO": "参考信息",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查询配置无效。请在继续之前处理验证失败。",
   "addAsFilter": "添加为过滤器",
   "addAsGroup": "添加为组",
@@ -43,5 +43,11 @@
   "dockerContainer": "Docker 容器",
   "containerdContainer": "容器化容器",
   "crioContainer": "Crio 容器",
-  "gardenContainer": "Garden 容器"
+  "gardenContainer": "Garden 容器",
+  "error": "{{count}} 个错误",
+  "error_plural": "{{count}} 个错误",
+  "warn": "{{count}} 个警告",
+  "warn_plural": "{{count}} 个警告",
+  "process": "处理",
+  "host": "主机"
 }

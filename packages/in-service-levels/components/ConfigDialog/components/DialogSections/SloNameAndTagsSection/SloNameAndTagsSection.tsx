@@ -14,6 +14,7 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
+import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
@@ -41,6 +42,7 @@ export default function SloNameAndTagsSection() {
             title={t('in-service-levels:createSloDialog.sloNameLabel')}
             titleHtmlFor="slo-name-input"
             hasError={!isNameValid}
+            titleWidth={titleWidth}
           >
             <Input
               id="slo-name-input"
@@ -58,7 +60,11 @@ export default function SloNameAndTagsSection() {
                 <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
               ))}
           </Section>
-          <Section title={t('in-service-levels:createSloDialog.tagsLabel')} titleHtmlFor="slo-tag-select">
+          <Section
+            title={t('in-service-levels:createSloDialog.tagsLabel')}
+            titleHtmlFor="slo-tag-select"
+            titleWidth={titleWidth}
+          >
             <CreatableTagSelect
               id="slo-tag-select"
               isLoading={isLoading}

@@ -3,9 +3,9 @@
   "sum": "somme",
   "bar": "Barre",
   "logsOverTime": "Journaux au fil du temps",
-  "logsOverTime_ERROR": "Journaux des erreurs dans le temps",
-  "logsOverTime_WARN": "Journaux des avertissements dans le temps",
-  "logsOverTime_INFO": "Journaux d'informations dans le temps",
+  "logsOverTime_ERROR": "Erreur",
+  "logsOverTime_WARN": "Avertissement ",
+  "logsOverTime_INFO": "Infos",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
   "addAsFilter": "Ajouter comme filtre",
   "addAsGroup": "Ajouter comme groupe",
@@ -43,5 +43,11 @@
   "dockerContainer": "Conteneur Docker",
   "containerdContainer": "Conteneur Containerd",
   "crioContainer": "Conteneur Crio",
-  "gardenContainer": "Conteneur Garden"
+  "gardenContainer": "Conteneur Garden",
+  "error": "{{count}} erreur",
+  "error_plural": "{{count}} erreurs",
+  "warn": "{{count}} avertissement",
+  "warn_plural": "{{count}} avertissements",
+  "process": "Processus",
+  "host": "Hôte"
 }

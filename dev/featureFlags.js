@@ -73,6 +73,7 @@ module.exports = {
   playWithReleaseEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
+  syntheticsFilterForMaintenanceWindowsEnabled: false,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
@@ -87,9 +88,17 @@ module.exports = {
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: false,
+  eventFeedbackEnabled: true,
+  incidentSummarizationEnabled: false,
+  incidentSummarizationTimelineEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,
-  actionsLaneEnabled: true,
-  autoFormatterTimeSeriesEnabled: true
+  autoFormatterTimeSeriesEnabled: true,
+  multiGroupTimeSeriesEnabled: true,
+  disableInvitesWithIdpEnabled: false,
+  applicationContributionFilterEnabled: true,
+  infraSmartAlertsPredictionsEnabled: true,
+  syntheticInstanaHostedPoPEnabled: true,
+  infraSmartAlertsDialogEnabled: true
 };

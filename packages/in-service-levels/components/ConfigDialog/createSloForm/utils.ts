@@ -25,7 +25,7 @@ export function isFieldValid<VALUE_TYPE>(field: Field<VALUE_TYPE>) {
   return field.valid || !field.touched;
 }
 
-export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConfiguration {
+export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevelObjectiveConfiguration {
   const date = form.getIn(['objective', 'startTimestamp', 'date']).value;
   const time = form.getIn(['objective', 'startTimestamp', 'time']).value;
   const startTimestamp = parseDateTime(`${date} ${time}`).getTime();
@@ -33,6 +33,7 @@ export function formToSloConfiguration(form: SloForm): ServiceLevelObjectiveConf
   return {
     name: form.getIn(['nameTags', 'name']).value,
     tags: form.getIn(['nameTags', 'tags']).value,
+    id,
     entity: formToEntity(form),
     indicator: formToIndicator(form),
     timeWindow: {

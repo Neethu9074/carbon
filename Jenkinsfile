@@ -87,7 +87,7 @@ pipeline {
                   credentialsId: 'codebuild',
                   projectName: 'ui-client',
                   region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:6.0',
+                  imageOverride: 'aws/codebuild/standard:7.0',
                   sourceControlType: 'project',
                   sourceVersion: gitCommitId,
                   envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
@@ -155,7 +155,7 @@ pipeline {
       steps {
         // Only allow 1 concurrent build is allowed to run at a time
         lock(resource: "retag-backend-images") {
-          timeout(time: 45, unit: 'MINUTES') {
+          timeout(time: 60, unit: 'MINUTES') {
             timestamps {
               script {
                 if (isDeliveryBranch) {
@@ -207,7 +207,7 @@ pipeline {
                       credentialsId: 'codebuild',
                       projectName: 'ui-client-storybook',
                       region: 'us-west-2',
-                      imageOverride: 'aws/codebuild/standard:6.0',
+                      imageOverride: 'aws/codebuild/standard:7.0',
                       sourceControlType: 'project',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
@@ -233,7 +233,7 @@ pipeline {
                   credentialsId: 'codebuild',
                   projectName: 'ui-client',
                   region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:6.0',
+                  imageOverride: 'aws/codebuild/standard:7.0',
                   sourceControlType: 'project',
                   sourceVersion: gitCommitId,
                   buildSpecFile: 'buildspec.sonarqube.yml',

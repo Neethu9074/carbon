@@ -77,8 +77,7 @@
     "metricExplosion": "此儀表板可能不會顯示所有度量值，因為僅儲存 {{numberOfMetrics}}"
   },
   "explore": {
-    "beta": "測試版",
-    "tryBetaInfraAnalytics": "試用新的基礎架構分析",
+    "analyzeInfrastructure": "分析基礎架構",
     "focusOnThisGroup": "聚焦於此群組",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",

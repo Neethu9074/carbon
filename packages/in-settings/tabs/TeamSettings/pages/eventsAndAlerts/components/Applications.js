@@ -92,14 +92,14 @@ function createFilters(hiddenIds) {
   return filters;
 }
 
-export const getSelectedApplicationsForAlert = createMemoizedObservableForReferencedEntities(function(
+export const getSelectedApplicationsForAlert = createMemoizedObservableForReferencedEntities(function (
   selectedApplicationIds
 ) {
   if (selectedApplicationIds.length === 0) {
     return alwaysEmptyArray;
   }
   return getApplicationConfigs().map(application =>
-    filter(application, function(app) {
+    filter(application, function (app) {
       return selectedApplicationIds.indexOf(app.id) >= 0;
     })
   );
@@ -108,7 +108,7 @@ export const getSelectedApplicationsForAlert = createMemoizedObservableForRefere
 export function getSelectedApplicationConfigsByName(selectedApplicationName) {
   return getApplicationConfigs()
     .map(application =>
-      filter(application, function(app) {
+      filter(application, function (app) {
         return selectedApplicationName === app.label;
       })
     )
@@ -137,6 +137,17 @@ export function submitApplicationSelection(form, setForm, selectedIds) {
   setForm(
     form.updateIn(['applicationIds'], field => {
       return field.setValue(field.value.concat(selectedIds)).setTouched(true);
+    })
+  );
+}
+
+export function getSelectedApplicationsForAlertsEvents(selectedApplicationIds, applicationConfigs) {
+  if (selectedApplicationIds.length === 0) {
+    return alwaysEmptyArray;
+  }
+  return applicationConfigs.map(application =>
+    filter(application, function (app) {
+      return selectedApplicationIds.indexOf(app.id) >= 0;
     })
   );
 }

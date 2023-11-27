@@ -21,6 +21,10 @@
       "transferSizeLabel": "Dimensione trasferimento",
       "transferSizeCategory": "Dimensionamento risorsa"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Conteggio sessioni interessate da arresto anomalo",
+      "crashAffectedUserCount": "Conteggio utenti interessati da arresto anomalo"
+    },
     "errorRate": {
       "label": "Tasso di errore",
       "rawDataLabel": "Numero di errori"
@@ -215,6 +219,7 @@
       "crashLabel": "Arresto anomalo",
       "metaHeader": "Meta",
       "stackTrace": "Traccia di stack",
+      "stackTraceLastOccurrence": "Traccia di stack (ultima ricorrenza)",
       "stackTraceButtonPrettyStackTrace": "Traccia di stack Pretty",
       "stackTraceButtonRawStackTrace": "Traccia di stack non elaborata"
     },
@@ -337,9 +342,40 @@
       "devices": "Dispositivi",
       "viewAllDevices": "Visualizza tutti i dispositivi",
       "osVersions": "Sistemi operativi",
-      "viewAllOs": "Visualizza tutto il sistema operativo",
+      "viewAllOs": "Visualizza tutti i sistemi operativi",
       "appVersions": "Versioni app",
       "viewAllVersions": "Visualizza tutte le versioni",
+      "configurations": {
+        "symbolFileConfigLabel": "Conversione traccia di stack",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "Rimuovi tutte le API di file",
+          "dialogMessageConfigurationUpdated": "Configurazione aggiornata.",
+          "dialogMessageFailedToSaveConfiguration": "Impossibile salvare la configurazione: {{message}}",
+          "dialogMessageNewConfigurationSaved": "Nuova configurazione salvata.",
+          "dialogMessageSavingConfiguration": "Salvataggio della configurazione…",
+          "fileCommitUrl": "API di commit file di simboli",
+          "fileUploadConfigurationDialogTitleEdit": "Modifica configurazione di caricamento file di simboli",
+          "fileUploadConfigurationDialogTitleNew": "Nuova configurazione di caricamento file di simboli",
+          "fileUploadConfigurationDialogLabelDescription": "Descrizione",
+          "fileUploadConfigurationDialogHeadingDescription": "Descrizione",
+          "fileUploadConfigurationDialogDescriptionHelp": "Una configurazione di caricamento consentirà di organizzare meglio i file caricati.",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "Caricamento dei file di simboli",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Caricare i file di simboli richiamando l'API REST web di Instana. Questo potrebbe essere integrato nel processo di pipeline per la distribuzione automatizzata. Le spiegazioni e l'utilizzo dell'API REST Web sono definiti nella <documentation>documentazione</documentation>.",
+          "fileUploadUrl": "API di caricamento file di simboli",
+          "stackTraceTranslationLabelConfiguration": "Configurazione",
+          "stackTraceTranslationLabelFiles": "File",
+          "stackTraceTranslationLabelTotalSize": "Dimensione totale",
+          "stackTraceTranslationLabelLastModified": "Ultima modifica",
+          "stackTraceTranslationExplanationWithUploadFeature": "Per rendere le tracce di stack più leggibili, ad esempio per mostrare i riferimenti a file e linee non minimizzati, Instana deve interpretare il codice con i file di simboli. L'aggiunta di una configurazione di caricamento qui potrebbe consentire il caricamento dei file di simboli dell'app mobile tramite l'API REST web Instana. Quindi Instana può fornire ulteriori dettagli sugli errori di arresto anomalo dell'app mobile.",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversione traccia di stack",
+          "stackTraceTranslationLearnMoreLabel": "Ulteriori informazioni sulla conversione della traccia di stack",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configurazioni di conversione traccia di stack",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "Configurazioni di caricamento file di simboli",
+          "stackTraceTranslationNoUploadDataMessage": "Nessuna configurazione di caricamento dei file di simboli disponibile.",
+          "stackTraceTranslationButtonAddConfiguration": "Aggiungi configurazione",
+          "stackTraceTranslationLabelFileUploadConfiguration": "Configurazione di caricamento file di simboli {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "Messaggio di errore",
         "crashesLabelOccurrences": "Ricorrenze",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "Arresti anomali",
         "crashInfoTitle": "Dettagli",
         "crashInfoMessage": "Messaggio",
-        "backToCrashList": "Torna all'elenco degli arresti anomali",
+        "backToCrashList": "Torna a Gruppi di arresto anomalo",
         "crashTitleMobileAppCrashDetails": "Dettagli arresto anomalo app per dispositivo mobile"
       },
       "customEvents": {

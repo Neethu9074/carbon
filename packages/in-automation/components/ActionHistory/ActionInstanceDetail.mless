@@ -6,7 +6,7 @@
 
 :local {
   .ActionInstanceDetailsTable {
-    border: 1px solid var(--colors-gray-400);
+    border: 1px solid var(--ids-color-option-neutral-400);
     margin: 0px 50px 50px 50px;
     width: 90%;
     table-layout: fixed;
@@ -16,30 +16,30 @@
     }
 
     tr:nth-child(even) {
-      background: var(--colors-gray-50);
+      background: var(--ids-color-option-neutral-50);
     }
 
     th,
     td {
-      color: var(--colors-gray-900);
+      color: var(--ids-color-option-neutral-900);
       font-size: 0.875rem;
       font-weight: normal;
       padding: 0.8125rem 0;
       padding-left: 1rem;
       padding-right: 1rem;
-      border-top: 1px solid var(--colors-gray-400);
-      border-bottom: 1px solid var(--colors-gray-400);
+      border-top: 1px solid var(--ids-color-option-neutral-400);
+      border-bottom: 1px solid var(--ids-color-option-neutral-400);
       text-align: initial;
       width: 40%;
       word-wrap: break-word;
     }
 
     th {
-      color: var(--colors-gray-700);
+      color: var(--ids-color-option-neutral-700);
     }
 
     .headerRow td {
-      color: var(--colors-gray-700);
+      color: var(--ids-color-option-neutral-700);
       font-size: 0.75rem;
       font-weight: normal;
     }
@@ -63,6 +63,10 @@
     .detailsLink {
       display: flex;
       align-items: center;
+    }
+
+    .singleHostLimit {
+      padding-left: 0px;
     }
   }
 

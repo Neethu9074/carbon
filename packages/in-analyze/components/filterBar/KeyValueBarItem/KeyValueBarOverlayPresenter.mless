@@ -46,7 +46,7 @@
     background: var(--ids-color-option-neutral-200);
     padding: 0.063rem 0.188rem;
     margin: 0 0.2rem;
-    border-radius: 0.125rem;
+    border-radius: var(--ids-border-radius-option-small);
     font-weight: 500;
     display: inline-block;
   }

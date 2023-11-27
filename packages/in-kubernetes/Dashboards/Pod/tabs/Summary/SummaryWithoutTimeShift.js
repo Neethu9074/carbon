@@ -30,7 +30,7 @@ import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -39,7 +39,11 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
-  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
+
   const kpiWidth = 2;
 
   const clusterTag = kubernetesClusterTagEquals(pod.clusterId);

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .name {
     padding: 0.0225rem 0.3125rem;

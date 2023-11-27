@@ -6,11 +6,16 @@
 
 import { createContext } from 'react';
 
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import {
+  CreateSloDialogMode,
+  SloForm,
+  SloFormOnChange
+} from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 
 interface SloFormContextProps {
   form: SloForm;
+  mode: CreateSloDialogMode;
   onChange: SloFormOnChange;
 }
 
@@ -18,6 +23,7 @@ const defaultForm = createSloForm({ entityType: 'application' });
 
 const defaultContext: SloFormContextProps = {
   form: defaultForm,
+  mode: 'NEW',
   onChange: defaultForm.updateIn
 };
 

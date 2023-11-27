@@ -9,9 +9,9 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, bytes } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
@@ -22,7 +22,7 @@ export default function Summary({ timeConfig, data: hypervisor }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-openstack:id')} value={hypervisor.id} raw borderless />
+        <KpiCard title={t('in-openstack:id')} value={hypervisor.openstackItem.id} raw borderless />
         <KpiCard title={t('in-openstack:cpuArch')} value={hypervisor.openstackItem.architecture} raw borderless />
         <KpiCard title={t('in-openstack:cpuModel')} value={hypervisor.openstackItem.model} raw borderless />
         <KpiCard title={t('in-openstack:cpuVendor')} value={hypervisor.openstackItem.vendor} raw borderless />
@@ -95,7 +95,7 @@ export default function Summary({ timeConfig, data: hypervisor }) {
                 min: 0,
                 metrics: ['storageUsage'],
                 labels: [t('in-openstack:storage')],
-                formatter: bytes.detailed,
+                formatter: percentage.detailed,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

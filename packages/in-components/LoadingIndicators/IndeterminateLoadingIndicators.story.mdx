@@ -3,41 +3,39 @@ import { action as storybookAction } from '@storybook/addon-actions';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { SvgIconSizes } from '@instana/components';
-import theme from 'in-themes';
-
+import oldTheme from 'in-themes';
 
 <Meta component={IndeterminateLoadingIndicator} />
 
 ## Indeterminate Loading Indicator
 
 ```js
-import { IndeterminateLoadingIndicator} from 'in-components/LoadingIndicators';
+import { IndeterminateLoadingIndicator } from 'in-components/LoadingIndicators';
 ```
 
 <Preview>
   <Story name="default">
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <IndeterminateLoadingIndicator />
     </div>
   </Story>
 </Preview>
 
-
 ## Props
 
 <Props of={IndeterminateLoadingIndicator} />
 
-
 ## Custom Styles
 
 <Story name="custom styles">
-  <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <IndeterminateLoadingIndicator
       customStyle={{
-          strokeWidth: 1.75,
-          pillTopFillColor: theme.lib.colors.lightBlue800,
-          hexagonFillColor: theme.lib.colors.N300,
+        strokeWidth: 1.75,
+        pillTopFillColor: oldTheme.lib.colors.lightBlue800,
+        hexagonFillColor: oldTheme.lib.colors.N300
       }}
-      size={SvgIconSizes.xl} />
+      size={SvgIconSizes.xl}
+    />
   </div>
 </Story>

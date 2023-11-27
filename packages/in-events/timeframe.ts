@@ -17,6 +17,7 @@ export function getChartTimeConfigByEvent(
 ): TimeConfig {
   const from = event.getIn(['metadata', 'triggeringTime'], (event.get('start') as number) - minutes.toMillis(1));
   const isOpen = event.get('state') === 'open';
+
   const timeConfig = {
     to,
     focusedMoment: to,

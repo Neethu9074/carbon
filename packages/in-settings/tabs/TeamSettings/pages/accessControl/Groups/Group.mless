@@ -3,13 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .icon {
     margin-right: 0.5rem;
 
-    fill: @lib__colors__N600Light;
+    fill: var(--ids-color-option-neutral-600);
   }
 
   .titleSkeleton {
@@ -37,7 +35,7 @@
 
   .confirmationDialog {
     display: inline-block;
-    font-size: @lib__typography__body-large__font-size;
+    font-size: var(--ids-font-size-option-body-large);
   }
 
   .confirmationDialogButton {

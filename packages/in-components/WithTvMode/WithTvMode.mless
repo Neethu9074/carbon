@@ -13,7 +13,7 @@
     right: 0;
     bottom: 0;
     background: var(--ids-color-option-neutral-100);
-    z-index: @z-index__tv-mode;
+    z-index: var(--ids-z-index-option-tv-mode);
     overflow: hidden auto;
   }
 }

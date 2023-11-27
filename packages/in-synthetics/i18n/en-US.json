@@ -217,8 +217,8 @@
       "successMessageUpdate": "Successfully updated synthetic test",
       "successMessageDelete": "Successfully deleted the synthetic test",
       "failureTitle": "Failed!",
-      "failureMessageCreate": "Failed to create a synthetic test. Please try again later",
-      "failureMessageUpdate": "Failed to update the synthetic test. Please try again later",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "Failed to update the synthetic test. {{errorMessage}}. Refresh the page and try again.",
       "failuteMesssageDelete": "Failed to delete the synthetic test. Please try again later"
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "Reasons for deletion",
       "typeToContinue": "Type {{location}} to continue",
-      "location": "LOCATION",
       "deletionSuccess": "The location has been deleted",
       "cancelButton": "Cancel",
       "deleteLocationLabel": "Delete Location",
       "success": "Success",
-      "failure": "Failed"
+      "failure": "Failed",
+      "popVersion": "Version",
+      "noActionsAllowed": "NA",
+      "deleteRestrictedDescription": "Managed locations cannot be deleted."
     },
     "summary": {
       "successRate": "Success Rate",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
-      "downloadImages": "Download Screenshot",
+      "viewScreenshotsLabel": "View Screenshot(s)",
       "downloadVideo": "Download Recording",
       "consoleLogsLevel": "CONSOLE",
       "consoleLogs": "Console",
@@ -481,6 +483,14 @@
             "connect": "Connect"
           }
         }
+      },
+      "viewScreenshots":  {
+        "screenshotsDialogLabel": "Screeenshot(s)",
+        "allScreenshots": "All Screenshots",
+        "allImagesButton": "All Images",
+        "imageButton": "Image",
+        "ScreenshotsLoadingMessage": "Loading Screenshots",
+        "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "No Synthetic tests available",
       "testSummaryDescription": "There are no Synthetic tests retrieved from the database.",
       "locationListTitle": "No Synthetic locations available",
-      "locationListDescription": "There are no Synthetic locations retrieved from the database."
+      "locationListDescription": "There are no Synthetic locations retrieved from the database.",
+      "configurationTab": "{{component}} details are not available for this test."
     },
     "alertList": {
       "timeThreshold": "Time Threshold",
@@ -541,7 +552,7 @@
         "reasonTitle": "Reason for deletion",
         "typingValidationTitle": "Type {{synthetic}} to continue",
         "cancelButton": "Cancel",
-        "deleteButton": "Delete"
+        "deleteButton": "Delete Test"
       },
       "configurationEditAction": "Edit",
       "configurationDeleteAction": "Delete"

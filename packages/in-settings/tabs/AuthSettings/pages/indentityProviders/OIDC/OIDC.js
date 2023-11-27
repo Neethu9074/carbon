@@ -15,7 +15,10 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/inden
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -27,14 +30,14 @@ import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './OIDC.mless';
 
 const secretPlaceholder = 'HIDDEN';
 
-export default function OIDC() {
+export default function OIDC(props) {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
@@ -55,47 +58,70 @@ export default function OIDC() {
         setFile(null);
         refresh();
       }}
-      saveItem={({ setMessage, form, result }) => {
-        if (file) {
-          const reader = new FileReader();
-          reader.readAsText(file, 'UTF-8');
-          reader.onload = function (evt) {
-            if (evt.target.result.length > 2000000) {
-              setMessage({
-                text: t('in-settings:tabs.failedToSaveConfig', {
-                  err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
-                }),
-                type: 'error'
-              });
-              return;
-            }
-            saveItem({
-              result,
-              setMessage,
-              idpMetadata: evt.target.result,
-              spEntityId: form.get('spEntityId').value,
-              ownerEmail: form.get('ownerEmail').value,
-              discoveryUri: form.get('discoveryUri').value,
-              secret: form.get('secret').value,
-              idpType: form.get('idpType').value
-            });
-          };
+      saveItem={data => {
+        if (isAnyInvitationsPending(props)) {
+          addActiveDialog(
+            <ConfirmationDialog
+              header={t('in-settings:components.pleaseConfirm')}
+              description={
+                <span>
+                  <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />
+                </span>
+              }
+              onSubmit={() => {
+                save(data, file);
+                close();
+              }}
+              confirmButtonKind="create"
+              confirmButtonLabel={t('forms.actions.save')}
+            />
+          );
         } else {
-          saveItem({
-            result,
-            setMessage,
-            idpMetadata: '',
-            spEntityId: form.get('spEntityId').value,
-            ownerEmail: form.get('ownerEmail').value,
-            discoveryUri: form.get('discoveryUri').value,
-            secret: form.get('secret').value,
-            idpType: form.get('idpType').value
-          });
+          save(data, file);
         }
       }}
       Content={Content}
     />
   );
+}
+
+function save({ setMessage, form, result, file }) {
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsText(file, 'UTF-8');
+    reader.onload = function (evt) {
+      if (evt.target.result.length > 2000000) {
+        setMessage({
+          text: t('in-settings:tabs.failedToSaveConfig', {
+            err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
+          }),
+          type: 'error'
+        });
+        return;
+      }
+      saveItem({
+        result,
+        setMessage,
+        idpMetadata: evt.target.result,
+        spEntityId: form.get('spEntityId').value,
+        ownerEmail: form.get('ownerEmail').value,
+        discoveryUri: form.get('discoveryUri').value,
+        secret: form.get('secret').value,
+        idpType: form.get('idpType').value
+      });
+    };
+  } else {
+    saveItem({
+      result,
+      setMessage,
+      idpMetadata: '',
+      spEntityId: form.get('spEntityId').value,
+      ownerEmail: form.get('ownerEmail').value,
+      discoveryUri: form.get('discoveryUri').value,
+      secret: form.get('secret').value,
+      idpType: form.get('idpType').value
+    });
+  }
 }
 
 function Content({ file, form, setForm, input, setCanSaveItem, result }) {
@@ -357,6 +383,10 @@ function CopyableText({ title, form, fieldName }) {
       </div>
     </FormGroup>
   ));
+}
+
+function isAnyInvitationsPending(props) {
+  return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
 }
 
 function deleteItem({ setMessage }) {

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .error {
     fill: var(--ids-color-option-red-500);

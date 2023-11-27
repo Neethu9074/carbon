@@ -10,7 +10,7 @@ import { PermissionSet } from '@instana/types';
 
 import {
   AreaRole,
-  AreaRoleType,
+  AreaRoleWithContributor,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -19,6 +19,8 @@ import {
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
@@ -46,32 +48,36 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
 export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
 
-  return form
-    .put(
-      'id',
-      createField({
-        value: id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: permissionSet
-      })
-    );
+  if (!applicationContributionFilterEnabled) {
+    return form
+      .put(
+        'id',
+        createField({
+          value: id
+        })
+      )
+      .put(
+        'name',
+        createField({
+          value: name,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'members',
+        createField({
+          value: members
+        })
+      )
+      .put(
+        'permissionSet',
+        createField({
+          value: permissionSet
+        })
+      );
+  } else {
+    return createFilterForm(form, apiResult);
+  }
 }
 
 // Returns the AreaRole that matches the specified permissions
@@ -87,6 +93,14 @@ export function getAreaRoleFromPermissionSet(
   if (capabilities?.length > 0) {
     const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
 
+    // Contributor role is only available for Application
+    if (
+      applicationContributionFilterEnabled &&
+      productArea === ProductArea.APPLICATION &&
+      permissionSet.restrictedApplicationFilter
+    ) {
+      return AreaRoleWithContributor.CONTRIBUTOR;
+    }
     if (hasAllCapabilities) return AreaRole.OWNER;
 
     const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
@@ -118,9 +132,10 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSet,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleType | undefined = undefined
+  role: AreaRoleWithCustomType | undefined = undefined
 ): PermissionSet {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+
   const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;
 
   // clean all permissions related to managed ProductArea
@@ -155,7 +170,7 @@ export function updatePermissionSetForLimitableProductArea(
 // Returns a new permission set containing all permissions related to the given product area and role
 function addPermissionsByRoleForProductArea(
   productArea: LimitableProductArea,
-  role: AreaRoleType | undefined,
+  role: AreaRoleWithCustomType | undefined,
   permissions: string[]
 ): string[] {
   //The additional Synthetic permissions set at owner's role should be removed
@@ -184,3 +199,65 @@ function addPermissionsByRoleForProductArea(
 
   return newPermissions;
 }
+
+function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
+  const { id, name, members, permissionSet } = apiResult?.result.group || {};
+  const applicationConfig = getDefaultApplicationConfig(name);
+  const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
+  const tagFilterExpression =
+    fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
+    applicationConfig.tagFilterExpression;
+  return form
+    .put(
+      'id',
+      createField({
+        value: id
+      })
+    )
+    .put(
+      'name',
+      createField({
+        value: name,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'label',
+      createField({
+        value: label
+      })
+    )
+    .put(
+      'members',
+      createField({
+        value: members
+      })
+    )
+    .put(
+      'permissionSet',
+      createField({
+        value: permissionSet
+      })
+    )
+    .put(
+      'scope',
+      createField({
+        value: applicationScope
+      })
+    )
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: tagFilterExpression
+      })
+    );
+}
+
+export const getDefaultApplicationConfig = (applicationContributionfilterName: string | undefined) => {
+  return {
+    label: applicationContributionfilterName,
+    scope: 'INCLUDE_NO_DOWNSTREAM',
+    tagFilterExpression: []
+  };
+};

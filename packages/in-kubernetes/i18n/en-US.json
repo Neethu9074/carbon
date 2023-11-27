@@ -177,7 +177,7 @@
     "internalIp": "Internal IP",
     "externalIp": "External IP",
     "unmonitoredHost": "Unmonitored Host",
-    "theHostIsUnmonitoredOnAKubernetesMasterNode": "The host is unmonitored on a Kubernetes master node",
+    "theHostIsUnmonitoredOnAKubernetesMasterNode": "The host does not have an Instana host agent running. This is typically caused by either a taint, limited capacity, an overloaded host, or other limitation that should be investigated.",
     "host": "Host",
     "podsAllocation": "Pods Allocation",
     "kubernetesPod": "Kubernetes Pod",

@@ -56,6 +56,7 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
     const [validationInputValue, setValidationInputValue] = useState('');
     const [reasonInputValue, setReasonInputvalue] = useState('');
     const [notification, setNotification] = useState<NotificationState>({ show: false });
+    const locationValidation: string = 'LOCATION';
 
     const doDeleteAction = () => {
       setIsDeleting(true);
@@ -120,11 +121,11 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
           </Label>
           <Label htmlFor="typingValidation">
             {t('in-synthetics:dashboard.locationList.typeToContinue', {
-              location: t('in-synthetics:dashboard.locationList.location')
+              location: locationValidation
             })}
             <Input
               name="typingValidation"
-              placeholder={t('in-synthetics:dashboard.locationList.location')}
+              placeholder={locationValidation}
               value={validationInputValue}
               disabled={isDeleting}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,7 +149,7 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
             onClick={() => {
               doDeleteAction();
             }}
-            disabled={validationInputValue !== 'LOCATION' || isBlank(reasonInputValue)}
+            disabled={validationInputValue !== locationValidation || isBlank(reasonInputValue)}
             kind="danger"
           >
             {t('in-synthetics:dashboard.locationList.deleteLocationLabel')}

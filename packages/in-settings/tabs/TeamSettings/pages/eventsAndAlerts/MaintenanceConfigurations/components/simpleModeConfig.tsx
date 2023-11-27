@@ -35,8 +35,8 @@ export const stepConfigs = [
   },
   {
     title: t('in-settings:tabs.step2RMWTitle'),
-    mustBeTouched: [['query'], ['applicationIds']],
-    mustBeValid: [['applyOn'], ['query'], ['applicationIds']]
+    mustBeTouched: [['query'], ['applicationIds'], ['tagFilterExpression']],
+    mustBeValid: [['applyOn'], ['query'], ['applicationIds'], ['tagFilterExpression']]
   },
   {
     title: t('in-settings:tabs.step3RMWTitle'),

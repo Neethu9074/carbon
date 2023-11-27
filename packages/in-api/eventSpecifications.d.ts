@@ -14,3 +14,4 @@ export function getCustomEventSpecificationMutable(
 ): Observable<CustomEventSpecificationWithMetadata>;
 export function getEventSpecificationByIds(eventSpecificationIds: string[]): Observable<EventSpecificationInfo[]>;
 export function getEventSpecifications(eventSpecificationIds?: string[]): Observable<EventSpecificationInfo[]>;
+export function getEventSpecificationsMutable(): Observable<EventSpecificationInfo[]>;

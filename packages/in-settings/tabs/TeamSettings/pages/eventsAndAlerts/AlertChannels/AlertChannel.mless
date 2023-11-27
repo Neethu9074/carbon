@@ -3,16 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .row {
     &:nth-child(even) {
-      background: @lib__colors__N050;
+      background: var(--ids-color-option-neutral-50);
     }
-    border-bottom: 1px solid @lib__colors__N300;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
     margin-top: 0 !important;
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 
   .rowInnerPadding {
@@ -25,6 +23,6 @@
   }
 
   .invalid {
-    color: @lib__colors__red800;
+    color: var(--ids-color-option-red-500);
   }
 }

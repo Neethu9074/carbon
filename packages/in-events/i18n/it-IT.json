@@ -109,6 +109,8 @@
   "headerEnd": "Fine",
   "headerOn": "Su",
   "headerTimeline": "Sequenza temporale",
+  "eventHelpfulText": "Questo evento è stato utile?",
+  "thankYouForYourFeedback": "Grazie per il tuo feedback!",
   "hostOffLineEventProblemChangeTime": "Fare clic sul link sottostante per passare all'ultima versione dell'host monitorato da Instana. In questo modo si cambierà l'inizio della finestra temporale ad un momento in cui l'host è stato monitorato da Instana",
   "offLineEventProblemChangeTime": "Fare clic sul link sottostante per passare all'ultima versione del processo monitorato da Instana. In questo modo si cambierà l'inizio della finestra temporale ad un momento in cui il processo è stato monitorato da Instana",
   "offLineEventProblemNoMatch": "Instana non riesce a trovare un riferimento a qualsiasi entità precedente corrispondente all'evento personalizzato.",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "Stato di Esito negativo"
   },
   "RCA": {
-    "titlePRCA": "Probabili eventi causa principale",
+    "titlePRCA": "Causa principale probabile",
     "AIGenBadgeText": "AI generata",
     "suggestionHelpfulText": "Questo suggerimento è stato utile?",
-    "noEventsErrorTitle": "Nessun evento trovato",
-    "noEventsErrorDescription": "È stata trovata un'entità come causa principale, ma non è stato possibile attribuirle alcun evento correlato",
     "noEntitiesErrorTitle": "Non è stata trovata alcuna causa principale probabile",
-    "noEntitiesErrorDescription": "Attenzione! Non è stato possibile individuare una causa principale specifica per questo incidente.",
-    "regenerate": "Rigenera"
+    "noEntitiesErrorDescription": "Ciò di solito si verifica quando l'incidente non ha un impatto significativo sul servizio",
+    "performanceConstantlyEvaluated": "Le prestazioni vengono attivamente valutate e migliorate durante la fase Beta. Lascia un feedback per aiutarci a migliorare la nostra AI",
+    "regenerate": "Rigenera",
+    "probableRootCauseLabel": "Entità causa principale probabile: {{entity_name}}",
+    "relatedEventsLabel": "Eventi entità trovati: {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "Ignora",
+    "descriptionUnpleasant": {
+      "firstLineApology": "Siamo spiacenti che l'esperienza non sia stata piacevole.",
+      "secondLineQuestion": "L'utente può aiutarci a identificare dove si sono verificati dei problemi?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "Immettere una descrizione",
+    "contactMeYes": "Sì, per favore contattami",
+    "contactMeNo": "No, preferisco non essere contattato.",
+    "appreciateResponse": "Apprezziamo la tua risposta!",
+    "followUpQuestion": "Desideri seguire l'evoluzione del tuo feedback tecnico per ulteriori chiarimenti o discussioni?"
   }
 }

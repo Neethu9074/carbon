@@ -28,7 +28,7 @@ export default function Jobs(props: any) {
     <Card>
       <Stack>
         <HorizontalFlexWrapper className={locals.header}>
-          <div>
+          <div className={locals.wrapper}>
             <SortingConfigurator
               options={sortOptions}
               orderBy={{
@@ -43,11 +43,7 @@ export default function Jobs(props: any) {
               }
             />
           </div>
-          <SearchInput
-            inputClassName={locals.searchInput}
-            query={query}
-            onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
-          />
+          <SearchInput query={query} onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })} />
         </HorizontalFlexWrapper>
         <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
       </Stack>

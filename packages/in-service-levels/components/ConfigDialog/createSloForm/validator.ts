@@ -106,3 +106,14 @@ export function noInvalidTagFilterExpression(tagFilterExpression: FormModelEleme
   }
   return undefined;
 }
+
+export function noBlankEntitySelection(entityId: string): ValidationResult {
+  if (entityId) return;
+
+  return [
+    {
+      severity: 'error',
+      message: t('in-service-levels:createSloDialog.errorBlankEntity')
+    }
+  ];
+}

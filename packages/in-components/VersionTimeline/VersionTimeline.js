@@ -11,11 +11,12 @@ import HorizontalTimeAxis from 'in-components/Axis/HorizontalTimeAxis';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 
 import locals from './VersionTimeline.mless';
 
 export default function VersionTimeline({ onVersionClick, getTooltip, from, to, selectedVersion, versions }) {
+  const theme = useTheme();
   const { width, ref } = useResizeObserverCustom();
 
   const scale = createScale();
@@ -60,7 +61,9 @@ export default function VersionTimeline({ onVersionClick, getTooltip, from, to, 
           <EndingGap lastVersion={versions[versions.length - 1]} scale={scale} />
         </>
       )}
-      {width && <HorizontalTimeAxis tickLineColor={theme.lib.colors.N600Light} scale={{ from, to }} width={width} />}
+      {width && (
+        <HorizontalTimeAxis tickLineColor={theme.ids.color.option.neutral['600']} scale={{ from, to }} width={width} />
+      )}
     </div>
   );
 }

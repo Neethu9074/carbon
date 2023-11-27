@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationLiveView from 'in-applications/subscriptions/getApplicationLiveView';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';
@@ -46,10 +47,25 @@ export default function SimpleModeContainer({
   onCreate,
   isValidTagFilterExpression,
   errorMessage,
-  isSaving
+  isSaving,
+  userRestrictedApplicationsResult
 }) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
-  const servicesLiveList = useObservable(getStreamData, [form, isValidTagFilterExpression]);
+
+  const downstreamScope = form.get('scope').value;
+  const tagFilterExpression = form.get('tagFilterExpression').value;
+  const groupId = form.get('groupId').value;
+  const contributionFilter =
+    groupId == null
+      ? null
+      : userRestrictedApplicationsResult.data?.find(r => r.id === groupId)?.filter?.tagFilterExpression;
+
+  const servicesLiveList = useObservable(getServicesLiveList, [
+    downstreamScope,
+    tagFilterExpression,
+    contributionFilter,
+    isValidTagFilterExpression
+  ]);
 
   const handleChangeBluePrint = blueprint => {
     const applicationScope = blueprint.presetFormFields?.applicationScope;
@@ -111,6 +127,7 @@ export default function SimpleModeContainer({
                   servicesLiveList={servicesLiveList}
                   blueprintCatalogResult={blueprintCatalogResult}
                   isValidTagFilterExpression={isValidTagFilterExpression}
+                  userRestrictedApplicationsResult={userRestrictedApplicationsResult}
                 />
               );
             case 2:
@@ -137,20 +154,21 @@ export default function SimpleModeContainer({
   );
 }
 
-function getStreamData([form, isValidTagFilterExpression]) {
-  const jsForm = form.toJS();
-  const downstreamScope = jsForm.scope;
-  const tagFilterExpression = jsForm.tagFilterExpression;
-
-  if (!isValidTagFilterExpression || tagFilterExpression.length === 0) {
+function getServicesLiveList([downstreamScope, tagFilterExpression, contributionFilter, isValidTagFilterExpression]) {
+  if (!isValidTagFilterExpression || (contributionFilter == null && tagFilterExpression.length === 0)) {
     return successObservable([]);
   }
+
+  const effectiveTagFilterExpression =
+    contributionFilter != null
+      ? joinExpressions({ expressions: [tagFilterExpression, contributionFilter] })
+      : tagFilterExpression;
 
   return getApplicationLiveView({
     // The live view is based on historic data from last hour
     timeConfig: { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false },
     pagination: { page: 1, pageSize: 100 },
     downstreamScope,
-    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
+    tagFilterExpression: toBackendQueryModel(effectiveTagFilterExpression)
   });
 }

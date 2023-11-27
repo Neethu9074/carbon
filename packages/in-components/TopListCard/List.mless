@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .topListWrapper {
     width: 100%;
@@ -24,5 +22,9 @@
     text-decoration: none;
 
     transition: color 0.25s ease-in-out;
+  }
+
+  .scrollbar {
+    padding-right: 5px;
   }
 }

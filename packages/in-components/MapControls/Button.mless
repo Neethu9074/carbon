@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .wrapper {
     display: flex;
@@ -17,7 +15,7 @@
     padding: 0.25rem;
 
     background: var(--ids-color-option-neutral-200);
-    border-radius: var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large);
     cursor: pointer;
     color: var(
       --ids-color-option-neutral-600
@@ -65,21 +63,21 @@
 
   .appendTop {
     margin-top: 1px;
-    border-radius: 0 0 var(--ids-border-radius-large) var(--ids-border-radius-large);
+    border-radius: 0 0 var(--ids-border-radius-option-large) var(--ids-border-radius-option-large);
   }
 
   .appendBottom {
     margin-bottom: 1px;
-    border-radius: var(--ids-border-radius-large) var(--ids-border-radius-large) 0 0;
+    border-radius: var(--ids-border-radius-option-large) var(--ids-border-radius-option-large) 0 0;
   }
 
   .appendLeft {
     margin-left: 1px;
-    border-radius: 0 var(--ids-border-radius-large) var(--ids-border-radius-large) 0;
+    border-radius: 0 var(--ids-border-radius-option-large) var(--ids-border-radius-option-large) 0;
   }
 
   .appendRight {
     margin-right: 1px;
-    border-radius: var(--ids-border-radius-large) 0 0 var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large) 0 0 var(--ids-border-radius-option-large);
   }
 }

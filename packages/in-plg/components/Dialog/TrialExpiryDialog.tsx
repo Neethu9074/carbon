@@ -21,20 +21,22 @@ interface OpenTrailExpiryDialogProps {
 
 export function OpenTrialExpiryDialog({ message, isSevenDaysOver }: OpenTrailExpiryDialogProps) {
   return (
-    <BaseDialog
-      onSubmit={noop}
-      title={
-        !isSevenDaysOver
-          ? t('in-plg:trialExpirationPopUp.titleBeforeTrialPeriodEnd')
-          : t('in-plg:trialExpirationPopUp.titleAfterTrialPeriodEnd')
-      }
-      customButtons={<CustomButtons message={message} />}
-    >
-      <Typography variant="body-regular">
-        {!isSevenDaysOver
-          ? t('in-plg:trialExpirationPopUp.trialExpirationPopUpDescription')
-          : t('in-plg:trialExpirationPopUp.trialExpirationPopUpDescriptionAfterSevenDays')}
-      </Typography>
-    </BaseDialog>
+    message.latestExpiredLicenseType == 'selfService' && (
+      <BaseDialog
+        onSubmit={noop}
+        title={
+          !isSevenDaysOver
+            ? t('in-plg:trialExpirationPopUp.titleBeforeTrialPeriodEnd')
+            : t('in-plg:trialExpirationPopUp.titleAfterTrialPeriodEnd')
+        }
+        customButtons={<CustomButtons />}
+      >
+        <Typography variant="body-regular">
+          {!isSevenDaysOver
+            ? t('in-plg:trialExpirationPopUp.trialExpirationPopUpDescription')
+            : t('in-plg:trialExpirationPopUp.trialExpirationPopUpDescriptionAfterSevenDays')}
+        </Typography>
+      </BaseDialog>
+    )
   );
 }

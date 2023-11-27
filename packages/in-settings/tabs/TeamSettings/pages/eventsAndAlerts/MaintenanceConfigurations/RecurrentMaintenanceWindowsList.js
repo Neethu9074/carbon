@@ -33,6 +33,8 @@ import {
   teamSettingsAlertingMaintenanceConfigurations,
   getEntityHref
 } from 'in-settings/navigation/paths';
+import { getQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -44,7 +46,7 @@ import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration.mless';
@@ -195,11 +197,12 @@ const columnDefinitions = [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
-    getContent(entity) {
+    getContent: function Content(entity) {
+      const theme = useTheme();
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
           <Link href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
-            <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
+            <WithIcon icon="lib_actions_build_outline" iconColor={theme.ids.color.option.blue['500']} ellipsis>
               {entity.name}
             </WithIcon>
           </Link>
@@ -215,11 +218,13 @@ const columnDefinitions = [
       let txt = '';
       const entityAppNames = entity?.applicationNames || [];
       if (entityAppNames.length > 0) {
-        txt = 'Applications ' + entityAppNames.length + entity?.query;
+        txt = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
       } else if (entity?.query) {
-        txt = 'DFQ ' + entity?.query;
+        txt = `${t('in-settings:maintenanceWindow.dfqColumn')}` + entity?.query;
+      } else if (entity?.tagFilterExpressionEnabled) {
+        txt = t('in-settings:tabs.syntheticTests');
       } else if (!entityAppNames.length === 0 && !entity.query) {
-        txt = 'All Entities';
+        txt = t('in-settings:maintenanceWindow.allEntitiesColumn');
       }
       return txt;
     },
@@ -229,19 +234,30 @@ const columnDefinitions = [
 
       const entityAppNames = entity?.applicationNames || [];
       if (entityAppNames.length > 0) {
-        text = `${entityAppNames.length} Applications`;
+        text = t('in-settings:maintenanceWindow.appQuery', { numApps: entityAppNames.length });
         entityAppNames.forEach((app, idx) => {
-          if (idx < 5) tooltipContent = tooltipContent + app + ' ';
+          if (idx < 5) tooltipContent = tooltipContent + app;
           if (idx === 5) tooltipContent = tooltipContent + '...';
+
+          if (idx !== entityAppNames.length - 1) tooltipContent += ', ';
         });
       } else if (entity.query) {
-        text = 'DFQ';
+        text = t('in-settings:maintenanceWindow.dfqColumn');
         tooltipContent = entity.query;
+      } else if (entity.tagFilterExpressionEnabled) {
+        text = t('in-settings:tabs.syntheticTests');
+        const tagFilterExpression = fromBackendModel(entity.tagFilterExpression);
+        const { QueryBuilder } = getQueryBuilder();
+        tooltipContent = (
+          <div>
+            <QueryBuilder value={tagFilterExpression} readOnly />
+          </div>
+        );
       } else if (entityAppNames.length === 0 && !entity.query) {
-        text = 'All Entities';
+        text = t('in-settings:maintenanceWindow.allEntitiesColumn');
       }
       return (
-        <Tooltip content={tooltipContent} delay={500}>
+        <Tooltip content={tooltipContent} delay={500} themeStyle="light">
           <span>{text}</span>
         </Tooltip>
       );
@@ -296,7 +312,8 @@ const columnDefinitions = [
     label: t('in-settings:tabs.status'),
     ellipsis: true,
     getValue: entity => (entity.paused ? 'PAUSED' : entity.state),
-    getContent(entity) {
+    getContent: function Content(entity) {
+      const theme = useTheme();
       if (!entity.state) return;
       let mwStatusLabel = entity.state;
       if ((mwStatusLabel === 'ACTIVE' || mwStatusLabel === 'SCHEDULED') && entity.paused) {
@@ -304,12 +321,12 @@ const columnDefinitions = [
       }
 
       const mwColor = () => {
-        if (mwStatusLabel === 'ACTIVE') return theme.lib.colors.green800;
-        if (mwStatusLabel === 'FINISHED' || mwStatusLabel === 'EXPIRED') return theme.lib.colors.N500;
-        if (mwStatusLabel === 'PAUSED') return theme.lib.colors.yellow800;
-        if (mwStatusLabel === 'SCHEDULED') return theme.lib.colors.blue800;
-        if (mwStatusLabel === 'UNSCHEDULED') return theme.lib.colors.deepPurple800;
-        return theme.lib.colors.N800Dark;
+        if (mwStatusLabel === 'ACTIVE') return theme.ids.color.option.green['500'];
+        if (mwStatusLabel === 'FINISHED' || mwStatusLabel === 'EXPIRED') return theme.ids.color.option.neutral['500'];
+        if (mwStatusLabel === 'PAUSED') return theme.ids.color.option.yellow['500'];
+        if (mwStatusLabel === 'SCHEDULED') return theme.ids.color.option.blue['500'];
+        if (mwStatusLabel === 'UNSCHEDULED') return theme.ids.color.option['deep-purple']['500'];
+        return theme.ids.color.option.neutral['800'];
       };
       const mwStatusLabelText = t('in-settings:maintenanceWindow.status', { context: mwStatusLabel.toLowerCase() });
       return (

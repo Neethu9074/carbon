@@ -248,6 +248,8 @@
     "newAP": "Nova perspectiva de aplicativo",
     "switchSimpleMode": "Alternar para o modo simples",
     "switchAdvancedMode": "Alternar para o modo avançado",
+    "selectContributionFilter": "Selecionar filtro de contribuição",
+    "noRestrictions": "Sem restrições",
     "simple": {
       "step1Title": "Etapa 1: selecionar modelo",
       "step1": {

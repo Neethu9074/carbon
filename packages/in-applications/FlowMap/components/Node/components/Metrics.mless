@@ -21,6 +21,6 @@
 
     background: var(--ids-color-option-neutral-300);
     color: var(--ids-color-option-neutral-800);
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 var(--ids-border-radius-option-medium) var(--ids-border-radius-option-medium);
   }
 }

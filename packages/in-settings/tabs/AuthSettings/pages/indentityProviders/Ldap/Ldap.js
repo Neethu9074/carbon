@@ -21,6 +21,9 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/inden
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string.ts';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -42,7 +45,7 @@ import { t, Trans } from 'in-i18n';
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Ldap.mless';
 
-export default function Ldap() {
+export default function Ldap(props) {
   const [testResultMessage, setTestResultMessage] = useState({ waitingForTest: false, messageProps: null });
   return (
     <ApiItemView
@@ -53,13 +56,36 @@ export default function Ldap() {
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={saveItem}
+      saveItem={data => {
+        if (isAnyInvitationsPending(props)) {
+          addActiveDialog(
+            <ConfirmationDialog
+              header={t('in-settings:components.pleaseConfirm')}
+              description={
+                <span>
+                  <Trans i18nKey="in-settings:tabs.createIDPConfirmationDescription" />
+                </span>
+              }
+              onSubmit={() => {
+                saveItem(data);
+                close();
+              }}
+              confirmButtonKind="create"
+              confirmButtonLabel={t('forms.actions.save')}
+            />
+          );
+        } else saveItem(data);
+      }}
       deleteItem={deleteItem}
       render={render}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
     />
   );
+}
+
+function isAnyInvitationsPending(props) {
+  return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
 }
 
 function render({ form, setForm, testResultMessage, setTestResultMessage, result }) {

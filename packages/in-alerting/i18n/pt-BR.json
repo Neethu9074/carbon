@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "Limite",
       "alertingChartLabelViolations": "Violações",
+      "alertingChartLabelForecast": "Previsão",
+      "alertingChartLabelUpperBound": "Limite superior",
+      "alertingChartLabelLowerBound": "Limite inferior",
       "alertingChartMessageInvalidFilterQuery": "Consulta inválida de filtro.",
       "alertingChartMessageEmptyApplicationSelection": "Nenhum aplicativo selecionado.",
       "chartAlertsLaneErrorMessage": "Não foi possível carregar alertas",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "Mensagem de erro",
-        "noDataMessage": "Nenhum alerta configurado.",
         "selectJSErrorHelpText": "Selecionar mensagem de erro de JS como modelo (opcional)",
-        "selectJSErrorTitle": "Selecionar Erro de JS"
+        "selectJSErrorTitle": "Selecionar Erro de JS",
+        "noJSErrorFound": "Não há nenhum erro JS localizado"
       },
       "data": {
         "errorCount": "Contagem de erros",
@@ -1216,6 +1219,32 @@
         "filter_0": "Filtros",
         "filter_1": "Filtros",
         "filter_2": "Filtros"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Escopo",
+          "title": "Escopo: onde a condição está acontecendo?"
+        },
+        "threshold": {
+          "label": "Limite",
+          "title": "Limite: quando a condição é violada?"
+        },
+        "timeThreshold": {
+          "label": "Limite de tempo",
+          "title": "Limite de tempo: quando você quer ser alertado?"
+        },
+        "alertChannel": {
+          "label": "Canais de alerta",
+          "title": "Canais de alerta: quem precisa ser alertado?"
+        },
+        "properties": {
+          "label": "Propriedades",
+          "title": "Propriedades de alerta adicionais"
+        },
+        "customPayloads": {
+          "label": "Cargas úteis",
+          "title": "Carga útil customizada"
+        }
       }
     }
   }

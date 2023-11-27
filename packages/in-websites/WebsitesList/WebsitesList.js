@@ -96,6 +96,7 @@ const columnDefinitions = [
   {
     id: 'maxSeverity',
     label: t('in-websites:websitesList.websitesListLabelHealth'),
+    sortable: false,
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (

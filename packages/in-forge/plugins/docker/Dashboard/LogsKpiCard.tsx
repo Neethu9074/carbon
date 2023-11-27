@@ -9,7 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
-import { LOG_LEVEL, LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
+import { LOG_LEVEL, getValueMatchTagFilter, DOCKER_ID } from 'in-logging/queryBuilder';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -38,8 +38,8 @@ export default function LogsKpiCard(props: LogsKpiCardProps) {
 
   const tagFilterExpression = [
     getValueMatchTagFilter({
-      name: LOG_DOCKER_SNAPSHOT_ID,
-      value: snapshot.get('id')
+      name: DOCKER_ID,
+      value: snapshot.get('data')?.get('Id')
     }),
     {
       type: 'CONJUNCTION',
@@ -110,8 +110,8 @@ function Value({ timeConfig, snapshot }: ValueProps) {
   const theme = useTheme();
 
   const getLogsTagFilterExpression = getValueMatchTagFilter({
-    name: LOG_DOCKER_SNAPSHOT_ID,
-    value: snapshot.get('id')
+    name: DOCKER_ID,
+    value: snapshot.get('data')?.get('Id')
   });
 
   const logGroupsResult =

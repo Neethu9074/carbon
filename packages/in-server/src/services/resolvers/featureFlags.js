@@ -331,6 +331,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticsFilterForMaintenanceWindowsEnabled',
+    instanaCtlKey: 'feature.recurrent.maintenance.windows.synthetics.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'mobileAppSmartAlertsEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.enabled',
     defaultValue: true
@@ -376,6 +381,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticInstanaHostedPoPEnabled',
+    instanaCtlKey: 'feature.synthetic.instana.hosted.pop.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -393,6 +403,11 @@ module.exports = exports = [
   {
     uiClientKey: 'infraSmartAlertsEnabled',
     instanaCtlKey: 'feature.infra.smart.alerts.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'infraSmartAlertsPredictionsEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.predictions.enabled',
     defaultValue: false
   },
   {
@@ -416,9 +431,19 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'actionsLaneEnabled',
-    instanaCtlKey: 'feature.actions.lane.enabled',
+    uiClientKey: 'eventFeedbackEnabled',
+    instanaCtlKey: 'feature.event.feedback.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'incidentSummarizationEnabled',
+    instanaCtlKey: 'feature.incident.summarization.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'incidentSummarizationTimelineEnabled',
+    instanaCtlKey: 'feature.incident.summarization.timeline.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'playWithReleaseEnabled',
@@ -428,6 +453,26 @@ module.exports = exports = [
   {
     uiClientKey: 'autoFormatterTimeSeriesEnabled',
     instanaCtlKey: 'feature.auto.formatter.timeseries.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'disableInvitesWithIdpEnabled',
+    instanaCtlKey: 'feature.disable.invites.with.idp.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'applicationContributionFilterEnabled',
+    instanaCtlKey: 'feature.application.contribution.filter.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'multiGroupTimeSeriesEnabled',
+    instanaCtlKey: 'feature.multigroup.timeseries.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'infraSmartAlertsDialogEnabled',
+    instanaCtlKey: 'feature.infra.smart.alerts.dialog.enabled',
     defaultValue: false
   }
 ];

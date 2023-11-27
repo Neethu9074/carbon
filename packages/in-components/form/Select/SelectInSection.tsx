@@ -16,10 +16,11 @@ interface SelectInSectionProps extends SelectProps {
   additionalContent?: ReactNode;
   actions?: ReactNode;
   useAlternateBg?: boolean;
+  titleWidth?: string;
 }
 
 export default forwardRef<HTMLSelectElement, SelectInSectionProps>(function SelectInSection(
-  { label, additionalContent, actions, useAlternateBg, ...selectProps }: SelectInSectionProps,
+  { label, additionalContent, actions, useAlternateBg, titleWidth, ...selectProps }: SelectInSectionProps,
   ref
 ) {
   const { id, hasError } = selectProps;
@@ -29,7 +30,14 @@ export default forwardRef<HTMLSelectElement, SelectInSectionProps>(function Sele
   }
 
   return (
-    <Section titleHtmlFor={id} title={label} useAlternateBg={useAlternateBg} hasError={hasError} actions={actions}>
+    <Section
+      titleHtmlFor={id}
+      title={label}
+      useAlternateBg={useAlternateBg}
+      hasError={hasError}
+      actions={actions}
+      titleWidth={titleWidth}
+    >
       <Select {...selectProps} className={classNames(selectProps.className, locals.select)} ref={ref} />
       {additionalContent}
     </Section>

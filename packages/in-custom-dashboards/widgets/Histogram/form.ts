@@ -9,7 +9,7 @@ import { createField, createMapForm } from 'formalistic';
 // @ts-expect-error
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { metricConfigurationPath, formatterPath } from '../_shared/useFormatterFormSideEffects';
-import { percentageDetailed, allFormatterIds } from 'in-stores/metric/formatters';
+import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
@@ -27,7 +27,7 @@ export function createForm(savedState: Partial<HistogramConfig>) {
     .put(
       formatterPath,
       createField({
-        value: savedState?.formatter ?? percentageDetailed.id,
+        value: savedState?.formatter ?? defaultFormatter.id,
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,

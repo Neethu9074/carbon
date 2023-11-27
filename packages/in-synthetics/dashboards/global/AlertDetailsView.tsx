@@ -31,6 +31,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 
 export default function AlertDetailsView() {
   const timeConfig = useTimeConfig();
@@ -63,9 +64,11 @@ export default function AlertDetailsView() {
         </LeftRightPadding>
       )}
       <Footer />
-      <FloatingActionButtons>
-        <CreateSmartAlert />
-      </FloatingActionButtons>
+      {role?.canConfigureGlobalAlertConfigs && (
+        <FloatingActionButtons>
+          <CreateSmartAlert />
+        </FloatingActionButtons>
+      )}
     </Sticky>
   ) : (
     <>
@@ -97,9 +100,11 @@ export default function AlertDetailsView() {
           </LeftRightPadding>
         )}
         <Footer />
-        <FloatingActionButtons>
-          <CreateSmartAlert testId={testId} />
-        </FloatingActionButtons>
+        {role?.canConfigureGlobalAlertConfigs && (
+          <FloatingActionButtons>
+            <CreateSmartAlert testId={testId} />
+          </FloatingActionButtons>
+        )}
       </Sticky>
     </>
   );

@@ -32,7 +32,7 @@ import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -44,7 +44,11 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = node.id;
 
-  const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+  const capacity = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const usage = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const requests = oldTheme.lib.colors.chart.fourColorPalette[3];
+
   const clusterTag = kubernetesClusterTagEquals(node.clusterId);
   const workloadTag = tagEquals('kubernetes.node.name', node.name);
   const query = andQuery(clusterTag, workloadTag);

@@ -5,8 +5,23 @@
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const serverConfig = require('../../serverConfig.js');
+const featureFlagDefinitions = require('./featureFlags');
 
-exports.getFeatureFlags = () => Promise.resolve(serverConfig.clientConfig.featureFlags);
+exports.getFeatureFlags = () => {
+  const presetWithEnabledFlags = featureFlagDefinitions.reduce((presetWithEnabledFlags, flag) => {
+    const { uiClientKey: key, defaultValue } = flag;
+    if (defaultValue) {
+      presetWithEnabledFlags[key] = defaultValue;
+    }
+    return presetWithEnabledFlags;
+  }, {});
+
+  const configuredFlags = serverConfig?.clientConfig?.featureFlags ?? {};
+  // overriding default preset with configured flags
+  const mergedFlags = { ...presetWithEnabledFlags, ...configuredFlags };
+  return Promise.resolve(mergedFlags);
+};
+
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 exports.getButlerDomain = (tenant, unit) => Promise.resolve(getButlerDomain(tenant, unit));
@@ -31,6 +46,6 @@ function getUiBackendBaseUrl(tenantName, unitName) {
       }
     }
   }
-  
+
   throw new Error(`Tenant (${tenantName}) & unit (${unitName}) combination not found in server configuration.`);
 }

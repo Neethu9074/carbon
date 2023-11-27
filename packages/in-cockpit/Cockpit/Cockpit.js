@@ -44,7 +44,6 @@ import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureT
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { playwithEnabled, bizopsFeatureEnabled } from 'in-services/featureFlags';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
@@ -53,7 +52,10 @@ import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { playwithEnabled } from 'in-services/featureFlags';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
@@ -135,16 +137,13 @@ if (hasEventsAccess) {
 
 // adds the business monitoring section
 if (hasBizOpsAccess) {
-  // TODO:  Remove this FF once backend support for favorites is in place
-  if (bizopsFeatureEnabled) {
-    itemIds.push({ id: '6' });
-    LUT['6'] = BusinessMonitoringTopList;
-    configEnrichmentLookUpTable['6'] = {
-      label: t('in-cockpit:cockpit.bizops'),
-      icon: 'lib_bizops',
-      cardIcon: 'lib_bizops'
-    };
-  }
+  itemIds.push({ id: '6' });
+  LUT['6'] = BusinessMonitoringTopList;
+  configEnrichmentLookUpTable['6'] = {
+    label: t('in-cockpit:cockpit.bizops'),
+    icon: 'lib_bizops',
+    cardIcon: 'lib_bizops'
+  };
 }
 
 export default connectTo(
@@ -169,8 +168,8 @@ function CockpitInner({ settings, width }) {
         <Title title={t('in-cockpit:cockpit.home')} />
         <ViewTrackingMeta
           data={{
-            productArea: 'Home',
-            pageRootName: 'Home'
+            productArea: productAreas.home,
+            pageRootName: pageNames.home
           }}
         />
         <Sticky header={<Header />}>

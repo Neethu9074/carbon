@@ -6,8 +6,8 @@
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
+import { Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import {
   defaultInfraExploreViewParams,
@@ -23,7 +23,6 @@ import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Dashboard from 'in-infrastructure/Dashboard';
 import { noop } from 'in-services/util/function';
-import Pill from 'in-components/Pill/Pill';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
@@ -34,12 +33,13 @@ function ButtonLine() {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
   return (
-    <div className={locals.betaMarker}>
-      <Link className={locals.betaLink} href={getLinkToInfraEntityExplore(defaultInfraExploreViewParams)}>
-        <Pill kind="primary" className={locals.betaPill}>
-          {t('in-infrastructure:explore.beta')}
-        </Pill>
-        {t('in-infrastructure:explore.tryBetaInfraAnalytics')}
+    <div className={locals.analyzeInfrastructure}>
+      <Link
+        className={locals.analyzeInfrastructureLink}
+        href={getLinkToInfraEntityExplore(defaultInfraExploreViewParams)}
+      >
+        <SvgIcon type="lib_analyze_inverted" className={locals.analyzeInfrastructureIcon} />
+        {t('in-infrastructure:explore.analyzeInfrastructure')}
       </Link>
     </div>
   );

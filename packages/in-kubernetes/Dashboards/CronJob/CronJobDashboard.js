@@ -30,7 +30,7 @@ import tabs from 'in-kubernetes/Dashboards/CronJob/tabs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function CronJobDashboard({ location }) {
@@ -102,7 +102,7 @@ function Header(props) {
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={cronJobId} />}
-      renderMetaInformation={renderMetaInformation}
+      renderMetaInformation={RenderMetaInformation}
     />
   );
 }
@@ -118,12 +118,13 @@ function renderButtonLine({ cronJobId, timeConfig, result }) {
   );
 }
 
-function renderMetaInformation({ result }) {
+function RenderMetaInformation({ result }) {
+  const theme = useTheme();
   const version = get(result, ['data', 'version']);
 
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}
+      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SCronJob')} />
       <KubernetesIndicator result={result} />
     </>

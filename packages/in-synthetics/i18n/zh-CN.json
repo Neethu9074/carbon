@@ -217,8 +217,8 @@
       "successMessageUpdate": "已成功更新合成测试",
       "successMessageDelete": "已成功删除合成测试",
       "failureTitle": "失败！",
-      "failureMessageCreate": "未能创建合成测试。 请稍后重试",
-      "failureMessageUpdate": "未能更新合成测试。 请稍后重试",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "未能更新合成测试。{{errorMessage}}。 请刷新页面，然后重试。",
       "failuteMesssageDelete": "未能删除合成测试。 请稍后重试"
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "删除原因",
       "typeToContinue": "输入 {{location}} 以继续",
-      "location": "位置",
       "deletionSuccess": "已删除该位置",
       "cancelButton": "取消",
       "deleteLocationLabel": "删除位置",
       "success": "成功",
-      "failure": "失败"
+      "failure": "失败",
+      "popVersion": "版本",
+      "noActionsAllowed": "不适用",
+      "deleteRestrictedDescription": "无法删除受管位置。"
     },
     "summary": {
       "successRate": "成功率",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "下载 HAR 文件",
       "downloadLog": "下载日志",
-      "downloadImages": "下载屏幕快照",
+      "viewScreenshotsLabel": "查看屏幕快照",
       "downloadVideo": "下载记录",
       "consoleLogsLevel": "控制台",
       "consoleLogs": "控制台",
@@ -481,6 +483,14 @@
             "connect": "连接"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "屏幕快照",
+        "allScreenshots": "所有屏幕快照",
+        "allImagesButton": "所有图像",
+        "imageButton": "图像",
+        "ScreenshotsLoadingMessage": "正在装入屏幕快照",
+        "noScreenshotsAvailableMessage": "屏幕快照不可用于此测试结果"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "没有可用的合成测试",
       "testSummaryDescription": "未从数据库检索到任何合成测试。",
       "locationListTitle": "没有可用的合成位置",
-      "locationListDescription": "没有从数据库中检索到合成位置。"
+      "locationListDescription": "没有从数据库中检索到合成位置。",
+      "configurationTab": "{{component}} 详细信息不可用于此测试。"
     },
     "alertList": {
       "timeThreshold": "时间阈值",
@@ -541,7 +552,7 @@
         "reasonTitle": "删除原因",
         "typingValidationTitle": "输入 {{synthetic}} 以继续",
         "cancelButton": "取消",
-        "deleteButton": "删除"
+        "deleteButton": "删除测试"
       },
       "configurationEditAction": "编辑",
       "configurationDeleteAction": "删除"

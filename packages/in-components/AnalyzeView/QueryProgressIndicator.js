@@ -17,6 +17,7 @@ import locals from './QueryProgressIndicator.mless';
 
 const height = 189;
 const iconSize = 'xl';
+const clickhouseTimeoutErrorMessage = 'Clickhouse timeout';
 
 // "errors" - optional, to display error messages
 // "items" - optional, to display no data available message, if empty
@@ -60,25 +61,14 @@ function QueryFailed({ errors }) {
     return { code: e.code, status: status, description: description };
   });
 
+  if (error.description === clickhouseTimeoutErrorMessage) {
+    return <TimeoutError error={error} />;
+  }
+
   switch (error.code) {
     case 'TIMEOUT':
     case 'GATEWAY_TIMEOUT':
-      return (
-        <div className={locals.stateWrapper}>
-          <div className={locals.bigIconContainer}>
-            <SvgIcon size={iconSize} className={locals.warnIcon} type="lib_help_error_error_circle" />
-          </div>
-          <div className={locals.progressText}>
-            {error.description?.includes('The query would take too long to run.')
-              ? t('in-components:error.timeoutEstimated')
-              : t('in-components:error.timeout')}
-          </div>
-          <div className={locals.infoBlock}>
-            <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
-            <span>{t('in-components:error.timeoutInfo')}</span>
-          </div>
-        </div>
-      );
+      return <TimeoutError error={error} />;
     case 'CLIENT':
     case 'VALIDATION':
       return (
@@ -118,3 +108,22 @@ function QueryFailed({ errors }) {
       );
   }
 }
+
+const TimeoutError = ({ error }) => {
+  return (
+    <div className={locals.stateWrapper}>
+      <div className={locals.bigIconContainer}>
+        <SvgIcon size={iconSize} className={locals.warnIcon} type="lib_help_error_error_circle" />
+      </div>
+      <div className={locals.progressText}>
+        {error.description?.includes('The query would take too long to run.')
+          ? t('in-components:error.timeoutEstimated')
+          : t('in-components:error.timeout')}
+      </div>
+      <div className={locals.infoBlock}>
+        <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
+        <span>{t('in-components:error.timeoutInfo')}</span>
+      </div>
+    </div>
+  );
+};

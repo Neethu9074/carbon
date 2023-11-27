@@ -35,6 +35,7 @@ export interface Role {
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
   canConfigureSyntheticTests: boolean;
+  canConfigureGlobalAlertConfigs: boolean;
   canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
   canConfigureApiTokens: boolean;

@@ -6,7 +6,7 @@
 
 :local {
   .dialog {
-    max-width: 60vw;
+    max-width: 40vw;
   }
   .confirmationDialogContent {
     display: flex;

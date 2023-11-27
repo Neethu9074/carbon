@@ -63,7 +63,7 @@ function getStatusOptions() {
 function getDisplayLabels(labels: string[]) {
   let locationLabelOptions: Option[] = [];
 
-  labels.map((locationDisplayLabel: string) => {
+  labels.forEach((locationDisplayLabel: string) => {
     locationLabelOptions.push({
       label: locationDisplayLabel,
       value: locationDisplayLabel
@@ -72,4 +72,3 @@ function getDisplayLabels(labels: string[]) {
 
   return locationLabelOptions;
 }
-

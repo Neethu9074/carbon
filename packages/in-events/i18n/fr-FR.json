@@ -109,6 +109,8 @@
   "headerEnd": "Fin",
   "headerOn": "Activé",
   "headerTimeline": "Chronologie",
+  "eventHelpfulText": "Cet événement a-t-il été utile ?",
+  "thankYouForYourFeedback": "Merci pour vos commentaires !",
   "hostOffLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version de l'hôte surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où l'hôte a été surveillé par Instana.",
   "offLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version du processus surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où le processus a été surveillé par Instana.",
   "offLineEventProblemNoMatch": "Instana n'a pas trouvé de référence à une entité précédente correspondant à l'événement personnalisé.",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "Statut d'échec"
   },
   "RCA": {
-    "titlePRCA": "Evénements de cause première probables",
+    "titlePRCA": "Cause première probable",
     "AIGenBadgeText": "Généré par l'IA",
     "suggestionHelpfulText": "Cette suggestion a-t-elle été utile ?",
-    "noEventsErrorTitle": "Aucun événement trouvé",
-    "noEventsErrorDescription": "Une entité a été trouvée comme cause première mais aucun événement connexe n'a pu lui être attribué",
     "noEntitiesErrorTitle": "Aucune cause première probable n'a été trouvée",
-    "noEntitiesErrorDescription": "Oups ! Nous n'avons pas pu identifier de cause première spécifique pour cet incident.",
-    "regenerate": "Régénérer"
+    "noEntitiesErrorDescription": "Cela se produit généralement lorsque l'incident n'a pas eu d'impact significatif sur le service",
+    "performanceConstantlyEvaluated": "Les performances sont activement évaluées et améliorées dans la version bêta. Faites-nous part de vos commentaires pour nous aider à améliorer notre IA",
+    "regenerate": "Régénérer",
+    "probableRootCauseLabel": "Entité de cause première probable : {{entity_name}}",
+    "relatedEventsLabel": "Evénements d'entité trouvés : {{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "Sauter",
+    "descriptionUnpleasant": {
+      "firstLineApology": "Nous sommes désolés que vous n'ayez pas eu une expérience agréable.",
+      "secondLineQuestion": "Pouvez-vous nous aider à identifier les problèmes qui se sont posés ?"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "Décrivez-les",
+    "contactMeYes": "Oui, veuillez me contacter",
+    "contactMeNo": "Non, je préfère ne pas être contacté",
+    "appreciateResponse": "Merci pour votre réponse !",
+    "followUpQuestion": "Voulez-vous que nous vous contactions suite à vos commentaires techniques pour les clarifier ou en discuter ?"
   }
 }

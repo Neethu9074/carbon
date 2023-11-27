@@ -4,7 +4,6 @@
  */
 
 import { Route, Switch } from 'react-router-dom';
-import { compose } from 'recompose';
 import React from 'react';
 
 import ProfiledProcessesPresenter from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcessesPresenter';
@@ -33,19 +32,17 @@ export default connectTo(
   }
 );
 
-const ProfiledProcessesComponent = compose(
-  cursorPaginated({
-    getResettingProps: () => ['query', 'timeConfig'],
-    get: ({ timeConfig, cursor }) =>
-      query$.debounce(1000).flatMap(query =>
-        getProfiledProcesses({
-          pagination: {
-            cursor,
-            retrievalSize: 20
-          },
-          query,
-          timeConfig
-        })
-      )
-  })
-)(ProfiledProcessesPresenter);
+const ProfiledProcessesComponent = cursorPaginated({
+  getResettingProps: () => ['query', 'timeConfig'],
+  get: ({ timeConfig, cursor }) =>
+    query$.debounce(1000).flatMap(query =>
+      getProfiledProcesses({
+        pagination: {
+          cursor,
+          retrievalSize: 20
+        },
+        query,
+        timeConfig
+      })
+    )
+})(ProfiledProcessesPresenter);

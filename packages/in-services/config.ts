@@ -11,6 +11,10 @@ export interface ClientConfig {
   region: string;
   tenant: string;
   tenantUnit: string;
+  agentEndpoint?: string;
+  agentEndpointPort?: string;
+  agentInstallDomain?: string;
+  butlerDomain?: string;
 }
 
 export interface BuildInfo {

@@ -17,7 +17,7 @@
   }
 
   .messageExpanded {
-    white-space: normal;
+    white-space: pre-wrap;
     .breakWord();
   }
 

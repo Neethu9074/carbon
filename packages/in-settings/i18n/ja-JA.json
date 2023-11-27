@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "新規グループの作成",
     "dialogTitle_edit": "アクセス権の範囲の編集",
-    "editButton": "アクセス権の範囲の編集",
-    "productArea": "役割とアクセス権の範囲"
+    "editButton": "編集",
+    "productArea": "{{tenantUnit}}のアクセス権限構成"
   },
   "productAreas": {
     "allApplications": "すべてのアプリケーション",
@@ -74,9 +74,12 @@
     "role_owner": "所有者",
     "role_viewer": "ビューア―",
     "role_permissions": "不明 - アクセス {{quantityOfAreas}}",
+    "role_permissions_contributor": "コントリビューター - アクセス権限 {{quantityOfAreas}}",
     "role_permissions_owner": "所有者 - アクセス {{quantityOfAreas}}",
     "role_permissions_viewer": "ビューアー - アクセス {{quantityOfAreas}}",
     "role_permission_scope_all": "すべて",
+    "role_permissions_contributor_and_owner": "所有者権限 {{quantityOfAreas}} &コントリビューター権限 {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "ビューアー権限 {{quantityOfAreas}} &コントリビューター権限 {{quantityOfAreasContributor}}",
     "no_access": "アクセス権なし",
     "platform_permissions": "アクセス {{quantityOfAreas}}",
     "analyticsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、プラットフォーム & インフラストラクチャーのアクセス・スコープによって定義された分析でデータを表示できる",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "ネーム・スペースの追加",
     "addButton_syntheticTests": "シンセティック・テストの選択",
     "descriptionAccessAll_synthetics": "選択した役割ですべてのシンセティック・テストにアクセスできます。",
-    "descriptionLimitedAccess_synthetics": "役割を選択し、以下のシンセティック・テストを追加してアクセス権限を付与します。"
+    "descriptionLimitedAccess_synthetics": "役割を選択し、以下のシンセティック・テストを追加してアクセス権限を付与します。",
+    "contribution_filter": "コントリビューション・フィルター",
+    "contributionFilter_description": "フィルターは、新規アプリケーション構成の作成のために継承されます。 アプリケーション・パースペクティブ構成では、{{logicalOperator}}オペレーターの後にさらにフィルター・タグを指定することで詳細化できます。",
+    "contributionFilter_downstreamCalls": "アプリケーション・パースペクティブに組み込むことができる追加情報の最大レベルを決定します。",
+    "contributionFilter_name": "名前"
   },
   "selectItemForm": {
     "doneButton": "完了"
@@ -156,23 +163,96 @@
     "nameColumnHead": "名前"
   },
   "permissionScope": {
+    "access_level": "アクセス・レベル",
+    "configuration_summary": "構成の要約",
     "selection": "使用不可",
     "selection_access_all": "すべてにアクセス",
     "selection_limited_access": "制限付きアクセス",
     "selection_no_access": "アクセス権なし",
     "selection_viewer_access": "ビューアー・アクセス",
+    "selection_owner_access": "所有者権限",
+    "selection_contributor_access": "コントリビューター権限",
     "description_no_access": "この領域はまったく使用できません",
     "description_no_access_kubernetes": "名前空間およびクラスターへのアクセス権限がありません。",
     "description_access_all": "制限なしですべてにアクセス",
+    "description_access_all_except_contributor": "すべてにアクセス-コントリビューターとしてアクセスされるものを除く",
     "role": "役割の選択",
     "roleSelection": "役割",
     "role_owner": "所有者",
     "role_viewer": "ビューア―",
     "role_custom": "カスタム",
+    "role_contributor": "コントリビューター",
+    "role_permissions": "ロール/権限",
     "roleTooltip_websites": "ビューアー: Web サイトのダッシュボードを表示できます (構成は表示できません)。 <br /> 所有者: 新規 Web サイトを作成できます。Web サイトのダッシュボードの表示、構成、および削除が可能です。",
     "roleTooltip_mobileApps": "ビューアー: モバイル・アプリのダッシュボードを表示できます(構成は表示できません)。 <br /> 所有者: 新規モバイル・アプリを作成できます。モバイル・アプリのダッシュボードの表示、構成、および削除が可能です。",
     "roleTooltip_applications": "ビューアー: アプリケーションのダッシュボードを表示できます (構成は表示できません)。 <br /> 所有者: 新規アプリケーションを作成できます。アプリケーションのダッシュボードの表示、構成、および削除が可能です。",
-    "roleTooltip_synthetics": "ビューアー: シンセティック・テスト・ダッシュボードを表示する機能 (構成は表示できません)。 <br /> 所有者: 新しいシンセティック・テストの作成、シンセティック・テストの表示、構成、削除、シンセティック・ロケーションの表示と削除を行うことができます。"
+    "roleTooltip_synthetics": "ビューアー: シンセティック・テスト・ダッシュボードを表示する機能 (構成は表示できません)。 <br /> 所有者: 新しいシンセティック・テストの作成、シンセティック・テストの表示、構成、削除、シンセティック・ロケーションの表示と削除を行うことができます。",
+    "contribution_filter_accessScope": "制限付きアクセス・スコープ(ビューアー)",
+    "contribution_filter_warning": {
+      "firstParagraph": "変更を保存すると、このコントリビューション・フィルターを使用して、すべてのアプリケーション・パースペクティブが更新されます。",
+      "secondParagraph": "ロールを変更すると、コントリビューション・フィルターが削除され、コントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブが、「アプリケーション」セクションに対する所有者権限を持つすべてのユーザーによって編集可能になります。 これは元に戻せません。"
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "このユニットの下のすべてのアプリケーション・パースペクティブへのアクセス。",
+        "role_permissions_contributor": "このユニットの下にあるすべてのアプリケーション・ダッシュボードを表示します。 コントリビューション・フィルターを使用して、アプリケーション・ダッシュボードを作成、構成、削除します。"
+      },
+      "limited_access": {
+        "access_level": "選択した以下のアプリケーションへのアクセスは制限されています。",
+        "access_level_contributor": "選択した以下のアプリケーション・ダッシュボードを表示",
+        "role_permissions_contributor": "コントリビューション・フィルターを使用して、アプリケーション・ダッシュボードを作成、構成、削除します。 (コントリビューターによって作成されたアプリケーション・ダッシュボードは、グループの概要と「アプリケーション」セクションのリストに表示されます。)"
+      },
+      "role_permissions_owner": "アプリケーション・ダッシュボードを作成、構成、表示、および削除します。",
+      "role_permissions_viewer": "アプリケーション・パースペクティブ・ダッシュボードとその構成を表示します。"
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "このユニットの下にあるすべてのエンティティー・ダッシュボードへのアクセス権限。これらは、アプリケーションおよびプラットフォームに付与されたアクセス権限に関連しています。"
+      },
+      "role_permissions_owner": "エンティティー・ダッシュボードを表示します。",
+      "role_permissions_viewer": "エンティティー・ダッシュボードを表示します。"
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "このユニットの下のすべての名前空間およびクラスターに対するアクセス権限。"
+      },
+      "limited_access": {
+        "access_level": "選択した以下の名前空間とクラスターに対するアクセスは制限されています。"
+      },
+      "role_permissions": "名前空間とクラスターを表示します。"
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "このユニットの下のすべてのモバイル・アプリケーションに対するアクセス権限。"
+      },
+      "limited_access": {
+        "access_level": "選択した以下のモバイル・アプリへのアクセスは制限されています。"
+      },
+      "role_permissions_owner": "モバイル・アプリケーションを作成、構成、表示、および削除します。",
+      "role_permissions_viewer": "モバイル・アプリケーションとその構成を表示します。"
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "このユニットでのすべてのシンセティック・テストに対するアクセス権限。"
+      },
+      "limited_access": {
+        "access_level": "選択した以下のシンセティック・テストへのアクセスは制限されています。"
+      },
+      "role_permissions_owner": "シンセティック・テストを作成、構成、表示、および削除します。",
+      "role_permissions_viewer": "シンセティック・テストとその構成を表示します。"
+    },
+    "website": {
+      "access_all": {
+        "access_level": "このユニットの下のすべての Web サイトへのアクセス。"
+      },
+      "limited_access": {
+        "access_level": "選択した以下のWebサイトへのアクセスは制限されています。"
+      },
+      "role_permissions_owner": "Webサイトを作成、表示、および削除します。",
+      "role_permissions_viewer": "Webサイトとその構成を表示します。"
+    }
   },
   "cardTitle_Area": "領域",
   "cardTitle_Area_plural": "領域",
@@ -225,7 +305,8 @@
         "placeholder": "プレースホルダー",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "選択された論理演算子は、以下の条件に適用されます。"
+        "logicalOperatorInfo": "選択された論理演算子は、以下の条件に適用されます。",
+        "clearMetricSeclection": "選択のクリア"
       },
       "customPayload": {
         "unknownTag": "不明なタグ: {{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "グローバル・アプリケーション SmartAlerts",
     "syntheticSmartAlert": "合成 SmartAlert",
     "mobileSmartAlert": "モバイル SmartAlert",
+    "infraSmartAlert": "インフラストラクチャーSmartAlert",
     "enabled": "有効",
     "disabled": "無効",
     "invalidQuery": "無効なクエリー",
@@ -776,6 +858,7 @@
     "alert": "アラート",
     "unknownAlert": "不明なアラート",
     "pleaseSelectAtLeastOneApplication": "アプリケーションを少なくとも 1 つ選択してください。",
+    "pleaseSelectAtLeastOneTagFilter": "少なくとも1つのタグ・フィルターを選択してください。",
     "noAlertConfigured": "アラートが構成されていません。",
     "additionalScope": "追加のスコープ",
     "state": "状態…",
@@ -891,6 +974,7 @@
     "applyOn": "適用対象",
     "applicationPerspective": "アプリケーション・パースペクティブ",
     "selectedEntitiesDynamicFocusQuery": "選択されているエンティティー (ダイナミック・フォーカス・クエリー)",
+    "syntheticTests": "シンセティック・テスト",
     "automaticallyCloseAfter": "自動的に閉じるまでの期間",
     "selectedEntitiesHostByTag": "選択されているエンティティー (タグ別ホストの範囲設定)",
     "scopeHostsByTag": "タグ別ホストの範囲設定",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "この非推奨イベントは移行されました。詳しくは、<documentationLink>弊社の資料を参照してください</documentationLink>。",
     "deprecatedEventSelectedMessage": "エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨になりました。 今後、これらの 3 つのエンティティー・タイプに対して新規イベントを作成することはできません。 代わりにスマート・アラートを作成することをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
     "customEventListDeprecatedWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨</strong><br/>今後、これら 3 つのエンティティー・タイプでカスタム・イベントを作成したり更新したりすることはできなくなります。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
+    "customUserListInformation": "<strong>ユーザーは、IDプロバイダー(IdP)から自動的にプロビジョンされます。</strong><br/>ユーザーは、シングル・サインオン(SSO)を使用してInstanaにサインインした後に、このセクションに表示されます。",
     "deletedEventMessage": "削除されたイベント構成を表示しています。 変更することはできません。",
     "serviceNowUrl": "ServiceNow の URL",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "コンシューマーの秘密情報",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "Salesforce 組織 URL",
-    "alertChannelDocumentationMessage": "このアラート・チャネルのセットアップについて詳しくは、<documentationLink>資料を確認してください</documentationLink>"
+    "alertChannelDocumentationMessage": "このアラート・チャネルのセットアップについて詳しくは、<documentationLink>資料を確認してください</documentationLink>",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "IDプロバイダーでInstanaへのユーザー・アクセスが無効になっていることを確認してください。",
+    "createIDPConfirmationDescription": "保留中の招待は削除されます。 ユーザーは、IDプロバイダー(IdP)から自動的にプロビジョンされます。"
   },
   "languageSelection": {
     "language": "言語",
@@ -1139,7 +1226,10 @@
       "awesome": "素晴らしいではないですか。",
       "meh": "メー!",
       "terrible": "酷い!"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "すべての対象",
+    "appQuery": "{{numApps}}個のアプリケーション"
   },
   "terms": {
     "failedToSaveSettings": "設定の保存に失敗しました: {{settings}} {{err}}",

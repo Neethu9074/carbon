@@ -22,6 +22,7 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { minutes, number } from 'in-services/formatters/number';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { fixateTimeConfig } from 'in-stores/time/config';
 import { sloMetrics } from 'in-service-levels/metrics';
 import { FetchedState } from 'in-hooks/utils/types';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -113,7 +114,7 @@ function useErrorBudgetChartMetrics(
 ): FetchedState<ErrorBudgetChartMetrics> {
   const { id, timeWindow } = config;
   const fullWindowTimeConfig = useSloWindowTimeConfig(timeWindow);
-  const activeTimeConfig = showFullSloTimeWindow ? fullWindowTimeConfig : timeConfig;
+  const activeTimeConfig = showFullSloTimeWindow ? fullWindowTimeConfig : fixateTimeConfig(timeConfig);
   const metricConfigs = {
     remaining: sloMetrics.remainingBudget.timeSeries({
       configId: id!,

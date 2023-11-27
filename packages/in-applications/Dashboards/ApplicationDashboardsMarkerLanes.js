@@ -6,9 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { potentialProblemsEnabled, actionsLaneEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import PotentialProblemsLane from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLane';
 import getApplicationAlertClusters from 'in-applications/subscriptions/getApplicationAlertClusters';
+import { potentialProblemsEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import AlertsLane from 'in-components/Chart/markerLanes/AlertsLane/AlertsLane';
@@ -36,7 +36,7 @@ export default function ApplicationDashboardsMarkerLanes({
             serviceId
           }}
         />
-        {actionsLaneEnabled && actionAutomationEnabled && role?.canViewAutomationActionInstances && (
+        {actionAutomationEnabled && role?.canViewAutomationActionInstances && (
           <ActionsLane
             applicationId={applicationId}
             {...lanesProps}

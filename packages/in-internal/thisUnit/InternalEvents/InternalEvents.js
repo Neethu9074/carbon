@@ -4,7 +4,6 @@
  */
 
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
@@ -25,8 +24,7 @@ import { t } from 'in-i18n';
 
 import locals from './InternalEvents.mless';
 
-export default compose(
-  connect({ timeConfig: timeConfig$ }),
+export default connect({ timeConfig: timeConfig$ })(
   cursorPaginated({
     getResettingProps: () => ['timeConfig'],
     get: ({ timeConfig, cursor }) => {
@@ -42,8 +40,8 @@ export default compose(
         }
       });
     }
-  })
-)(InternalEventsList);
+  })(InternalEventsList)
+);
 
 function InternalEventsList(props) {
   const { items, loadMore, canLoadMore, timeConfig } = props;

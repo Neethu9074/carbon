@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "不明的實體",
+    "unknownEntityLabel_application": "不明應用程式",
+    "unknownEntityLabel_website": "不明網站",
     "invalidWidgetTypeErrorMessage": "<strong>無效小組件類型</strong><br/>此小組件具有無效類型，您可以透過編輯儀表板 JSON 或移除小組件來修正它。",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "請選取",
         "sliConfigComputeErrBudgetSliVal": "用來計算錯誤預算和 SLI 值的 SLI 配置",
         "typeSloThreshold": "請鍵入您要的 SLO 臨界值，從 <code>{{compact}}</code> 到 <code>{{detailed}}</code>。",
-        "valType": "值類型"
+        "valType": "值類型",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "服務水準指標"
@@ -220,6 +224,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "請選取",
+        "metric": "度量",
+        "selectMetric": "請選取度量",
+        "aggregation": "聚集",
+        "successRate": "成功率",
+        "locations": "位置",
+        "responseTime": "回應時間",
+        "responsesize": "回應大小"
+      },
       "index": {
         "syntheticMonitoring": "綜合監視"
       }
@@ -669,8 +683,6 @@
         "tooltip_application": "應用程式 Apdex"
       },
       "widget": {
-        "unknownEntityLabel_application": "不明應用程式",
-        "unknownEntityLabel_website": "不明網站",
         "previewDataInfo": "顯示過去 7 天的預覽資料。 最終小組件只會包含自建立 Apdex 配置以來的資料。"
       },
       "applicationScopeConfigurator": {

@@ -21,6 +21,10 @@
       "transferSizeLabel": "傳送大小",
       "transferSizeCategory": "資源大小調整"
     },
+    "crash": {
+      "crashAffectedSessionCount": "受損毀影響的階段作業計數",
+      "crashAffectedUserCount": "受損毀影響的使用者計數"
+    },
     "errorRate": {
       "label": "錯誤率",
       "rawDataLabel": "錯誤計數"
@@ -215,6 +219,7 @@
       "crashLabel": "損毀",
       "metaHeader": "Meta",
       "stackTrace": "堆疊追蹤",
+      "stackTraceLastOccurrence": "堆疊追蹤（前次出現）",
       "stackTraceButtonPrettyStackTrace": "細緻堆疊追蹤",
       "stackTraceButtonRawStackTrace": "原始堆疊追蹤"
     },
@@ -340,6 +345,37 @@
       "viewAllOs": "檢視所有作業系統",
       "appVersions": "應用程式版本",
       "viewAllVersions": "檢視所有版本",
+      "configurations": {
+        "symbolFileConfigLabel": "堆疊追蹤轉換",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "移除所有檔案 API",
+          "dialogMessageConfigurationUpdated": "已更新配置。",
+          "dialogMessageFailedToSaveConfiguration": "無法儲存配置：{{message}}",
+          "dialogMessageNewConfigurationSaved": "已儲存新配置。",
+          "dialogMessageSavingConfiguration": "正在儲存配置...",
+          "fileCommitUrl": "確定符號檔 API",
+          "fileUploadConfigurationDialogTitleEdit": "編輯符號檔上傳配置",
+          "fileUploadConfigurationDialogTitleNew": "新建符號檔案上傳配置",
+          "fileUploadConfigurationDialogLabelDescription": "說明",
+          "fileUploadConfigurationDialogHeadingDescription": "說明",
+          "fileUploadConfigurationDialogDescriptionHelp": "上傳配置可協助您更妥善地組織上傳的檔案。",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "正在上傳符號檔",
+          "fileUploadConfigurationDialogOpenAPIHelp": "呼叫 Instana 的 Web REST API，以上傳您的符號檔。 這可以整合到您的管線處理程序中，以進行自動化部署。 Web REST API 的說明和用法定義於<documentation>文件</documentation>內。",
+          "fileUploadUrl": "上傳符號檔 API",
+          "stackTraceTranslationLabelConfiguration": "配置",
+          "stackTraceTranslationLabelFiles": "檔案",
+          "stackTraceTranslationLabelTotalSize": "大小總計",
+          "stackTraceTranslationLabelLastModified": "前次修改時間",
+          "stackTraceTranslationExplanationWithUploadFeature": "為了讓堆疊追蹤更容易讀取，例如顯示非精簡檔案和行的參照，Instana 需要以符號檔來整合程式碼。 在這裡新增上傳配置可容許透過 Instana Web REST API 上傳您的行動式應用程式符號檔。 然後 Instana 可以提供更多行動式應用程式損毀錯誤的見解。",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "堆疊追蹤轉換",
+          "stackTraceTranslationLearnMoreLabel": "進一步瞭解堆疊追蹤轉換",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "堆疊追蹤轉換配置",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "符號檔上傳配置",
+          "stackTraceTranslationNoUploadDataMessage": "沒有可用的符號檔上傳配置。",
+          "stackTraceTranslationButtonAddConfiguration": "新增配置",
+          "stackTraceTranslationLabelFileUploadConfiguration": "符號檔上傳配置 {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "錯誤訊息",
         "crashesLabelOccurrences": "出現項目數",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "損毀",
         "crashInfoTitle": "詳細資料",
         "crashInfoMessage": "訊息",
-        "backToCrashList": "回到損毀清單",
+        "backToCrashList": "回到損毀群組",
         "crashTitleMobileAppCrashDetails": "行動式應用程式損毀詳細資料"
       },
       "customEvents": {

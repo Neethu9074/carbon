@@ -24,6 +24,7 @@ export default function CreateApplicationDialogPresenter(props) {
     onCreate,
     setSimpleMode,
     trackModeSwitch,
+    userRestrictedApplicationsResult,
     withTrackClose
   } = props;
 
@@ -31,12 +32,14 @@ export default function CreateApplicationDialogPresenter(props) {
     ...props,
     setSimpleModeStep: setSimpleModeStep,
     simpleModeStep: simpleModeStep,
+    userRestrictedApplicationsResult,
     onCreate: onCreate,
     onClose: withTrackClose
   });
 
   const AdvancedMode = AdvancedModeElement({
     ...props,
+    userRestrictedApplicationsResult,
     onCreate: onCreate,
     onClose: withTrackClose
   });

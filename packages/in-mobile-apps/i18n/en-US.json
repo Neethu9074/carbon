@@ -21,6 +21,10 @@
       "transferSizeLabel": "Transfer Size",
       "transferSizeCategory": "Resource Sizing"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Crash Affected Session Count",
+      "crashAffectedUserCount": "Crash Affected User Count"
+    },
     "errorRate": {
       "label": "Error Rate",
       "rawDataLabel": "Error Count"
@@ -215,6 +219,7 @@
       "crashLabel": "Crash",
       "metaHeader": "Meta",
       "stackTrace": "Stack Trace",
+      "stackTraceLastOccurrence": "Stack Trace(Last Occurrence)",
       "stackTraceButtonPrettyStackTrace": "Pretty Stack Trace",
       "stackTraceButtonRawStackTrace": "Raw Stack Trace"
     },
@@ -337,9 +342,40 @@
       "devices": "Devices",
       "viewAllDevices": "View all devices",
       "osVersions": "Operating Systems",
-      "viewAllOs": "View all operating system",
+      "viewAllOs": "View all operating systems",
       "appVersions": "App Versions",
       "viewAllVersions": "View all versions",
+      "configurations": {
+        "symbolFileConfigLabel": "Stack Trace Translation",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "Remove All Files API",
+          "dialogMessageConfigurationUpdated": "Configuration Updated.",
+          "dialogMessageFailedToSaveConfiguration": "Failed to save configuration: {{message}}",
+          "dialogMessageNewConfigurationSaved": "New configuration saved.",
+          "dialogMessageSavingConfiguration": "Saving configuration…",
+          "fileCommitUrl": "Commit Symbol File API",
+          "fileUploadConfigurationDialogTitleEdit": "Edit Symbol File Upload Configuration",
+          "fileUploadConfigurationDialogTitleNew": "New Symbol File Upload Configuration",
+          "fileUploadConfigurationDialogLabelDescription": "Description",
+          "fileUploadConfigurationDialogHeadingDescription": "Description",
+          "fileUploadConfigurationDialogDescriptionHelp": "An upload configuration will help you to better organize your uploaded files.",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "Uploading Symbol Files",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Upload your symbol files by calling Instana's Web REST API. This could be integrated into your pipeline process for automated deployment. The explaination and usage of our Web REST API is defined within our <documentation>documentation</documentation>.",
+          "fileUploadUrl": "Upload Symbol File API",
+          "stackTraceTranslationLabelConfiguration": "Configuration",
+          "stackTraceTranslationLabelFiles": "Files",
+          "stackTraceTranslationLabelTotalSize": "Total Size",
+          "stackTraceTranslationLabelLastModified": "Last Modified",
+          "stackTraceTranslationExplanationWithUploadFeature": "To make stack traces more readable, e.g. to show references to non minified files and lines, Instana needs to intepret code with symbol files. Adding an upload configuration here could allow uploading your mobile app symbol files through Instana Web REST API. Then Instana can provide more insights into Mobile App crash errors.",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Stack Trace Translation",
+          "stackTraceTranslationLearnMoreLabel": "Learn more about Stack Trace Translation",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Stack Trace Translation Configurations",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "Symbol File Upload Configurations",
+          "stackTraceTranslationNoUploadDataMessage": "No symbol file upload configurations available.",
+          "stackTraceTranslationButtonAddConfiguration": "Add Configuration",
+          "stackTraceTranslationLabelFileUploadConfiguration": "Symbol File Upload Configuration {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "Error Message",
         "crashesLabelOccurrences": "Occurrences",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "Crashes",
         "crashInfoTitle": "Details",
         "crashInfoMessage": "Message",
-        "backToCrashList": "Back to list of crashes",
+        "backToCrashList": "Back to Crash Groups",
         "crashTitleMobileAppCrashDetails": "Mobile App Crash Details"
       },
       "customEvents": {

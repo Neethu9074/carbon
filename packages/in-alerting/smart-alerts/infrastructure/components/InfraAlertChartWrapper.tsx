@@ -29,17 +29,18 @@ import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getMetricDefinition } from 'in-sdk/metrics';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface InfraAlertChartWrapperProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  predictions?: number[][];
+  lowerBound?: number[][];
+  upperBound?: number[][];
 }
 
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
-  const theme = useTheme();
-  const { alertConfig, timeConfig } = props;
+  const { alertConfig, timeConfig, predictions, lowerBound, upperBound } = props;
   const { entityType, metricName, aggregation } = alertConfig.rule;
   const { threshold, granularity } = alertConfig;
 
@@ -47,11 +48,14 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
   const formatter = metricDefinition.formatter;
 
   const highlight = undefined;
-  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, []);
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+
+  const displayPredictions = predictions && predictions?.length > 0 ? true : false;
+
+  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], displayPredictions);
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
@@ -74,7 +78,7 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       threshold,
       [],
       chartViewConfig,
-      theme
+      displayPredictions
     )
   };
 
@@ -91,24 +95,28 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       data: {}
     };
   } else {
-    const metricValues = getMetricValues(metricResult);
+    const metricValues = getMetricValues(metricResult) ?? [];
+    const predictionMaxTime =
+      predictions && predictions.length > 0 ? predictions[predictions.length - 1][0] : undefined;
     metricResults = {
       progress: finishedProgress,
       errors: {},
-      time: metricResult?.time,
+      time: predictionMaxTime ?? metricResult?.time,
       data: {
         [metricName]: metricValues,
-        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig)
+        threshold: getThreshold(chartProps.y1, chartProps.thresholdType, metricValues, timeConfig),
+        predictions: predictions ?? [],
+        lowerBound: lowerBound ?? [],
+        upperBound: upperBound ?? []
       }
     };
   }
 
   const metricChartProps = { ...chartProps, result: metricResults as Result<MetricData> };
-
   return (
     <Card title={t('in-events:titleMetrics')}>
       <ChartWrapper
-        showNoDataInfoWhenEmpty={false}
+        showNoDataInfoWhenEmpty
         {...metricChartProps}
         metricsConfiguration={extendMetricConfiguration(chartProps)}
         granularity={granularity}

@@ -10,7 +10,9 @@ import { SyntheticTest, TestResultListItem } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
+import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import IconButton from 'in-components/IconButton/IconButton';
 import { getTest, updateTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -29,14 +31,31 @@ const ListActionsColumn = ({ testResultCommonProperties }: TestResultListItem) =
     : `${t('in-synthetics:dashboard.testList.resume')}`;
 
   const pauseOrResume = (test: SyntheticTest) => {
-    const { active } = test;
+    const { active, customProperties, configuration } = test;
+    const syntheticType: string = configuration.syntheticType;
+    let updatedConfiguration = configuration;
 
-    updateTest({ ...test, active: !active }).once(
+    if (syntheticType === 'HTTPAction') {
+      updatedConfiguration = {
+        ...configuration,
+        // @ts-expect-error headers property can be available for some test types
+        headers: hasEmptyStrings(configuration?.headers) ? {} : configuration.headers
+      };
+    }
+
+    const testConfig: SyntheticTest = {
+      ...test,
+      active: !active,
+      customProperties: hasEmptyStrings(customProperties || {}) ? {} : customProperties,
+      configuration: updatedConfiguration
+    };
+
+    updateTest(testConfig).once(
       () => {
         setReloadCount(count => ++count);
       },
-      () => {
-        showUpdateErrorMessage();
+      error => {
+        showUpdateErrorMessage(deserializeErrorMessage(error.message));
       }
     );
   };

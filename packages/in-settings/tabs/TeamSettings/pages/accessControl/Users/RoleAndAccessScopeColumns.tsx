@@ -6,14 +6,16 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { PermissionSet, ApiGroup, ScopeBinding } from '@instana/types';
 import { Li, LoadingSkeleton } from '@instana/components';
-import { PermissionSet, ApiGroup } from '@instana/types';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import { getGroupsOfASingleUserAsResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/hooks/useGetGroupsForEmail';
+import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { fallBackPermissions } from 'in-stores/permission';
 import { ownerRoleId } from 'in-stores/user';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 interface RoleAndAccessScopeColumnsProps {
@@ -52,7 +54,7 @@ export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAcc
   }
 
   return (
-    <LightCard title={t('in-settings:roleAndAccessScope.productArea')}>
+    <LightCard title={t('in-settings:roleAndAccessScope.productArea', { tenantUnit: config.tenantUnit })}>
       {permissionsSet && <RolesAndAccessScopeOverview permissionsSet={permissionsSet} />}
     </LightCard>
   );
@@ -66,8 +68,8 @@ function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): Permi
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
     permissions: [],
-    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' },
-    syntheticTestIds: []
+    syntheticTestIds: [],
+    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };
 
   // users not being member of any group fall back to a restricted default
@@ -91,13 +93,47 @@ function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): Permi
 
 const removeDuplicates = (array: any[]) => Array.from(new Set(array));
 
+// If scope binding contains same ids with different scopeRoleIds return only most permissive pair
+const transformToMostPermissive = (scopeBindings: ScopeBinding[]): ScopeBinding[] => {
+  const newBinding: ScopeBinding[] = [];
+  const mostPermissiveMap: { [key: string]: string } = {};
+  for (const binding of scopeBindings) {
+    const scopeRoleId = binding?.scopeRoleId ? binding?.scopeRoleId : '-1';
+
+    if (binding?.scopeId) {
+      if (binding.scopeId in mostPermissiveMap) {
+        const prevScopeRoleId = mostPermissiveMap[binding.scopeId];
+        // Scope roles viewer, contributor and -1 are candidates for being updated with more permissive scope role e.g. owner
+        if (
+          (prevScopeRoleId === ScopeRoles.Viewer &&
+            (scopeRoleId === ScopeRoles.Owner || scopeRoleId === ScopeRoles.Contributor)) ||
+          (prevScopeRoleId === ScopeRoles.Contributor && scopeRoleId === ScopeRoles.Owner) ||
+          prevScopeRoleId === '-1'
+        ) {
+          // Update with more permissive scopeRoleId
+          mostPermissiveMap[binding.scopeId] = scopeRoleId;
+        }
+      } else {
+        // Add scopeRoleId to most permissive map
+        mostPermissiveMap[binding.scopeId] = scopeRoleId;
+      }
+    }
+  }
+
+  // Return most permissive scopeRoleId for scopeId
+  for (const scopeId in mostPermissiveMap) {
+    newBinding.push({ scopeId: scopeId, scopeRoleId: mostPermissiveMap[scopeId] });
+  }
+
+  return newBinding;
+};
+
 function enrich(permissionSet: any, group: any) {
   permissionSet.websiteIds = removeDuplicates([...permissionSet.websiteIds, ...group.permissionSet.websiteIds]);
   permissionSet.mobileAppIds = removeDuplicates([...permissionSet.mobileAppIds, ...group.permissionSet.mobileAppIds]);
-  permissionSet.applicationIds = removeDuplicates([
-    ...permissionSet.applicationIds,
-    ...group.permissionSet.applicationIds
-  ]);
+  permissionSet.applicationIds = transformToMostPermissive(
+    removeDuplicates([...permissionSet.applicationIds, ...group.permissionSet.applicationIds])
+  );
   permissionSet.kubernetesClusterUUIDs = removeDuplicates([
     ...permissionSet.kubernetesClusterUUIDs,
     ...group.permissionSet.kubernetesClusterUUIDs
@@ -117,7 +153,16 @@ function enrich(permissionSet: any, group: any) {
       group.permissionSet.infraDfqFilter.scopeId.trim()
     );
   }
-
+  if (group.permissionSet.restrictedApplicationFilter) {
+    if (permissionSet.restrictedApplicationFilter) {
+      permissionSet.restrictedApplicationFilter = removeDuplicates([
+        ...permissionSet.restrictedApplicationFilter,
+        { ...group.permissionSet.restrictedApplicationFilter }
+      ]);
+    } else {
+      permissionSet.restrictedApplicationFilter = [group.permissionSet.restrictedApplicationFilter];
+    }
+  }
   permissionSet.syntheticTestIds = removeDuplicates([
     ...permissionSet.syntheticTestIds,
     ...group.permissionSet.syntheticTestIds

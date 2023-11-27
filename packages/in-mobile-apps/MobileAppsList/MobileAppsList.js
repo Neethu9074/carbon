@@ -3,17 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Card, Link } from '@instana/components';
+import { Button, Card, Link, SeverityIndicatorCellContentWrapper } from '@instana/components';
 
+import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
+import {
+  getTimeConfigAlignedToResultTime,
+  timeConfig$,
+  urlParameters as timeConfigUrlParameters
+} from 'in-stores/time/config';
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import { mobileAppsPath, useGetLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-mobile-apps/metrics';
 import { playwithEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
@@ -98,12 +105,34 @@ const columnDefinitions = [
           }
         }
       ]
-    : [])
+    : []),
+  {
+    id: 'maxSeverity',
+    label: t('in-websites:websitesList.websitesListLabelHealth'),
+    sortable: false,
+    defaultOrderDirection: 'DESC',
+    getContent(item, { result, timeConfig }) {
+      return (
+        <MobileHealthIndicatorBehavior
+          mobileAppId={item.mobileApp.id}
+          openIssues={get(item, ['healthInfo', 'openIssues', 'length'], 0)}
+          maxSeverity={get(item, ['healthInfo', 'maxSeverity'], 0)}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          inContentArea
+        />
+      );
+    }
+  }
 ];
 
 function MobileAppLabel({ item }) {
   const linkToMobileAppHref = useGetLinkToMobileApp(item.mobileApp.id);
-  return <Link href={linkToMobileAppHref}>{item.mobileApp.label}</Link>;
+  return (
+    <SeverityIndicatorCellContentWrapper severity={get(item, ['healthInfo', 'maxSeverity'], 0)}>
+      <Link href={linkToMobileAppHref}>{item.mobileApp.label}</Link>
+    </SeverityIndicatorCellContentWrapper>
+  );
 }
 
 const ServerTableWithUrlState = createServerTableWithUrlState({

@@ -9,7 +9,9 @@ import React from 'react';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import ViewScreenshotsDialog from 'in-synthetics/dashboards/details/components/ViewScreenshotsDialog';
 import { IMGFormatType, RECORDINGFormatType } from 'in-synthetics/utils/getValidFormat';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Col } from 'in-components/layout/Grid/Grid';
 import download from 'in-synthetics/utils/download';
 
@@ -26,7 +28,6 @@ export default function DownloadButton({ testId, resultId, metadata }: DownloadB
   const resultsApiPath = '/api/synthetics/results/';
   const harRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=HAR`;
   const logRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=LOGS`;
-  const imageRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=IMAGES`;
   const videoRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=VIDEOS`;
 
   const isScreenshotAvailable: boolean = resultMetadata.includes(IMGFormatType);
@@ -54,11 +55,11 @@ export default function DownloadButton({ testId, resultId, metadata }: DownloadB
         <Button
           className={locals.buttonLabel}
           kind="secondary"
-          icon={'lib_actions_download'}
-          onClick={() => download('IMAGES', imageRef)}
+          icon={'lib_views_external_link'}
+          onClick={() => addActiveDialog(<ViewScreenshotsDialog testId={testId} resultId={resultId} />)}
           hidden={isScreenshotAvailable ? false : true}
         >
-          {t('in-synthetics:dashboard.detailsPage.downloadImages')}
+          {t('in-synthetics:dashboard.detailsPage.viewScreenshotsLabel')}
         </Button>
         <Button
           className={locals.buttonLabel}

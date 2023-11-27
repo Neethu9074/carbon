@@ -34,7 +34,7 @@ import Notification from 'in-components/form/Notification';
 import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export const limitForConnectedEvents = 1000;
@@ -57,6 +57,7 @@ export default function Alert(props) {
 }
 
 const Form = entityForm(function DetailsForm(props) {
+  const theme = useTheme();
   const { entity, form, message, error, loading, isCreate } = props;
   const [eventTypes, setEventTypes] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState(null);
@@ -94,7 +95,7 @@ const Form = entityForm(function DetailsForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownAlert')}
         </SubViewHeader>
         <SectionLine />

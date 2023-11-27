@@ -8,6 +8,7 @@ import React, { useContext } from 'react';
 
 import { Typography } from '@instana/components';
 
+import SloEntityEditModeSectionContent from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityEditModeSectionContent';
 import SloApplicationEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntitySection';
 import SloWebsiteEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
 import SloEntityTypeSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTypeSelector';
@@ -15,9 +16,11 @@ import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloF
 import { t } from 'in-i18n';
 
 export default function SloEntitySection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const sloSloEntityTypeField = form.getIn(['entity', 'type']);
+
+  if (mode === 'EDIT') return <SloEntityEditModeSectionContent />;
 
   return (
     <>
@@ -25,10 +28,10 @@ export default function SloEntitySection() {
         {t('in-service-levels:createSloDialog.selectEntityTitle')}
       </Typography>
       <SloEntityTypeSelector
-        value={sloSloEntityTypeField.value}
         onChange={type => {
           onChange(['entity', 'type'], () => sloSloEntityTypeField.setValue(type).setTouched(true));
         }}
+        value={sloSloEntityTypeField.value}
       />
       {sloSloEntityTypeField.value === 'application' && <SloApplicationEntitySection />}
       {sloSloEntityTypeField.value === 'website' && <SloWebsiteEntitySection />}

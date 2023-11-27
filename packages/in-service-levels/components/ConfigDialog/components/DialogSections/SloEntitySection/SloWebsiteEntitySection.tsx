@@ -10,12 +10,16 @@ import { Card } from '@instana/components';
 import { Website } from '@instana/types';
 
 import SloEntityTable, {
-  EntityData
+  EntityData,
+  SloEntityTablePageSize
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import useEntityConfigurations from 'in-service-levels/hooks/useEntityConfigurations';
+import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
+import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
@@ -23,20 +27,33 @@ import { t } from 'in-i18n';
 export default function SloWebsiteEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
   const [query, setQuery] = useState('');
+  const {
+    value: queryInput,
+    debouncedValue: debouncedQuery,
+    onChange: setQueryDebounced
+  } = useDebouncedValue(query, setQuery);
 
   const entityTypeField = form.getIn(['entity', 'type']);
-  const websiteIdField = form.getIn(['entity', 'entityId']);
-  const entityId = websiteIdField.value;
+  const entityIdField = form.getIn(['entity', 'entityId']);
+  const entityId = entityIdField.value;
 
   const [separatelyLoadedEntity, , , labelProgress] = useWebsite(entityId);
-  const [entityList, , , entitiesProgress] = useEntityConfigurations(entityTypeField.value);
+  const [entityResult, , , entitiesProgress] = useWebsiteEntities({
+    query: debouncedQuery,
+    options: { retrievalSize: SloEntityTablePageSize }
+  });
+
+  const entityList = entityResult?.entities;
+  const { canLoadMore, loadMore } = entityResult ?? {};
 
   // If entityList already contains the selected entity then we can avoid waiting for the extra loading operation for entity
   const previouslyLoadedEntity = entityList?.find(({ id }) => id === entityId);
   const entityAlreadyLoaded = Boolean(previouslyLoadedEntity);
 
+  const isEntityIdFieldValid = isFieldValid(entityIdField);
+
   const onEntityChange = ({ id }: EntityData) => {
-    onChange(['entity', 'entityId'], () => websiteIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
   };
 
   const sortedEntities = [
@@ -49,9 +66,22 @@ export default function SloWebsiteEntitySection() {
   return (
     <Card
       title={t('in-service-levels:general.select', { entity: entityTypeField.value })}
-      rightHeaderContent={<SearchInput query={query} onChange={q => setQuery(q)} />}
+      rightHeaderContent={<SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />}
     >
-      <SloEntityTable entityList={sortedEntities} onChange={onEntityChange} progress={progress} query={query} />
+      <>
+        {!isEntityIdFieldValid &&
+          entityIdField.messages.map(({ message, path }, index) => (
+            <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
+          ))}
+        <SloEntityTable
+          hasError={!isEntityIdFieldValid}
+          entityList={sortedEntities}
+          onChange={onEntityChange}
+          progress={progress}
+          canLoadMore={canLoadMore}
+          loadMore={loadMore}
+        />
+      </>
     </Card>
   );
 }

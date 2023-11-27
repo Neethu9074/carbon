@@ -24,6 +24,8 @@ function ImsDescriptionItems({ span }) {
     <AdditionalAttributesSection title={t('in-forge:tracing.ims.titleImsAttributes')}>
       <Di title={t('in-forge:tracing.ims.titleEventKey')}>{span.getIn(['data', 'ims', 'event_key'])}</Di>
       <Di title={t('in-forge:tracing.ims.titleComponent')}>{span.getIn(['data', 'ims', 'component'])}</Di>
+      <Di title={t('in-forge:tracing.ims.titleInteractionVerb')}>{span.getIn(['data', 'ims', 'iVerb'])}</Di>
+      <Di title={t('in-forge:tracing.ims.titleDatastore')}>{span.getIn(['data', 'ims', 'dsn'])}</Di>
     </AdditionalAttributesSection>
   );
 }

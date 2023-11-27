@@ -248,6 +248,8 @@
     "newAP": "새 애플리케이션 퍼스펙티브",
     "switchSimpleMode": "단순 모드로 전환",
     "switchAdvancedMode": "고급 모드로 전환",
+    "selectContributionFilter": "컨트리뷰션 필터 선택",
+    "noRestrictions": "제한사항 없음",
     "simple": {
       "step1Title": "1단계: 모델 선택",
       "step1": {

@@ -50,7 +50,7 @@
     font-weight: 500;
     padding: 0.2rem 0.65rem;
     margin: 0 0.125rem;
-    border-radius: var(--ids-border-radius-small);
+    border-radius: var(--ids-border-radius-option-small);
 
     &.active,
     &:hover {

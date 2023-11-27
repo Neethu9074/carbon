@@ -14,12 +14,13 @@ import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/c
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 export default function SloScopeApplicationSection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const applicationIdField = form.getIn(['entity', 'entityId']);
   const endpointIdField = form.getIn(['scope', 'endpointId']);
@@ -28,6 +29,8 @@ export default function SloScopeApplicationSection() {
   const includeSyntheticField = form.getIn(['scope', 'includeSynthetic']);
   const serviceIdField = form.getIn(['scope', 'serviceId']);
 
+  const isFormInEditMode = mode === 'EDIT';
+
   return (
     <section>
       <Typography variant="heading-200" component="h2">
@@ -35,18 +38,18 @@ export default function SloScopeApplicationSection() {
       </Typography>
       <Stack gap="small">
         <Sections>
-          <Section title={t('in-service-levels:general.boundary')} titleWidth="6rem">
+          <Section title={t('in-service-levels:general.boundary')} titleWidth={titleWidth}>
             <BoundaryScopeConfigurator
-              value={boundaryField.value}
+              disabled={isFormInEditMode}
               onChange={scope =>
                 onChange(['scope', 'boundaryScope'], () => boundaryField.setValue(scope).setTouched(true))
               }
+              value={boundaryField.value}
             />
           </Section>
-        </Sections>
-        <Sections>
-          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth="6rem">
+          <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={titleWidth}>
             <HiddenCallsConfigurator
+              disabled={isFormInEditMode}
               includeInternal={includeInternalField.value}
               includeSynthetic={includeSyntheticField.value}
               onChangeInternal={() =>
@@ -59,26 +62,26 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-        </Sections>
-        <Sections>
           <ServiceSelectBox
-            boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
-            value={serviceIdField.value}
+            boundaryScope={boundaryField.value}
+            disabled={isFormInEditMode}
             hasError={!serviceIdField.valid && serviceIdField.touched}
             onChange={value => onChange(['scope', 'serviceId'], () => serviceIdField.setValue(value!).setTouched(true))}
+            value={serviceIdField.value}
           />
           <EndpointSelectBox
-            boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
-            serviceId={serviceIdField.value}
-            value={endpointIdField.value}
+            boundaryScope={boundaryField.value}
+            disabled={isFormInEditMode}
             hasError={!endpointIdField.valid && endpointIdField.touched}
             onChange={value =>
               onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))
             }
+            serviceId={serviceIdField.value}
+            value={endpointIdField.value}
           />
-          <ApplicationTagFilterBuilder form={form} onChange={onChange} />
+          <ApplicationTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} width={titleWidth} />
         </Sections>
       </Stack>
     </section>

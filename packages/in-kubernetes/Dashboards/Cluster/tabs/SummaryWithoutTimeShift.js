@@ -25,22 +25,22 @@ import { useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { Row, Col } from 'in-components/layout/Grid';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const showUsage = k8sClusterUsageEnabled;
 
 export default function Summary({ timeConfig, data: cluster }) {
   const snapshotId = cluster.id;
-  const {
-    green800: running,
-    teal800: capacity,
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated
-  } = theme.lib.colors;
+
+  const running = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const pending = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const allocated = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const capacity = oldTheme.lib.colors.chart.fourColorPalette[3];
+
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
 
   const label = ' (cluster)';
   const clusterName = cluster.label.substr(0, cluster.label.length - label.length);

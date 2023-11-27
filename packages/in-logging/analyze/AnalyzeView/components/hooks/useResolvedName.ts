@@ -26,13 +26,10 @@ import {
   LOG_SERVICE_NAME,
   LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
-import { getPluginName } from 'in-sdk/pluginName';
-import { getSnapshot } from 'in-stores/snapshot';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
-const infraLabelResolver: LinkResolver = tag => resolveInfraLabel(tag.stringValue || '');
 
 const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_SERVICE_NAME, () => just(t('in-logging:service'))],
@@ -43,8 +40,8 @@ const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_KUBERNETES_DEPLOYMENT_NAME, () => just(t('in-logging:deployment'))],
   [LOG_KUBERNETES_POD_NAME, () => just(t('in-logging:pod'))],
   [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
-  [ID_PROCESS, infraLabelResolver],
-  [ID_HOST, infraLabelResolver],
+  [ID_PROCESS, () => just(t('in-logging:process'))],
+  [ID_HOST, () => just(t('in-logging:host'))],
   [CONTAINERD_SNAPSHOT_ID, () => just(t('in-logging:containerdContainer'))],
   [DOCKER_SNAPSHOT_ID, () => just(t('in-logging:dockerContainer'))],
   [CRIO_SNAPSHOT_ID, () => just(t('in-logging:crioContainer'))],
@@ -64,10 +61,6 @@ function getCustomKeyLabel(key: string): string {
   return key;
 }
 
-function resolveInfraLabel(snapshotId: string) {
-  return getSnapshot(snapshotId).map((snapshot: any) => getPluginName(snapshot.get('plugin'), 1)!);
-}
-
 export default function useResolvedName(tag: LogTag, tagToLabelMap: Map<string, string>): string {
   const tagName = tag.name || '';
   let observable: Observable<string>;
@@ -83,5 +76,7 @@ export default function useResolvedName(tag: LogTag, tagToLabelMap: Map<string, 
     observable = just(tagName);
   }
 
-  return useObservable(observable, [tagName], { resetStateOnObservableChange: true }) || tagLabel || tagName;
+  return (
+    useObservable(observable, [tagName, tagToLabelMap], { resetStateOnObservableChange: true }) || tagLabel || tagName
+  );
 }

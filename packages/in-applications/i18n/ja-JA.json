@@ -248,6 +248,8 @@
     "newAP": "新規アプリケーション・パースペクティブ",
     "switchSimpleMode": "簡易モードに切り替える",
     "switchAdvancedMode": "拡張モードに切り替える",
+    "selectContributionFilter": "コントリビューション・フィルターの選択",
+    "noRestrictions": "制限なし",
     "simple": {
       "step1Title": "ステップ 1: モデルの選択",
       "step1": {

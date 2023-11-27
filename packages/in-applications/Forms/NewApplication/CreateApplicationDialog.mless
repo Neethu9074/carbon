@@ -20,6 +20,12 @@
     margin-top: 1rem;
   }
 
+  .contributionFilter {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+
   .filter {
     margin: 0.25rem;
   }

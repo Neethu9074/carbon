@@ -24,6 +24,11 @@ import {
   isSloSmartAlertEvent,
   isEntityCountVerificationEvent
 } from 'in-events/components/eventUtil';
+import {
+  actionAutomationEnabled,
+  incidentSummarizationEnabled,
+  incidentSummarizationTimelineEnabled
+} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
@@ -45,15 +50,17 @@ import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import EventSummarization from 'in-events/components/legacy/EventSummarization';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
@@ -145,8 +152,8 @@ const EventContent = connectTo(
       <>
         <ViewTrackingMeta
           data={{
-            productArea: 'Events',
-            pageRootName: 'Event'
+            productArea: productAreas.events,
+            pageRootName: pageNames.event
           }}
         />
 
@@ -279,20 +286,33 @@ const IncidentContent = connectTo(
       </>
     );
 
+    // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
+    const shouldTimelineBeDisplayed =
+      !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled);
+
     return (
       <>
-        <Row withoutSideMargin>
-          <Col xs>
-            <Card title={t('in-events:titleIncidentTimeline')} header={header}>
-              <PopulationChart
-                incidentId={incident.get('id')}
-                recentEvents={recentEvents}
-                changesAreVisible={changesAreVisible}
-                isExpanded={isExpanded}
-              />
-            </Card>
-          </Col>
-        </Row>
+        {incidentSummarizationEnabled && incident && incident.get('metadata')?.has('incidentSummary') && (
+          <EventSummarization
+            title={t('in-events:incidentSummarization.incidentSummaryTitle')}
+            incident={incident.toJS()}
+          />
+        )}
+        {shouldTimelineBeDisplayed && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card title={t('in-events:titleIncidentTimeline')} header={header}>
+                <PopulationChart
+                  incidentId={incident.get('id')}
+                  recentEvents={recentEvents}
+                  changesAreVisible={changesAreVisible}
+                  isExpanded={isExpanded}
+                />
+              </Card>
+            </Col>
+          </Row>
+        )}
+
         <IncidentEventListRows incident={incident} snapshot={snapshot} latestSnapshot={latestSnapshot} />
       </>
     );

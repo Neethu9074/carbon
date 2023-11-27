@@ -72,6 +72,12 @@
       "views": "ビュー",
       "website": "Web サイト",
       "mobileApp": "モバイル・アプリケーション"
+    },
+    "bizopsTopList": {
+      "businessProcess": "ビジネス・プロセス",
+      "activities": "アクティビティー",
+      "count": "数",
+      "allProcesses": "すべてのビジネス・プロセス"
     }
   },
   "cockpit": {
@@ -93,6 +99,7 @@
     "websites": "Web サイト",
     "mobileApps": "モバイル・アプリケーション",
     "websitesMobileApps": "Web サイトおよびモバイル・アプリケーション",
+    "bizops": "ビジネス・モニタリング",
     "customEventDeprecatedWarning": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
@@ -116,6 +123,10 @@
       "createWebsite": "Web サイトの作成",
       "createMobileApp": "モバイル・アプリケーションの作成",
       "noLabelYet": "{{nolabel}} がまだありません"
+    },
+    "bizops": {
+      "noProcessYet": "まだビジネス・プロセスがありません",
+      "noData": "Instana Business Monitoringは、イベントにリアルタイムのビジネス・コンテキストを提供することで、ITアプリケーションのビジネスを監視できるようにします。  ビジネス・プロセスは、アカウント管理者が有効にすると、ここに表示されます。"
     }
   }
 }

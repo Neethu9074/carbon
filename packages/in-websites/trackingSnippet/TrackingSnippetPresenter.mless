@@ -40,7 +40,10 @@
 
     &:active .help,
     &:hover .help {
-      fill: @links__hover__decoration;
+      /* replaced old less variable links__hover__decoration
+       *  even when it does not make sense here...
+       */
+      fill: underline;
     }
   }
 

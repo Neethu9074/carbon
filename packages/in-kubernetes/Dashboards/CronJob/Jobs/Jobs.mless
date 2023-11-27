@@ -4,13 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .header {
     margin-left: auto;
   }
-  .searchInput {
-    height: 1.6rem;
+
+  .wrapper {
+    margin-right: 0.5rem;
   }
 }

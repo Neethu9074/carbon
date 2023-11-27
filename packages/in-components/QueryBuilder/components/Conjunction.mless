@@ -18,7 +18,7 @@
 
     color: var(--ids-color-option-green-500);
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     font-weight: 500;
     line-height: 1.15;
     cursor: pointer;
@@ -41,7 +41,7 @@
   }
 
   .invalid {
-    background: @lib__colors__failure10;
+    background: @lib__colors__failure10; //@lib__colors__failure10 could not be replaced
     color: var(--ids-color-option-red-500);
     border-color: var(--ids-color-option-red-500);
   }

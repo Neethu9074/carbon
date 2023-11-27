@@ -11,16 +11,29 @@ import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instan
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import {
+  AreaRole,
+  AreaRoleWithCustomType,
+  AreaRoleWithContributor,
+  AreaRolesWithContributor,
+  LimitableProductArea,
+  ScopedPermissionItem,
+  AreaRoleWithContributorType,
+  AreaRoleType,
+  ProductArea,
+  ScopeRoles
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
+import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
+import {
+  ConfigurationSummary,
+  getConfigurationSummaryMsg
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
 import SyntheticCommonSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/SyntheticAccessPanels/SyntheticCommonSection';
 import {
   EntityPermissionKey,
   PermissionSectionProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
-import {
-  AreaRole,
-  AreaRoleType,
-  AreaRoleWithCustomType
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import EntityTableCellWithOverflow from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTableCellWithOverflow';
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import {
@@ -32,6 +45,7 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -52,7 +66,8 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
-  onChangeRole: (role: AreaRoleType) => void;
+  onChangeRole: (role: AreaRoleType | AreaRoleWithContributorType) => void;
+  productArea: LimitableProductArea;
 }
 
 export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -62,6 +77,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   description,
   addButtonLabel,
   entityPermissionKey,
+  productArea,
   observable,
   setForm,
   extractId,
@@ -74,9 +90,22 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const theme = useTheme();
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
+  const isAppWithContributorFeature = applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds';
+  const isContributor = isAppWithContributorFeature && role === AreaRoleWithContributor.CONTRIBUTOR;
+  const isAppContributionFilterConfigured =
+    applicationContributionFilterEnabled &&
+    permissionSetField?.value?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
 
-  const selectedIds = getFilteredScopeIds(scopeBindings);
-  const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable, orderDirection });
+  const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
+  const selectedEntities = useSelectedEntities({
+    selectedIds: isAppWithContributorFeature
+      ? getFilteredScopeIds(scopeBindings, isAppWithContributorFeature) // Exclude applications with contributor access
+      : selectedIds, // Show all selected ids
+    extractId,
+    extractName,
+    observable,
+    orderDirection
+  });
 
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
@@ -92,7 +121,15 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     }
 
     const keepedScopes = scopeBindings.filter(({ scopeId }) => scopeId && entityIds.includes(scopeId));
-    const newScopes = entityIds.map(id => ({ scopeId: id, scopeRoleId: '-1' }));
+
+    // For limited application with contributor role additional selected applications should have viewer scope role
+    const newScopeRoleId =
+      applicationContributionFilterEnabled &&
+      productArea === ProductArea.APPLICATION &&
+      role === AreaRoleWithContributor.CONTRIBUTOR
+        ? ScopeRoles.Viewer
+        : '-1'; // TODO change "-1" to ScopeRoles.Owner once feature is fully integrated
+    const newScopes = entityIds.map(id => ({ scopeId: id, scopeRoleId: newScopeRoleId }));
 
     updatePermissionSet({
       ...permissionSet,
@@ -107,6 +144,12 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     const entityScopeBindings = scopeBindings.filter(({ scopeId }) => scopeId !== entityId);
     updatePermissionSet({ ...permissionSet, [entityPermissionKey]: entityScopeBindings });
   };
+
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+    productArea,
+    ScopedPermissionItem.LIMITED_ACCESS,
+    role
+  );
 
   const columnDefinition: Array<ColumnDefinition<I>> = [
     {
@@ -136,27 +179,67 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
     }
   ];
 
+  function getFilteredScopeIds(scopeBindings: ScopeBinding[], excludeContributor: boolean = false): Array<string> {
+    return scopeBindings
+      .filter(({ scopeId, scopeRoleId }) => {
+        if (excludeContributor) {
+          // Only scopeIds with Owner or Viewer access are returned
+          return scopeId !== undefined && scopeRoleId !== ScopeRoles.Contributor;
+        } else {
+          return scopeId !== undefined;
+        }
+      })
+      .map<string>(({ scopeId }) => scopeId!);
+  }
+
   return (
     <Stack direction="vertical">
-      <StackItem>
-        <Typography variant="heading-200" component="div">
-          {t('in-settings:permissionScope.selection_limited_access')}
-        </Typography>
-        <Typography variant="body-regular" component="div">
-          {description}
-        </Typography>
-      </StackItem>
-      <RoleFormGroup
-        htmlFor={`${entityPermissionKey}-role-select`}
-        tooltipText={roleTooltipText}
-        value={role}
-        defaultRole={AreaRole.VIEWER}
-        onChange={onChangeRole}
-      />
-      {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
-        <SyntheticCommonSection form={form} setForm={setForm} />
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+        </StackItem>
+      ) : (
+        <StackItem>
+          <Typography variant="heading-200" component="div">
+            {t('in-settings:permissionScope.selection_limited_access')}
+          </Typography>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
+        </StackItem>
       )}
+      {isContributor && (
+        <StackItem>
+          <Typography variant="heading-200" component="h2">
+            {t('in-settings:permissionScope.role_permissions')}
+          </Typography>
+          {isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
+        </StackItem>
+      )}
+      <StackItem>
+        <RoleFormGroup
+          htmlFor={`${entityPermissionKey}-role-select`}
+          tooltipText={roleTooltipText}
+          value={role}
+          defaultRole={AreaRole.VIEWER}
+          onChange={onChangeRole}
+          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+            ? { options: AreaRolesWithContributor }
+            : {})}
+        />
+        {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+          <SyntheticCommonSection form={form} setForm={setForm} />
+        )}
+        {isContributor && <ContributionFilterWrapper form={form} setForm={setForm} />}
+      </StackItem>
       <Divider />
+      {isContributor && (
+        <StackItem>
+          <Typography variant="heading-200" component="h4">
+            {t('in-settings:permissionScope.contribution_filter_accessScope')}
+          </Typography>
+        </StackItem>
+      )}
       <StackItem>
         <Button
           kind="action"
@@ -196,10 +279,6 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       />
     </Stack>
   );
-}
-
-function getFilteredScopeIds(scopeBindings: ScopeBinding[]): Array<string> {
-  return scopeBindings.filter(({ scopeId }) => scopeId !== undefined).map<string>(({ scopeId }) => scopeId!);
 }
 
 interface UseSelectEntitiesProps<I> {

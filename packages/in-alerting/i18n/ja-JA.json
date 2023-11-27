@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "しきい値",
       "alertingChartLabelViolations": "違反",
+      "alertingChartLabelForecast": "予測",
+      "alertingChartLabelUpperBound": "上限",
+      "alertingChartLabelLowerBound": "下限",
       "alertingChartMessageInvalidFilterQuery": "フィルター・クエリーが無効です。",
       "alertingChartMessageEmptyApplicationSelection": "アプリケーションが選択されていません。",
       "chartAlertsLaneErrorMessage": "アラートをロードできませんでした。",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "エラー・メッセージ",
-        "noDataMessage": "アラートが構成されていません。",
         "selectJSErrorHelpText": "JS エラー・メッセージをテンプレートとして選択します (オプション)",
-        "selectJSErrorTitle": "JS エラーの選択"
+        "selectJSErrorTitle": "JS エラーの選択",
+        "noJSErrorFound": "JSエラーはありません"
       },
       "data": {
         "errorCount": "エラー件数",
@@ -1216,6 +1219,32 @@
         "filter_0": "フィルター",
         "filter_1": "フィルター",
         "filter_2": "フィルター"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "範囲",
+          "title": "スコープ: 状況が発生している場所"
+        },
+        "threshold": {
+          "label": "しきい値",
+          "title": "しきい値: どのような場合に条件に違反するか"
+        },
+        "timeThreshold": {
+          "label": "時間しきい値",
+          "title": "時間しきい値: アラートを出すタイミング"
+        },
+        "alertChannel": {
+          "label": "アラート・チャネル",
+          "title": "アラート・チャネル: アラートを受け取るユーザー"
+        },
+        "properties": {
+          "label": "プロパティー",
+          "title": "追加のアラートのプロパティー"
+        },
+        "customPayloads": {
+          "label": "積載量",
+          "title": "カスタム・ペイロード"
+        }
       }
     }
   }

@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .list {
@@ -32,7 +31,7 @@
     width: 1.125rem;
     height: 1.125rem;
 
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-option-round);
     font-weight: bold;
   }
 

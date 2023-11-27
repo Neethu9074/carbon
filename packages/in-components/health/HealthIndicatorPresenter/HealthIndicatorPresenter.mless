@@ -8,7 +8,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     font-size: var(--ids-font-size-option-body-regular);
     font-weight: 600;
     color: #3d464d;

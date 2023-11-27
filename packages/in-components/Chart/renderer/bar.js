@@ -30,8 +30,8 @@ export default {
     const blockOuterWidth =
       xScale.getRange(xScale.getDomainTo()) - xScale.getRange(xScale.getDomainTo() - blockSizeMillis);
     const blockMargin = Math.min(MAX_BAR_MARGIN_IN_PX, blockOuterWidth / (2 + MIN_BAR_TO_MARGIN_RATION));
-    const blockInnerWidth = Math.floor(blockOuterWidth - 2 * blockMargin);
-    const barWidth = Math.floor(blockInnerWidth / axis.numOfSeries);
+    const blockInnerWidth = Math.max(1, Math.floor(blockOuterWidth - 2 * blockMargin));
+    const barWidth = Math.max(1, Math.floor(blockInnerWidth / axis.numOfSeries));
 
     config.backBufferCtx.save();
     config.backBufferCtx.globalAlpha = 1.0;

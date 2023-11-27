@@ -11,9 +11,10 @@ import { just } from '@instana/observables';
 import StackTracePresentation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
 import { ParsedStackTrace } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
 import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import ExpandableGroup from 'in-components/ExpandableGroup';
+import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { ID_PROCESS } from 'in-logging/queryBuilder';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { LogItem, LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -21,14 +22,22 @@ interface StackTraceProps {
   stackTrace?: ParsedStackTrace[] | null;
   log: LogItem;
 }
-
 export default function LogStackTraceGroup({ stackTrace, log }: StackTraceProps) {
-  const snapshotId = getProcessSnapshotId(log.tags);
-  const snapshot =
-    useObservable(
-      () => (snapshotId ? getSnapshot(snapshotId, getTimeConfigAtMoment(null)) : just(null)),
-      [snapshotId]
-    ) || null; // passing NULL, to get the snapshot from cache.
+  const timeConfig = useTimeConfig();
+
+  const logSnapshotId = getProcessSnapshotId(log.tags);
+
+  const physicalHierarchy = useObservable(
+    () => (logSnapshotId ? getPhysicalHierarchy({ snapshotId: logSnapshotId, timeConfig }) : just(null)),
+    [logSnapshotId, timeConfig]
+  );
+
+  const snapshotId = physicalHierarchy?.get(0);
+
+  const snapshot = useObservable(
+    () => (snapshotId ? getSnapshot(snapshotId, timeConfig) : just(null)),
+    [snapshotId, timeConfig]
+  );
 
   const isSnapshotOnline =
     useObservable<boolean, (string | undefined)[]>(

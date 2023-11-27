@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { isEmpty } from 'lodash';
 
 import { Button, Card, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
@@ -18,6 +19,7 @@ import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/secti
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
@@ -27,6 +29,7 @@ import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
+import { isBlank } from 'in-services/util/string';
 import Dialog from 'in-components/Dialog/Dialog';
 import { removeTest } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
@@ -45,6 +48,22 @@ interface ActionButtonProps {
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
   const { goToPath } = useNavigation();
+
+  if (test.progress.loading) {
+    return <LoadingSkeleton className={locals.skeleton} />;
+  }
+  if (test.data === undefined || test.data === null || isEmpty(test.data)) {
+    return (
+      <Card>
+        <NoDataAvailable
+          type="lib_synthetic"
+          height={160}
+          text={t('in-synthetics:dashboard.noDataAvailable.configurationTab', { component: 'Configuration' })}
+        />
+      </Card>
+    );
+  }
+
   const isBrowserTest: boolean = isBrowserTestType(test.data?.configuration?.syntheticType || '');
 
   const testLabel: string = test.data?.label;
@@ -116,6 +135,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
             })}
             <Input
               name="typingValidation"
+              placeholder={syntheticValidation}
               value={validationInputValue}
               disabled={isDeleting}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +152,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
             onClick={() => {
               doDeleteAction(testId);
             }}
-            disabled={validationInputValue !== syntheticValidation}
+            disabled={validationInputValue !== syntheticValidation || isBlank(reasonInputValue)}
             kind="danger"
           >
             {t('in-synthetics:dashboard.configuration.dialog.deleteButton')}

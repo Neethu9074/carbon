@@ -32,11 +32,11 @@ const proroxPort = 4000;
 let devModeOptions;
 
 gulp.task('prepareTestExecution', cb => {
-  gulp.series(commonJobs.ensureTargetDirStructureExists, commonJobs.translateTheme, createI18nFiles)(cb);
+  gulp.series(commonJobs.ensureTargetDirStructureExists, createI18nFiles)(cb);
 });
 
 gulp.task('dev', cb => {
-  const { clean, ensureTargetDirStructureExists, copyFavicon, writeBuildInfo, translateTheme } = commonJobs;
+  const { clean, ensureTargetDirStructureExists, copyFavicon, writeBuildInfo } = commonJobs;
   gulp.series(
     checkWebpackPortNotInUse,
     askForDevOptions,
@@ -46,11 +46,10 @@ gulp.task('dev', cb => {
       createI18nFiles,
       copyFavicon,
       writeBuildInfo,
-      translateTheme,
       copyDevIndexHtml,
       copyDevWaitingHtml,
       writeDevConfigFile,
-      startDevProxy,
+      startDevProxy
     ),
     enableDevWatches,
     webpackDev
@@ -92,9 +91,8 @@ function copyDevWaitingHtml() {
 }
 
 function enableDevWatches(cb) {
-  const { copyFavicon, copyAppleTouchIcon, translateTheme } = commonJobs;
+  const { copyFavicon, copyAppleTouchIcon } = commonJobs;
 
-  gulp.watch(path.join(paths.themeDir, 'theme.js'), translateTheme);
   gulp.watch(paths.devIndexHtmlSrc, copyDevIndexHtml);
   gulp.watch(paths.devWaitingHtmlSrc, copyDevWaitingHtml);
   gulp.watch(paths.faviconSrc, copyFavicon);

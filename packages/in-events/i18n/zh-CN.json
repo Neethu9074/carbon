@@ -109,6 +109,8 @@
   "headerEnd": "结束",
   "headerOn": "位置",
   "headerTimeline": "时间线",
+  "eventHelpfulText": "此活动是否有帮助？",
+  "thankYouForYourFeedback": "谢谢您的反馈！",
   "hostOffLineEventProblemChangeTime": "单击下面的链接以转至 Instana 所监视的主机的最新版本。这样做会将时间窗口的开始时间更改为 Instana 监视该主机的时间点",
   "offLineEventProblemChangeTime": "单击下面的链接以转至 Instana 所监视的进程的最新版本。这样做会将时间窗口的开始时间更改为 Instana 监视该进程的时间点",
   "offLineEventProblemNoMatch": "Instana 找不到指向任何与该定制事件相匹配的先前实体的引用。",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "“已失败”状态"
   },
   "RCA": {
-    "titlePRCA": "可能的根本原因事件",
+    "titlePRCA": "可能的根本原因",
     "AIGenBadgeText": "AI 生成",
     "suggestionHelpfulText": "这个建议是否有帮助？",
-    "noEventsErrorTitle": "找不到事件",
-    "noEventsErrorDescription": "找到实体为根本原因，但无法将任何相关事件归因于该实体",
     "noEntitiesErrorTitle": "找不到可能的根本原因",
-    "noEntitiesErrorDescription": "糟糕！ 我们无法确定此事件的特定根本原因。",
-    "regenerate": "重新生成"
+    "noEntitiesErrorDescription": "这通常在事件未对服务产生重大影响时发生",
+    "performanceConstantlyEvaluated": "在 Beta 期间，正在积极评估和改进性能。 请留下反馈，以帮助我们更好地改进人工智能",
+    "regenerate": "重新生成",
+    "probableRootCauseLabel": "可能的根本原因实体：{{entity_name}}",
+    "relatedEventsLabel": "找到实体事件：{{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "跳过",
+    "descriptionUnpleasant": {
+      "firstLineApology": "我们很抱歉您没有一个愉快的体验。",
+      "secondLineQuestion": "您能否帮助我们确定哪里出了问题？"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "请描述它们",
+    "contactMeYes": "是，请联系我",
+    "contactMeNo": "不，我不想被联系。",
+    "appreciateResponse": "我们感谢您的回复！",
+    "followUpQuestion": "您是否希望我们就您的技术反馈与您跟进，以进行进一步的澄清或讨论？"
   }
 }

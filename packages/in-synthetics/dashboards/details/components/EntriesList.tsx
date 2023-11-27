@@ -7,6 +7,7 @@
 import React, { Dispatch, Fragment, SetStateAction } from 'react';
 
 import { SvgIcon, toInteractiveElement } from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 import { bytesZeroDecimalPlaces, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
@@ -141,8 +142,13 @@ const EntryByPage = ({
         </div>
         {pageRefExpanded === id && (
           <div className={locals.entries}>
-            {filteredEntries.map((entry: TestResultEntry, i: number) => (
-              <Entry key={i} entry={entry} />
+            {filteredEntries.map((entry: TestResultEntry) => (
+              <Entry
+                key={generateUniqueShortId()}
+                entry={entry}
+                earliestTimestamp={earliestTimestamp}
+                endTimestamp={endTimestamp}
+              />
             ))}
           </div>
         )}

@@ -77,8 +77,7 @@
     "metricExplosion": "Es posible que este panel de instrumentos no muestre todas las métricas, porque solo se han almacenado {{numberOfMetrics}}"
   },
   "explore": {
-    "beta": "Beta",
-    "tryBetaInfraAnalytics": "Pruebe la nueva analítica de infraestructura",
+    "analyzeInfrastructure": "Analizar infraestructura",
     "focusOnThisGroup": "Focalizar este grupo",
     "theQueryConfigurationIsInvalid": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
     "allInfrastructure": "Todas las infraestructuras",

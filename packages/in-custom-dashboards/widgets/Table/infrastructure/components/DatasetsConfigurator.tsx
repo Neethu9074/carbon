@@ -6,16 +6,19 @@
 
 import { Item, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
+import { isEqual } from 'lodash';
 
 import { Button, Li, Stack, Ul } from '@instana/components';
 
 // @ts-expect-error
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import DatasetsColumn from 'in-custom-dashboards/widgets/Table/infrastructure/components/DatasetsColumn';
+import { sorting as sortingFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { datasets } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header';
 import usePrevious from 'in-hooks/usePrevious';
@@ -41,6 +44,7 @@ export default function DatasetsConfigurator({
 }: DatasetsConfiguratorProps) {
   const metricsForm = form.get(datasets).get(metricsPath);
   const metricsFormSize = metricsForm.size;
+  const sortingField = form.get(sortingFieldName)?.value;
   const shouldDisplayDataset = metricsFormSize < maxLength;
 
   // Store the previous form state in order to show the error message when having duplicated metrics.
@@ -55,6 +59,31 @@ export default function DatasetsConfigurator({
     withColorConfiguration: true,
     withMetricFormatter: true
   });
+
+  const previousMetrics = getMetrics(previousMetricsForm);
+  const currentMetrics = getMetrics(metricsForm);
+  const indexOfMetricThatHasChanged = getMetricIndexChanged(previousMetrics, currentMetrics);
+
+  const isDefaultSorting = isEqual(sortingField, defaultOrder);
+  const hasDifferentMetrics = indexOfMetricThatHasChanged > -1;
+  const currentOrderByIsEqualPreviousMetricLabel = sortingField?.by === previousMetrics[indexOfMetricThatHasChanged];
+
+  const shouldUpdateOrder = !isDefaultSorting && hasDifferentMetrics && currentOrderByIsEqualPreviousMetricLabel;
+
+  // Update dataset field when metrics get changed via regex
+  useEffect(() => {
+    if (shouldUpdateOrder) {
+      onChange([sortingFieldName], (field: any) =>
+        field
+          .setValue({
+            ...field.value,
+            by: currentMetrics[indexOfMetricThatHasChanged]
+          })
+          .setTouched(true)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentMetrics, indexOfMetricThatHasChanged, shouldUpdateOrder]);
 
   useEffect(
     () => {
@@ -118,4 +147,32 @@ export default function DatasetsConfigurator({
       </Ul>
     </Stack>
   );
+}
+
+function getMetricIndexChanged(previousMetrics: string[], currentMetrics: string[]) {
+  for (let i = 0; i < previousMetrics.length; i++) {
+    if (!isEqual(previousMetrics[i], currentMetrics[i])) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function getMetrics(form: any) {
+  if (!form || !form.items) {
+    return [];
+  }
+
+  return form.items
+    .map((field: any) => {
+      const metric = field.get('metric')?.value;
+      const aggregation = field.get('aggregation')?.value;
+
+      if (metric !== '' && aggregation) {
+        return `${metric}.${aggregation}`;
+      }
+
+      return null;
+    })
+    .filter(Boolean);
 }

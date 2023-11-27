@@ -1,12 +1,12 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
 :local {
   .subtransaction {
-    border-top: 1px solid var(--ids-color-option-neutral-400);
+    border-top: 0.0625rem solid var(--ids-color-option-neutral-400);
     background: var(--ids-color-option-neutral-50);
     color: var(--ids-color-option-neutral-600);
     position: relative;
@@ -17,7 +17,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: 2px;
+    width: 0.125rem;
     background: var(--ids-color-option-red-500);
     content: '';
   }

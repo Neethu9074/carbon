@@ -9,7 +9,13 @@ import { RouteComponentProps } from 'react-router';
 import { add } from 'date-fns';
 import { RRule } from 'rrule';
 
-import { Duration, MaintenanceConfigV2, OneTimeMaintenanceWindow, RecurrentMaintenanceWindow } from '@instana/types';
+import {
+  Duration,
+  MaintenanceConfigV2,
+  OneTimeMaintenanceWindow,
+  RecurrentMaintenanceWindow,
+  TagFilterExpressionElementUnion
+} from '@instana/types';
 import { DateFormatterInput } from '@instana/format-date';
 import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
@@ -39,8 +45,10 @@ import {
   subtractDurationFromGivenTime
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useEntityForm, { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -57,9 +65,9 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { getSingle } from 'in-services/settings/settings';
 import Section from 'in-settings/components/Section';
+import { useTheme } from 'in-themes';
 import { Nullish } from 'in-types';
 import { Trans, t } from 'in-i18n';
-import theme from 'in-themes';
 
 import locals from './MaintenanceConfiguration.mless';
 
@@ -73,6 +81,7 @@ interface RMConfigProps {
 }
 
 export default function RecurrentMaintenanceConfigForm(props: RouteComponentProps<MatchParams> & RMConfigProps) {
+  const theme = useTheme();
   const id = props.existingID || props.match.params.id || '';
   const entityId = id === 'new' ? null : id;
   const { location, goToPath, createHrefToPath } = useNavigation();
@@ -134,7 +143,7 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
   if (!entity && error) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownMaintenanceWindowConfiguration')}
         </SubViewHeader>
         <SectionLine />
@@ -418,7 +427,17 @@ function save(
 
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
-  const query = getQueryFromFormField(form);
+  const tagFilterExpressionEnabled = form.get('tagFilterExpressionEnabled').value;
+  let query = '';
+  let tagFilterExpression;
+
+  if (tagFilterExpressionEnabled) {
+    const tagFilterExpressionform = form.get('tagFilterExpression').value;
+    tagFilterExpression = toBackendQueryModel(tagFilterExpressionform, false);
+  } else {
+    query = getQueryFromFormField(form);
+  }
+
   const nameVal =
     form && form.get('name') && (form.get('name') as Field<string>).value
       ? (form.get('name') as Field<string>).value
@@ -433,8 +452,17 @@ function save(
     isNew,
     isSimple
   });
+
   return saveMaintenanceConfigV2(
-    createMaintenanceConfigV2(config ? config.id : '', config ? config.paused : false, nameVal || '', query, scheduling)
+    createMaintenanceConfigV2(
+      config ? config.id : '',
+      config ? config.paused : false,
+      nameVal || '',
+      query,
+      scheduling,
+      tagFilterExpressionEnabled,
+      tagFilterExpression
+    )
   );
 }
 
@@ -458,17 +486,39 @@ function onChangeApplyOn(form: MapForm<any>, applyOn: string): MapForm<any> | Nu
   let updatedForm = form.updateIn(['applyOn'], (field: Item) =>
     (field as Field<string>).setValue(applyOn).setTouched(true)
   );
+
   if (applyOn === 'all') {
     updatedForm = updatedForm.remove('query');
     updatedForm = updatedForm.remove('applicationIds');
+    updatedForm = updatedForm.remove('tagFilterExpression');
   } else if (applyOn === 'application') {
     updatedForm = updatedForm.remove('query');
+    updatedForm = updatedForm.remove('tagFilterExpression');
     //@ts-ignore-next-line
     updatedForm = putApplicationIdFields(updatedForm, []);
+  } else if (applyOn === 'synthetic') {
+    updatedForm = updatedForm.remove('query');
+    //@ts-ignore-next-line
+    updatedForm = putTagFilterExpressionFields(updatedForm, true);
   } else {
     updatedForm = updatedForm.remove('applicationIds');
+    updatedForm = updatedForm.remove('tagFilterExpression');
     //@ts-ignore-next-line
     updatedForm = putQueryFields(updatedForm, '');
+  }
+
+  // Update any booleans
+
+  if (applyOn !== 'synthetic') {
+    //@ts-ignore-next-line
+    updatedForm = updatedForm.updateIn(['tagFilterExpressionEnabled'], (field: Item) =>
+      (field as Field<boolean>).setValue(false)
+    );
+  } else {
+    //@ts-ignore-next-line
+    updatedForm = updatedForm.updateIn(['tagFilterExpressionEnabled'], (field: Item) =>
+      (field as Field<boolean>).setValue(true)
+    );
   }
   return updatedForm;
 }
@@ -477,14 +527,21 @@ function createForm(config: MaintenanceConfigV2, isCreate: boolean): MapForm<any
   const scheduling = config.scheduling as RecurrentMaintenanceWindow;
   const startTime = new Date(scheduling.start !== -1 ? scheduling.start : '');
   const windowStart = createMaintenanceWindowV2(config.id, !isNaN(startTime.getTime()) ? startTime : null);
-
+  const tagFilterExpressionEnabled = config.tagFilterExpressionEnabled;
   const query = config.query;
 
   // always set to 'Dynamic Focus Query' per default for new configs, so that
   // the user manually has to select 'All' in case he really want that
   //const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
 
-  const { applyOn, applicationIds } = isCreate ? { applyOn: '', applicationIds: [] } : parseQuery(query);
+  let applyOn, applicationIds;
+  if (!tagFilterExpressionEnabled) {
+    const parsedQueryResponse = isCreate ? { applyOn: '', applicationIds: [] } : parseQuery(query);
+    applyOn = parsedQueryResponse.applyOn;
+    applicationIds = parsedQueryResponse.applicationIds;
+  } else {
+    applyOn = 'synthetic';
+  }
 
   let form = createMapForm()
     .put(
@@ -519,6 +576,14 @@ function createForm(config: MaintenanceConfigV2, isCreate: boolean): MapForm<any
   if (applyOn === 'application') {
     //@ts-ignore-next-line
     form = putApplicationIdFields(form, applicationIds);
+  }
+
+  if (applyOn === 'synthetic') {
+    //@ts-ignore-next-line
+    form = putTagFilterExpressionFields(form, true, config.tagFilterExpression);
+  } else {
+    //@ts-ignore-next-line
+    form = putTagFilterExpressionFields(form, false);
   }
 
   if (!isCreate) {
@@ -563,6 +628,43 @@ function putQueryFields(form: MapForm<any>, query: string) {
       validator: notBlankValidator
     })
   );
+}
+
+function putTagFilterExpressionFields(
+  form: MapForm<any>,
+  tagFilterExpressionEnabled: boolean,
+  tagFilterExpression: TagFilterExpressionElementUnion | undefined
+) {
+  let updatedForm = form.put(
+    'tagFilterExpressionEnabled',
+    createField({
+      value: tagFilterExpressionEnabled
+    })
+  );
+  if (tagFilterExpressionEnabled) {
+    //@ts-ignore-next-line
+    updatedForm = updatedForm.put(
+      'tagFilterExpression',
+      createField({
+        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
+        validator: syntheticTagFilterExpressionValidator
+      })
+    );
+  }
+
+  return updatedForm;
+}
+
+function syntheticTagFilterExpressionValidator(tfe: any[]): ValidationResult {
+  if (tfe.length === 0) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneTagFilter')
+      }
+    ];
+  }
+  return null;
 }
 
 function getQueryFromFormField(form: MapForm<any>): string {

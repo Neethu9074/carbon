@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .iconButton {
     display: inline-flex;
@@ -12,10 +10,9 @@
     justify-content: center;
     position: relative;
     cursor: pointer;
-    border: 0;
     background: none;
     border: solid 1px transparent;
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     padding: 0.5rem;
     margin-right: 0.25rem;
 
@@ -26,7 +23,7 @@
 
   .iconButton:before {
     position: absolute;
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     opacity: 0;
     pointer-events: none;
     top: 0%;
@@ -69,7 +66,7 @@
   }
 
   .iconButton--info:before {
-    background-color: @lib__colors__chart__self100;
+    background-color: var(--ids-color-option-neutral-500);
   }
 
   .icon {
@@ -127,7 +124,7 @@
   }
 
   .icon--info {
-    fill: @lib__colors__chart__self100;
+    fill: var(--ids-color-option-neutral-500);
     &.disabled {
       fill: var(--ids-color-option-neutral-400);
     }

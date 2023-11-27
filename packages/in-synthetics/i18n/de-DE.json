@@ -217,8 +217,8 @@
       "successMessageUpdate": "Synthetischer Test erfolgreich aktualisiert",
       "successMessageDelete": "Synthetischer Test erfolgreich gelöscht",
       "failureTitle": "Fehlgeschlagen!",
-      "failureMessageCreate": "Synthetischer Test konnte nicht erstellt werden. Versuchen Sie es später erneut.",
-      "failureMessageUpdate": "Der synthetische Test konnte nicht aktualisiert werden. Versuchen Sie es später erneut.",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "Der synthetische Test konnte nicht aktualisiert werden. {{errorMessage}}. Aktualisieren Sie die Seite und wiederholen Sie den Versuch.",
       "failuteMesssageDelete": "Der synthetische Test konnte nicht gelöscht werden. Versuchen Sie es später erneut."
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "Gründe für den Löschvorgang",
       "typeToContinue": "Geben Sie zum Fortfahren {{location}} ein",
-      "location": "POSITION",
       "deletionSuccess": "Die Position wurde gelöscht",
       "cancelButton": "Abbrechen",
       "deleteLocationLabel": "Standort löschen",
       "success": "Erfolgreich",
-      "failure": "Fehlgeschlagen"
+      "failure": "Fehlgeschlagen",
+      "popVersion": "Version",
+      "noActionsAllowed": "Nicht verfügbar",
+      "deleteRestrictedDescription": "Verwaltete Standorte können nicht gelöscht werden."
     },
     "summary": {
       "successRate": "Erfolgsquote",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "HAR-Datei herunterladen",
       "downloadLog": "Protokolle herunterladen",
-      "downloadImages": "Screenshot herunterladen",
+      "viewScreenshotsLabel": "Screenshot(s) anzeigen",
       "downloadVideo": "Aufzeichnung herunterladen",
       "consoleLogsLevel": "KONSOLE",
       "consoleLogs": "Konsole",
@@ -481,6 +483,14 @@
             "connect": "Verbindung herstellen"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "Screenshot(s)",
+        "allScreenshots": "Alle Screenshots",
+        "allImagesButton": "Alle Images",
+        "imageButton": "Image",
+        "ScreenshotsLoadingMessage": "Screenshots werden geladen",
+        "noScreenshotsAvailableMessage": "Für dieses Testergebnis sind keine Screenshots verfügbar"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "Keine synthetischen Tests verfügbar",
       "testSummaryDescription": "Es wurden keine synthetischen Tests aus der Datenbank abgerufen.",
       "locationListTitle": "Keine synthetischen Positionen verfügbar",
-      "locationListDescription": "Es wurden keine synthetischen Positionen aus der Datenbank abgerufen."
+      "locationListDescription": "Es wurden keine synthetischen Positionen aus der Datenbank abgerufen.",
+      "configurationTab": "Für diesen Test sind keine Details zu {{component}} verfügbar."
     },
     "alertList": {
       "timeThreshold": "Zeitschwellenwert",
@@ -541,7 +552,7 @@
         "reasonTitle": "Grund für den Löschvorgang",
         "typingValidationTitle": "Geben Sie zum Fortfahren {{synthetic}} ein",
         "cancelButton": "Abbrechen",
-        "deleteButton": "Löschen"
+        "deleteButton": "Test löschen"
       },
       "configurationEditAction": "Bearbeiten",
       "configurationDeleteAction": "Löschen"

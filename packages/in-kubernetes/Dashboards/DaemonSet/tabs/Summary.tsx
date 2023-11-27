@@ -30,20 +30,20 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: daemonSet }: any) {
   const timeShift = useTimeShiftConfig();
-  const {
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready
-  } = theme.lib.colors;
+
+  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
+  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
+  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
+
+  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
+  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
+  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
+  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
 
   const clusterTag = kubernetesClusterTagEquals(daemonSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(daemonSet.namespace);
@@ -169,7 +169,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             config={{
               metricConfiguration: {
                 metric: 'pods.count',
-                ...runningPodCountBigNumberMetricConfig,
+                ...runningPodCountBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -270,13 +270,13 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
                 metric: 'conditions.PodScheduled.False',
                 label: t('in-kubernetes:dashboards.unscheduled'),
                 color: unscheduled,
-                ...defaultChartMetricConfig,
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'conditions.Ready.False',
                 label: t('in-kubernetes:dashboards.unready'),
                 color: unready,
-                ...defaultChartMetricConfig,
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.pods')}
