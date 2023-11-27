@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import { ApiApplicationScope } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -16,7 +16,6 @@ import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { UserRestrictedApplication } from 'in-api/users';
-import { role } from 'in-stores/user';
 
 interface ContributionFilterDropdownProps {
   userRestrictedApplications: UserRestrictedApplication[];
@@ -46,24 +45,38 @@ export default function ContributionFilterDropdown({
 }: ContributionFilterDropdownProps): JSX.Element {
   const groupIdField = form.get('groupId');
 
-  const onChange = (value: string) => {
-    const groupScope = userRestrictedApplications.find(r => r.id === value)?.filter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
-    let updatedForm = form
-      .updateIn(['groupId'], field => field.setValue(value).setTouched(true))
-      .updateIn(['scope'], field => field.setValue(limitScope(field.value, groupScope)).setTouched(true));
+  const onGroupIdChange = useCallback(
+    (value: string | null) => {
+      const groupScope =
+        userRestrictedApplications.find(r => r.id === value)?.filter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
+      let updatedForm = form
+        .updateIn(['groupId'], field => field.setValue(value).setTouched(true))
+        .updateIn(['scope'], field => field.setValue(limitScope(field.value, groupScope)).setTouched(true));
 
-    updatedForm = updateTagFilterExpressionValidator(updatedForm, value);
+      updatedForm = updateTagFilterExpressionValidator(updatedForm, value);
 
-    updateForm(updatedForm);
-  };
+      updateForm(updatedForm);
+    },
+    [form, updateForm, userRestrictedApplications]
+  );
 
-  const options: OptionsProps[] = createOptions(userRestrictedApplications);
+  const options: OptionsProps[] = useMemo(
+    () => createOptions(userRestrictedApplications),
+    [userRestrictedApplications]
+  );
+
+  useEffect(() => {
+    const shouldSelectDefault = groupIdField.value == null && options.length === 1;
+    if (shouldSelectDefault) {
+      onGroupIdChange(options[0].value);
+    }
+  }, [groupIdField.value, onGroupIdChange, options, userRestrictedApplications]);
 
   return (
     <ComboBoxBehavior
       value={groupIdField.value}
       options={options}
-      onChange={onChange}
+      onChange={onGroupIdChange}
       disableAutomaticOptionSorting
       aria-label={t('in-applications:creation.selectContributionFilter')}
       listItemClassName={className}
@@ -95,11 +108,14 @@ function createOptions(userRestrictedApplications: UserRestrictedApplication[]):
     )
     .sort((a, b) => compareIgnoreCase(a.label, b.label));
 
-  const hasNoRestrictions = !!(role as any).canConfigureApplications;
-  if (hasNoRestrictions) {
+  if (hasNoRestrictions(userRestrictedApplications)) {
     options.unshift(OPTION_NO_RESTRICTIONS);
   }
   return options;
+}
+
+function hasNoRestrictions(userRestrictedApplications: UserRestrictedApplication[]): boolean {
+  return userRestrictedApplications.some(r => r.filter == null && (r as any).canConfigureApplications);
 }
 
 export function showContributionFilterDropdown(userRestrictedApplications: UserRestrictedApplication[]) {
