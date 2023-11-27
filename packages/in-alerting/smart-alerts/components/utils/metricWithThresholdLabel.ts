@@ -27,6 +27,6 @@ export function createMetricWithThresholdLabel(
   return metricLabel;
 }
 
-function formatMetricValue(metricFormatter: NumberFormatterObject, value: number): string {
+export function formatMetricValue(metricFormatter: NumberFormatterObject, value: number): string {
   return (metricFormatter.short || metricFormatter.compact)?.(value) ?? value.toString();
 }
