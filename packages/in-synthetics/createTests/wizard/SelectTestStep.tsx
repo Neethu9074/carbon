@@ -26,6 +26,7 @@ export interface Props {
   setScript: React.Dispatch<React.SetStateAction<Script>>;
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   simpleMode: boolean;
+  setActiveTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface Description {
@@ -39,7 +40,8 @@ export default function SelectTestStep({
   updateForm,
   setScript,
   setScriptErrors,
-  simpleMode
+  simpleMode,
+  setActiveTabIndex
 }: Props) {
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
@@ -52,6 +54,7 @@ export default function SelectTestStep({
           updateForm(createForm(simpleMode, item));
           setScript({ name: '', text: '', extension: 'js' });
           setScriptErrors([] as ScriptError[]);
+          setActiveTabIndex(0);
         }}
       />
       <div className={locals.presenterWrapper}>

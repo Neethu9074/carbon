@@ -20,6 +20,7 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { roundDownToWeek } from 'in-services/util/date';
 import { deepFreeze } from 'in-services/util/object';
+import { isNotBlank } from 'in-services/util/string';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -58,18 +59,29 @@ export function deleteLocation(locationId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
-export const getLocationsAsResultObservable = memoize(
+export const getLocationsAsResultObservable: (
+  testType: string,
+  locationType?: string
+) => Observable<Result<SyntheticLocation[]> | null> = memoize(
   getLocationsAsResultObservableInternal,
-  (testType: string) => testType,
-  1000
+  (testType: string, locationType?: string) => (locationType ? testType + locationType : testType),
+  2000
 );
-export function getLocationsAsResultObservableInternal(testType: string) {
+export function getLocationsAsResultObservableInternal(testType: string, locationType?: string) {
+  const filters: string[] = [];
+  if (isNotBlank(testType)) {
+    filters.push(`filter={playbackCapabilities.syntheticType=${testType}}`);
+  }
+  if (isNotBlank(locationType)) {
+    filters.push(`filter={locationType=${locationType}}`);
+  }
+
   return refreshSignal.flatMap(() =>
     createObservable(
       http<SyntheticLocation[]>({
         method: 'GET',
         maxRetries: 3,
-        url: testType === '' ? locationUrl : locationUrl + `?filter={playbackCapabilities.syntheticType=${testType}}`
+        url: filters.length > 0 ? locationUrl + `?${filters.join('&')}` : locationUrl
       }).map(response => deepFreeze(response))
     ).startWith(null)
   );

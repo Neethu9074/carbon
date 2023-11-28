@@ -26,7 +26,9 @@
         "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
         "emptyScriptFileError": "Empty code. Nothing to validate.",
-        "enterTheScriptMessage": "Enter the script here"
+        "enterTheScriptMessage": "Enter the script here",
+        "privatePoPLabel": "Private",
+        "managedPoPLabel": "Managed"
       },
       "basicDetails": {
         "title": "What is the name of this API Simple (HTTP Action) test",
