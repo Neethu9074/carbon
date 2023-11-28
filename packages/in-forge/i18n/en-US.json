@@ -2417,6 +2417,16 @@
   "tracingTypeName_soap_0": "SOAP Requests",
   "tracingTypeName_soap_1": "SOAP Request",
   "tracingTypeName_soap_2": "SOAP Requests",
+  "tracingTypeName_sofarpcentry": "Sofa Provider",
+  "tracingTypeName_sofarpcentry_plural": "Sofa Provider Calls",
+  "tracingTypeName_sofarpcentry_0": "Sofa Provider Calls",
+  "tracingTypeName_sofarpcentry_1": "Sofa Provider",
+  "tracingTypeName_sofarpcentry_2": "Sofa Provider Calls",
+  "tracingTypeName_sofarpcexit": "Sofa Consumer",
+  "tracingTypeName_sofarpcexit_plural": "Sofa Consumer Calls",
+  "tracingTypeName_sofarpcexit_0": "Sofa Consumer Calls",
+  "tracingTypeName_sofarpcexit_1": "Sofa Consumer",
+  "tracingTypeName_sofarpcexit_2": "Sofa Consumer Calls",
   "tracingTypeName_solace": "Solace message",
   "tracingTypeName_solace_plural": "Solace messages",
   "tracingTypeName_solace_0": "Solace messages",
@@ -14829,6 +14839,12 @@
       "phone": "Phone",
       "subject": "Subject",
       "responseCode": "Response Code"
+    },
+    "sofa": {
+      "titleInterface": "Interface",
+      "titleProtocol": "Protocol Type",
+      "titleApplication": "Application Name",
+      "titleMethod": "Method"
     },
     "solace": {
       "destination": "Destination",
