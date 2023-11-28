@@ -23,6 +23,9 @@ interface KubernetesTimeshiftChartPresenterProps {
   paramTab: string;
   paramMetric: string;
   path: string;
+  snapshotId?: string;
+  hasActionlane?: boolean;
+  hasButtonInActionslane?: boolean;
 }
 
 export default function KubernetesTimeShiftChartPresenter({
@@ -33,7 +36,10 @@ export default function KubernetesTimeShiftChartPresenter({
   tooltipFormatter,
   paramTab,
   paramMetric,
-  path
+  path,
+  snapshotId,
+  hasActionlane = false,
+  hasButtonInActionslane = true
 }: KubernetesTimeshiftChartPresenterProps) {
   return (
     <TimeShiftAwareChartSelectorWithUrlState
@@ -59,6 +65,9 @@ export default function KubernetesTimeShiftChartPresenter({
         colors={colors}
         formatter={formatter}
         tooltipFormatter={tooltipFormatter}
+        snapshotId={snapshotId}
+        hasActionlane={hasActionlane}
+        hasButtonInActionslane={hasButtonInActionslane}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -74,6 +83,9 @@ interface ChartProps {
   selectedMetricValue?: string;
   timeShiftConfig?: TimeShift;
   selectorComponent?: JSX.Element;
+  snapshotId?: string;
+  hasActionlane?: boolean;
+  hasButtonInActionslane?: boolean;
 }
 
 function Chart({
@@ -84,7 +96,10 @@ function Chart({
   tooltipFormatter,
   selectedMetricValue,
   timeShiftConfig,
-  selectorComponent
+  selectorComponent,
+  snapshotId,
+  hasActionlane,
+  hasButtonInActionslane
 }: ChartProps): JSX.Element {
   let metrics = originalMetrics;
   let colors = originalColors;
@@ -101,6 +116,9 @@ function Chart({
       formatter={formatter}
       tooltipFormatter={tooltipFormatter}
       rightHeaderContent={selectorComponent}
+      snapshotId={snapshotId}
+      hasActionlane={hasActionlane}
+      hasButtonInActionslane={hasButtonInActionslane}
     />
   );
 }

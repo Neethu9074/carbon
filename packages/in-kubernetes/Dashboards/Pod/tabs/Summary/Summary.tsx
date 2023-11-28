@@ -54,6 +54,7 @@ interface SummaryProps {
 
 export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
+  const snapshotId = pod.id;
 
   const containerStatuses = pod.status?.containerStatuses || [];
   const kpiWidth = 2;
@@ -275,6 +276,9 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={6}>
@@ -307,6 +311,9 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
             paramTab="memoryTab"
             paramMetric="memoryMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>

@@ -52,7 +52,7 @@ interface SummaryProps {
 
 export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
-
+  const snapshotId = namespace.id;
   const hardLimits = oldTheme.lib.colors.chart.fiveColorPalette[2];
   const hardRequests = oldTheme.lib.colors.chart.fiveColorPalette[0];
   const limits = oldTheme.lib.colors.chart.fiveColorPalette[3];
@@ -295,6 +295,9 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -341,6 +344,9 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             paramTab="memoryTab"
             paramMetric="memoryMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -367,6 +373,9 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             paramTab="podTab"
             paramMetric="podMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>

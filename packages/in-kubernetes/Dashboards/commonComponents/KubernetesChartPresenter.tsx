@@ -18,6 +18,9 @@ interface KubernetesChartPresenterProps {
   formatter: string;
   tooltipFormatter?: Formatter;
   rightHeaderContent?: React.ReactElement;
+  snapshotId?: string;
+  hasActionlane?: boolean;
+  hasButtonInActionslane?: boolean;
 }
 
 export default function KubernetesChartPresenter({
@@ -26,12 +29,18 @@ export default function KubernetesChartPresenter({
   colors,
   formatter,
   tooltipFormatter,
-  rightHeaderContent
+  rightHeaderContent,
+  snapshotId,
+  hasActionlane,
+  hasButtonInActionslane
 }: KubernetesChartPresenterProps) {
   return (
     <UnifiedMetricsChart
       rightHeaderContent={rightHeaderContent}
       title={title}
+      snapshotId={snapshotId}
+      hasActionlane={hasActionlane}
+      hasButtonInActionslane={hasButtonInActionslane}
       config={{
         y1: {
           metrics: metrics,
