@@ -47,6 +47,7 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage, 
 
   const userRestrictedApplications = userRestrictedApplicationsResult.data;
   const selectedUserGroupRestrictions = userRestrictedApplications.find(r => r.id === groupIdField.value);
+  const contributionFilter = selectedUserGroupRestrictions?.filter?.tagFilterExpression;
 
   return (
     <>
@@ -117,6 +118,7 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage, 
               <div className={locals.queryBuilderExpression}>
                 <CreateApplicationQueryBuilder
                   value={tagFilterExpressionField.value}
+                  getSuggestionsProps={{ contributionFilter }}
                   onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
                 />
               </div>

@@ -36,6 +36,8 @@ export default function CreateApplicationFilterExpression({
   ).children;
 
   const tagFilterExpressionField = form.get('tagFilterExpression');
+  const groupId = form.get('groupId').value;
+  const contributionFilter = userRestrictedApplications?.find(r => r.id === groupId)?.filter?.tagFilterExpression;
 
   return (
     <TagFilterExpressionConfigurationWrapper
@@ -101,6 +103,7 @@ export default function CreateApplicationFilterExpression({
               <div className={locals.queryBuilderExpression}>
                 <CreateApplicationQueryBuilder
                   value={tagFilterExpressionField.value}
+                  getSuggestionsProps={{ contributionFilter }}
                   onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
                   autoFocusInput
                 />

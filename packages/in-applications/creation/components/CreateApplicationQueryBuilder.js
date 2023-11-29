@@ -4,19 +4,24 @@
  */
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { limitWithContributionFilter } from 'in-applications/creation/contributionFilters';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
+const {
+  QueryBuilder,
+  isQueryValid: isQueryValidInternal,
+  getTagCatalog: getTagCatalogInternal
+} = createQueryBuilder({
   maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
   getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'APPLICATION_CONFIG' })(props),
   getSuggestions: args =>
     getTagSuggestions({
       entity: args.entity,
       propose: args.propose,
-      tagFilterExpression: args.tagFilterExpression,
+      tagFilterExpression: limitWithContributionFilter(args.tagFilterExpression, args.contributionFilter),
       tagName: args.name,
       value: args.value,
       filter: {

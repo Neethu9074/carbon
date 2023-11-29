@@ -7,12 +7,9 @@ import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  OPERATOR_AND,
-  createTagFilterExpression,
-  toBackendQueryModel
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { limitWithContributionFilter } from 'in-applications/creation/contributionFilters';
 import getApplicationLiveView from 'in-applications/subscriptions/getApplicationLiveView';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
@@ -161,24 +158,11 @@ function getServicesLiveList([downstreamScope, tagFilterExpression, contribution
   if (!isValidTagFilterExpression || (contributionFilter == null && tagFilterExpression.length === 0)) {
     return successObservable([]);
   }
-
-  let effectiveTagFilterExpression;
-  if (contributionFilter == null) {
-    effectiveTagFilterExpression = toBackendQueryModel(tagFilterExpression);
-  } else if (tagFilterExpression?.length > 0) {
-    effectiveTagFilterExpression = createTagFilterExpression(OPERATOR_AND, [
-      toBackendQueryModel(tagFilterExpression),
-      contributionFilter
-    ]);
-  } else {
-    effectiveTagFilterExpression = contributionFilter;
-  }
-
   return getApplicationLiveView({
     // The live view is based on historic data from last hour
     timeConfig: { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false },
     pagination: { page: 1, pageSize: 100 },
     downstreamScope,
-    tagFilterExpression: effectiveTagFilterExpression
+    tagFilterExpression: limitWithContributionFilter(toBackendQueryModel(tagFilterExpression), contributionFilter)
   });
 }
