@@ -77,6 +77,7 @@ export default function SlideInView({
   // support.
   const staticContentWrapperRef = useRef<HTMLDivElement>(null);
   const slideInContentWrapperRef = useRef<HTMLDivElement>(null);
+  const slideContainerRef = useRef<HTMLDivElement>(null);
 
   // An optional side effect that should be executed after a React render, but before
   // the browser render cycle ends.
@@ -84,7 +85,8 @@ export default function SlideInView({
     () => {
       if (showSlideInContent) {
         onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current));
-        if (shouldTriggerWindowResize) {
+
+        if (shouldTriggerWindowResize && !isElementInViewport(slideContainerRef.current)) {
           dispatchResizeEvent();
         }
       } else {
@@ -104,7 +106,7 @@ export default function SlideInView({
   const [showScrollShadow, setShowScrollShadow] = useState(false);
 
   return (
-    <div className={locals.container}>
+    <div ref={slideContainerRef} className={locals.container}>
       <div
         ref={staticContentWrapperRef}
         className={classNames({
@@ -177,4 +179,20 @@ function focusFirstInteractiveElement(interactiveElements: HTMLElement[]): void 
 function dispatchResizeEvent() {
   const resizeEvent = new Event('resize');
   window.dispatchEvent(resizeEvent);
+}
+
+function isElementInViewport(element: HTMLDivElement | null) {
+  if (!element) {
+    return false;
+  }
+
+  const bounding = element.getBoundingClientRect();
+
+  return (
+    bounding &&
+    bounding.top >= 0 &&
+    bounding.left >= 0 &&
+    bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+    bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+  );
 }
