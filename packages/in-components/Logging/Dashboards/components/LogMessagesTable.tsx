@@ -7,17 +7,22 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+//@ts-expect-error Needs TS migration
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
+//@ts-expect-error Needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+//@ts-expect-error Needs TS migration
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
+//@ts-expect-error Needs TS migration
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { clickedAppPerspectiveLink } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+//@ts-expect-error Needs TS migration
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { number } from 'in-services/formatters/number';
@@ -25,11 +30,32 @@ import { collationLanguage, t } from 'in-i18n';
 import Pill from 'in-components/Pill';
 
 import locals from 'in-components/Logging/Dashboards/components/MessagesTable.mless';
+import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
+import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 
 const pathSegment = '/logMessages';
 const matrixPrefix = 'log.';
 
-const columnDefinitions = [
+interface LogMessageTableProps {
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string,
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig?: TimeConfig;
+  applicationName: string;
+  serviceName: string;
+  endpointName: string;
+  result?: Result<LogMessageItem>
+  query?: string;
+}
+
+interface AdditionalProps extends LogMessageTableProps, TableProps<LogMessageItem>{
+  columnDefinitions: ColumnDefinition<LogMessageItem>[];
+  orderBy: string;
+  orderDirection: OrderDirection;
+}
+
+const columnDefinitions: ColumnDefinition<LogMessageItem, AdditionalProps>[] = [
   {
     id: 'logLevel',
     width: '4.5rem',
@@ -39,7 +65,7 @@ const columnDefinitions = [
       className: locals.headCell
     },
     cellClassName: locals.logLevelPillCell,
-    getContent(item) {
+    getContent(item: LogMessageItem) {
       const color = logPillColorMap.get(item.level.toLowerCase());
       return (
         <Pill className={locals.logLevelPill} color={color}>
@@ -71,10 +97,10 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
-        <SparkChart
+        (timeConfig && result) && <SparkChart
           loading={result?.progress?.loading}
           rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result)}
+          timeConfig={getResolvedTimeConfig(timeConfig, result as TimeResult)}
           metrics={item.metrics.logs}
           metric={item.metrics.logsAgg}
           tooltipFormatter={number.compact}
@@ -113,7 +139,7 @@ export default function LogMessagesTable({
   applicationName,
   serviceName,
   endpointName
-}) {
+}: LogMessageTableProps) {
   return (
     <ServerTableWithUrlState
       size="compact"
@@ -127,7 +153,7 @@ export default function LogMessagesTable({
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
       cardTitle={t('in-applications:viewLists.logMessages')}
-      rightHeader={({ query }) => (
+      rightHeader={({ query }: {query: string}) => (
         <AnalyzeMessagesButton
           groupByTagName="log.message"
           applicationName={applicationName}
@@ -155,6 +181,17 @@ function getTableData({
   endpointName,
   boundaryScope,
   timeConfig
+}: {
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  applicationId: string;
+  serviceId: string;
+  endpointName: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig: TimeConfig;
 }) {
   return getLogMessages({
     pagination: {
@@ -171,8 +208,11 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpointName: endpointName, // logs are still using endpoint names as ids
-      applicationBoundaryScope: boundaryScope
+      endpointName: endpointName,
+      applicationBoundaryScope: boundaryScope,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
     },
     metrics: {
       logsAgg: {
@@ -184,11 +224,15 @@ function getTableData({
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       }
-    }
+    },
+    supportedOrderByCriteria: false
   });
 }
 
-function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
+interface MessageProps extends LogMessageTableProps{
+  message: string;
+}
+function Message({ message, applicationName, serviceName, endpointName, boundaryScope }: MessageProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const trackLinkClick = () => {

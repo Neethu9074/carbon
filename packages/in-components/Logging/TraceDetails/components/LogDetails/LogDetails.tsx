@@ -37,10 +37,10 @@ import logIndicatorLocals from 'in-applications/analyze/components/TraceDetails/
 import locals from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails.mless';
 
 interface LogDetailsSwitchProps {
-  callId: string;
-  onClose: () => void;
-  timeConfigForLogs: TimeConfig;
-  totalNumberOfLogs: number;
+  callId?: string;
+  onClose?: () => void;
+  timeConfigForLogs?: TimeConfig;
+  totalNumberOfLogs?: number;
   selectedLogIdPair: { spanId: string; logId: string };
   expandedLogId?: string;
 }

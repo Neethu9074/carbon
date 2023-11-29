@@ -6,13 +6,22 @@
 
 import React from 'react';
 
+import { LogItem, LogLevel } from '@instana/types';
+
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { t } from 'in-i18n';
 
-const LogsCard = props => {
+type LogIdPair = { spanId: string; logId: string };
+interface LogsCardProps {
+  selectedLogIds: LogIdPair[];
+  items: LogItem[];
+  expandedLogId: string;
+}
+
+const LogsCard = (props: LogsCardProps) => {
   const { selectedLogIds, items, expandedLogId } = props;
   if (selectedLogIds.length === 0) return null;
 
@@ -20,7 +29,7 @@ const LogsCard = props => {
 
   return (
     <ErrorBoundary name="log tree sidebar">
-      <ExpandableGroup key={expandedLogId} defaultExpanded={expandedLogId} title={cardTitle}>
+      <ExpandableGroup key={expandedLogId} defaultExpanded={!!expandedLogId} title={cardTitle}>
         {selectedLogIds.map(logIdPair => (
           <LogDetails {...props} key={logIdPair.logId || logIdPair.spanId} selectedLogIdPair={logIdPair} />
         ))}
@@ -29,15 +38,15 @@ const LogsCard = props => {
   );
 };
 
-const getCardTitle = (selectedLogIds, items) => {
+const getCardTitle = (selectedLogIds: LogIdPair[], items: LogItem[]) => {
   const selectedLogItemIds = selectedLogIds.map(({ logId }) => logId);
   const selectedLogs = items.filter(item => selectedLogItemIds.includes(item.itemId));
-  const logLevelCounts = { error: 0, warn: 0 };
-  selectedLogs.forEach(log => logLevelCounts[getLogLevel(log.tags)?.toLowerCase()]++);
+  const logLevelCounts: Record<Lowercase<LogLevel>, number> = { error: 0, warn: 0 };
+  selectedLogs.forEach(log => logLevelCounts[getLogLevel(log.tags)?.toLowerCase() as Lowercase<LogLevel>]++);
 
   const { getWarnString, getErrorString } = {
-    getWarnString: count => t('in-logging:warn', { count }),
-    getErrorString: count => t('in-logging:error', { count })
+    getWarnString: (count: number) => t('in-logging:warn', { count }),
+    getErrorString: (count: number) => t('in-logging:error', { count })
   };
 
   return Object.entries(logLevelCounts)

@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { LogItem, Progress, Error } from '@instana/types';
 
 import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
@@ -23,7 +24,14 @@ const columnDefinitions = [
   }
 ];
 
-export default function Logs(props) {
+interface LogsProps {
+  items: LogItem[];
+  progress: Progress;
+  errors: Error[];
+  selectLogId: (logId: { logId?: string; spanId?: string }) => void;
+}
+
+export default function Logs(props: LogsProps) {
   const { items, progress, errors, selectLogId } = props;
 
   if (progress?.loading) {

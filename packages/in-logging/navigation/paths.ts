@@ -15,7 +15,7 @@ interface QueryBuilderTag {
   logicalOperator?: string;
 }
 interface GetLinkToAnalyzeRequest {
-  timeConfig: TimeConfig;
+  timeConfig?: TimeConfig;
   tagFilterExpression?: QueryBuilderTag | TagFilterExpression | Array<QueryBuilderTag | TagFilterExpression>;
 }
 

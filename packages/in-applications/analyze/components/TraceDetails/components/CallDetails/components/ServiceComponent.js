@@ -21,7 +21,7 @@ import MobileAppBeaconDetails from 'in-applications/analyze/components/TraceDeta
 import WebsiteBeaconDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/WebsiteBeaconDetails';
 import ProfileInformation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ProfileInformation';
 import SpanDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SpanDetails';
-import LogsCard from 'in-components/Logging/TraceDetails/components/LogDetails/LogsCard';
+import LogsCard from 'in-components/Logging/TraceDetails/components/LogDetails/LogsCard.tsx';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-components/ExpandableGroup';

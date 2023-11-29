@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 
 import { Button, Li, SvgIcon, Ul } from '@instana/components';
+import { LogItem, LogTag } from '@instana/types';
 
-import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
+import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE, ReducedTagFilterWithDefaults } from 'in-logging/queryBuilder';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-components/overlays/Overlay';
@@ -15,7 +16,11 @@ import { t } from 'in-i18n';
 
 import locals from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton.mless';
 
-export default function AnalyzeLogsButton({ log }) {
+interface AnalyzeLogsButtonProps {
+  log: LogItem;
+}
+
+export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
   const serviceId = getServiceId(log.tags);
 
   return (
@@ -46,7 +51,12 @@ export default function AnalyzeLogsButton({ log }) {
       withoutWrapper
     >
       {({ toggle, refSetter, isOpen }) => (
-        <Button kind="primary" icon="lib_analyze" onClick={toggle} refSetter={refSetter}>
+        <Button
+          kind="primary"
+          icon="lib_analyze"
+          onClick={toggle}
+          refSetter={refSetter as MutableRefObject<HTMLButtonElement>}
+        >
           {t('in-analyze:logDetails.analyzeLogsLabel')}
           <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
@@ -55,13 +65,13 @@ export default function AnalyzeLogsButton({ log }) {
   );
 }
 
-function getLinkToTagFilterExpression(tagFilterExpression) {
+function getLinkToTagFilterExpression(tagFilterExpression: ReducedTagFilterWithDefaults) {
   return getLinkToAnalyze({
     tagFilterExpression: [getValueMatchTagFilter(tagFilterExpression)]
   });
 }
 
-function getServiceId(tags) {
+function getServiceId(tags: LogTag[]) {
   return tags
     .filter(({ name, key }) => name === LOG_CUSTOM && key === 'service_id')
     .map(({ stringValue }) => stringValue)[0];

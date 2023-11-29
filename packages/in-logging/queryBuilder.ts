@@ -31,7 +31,7 @@ export function getSpanIdTagFilter(spanId: string) {
     : getEmptyTagFilterExpression();
 }
 
-interface ReducedTagFilterWithDefaults {
+export interface ReducedTagFilterWithDefaults {
   name: string;
   value: string;
   key?: string;
