@@ -150,6 +150,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                           <div className={locals.queryBuilder}>
                             <CreateApplicationQueryBuilder
                               value={form.get('tagFilterExpression')?.value || []}
+                              getSuggestionsProps={{
+                                contributionFilter: appConfig.contributionFilter?.tagFilterExpression
+                              }}
                               onChange={tagFilterExpression =>
                                 setTagFilterExpression(tagFilterExpression, form, updateForm)
                               }

@@ -69,7 +69,7 @@ export function addTagFilters(
   };
 }
 
-function isEmptyExpression(backendQueryModel: TagFilterExpressionElementUnion | Nullish): boolean {
+export function isEmptyExpression(backendQueryModel: TagFilterExpressionElementUnion | Nullish): boolean {
   return !backendQueryModel || (isTagFilterExpression(backendQueryModel) && backendQueryModel.elements.length === 0);
 }
 
