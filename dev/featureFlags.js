@@ -100,5 +100,6 @@ module.exports = {
   applicationContributionFilterEnabled: true,
   infraSmartAlertsPredictionsEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
-  infraSmartAlertsDialogEnabled: true
+  infraSmartAlertsDialogEnabled: true,
+  simplifiedFlowMapEnabled: true
 };
