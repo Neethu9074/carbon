@@ -5,7 +5,7 @@
  */
 
 import { MapFormItems } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
 import { PermissionSet, Result } from '@instana/types';
@@ -44,6 +44,7 @@ import {
 import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
@@ -91,6 +92,12 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
   const defaultApplicationConfig = getDefaultApplicationConfig(getField<string>(form, 'name')?.value);
+  const [initialApplicationConfig] = useState({
+    label: getField<string>(form, 'label')?.value,
+    scope: getField<string>(form, 'scope')?.value,
+    tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value
+  });
+  const [initialLimitation] = useState(limitedPermission);
   const isContributorRole =
     applicationContributionFilterEnabled &&
     productArea === ProductArea.APPLICATION &&
@@ -100,6 +107,10 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     permissionSet?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
 
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
+    let label;
+    let tagFilterExpression;
+    let scope;
+
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -107,26 +118,30 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       limitation,
       selected
     );
-    if (applicationContributionFilterEnabled) {
-      if (
-        (productArea === ProductArea.APPLICATION && selected !== AreaRoleWithContributor.CONTRIBUTOR) ||
-        (productArea === ProductArea.APPLICATION && limitedPermission !== limitation)
-      ) {
-        form = updateFormField(form, 'tagFilterExpression', defaultApplicationConfig.tagFilterExpression);
-        form = updateFormField(form, 'scope', defaultApplicationConfig.scope);
-      } else if (productArea === ProductArea.APPLICATION && selected === AreaRoleWithContributor.CONTRIBUTOR) {
-        form = updateFormField(form, 'label', getField<string>(form, 'name')?.value);
+    if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
+      if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation === initialLimitation) {
+        label = initialApplicationConfig.label;
+        tagFilterExpression = initialApplicationConfig.tagFilterExpression;
+        scope = initialApplicationConfig.scope;
+      } else if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation !== ScopedPermissionItem.NO_ACCESS) {
+        label = defaultApplicationConfig.label;
+        tagFilterExpression = defaultApplicationConfig.tagFilterExpression;
+        scope = defaultApplicationConfig.scope;
+      } else {
+        label = defaultApplicationConfig.label;
+        tagFilterExpression = undefined;
+        scope = defaultApplicationConfig.scope;
       }
+      form = updateFormField(form, 'label', label);
+      form = updateFormField(form, 'tagFilterExpression', tagFilterExpression);
+      form = updateFormField(form, 'scope', scope);
     }
     const newPermissionSet = {
       ...restPermissionSet,
       [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
       ...(applicationContributionFilterEnabled &&
-        entityPermissionKey === 'applicationIds' && {
-          ['restrictedApplicationFilter']:
-            limitation === ScopedPermissionItem.NO_ACCESS || selected !== AreaRoleWithContributor.CONTRIBUTOR
-              ? undefined
-              : defaultApplicationConfig
+        productArea === ProductArea.APPLICATION && {
+          ['restrictedApplicationFilter']: tagFilterExpression ? defaultApplicationConfig : undefined
         })
     };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
