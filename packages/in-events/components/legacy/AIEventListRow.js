@@ -31,7 +31,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import EventFeedbackDialog from '../feedback/EventFeedbackDialog';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getSnapshotVersions } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { rcaUIEnabled } from 'in-services/featureFlags';
@@ -40,6 +39,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getEvent } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
+import Pill from 'in-components/Pill';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -52,6 +52,7 @@ const appIDURLParameter = 'appId';
 const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
 
 export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
+  const theme = useTheme();
   // Holds map of { snapshot_ID: [event_id, event_id] }
   const rcaSnapshotMap = useMemo(
     () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
@@ -103,7 +104,9 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             leftHeaderContent={
               <Tooltip align="rightTop" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <div>
-                  <BetaBadge />
+                  <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+                    {t('in-events:RCA.experimental')}
+                  </Pill>
                 </div>
               </Tooltip>
             }
@@ -133,7 +136,9 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             title={title}
             leftHeaderContent={
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <BetaBadge />
+                <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+                  {t('in-events:RCA.experimental')}
+                </Pill>
               </Tooltip>
             }
             rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
@@ -151,7 +156,9 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
           title={title}
           leftHeaderContent={
             <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-              <BetaBadge />
+              <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+                {t('in-events:RCA.experimental')}
+              </Pill>
             </Tooltip>
           }
           rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}

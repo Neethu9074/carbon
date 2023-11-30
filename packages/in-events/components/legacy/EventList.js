@@ -41,7 +41,11 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         .throttle(250),
       [incident]
     ) ?? null;
-  const incidentHasRCAProperty = useMemo(() => incident.get('metadata').has('probableRootCause'), [incident]);
+  const incidentHasRCAProperty = useMemo(
+    () =>
+      incident.get('metadata').has('probableRootCause') && !incident.get('metadata').get('probableRootCause').isEmpty(),
+    [incident]
+  );
 
   if (!events) return <ListRow title={t('in-events:titleTriggerEvent')} />;
 
