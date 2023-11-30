@@ -55,15 +55,15 @@ export default function SloConfigPreview() {
       <HorizontalIndicator progress={progress} />
       <SloChartSummary
         blueprintType={blueprintType}
-        budgetSingleNumber={remainingBudgetNumber?.values?.[0][1]}
-        consumedBudgetSingleNumber={consumedBudgetNumber?.values?.[0][1]}
+        budgetSingleNumber={remainingBudgetNumber?.values?.[0]?.[1]}
+        consumedBudgetSingleNumber={consumedBudgetNumber?.values?.[0]?.[1]}
         fromTimestamp={fromTimestamp}
         indicatorType={indicatorType}
         objectiveDuration={objectiveDuration}
         objectiveDurationUnit={objectiveDurationUnit}
         sloEntityType={sloEntityType}
         status={status}
-        statusSingleNumber={statusMetric?.values?.[0][1]}
+        statusSingleNumber={statusMetric?.values?.[0]?.[1]}
         target={target}
         timeWindowType={timeWindowType}
       />
