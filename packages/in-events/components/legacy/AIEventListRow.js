@@ -105,7 +105,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
               <Tooltip align="rightTop" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <div>
                   <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
-                    {t('in-events:RCA.experimental')}
+                    {t('in-events:RCA.techPreview')}
                   </Pill>
                 </div>
               </Tooltip>
@@ -137,7 +137,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             leftHeaderContent={
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
-                  {t('in-events:RCA.experimental')}
+                  {t('in-events:RCA.techPreview')}
                 </Pill>
               </Tooltip>
             }
@@ -157,7 +157,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
           leftHeaderContent={
             <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
               <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
-                {t('in-events:RCA.experimental')}
+                {t('in-events:RCA.techPreview')}
               </Pill>
             </Tooltip>
           }
