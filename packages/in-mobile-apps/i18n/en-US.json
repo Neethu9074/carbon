@@ -360,7 +360,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "Description",
           "fileUploadConfigurationDialogDescriptionHelp": "An upload configuration will help you to better organize your uploaded files.",
           "fileUploadConfigurationDialogHeadingOpenAPI": "Uploading Symbol Files",
-          "fileUploadConfigurationDialogOpenAPIHelp": "Upload your symbol files by calling Instana's Web REST API. This could be integrated into your pipeline process for automated deployment. The explaination and usage of our Web REST API is defined within our <documentation>documentation</documentation>.",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Upload your symbol files by calling Instana's Web REST API. This could be integrated into your pipeline process for automated deployment. The explanation and usage of our Web REST API is defined within our <documentation>documentation</documentation>.",
           "fileUploadUrl": "Upload Symbol File API",
           "stackTraceTranslationLabelConfiguration": "Configuration",
           "stackTraceTranslationLabelFiles": "Files",

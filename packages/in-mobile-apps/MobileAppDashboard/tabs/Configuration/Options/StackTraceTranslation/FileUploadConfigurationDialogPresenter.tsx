@@ -49,11 +49,11 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
   const apiCommitUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/commit`;
   const apiClearUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/clear`;
 
-  const lines = [`# examples`];
+  const lines = [`# Examples`];
   lines.push(``);
-  lines.push(`# Prepare iOS app symbolication file`);
+  lines.push(`# Prepare iOS app symbolication file or Android java mapping file`);
   lines.push(``);
-  lines.push(`# Compress the app's dSYM folder into one tgz file.`);
+  lines.push(`# Compress the iOS app's dSYM folder or Android java mapping file into one tgz file.`);
   lines.push(
     `# To compress the app's dSYM folder, run following command 'tar czf your_app.dSYM.tgz your_app.dSYM_folder'.`
   );
@@ -62,21 +62,26 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
     `# To split the tgz file, run following command 'split -b 9m your_dSYM_file.tgz your_dSYM_file.tgz_blob_'.`
   );
   lines.push(``);
-  lines.push(`# Upload iOS app symbolication file blob by blob`);
+  lines.push(`# Upload iOS app symbolication file or Android java mapping file blob by blob`);
   lines.push(`curl --location --request PUT \\`);
   lines.push(`    '${apiUploadUrl}' \\`);
   lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\`);
   lines.push(`    --form 'fileId="identifer of your version of app, for example, com.mycompany.MyApp-1.0"' \\`);
-  lines.push(`    --form 'fileType="dSYM"' \\`);
+  lines.push(
+    `    --form 'fileType="dSYM stands for iOS symbolication file, R8PG_MAP stands for Android java mapping file"' \\`
+  );
+  lines.push(`    --form 'fileFormat=tgz' \\`);
   lines.push(`    --form 'blobIndex=1' \\`);
   lines.push(`    --form 'sourceMap=@"/path-to-your-symbol-file/example.symbol.file.tgz_blob_aa"'`);
   lines.push(``);
-  lines.push(`# After the tgz file or all blobs are uploaded, call the commit API to finish the uploading.`);
+  lines.push(`# After the tgz file or all blobs are uploaded, call the commit API to finish the uploading`);
   lines.push(`curl --location --request PUT \\`);
   lines.push(`    '${apiCommitUrl}' \\`);
   lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\`);
   lines.push(`    --form 'fileId="identifer of your version of app, for example, com.mycompany.MyApp-1.0"' \\`);
-  lines.push(`    --form 'fileType="dSYM"'`);
+  lines.push(
+    `    --form 'fileType="dSYM stands for iOS symbolication file, R8PG_MAP stands for Android java mapping file"'`
+  );
   lines.push(``);
   lines.push(`# Remove all files in the upload configuration`);
   lines.push(`curl --location --request PUT \\`);

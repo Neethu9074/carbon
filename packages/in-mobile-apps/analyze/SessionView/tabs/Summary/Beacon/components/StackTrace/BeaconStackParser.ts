@@ -9,6 +9,22 @@ import { find } from 'lodash';
 import { RawStackData } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
 import { MobileAppMonitoringBeacon } from 'in-types';
 
+export interface AndroidStackTraceType {
+  threads: Array<AndroidStackTraceThreadDesc>;
+}
+
+export interface AndroidStackTraceThreadDesc {
+  lines: Array<string> | Array<StackTraceLineDesc>;
+  linesInString: string;
+}
+
+export interface StackTraceLineDesc {
+  file: string;
+  name?: string;
+  line: number;
+  translationStatus: number;
+  translationExplanation?: string;
+}
 export interface StackTraceType {
   threads: Array<StackTraceThreadDesc>;
   binaryImages: Array<BinaryImageDesc>;
@@ -60,7 +76,7 @@ function isAndroid(beacon: MobileAppMonitoringBeacon) {
 }
 
 function isPrettySupported(beacon: MobileAppMonitoringBeacon) {
-  return isIOS(beacon);
+  return isIOS(beacon) || (isAndroid(beacon) && !!beacon.parsedStackTrace);
 }
 
 function formatStackTraceJsonAsText(stacktrace: StackTraceType): string {
@@ -138,6 +154,39 @@ function formatStackTraceJson(
   }
 }
 
+function formatStackTraceAndroid(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
+  if (!beacon.parsedStackTrace || !pretty) {
+    return {
+      format: 'stack-java',
+      stack: beacon.stackTrace,
+      supportPretty: !!beacon.parsedStackTrace
+    };
+  }
+
+  try {
+    const stacktrace = JSON.parse(beacon.parsedStackTrace) as AndroidStackTraceType;
+    if (!stacktrace?.threads?.length) {
+      return {
+        format: 'stack-java',
+        stack: beacon.stackTrace,
+        supportPretty: false
+      };
+    }
+
+    return {
+      format: 'stack-java',
+      stack: stacktrace?.threads[0]?.linesInString,
+      supportPretty: true
+    };
+  } catch (error) {
+    return {
+      format: 'stack-java',
+      stack: beacon.stackTrace,
+      supportPretty: false
+    };
+  }
+}
+
 function formatStackTraceIOS(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
   // Application bundles usually resides in private/var folder on iOS, so we use this to check if it is a user image
   // see also https://www.theiphonewiki.com/wiki//private/var
@@ -147,6 +196,10 @@ function formatStackTraceIOS(beacon: MobileAppMonitoringBeacon, pretty: boolean)
 export function formatStackTrace(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
   if (isIOS(beacon)) {
     return formatStackTraceIOS(beacon, pretty);
+  }
+
+  if (isAndroid(beacon)) {
+    return formatStackTraceAndroid(beacon, pretty);
   }
 
   return {
