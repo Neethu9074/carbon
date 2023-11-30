@@ -70,6 +70,7 @@ export default function SloConfigPreview() {
       <div className={locals.chartWrapper}>
         <ResultAwareChart
           config={{
+            customHeight: 250,
             granularity: errorBudgetRemaining?.granularity ?? granularity,
             nonInteractive: true,
             y1: {
