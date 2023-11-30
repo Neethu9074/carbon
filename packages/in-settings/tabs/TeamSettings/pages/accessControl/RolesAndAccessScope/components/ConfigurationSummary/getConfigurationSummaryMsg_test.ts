@@ -68,7 +68,9 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
       expect(configSummaryMsg.accessLevelMessage).toEqual('');
       expect(configSummaryMsg.rolePermissionMessage).toEqual('');
-      expect(configSummaryMsg.noAccessMessage).toEqual(t('in-settings:permissionScope.description_no_access'));
+      expect(configSummaryMsg.noAccessMessage).toEqual(
+        t('in-settings:permissionScope.description_no_access_application')
+      );
     });
 
     test('shows correct messages for role CUSTOM', () => {
@@ -145,7 +147,6 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
     test('shows correct messages for no access', () => {
       let configSummaryMsg = getConfigurationSummaryMsg(ProductArea.KUBERNETES, ScopedPermissionItem.NO_ACCESS);
-
       expect(configSummaryMsg.accessLevelMessage).toEqual('');
       expect(configSummaryMsg.rolePermissionMessage).toEqual('');
       expect(configSummaryMsg.noAccessMessage).toEqual(
