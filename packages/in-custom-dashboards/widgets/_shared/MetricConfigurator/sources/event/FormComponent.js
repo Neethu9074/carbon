@@ -6,8 +6,10 @@
 import React from 'react';
 
 import { Stack, Spacer, Toggle } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { refreshDFQ$ } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 //@ts-expect-error
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -37,6 +39,8 @@ export default function FormComponent({
   const includeK8sInfoEventsField = form.get('includeK8sInfoEvents');
   const includeAgentMonitoringIssuesField = form.get('includeAgentMonitoringIssues');
 
+  const refreshDFQ = useObservable(refreshDFQ$, []);
+
   const dfqInput = displayDFQ ? (
     <Section title={t('in-custom-dashboards:widgets.srcEvent.formComponent.query')}>
       <Stack direction="horizontal" align="center" distribution="stretch" gap="normal">
@@ -46,6 +50,7 @@ export default function FormComponent({
           onQueryValueChange={value => onChange(['dynamicFocusQuery'], field => field.setValue(value).setTouched(true))}
           queryValue={dynamicFocusQueryField.value}
           manageFiltersDisabled
+          refreshDFQ={refreshDFQ}
         />
         <HelpAction>{t('in-custom-dashboards:widgets.srcEvent.formComponent.helpAction')}</HelpAction>
       </Stack>

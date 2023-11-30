@@ -10,6 +10,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { refreshDFQ$ } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
 import FilterPresets from 'in-components/SearchBar/components/FilterPresets';
@@ -29,20 +30,9 @@ export default connectTo(
     query: query$.distinct().startWith('')
   },
   class DfqSearchBar extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-
     componentDidMount() {
       refresh();
       setQueryInput(this.props.queryValue, '', true);
-    }
-
-    componentDidUpdate(prevProps) {
-      if (this.props?.queryValue !== prevProps?.queryValue) {
-        refresh();
-        setQueryInput(this.props?.queryValue, '', true);
-      }
     }
 
     componentWillUnmount() {
@@ -57,8 +47,14 @@ export default connectTo(
         presetsVisible,
         onQueryValueChange,
         queryValue,
-        disabled
+        disabled,
+        refreshDFQ = false
       } = this.props;
+
+      if (refreshDFQ) {
+        setQueryInput(queryValue, '', true);
+        refreshDFQ$.emit(false);
+      }
 
       const buttonClass = classNames({
         [locals.button]: true,
