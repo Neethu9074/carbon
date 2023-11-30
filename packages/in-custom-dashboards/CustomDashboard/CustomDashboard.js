@@ -18,6 +18,8 @@ import {
   startEditWidget,
   finishEditWidget,
   deleteWidget,
+  startFullScreenWidget,
+  finishFullScreenWidget,
   duplicateWidget
 } from 'in-custom-dashboards/tracker';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
@@ -31,6 +33,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
 import useUrlState from 'in-hooks/useUrlState';
@@ -73,6 +76,8 @@ export default function CustomDashboardLoader(props) {
       onAddWidget={onAddWidget}
       onEditWidget={onEditWidget}
       onDuplicateWidget={onDuplicateWidget}
+      onFullScreenWidget={onFullScreenWidget}
+      onExitFullScreenWidget={onExitFullScreenWidget}
       onRemoveWidget={onRemoveWidget}
       onDiscardChanges={onDiscardChanges}
       onShare={onShare}
@@ -120,6 +125,27 @@ export default function CustomDashboardLoader(props) {
     widget.id = generateUniqueShortId();
     newConfig.widgets.push(widget);
     setConfig(newConfig);
+  }
+
+  function onFullScreenWidget(id) {
+    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
+    const fullscreen = document.querySelector(`#${getWidgetId(widget.id)}`);
+
+    startFullScreenWidget(widget);
+
+    if (!document.fullscreenElement) {
+      fullscreen?.requestFullscreen();
+    }
+  }
+
+  function onExitFullScreenWidget(id) {
+    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
+
+    finishFullScreenWidget(widget);
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
   }
 
   function onRemoveWidget(id) {

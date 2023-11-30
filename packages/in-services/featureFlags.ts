@@ -128,6 +128,8 @@ export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatte
 
 export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeSeriesEnabled');
 
+export const fullscreenWidgetEnabled = isFeatureFlagEnabled('fullscreenWidgetEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

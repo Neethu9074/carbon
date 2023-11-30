@@ -479,5 +479,10 @@ module.exports = exports = [
     uiClientKey: 'simplifiedFlowMapEnabled',
     instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'fullscreenWidgetEnabled',
+    instanaCtlKey: 'feature.fullscreen.widget.enabled',
+    defaultValue: false
   }
 ];

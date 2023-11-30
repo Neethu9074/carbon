@@ -101,5 +101,6 @@ module.exports = {
   infraSmartAlertsPredictionsEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   infraSmartAlertsDialogEnabled: true,
-  simplifiedFlowMapEnabled: true
+  simplifiedFlowMapEnabled: true,
+  fullscreenWidgetEnabled: true
 };
