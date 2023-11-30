@@ -9,6 +9,7 @@ import React from 'react';
 
 import { BizOpsMetricConfiguration, TimeConfig, BusinessProcessItem, Result } from '@instana/types';
 import { KeyValue, SvgIcon, ColumnizedDefinition } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 // @ts-expect-error Module needs to be translated to TS
 import EmptyStateContent from 'in-cockpit/widgets/BusinessMonitoringTopList/EmptyStateContent';
@@ -59,7 +60,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
   );
 }
 
-function getItem(id: string, timeConfig: TimeConfig) {
+function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
   const started_processes: BizOpsMetricConfiguration = {
     metric: 'bpm_root_process_id',
     granularity: getChartGranularity(timeConfig),
@@ -76,7 +77,7 @@ function getItem(id: string, timeConfig: TimeConfig) {
   });
 }
 
-function getId(item: BusinessProcessItem) {
+function getId(item: BusinessProcessItem): string {
   return item.businessProcess.definitionId;
 }
 
