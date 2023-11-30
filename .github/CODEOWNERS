@@ -28,7 +28,6 @@ packages/in-bizops                  @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-client                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-cloudfoundry            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-cockpit                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-cockpit/Cockpit/components/BusinessMonitoringTopList      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
 packages/in-components              @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-connection              @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 

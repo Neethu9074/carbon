@@ -7,25 +7,32 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { KeyValue, SvgIcon } from '@instana/components';
+import { BizOpsMetricConfiguration, TimeConfig, BusinessProcessItem, Result } from '@instana/types';
+import { KeyValue, SvgIcon, ColumnizedDefinition } from '@instana/components';
 
+// @ts-expect-error Module needs to be translated to TS
+import EmptyStateContent from 'in-cockpit/widgets/BusinessMonitoringTopList/EmptyStateContent';
+// @ts-expect-error Module needs to be translated to TS
+import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
+// @ts-expect-error Module needs to be translated to TS
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+// @ts-expect-error Module needs to be translated to TS
+import TopListWidget from 'in-cockpit/widgets/TopListWidget';
+// @ts-expect-error Module needs to be translated to TS
+import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
 import { getBusinessProcessListData } from 'in-bizops/lists/businessProcess/BusinessProcessList';
-import EmptyStateContent from 'in-cockpit/widgets/BusinessMonitoringTopList/EmptyStateContent';
-import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
-import { add, remove } from 'in-cockpit/starredItems';
+import { Location } from 'in-stores/navigation/types';
 import { t } from 'in-i18n';
 
-export default function BusinessMonitoringTopList({ config }) {
+export default function BusinessMonitoringTopList({ config }: any) {
   const { location, createHref, createHrefToPath } = useNavigation();
 
   return (
@@ -35,16 +42,16 @@ export default function BusinessMonitoringTopList({ config }) {
       getItem={getItem}
       pinnedItemTypes={businessProcessType}
       getId={getId}
-      pinItem={(id, item) =>
+      pinItem={(id: string, item: BusinessProcessItem) =>
         add({
           id,
           label: item.businessProcess.definitionName,
           type: businessProcessType
         })
       }
-      unpinItem={(id, type) => remove({ id, type })}
+      unpinItem={(id: string, type: businessProcessType) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
-      getItemLink={item => getItemLink(item, location, createHref)}
+      getItemLink={(item: BusinessProcessItem) => getItemLink(item, location, createHref)}
       fullListViewLinkTitle={t('in-cockpit:component.bizopsTopList.allProcesses')}
       fullListView={createHrefToPath(businessProcessPath)}
       EmptyStateComponent={EmptyStateContent}
@@ -52,29 +59,29 @@ export default function BusinessMonitoringTopList({ config }) {
   );
 }
 
-function getItem(id, timeConfig) {
+function getItem(id: string, timeConfig: TimeConfig) {
+  const started_processes: BizOpsMetricConfiguration = {
+    metric: 'bpm_root_process_id',
+    granularity: getChartGranularity(timeConfig),
+    aggregation: 'DISTINCT_COUNT'
+  };
+
   // Have to use the endpoint to fetch ONE process instead of
   // getBusinessProcesses that fetches an ARRAY of processes due
   // to how the StarredItemList works
   return getBusinessProcess({
     timeConfig,
-    metrics: {
-      started_processes: {
-        aggregation: 'DISTINCT_COUNT',
-        granularity: getChartGranularity(timeConfig),
-        metric: 'bpm_root_process_id'
-      }
-    },
-    definitionId: id
+    metrics: { started_processes: started_processes },
+    processDefinitionId: id
   });
 }
 
-function getId(item) {
+function getId(item: BusinessProcessItem) {
   return item.businessProcess.definitionId;
 }
 
 // Creates a link to the business process clicked by the user
-function getItemLink(item, location, createHref) {
+function getItemLink(item: BusinessProcessItem, location: Location, createHref: (target: Location) => string) {
   location.pathname = `${businessProcessDashboard}${summaryTab}`;
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', item.businessProcess.definitionName);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', item.businessProcess.definitionId);
@@ -83,10 +90,10 @@ function getItemLink(item, location, createHref) {
   return createHref(location);
 }
 
-const columnDefinitions = [
+const columnDefinitions: ColumnizedDefinition[] = [
   {
     width: '2rem', // health dot
-    getContent({ item }) {
+    getContent({ item }: { item: BusinessProcessItem }) {
       return <HealthDot severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize={10} />;
     }
   },
@@ -98,7 +105,7 @@ const columnDefinitions = [
   },
   {
     // no width, scalable column - process name
-    getContent({ item }) {
+    getContent({ item }: { item: BusinessProcessItem }) {
       return (
         <KeyValue
           value={item.businessProcess.definitionName}
@@ -111,7 +118,7 @@ const columnDefinitions = [
   },
   {
     width: '12rem', // activities count
-    getContent({ item }) {
+    getContent({ item }: { item: BusinessProcessItem }) {
       return (
         <KeyValue
           value={item.businessProcess.activitiesCount}
@@ -123,7 +130,15 @@ const columnDefinitions = [
   },
   {
     width: '12rem', // started instances spark chart and count
-    getContent({ item, result, timeConfig }) {
+    getContent({
+      item,
+      result,
+      timeConfig
+    }: {
+      item: BusinessProcessItem;
+      result: Result<BusinessProcessItem>;
+      timeConfig: TimeConfig;
+    }) {
       return (
         <SparkChart
           loading={result?.progress?.loading}
