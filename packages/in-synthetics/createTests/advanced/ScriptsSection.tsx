@@ -79,7 +79,7 @@ export default function ScriptsSection({
       ? {
           name: scriptDetails?.name,
           text: (configForm.get('script') as Field<string>).value,
-          extension: isNotBlank(scriptDetails?.name) ? 'js' : ''
+          extension: isNotBlank(scriptDetails?.name) ? (isSideScript() ? 'side' : 'js') : ''
         }
       : { name: '', text: '', extension: 'js' }
   );
