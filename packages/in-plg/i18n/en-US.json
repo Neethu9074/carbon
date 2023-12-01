@@ -16,5 +16,41 @@
     "content": "Ready to monitor your own environment",
     "bookdemo": " Book a demo",
     "freetrial": " Free trial"
+  },
+  "agentDetails": {
+    "askForHelp": {
+      "email": "email",
+      "send": "Send",
+      "askForHelpTitle": "Ask for help",
+      "thisWillBeAvailableOnceYourInstanceIsReady": "This will be available once your instance is ready.",
+      "inviteAColeague": "Invite a colleague",
+      "agentKey": "Agent key"
+    },
+    "common": {
+      "toInstallAndRunAnAgentCompleteTheFollowingSteps": "To install and run an agent, complete the following steps.",
+      "clusterName": "Cluster name",
+      "agentZoneOptional": "Agent zone (optional)",
+      "networkRequirements": "Network requirements",
+      "download": "Download",
+      "viewDeployedAgents": "View Deployed Agents",
+      "documentationTitle": "Documentation",
+      "prerequisitesTitle": "Prerequisites",
+      "enterANameForAClusterGroupYouWantToAddThisClusterTo": "Enter a name for a cluster group<br>you want to add this cluster to.",
+      "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map."
+    },
+    "aws": {
+      "step1": "Step 1: ",
+      "step2": "Step 2: ",
+      "enterAClusterNameAndOptionallyTheAgentZone": "Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+      "runCodeBelow":"Run the agent deployment code below.",
+      "documentationLinks": {
+        "installAgentAwsEks":"Install an agent on AWS EKS"
+      }
+    },
+    "kubernetes": {
+      "kubernetes":{
+        "support": "Support"
+      }
+    }
   }
 }

@@ -27,7 +27,7 @@
 // import AwsEc2Linux from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/AwsEc2Linux';
 // import CfAndBosh from 'in-plg/screens/OnBoardingWidget/AgentList/Bosh/CfAndBosh';
 // import Docker from 'in-plg/screens/OnBoardingWidget/AgentList/Docker/Docker';
-// import AwsEks from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/AwsEks';
+import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
 // import Azure from 'in-plg/screens/OnBoardingWidget/AgentList/Azure/Azure';
 // import MacOs from 'in-plg/screens/OnBoardingWidget/AgentList/Mac/MacOs';
 // import Unix from 'in-plg/screens/OnBoardingWidget/AgentList/Unix/Unix';
@@ -87,8 +87,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.elasticContainerServiceForKubernetesEks'),
-        keyWords: 'elasticcontainerkubernetesk8s'
-        // Content: AwsEks
+        keyWords: 'elasticcontainerkubernetesk8s',
+        Content: AwsEks
       }
     },
     {
