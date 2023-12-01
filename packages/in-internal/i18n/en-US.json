@@ -664,7 +664,10 @@
         "outgoingEvent": "Outgoing Events",
         "failOutgoingEvent": "Failed Outgoing Events",
         "assignedConfigs": "Assigned Configurations",
-        "hostCpuLoad": "Host CPU load"
+        "hostCpuLoad": "Host CPU load",
+        "host": "Host",
+        "hostLoad": "Host Load",
+        "garbageCollection": "Garbage Collection"
       },
       "eumProcessor": {
         "hostCpuLoad": "Host CPU load",
