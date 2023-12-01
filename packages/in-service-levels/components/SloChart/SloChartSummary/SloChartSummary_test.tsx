@@ -15,6 +15,7 @@ import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSumma
 import useSloFormatter, { SloFormatterFunction } from 'in-service-levels/hooks/useSloFormatter';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
+import { MetricDataPoint } from 'in-components/Chart/types';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -45,7 +46,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
     objectiveDurationUnit: 'week',
     toTimestamp: now + days.toMillis(1),
     timeWindowType: 'fixed' as TimeWindowType,
-    statusSingleNumber: 0.5
+    statusSingleNumber: [[1, 2]] as MetricDataPoint[]
   };
 
   it('should only contain a skeleton component if status is pending', () => {
@@ -118,7 +119,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
   it('should render correctly if metricSpent is set', () => {
     mockedUseSloFormatter.mockReturnValueOnce(() => '1min');
 
-    const wrapper = shallow(<SloChartSummary {...defaultProps} consumedBudgetSingleNumber={1} />);
+    const wrapper = shallow(<SloChartSummary {...defaultProps} consumedBudgetSingleNumber={[[1, 2]]} />);
 
     expect(wrapper.find(SloTile).last().prop('value')).toEqual('1min');
   });
@@ -126,7 +127,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
   it('should render correctly if there is some budget given', () => {
     mockedUseSloFormatter.mockReturnValueOnce(() => '1min');
 
-    const wrapper = shallow(<SloChartSummary {...defaultProps} budgetSingleNumber={1} />);
+    const wrapper = shallow(<SloChartSummary {...defaultProps} budgetSingleNumber={[[1, 2]]} />);
 
     expect(wrapper.find(SloTile).last().prop('budget')).toEqual('1min');
   });
