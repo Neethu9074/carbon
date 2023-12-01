@@ -44,6 +44,7 @@
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
   "hostsLimit": "Hosts Limit (optional)",
+  "hostsLimitHelpText":"Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",

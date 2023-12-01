@@ -522,6 +522,7 @@ function AnsibleActionContent({
             setForm(updatedForm);
           }}
         />
+        <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
       </FormGroup>
     </>
   );
