@@ -35,6 +35,24 @@ export const getType = (type: string) => {
   }
 };
 
+export const getHelpTextType = (type: string) => {
+  if (isDocLink(type)) {
+    return t('in-automation:ActionCatalog.docLinkHelpText');
+  } else if (isScript(type)) {
+    return t('in-automation:ActionCatalog.scripthelpText');
+  } else if (isWebhook(type)) {
+    return t('in-automation:ActionCatalog.httpHelpText');
+  } else if (isManual(type)) {
+    return t('in-automation:ActionCatalog.manualHelpText');
+  } else if (isExternal(type)) {
+    return t('in-automation:actionHistory.externalHelpText');
+  } else if (isGithub(type) || isGitlab(type) || isJira(type)) {
+    return t('in-automation:ActionCatalog.githubHelpText');
+  } else {
+    return '';
+  }
+};
+
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
 export const getScriptFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.script_content ??

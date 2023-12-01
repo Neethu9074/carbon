@@ -15,7 +15,7 @@ import locals from './AlertPropertiesTextArea.mless';
 interface AlertPropertiesTextareaProps {
   name: string;
   id: string;
-  rows?: string;
+  rows?: number;
   onChange: (arg: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder: string;
   formField: Field<string>;

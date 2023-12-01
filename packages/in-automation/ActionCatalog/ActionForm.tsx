@@ -76,7 +76,8 @@ import {
   GL_ISSUE_TYPES,
   GITLAB_TYPE,
   JIRA_TYPE,
-  JIRA_ISSUE_TYPES
+  JIRA_ISSUE_TYPES,
+  getHelpTextType
 } from 'in-automation/ActionCatalog/shared';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
@@ -111,6 +112,8 @@ interface ActionFormProps {
   entity: ActionFormEntity;
   setForm: SetFormFunction;
   isCreate: boolean;
+  // eslint-disable-next-line react/no-unused-prop-types
+  close?: boolean;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
@@ -331,7 +334,7 @@ const TypeSection = ({
             <option value={JIRA_TYPE}>{t('in-automation:ActionCatalog.jira')}</option>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.actionTypeHelper')}</HelpText>
+          <HelpText className={locals.subTextFormField}>{getHelpTextType(type.value)}</HelpText>
         </>
       ) : (
         <Typography variant="body-regular">{getType(action.type)}</Typography>
@@ -532,8 +535,8 @@ const GithubSection = ({
         </Col>
       </Row>
       {ticketType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
-      {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
+      {ticketType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
 };
@@ -546,7 +549,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
   return (
     <>
       <Row>
-        <Col lg={6}>
+        <Col lg={12}>
           {title.map(field => (
             <FormGroup>
               <Label htmlFor="github-title" hasError={!field.valid && field.touched}>
@@ -562,23 +565,32 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.githubTitleHelptext')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
-        <Col lg={6}>
+      </Row>
+      <Row>
+        <Col lg={12}>
           {body.map(field => (
             <FormGroup>
               <Label htmlFor="github-body" hasError={!field.valid && field.touched}>
-                {t('in-automation:body')}
+                {t('in-automation:ActionCatalog.githubBody')}
               </Label>
               <TextArea
                 id="github-body"
                 value={field.value}
+                rows={15}
                 disabled={isNotEditable}
                 onChange={e => onChange('body', (e.target as HTMLTextAreaElement).value)}
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.githubBodyHelptext')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
@@ -610,7 +622,11 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
   );
 };
 
-const GithubCloseAndCommentSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const TicketCloseAndCommentSection = ({
+  form,
+  onChange,
+  close = false
+}: Pick<ActionFormProps, 'form' | 'onChange' | 'close'>) => {
   const comment = form.get('comment') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -618,11 +634,11 @@ const GithubCloseAndCommentSection = ({ form, onChange }: Pick<ActionFormProps, 
     <>
       {comment.map(field => (
         <FormGroup>
-          <Label htmlFor="github-ticket-comment" hasError={!field.valid && field.touched}>
-            {t('in-automation:comment')}
+          <Label htmlFor="ticket-comment" hasError={!field.valid && field.touched}>
+            {close ? t('in-automation:ActionCatalog.commentOptional') : t('in-automation:comment')}
           </Label>
           <TextArea
-            id="github-ticket-comment"
+            id="ticket-comment"
             value={field.value}
             disabled={isNotEditable}
             onChange={e => onChange('comment', (e.target as HTMLTextAreaElement).value)}
@@ -739,8 +755,8 @@ const GitlabSection = ({
         </Col>
       </Row>
       {ticketType.value === OPEN && <GitlabOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
-      {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
+      {ticketType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
 };
@@ -754,7 +770,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
   return (
     <>
       <Row>
-        <Col lg={6}>
+        <Col lg={12}>
           {title.map(field => (
             <FormGroup>
               <Label htmlFor="gitlab-title" hasError={!field.valid && field.touched}>
@@ -770,10 +786,15 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.githubTitleHelptext')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
-        <Col lg={6}>
+      </Row>
+      <Row>
+        <Col lg={12}>
           {gitlab_description.map(field => (
             <FormGroup>
               <Label htmlFor="gitlab-description" hasError={!field.valid && field.touched}>
@@ -782,11 +803,15 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
               <TextArea
                 id="gitlab-description"
                 value={field.value}
+                rows={15}
                 disabled={isNotEditable}
                 onChange={e => onChange('gitlab_description', (e.target as HTMLTextAreaElement).value)}
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.githubBodyHelptext')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
@@ -934,8 +959,8 @@ const JiraSection = ({
         </Col>
       </Row>
       {ticketType.value === OPEN && <JiraOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
-      {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
+      {ticketType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
 };
@@ -950,7 +975,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
   return (
     <>
       <Row>
-        <Col lg={6}>
+        <Col lg={12}>
           {summary.map(field => (
             <FormGroup>
               <Label htmlFor="jira-summary" hasError={!field.valid && field.touched}>
@@ -966,10 +991,15 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
                 maxLength={256}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.githubTitleHelptext')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
-        <Col lg={6}>
+      </Row>
+      <Row>
+        <Col lg={12}>
           {jira_description.map(field => (
             <FormGroup>
               <Label htmlFor="jira-description" hasError={!field.valid && field.touched}>
@@ -978,11 +1008,15 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
               <TextArea
                 id="jira-description"
                 value={field.value}
+                rows={15}
                 disabled={isNotEditable}
                 onChange={e => onChange('jira_description', (e.target as HTMLTextAreaElement).value)}
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>
+                {t('in-automation:ActionCatalog.githubBodyHelptext')}
+              </HelpText>
             </FormGroup>
           ))}
         </Col>
