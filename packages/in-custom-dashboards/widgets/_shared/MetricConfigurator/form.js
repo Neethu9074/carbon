@@ -111,18 +111,26 @@ export function createForm(
   }
 
   if (withMetricFormatter) {
-    form = form.put(
-      'formatter',
-      createField({
-        value: (savedState && savedState.formatter) || '',
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          buildEnumValidator(allFormatterIds)
-        )
-      })
-    );
+    form = form
+      .put(
+        'formatter',
+        createField({
+          value: (savedState && savedState.formatter) || '',
+          validator: composeAndShortCircuitOnError(
+            notUndefinedValidator,
+            stringValidator,
+            notBlankValidator,
+            buildEnumValidator(allFormatterIds)
+          )
+        })
+      )
+      .put(
+        'formatterSelected',
+        createField({
+          value: savedState?.formatterSelected ?? undefined,
+          validator: composeAndShortCircuitOnError(booleanValidator)
+        })
+      );
   }
 
   if (withColorConfiguration) {

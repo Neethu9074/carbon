@@ -17,9 +17,9 @@ import {
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { CONTAINS, EQUALS, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { KEY_VALUE_PAIR, STRING } from 'in-components/QueryBuilder/tagFilter/types';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 
 describe('in-components/QueryBuilder/transformation/formModel', () => {
   describe('#fromTagFiltersArray', () => {
@@ -201,6 +201,102 @@ describe('in-components/QueryBuilder/transformation/formModel', () => {
         { type: TAG_FILTER_TYPE, name: 'jvm.version', operator: EQUALS, value: '11.0.8' }
       ]);
     });
+
+    it('must handle nested expressions', () => {
+      expect(
+        joinExpressions({
+          logicalOperator: and,
+          expressions: [
+            joinExpressions({
+              logicalOperator: or,
+              expressions: [
+                {
+                  "type": TAG_FILTER_TYPE,
+                  "name": "label",
+                  "operator": CONTAINS,
+                  "value": "Atg"
+                },
+                {
+                  "type": TAG_FILTER_TYPE,
+                  "name": "ibmmq.queue.name",
+                  "operator": CONTAINS,
+                  "value": "Atg"
+                }
+              ]
+            }),
+            [
+              { type: OPEN_BRACKET_TYPE },
+              {
+                "type": TAG_FILTER_TYPE,
+                "name": "kubernetes.namespace.name",
+                "operator": EQUALS,
+                "value": "oms-ult20-prod-1"
+              },
+              { type: CLOSE_BRACKET_TYPE },
+              { type: CONJUNCTION_TYPE, logicalOperator: or },
+              { type: OPEN_BRACKET_TYPE },
+              {
+                "type": TAG_FILTER_TYPE,
+                "name": "ibmmq.qm.status",
+                "operator": EQUALS,
+                "value": "Running"
+              },
+              { type: CONJUNCTION_TYPE, logicalOperator: and },
+              {
+                "type": TAG_FILTER_TYPE,
+                "name": "ibmmq.qm.activeNode",
+                "operator": STARTS_WITH,
+                "value": "oms-ult20-prod-1"
+              },
+              { type: CLOSE_BRACKET_TYPE }
+            ]
+          ]
+        })
+      ).to.deep.equal([
+        {type: OPEN_BRACKET_TYPE },
+        {
+          "type": TAG_FILTER_TYPE,
+          "name": "label",
+          "operator": CONTAINS,
+          "value": "Atg"
+        },
+        { type: CONJUNCTION_TYPE, logicalOperator: or },
+        {
+          "type": TAG_FILTER_TYPE,
+          "name": "ibmmq.queue.name",
+          "operator": CONTAINS,
+          "value": "Atg"
+        },
+        { type: CLOSE_BRACKET_TYPE },
+        { type: CONJUNCTION_TYPE, logicalOperator: and },
+        { type: OPEN_BRACKET_TYPE },
+        { type: OPEN_BRACKET_TYPE },
+        {
+          "type": TAG_FILTER_TYPE,
+          "name": "kubernetes.namespace.name",
+          "operator": EQUALS,
+          "value": "oms-ult20-prod-1"
+        },
+        { type: CLOSE_BRACKET_TYPE },
+        { type: CONJUNCTION_TYPE, logicalOperator: or },
+        { type: OPEN_BRACKET_TYPE },
+        {
+          "type": TAG_FILTER_TYPE,
+          "name": "ibmmq.qm.status",
+          "operator": EQUALS,
+          "value": "Running"
+        },
+        { type: CONJUNCTION_TYPE, logicalOperator: and },
+        {
+          "type": TAG_FILTER_TYPE,
+          "name": "ibmmq.qm.activeNode",
+          "operator": STARTS_WITH,
+          "value": "oms-ult20-prod-1"
+        },
+        { type: CLOSE_BRACKET_TYPE },
+        { type: CLOSE_BRACKET_TYPE }
+      ])
+    })
   });
 
   describe('#removeTopLevelFilters', () => {

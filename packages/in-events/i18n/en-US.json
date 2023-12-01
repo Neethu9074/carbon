@@ -165,7 +165,8 @@
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Entity events found: {{number_of_events}}",
-    "entitiesNumber": "Entities"
+    "entitiesNumber": "Entities",
+    "techPreview": "Tech Preview"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
