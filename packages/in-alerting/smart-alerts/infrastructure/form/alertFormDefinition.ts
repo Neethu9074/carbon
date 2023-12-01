@@ -10,6 +10,7 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { InfraAlertConfig, VersionedConfig } from 'in-types';
 
@@ -34,6 +35,8 @@ export const fieldNames = Object.freeze({
 export interface AlertConfigHiddenFields {
   // an optional, "hidden" from field, will not be part with server communication
   calculateThresholdOnBackend?: boolean;
+  metricLabel?: string;
+  metricPath?: string;
 }
 
 export default function alertFormDefinition(
@@ -109,7 +112,37 @@ export default function alertFormDefinition(
         value: id
       })
     )
+    .put('rule', createRuleForm(alertConfig.rule ?? {}))
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return applyEditMode(form, editMode);
+}
+
+function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+  return createMapForm()
+    .put(
+      'calculateThresholdOnBackend',
+      createField({
+        value: calculateThresholdOnBackend
+      })
+    )
+    .put(
+      'metricLabel',
+      createField({
+        value: null
+      })
+    )
+    .put(
+      'metricPath',
+      createField({
+        value: null
+      })
+    )
+    .put(
+      'suggestedThresholdValue',
+      createField({
+        value: null
+      })
+    );
 }

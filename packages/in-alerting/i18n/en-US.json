@@ -1219,7 +1219,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Scope",
-          "title": "Scope: Where is the condition happening?"
+          "title": "Scope: Where is the condition happening?",
+          "metric": {
+            "metric": "Metric",
+            "selectMetric": "Select Metric"
+          },
+          "aggregation": {
+            "aggregation": "Aggregation"
+          }
         },
         "threshold": {
           "label": "Threshold",

@@ -6,10 +6,23 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
+import {
+  AlertConfigDialogPresenterProps,
+  MainDialogControl
+} from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
+import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import StepsContainer from 'in-components/StepsContainer';
+import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-export default function AdvancedModeContainer() {
+import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer.mless';
+
+export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
+  const { form, updateForm, onChange } = props;
   return (
     <StepsContainer
       messages={[]}
@@ -19,7 +32,20 @@ export default function AdvancedModeContainer() {
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
           valid: true,
-          content: <></>
+          content: (
+            <div className={locals.container}>
+              <Stack gap="xsmall">
+                <Sections>
+                  <Section
+                    title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.metric')}
+                  >
+                    <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} />
+                  </Section>
+                  <ScopeAggregation form={form} updateForm={updateForm} />
+                </Sections>
+              </Stack>
+            </div>
+          )
         },
         {
           scrollId: '2',
