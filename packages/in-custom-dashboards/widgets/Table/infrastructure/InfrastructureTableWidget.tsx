@@ -6,13 +6,12 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { AggregationType, Group, TagFilterExpressionElementUnion } from '@instana/types';
+import { AggregationType, Group, TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
 import {
   FormModelElement,
-  fromBackendModel,
-  joinExpressions
+  fromBackendModel
 } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
@@ -22,8 +21,6 @@ import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-cus
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
-import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
@@ -288,20 +285,22 @@ function getTagFilterExpressionFromQuery({
   if (query.trim() !== '') {
     const tagFiltersFromEntity = tagFilter('label', 'CONTAINS', query);
     const tagFiltersFromGroups = backendGroupBy.map((group: string) => tagFilter(group, 'CONTAINS', query));
-    const uiTagFilterExpression = fromBackendModel(tagFilterExpression as TagFilterExpressionElementUnion);
 
-    const updatedTagFilterExpression = toBackendQueryModel(
-      joinExpressions({
-        logicalOperator: and,
-        expressions: [
-          joinExpressions({
-            logicalOperator: or,
-            expressions: [tagFiltersFromEntity, ...tagFiltersFromGroups]
-          }),
-          uiTagFilterExpression
-        ]
-      })
-    );
+    const updatedTagFilterExpression: TagFilterExpression = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: [
+        tagFilterExpression as TagFilterExpressionElementUnion,
+        {
+          type: 'EXPRESSION',
+          logicalOperator: 'OR',
+          elements: [
+            tagFiltersFromEntity,
+            ...tagFiltersFromGroups
+          ]
+        }
+      ]
+    }
 
     setTagFilterExpression(updatedTagFilterExpression);
   } else {
