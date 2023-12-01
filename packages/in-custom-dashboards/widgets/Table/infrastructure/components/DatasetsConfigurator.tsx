@@ -77,7 +77,7 @@ export default function DatasetsConfigurator({
         field
           .setValue({
             ...field.value,
-            by: currentMetrics[indexOfMetricThatHasChanged]
+            by: currentMetrics[indexOfMetricThatHasChanged] ?? defaultOrder?.by
           })
           .setTouched(true)
       );

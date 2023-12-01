@@ -54,6 +54,9 @@ export function createForm(savedState) {
 }
 
 export function createAxisForm(savedState, requiresAtLeastOneMetric = false, metricsMustBeUnique = false, options) {
+  const withRenderer = options?.withRenderer ?? true;
+  const withFormatter = options?.withFormatter ?? true;
+
   let metricsForm = createListForm({
     validator:
       (requiresAtLeastOneMetric && composeAndShortCircuitOnError(arrayValidator, atLeastOneMetricValidator)) ||
@@ -66,36 +69,12 @@ export function createAxisForm(savedState, requiresAtLeastOneMetric = false, met
     });
   }
 
-  return createMapForm()
-    .put(
-      'formatter',
-      createField({
-        value: (savedState && savedState.formatter) || defaultFormatter.id,
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          buildEnumValidator(allFormatterIds)
-        )
-      })
-    )
+  let form = createMapForm()
     .put(
       'formatterSelected',
       createField({
         value: savedState?.formatterSelected ?? undefined,
         validator: composeAndShortCircuitOnError(booleanValidator)
-      })
-    )
-    .put(
-      'renderer',
-      createField({
-        value: (savedState && savedState.renderer) || defaultRenderer.id,
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          buildEnumValidator(allRendererIds)
-        )
       })
     )
     .put(
@@ -113,6 +92,38 @@ export function createAxisForm(savedState, requiresAtLeastOneMetric = false, met
       })
     )
     .put('metrics', metricsForm);
+
+  if (withFormatter) {
+    form = form.put(
+      'formatter',
+      createField({
+        value: (savedState && savedState.formatter) || defaultFormatter.id,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(allFormatterIds)
+        )
+      })
+    );
+  }
+
+  if (withRenderer) {
+    form = form.put(
+      'renderer',
+      createField({
+        value: (savedState && savedState.renderer) || defaultRenderer.id,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(allRendererIds)
+        )
+      })
+    );
+  }
+
+  return form;
 }
 
 export function createMetricForm(

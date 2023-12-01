@@ -68,10 +68,15 @@ export default function DatasetsColumn({
                 disabled={!metric}
                 onChange={e =>
                   updateForm(
-                    // @ts-expect-error
-                    form.updateIn([datasets, metricsPath, i, formatterPath], (field: any) =>
-                      field.setValue(e.target.value).setTouched(true)
-                    )
+                    form
+                      // @ts-expect-error
+                      .updateIn([datasets, metricsPath, i, formatterPath], field =>
+                        field.setValue(e.target.value).setTouched(true)
+                      )
+                      // @ts-expect-error
+                      .updateIn([datasets, metricsPath, i, 'formatterSelected'], field =>
+                        field.setValue(true).setTouched(true)
+                      )
                   )
                 }
                 hasError={!metricForm.valid && metricForm.touched}
