@@ -62,7 +62,15 @@ export const getConfigurationSummaryMsg = (
     }
   } else if (scope === ScopedPermissionItem.NO_ACCESS) {
     noAccessMessage = t('in-settings:permissionScope.description_no_access', {
-      context: productArea === ProductArea.KUBERNETES ? 'kubernetes' : ''
+      context:
+        productArea === ProductArea.WEBSITE ||
+        productArea === ProductArea.MOBILE_APP ||
+        productArea === ProductArea.APPLICATION ||
+        productArea === ProductArea.KUBERNETES ||
+        productArea === ProductArea.INFRASTRUCTURE ||
+        productArea === ProductArea.SYNTHETICS
+          ? areaContext
+          : ''
     });
   }
 

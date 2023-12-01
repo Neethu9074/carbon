@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
     "contribution_filter": "Contribution filter",
-    "contributionFilter_description": "The filter will be inherited for creation of new application configurations. On the application perspective configuration it can be refined with further filter tag following an {{logicalOperator}} operator",
+    "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator",
     "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
     "contributionFilter_name": "Name"
   },
@@ -173,7 +173,12 @@
     "selection_owner_access": "Owner access",
     "selection_contributor_access": "Contributor access",
     "description_no_access": "Can't use this area at all",
+    "description_no_access_website": "No access: Access to websites is denied.",
+    "description_no_access_mobile_app": "No access: Access to mobile apps is denied.",
+    "description_no_access_application": "No access: Access to applications is denied.",
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
+    "description_no_access_infrastructure": "No access: Access to infrastructure is denied.",
+    "description_no_access_synthetics": "No access: Access to synthetic monitoring is denied.",
     "description_access_all": "Access all without limitation",
     "description_access_all_except_contributor": "Access all - except the ones accessed as contributor",
     "role": "Select a role",
@@ -189,8 +194,8 @@
     "roleTooltip_synthetics": "Viewer: Ability to view Synthetic Test dashboards (configuration can't be viewed). <br /> Owner: Ability to create new Synthetic Tests; view, configure and delete Synthetic Tests, and view and delete Synthetic Locations.",
     "contribution_filter_accessScope": "Limited access scope (Viewer)",
     "contribution_filter_warning": {
-      "firstParagraph": "Any modification you will save, will update all application perspectives using this contribution filter.",
-      "secondParagraph": "If you change the role, then the contribution filter will be deleted and all application perspectives using the contribution filter will become editable by any user with Owner access to Applications section. This cannot be undone."
+      "firstParagraph": "Any change that you save will update all application perspectives that use this contribution filter.",
+      "secondParagraph": "If you change the role, then the contribution filter is deleted. All application perspectives that use the contribution filter can then be edited by any user with Owner access to the Applications section. This cannot be undone."
     }
   },
   "configurationSummary": {
@@ -200,8 +205,8 @@
         "role_permissions_contributor": "View all application dashboards under this unit. Create, configure and delete application dashboards using the contribution filter."
       },
       "limited_access": {
-        "access_level": "Limited access for the applications selected below.",
-        "access_level_contributor": "View the application dashboards selected below",
+        "access_level": "Limited access only for the application dashboards selected below.",
+        "access_level_contributor": "Limited access only for the application dashboards selected below",
         "role_permissions_contributor": "Create, configure and delete application dashboards using the contribution filter. (Application dashboards created by contributors will be visible on the group overview and in the list of Applications section.)"
       },
       "role_permissions_owner": "Create, configure, view and delete application dashboards.",
@@ -219,7 +224,7 @@
         "access_level": "Access for all namespaces and clusters under this unit."
       },
       "limited_access": {
-        "access_level": "Limited access for the namespaces and clusters selected below."
+        "access_level": "Limited access only for the namespaces and clusters selected below."
       },
       "role_permissions": "View namespaces and clusters."
     },
@@ -228,7 +233,7 @@
         "access_level": "Access for all mobile apps under this unit."
       },
       "limited_access": {
-        "access_level": "Limited access for the mobile apps selected below."
+        "access_level": "Limited access only for the mobile apps selected below."
       },
       "role_permissions_owner": "Create, configure, view and delete mobile apps.",
       "role_permissions_viewer": "View mobile apps and their configuration."
@@ -238,7 +243,7 @@
         "access_level": "Access for all synthetic tests under this unit."
       },
       "limited_access": {
-        "access_level": "Limited access for the synthetic tests selected below."
+        "access_level": "Limited access only for the synthetic tests selected below."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
@@ -248,7 +253,7 @@
         "access_level": "Access for all websites under this unit."
       },
       "limited_access": {
-        "access_level": "Limited access for the websites selected below."
+        "access_level": "Limited access only for the websites selected below."
       },
       "role_permissions_owner": "Create, view and delete websites.",
       "role_permissions_viewer": "View websites and their configuration."
