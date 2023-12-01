@@ -73,7 +73,7 @@ module.exports = {
   playWithReleaseEnabled: false,
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
-  syntheticsFilterForMaintenanceWindowsEnabled: false,
+  syntheticsFilterForMaintenanceWindowsEnabled: true,
   kongEnabled: false,
   mobileAppSmartAlertsEnabled: true,
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
