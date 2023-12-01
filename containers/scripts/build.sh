@@ -156,7 +156,14 @@ function build_image {
 
   _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
 
-  _scan_image ${FULLY_QUALIFIED_TAG}
+  # Disabled, on Nov, 15th, after discussing - because it currently fails and
+  # blocks and deployment on test-environment, caused by this problem:
+  #  curl: (35) OpenSSL SSL_connect: Connection reset by peer in connection to w3twistlock.sos.ibm.com:443
+  #
+  #
+  # Ideally, before starting building the release(-branch), this needs
+  # to be fixed and reactivated!
+  # _scan_image ${FULLY_QUALIFIED_TAG}
 }
 
 build_image

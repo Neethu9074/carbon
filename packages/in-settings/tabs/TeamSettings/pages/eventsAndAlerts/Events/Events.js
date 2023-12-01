@@ -60,8 +60,8 @@ import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
+import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
-import theme from 'in-themes';
 
 import locals from './Events.mless';
 
@@ -254,10 +254,10 @@ function columnDefinitions(hasRowNavigation) {
       id: 'name',
       label: t('in-settings:tabs.name'),
       width: 40,
-      getContent(entity) {
+      getContent: function Content(entity) {
         const { name } = entity;
-
-        const icon = getIcon(entity);
+        const theme = useTheme();
+        const icon = getIcon(entity, theme);
 
         const tooltipContent = needsMigrationAction(entity) ? (
           <>
@@ -311,13 +311,14 @@ function columnDefinitions(hasRowNavigation) {
       id: 'entityType',
       label: t('in-settings:tabs.entityType'),
       width: 20,
-      getContent(entity) {
+      getContent: function Content(entity) {
+        const theme = useTheme();
         if (entity.entityType === 'any') {
           return '';
         }
         return (
           <Tooltip content={getPluginName(entity.entityType, 1)} align="topLeft" delay={500}>
-            <WithIcon plugin={entity.entityType} iconColor={theme.lib.colors.N700Medium}>
+            <WithIcon plugin={entity.entityType} iconColor={theme.ids.color.option.neutral['700']}>
               {getPluginName(entity.entityType, 1)}
             </WithIcon>
           </Tooltip>
@@ -367,19 +368,19 @@ function getEntityName(entity) {
   return `event ${entity.name}`;
 }
 
-function getIcon(entity) {
+function getIcon(entity, theme) {
   if (entity.enabled === false) {
-    return { icon: 'lib_actions_pause', color: theme.lib.colors.N400 };
+    return { icon: 'lib_actions_pause', color: theme.ids.color.option.neutral['400'] };
   }
 
   let icon = 'lib_events_change';
-  let color = theme.lib.colors.N400;
+  let color = theme.ids.color.option.neutral['400'];
   if (entity.severity >= 1 && entity.severity <= 5) {
     icon = 'lib_events_warning';
-    color = theme.lib.colors.yellow800;
+    color = theme.ids.color.option.yellow['500'];
   } else if (entity.severity > 5) {
     icon = 'lib_events_critical';
-    color = theme.lib.colors.red800;
+    color = theme.ids.color.option.red['500'];
   }
   if (entity.triggering) {
     icon = 'lib_events_incident';

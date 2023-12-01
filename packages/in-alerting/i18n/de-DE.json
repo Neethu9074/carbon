@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "Schwellenwert",
       "alertingChartLabelViolations": "Verstöße",
+      "alertingChartLabelForecast": "Prognose",
+      "alertingChartLabelUpperBound": "Obergrenze",
+      "alertingChartLabelLowerBound": "Untergrenze",
       "alertingChartMessageInvalidFilterQuery": "Ungültige Filterabfrage.",
       "alertingChartMessageEmptyApplicationSelection": "Keine Anwendung ausgewählt.",
       "chartAlertsLaneErrorMessage": "Alerts konnten nicht geladen werden",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "Fehlernachricht",
-        "noDataMessage": "Kein Alert konfiguriert.",
         "selectJSErrorHelpText": "JS-Fehlernachricht als Vorlage auswählen (optional)",
-        "selectJSErrorTitle": "JS-Fehler auswählen"
+        "selectJSErrorTitle": "JS-Fehler auswählen",
+        "noJSErrorFound": "Kein JS-Fehler gefunden"
       },
       "data": {
         "errorCount": "Fehleranzahl",
@@ -1216,6 +1219,32 @@
         "filter_0": "Filter",
         "filter_1": "Filter",
         "filter_2": "Filter"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Umfang",
+          "title": "Bereich: Wo geschieht die Bedingung?"
+        },
+        "threshold": {
+          "label": "Schwellenwert",
+          "title": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?"
+        },
+        "timeThreshold": {
+          "label": "Zeitschwellenwert",
+          "title": "Zeitschwellenwert: Wann möchten Sie alarmiert werden?"
+        },
+        "alertChannel": {
+          "label": "Alertkanäle",
+          "title": "Alertkanäle: Wer muss alarmiert werden?"
+        },
+        "properties": {
+          "label": "Eigenschaften",
+          "title": "Zusätzliche Alerteigenschaften"
+        },
+        "customPayloads": {
+          "label": "Nutzdaten",
+          "title": "Angepasste Nutzdaten"
+        }
       }
     }
   }

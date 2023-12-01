@@ -34,6 +34,19 @@
     margin-bottom: 1.5rem;
   }
 
+  .loadingIndicator {
+    min-height: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contributionFilter {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+
   .queryBuilder {
     margin: 1rem 0;
     display: flex;
@@ -47,5 +60,8 @@
 
   .errorMessage {
     margin-top: 0.5rem;
+  }
+  .listItem {
+    width: 64.2rem;
   }
 }

@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "Soglia",
       "alertingChartLabelViolations": "Violazioni",
+      "alertingChartLabelForecast": "Previsione",
+      "alertingChartLabelUpperBound": "Limite superiore",
+      "alertingChartLabelLowerBound": "Limite inferiore",
       "alertingChartMessageInvalidFilterQuery": "Query di filtro non valida.",
       "alertingChartMessageEmptyApplicationSelection": "Nessuna applicazione selezionata.",
       "chartAlertsLaneErrorMessage": "Non è stato possibile caricare gli avvisi",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "Messaggio di errore",
-        "noDataMessage": "Nessun avviso configurato.",
         "selectJSErrorHelpText": "Seleziona il messaggio di errore JS come modello (facoltativo)",
-        "selectJSErrorTitle": "Seleziona errore JS"
+        "selectJSErrorTitle": "Seleziona errore JS",
+        "noJSErrorFound": "Nessun errore JS trovato"
       },
       "data": {
         "errorCount": "Conteggio errori",
@@ -1216,6 +1219,32 @@
         "filter_0": "Filtri",
         "filter_1": "Filtri",
         "filter_2": "Filtri"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Ambito",
+          "title": "Ambito: dove si sta verificando la condizione?"
+        },
+        "threshold": {
+          "label": "Soglia",
+          "title": "Soglia: quando viene violata la condizione?"
+        },
+        "timeThreshold": {
+          "label": "Soglia temporale",
+          "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
+        },
+        "alertChannel": {
+          "label": "Canali di avviso",
+          "title": "Canali di avviso: Chi deve ricevere l'avviso?"
+        },
+        "properties": {
+          "label": "Proprietà",
+          "title": "Proprietà aggiuntive degli avvisi"
+        },
+        "customPayloads": {
+          "label": "Payload",
+          "title": "Payload personalizzato"
+        }
       }
     }
   }

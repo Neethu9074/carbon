@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { just, Observable } from '@instana/observables';
+import { Observable } from '@instana/observables';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
@@ -17,11 +17,12 @@ import SloEntitySection from 'in-service-levels/components/ConfigDialog/componen
 import SloScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/SloScopeSection';
 import SloFormPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloFormPreview';
 import { formToSloConfiguration, isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import { createSloConfiguration, updateSloConfiguration } from 'in-service-levels/api/configuration';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { createSloForm, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { SloForm, createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
-import { createSloConfiguration } from 'in-service-levels/api/configuration';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -29,10 +30,7 @@ import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { seconds } from 'in-services/time/time';
-import { error } from 'in-services/util/result';
 import { t } from 'in-i18n';
-
-type CreateSloDialogMode = 'NEW' | 'CLONE' | 'EDIT';
 
 interface CreateSloDialogProps {
   mode: CreateSloDialogMode;
@@ -127,7 +125,9 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   ];
 
   return (
-    <SloFormContext.Provider value={{ form, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm) }}>
+    <SloFormContext.Provider
+      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm) }}
+    >
       <ConfigDialogTimeConfigContextModification>
         <ConfigDialog
           title={t('in-service-levels:createSloDialog.title')}
@@ -142,7 +142,7 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
             if (!form.hierarchyValid) return;
 
             doSubmit({
-              payload: formToSloConfiguration(form),
+              payload: formToSloConfiguration(form, configuration?.id),
               onSuccess,
               onError
             });
@@ -212,6 +212,6 @@ function getFormSubmitAction(mode: CreateSloDialogMode): SloFormSubmissionAction
       return createSloConfiguration;
 
     case 'EDIT':
-      return () => just(error([{ code: 'SERVER', message: 'Editing slo configurations is not yet supported' }]));
+      return updateSloConfiguration;
   }
 }

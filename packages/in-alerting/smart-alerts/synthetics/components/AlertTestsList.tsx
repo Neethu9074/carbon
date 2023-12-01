@@ -9,9 +9,9 @@ import React, { ReactNode } from 'react';
 import { SvgIcon, TrProps, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
-import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -110,7 +110,7 @@ function TestLabelContent({ item }: { item: SyntheticTest }) {
   return <Link href={createHref(location)}>{item?.label}</Link>;
 }
 
-function columnDefinitions(hasRowNavigation: boolean) {
+function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<SyntheticTest>> {
   return [
     {
       id: 'test_name',
@@ -164,7 +164,7 @@ function columnDefinitions(hasRowNavigation: boolean) {
   ];
 }
 
-function applicationLabel() {
+function applicationLabel(): ColumnDefinition<SyntheticTest> {
   return {
     id: 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.applicationLabel'),

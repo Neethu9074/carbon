@@ -167,6 +167,8 @@ export interface AxisConfiguration {
   tooltipFormatter?: Formatter;
   calculateStackDifferences?: boolean;
   excludedLabelsFromTooltip?: string[];
+  // Labels that are filtered out from Legends
+  excludedLabelsFromLegend?: string[];
   fixedTickPositions?: number[];
   renderAllTickLabels?: boolean;
   detailedFormatting?: boolean;

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .name {
     margin-right: 0.25rem;
@@ -16,7 +14,7 @@
     background: none;
     padding: 0 0.25rem 0 0.1875rem;
     border: 1px solid transparent;
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     cursor: pointer;
 
     &:focus,

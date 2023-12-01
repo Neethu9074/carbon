@@ -256,7 +256,6 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       dataSources: [
         {
           dataSource: 'infrastructure',
-          beta: true,
           getHref: () => getLinkToInfraEntityExplore(defaultInfraExploreViewParams)
         }
       ]

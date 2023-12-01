@@ -88,11 +88,19 @@ module.exports = {
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: false,
+  eventFeedbackEnabled: true,
+  incidentSummarizationEnabled: false,
+  incidentSummarizationTimelineEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,
-  actionsLaneEnabled: true,
   autoFormatterTimeSeriesEnabled: true,
+  multiGroupTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
-  applicationContributionFilterEnabled: false
+  applicationContributionFilterEnabled: true,
+  infraSmartAlertsPredictionsEnabled: true,
+  syntheticInstanaHostedPoPEnabled: true,
+  infraSmartAlertsDialogEnabled: true,
+  simplifiedFlowMapEnabled: true,
+  fullscreenWidgetEnabled: true
 };

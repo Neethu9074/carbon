@@ -3,9 +3,9 @@
   "sum": "總和",
   "bar": "列",
   "logsOverTime": "一段時間的日誌",
-  "logsOverTime_ERROR": "一段時間的錯誤日誌",
-  "logsOverTime_WARN": "一段時間的警告日誌",
-  "logsOverTime_INFO": "一段時間的資訊日誌",
+  "logsOverTime_ERROR": "錯誤",
+  "logsOverTime_WARN": "警告 ",
+  "logsOverTime_INFO": "資訊",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
   "addAsFilter": "新增為過濾器",
   "addAsGroup": "新增為群組",
@@ -43,5 +43,11 @@
   "dockerContainer": "Docker 儲存器",
   "containerdContainer": "Containerd 儲存器",
   "crioContainer": "重要儲存器",
-  "gardenContainer": "Garden 儲存器"
+  "gardenContainer": "Garden 儲存器",
+  "error": "{{count}} 個錯誤",
+  "error_plural": "{{count}} 個錯誤",
+  "warn": "{{count}} 則警告",
+  "warn_plural": "{{count}} 則警告",
+  "process": "程序",
+  "host": "主機"
 }

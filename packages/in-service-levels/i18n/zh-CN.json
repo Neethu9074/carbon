@@ -118,6 +118,11 @@
       "delete": "删除"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "未配置任何定制过滤器"
+    }
+  },
   "createSloDialog": {
     "customFilter": "定制过滤器（可选）",
     "title": "创建服务级别目标 (SLO)",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "时间范围大小必须小于或等于 31 天",
     "errorTimeWindowWeek": "时间范围大小必须小于或等于 4 周",
     "errorTimeWindowMin": "时间范围必须至少为一天",
+    "errorInvalidExpression": "输入的过滤器无效",
+    "errorBlankEntity": "请从列表中选择实体",
     "nameAndTagsTitle": "名称和标记",
     "nameAndTagsNavItem": "名称和标记",
     "sloNameLabel": "SLO 名称",

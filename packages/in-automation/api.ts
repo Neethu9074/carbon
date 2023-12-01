@@ -20,7 +20,8 @@ import {
   ActionAssociations,
   ApplicationAlertConfigWithMetadata,
   Result,
-  ActionInstance
+  ActionInstance,
+  TagCatalog
 } from 'in-types';
 import {
   ANSIBlE_TYPE,
@@ -1321,4 +1322,13 @@ export function getApplicationAlertActionAssociations(id: string): Observable<Ac
 export function getApplicationAlertActionAssociationsWithResult(id: string): Observable<Result<Action[]>> {
   const request = getApplicationAlertActionAssociationsRequest(id);
   return createObservable(request);
+}
+
+export function getDynamicParameterTagCatalog() {
+  return http<TagCatalog>({
+    method: 'GET',
+    url: `${automationAPIBase}/parameters/dynamic/catalog`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
 }

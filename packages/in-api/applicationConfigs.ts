@@ -217,7 +217,7 @@ function mapFromServerResponse(
   c: Result<ApplicationConfig | ApplicationConfigWithAlertingDetails>
 ): Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails> {
   if (!c.data) {
-    return (c as unknown) as Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails>; // The actual data is not yet present, so the generic type can be safely ignored
+    return c as unknown as Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails>; // The actual data is not yet present, so the generic type can be safely ignored
   }
 
   const config = deepCopy(c);
@@ -263,9 +263,9 @@ export function mapMatchSpecificationListToTree(
   if (!matchSpecificationList || matchSpecificationList.length === 0) {
     return null;
   }
-  const tree = (matchSpecificationList.length === 1
-    ? matchSpecificationList[0]
-    : split(matchSpecificationList)) as MatchExpressionDTOUnion;
+  const tree = (
+    matchSpecificationList.length === 1 ? matchSpecificationList[0] : split(matchSpecificationList)
+  ) as MatchExpressionDTOUnion;
   annotateWithTypes(tree);
   return tree;
 }

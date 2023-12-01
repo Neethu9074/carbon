@@ -10,7 +10,7 @@
   pre.code {
     padding: 1rem;
     background: var(--ids-color-option-neutral-200);
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-option-small);
   }
 
   .address {
@@ -58,7 +58,7 @@
 
   .signature {
     overflow: hidden;
-    font-family: var(--typography-font-family-monospace);
+    font-family: var(--ids-font-family-option-monospace);
   }
 
   .selectedLine {
@@ -74,7 +74,7 @@
   }
 
   .rightmost {
-    font-family: var(--typography-font-family-monospace);
+    font-family: var(--ids-font-family-option-monospace);
     margin-left: 0.25rem;
 
     color: var(--ids-color-option-neutral-500);

@@ -50,20 +50,20 @@ type CheckboxFancyProps = {
 };
 
 export default function CheckboxFancy({
-  label,
-  explanation,
   asRadioButton,
   checked,
-  indeterminate,
-  onChange,
   className,
-  wrapperClassName,
+  disabled,
+  explanation,
+  indeterminate,
+  label,
+  labelClassName,
+  onChange,
   size,
   style,
-  disabled,
-  withControlsGrayscale,
   verticalLabel,
-  labelClassName
+  wrapperClassName,
+  withControlsGrayscale
 }: CheckboxFancyProps) {
   const input = (
     <Input

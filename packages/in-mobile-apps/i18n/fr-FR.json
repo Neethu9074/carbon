@@ -21,6 +21,10 @@
       "transferSizeLabel": "Taille du transfert",
       "transferSizeCategory": "Redimensionnement des ressources"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Nombre de sessions affectées par les pannes",
+      "crashAffectedUserCount": "Nombre d'utilisateurs affectés par les pannes"
+    },
     "errorRate": {
       "label": "Taux d'erreurs",
       "rawDataLabel": "Nombre d'erreurs"
@@ -215,6 +219,7 @@
       "crashLabel": "Panne",
       "metaHeader": "Méta",
       "stackTrace": "StackTrace",
+      "stackTraceLastOccurrence": "Trace de pile (dernière occurrence)",
       "stackTraceButtonPrettyStackTrace": "Trace de pile formatée",
       "stackTraceButtonRawStackTrace": "Trace de pile brute"
     },
@@ -340,6 +345,37 @@
       "viewAllOs": "Afficher tous les systèmes d'exploitation",
       "appVersions": "Versions d'application",
       "viewAllVersions": "Afficher toutes les versions",
+      "configurations": {
+        "symbolFileConfigLabel": "Traduction des traces de pile",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "API Retirer tous les fichiers",
+          "dialogMessageConfigurationUpdated": "Configuration mise à jour.",
+          "dialogMessageFailedToSaveConfiguration": "Echec de la sauvegarde de la configuration : {{message}}",
+          "dialogMessageNewConfigurationSaved": "La nouvelle configuration a été sauvegardée.",
+          "dialogMessageSavingConfiguration": "Sauvegarde de la configuration en cours...",
+          "fileCommitUrl": "API de validation de fichier de symboles",
+          "fileUploadConfigurationDialogTitleEdit": "Editer la configuration de transfert de fichier de symboles",
+          "fileUploadConfigurationDialogTitleNew": "Nouvelle configuration de transfert de fichier de symboles",
+          "fileUploadConfigurationDialogLabelDescription": "Description",
+          "fileUploadConfigurationDialogHeadingDescription": "Description",
+          "fileUploadConfigurationDialogDescriptionHelp": "Une configuration d'importation vous aidera à mieux organiser vos fichiers téléchargés.",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "Transfert en cours des fichiers de symboles",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Transférez vos fichiers de symboles en appelant l'API REST Web d'Instana. Possibilité d'intégration à votre traitement de pipeline pour un déploiement automatisé. L'explication et l'utilisation de notre API REST Web figurent dans notre <documentation>documentation</documentation>.",
+          "fileUploadUrl": "API de transfert de fichier de symboles",
+          "stackTraceTranslationLabelConfiguration": "Configuration",
+          "stackTraceTranslationLabelFiles": "Fichiers",
+          "stackTraceTranslationLabelTotalSize": "Taille totale",
+          "stackTraceTranslationLabelLastModified": "Dernière modification",
+          "stackTraceTranslationExplanationWithUploadFeature": "Pour rendre les traces de pile plus lisibles, par exemple pour afficher des références à des fichiers et des lignes non minimisés, Instana doit interpréter le code à l'aide de fichiers de symboles. L'ajout d'une configuration de transfert ici peut vous permettre de transférer vos fichiers de symboles d'application mobile via l'API REST Web d'Instana. Instana peut ensuite fournir davantage d'informations sur les erreurs entraînant des pannes de l'application mobile.",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Traduction des traces de pile",
+          "stackTraceTranslationLearnMoreLabel": "En savoir plus sur la traduction des traces de pile",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configurations de traduction des traces de pile",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "Configurations de transfert de fichier de symboles",
+          "stackTraceTranslationNoUploadDataMessage": "Aucune configuration de transfert de fichier de symboles disponible.",
+          "stackTraceTranslationButtonAddConfiguration": "Ajouter une configuration",
+          "stackTraceTranslationLabelFileUploadConfiguration": "Configuration de transfert de fichier de symboles {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "Message d'erreur",
         "crashesLabelOccurrences": "Occurrences",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "Pannes",
         "crashInfoTitle": "Informations",
         "crashInfoMessage": "Message",
-        "backToCrashList": "Retour à la liste des pannes",
+        "backToCrashList": "Retour aux groupes de pannes",
         "crashTitleMobileAppCrashDetails": "Détails de la panne d'application mobile"
       },
       "customEvents": {

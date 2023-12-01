@@ -10,10 +10,16 @@ import {
   createLineWithAdaptiveBaseline,
   createLineWithBaselineAndOptionalPotentialProblem
 } from 'in-alerting/components/Chart/renderer/Renderer';
-import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
+import {
+  generateMetrics,
+  fixedTimestamp,
+  generateBaselineForMetric,
+  getHardCodedRandomValue
+} from 'in-test/util/generateMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { hexToRGBA } from 'in-services/formatters/color';
+import { lighten } from 'in-services/formatters/color';
 import { minutes } from 'in-services/time';
 import { useTheme } from 'in-themes';
 import oldTheme from 'in-themes';
@@ -126,4 +132,94 @@ function generateTimeframe(windowSize) {
     windowSize,
     to: fixedTimestamp
   };
+}
+
+export default {};
+
+export function StaticThresholdWithPredictions() {
+  return (
+    <>
+      <h1>Static threshold With Predictions</h1>
+      <ChartPrediction renderer={createLineWithThreshold('>', 30, [], true)} />
+    </>
+  );
+}
+
+function findChartRenderData(metrics) {
+  let time = metrics[metrics.length - 1][0];
+  let predictionStart = metrics[metrics.length - 1][1];
+
+  let predictions = [],
+    lowerBound = [],
+    upperBound = [];
+
+  const windowSize = oneDay / 6;
+  const granularity = windowSize / 20;
+
+  for (let i = 0; i < 20; i++) {
+    // to check overlap
+
+    predictions.push([time, predictionStart]);
+    lowerBound.push([time, predictionStart - 30]);
+    upperBound.push([time, predictionStart + 30]);
+
+    time = Math.floor((fixedTimestamp + (i + 1) * (windowSize / 20)) / granularity) * granularity;
+    predictionStart = ((getHardCodedRandomValue(i) * 100 * 100) | 0) / 100;
+  }
+
+  return { metrics, predictions, lowerBound, upperBound };
+}
+
+function ChartPrediction({ renderer, isMetricOverlap }) {
+  const { metrics, predictions, lowerBound, upperBound } = findChartRenderData(
+    metricsBarWithBaseline[0],
+    isMetricOverlap
+  );
+
+  return (
+    <>
+      <ResultAwareChart
+        result={{
+          errors: [],
+          progress: {
+            loading: false
+          }
+        }}
+        config={{
+          timeConfig: {
+            windowSize: oneDay / 3,
+            to: predictions[predictions.length - 1][0]
+          },
+          granularity,
+          y1: {
+            metricIds: ['cpu.used', 'threshold', 'violations', 'predictions', 'lowerBound', 'upperBound'],
+            excludedLabelsFromTooltip: ['Violations'],
+            icons: {
+              types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_line_chart'],
+              colors: [
+                oldTheme.lib.carbonCategorical.cyan50,
+                oldTheme.lib.carbonAlert.red60,
+                lighten(oldTheme.lib.carbonAlert.red60, 0.4),
+                oldTheme.lib.colors.deepPurple800
+              ]
+            },
+            excludedLabelsFromLegend: ['Lower Bound', 'Upper Bound'],
+            getMax: metricsMaxValue => metricsMaxValue * 1.4,
+            colors: [
+              oldTheme.lib.carbonCategorical.cyan50,
+              oldTheme.lib.carbonAlert.red60,
+              lighten(oldTheme.lib.carbonAlert.red60, 0.4),
+              oldTheme.lib.colors.deepPurple800,
+              lighten(oldTheme.lib.carbonAlert.purple50, 0.3),
+              lighten(oldTheme.lib.carbonAlert.purple50, 0.3)
+            ],
+            renderer,
+            metrics: [metrics, [], [], predictions, lowerBound, upperBound],
+            labels: ['Latency', 'Threshold', 'Violations', 'Predictions', 'Lower Bound', 'Upper Bound'],
+            displayPredictions: true
+          }
+        }}
+      />
+    </>
+  );
 }

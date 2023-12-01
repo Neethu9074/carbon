@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { UserGroupRestrictions } from '@instana/types';
 import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -41,6 +42,8 @@ export interface UserResult {
   readonly groupCount: number | null | undefined;
   readonly tfaEnabled: boolean | null | undefined;
 }
+
+export type UserRestrictedApplication = UserGroupRestrictions;
 
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
 function getUsersAsResultObservableInternal() {
@@ -133,4 +136,24 @@ export function revokeInvitation(email: string) {
     refreshSignalInvitations.emit(email);
     return v;
   });
+}
+
+export function getUserRestrictedApplications() {
+  return createObservable(
+    http<UserRestrictedApplication[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `api/settings/rbac/user/restrictions`
+    })
+  );
+}
+
+export function getApplicationConfigScopeRoleId(appId: string) {
+  return createObservable(
+    http<String>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `api/settings/rbac/user/application/${encodeURIComponent(appId)}`
+    })
+  );
 }

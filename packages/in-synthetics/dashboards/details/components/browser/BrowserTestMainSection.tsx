@@ -43,14 +43,14 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
   }
 
   let filteredEntries: TestResultEntry[] = data?.har?.log.entries.filter((entry: TestResultEntry) => {
-    const type: string = getFilterType(entry.response.content.type.toLowerCase()).toLowerCase();
+    const type: string = getFilterType(entry.response.content.type?.toLowerCase()).toLowerCase();
     if (filter.type && !type.includes(filter.type.toLowerCase())) {
       return false;
     }
     if (
       filter.query.length >= 2 &&
       filter.query &&
-      !entry.request.url.toLowerCase().includes(filter.query.toLowerCase())
+      !entry.request.url?.toLowerCase().includes(filter.query.toLowerCase())
     ) {
       return false;
     }

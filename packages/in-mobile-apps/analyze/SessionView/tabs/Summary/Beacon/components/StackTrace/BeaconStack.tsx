@@ -14,7 +14,13 @@ import { t } from 'in-i18n';
 
 import locals from './BeaconStack.mless';
 
-export default function BeaconStackTrace({ beacon }: { beacon: MobileAppMonitoringBeacon }) {
+export default function BeaconStackTrace({
+  beacon,
+  optionalLabel
+}: {
+  beacon: MobileAppMonitoringBeacon;
+  optionalLabel?: boolean;
+}) {
   const [pretty, setPretty] = useState(true);
 
   const formatedData = formatStackTrace(beacon, pretty);
@@ -23,7 +29,11 @@ export default function BeaconStackTrace({ beacon }: { beacon: MobileAppMonitori
       {({ actions, content }) => (
         <Fragment>
           <div className={locals.header}>
-            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTrace')}</BodyHeader>
+            <BodyHeader>
+              {optionalLabel
+                ? t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceLastOccurrence')
+                : t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTrace')}
+            </BodyHeader>
             <div className={locals.actions}>{actions}</div>
           </div>
           {content}

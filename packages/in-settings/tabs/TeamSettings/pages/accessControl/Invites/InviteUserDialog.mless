@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .dialog {
     max-height: 400px;
@@ -20,14 +18,14 @@
   }
 
   .removeButton {
-    fill: @lib__colors__blue800;
+    fill: var(--ids-color-option-blue-500);
     flex-grow: 0;
     flex-shrink: 0;
     margin: 1.5rem 0 0 -0.5rem;
   }
 
   .sentIcon {
-    fill: @lib__colors__green800;
+    fill: var(--ids-color-option-green-500);
     flex-grow: 0;
     flex-shrink: 0;
     margin: 1.5rem 0 0 -0.5rem;
@@ -39,7 +37,7 @@
   }
 
   .alreadyExistsIcon {
-    fill: @lib__colors__yellow800;
+    fill: var(--ids-color-option-yellow-500);
     flex-grow: 0;
     flex-shrink: 0;
     margin: 1.5rem 0 0 -0.5rem;

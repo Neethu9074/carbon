@@ -12,246 +12,252 @@
 # purposes (and teams). But if in doubt, the owner-team at least knows whom to ask for advice, i.e., which other team or
 # person.
 
-packages/in-amp                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-access-control @instana/eng-portal @instana/eng-ui
-packages/in-alerting                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection
-packages/in-analyze                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
+packages/in-alerting                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection
+packages/in-amp                     @Instana-IBM-GitHub-Enterprise @instana/eng-access-control @instana/eng-portal @instana/eng-ui
+packages/in-analyze                 @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
+
 # Deprecated: We should not make any more changes within this package (aside from code removal)
-packages/in-api                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-applications            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-issue-detection
-packages/in-automation              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
-packages/in-bizops                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
-packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-api                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+
+packages/in-applications            @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-applications/alerting   @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-issue-detection
+packages/in-automation              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-bizops                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
+
 # No clear ownership: Fallback to eng-ui
-packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-# No clear ownership: Fallback to eng-ui
-packages/in-cockpit                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-components              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-connection              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+packages/in-client                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-cloudfoundry            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-cockpit                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-cockpit/Cockpit/components/BusinessMonitoringTopList      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-bizops
+packages/in-components              @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-connection              @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+
+packages/in-custom-dashboards       @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+
 # potential problems marker lane in metrics chart
-packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
-packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
-#
+packages/in-custom-dashboards/widgets   @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
+
+packages/in-events                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
+
 # Shared ownership
-# packages/in-forge
-packages/in-forge                                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+
 # Deliberately mentioning packages/in-forge/i18n without any code owners. This is intended to reduce code review requests triggered by changes in these files.
 packages/in-forge/i18n
+
 # Specific ownerships for different sensors
-packages/in-forge/plugins/ace*                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/aliCloud*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/apmProxy                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/azure                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/beeInstanaNode                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-infrastructure
-packages/in-forge/plugins/bizTalk                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/clrRuntimePlatform                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/msiis                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/netCoreRuntimePlatform                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/perfcounters                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
-packages/in-forge/plugins/crystalRuntimePlatform                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-crystal
-packages/in-forge/plugins/db2Database                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/db2ZDatabase                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/golangRuntimePlatform                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-go
-packages/in-forge/plugins/haskellRuntimePlatform                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-haskell
-packages/in-forge/plugins/ibmApiConnect*                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/ibmCloudClinicalData                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudCloudant                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudContainerRegistry             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudElasticsearch                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudEtcd                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudEventStream                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudFoundry                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudFunctions                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudHPMongoDb                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudHPPostgreSql                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudIsLoadBalancer                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudLoadBalancer                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudMongoDb                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudPostgreSql                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudRabbitMq                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudRedis                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudSchematics                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudSqlQuery                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCloudVpn4Vpc                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmCos                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/ibmDataPower*                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/ibmIDb2                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/ibmIOs                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/ibmMq*                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/ibmVsi                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
-packages/in-forge/plugins/instanaAgent                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-agent
-packages/in-forge/plugins/kongApigateway                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/kubernetesCluster                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesCronJob                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesDaemonSet                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesDeployment                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesJob                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesNamespace                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesNode                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesPersistentVolume            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesPersistentVolumeClaim       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesPod                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesReplicaSet                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesService                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/kubernetesStatefulSet                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
-packages/in-forge/plugins/nodeJsRuntimePlatform                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-nodejs
-packages/in-forge/plugins/oracleDB                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/pythonRuntimePlatform                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-python
-packages/in-forge/plugins/webSphere*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/zhmcConsole                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/zhmcCpc                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/jvmRuntimePlatform                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system @instana/eng-java
-packages/in-forge/plugins/syntheticPoP                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-synthetics-agent
-packages/in-forge/plugins/sapAbapSensor                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/abap*                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapDbInstance                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapDbms                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapDbTenant                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapHanaPlatform                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapHanaSystem                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapHost                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapJava*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/sapWebDispatcher                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/tuxedoApp*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/phpRuntimePlatform                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-php
-packages/in-forge/plugins/phpFpmRuntimePlatform                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-php
-packages/in-forge/plugins/rubyRuntimePlatform                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ruby
-packages/in-forge/plugins/activeMQ*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/aws*                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/cassandra*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/ceph                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/clickHouse*                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/cockroachDB*                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/consul*                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/containerd                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/couchbase*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/crio                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/docker                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-logs
-packages/in-forge/plugins/domino                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/dropwizardApplicationContainer        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/ec2                                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/elasticsearch*                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/envoy                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/etcd                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/f5                                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/finagleApplicationContainer           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/garden                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/hadoop*                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/hAProxy                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/hazelcast*                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/hBase                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/host                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/httpd                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-tracers-middleware
-packages/in-forge/plugins/ibmOpenstack*                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/jBossAsApplicationContainer           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/jbossDataGrid                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/jenkins                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/jettyApplicationContainer             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/jiraApplication                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/kafka*                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/liferayApplicationContainer           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/lxc                                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/mariaDbDatabase                       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/memcached                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/mongoDb*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/msSqlDatabase                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/mule                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/mySqlDatabase                         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/neo4j                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/nginx                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/nomadScheduler                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/opc                                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/openLDAP                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/oracleDB                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/packet                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/phmc*                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/ping*                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/podman                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/postgreSqlDatabase                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/powervc*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/process                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/prometheus                            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/rabbitMq*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/redisEnterprise*                      @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/redis*                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/rocketMq*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/solr                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/spark*                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/springbootApplicationContainer        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/statsd                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/sybase                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/tibcoEMS*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/tomcatApplicationContainer            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/traefik                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/tuxedo*                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/varnish                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/vault                                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/vsphere*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/webLogic*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
-packages/in-forge/plugins/website*                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-eum @instana/eng-infrastructure
-packages/in-forge/plugins/zooKeeper                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/abap*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/ace*                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/activeMQ*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/aliCloud*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/apmProxy                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/aws*                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/azure                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
+packages/in-forge/plugins/beeInstanaNode                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-infrastructure
+packages/in-forge/plugins/bizTalk                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
+packages/in-forge/plugins/cassandra*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/ceph                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/clickHouse*                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/clrRuntimePlatform                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
+packages/in-forge/plugins/cockroachDB*                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/consul*                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/containerd                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/couchbase*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/crio                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/crystalRuntimePlatform                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-crystal
+packages/in-forge/plugins/db2Database                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/db2ZDatabase                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/docker                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-logs
+packages/in-forge/plugins/domino                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/dropwizardApplicationContainer        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/ec2                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/elasticsearch*                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/envoy                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/etcd                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/f5                                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/finagleApplicationContainer           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/garden                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/golangRuntimePlatform                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-go
+packages/in-forge/plugins/hadoop*                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/hAProxy                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/haskellRuntimePlatform                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-haskell
+packages/in-forge/plugins/hazelcast*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/hBase                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/host                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/httpd                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-tracers-middleware
+packages/in-forge/plugins/ibmApiConnect*                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/ibmCloudClinicalData                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudCloudant                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudContainerRegistry             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudElasticsearch                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudEtcd                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudEventStream                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudFoundry                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudFunctions                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudHPMongoDb                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudHPPostgreSql                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudIsLoadBalancer                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudLoadBalancer                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudMongoDb                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudPostgreSql                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudRabbitMq                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudRedis                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudSchematics                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudSqlQuery                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCloudVpn4Vpc                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmCos                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/ibmDataPower*                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/ibmIDb2                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/ibmIOs                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/ibmMq*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/ibmOpenstack*                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/ibmVsi                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
+packages/in-forge/plugins/instanaAgent                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-agent
+packages/in-forge/plugins/jBossAsApplicationContainer           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/jbossDataGrid                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/jenkins                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/jettyApplicationContainer             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/jiraApplication                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/jvmRuntimePlatform                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system @instana/eng-java
+packages/in-forge/plugins/kafka*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/kongApigateway                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/kubernetesCluster                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesCronJob                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesDaemonSet                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesDeployment                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesJob                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesNamespace                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesNode                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesPersistentVolume            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesPersistentVolumeClaim       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesPod                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesReplicaSet                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesService                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/kubernetesStatefulSet                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
+packages/in-forge/plugins/liferayApplicationContainer           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/lxc                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/mariaDbDatabase                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/memcached                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/mongoDb*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/msiis                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
+packages/in-forge/plugins/msSqlDatabase                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/mule                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/mySqlDatabase                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/neo4j                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/netCoreRuntimePlatform                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
+packages/in-forge/plugins/nginx                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/nodeJsRuntimePlatform                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-nodejs
+packages/in-forge/plugins/nomadScheduler                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/opc                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/openLDAP                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/oracleDB                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/oracleDB                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/packet                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/perfcounters                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-dotnet
+packages/in-forge/plugins/phmc*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/phpFpmRuntimePlatform                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-php
+packages/in-forge/plugins/phpRuntimePlatform                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-php
+packages/in-forge/plugins/ping*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/podman                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/postgreSqlDatabase                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/powervc*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/process                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/prometheus                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/pythonRuntimePlatform                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-python
+packages/in-forge/plugins/rabbitMq*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/redis*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/redisEnterprise*                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/rocketMq*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/rubyRuntimePlatform                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ruby
+packages/in-forge/plugins/sapAbapSensor                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapDbInstance                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapDbms                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapDbTenant                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapHanaPlatform                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapHanaSystem                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapHost                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapJava*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/sapWebDispatcher                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
+packages/in-forge/plugins/solr                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/spark*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/springbootApplicationContainer        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/statsd                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/sybase                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/syntheticPoP                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-synthetics-agent
+packages/in-forge/plugins/tibcoEMS*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/tomcatApplicationContainer            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/traefik                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/tuxedo*                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/tuxedoApp*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/varnish                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/vault                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/vsphere*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/webLogic*                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/website*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-eum @instana/eng-infrastructure
+packages/in-forge/plugins/webSphere*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
+packages/in-forge/plugins/zhmcConsole                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/zhmcCpc                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/zooKeeper                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 
-packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-hooks                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-infrastructure          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-init                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-integrations            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
-# Shared ownership
-# packages/in-forge/tracing
-packages/in-forge/tracing/bpm       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
-# Shared ownership
-# packages/in-internal
-packages/in-kubernetes              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
-packages/in-logging                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-forge/tracing/bpm       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
+packages/in-hoc                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-hooks                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-infrastructure          @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-init                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-integrations            @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
+packages/in-kubernetes              @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
+packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+
 # No clear ownership: Fallback to eng-ui
-packages/in-map                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-mobile-apps             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
-packages/in-openstack                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-map                     @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+
+packages/in-mobile-apps             @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+packages/in-openstack               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+
 # No clear ownership: Fallback to eng-ui
-packages/in-profiling               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-phmc                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
-packages/in-plg                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui
-packages/in-powervc                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
-packages/in-sdk                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-services/metrics        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
-packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
-packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
-packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
-packages/in-stores                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-stores/snapshot         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
+packages/in-profiling               @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+
+packages/in-phmc                                                                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-plg                                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-plg @instana/eng-ui
+packages/in-powervc                                                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+packages/in-sdk                                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-sdk/metrics                                                                   @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-service-levels                                                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-services                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-services/metrics                                                              @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-settings                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
+packages/in-settings/tabs/TeamSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
+packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
+packages/in-stores                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-stores/snapshot                                                               @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
+
 # Deprecated: We should not make any more changes within this package (aside from code removal)
-packages/in-subscription            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-synthetics              @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-synthetics-server @instana/eng-ui
-packages/in-test                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-themes                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-types                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-vsphere                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-sap                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-enterprise-apps
-packages/in-zhmc                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
-# Shared ownership
-# packages/in-waiting-for-deployment
-packages/in-websites                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
-packages/in-websites/alerting       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-issue-detection @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-subscription            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 
-# Container images
-/containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @ZaaS/zLinuxPrivateCloud @instana/eng-ui
-
-# Service Levels
-packages/in-service-levels                                                                  @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Slo                                                   @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Apdex                                                 @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application       @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @Instana-IBM-GitHub-Enterprise @instana/eng-issue-detection @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Apdex                                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Slo                                                  @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 
 # Custom Widget Table
+packages/in-custom-dashboards/widgets/Table @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
 
-packages/in-custom-dashboards/widgets/Table @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
+packages/in-sap                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-enterprise-apps
+packages/in-synthetics              @Instana-IBM-Github-Enterprise @instana/eng-synthetics-server @instana/eng-ui
+packages/in-test                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-themes                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-types                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-vsphere                 @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-waiting-for-deployment  @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-websites                @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
+packages/in-websites/alerting       @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
+packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors-system
+
+# Container images
+/containers/ @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui

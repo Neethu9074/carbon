@@ -40,6 +40,9 @@
     "chart": {
       "alertingChartLabelThreshold": "阈值",
       "alertingChartLabelViolations": "违例",
+      "alertingChartLabelForecast": "预测",
+      "alertingChartLabelUpperBound": "上限",
+      "alertingChartLabelLowerBound": "下限",
       "alertingChartMessageInvalidFilterQuery": "过滤器查询无效。",
       "alertingChartMessageEmptyApplicationSelection": "未选择应用程序。",
       "chartAlertsLaneErrorMessage": "无法装入警告",
@@ -830,9 +833,9 @@
       },
       "components": {
         "errorMessage": "错误消息",
-        "noDataMessage": "未配置任何警报。",
         "selectJSErrorHelpText": "选择 JS 错误消息作为模板（可选）",
-        "selectJSErrorTitle": "选择 JS 错误"
+        "selectJSErrorTitle": "选择 JS 错误",
+        "noJSErrorFound": "找不到 JS 错误"
       },
       "data": {
         "errorCount": "错误计数",
@@ -1216,6 +1219,32 @@
         "filter_0": "过滤器",
         "filter_1": "过滤器",
         "filter_2": "过滤器"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "作用域",
+          "title": "作用域：这种情况在哪里发生？"
+        },
+        "threshold": {
+          "label": "阈值",
+          "title": "阈值：何时违反条件？"
+        },
+        "timeThreshold": {
+          "label": "时间阈值",
+          "title": "时间阈值：您希望何时收到警报？"
+        },
+        "alertChannel": {
+          "label": "警报通道",
+          "title": "警报通道：需要向谁发出警报？"
+        },
+        "properties": {
+          "label": "属性",
+          "title": "其他警报属性"
+        },
+        "customPayloads": {
+          "label": "有效内容",
+          "title": "定制有效内容"
+        }
       }
     }
   }

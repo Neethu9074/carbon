@@ -48,11 +48,11 @@ const hostViewCols = [
   }
 ];
 
-function ADHADashboardSection({ title, metric, type, formatter, timeConfig, rows, labels }) {
+function ADHADashboardSection({ title, entityType = 'dropwizard', metric, type, formatter, timeConfig, rows, labels }) {
   return (
     <DashboardSection title={title}>
       <Chart
-        snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+        snapshotIds={rows.map(r => r[entityType].get('id'))}
         timeConfig={timeConfig}
         minRollup={5000}
         y1={{
@@ -88,6 +88,7 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad')}
               type="line"
+              entityType="host"
               metric="load.1min"
               formatter={number.detailed}
               timeConfig={timeConfig}
@@ -489,11 +490,5 @@ function getRowDetails(row) {
 }
 
 function getLabels(rows, regexp) {
-  return rows.map(r =>
-    r.host
-      .get('label')
-      .replace(regexp, '$1')
-      .replace('.instana.io', '')
-      .replace('ip-', '')
-  );
+  return rows.map(r => r.host.get('label').replace(regexp, '$1').replace('.instana.io', '').replace('ip-', ''));
 }

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .contextMenu {
     position: absolute;
@@ -16,7 +14,7 @@
 
     background: var(--ids-color-option-white);
     color: var(--ids-color-option-neutral-800);
-    border-radius: var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large);
 
     box-shadow: var(--ids-shadow-option-subtle);
     border: 1px solid rgba(0, 0, 0, 0.16);

@@ -11,7 +11,7 @@
     background-color: var(--ids-color-option-neutral-50);
     background-image: none;
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: 0.1875rem;
+    border-radius: var(--ids-border-radius-option-medium);
     font-size: 0.75rem;
     position: relative;
   }

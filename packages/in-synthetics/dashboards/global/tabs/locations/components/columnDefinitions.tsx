@@ -24,6 +24,7 @@ import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/Serv
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -192,6 +193,19 @@ let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] =
     }
   },
   {
+    id: 'pop_version',
+    label: t('in-synthetics:dashboard.locationList.popVersion'),
+    sortable: true,
+    defaultOrderDirection: 'DESC',
+    getContent(item: LocationListItem) {
+      return (
+        <div>
+          <h4 className={locals.label}>{item.popVersion}</h4>
+        </div>
+      );
+    }
+  },
+  {
     id: 'health',
     label: t('in-synthetics:dashboard.locationList.health'),
     sortable: false,
@@ -225,12 +239,18 @@ if (role?.canConfigureSyntheticLocations) {
     label: t('in-synthetics:dashboard.testList.action'),
     sortable: false,
     getContent(item: LocationListItem, { result }) {
-      return (
+      return item.type === 'Private' ? (
         <HorizontalFlexWrapper>
           <div>
             <LocationListActionsColumn item={item} isLoading={result?.progress?.loading ?? false} />
           </div>
         </HorizontalFlexWrapper>
+      ) : (
+        <div className={locals.action}>
+          <Tooltip content={t('in-synthetics:dashboard.locationList.deleteRestrictedDescription')}>
+            <span>{t('in-synthetics:dashboard.locationList.noActionsAllowed')}</span>
+          </Tooltip>
+        </div>
       );
     }
   });

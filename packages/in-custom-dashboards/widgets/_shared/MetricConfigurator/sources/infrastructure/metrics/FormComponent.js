@@ -21,6 +21,7 @@ import ValidationMessages, {
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import { autoFormatterTimeSeriesEnabled, multiGroupTimeSeriesEnabled } from 'in-services/featureFlags';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -28,7 +29,6 @@ import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFo
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
-import { autoFormatterTimeSeriesEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
@@ -57,6 +57,7 @@ export default function FormComponent({
   timeShiftConfiguration,
   withGrouping = true,
   withFiltering = true,
+  type: baseType,
   isTypePrefilled = false,
   withAggregationInMetrics = true,
   maxGrouping = 50
@@ -73,10 +74,15 @@ export default function FormComponent({
   const metricPathField = form.get('metricPath');
   const regexField = form.get('regex');
 
+  const isTimeSeries = baseType === 'TIME_SERIES';
+  const isMultiGroup = multiGroupTimeSeriesEnabled && isTimeSeries;
+
   const grouping = getGrouping(form);
+  const groupKey = isMultiGroup ? 'groupBys' : 'by';
+
   const onDirectionChange = (direction, maxResults) =>
-    onChangeGrouping(onChange, { ...grouping, direction, maxResults });
-  const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
+    onChangeGrouping(onChange, { ...grouping, direction, maxResults }, groupKey);
+  const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers }, groupKey);
   const isCrossSeriesSumAggregationToggleEnabled =
     !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
@@ -142,8 +148,18 @@ export default function FormComponent({
         form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
       );
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricDefaultFormatter]);
+
+  // In case multi group is enabled, it should change the groupKey from "by" to "groupBys" for backward compatibility.
+  useEffect(() => {
+    if (isMultiGroup && grouping && !grouping?.groupBys) {
+      const filteredGrouping = grouping && Object.fromEntries(Object.entries(grouping).filter(([key]) => key !== 'by'));
+      onChangeGrouping(onChange, { ...filteredGrouping, [groupKey]: [grouping?.by] }, groupKey);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMultiGroup]);
 
   const metricMetadata = {
     metric,
@@ -261,7 +277,10 @@ export default function FormComponent({
         grouping={grouping}
         tagCatalog={tagCatalog}
         tagFilterExpressionField={tagFilterExpressionField}
-        onByChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
+        onByChange={infraExploreGrouping => {
+          const { groupKey, groups } = getGroups({ isMultiGroup, infraExploreGrouping });
+          onChangeGrouping(onChange, { ...grouping, [groupKey]: groups }, groupKey);
+        }}
         onDirectionChange={onDirectionChange}
         onIncludeOthersChange={onIncludeOthersChange}
         GroupingConfigurator={GroupingConfigurator}
@@ -302,4 +321,24 @@ function getCrossSeriesAggregationTooltip(
 
 function hasRegexValidationError(form) {
   return hasErrorOfCategory(form, regexValidationError);
+}
+
+export function getGroups({ isMultiGroup, infraExploreGrouping }) {
+  if (!isMultiGroup) {
+    return {
+      groupKey: 'by',
+      groups: infraExploreGrouping
+    };
+  }
+
+  const groupBys = Array.isArray(infraExploreGrouping) ? infraExploreGrouping : [infraExploreGrouping];
+
+  const uniqueGroupBys = groupBys.filter(
+    (group, index) => index === groupBys.findIndex(item => group.groupbyTag === item.groupbyTag)
+  );
+
+  return {
+    groupKey: 'groupBys',
+    groups: uniqueGroupBys
+  };
 }

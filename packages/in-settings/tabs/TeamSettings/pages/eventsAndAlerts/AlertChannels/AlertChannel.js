@@ -91,7 +91,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['800']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />

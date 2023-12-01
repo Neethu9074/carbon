@@ -24,19 +24,12 @@ const buildUtil = require('./util');
 const paths = require('./paths');
 
 gulp.task('build', cb => {
-  const {
-    clean,
-    ensureTargetDirStructureExists,
-    copyFavicon,
-    copyAppleTouchIcon,
-    writeBuildInfo,
-    translateTheme
-  } = commonJobs;
+  const { clean, ensureTargetDirStructureExists, copyFavicon, copyAppleTouchIcon, writeBuildInfo } = commonJobs;
 
   gulp.series(
     clean,
     ensureTargetDirStructureExists,
-    gulp.parallel(createI18nFiles, copyFavicon, copyAppleTouchIcon, writeBuildInfo, copyServerSources, translateTheme),
+    gulp.parallel(createI18nFiles, copyFavicon, copyAppleTouchIcon, writeBuildInfo, copyServerSources),
     webpackBuild,
     minifyCss,
     printFileStatistics

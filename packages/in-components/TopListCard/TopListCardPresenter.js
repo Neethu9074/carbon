@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
@@ -33,6 +34,7 @@ export default function TopListCard(props) {
     renderHistoricDataIndicator = false,
     hasApproximateData = false,
     renderWidgetNotSupportedIndicator = false,
+    isScrollbarVisible = false,
     helpInfo,
     noDataMessage
   } = props;
@@ -96,7 +98,10 @@ export default function TopListCard(props) {
 
   const card = (
     <Card
-      className={renderWidgetNotSupportedIndicator ? locals.disabledWidget : ''}
+      className={classNames({
+        [locals.disabledWidget]: renderWidgetNotSupportedIndicator,
+        [locals.scrollbar]: isScrollbarVisible
+      })}
       title={title}
       leftHeaderContent={<LeftHeaderContent />}
       rightHeaderContent={headerComponent}

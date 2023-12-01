@@ -72,6 +72,12 @@
       "views": "보기",
       "website": "웹 사이트",
       "mobileApp": "모바일 앱"
+    },
+    "bizopsTopList": {
+      "businessProcess": "비즈니스 프로세스",
+      "activities": "활동",
+      "count": "개수",
+      "allProcesses": "모든 비즈니스 프로세스"
     }
   },
   "cockpit": {
@@ -93,6 +99,7 @@
     "websites": "웹 사이트",
     "mobileApps": "모바일 앱",
     "websitesMobileApps": "웹 사이트 및 모바일 앱",
+    "bizops": "비즈니스 모니터링",
     "customEventDeprecatedWarning": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
     "customEventDeprecatedWarning_plural": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
     "customEventDeprecatedWarning_0": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
@@ -116,6 +123,10 @@
       "createWebsite": "웹 사이트 작성",
       "createMobileApp": "모바일 앱 작성",
       "noLabelYet": "아직 {{nolabel}} 없음"
+    },
+    "bizops": {
+      "noProcessYet": "비즈니스 프로세스가 아직 없음",
+      "noData": "Instana Business Monitoring은 이벤트에 실시간 비즈니스 컨텍스트를 제공하여 IT 애플리케이션 비즈니스를 관찰 가능하게 만듭니다.  계정 관리자가 사용으로 설정하면 비즈니스 프로세스가 여기에 표시됩니다."
     }
   }
 }

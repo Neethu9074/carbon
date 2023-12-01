@@ -19,54 +19,58 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default [
-  {
-    label: t('in-applications:labelSummary'),
-    path: `${applicationDashboard}/summary`,
-    component: Summary
-  },
-  {
-    label: t('in-applications:labelDependencies'),
-    path: `${applicationDashboard}/map`,
-    component: Map,
-    stickToHeader: true,
-    stickToBottom: true,
-    isFullWidth: true
-  },
-  {
-    label: t('in-applications:labelServices'),
-    path: `${applicationDashboard}/services`,
-    component: Services
-  },
-  role.canViewLogs && {
-    label: t('in-applications:labelErrorMessages'),
-    path: `${applicationDashboard}/errorMessages`,
-    component: ErrorMessagesTab
-  },
-  role.canViewLogs && {
-    label: t('in-applications:labelLogMessages'),
-    path: `${applicationDashboard}/logMessages`,
-    component: LogMessagesTab
-  },
-  hasInfrastructureAccess && {
-    label: t('in-applications:labelInfrastructure'),
-    path: `${applicationDashboard}/infrastructure`,
-    component: InfrastructureTab
-  },
-  hasSyntheticsAccess &&
-    !playwithEnabled && {
-      label: t('in-applications:labelSyntheticMonitoring'),
-      path: `${applicationDashboard}/synthetics`,
-      component: SyntheticsList
+const getApplicationTabs = canConfigureApplications => {
+  return [
+    {
+      label: t('in-applications:labelSummary'),
+      path: `${applicationDashboard}/summary`,
+      component: Summary
     },
-  {
-    label: t('in-applications:labelSmartAlerts'),
-    path: `${applicationDashboard}/alerts`,
-    component: Alerts
-  },
-  !playwithEnabled && {
-    label: t('in-applications:labelConfiguration'),
-    path: `${applicationDashboard}/configuration`,
-    component: role.canConfigureApplications ? Configuration : ReadOnlyConfiguration
-  }
-].filter(Boolean);
+    {
+      label: t('in-applications:labelDependencies'),
+      path: `${applicationDashboard}/map`,
+      component: Map,
+      stickToHeader: true,
+      stickToBottom: true,
+      isFullWidth: true
+    },
+    {
+      label: t('in-applications:labelServices'),
+      path: `${applicationDashboard}/services`,
+      component: Services
+    },
+    role.canViewLogs && {
+      label: t('in-applications:labelErrorMessages'),
+      path: `${applicationDashboard}/errorMessages`,
+      component: ErrorMessagesTab
+    },
+    role.canViewLogs && {
+      label: t('in-applications:labelLogMessages'),
+      path: `${applicationDashboard}/logMessages`,
+      component: LogMessagesTab
+    },
+    hasInfrastructureAccess && {
+      label: t('in-applications:labelInfrastructure'),
+      path: `${applicationDashboard}/infrastructure`,
+      component: InfrastructureTab
+    },
+    hasSyntheticsAccess &&
+      !playwithEnabled && {
+        label: t('in-applications:labelSyntheticMonitoring'),
+        path: `${applicationDashboard}/synthetics`,
+        component: SyntheticsList
+      },
+    {
+      label: t('in-applications:labelSmartAlerts'),
+      path: `${applicationDashboard}/alerts`,
+      component: Alerts
+    },
+    !playwithEnabled && {
+      label: t('in-applications:labelConfiguration'),
+      path: `${applicationDashboard}/configuration`,
+      component: canConfigureApplications ? Configuration : ReadOnlyConfiguration
+    }
+  ].filter(Boolean);
+};
+
+export default getApplicationTabs;

@@ -13,7 +13,6 @@ var gulp = require('gulp');
 var del = require('del');
 var mkdirp = require('mkdirp');
 
-const translateThemeInternal = require('./translateTheme');
 var buildUtil = require('./util');
 var paths = require('./paths');
 
@@ -22,7 +21,6 @@ exports.ensureTargetDirStructureExists = ensureTargetDirStructureExists;
 exports.copyFavicon = copyFavicon;
 exports.copyAppleTouchIcon = copyAppleTouchIcon;
 exports.writeBuildInfo = writeBuildInfo;
-exports.translateTheme = translateTheme;
 
 function clean() {
   return del(paths.targetDir);
@@ -58,9 +56,4 @@ function writeBuildInfo(cb) {
   }
 
   fs.writeFile(paths.buildInfoFileLocation, JSON.stringify(data), cb);
-}
-
-function translateTheme(cb) {
-  translateThemeInternal('theme', paths.themeDir, paths.themeDir, 'active');
-  cb();
 }

@@ -45,6 +45,7 @@ interface SummaryProps {
 
 export default function Summary({ timeConfig, data: service }: SummaryProps) {
   // Removing the old destructuring syntax for colors
+  const snapshotId = service.id;
   const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
   const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
   const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
@@ -236,6 +237,9 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={6}>
@@ -270,6 +274,9 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
             paramTab="memTab"
             paramMetric="memMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>

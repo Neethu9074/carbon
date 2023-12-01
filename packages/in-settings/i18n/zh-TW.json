@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "建立新的群組",
     "dialogTitle_edit": "編輯存取範圍",
-    "editButton": "編輯存取範圍",
-    "productArea": "角色及存取範圍"
+    "editButton": "編輯",
+    "productArea": "{{tenantUnit}} 的存取配置"
   },
   "productAreas": {
     "allApplications": "所有應用程式",
@@ -74,9 +74,12 @@
     "role_owner": "擁有者",
     "role_viewer": "檢視器",
     "role_permissions": "不明 - 存取 {{quantityOfAreas}}",
+    "role_permissions_contributor": "貢獻者 - 存取權 {{quantityOfAreas}}",
     "role_permissions_owner": "擁有者 - 存取 {{quantityOfAreas}}",
     "role_permissions_viewer": "檢視者 - 存取 {{quantityOfAreas}}",
     "role_permission_scope_all": "全部",
+    "role_permissions_contributor_and_owner": "擁有者存取權 {{quantityOfAreas}} 和貢獻者存取權 {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "檢視者存取權 {{quantityOfAreas}} 和貢獻者存取權 {{quantityOfAreasContributor}}",
     "no_access": "不可存取",
     "platform_permissions": "存取 {{quantityOfAreas}}",
     "analyticsContentMessage": "可以在網站、行動應用程式、應用程式、平台及基礎架構中的存取範圍所定義的 Analytics 中檢視資料",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "新增名稱空間",
     "addButton_syntheticTests": "選取虛構測試",
     "descriptionAccessAll_synthetics": "可以使用選取的角色來存取所有虛構測試。",
-    "descriptionLimitedAccess_synthetics": "選取角色並在下面新增虛構測試以授與存取權。"
+    "descriptionLimitedAccess_synthetics": "選取角色並在下面新增虛構測試以授與存取權。",
+    "contribution_filter": "貢獻度過濾器",
+    "contributionFilter_description": "將繼承過濾器以建立新的應用程式配置。 在應用程式視景配置上，可以使用 {{logicalOperator}} 運算子後面的進一步過濾標籤來精簡它",
+    "contributionFilter_downstreamCalls": "決定可包含在應用程式視景中的其他資訊層次上限",
+    "contributionFilter_name": "名稱"
   },
   "selectItemForm": {
     "doneButton": "完成"
@@ -156,23 +163,96 @@
     "nameColumnHead": "名稱"
   },
   "permissionScope": {
+    "access_level": "存取權層次",
+    "configuration_summary": "配置摘要",
     "selection": "無法使用",
     "selection_access_all": "全部存取",
     "selection_limited_access": "受限存取權",
     "selection_no_access": "不可存取",
     "selection_viewer_access": "檢視者存取權",
+    "selection_owner_access": "擁有者存取權",
+    "selection_contributor_access": "貢獻者存取權",
     "description_no_access": "根本無法使用此區域",
     "description_no_access_kubernetes": "無法存取名稱空間及叢集。",
     "description_access_all": "不受限制地存取全部",
+    "description_access_all_except_contributor": "全部存取 - 除了以貢獻者身分存取的項目之外",
     "role": "選取角色",
     "roleSelection": "角色",
     "role_owner": "擁有者",
     "role_viewer": "檢視器",
     "role_custom": "自訂",
+    "role_contributor": "貢獻者",
+    "role_permissions": "角色/許可權",
     "roleTooltip_websites": "檢視器：能夠檢視網站儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的網站；檢視、配置及刪除網站儀表板。",
     "roleTooltip_mobileApps": "檢視者：能夠檢視行動式應用程式儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的行動式應用程式；檢視、配置及刪除行動式應用程式儀表板。",
     "roleTooltip_applications": "檢視者：能夠檢視應用程式儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的應用程式；檢視、配置及刪除應用程式儀表板。",
-    "roleTooltip_synthetics": "檢視器：能夠檢視虛構測試儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的「虛構測試」；檢視、配置及刪除「虛構測試」，以及檢視及刪除「虛構位置」。"
+    "roleTooltip_synthetics": "檢視器：能夠檢視虛構測試儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的「虛構測試」；檢視、配置及刪除「虛構測試」，以及檢視及刪除「虛構位置」。",
+    "contribution_filter_accessScope": "受限存取權範圍（檢視器）",
+    "contribution_filter_warning": {
+      "firstParagraph": "您將儲存的任何修改都將使用此貢獻度過濾器來更新所有應用程式視景。",
+      "secondParagraph": "如果您變更角色，則會刪除貢獻度過濾器，且具有「應用程式」區段的「擁有者」存取權的任何使用者都會變成可編輯所有使用貢獻度過濾器的應用程式視景。 無法復原。"
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "此裝置下所有應用程式視景的存取權。",
+        "role_permissions_contributor": "檢視此裝置下的所有應用程式儀表板。 使用貢獻度過濾器來建立、配置及刪除應用程式儀表板。"
+      },
+      "limited_access": {
+        "access_level": "下面選取應用程式的受限存取權。",
+        "access_level_contributor": "檢視下面選取的應用程式儀表板",
+        "role_permissions_contributor": "使用貢獻度過濾器來建立、配置及刪除應用程式儀表板。 （貢獻者所建立的應用程式儀表板將會顯示在群組概觀及「應用程式」區段的清單中。）"
+      },
+      "role_permissions_owner": "建立、配置、檢視及刪除應用程式儀表板。",
+      "role_permissions_viewer": "檢視應用程式視景儀表板及其配置。"
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "此裝置下所有實體儀表板的存取權，與授與應用程式及平台的存取權相關。"
+      },
+      "role_permissions_owner": "檢視實體儀表板。",
+      "role_permissions_viewer": "檢視實體儀表板。"
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "此裝置下所有名稱空間及叢集的存取權。"
+      },
+      "limited_access": {
+        "access_level": "下面選取名稱空間及叢集的受限存取權。"
+      },
+      "role_permissions": "檢視名稱空間及叢集。"
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "此裝置下所有行動式應用程式的存取權。"
+      },
+      "limited_access": {
+        "access_level": "下列所選行動式應用程式的受限存取權。"
+      },
+      "role_permissions_owner": "建立、配置、檢視及刪除行動式應用程式。",
+      "role_permissions_viewer": "檢視行動式應用程式及其配置。"
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "此裝置下所有綜合測試的存取權。"
+      },
+      "limited_access": {
+        "access_level": "下面選取綜合測試的受限存取權。"
+      },
+      "role_permissions_owner": "建立、配置、檢視及刪除綜合測試。",
+      "role_permissions_viewer": "檢視綜合測試及其配置。"
+    },
+    "website": {
+      "access_all": {
+        "access_level": "存取此裝置下的所有網站。"
+      },
+      "limited_access": {
+        "access_level": "下面選取網站的受限存取權。"
+      },
+      "role_permissions_owner": "建立、檢視及刪除網站。",
+      "role_permissions_viewer": "檢視網站及其配置。"
+    }
   },
   "cardTitle_Area": "區域",
   "cardTitle_Area_plural": "區域",
@@ -225,7 +305,8 @@
         "placeholder": "位置保留元",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "選取的邏輯運算子將套用至下列條件。"
+        "logicalOperatorInfo": "選取的邏輯運算子將套用至下列條件。",
+        "clearMetricSeclection": "清除選擇項"
       },
       "customPayload": {
         "unknownTag": "不明標籤：{{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "廣域應用程式智慧型警示",
     "syntheticSmartAlert": "綜合 SmartAlert",
     "mobileSmartAlert": "行動式 SmartAlert",
+    "infraSmartAlert": "基礎架構 SmartAlert",
     "enabled": "已啟用",
     "disabled": "已停用",
     "invalidQuery": "無效的查詢",
@@ -776,6 +858,7 @@
     "alert": "警示",
     "unknownAlert": "不明警示",
     "pleaseSelectAtLeastOneApplication": "請選取至少一個應用程式。",
+    "pleaseSelectAtLeastOneTagFilter": "請至少選取一個標籤過濾器。",
     "noAlertConfigured": "未配置警示。",
     "additionalScope": "其他範圍",
     "state": "狀態...",
@@ -891,6 +974,7 @@
     "applyOn": "套用範圍",
     "applicationPerspective": "應用程式視景",
     "selectedEntitiesDynamicFocusQuery": "選取的實體（動態焦點查詢）",
+    "syntheticTests": "綜合測試",
     "automaticallyCloseAfter": "之後自動關閉",
     "selectedEntitiesHostByTag": "選取的實體（依標記確定主機範圍）",
     "scopeHostsByTag": "依標記確定主機範圍",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "已移轉這個已淘汰的事件。如需相關資訊，請<documentationLink>參閱我們的文件</documentationLink>。",
     "deprecatedEventSelectedMessage": "實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 在未來，您將無法為這三種實體類型建立新的事件。 建議改為建立「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>。",
     "customEventListDeprecatedWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的自訂事件已淘汰</strong><br/>未來，您將無法在這三種實體類型上建立或更新「自訂事件」。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
+    "customUserListInformation": "<strong>使用者會從您的身分提供者 (IdP) 自動佈建。</strong><br/>使用者使用單一登入 (SSO) 登入 Instana 之後，即會出現在此區段中。",
     "deletedEventMessage": "您正在查看已刪除的事件配置。 無法修改。",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "消費者密碼",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "Salesforce 組織 URL",
-    "alertChannelDocumentationMessage": "如需設定此警示通道的詳細資料，<documentationLink>請查看我們的說明文件</documentationLink>"
+    "alertChannelDocumentationMessage": "如需設定此警示通道的詳細資料，<documentationLink>請查看我們的說明文件</documentationLink>",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "請確定您的身分提供者中已停用使用者對 Instana 的存取權。",
+    "createIDPConfirmationDescription": "將刪除擱置邀請。 使用者會從您的身分提供者 (IdP) 自動佈建。"
   },
   "languageSelection": {
     "language": "語言",
@@ -1139,7 +1226,10 @@
       "awesome": "真棒！",
       "meh": "啊！",
       "terrible": "太可怕了！"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "所有實體",
+    "appQuery": "{{numApps}} 個應用程式"
   },
   "terms": {
     "failedToSaveSettings": "無法儲存設定：{{settings}} {{err}}",

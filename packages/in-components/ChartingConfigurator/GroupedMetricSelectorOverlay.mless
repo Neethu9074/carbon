@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .list {
     max-height: 20rem;
@@ -41,7 +39,7 @@
   }
 
   .searchContainer {
-    border-radius: 0.125rem;
+    border-radius: var(--ids-border-radius-option-small);
     background-color: var(--ids-color-option-neutral-100);
   }
 }

@@ -4,6 +4,7 @@
  */
 
 import { chain, get } from 'lodash';
+import classNames from 'classnames';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -26,16 +27,20 @@ export default function TopListPresenter(props) {
     Metric,
     CompanionMetric,
     getItemsFromResult = getItemsFromPaginatedResult,
-    getMetricValueFromItem = getMetricValueFromItemWithMetricsHash
+    getMetricValueFromItem = getMetricValueFromItemWithMetricsHash,
+    isScrollbarVisible = false
   } = props;
 
   const items = getItemsFromResult(result);
-  const maxValue = chain(items)
-    .map(getMetricValueFromItem.bind(null, selectedMetric))
-    .max();
+  const maxValue = chain(items).map(getMetricValueFromItem.bind(null, selectedMetric)).max();
 
   return (
-    <div className={locals.topListWrapper}>
+    <div
+      className={classNames({
+        [locals.topListWrapper]: true,
+        [locals.scrollbar]: isScrollbarVisible
+      })}
+    >
       <ol className={locals.topList}>
         {items.map((item, i) => {
           let metricValue = getMetricValueFromItem(selectedMetric, item);

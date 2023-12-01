@@ -14,6 +14,11 @@ import http from 'in-services/http';
 
 const basePath = '/api/settings/rbac/groups';
 
+type ApiCreateGroup = Omit<ApiGroup, 'id'>;
+function isApiGroup(group: ApiGroup | ApiCreateGroup): group is ApiGroup {
+  return (group as ApiGroup).id !== undefined;
+}
+
 const refreshSignalTeams = create().emit(true);
 export function refresh() {
   refreshSignalTeams.emit(true);
@@ -125,12 +130,21 @@ function getStrippedGroupsAsResultObservableInternal(_arg: undefined) {
 
 // regular calls
 
-export function saveGroup(group: ApiGroup) {
-  return http({
-    method: group.id ? 'PUT' : 'POST',
+export function saveGroup(group: ApiGroup | ApiCreateGroup) {
+  if (isApiGroup(group)) {
+    return http<ApiGroup>({
+      method: 'PUT',
+      maxRetries: 3,
+      headers: getCsrfHeader(),
+      url: `${basePath}/${group.id}`,
+      data: group
+    }).map(mapAndRefresh);
+  }
+  return http<ApiGroup>({
+    method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: group.id ? `${basePath}/${group.id}` : basePath,
+    url: basePath,
     data: group
   }).map(mapAndRefresh);
 }
@@ -201,9 +215,8 @@ function mapAndRefresh<T>(response: Response<T>): T {
   return response.body;
 }
 
-export function createNewGroup(): ApiGroup {
+export function createNewGroup(): ApiCreateGroup {
   return {
-    id: undefined,
     name: '',
     members: [],
     permissionSet: createPermissionSet()
@@ -220,7 +233,7 @@ function createPermissionSet() {
     kubernetesNamespaceUIDs: [],
     websiteIds: [],
     mobileAppIds: [],
-    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' },
-    syntheticTestIds: []
+    syntheticTestIds: [],
+    infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };
 }

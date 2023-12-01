@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .eventDurationIndicatorWrapper {
     --height: 6px;
@@ -31,7 +29,7 @@
     height: var(--height);
     width: var(--height);
     margin-left: calc((var(--height) / 2) * -1);
-    border-radius: var(--ids-border-radius-round);
+    border-radius: var(--ids-border-radius-option-round);
     background: currentColor;
   }
 

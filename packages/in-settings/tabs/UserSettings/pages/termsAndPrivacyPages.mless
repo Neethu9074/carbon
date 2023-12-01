@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .form {
     display: flex;
     flex-direction: column;
-    color: @lib__colors__N700Medium;
-    font-size: @lib__typography__body-bold__font-size;
+    color: var(--ids-color-option-neutral-700);
+    font-size: var(--ids-font-size-option-body-bold);
   }
 
   .flexColumn {
@@ -24,6 +22,6 @@
   }
 
   .greyText {
-    color: @lib__colors__N600Light;
+    color: var(--ids-color-option-neutral-600);
   }
 }

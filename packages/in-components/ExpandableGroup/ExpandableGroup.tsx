@@ -21,7 +21,7 @@ interface ExpandableGroupProps {
 }
 
 export default function ExpandableGroup({ title, expandedTitle, children, defaultExpanded }: ExpandableGroupProps) {
-  const [isExpanded, setIsExpanded] = useState(defaultExpanded ? true : false);
+  const [isExpanded, setIsExpanded] = useState(!!defaultExpanded);
 
   return (
     <div className={locals.wrapper}>

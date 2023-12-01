@@ -32,7 +32,7 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './MaintenanceConfiguration.mless';
@@ -54,6 +54,7 @@ export default function MaintenanceConfiguration(props) {
 }
 
 const Form = entityForm(function MaintenanceForm(props) {
+  const theme = useTheme();
   const { entity, form, message, error, loading, isCreate } = props;
   const { goToPath } = useNavigation();
   if (!entity || !form) {
@@ -63,7 +64,7 @@ const Form = entityForm(function MaintenanceForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownMaintenanceWindowConfiguration')}
         </SubViewHeader>
         <SectionLine />

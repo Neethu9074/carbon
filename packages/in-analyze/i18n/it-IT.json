@@ -106,18 +106,7 @@
         "sourceMonitoredByAnotherProvider": "L'origine di questa chiamata è tracciata da un altro provider di tracciamento distribuito. È possibile trovare ulteriori informazioni sull'origine effettuando una ricerca nell'estensione principale all'interno di tale provider con ID {{foreignParentId}}.",
         "notMonitored": "Non monitorato da Instana",
         "source": "origine",
-        "destination": "destinazione",
-        "logs": "Log ( {{errors}}{{warnings}} )",
-        "errors": "{{count}} Errore",
-        "errors_plural": "{{count}} Errori",
-        "errors_0": "{{count}} Errori",
-        "errors_1": "{{count}} Errori",
-        "errors_2": "{{count}} Errori",
-        "warnings": "{{count}} Avvertenza",
-        "warnings_plural": "{{count}} Avvertenze",
-        "warnings_0": "{{count}} Avvertenze",
-        "warnings_1": "{{count}} Avvertenze",
-        "warnings_2": "{{count}} Avvertenze"
+        "destination": "destinazione"
       }
     },
     "tabs": {
@@ -279,10 +268,8 @@
     }
   },
   "logDetails": {
-    "title": "Log",
     "titleTags": "Tag",
     "titleParameters": "Parametri",
-    "tooltipCloseLogDetails": "Chiudi dettagli log",
     "analyzeLogsLabel": "Analizza log",
     "similarLogs": "Log simili",
     "similarServiceLogs": "Mostra i log nel contesto di questo servizio",

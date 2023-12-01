@@ -27,9 +27,30 @@ export const AreaRole = Object.freeze({
 
 export type AreaRoleType = keyof typeof AreaRole;
 export const AreaRoles = Object.freeze(Object.values(AreaRole));
+export type AreaRoleOptionsType = typeof AreaRoles;
+
+export type AreaRolesType = keyof typeof AreaRoles;
+
+export const AreaRoleWithContributor = Object.freeze({
+  OWNER: 'OWNER',
+  CONTRIBUTOR: 'CONTRIBUTOR',
+  VIEWER: 'VIEWER'
+} as const);
+
+export const ScopeRoles = Object.freeze({
+  Owner: '-100',
+  Viewer: '-101',
+  Contributor: '-102'
+});
+
+export const AreaRolesWithContributor = Object.freeze(Object.values(AreaRoleWithContributor));
+
+export type AreaRoleWithContributorType = keyof typeof AreaRoleWithContributor;
+export type AreaRolesWithContributorOptionsType = typeof AreaRolesWithContributor;
+export type AreaRolesWithContributorType = keyof typeof AreaRolesWithContributor;
 
 // This is only necessary while in migration phase and should be removed after some releases
-export type AreaRoleWithCustomType = AreaRoleType | 'CUSTOM';
+export type AreaRoleWithCustomType = AreaRoleWithContributorType | 'CUSTOM';
 
 // These are the new product areas for the new, improved RBAC UI.
 export const ProductArea = Object.freeze({
@@ -99,7 +120,7 @@ export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissio
 
 const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM_APPLICATIONS];
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
-const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
+export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
 export const syntheticOtherCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,

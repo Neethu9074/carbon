@@ -22,12 +22,14 @@ import {
 } from 'in-synthetics/utils/constants';
 import BrowserSimpleTestSection from 'in-synthetics/createTests/wizard/BrowserSimpleTestSection';
 import ApiSimpleTestSection from 'in-synthetics/createTests/wizard/ApiSimpleTestSection';
+import InlineTabNavigation from 'in-components/InlineTabNavigation/InlineTabNavigation';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import Section, { SubTitle } from 'in-synthetics/createTests/wizard/Section';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveError from 'in-components/form/SaveError/SaveError';
@@ -48,6 +50,8 @@ export interface Props {
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
   scriptDetails: CodeType;
   setScriptDetails: React.Dispatch<React.SetStateAction<CodeType>>;
+  activeTabIndex: number;
+  setActiveTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface LocationsResponse {
@@ -66,27 +70,29 @@ export default function RequestResponseStep({
   scriptErrors,
   setScriptErrors,
   scriptDetails,
-  setScriptDetails
+  setScriptDetails,
+  activeTabIndex,
+  setActiveTabIndex
 }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticType = configForm.get('syntheticType') as Field<string>;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
-  const locations: LocationsResponse = useObservable<any, []>(
-    () =>
-      getLocationsAsResultObservable(syntheticType.value).map((result: Result<SyntheticLocation[]> | null) => {
-        if (result == null) {
-          return null;
-        }
-        return (result as Result<SyntheticLocation[]>) ?? dummyLocations;
-      }),
-    []
-  );
   const locationsField = form.get('locations') as Field<string[]>;
   const scriptField = configForm.get('script') as Field<string>;
   const renderScript: boolean =
     selectedBlueprint.type === apiScriptTest || selectedBlueprint.type === browserScriptTest;
   const isBrowser = selectedBlueprint.type === browserScriptTest ? true : false;
+  const locationTypes = ['Private', 'Managed'];
+
+  const tabList = [
+    {
+      text: t('in-synthetics:dialog.createTest.requestStep.privatePoPLabel')
+    },
+    {
+      text: t('in-synthetics:dialog.createTest.requestStep.managedPoPLabel')
+    }
+  ];
 
   function onLocationSelect(location: Record<string, string>) {
     const selectedLocations = locationsField.value;
@@ -106,7 +112,20 @@ export default function RequestResponseStep({
    * Loading of locations might take a few seconds as it is being received from an API
    * For that reason we need to consider two more scenarios. Loading state and failure of API call
    */
-  function renderLocations() {
+  function LocationsListBasedOnType({ locationType }: { locationType: string }) {
+    const locations: LocationsResponse = useObservable<any, []>(
+      () =>
+        getLocationsAsResultObservable(syntheticType.value, locationType).map(
+          (result: Result<SyntheticLocation[]> | null) => {
+            if (result == null) {
+              return null;
+            }
+            return (result as Result<SyntheticLocation[]>) ?? dummyLocations;
+          }
+        ),
+      []
+    );
+
     if (locations?.progress?.loading) {
       return (
         <div className={locals.locationContainer}>
@@ -210,7 +229,18 @@ export default function RequestResponseStep({
               </>
             )}
             <SubTitle>{t('in-synthetics:dialog.createTest.requestStep.popSubTitle')}</SubTitle>
-            {renderLocations()}
+            {syntheticInstanaHostedPoPEnabled && (
+              <section>
+                <InlineTabNavigation
+                  tabList={tabList}
+                  activeTabIndex={activeTabIndex}
+                  onTabSelect={setActiveTabIndex}
+                />
+              </section>
+            )}
+            <LocationsListBasedOnType
+              locationType={syntheticInstanaHostedPoPEnabled ? locationTypes[activeTabIndex] : ''}
+            />
           </div>
 
           {renderScript && (

@@ -25,9 +25,7 @@ export default function ApiQueryOverlay({
   type,
   order,
   pagination,
-  hiddenCalls,
   groupBy,
-  group,
   metrics,
   endpointUrl,
   docsLink
@@ -42,15 +40,13 @@ export default function ApiQueryOverlay({
     type,
     metrics,
     order,
-    group,
-    ...hiddenCalls,
     ...(groupBy?.length > 0 ? { groupBy } : {})
   };
 
   const jsonString = JSON.stringify(model, 0, 2);
 
   const curl = `curl -XPOST ${endpointUrl} -H "Content-Type: application/json" -H "authorization: apiToken $apiToken" -d '${jsonString.replace(
-    /(\r\n|\n|\r|\s+(?=([^"]*"[^"]*")*[^"]*$))/gm,
+    /(\r\n|\n|\r|\s)/gm,
     ''
   )}'`;
 

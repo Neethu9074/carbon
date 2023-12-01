@@ -217,8 +217,8 @@
       "successMessageUpdate": "已順利更新綜合測試",
       "successMessageDelete": "已順利刪除綜合測試",
       "failureTitle": "失敗！",
-      "failureMessageCreate": "無法建立綜合測試。 請稍後重試",
-      "failureMessageUpdate": "無法更新綜合測試。 請稍後重試",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "無法更新綜合測試。{{errorMessage}}。 請重新整理頁面，然後再試一次。",
       "failuteMesssageDelete": "無法刪除綜合測試。 請稍後重試"
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "刪除原因",
       "typeToContinue": "鍵入 {{location}} 以繼續",
-      "location": "位置",
       "deletionSuccess": "位置已刪除",
       "cancelButton": "取消",
       "deleteLocationLabel": "刪除位置",
       "success": "成功",
-      "failure": "失敗"
+      "failure": "失敗",
+      "popVersion": "版本",
+      "noActionsAllowed": "NA",
+      "deleteRestrictedDescription": "無法刪除受管理位置。"
     },
     "summary": {
       "successRate": "成功率",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "下載 HAR 檔",
       "downloadLog": "下載日誌",
-      "downloadImages": "下載擷取畫面",
+      "viewScreenshotsLabel": "檢視擷取畫面",
       "downloadVideo": "下載記錄",
       "consoleLogsLevel": "主控台",
       "consoleLogs": "主控台",
@@ -481,6 +483,14 @@
             "connect": "連接"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "擷取畫面",
+        "allScreenshots": "所有擷取畫面",
+        "allImagesButton": "所有影像",
+        "imageButton": "影像",
+        "ScreenshotsLoadingMessage": "正在載入擷取畫面",
+        "noScreenshotsAvailableMessage": "此測試結果無法使用擷取畫面"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "沒有可用的綜合測試",
       "testSummaryDescription": "未從資料庫擷取綜合測試。",
       "locationListTitle": "沒有可用的綜合位置",
-      "locationListDescription": "沒有從資料庫擷取的綜合位置。"
+      "locationListDescription": "沒有從資料庫擷取的綜合位置。",
+      "configurationTab": "此測試無法使用 {{component}} 詳細資料。"
     },
     "alertList": {
       "timeThreshold": "時間臨界值",
@@ -541,7 +552,7 @@
         "reasonTitle": "刪除的原因",
         "typingValidationTitle": "鍵入 {{synthetic}} 以繼續",
         "cancelButton": "取消",
-        "deleteButton": "刪除"
+        "deleteButton": "刪除測試"
       },
       "configurationEditAction": "編輯",
       "configurationDeleteAction": "刪除"

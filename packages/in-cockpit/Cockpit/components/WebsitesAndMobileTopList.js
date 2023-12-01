@@ -9,10 +9,11 @@ import React from 'react';
 import { Button, KeyValue, SvgIcon } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 
+import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
-import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import { useGenerateLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
+import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
@@ -252,7 +253,7 @@ const columnDefinitions = [
     width: '2rem',
     getContent({ item }) {
       if (!item.isWebsite) {
-        return null;
+        return <MobileAppHealthInfo mobileAppId={getId(item)} />;
       }
       return <WebsiteHealthInfo websiteId={getId(item)} />;
     }
@@ -339,3 +340,16 @@ const WebsiteHealthInfo = connectTo({ timeConfig: timeConfig$ }, function Websit
     />
   );
 });
+
+const MobileAppHealthInfo = connectTo(
+  { timeConfig: timeConfig$ },
+  function MobileAppHealthInfo({ mobileAppId, timeConfig }) {
+    return (
+      <MobileHealthIndicatorBehavior
+        mobileAppId={mobileAppId}
+        timeConfig={timeConfig}
+        render={healthInfo => (healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null)}
+      />
+    );
+  }
+);

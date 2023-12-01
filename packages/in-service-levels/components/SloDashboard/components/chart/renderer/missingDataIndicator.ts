@@ -8,7 +8,7 @@ import { TimeConfig } from '@instana/types';
 
 import { getLineWidth } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
 import { RenderConfig } from 'in-components/Chart/renderer/types';
-import theme from 'in-themes';
+import oldTheme from 'in-themes';
 
 export function timeWindowIncludesFirstCollectionTimestamp(
   firstCollectionTimestamp: number,
@@ -21,7 +21,7 @@ export function timeWindowIncludesFirstCollectionTimestamp(
 export function renderMissingDataIndicator(config: RenderConfig, endTimestamp: number) {
   config.backBufferCtx.save();
 
-  config.backBufferCtx.fillStyle = theme.lib.colors.N300;
+  config.backBufferCtx.fillStyle = oldTheme.lib.colors.N300;
 
   const borderWidth = getLineWidth(config) * 0.5;
   const endX = config.xScaleBackBuffer.getRange(endTimestamp);

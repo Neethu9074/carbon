@@ -8,21 +8,29 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { UserResult } from '@instana/types';
 
-import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users/Users';
+import Users, { ConfigProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users/Users';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getUsersAsResultObservable } from 'in-api/users';
 
 jest.mock('in-api/users');
 jest.mock('in-i18n', () => ({
-  t: (key: string) => key
+  ...jest.requireActual('in-i18n'),
+  t: (key: string) => key,
+  Trans: ({ i18nKey }: { i18nKey: string }) => i18nKey
 }));
 
 jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog');
 jest.mock('in-components/Gravatar/unknown.png', () => '');
 jest.mock('in-components/DialogPresenter/store');
+
+jest.mock('in-services/featureFlags', () => ({
+  disableInvitesWithIdpEnabled: true
+}));
+jest.mock('@instana/hooks');
 
 const createUserResult = ({
   id = generateUniqueShortId(),
@@ -51,6 +59,16 @@ const mockGet = (data: UserResult[]) => {
   // @ts-ignore
   getUsersAsResultObservable.mockReturnValue(res);
 };
+
+function asLoadedResult(data: ConfigProps) {
+  return {
+    progress: {
+      loading: false
+    },
+    errors: [],
+    data
+  };
+}
 
 describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
   beforeEach(() => {
@@ -120,6 +138,52 @@ describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
     expect(inviteBtn).toBeInTheDocument(); // Invite User btn
     fireEvent.click(inviteBtn!);
 
+    expect(addActiveDialog).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should show invite user button if featureFlag is enabled and none of the IDP is activated', () => {
+    // @ts-expect-error jest api apparently not supported by TS
+    useObservable.mockReturnValue(
+      asLoadedResult({
+        activated: false
+      })
+    );
+    const res = createUserResult({});
+    mockGet([res]);
+    const { getByText, queryByText, container } = render(<Users />);
+    expect(getUsersAsResultObservable).toHaveBeenCalled();
+    const inviteBtn = getByText('in-settings:tabs.inviteUser');
+    expect(inviteBtn).toBeInTheDocument();
+    const bannerText = queryByText('in-settings:tabs.customUserListInformation');
+    expect(bannerText).not.toBeInTheDocument();
+    const deleteBtn = container.querySelector('table tbody tr button');
+    expect(deleteBtn).toBeInTheDocument();
+    fireEvent.click(deleteBtn!);
+    expect(addActiveDialog).toHaveBeenCalledTimes(1);
+  });
+
+  it('should hide invite user button if featureFlag is enabled and any of the IDP is activated', async () => {
+    // @ts-expect-error jest api apparently not supported by TS
+    useObservable.mockReturnValue(
+      asLoadedResult({
+        activated: true
+      })
+    );
+    const res = createUserResult({});
+    mockGet([res]);
+    const { queryByText, container } = render(<Users />);
+    expect(getUsersAsResultObservable).toHaveBeenCalled();
+    expect(queryByText('in-settings:tabs.inviteUser')).not.toBeInTheDocument();
+    expect(queryByText('in-settings:tabs.customUserListInformation')).toBeInTheDocument();
+    const deleteBtn = container.querySelector('table tbody tr button');
+    expect(deleteBtn).toBeInTheDocument();
+    fireEvent.click(deleteBtn!);
     expect(addActiveDialog).toHaveBeenCalledTimes(1);
   });
 });

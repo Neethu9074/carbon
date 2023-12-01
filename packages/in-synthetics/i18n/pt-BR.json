@@ -217,8 +217,8 @@
       "successMessageUpdate": "O teste sintético foi atualizado com sucesso",
       "successMessageDelete": "O teste sintético foi eliminado com sucesso",
       "failureTitle": "Falhou!",
-      "failureMessageCreate": "Falha ao criar um teste sintético. Tente novamente mais tarde",
-      "failureMessageUpdate": "Falha ao atualizar o teste sintético. Tente novamente mais tarde",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "Falha ao atualizar o teste sintético. {{errorMessage}}. Atualize a página e tente novamente.",
       "failuteMesssageDelete": "Falha ao excluir o teste sintético. Tente novamente mais tarde"
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "Razões para exclusão",
       "typeToContinue": "Digite {{location}} para continuar",
-      "location": "LOCATION",
       "deletionSuccess": "A localização foi excluída",
       "cancelButton": "Cancelar",
       "deleteLocationLabel": "Excluir localização",
       "success": "Sucesso",
-      "failure": "Com falha"
+      "failure": "Com falha",
+      "popVersion": "Versão",
+      "noActionsAllowed": "NA",
+      "deleteRestrictedDescription": "Os locais gerenciados não poderão ser excluídos."
     },
     "summary": {
       "successRate": "Taxa de sucesso",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "Fazer download do arquivo HAR",
       "downloadLog": "Fazer download de logs",
-      "downloadImages": "Fazer download da captura de tela",
+      "viewScreenshotsLabel": "Visualizar captura(s) de tela",
       "downloadVideo": "Fazer download da gravação",
       "consoleLogsLevel": "Console",
       "consoleLogs": "Console",
@@ -481,6 +483,14 @@
             "connect": "Conectar"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "Captura(s) de tela",
+        "allScreenshots": "Todas as capturas de tela",
+        "allImagesButton": "Todas as imagens",
+        "imageButton": "Imagem",
+        "ScreenshotsLoadingMessage": "Carregando capturas de tela",
+        "noScreenshotsAvailableMessage": "As capturas de tela não estão disponíveis para este resultado de teste"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "Nenhum teste sintético disponível",
       "testSummaryDescription": "Não há testes sintéticos recuperados do banco de dados.",
       "locationListTitle": "Nenhum local sintético disponível",
-      "locationListDescription": "Não há locais sintéticos recuperados do banco de dados."
+      "locationListDescription": "Não há locais sintéticos recuperados do banco de dados.",
+      "configurationTab": "Os detalhes de {{component}} não estão disponíveis para este teste."
     },
     "alertList": {
       "timeThreshold": "Limite de tempo",
@@ -541,7 +552,7 @@
         "reasonTitle": "Razão para exclusão",
         "typingValidationTitle": "Digite {{synthetic}} para continuar",
         "cancelButton": "Cancelar",
-        "deleteButton": "Excluir"
+        "deleteButton": "Excluir teste"
       },
       "configurationEditAction": "Editar",
       "configurationDeleteAction": "Excluir"

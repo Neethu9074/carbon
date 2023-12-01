@@ -11,11 +11,13 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntityType
 } from '@instana/types';
-import { create, Observable } from '@instana/observables';
+import { create, just, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { isBlank } from 'in-services/util/string';
+import { error } from 'in-services/util/result';
 import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
@@ -90,6 +92,30 @@ export function createSloConfiguration(
     method: 'POST',
     maxRetries: 3,
     url: `/api/settings/slo`,
+    headers: getCsrfHeader(),
+    data: sloConfig,
+    treat400AsError: true,
+    mapToResultObject: true
+  }).map(res => {
+    if (res?.data?.id) refreshSignal.emit(res.data.id);
+
+    return res;
+  });
+}
+
+export function updateSloConfiguration(
+  sloConfig: ServiceLevelObjectiveConfiguration
+): Observable<Result<ServiceLevelObjectiveConfiguration>> {
+  const { id } = sloConfig;
+
+  if (isBlank(id) || id === undefined) {
+    return just(error([{ code: 'CLIENT', message: 'Configuration ID cannot be blank' }]));
+  }
+
+  return http<ServiceLevelObjectiveConfiguration>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/settings/slo/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: sloConfig,
     treat400AsError: true,

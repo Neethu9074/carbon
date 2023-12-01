@@ -16,7 +16,7 @@
     background-color: var(--ids-color-option-neutral-50);
     background-image: none;
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
     min-height: auto;
   }
 
@@ -24,7 +24,7 @@
     height: 2rem;
     min-width: 7.5rem;
     outline: none;
-    border-radius: 2px;
+    border-radius: var(--ids-border-radius-option-small);
   }
 
   .Select__input {
@@ -50,7 +50,7 @@
   }
 
   .Select__menu-outer {
-    z-index: @z-index__select-box-flyouts;
+    z-index: var(--ids-z-index-option-select-box-flyouts);
   }
 
   .Select__indicators,
@@ -84,7 +84,7 @@
       border-width: var(--arrow-height) 4px;
       border-style: solid;
       pointer-events: none;
-      border-color: #6a7c8f transparent transparent transparent;
+      border-color: var(--ids-color-option-neutral-500) transparent transparent transparent;
     }
   }
 

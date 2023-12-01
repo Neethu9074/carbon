@@ -8,6 +8,8 @@ import { ReactNode, ReactElement } from 'react';
 
 import { Observable } from '@instana/observables';
 
+import { ColumnDefinition as ServerTableColumnDefinition } from 'in-components/tables/ServerTable/types';
+
 export interface TableActions<ItemType extends Object> {
   select?: {
     select: (entity: ItemType) => void;
@@ -21,13 +23,9 @@ export interface TableActions<ItemType extends Object> {
   };
 }
 
-export interface ColumnDefinition<ItemType extends Object> {
-  id: number | string;
-  label?: string | undefined;
-  sortable?: boolean | undefined;
-  width?: string | undefined | number;
-  ellipsis?: boolean | undefined;
-  getContent: (entity: ItemType) => ReactNode;
+export interface ColumnDefinition<ItemType extends Object> extends ServerTableColumnDefinition<ItemType> {
+  getValue?: (entity: ItemType) => any;
+  label?: string;
 }
 
 interface ListProps<ItemType extends Object> {

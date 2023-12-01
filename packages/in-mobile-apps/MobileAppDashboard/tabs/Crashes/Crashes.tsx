@@ -66,7 +66,7 @@ function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
 
 const columnDefinitions = [
   {
-    id: 'errorMessage',
+    id: 'name',
     label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelErrorMessage'),
     getContent: (
       item: MobileAppPaginatedBeaconGroupsItem,

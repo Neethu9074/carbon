@@ -3,21 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
 import { recreateSloField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
+import { getWebsiteConfigurations as getWebsiteConfigsAsResultObservable } from 'in-websites/api/websites';
+import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import { getSliConfigurations } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { indeterminateProgress } from 'in-services/fixedObjects';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
 import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
+import Overlay from 'in-components/overlays/Overlay';
+import { all } from 'in-hooks/utils/progress';
 import { Trans, t } from 'in-i18n';
 
 export default function FormComponent({
@@ -28,7 +36,13 @@ export default function FormComponent({
   formatterSection,
   timeShiftConfiguration
 }) {
-  const { data: sliConfigurations } = useObservable(() => getSliConfigurations(), []) ?? {};
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: sliConfigurations = [], progress: sliConfigProgress = indeterminateProgress } =
+    useObservable(() => getSliConfigurations(), []) ?? {};
+  const { data: applicationConfigs = [], progress: applicationsProgress = indeterminateProgress } =
+    useObservable(() => getApplicationConfigsAsResultObservable(), []) ?? {};
+  const { data: websiteConfigs = [], progress: websitesProgress = indeterminateProgress } =
+    useObservable(() => getWebsiteConfigsAsResultObservable(), []) ?? {};
   const metric = form.get('metric').value;
   const showSlo = metric && metric !== 'SLI';
 
@@ -39,39 +53,59 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metric]);
 
+  const progress = all(sliConfigProgress, applicationsProgress, websitesProgress);
+  const entityConfigs = [...applicationConfigs, ...websiteConfigs];
+
   return (
     <Stack gap="xsmall">
       <Sections>{dataSourceSection}</Sections>
-
-      {form.get('sliConfigId').map(field => (
-        <Sections>
-          <SelectInSection
-            label={t('in-custom-dashboards:widgets.srcSli.formComp.configSli')}
-            id="metric-configurator-sli-id"
-            value={field.value}
-            onChange={e =>
-              onChange([], form =>
-                form.updateIn(['sliConfigId'], field => field.setValue(e.target.value).setTouched(true))
-              )
-            }
-            hasError={!field.valid && field.touched}
-            actions={
-              <HelpAction>
-                {t('in-custom-dashboards:widgets.srcSli.formComp.sliConfigComputeErrBudgetSliVal')}
-              </HelpAction>
-            }
-            additionalContent={<TouchedMessages field={field} />}
-          >
-            <option value="">{t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect')}</option>
-            {sliConfigurations &&
-              sliConfigurations.map(({ id, sliName }) => (
-                <option key={id} value={id}>
-                  {sliName}
-                </option>
-              ))}
-          </SelectInSection>
-        </Sections>
-      ))}
+      {form.get('sliConfigId').map(field => {
+        const selectedSliConfig = sliConfigurations.find(({ id }) => id === field.value);
+        const options = getDropdownOptions(entityConfigs, sliConfigurations);
+        const buttonLabel =
+          selectedSliConfig?.sliName ?? t('in-custom-dashboards:widgets.srcSli.formComp.pleaseSelect');
+        return (
+          <Sections>
+            <Section
+              title={t('in-custom-dashboards:widgets.srcSli.formComp.configSli')}
+              id="metric-configurator-sli-id"
+              actions={[
+                <HelpAction>
+                  {t('in-custom-dashboards:widgets.srcSli.formComp.sliConfigComputeErrBudgetSliVal')}
+                </HelpAction>
+              ]}
+            >
+              <Overlay
+                content={({ close }) => (
+                  <SelectorOverlay
+                    options={options}
+                    loading={progress.loading}
+                    onChange={({ id }) => {
+                      onChange([], form =>
+                        form.updateIn(['sliConfigId'], field => field.setValue(id).setTouched(true))
+                      );
+                      close();
+                    }}
+                    query={searchQuery}
+                    onQueryChange={setSearchQuery}
+                    shouldTriggerWindowResize
+                    strict
+                    withIcons
+                  />
+                )}
+                align="bottomLeft"
+                withoutWrapper
+              >
+                {({ toggle, refSetter }) => (
+                  <DropdownButton kind="secondary" onClick={toggle} refSetter={refSetter}>
+                    {buttonLabel}
+                  </DropdownButton>
+                )}
+              </Overlay>
+            </Section>
+          </Sections>
+        );
+      })}
       {form.get('metric').map(field => (
         <Sections>
           <SelectInSection
@@ -135,4 +169,52 @@ export default function FormComponent({
       {labelSection}
     </Stack>
   );
+}
+
+function getEntityType(sliType) {
+  if (sliType === 'websiteEventBased' || sliType === 'websiteTimeBased') return 'website';
+  return 'application';
+}
+
+function getDropdownOptions(entityConfigs, sliConfigs) {
+  const categories = {};
+
+  sliConfigs.forEach(({ id: sliConfigId, sliName, sliEntity }) => {
+    const entityType = getEntityType(sliEntity.sliType);
+    const entityId = sliEntity[`${entityType}Id`];
+
+    if (!(entityId in categories)) {
+      const label = findEntityLabel(entityConfigs, entityId, entityType);
+      categories[entityId] = {
+        id: entityId,
+        label,
+        children: [],
+        icon: `lib_${entityType}`
+      };
+    }
+    const applicationLabel = categories[entityId].label;
+    const breadcrumbAndLabel = t('in-custom-dashboards:widgets.srcSli.formComp.combinedLabel', {
+      applicationLabel,
+      sliName
+    });
+    categories[entityId].children.push({ id: sliConfigId, label: sliName, breadcrumbAndLabel });
+  });
+
+  return Object.values(categories);
+}
+
+function findEntity(entityConfigs, entityId) {
+  return entityConfigs.find(({ id }) => id === entityId);
+}
+
+function findEntityLabel(entityConfigs, entityId, entityType) {
+  const entity = findEntity(entityConfigs, entityId);
+
+  if (!entity) {
+    return t('in-custom-dashboards:widgets.unknownEntityLabel', { context: entityType });
+  }
+
+  if (entityType === 'website') return entity.name;
+
+  return entity.label;
 }

@@ -17,4 +17,8 @@
   .withError {
     border-color: var(--ids-color-option-red-500);
   }
+
+  .disabled {
+    pointer-events: none;
+  }
 }

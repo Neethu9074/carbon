@@ -19,6 +19,7 @@ import {
 } from 'in-applications/navigation/paths';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
+import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -26,18 +27,19 @@ import { applicationDashboardUrlParameters } from 'in-applications/navigation/ur
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
+import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import tabs from 'in-applications/Dashboards/application/tabs/index';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { getApplicationConfigScopeRoleId } from 'in-api/users';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -69,6 +71,14 @@ export default function ApplicationDashboard({ location }) {
     [appId, timeConfig, boundaryScope]
   );
 
+  const canConfigureApplications = useObservable(
+    role.canConfigureApplications
+      ? getApplicationConfigScopeRoleId(appId)
+          .map(result => result?.data?.toString())
+          .map(data => data === ScopeRoles.Owner || data === ScopeRoles.Contributor)
+      : false, [appId]
+  );
+
   const props = {
     applicationId: appId,
     viewPath: applicationDashboard,
@@ -94,7 +104,7 @@ export default function ApplicationDashboard({ location }) {
       <TabView
         HeaderComponent={Header}
         location={location}
-        tabs={tabs}
+        tabs={getApplicationTabs(canConfigureApplications)}
         props={props}
         result$={getApplication({ id: props.applicationId })}
         withProps={({ result }) => ({

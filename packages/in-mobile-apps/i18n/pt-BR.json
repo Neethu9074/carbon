@@ -21,6 +21,10 @@
       "transferSizeLabel": "Tamanho da transferência",
       "transferSizeCategory": "Dimensionamento de recurso"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Contagem de sessões afetadas por travamento",
+      "crashAffectedUserCount": "Contagem de usuários afetados por travamento"
+    },
     "errorRate": {
       "label": "Taxa de erro",
       "rawDataLabel": "Contagem de erros"
@@ -215,6 +219,7 @@
       "crashLabel": "Travamento",
       "metaHeader": "Meta",
       "stackTrace": "Rastreio de pilha",
+      "stackTraceLastOccurrence": "Rastreio de pilha (última ocorrência)",
       "stackTraceButtonPrettyStackTrace": "Rastreio de pilha considerável",
       "stackTraceButtonRawStackTrace": "Rastreio de pilha bruto"
     },
@@ -340,6 +345,37 @@
       "viewAllOs": "Visualizar todos os sistemas operacionais",
       "appVersions": "versões do app",
       "viewAllVersions": "Visualizar todas as versões",
+      "configurations": {
+        "symbolFileConfigLabel": "Conversão do rastreio de pilha",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "Remova todas as APIs de arquivos",
+          "dialogMessageConfigurationUpdated": "Configuração atualizada.",
+          "dialogMessageFailedToSaveConfiguration": "Falha ao salvar a configuração: {{message}}",
+          "dialogMessageNewConfigurationSaved": "Nova configuração salva.",
+          "dialogMessageSavingConfiguration": "Salvando configuração…",
+          "fileCommitUrl": "Confirmar a API do arquivo de símbolo",
+          "fileUploadConfigurationDialogTitleEdit": "Editar a configuração de upload do arquivo de símbolo",
+          "fileUploadConfigurationDialogTitleNew": "Nova configuração de upload do arquivo de símbolo",
+          "fileUploadConfigurationDialogLabelDescription": "Descrição",
+          "fileUploadConfigurationDialogHeadingDescription": "Descrição",
+          "fileUploadConfigurationDialogDescriptionHelp": "Uma configuração de upload irá ajudá-lo a organizar melhor seus arquivos transferidos por upload.",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "Fazendo upload de arquivos de símbolo",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Faça upload de seus arquivos de símbolo chamando a API de REST da web do Instana. Isso poderia ser integrado ao seu processo de pipeline para implementação automatizada. A explicação e o uso de nossa API de REST da Web estão definidos dentro da nossa <documentation>documentação</documentation>.",
+          "fileUploadUrl": "Fazer upload da API do arquivo de símbolo",
+          "stackTraceTranslationLabelConfiguration": "Configuração",
+          "stackTraceTranslationLabelFiles": "Arquivos",
+          "stackTraceTranslationLabelTotalSize": "Tamanho total",
+          "stackTraceTranslationLabelLastModified": "Modificado pela Última Vez",
+          "stackTraceTranslationExplanationWithUploadFeature": "Para tornar os rastreios de pilha mais legíveis, por exemplo, para mostrar referências a arquivos e linhas não minificados, o Instana precisa interpretar código com os arquivos de símbolo. A inclusão de uma configuração de upload aqui poderia permitir fazer o upload de seus arquivos de símbolo de aplicativo móvel por meio da API de REST da web do Instana. Assim, o Instana pode fornecer mais insights sobre erros de travamento do aplicativo móvel.",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversão do rastreio de pilha",
+          "stackTraceTranslationLearnMoreLabel": "Saiba mais sobre a conversão do rastreio de pilha",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configurações de Conversão de Rastreio de Pilha.",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "Configurações de upload do arquivo de símbolo",
+          "stackTraceTranslationNoUploadDataMessage": "Não há nenhuma configuração de upload do arquivo de símbolos disponível.",
+          "stackTraceTranslationButtonAddConfiguration": "Incluir configuração",
+          "stackTraceTranslationLabelFileUploadConfiguration": "Configuração de upload do arquivo de símbolo {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "Mensagem de erro",
         "crashesLabelOccurrences": "Ocorrências",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "Travamentos",
         "crashInfoTitle": "Detalhes",
         "crashInfoMessage": "Mensagem",
-        "backToCrashList": "Voltar à lista de travamentos",
+        "backToCrashList": "Voltar para os grupos de travamento",
         "crashTitleMobileAppCrashDetails": "Detalhes do travamento do app móvel"
       },
       "customEvents": {

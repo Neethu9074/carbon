@@ -8,8 +8,8 @@
 :local {
   .card {
     background: #fff;
-    border-top-left-radius: var(--ids-border-radius-small);
-    border-top-right-radius: var(--ids-border-radius-small);
+    border-top-left-radius: var(--ids-border-radius-option-small);
+    border-top-right-radius: var(--ids-border-radius-option-small);
   }
 
   .header {
@@ -18,8 +18,8 @@
     align-items: center;
     padding: 1rem;
     background: var(--ids-color-option-neutral-200);
-    border-top-left-radius: var(--ids-border-radius-small);
-    border-top-right-radius: var(--ids-border-radius-small);
+    border-top-left-radius: var(--ids-border-radius-option-small);
+    border-top-right-radius: var(--ids-border-radius-option-small);
   }
 
   .noSubContent {
@@ -36,7 +36,7 @@
 
   .framed {
     border: 1px solid var(--ids-color-option-neutral-200);
-    border-radius: var(--ids-border-radius-small);
+    border-radius: var(--ids-border-radius-option-small);
 
     &.darkFrame {
       border: 1px solid var(--ids-color-option-neutral-300);

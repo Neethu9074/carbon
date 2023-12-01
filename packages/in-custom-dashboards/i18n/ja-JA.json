@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "不明なエンティティー",
+    "unknownEntityLabel_application": "不明なアプリケーション",
+    "unknownEntityLabel_website": "不明な Web サイト",
     "invalidWidgetTypeErrorMessage": "<strong>無効なウィジェット・タイプ</strong><br/>このウィジェットには無効なタイプが含まれています。修正するには、ダッシュボードJSONを編集するか、ウィジェットを削除してください。",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "選択してください",
         "sliConfigComputeErrBudgetSliVal": "エラー・バジェット値および SLI 値を計算するために使用される SLI 構成",
         "typeSloThreshold": "必要な SLO しきい値を入力します (<code>{{compact}}</code> から <code>{{detailed}}</code>)。",
-        "valType": "値のタイプ"
+        "valType": "値のタイプ",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "サービス・レベル指標"
@@ -220,6 +224,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "選択してください",
+        "metric": "メトリック",
+        "selectMetric": "メトリックを選択してください",
+        "aggregation": "集約",
+        "successRate": "成功率",
+        "locations": "ロケーション",
+        "responseTime": "応答時間",
+        "responsesize": "応答サイズ"
+      },
       "index": {
         "syntheticMonitoring": "シンセティック・モニタリング"
       }
@@ -669,8 +683,6 @@
         "tooltip_application": "アプリケーション Apdex"
       },
       "widget": {
-        "unknownEntityLabel_application": "不明なアプリケーション",
-        "unknownEntityLabel_website": "不明な Web サイト",
         "previewDataInfo": "過去 7 日間のプレビュー・データが表示されます。 最終ウィジェットには、Apdex 構成を作成した後のデータのみが含まれます。"
       },
       "applicationScopeConfigurator": {

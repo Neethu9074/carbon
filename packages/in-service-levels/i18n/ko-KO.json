@@ -118,6 +118,11 @@
       "delete": "삭제"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "사용자 정의 필터가 구성되지 않았습니다."
+    }
+  },
   "createSloDialog": {
     "customFilter": "사용자 정의 필터(선택사항)",
     "title": "SLO(Service Level Objective) 생성",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "시간 창 크기는 31일 이하여야 함",
     "errorTimeWindowWeek": "시간 창 크기는 4주 이하여야 함",
     "errorTimeWindowMin": "시간 창의 길이는 최소 1일이어야 함",
+    "errorInvalidExpression": "입력한 필터가 올바르지 않습니다.",
+    "errorBlankEntity": "목록에서 엔티티를 선택하십시오.",
     "nameAndTagsTitle": "이름 및 태그",
     "nameAndTagsNavItem": "이름 및 태그",
     "sloNameLabel": "SLO 이름",

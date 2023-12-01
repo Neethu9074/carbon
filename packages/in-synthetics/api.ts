@@ -6,11 +6,21 @@
 import { Observable } from '@instana/observables';
 import { create } from '@instana/observables';
 
+import {
+  Result,
+  SyntheticLocation,
+  SyntheticTest,
+  CatalogUseCase,
+  TagCatalog,
+  TimeConfig,
+  MetricSource
+} from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { Result, SyntheticLocation, SyntheticTest } from 'in-types';
+import { roundDownToWeek } from 'in-services/util/date';
 import { deepFreeze } from 'in-services/util/object';
+import { isNotBlank } from 'in-services/util/string';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -18,6 +28,7 @@ const testsUrl = `/api/synthetics/settings/tests`;
 const locationUrl = `/api/synthetics/settings/locations`;
 const resultUrl = `/api/synthetics/results`;
 const applicationsListUrl = `/api/application-monitoring/settings/application`;
+const tagCatalogUrl = `/api/synthetics/catalog`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -48,18 +59,29 @@ export function deleteLocation(locationId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
-export const getLocationsAsResultObservable = memoize(
+export const getLocationsAsResultObservable: (
+  testType: string,
+  locationType?: string
+) => Observable<Result<SyntheticLocation[]> | null> = memoize(
   getLocationsAsResultObservableInternal,
-  (testType: string) => testType,
-  1000
+  (testType: string, locationType?: string) => (locationType ? testType + locationType : testType),
+  2000
 );
-export function getLocationsAsResultObservableInternal(testType: string) {
+export function getLocationsAsResultObservableInternal(testType: string, locationType?: string) {
+  const filters: string[] = [];
+  if (isNotBlank(testType)) {
+    filters.push(`filter={playbackCapabilities.syntheticType=${testType}}`);
+  }
+  if (isNotBlank(locationType)) {
+    filters.push(`filter={locationType=${locationType}}`);
+  }
+
   return refreshSignal.flatMap(() =>
     createObservable(
       http<SyntheticLocation[]>({
         method: 'GET',
         maxRetries: 3,
-        url: testType === '' ? locationUrl : locationUrl + `?filter={playbackCapabilities.syntheticType=${testType}}`
+        url: filters.length > 0 ? locationUrl + `?${filters.join('&')}` : locationUrl
       }).map(response => deepFreeze(response))
     ).startWith(null)
   );
@@ -151,3 +173,22 @@ export function getApplicationsList(): Observable<unknown> {
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
+
+export const getSyntheticTagCatalog =
+  ({ dataSource, useCase }: { dataSource: MetricSource; useCase: CatalogUseCase }) =>
+  ({ timeConfig }: { timeConfig: TimeConfig }): Observable<Result<TagCatalog>> => {
+    // round down the from timestamp to the beginning of the week to make the caching more efficient
+    const from = timeConfig ? roundDownToWeek((timeConfig.to || Date.now()) - timeConfig.windowSize) : undefined;
+
+    return http<TagCatalog>({
+      method: 'GET',
+      maxRetries: 3,
+      url: tagCatalogUrl,
+      mapToResultObject: true,
+      queryParams: {
+        from,
+        dataSource,
+        useCase
+      }
+    }).map(response => deepFreeze(response));
+  };

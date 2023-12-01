@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "Crear nuevo grupo",
     "dialogTitle_edit": "Editar ámbito de acceso",
-    "editButton": "Editar ámbito de acceso",
-    "productArea": "Rol y ámbito de acceso"
+    "editButton": "Editar",
+    "productArea": "Configuración de acceso para {{tenantUnit}}"
   },
   "productAreas": {
     "allApplications": "Todas las aplicaciones",
@@ -74,9 +74,12 @@
     "role_owner": "Propietario (Owner)",
     "role_viewer": "Visor",
     "role_permissions": "Desconocido - Acceso {{quantityOfAreas}}",
+    "role_permissions_contributor": "Colaborador - Acceso {{quantityOfAreas}}",
     "role_permissions_owner": "Propietario - Acceso {{quantityOfAreas}}",
     "role_permissions_viewer": "Visor - Acceso {{quantityOfAreas}}",
     "role_permission_scope_all": "todos",
+    "role_permissions_contributor_and_owner": "Acceso de propietario {{quantityOfAreas}} y Acceso de colaborador {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "Acceso de visor {{quantityOfAreas}} y Acceso de colaborador {{quantityOfAreasContributor}}",
     "no_access": "Sin acceso",
     "platform_permissions": "Acceder a {{quantityOfAreas}}",
     "analyticsContentMessage": "Puede ver datos de analítica definidos por el ámbito de acceso en sitios web, aplicaciones móviles, aplicaciones, plataformas e infraestructura",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "Añadir espacio de nombres",
     "addButton_syntheticTests": "Seleccionar pruebas sintéticas",
     "descriptionAccessAll_synthetics": "Se puede acceder a todas las pruebas sintéticas con el rol seleccionado.",
-    "descriptionLimitedAccess_synthetics": "Seleccione el rol y añada Pruebas sintéticas a continuación para otorgar acceso."
+    "descriptionLimitedAccess_synthetics": "Seleccione el rol y añada Pruebas sintéticas a continuación para otorgar acceso.",
+    "contribution_filter": "Filtro de contribución",
+    "contributionFilter_description": "El filtro se heredará para la creación de nuevas configuraciones de aplicación. En la configuración de la perspectiva de aplicación, se puede definir mejor con una etiqueta de filtro adicional después de un operador {{logicalOperator}}",
+    "contributionFilter_downstreamCalls": "Determinar el nivel máximo de información adicional que se puede incluir en las perspectivas de aplicación",
+    "contributionFilter_name": "Nombre"
   },
   "selectItemForm": {
     "doneButton": "Hecho"
@@ -156,23 +163,96 @@
     "nameColumnHead": "Nombre"
   },
   "permissionScope": {
+    "access_level": "Nivel de acceso",
+    "configuration_summary": "Resumen de configuración",
     "selection": "No disponible",
     "selection_access_all": "Acceder a todos",
     "selection_limited_access": "Acceso limitado",
     "selection_no_access": "Sin acceso",
     "selection_viewer_access": "Acceso de visor",
+    "selection_owner_access": "Acceso de propietario",
+    "selection_contributor_access": "Acceso de colaborador",
     "description_no_access": "No se puede utilizar esta área en absoluto",
     "description_no_access_kubernetes": "Sin acceso a espacios de nombres y clústeres.",
     "description_access_all": "Acceso a todos sin limitación",
+    "description_access_all_except_contributor": "Acceder a todos, excepto a los que se accede como colaborador",
     "role": "Seleccionar un rol",
     "roleSelection": "Rol",
     "role_owner": "Propietario (Owner)",
     "role_viewer": "Visor",
     "role_custom": "Personalizar",
+    "role_contributor": "Colaborador",
+    "role_permissions": "Rol / Permisos",
     "roleTooltip_websites": "Visor: capacidad para ver los paneles de control del sitio web (no se puede ver la configuración). <br /> Propietario: capacidad para crear nuevos sitios web; ver, configurar y suprimir paneles de control del sitio web.",
     "roleTooltip_mobileApps": "Visor: capacidad para ver paneles de control de aplicaciones móviles (no se puede ver la configuración). <br /> Propietario: capacidad para crear nuevas aplicaciones móviles; ver, configurar y suprimir paneles de control de aplicaciones móviles.",
     "roleTooltip_applications": "Visor: capacidad para ver paneles de control de aplicaciones (no se puede ver la configuración). <br /> Propietario: capacidad para crear nuevas aplicaciones; ver, configurar y suprimir paneles de control de aplicaciones.",
-    "roleTooltip_synthetics": "Visor: capacidad de ver paneles de control de prueba sintética (no se puede ver la configuración). <br /> Propietario: capacidad de crear nuevas pruebas sintéticas; ver, configurar y suprimir pruebas sintéticas, y ver y suprimir ubicaciones sintéticas."
+    "roleTooltip_synthetics": "Visor: capacidad de ver paneles de control de prueba sintética (no se puede ver la configuración). <br /> Propietario: capacidad de crear nuevas pruebas sintéticas; ver, configurar y suprimir pruebas sintéticas, y ver y suprimir ubicaciones sintéticas.",
+    "contribution_filter_accessScope": "Ámbito de acceso limitado (Visor)",
+    "contribution_filter_warning": {
+      "firstParagraph": "Cualquier modificación que guarde actualizará todas las perspectivas de aplicación utilizando este filtro de contribución.",
+      "secondParagraph": "Si cambia el rol, el filtro de contribución se suprimirá y todas las perspectivas de aplicación que utilicen el filtro de contribución serán editables por cualquier usuario con acceso de propietario a la sección Aplicaciones. Esta acción no se puede deshacer."
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "Acceso para todas las perspectivas de aplicación bajo esta unidad.",
+        "role_permissions_contributor": "Ver todos los paneles de control de aplicación bajo esta unidad. Crear, configurar y suprimir paneles de control de aplicación utilizando el filtro de contribución."
+      },
+      "limited_access": {
+        "access_level": "Acceso limitado para las aplicaciones seleccionadas a continuación.",
+        "access_level_contributor": "Ver los paneles de control de aplicación seleccionados a continuación",
+        "role_permissions_contributor": "Crear, configurar y suprimir paneles de control de aplicación utilizando el filtro de contribución. (Los paneles de control de aplicación creados por colaboradores serán visibles en la visión general del grupo y en la sección Lista de aplicaciones.)"
+      },
+      "role_permissions_owner": "Crear, configurar, ver y suprimir paneles de control de aplicación.",
+      "role_permissions_viewer": "Ver paneles de control de perspectiva de aplicación y su configuración."
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "Acceso a todos los paneles de control de entidad bajo esta unidad, que están relacionados con el acceso otorgado a la aplicación y a las plataformas."
+      },
+      "role_permissions_owner": "Ver paneles de control de entidad.",
+      "role_permissions_viewer": "Ver paneles de control de entidad."
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "Acceso para todos los espacios de nombres y clústeres bajo esta unidad."
+      },
+      "limited_access": {
+        "access_level": "Acceso limitado para los espacios de nombres y clústeres seleccionados a continuación."
+      },
+      "role_permissions": "Ver espacios de nombres y clústeres."
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "Acceso para todas las aplicaciones móviles de esta unidad."
+      },
+      "limited_access": {
+        "access_level": "Acceso limitado para las aplicaciones móviles seleccionadas a continuación."
+      },
+      "role_permissions_owner": "Crear, configurar, ver y suprimir aplicaciones móviles.",
+      "role_permissions_viewer": "Ver aplicaciones móviles y su configuración."
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "Acceso para todas las pruebas sintéticas bajo esta unidad."
+      },
+      "limited_access": {
+        "access_level": "Acceso limitado para las pruebas sintéticas seleccionadas a continuación."
+      },
+      "role_permissions_owner": "Crear, configurar, ver y suprimir pruebas sintéticas.",
+      "role_permissions_viewer": "Ver pruebas sintéticas y su configuración."
+    },
+    "website": {
+      "access_all": {
+        "access_level": "Acceso a todos los sitios web de esta unidad."
+      },
+      "limited_access": {
+        "access_level": "Acceso limitado para los sitios web seleccionados a continuación."
+      },
+      "role_permissions_owner": "Crear, ver y suprimir sitios web.",
+      "role_permissions_viewer": "Ver sitios web y su configuración."
+    }
   },
   "cardTitle_Area": "Área",
   "cardTitle_Area_plural": "Áreas",
@@ -225,7 +305,8 @@
         "placeholder": "Marcador de posición",
         "logicalOperator_AND": "Y",
         "logicalOperator_OR": "O",
-        "logicalOperatorInfo": "El operador lógico seleccionado se aplicará a las condiciones siguientes."
+        "logicalOperatorInfo": "El operador lógico seleccionado se aplicará a las condiciones siguientes.",
+        "clearMetricSeclection": "Borrar selección"
       },
       "customPayload": {
         "unknownTag": "Etiqueta desconocida: {{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "Aplicación global SmartAlert",
     "syntheticSmartAlert": "SmartAlert sintético",
     "mobileSmartAlert": "SmartAlert móvil",
+    "infraSmartAlert": "Infraestructura SmartAlert",
     "enabled": "Habilitado",
     "disabled": "Inhabilitado",
     "invalidQuery": "Consulta no válida",
@@ -776,6 +858,7 @@
     "alert": "Alerta",
     "unknownAlert": "Alerta desconocida",
     "pleaseSelectAtLeastOneApplication": "Seleccione al menos una aplicación.",
+    "pleaseSelectAtLeastOneTagFilter": "Seleccione al menos un filtro de etiqueta.",
     "noAlertConfigured": "No hay ninguna alerta configurada.",
     "additionalScope": "Ámbito adicional",
     "state": "Estado...",
@@ -891,6 +974,7 @@
     "applyOn": "Aplicar en",
     "applicationPerspective": "Perspectiva de aplicación",
     "selectedEntitiesDynamicFocusQuery": "Entidades seleccionadas (consulta de foco dinámico)",
+    "syntheticTests": "Pruebas sintéticas",
     "automaticallyCloseAfter": "Cerrar automáticamente después de",
     "selectedEntitiesHostByTag": "Entidades seleccionadas (hosts de ámbito por código)",
     "scopeHostsByTag": "Hosts de ámbito por código",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "Este suceso en desuso se migra. Para obtener más información, <documentationLink>consulte nuestra documentación</documentationLink>.",
     "deprecatedEventSelectedMessage": "Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso. En el futuro, no podrá crear nuevos sucesos para estos tres tipos de entidad. En su lugar, se recomienda crear una alerta inteligente. <documentationLink>Más información en la documentación</documentationLink>.",
     "customEventListDeprecatedWarning": "<strong>Sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso</strong><br/>En el futuro, no podrá crear o actualizar sucesos personalizados en estos tres tipos de entidad. <documentationLink>Más información en nuestra documentación</documentationLink>",
+    "customUserListInformation": "<strong>Los usuarios se suministran automáticamente desde el proveedor de identidad (IdP).</strong><br/>Los usuarios aparecen en esta sección después de iniciar sesión en Instana con inicio de sesión único (SSO).",
     "deletedEventMessage": "Está buscando una configuración de suceso suprimida. Las modificaciones no son posibles.",
     "serviceNowUrl": "URL de ServiceNow",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "Secreto de consumidor",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "URL de organización de Salesforce",
-    "alertChannelDocumentationMessage": "Para obtener más detalles sobre cómo configurar este canal de alertas, <documentationLink>consulte nuestra documentación</documentationLink>"
+    "alertChannelDocumentationMessage": "Para obtener más detalles sobre cómo configurar este canal de alertas, <documentationLink>consulte nuestra documentación</documentationLink>",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Asegúrese de que el acceso de usuario a Instana esté inhabilitado en el proveedor de identidad.",
+    "createIDPConfirmationDescription": "Las invitaciones pendientes se suprimirán. Los usuarios se suministran automáticamente desde el proveedor de identidad (IdP)."
   },
   "languageSelection": {
     "language": "Idioma",
@@ -1139,7 +1226,10 @@
       "awesome": "Excelente",
       "meh": "Regular",
       "terrible": "Terrible"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "Todas las entidades",
+    "appQuery": "{{numApps}} aplicaciones"
   },
   "terms": {
     "failedToSaveSettings": "no se han podido guardar los valores: {{settings}} {{err}}",

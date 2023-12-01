@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .stateWrapper {
     display: flex;
@@ -66,7 +64,7 @@
 
   .horizontalIndicator {
     height: 0.5rem;
-    border-radius: 0.3125rem;
+    border-radius: var(--ids-border-radius-option-large);
   }
 
   .warnIcon {

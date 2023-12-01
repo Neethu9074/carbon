@@ -28,12 +28,13 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { infraSmartAlertsPredictionsEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
+import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
-import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import PluginIcon from 'in-components/PluginIcon';
@@ -59,7 +60,9 @@ export default function InfraEventContent({ event }: Props) {
   const entityName = event.getIn(['metadata', 'entityName'], '');
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
   const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
-  const predictions = event.getIn(['metadata', 'predictions'], emptyMap).toJS();
+  const predictions = event.getIn(['metadata', 'predictions'], emptyList).toJS();
+  const lowerBound = event.getIn(['metadata', 'lowerBound'], emptyList).toJS();
+  const upperBound = event.getIn(['metadata', 'lowerBound'], emptyList).toJS();
 
   const tagFilterExpression = alertConfig.tagFilterExpression;
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
@@ -74,20 +77,18 @@ export default function InfraEventContent({ event }: Props) {
 
   const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
 
-  const maxPredictionTime =
-    predictions && predictions.length > 0
-      ? Math.max(
-          ...predictions.map((arr: any) => {
-            return arr[0];
-          })
-        )
-      : undefined;
-
-  const timeConfig = {
-    ...getChartTimeConfigByEvent(event, maxPredictionTime),
+  let timeConfig = {
+    ...getChartTimeConfigByEvent(event),
     autoRefresh: false,
     ...(windowSize && { windowSize })
   } as TimeConfig;
+
+  // If the event includes predictions, the endtime is either the end date or the last timestamp in the prediction, whichever is greater.
+  if (predictions?.length > 0 && infraSmartAlertsPredictionsEnabled) {
+    const predictionMaxTime = predictions[predictions.length - 1][0];
+    const endTime = timeConfig?.to ? Math.max(timeConfig?.to, predictionMaxTime) : predictionMaxTime;
+    timeConfig = { ...timeConfig, to: endTime, focusedMoment: endTime };
+  }
 
   return (
     <>
@@ -119,7 +120,9 @@ export default function InfraEventContent({ event }: Props) {
           <InfraAlertChartWrapper
             alertConfig={alertConfigWithGroupingExpression}
             timeConfig={timeConfig}
-            predictions={predictions}
+            predictions={infraSmartAlertsPredictionsEnabled ? predictions : []}
+            lowerBound={infraSmartAlertsPredictionsEnabled ? lowerBound : []}
+            upperBound={infraSmartAlertsPredictionsEnabled ? upperBound : []}
           />
         </Col>
       </Row>

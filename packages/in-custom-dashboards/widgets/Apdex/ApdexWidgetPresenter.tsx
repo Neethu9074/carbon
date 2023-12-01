@@ -37,8 +37,7 @@ export default function ApdexWidgetPresenter({
   const tagCatalog = useTagCatalog(tagCatalogLoader);
 
   const [entity, , , entityProgress] = useMonitoredEntity({ entityType, entityId });
-  const entityLabel =
-    entity?.label ?? t('in-custom-dashboards:widgets.apdex.widget.unknownEntityLabel', { context: entityType });
+  const entityLabel = entity?.label ?? t('in-custom-dashboards:widgets.unknownEntityLabel', { context: entityType });
 
   const [metrics, , errors, metricProgress] = useApdexMetrics({
     id: apdexConfigId,

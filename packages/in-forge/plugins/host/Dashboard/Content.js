@@ -38,6 +38,16 @@ import locals from './Content.mless';
 
 export default function HostDashboard({ snapshot, timeConfig }) {
   const gpuInfoAvailable = snapshot.getIn(['data', 'gpu.count']);
+  var memoryUsedMetrics = ['memory.used'];
+  var memoryUsedMetricsLabels = [t('in-forge:plugins.host.dashboard.used')];
+  if (isAixOs(snapshot)) {
+    memoryUsedMetrics = ['memory.used', 'memory.compUsed', 'memory.nonCompUsed'];
+    memoryUsedMetricsLabels = [
+      t('in-forge:plugins.host.dashboard.used'),
+      t('in-forge:plugins.host.dashboard.computational'),
+      t('in-forge:plugins.host.dashboard.nonComputational')
+    ];
+  }
 
   return (
     <div>
@@ -135,15 +145,30 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            max: 1,
             formatter: percentageZeroDecimalPlaces,
-            tooltipFormatter: percentageTwoDecimalPlaces,
-            metrics: ['memory.used'],
-            labels: [t('in-forge:plugins.host.dashboard.used')],
-            type: 'stackedArea'
+            metrics: memoryUsedMetrics,
+            labels: memoryUsedMetricsLabels,
+            type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
+        {isAixOs(snapshot) && (
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.detailed,
+              metrics: ['memory.computational', 'memory.nonComputational'],
+              labels: [
+                t('in-forge:plugins.host.dashboard.computational'),
+                t('in-forge:plugins.host.dashboard.nonComputational')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        )}
         {isLinux(snapshot) && (
           <Chart
             snapshotId={snapshot.get('id')}
@@ -177,22 +202,13 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               labels: [t('in-forge:plugins.host.dashboard.swapTotal'), t('in-forge:plugins.host.dashboard.swapFree')],
               type: 'line'
             }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        )}
-        {isAixOs(snapshot) && (
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
+            y2={{
               min: 0,
-              formatter: bytes.detailed,
-              metrics: ['memory.virtualTotal', 'memory.virtualFree', 'memory.virtualUsed'],
-              labels: [
-                t('in-forge:plugins.host.dashboard.virtualTotal'),
-                t('in-forge:plugins.host.dashboard.virtualFree'),
-                t('in-forge:plugins.host.dashboard.virtualUsed')
-              ],
+              max: 1,
+              formatter: percentageTwoDecimalPlaces,
+              tooltipFormatter: percentageTwoDecimalPlaces,
+              metrics: ['memory.swapUsed'],
+              labels: [t('in-forge:plugins.host.dashboard.swapUsed')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -205,11 +221,20 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               formatter: bytes.detailed,
-              metrics: ['memory.computational', 'memory.nonComputational'],
+              metrics: ['memory.virtualTotal', 'memory.virtualFree'],
               labels: [
-                t('in-forge:plugins.host.dashboard.computational'),
-                t('in-forge:plugins.host.dashboard.nonComputational')
+                t('in-forge:plugins.host.dashboard.virtualTotal'),
+                t('in-forge:plugins.host.dashboard.virtualFree')
               ],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              max: 1,
+              formatter: percentageTwoDecimalPlaces,
+              tooltipFormatter: percentageTwoDecimalPlaces,
+              metrics: ['memory.virtualUsed'],
+              labels: [t('in-forge:plugins.host.dashboard.virtualUsed')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

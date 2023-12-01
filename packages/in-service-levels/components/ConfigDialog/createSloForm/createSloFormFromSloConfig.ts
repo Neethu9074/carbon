@@ -11,6 +11,15 @@ import { DurationUnitType, isEventBasedSli } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
 import {
+  createThresholdFieldValidator,
+  dateFieldValidator,
+  noBlankEntitySelection,
+  noInvalidTagFilterExpression,
+  targetFieldValidator,
+  timeFieldValidator,
+  timeWindowValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
+import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
@@ -19,16 +28,12 @@ import {
   TimeStamp
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
-  createThresholdFieldValidator,
-  dateFieldValidator,
-  targetFieldValidator,
-  timeFieldValidator
-} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
-import {
   createIndicatorThresholdField,
   createSloNameTagsFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { defaultBlueprint } from 'in-service-levels/constants';
 import { SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
@@ -37,7 +42,8 @@ export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveCon
   const { entity } = sloConfig;
   return {
     entityId: createField({
-      value: isApplicationSloEntity(entity) ? entity.applicationId : entity.websiteId
+      value: isApplicationSloEntity(entity) ? entity.applicationId : entity.websiteId,
+      validator: noBlankEntitySelection
     }),
     type: createField({ value: entity.type })
   };
@@ -54,7 +60,10 @@ export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveCon
       includeInternal: createField({ value: includeInternal ?? false }),
       includeSynthetic: createField({ value: includeSynthetic ?? false }),
       serviceId: createField({ value: serviceId ?? '' }),
-      tagFilterExpression: createField({ value: fromBackendModel(tagFilterExpression) })
+      tagFilterExpression: createField({
+        value: fromBackendModel(tagFilterExpression),
+        validator: noInvalidTagFilterExpression
+      })
     };
   }
 
@@ -65,7 +74,10 @@ export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveCon
     includeInternal: createField({ value: false }),
     includeSynthetic: createField({ value: false }),
     serviceId: createField({ value: '' }),
-    tagFilterExpression: createField({ value: fromBackendModel(entity.tagFilterExpression) })
+    tagFilterExpression: createField({
+      value: fromBackendModel(entity.tagFilterExpression),
+      validator: noInvalidTagFilterExpression
+    })
   };
 };
 
@@ -135,7 +147,10 @@ export const getObjectiveFormFieldsFromSloConfig = (
       value: sloConfig.target,
       validator: targetFieldValidator
     }),
-    duration: createField({ value: sloConfig.timeWindow.duration }),
+    duration: createField({
+      value: sloConfig.timeWindow.duration,
+      validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator)
+    }),
     durationUnit: createField<DurationUnitType>({ value: sloConfig.timeWindow.durationUnit }),
     startTimestamp: createMapForm<TimeStamp>({
       items: getDefaultTimestampField(sloConfig)
@@ -181,7 +196,8 @@ export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfi
         items: getScopeFieldsFromSloConfig(sloConfig)
       }),
       objective: createMapForm({
-        items: getObjectiveFormFieldsFromSloConfig(sloConfig)
+        items: getObjectiveFormFieldsFromSloConfig(sloConfig),
+        validator: timeWindowValidator
       }),
       nameTags: createMapForm({
         items: createSloNameTagsFields(sloConfig)

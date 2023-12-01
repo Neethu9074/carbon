@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { ApiApplicationScope, TagFilter } from '@instana/types';
+
 export const mockEmptyPermissionsSet = {
   applicationIds: [],
   infraDfqFilter: {},
@@ -106,27 +108,66 @@ const mockPermissionsWithFullAccess = [
   'CAN_CONFIGURE_APPLICATIONS'
 ];
 
+const mockPermissionsApplicationsAccessAllViewer = [
+  'CAN_VIEW_LOGS',
+  'LIMITED_KUBERNETES_SCOPE',
+  'ACCESS_INFRASTRUCTURE',
+  'CAN_VIEW_SYNTHETIC_TESTS',
+  'CAN_VIEW_SYNTHETIC_LOCATIONS',
+  'CAN_VIEW_SYNTHETIC_TEST_RESULTS',
+  'CAN_VIEW_TRACE_DETAILS',
+  'LIMITED_INFRASTRUCTURE_SCOPE'
+];
+const mockPermissionsApplicationsAccessAllOwner = [
+  ...mockPermissionsApplicationsAccessAllViewer,
+  'CAN_CONFIGURE_APPLICATIONS'
+];
+const mockPermissionsApplicationsAccessAllContributor = [...mockPermissionsApplicationsAccessAllViewer];
+
+const mockPermissionsApplicationsLimitedAccessViewer = ['LIMITED_APPLICATIONS_SCOPE', 'ACCESS_APPLICATIONS'];
+const mockPermissionsApplicationsLimitedAccessOwner = [
+  ...mockPermissionsApplicationsLimitedAccessViewer,
+  'CAN_CONFIGURE_APPLICATIONS'
+];
+const mockPermissionsApplicationsLimitedAccessContributor = [...mockPermissionsApplicationsLimitedAccessViewer];
+
+const mockApplicationContributionFilter = {
+  label: 'Mock contribution filter',
+  scope: 'INCLUDE_NO_DOWNSTREAM' as ApiApplicationScope,
+  tagFilterExpression: {
+    booleanValue: undefined,
+    entity: 'DESTINATION',
+    key: undefined,
+    name: 'service.name',
+    numberValue: undefined,
+    operator: 'EQUALS',
+    stringValue: 'butler',
+    type: 'TAG_FILTER',
+    value: 'butler'
+  } as TagFilter
+};
+
 export const mockPermissionsSetWithData = {
   applicationIds: [
-    { scopeId: '1', scopeRoleId: '11' },
-    { scopeId: '2', scopeRoleId: '22' }
+    { scopeId: '1', scopeRoleId: '-101' },
+    { scopeId: '2', scopeRoleId: '-102' }
   ],
   infraDfqFilter: {},
   kubernetesClusterUUIDs: [
-    { scopeId: '3', scopeRoleId: '33' },
-    { scopeId: '4', scopeRoleId: '44' }
+    { scopeId: '3', scopeRoleId: '-1' },
+    { scopeId: '4', scopeRoleId: '-1' }
   ],
   kubernetesNamespaceUIDs: [
-    { scopeId: '5', scopeRoleId: '55' },
-    { scopeId: '6', scopeRoleId: '66' }
+    { scopeId: '5', scopeRoleId: '-1' },
+    { scopeId: '6', scopeRoleId: '-1' }
   ],
   mobileAppIds: [
-    { scopeId: '7', scopeRoleId: '77' },
-    { scopeId: '8', scopeRoleId: '88' }
+    { scopeId: '7', scopeRoleId: '-1' },
+    { scopeId: '8', scopeRoleId: '-1' }
   ],
   websiteIds: [
-    { scopeId: '11', scopeRoleId: '1111' },
-    { scopeId: '12', scopeRoleId: '1212' }
+    { scopeId: '11', scopeRoleId: '-1' },
+    { scopeId: '12', scopeRoleId: '-1' }
   ],
   syntheticTestIds: [],
   permissions: mockPermissionsWithLimitedAccess
@@ -140,4 +181,45 @@ export const mockPermissionsSetWithFullAccessData = {
 export const mockPermissionsSetWithLimitedAccessEmptyData = {
   ...mockEmptyPermissionsSet,
   permissions: mockPermissionsLimitedNoAccess
+};
+
+export const mockPermissionSetWithContributionFilter = {
+  ...mockEmptyPermissionsSet,
+  applicationIds: [
+    { scopeId: '1', scopeRoleId: '-101' }, // Viewer
+    { scopeId: '2', scopeRoleId: '-102' }, // Contributor
+    { scopeId: '3', scopeRoleId: '-102' } // Contributor
+  ],
+  restrictedApplicationFilter: mockApplicationContributionFilter
+};
+
+// merged permission set owner and contributor
+export const mockPermissionSetOwnerWithContributionFilter = {
+  ...mockEmptyPermissionsSet,
+  applicationIds: [
+    { scopeId: '1', scopeRoleId: '-100' }, // Owner
+    { scopeId: '2', scopeRoleId: '-102' }, // Contributor
+    { scopeId: '3', scopeRoleId: '-102' } // Contributor
+  ],
+  restrictedApplicationFilter: mockApplicationContributionFilter
+};
+
+export const mockPermissionSetApplicationAccessAllContributor = {
+  ...mockPermissionSetWithContributionFilter,
+  permissions: mockPermissionsApplicationsAccessAllContributor
+};
+
+export const mockPermissionSetApplicationAccessAllOwner = {
+  ...mockPermissionSetOwnerWithContributionFilter,
+  permissions: mockPermissionsApplicationsAccessAllOwner
+};
+
+export const mockPermissionSetApplicationLimitedAccessContributor = {
+  ...mockPermissionSetWithContributionFilter,
+  permissions: mockPermissionsApplicationsLimitedAccessContributor
+};
+
+export const mockPermissionSetApplicationLimitedAccessOwner = {
+  ...mockPermissionSetOwnerWithContributionFilter,
+  permissions: mockPermissionsApplicationsLimitedAccessOwner
 };

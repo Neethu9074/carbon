@@ -134,12 +134,10 @@ Example:
 ```less
 /* less module file */
 
-@import '~in-themes/active.less';
-
 :local {
   .button {
     color: black;
-    font-family: @font-family-sans-serif;
+    font-family: var(--ids-font-size-option-body-bold);
     ...;
   }
 }
@@ -160,17 +158,23 @@ function Button() {
 
 ## Use global styles
 
-We have a Less file for global styles. For example colors, borders, typography stuff, etc. Please use this variables instead defining your own values over and over again. To use this variables import active.less at the top of your Less module.
+We have a Less file for global styles. For example colors, borders, typography stuff, etc. Please use this variables instead defining your own values over and over again.
+~Not recommended anymore: To use this variables import active.less at the top of your Less module.~
+
+These variables injected by the theming mechanism in the background, they 
+are implemented as part of the @instana/design-tokens package,
+
+Please head over to the storybook/docs of the [/instana/ui-foundation](/instana/ui-foundation) repo:
+[Page about IDS color tokens](https://pages.github.ibm.com/instana/ui-foundation/?path=/docs/design-tokens-colors-ids-tokens--docs)
+
 Example:
 
 ```less
 /* less module file */
 
-@import '~in-themes/active.less';
-
 :local {
   .button {
-    font-family: @font-family-sans-serif;
+    font-family: var(--ids-font-family-option-sans-serif);
     ...;
   }
 }

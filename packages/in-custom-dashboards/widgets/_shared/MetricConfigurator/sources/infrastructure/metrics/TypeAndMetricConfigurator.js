@@ -9,7 +9,6 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 import { Message } from '@instana/components';
 
-import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';
@@ -19,6 +18,7 @@ import locals from './TypeAndMetricConfigurator.mless';
 
 export default function TypeAndMetricConfigurator({
   metricMetadata,
+  SelectorOverlay,
   errors,
   selectMetric = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric'),
   ...props
@@ -29,7 +29,7 @@ export default function TypeAndMetricConfigurator({
 
   return (
     <>
-      <Overlay content={MetricSelectionCategoryOverlay} props={props} align={'bottomLeft'} withoutWrapper>
+      <Overlay content={SelectorOverlay} props={props} align={'bottomLeft'} withoutWrapper>
         {({ toggle, refSetter }) => (
           <DropdownButton
             kind="secondary"

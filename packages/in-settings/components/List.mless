@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .createNewButton {
     margin-right: 1.5rem;
   }
 
   a:not([href]):not([tabindex]).createNewButton {
-    color: var(--colors-primary1);
+    color: var(--ids-color-option-teal-500);
   }
 
   .selectCheckbox {

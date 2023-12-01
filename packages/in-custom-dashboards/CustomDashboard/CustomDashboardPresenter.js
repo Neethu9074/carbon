@@ -44,7 +44,9 @@ export default function CustomDashboardPresenter(props) {
     onAddWidget,
     onEditWidget,
     onRemoveWidget,
-    onDuplicateWidget
+    onDuplicateWidget,
+    onFullScreenWidget,
+    onExitFullScreenWidget
   } = props;
 
   let titleOverwrite = config?.title;
@@ -136,6 +138,8 @@ export default function CustomDashboardPresenter(props) {
                       onEditWidget={onEditWidget}
                       onRemoveWidget={onRemoveWidget}
                       onDuplicateWidget={onDuplicateWidget}
+                      onFullScreenWidget={onFullScreenWidget}
+                      onExitFullScreenWidget={onExitFullScreenWidget}
                       isResizable={editable}
                       isConfigurable={editable}
                       isDraggable={editable}

@@ -54,6 +54,38 @@ export default [
     formatter: percentage
   },
   {
+    metric: 'memory.compUsed',
+    label: t('in-forge:plugins.host.compUsed'),
+    category: [t('in-forge:plugins.host.memory')],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: 'memory.nonCompUsed',
+    label: t('in-forge:plugins.host.nonCompUsed'),
+    category: [t('in-forge:plugins.host.memory')],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: 'memory.swapUsed',
+    label: t('in-forge:plugins.host.swapUsed'),
+    category: [t('in-forge:plugins.host.memory')],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: 'memory.virtualUsed',
+    label: t('in-forge:plugins.host.virtualUsed'),
+    category: [t('in-forge:plugins.host.memory')],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
     metrics: [
       'memory.swapTotal',
       'memory.swapFree',
@@ -61,7 +93,6 @@ export default [
       'memory.cached',
       'memory.available',
       'memory.virtualFree',
-      'memory.virtualUsed',
       'memory.virtualTotal',
       'memory.computational',
       'memory.nonComputational'
@@ -73,7 +104,6 @@ export default [
       t('in-forge:plugins.host.cached'),
       t('in-forge:plugins.host.available'),
       t('in-forge:plugins.host.virtualFree'),
-      t('in-forge:plugins.host.virtualUsed'),
       t('in-forge:plugins.host.virtualTotal'),
       t('in-forge:plugins.host.computational'),
       t('in-forge:plugins.host.nonComputational')

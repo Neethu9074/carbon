@@ -78,7 +78,7 @@
     background: #6b8088;
     width: 0.25rem;
     height: 0.25rem;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-option-round);
   }
 
   .right {
@@ -162,7 +162,7 @@
     min-width: 1.625rem;
     min-height: 1.625rem;
     margin-right: 0.25rem;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-option-round);
   }
 
   .problemText {
@@ -184,7 +184,7 @@
     position: absolute;
     bottom: ~'calc(100% - 2px)';
 
-    border-radius: 3px 3px 0 0;
+    border-radius: var(--ids-border-radius-option-medium) var(--ids-border-radius-option-medium) 0 0;
     z-index: 3;
   }
 

@@ -60,7 +60,7 @@
   "rootDisk": "Root Disk (GB)",
   "ephemeral": "Ephemeral Disk (GB)",
   "flavorId": "Flavor ID",
-  "flavorName": "Flavour Name",
+  "flavorName": "Flavor Name",
   "imageId": "Image ID",
   "imageName": "Image Name",
   "created": "Created",

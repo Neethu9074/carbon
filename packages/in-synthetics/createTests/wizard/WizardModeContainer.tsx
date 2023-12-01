@@ -82,6 +82,7 @@ const WizardModeContainer = ({
     }
   ]);
   const [script, setScript] = useState<Script>({ name: '', text: '', extension: 'js' });
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   return (
     <div className={locals.container}>
@@ -104,6 +105,7 @@ const WizardModeContainer = ({
                   setScriptErrors={setScriptErrors}
                   simpleMode={simpleMode}
                   setScript={setScript}
+                  setActiveTabIndex={setActiveTabIndex}
                 />
               );
             case 1:
@@ -118,6 +120,8 @@ const WizardModeContainer = ({
                   setScriptErrors={setScriptErrors}
                   scriptDetails={scriptDetails}
                   setScriptDetails={setScriptDetails}
+                  activeTabIndex={activeTabIndex}
+                  setActiveTabIndex={setActiveTabIndex}
                 />
               );
             case 2:

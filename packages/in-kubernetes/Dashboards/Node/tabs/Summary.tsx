@@ -273,6 +273,9 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -311,6 +314,9 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             paramTab="memoryTab"
             paramMetric="memoryMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -336,6 +342,9 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             paramTab="allocTab"
             paramMetric="allocMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>

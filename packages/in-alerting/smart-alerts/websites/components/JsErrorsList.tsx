@@ -75,7 +75,7 @@ export default function JsErrorsList({
             )
         }
         pageSize={10}
-        noDataMessage={t('in-alerting:smartAlerts.websites.components.noDataMessage')}
+        noDataMessage={t('in-alerting:smartAlerts.websites.components.noJSErrorFound')}
         onRowClick={error => {
           onJsErrorSelect(error.message);
           slideOut();

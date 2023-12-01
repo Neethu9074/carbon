@@ -7,7 +7,7 @@
   .errorIcon {
     background-color: var(--ids-color-option-red-500);
     color: #fff;
-    border-radius: var(--ids-border-radius-small);
+    border-radius: var(--ids-border-radius-option-small);
     flex-shrink: 0;
     display: flex;
     align-items: center;

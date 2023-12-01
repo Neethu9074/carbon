@@ -44,7 +44,7 @@ import { Col, Row } from 'in-components/layout/Grid';
 import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Crash.mless';
@@ -105,6 +105,7 @@ interface CrashTabProp {
 }
 
 function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFilters, timeConfig }: CrashTabProp) {
+  const theme = useTheme();
   const tagCatalogCrash = useTagCatalog('crash');
 
   const tagFiltersWithCrashId = tagFilters.slice();
@@ -230,25 +231,18 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
         </Row>
 
         {firstBeacon && (
-          <Fragment>
-            <Row>
-              <Col lg={12}>
-                <Card title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoTitle')}>
-                  <Dl>
-                    <Di title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoMessage')}>
-                      {firstBeacon.errorMessage}
-                    </Di>
-                  </Dl>
-                </Card>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col lg={12}>
-                <BeaconStack beacon={firstBeacon} />
-              </Col>
-            </Row>
-          </Fragment>
+          <Row>
+            <Col lg={12}>
+              <Card title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoTitle')}>
+                <Dl>
+                  <Di title={t('in-mobile-apps:dashboard.tabs.crashes.crashInfoMessage')}>
+                    {firstBeacon.errorMessage}
+                  </Di>
+                </Dl>
+                <BeaconStack beacon={firstBeacon} optionalLabel />
+              </Card>
+            </Col>
+          </Row>
         )}
 
         <Row>
@@ -263,7 +257,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                 formatter: number.forcedCompact,
                 labels: [t('in-mobile-apps:dashboard.tabs.occurrencesLabel')],
                 metricIds: ['beaconCount'],
-                colors: [theme.lib.colors.failure]
+                colors: [theme.ids.color.option.red['500']]
               }}
               metricsConfiguration={{
                 timeConfig,

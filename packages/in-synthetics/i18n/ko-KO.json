@@ -217,8 +217,8 @@
       "successMessageUpdate": "합성 테스트 업데이트 완료",
       "successMessageDelete": "합성 테스트 삭제 완료",
       "failureTitle": "실패함",
-      "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오.",
-      "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. 나중에 다시 시도하십시오.",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. {{errorMessage}}. 페이지를 새로 고친 후 다시 시도하십시오.",
       "failuteMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "삭제 이유",
       "typeToContinue": "계속하려면 {{location}} 입력",
-      "location": "위치",
       "deletionSuccess": "위치 삭제 완료",
       "cancelButton": "취소",
       "deleteLocationLabel": "위치 삭제",
       "success": "성공",
-      "failure": "실패함"
+      "failure": "실패함",
+      "popVersion": "버전",
+      "noActionsAllowed": "해당사항 없음",
+      "deleteRestrictedDescription": "관리 위치를 삭제할 수 없습니다."
     },
     "summary": {
       "successRate": "성공률",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "HAR 파일 다운로드",
       "downloadLog": "로그 다운로드",
-      "downloadImages": "스크린샷 다운로드",
+      "viewScreenshotsLabel": "스크린샷 보기",
       "downloadVideo": "다운로드 레코딩",
       "consoleLogsLevel": "콘솔",
       "consoleLogs": "콘솔",
@@ -481,6 +483,14 @@
             "connect": "연결"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "스크린샷",
+        "allScreenshots": "모든 스크린샷",
+        "allImagesButton": "모든 이미지",
+        "imageButton": "이미지",
+        "ScreenshotsLoadingMessage": "스크린샷 로드 중",
+        "noScreenshotsAvailableMessage": "이 테스트 결과에 대해 스크린샷을 사용할 수 없습니다."
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "사용 가능한 합성 테스트 없음",
       "testSummaryDescription": "데이터베이스에서 검색된 합성 테스트가 없습니다.",
       "locationListTitle": "사용 가능한 합성 위치가 없음",
-      "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다."
+      "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다.",
+      "configurationTab": "{{component}} 세부사항을 이 테스트에 사용할 수 없습니다."
     },
     "alertList": {
       "timeThreshold": "시간 임계값",
@@ -541,7 +552,7 @@
         "reasonTitle": "삭제 이유",
         "typingValidationTitle": "계속하려면 {{synthetic}} 입력",
         "cancelButton": "취소",
-        "deleteButton": "삭제"
+        "deleteButton": "테스트 삭제"
       },
       "configurationEditAction": "편집",
       "configurationDeleteAction": "삭제"

@@ -25,14 +25,15 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
+import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
-import theme from 'in-themes';
 
 import locals from './AlertChannelModificationForm.mless';
 
 export default entityForm(AlertChannelModificationForm);
 
 function AlertChannelModificationForm(props) {
+  const theme = useTheme();
   const { entity, form, message, error, loading, setForm, isCreate, renderCustomFormActions, listPath } = props;
 
   if (!entity || !form) {
@@ -42,7 +43,7 @@ function AlertChannelModificationForm(props) {
   if (entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />

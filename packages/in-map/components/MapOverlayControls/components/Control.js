@@ -48,7 +48,10 @@ export default connectTo(
           return;
         }
 
-        if (menuContent.id === 'grouping' && (currentView === types.physical || currentView === types.container)) {
+        if (
+          menuContent.id === 'lib_views_grid' &&
+          (currentView === types.physical || currentView === types.container)
+        ) {
           return;
         } else {
           const id = this.props.id ? this.props.id : this.props.type;

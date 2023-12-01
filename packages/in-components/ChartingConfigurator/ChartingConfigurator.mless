@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .addChartButton {
     margin-top: 0.125rem;
     border: 1px solid var(--ids-color-option-neutral-400);
-    border-radius: var(--ids-border-radius-medium);
+    border-radius: var(--ids-border-radius-option-medium);
   }
 }

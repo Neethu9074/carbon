@@ -11,6 +11,7 @@ import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 interface HiddenCallConfiguratorProps {
+  disabled?: boolean;
   includeInternal?: boolean;
   includeSynthetic?: boolean;
   onChangeInternal?: (includeInternal: boolean) => void;
@@ -18,6 +19,7 @@ interface HiddenCallConfiguratorProps {
 }
 
 export default function HiddenCallsConfigurator({
+  disabled = false,
   includeInternal,
   includeSynthetic,
   onChangeInternal,
@@ -27,15 +29,17 @@ export default function HiddenCallsConfigurator({
     <Row>
       <Col md={5} xs={5}>
         <CheckboxFancy
-          label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeInternalCalls')}
+          disabled={disabled}
           checked={includeInternal}
+          label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeInternalCalls')}
           onChange={() => onChangeInternal?.(!includeInternal)}
         />
       </Col>
       <Col md={5} xs={5}>
         <CheckboxFancy
-          label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeSyntheticCalls')}
+          disabled={disabled}
           checked={includeSynthetic}
+          label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeSyntheticCalls')}
           onChange={() => onChangeSynthetic?.(!includeSynthetic)}
         />
       </Col>

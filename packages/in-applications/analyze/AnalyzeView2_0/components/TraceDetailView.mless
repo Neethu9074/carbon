@@ -20,7 +20,7 @@
   }
 
   .traceId {
-    font-family: var(--typography-font-family-monospace);
+    font-family: var(--ids-font-family-option-monospace);
     padding-right: 0.5rem;
   }
 

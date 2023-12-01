@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 .breakWord() {
   word-break: break-word;
 
@@ -56,10 +54,10 @@
   line-height: 1.5;
 
   code {
-    border: 1px solid @lib__colors__N300;
-    border-radius: @lib__shapes__radius_medium;
+    border: 1px solid var(--ids-color-option-neutral-300);
+    border-radius: var(--ids-border-radius-option-medium);
     padding: 0 0.1875rem;
-    background: @lib__colors__N100;
+    background: var(--ids-color-option-neutral-100);
     font-size: 0.8rem;
   }
 }
@@ -78,4 +76,17 @@
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.visibleScrollbar {
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0.25rem;
+    background-color: var(--ids-color-option-neutral-300);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  }
 }

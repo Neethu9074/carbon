@@ -45,9 +45,10 @@ export default function ActionsLanePresenter({
   timeConfig: TimeConfig;
   chartName: string;
   boundaryScope: ApplicationBoundaryScope;
+  hasButtonInActionslane?: boolean;
   labels: { applicationLabel: string; serviceLabel?: string; endpointLabel?: string };
 }) {
-  const { boundaryScope } = remainingProps;
+  const { boundaryScope, hasButtonInActionslane } = remainingProps;
 
   const actionInstances = useMemo(() => {
     return actionInstancesData.map((entry: ActionsData) => ({
@@ -56,9 +57,10 @@ export default function ActionsLanePresenter({
       actionInstances: entry.actionInstances ?? [],
       boundaryScope,
       labels: labels,
+      hasButtonInActionslane: hasButtonInActionslane,
       snapshotHostFqdn: snapshotHostFqdn
     }));
-  }, [actionInstancesData, boundaryScope, labels, snapshotHostFqdn]);
+  }, [actionInstancesData, boundaryScope, labels, snapshotHostFqdn, hasButtonInActionslane]);
 
   return (
     <>

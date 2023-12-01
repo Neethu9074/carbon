@@ -14,11 +14,13 @@ import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullH
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { minutes } from 'in-services/time';
 import { Trans, t } from 'in-i18n';
 
 import locals from './NewApplicationWaiter.mless';
 
 export default function NewApplicationWaiter({ match }) {
+  const [gracePeriodDeadline] = useState(() => Date.now() + minutes.toMillis(2));
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const appId = match.params.appId;
 
@@ -44,15 +46,12 @@ export default function NewApplicationWaiter({ match }) {
   );
 
   const label = match.params.appName;
-  const [hasRbacErrors, setHasRbacErrors] = useState(false);
 
   if (typeof result === 'string') {
     return <Redirect to={result.substring(2)} />;
-  } else {
-    if (!hasRbacErrors && result?.errors?.map(e => e.code).includes('AUTH')) {
-      setHasRbacErrors(true);
-    }
   }
+
+  const hasRbacErrors = result?.errors?.map(e => e.code).includes('AUTH') && Date.now() > gracePeriodDeadline;
 
   const title = hasRbacErrors
     ? t('in-applications:forms.newApplication.titleApplicationCreatingUnauthorized')

@@ -118,6 +118,11 @@
       "delete": "Elimina"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "Nessun filtro personalizzato configurato"
+    }
+  },
   "createSloDialog": {
     "customFilter": "Filtro personalizzato (facoltativo)",
     "title": "Crea SLO (Service Level Objective)",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "La dimensione della finestra temporale deve essere inferiore o uguale a 31 giorni",
     "errorTimeWindowWeek": "La dimensione della finestra temporale deve essere inferiore o uguale a 4 settimane",
     "errorTimeWindowMin": "La finestra temporale deve avere una lunghezza di almeno un giorno",
+    "errorInvalidExpression": "I filtri immessi non sono validi",
+    "errorBlankEntity": "Selezionare un'entità dall'elenco",
     "nameAndTagsTitle": "Nome e tag",
     "nameAndTagsNavItem": "Nome e tag",
     "sloNameLabel": "Nome SLO",

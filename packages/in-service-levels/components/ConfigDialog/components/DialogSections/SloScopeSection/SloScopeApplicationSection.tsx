@@ -20,7 +20,7 @@ import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 export default function SloScopeApplicationSection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const applicationIdField = form.getIn(['entity', 'entityId']);
   const endpointIdField = form.getIn(['scope', 'endpointId']);
@@ -28,6 +28,8 @@ export default function SloScopeApplicationSection() {
   const includeInternalField = form.getIn(['scope', 'includeInternal']);
   const includeSyntheticField = form.getIn(['scope', 'includeSynthetic']);
   const serviceIdField = form.getIn(['scope', 'serviceId']);
+
+  const isFormInEditMode = mode === 'EDIT';
 
   return (
     <section>
@@ -38,14 +40,16 @@ export default function SloScopeApplicationSection() {
         <Sections>
           <Section title={t('in-service-levels:general.boundary')} titleWidth={titleWidth}>
             <BoundaryScopeConfigurator
-              value={boundaryField.value}
+              disabled={isFormInEditMode}
               onChange={scope =>
                 onChange(['scope', 'boundaryScope'], () => boundaryField.setValue(scope).setTouched(true))
               }
+              value={boundaryField.value}
             />
           </Section>
           <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={titleWidth}>
             <HiddenCallsConfigurator
+              disabled={isFormInEditMode}
               includeInternal={includeInternalField.value}
               includeSynthetic={includeSyntheticField.value}
               onChangeInternal={() =>
@@ -59,23 +63,25 @@ export default function SloScopeApplicationSection() {
             />
           </Section>
           <ServiceSelectBox
-            boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
-            value={serviceIdField.value}
+            boundaryScope={boundaryField.value}
+            disabled={isFormInEditMode}
             hasError={!serviceIdField.valid && serviceIdField.touched}
             onChange={value => onChange(['scope', 'serviceId'], () => serviceIdField.setValue(value!).setTouched(true))}
+            value={serviceIdField.value}
           />
           <EndpointSelectBox
-            boundaryScope={boundaryField.value}
             applicationId={applicationIdField.value}
-            serviceId={serviceIdField.value}
-            value={endpointIdField.value}
+            boundaryScope={boundaryField.value}
+            disabled={isFormInEditMode}
             hasError={!endpointIdField.valid && endpointIdField.touched}
             onChange={value =>
               onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))
             }
+            serviceId={serviceIdField.value}
+            value={endpointIdField.value}
           />
-          <ApplicationTagFilterBuilder form={form} onChange={onChange} width={titleWidth} />
+          <ApplicationTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} width={titleWidth} />
         </Sections>
       </Stack>
     </section>

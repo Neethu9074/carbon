@@ -12,18 +12,24 @@ import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable, getTestResult } from 'in-settings/tabs/AuthSettings/api/ldap';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { getInvitations$ } from 'in-api/users';
 import { t } from 'in-i18n';
 
 jest.mock('in-settings/tabs/AuthSettings/api/ldap');
 jest.mock('in-settings/tabs/AuthSettings/api/oidc');
 jest.mock('in-settings/tabs/AuthSettings/api/saml');
-
+jest.mock('in-api/users');
 // Fix Trans component, see https://github.com/i18next/react-i18next/issues/434
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: key => key }),
   // eslint-disable-next-line react/display-name
   Trans: () => <></>
 }));
+jest.mock('in-services/featureFlags', () => ({
+  disableInvitesWithIdpEnabled: true
+}));
+jest.mock('in-components/DialogPresenter/store');
 
 const mockEndpoints = () => {
   const ldap = create();
@@ -85,12 +91,23 @@ const mockEndpoints = () => {
     time: 1630330082025
   });
   getSamlConfig.mockReturnValue(saml);
+
+  getInvitations$.mockReturnValue({
+    data: [
+      {
+        id: '653a871a35c7e0000174ead5',
+        email: 'mathieu.figiel@ibm.com',
+        groupId: '-3'
+      }
+    ]
+  });
 };
 
 describe('in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap', () => {
   beforeEach(() => {
     jest.resetModules();
     mockEndpoints();
+    addActiveDialog.mockClear();
   });
 
   it('hides user password if read only user is anonymous', async () => {
@@ -149,6 +166,43 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap', () 
 
     // Testing LDAP configuration and getting the same error should show same error message
     await clickOnTestConfigurationAndFail(failReason);
+  });
+
+  it('should show confirmation dialog if there are any pending invitations', () => {
+    render(<Ldap invitations={getInvitations$()} />);
+
+    const saveBtn = screen.getByText(t('in-settings:tabs.save'));
+    expect(saveBtn).toHaveClass('button-disabled');
+
+    const urlInput = screen.getByLabelText(t('in-settings:tabs.url'));
+    fireEvent.change(urlInput, { target: { value: 'ldaps://ldap.example.com:636' } });
+
+    const userInput = screen.getByLabelText(t('in-settings:tabs.user'));
+    fireEvent.change(userInput, { target: { value: 'Hercules' } });
+
+    const pwdInput = screen.getByText(t('in-settings:tabs.passwordDescription')).parentElement.querySelector('input');
+    fireEvent.change(pwdInput, { target: { value: 'pass_12' } });
+
+    const baseInput = screen.getByLabelText(t('in-settings:tabs.base'));
+    fireEvent.change(baseInput, { target: { value: 'dc=instana' } });
+
+    const grpQueryInput = screen.getByLabelText(t('in-settings:tabs.groupQuery'));
+    fireEvent.change(grpQueryInput, { target: { value: 'ou=Instana' } });
+
+    const grpMemberInput = screen.getByLabelText(t('in-settings:tabs.groupMemberField'));
+    fireEvent.change(grpMemberInput, { target: { value: 'uniqueMember' } });
+
+    const useQueryTemplateInput = screen.getByLabelText(t('in-settings:tabs.userQueryTemplate'));
+    fireEvent.change(useQueryTemplateInput, { target: { value: 'uid=%s' } });
+
+    const emailFieldInput = screen.getByLabelText(t('in-settings:tabs.emailField'));
+    fireEvent.change(emailFieldInput, { target: { value: 'mail' } });
+
+    insertUserPassword();
+
+    expect(saveBtn).not.toHaveClass('button-disabled');
+    fireEvent.click(saveBtn);
+    expect(addActiveDialog).toHaveBeenCalledTimes(1);
   });
 
   function insertUserPassword() {

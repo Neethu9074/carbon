@@ -118,6 +118,11 @@
       "delete": "Löschen"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "Es wurde kein benutzerdefinierter Filter konfiguriert"
+    }
+  },
   "createSloDialog": {
     "customFilter": "Benutzerdefinierter Filter (optional)",
     "title": "Service Level Objective (SLO) erstellen",
@@ -145,6 +150,8 @@
     "errorTimeWindowDay": "Die Zeitfenstergröße muss kleiner-gleich 31 Tage sein.",
     "errorTimeWindowWeek": "Die Zeitfenstergröße muss kleiner-gleich 4 Wochen sein.",
     "errorTimeWindowMin": "Das Zeitfenster muss mindestens einen Tag lang sein.",
+    "errorInvalidExpression": "Die eingegebenen Filter sind nicht gültig",
+    "errorBlankEntity": "Wählen Sie eine Entität aus der Liste aus",
     "nameAndTagsTitle": "Name und Tags",
     "nameAndTagsNavItem": "Name & Tags",
     "sloNameLabel": "SLO-Name",

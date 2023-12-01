@@ -14,6 +14,7 @@ import {
   useChartFormatterDragAndDropFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
+import { refreshDFQ$ } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -85,6 +86,7 @@ export const columnDefinitions = [
 export function Reorderer({ form, onChange, children }) {
   const updateForm = useChartFormatterDragAndDropFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
+    refreshDFQ$.emit(true);
   });
   return (
     <DragDropContext

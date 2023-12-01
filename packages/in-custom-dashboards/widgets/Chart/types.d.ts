@@ -61,6 +61,9 @@ type BaseChartConfig = Omit<ChartReactComponentProps, OmittedChartConfigParams>;
 interface UnifiedMetricsChartProps extends BaseChartConfig {
   config: Config;
   timeConfig?: TimeConfig;
+  snapshotId?: string;
+  hasActionlane?: boolean;
+  hasButtonInActionslane?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
 }
 

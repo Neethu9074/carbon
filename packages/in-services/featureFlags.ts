@@ -74,7 +74,7 @@ export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashB
 
 export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', false);
 
-export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', false);
+export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', true);
 
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
@@ -102,6 +102,9 @@ export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled')
 // Synthetic Custom Dashboard feature flag
 export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCustomDashboardEnabled');
 
+// Synthetic Instana Hosted PoP feature flag
+export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsEnabled = isFeatureFlagEnabled('mobileAppSmartAlertsEnabled');
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -114,12 +117,18 @@ export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('cus
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
+export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
+export const infraSmartAlertsDialogEnabled = isFeatureFlagEnabled('infraSmartAlertsDialogEnabled');
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 
 export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatterTimeSeriesEnabled');
+
+export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeSeriesEnabled');
+
+export const fullscreenWidgetEnabled = isFeatureFlagEnabled('fullscreenWidgetEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -192,9 +201,12 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
-// featureflag to display actions lane in app and host dashboard
-export const actionsLaneEnabled = isFeatureFlagEnabled('actionsLaneEnabled', false);
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
+export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
+export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
+export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
 
 export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);
+
+export const simplifiedFlowMapEnabled = isFeatureFlagEnabled('simplifiedFlowMapEnabled', false);

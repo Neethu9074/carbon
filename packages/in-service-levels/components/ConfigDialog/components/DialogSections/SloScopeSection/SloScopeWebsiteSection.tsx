@@ -17,10 +17,12 @@ import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 export default function SloScopeWebsiteSection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const websiteIdField = form.getIn(['entity', 'entityId']);
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
+
+  const isFormInEditMode = mode === 'EDIT';
 
   return (
     <section>
@@ -37,7 +39,7 @@ export default function SloScopeWebsiteSection() {
             value={beaconTypeField.value}
           />
         </Section>
-        <WebsiteTagFilterBuilder form={form} onChange={onChange} />
+        <WebsiteTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} />
       </Sections>
     </section>
   );

@@ -8,7 +8,7 @@
 :local {
   .overlay {
     position: fixed;
-    z-index: @z-index__overlays;
+    z-index: var(--ids-z-index-option-overlays);
 
     &::after,
     &::before {
@@ -21,14 +21,14 @@
     }
 
     &.style--popover {
-      border-radius: var(--ids-border-radius-medium);
+      border-radius: var(--ids-border-radius-option-medium);
       box-shadow: var(--ids-shadow-option-strong);
 
       .overlay-style(#fff, 1px, rgba(0, 0, 0, 0.161));
     }
 
     &.style--tooltip {
-      border-radius: var(--ids-border-radius-small);
+      border-radius: var(--ids-border-radius-option-small);
       color: #fff;
       display: flex;
       align-items: center;
@@ -44,10 +44,10 @@
 
   .inContentArea {
     position: absolute;
-    z-index: @z-index__overlays-in-content-area;
+    z-index: var(--ids-z-index-option-overlays-in-content-area);
   }
 
   .behindSidebar {
-    z-index: @z-index__overlays-behind-sidebar;
+    z-index: var(--ids-z-index-option-overlays-behind-sidebar);
   }
 }

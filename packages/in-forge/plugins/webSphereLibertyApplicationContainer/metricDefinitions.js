@@ -9,6 +9,7 @@ import { t } from 'in-i18n';
 
 const LABEL_SESSION = t('in-forge:plugins.webSphereLibertyAppContainer.labelSession');
 const LABEL_POOL = t('in-forge:plugins.webSphereLibertyAppContainer.labelPool');
+const LABEL_QUEUE = t('in-forge:plugins.webSphereLibertyAppContainer.labelQueue');
 
 export default [
   {
@@ -112,5 +113,12 @@ export default [
     category: [t('in-forge:plugins.webSphereLibertyAppContainer.labelServlets')],
     min: 0,
     formatter: muSecondsToMillis
+  },
+  {
+    metric: getDynamicMetricMatch('queues', 'depth', LABEL_QUEUE),
+    label: t('in-forge:plugins.webSphereLibertyAppContainer.titleDepth'),
+    category: [t('in-forge:plugins.webSphereLibertyAppContainer.labelQueues')],
+    min: 0,
+    formatter: number
   }
 ];

@@ -84,6 +84,16 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
           metric: 'predictions',
           granularity,
           aggregation
+        },
+        ['lowerBound']: {
+          metric: 'lowerBound',
+          granularity,
+          aggregation
+        },
+        ['upperBound']: {
+          metric: 'upperBound',
+          granularity,
+          aggregation
         }
       }
     }

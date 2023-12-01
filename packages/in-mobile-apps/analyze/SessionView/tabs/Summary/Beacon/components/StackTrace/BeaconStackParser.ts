@@ -9,6 +9,22 @@ import { find } from 'lodash';
 import { RawStackData } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
 import { MobileAppMonitoringBeacon } from 'in-types';
 
+export interface AndroidStackTraceType {
+  threads: Array<AndroidStackTraceThreadDesc>;
+}
+
+export interface AndroidStackTraceThreadDesc {
+  lines: Array<string> | Array<StackTraceLineDesc>;
+  linesInString: string;
+}
+
+export interface StackTraceLineDesc {
+  file: string;
+  name?: string;
+  line: number;
+  translationStatus: number;
+  translationExplanation?: string;
+}
 export interface StackTraceType {
   threads: Array<StackTraceThreadDesc>;
   binaryImages: Array<BinaryImageDesc>;
@@ -27,6 +43,7 @@ export interface StackTraceThreadFrameDesc {
   a?: string; // address
   f?: string; // function
   o?: string; // offset
+  t?: string; // translated function
 }
 
 export interface BinaryImageDesc {
@@ -48,7 +65,10 @@ export type FormatedStackTrace = {
 } & RawStackData;
 
 function isIOS(beacon: MobileAppMonitoringBeacon) {
-  return beacon.platform?.toLowerCase() === 'ios';
+  // TODO: we should have a reliable way to check the format of crash beacon
+  // this will be an issue when we start to add crash support for flutter and react-native
+  // maybe save our mobile agent type in agentVersion
+  return ['ios', 'ipados', 'macos'].includes(beacon.platform?.toLowerCase() ?? '');
 }
 
 function isAndroid(beacon: MobileAppMonitoringBeacon) {
@@ -56,7 +76,7 @@ function isAndroid(beacon: MobileAppMonitoringBeacon) {
 }
 
 function isPrettySupported(beacon: MobileAppMonitoringBeacon) {
-  return isIOS(beacon);
+  return isIOS(beacon) || (isAndroid(beacon) && !!beacon.parsedStackTrace);
 }
 
 function formatStackTraceJsonAsText(stacktrace: StackTraceType): string {
@@ -75,7 +95,7 @@ function formatStackTraceJsonAsText(stacktrace: StackTraceType): string {
     const isCrashed = t.state === 'attributed';
     buffArr.push(`Thread ${idx}${isCrashed ? ' Crashed' : ''}:`);
     for (const [frameIdx, frame] of (t.st ?? []).entries()) {
-      buffArr.push(`${frameIdx} ${frame.n} ${frame.a} ${frame.f}${frame.o ? ' + ' + frame.o : ''}`);
+      buffArr.push(`${frameIdx} ${frame.n} ${frame.a} ${frame.t || frame.f}${frame.o ? ' + ' + frame.o : ''}`);
     }
     buffArr.push(SEPERATOR);
   }
@@ -134,6 +154,39 @@ function formatStackTraceJson(
   }
 }
 
+function formatStackTraceAndroid(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
+  if (!beacon.parsedStackTrace || !pretty) {
+    return {
+      format: 'stack-java',
+      stack: beacon.stackTrace,
+      supportPretty: !!beacon.parsedStackTrace
+    };
+  }
+
+  try {
+    const stacktrace = JSON.parse(beacon.parsedStackTrace) as AndroidStackTraceType;
+    if (!stacktrace?.threads?.length) {
+      return {
+        format: 'stack-java',
+        stack: beacon.stackTrace,
+        supportPretty: false
+      };
+    }
+
+    return {
+      format: 'stack-java',
+      stack: stacktrace?.threads[0]?.linesInString,
+      supportPretty: true
+    };
+  } catch (error) {
+    return {
+      format: 'stack-java',
+      stack: beacon.stackTrace,
+      supportPretty: false
+    };
+  }
+}
+
 function formatStackTraceIOS(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
   // Application bundles usually resides in private/var folder on iOS, so we use this to check if it is a user image
   // see also https://www.theiphonewiki.com/wiki//private/var
@@ -143,6 +196,10 @@ function formatStackTraceIOS(beacon: MobileAppMonitoringBeacon, pretty: boolean)
 export function formatStackTrace(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
   if (isIOS(beacon)) {
     return formatStackTraceIOS(beacon, pretty);
+  }
+
+  if (isAndroid(beacon)) {
+    return formatStackTraceAndroid(beacon, pretty);
   }
 
   return {

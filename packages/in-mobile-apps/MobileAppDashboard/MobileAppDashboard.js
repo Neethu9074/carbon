@@ -8,10 +8,12 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import { mobileAppPath, mobileAppPathFullyQualified, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
@@ -164,11 +166,16 @@ function renderMobileAppContext(props) {
   return <MobileAppContext {...props} />;
 }
 
-function ButtonLine({ viewId, tagCatalogSessionStart, mobileAppLabel, tagFilters }) {
+function ButtonLine({ viewId, mobileAppId, timeConfig, tagCatalogSessionStart, mobileAppLabel, tagFilters }) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
 
   return (
     <>
+      <MobileHealthIndicatorBehavior
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        mobileAppId={mobileAppId}
+        timeConfig={timeConfig}
+      />
       {viewId && (
         <Button
           kind="primary"
@@ -214,10 +221,12 @@ function ButtonLine({ viewId, tagCatalogSessionStart, mobileAppLabel, tagFilters
   );
 }
 
-function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessionStart }) {
+function renderButtonLine({ tagFilters, mobileAppId, timeConfig, mobileAppLabel, viewId, tagCatalogSessionStart }) {
   return (
     <ButtonLine
       viewId={viewId}
+      mobileAppId={mobileAppId}
+      timeConfig={timeConfig}
       tagCatalogSessionStart={tagCatalogSessionStart}
       mobileAppLabel={mobileAppLabel}
       tagFilters={tagFilters}

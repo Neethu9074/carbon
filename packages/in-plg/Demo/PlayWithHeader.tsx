@@ -61,7 +61,7 @@ export default function PlayWithHeader() {
                 size="compact"
                 className={locals.buttonFreeTrial}
                 target="_blank"
-                href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52048"
+                href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
                 onClick={() => {
                   track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
                 }}

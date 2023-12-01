@@ -248,6 +248,8 @@
     "newAP": "新建應用程式視景",
     "switchSimpleMode": "切換至簡式模式",
     "switchAdvancedMode": "切換至進階模式",
+    "selectContributionFilter": "選取貢獻度過濾器",
+    "noRestrictions": "無限制",
     "simple": {
       "step1Title": "步驟 1：選取模型",
       "step1": {

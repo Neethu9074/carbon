@@ -49,6 +49,7 @@ interface SummaryProps {
 
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
+  const snapshotId = cluster.id;
 
   const running = oldTheme.lib.colors.chart.fourColorPalette[0];
   const pending = oldTheme.lib.colors.chart.fourColorPalette[1];
@@ -235,6 +236,9 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -275,6 +279,9 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
             paramTab="memTab"
             paramMetric="memMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
         <Col lg={4}>
@@ -313,6 +320,9 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
             paramTab="podTab"
             paramMetric="podMetric"
             path={summaryTab}
+            hasActionlane
+            snapshotId={snapshotId}
+            hasButtonInActionslane={false}
           />
         </Col>
       </Row>

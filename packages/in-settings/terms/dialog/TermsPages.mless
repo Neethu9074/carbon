@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .flexColumn {
     display: flex;
@@ -31,8 +29,8 @@
 
   .pageContent {
     height: 100%;
-    color: @lib__colors__N700Medium;
-    font-size: @lib__typography__body-bold__font-size;
+    color: var(--ids-color-option-neutral-700);
+    font-size: var(--ids-font-size-option-body-bold);
     padding: 0 1.5rem 5rem;
     overflow-y: auto;
     line-height: 1.6;
@@ -44,17 +42,17 @@
   }
 
   .heading {
-    font-size: @lib__typography__h400__font-size;
-    font-weight: @lib__typography__h400__font-weight;
+    font-size: var(--ids-font-size-option-heading-400);
+    font-weight: var(--ids-font-weight-option-heading-400);
     margin-top: 0.75rem;
   }
 
   .warningText {
     display: flex;
     align-items: center;
-    color: @lib__colors__warning;
+    color: var(--ids-color-option-yellow-500);
     font-weight: normal;
-    font-size: @lib__typography__body-small__font-size;
+    font-size: var(--ids-font-size-option-body-small);
     margin-left: 0.1875rem;
     height: 1.25rem;
 
@@ -63,16 +61,16 @@
     }
 
     svg {
-      fill: @lib__colors__warning;
+      fill: var(--ids-color-option-yellow-500);
     }
   }
 
   .errorText {
     .warningText();
-    color: @lib__colors__failure;
+    color: var(--ids-color-option-red-500);
 
     svg {
-      fill: @lib__colors__failure;
+      fill: var(--ids-color-option-red-500);
     }
   }
 

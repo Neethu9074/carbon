@@ -246,7 +246,6 @@ function navigationTreeForRole(role, isAnyIDPActive) {
           path: teamSettingsAlertingMaintenanceConfigurations,
           label: t('in-settings:tabs.maintenanceWindows'),
           component: RecurrentMaintenanceWindowsListPage,
-          isBeta: true,
           subPages: [
             {
               path: teamSettingsAlertingMaintenanceConfigurationEdit,

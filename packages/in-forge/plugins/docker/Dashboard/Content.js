@@ -13,7 +13,6 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import { LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import AnalyzeLogsButton from 'in-forge/plugins/docker/Dashboard/AnalyzeLogsButton';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
@@ -21,6 +20,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { getValueMatchTagFilter, DOCKER_ID } from 'in-logging/queryBuilder';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
@@ -35,7 +35,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   const snapshotId = snapshot.get('id');
 
-  const tagFilterExpression = getValueMatchTagFilter({ name: LOG_DOCKER_SNAPSHOT_ID, value: snapshot.get('id') });
+  const tagFilterExpression = getValueMatchTagFilter({ name: DOCKER_ID, value: snapshot.get('data')?.get('Id') });
   const hasLogs = useHasLogs({ tagFilterExpression, timeConfig });
 
   const additionalContextMenuButtons = [

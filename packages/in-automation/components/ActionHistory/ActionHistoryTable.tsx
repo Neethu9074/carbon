@@ -100,8 +100,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, actionTypesUrlParameter, actionStatusesUrlParameter],
   columnDefinitions: columnDefinitions,
-  defaultOrderBy: 'actionName',
-  defaultOrderDirection: 'ASC',
+  defaultOrderBy: 'startDate',
+  defaultOrderDirection: 'DESC',
   pathSegment,
   matrixPrefix
 });
@@ -121,7 +121,7 @@ type GetActionInstanceList = {
 export function GetActionInstanceListData({
   timeConfig,
   orderBy = 'startDate',
-  orderDirection = 'ASC',
+  orderDirection = 'DESC',
   page = 1,
   pageSize = 20,
   query = '',
@@ -159,7 +159,11 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
       types={types}
-      actionStatuses={actionStatuses}
+      actionStatuses={
+        actionStatuses.length === 0
+          ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED']
+          : actionStatuses
+      }
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
         actionHistoryInstanceViewTracker({

@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .sectionHeading {
     align-items: center;
-    color: @lib__colors__primary1;
+    color: var(--ids-color-option-teal-500);
     display: flex;
     font-size: 1rem;
     font-weight: bold;

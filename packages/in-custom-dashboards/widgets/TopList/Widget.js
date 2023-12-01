@@ -5,32 +5,29 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
+import { default as SyntheticTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/SyntheticTopListCatalog';
+import { default as WebsiteTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/WebsiteTopListCatalog';
+import { default as MobileTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/MobileTopListCatalog';
+import { default as InfraTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/InfraTopListCatalog';
+import { default as AppTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/AppTopListCatalog';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { useLinkToAnalyze as useLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { default as useMobileAppTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
-import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
-import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { useLinkToAnalyze } from 'in-websites/navigation/paths';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isParseableAsNumber } from 'in-services/util/number';
 import { close } from 'in-components/DialogPresenter/store';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
-import { pendingResult } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTagType } from 'in-applications/tags';
@@ -38,36 +35,62 @@ import Tooltip from 'in-components/Tooltip';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
-import locals from './Widget.mless';
+import locals from 'in-custom-dashboards/widgets/TopList/Widget.mless';
 
 export default function ListWidget({ config, title, actions, dragHandle }) {
   const timeConfig = useTimeConfig();
-  let tagCatalog = useTagCatalog(getTagCatalog);
   switch (config.metricConfiguration.source) {
+    case 'APPLICATION':
+      return (
+        <AppTopListCatalog
+          config={config}
+          title={title}
+          actions={actions}
+          dragHandle={dragHandle}
+          timeConfig={timeConfig}
+        />
+      );
     case 'MOBILE_APP':
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      tagCatalog = useMobileAppTagCatalog(config.metricConfiguration.beaconType);
-      break;
+      return (
+        <MobileTopListCatalog
+          config={config}
+          title={title}
+          actions={actions}
+          dragHandle={dragHandle}
+          timeConfig={timeConfig}
+        />
+      );
     case 'WEBSITE':
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      tagCatalog = useWebsiteTagCatalog(config.metricConfiguration.beaconType);
-      break;
+      return (
+        <WebsiteTopListCatalog
+          config={config}
+          title={title}
+          actions={actions}
+          dragHandle={dragHandle}
+          timeConfig={timeConfig}
+        />
+      );
+    case 'SYNTHETICS':
+      return (
+        <SyntheticTopListCatalog
+          config={config}
+          title={title}
+          actions={actions}
+          dragHandle={dragHandle}
+          timeConfig={timeConfig}
+        />
+      );
+    case 'INFRASTRUCTURE_METRICS':
+      return (
+        <InfraTopListCatalog
+          config={config}
+          title={title}
+          actions={actions}
+          dragHandle={dragHandle}
+          timeConfig={timeConfig}
+        />
+      );
   }
-  let result = useResultData(config, timeConfig) ?? pendingResult;
-  const isErroneous =
-    config.metricConfiguration.metric === 'erroneousCalls' || config.metricConfiguration.metric === 'errors';
-
-  return (
-    <ListWidgetRenderer
-      title={title}
-      result={result}
-      dragHandle={dragHandle}
-      isErroneous={isErroneous}
-      tagCatalog={tagCatalog}
-      config={config}
-      actions={actions}
-    />
-  );
 }
 
 export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
@@ -80,7 +103,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       title={title}
       result={result}
       getItemsFromResult={result => result.data}
-      getMetricValueFromItem={(selectedMetric, item) => item.values?.[0]?.[1]}
+      getMetricValueFromItem={(_, item) => item.values?.[0]?.[1]}
       selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
       selectedMetricColor={isErroneous ? theme.ids.color.option.red['500'] : null}
       Label={Label}
@@ -89,6 +112,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       tagCatalog={tagCatalog}
       renderHistoricDataIndicator
       hasApproximateData={hasApproximateData}
+      isScrollbarVisible
       header={
         <>
           {dragHandle}
@@ -112,6 +136,11 @@ function Label({ item, config, result, tagCatalog }) {
   const getLinkToAnalyzeDeprecated = useLinkToAnalyzeDeprecated();
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
+  //Synthetic monitoring does not have Analytics page yet so no link to it.
+  if (config.metricConfiguration.source === 'SYNTHETICS') {
+    return <div className={locals.italic}>{item.label}</div>;
+  }
 
   let filters = config.metricConfiguration.tagFilters;
   if (filters) {
@@ -246,23 +275,6 @@ function Metric({ formattedMetricValue }) {
   return formattedMetricValue;
 }
 
-function useResultData(config, timeConfig) {
-  const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
-
-  const metrics = {
-    list: {
-      ...config.metricConfiguration,
-      timeShift: {
-        offset: 0
-      },
-      timeConfig: timeConfigExtendedForLiveMode,
-      resultType: 'SINGLE_NUMBER'
-    }
-  };
-
-  return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, config]);
-}
-
 function LinkContent({ item, groupBy }) {
   if (item.label === 'other_group') {
     return (
@@ -279,7 +291,7 @@ function LinkContent({ item, groupBy }) {
     return t('in-custom-dashboards:widgets.topList.widget.tagNoValue', { labelname: label });
   }
 
-  return item.label;
+  return item.label ?? null;
 }
 
 function getConvertedValue(value) {

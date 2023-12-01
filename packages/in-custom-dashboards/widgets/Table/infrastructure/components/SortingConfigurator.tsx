@@ -5,24 +5,22 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Order } from '@instana/types';
 
 import { Metric } from 'in-custom-dashboards/widgets/Table/infrastructure/components/TableConfigurator/TableConfigurator';
 import { sorting as sortingFieldName } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { t } from 'in-i18n';
 
 interface SortingConfiguratorProps {
   form: MapForm<any>;
-  updateForm: (form: MapForm<any>) => void;
   sortingOptions: Metric[];
-  hasGroups: boolean;
+  updateForm: (form: MapForm<any>) => void;
 }
 
-export default function SortingConfigurator({ form, updateForm, sortingOptions, hasGroups }: SortingConfiguratorProps) {
+export default function SortingConfigurator({ form, updateForm, sortingOptions }: SortingConfiguratorProps) {
   const sortingField = form.get(sortingFieldName);
 
   const updateSortingField = (callback?: (fieldValue: Order) => Order) => {
@@ -34,21 +32,12 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions, 
     );
   };
 
-  // Update the default sort option
-  useEffect(() => {
-    updateSortingField(() => ({
-      ...defaultOrder,
-      by: sortingOptions[0].value
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasGroups]);
-
-  const onChangeSortField = (event: React.ChangeEvent<HTMLSelectElement>) =>
+  const onChangeSortField = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updateSortingField(fieldValue => ({
       ...fieldValue,
       by: event.target.value
     }));
-
+  };
   const onChangeSortDirection = (event: React.ChangeEvent<HTMLSelectElement>) =>
     updateSortingField(
       fieldValue =>
@@ -59,7 +48,7 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions, 
     );
 
   const sortBy = t('in-custom-dashboards:widgets.table.form.infrastructure.sortBy');
-  const sortDireection = t('in-custom-dashboards:widgets.table.form.infrastructure.sortDirection');
+  const sortDirection = t('in-custom-dashboards:widgets.table.form.infrastructure.sortDirection');
   const directionOptions = ['ASC', 'DESC'];
 
   return sortingField?.map((field: Field<Order>) => (
@@ -79,7 +68,7 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions, 
       </SelectInSection>
       <SelectInSection
         id={sortingFieldName}
-        label={`${sortDireection}`}
+        label={`${sortDirection}`}
         value={field.value.direction}
         hasError={!field.valid && field.touched}
         onChange={onChangeSortDirection}

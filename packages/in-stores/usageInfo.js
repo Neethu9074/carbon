@@ -53,6 +53,7 @@ export function init() {
         onClick: hideUsageInfo,
         isLicenseUsageMsg: true,
         activeLicense: usageInfo.activeLicenseType,
+        latestExpiredLicenseType: usageInfo.latestExpiredLicenseType,
         remainingDays: usageInfo.remainingDays,
         expiryDate: usageInfo.expiryDate
       },

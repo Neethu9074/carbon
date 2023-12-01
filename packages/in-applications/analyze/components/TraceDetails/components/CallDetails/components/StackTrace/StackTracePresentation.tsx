@@ -18,7 +18,7 @@ const STRIP_QUOTES_REGEX = /`|'/g;
 
 export interface StackTracePresentationProps {
   noPadding: boolean;
-  snapshot: SnapshotData | null;
+  snapshot?: SnapshotData | null;
   isOnline: boolean;
   stackTrace: ParsedStackTrace[] | null;
 }

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-@import './shared.less';
 @import '~in-themes/mixins.less';
+@import './shared.less';
 
 :local {
   .tooltipContent {
@@ -18,7 +18,7 @@
 
     background: var(--ids-color-option-white);
     color: var(--ids-color-option-neutral-800);
-    border-radius: var(--ids-border-radius-large);
+    border-radius: var(--ids-border-radius-option-large);
     font-size: 0.75rem;
     box-shadow: var(--ids-shadow-option-subtle);
     border: 1px solid var(--ids-color-option-neutral-300);
@@ -34,8 +34,8 @@
     line-height: 2;
     background: var(--ids-color-option-neutral-200);
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
-    border-top-left-radius: var(--ids-border-radius-large);
-    border-top-right-radius: var(--ids-border-radius-large);
+    border-top-left-radius: var(--ids-border-radius-option-large);
+    border-top-right-radius: var(--ids-border-radius-option-large);
   }
 
   .entries {
@@ -55,7 +55,7 @@
     min-height: 0.75rem;
     flex-shrink: 0;
     margin-right: 0.25rem;
-    border-radius: 50%;
+    border-radius: var(--ids-border-radius-option-round);
   }
 
   .label {

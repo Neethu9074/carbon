@@ -41,6 +41,8 @@
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
       "alertingChartLabelForecast": "Forecast",
+      "alertingChartLabelUpperBound": "Upper Bound",
+      "alertingChartLabelLowerBound": "Lower Bound",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
@@ -831,9 +833,9 @@
       },
       "components": {
         "errorMessage": "Error Message",
-        "noDataMessage": "No alert configured.",
         "selectJSErrorHelpText": "Select JS error message as template (optional)",
-        "selectJSErrorTitle": "Select JS Error"
+        "selectJSErrorTitle": "Select JS Error",
+        "noJSErrorFound": "No JS error found"
       },
       "data": {
         "errorCount": "Error Count",
@@ -1213,6 +1215,39 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters"
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Scope",
+          "title": "Scope: Where is the condition happening?",
+          "metric": {
+            "metric": "Metric",
+            "selectMetric": "Select Metric"
+          },
+          "aggregation": {
+            "aggregation": "Aggregation"
+          }
+        },
+        "threshold": {
+          "label": "Threshold",
+          "title": "Threshold: When is the condition violated?"
+        },
+        "timeThreshold": {
+          "label": "Time Threshold",
+          "title": "Time Threshold: When do you want to be alerted?"
+        },
+        "alertChannel": {
+          "label": "Alert Channels",
+          "title": "Alert Channels: Who needs to be alerted?"
+        },
+        "properties": {
+          "label": "Properties",
+          "title": "Additional Alert Properties"
+        },
+        "customPayloads": {
+          "label": "Payloads",
+          "title": "Custom Payload"
+        }
       }
     }
   }

@@ -106,6 +106,9 @@
     }
   },
   "widgets": {
+    "unknownEntityLabel": "未知实体",
+    "unknownEntityLabel_application": "未知应用程序",
+    "unknownEntityLabel_website": "未知 Web 站点",
     "invalidWidgetTypeErrorMessage": "<strong>窗口小部件类型无效</strong><br/>此窗口小部件具有无效类型，您可以通过编辑仪表板 JSON 或移除窗口小部件来对其进行修正。",
     "metricConfig": {
       "groupingConfig": {
@@ -197,7 +200,8 @@
         "pleaseSelect": "请选择",
         "sliConfigComputeErrBudgetSliVal": "用于计算错误预算和 SLI 值的 SLI 配置",
         "typeSloThreshold": "输入介于 <code>{{compact}}</code> 到 <code>{{detailed}}</code> 之间的期望 SLO 阈值。",
-        "valType": "值类型"
+        "valType": "值类型",
+        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
       },
       "index": {
         "srvLevelIndicator": "服务级别指示符"
@@ -220,6 +224,16 @@
       }
     },
     "srcSyntheticMonitoring": {
+      "formComponent": {
+        "pleaseSelect": "请选择",
+        "metric": "指标",
+        "selectMetric": "请选择指标",
+        "aggregation": "汇总",
+        "successRate": "成功率",
+        "locations": "位置",
+        "responseTime": "响应时间",
+        "responsesize": "响应大小"
+      },
       "index": {
         "syntheticMonitoring": "合成监视"
       }
@@ -669,8 +683,6 @@
         "tooltip_application": "应用程序 Apdex"
       },
       "widget": {
-        "unknownEntityLabel_application": "未知应用程序",
-        "unknownEntityLabel_website": "未知 Web 站点",
         "previewDataInfo": "显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 Apdex 配置创建以来的数据。"
       },
       "applicationScopeConfigurator": {

@@ -10,13 +10,18 @@ import { Spacer } from '@instana/components';
 import { Button } from '@instana/components';
 
 import BuiltInGlobalSmartAlertsPermissionWrapper from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
+import ContributionFilterDropdown, {
+  showContributionFilterDropdown
+} from 'in-applications/creation/components/ContributionFilterDropdown';
 import DialogBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/DialogBuiltInSmartAlertsSelectionList';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import { hasError, isLoading } from 'in-services/util/result';
 import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -26,10 +31,23 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';
 
-export default function AdvancedModeContainer({ form, updateForm, errorMessage }) {
+export default function AdvancedModeContainer({ form, updateForm, errorMessage, userRestrictedApplicationsResult }) {
   const labelField = form.get('label');
-
+  const groupIdField = form.get('groupId');
   const tagFilterExpressionField = form.get('tagFilterExpression');
+
+  if (isLoading(userRestrictedApplicationsResult) || hasError(userRestrictedApplicationsResult)) {
+    // keep showing a loading indicator even on error, until we a proper design for error handling
+    return (
+      <div className={locals.loadingIndicator}>
+        <LoadingIndicator />
+      </div>
+    );
+  }
+
+  const userRestrictedApplications = userRestrictedApplicationsResult.data;
+  const selectedUserGroupRestrictions = userRestrictedApplications.find(r => r.id === groupIdField.value);
+  const contributionFilter = selectedUserGroupRestrictions?.filter?.tagFilterExpression;
 
   return (
     <>
@@ -85,10 +103,22 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage }
               <strong>{t('in-applications:creation.advanced.andOperatorsPrecedenceBrackets')}</strong>
             </DescriptionText>
 
+            {showContributionFilterDropdown(userRestrictedApplications) && (
+              <div className={locals.contributionFilter}>
+                <ContributionFilterDropdown
+                  form={form}
+                  updateForm={updateForm}
+                  userRestrictedApplications={userRestrictedApplications}
+                  className={locals.listItem}
+                />
+              </div>
+            )}
+
             <div className={locals.queryBuilder}>
               <div className={locals.queryBuilderExpression}>
                 <CreateApplicationQueryBuilder
                   value={tagFilterExpressionField.value}
+                  getSuggestionsProps={{ contributionFilter }}
                   onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
                 />
               </div>
@@ -112,7 +142,11 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage }
             <DescriptionText className={locals.descriptionText}>
               {t('in-applications:creation.advanced.downstreamCallsDescription')}
             </DescriptionText>
-            <ApplicationScopeSelector form={form} updateForm={updateForm} />
+            <ApplicationScopeSelector
+              form={form}
+              updateForm={updateForm}
+              maxScope={selectedUserGroupRestrictions?.filter?.scope}
+            />
           </Section>
 
           <Section headingText={t('in-applications:creation.advanced.defaultDashboardView')}>

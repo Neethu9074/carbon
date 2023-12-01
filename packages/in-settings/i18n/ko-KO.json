@@ -60,8 +60,8 @@
   "roleAndAccessScope": {
     "dialogTitle": "새 그룹 작성",
     "dialogTitle_edit": "액세스 범위 편집",
-    "editButton": "액세스 범위 편집",
-    "productArea": "역할 및 액세스 범위"
+    "editButton": "편집",
+    "productArea": "{{tenantUnit}}에 대한 액세스 구성"
   },
   "productAreas": {
     "allApplications": "모든 애플리케이션",
@@ -74,9 +74,12 @@
     "role_owner": "소유자",
     "role_viewer": "뷰어",
     "role_permissions": "알 수 없음 - {{quantityOfAreas}} 액세스",
+    "role_permissions_contributor": "컨트리뷰터 - 액세스 {{quantityOfAreas}}",
     "role_permissions_owner": "소유자 - {{quantityOfAreas}} 액세스",
     "role_permissions_viewer": "뷰어 - {{quantityOfAreas}} 액세스",
     "role_permission_scope_all": "모두",
+    "role_permissions_contributor_and_owner": "소유자 액세스 {{quantityOfAreas}} & 컨트리뷰터 액세스 {{quantityOfAreasContributor}}",
+    "role_permissions_contributor_and_viewer": "뷰어 액세스 {{quantityOfAreas}} & 컨트리뷰터 액세스 {{quantityOfAreasContributor}}",
     "no_access": "액세스 권한 없음",
     "platform_permissions": "{{quantityOfAreas}} 액세스",
     "analyticsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 플랫폼 및 인프라에서 액세스 범위로 정의된 분석에서 데이터를 볼 수 있음",
@@ -147,7 +150,11 @@
     "limitedAccessKubernetes_addNamespace": "네임스페이스 추가",
     "addButton_syntheticTests": "합성 테스트 선택",
     "descriptionAccessAll_synthetics": "선택한 역할로 모든 합성 테스트에 액세스할 수 있습니다.",
-    "descriptionLimitedAccess_synthetics": "역할을 선택하고 아래 합성 테스트를 추가하여 액세스 권한을 부여하십시오."
+    "descriptionLimitedAccess_synthetics": "역할을 선택하고 아래 합성 테스트를 추가하여 액세스 권한을 부여하십시오.",
+    "contribution_filter": "컨트리뷰션 필터",
+    "contributionFilter_description": "새 애플리케이션 구성 작성을 위해 필터가 상속됩니다. 애플리케이션 퍼스펙티브 구성에서 {{logicalOperator}} 연산자 다음에 추가 필터 태그를 사용하여 세분화할 수 있습니다.",
+    "contributionFilter_downstreamCalls": "애플리케이션 퍼스펙티브에 포함될 수 있는 추가 정보의 최대 레벨을 판별하십시오.",
+    "contributionFilter_name": "이름"
   },
   "selectItemForm": {
     "doneButton": "완료"
@@ -156,23 +163,96 @@
     "nameColumnHead": "이름"
   },
   "permissionScope": {
+    "access_level": "액세스 레벨",
+    "configuration_summary": "구성 요약",
     "selection": "사용할 수 없음",
     "selection_access_all": "모두 액세스",
     "selection_limited_access": "제한된 액세스",
     "selection_no_access": "액세스 권한 없음",
     "selection_viewer_access": "뷰어 액세스",
+    "selection_owner_access": "소유자 액세스",
+    "selection_contributor_access": "컨트리뷰터 액세스",
     "description_no_access": "이 영역은 전혀 사용할 수 없음",
     "description_no_access_kubernetes": "네임스페이스 및 클러스터에 대한 액세스 권한이 없습니다.",
     "description_access_all": "제한 없이 모두 액세스",
+    "description_access_all_except_contributor": "모두 액세스-컨트리뷰터로 액세스되는 항목을 제외하고 모두 액세스",
     "role": "역할 선택",
     "roleSelection": "역할",
     "role_owner": "소유자",
     "role_viewer": "뷰어",
     "role_custom": "사용자 정의",
+    "role_contributor": "컨트리뷰터",
+    "role_permissions": "역할/권한",
     "roleTooltip_websites": "뷰어: 웹 사이트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). <br /> 소유자: 새 웹 사이트를 작성할 수 있으며, 웹 사이트 대시보드를 보고 구성 및 삭제할 수 있습니다.",
     "roleTooltip_mobileApps": "뷰어: 모바일 앱 대시보드를 볼 수 있습니다 (구성은 볼 수 없음). <br /> 소유자: 새 모바일 앱을 작성할 수 있습니다. 모바일 앱 대시보드를 보고 구성하고 삭제할 수 있습니다.",
     "roleTooltip_applications": "뷰어: 애플리케이션 대시보드를 볼 수 있습니다 (구성은 볼 수 없음). <br /> 소유자: 새 애플리케이션을 작성할 수 있습니다. 애플리케이션 대시보드를 보고 구성하고 삭제할 수 있습니다.",
-    "roleTooltip_synthetics": "뷰어: 합성 테스트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). <br /> 소유자: 새 합성 테스트를 작성하고, 합성 테스트를 보고, 구성 및 삭제하고, 합성 위치를 보고 삭제할 수 있습니다."
+    "roleTooltip_synthetics": "뷰어: 합성 테스트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). <br /> 소유자: 새 합성 테스트를 작성하고, 합성 테스트를 보고, 구성 및 삭제하고, 합성 위치를 보고 삭제할 수 있습니다.",
+    "contribution_filter_accessScope": "제한된 액세스 범위 (뷰어)",
+    "contribution_filter_warning": {
+      "firstParagraph": "저장할 수정사항은 이 컨트리뷰션 필터를 사용하여 모든 애플리케이션 퍼스펙티브를 업데이트합니다.",
+      "secondParagraph": "역할을 변경하면 컨트리뷰션 필터가 삭제되고 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브를 편집할 수 있습니다. 이는 실행 취소할 수 없습니다."
+    }
+  },
+  "configurationSummary": {
+    "application": {
+      "access_all": {
+        "access_level": "이 단위 아래의 모든 애플리케이션 퍼스펙티브에 대한 액세스.",
+        "role_permissions_contributor": "이 단위 아래의 모든 애플리케이션 대시보드를 보십시오. 컨트리뷰션 필터를 사용하여 애플리케이션 대시보드를 작성, 구성 및 삭제하십시오."
+      },
+      "limited_access": {
+        "access_level": "아래에서 선택한 애플리케이션에 대한 제한된 액세스.",
+        "access_level_contributor": "아래에서 선택한 애플리케이션 대시보드 보기",
+        "role_permissions_contributor": "컨트리뷰션 필터를 사용하여 애플리케이션 대시보드를 작성, 구성 및 삭제하십시오. (컨트리뷰터가 작성한 애플리케이션 대시보드는 그룹 개요 및 애플리케이션 목록 섹션에 표시됩니다.)"
+      },
+      "role_permissions_owner": "애플리케이션 대시보드를 작성, 구성, 보기 및 삭제합니다.",
+      "role_permissions_viewer": "애플리케이션 퍼스펙티브 대시보드 및 해당 구성을 봅니다."
+    },
+    "infrastructure": {
+      "limited_access": {
+        "access_level": "애플리케이션 및 플랫폼에 부여된 액세스와 관련된 이 단위 아래의 모든 엔티티 대시보드에 대한 액세스입니다."
+      },
+      "role_permissions_owner": "엔티티 대시보드를 봅니다.",
+      "role_permissions_viewer": "엔티티 대시보드를 봅니다."
+    },
+    "kubernetes": {
+      "access_all": {
+        "access_level": "이 단위 아래의 모든 네임스페이스 및 클러스터에 대한 액세스."
+      },
+      "limited_access": {
+        "access_level": "아래에서 선택한 네임스페이스 및 클러스터에 대한 제한된 액세스."
+      },
+      "role_permissions": "네임스페이스 및 클러스터를 봅니다."
+    },
+    "mobile_app": {
+      "access_all": {
+        "access_level": "이 단위 아래의 모든 모바일 앱에 대한 액세스입니다."
+      },
+      "limited_access": {
+        "access_level": "아래에서 선택한 모바일 앱에 대한 제한된 액세스."
+      },
+      "role_permissions_owner": "모바일 앱을 작성, 구성, 보기 및 삭제합니다.",
+      "role_permissions_viewer": "모바일 앱 및 해당 구성을 봅니다."
+    },
+    "synthetics": {
+      "access_all": {
+        "access_level": "이 장치의 모든 합성 테스트에 대한 액세스."
+      },
+      "limited_access": {
+        "access_level": "아래 선택된 합성 테스트에 대한 제한된 액세스."
+      },
+      "role_permissions_owner": "합성 테스트를 작성, 구성, 보기 및 삭제합니다.",
+      "role_permissions_viewer": "합성 테스트 및 해당 구성을 봅니다."
+    },
+    "website": {
+      "access_all": {
+        "access_level": "본 유닛에 속하는 모든 웹 사이트에 대한 액세스."
+      },
+      "limited_access": {
+        "access_level": "아래 선택된 웹 사이트에 대한 제한된 액세스."
+      },
+      "role_permissions_owner": "웹 사이트를 작성, 보기 및 삭제합니다.",
+      "role_permissions_viewer": "웹 사이트 및 해당 구성을 봅니다."
+    }
   },
   "cardTitle_Area": "영역",
   "cardTitle_Area_plural": "영역",
@@ -225,7 +305,8 @@
         "placeholder": "플레이스 홀더",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "선택한 논리 연산자는 다음 조건에 적용됩니다."
+        "logicalOperatorInfo": "선택한 논리 연산자는 다음 조건에 적용됩니다.",
+        "clearMetricSeclection": "선택사항 지우기"
       },
       "customPayload": {
         "unknownTag": "알 수 없는 태그: {{tagName}}"
@@ -373,6 +454,7 @@
     "globalApplicationSmartAlert": "글로벌 애플리케이션 SmartAlert",
     "syntheticSmartAlert": "합성 SmartAlert",
     "mobileSmartAlert": "모바일 SmartAlert",
+    "infraSmartAlert": "인프라 SmartAlert",
     "enabled": "사용",
     "disabled": "사용 안함",
     "invalidQuery": "올바르지 않은 조회",
@@ -776,6 +858,7 @@
     "alert": "경보",
     "unknownAlert": "알 수 없는 경보",
     "pleaseSelectAtLeastOneApplication": "하나 이상의 애플리케이션을 선택하십시오.",
+    "pleaseSelectAtLeastOneTagFilter": "하나 이상의 태그 필터를 선택하십시오.",
     "noAlertConfigured": "경보가 구성되어 있지 않습니다.",
     "additionalScope": "추가 범위",
     "state": "상태…",
@@ -891,6 +974,7 @@
     "applyOn": "적용 대상",
     "applicationPerspective": "애플리케이션 퍼스펙티브",
     "selectedEntitiesDynamicFocusQuery": "선택한 엔티티(동적 초점 조회)",
+    "syntheticTests": "합성 테스트",
     "automaticallyCloseAfter": "다음 이후에 자동으로 닫기",
     "selectedEntitiesHostByTag": "선택된 엔티티(태그별 범위 호스트)",
     "scopeHostsByTag": "태그별 범위 호스트",
@@ -1008,6 +1092,7 @@
     "migratedEventMessage": "사용되지 않는 이 이벤트는 마이그레이션됩니다. 자세한 정보는 <documentationLink>관련 문서를 참조하십시오</documentationLink>.",
     "deprecatedEventSelectedMessage": "엔터티 유형 애플리케이션, 서비스 및 엔드포인트에 대한 사용자 정의 이벤트가 더 이상 사용되지 않습니다. 앞으로는 이 세 가지 엔티티 유형에 대해 새 이벤트를 생성할 수 없습니다. 대신 SMART 경보를 생성하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보십시오</documentationLink>.",
     "customEventListDeprecatedWarning": "<strong>엔터티 유형 애플리케이션, 서비스 및 엔드포인트에 대한 사용자 정의 이벤트가 더 이상 사용되지 않음</strong> <br/>앞으로는 이 세 가지 엔티티 유형에 대해 새 이벤트를 만들거나 업데이트할 수 없습니다. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
+    "customUserListInformation": "<strong>사용자는 ID 제공자(IdP)에서 자동으로 프로비저닝됩니다.</strong><br/>사용자는 싱글 사인온(SSO)으로 Instana에 로그인한 후 이 섹션에 표시됩니다.",
     "deletedEventMessage": "삭제된 이벤트 구성을 보고 있습니다. 수정은 불가능합니다.",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
@@ -1049,7 +1134,9 @@
     "consumerSecret": "이용자 시크릿",
     "salesforceChannel": "Salesforce",
     "salesforceUrl": "Salesforce 조직 URL",
-    "alertChannelDocumentationMessage": "이 경보 채널 설정에 대한 자세한 정보는 <documentationLink>문서 확인</documentationLink>"
+    "alertChannelDocumentationMessage": "이 경보 채널 설정에 대한 자세한 정보는 <documentationLink>문서 확인</documentationLink>",
+    "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "ID 제공자에서 Instana에 대한 사용자 액세스가 사용 안함으로 설정되어 있는지 확인하십시오.",
+    "createIDPConfirmationDescription": "보류 중인 초대가 삭제됩니다. 사용자는 ID 제공자(IdP)에서 자동으로 프로비저닝됩니다."
   },
   "languageSelection": {
     "language": "언어",
@@ -1139,7 +1226,10 @@
       "awesome": "훌륭합니다!",
       "meh": "별로입니다!",
       "terrible": "매우 안 좋습니다!"
-    }
+    },
+    "dfqColumn": "DFQ",
+    "allEntitiesColumn": "모든 엔티티",
+    "appQuery": "{{numApps}}개 애플리케이션"
   },
   "terms": {
     "failedToSaveSettings": "설정을 저장하는 데 실패함: {{settings}} {{err}}",

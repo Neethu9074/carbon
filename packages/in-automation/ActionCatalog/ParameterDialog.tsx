@@ -25,7 +25,6 @@ import {
   emptyObjectValidator
 } from 'in-automation/ActionCatalog/ParameterFormDefinition';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { getCustomPayloadTagCatalog } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
@@ -33,6 +32,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
+import { getDynamicParameterTagCatalog } from 'in-automation/api';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -370,7 +370,7 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm, isNotEditabl
 };
 
 export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
-  getTagCatalog: getCustomPayloadTagCatalog,
+  getTagCatalog: getDynamicParameterTagCatalog,
   getSuggestions: ({ name, timeConfig, tagFilterExpression }) =>
     getTagSuggestions({
       tagName: name,

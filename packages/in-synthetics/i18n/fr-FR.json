@@ -217,8 +217,8 @@
       "successMessageUpdate": "Test synthétique mis à jour avec succès",
       "successMessageDelete": "La suppression du test synthétique a abouti",
       "failureTitle": "Echec !",
-      "failureMessageCreate": "Echec de création d'un test synthétique. Réessayez plus tard",
-      "failureMessageUpdate": "Echec de la mise à jour du test synthétique. Réessayez plus tard",
+      "failureMessageCreate": "{{errorMessage}}",
+      "failureMessageUpdate": "Echec de la mise à jour du test synthétique. {{errorMessage}}. Actualisez la page et réessayez.",
       "failuteMesssageDelete": "Echec de la suppression du test synthétique. Réessayez plus tard"
     },
     "locationFeedback": {
@@ -305,12 +305,14 @@
       },
       "deletionReason": "Raisons de la suppression",
       "typeToContinue": "Entrez {{location}} pour continuer",
-      "location": "EMPLACEMENT",
       "deletionSuccess": "L'emplacement a été supprimé",
       "cancelButton": "Annuler",
       "deleteLocationLabel": "Supprimer un emplacement",
       "success": "Succès",
-      "failure": "Échec"
+      "failure": "Échec",
+      "popVersion": "Version",
+      "noActionsAllowed": "ND",
+      "deleteRestrictedDescription": "Les emplacements gérés ne peuvent pas être supprimés."
     },
     "summary": {
       "successRate": "Taux de réussite",
@@ -414,7 +416,7 @@
       },
       "downloadHar": "Télécharger le fichier HAR",
       "downloadLog": "Journaux de téléchargement",
-      "downloadImages": "Télécharger la capture d'écran",
+      "viewScreenshotsLabel": "Afficher la ou les captures d'écran",
       "downloadVideo": "Télécharger l'enregistrement",
       "consoleLogsLevel": "Console",
       "consoleLogs": "Console",
@@ -481,6 +483,14 @@
             "connect": "Connecter"
           }
         }
+      },
+      "viewScreenshots": {
+        "screenshotsDialogLabel": "Capture(s) d'écran",
+        "allScreenshots": "Toutes les captures d'écran",
+        "allImagesButton": "Toutes les images",
+        "imageButton": "Image",
+        "ScreenshotsLoadingMessage": "Chargement des captures d'écran",
+        "noScreenshotsAvailableMessage": "Captures d'écran non disponibles pour ce résultat de test"
       }
     },
     "noDataAvailable": {
@@ -489,7 +499,8 @@
       "testSummaryTitle": "Aucun test synthétique disponible",
       "testSummaryDescription": "Aucun test synthétique n'a été extrait de la base de données.",
       "locationListTitle": "Aucun emplacement synthétique disponible",
-      "locationListDescription": "Aucun emplacement synthétique n'est extrait de la base de données."
+      "locationListDescription": "Aucun emplacement synthétique n'est extrait de la base de données.",
+      "configurationTab": "Les détails de {{component}} ne sont pas disponibles pour ce test."
     },
     "alertList": {
       "timeThreshold": "Seuil de temps",
@@ -541,7 +552,7 @@
         "reasonTitle": "Motif de la suppression",
         "typingValidationTitle": "Entrez {{synthetic}} pour continuer",
         "cancelButton": "Annuler",
-        "deleteButton": "Supprimer"
+        "deleteButton": "Supprimer le test"
       },
       "configurationEditAction": "Editer",
       "configurationDeleteAction": "Supprimer"

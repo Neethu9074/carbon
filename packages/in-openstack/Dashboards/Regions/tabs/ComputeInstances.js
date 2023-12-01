@@ -10,9 +10,9 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getOpenstackInstances from 'in-openstack/subscriptions/getOpenstackInstances';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { megaBytes, number, percentage } from 'in-services/formatters/number';
 import { useOpenstackInstanceDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
-import { bytes, number, percentage } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { plugins } from 'in-forge/constants';
@@ -112,7 +112,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="memoryResources"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={bytes.detailed}
+          formatter={megaBytes.detailed}
         />
       );
     }

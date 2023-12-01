@@ -109,6 +109,8 @@
   "headerEnd": "結束時間",
   "headerOn": "位於",
   "headerTimeline": "時間表",
+  "eventHelpfulText": "此事件是否能提供協助？",
+  "thankYouForYourFeedback": "謝謝您的意見！",
   "hostOffLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之主機的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視主機的那個時間點",
   "offLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之程序的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視程序的那個時間點",
   "offLineEventProblemNoMatch": "Instana 找不到符合自訂事件之任何先前實體的參照。",
@@ -153,13 +155,26 @@
     "failedStatusMetric": "失敗狀態"
   },
   "RCA": {
-    "titlePRCA": "可能主要原因事件",
+    "titlePRCA": "可能的主要原因",
     "AIGenBadgeText": "AI 產生",
     "suggestionHelpfulText": "這個建議有用嗎？",
-    "noEventsErrorTitle": "找不到事件",
-    "noEventsErrorDescription": "發現某個實體是主要原因，但沒有相關事件可歸因於該實體",
     "noEntitiesErrorTitle": "找不到可能的主要原因",
-    "noEntitiesErrorDescription": "糟糕！ 我們無法精確找出此事件的特定主要原因。",
-    "regenerate": "重新產生"
+    "noEntitiesErrorDescription": "這通常在發生事件沒有重大服務影響時發生",
+    "performanceConstantlyEvaluated": "在測試版期間，正在積極評估及改善效能。 請留下意見，以協助我們更充分地改善我們的 AI",
+    "regenerate": "重新產生",
+    "probableRootCauseLabel": "可能的主要原因實體：{{entity_name}}",
+    "relatedEventsLabel": "找到的實體事件：{{number_of_events}}"
+  },
+  "feedback": {
+    "skip": "略過",
+    "descriptionUnpleasant": {
+      "firstLineApology": "我們很抱歉您沒有愉快的經歷。",
+      "secondLineQuestion": "您能幫我們找出出問題的地方嗎？"
+    },
+    "pleaseDescribeWhatWentWrongTextBox": "請說明",
+    "contactMeYes": "是，請聯絡我",
+    "contactMeNo": "否，我寧可不要聯絡",
+    "appreciateResponse": "我們感謝您的回應！",
+    "followUpQuestion": "您是否希望我們延續您的技術意見，以進一步釐清或討論？"
   }
 }

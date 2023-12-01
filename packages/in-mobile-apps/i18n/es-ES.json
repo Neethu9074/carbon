@@ -21,6 +21,10 @@
       "transferSizeLabel": "Tamaño de transferencia",
       "transferSizeCategory": "Dimensiones de recursos"
     },
+    "crash": {
+      "crashAffectedSessionCount": "Recuento de sesiones afectadas por bloqueo",
+      "crashAffectedUserCount": "Recuento de usuarios afectados por bloqueo"
+    },
     "errorRate": {
       "label": "Tasa de errores",
       "rawDataLabel": "Número de errores"
@@ -215,6 +219,7 @@
       "crashLabel": "Caída",
       "metaHeader": "Meta",
       "stackTrace": "Rastreo de pila",
+      "stackTraceLastOccurrence": "Seguimiento de pila (última aparición)",
       "stackTraceButtonPrettyStackTrace": "Rastreo de pila \"pretty\"",
       "stackTraceButtonRawStackTrace": "Rastreo de pila sin formato"
     },
@@ -337,9 +342,40 @@
       "devices": "Dispositivos",
       "viewAllDevices": "Ver todos los dispositivos",
       "osVersions": "Sistemas operativos",
-      "viewAllOs": "Ver todo el sistema operativo",
+      "viewAllOs": "Ver todos los sistemas operativos",
       "appVersions": "Versiones de apps",
       "viewAllVersions": "Ver todas las versiones",
+      "configurations": {
+        "symbolFileConfigLabel": "Stack Trace Translation",
+        "symbolFileConfig": {
+          "clearUploadedFilesUrl": "Eliminar todos los archivos API",
+          "dialogMessageConfigurationUpdated": "Configuración actualizada.",
+          "dialogMessageFailedToSaveConfiguration": "No se ha podido guardar la configuración: {{message}}",
+          "dialogMessageNewConfigurationSaved": "Se ha guardado la nueva configuración.",
+          "dialogMessageSavingConfiguration": "Guardando configuración...",
+          "fileCommitUrl": "API Confirmar archivo de símbolos",
+          "fileUploadConfigurationDialogTitleEdit": "Editar configuración de carga de archivo de símbolos",
+          "fileUploadConfigurationDialogTitleNew": "Nueva configuración de carga de archivo de símbolos",
+          "fileUploadConfigurationDialogLabelDescription": "Descripción",
+          "fileUploadConfigurationDialogHeadingDescription": "Descripción",
+          "fileUploadConfigurationDialogDescriptionHelp": "Una configuración de carga le ayudará a organizar mejor los archivos cargados.",
+          "fileUploadConfigurationDialogHeadingOpenAPI": "Cargando archivos de símbolos",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Para cargar los archivos de símbolos, llame a la API REST web de Instana. Esto se podría integrar en el proceso de interconexión para el despliegue automatizado. La explicación y el uso de la API REST web se ha definido en la <documentation>documentación</documentation>.",
+          "fileUploadUrl": "API Cargar archivo de símbolos",
+          "stackTraceTranslationLabelConfiguration": "Configuración",
+          "stackTraceTranslationLabelFiles": "Archivos",
+          "stackTraceTranslationLabelTotalSize": "Tamaño total",
+          "stackTraceTranslationLabelLastModified": "Última modificación",
+          "stackTraceTranslationExplanationWithUploadFeature": "Para que los rastreos de pila sean más legibles, por ejemplo, para mostrar referencias a archivos y líneas no minificadas, Instana necesita interpretar código con archivos de símbolos. La adición de una configuración de carga aquí podría permitir cargar los archivos de símbolos de la aplicación móvil a través de la API REST de Instana Web. Luego, Instana puede proporcionar más información sobre los errores de bloqueo de aplicaciones móviles.",
+          "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Stack Trace Translation",
+          "stackTraceTranslationLearnMoreLabel": "Más información sobre Stack Trace Translation",
+          "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configuraciones de Stack Trace Translation",
+          "stackTraceTranslationHeaderFileUploadConfigurations": "Configuraciones de carga de archivo de símbolos",
+          "stackTraceTranslationNoUploadDataMessage": "No hay configuraciones de carga de archivo de símbolos disponibles.",
+          "stackTraceTranslationButtonAddConfiguration": "Añadir configuración",
+          "stackTraceTranslationLabelFileUploadConfiguration": "Configuración de carga de archivo de símbolo {{config}}"
+        }
+      },
       "crashes": {
         "crashesLabelErrorMessage": "Mensaje de error",
         "crashesLabelOccurrences": "Apariciones",
@@ -348,7 +384,7 @@
         "crashesTableTitle": "Caídas",
         "crashInfoTitle": "Detalles",
         "crashInfoMessage": "Mensaje",
-        "backToCrashList": "Volver a la lista de caídas",
+        "backToCrashList": "Volver a grupos de bloqueo",
         "crashTitleMobileAppCrashDetails": "Detalles de caída de aplicación móvil"
       },
       "customEvents": {

@@ -118,6 +118,11 @@
       "delete": "Delete"
     }
   },
+  "components": {
+    "tagFilterBuilder": {
+      "filterAbscenseExplanation": "No custom filter has been configured"
+    }
+  },
   "createSloDialog": {
     "customFilter": "Custom Filter (optional)",
     "title": "Create Service Level Objective (SLO)",

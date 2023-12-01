@@ -27,7 +27,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
+import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function MaintenanceWindows() {
@@ -55,14 +55,15 @@ const columnDefinitions = [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
-    getContent(entity) {
+    getContent: function Content(entity) {
+      const theme = useTheme();
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
           <Link
             href={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
             onClick={() => editMaintenanceWindowTracker()}
           >
-            <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
+            <WithIcon icon="lib_actions_build_outline" iconColor={theme.ids.color.option.blue['500']} ellipsis>
               {entity.name}
             </WithIcon>
           </Link>

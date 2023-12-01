@@ -44,7 +44,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
 
   useEffect(
     () => {
-      if (isFormatterSelected) {
+      if (isFormatterSelected || !metricFormatter) {
         return;
       }
 

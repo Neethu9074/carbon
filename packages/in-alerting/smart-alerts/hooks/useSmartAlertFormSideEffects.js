@@ -77,7 +77,7 @@ export function useSmartAlertFormSideEffects(form, setForm) {
 }
 
 function resetBaseline(form) {
-  const type = form.get('threshold').get('type').value;
+  const type = form.get('threshold')?.get('type').value;
 
   if (isOneOfBaselineTypes(type)) {
     return form.updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(false));
@@ -130,7 +130,7 @@ function requestThresholdSuggestion(form) {
 }
 
 function resetThreshold(form) {
-  const type = form.get('threshold').get('type').value;
+  const type = form.get('threshold')?.get('type').value;
   form = requestThresholdSuggestion(form);
 
   if (type === STATIC_THRESHOLD) {

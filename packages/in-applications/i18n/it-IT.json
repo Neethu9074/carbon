@@ -248,6 +248,8 @@
     "newAP": "Nuova prospettiva applicazione",
     "switchSimpleMode": "Passa alla modalità semplice",
     "switchAdvancedMode": "Passa alla modalità avanzata",
+    "selectContributionFilter": "Seleziona filtro di contributo",
+    "noRestrictions": "Nessuna limitazione",
     "simple": {
       "step1Title": "Passo 1: Selezionare il modello",
       "step1": {

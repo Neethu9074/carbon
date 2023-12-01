@@ -17,4 +17,9 @@
     font-size: 0.8rem;
     line-height: 1.5;
   }
+
+  .loadingIndicator {
+    grid-column: 1 / span 3;
+    padding: 1.5rem;
+  }
 }

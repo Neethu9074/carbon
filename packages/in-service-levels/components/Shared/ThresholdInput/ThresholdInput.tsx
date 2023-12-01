@@ -9,12 +9,18 @@ import React from 'react';
 import Input from 'in-components/form/Input/Input';
 
 interface ThresholdInputProps {
+  disabled?: boolean;
   hasError?: boolean;
   handleChange: (val: number | undefined) => void;
   value: number | undefined;
 }
 
-export default function ThresholdInput({ value, handleChange, hasError = false }: ThresholdInputProps) {
+export default function ThresholdInput({
+  disabled = false,
+  handleChange,
+  hasError = false,
+  value
+}: ThresholdInputProps) {
   const onInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     const newValue = e.target.value === '' ? undefined : Number(e.target.value);
 
@@ -23,12 +29,13 @@ export default function ThresholdInput({ value, handleChange, hasError = false }
 
   return (
     <Input
-      id="threshold-input"
-      type="number"
-      min="0"
-      value={value ?? ''}
-      onChange={onInputChange}
+      disabled={disabled}
       hasError={hasError}
+      id="threshold-input"
+      min="0"
+      onChange={onInputChange}
+      type="number"
+      value={value ?? ''}
     />
   );
 }

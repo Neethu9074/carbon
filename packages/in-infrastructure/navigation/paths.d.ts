@@ -12,6 +12,8 @@ export interface MetricItem {
   metric: string;
   aggregation: AggregationType;
   crossSeriesAggregation?: AggregationType;
+  regex?: boolean;
+  label?: string;
 }
 
 interface GetLinkToExploreProps {

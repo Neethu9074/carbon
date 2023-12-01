@@ -13,4 +13,5 @@ export type ActionListCalloutProps = {
   boundaryScope: ApplicationBoundaryScope;
   labels: { applicationLabel: string; serviceLabel?: string; endpointLabel?: string };
   snapshotHostFqdn?: string;
+  hasButtonInActionslane?: boolean;
 };

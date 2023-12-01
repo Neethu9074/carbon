@@ -87,5 +87,5 @@ function Header(props) {
 function RenderMetaInformation({ result }) {
   const theme = useTheme();
   const version = get(result, ['data', 'version']);
-  return <>{version && <BadgeList type={version} getColor={() => theme.ids.color.neutral['700']} />}</>;
+  return <>{version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}</>;
 }

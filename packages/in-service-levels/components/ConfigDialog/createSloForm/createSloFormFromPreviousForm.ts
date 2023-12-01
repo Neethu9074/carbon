@@ -15,6 +15,7 @@ import {
   getIndicatorFieldsFromForm,
   getNameTagFieldsFromForm
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
+import { timeWindowValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 
 export default function createSloFormFromPreviousForm(previousForm: SloForm): SloForm {
@@ -32,7 +33,8 @@ export default function createSloFormFromPreviousForm(previousForm: SloForm): Sl
         items: getDefaultScopeFields()
       }),
       objective: createMapForm({
-        items: getDefaultObjectiveFields()
+        items: getDefaultObjectiveFields(),
+        validator: timeWindowValidator
       }),
       nameTags: createMapForm({
         items: getNameTagFieldsFromForm(previousForm)

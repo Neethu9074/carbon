@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { themes } from '@instana/design-tokens';
 import { formatTime, formatDateShort } from 'in-services/formatters/date';
 import oldTheme from 'in-themes';
 
@@ -10,8 +11,8 @@ const axisFontColor = oldTheme.lib.colors.N800Dark;
 const dayAxisFontColor = oldTheme.lib.colors.N900Primary;
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
 // text alignments. This used to work with Safari 9 (and all other browsers).
-const axisFont = `10px ${oldTheme.fontFamilySansSerif}`;
-const dayAxisFont = `9px ${oldTheme.fontFamilySansSerif}`;
+const axisFont = `10px ${themes.default.ids.font.family.option['sans-serif']}`;
+const dayAxisFont = `9px ${themes.default.ids.font.family.option['sans-serif']}`;
 let timeLabelWidth;
 
 export default function axis(config, tickPositions) {

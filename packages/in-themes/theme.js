@@ -10,40 +10,7 @@
 
 const carbonColors = require('@carbon/colors');
 
-// zIndex start at 100, because some components need to raise their content above
-// sibling content. This is typically achieved by adding zIndex: 1. We start at
-// zIndex 100 to avoid any conflicts.
-let zIndex = 100;
-
 module.exports = {
-  zIndex: {
-    timeline: zIndex++,
-    overlaysInContentArea: zIndex++,
-    // a select box can be within an overlay
-    selectBoxFlyouts: zIndex++,
-    mapOverlayControls: zIndex++,
-    stickyHeader: (zIndex += 20),
-    overlaysBehindSidebar: ++zIndex,
-    detailPopupPresenter: ++zIndex,
-    graphView: ++zIndex,
-    slideInView: ++zIndex,
-    mainNavigationBackground: ++zIndex,
-    mainNavigation: ++zIndex,
-    dialog: ++zIndex,
-    tvMode: ++zIndex,
-    overlays: ++zIndex,
-    messageFlyout: ++zIndex,
-    tooltips: ++zIndex
-  },
-  fontColor: '#222627',
-  fontFamilySansSerif: 'var(--typography-font-family-sans-serif)',
-  fontFamilyMonospace: 'var(--typography-font-family-monospace)',
-  links: {
-    decoration: 'none',
-    hover: {
-      decoration: 'underline'
-    }
-  },
   chart: {
     strokeColors: [
       '#5da6da',
@@ -166,74 +133,6 @@ function buildLib() {
       transparent: 'rgba(255, 255, 255, 0)',
 
       chart: {}
-    },
-
-    shapes: {
-      radius_small: '2px',
-      radius_medium: '3px',
-      radius_large: '5px',
-      radius_round: '50%'
-    },
-
-    shadows: {
-      subtle: '0px 1px 4px 0px rgba(0, 0, 0, 0.16)',
-      pronounced: '0px 2px 5px 0px rgba(0, 0, 0, 0.24)',
-      strong: '0px 3px 10px 0px rgba(0, 0, 0, 0.24)',
-      soft: '0px 0px 25px 0px rgba(0, 0, 0, 0.3)'
-    },
-
-    typography: {
-      lineHeight: 1.15,
-      h900: {
-        fontSize: '5.375rem',
-        fontWeight: 300
-      },
-      h800: {
-        fontSize: '3.5rem',
-        fontWeight: 400
-      },
-      h700: {
-        fontSize: '2.375rem',
-        fontWeight: 300
-      },
-      h600: {
-        fontSize: '2.125rem',
-        fontWeight: 300
-      },
-      h500: {
-        fontSize: '1.625rem',
-        fontWeight: 200
-      },
-      h400: {
-        fontSize: '1.5rem',
-        fontWeight: 500
-      },
-      h300: {
-        fontSize: '1.375rem'
-      },
-      h200: {
-        fontSize: '1rem'
-      },
-      h100: {
-        fontSize: '0.75rem'
-      },
-      bodyLarge: {
-        fontSize: '1rem'
-      },
-      bodyBold: {
-        fontSize: '0.875rem',
-        fontWeight: 'bold'
-      },
-      body: {
-        fontSize: '0.875rem'
-      },
-      bodySmall: {
-        fontSize: '0.75rem'
-      },
-      button: {
-        fontSize: '0.875rem',
-        fontWeight: 500
-      }
     }
   };
 
@@ -303,7 +202,7 @@ function buildLib() {
   lib.colors.chart.self25 = lighten(lib.colors.chart.self100, 0.05);
 
   lib.colors.chartSelection = 'rgba(75, 165, 210, 0.2)';
-  lib.colors.timeShift = lib.colors.N400;
+  lib.colors.timeShift = carbonColors.gray60;
 
   lib.colors.primary240 = lighten(lib.colors.blue800, 0.4);
   lib.colors.lightPrimary240 = lighten(lib.colors.lightBlue800, 0.4);

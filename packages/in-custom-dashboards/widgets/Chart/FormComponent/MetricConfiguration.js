@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ColumnizedContent, Li, SvgIcon } from '@instana/components';
+import { create } from '@instana/observables';
 
 import {
   metricsPath,
@@ -25,6 +26,8 @@ import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './MetricConfiguration.mless';
+
+export const refreshDFQ$ = create().emit();
 
 export const columnDefinitions = [
   {
@@ -80,7 +83,10 @@ export const columnDefinitions = [
 
           <MoreMenuButton
             icon="lib_actions_delete"
-            onClick={() => onChange([axisName, 'metrics'], f => f.remove(indexInAxis).setTouched(true))}
+            onClick={() => {
+              onChange([axisName, 'metrics'], f => f.remove(indexInAxis).setTouched(true));
+              refreshDFQ$.emit(true);
+            }}
           >
             {t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.removeDataset')}
           </MoreMenuButton>
@@ -104,7 +110,8 @@ export default function MetricConfiguration(props) {
     withFiltering = true,
     withGrouping = true,
     withTimeShift = true,
-    isTypePrefilled = false
+    isTypePrefilled = false,
+    displayDFQ = true
   } = props;
 
   const updateForm = useChartFormatterFormSideEffects(form, updatedForm => {
@@ -160,6 +167,7 @@ export default function MetricConfiguration(props) {
               dataSource={dataSource}
               isTypePrefilled={isTypePrefilled}
               type={type}
+              displayDFQ={displayDFQ}
             />
           )}
         >

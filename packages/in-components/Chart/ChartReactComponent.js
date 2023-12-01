@@ -58,7 +58,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     disableChartInLive,
     snapshotId,
     snapshotHostFqdn,
-    hasActionlane = false
+    hasActionlane = false,
+    hasButtonInActionslane = true
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
@@ -111,7 +112,9 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
       markerPaneHeight: chart?.config?.markerPaneHeight,
       snapshotId: snapshotId || chart?.config?.snapshotId,
       snapshotHostFqdn: snapshotHostFqdn || chart?.config?.snapshotHostFqdn,
-      hasActionlane: hasActionlane
+      //props for actions lane
+      hasActionlane: hasActionlane,
+      hasButtonInActionslane: hasButtonInActionslane
     };
     if (!isEqual(nextPreAndPostContentConfig, preAndPostContentConfig)) {
       setPreAndPostContentConfig(nextPreAndPostContentConfig);

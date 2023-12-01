@@ -86,6 +86,7 @@ export default function ThresholdSelectionInteractiveChart({
             form={form}
             blueprintConfig={blueprintConfig}
             updateForm={updateForm}
+            editMode={editMode}
             eumType={eumType}
             isPercentageMetric={isPercentageMetric}
             getMetricUnitPostfix={getMetricUnitPostfix}

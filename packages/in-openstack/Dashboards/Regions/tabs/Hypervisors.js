@@ -9,9 +9,9 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getOpenstackHypervisors from 'in-openstack/subscriptions/getOpenstackHypervisors';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { bytes, megaBytes, number, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
+import { megaBytes, number, percentage } from 'in-services/formatters/number';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -142,7 +142,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="storageResources"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={bytes.detailed}
+          formatter={megaBytes.detailed}
         />
       );
     }
