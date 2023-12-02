@@ -74,12 +74,12 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
 
   it.each`
     expectedTarget | expectedStatus | target        | statusSingleNumber
-    ${'100.00%'}   | ${'100.00%'}   | ${1}          | ${1}
-    ${'99.888%'}   | ${'99.9911%'}  | ${0.99888}    | ${0.999911}
-    ${'99.9995%'}  | ${'99.9996%'}  | ${0.999995}   | ${0.999996}
-    ${'99.9999%'}  | ${'100.00%'}   | ${0.999999}   | ${1}
-    ${'100.00%'}   | ${'100.00%'}   | ${0.99999995} | ${1}
-    ${'300.00%'}   | ${'299.95%'}   | ${3}          | ${2.99948}
+    ${'100.00%'}   | ${'100.00%'}   | ${1}          | ${[[1, 1]]}
+    ${'99.888%'}   | ${'99.9911%'}  | ${0.99888}    | ${[[1, 0.999911]]}
+    ${'99.9995%'}  | ${'99.9996%'}  | ${0.999995}   | ${[[1, 0.999996]]}
+    ${'99.9999%'}  | ${'100.00%'}   | ${0.999999}   | ${[[1, 1]]}
+    ${'100.00%'}   | ${'100.00%'}   | ${0.99999995} | ${[[1, 1]]}
+    ${'300.00%'}   | ${'299.95%'}   | ${3}          | ${[[1, 2.99948]]}
   `(
     'should have target of $expectedTarget and status of $expectedStatus if slo is $givenSlo and metricSli is $givenMetricSli',
     ({ expectedTarget, expectedStatus, target, statusSingleNumber }) => {
