@@ -8,12 +8,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummarySkeleton';
+import { formatSloStatus, getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
 import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
 import { SloEntityType, ServiceLevelIndicatorType, TimeWindowType } from 'in-types';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
 import useSloFormatter from 'in-service-levels/hooks/useSloFormatter';
-import { formatSloStatus } from 'in-service-levels/utils/format';
 import { MetricDataPoint } from 'in-components/Chart/types';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
@@ -55,10 +55,6 @@ function SloChartSummary({
 }: SloChartSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
   const sliFormatter = useSloFormatter({ blueprintType, indicatorType, sloEntityType });
-
-  const getValueFromSingleValueMetric = (metric: MetricDataPoint[] | undefined) => {
-    return metric?.[0]?.[1];
-  };
 
   const budget = getValueFromSingleValueMetric(budgetSingleNumber);
   const consumedBudget = getValueFromSingleValueMetric(consumedBudgetSingleNumber);
