@@ -214,6 +214,13 @@ const webpackMarkdownRule = {
   ]
 };
 
+const lezerGrammarRule = {
+  test: /\.grammar$/,
+  use: {
+    loader: path.resolve(__dirname, 'build', 'webpack', 'lezer-loader.js')
+  }
+};
+
 module.exports = {
   entry,
   mode: process.env.NODE_ENV,
@@ -233,7 +240,8 @@ module.exports = {
       webpackShaderRule,
       webpackSourcesRule,
       webpackYamlRule,
-      webpackMarkdownRule
+      webpackMarkdownRule,
+      lezerGrammarRule
     ]
   },
   plugins,
