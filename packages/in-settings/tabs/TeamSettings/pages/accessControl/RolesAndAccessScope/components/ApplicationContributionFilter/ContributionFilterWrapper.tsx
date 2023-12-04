@@ -28,11 +28,14 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './ApplicationContributionFilter.mless';
 
-export interface ContributionFilterWrapperProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {}
+export interface ContributionFilterWrapperProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
+  isContributorRole?: boolean;
+}
 
 export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems>({
   form,
-  setForm
+  setForm,
+  isContributorRole
 }: ContributionFilterWrapperProps<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
   const tagFilterExpressionField = getField<FormModelElement[]>(form, 'tagFilterExpression');
@@ -69,6 +72,7 @@ export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems
           servicesLiveList={servicesLiveList}
           headerText={t('in-applications:creation.simple.liveList.matchedServicesLastHour')}
           isValidTagFilterExpression={validTagFilterExpressionResult?.data}
+          isContributorRole={isContributorRole}
         />
       </div>
     </div>
