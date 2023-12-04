@@ -12,8 +12,11 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+//@ts-expect-error
+import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
+import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
 import StepsContainer from 'in-components/StepsContainer';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -42,6 +45,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                     <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} />
                   </Section>
                   <ScopeAggregation form={form} updateForm={updateForm} />
+                  <ScopeFilter form={form} updateForm={updateForm} />
+                  <ScopeGroup form={form} updateForm={updateForm} />
                 </Sections>
               </Stack>
             </div>
