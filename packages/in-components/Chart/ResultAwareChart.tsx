@@ -10,6 +10,7 @@ import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/co
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
+import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
@@ -52,16 +53,18 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const height = customHeight || '100%';
   if (result.errors.length > 0) {
+    const errorDescription = getErrorDescription(
+      renderErrorDetail,
+      result,
+      t('in-components:chart.resultAwareChartPleaseTryAgainLater')
+    );
+
     content = (
       <Message
         type="warning"
         withIcon
         title={t('in-components:chart.resultAwareChartSomethingWentWrong')}
-        description={
-          renderErrorDetail && ['CLIENT', 'VALIDATION'].includes(result.errors[0].code)
-            ? result.errors[0].message
-            : t('in-components:chart.resultAwareChartPleaseTryAgainLater')
-        }
+        description={errorDescription}
       />
     );
   } else if (result.progress.loading) {
@@ -199,4 +202,29 @@ function normalizeTimeShiftedTimestampsForAxis(axis: AxisConfiguration) {
   });
 
   return copiedAxis;
+}
+
+function getErrorDescription(
+  renderErrorDetail: boolean,
+  result: Result<unknown>,
+  defaultErrorDescription: string
+): React.ReactNode {
+  let errorDescription: React.ReactNode = defaultErrorDescription;
+
+  if (renderErrorDetail) {
+    if (
+      result.errors
+        .map(({ message }) => message)
+        .some(
+          message =>
+            message.includes('The query would take too long to run') || message.includes(clickhouseTimeoutErrorMessage)
+        )
+    ) {
+      errorDescription = <span>{`${t('in-components:error.timeout')} ${t('in-components:error.timeoutInfo')}`}</span>;
+    } else if (['CLIENT', 'VALIDATION'].includes(result.errors[0].code)) {
+      errorDescription = result.errors[0].message;
+    }
+  }
+
+  return errorDescription;
 }
