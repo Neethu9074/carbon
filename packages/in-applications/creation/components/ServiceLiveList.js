@@ -18,9 +18,10 @@ export default function ServiceLiveList({
   servicesLiveList,
   headerText,
   isValidTagFilterExpression,
-  isContributorRole
+  isContributorRole,
+  pageSize = 10
 }) {
-  const [visibleItems, setVisibleItems] = useState(10);
+  const [visibleItems, setVisibleItems] = useState(pageSize);
   const isLoading = servicesLiveList?.progress && servicesLiveList.progress.loading;
 
   const handleLoadMore = event => {
