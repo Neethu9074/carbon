@@ -285,6 +285,7 @@
     "backToParentViewName": "Back to {{parentViewName}}",
     "search": "Search...",
     "confirmRemoveItem": "Are you sure you want to remove <strong>{{itemName}}</strong>?",
+    "confirmSaveGroup": "Saving these updates will remove the contribution filter from {{numberOfContributorAPs}} application perspectives and become disabled",
     "enable": "Enable",
     "disable": "Disable",
     "deleteEntity": "Delete {{entity}}.",
