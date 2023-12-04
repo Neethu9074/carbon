@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import moment from 'moment-timezone'; // eslint-disable-line
 import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -46,7 +47,6 @@ export default function UrlShortenerOverlay() {
         // Deliberately do not show active style by setting activeTabIndex to a tab index that doesn't exist
         activeTabIndex={1}
       />
-
       {!shortUrl && <Wait />}
       {shortUrl && (
         <Ready shortUrl={shortUrl} fixateTime={fixateTime} setFixateTime={setFixateTime} timeConfig={timeConfig} />
@@ -100,6 +100,8 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
 }
 
 function Explanation({ timeConfig, fixateTime }) {
+  const timeZone = moment.tz(new Intl.DateTimeFormat().resolvedOptions().timeZone).zoneAbbr();
+
   if (fixateTime) {
     timeConfig = fixateTimeConfig(timeConfig);
   }
@@ -113,7 +115,8 @@ function Explanation({ timeConfig, fixateTime }) {
           ? t('in-components:dashboardHeader.urlShortenerLabelLive', {
               timeConfig: timeDisplayBottomFormat(timeConfig)
             })
-          : timeDisplayBottomFormat(timeConfig)}
+          : timeDisplayBottomFormat(timeConfig)}{' '}
+        {timeZone}
       </span>
     </div>
   );
