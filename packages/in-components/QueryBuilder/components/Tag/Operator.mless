@@ -54,11 +54,11 @@
     &:hover,
     &:focus,
     &:active {
-      color: var(--ids-color-option-neutral-900);
       outline: none;
       background: none;
       border: none;
       border-color: none;
+      color: unset;
     }
   }
 }
