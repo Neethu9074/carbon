@@ -25,7 +25,7 @@ export default connectTo(
       )
     };
   },
-  function Event({ event, scale, isOpen, background }) {
+  function Event({ event, scale, isOpen, background, setExpandedEventOnClickInTimeline, setHighlightEventOnHover }) {
     // clamp events so that they are not going beyond the borders of the chart.
     // If they would do, the incident start and end properties are wrongly calculated
     const left = scale.getRange(event.get('start'));
@@ -42,7 +42,7 @@ export default connectTo(
             // use full width to make event small events clickable over the hole line
             width: scale.getRangeTo() - left
           }}
-          onClick={() => onEventClick(event)}
+          onClick={() => onEventClick(event, setExpandedEventOnClickInTimeline)}
         >
           <div className={`${block}__change`} />
         </div>
@@ -67,7 +67,9 @@ export default connectTo(
           // use full width to make event small events clickable over the hole line
           width: scale.getRangeTo() - left
         }}
-        onClick={() => onEventClick(event)}
+        onClick={() => onEventClick(event, setExpandedEventOnClickInTimeline)}
+        onMouseEnter={() => setHighlightEventOnHover(event.get('id'))}
+        onMouseLeave={() => setHighlightEventOnHover('')}
       >
         <div className={`${block}__icon`}>
           <EventIcon event={event} disableColorCalculation size="xs" />
@@ -85,15 +87,12 @@ export default connectTo(
   }
 );
 
-function onEventClick(event) {
+function onEventClick(event, setExpandedEventOnClickInTimeline) {
   const eventId = event.get('id');
 
-  const scrollElement = document.querySelector('.in-event-view-details');
   const eventElement = document.getElementById(`event-${eventId}`);
 
-  if (!scrollElement || !eventElement) {
-    return;
-  }
-
-  scrollElement.scrollTop = eventElement.offsetTop;
+  //scrollElement.scrollTop = eventElement.offsetTop;
+  eventElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setExpandedEventOnClickInTimeline(event.get('id'));
 }

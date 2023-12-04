@@ -13,7 +13,14 @@ import './Events.less';
 
 const block = 'in-event-view-detail-chart-events';
 
-export default function Events({ scale, recentEvents, isExpanded, changesAreVisible = true }) {
+export default function Events({
+  scale,
+  recentEvents,
+  isExpanded,
+  changesAreVisible = true,
+  setExpandedEventOnClickInTimeline,
+  setHighlightEventOnHover
+}) {
   if (!recentEvents) {
     return (
       <div className={block}>
@@ -32,7 +39,13 @@ export default function Events({ scale, recentEvents, isExpanded, changesAreVisi
   return (
     <div className={block}>
       {recentEvents.map(event => (
-        <Event key={event.get('id')} event={event} scale={scale} />
+        <Event
+          key={event.get('id')}
+          event={event}
+          scale={scale}
+          setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+          setHighlightEventOnHover={setHighlightEventOnHover}
+        />
       ))}
     </div>
   );

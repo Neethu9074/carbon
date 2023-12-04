@@ -25,7 +25,14 @@ import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default function IncidentEventList({ incident, latestSnapshot, snapshot }) {
+export default function IncidentEventList({
+  incident,
+  latestSnapshot,
+  snapshot,
+  expandedEventOnClickInTimeline,
+  setExpandedEventOnClickInTimeline,
+  highlightEventOnHover
+}) {
   const events =
     useObservable(
       combineLatest(incident.get('recentEvents', emptyList).toArray().map(getEvent))
@@ -70,6 +77,9 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         events={events.filter(isTriggeringEvent)}
         triggeringProblemId={triggeringProblemId}
         latestSnapshot={latestSnapshot}
+        expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
+        setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+        highlightEventOnHover={highlightEventOnHover}
       />
       <ListRow
         title={t('in-events:titleRelatedEvents', {
@@ -78,6 +88,9 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
         events={events.filter(ev => !isTriggeringEvent(ev))}
         triggeringProblemId={triggeringProblemId}
         latestSnapshot={latestSnapshot}
+        expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
+        setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+        highlightEventOnHover={highlightEventOnHover}
       />
       {actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
@@ -95,7 +108,15 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   );
 }
 
-function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
+function ListRow({
+  title,
+  events,
+  triggeringProblemId,
+  latestSnapshot,
+  expandedEventOnClickInTimeline,
+  setExpandedEventOnClickInTimeline,
+  highlightEventOnHover
+}) {
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -107,6 +128,9 @@ function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
               triggeringProblemId={triggeringProblemId}
               event={_event}
               latestSnapshot={latestSnapshot}
+              expandedFromTimeline={expandedEventOnClickInTimeline === _event.get('id')}
+              setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+              highlightEventOnHover={highlightEventOnHover === _event.get('id')}
             />
           ))}
         </Card>

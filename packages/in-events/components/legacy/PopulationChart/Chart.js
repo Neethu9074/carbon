@@ -33,7 +33,9 @@ class IncidentPopulationChart extends React.Component {
     incidentId: rpt.string.isRequired,
     isExpanded: rpt.bool.isRequired,
     recentEvents: rpt.array,
-    width: rpt.number
+    width: rpt.number,
+    setExpandedEventOnClickInTimeline: rpt.func,
+    setHighlightEventOnHover: rpt.func
   };
 
   state = {
@@ -77,6 +79,8 @@ class IncidentPopulationChart extends React.Component {
             recentEvents={this.props.recentEvents}
             changesAreVisible={this.props.changesAreVisible}
             isExpanded={this.props.isExpanded}
+            setExpandedEventOnClickInTimeline={this.props.setExpandedEventOnClickInTimeline}
+            setHighlightEventOnHover={this.props.setHighlightEventOnHover}
           />
         </div>
       </div>

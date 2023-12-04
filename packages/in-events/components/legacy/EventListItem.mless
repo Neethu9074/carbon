@@ -83,7 +83,7 @@
 
   .right {
     position: relative;
-
+    border: 0.1rem solid transparent; // so the card doesn't expand when user hovers over event in timeline
     width: 100%;
     max-width: var(--right-max-width);
     margin-bottom: 0.25rem;
@@ -194,5 +194,9 @@
 
   .triggeringEventMarker {
     left: 11rem;
+  }
+  .highlighted {
+    border: 0.1rem solid var(--ids-color-option-blue-400);
+    border-radius: var(--ids-border-radius-option-medium) var(--ids-border-radius-option-medium) 0 0;
   }
 }

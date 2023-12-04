@@ -40,9 +40,17 @@ import { t } from 'in-i18n';
 
 import locals from './EventListItem.mless';
 
-export default function EventListItem({ triggeringProblemId, event, latestSnapshot, isRCA }) {
+export default function EventListItem({
+  triggeringProblemId,
+  event,
+  latestSnapshot,
+  isRCA,
+  expandedFromTimeline,
+  setExpandedEventOnClickInTimeline,
+  highlightEventOnHover
+}) {
   const theme = useTheme();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(expandedFromTimeline || false);
   const [activeEventBackground, setActiveEventBackground] = useState(
     isRCA ? theme.ids.color.option['deep-purple'][500] : ''
   );
@@ -60,6 +68,16 @@ export default function EventListItem({ triggeringProblemId, event, latestSnapsh
     }
   }, [activeEventBackground, background]);
 
+  useEffect(() => {
+    if (expandedFromTimeline && expandedFromTimeline !== isExpanded) {
+      setIsExpanded(true);
+    }
+
+    if (isExpanded && expandedFromTimeline) {
+      setExpandedEventOnClickInTimeline('');
+    }
+  }, [expandedFromTimeline, isExpanded, setExpandedEventOnClickInTimeline]);
+
   const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
   const serviceImpact = hasServiceImpact(event);
 
@@ -67,7 +85,10 @@ export default function EventListItem({ triggeringProblemId, event, latestSnapsh
 
   return (
     <div
-      className={classNames({ [locals.inEventViewIncidentEventListItem]: true, [locals.serviceImpact]: serviceImpact })}
+      className={classNames({
+        [locals.inEventViewIncidentEventListItem]: true,
+        [locals.serviceImpact]: serviceImpact
+      })}
       id={`event-${event.get('id')}`}
     >
       {serviceImpact && <Marker className={locals.affectedServiceMarker} label={t('in-events:labelServiceImpact')} />}
@@ -78,7 +99,7 @@ export default function EventListItem({ triggeringProblemId, event, latestSnapsh
 
       <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
 
-      <div className={locals.right}>
+      <div className={classNames({ [locals.right]: true, [locals.highlighted]: highlightEventOnHover })}>
         <div className={locals.background} style={{ background }} />
 
         <div className={locals.leftBorder} style={{ background }} />
@@ -86,14 +107,18 @@ export default function EventListItem({ triggeringProblemId, event, latestSnapsh
         <div className={locals.contentWrapper}>
           <DetailsHeader
             event={event}
-            iconType={isExpanded ? 'lib_openclose_remove_circle_outline' : 'lib_openclose_add_circle_outline'}
+            iconType={
+              isExpanded || expandedFromTimeline
+                ? 'lib_openclose_remove_circle_outline'
+                : 'lib_openclose_add_circle_outline'
+            }
             background={background}
             timeConfig={timeConfigFromEvent}
             onClick={() => setIsExpanded(!isExpanded)}
             isRCA={isRCA}
           />
-          {isExpanded ? <div className={locals.border} style={{ background }} /> : null}
-          {isExpanded ? (
+          {isExpanded || expandedFromTimeline ? <div className={locals.border} style={{ background }} /> : null}
+          {isExpanded || expandedFromTimeline ? (
             <div className={locals.expandedDetails}>
               <ListItemContent event={event} latestSnapshot={latestSnapshot} />
             </div>
