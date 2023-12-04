@@ -21,4 +21,10 @@
     color: var(--ids-color-option-neutral-600);
     margin: 1rem;
   }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

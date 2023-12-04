@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Ul } from '@instana/components';
+import { Button, Ul } from '@instana/components';
 
 import ServiceLiveListItem from 'in-applications/creation/components/ServiceLiveListItem';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -15,7 +15,13 @@ import { t } from 'in-i18n';
 import locals from './ServiceLiveList.mless';
 
 export default function ServiceLiveList({ servicesLiveList, headerText, isValidTagFilterExpression }) {
+  const [visibleItems, setVisibleItems] = useState(10);
   const isLoading = servicesLiveList?.progress && servicesLiveList.progress.loading;
+
+  const handleLoadMore = event => {
+    event.preventDefault();
+    setVisibleItems(prevVisibleItems => prevVisibleItems + 10);
+  };
 
   if (!isValidTagFilterExpression) {
     return (
@@ -61,7 +67,16 @@ export default function ServiceLiveList({ servicesLiveList, headerText, isValidT
       ) : (
         <Ul framed={false}>
           {servicesLiveList?.data &&
-            servicesLiveList.data.items.map(item => <ServiceLiveListItem item={item} key={item.id} />)}
+            servicesLiveList.data.items
+              .slice(0, visibleItems)
+              .map(item => <ServiceLiveListItem item={item} key={item.id} />)}
+          <div className={locals.center}>
+            {visibleItems < (servicesLiveList.data.items?.length ?? 0) && (
+              <Button kind="action" onClick={handleLoadMore}>
+                {t('in-synthetics:dialog.createTest.advancedMode.loadMore')}
+              </Button>
+            )}
+          </div>
         </Ul>
       )}
     </LightCard>
