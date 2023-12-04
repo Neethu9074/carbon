@@ -249,7 +249,8 @@
     "switchSimpleMode": "Switch to Simple Mode",
     "switchAdvancedMode": "Switch to Advanced Mode",
     "selectContributionFilter": "Select contribution filter",
-    "noRestrictions": "No restrictions",
+    "noContributionFilter": "No contribution filter",
+    "noContributionFilterDescription": "You are part of a group that has no contribution filter. You can create an AP with no limitations.",
     "simple": {
       "step1Title": "Step 1: Select Model",
       "step1": {

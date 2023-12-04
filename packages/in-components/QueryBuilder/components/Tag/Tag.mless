@@ -5,6 +5,7 @@
 
 :local {
   .tag,
+  .tag_disablehover,
   .tag_dark {
     display: inline-flex;
     align-items: center;
@@ -36,6 +37,18 @@
     &:active,
     &:hover {
       background: var(--ids-color-option-neutral-200);
+    }
+  }
+
+  .tag_disablehover {
+    background: var(--colors-gray-100);
+    border: 1px solid var(--ids-color-option-neutral-400);
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      border-color: none;
+      border: 1px solid var(--ids-color-option-neutral-400);
     }
   }
 

@@ -18,8 +18,8 @@ import { KEY_VALUE_PAIR, STRING, STRING_LIST, STRING_SET } from 'in-components/Q
 import { getSuggestionsTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/tagSuggestions';
 import BooleanSelector from 'in-components/QueryBuilder/components/Tag/BooleanSelector';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
-import { onElementKeyUp } from 'in-components/QueryBuilder/keyboardInteraction';
 import NumberInput from 'in-components/QueryBuilder/components/Tag/NumberInput';
+import { onElementKeyUp } from 'in-components/QueryBuilder/keyboardInteraction';
 import Operator from 'in-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -114,7 +114,6 @@ export default function Tag(props) {
           }
         }}
       />
-
       <SuspendDraggable draggableElement={draggableElement}>
         <KeyInput
           form={form}
@@ -127,7 +126,6 @@ export default function Tag(props) {
           getSuggestionLabel={getSuggestionLabel}
         />
       </SuspendDraggable>
-
       <Operator
         element={element}
         allowedOperators={allowedOperators}
@@ -140,7 +138,6 @@ export default function Tag(props) {
         focus={() => focusField('operator', true)}
         ref={autoFocusTargets.operator}
       />
-
       <SuspendDraggable draggableElement={draggableElement}>
         <ValueInput
           valueType={valueType}
@@ -159,7 +156,6 @@ export default function Tag(props) {
           getSuggestionLabel={getSuggestionLabel}
         />
       </SuspendDraggable>
-
       <RemoveIcon form={form} element={element} tagType={tagType} onRemove={onRemove} />
     </div>
   );
@@ -360,7 +356,6 @@ function ValueInput({
         ...getSuggestionsProps
       })
   };
-
   return (
     <Input
       type="text"

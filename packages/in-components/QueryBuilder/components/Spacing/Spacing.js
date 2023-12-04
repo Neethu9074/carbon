@@ -74,6 +74,7 @@ export default function Spacing({
           className={classNames({
             [locals.visible]: isHighlightedThroughDrag,
             [locals.letter]: size === LETTER.size,
+
             [locals.word]: size === WORD.size
           })}
           tabIndex={0}

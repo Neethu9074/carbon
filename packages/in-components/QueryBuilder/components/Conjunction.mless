@@ -11,6 +11,7 @@
   }
 
   .conjunction,
+  .conjunction_disablehover,
   .conjunction_dark {
     display: inline;
 
@@ -29,6 +30,18 @@
       outline: 0;
       background: var(--ids-color-option-neutral-200);
       border-color: var(--ids-color-option-blue-400);
+    }
+  }
+
+  .conjunction_disablehover {
+    background: none;
+    border: none;
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      background: none;
+      border-color: none;
     }
   }
 

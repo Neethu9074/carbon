@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -18,13 +19,18 @@ export default function EntityReadOnly({ entity }) {
       <>
         <div className={locals.wrapper}>
           <SvgIcon
-            className={locals.icon}
+            className={classNames({
+              [locals.entity_icon_disablehover]: true
+            })}
             size="xs"
-            style={{ cursor: 'not-allowed' }}
             type={entity === SOURCE ? 'lib_arrow_outgoing' : 'lib_arrow_incoming'}
           />
         </div>
-        <div className={locals.name}>
+        <div
+          className={classNames({
+            [locals.entity_disablehover]: true
+          })}
+        >
           {entity === SOURCE
             ? t('in-components:queryBuilder.sourceAbbreviated')
             : t('in-components:queryBuilder.destinationAbbreviated')}

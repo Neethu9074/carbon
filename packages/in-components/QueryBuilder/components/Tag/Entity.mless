@@ -4,7 +4,8 @@
  */
 
 :local {
-  .name {
+  .name,
+  .entity_disablehover {
     padding: 0.0225rem 0.3125rem;
     margin-top: -0.25rem;
     margin-bottom: -0.25rem;
@@ -29,13 +30,29 @@
     }
   }
 
+  .entity_disablehover {
+    .icon {
+      fill: var(--query-builder-element-color);
+    }
+    &:focus,
+    &:active,
+    &:hover {
+      outline: none;
+      color: var(--query-builder-element-color);
+      .icon {
+        fill: var(--query-builder-element-color);
+      }
+    }
+  }
+
   .wrapper {
     position: relative;
     margin-right: 1rem;
     height: 0.5625rem;
   }
 
-  .icon {
+  .icon,
+  .entity_icon_disablehover {
     // The icon's size triggers a very weird flexbox behavior for its parent element.
     // Work around this behavior by positioning this one absolutely to its wrapper.
     position: absolute;
@@ -49,6 +66,15 @@
     &:active,
     &:focus {
       fill: var(--ids-color-option-blue-400);
+      outline: none;
+    }
+  }
+
+  .entity_icon_disablehover {
+    &:hover,
+    &:active,
+    &:focus {
+      fill: var(--ids-color-option-neutral-700);
       outline: none;
     }
   }

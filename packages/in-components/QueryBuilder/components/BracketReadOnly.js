@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/renderModel';
@@ -14,7 +15,11 @@ export default function BracketReadOnly({ element: { type } }) {
   const locals = useThemedLocals(styleDefs);
 
   return (
-    <div className={locals.bracket} style={{ cursor: 'not-allowed' }}>
+    <div
+      className={classNames({
+        [locals.bracket_disablehover]: true
+      })}
+    >
       {type === OPEN_BRACKET ? '(' : ')'}
     </div>
   );

@@ -6,17 +6,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LETTER, WORD } from 'in-components/QueryBuilder/transformation/renderModel';
-
 import locals from './Spacing.mless';
 
-export default function SpacingReadOnly({ element: { size } }) {
+export default function SpacingReadOnly() {
   return (
     <div
-      style={{ cursor: 'not-allowed' }}
       className={classNames({
-        [locals.letter]: size === LETTER.size,
-        [locals.word]: size === WORD.size
+        [locals.letter_disablehover]: true,
+        [locals.word_disablehover]: true
       })}
     />
   );
