@@ -77,7 +77,7 @@ function renderLoadingState() {
 }
 
 function renderGroup(props) {
-  const { setForm, form, group, setMessage, updateGroupId } = props;
+  const { setForm, form, group, setMessage, updateGroupId, result } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
   const isExistingGroup = !!group.id;
@@ -132,6 +132,7 @@ function renderGroup(props) {
           readOnly={isOwnerGroup}
           editMode={isExistingGroup}
           onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm, updateGroupId })}
+          result={result}
         />
       </Row>
     </>

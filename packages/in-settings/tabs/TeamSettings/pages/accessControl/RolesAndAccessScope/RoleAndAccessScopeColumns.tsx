@@ -7,19 +7,28 @@
 import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect } from 'react';
 
-import { PermissionSet } from '@instana/types';
+import { ApiGroup, PermissionSet } from '@instana/types';
 import { Button } from '@instana/components';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
-import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  getField,
+  getScopeFromProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  ProductArea,
+  ScopeRoles
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col } from 'in-components/layout/Grid/Grid';
 import config from 'in-services/config';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 export interface FormControlProps<FORM_TYPE extends MapFormItems> {
   form: MapForm<FORM_TYPE>;
@@ -29,6 +38,7 @@ interface RoleAndAccessScopeColumnsProps<FORM_TYPE extends MapFormItems> extends
   readOnly?: boolean;
   editMode?: boolean;
   onSave: (form: MapForm<FORM_TYPE>) => void;
+  result: { group: ApiGroup };
 }
 
 export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems>({
@@ -36,7 +46,8 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
   setForm,
   readOnly,
   editMode,
-  onSave
+  onSave,
+  result
 }: RoleAndAccessScopeColumnsProps<FORM_TYPE>) {
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
 
@@ -49,15 +60,54 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
     close();
   };
 
+  const onClickSave = (form: MapForm<FORM_TYPE>) => {
+    const initialApplicationPermission = getScopeFromProductArea(
+      ProductArea.APPLICATION,
+      permissionSetField?.value as PermissionSet
+    );
+    const contributorApplicationIds = result.group.permissionSet.applicationIds?.filter(
+      scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor
+    )?.length;
+    const currentPermissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
+    const currentTagfilter = currentPermissionSet?.restrictedApplicationFilter?.tagFilterExpression;
+    const currentApplicationPermission = getScopeFromProductArea(
+      ProductArea.APPLICATION,
+      currentPermissionSet as PermissionSet
+    );
+    if (
+      applicationContributionFilterEnabled &&
+      contributorApplicationIds > 0 &&
+      (currentTagfilter === undefined || currentApplicationPermission !== initialApplicationPermission)
+    ) {
+      addActiveDialog(
+        <ConfirmationDialog
+          header={t('in-settings:components.pleaseConfirm')}
+          description={
+            <Trans
+              i18nKey="in-settings:components.confirmSaveGroup"
+              values={{ numberOfContributorAPs: contributorApplicationIds }}
+            />
+          }
+          confirmButtonLabel={t('forms.actions.save')}
+          onSubmit={() => {
+            close();
+            onSave(form);
+            close();
+          }}
+        />
+      );
+    } else {
+      onSave(form);
+      close();
+    }
+  };
+
   const openAccessScopeDialog = () => {
     addActiveDialog(
       <EditAccessScopeDialog
         form={form}
         setForm={setForm}
-        onSave={form => {
-          onSave(form);
-          close();
-        }}
+        onSave={form => onClickSave(form)}
         onCancel={closeAndBack}
         editMode={editMode}
       />
