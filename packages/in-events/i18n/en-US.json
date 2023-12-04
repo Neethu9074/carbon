@@ -166,7 +166,7 @@
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Entity events found: {{number_of_events}}",
     "entitiesNumber": "Entities",
-    "techPreview": "Tech Preview"
+    "techPreview": "TECH PREVIEW"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
