@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
-import { Button, Card, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
+import { Button, Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
 
@@ -117,7 +117,12 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
         onClose={close}
       >
         <section className={locals.confirmationDialogContent}>
-          <Trans i18nKey="in-synthetics:dashboard.testList.labelConfirmRemoveTest" values={{ testLabel }} />
+          <Typography variant="body-regular">
+            <Trans i18nKey="in-synthetics:dashboard.testList.labelConfirmRemoveTest" values={{ testLabel }} />
+          </Typography>
+          <Message type="warning" withIcon>
+            {t('in-synthetics:dashboard.configuration.dialog.deleteTestBrowserRefreshInfo')}
+          </Message>
           <Label htmlFor="reason">
             {t('in-synthetics:dashboard.configuration.dialog.reasonTitle')}
             <Input
