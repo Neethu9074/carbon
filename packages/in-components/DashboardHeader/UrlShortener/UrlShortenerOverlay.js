@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import moment from 'moment-timezone'; // eslint-disable-line
 import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -100,7 +99,7 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
 }
 
 function Explanation({ timeConfig, fixateTime }) {
-  const timeZone = moment.tz(new Intl.DateTimeFormat().resolvedOptions().timeZone).zoneAbbr();
+  const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
 
   if (fixateTime) {
     timeConfig = fixateTimeConfig(timeConfig);
