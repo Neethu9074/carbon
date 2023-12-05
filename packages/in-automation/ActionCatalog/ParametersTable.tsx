@@ -141,7 +141,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
       formKey="parameters"
       leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
       setForm={setForm}
-      isGithub={GHorGLParameterExist}
+      GHorGLParameterExist={GHorGLParameterExist}
       customAddRow={
         isAnsible
           ? undefined

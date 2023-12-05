@@ -312,12 +312,12 @@ export const BUG = 'Bug';
 export const IMPROVEMENT = 'Improvement';
 export const NEW_FEATURE = 'new_feature';
 export const JIRA_ISSUE_TYPES = Object.freeze([
-  { value: EPIC, translation: 'Epic' },
-  { value: TASK, translation: 'Task' },
-  { value: SUBTASK, translation: 'Sub Task' },
-  { value: BUG, translation: 'Bug' },
-  { value: IMPROVEMENT, translation: 'Improvement' },
-  { value: NEW_FEATURE, translation: 'New Feature' }
+  { value: EPIC, translation: t('in-automation:ActionCatalog.epic') },
+  { value: TASK, translation: t('in-automation:ActionCatalog.task') },
+  { value: SUBTASK, translation: t('in-automation:ActionCatalog.subTask') },
+  { value: BUG, translation: t('in-automation:ActionCatalog.bug') },
+  { value: IMPROVEMENT, translation: t('in-automation:ActionCatalog.improvement') },
+  { value: NEW_FEATURE, translation: t('in-automation:ActionCatalog.newFeature') }
 ]);
 
 export const NO_AUTH = 'noAuth';

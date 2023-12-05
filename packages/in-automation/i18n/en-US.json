@@ -182,7 +182,13 @@
     "scripthelpText":"Script is to run an automation script on Linux.",
     "httpHelpText":"HTTP is to invoke a webhook.",
     "manualHelpText":"Manual describes manual actions used for AI model training.",
-    "githubHelpText":"GitHub, GitLab, and Jira is to open, close, or comment on a ticket."
+    "githubHelpText":"GitHub, GitLab, and Jira is to open, close, or comment on a ticket.",
+    "epic":"Epic",
+    "task":"Task",
+    "subTask":"Sub task",
+    "bug":"Bug",
+    "improvement":"Improvement",
+    "newFeature":"New Feature"
   },
   "actionHistory": {
     "actionHistory": "Action History",

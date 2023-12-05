@@ -31,15 +31,13 @@ import {
   putGithubCloseTicketFields,
   putGithubCommentTicketFields,
   removeGithubOpenTicketFields,
-  removeGithubCloseAndCommentTicketFields,
+  removeCloseAndCommentTicketFields,
   putGitlabFields,
-  removeGitlabCloseAndCommentTicketFields,
   removeGitlabOpenTicketFields,
   putGitlabOpenTicketFields,
   putGitlabCloseTicketFields,
   putGitlabCommentTicketFields,
   putJiraFields,
-  removeJiraCloseAndCommentTicketFields,
   removeJiraOpenTicketFields,
   putJiraOpenTicketFields,
   putJiraCloseTicketFields,
@@ -478,11 +476,11 @@ const GithubSection = ({
                   onChange('ticketType', e.target.value, updatedForm => {
                     const type = (updatedForm.get('ticketType') as Field<string>).value;
                     if (type == OPEN) {
-                      updatedForm = removeGithubCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubOpenTicketFields(updatedForm, action);
                     } else if (type == CLOSE) {
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
-                      updatedForm = removeGithubCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
                         parameters.push({
@@ -500,7 +498,7 @@ const GithubSection = ({
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
-                      updatedForm = removeGithubCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
@@ -698,11 +696,11 @@ const GitlabSection = ({
                   onChange('ticketType', e.target.value, updatedForm => {
                     const type = (updatedForm.get('ticketType') as Field<string>).value;
                     if (type == OPEN) {
-                      updatedForm = removeGitlabCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabOpenTicketFields(updatedForm, action);
                     } else if (type == CLOSE) {
                       updatedForm = removeGitlabOpenTicketFields(updatedForm);
-                      updatedForm = removeGitlabCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
                         parameters.push({
@@ -720,7 +718,7 @@ const GitlabSection = ({
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
                       updatedForm = removeGitlabOpenTicketFields(updatedForm);
-                      updatedForm = removeGitlabCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
@@ -902,11 +900,11 @@ const JiraSection = ({
                   onChange('ticketType', e.target.value, updatedForm => {
                     const type = (updatedForm.get('ticketType') as Field<string>).value;
                     if (type == OPEN) {
-                      updatedForm = removeJiraCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraOpenTicketFields(updatedForm, action);
                     } else if (type == CLOSE) {
                       updatedForm = removeJiraOpenTicketFields(updatedForm);
-                      updatedForm = removeJiraCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
                         parameters.push({
@@ -924,7 +922,7 @@ const JiraSection = ({
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
                       updatedForm = removeJiraOpenTicketFields(updatedForm);
-                      updatedForm = removeJiraCloseAndCommentTicketFields(updatedForm);
+                      updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
