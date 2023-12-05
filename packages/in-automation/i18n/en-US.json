@@ -87,7 +87,6 @@
     "gitlab": "Gitlab Issue",
     "jira": "Jira Task",
     "docLink": "Documentation Link",
-    "actionTypeHelper": "Documentation link refers to a URL; Script is to run an automation script on Linux; HTTP is to invoke a webhook; Manual describes manual actions used for AI model training.",
     "noTagsConfigured": "No Tags Configured",
     "addRow": "Add Row",
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
