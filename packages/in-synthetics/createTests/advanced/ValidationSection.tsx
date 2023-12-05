@@ -124,35 +124,59 @@ export default function ValidationSection({
                     // previousKey does not exist if it's a newly added row
                     if (previousKey) {
                       if (selection.key == expectStatus) {
-                        updateForm(
-                          form
-                            .updateIn(['configuration', 'expectStatus'], (field: Item) =>
-                              (field as Field<string>).setValue('200').setTouched(false)
-                            )
-                            .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
-                              (field as Field<string>).setValue('').setTouched(false)
-                            )
-                        );
+                        if (previousKey === 'Expect JSON') {
+                          updateForm(
+                            form
+                              .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                                (field as Field<string>).setValue('200').setTouched(false)
+                              )
+                              .updateIn(['configuration', 'expectJson'], (field: Item) =>
+                                (field as Field<Record<string, string>>).setValue({}).setTouched(false)
+                              )
+                          );
+                        } else {
+                          updateForm(
+                            form
+                              .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                                (field as Field<string>).setValue('200').setTouched(false)
+                              )
+                              .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                                (field as Field<string>).setValue('').setTouched(false)
+                              )
+                          );
+                        }
                       } else if (selection.key == expectJson) {
                         updateForm(
                           form
                             .updateIn(['configuration', 'expectJson'], (field: Item) =>
-                              (field as Field<string>).setValue('').setTouched(false)
+                              (field as Field<Record<string, string>>).setValue({}).setTouched(false)
                             )
                             .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
                               (field as Field<string>).setValue('').setTouched(false)
                             )
                         );
                       } else if (selection.key == 'Expect Match') {
-                        updateForm(
-                          form
-                            .updateIn(['configuration', 'expectMatch'], (field: Item) =>
-                              (field as Field<string>).setValue('').setTouched(false)
-                            )
-                            .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
-                              (field as Field<string>).setValue('').setTouched(false)
-                            )
-                        );
+                        if (previousKey === 'Expect JSON') {
+                          updateForm(
+                            form
+                              .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                                (field as Field<string>).setValue('').setTouched(false)
+                              )
+                              .updateIn(['configuration', 'expectJson'], (field: Item) =>
+                                (field as Field<Record<string, string>>).setValue({}).setTouched(false)
+                              )
+                          );
+                        } else {
+                          updateForm(
+                            form
+                              .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                                (field as Field<string>).setValue('').setTouched(false)
+                              )
+                              .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                                (field as Field<string>).setValue('').setTouched(false)
+                              )
+                          );
+                        }
                       }
                     } else {
                       resetFields(selection.fieldName, 'add');
