@@ -44,8 +44,6 @@ export const getHelpTextType = (type: string) => {
     return t('in-automation:ActionCatalog.httpHelpText');
   } else if (isManual(type)) {
     return t('in-automation:ActionCatalog.manualHelpText');
-  } else if (isExternal(type)) {
-    return t('in-automation:actionHistory.externalHelpText');
   } else if (isGithub(type) || isGitlab(type) || isJira(type)) {
     return t('in-automation:ActionCatalog.githubHelpText');
   } else {
