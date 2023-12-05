@@ -179,7 +179,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   productArea={productArea}
                   contributionFilterConfigured={isAppContributionFilterConfigured}
                 />
-                {isContributorRole && <ContributionFilterWrapper form={form} setForm={setForm} />}
+                {isContributorRole && (
+                  <ContributionFilterWrapper form={form} setForm={setForm} isContributorRole={isContributorRole} />
+                )}
               </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
