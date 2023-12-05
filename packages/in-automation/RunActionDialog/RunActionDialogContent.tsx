@@ -353,9 +353,6 @@ function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
             {t('in-automation:projectIdInfo', { projectId: projectId.value })}
           </Typography>
         </div>
-        {/* <div>
-          <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>
-        </div> */}
         <div>
           <Typography variant="body-small">
             {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
@@ -378,9 +375,6 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
         <div>
           <Typography variant="body-small">{t('in-automation:projectInfo', { project: project.value })}</Typography>
         </div>
-        {/* <div>
-          <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>
-        </div> */}
         <div>
           <Typography variant="body-small">
             {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}

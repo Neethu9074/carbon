@@ -26,7 +26,7 @@ import {
   isGithub,
   getGithubFields,
   getGithubOpenTicketFields,
-  getGithubCloseAndCommentFields,
+  getCloseAndCommentFields,
   OPEN,
   CLOSE,
   ADD_COMMENT,
@@ -328,9 +328,6 @@ function onSave({
     }).once(handleActionResponse);
   } else if (isGithub(action.type)) {
     const { owner, repo, ticketType } = getGithubFields(action);
-    // {ticketType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
-    // {ticketType.value === CLOSE && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
-    // {ticketType.value === ADD_COMMENT && <GithubCloseAndCommentSection form={form} onChange={onChange} />}
     if (ticketType.value === OPEN) {
       const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
       runGithubOpenAction({
@@ -351,7 +348,7 @@ function onSave({
     }
 
     if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
-      const { comment } = getGithubCloseAndCommentFields(action);
+      const { comment } = getCloseAndCommentFields(action);
       runGithubCloseAction({
         volatileId: selectedVolatileId,
         event,
@@ -386,7 +383,7 @@ function onSave({
     }
 
     if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
-      const { comment } = getGithubCloseAndCommentFields(action);
+      const { comment } = getCloseAndCommentFields(action);
       runGitlabCloseAction({
         volatileId: selectedVolatileId,
         event,
@@ -421,7 +418,7 @@ function onSave({
     }
 
     if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
-      const { comment } = getGithubCloseAndCommentFields(action);
+      const { comment } = getCloseAndCommentFields(action);
       runJiraCloseAction({
         volatileId: selectedVolatileId,
         event,

@@ -205,7 +205,7 @@ export function getGithubOpenTicketFields(action: Action | NewAction): GithubOpe
   return { title, body, labels, assignees };
 }
 
-export function getGithubCloseAndCommentFields(action: Action | NewAction): GithubCloseFields {
+export function getCloseAndCommentFields(action: Action | NewAction): GithubCloseFields {
   const comment = getGithubCommentFromFields(action.fields);
   return { comment };
 }

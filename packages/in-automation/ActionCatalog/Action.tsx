@@ -263,7 +263,7 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
   const tags = (form.get('tags') as FormField<Tag[]>).value;
-  let parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
+  const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
   const timeout = (form.get('timeout') as FormField<string>).value;
   const fields: Field[] = [];
   if (isDocLink(type)) {

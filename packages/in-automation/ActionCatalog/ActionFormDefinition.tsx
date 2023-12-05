@@ -21,7 +21,7 @@ import {
   getTimeoutFromFields,
   getWebhookFields,
   getGithubOpenTicketFields,
-  getGithubCloseAndCommentFields,
+  getCloseAndCommentFields,
   isDocLink,
   isScript,
   isWebhook,
@@ -286,7 +286,6 @@ export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionForm
       'labels',
       createField({
         value: labels.value ? labels.value.split(',').map(label => ({ value: label, id: generateUniqueShortId() })) : []
-        // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
       })
     )
     .put(
@@ -295,7 +294,6 @@ export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionForm
         value: assignees.value
           ? assignees.value.split(',').map(assignee => ({ value: assignee, id: generateUniqueShortId() }))
           : []
-        // const mappedLabels = labels.map(tag => ({ value: tag, id: generateUniqueShortId() }));
       })
     );
   return form;
@@ -303,7 +301,7 @@ export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionForm
 
 export function putGithubCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGithubOpenTicketFields(form);
-  const { comment } = getGithubCloseAndCommentFields(action);
+  const { comment } = getCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -316,7 +314,7 @@ export function putGithubCloseTicketFields(form: MapForm<any>, action: ActionFor
 
 export function putGithubCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGithubOpenTicketFields(form);
-  const { comment } = getGithubCloseAndCommentFields(action);
+  const { comment } = getCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -407,7 +405,7 @@ export function putGitlabOpenTicketFields(form: MapForm<any>, action: ActionForm
 
 export function putGitlabCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGitlabOpenTicketFields(form);
-  const { comment } = getGithubCloseAndCommentFields(action);
+  const { comment } = getCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -420,7 +418,7 @@ export function putGitlabCloseTicketFields(form: MapForm<any>, action: ActionFor
 
 export function putGitlabCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeGitlabOpenTicketFields(form);
-  const { comment } = getGithubCloseAndCommentFields(action);
+  const { comment } = getCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -514,7 +512,7 @@ export function putJiraOpenTicketFields(form: MapForm<any>, action: ActionFormEn
 
 export function putJiraCloseTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeJiraOpenTicketFields(form);
-  const { comment } = getGithubCloseAndCommentFields(action);
+  const { comment } = getCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
@@ -527,7 +525,7 @@ export function putJiraCloseTicketFields(form: MapForm<any>, action: ActionFormE
 
 export function putJiraCommentTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeJiraOpenTicketFields(form);
-  const { comment } = getGithubCloseAndCommentFields(action);
+  const { comment } = getCloseAndCommentFields(action);
   form = form.put(
     'comment',
     createField({
