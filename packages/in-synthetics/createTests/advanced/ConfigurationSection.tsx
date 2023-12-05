@@ -303,23 +303,25 @@ export default function ConfigurationSection({
           </Button>
         </div>
       </div>
-      <div className={locals.configContainer}>
-        <FormGroup className={locals.descriptionInput}>
-          <Label htmlFor="body">{t('in-synthetics:dialog.createTest.advancedMode.configStep.body')}</Label>
-          <DebouncedTextArea
-            rows={3}
-            name="body"
-            value={body.value}
-            onChange={({ target }: React.ChangeEvent<any>) => {
-              updateForm(
-                form.updateIn(['configuration', 'body'], (field: Item) =>
-                  (field as Field<string>).setValue(target.value).setTouched(true)
-                )
-              );
-            }}
-          />
-        </FormGroup>
-      </div>
+      {methodField?.value !== 'GET' && (
+        <div className={locals.configContainer}>
+          <FormGroup className={locals.descriptionInput}>
+            <Label htmlFor="body">{t('in-synthetics:dialog.createTest.advancedMode.configStep.body')}</Label>
+            <DebouncedTextArea
+              rows={3}
+              name="body"
+              value={body.value}
+              onChange={({ target }: React.ChangeEvent<any>) => {
+                updateForm(
+                  form.updateIn(['configuration', 'body'], (field: Item) =>
+                    (field as Field<string>).setValue(target.value).setTouched(true)
+                  )
+                );
+              }}
+            />
+          </FormGroup>
+        </div>
+      )}
       <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>
           <Label htmlFor="validationString">
