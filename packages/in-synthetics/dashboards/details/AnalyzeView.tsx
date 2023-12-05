@@ -88,7 +88,8 @@ export default function SyntheticAnalyzeView() {
           return getTestResultDetailData({
             testId: testId,
             testResultId: resultId,
-            type: formatType[0]
+            type: formatType[0],
+            startTime: startTime
           });
         } else {
           return just({ ...dummyResultDetails, progress: { loading: false } });
@@ -178,7 +179,7 @@ export default function SyntheticAnalyzeView() {
             <Fragment>
               {isBrowserTest && (
                 <Row>
-                  <DownloadButton testId={testId} resultId={resultId} metadata={metadata} />
+                  <DownloadButton testId={testId} resultId={resultId} metadata={metadata} startTime={startTime} />
                 </Row>
               )}
               <Row>

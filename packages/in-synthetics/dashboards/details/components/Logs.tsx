@@ -51,7 +51,8 @@ export default function Logs({ testId, resultId, isBrowserTestType, metadata, ti
         return getTestResultDetailData({
           testId: testId,
           testResultId: resultId,
-          type: 'LOGS'
+          type: 'LOGS',
+          startTime: timestamp
         });
       } else {
         return just({ ...dummyTestResultLogs, progress: { loading: false } });
