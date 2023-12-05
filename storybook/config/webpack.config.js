@@ -87,6 +87,14 @@ const necessaryLoaders = [
         loader: 'raw-loader'
       }
     ]
+  },
+  {
+    test: /\.grammar$/,
+    use: [
+      {
+        loader: path.resolve(__dirname, '..', '..', 'build', 'webpack', 'lezer-loader.js')
+      }
+    ]
   }
 ];
 

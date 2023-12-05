@@ -78,7 +78,12 @@ export function createDynamicQueryBuilder({
       if (!tagCatalog) {
         return pendingResult;
       }
-      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalog, formModel, maxExpressionDepth, allowEmptyKey });
+      const { isValid, errors } = validateFormModel({
+        tagCatalog: tagCatalog,
+        formModel,
+        maxExpressionDepth,
+        allowEmptyKey
+      });
       if (!isValid) {
         return errorWithData(errors, false);
       }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { createTagForm, getFormPresentationInformation } from 'in-components/QueryBuilder/validation/tagForm';
@@ -20,9 +21,8 @@ export default function TagReadOnly(props) {
   const { type: tagType } = getFormPresentationInformation(tagCatalog, form);
 
   const locals = useThemedLocals(styleDefs);
-
   return (
-    <div className={locals.tag} style={{ cursor: 'not-allowed' }}>
+    <div className={classNames({ [locals.tag_disablehover]: true })}>
       {form.get('entity')?.map(field => (
         <EntityReadOnly entity={field.value} />
       ))}

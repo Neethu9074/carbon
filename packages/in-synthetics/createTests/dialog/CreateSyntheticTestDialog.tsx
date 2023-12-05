@@ -52,7 +52,7 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
   };
 
   const handleCreateTest = () => {
-    createSyntheticTest(form, setIsSaving, simpleMode, handleOnSaveSuccess);
+    createSyntheticTest(form, setIsSaving, simpleMode, handleOnSaveSuccess, onClose);
   };
 
   return (
@@ -85,7 +85,8 @@ const createSyntheticTest = (
   form: MapForm<any>,
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>,
   simpleMode: boolean,
-  handleOnSaveSuccess: () => void
+  handleOnSaveSuccess: () => void,
+  onClose: () => void
 ) => {
   setIsSaving(true);
 
@@ -123,6 +124,7 @@ const createSyntheticTest = (
     error => {
       setIsSaving(false);
       showCreateErrorMessage(deserializeErrorMessage(error.message));
+      onClose();
     }
   );
 };

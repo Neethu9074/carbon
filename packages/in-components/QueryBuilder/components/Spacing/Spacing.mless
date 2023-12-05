@@ -20,7 +20,9 @@
   }
 
   .letter,
-  .word {
+  .letter_disablehover,
+  .word,
+  .word_disablehover {
     display: inline-block;
     padding: 0.3rem 0;
     position: relative;
@@ -40,7 +42,8 @@
     }
   }
 
-  .letter {
+  .letter,
+  .letter_disablehover {
     width: 2px;
 
     @keyframes blinking-letter-caret {
@@ -64,7 +67,8 @@
     }
   }
 
-  .word {
+  .word,
+  .word_disablehover {
     width: 0.5rem;
     position: relative;
 
@@ -95,6 +99,33 @@
         animation-iteration-count: infinite;
         animation-timing-function: step-end;
       }
+    }
+  }
+
+  .word_disablehover,
+  .letter_disablehover {
+    &:focus,
+    &:active {
+      &::after {
+        border-right: none;
+        animation-name: none;
+        animation-duration: none;
+        animation-iteration-count: none;
+        animation-timing-function: none;
+      }
+    }
+  }
+
+  .letter_disablehover {
+    &:focus,
+    &:active,
+    &:active {
+      border-right: none;
+      animation-name: none;
+      animation-duration: none;
+      animation-iteration-count: none;
+      animation-timing-function: none;
+      background: none;
     }
   }
 

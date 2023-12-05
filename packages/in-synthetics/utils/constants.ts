@@ -19,8 +19,8 @@ import {
   PoPInstallationProperties,
   TestResultMetadata
 } from 'in-types';
+import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { Options } from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -276,6 +276,10 @@ export interface FilterState {
   applicationIds?: string[];
 }
 
+export interface FilterLocationState {
+  locationTypes: string[];
+}
+
 export interface FilterSectionProps extends FilterState {
   setFilter: (x: Object) => void;
   isAppcontext?: boolean;
@@ -286,6 +290,10 @@ export type CurrentState = {
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
+};
+
+export type CurrentLocationsState = {
+  locationTypes?: string[];
 };
 
 export type Timing = {
@@ -311,6 +319,15 @@ export const locationsUrlParameter = {
   serializer: buildJsonSerializer()
 };
 
+export const locationTypesUrlParameter = {
+  path: syntheticLocationPath,
+  name: 'locationTypes',
+  as: 'locationTypes',
+  initialState: [],
+  parser: buildJsonParser([]),
+  serializer: buildJsonSerializer()
+};
+
 export const applicationsUrlParameter = {
   path: pathSegment,
   name: 'applicationIds',
@@ -320,8 +337,16 @@ export const applicationsUrlParameter = {
   serializer: buildJsonSerializer()
 };
 
+export const filterLocationTypesUrlStateDefinition = {
+  bind: [locationTypesUrlParameter]
+} as Options<UrlState>;
+
 export const filterUrlStateDefinition = {
   bind: [syntheticTypesUrlParameter, locationsUrlParameter, applicationsUrlParameter]
+} as Options<UrlState>;
+
+export const filterLocationUrlStateDefinition = {
+  bind: [locationsUrlParameter]
 } as Options<UrlState>;
 
 export interface PresenterProps extends FilterState {

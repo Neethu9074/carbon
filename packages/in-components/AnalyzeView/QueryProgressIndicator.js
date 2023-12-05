@@ -14,11 +14,10 @@ import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './QueryProgressIndicator.mless';
+import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
 
 const height = 189;
 const iconSize = 'xl';
-const clickhouseTimeoutErrorMessage = 'Clickhouse timeout';
-
 // "errors" - optional, to display error messages
 // "items" - optional, to display no data available message, if empty
 export default function QueryProgressIndicator({ progress, errors, items }) {

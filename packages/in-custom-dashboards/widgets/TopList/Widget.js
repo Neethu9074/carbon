@@ -95,6 +95,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
 
 export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
   const theme = useTheme();
+  const { maxResults } = config.metricConfiguration.grouping[0];
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
 
@@ -102,7 +103,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
     <TopListCardPresenter
       title={title}
       result={result}
-      getItemsFromResult={result => result.data}
+      getItemsFromResult={result => result.data.slice(0, maxResults)}
       getMetricValueFromItem={(_, item) => item.values?.[0]?.[1]}
       selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
       selectedMetricColor={isErroneous ? theme.ids.color.option.red['500'] : null}

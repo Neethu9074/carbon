@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import useThemedLocals from 'in-hooks/useThemedLocals';
@@ -13,7 +14,11 @@ export default function ConjunctionReadOnly({ element: { logicalOperator } }) {
   const locals = useThemedLocals(styleDefs);
 
   return (
-    <div className={locals.conjunction} style={{ cursor: 'not-allowed' }}>
+    <div
+      className={classNames({
+        [locals.conjunction_disablehover]: true
+      })}
+    >
       {logicalOperator}
     </div>
   );

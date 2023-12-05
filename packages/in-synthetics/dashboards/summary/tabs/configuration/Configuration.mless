@@ -53,16 +53,17 @@
     max-width: 100%;
   }
   .dialog {
-    max-width: 60vw;
+    max-width: 40vw;
   }
   .confirmationDialogContent {
-    margin-bottom: 2rem;
-
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 4rem;
     label {
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
-      margin-top: 1rem;
     }
   }
   .buttons {

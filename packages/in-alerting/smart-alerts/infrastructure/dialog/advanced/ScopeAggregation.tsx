@@ -34,7 +34,6 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
       id="metric-configurator-infra-aggregation"
       value={aggregationField?.value}
       onChange={e => handleAggregationChange(e.target.value, form, updateForm)}
-      additionalContent={<></>}
       useAlternateBg
     >
       <>

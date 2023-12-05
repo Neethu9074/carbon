@@ -63,5 +63,7 @@
   }
   .listItem {
     width: 64.2rem;
+    justify-content: flex-start;
+    color: var(--ids-color-option-neutral-700);
   }
 }

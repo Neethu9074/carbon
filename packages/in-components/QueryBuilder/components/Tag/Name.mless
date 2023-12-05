@@ -4,6 +4,7 @@
  */
 
 :local {
+  .name_disablehover,
   .name {
     margin-right: 0.25rem;
     font-weight: 600;
@@ -25,6 +26,20 @@
 
       .icon {
         fill: var(--ids-color-option-blue-400);
+      }
+    }
+  }
+
+  .name_disablehover {
+    .icon {
+      fill: var(--query-builder-element-color);
+    }
+    &:focus,
+    &:active,
+    &:hover {
+      color: var(--query-builder-element-color);
+      .icon {
+        fill: var(--query-builder-element-color);
       }
     }
   }

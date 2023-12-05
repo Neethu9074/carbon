@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { number, NumberFormatterFunction } from 'in-services/formatters/number';
 import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
+import { MetricDataPoint } from 'in-components/Chart/types';
 
 interface FormatSloStatusResponse {
   sloStatus?: string;
@@ -60,4 +61,8 @@ export function getSingleNumberMetricValue(metric?: MetricResult): number | unde
     return undefined;
   }
   return metric.values[0][1];
+}
+
+export function getValueFromSingleValueMetric(metric: MetricDataPoint[] | undefined) {
+  return metric?.[0]?.[1];
 }

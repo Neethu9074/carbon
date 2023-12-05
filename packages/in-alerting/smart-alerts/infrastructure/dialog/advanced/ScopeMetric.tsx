@@ -26,12 +26,14 @@ interface ScopeMetricProps {
 }
 interface Node {
   metric: string;
+  parentType: string;
   label: string;
   parentLabels: string[];
 }
 
 export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricProps) {
   const metricField = form.get('rule').get('metricName');
+  const entityTypeField = form.get('entityType');
   const metricLabelField = form.get('hiddenFields').get('metricLabel');
   const metricPathField = form.get('hiddenFields').get('metricPath');
   const metric = metricField.value || undefined;
@@ -41,6 +43,7 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
+    type: entityTypeField ? entityTypeField : undefined,
     query: catalogQuery.debouncedValue
   });
   const metricMetadata = {
@@ -69,6 +72,9 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
           //@ts-expect-error
           (field as Field<string>).setValue(metricObj.parentLabels).setTouched(true)
         )
+        .updateIn(['rule', 'entityType'], field =>
+          (field as Field<string>).setValue(metricObj.parentType).setTouched(true)
+        )
         .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(metricObj.metric).setTouched(true))
     );
   };
@@ -86,6 +92,7 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
         onChange={onChange}
         backendQueryModel={backendQueryModel}
         SelectorOverlay={MetricSelectionCategoryOverlay}
+        type={entityTypeField}
       />
       <TouchedMessages field={metricField} />
     </>

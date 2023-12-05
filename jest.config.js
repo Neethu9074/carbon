@@ -25,6 +25,10 @@ module.exports = {
     'node_modules/(?!(@instana/types)/)', // Specifically enable @instana/types to be transformed since its ts only
     '/node_modules/jest-runner/build/index.js'
   ],
+  transform: {
+    '\\.[t|j]sx?$': 'babel-jest',
+    '\\.grammar$': '<rootDir>/packages/in-test/grammarTransformer.js'
+  },
   moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'd.ts', 'json', 'node'],
   moduleNameMapper: {
     '\\.png$': '<rootDir>/packages/in-test/styleMock.js',

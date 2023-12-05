@@ -8,12 +8,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummarySkeleton';
+import { formatSloStatus, getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
 import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
 import { SloEntityType, ServiceLevelIndicatorType, TimeWindowType } from 'in-types';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
 import useSloFormatter from 'in-service-levels/hooks/useSloFormatter';
-import { formatSloStatus } from 'in-service-levels/utils/format';
+import { MetricDataPoint } from 'in-components/Chart/types';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
@@ -21,15 +22,15 @@ import locals from './SloChartSummary.mless';
 
 interface SloChartSummaryProps {
   blueprintType?: CustomBlueprintType;
-  budgetSingleNumber?: number;
-  consumedBudgetSingleNumber?: number;
+  budgetSingleNumber?: MetricDataPoint[];
+  consumedBudgetSingleNumber?: MetricDataPoint[];
   fromTimestamp: number;
   indicatorType?: ServiceLevelIndicatorType;
   metricRemaining?: number;
   metricSli?: number;
   objectiveDuration: number;
   objectiveDurationUnit: string;
-  statusSingleNumber?: number;
+  statusSingleNumber?: MetricDataPoint[];
   sloEntityType?: SloEntityType;
   status?: FetchStatus;
   target?: number;
@@ -55,13 +56,20 @@ function SloChartSummary({
   const isCompact = !useMediaQuery('(min-width: 1300px)');
   const sliFormatter = useSloFormatter({ blueprintType, indicatorType, sloEntityType });
 
+  const budget = getValueFromSingleValueMetric(budgetSingleNumber);
+  const consumedBudget = getValueFromSingleValueMetric(consumedBudgetSingleNumber);
+  const statusNumber = getValueFromSingleValueMetric(statusSingleNumber);
+
   if (status === 'pending') return <SliSummarySkeleton compact={isCompact} />;
 
   const sloSpent =
     target !== null && target !== undefined && metricSli !== null && metricSli !== undefined && metricSli < target;
   const budgetSpent = metricRemaining !== null && metricRemaining !== undefined && metricRemaining <= 0;
 
-  const { sloStatus, sloTarget } = formatSloStatus({ status: statusSingleNumber, target });
+  const { sloStatus, sloTarget } = formatSloStatus({
+    status: statusNumber,
+    target
+  });
 
   return (
     <div className={isCompact ? locals.listContainer : locals.tilesContainer}>
@@ -75,9 +83,9 @@ function SloChartSummary({
       />
       <SloTile
         title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetSpent')}
-        value={consumedBudgetSingleNumber !== undefined ? sliFormatter(consumedBudgetSingleNumber) : undefined}
+        value={consumedBudget !== undefined ? sliFormatter(consumedBudget) : undefined}
         budgetTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudget')}
-        budget={budgetSingleNumber !== undefined ? sliFormatter(budgetSingleNumber) : undefined}
+        budget={budget !== undefined ? sliFormatter(budget) : undefined}
         budgetSpent={budgetSpent}
         compact={isCompact}
       />

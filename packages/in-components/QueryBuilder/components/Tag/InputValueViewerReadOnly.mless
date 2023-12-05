@@ -7,6 +7,7 @@
 
 :local {
   .inputValueViewer,
+  .inputValueViewer_disablehover,
   .inputValueViewer_dark {
     max-width: 7.5rem;
     padding: 0.0225rem 0.3125rem;
@@ -17,6 +18,24 @@
     &:hover {
       outline: 0;
       color: var(--ids-color-option-blue-400);
+    }
+    .ellipsis();
+  }
+
+  .inputValueViewer_disablehover,
+  .inputValueViewerBackground_disablehover {
+    max-width: 7.5rem;
+    padding: 0.0225rem 0.3125rem;
+    line-height: 2;
+    color: var(--query-builder-element-color);
+    font-weight: 600;
+    background: var(--colors-gray-100);
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      color: var(--query-builder-element-color);
     }
     .ellipsis();
   }

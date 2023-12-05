@@ -31,7 +31,8 @@ const {
 export function init() {
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
-    if (targetType === 'input' || targetType === 'textarea') {
+    const targetRole = keyEvent.target.role?.toLowerCase();
+    if (targetType === 'input' || targetType === 'textarea' || targetRole === 'textbox') {
       return;
     }
 

@@ -91,6 +91,7 @@ function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
       renderLegend={false}
       excludedContextMenuActions={['globalHighlight', 'download']}
       config={getLogsChartConfig(backendQueryModelWithFacets as TagFilterExpression, metric)}
+      renderErrorDetail
     />
   );
 }

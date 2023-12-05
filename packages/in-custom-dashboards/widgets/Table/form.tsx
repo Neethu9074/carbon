@@ -46,7 +46,9 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
           withCompareToTimeShifted: true,
           withEnablePotentialProblems: true,
           withColorConfiguration: true,
-          withMetricFormatter: true
+          withMetricFormatter: true,
+          withRenderer: false,
+          withFormatter: false
         }),
         sorting: createSortingField(savedState),
         countGroup: createCountGroupField(savedState)

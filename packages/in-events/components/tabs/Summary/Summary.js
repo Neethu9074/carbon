@@ -260,6 +260,8 @@ const IncidentContent = connectTo(
     const [isExpanded, setIsExpanded] = useState(false);
 
     const numChanges = getNumberOfChanges(recentEvents);
+    const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
+    const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
 
     const header = (
       <>
@@ -307,13 +309,22 @@ const IncidentContent = connectTo(
                   recentEvents={recentEvents}
                   changesAreVisible={changesAreVisible}
                   isExpanded={isExpanded}
+                  setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+                  setHighlightEventOnHover={setHighlightEventOnHover}
                 />
               </Card>
             </Col>
           </Row>
         )}
 
-        <IncidentEventListRows incident={incident} snapshot={snapshot} latestSnapshot={latestSnapshot} />
+        <IncidentEventListRows
+          incident={incident}
+          snapshot={snapshot}
+          latestSnapshot={latestSnapshot}
+          expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
+          setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+          highlightEventOnHover={highlightEventOnHover}
+        />
       </>
     );
   }

@@ -18,6 +18,7 @@ import {
 } from 'in-events/tracker';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import Pill from 'in-components/Pill/Pill';
 import { useTheme } from 'in-themes';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -43,11 +44,19 @@ interface FeedbackState {
 
 export default function EventSummarization({ title, incident }: EventSummarizationProps): JSX.Element {
   const incidentSummary = useMemo(() => extractSummaryFromIncident(incident), [incident]);
+  const theme = useTheme();
 
   return (
     <Row withoutSideMargin>
       <Col xs>
-        <Card title={title}>
+        <Card
+          title={title}
+          leftHeaderContent={
+            <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+              {t('in-events:RCA.techPreview')}
+            </Pill>
+          }
+        >
           <Stack>
             {incidentSummary.length > 0 && <BulletPointSummaryList incidentSummary={incidentSummary} />}
             {incidentSummary.length <= 0 && (

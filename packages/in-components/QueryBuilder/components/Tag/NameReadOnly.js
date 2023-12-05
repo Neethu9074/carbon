@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -18,7 +19,11 @@ export default function NameReadOnly({ tagCatalog, element: { name }, showFullPa
   }
 
   return (
-    <div className={locals.name} style={{ cursor: 'not-allowed' }}>
+    <div
+      className={classNames({
+        [locals.name_disablehover]: true
+      })}
+    >
       {path
         .slice(showFullPath ? 0 : path.length - 2, path.length - 1)
         .map(node => node.label)

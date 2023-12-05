@@ -1,0 +1,21 @@
+/*
+ * (c) Copyright IBM Corp. 2023
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .contribution_filter_label_txt {
+    color: var(--ids-color-option-neutral-600);
+    margin-left: 5px;
+  }
+  .contribution_filter_label_description {
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  .dropdownButton {
+    display: flex;
+  }
+  .span {
+    width: 95%;
+  }
+}

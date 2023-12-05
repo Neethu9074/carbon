@@ -9,6 +9,7 @@ import { MapForm, createField } from 'formalistic';
 import { BrowserScriptConfiguration, HttpScriptConfiguration, SyntheticTest } from '@instana/types';
 
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
+import { isBlank } from 'in-services/util/string';
 
 const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): SyntheticTest => {
   const testId: string = test.id || '';
@@ -43,7 +44,7 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
           .put('markSyntheticCall', createField({ value: markSyntheticCall }))
       );
 
-  if (test.applicationLabel === '' || test.applicationLabel === undefined) {
+  if (isBlank(updatedForm.get('applicationId').value)) {
     updatedForm = updatedForm.remove('applicationId');
   }
 

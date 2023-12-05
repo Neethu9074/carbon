@@ -14,17 +14,18 @@ import locals from './DropdownButton.mless';
 interface Props extends ButtonProps {
   expanded?: boolean;
   className?: string;
+  spanClassName?: string;
 }
 
 const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function DropdownButton(
-  { children, expanded, size, className = '', ...buttonProps },
+  { children, expanded, size, className = '', spanClassName, ...buttonProps },
   ref
 ) {
   return (
     <Button {...buttonProps} size={size} ref={ref} className={classNames(className, locals.dropdownButton)}>
       <>
         {/* Group into one flexbox item */}
-        <span>{children}</span>
+        <span className={spanClassName}>{children}</span>
 
         <SvgIcon
           type={expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}

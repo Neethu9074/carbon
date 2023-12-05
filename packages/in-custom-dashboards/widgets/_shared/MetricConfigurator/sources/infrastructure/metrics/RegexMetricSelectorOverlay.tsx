@@ -5,21 +5,22 @@
  */
 
 import React, { useCallback } from 'react';
+import classNames from 'classnames';
 
 import { AvailablePlugins, GetAvailablePluginsQuery, Result, TagFilterExpression } from '@instana/types';
+import { Button, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { keyCodes } from '@instana/components';
-import { Button } from '@instana/components';
 
 // @ts-expect-error needs to be converted
 import { TypeSelector } from 'in-infrastructure/Explore/components/TypeSelector';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
+import RegexInput from 'in-components/RegexInput/RegexInput';
+import Overlay from 'in-components/overlays/Overlay/Overlay';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import Input from 'in-components/form/Input/Input';
+import { toHtml } from 'in-services/formatters/markdown';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/RegexMetricSelectorOverlay.mless';
-
-const { isReturn } = keyCodes;
 
 export interface Props {
   backendQueryModel: TagFilterExpression;
@@ -60,23 +61,29 @@ export default function RegexMetricSelectorOverlay({
         />
       </div>
       <div className={locals.wrapper}>
-        <Input
+        <RegexInput
           autoFocus
           className={locals.input}
-          type="search"
           placeholder={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.inputPlaceholder')}
           value={debouncedRegex.value}
-          onChange={e => debouncedRegex.onChange(e.target.value)}
-          onKeyDown={e => {
-            if (isReturn(e)) {
-              done();
-            }
-          }}
+          onChange={value => debouncedRegex.onChange(value)}
+          onEnter={done}
         />
+        <Overlay content={HelpOverlay}>
+          {({ toggle }) => (
+            <SvgIcon type="lib_help_error_help_outline" className={classNames(locals.icon, { [locals.clickable]: true })} onClick={toggle}/>
+          )}
+        </Overlay>
       </div>
       <Button kind="action" onClick={done}>
         {t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.done')}
       </Button>
     </div>
   );
+}
+
+const documentationLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure';
+
+function HelpOverlay() {
+  return <DangerousHtmlPresenter className={locals.helpOverlay} html={toHtml(t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.help', {documentationLink}))} />
 }

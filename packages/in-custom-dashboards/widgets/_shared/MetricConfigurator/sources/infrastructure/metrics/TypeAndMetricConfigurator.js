@@ -29,7 +29,7 @@ export default function TypeAndMetricConfigurator({
 
   return (
     <>
-      <Overlay content={SelectorOverlay} props={props} align={'bottomLeft'} withoutWrapper>
+      <Overlay content={SelectorOverlay} props={props} align="bottomLeft" withoutWrapper>
         {({ toggle, refSetter }) => (
           <DropdownButton
             kind="secondary"

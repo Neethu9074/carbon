@@ -20,12 +20,27 @@
     padding: 0.5rem;
     background: var(--ids-color-option-neutral-50);
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
   }
 
   .input {
     background: var(--ids-color-option-white);
     width: 100%;
     height: 2rem;
-    padding: 0 0.5rem;
+  }
+
+  .helpOverlay {
+    padding: 1rem;
+    background: var(--ids-color-option-neutral-50);
+    max-height: 80vh;
+    max-width: 75vh;
+    overflow-y: auto;
+  }
+
+  .icon {
+    fill: var(--ids-color-option-neutral-600);
   }
 }

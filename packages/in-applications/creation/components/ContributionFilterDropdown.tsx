@@ -7,15 +7,20 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { ApiApplicationScope } from '@instana/types';
+import { ApiApplicationScope, TagFilterExpressionElementUnion } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+//@ts-expect-error
+import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import { updateTagFilterExpressionValidator } from 'in-applications/creation/form/createApplicationForm';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { UserRestrictedApplication } from 'in-api/users';
+
+import locals from './ContributionFilterDropdown.mless';
 
 interface ContributionFilterDropdownProps {
   userRestrictedApplications: UserRestrictedApplication[];
@@ -26,14 +31,25 @@ interface ContributionFilterDropdownProps {
 }
 interface OptionsProps {
   value: string | null;
-  label: string;
+  label: any;
   scope: ApiApplicationScope;
+  labelTxt: string;
+  tagFilterExpression: TagFilterExpressionElementUnion | undefined;
 }
 
 const OPTION_NO_RESTRICTIONS: OptionsProps = {
   value: null, // indicates to the backend that no restrictions should be applied
-  label: t('in-applications:creation.noRestrictions'),
-  scope: 'INCLUDE_ALL_DOWNSTREAM'
+  label: (
+    <div className={locals.contribution_filter_label_txt}>
+      <h4>{t('in-applications:creation.noContributionFilter')}</h4>
+      <p className={locals.contribution_filter_label_description}>
+        {t('in-applications:creation.noContributionFilterDescription')}
+      </p>
+    </div>
+  ),
+  scope: 'INCLUDE_ALL_DOWNSTREAM',
+  labelTxt: t('in-applications:creation.noContributionFilter'),
+  tagFilterExpression: undefined
 };
 
 export default function ContributionFilterDropdown({
@@ -83,7 +99,14 @@ export default function ContributionFilterDropdown({
     >
       {({ elementProps, isOpen }) => (
         // @ts-expect-error not fully matching expected type
-        <DropdownButton {...elementProps} kind="secondary" expanded={isOpen} disabled={disabled}>
+        <DropdownButton
+          {...elementProps}
+          kind="secondary"
+          expanded={isOpen}
+          disabled={disabled}
+          className={locals.dropdownButton}
+          spanClassName={locals.span}
+        >
           {renderSelectedOption(options, groupIdField.value)}
         </DropdownButton>
       )}
@@ -92,21 +115,31 @@ export default function ContributionFilterDropdown({
 }
 
 function renderSelectedOption(options: OptionsProps[], value: string) {
-  return options.find(o => o.value === value)?.label ?? t('in-applications:creation.selectContributionFilter');
+  const selectedItemObj = options.find(o => o.value === value);
+  const tagFilterData = fromBackendModel(selectedItemObj?.tagFilterExpression);
+  return selectedItemObj?.value ? (
+    <AdvancedModeDropdownItem query={tagFilterData} labelTxt={selectedItemObj?.labelTxt} isOpen />
+  ) : selectedItemObj?.labelTxt === t('in-applications:creation.noContributionFilter') ? (
+    t('in-applications:creation.noContributionFilter')
+  ) : (
+    t('in-applications:creation.selectContributionFilter')
+  );
 }
 
 function createOptions(userRestrictedApplications: UserRestrictedApplication[]): OptionsProps[] {
   let options = userRestrictedApplications
     .filter(r => r.filter != null)
-    .map(
-      r =>
-        ({
-          value: r.id,
-          label: r.filter!.label,
-          scope: r.filter!.scope
-        } as OptionsProps)
-    )
-    .sort((a, b) => compareIgnoreCase(a.label, b.label));
+    .map(r => {
+      const tagFilterData = fromBackendModel(r.filter?.tagFilterExpression);
+      return {
+        value: r.id,
+        label: <AdvancedModeDropdownItem query={tagFilterData} labelTxt={r.filter!.label} isOpen={false} />,
+        scope: r.filter!.scope,
+        labelTxt: r.filter!.label,
+        tagFilterExpression: r.filter?.tagFilterExpression
+      } as OptionsProps;
+    })
+    .sort((a, b) => compareIgnoreCase(a.labelTxt, b.labelTxt));
 
   if (hasNoRestrictions(userRestrictedApplications)) {
     options.unshift(OPTION_NO_RESTRICTIONS);
@@ -130,4 +163,25 @@ function limitScope(scope: ApiApplicationScope, groupScope: ApiApplicationScope)
     return 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING';
   }
   return scope;
+}
+
+function AdvancedModeDropdownItem({
+  query,
+  labelTxt,
+  isOpen
+}: {
+  query: any;
+  labelTxt: string | undefined;
+  isOpen: boolean;
+}) {
+  return (
+    <div>
+      {!isOpen && (
+        <div className={locals.contribution_filter_label_txt}>
+          <h4>{labelTxt}</h4>
+        </div>
+      )}
+      {query.length !== 0 ? <CreateApplicationQueryBuilder value={query} readOnly /> : null}
+    </div>
+  );
 }

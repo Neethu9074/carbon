@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import {
@@ -52,7 +53,12 @@ function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) 
   const renderModel = toRenderModel(formModel);
 
   return (
-    <div className={locals.queryBuilder}>
+    <div
+      className={classNames({
+        [locals.queryBuilder]: true,
+        [locals.showEllipsisForLongText]: true
+      })}
+    >
       <Elements
         createTagForm={resolvedCreateTagForm}
         getSuggestions={getSuggestions}

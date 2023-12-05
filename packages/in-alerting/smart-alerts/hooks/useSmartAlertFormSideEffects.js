@@ -77,7 +77,7 @@ export function useSmartAlertFormSideEffects(form, setForm) {
 }
 
 function resetBaseline(form) {
-  const type = form.get('threshold')?.get('type').value;
+  const type = form?.get('threshold')?.get('type').value;
 
   if (isOneOfBaselineTypes(type)) {
     return form.updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(false));
@@ -126,7 +126,7 @@ function requestThresholdOnOperatorChange(form) {
 
 function requestThresholdSuggestion(form) {
   return resetBaseline(form) // we reset the baseline before new suggestion in order to avoid backend calls with invalid form state
-    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
+    ?.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
 }
 
 function resetThreshold(form) {

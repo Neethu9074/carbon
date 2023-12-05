@@ -18,7 +18,13 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
     .put(
       'alertType',
       createField({
-        value: rule.alertType ?? 'genericRule'
+        value: 'genericRule'
+      })
+    )
+    .put(
+      'entityType',
+      createField({
+        value: rule.entityType ?? ''
       })
     )
     .put(
@@ -36,7 +42,8 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
     .put(
       'crossSeriesAggregation',
       createField({
-        value: rule.crossSeriesAggregation ?? 'null'
+        //Todo : update this when cross-series-Agg. is implemented.
+        value: 'null'
       })
     );
 }

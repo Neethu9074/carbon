@@ -17,3 +17,5 @@ export const GROUP_COLORS = (() => {
   const maxGroupsOnChart = Math.min(5, oldTheme.lib.colors.chart.strokeColors100.length);
   return oldTheme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
 })();
+
+export const clickhouseTimeoutErrorMessage = 'Clickhouse timeout';

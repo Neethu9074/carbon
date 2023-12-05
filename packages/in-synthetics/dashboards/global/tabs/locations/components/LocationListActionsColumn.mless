@@ -14,10 +14,6 @@
     gap: 1rem;
     margin-bottom: 4rem;
 
-    > span:first-child {
-      margin-bottom: 1rem;
-    }
-
     label {
       display: flex;
       flex-direction: column;

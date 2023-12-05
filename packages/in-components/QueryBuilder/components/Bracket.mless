@@ -11,6 +11,7 @@
   }
 
   .bracket,
+  .bracket_disablehover,
   .bracket_dark {
     display: inline;
 
@@ -32,8 +33,19 @@
     }
   }
 
-  .bracket {
+  .bracket,
+  .bracket_disablehover {
     background: var(--ids-color-option-neutral-50);
+  }
+
+  .bracket_disablehover {
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      border: 1px solid var(--ids-color-option-neutral-400);
+      background: var(--ids-color-option-neutral-50);
+    }
   }
 
   .bracket_dark {

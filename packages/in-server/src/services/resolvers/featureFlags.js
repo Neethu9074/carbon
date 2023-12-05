@@ -333,7 +333,7 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticsFilterForMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.synthetics.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'mobileAppSmartAlertsEnabled',

@@ -17,7 +17,14 @@ export default function InputValueViewerReadOnly({ value = '', className }) {
 
   return (
     <Tooltip content={<span>{value}</span>}>
-      <div className={classNames(locals.inputValueViewer, locals.inputValueViewerBackground, className)}>{value}</div>
+      <div
+        className={classNames({
+          [locals.inputValueViewer_disablehover]: true,
+          className
+        })}
+      >
+        {value}
+      </div>
     </Tooltip>
   );
 }

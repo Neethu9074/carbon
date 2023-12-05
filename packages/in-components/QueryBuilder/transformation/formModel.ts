@@ -9,6 +9,7 @@ import { LogicalOperator, TagCatalog, TagFilter, TagFilterExpression, TagFilterE
 import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { toBackendQueryModel } from './backendQueryModel';
 
 export const OPEN_BRACKET = 'OPEN_BRACKET';
 export const CLOSE_BRACKET = 'CLOSE_BRACKET';
@@ -118,8 +119,13 @@ function isEnclosed(expression: FormModelElement[]): boolean {
     expression.length === 0 ||
     expression.length === 1 ||
     expression.every(t => t.type === TAG_FILTER_TYPE || ('logicalOperator' in t && t.logicalOperator === and)) ||
-    (expression[0].type === OPEN_BRACKET && expression[expression.length - 1].type === CLOSE_BRACKET)
+    isAndExpression(expression)
   );
+}
+
+function isAndExpression(expression: FormModelElement[]): boolean {
+  const backendModel = toBackendQueryModel(expression, true);
+  return backendModel.type === TAG_FILTER_TYPE || backendModel.logicalOperator === and;
 }
 
 const andConjunction = { type: CONJUNCTION, logicalOperator: and };

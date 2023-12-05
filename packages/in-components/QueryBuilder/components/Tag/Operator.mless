@@ -4,6 +4,7 @@
  */
 
 :local {
+  .operator_disablehover,
   .operator {
     padding: 0.0225rem 0.3125rem;
     margin-top: -0.25rem;
@@ -42,6 +43,22 @@
       border-bottom: 1px solid;
       border-top: 1px solid;
       border-color: var(--ids-color-option-blue-400);
+    }
+  }
+
+  .operator_disablehover {
+    border-left: none;
+    border-right: none;
+    font-weight: 600;
+    color: var(--query-builder-element-color);
+    &:hover,
+    &:focus,
+    &:active {
+      outline: none;
+      background: none;
+      border: none;
+      border-color: none;
+      color: unset;
     }
   }
 }

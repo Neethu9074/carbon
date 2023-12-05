@@ -15,6 +15,7 @@ import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSumma
 import useSloFormatter, { SloFormatterFunction } from 'in-service-levels/hooks/useSloFormatter';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
+import { MetricDataPoint } from 'in-components/Chart/types';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -45,7 +46,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
     objectiveDurationUnit: 'week',
     toTimestamp: now + days.toMillis(1),
     timeWindowType: 'fixed' as TimeWindowType,
-    statusSingleNumber: 0.5
+    statusSingleNumber: [[1, 2]] as MetricDataPoint[]
   };
 
   it('should only contain a skeleton component if status is pending', () => {
@@ -73,12 +74,12 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
 
   it.each`
     expectedTarget | expectedStatus | target        | statusSingleNumber
-    ${'100.00%'}   | ${'100.00%'}   | ${1}          | ${1}
-    ${'99.888%'}   | ${'99.9911%'}  | ${0.99888}    | ${0.999911}
-    ${'99.9995%'}  | ${'99.9996%'}  | ${0.999995}   | ${0.999996}
-    ${'99.9999%'}  | ${'100.00%'}   | ${0.999999}   | ${1}
-    ${'100.00%'}   | ${'100.00%'}   | ${0.99999995} | ${1}
-    ${'300.00%'}   | ${'299.95%'}   | ${3}          | ${2.99948}
+    ${'100.00%'}   | ${'100.00%'}   | ${1}          | ${[[1, 1]]}
+    ${'99.888%'}   | ${'99.9911%'}  | ${0.99888}    | ${[[1, 0.999911]]}
+    ${'99.9995%'}  | ${'99.9996%'}  | ${0.999995}   | ${[[1, 0.999996]]}
+    ${'99.9999%'}  | ${'100.00%'}   | ${0.999999}   | ${[[1, 1]]}
+    ${'100.00%'}   | ${'100.00%'}   | ${0.99999995} | ${[[1, 1]]}
+    ${'300.00%'}   | ${'299.95%'}   | ${3}          | ${[[1, 2.99948]]}
   `(
     'should have target of $expectedTarget and status of $expectedStatus if slo is $givenSlo and metricSli is $givenMetricSli',
     ({ expectedTarget, expectedStatus, target, statusSingleNumber }) => {
@@ -118,7 +119,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
   it('should render correctly if metricSpent is set', () => {
     mockedUseSloFormatter.mockReturnValueOnce(() => '1min');
 
-    const wrapper = shallow(<SloChartSummary {...defaultProps} consumedBudgetSingleNumber={1} />);
+    const wrapper = shallow(<SloChartSummary {...defaultProps} consumedBudgetSingleNumber={[[1, 2]]} />);
 
     expect(wrapper.find(SloTile).last().prop('value')).toEqual('1min');
   });
@@ -126,7 +127,7 @@ describe('in-service-levels/components/SloChart/SloChartSummary/SloChartSummary'
   it('should render correctly if there is some budget given', () => {
     mockedUseSloFormatter.mockReturnValueOnce(() => '1min');
 
-    const wrapper = shallow(<SloChartSummary {...defaultProps} budgetSingleNumber={1} />);
+    const wrapper = shallow(<SloChartSummary {...defaultProps} budgetSingleNumber={[[1, 2]]} />);
 
     expect(wrapper.find(SloTile).last().prop('budget')).toEqual('1min');
   });

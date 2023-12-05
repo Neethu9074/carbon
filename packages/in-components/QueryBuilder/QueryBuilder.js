@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -24,8 +25,8 @@ import { validateFormModel } from 'in-components/QueryBuilder/validation/formMod
 import DragAndDropBehaviour from 'in-components/QueryBuilder/DragAndDropBehaviour';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
 import QueryBuilderReadOnly from 'in-components/QueryBuilder/QueryBuilderReadOnly';
-import { createTagForm } from 'in-components/QueryBuilder/validation/tagForm';
 import FilterButton from 'in-components/QueryBuilder/components/FilterButton';
+import { createTagForm } from 'in-components/QueryBuilder/validation/tagForm';
 import Conjunction from 'in-components/QueryBuilder/components/Conjunction';
 import Spacing from 'in-components/QueryBuilder/components/Spacing/Spacing';
 import Expression from 'in-components/QueryBuilder/components/Expression';

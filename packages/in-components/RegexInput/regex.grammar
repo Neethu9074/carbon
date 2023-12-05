@@ -1,0 +1,40 @@
+@top RegExp { UnionExp }
+
+UnionExp { InterExp (UnionOperator UnionExp)? }
+
+InterExp { ConcatExp (IntersectionOperator InterExp)? }
+
+ConcatExp { RepeatExp ConcatExp? }
+
+RepeatExp { RepeatExp RepetitionSpecifier | ComplExp }
+
+ComplExp { "~" ComplExp | CharClassExp }
+
+CharClassExp { OpenSquareBracket CharClasses CloseSquareBracket | SimpleExp }
+
+CharClasses { CharClass CharClasses? }
+
+CharClass { CharExp ("-" CharExp)? }
+
+SimpleExp { CharExp | AnyChar | "#" | "@" | QuotedString | OpenParentheses CloseParentheses | OpenParentheses UnionExp CloseParentheses | OpenAngleBracket ( Idenfitier | Number "-" Number ) CloseAngleBracket }
+
+CharExp { EscapedChar | UnreservedChar }
+
+@tokens {
+  UnionOperator { "|" }
+  IntersectionOperator { "&" }
+  Number { @digit+ }
+  QuotedString { '"' !["]* '"' }
+  RepetitionSpecifier { "?" | "*" | "+" | "{" Number ("," | "," Number )? "}" }
+  Idenfitier { ![-0-9>] ![>-]* }
+  ReservedChar { $[\\.?+*|{}\[\]()"#@&<>~-] }
+  UnreservedChar { ![\\.?+*|{}\[\]()"#@&<>~-] }
+  EscapedChar { "\\" ( ReservedChar | UnreservedChar ) }
+  AnyChar { "." }
+  OpenSquareBracket[closedBy="CloseSquareBracket"] { "[" "^"? }
+  CloseSquareBracket[openedBy="OpenSquareBracket"] { "]" }
+  OpenAngleBracket[closedBy="CloseAngleBracket"] { "<" }
+  CloseAngleBracket[openedBy="OpenAngleBracket"] { ">" }
+  OpenParentheses[closedBy="CloseParentheses"] { "(" }
+  CloseParentheses[openedBy="OpenParentheses"] { ")" }
+}

@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Button, Typography } from '@instana/components';
+import { Button, Message, Typography } from '@instana/components';
 import { LocationListItem } from '@instana/types';
 import { Link } from '@instana/components';
 
@@ -108,6 +108,9 @@ export default function LocationListActionsColumn({ item, isLoading }: LocationL
               />
             )}
           </Typography>
+          <Message type="warning" withIcon>
+            {t('in-synthetics:dashboard.locationList.deleteLocationBroswerRefreshInfo')}
+          </Message>
           <Label htmlFor="reason">
             {t('in-synthetics:dashboard.locationList.deletionReason')}
             <Input
