@@ -42,7 +42,7 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
   setForm: SetFormFunction;
   customAddRow?: () => void;
   customAddRowLabel?: string;
-  GHorGLParameterExist?: boolean;
+  ticketIdParameterExist?: boolean;
 }
 const hasNameProperty = (obj: any): obj is { name: string } => obj && typeof obj.name === 'string';
 
@@ -57,7 +57,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
   setForm,
   customAddRow,
   customAddRowLabel,
-  GHorGLParameterExist = false
+  ticketIdParameterExist = false
 }: ServerTablePresenterWrapperProps<VALUETYPE>) {
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
@@ -81,7 +81,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
     getContent(item: ListItem<VALUETYPE>) {
       // we should not delete the ticketId parameter for GH Action.
       const isTicketId = item.value && hasNameProperty(item.value) && item.value.name === 'ticketId';
-      const disabled = GHorGLParameterExist && isTicketId;
+      const disabled = ticketIdParameterExist && isTicketId;
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>

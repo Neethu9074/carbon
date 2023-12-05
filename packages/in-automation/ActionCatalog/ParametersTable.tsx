@@ -45,11 +45,11 @@ const getColumnDefinitions = ({
   onChange,
   isNotEditable,
   isAnsible,
-  GHorGLParameterExist
+  ticketIdParameterExist
 }: Omit<ParametersTableProps, 'setForm'> & {
   isNotEditable: boolean;
   isAnsible: boolean;
-  GHorGLParameterExist: boolean;
+  ticketIdParameterExist: boolean;
 }) => [
   {
     id: 'displayName',
@@ -71,7 +71,7 @@ const getColumnDefinitions = ({
                   form={form}
                   onChange={onChange}
                   isNotEditable={isNotEditable}
-                  isGithuborGitlab={GHorGLParameterExist}
+                  isGitOrJira={ticketIdParameterExist}
                 />
               );
             }}
@@ -129,8 +129,8 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
   const isGitlab = isGitlabFn((form.get('type') as Field<string>).value);
   const isJira = isJiraFn((form.get('type') as Field<string>).value);
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const GHorGLParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'ticketId');
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, GHorGLParameterExist });
+  const ticketIdParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'ticketId');
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, ticketIdParameterExist });
 
   return (
     <ServerTablePresenterWrapper
@@ -141,7 +141,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
       formKey="parameters"
       leftHeader={<Label>{t('in-automation:ActionCatalog.parameters')}</Label>}
       setForm={setForm}
-      GHorGLParameterExist={GHorGLParameterExist}
+      ticketIdParameterExist={ticketIdParameterExist}
       customAddRow={
         isAnsible
           ? undefined
@@ -149,7 +149,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
               addActiveDialog(
                 <ParameterDialog
                   isAnsible={isAnsible}
-                  isGithuborGitlab={GHorGLParameterExist}
+                  isGitOrJira={ticketIdParameterExist}
                   form={form}
                   onChange={onChange}
                   isNotEditable={isNotEditable}
