@@ -17,10 +17,19 @@ import {
   actionCatalogPath,
   actionDetailsPath,
   actionDetailsCopyFormPath,
-  actionHistoryPath
+  actionHistoryPath,
+  policiesFullyQualified,
+  policiesDetailsFullyQualified,
+  policiesOverviewFullyQualified
 } from 'in-automation/navigation/paths';
 // @ts-expect-error
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+// @ts-expect-error
+import Policies from 'promise-loader?global!in-automation/Policies/Policies';
+// @ts-expect-error
+import PolicyDetails from 'promise-loader?global!in-automation/Policies/Policy';
+// @ts-expect-error
+import PolicyDashboard from 'promise-loader?global!in-automation/Policies/PolicyDashboard';
 
 const addKeyToComponent = (component: React.ReactElement, key = '') => React.cloneElement(component, { key });
 
@@ -36,5 +45,18 @@ export default [
     path={[actionDetailsPath, actionDetailsCopyFormPath]}
     key="actionDetails"
     render={props => addKeyToComponent(renderAsyncRouteChildren(ActionDetailsPage), props.match.params?.id)}
+  />,
+  <Route exact path={policiesFullyQualified} key="policies">
+    {renderAsyncRouteChildren(Policies)}
+  </Route>,
+  <Route
+    path={policiesDetailsFullyQualified}
+    key="policyDetails"
+    render={props => addKeyToComponent(renderAsyncRouteChildren(PolicyDetails), props.match.params?.id)}
+  />,
+  <Route
+    path={policiesOverviewFullyQualified}
+    key="policyOverview"
+    render={props => addKeyToComponent(renderAsyncRouteChildren(PolicyDashboard), props.match.params?.id)}
   />
 ];

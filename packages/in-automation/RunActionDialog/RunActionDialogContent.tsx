@@ -47,6 +47,7 @@ import { ResolvedDynamicParamValue } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
+import { NewPolicy } from 'in-automation/Policies/types';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -59,6 +60,10 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 
+export const TRIGGERING_AGENT = 'TRIGGERING_AGENT';
+export const TRIGGERING_HOST_FQDN = 'TRIGGERING_HOST_FQDN';
+export const TRIGGERING_HOST_IP = 'TRIGGERING_HOST_IP';
+
 interface RunActionDialogContentProps {
   error: string;
   actionInstanceId: string;
@@ -69,6 +74,7 @@ interface RunActionDialogContentProps {
   agentSnapShots: OUT | null | undefined;
   errorResolvingDynamicParameters: boolean;
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
+  policy?: NewPolicy;
 }
 
 export default function RunActionDialogContent({
@@ -80,7 +86,8 @@ export default function RunActionDialogContent({
   volatileId,
   agentSnapShots,
   errorResolvingDynamicParameters,
-  resolvedDynamicParameters
+  resolvedDynamicParameters,
+  policy
 }: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
   const { createHref, location } = useNavigation();
@@ -147,9 +154,16 @@ export default function RunActionDialogContent({
             setForm={setForm}
             action={action}
             resolvedDynamicParameters={resolvedDynamicParameters}
+            policy={policy}
           />
         )}
-        <AgentSelection form={form} volatileId={volatileId} setForm={setForm} agentSnapShots={agentSnapShots} />
+        <AgentSelection
+          policy={policy}
+          form={form}
+          volatileId={volatileId}
+          setForm={setForm}
+          agentSnapShots={agentSnapShots}
+        />
         <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
       </div>
       <Spacer horizontal="normal" />
@@ -164,6 +178,7 @@ export default function RunActionDialogContent({
               action={action}
               form={form}
               setForm={setForm}
+              policy={policy}
             />
           </DescriptionItem>
         </DescriptionList>
@@ -176,8 +191,9 @@ function AgentSelection({
   form,
   setForm,
   agentSnapShots,
-  volatileId
-}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
+  volatileId,
+  policy
+}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId' | 'policy'>) {
   const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
   const hostSnapshots = useObservable(() => {
     const getHostSnapshotIds = (agentSnapShots?.data?.online || []).map(agent =>
@@ -205,6 +221,13 @@ function AgentSelection({
         };
       })
       .sort((a, b) => a.label.localeCompare(b.label)) ?? [];
+
+  if (policy) {
+    options.push({
+      value: TRIGGERING_AGENT,
+      label: t('in-automation:policies.triggeringAgent')
+    });
+  }
   return (
     <>
       {targetAgent?.map(field => (
@@ -308,8 +331,9 @@ function ParameterInput({
   action,
   form,
   setForm,
-  errorResolvingDynamicParameters
-}: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters'>) {
+  errorResolvingDynamicParameters,
+  policy
+}: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm' | 'errorResolvingDynamicParameters' | 'policy'>) {
   const { inputParameters } = action;
   if (!inputParameters || inputParameters.filter(parameter => !shouldHideParameter(parameter)).length === 0) {
     return (
@@ -331,7 +355,15 @@ function ParameterInput({
         if (parameter.type === 'vault') {
           return <VaultParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
         } else if (parameter.type === 'dynamic') {
-          return <DynamicParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
+          return (
+            <DynamicParameterInput
+              key={parameter.name}
+              form={form}
+              parameter={parameter}
+              setForm={setForm}
+              policy={policy}
+            />
+          );
         }
         // Will need to handle rendering dynamic parameters here
         return <StaticParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
@@ -440,7 +472,7 @@ const safeJsonParse = (raw: string) => {
   }
 };
 
-function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParams) {
+function DynamicParameterInput({ parameter, form, setForm, policy }: ParameterInputParams & { policy?: NewPolicy }) {
   const parametersForm = form?.get('parameters') as MapForm<any> | undefined;
   const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
 
@@ -460,20 +492,24 @@ function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParam
             <Label>{t('in-automation:dynamic')}</Label>
           </Row>
           <TagBasedPayloadConfigurator value={toViewModel(parsedDynamicValue)} disabled />
-          <Spacer vertical="small" />
-          <Input
-            id={`${parameter.name}-input`}
-            value={parameterField.value}
-            placeholder={t('in-automation:enterParameterValue')}
-            onChange={e => {
-              const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
-                (field as Field<string>).setValue(e.target.value).setTouched(true)
-              );
-              setForm(updatedForm);
-            }}
-            hasError={!parameterField.valid && parameterField.touched}
-          />
-          <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+          {!policy && (
+            <>
+              <Spacer vertical="small" />
+              <Input
+                id={`${parameter.name}-input`}
+                value={parameterField.value}
+                placeholder={t('in-automation:enterParameterValue')}
+                onChange={e => {
+                  const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
+                    (field as Field<string>).setValue(e.target.value).setTouched(true)
+                  );
+                  setForm(updatedForm);
+                }}
+                hasError={!parameterField.valid && parameterField.touched}
+              />
+              <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+            </>
+          )}
         </FormGroup>
       )}
       <Spacer vertical="medium" />
@@ -481,12 +517,23 @@ function DynamicParameterInput({ parameter, form, setForm }: ParameterInputParam
   );
 }
 
+export const TRIGGERING_HOST_FQDN_OPTION = {
+  value: TRIGGERING_HOST_FQDN,
+  label: t('in-automation:policies.triggeringHostFqdn')
+};
+
+export const TRIGGERING_HOST_IP_OPTION = {
+  value: TRIGGERING_HOST_IP,
+  label: t('in-automation:policies.triggeringHostIp')
+};
+
 function AnsibleActionContent({
   action,
   resolvedDynamicParameters,
   form,
-  setForm
-}: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm'>) {
+  setForm,
+  policy
+}: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy'>) {
   const { jobTemplateUrl } = getAnsibleFields(action);
   const ip = resolvedDynamicParameters?.find(p => p.name === 'ip')?.resolvedValue ?? '[]';
   const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
@@ -496,6 +543,11 @@ function AnsibleActionContent({
     .map(host => ({ label: host, value: host }))
     .sort((a, b) => a.label.localeCompare(b.label));
   const hostLimitField = form?.getIn(['hostsLimit']) as Field<Option[]> | undefined;
+
+  if (policy) {
+    options.push(TRIGGERING_HOST_FQDN_OPTION, TRIGGERING_HOST_IP_OPTION);
+  }
+
   return (
     <>
       <DescriptionList>

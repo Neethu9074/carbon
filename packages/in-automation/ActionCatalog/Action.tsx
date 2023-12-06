@@ -111,10 +111,10 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
       ...createAction(),
       ...createEmptyAssociatedResources()
     }),
-    createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
+    createForm: (action: ActionFormEntity) => createActionFormDefinition(action),
     getEntityFromApi: (actionId: string) =>
       getActionAndAssocations(actionId).map(action =>
-        isCopy ? { ...action, name: t('in-automation:ActionCatalog.actionCopy', { name: action.name }) } : action
+        isCopy ? { ...action, name: t('in-automation:copyOf', { name: action.name }) } : action
       ),
     saveEntity: (entity: ActionFormEntity, form: MapForm<any>) =>
       save(form, entityId, isCopy, eventSpecifications, entity),
@@ -136,7 +136,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
         <DescriptionText>
           {message}
           <br />
-          {t('in-automation:ActionCatalog.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
+          {t('in-automation:ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );

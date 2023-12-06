@@ -73,7 +73,7 @@ const getColumnDefinitions = ({
   {
     id: 'name',
     sortable: true,
-    label: t('in-automation:ActionCatalog.name'),
+    label: t('in-automation:name'),
     getContent(item: MappedParameter) {
       return (
         <Tooltip content={item.value.name} align="topLeft" delay={500}>
@@ -85,7 +85,7 @@ const getColumnDefinitions = ({
   {
     id: 'description',
     sortable: false,
-    label: t('in-automation:ActionCatalog.description'),
+    label: t('in-automation:description'),
     getContent(item: MappedParameter) {
       return <div className={locals.fourLines}>{item.value.description}</div>;
     }
@@ -94,7 +94,7 @@ const getColumnDefinitions = ({
     id: 'type',
     sortable: true,
     width: '16',
-    label: t('in-automation:ActionCatalog.type'),
+    label: t('in-automation:type'),
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {
         return t('in-automation:vault');

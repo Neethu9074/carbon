@@ -21,7 +21,10 @@ import {
   ApplicationAlertConfigWithMetadata,
   Result,
   ActionInstance,
-  TagCatalog
+  Policy,
+  TagCatalog,
+  ParameterValue,
+  GetDynamicParameterValues
 } from 'in-types';
 import {
   ANSIBlE_TYPE,
@@ -30,11 +33,13 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-automation/ActionCatalog/shared';
+import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import submitActionExecution from './subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { NewPolicy } from 'in-automation/Policies/types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -42,6 +47,7 @@ const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/settings/actions` as const;
 const actionAssociationsUrl = `${automationAPIBase}/settings/actions-associations` as const;
 const resourceAssociationsUrl = `${automationAPIBase}/associations/v1` as const;
+const policiesUrl = `${automationAPIBase}/settings/policies` as const;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -49,6 +55,15 @@ export function getAllActions(): Observable<Action[]> {
     maxRetries: 3,
     url: actionUrl
   }).map(response => response.body);
+}
+
+export function getAllActionsResult() {
+  return http<Action[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: actionUrl,
+    mapToResultObject: true
+  });
 }
 
 export interface ScoredAction extends Action {
@@ -314,16 +329,12 @@ export function createAction(
   };
 }
 
-export interface ActionExecutionParameter {
-  name: string;
-  value: string;
-}
 interface RunActionBaseParams {
   volatileId: VolatileId;
   event: Event | undefined;
   actionName: string;
   actionId: string;
-  inputParameters: ActionExecutionParameter[];
+  inputParameters: ParameterValue[];
   timeout: string;
   hostsLimit?: string;
 }
@@ -490,7 +501,6 @@ interface RunAnsibleActionParams extends RunActionBaseParams {
   playbookFileName: Field;
   ansibleUrl: Field;
   jobTemplateUrl: string;
-  hostsLimit: string;
 }
 
 export function runAnsibleAction({
@@ -503,8 +513,7 @@ export function runAnsibleAction({
   ansibleUrl,
   jobTemplateUrl,
   inputParameters,
-  timeout,
-  hostsLimit
+  timeout
 }: RunAnsibleActionParams) {
   return runAction({
     type: ANSIBlE_TYPE,
@@ -514,7 +523,6 @@ export function runAnsibleAction({
     timeout,
     actionId,
     inputParameters,
-    hostsLimit,
     request: [
       {
         name: 'playbookId',
@@ -552,7 +560,7 @@ export type ResolvedDynamicParamValue = DynamicParamValue & {
   resolvedValue: string;
 };
 
-export function resolveDynamicParameters(eventId: string, parameters: DynamicParamValue[], timestamp: number) {
+export function resolveDynamicParameters({ eventId, parameters, timestamp }: GetDynamicParameterValues) {
   return http<{
     parameters: ResolvedDynamicParamValue[];
   }>({
@@ -680,6 +688,74 @@ export function getApplicationAlertActionAssociationsWithResult(id: string): Obs
   return createObservable(request);
 }
 
+export function getPolicies() {
+  return http<Policy[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: policiesUrl,
+    mapToResultObject: true
+  });
+}
+
+export function getPolicy(id: string) {
+  return http<Policy>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}/${id}`,
+    mapToResultObject: true
+  });
+}
+
+export function saveNewPolicy(policy: NewPolicy) {
+  return http<Policy>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: policiesUrl,
+    data: policy,
+    mapToResultObject: true
+  });
+}
+
+export function deletePolicy(id: string) {
+  return http<Policy>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}/${encodeURIComponent(id)}`
+  });
+}
+
+export function savePolicy(policy: NewPolicy, id: string) {
+  return http<Policy>({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}/${id}`,
+    data: policy,
+    mapToResultObject: true
+  });
+}
+
+export function getEventSpecifications() {
+  return http<EventSpecificationInfo[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/events/settings/event-specifications/infos',
+    mapToResultObject: true
+  });
+}
+
+export function getApplicationSmartAlertConfigs() {
+  return http<ApplicationAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.APPLICATION,
+    mapToResultObject: true
+  });
+}
 export function getDynamicParameterTagCatalog() {
   return http<TagCatalog>({
     method: 'GET',

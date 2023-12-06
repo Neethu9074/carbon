@@ -6,11 +6,12 @@
 
 import React from 'react';
 
+import { actionCatalogPath, actionHistoryPath, policiesFullyQualified } from 'in-automation/navigation/paths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { actionHistoryTracker } from 'in-automation/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
@@ -30,6 +31,7 @@ export default function ViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
   const isCatalogActive = matchLocation(actionCatalogPath);
   const isHistoryActive = matchLocation(actionHistoryPath);
+  const isPoliciesActive = matchLocation(policiesFullyQualified);
 
   return (
     <>
@@ -49,6 +51,13 @@ export default function ViewSwitcher() {
               onClick={() => {
                 actionHistoryTracker();
               }}
+            />
+          )}
+          {automationPoliciesEnabled && role?.canConfigureAutomationPolicies && (
+            <SecondLevelNavigationItem
+              href={createHrefToPath(policiesFullyQualified)}
+              label={t('in-automation:policies.policies')}
+              isActive={isPoliciesActive}
             />
           )}
         </SecondLevelNavigation>

@@ -65,6 +65,7 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]);
+      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
     it('returns action available product permission if action FF is enabled', () => {
@@ -87,6 +88,7 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_RUN_AUTOMATION_ACTIONS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]);
+      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
     it('returns synthetics available product permission if synthetics FF is enabled', () => {
@@ -111,6 +113,7 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(
         productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]
       );
+      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
     it('returns default product permission if no FF are enabled', () => {
@@ -135,6 +138,7 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(
         productPermissionsObject[Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]
       );
+      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]);
     });
 
     it('Checks the BizOps flag does not affect other permissions', () => {

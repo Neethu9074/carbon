@@ -248,52 +248,70 @@ function combineAndSortByLabel(array1, array2) {
     : array1;
 }
 
+export function EventName({ entity, hasRowNavigation }) {
+  const { name } = entity;
+  const theme = useTheme();
+  const icon = getIcon(entity, theme);
+
+  const tooltipContent = needsMigrationAction(entity) ? (
+    <>
+      {name}
+      <Spacer vertical="normal" />
+      {t('in-settings:tabs.actionNeededRecommendMigrate')}
+    </>
+  ) : (
+    name
+  );
+  return (
+    <WithIcon icon={icon.icon} iconColor={icon.color}>
+      <Tooltip content={tooltipContent} align="topLeft" delay={500}>
+        <WithSubscript subscript={<Subscript entity={entity} />}>
+          {hasRowNavigation ? (
+            <Link
+              href={getEntityIdView(getDetailsPath(entity), entity.id)}
+              ellipsis
+              onClick={() =>
+                viewEventTracker({
+                  eventDefinitionType: entity.type,
+                  entityType: entity.entityType,
+                  type: entity.triggering ? 'Incident' : 'None',
+                  severity: getSeverityText(entity.severity)
+                })
+              }
+            >
+              {name}
+            </Link>
+          ) : (
+            <span className={locals.ellipsis}>{name}</span>
+          )}
+        </WithSubscript>
+      </Tooltip>
+    </WithIcon>
+  );
+}
+
+export function EntityType({ entity }) {
+  const theme = useTheme();
+  if (entity.entityType === 'any') {
+    return '';
+  }
+  return (
+    <Tooltip content={getPluginName(entity.entityType, 1)} align="topLeft" delay={500}>
+      <WithIcon plugin={entity.entityType} iconColor={theme.ids.color.option.neutral['700']}>
+        {getPluginName(entity.entityType, 1)}
+      </WithIcon>
+    </Tooltip>
+  );
+}
+
 function columnDefinitions(hasRowNavigation) {
   return [
     {
       id: 'name',
       label: t('in-settings:tabs.name'),
       width: 40,
-      getContent: function Content(entity) {
-        const { name } = entity;
-        const theme = useTheme();
-        const icon = getIcon(entity, theme);
-
-        const tooltipContent = needsMigrationAction(entity) ? (
-          <>
-            {name}
-            <Spacer vertical="normal" />
-            {t('in-settings:tabs.actionNeededRecommendMigrate')}
-          </>
-        ) : (
-          name
-        );
-        return (
-          <WithIcon icon={icon.icon} iconColor={icon.color}>
-            <Tooltip content={tooltipContent} align="topLeft" delay={500}>
-              <WithSubscript subscript={<Subscript entity={entity} />}>
-                {hasRowNavigation ? (
-                  <Link
-                    href={getEntityIdView(getDetailsPath(entity), entity.id)}
-                    ellipsis
-                    onClick={() =>
-                      viewEventTracker({
-                        eventDefinitionType: entity.type,
-                        entityType: entity.entityType,
-                        type: entity.triggering ? 'Incident' : 'None',
-                        severity: getSeverityText(entity.severity)
-                      })
-                    }
-                  >
-                    {name}
-                  </Link>
-                ) : (
-                  <span className={locals.ellipsis}>{name}</span>
-                )}
-              </WithSubscript>
-            </Tooltip>
-          </WithIcon>
-        );
+      getContent(entity) {
+        return <EventName entity={entity} hasRowNavigation={hasRowNavigation} />;
       },
       getValue(entity) {
         return entity.name;
@@ -311,18 +329,8 @@ function columnDefinitions(hasRowNavigation) {
       id: 'entityType',
       label: t('in-settings:tabs.entityType'),
       width: 20,
-      getContent: function Content(entity) {
-        const theme = useTheme();
-        if (entity.entityType === 'any') {
-          return '';
-        }
-        return (
-          <Tooltip content={getPluginName(entity.entityType, 1)} align="topLeft" delay={500}>
-            <WithIcon plugin={entity.entityType} iconColor={theme.ids.color.option.neutral['700']}>
-              {getPluginName(entity.entityType, 1)}
-            </WithIcon>
-          </Tooltip>
-        );
+      getContent(entity) {
+        return <EntityType entity={entity} />;
       },
       getValue: getEntityType
     }

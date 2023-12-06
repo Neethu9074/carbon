@@ -440,6 +440,7 @@
     "userDoesNotExist": "User does not exist",
     "apiCall": "API",
     "userCall": "User",
+    "policyCall": "Policy",
     "testChannel": "Test Channel",
     "pleaseDefineAtLeastOneEmail": "Please define at least one email",
     "remove": "Remove",

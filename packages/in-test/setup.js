@@ -45,7 +45,7 @@ global.__DEV__ = false;
 global.__HOT_RELOAD__ = false;
 
 // when jest-jsdom-test-env is not used, then window needs to be added
-if(!global.window) global.window = {};
+if (!global.window) global.window = {};
 
 global.window.instana = {};
 
@@ -71,6 +71,7 @@ global.window.instana.user = {
         canConfigureCustomAlerts: true,
         canConfigureAutomationActions: true,
         canRunAutomationActions: true,
+        canConfigureAutomationPolicies: true,
         canViewAutomationActionInstances: true,
         canConfigureApiTokens: true,
         canConfigurePersonalApiTokens: true,

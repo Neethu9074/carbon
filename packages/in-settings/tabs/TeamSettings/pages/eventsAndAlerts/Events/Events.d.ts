@@ -36,4 +36,13 @@ export interface EventsProps {
 
 declare function Events(props: EventsProps): JSX.Element;
 
+export function EventName({
+  entity,
+  hasRowNavigation
+}: {
+  entity: EventSpecificationInfo;
+  hasRowNavigation: boolean;
+}): JSX.Element;
+
+export function EntityType({ entity }: { entity: EventSpecificationInfo }): JSX.Element;
 export default Events;

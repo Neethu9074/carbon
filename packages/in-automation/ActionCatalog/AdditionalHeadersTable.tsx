@@ -69,7 +69,7 @@ const getColumnDefinitions = ({
     id: 'value',
     sortable: false,
     size: '2',
-    label: t('in-automation:ActionCatalog.value'),
+    label: t('in-automation:value'),
     getContent(item: Header) {
       const field = form.get('additionalHeaders');
       return (

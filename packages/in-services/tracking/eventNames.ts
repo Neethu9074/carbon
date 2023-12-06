@@ -379,6 +379,8 @@ export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
+export const CREATE_AUTOMATION_POLICY = 'automation.policy.create';
+export const EDIT_AUTOMATION_POLICY = 'automation.policy.edit';
 
 // Smart Alert Tracking
 

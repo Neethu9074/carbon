@@ -4,10 +4,29 @@
  * Copyright IBM Corp. 2023
  */
 
-export const automationPath = '/automation';
-export const actionCatalogPath = `${automationPath}/actionCatalog`;
-export const actionDetailsPath = `${automationPath}/actionCatalog/:id`;
-export const actionDetailsNewPath = `${automationPath}/actionCatalog/new`;
-export const actionDetailsCopyPath = `${automationPath}/actionCatalog/copy`;
-export const actionDetailsCopyFormPath = `${automationPath}/actionCatalog/copy/:id`;
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
+
+export const automationRoot = '/automation';
+export const actionCatalogPath = `${automationRoot}/actionCatalog`;
+export const actionDetailsPath = `${automationRoot}/actionCatalog/:id`;
+export const actionDetailsNewPath = `${automationRoot}/actionCatalog/new`;
+export const actionDetailsCopyPath = `${automationRoot}/actionCatalog/copy`;
+export const actionDetailsCopyFormPath = `${automationRoot}/actionCatalog/copy/:id`;
 export const actionHistoryPath = '/actionHistory';
+
+export const policies = '/policies';
+export const policiesFullyQualified = `${automationRoot}${policies}`;
+
+export const policiesDetails = '/details';
+export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policiesDetails}`;
+
+export const policiesOverview = '/overview';
+export const policiesOverviewFullyQualified = `${policiesFullyQualified}${policiesOverview}`;
+
+export const policiesSummary = '/summary';
+export const policiesSummaryFullyQualified = `${policiesOverviewFullyQualified}${policiesSummary}`;
+
+export const policiesConfiguration = '/configuration';
+export const policiesConfigurationFullyQualified = `${policiesOverviewFullyQualified}${policiesConfiguration}`;
+
+export const isAutomationView = getRootPathPredicate(automationRoot);
