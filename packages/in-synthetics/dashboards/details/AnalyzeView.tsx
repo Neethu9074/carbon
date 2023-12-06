@@ -75,7 +75,7 @@ export default function SyntheticAnalyzeView() {
   const resultsLabel: string = getMatrixParameter(location, syntheticDetailsPath, 'resultsLabel') ?? '';
 
   const testResultMetadata: ResultMetadataResponse =
-    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
+    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId, startTime), [0]) || dummyResultMetadata;
   const formatType = testResultMetadata.progress.loading ? '' : getValidFormat(testResultMetadata);
   const metadata = testResultMetadata.progress.loading
     ? ''
