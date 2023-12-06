@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { RestrictedSlider } from '@instana/components';
 
@@ -12,6 +12,12 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 export default function DebouncedRestrictedSlider(props: RestrictedSliderProp) {
   const result = useDebouncedValue(props.value, props.onChange, 500);
+  useEffect(() => {
+    if (result.value !== result.debouncedValue) {
+      result.onChange(result.value as number);
+    }
+  }, [result]);
+
   return (
     <RestrictedSlider {...props} value={result.value} onChange={(_event, value) => result.onChange(value as number)} />
   );
