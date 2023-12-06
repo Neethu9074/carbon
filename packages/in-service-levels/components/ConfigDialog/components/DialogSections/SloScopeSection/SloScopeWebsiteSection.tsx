@@ -32,7 +32,7 @@ export default function SloScopeWebsiteSection() {
       <Sections>
         <Section title={t('in-service-levels:general.beacon')} titleWidth={titleWidth}>
           <BeaconSelector
-            disabled={!websiteIdField}
+            disabled={!websiteIdField || isFormInEditMode}
             onChange={newBeaconType =>
               onChange(['scope', 'beaconType'], () => beaconTypeField.setValue(newBeaconType).setTouched(true))
             }
