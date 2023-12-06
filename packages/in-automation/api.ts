@@ -337,6 +337,7 @@ interface RunActionBaseParams {
   inputParameters: ParameterValue[];
   timeout: string;
   hostsLimit?: string;
+  policyId: string;
 }
 
 interface RunActionRequest {
@@ -365,7 +366,8 @@ function runAction({
   inputParameters,
   actionId,
   timeout,
-  hostsLimit
+  hostsLimit,
+  policyId
 }: RunActionParams) {
   return submitActionExecution({
     action: 'action.run',
@@ -380,7 +382,8 @@ function runAction({
       actionName,
       actionId,
       timeout: timeout === '' ? null : timeout,
-      request: request
+      request: request,
+      policyId: policyId === '' ? null : policyId
     }
   });
 }
@@ -393,7 +396,8 @@ export function runScriptAction({
   actionId,
   interpreter,
   inputParameters,
-  timeout
+  timeout,
+  policyId
 }: RunScriptActionParams) {
   return runAction({
     type: SCRIPT_TYPE,
@@ -403,6 +407,7 @@ export function runScriptAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'script_ssh',
@@ -440,7 +445,8 @@ export function runWebhookAction({
   header,
   authen,
   inputParameters,
-  timeout
+  timeout,
+  policyId
 }: RunWebhookActionParams) {
   return runAction({
     type: WEBHOOK_TYPE,
@@ -450,6 +456,7 @@ export function runWebhookAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'method',
@@ -513,7 +520,8 @@ export function runAnsibleAction({
   ansibleUrl,
   jobTemplateUrl,
   inputParameters,
-  timeout
+  timeout,
+  policyId
 }: RunAnsibleActionParams) {
   return runAction({
     type: ANSIBlE_TYPE,
@@ -523,6 +531,7 @@ export function runAnsibleAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'playbookId',
@@ -735,6 +744,28 @@ export function savePolicy(policy: NewPolicy, id: string) {
     headers: getCsrfHeader(),
     url: `${policiesUrl}/${id}`,
     data: policy,
+    mapToResultObject: true
+  });
+}
+
+export function getPoliciesForTrigger(triggerId: string, triggerType: any) {
+  // const triggerType = isCustomEvent ? 'customEvent' : 'builtinEvent';
+  return http<Policy[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}?triggerType=${triggerType}&triggerId=${encodeURIComponent(triggerId)}`,
+    mapToResultObject: true
+  });
+}
+
+export function saveBulkPolicies(policies: NewPolicy[]) {
+  return http<Policy[]>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}/bulk`,
+    data: policies,
     mapToResultObject: true
   });
 }

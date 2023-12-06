@@ -21,9 +21,9 @@ import locals from 'in-components/RegexInput/RegexInput.mless';
 interface Props {
   value: string;
   onChange: (value: string) => void;
-  autoFocus?: boolean,
-  className?: string,
-  placeholder?: string,
+  autoFocus?: boolean;
+  className?: string;
+  placeholder?: string;
   onEnter?: () => void;
 }
 
@@ -37,7 +37,7 @@ function toCommand(handler?: () => void): Command {
   return () => {
     handler?.();
     return true;
-  }
+  };
 }
 
 export default function RegexInput({ value, onChange, className, placeholder, onEnter, autoFocus }: Props) {
@@ -51,7 +51,7 @@ export default function RegexInput({ value, onChange, className, placeholder, on
     { tag: t.number, color: option.black[500] },
     { tag: t.variableName, color: option.neutral[500] },
     { tag: t.character, color: option.orange[500] },
-    { tag: t.escape, color: option.indigo[500] },
+    { tag: t.escape, color: option.indigo[500] }
   ]);
 
   return (
@@ -66,10 +66,12 @@ export default function RegexInput({ value, onChange, className, placeholder, on
           regex(),
           syntaxHighlighting(highlightingStyle),
           singleLine(),
-          keymap.of([{
-            key: 'Enter',
-            run: toCommand(onEnter)
-          }]),
+          keymap.of([
+            {
+              key: 'Enter',
+              run: toCommand(onEnter)
+            }
+          ]),
           bracketMatching(),
           closeBrackets()
         ]}
@@ -81,5 +83,5 @@ export default function RegexInput({ value, onChange, className, placeholder, on
 }
 
 function singleLine() {
-  return EditorState.transactionFilter.of(tr => tr.newDoc.lines > 1 ? [] : tr);
+  return EditorState.transactionFilter.of(tr => (tr.newDoc.lines > 1 ? [] : tr));
 }

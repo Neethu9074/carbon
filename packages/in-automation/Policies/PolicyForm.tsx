@@ -725,7 +725,7 @@ function ActionFilters({
   );
 }
 
-function usePagination() {
+export function usePagination() {
   const [{ page, pageSize, orderBy, orderDirection, query }, setTableState] = useState<
     Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>
   >({

@@ -22,7 +22,7 @@ export const regexLanguage = LRLanguage.define({
         EscapedChar: t.escape,
         UnionOperator: t.operator,
         Number: t.number,
-        Idenfitier: t.variableName,
+        Idenfitier: t.variableName
       })
     ]
   })
@@ -30,7 +30,7 @@ export const regexLanguage = LRLanguage.define({
 
 export function regex() {
   return [
-      new LanguageSupport(regexLanguage),
-      regexLanguage.data.of({ closeBrackets: { brackets: ["(", "[", '"', '<']}})
+    new LanguageSupport(regexLanguage),
+    regexLanguage.data.of({ closeBrackets: { brackets: ['(', '[', '"', '<'] } })
   ];
 }
