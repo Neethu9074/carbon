@@ -47,7 +47,7 @@ export const timestampColumn = {
   useMaxHeight: true,
   widthInAbsoluteUnit: true,
   getContent({ item }: LogLevelColumnProps) {
-    return <div className={locals.dateTime}>{formatDateTime(item.timestamp)}</div>;
+    return <div className={locals.dateTime}>{formatDateTime(item?.timestamp)}</div>;
   }
 };
 
@@ -56,6 +56,6 @@ export const logMessageColum = {
   useMaxHeight: true,
   widthInAbsoluteUnit: true,
   getContent: ({ item }: LogLevelColumnProps) => {
-    return <LogMessageColumn logs={item.message} />;
+    return <LogMessageColumn logs={item?.message} />;
   }
 };

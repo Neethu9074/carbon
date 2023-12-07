@@ -192,7 +192,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     return <LoadingSkeleton className={locals.skeleton} />;
   }
   let testType = null;
-  switch (test.data?.configuration.syntheticType) {
+  switch (test.data?.configuration?.syntheticType) {
     case 'HTTPAction':
       testType = 'API Simple';
       break;

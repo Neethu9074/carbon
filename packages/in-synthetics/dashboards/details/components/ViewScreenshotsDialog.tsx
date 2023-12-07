@@ -84,7 +84,7 @@ export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreensh
                   {t('in-synthetics:dashboard.detailsPage.viewScreenshots.allImagesButton')}
                 </Button>
               </div>
-              {Object.keys(data.imageFiles).map(filename => {
+              {Object.keys(data?.imageFiles).map(filename => {
                 return (
                   <div className={locals.imagesWrapper} key={generateUniqueShortId()}>
                     <Button
@@ -92,12 +92,12 @@ export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreensh
                       kind="secondary"
                       icon={'lib_actions_download'}
                       onClick={() =>
-                        downloadBase64File(`data:image/png;base64, ${data.imageFiles[filename]}`, filename)
+                        downloadBase64File(`data:image/png;base64, ${data?.imageFiles[filename]}`, filename)
                       }
                     >
                       {t('in-synthetics:dashboard.detailsPage.viewScreenshots.imageButton')}
                     </Button>
-                    <img className={locals.image} src={`data:image/png;base64, ${data.imageFiles[filename]}`} />
+                    <img className={locals.image} src={`data:image/png;base64, ${data?.imageFiles[filename]}`} />
                   </div>
                 );
               })}
