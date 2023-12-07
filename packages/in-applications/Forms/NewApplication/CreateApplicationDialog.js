@@ -7,8 +7,8 @@ import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { Card, Message, Spacer } from '@instana/components';
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
 
 import {
   getApplicationConfigWithAlerting,
@@ -137,6 +137,17 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                               {t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}
                             </strong>
                           </DescriptionText>
+                          {applicationContributionFilterEnabled &&
+                            applicationId &&
+                            appConfig.groupId &&
+                            !appConfig.contributionFilter && (
+                              <>
+                                <Message small>
+                                  <Trans i18nKey="in-applications:forms.newApplication.warningMessageForContributionFilter" />
+                                </Message>
+                                <Spacer vertical="xsmall" />
+                              </>
+                            )}
                           {applicationContributionFilterEnabled && appConfig.contributionFilter != null && (
                             <div className={locals.contributionFilter}>
                               <ContributionFilterDropdown
