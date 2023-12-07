@@ -184,7 +184,7 @@ function PolicyLink({ policy }: { policy: Policy }) {
           [locals.block]: true,
           [locals.ellipsis]: policy.name.length > 60
         })}
-        onClick={() => navigateToPolicyDetails(policy, true)}
+        onClick={() => navigateToPolicyDetails(policy, false)}
       >
         {policy.name}
       </Link>
