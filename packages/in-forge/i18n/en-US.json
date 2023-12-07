@@ -1646,6 +1646,11 @@
   "tracingTypeName_azf_0": "Azure Functions Executions",
   "tracingTypeName_azf_1": "Azure Functions Execution",
   "tracingTypeName_azf_2": "Azure Functions Executions",
+  "tracingTypeName_azstorage": "Azure Storage",
+  "tracingTypeName_azstorage_plural": "Azure Storages",
+  "tracingTypeName_azstorage_0": "Azure Storages",
+  "tracingTypeName_azstorage_1": "Azure Storage",
+  "tracingTypeName_azstorage_2": "Azure Storages",
   "tracingTypeName_batchsynthetic": "Internal trigger",
   "tracingTypeName_batchsynthetic_plural": "Internal triggers",
   "tracingTypeName_batchsynthetic_0": "Internal triggers",
@@ -14153,6 +14158,12 @@
       "storageaccountname": "Storage Account Name",
       "queueuri": "Queue Uri",
       "methodname": "Method Name"
+    },
+    "azstorage": {
+      "containerName": "Container",
+      "blobName": "Blob",
+      "operation": "Operation",
+      "storageaccountname": "Storage Account Name"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",
