@@ -15,22 +15,4 @@
   .block {
     display: block;
   }
-
-  .policiesTable {
-    border-radius: unset;
-    box-shadow: unset !important;
-    div.component-base {
-      border-radius: unset;
-      box-shadow: unset !important;
-    }
-
-    div.card-wrapper {
-      border-radius: unset;
-      box-shadow: unset !important;
-    }
-    .card-useMaxAvailableHeight {
-      border-radius: unset;
-      box-shadow: unset !important;
-    }
-  }
 }

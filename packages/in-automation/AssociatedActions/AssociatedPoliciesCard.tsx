@@ -19,8 +19,6 @@ import Policies from 'in-automation/AssociatedActions/Policies';
 import { NewPolicy } from 'in-automation/Policies/types';
 import { t } from 'in-i18n';
 
-import locals from './Policies.mless';
-
 interface AssociatedPoliciesCardProps {
   event: Event;
   volatileId: VolatileId;
@@ -59,26 +57,24 @@ export default function AssociatedPoliciesCard({
   }
 
   return (
-    <div className={locals.policiesTable}>
-      <Policies
-        title={t('in-automation:associatedPolicies')}
-        event={event}
-        volatileId={volatileId}
-        triggerReload={triggerReload}
-        rightHeader={
-          <RightHeader
-            actions={Array.isArray(actions) ? actions : []}
-            eventSpecification={eventSpecification}
-            triggerReload={triggerReload}
-            isCustomEvent={isCustomEvent}
-          />
-        }
-        triggerDetails={{
-          triggerType: isCustomEvent ? 'customEvent' : 'builtinEvent',
-          triggerId: eventSpecificationId
-        }}
-      />
-    </div>
+    <Policies
+      title={t('in-automation:associatedPolicies')}
+      event={event}
+      volatileId={volatileId}
+      triggerReload={triggerReload}
+      rightHeader={
+        <RightHeader
+          actions={Array.isArray(actions) ? actions : []}
+          eventSpecification={eventSpecification}
+          triggerReload={triggerReload}
+          isCustomEvent={isCustomEvent}
+        />
+      }
+      triggerDetails={{
+        triggerType: isCustomEvent ? 'customEvent' : 'builtinEvent',
+        triggerId: eventSpecificationId
+      }}
+    />
   );
 }
 
