@@ -13,4 +13,4 @@ module.exports = {
       code: lezerLoader(sourceText, { moduleStyle: 'cjs' })
     };
   }
-};
+}

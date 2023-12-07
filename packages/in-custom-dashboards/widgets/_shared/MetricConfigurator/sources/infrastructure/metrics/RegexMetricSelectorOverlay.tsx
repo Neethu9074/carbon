@@ -71,11 +71,7 @@ export default function RegexMetricSelectorOverlay({
         />
         <Overlay content={HelpOverlay}>
           {({ toggle }) => (
-            <SvgIcon
-              type="lib_help_error_help_outline"
-              className={classNames(locals.icon, { [locals.clickable]: true })}
-              onClick={toggle}
-            />
+            <SvgIcon type="lib_help_error_help_outline" className={classNames(locals.icon, { [locals.clickable]: true })} onClick={toggle}/>
           )}
         </Overlay>
       </div>
@@ -86,16 +82,8 @@ export default function RegexMetricSelectorOverlay({
   );
 }
 
-const documentationLink =
-  'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure';
+const documentationLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure';
 
 function HelpOverlay() {
-  return (
-    <DangerousHtmlPresenter
-      className={locals.helpOverlay}
-      html={toHtml(
-        t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.help', { documentationLink })
-      )}
-    />
-  );
+  return <DangerousHtmlPresenter className={locals.helpOverlay} html={toHtml(t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.help', {documentationLink}))} />
 }

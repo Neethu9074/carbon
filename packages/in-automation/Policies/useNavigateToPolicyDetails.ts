@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { defaultPolicyUrlParameters, detailsPolicyUrlParameters } from 'in-automation/navigation/urlParameters';
-import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { defaultPolicyUrlParameters, detailsPolicyUrlParameters } from 'in-automation/navigation/urlParameters';
+import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { Policy } from 'in-types';
 
 const policyIdParameter = defaultPolicyUrlParameters.policyId;
