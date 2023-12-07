@@ -9,8 +9,13 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
+import {
+  getEventSpecificationId,
+  getIsCustomEvent,
+  useAssociatedActionsData,
+  useDualReload
+} from 'in-automation/AssociatedActions/sharedPolicies';
 import { EventSpecification, getAllActionsWithAISuggestions, getAllActions, saveBulkPolicies } from 'in-automation/api';
-import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData, useDualReload } from './shared';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -29,7 +34,6 @@ interface AssociatedPoliciesCardProps {
 export default function AssociatedPoliciesCard({
   event,
   volatileId,
-  // title,
   reload: externalReload,
   setReload: setExternalReload
 }: AssociatedPoliciesCardProps) {
@@ -38,15 +42,12 @@ export default function AssociatedPoliciesCard({
 
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
-  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+  const { eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
 
-  if (!eventSpecification || !actions) {
+  if (!eventSpecification) {
     return <LoadingIndicator size="xl" />;
   }
   let actionError = null;
-  if ('message' in actions) {
-    actionError = actions.message;
-  }
 
   if (actionError) {
     return (
@@ -64,7 +65,6 @@ export default function AssociatedPoliciesCard({
       triggerReload={triggerReload}
       rightHeader={
         <RightHeader
-          actions={Array.isArray(actions) ? actions : []}
           eventSpecification={eventSpecification}
           triggerReload={triggerReload}
           isCustomEvent={isCustomEvent}
@@ -82,14 +82,12 @@ interface RightHeaderProps {
   eventSpecification: EventSpecification;
   triggerReload: () => void;
   isCustomEvent: boolean;
-  actions: Action[];
 }
-function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload }: RightHeaderProps) {
+function RightHeader({ eventSpecification, isCustomEvent, triggerReload }: RightHeaderProps) {
   const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
-  const associatedActionIds = actions.map(a => a.id);
 
   function submitActionSelection(selectedIds: string[]) {
-    const updatedActionIds = [...associatedActionIds, ...selectedIds];
+    const updatedActionIds = [...selectedIds];
     const policies = [] as NewPolicy[];
     const updatedActions = allActions.reduce<Action[]>(
       (acc, action) => [...acc, ...(selectedIds.includes(action.id) ? [action] : [])],
@@ -148,7 +146,7 @@ function RightHeader({ eventSpecification, actions, isCustomEvent, triggerReload
           scored
         />
       )}
-      hiddenIds={associatedActionIds}
+      hiddenIds={[]}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
           ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })

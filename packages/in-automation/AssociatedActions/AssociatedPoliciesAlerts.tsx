@@ -8,17 +8,12 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  getApplicationAlertActionAssociationsWithResult,
-  getAllActions,
-  getAllActionsWithAISuggestions,
-  saveBulkPolicies
-} from 'in-automation/api';
+import { getAllActions, getAllActionsWithAISuggestions, saveBulkPolicies } from 'in-automation/api';
+// import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, TriggerType } from 'in-types';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getEventSpecificationId, useDualReload } from './shared';
 import Policies from 'in-automation/AssociatedActions/Policies';
 import { associateActionsTracker } from 'in-automation/tracker';
@@ -44,23 +39,8 @@ export default function AssociatedPoliciesAlerts({
 
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
-  const result = useObservable(
-    () => getApplicationAlertActionAssociationsWithResult(eventSpecificationId),
-    [eventSpecificationId, reload],
-    {
-      resetStateOnObservableChange: false
-    }
-  ) ?? { data: [], errors: [] };
-
-  const actions = result?.data ?? [];
-  const associationsError = result?.errors ?? [];
-
   if (!alertConfig) {
     return <LoadingIndicator size="xl" />;
-  }
-
-  if (associationsError.length) {
-    return <ErroneousResultPresenter errors={[...associationsError]} />;
   }
 
   return (
@@ -69,13 +49,7 @@ export default function AssociatedPoliciesAlerts({
       event={event}
       volatileId={volatileId}
       triggerReload={triggerReload}
-      rightHeader={
-        <RightHeader
-          actions={Array.isArray(actions) ? actions : []}
-          eventSpecification={alertConfig}
-          triggerReload={triggerReload}
-        />
-      }
+      rightHeader={<RightHeader eventSpecification={alertConfig} triggerReload={triggerReload} reload={reload} />}
       triggerDetails={{ triggerType: 'applicationSmartAlert', triggerId: eventSpecificationId }}
     />
   );
@@ -83,17 +57,16 @@ export default function AssociatedPoliciesAlerts({
 
 interface RightHeaderProps {
   eventSpecification: ApplicationAlertConfigWithMetadata;
-  actions: Action[];
   triggerReload: () => void;
+  reload?: number;
 }
 
-function RightHeader({ eventSpecification, actions, triggerReload }: RightHeaderProps) {
+function RightHeader({ eventSpecification, triggerReload }: RightHeaderProps) {
   const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
-  const associatedActionIds = actions.map(a => a.id);
   const { id: applicationAlertId, name: eventName } = eventSpecification;
 
   function submitActionSelection(selectedIds: string[]) {
-    const updatedActionIds = [...associatedActionIds, ...selectedIds];
+    const updatedActionIds = [...selectedIds];
     const policies = [] as NewPolicy[];
     const actionNames = allActions.reduce<string[]>(
       (acc, action) => [...acc, ...(updatedActionIds.includes(action.id) ? [action.name] : [])],
@@ -161,7 +134,7 @@ function RightHeader({ eventSpecification, actions, triggerReload }: RightHeader
           scored
         />
       )}
-      hiddenIds={associatedActionIds}
+      hiddenIds={[]}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
           ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })

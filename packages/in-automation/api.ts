@@ -749,7 +749,6 @@ export function savePolicy(policy: NewPolicy, id: string) {
 }
 
 export function getPoliciesForTrigger(triggerId: string, triggerType: any) {
-  // const triggerType = isCustomEvent ? 'customEvent' : 'builtinEvent';
   return http<Policy[]>({
     method: 'GET',
     maxRetries: 3,

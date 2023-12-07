@@ -8,18 +8,16 @@ import React, { useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  getAllActionsWithAISuggestions,
-  getApplicationAlertActionAssociationsWithResult,
-  saveNewPolicy
-} from 'in-automation/api';
-import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata } from 'in-types';
+import { getAllActionsWithAISuggestions, saveNewPolicy, getPoliciesForTrigger } from 'in-automation/api';
+import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, Policy, Result } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getEventSpecificationId, getIsCustomEvent } from './shared';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { NewPolicy } from 'in-automation/Policies/types';
+import { pendingResult } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 interface RecommendedActionsAlertsForPoliciesCardProps {
@@ -44,29 +42,55 @@ export default function RecommendedActionsAlertsForPoliciesCard({
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
 
-  const existingActions =
+  const policies =
     useObservable(
-      () => getApplicationAlertActionAssociationsWithResult(eventSpecificationId),
-      [eventSpecificationId, reload]
-    ) ?? null;
+      () => getPoliciesForTrigger(eventSpecificationId, 'applicationSmartAlert'),
+      [eventSpecificationId, isCustomEvent, reload]
+    ) ?? (pendingResult as Result<Policy[]>);
+
+  const selectedActionsSet = useMemo(() => {
+    const filteredPolicies = isLoading(policies)
+      ? policies
+      : {
+          ...policies,
+          data: policies?.data
+        };
+
+    const actionsSet: string[] = [];
+
+    filteredPolicies?.data?.forEach(policy => {
+      policy.typeConfigurations.forEach(typeConfiguration => {
+        if (
+          typeConfiguration.runnable &&
+          typeConfiguration.runnable.runConfiguration &&
+          typeConfiguration.runnable.runConfiguration.actions
+        ) {
+          typeConfiguration.runnable.runConfiguration.actions.forEach(runnable => {
+            if (runnable?.action.id) {
+              actionsSet.push(runnable.action.id);
+            }
+          });
+        }
+      });
+    });
+
+    return actionsSet;
+  }, [policies]);
 
   const triggerReload = () => setReload(Math.random());
 
   const getUnusedSuggestedActions = useMemo(() => {
     if (!alertConfig) return null;
 
-    const selectedActionsSet = new Set((existingActions?.data ?? []).map(action => action.id));
-
     return getAllActionsWithAISuggestions(alertConfig.name, alertConfig.description ?? '').map(allActions => {
-      if (!existingActions) return [];
       return allActions
-        .filter(action => action.confidence != 'low' && !selectedActionsSet.has(action.id))
+        .filter(action => action.confidence != 'low' && !selectedActionsSet.includes(action.id))
         .slice(0, 5)
         .sort((a, b) => b.score - a.score);
     });
-  }, [alertConfig, existingActions]);
+  }, [alertConfig, selectedActionsSet]);
 
-  if (!alertConfig || !getUnusedSuggestedActions || !existingActions) {
+  if (!alertConfig || !getUnusedSuggestedActions || !selectedActionsSet) {
     return <LoadingIndicator size="xl" />;
   }
 

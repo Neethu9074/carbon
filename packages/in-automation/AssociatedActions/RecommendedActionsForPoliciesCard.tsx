@@ -6,17 +6,20 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { Message } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
+import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } from './sharedPolicies';
 import { EventSpecification, getAllActionsWithAISuggestions, saveNewPolicy } from 'in-automation/api';
-import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } from './shared';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { Event, VolatileId, Action, Policy, Result } from 'in-types';
 import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { associateActionsTracker } from 'in-automation/tracker';
+import { getPoliciesForTrigger } from 'in-automation/api';
 import { NewPolicy } from 'in-automation/Policies/types';
-import { Event, VolatileId, Action } from 'in-types';
+import { pendingResult } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 interface SuggestedActionsCardProps {
@@ -37,52 +40,66 @@ export default function RecommendedActionsForPoliciesCard({
   const [error, setError] = useState(false);
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
+  const policies =
+    useObservable(
+      () => getPoliciesForTrigger(eventSpecificationId, isCustomEvent ? 'customEvent' : 'builtinEvent'),
+      [eventSpecificationId, isCustomEvent, reload]
+    ) ?? (pendingResult as Result<Policy[]>);
 
-  const { actions: existingActions, eventSpecification } = useAssociatedActionsData(
-    eventSpecificationId,
-    isCustomEvent,
-    reload
-  );
-  const triggerReload = () => setReload(Math.random());
-  let actionError = null;
-
-  // Memoize the creation of selectedActionsSet
   const selectedActionsSet = useMemo(() => {
-    if (existingActions && Array.isArray(existingActions)) {
-      return new Set((existingActions ?? []).map(action => action.id));
-    }
-    return new Set();
-  }, [existingActions]);
+    const filteredPolicies = isLoading(policies)
+      ? policies
+      : {
+          ...policies,
+          data: policies?.data
+        };
 
-  if (existingActions && 'message' in existingActions) {
-    actionError = existingActions.message;
-  }
+    const actionsSet: string[] = [];
+
+    filteredPolicies?.data?.forEach(policy => {
+      policy.typeConfigurations.forEach(typeConfiguration => {
+        if (
+          typeConfiguration.runnable &&
+          typeConfiguration.runnable.runConfiguration &&
+          typeConfiguration.runnable.runConfiguration.actions
+        ) {
+          typeConfiguration.runnable.runConfiguration.actions.forEach(runnable => {
+            if (runnable?.action.id) {
+              actionsSet.push(runnable.action.id);
+            }
+          });
+        }
+      });
+    });
+
+    return actionsSet;
+  }, [policies]);
+
+  const { eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+
+  const triggerReload = () => setReload(Math.random());
 
   const getUnusedSuggestedActions = useMemo(() => {
     if (!eventSpecification) return null;
     return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
       allActions => {
-        if (!existingActions) return [];
+        if (!policies) return [];
         return allActions
-          .filter(action => action.confidence != 'low' && !selectedActionsSet.has(action.id))
+          .filter(action => action.confidence != 'low' && !selectedActionsSet.includes(action.id))
           .slice(0, 5)
           .sort((a, b) => b.score - a.score);
       }
     );
-  }, [eventSpecification, existingActions, selectedActionsSet]);
+  }, [eventSpecification, policies, selectedActionsSet]);
 
-  if (!eventSpecification || !getUnusedSuggestedActions || !existingActions) {
+  if (!eventSpecification || !getUnusedSuggestedActions) {
     return <LoadingIndicator size="xl" />;
   }
 
   return (
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
-      {actionError && (
-        <Message type="error" small withIcon>
-          {actionError}
-        </Message>
-      )}
+
       <ActionTable
         noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
         showActionLink
@@ -100,7 +117,7 @@ export default function RecommendedActionsForPoliciesCard({
             select: selectedAction =>
               associateAction({
                 action: selectedAction,
-                existingActions,
+                // existingActions,
                 event: eventSpecification,
                 triggerReload,
                 setError,
@@ -115,7 +132,6 @@ export default function RecommendedActionsForPoliciesCard({
 }
 interface AssociateActionProps {
   action: Action;
-  existingActions: Action[] | { code: string; message: string };
   event: EventSpecification;
   triggerReload: () => void;
   setError: (e: boolean) => void;
