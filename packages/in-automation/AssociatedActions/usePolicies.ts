@@ -12,13 +12,13 @@ import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStat
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
 import { getPoliciesForTrigger } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
+import { Policy, Result, TriggerType } from 'in-types';
 import { isLoading } from 'in-services/util/result';
-import { Policy, Result } from 'in-types';
 
 export interface UsePoliciesParams extends Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'> {
   tags?: string[];
   trigger?: 'manual' | 'automatic' | undefined;
-  triggerDetails: { triggerId: string; triggerType: any };
+  triggerDetails: { triggerId: string; triggerType: TriggerType };
 }
 
 const refreshSignal = create().emit(true);

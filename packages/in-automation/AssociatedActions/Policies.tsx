@@ -22,9 +22,9 @@ import {
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { ActionInstance, PaginatedResult, Policy, VolatileId, Event, TriggerType } from 'in-types';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { isAutomatic, isManual, TriggerSpecification } from 'in-automation/Policies/types';
-import { ActionInstance, PaginatedResult, Policy, VolatileId, Event } from 'in-types';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -54,7 +54,7 @@ interface PoliciesProps {
   title?: string;
   event?: Event;
   volatileId: VolatileId;
-  triggerDetails: { triggerId: string; triggerType: any };
+  triggerDetails: { triggerId: string; triggerType: TriggerType };
   rightHeader?: ReactNode;
   triggerReload: () => void;
 }

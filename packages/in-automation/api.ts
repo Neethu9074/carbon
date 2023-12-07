@@ -24,7 +24,8 @@ import {
   Policy,
   TagCatalog,
   ParameterValue,
-  GetDynamicParameterValues
+  GetDynamicParameterValues,
+  TriggerType
 } from 'in-types';
 import {
   ANSIBlE_TYPE,
@@ -748,7 +749,7 @@ export function savePolicy(policy: NewPolicy, id: string) {
   });
 }
 
-export function getPoliciesForTrigger(triggerId: string, triggerType: any) {
+export function getPoliciesForTrigger(triggerId: string, triggerType: TriggerType) {
   return http<Policy[]>({
     method: 'GET',
     maxRetries: 3,
