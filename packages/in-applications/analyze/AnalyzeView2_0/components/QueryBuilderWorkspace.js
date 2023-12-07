@@ -29,11 +29,14 @@ import { ActionSection } from 'in-components/workspace/ActionSection/ActionSecti
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
+import { defaultGroupings } from 'in-applications/tags';
 import { ua2FilterRemoved } from 'in-websites/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
+import config from 'in-services/config';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -59,9 +62,11 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     children,
     dataSource,
     groupBy,
+    orderBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
     CustomAction,
+    chartedMetrics,
     hiddenCalls
   } = props;
 
@@ -75,7 +80,32 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
   };
 
   const theme = useTheme();
+  const timeConfig = useTimeConfig();
+  const docCallOrTrace = dataSource === 'calls' ? 'getCallGroup' : 'getTraceGroups';
+  const getEndpointCallOrTrace = () => {
+    if (dataSource === 'traces') {
+      if (groupBy && Object.keys(groupBy).length) {
+        return 'trace-groups';
+      } else {
+        return 'traces';
+      }
+    } else {
+      return 'call-groups';
+    }
+  };
+  const endpointCallOrTrace = getEndpointCallOrTrace();
+  const hasNoGroupingForCalls = dataSource === 'calls' && (!groupBy || !Object.keys(groupBy).length);
+  const docLink = `https://instana.github.io/openapi/#operation/${docCallOrTrace}`;
+  const endpointUrl = `https://${config.butlerDomain}/api/application-monitoring/analyze/${endpointCallOrTrace}`;
 
+  function getMetricsAsApi() {
+    return chartedMetrics.map(obj => {
+      const metric = {};
+      metric.metric = obj.metricId;
+      metric.aggregation = obj.aggregationId;
+      return metric;
+    });
+  }
   return (
     <Sticky
       header={
@@ -128,11 +158,18 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                 <Stack direction={'horizontal'} gap={'small'}>
                   {CustomAction && <CustomAction {...props} />}
                   <ApiQueryAction
+                    group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
+                    hiddenCalls={hiddenCalls}
+                    metrics={getMetricsAsApi()}
+                    order={orderBy}
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
                       onClick: () => ua2ApiQueryPressedTracker({ dataSource })
                     }}
+                    docsLink={docLink}
+                    endpointUrl={endpointUrl}
+                    timeFrame={timeConfig}
                   />
                 </Stack>
               }

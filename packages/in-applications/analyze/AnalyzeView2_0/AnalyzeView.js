@@ -64,27 +64,46 @@ const defaultSelectableFields = [
   { type: 'metric', metricId: 'latency', aggregationId: 'MEAN' },
   { type: 'metric', metricId: 'errors', aggregationId: 'MEAN' }
 ];
-
-const defaultChartedMetrics = [
-  {
-    templateId: 'calls.overview',
-    metrics: [
-      {
-        metricId: 'calls',
-        aggregationId: 'SUM'
-      },
-      {
-        metricId: 'errors',
-        aggregationId: 'MEAN'
-      },
-      {
-        metricId: 'latency',
-        aggregationId: 'MEAN'
-      }
-    ]
-  }
-];
-
+const defaultChartedMetrics = {
+  calls: [
+    {
+      templateId: 'calls.overview',
+      metrics: [
+        {
+          metricId: 'calls',
+          aggregationId: 'SUM'
+        },
+        {
+          metricId: 'errors',
+          aggregationId: 'MEAN'
+        },
+        {
+          metricId: 'latency',
+          aggregationId: 'MEAN'
+        }
+      ]
+    }
+  ],
+  traces: [
+    {
+      templateId: 'calls.overview',
+      metrics: [
+        {
+          metricId: 'traces',
+          aggregationId: 'SUM'
+        },
+        {
+          metricId: 'errors',
+          aggregationId: 'MEAN'
+        },
+        {
+          metricId: 'latency',
+          aggregationId: 'MEAN'
+        }
+      ]
+    }
+  ]
+};
 const dataSourceParameter = {
   path: analyzePath,
   name: dataSourceName
@@ -168,7 +187,6 @@ export default function ApplicationsAnalyzeView() {
   if (!skipHiddenTagConversion && isAnalyticsWithHiddenTagsLocation(location, tagCatalog)) {
     return <AnalyzeHiddenTagsViewParameterConversion onConversionCompleted={setSkipHiddenTagConversion} />;
   }
-
   return (
     <StateManagement
       path={analyzePath}
@@ -226,7 +244,7 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
       ungroupedView: ungroupedView.calls,
       fixedFields: fixedFields.calls,
       defaultSelectableFields,
-      defaultChartedMetrics,
+      defaultChartedMetrics: defaultChartedMetrics['calls'],
       // the metric catalog from the backend currently provides only a single formatter per metric type,
       // we have to override the default formatter if aggregation type 'PER_SECOND' is used
       getCustomMetricUiFormatterName: (_metricId, aggregationId) =>
@@ -240,7 +258,7 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
       ungroupedView: ungroupedView.traces,
       fixedFields: fixedFields.traces,
       defaultSelectableFields,
-      defaultChartedMetrics
+      defaultChartedMetrics: defaultChartedMetrics['traces']
     }
   };
 }
