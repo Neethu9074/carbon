@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { Button, Typography } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Spacer } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   isDocLink,
@@ -25,6 +26,7 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import { ActionInstance, PaginatedResult, Policy, VolatileId, Event, TriggerType } from 'in-types';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { isAutomatic, isManual, TriggerSpecification } from 'in-automation/Policies/types';
+import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -172,6 +174,24 @@ export function Subscript({ policy }: { policy: PolicyTableEntity }) {
   return null;
 }
 
+function PolicyLink({ policy }: { policy: Policy }) {
+  const navigateToPolicyDetails = useNavigateToPolicyDetails();
+  return (
+    <Tooltip content={policy.name} delay={500}>
+      <Link
+        ellipsis
+        className={classNames({
+          [locals.block]: true,
+          [locals.ellipsis]: policy.name.length > 60
+        })}
+        onClick={() => navigateToPolicyDetails(policy, true)}
+      >
+        {policy.name}
+      </Link>
+    </Tooltip>
+  );
+}
+
 const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
   {
     id: 'name',
@@ -180,19 +200,11 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     sortable: true,
     getContent: item => (
       <WithSubscript subscript={<Subscript policy={item} />}>
-        <Tooltip content={item.name} delay={500}>
-          <span
-            className={classNames({
-              [locals.block]: true,
-              [locals.ellipsis]: item.name.length > 60
-            })}
-          >
-            {item.name}
-          </span>
-        </Tooltip>
+        <PolicyLink policy={item} />
       </WithSubscript>
     )
   },
+
   {
     id: 'actionName',
     label: t('in-automation:policies.actionName'),

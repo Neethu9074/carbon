@@ -8,12 +8,11 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { getAllActions, getAllActionsWithAISuggestions, saveBulkPolicies } from 'in-automation/api';
-// import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, TriggerType } from 'in-types';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { getAllActions, getAllActionsWithAISuggestions, saveBulkPolicies } from 'in-automation/api';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { getEventSpecificationId, useDualReload } from './shared';
 import Policies from 'in-automation/AssociatedActions/Policies';
 import { associateActionsTracker } from 'in-automation/tracker';

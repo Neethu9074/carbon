@@ -14,5 +14,10 @@
 
   .block {
     display: block;
+    color: var(--cds-link-primary) !important;
+    &:hover {
+      cursor: pointer;
+      color: var(--cds-link-primary) !important;
+    }
   }
 }
