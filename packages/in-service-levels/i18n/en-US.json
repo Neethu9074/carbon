@@ -168,7 +168,7 @@
       "creationFailedUnexpectedContent": "An unexpected error occurred while creating this SLO configuration, please try again later."
     },
     "indicatorSection": {
-      "description_custom": "This should be updated later as it is missing in the designs",
+      "description_custom": "Set a custom filter to  measure the count of good and/or bad events.",
       "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms.",
       "description_availability": "Measures how often a service responds appropriately. For example, how often your HTTP calls are erroneous.",
       "timeTypeExplanation": "Good vs bad calls grouped aggregated by minute",
