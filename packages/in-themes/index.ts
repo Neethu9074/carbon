@@ -6,7 +6,8 @@
 import { getThemeOverride } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
-import theme from 'in-themes/active.json';
+// @ts-expect-error temporary ignores TS missing
+import oldTheme from 'in-themes/theme.js';
 
 interface UseThemeParams {
   overridingTheme?: 'g10' | 'default' | undefined;
@@ -37,6 +38,6 @@ export function useTheme(params?: UseThemeParams) {
 }
 
 /**
- * @deprecated for getting tokens depending on current theme, please use the hook {@link useTheme()}
+ * For getting tokens depending on current theme (with ...cds...), please use the hook {@link useTheme()}
  */
-export default theme;
+export default oldTheme;

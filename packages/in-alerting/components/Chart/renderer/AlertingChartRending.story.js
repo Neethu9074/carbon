@@ -110,7 +110,7 @@ function Chart({ renderer }) {
           excludedLabelsFromTooltip: ['Violations'],
           icons: {
             types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-            colors: ['#17A1E6', '#FF4040', '#ffe2e2']
+            colors: [oldTheme.lib.colors.lightBlue800, oldTheme.lib.colors.red800, '#ffe2e2']
           },
           getMax: metricsMaxValue => metricsMaxValue * 1.4,
           colors: [
