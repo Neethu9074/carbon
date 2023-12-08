@@ -69,24 +69,6 @@ const uniqueUsersOrSessions = {
   min: 0
 };
 
-const crashAffectedSessionCount = {
-  metric: 'crashAffectedSessionCount',
-  label: t('in-mobile-apps:analyzeView.crash.crashAffectedSessionCount'),
-  formatter: number,
-  supportedAggregations: ['DISTINCT_COUNT'],
-  preferredRenderer: Renderer.stackedBar,
-  min: 0
-};
-
-const crashAffectedUserCount = {
-  metric: 'crashAffectedUserCount',
-  label: t('in-mobile-apps:analyzeView.crash.crashAffectedUserCount'),
-  formatter: number,
-  supportedAggregations: ['DISTINCT_COUNT'],
-  preferredRenderer: Renderer.stackedBar,
-  min: 0
-};
-
 const errorRate = {
   metric: 'beaconErrorRate',
   label: t('in-mobile-apps:analyzeView.errorRate.label'),
@@ -269,8 +251,6 @@ export const availableMetrics = {
       metric: 'beaconCount',
       label: t('in-mobile-apps:analyzeView.availableMetrics.crashBeaconCountLabel')
     }),
-    uniqueUsersOrSessions,
-    crashAffectedSessionCount,
-    crashAffectedUserCount
+    uniqueUsersOrSessions
   ]
 };
