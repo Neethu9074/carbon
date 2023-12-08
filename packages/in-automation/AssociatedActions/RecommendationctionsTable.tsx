@@ -61,7 +61,7 @@ export default function RecommendationctionsTable({
 
   const actionAIEngines: string[] = [...new Set(unusedSuggestedActions.flatMap(action => action.aiEngine ?? []))];
   const result = usePaginatedResult(success(filteredActions), { page, pageSize, orderBy, orderDirection, query }, [
-    'score',
+    'name',
     'description',
     'type',
     action => action?.tags?.toString() ?? ''
