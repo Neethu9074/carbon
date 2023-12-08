@@ -14,8 +14,8 @@ export interface AndroidStackTraceType {
 }
 
 export interface AndroidStackTraceThreadDesc {
-  lines: Array<string> | Array<StackTraceLineDesc>;
-  linesInString: string;
+  name?: string;
+  lines?: Array<string> | Array<StackTraceLineDesc>;
 }
 
 export interface StackTraceLineDesc {
@@ -77,6 +77,23 @@ function isAndroid(beacon: MobileAppMonitoringBeacon) {
 
 function isPrettySupported(beacon: MobileAppMonitoringBeacon) {
   return isIOS(beacon) || (isAndroid(beacon) && !!beacon.parsedStackTrace);
+}
+
+function formatStackTraceJsonAndroidAsText(stacktrace: AndroidStackTraceType): string {
+  const SEPERATOR = '\n';
+  if (!stacktrace) {
+    return '';
+  }
+  const buffArr: Array<string> = [];
+  for (const t of stacktrace.threads ?? []) {
+    buffArr.push(`Thread ${t.name}:`);
+    for (const line of t.lines ?? []) {
+      buffArr.push(`${line}`);
+    }
+    buffArr.push(SEPERATOR);
+  }
+
+  return buffArr.join(SEPERATOR);
 }
 
 function formatStackTraceJsonAsText(stacktrace: StackTraceType): string {
@@ -155,11 +172,11 @@ function formatStackTraceJson(
 }
 
 function formatStackTraceAndroid(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
-  if (!beacon.parsedStackTrace || !pretty) {
+  if (!beacon.parsedStackTrace) {
     return {
-      format: 'stack-java',
+      format: 'raw',
       stack: beacon.stackTrace,
-      supportPretty: !!beacon.parsedStackTrace
+      supportPretty: false
     };
   }
 
@@ -167,20 +184,24 @@ function formatStackTraceAndroid(beacon: MobileAppMonitoringBeacon, pretty: bool
     const stacktrace = JSON.parse(beacon.parsedStackTrace) as AndroidStackTraceType;
     if (!stacktrace?.threads?.length) {
       return {
-        format: 'stack-java',
+        format: 'raw',
         stack: beacon.stackTrace,
         supportPretty: false
       };
     }
 
+    const crashedStack = {
+      threads: [stacktrace.threads[0]]
+    };
+
     return {
-      format: 'stack-java',
-      stack: stacktrace?.threads[0]?.linesInString,
+      format: pretty ? 'stack-java' : 'raw',
+      stack: formatStackTraceJsonAndroidAsText(pretty ? crashedStack : stacktrace),
       supportPretty: true
     };
   } catch (error) {
     return {
-      format: 'stack-java',
+      format: 'raw',
       stack: beacon.stackTrace,
       supportPretty: false
     };
