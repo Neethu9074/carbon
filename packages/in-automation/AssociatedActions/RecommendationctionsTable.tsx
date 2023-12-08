@@ -340,7 +340,7 @@ const aiEngineColumn = {
   getContent(row: ScoredAction) {
     return (
       <span className={locals.cursorPointer}>
-        {row.aiEngine.startsWith('A similar event') ? 'Event Similarity' : row.aiEngine}
+        {row.aiEngine.startsWith('A similar event') ? t('in-automation:eventSimilarity') : row.aiEngine}
       </span>
     );
   }
