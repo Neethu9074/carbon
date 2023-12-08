@@ -489,10 +489,5 @@ module.exports = exports = [
     uiClientKey: 'fullscreenWidgetEnabled',
     instanaCtlKey: 'feature.fullscreen.widget.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'automationPoliciesEnabled',
-    instanaCtlKey: 'feature.automation.policies.enabled',
-    defaultValue: false
   }
 ];
