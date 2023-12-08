@@ -185,7 +185,8 @@
           "invalidMainFileName": "Main file name not valid",
           "webpageUrl": "Webpage URL",
           "browserUploadFileDescription": "You can upload either a single .js file, a zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
-          "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated"
+          "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
+          "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in Advanced Mode."
         },
         "loadMore": "Load More",
         "selectTests": {
