@@ -19,7 +19,7 @@ import { role } from 'in-stores/user';
 interface AssociatedAndRecommendedActionsAlertsProps {
   volatileId: VolatileId;
   event: Event;
-  alertConfig?: ApplicationAlertConfigWithMetadata;
+  alertConfig: ApplicationAlertConfigWithMetadata;
 }
 
 export default function AssociatedAndRecommendedActionsAlerts({
@@ -53,7 +53,6 @@ export default function AssociatedAndRecommendedActionsAlerts({
               <Row withoutSideMargin>
                 <Col xs>
                   <RecommendedActionsCardAlerts
-                    volatileId={volatileId}
                     event={event}
                     reload={reload}
                     setReload={setReload}

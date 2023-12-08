@@ -147,7 +147,8 @@
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
     "validUrl": "Documentation link is not valid.",
     "ActionAssociationsForEvent": "Associate Events",
-    "ActionAssociationsForSmartAlert": "Associate Smart Alerts"
+    "ActionAssociationsForSmartAlert": "Associate Smart Alerts",
+    "aiScore":"AI Score"
   },
   "actionHistory": {
     "actionHistory": "Action History",
