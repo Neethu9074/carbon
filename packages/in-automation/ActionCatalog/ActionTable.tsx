@@ -41,7 +41,6 @@ import locals from './ActionTable.mless';
 export const descriptionColumn = {
   label: t('in-automation:description'),
   id: 'description',
-  width: 40,
   getContent(row: Action) {
     return <div className={locals.fourLines}>{row.description}</div>;
   }
@@ -56,7 +55,6 @@ export const typeColumn = {
 export const tagsColumn = {
   label: t('in-automation:tags'),
   id: 'tags',
-  width: 10,
   getContent(row: Action) {
     const { tags = [] } = row;
     return (

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import oldTheme from 'in-themes/active.json';
+import oldTheme from 'in-themes';
 
 // Unfortunately a limitation in the grid library and an inconsistency
 // to the rest of the product: rowHeightPixels must be a multiple of the

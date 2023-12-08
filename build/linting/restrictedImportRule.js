@@ -47,6 +47,12 @@ exports.createImportRestrictionRule = ({
         '@emotion/react',
         '@emotion/styled',
 
+        // we want to avoid mixing different versions of carbon, and
+        // have carbon components only in ui-foundation repository
+        '@carbon/grid',
+        '@carbon/styles',
+        '@carbon/react',
+
         {
           name: 'react-router',
           importNames: ['useLocation'],
@@ -57,6 +63,7 @@ exports.createImportRestrictionRule = ({
         ...paths
       ],
       patterns: [
+        '@carbon/colors',
         '@material-ui/core/*',
         // Forbid relative JavaScript imports
         ...(enforceAbsoluteImportPaths

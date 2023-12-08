@@ -43,7 +43,6 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
-  "noRecommendedActionsAvailable": "No recommended actions available",
   "associateActionWithName": "Associate action {{actionName}}",
   "deletePolicyWithName": "Delete policy {{actionName}}",
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
@@ -62,6 +61,8 @@
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
   "hostsLimitHelpText":"Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
+  "aiEngine": "AI Engine",
+  "eventSimilarity": "Event Similarity",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -150,7 +151,8 @@
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
     "validUrl": "Documentation link is not valid.",
     "ActionAssociationsForEvent": "Associate Events",
-    "ActionAssociationsForSmartAlert": "Associate Smart Alerts"
+    "ActionAssociationsForSmartAlert": "Associate Smart Alerts",
+    "aiScore":"AI Score"
   },
   "actionHistory": {
     "actionHistory": "Action History",

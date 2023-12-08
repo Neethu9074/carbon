@@ -86,12 +86,15 @@ export function getAllActionsInternal() {
 
 export function getAllActionsWithAISuggestions(
   eventName: string,
-  eventDescription: string
+  eventDescription: string,
+  id?: string
 ): Observable<ScoredAction[]> {
   return http<ActionMatch[]>({
     method: 'POST',
     maxRetries: 3,
-    url: `${automationAPIBase}/ai/action/match`,
+    url: id
+      ? `${automationAPIBase}/ai/action/match?targetSnapshotId=${encodeURIComponent(id)}`
+      : `${automationAPIBase}/ai/action/match`,
     data: {
       name: eventName,
       description: eventDescription
@@ -156,25 +159,29 @@ export function getScoredActionsForEventOrAlert(
 interface getAllActionsWithAISuggestionsProps {
   eventName: string;
   eventDescription: string;
+  id?: string;
 }
 
 export const getAllActionsWithAISuggestionsInternalObservable: (
   args: getAllActionsWithAISuggestionsProps
 ) => Observable<Result<ScoredAction[]>> = memoize(
   getAllActionsWithAISuggestionsInternal,
-  ({ eventName, eventDescription }) => eventName + eventDescription,
+  ({ eventName, eventDescription, id }) => eventName + eventDescription + id,
   1000
 );
 
 export function getAllActionsWithAISuggestionsInternal({
   eventName,
-  eventDescription
+  eventDescription,
+  id
 }: getAllActionsWithAISuggestionsProps): Observable<Result<ScoredAction[]>> {
   return createObservable(
     http<ScoredAction[]>({
       method: 'POST',
       maxRetries: 3,
-      url: `${automationAPIBase}/ai/action/match`,
+      url: id
+        ? `${automationAPIBase}/ai/action/match?eventId=${encodeURIComponent(id)}`
+        : `${automationAPIBase}/ai/action/match`,
       data: {
         name: eventName,
         description: eventDescription
@@ -684,7 +691,8 @@ function getApplicationAlertActionAssociationsRequest(id: string) {
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`
+    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`,
+    treat400AsError: false
   });
 }
 

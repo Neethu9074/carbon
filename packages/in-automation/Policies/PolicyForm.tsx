@@ -45,6 +45,7 @@ import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
+import { usePagination } from 'in-automation/Policies/usePagination';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
@@ -723,27 +724,6 @@ function ActionFilters({
       <Spacer horizontal="small" />
     </>
   );
-}
-
-function usePagination() {
-  const [{ page, pageSize, orderBy, orderDirection, query }, setTableState] = useState<
-    Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>
-  >({
-    page: 1,
-    pageSize: 7,
-    orderBy: 'name',
-    orderDirection: 'ASC',
-    query: ''
-  });
-  return [
-    { page, pageSize, orderBy, orderDirection, query },
-    (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => {
-      setTableState(state => ({
-        ...state,
-        ...newState
-      }));
-    }
-  ] as const;
 }
 
 function useFilters(

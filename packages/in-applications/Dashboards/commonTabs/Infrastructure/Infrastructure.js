@@ -6,26 +6,25 @@
 
 import React from 'react';
 
-import { fromPromise } from '@instana/observables';
+import { fromPromise, just } from '@instana/observables';
+import { Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
 
 import {
   useClusterDashboard,
   useNamespaceDashboard,
-  usePodDashboard,
   useNodeDashboard,
+  usePodDashboard,
   useServiceDashboard
 } from 'in-kubernetes/navigation/paths';
 import {
-  pcfEnabled,
-  vsphereEnabled,
   openstackEnabled,
-  powervcEnabled,
+  pcfEnabled,
   phmcEnabled,
-  zhmcEnabled,
-  sapEnabled
+  powervcEnabled,
+  sapEnabled,
+  vsphereEnabled,
+  zhmcEnabled
 } from 'in-services/featureFlags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
@@ -35,7 +34,7 @@ import { meanLatencyFixed, number, percentage } from 'in-services/formatters/num
 import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
@@ -53,8 +52,7 @@ import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Infrastructure.mless';
 
@@ -88,10 +86,12 @@ function getTable(type) {
   });
 }
 
-const InfrastructureEntityLink = connectTo(({ entity }) => ({
-  // load a snapshot to possibly get a more specific entity (process vs. Spring Boot app)
-  snapshot: entity && entity.id && entity.time && getSnapshot(entity.id, getTimeConfigAtMoment(entity.time))
-}))(function InfrastructureEntityLink({ entity, snapshot, plugin }) {
+function InfrastructureEntityLink({ entity, plugin }) {
+  const getDashboardLink = useGetDashboardLink();
+  const snapshot = useObservable(
+    () => (entity?.id && entity?.time ? getSnapshot(entity.id, getTimeConfigAtMoment(entity.time)) : just(null)),
+    [entity]
+  );
   if (!entity.id) {
     return null;
   }
@@ -101,19 +101,21 @@ const InfrastructureEntityLink = connectTo(({ entity }) => ({
       snapshot={snapshot}
       label={entity.label || t('in-applications:dashboards.unknownTime', { entityTime: formatDateTime(entity.time) })}
       href$={shouldStayInCurrentTimeModeForNavigationToSnapshot(entity.id).flatMap(stay =>
-        stay
-          ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
-          : getDashboardLink(entity.id, {
-              pathname: '/physical/dashboard',
-              to: entity.time,
-              focusedMoment: entity.time,
-              autoRefresh: false
-            })
+        just(
+          stay
+            ? getDashboardLink(entity.id, { pathname: '/physical/dashboard' })
+            : getDashboardLink(entity.id, {
+                pathname: '/physical/dashboard',
+                to: entity.time,
+                focusedMoment: entity.time,
+                autoRefresh: false
+              })
+        )
       )}
       subscriptComponent={<SubscriptComponentForSnapshot plugin={plugin} snapshot={snapshot} time={entity.time} />}
     />
   );
-});
+}
 
 function WithKubernetesPhysicalContext({
   children,
