@@ -9,7 +9,7 @@ import React, { useMemo, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
-import RecommendationctionsTable from 'in-automation/AssociatedActions/RecommendationctionsTable';
+import RecommendationActionsTable from 'in-automation/AssociatedActions/RecommendationActionsTable';
 import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } from './shared';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';
@@ -86,7 +86,7 @@ export default function RecommendedActionsCard({
         </Message>
       )}
       {actionError === null && Array.isArray(existingActions) && (
-        <RecommendationctionsTable
+        <RecommendationActionsTable
           unusedSuggestedActions={unusedSuggestedActions}
           existingActions={existingActions}
           eventSpecification={eventSpecification}
