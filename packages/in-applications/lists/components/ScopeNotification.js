@@ -7,17 +7,15 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link, SvgIcon } from '@instana/components';
 
 import {
   useLinkToApplicationDashboard,
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
-import { useServiceDashboard, useDashboardForEntity } from 'in-kubernetes/navigation/paths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useDashboardForEntity, useServiceDashboard } from 'in-kubernetes/navigation/paths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
@@ -26,7 +24,7 @@ import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ScopeNotification.mless';
 
@@ -61,10 +59,9 @@ export default connectTo(
 
     const kubernetesDashboardLink = useDashboardForEntity(snapshotId, plugin);
     const kubernetesServiceDashboardLink = useServiceDashboard(serviceId);
-
+    const getDashboardLink = useGetDashboardLink();
     let entityLabel;
     let href;
-    let href$;
     if (endpointId) {
       entityLabel = endpointLabel;
       href = getLinkToEndpointDashboard({ applicationId, serviceId, endpointId });
@@ -76,7 +73,7 @@ export default connectTo(
       href = getLinkToApplicationDashboard({ applicationId });
     } else if (snapshotLabel && !serviceLabel) {
       entityLabel = snapshotLabel;
-      href$ = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
+      href = getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
     } else if (tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes'))) {
       href = !tagFilters.map(tagFilter => tagFilter.name.includes('kubernetes.service.name'))
         ? kubernetesDashboardLink
@@ -100,7 +97,7 @@ export default connectTo(
                 }}
                 components={{
                   bold: <span className={locals.bold} />,
-                  linkToEntity: <Link className={locals.bold} href$={href$} href={href} />,
+                  linkToEntity: <Link className={locals.bold} href={href} />,
                   linkToApplication: (
                     <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
                   )
@@ -116,7 +113,7 @@ export default connectTo(
                 }}
                 components={{
                   bold: <span className={locals.bold} />,
-                  linkToEntity: <Link className={locals.bold} href$={href$} href={href} />,
+                  linkToEntity: <Link className={locals.bold} href={href} />,
                   linkToApplication: (
                     <Link className={locals.bold} href={getLinkToApplicationDashboard({ applicationId })} />
                   )
@@ -132,7 +129,7 @@ export default connectTo(
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToEntity: <Link className={locals.bold} href$={href$} href={href} />
+                linkToEntity: <Link className={locals.bold} href={href} />
               }}
             />
           ) : (
@@ -144,7 +141,7 @@ export default connectTo(
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToEntity: <Link className={locals.bold} href$={href$} href={href} />
+                linkToEntity: <Link className={locals.bold} href={href} />
               }}
             />
           )}
