@@ -32,7 +32,7 @@ import { success } from 'in-services/util/result';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './RecTable.mless';
+import locals from './RecommendationctionsTable.mless';
 
 interface RecommendedActionsCardAlertsProps {
   unusedSuggestedActions: ScoredAction[];
@@ -74,7 +74,7 @@ export default function RecommendationctionsTable({
       <ServerTablePresenter
         onChange={setServerTableState}
         page={page}
-        pageSize={5}
+        pageSize={7}
         result={result}
         searchPlaceholder={t('in-automation:searchActions')}
         query={query}
