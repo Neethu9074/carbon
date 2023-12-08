@@ -74,6 +74,7 @@ export default function AssociatedActionsCard({
       showActionLink
       getEntityName={action => t('in-automation:actionAssociationWithNameForDelete', { actionName: action.name })}
       event={event}
+      pageSize={7}
       tableActions={{
         delete: {
           deleteEntity: action => {

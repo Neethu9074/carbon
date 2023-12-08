@@ -6,21 +6,19 @@
 
 import React, { useMemo, useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
-import { updateCustomEventActionAssociations, updateBuiltinEventActionAssociations } from 'in-automation/api';
+import RecommendationctionsTable from 'in-automation/AssociatedActions/RecommendationctionsTable';
 import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } from './shared';
-import { EventSpecification, getAllActionsWithAISuggestions } from 'in-automation/api';
 import NotificationComponent from 'in-components/form/Notification/Notification';
+import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import ActionTable from 'in-automation/ActionCatalog/ActionTable';
-import { associateActionsTracker } from 'in-automation/tracker';
-import { Event, VolatileId, Action } from 'in-types';
+import { Event } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SuggestedActionsCardProps {
   event: Event;
-  volatileId: VolatileId;
   reload: number;
   setReload: (r: number) => void;
   setSelectedType: (str: string) => void;
@@ -28,7 +26,6 @@ interface SuggestedActionsCardProps {
 
 export default function RecommendedActionsCard({
   event,
-  volatileId,
   reload,
   setReload,
   setSelectedType
@@ -36,41 +33,47 @@ export default function RecommendedActionsCard({
   const [error, setError] = useState(false);
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
-
+  const entityId = event?.entityId ?? '';
   const { actions: existingActions, eventSpecification } = useAssociatedActionsData(
     eventSpecificationId,
     isCustomEvent,
     reload
   );
+
   const triggerReload = () => setReload(Math.random());
   let actionError = null;
 
   // Memoize the creation of selectedActionsSet
   const selectedActionsSet = useMemo(() => {
     if (existingActions && Array.isArray(existingActions)) {
-      return new Set((existingActions ?? []).map(action => action.id));
+      return (existingActions ?? []).map(action => action.id);
     }
-    return new Set();
+    return [];
   }, [existingActions]);
 
   if (existingActions && 'message' in existingActions) {
     actionError = existingActions.message;
   }
 
-  const getUnusedSuggestedActions = useMemo(() => {
-    if (!eventSpecification) return null;
-    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(
-      allActions => {
-        if (!existingActions) return [];
-        return allActions
-          .filter(action => action.confidence != 'low' && !selectedActionsSet.has(action.id))
-          .slice(0, 5)
-          .sort((a, b) => b.score - a.score);
-      }
-    );
-  }, [eventSpecification, existingActions, selectedActionsSet]);
+  function getUnusedSuggestedActions() {
+    return getAllActionsWithAISuggestions(
+      eventSpecification?.name ?? '',
+      eventSpecification?.description ?? '',
+      entityId
+    ).map(allActions => {
+      return allActions
+        .filter(action => action.confidence != 'low' && !selectedActionsSet.includes(action.id))
+        .sort((a, b) => b.score - a.score);
+    });
+  }
 
-  if (!eventSpecification || !getUnusedSuggestedActions || !existingActions) {
+  const unusedSuggestedActions = useObservable(getUnusedSuggestedActions, [
+    eventSpecification,
+    selectedActionsSet,
+    reload
+  ]);
+
+  if (!eventSpecification || !unusedSuggestedActions || !existingActions) {
     return <LoadingIndicator size="xl" />;
   }
 
@@ -82,73 +85,17 @@ export default function RecommendedActionsCard({
           {actionError}
         </Message>
       )}
-      <ActionTable
-        noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
-        showActionLink
-        title={t('in-automation:recommendedActions')}
-        event={event}
-        volatileId={volatileId}
-        pageSize={5}
-        isSearchable={false}
-        loadEntities={() => getUnusedSuggestedActions}
-        scored
-        rightHeader={<></>} // required to get the title of the card to show with the beta badge
-        tableActions={{
-          select: {
-            title: action => t('in-automation:associateActionWithName', { actionName: action.name }),
-            select: selectedAction =>
-              associateAction({
-                action: selectedAction,
-                existingActions,
-                event: eventSpecification,
-                triggerReload,
-                setError,
-                isCustomEvent,
-                setSelectedType
-              })
-          }
-        }}
-      />
+      {actionError === null && Array.isArray(existingActions) && (
+        <RecommendationctionsTable
+          unusedSuggestedActions={unusedSuggestedActions}
+          existingActions={existingActions}
+          eventSpecification={eventSpecification}
+          triggerReload={triggerReload}
+          setError={setError}
+          isCustomEvent={isCustomEvent}
+          setSelectedType={setSelectedType}
+        />
+      )}
     </>
   );
-}
-interface AssociateActionProps {
-  action: Action;
-  existingActions: Action[] | { code: string; message: string };
-  event: EventSpecification;
-  triggerReload: () => void;
-  setError: (e: boolean) => void;
-  isCustomEvent: boolean;
-  setSelectedType: (str: string) => void;
-}
-
-function associateAction({
-  action,
-  event,
-  triggerReload,
-  setError,
-  isCustomEvent,
-  existingActions,
-  setSelectedType
-}: AssociateActionProps) {
-  associateActionsTracker({
-    eventName: event.name,
-    actionNames: [action.name]
-  });
-
-  const onSave = () => {
-    triggerReload();
-    setSelectedType('associatedActions');
-  };
-  const handleErrors = () => setError(true);
-  const updatedActions = 'message' in existingActions ? [action] : [...existingActions, action];
-
-  const updateActionAssociations = isCustomEvent
-    ? updateCustomEventActionAssociations
-    : updateBuiltinEventActionAssociations;
-
-  updateActionAssociations(
-    updatedActions.map(({ id }) => id),
-    event.id
-  ).once(onSave, handleErrors);
 }
