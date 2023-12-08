@@ -43,7 +43,6 @@
   "description": "Description",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
-  "noRecommendedActionsAvailable": "No recommended actions available",
   "associateActionWithName": "Associate action {{actionName}}",
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
@@ -59,6 +58,7 @@
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
   "hostsLimitHelpText":"Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
+  "aiEngine": "AI Engine",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",

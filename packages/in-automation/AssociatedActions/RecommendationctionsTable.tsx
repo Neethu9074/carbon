@@ -334,7 +334,7 @@ const nameColumn = {
 };
 
 const aiEngineColumn = {
-  label: 'AI Engine',
+  label: t('in-automation:aiEngine'),
   id: 'engine',
   width: '5',
   getContent(row: ScoredAction) {
