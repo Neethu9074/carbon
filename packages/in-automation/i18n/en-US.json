@@ -100,7 +100,6 @@
     "gitlab": "Gitlab Issue",
     "jira": "Jira Task",
     "docLink": "Documentation Link",
-    "noTagsConfigured": "No Tags Configured",
     "addRow": "Add Row",
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
