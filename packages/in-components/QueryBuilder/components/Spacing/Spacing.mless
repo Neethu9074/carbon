@@ -104,6 +104,7 @@
 
   .word_disablehover,
   .letter_disablehover {
+    width: 2px;
     &:focus,
     &:active {
       &::after {
