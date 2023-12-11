@@ -18,6 +18,14 @@
     "freetrial": " Free trial"
   },
   "agentDetails": {
+    "agentMode": {
+      "dynamic": "Dynamic",
+      "static": "Static"
+    },
+    "jvmVendor": {
+      "azulZulu18": "Azul Zulu 1.8",
+      "eclipseOpenJD11": "Eclipse OpenJ9 11"
+    },
     "askForHelp": {
       "email": "email",
       "send": "Send",
@@ -27,30 +35,110 @@
       "agentKey": "Agent key"
     },
     "common": {
-      "toInstallAndRunAnAgentCompleteTheFollowingSteps": "To install and run an agent, complete the following steps.",
+      "download": "Download",
       "clusterName": "Cluster name",
       "agentZoneOptional": "Agent zone (optional)",
       "networkRequirements": "Network requirements",
-      "download": "Download",
-      "viewDeployedAgents": "View Deployed Agents",
-      "documentationTitle": "Documentation",
-      "prerequisitesTitle": "Prerequisites",
+      "toInstallAndRunAnAgentCompleteTheFollowingSteps": "To install and run an agent, complete the following steps.",
       "enterANameForAClusterGroupYouWantToAddThisClusterTo": "Enter a name for a cluster group<br>you want to add this cluster to.",
+      "agentKey": "Instana agent key",
+      "documentationTitle": "Documentation",
+      "packaging": "Packaging",
+      "runtime": "Runtime",
+      "prerequisitesTitle": "Prerequisites",
+      "viewDeployedAgents": "View Deployed Agents",
       "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map."
     },
-    "aws": {
-      "step1": "Step 1: ",
-      "step2": "Step 2: ",
-      "enterAClusterNameAndOptionallyTheAgentZone": "Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
-      "runCodeBelow":"Run the agent deployment code below.",
-      "documentationLinks": {
-        "installAgentAwsEks":"Install an agent on AWS EKS"
-      }
-    },
     "kubernetes": {
-      "kubernetes":{
+      "kubernetes": {
         "support": "Support"
       }
+    },
+    "aws": {
+      "taskDefinition": "Task definition",
+      "assignECSTaskDefinitionWithFollowingIAMPermission": "Assign to the ECS task definition a role with at least the following IAM permissions:",
+      "createECSTaskDefinition": "Create an ECS task definition, using this template",
+      "ec2": "Elastic Compute Cloud (EC2)",
+      "ecs": "Elastic Container Service (ECS)",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Review the prerequisites and run the agent deployment code.",
+      "setIAMPermissionsAndEditTrustRelationship": "Set IAM permissions and edit the Trust Relationship",
+      "selectWhereToRunAwsAgentOn": "Select where to run the AWS agent on",
+      "selectApplicationRunime": "Step 1: Select the application runtime",
+      "applicationRuntime": "Application runtime",
+      "reviewPrerequisiteAndSetEnvVariableEcs": "Step 2: Review Prerequisite and set the environment variable in the ECS task definition.",
+      "instanaEndpointUrl": "Instana endpoint URL",
+      "insertLinesToDocker": "Step 2: Insert the following lines to the Docker file before the ENTRYPOINT or last CMD command.",
+      "initiateDockerBuildProcess": "Step 3: Initiate the Docker build process by logging in with the provided credentials.",
+      "username": "Username",
+      "password": "Password",
+      "step4": "Step 4: ",
+      "step3": "Step 3: ",
+      "step1": "Step 1: ",
+      "step2": "Step 2: ",
+      "setEnvVariablesInECSTaskDefinition": "Set the following environment variables in the ECS Task Definition.",
+      "integrateInstanaInProcessCollectorForAws" : "Step 2: Integrate the Instana in-process collector for AWS.",
+      "setEnvironmentVariablesInECSTaskDefinition": "Step 3: Set the following environment variables on the ECS Task Definition.",
+      "installationMethod": "Installation method",
+      "applicationDirectory": "Application directory",
+      "workDirDirectoryInDocker": "This is usually set as the WORKDIR directory in Dockerfile.",
+      "dotnetStartupHooks": "Dotnet startup hooks",
+      "coreClrEnabledProfiling": "Coreclr enable profiling",
+      "coreClrProfiler": "Coreclr profiler",
+      "coreClrProfilerPath": "Coreclr profiler path",
+      "useScriptAsUserDataForEc2Instance": "Use this script as User Data for the EC2 instance",
+      "selectAgentPackagingAndRuntime": "Select the agent packaging mode and runtime",
+      "imageOptions" : {
+        "linuxGlibcBased": "Linux (glibc - based)",
+        "alpineLinuxMuslBased": "Alpine Linux(musl - based)"
+      },
+      "iamPermissions": "IAM permissions",
+      "trustRelationships": "Trust relationships",
+      "enterAClusterNameAndOptionallyTheAgentZone": "Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+      "runCodeBelow":"Run the agent deployment code below.",
+      "prerequisiteLinks": {
+        "networkRequirements": "Network Requirements"
+      },
+      "documentationLinks": {
+        "installAgentOnAwsEc2": "Install the agent on AWS EC2 (Windows)",
+        "monitoringGo": "Monitoring Go",
+        "monitoringAwsFargate": "Monitoring AWS Fargate",
+        "monitoringAwsFargateJava": "Monitoring AWS Fargate (Java)",
+        "configureTaskDefinition": "Configuring task definition",
+        "monitoringAwsFargateDotnet": "Monitoring AWS Fargate (.Net Core)",
+        "monitoringAwsFargateNodejs": "Monitoring AWS Fargate (Node.js)",
+        "monitoringAwsFargatePython": "Monitoring AWS Fargate (Python)",
+        "monitoredAwsServices": "Monitored AWS services",
+        "installAgentOnEc2": "Install agent on AWS EC2",
+        "configurationOptions": "Configuration options",
+        "installAgentAwsEks":"Install an agent on AWS EKS",
+        "monitoringAwsFargateRuby":"Monitoring AWS Fargate (Ruby)"
+      }
+    },
+    "runtime": {
+      "go": "Go",
+      "java": "Java",
+      "dotnet": ".NET Core",
+      "nodejs": "Node.js",
+      "python": "Python",
+      "ruby": "Ruby"
+    },
+    "windows": {
+      "windows_ec2_64": {
+        "runCommandsOnAWSEC2": "Run commands on AWS EC2"
+      }
+    },
+    "linux":{
+      "linux_ec2":{
+        "installagentOnAWSEC2": "Install agent on AWS EC2",
+        "RuncommandsonAWSES2": "Run commands on AWS EC2",
+        "configurationParameters": "Configuration Parameters"
+      }
+    },
+    "gcp": {
+      "installationMethod": "Installation method",
+      "integrateInstanaInProcessCollectorForGoogle": "Step 2: Integrate the Instana in-process collector for Google Cloud Run.",
+      "setEnvironmentVariablesCloudRunServiceDefinition": "Step 3: Set the following environment variables on the Cloud Run Service Definition.",
+      "setEnvVariablesInCloudRunServiceRevision": "Set the following environment variables in the Cloud Run Service Revision."
+    }
     }
   }
-}

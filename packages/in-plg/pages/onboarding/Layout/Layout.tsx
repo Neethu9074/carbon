@@ -21,7 +21,7 @@ const Container = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX
 const MainBody = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {
   return (
     <div className={locals.mainBody}>
-      <Stack gap="large">{children}</Stack>
+      <Wrapper>{children}</Wrapper>
     </div>
   );
 };
@@ -34,4 +34,8 @@ const SidePanel = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX
   );
 };
 
-export { Container, MainBody, SidePanel };
+const Wrapper = ({ children }: { children: JSX.Element | JSX.Element[] }): JSX.Element => {
+  return <Stack gap="large">{children}</Stack>;
+};
+
+export { Container, MainBody, SidePanel, Wrapper };
