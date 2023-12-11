@@ -820,7 +820,8 @@ export function runGithubOpenAction({
   title,
   body,
   labels,
-  assignees
+  assignees,
+  policyId
 }: RunGithubOpenActionParams) {
   return runAction({
     type: GITHUB_TYPE,
@@ -830,6 +831,7 @@ export function runGithubOpenAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'owner',
@@ -885,6 +887,7 @@ export function runGithubCloseAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   owner,
   repo,
   ticketType,
@@ -898,6 +901,7 @@ export function runGithubCloseAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'owner',
@@ -939,6 +943,7 @@ export function runGitlabOpenAction({
   actionName,
   actionId,
   inputParameters,
+  policyId,
   timeout,
   projectId,
   ticketType,
@@ -955,6 +960,7 @@ export function runGitlabOpenAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'projectId',
@@ -1004,6 +1010,7 @@ export function runGitlabCloseAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   projectId,
   ticketType,
   comment
@@ -1016,6 +1023,7 @@ export function runGitlabCloseAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'projectId',
@@ -1053,6 +1061,7 @@ export function runJiraOpenAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   project,
   ticketType,
   summary,
@@ -1069,6 +1078,7 @@ export function runJiraOpenAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'project',
@@ -1123,6 +1133,7 @@ export function runJiraCloseAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   project,
   ticketType,
   comment
@@ -1135,6 +1146,7 @@ export function runJiraCloseAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'project',

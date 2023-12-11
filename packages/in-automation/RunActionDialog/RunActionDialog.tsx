@@ -410,7 +410,8 @@ function onSave({
         body,
         labels,
         assignees,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
 
@@ -426,7 +427,8 @@ function onSave({
         repo,
         ticketType,
         comment,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isGitlab(action.type)) {
@@ -445,7 +447,8 @@ function onSave({
         body: gitlab_description,
         labels,
         issue_type,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
 
@@ -460,7 +463,8 @@ function onSave({
         projectId,
         ticketType,
         comment,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isJira(action.type)) {
@@ -480,7 +484,8 @@ function onSave({
         assignee,
         labels,
         issue_type,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
 
@@ -495,7 +500,8 @@ function onSave({
         project,
         ticketType,
         comment,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isWebhook(action.type)) {
