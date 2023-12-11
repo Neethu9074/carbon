@@ -756,7 +756,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
           {gitlab_description.map(field => (
             <FormGroup>
               <Label htmlFor="gitlab-description" hasError={!field.valid && field.touched}>
-                {t('in-automation:ActionCatalog.description')}
+                {t('in-automation:description')}
               </Label>
               <TextArea
                 id="gitlab-description"
@@ -941,7 +941,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
           {jira_description.map(field => (
             <FormGroup>
               <Label htmlFor="jira-description" hasError={!field.valid && field.touched}>
-                {t('in-automation:ActionCatalog.description')}
+                {t('in-automation:description')}
               </Label>
               <TextArea
                 id="jira-description"
