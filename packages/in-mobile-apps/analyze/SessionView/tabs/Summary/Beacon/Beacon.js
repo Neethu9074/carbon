@@ -68,7 +68,7 @@ export default function Beacon(props) {
               </div>
               <div className={locals.rightHeader}>
                 <BackendTraceButton beacon={beacon} />
-                <ViewCrashGroupButton href="https://www.google.com" />
+                {beacon?.type === 'crash' && <ViewCrashGroupButton href="https://www.google.com" />}
                 <HeaderToggleIcon {...props} />
               </div>
             </div>
