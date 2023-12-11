@@ -9,7 +9,13 @@ import ActionHistory from 'promise-loader?global!in-automation/components/Action
 // @ts-expect-error
 import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalog';
 // @ts-expect-error
+import PolicyDashboard from 'promise-loader?global!in-automation/Policies/PolicyDashboard';
+// @ts-expect-error
 import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
+// @ts-expect-error
+import PolicyDetails from 'promise-loader?global!in-automation/Policies/Policy';
+// @ts-expect-error
+import Policies from 'promise-loader?global!in-automation/Policies/Policies';
 import { Route } from 'react-router';
 import React from 'react';
 
@@ -24,12 +30,6 @@ import {
 } from 'in-automation/navigation/paths';
 // @ts-expect-error
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-// @ts-expect-error
-import Policies from 'promise-loader?global!in-automation/Policies/Policies';
-// @ts-expect-error
-import PolicyDetails from 'promise-loader?global!in-automation/Policies/Policy';
-// @ts-expect-error
-import PolicyDashboard from 'promise-loader?global!in-automation/Policies/PolicyDashboard';
 
 const addKeyToComponent = (component: React.ReactElement, key = '') => React.cloneElement(component, { key });
 

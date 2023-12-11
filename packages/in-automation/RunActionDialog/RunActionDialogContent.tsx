@@ -21,9 +21,16 @@ import {
   getScriptFromFields,
   getType,
   getWebhookFields,
+  getGithubFields,
   isAnsible,
   isScript,
-  isWebhook
+  isWebhook,
+  isGithub,
+  isGitlab,
+  isJira,
+  GH_TICKET_TYPES,
+  getGitlabFields,
+  getJiraFields
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -148,6 +155,9 @@ export default function RunActionDialogContent({
         </DescriptionList>
         {isScript(action.type) && <ScriptActionContent action={action} />}
         {isWebhook(action.type) && <WebhookActionContent action={action} />}
+        {isGithub(action.type) && <GithubActionContent action={action} />}
+        {isGitlab(action.type) && <GitlabActionContent action={action} />}
+        {isJira(action.type) && <JiraActionContent action={action} />}
         {isAnsible(action.type) && (
           <AnsibleActionContent
             form={form}
@@ -321,6 +331,77 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
         )}
         <div>
           <Typography variant="body-small">{t('in-automation:authType', { authType })}</Typography>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { owner, repo, ticketType } = getGithubFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:request')}
+      >
+        <div>
+          <Typography variant="body-small">{t('in-automation:ownerInfo', { owner: owner.value })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">{t('in-automation:repoInfo', { repo: repo.value })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+          </Typography>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { projectId, ticketType } = getGitlabFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:request')}
+      >
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:projectIdInfo', { projectId: projectId.value })}
+          </Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+          </Typography>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { project, ticketType } = getJiraFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:request')}
+      >
+        <div>
+          <Typography variant="body-small">{t('in-automation:projectInfo', { project: project.value })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">
+            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+          </Typography>
         </div>
       </DescriptionItem>
     </DescriptionList>
