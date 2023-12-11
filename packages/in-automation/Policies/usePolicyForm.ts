@@ -23,7 +23,7 @@ import {
   scopeAll,
   scopeDfq
 } from 'in-automation/Policies/types';
-import { isAnsible, isScript, isWebhook } from 'in-automation/ActionCatalog/shared';
+import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notBlankValidator } from 'in-services/validators/string';
 import { Action } from 'in-types';
@@ -170,7 +170,13 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[])
           form => notBlankValidator(form.actionId.value),
           form => {
             const action = actions.find(action => action.id === form.actionId.value);
-            const executableAction = isScript(action?.type) || isWebhook(action?.type) || isAnsible(action?.type);
+            const executableAction =
+              isScript(action?.type) ||
+              isWebhook(action?.type) ||
+              isAnsible(action?.type) ||
+              isGithub(action?.type) ||
+              isGitlab(action?.type) ||
+              isJira(action?.type);
 
             if (!executableAction && form.type.get('automatic').value) {
               return [

@@ -29,6 +29,7 @@ import TabSelect, {
 // @ts-expect-error
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { descriptionColumn, nameColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
+import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -36,7 +37,6 @@ import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/E
 import ComboBox, { Option, hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { isAnsible, isScript, isWebhook } from 'in-automation/ActionCatalog/shared';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
@@ -526,7 +526,12 @@ function SelectAction({
   const selectedAction = actions.find(action => action.id === actionId.value);
 
   const executableAction =
-    isScript(selectedAction?.type) || isWebhook(selectedAction?.type) || isAnsible(selectedAction?.type);
+    isScript(selectedAction?.type) ||
+    isWebhook(selectedAction?.type) ||
+    isAnsible(selectedAction?.type) ||
+    isGithub(selectedAction?.type) ||
+    isGitlab(selectedAction?.type) ||
+    isJira(selectedAction?.type);
 
   return (
     <FormGroup>
