@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import { toInteractiveElement } from '@instana/components';
 
+import ViewCrashGroupButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/ViewCrashGroupButton';
 import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
@@ -67,6 +68,7 @@ export default function Beacon(props) {
               </div>
               <div className={locals.rightHeader}>
                 <BackendTraceButton beacon={beacon} />
+                <ViewCrashGroupButton href="https://www.google.com" />
                 <HeaderToggleIcon {...props} />
               </div>
             </div>

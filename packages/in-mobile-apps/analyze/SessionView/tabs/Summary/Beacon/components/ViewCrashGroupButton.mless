@@ -1,0 +1,19 @@
+/*
+ * (c) Copyright IBM Corp. 2023
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .button {
+    margin: 0 1rem 0 0;
+  }
+
+  .dropdown {
+    background: var(--ids-color-option-teal-500);
+    padding: 0 0.625rem;
+
+    &:hover {
+      background: #12978e;
+    }
+  }
+}
