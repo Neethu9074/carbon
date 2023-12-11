@@ -12,26 +12,26 @@
 // import OpenshiftOperator from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/OpenshiftOperator';
 // import WindowsZipArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsZipArchive';
 // import Operator from 'in-plg/screens/OnBoardingWidget/AgentList/Kubernetes/KubernetesOperator';
-// import InstanaAwsSensor from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/InstanaAwsSensor';
-// import LinuxAutomatic from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxAutomatic';
-// import Windows64Bit from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64Bit';
-// import AwsFargate from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/Fargate/AwsFargate';
-// import LinuxPackages from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxPackages';
-// import Kubernetes from 'in-plg/screens/OnBoardingWidget/AgentList/Kubernetes/Kubernetes';
-// import AwsEc2Windows from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/AwsEc2Windows';
-// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
-// import AwsLambda from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/Lambda/AwsLambda';
+import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
 // import VmwareTanzu from 'in-plg/screens/OnBoardingWidget/AgentList/Vmware/VmwareTanzu';
 // import WindowsEC2 from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsEC2';
 // import Openshift from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/Openshift';
-// import AwsEc2Linux from 'in-plg/screens/OnBoardingWidget/AgentList/Aws/AwsEc2Linux';
-// import CfAndBosh from 'in-plg/screens/OnBoardingWidget/AgentList/Bosh/CfAndBosh';
-// import Docker from 'in-plg/screens/OnBoardingWidget/AgentList/Docker/Docker';
-import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
+import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
+// import LinuxAutomatic from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxAutomatic';
+// import Windows64Bit from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64Bit';
+import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
+// import LinuxPackages from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxPackages';
+// import Kubernetes from 'in-plg/screens/OnBoardingWidget/AgentList/Kubernetes/Kubernetes';
+import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
 // import Azure from 'in-plg/screens/OnBoardingWidget/AgentList/Azure/Azure';
 // import MacOs from 'in-plg/screens/OnBoardingWidget/AgentList/Mac/MacOs';
 // import Unix from 'in-plg/screens/OnBoardingWidget/AgentList/Unix/Unix';
 import { t } from 'in-i18n';
+// import CfAndBosh from 'in-plg/screens/OnBoardingWidget/AgentList/Bosh/CfAndBosh';
+// import Docker from 'in-plg/screens/OnBoardingWidget/AgentList/Docker/Docker';
+import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
+// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
+// import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 
 export function getEntriesForFreeTrial() {
   return [
@@ -45,8 +45,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.instanaAwsSensor'),
-        keyWords: 'aws'
-        // Content: InstanaAwsSensor
+        keyWords: 'aws',
+        Content: InstanaAwsSensor
       }
     },
     {
@@ -59,8 +59,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.elasticComputingEc2Linux'),
-        keyWords: 'elasticcomputeec2linux'
-        // Content: AwsEc2Linux
+        keyWords: 'elasticcomputeec2linux',
+        Content: AwsEc2Linux
       }
     },
     {
@@ -73,8 +73,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
-        keyWords: 'elasticcomputeec2windows'
-        // Content: AwsEc2Windows
+        keyWords: 'elasticcomputeec2windows',
+        Content: AwsEc2Windows
       }
     },
     {
@@ -101,8 +101,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsFargate'),
-        keyWords: 'awsfargate'
-        // Content: AwsFargate
+        keyWords: 'awsfargate',
+        Content: AwsFargate
       }
     },
     {

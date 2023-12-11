@@ -26,6 +26,12 @@
     flex-direction: column;
   }
 
+  .contributionFilterDropdownItem {
+    width: 45rem;
+    justify-content: flex-start;
+    color: var(--ids-color-option-neutral-700);
+  }
+
   .filter {
     margin: 0.25rem;
   }

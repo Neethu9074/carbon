@@ -17,11 +17,11 @@ import {
 } from 'in-components/QueryBuilder/transformation/renderModel';
 import SpacingReadOnly from 'in-components/QueryBuilder/components/Spacing/SpacingReadOnly';
 import ConjunctionReadOnly from 'in-components/QueryBuilder/components/ConjunctionReadOnly';
+import ExpressionReadOnly from 'in-components/QueryBuilder/components/ExpressionReadOnly';
 import BracketReadOnly from 'in-components/QueryBuilder/components/BracketReadOnly';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
 import TagReadOnly from 'in-components/QueryBuilder/components/Tag/TagReadOnly';
 import { createTagForm } from 'in-components/QueryBuilder/validation/tagForm';
-import Expression from 'in-components/QueryBuilder/components/Expression';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 
 import locals from './QueryBuilder.mless';
@@ -30,7 +30,7 @@ const componentMapping = {
   [SPACING]: SpacingReadOnly,
   [TAG]: TagReadOnly,
   [CONJUNCTION]: ConjunctionReadOnly,
-  [EXPRESSION]: Expression,
+  [EXPRESSION]: ExpressionReadOnly,
   [OPEN_BRACKET]: BracketReadOnly,
   [CLOSE_BRACKET]: BracketReadOnly
 };
@@ -55,8 +55,7 @@ function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) 
   return (
     <div
       className={classNames({
-        [locals.queryBuilder]: true,
-        [locals.showEllipsisForLongText]: true
+        [locals.queryBuilder]: true
       })}
     >
       <Elements

@@ -7,13 +7,14 @@
 import React, { useState } from 'react';
 
 import { KeyValue, Stack, SvgIcon, Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 //@ts-expect-error
 import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/OnboardingWidget/content/instana-agent-openshift.yaml';
 import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
-import { AgentFormInput } from 'in-plg/pages/onboarding/content/contentComponents';
+import { AgentFormInput } from 'in-plg/pages/onboarding/content/ContentComponents';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
@@ -100,7 +101,11 @@ const AwsEks = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndp
                 >
                   <Stack direction="horizontal" gap="xxsmall" align="center">
                     {t('in-plg:agentDetails.common.agentZoneOptional')}
-                    <SvgIcon size="xxs" type="lib_help_error_help_outline" color="#47525D" />
+                    <SvgIcon
+                      size="xxs"
+                      type="lib_help_error_help_outline"
+                      color={themes.default.ids.color.option.neutral['600']}
+                    />
                   </Stack>
                 </Tooltip>
               }

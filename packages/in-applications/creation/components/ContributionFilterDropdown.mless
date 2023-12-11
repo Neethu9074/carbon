@@ -5,8 +5,7 @@
 
 :local {
   .contribution_filter_label_txt {
-    color: var(--ids-color-option-neutral-600);
-    margin-left: 5px;
+    color: var(--ids-color-option-neutral-700);
   }
   .contribution_filter_label_description {
     font-weight: 400;
@@ -17,5 +16,12 @@
   }
   .span {
     width: 95%;
+  }
+  .showEllipsisForLongText {
+    max-width: 100%;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
