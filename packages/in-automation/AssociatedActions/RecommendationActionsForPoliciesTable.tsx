@@ -12,10 +12,10 @@ import { Link } from '@instana/components';
 
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { ScoredAction, saveNewPolicy, EventSpecification } from 'in-automation/api';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { Action, ApplicationAlertConfigWithMetadata, Policy, Result } from 'in-types';
+import { ScoredAction, saveNewPolicy, EventSpecification } from 'in-automation/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -64,67 +64,65 @@ export default function RecommendationActionForPoliciesTable({
 
   const totalHits = result?.data?.totalHits;
   return (
-    <div>
-      <Spacer vertical="normal" />
-      <h1 className={locals.title}>{t('in-automation:recommendedActionsCount', { count: totalHits })}</h1>
-      <ServerTablePresenter
-        onChange={setServerTableState}
-        page={page}
-        pageSize={7}
-        result={result}
-        searchPlaceholder={t('in-automation:searchActions')}
-        query={query}
-        rightHeader={
-          <ActionFilters
-            types={types}
-            actionAIEngines={actionAIEngines}
-            setTypes={setTypes}
-            aiEngines={aiEngines}
-            setAIEngines={setAiEngines}
-          />
+    <ServerTablePresenter
+      onChange={setServerTableState}
+      page={page}
+      pageSize={7}
+      leftHeader={
+        <div className={locals.leftHeader}>{t('in-automation:recommendedActionsCount', { count: totalHits })} </div>
+      }
+      result={result}
+      searchPlaceholder={t('in-automation:searchActions')}
+      query={query}
+      rightHeader={
+        <ActionFilters
+          types={types}
+          actionAIEngines={actionAIEngines}
+          setTypes={setTypes}
+          aiEngines={aiEngines}
+          setAIEngines={setAiEngines}
+        />
+      }
+      columnDefinitions={[
+        nameColumn,
+        descriptionColumn,
+        typeColumn,
+        tagsColumn,
+        aiEngineColumn,
+        scoreColumn,
+        {
+          id: 'selectAction',
+          label: '',
+          sortable: false,
+          width: '10',
+          widthInAbsoluteUnit: true,
+          getContent: (item: Action) =>
+            !isExternal(item.type) ? (
+              <Tooltip content={t('in-automation:associateActionWithName', { actionName: item.name })} delay={500}>
+                <IconButton
+                  kind="primaryv2"
+                  type={'lib_openclose_add_circle_outline'}
+                  onClick={e => {
+                    stopPropagationAndPreventDefault(e);
+                    associateAction({
+                      action: item,
+                      event: eventSpecification,
+                      triggerReload,
+                      isCustomEvent,
+                      setSelectedType,
+                      isApplicationSmartAlert
+                    });
+                  }}
+                />
+              </Tooltip>
+            ) : (
+              <div />
+            )
         }
-        columnDefinitions={[
-          nameColumn,
-          descriptionColumn,
-          typeColumn,
-          tagsColumn,
-          aiEngineColumn,
-          scoreColumn,
-          {
-            id: 'selectAction',
-            label: '',
-            sortable: false,
-            width: '10',
-            widthInAbsoluteUnit: true,
-            getContent: (item: Action) =>
-              !isExternal(item.type) ? (
-                <Tooltip content={t('in-automation:associateActionWithName', { actionName: item.name })} delay={500}>
-                  <IconButton
-                    kind="primaryv2"
-                    type={'lib_openclose_add_circle_outline'}
-                    onClick={e => {
-                      stopPropagationAndPreventDefault(e);
-                      associateAction({
-                        action: item,
-                        event: eventSpecification,
-                        triggerReload,
-                        // setError,
-                        isCustomEvent,
-                        setSelectedType,
-                        isApplicationSmartAlert
-                      });
-                    }}
-                  />
-                </Tooltip>
-              ) : (
-                <div />
-              )
-          }
-        ]}
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-      />
-    </div>
+      ]}
+      orderBy={orderBy}
+      orderDirection={orderDirection}
+    />
   );
 }
 

@@ -9,7 +9,6 @@ import classNames from 'classnames';
 
 import { Button, Typography } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { Spacer } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -43,7 +42,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import { runActionTracker } from 'in-automation/tracker';
 import { listSuccess } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Title } from 'in-components/Dialog/Header';
 import Tag from 'in-automation/ActionCatalog/Tag';
 import { deletePolicy } from 'in-automation/api';
 import { role } from 'in-stores/user';
@@ -141,26 +139,23 @@ export default function Policies({
     columnDefinitionsToShow = [...columnDefinition, executeColumn(volatileId, event), deleteColumn(triggerReload)];
   }
   return (
-    <div>
-      <Spacer vertical="normal" />
-      <Title title={title ?? t('in-automation:policies.policies')} />
-      <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
-        onChange={setServerTableState}
-        pageSize={actualPageSize}
-        page={actualPage}
-        searchPlaceholder={t('in-automation:policies.searchPolicies')}
-        rightHeader={rightHeader}
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        query={query}
-        result={{
-          progress,
-          errors,
-          data: result
-        }}
-        columnDefinitions={columnDefinitionsToShow}
-      />
-    </div>
+    <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
+      onChange={setServerTableState}
+      leftHeader={<div className={locals.leftHeader}>{title ?? t('in-automation:policies.policies')} </div>}
+      pageSize={actualPageSize}
+      page={actualPage}
+      searchPlaceholder={t('in-automation:policies.searchPolicies')}
+      rightHeader={rightHeader}
+      orderBy={orderBy}
+      orderDirection={orderDirection}
+      query={query}
+      result={{
+        progress,
+        errors,
+        data: result
+      }}
+      columnDefinitions={columnDefinitionsToShow}
+    />
   );
 }
 
