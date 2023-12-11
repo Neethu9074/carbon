@@ -16,6 +16,9 @@ import {
   isDocLink,
   isScript,
   isWebhook,
+  isGithub,
+  isGitlab,
+  isJira,
   getDocLinkFromFields,
   isAnsible,
   getType
@@ -324,7 +327,10 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-automation:ActionCatalog.launch')}
         </Button>
       );
-    } else if (isManual(item) && (isScript(type) || isWebhook(type) || isAnsible(type))) {
+    } else if (
+      isManual(item) &&
+      (isScript(type) || isWebhook(type) || isAnsible(type) || isGithub(type) || isGitlab(type) || isJira(type))
+    ) {
       return (
         <Button
           kind="action"
