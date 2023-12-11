@@ -14,6 +14,7 @@ import {
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import AssociatedAndRecommendedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedPoliciesAlerts';
 import AssociatedAndRecommendedActionsAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedActionsAlerts';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
@@ -22,6 +23,7 @@ import { HighlightDataRetention } from 'in-events/components/EventContent/Highli
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
+import { actionAutomationEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -33,7 +35,6 @@ import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils'
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
 import { role } from 'in-stores/user';
@@ -149,8 +150,21 @@ export default function ApplicationEventContent({ event, snapshot }) {
       </Row>
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
+      {automationPoliciesEnabled &&
+        role?.canConfigureAutomationPolicies &&
+        actionAutomationEnabled &&
+        role.canConfigureAutomationActions &&
+        role.canConfigureCustomAlerts &&
+        !isGlobalSmartAlert && (
+          <AssociatedAndRecommendedPoliciesAlerts
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={event?.toJS()}
+            alertConfig={alertConfig}
+          />
+        )}
 
-      {actionAutomationEnabled &&
+      {!automationPoliciesEnabled &&
+        actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
         role.canConfigureCustomAlerts &&
         !isGlobalSmartAlert && (

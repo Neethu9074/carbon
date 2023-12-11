@@ -14,8 +14,9 @@ import {
   isWebsiteSmartAlertEvent,
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
+import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
-import { actionAutomationEnabled, rcaUIEnabled } from 'in-services/featureFlags';
+import { actionAutomationEnabled, rcaUIEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
@@ -92,14 +93,27 @@ export default function IncidentEventList({
         setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
         highlightEventOnHover={highlightEventOnHover}
       />
-      {actionAutomationEnabled &&
+      {automationPoliciesEnabled &&
+        role?.canConfigureAutomationPolicies &&
+        actionAutomationEnabled &&
+        role.canConfigureAutomationActions &&
+        role.canConfigureCustomAlerts &&
+        !isWebsiteSmartAlertEvent(triggerEvent) &&
+        !isApplicationSmartAlertEvent(triggerEvent) &&
+        !isMobileAppSmartAlertEvent(triggerEvent) && (
+          <AssociatedAndRecommendedPolicies
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={triggerEvent?.toJS()}
+          />
+        )}
+      {!automationPoliciesEnabled &&
+        actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
         role.canConfigureCustomAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedActions
-            associatedActionsTitle={t('in-events:associatedActionsForTriggeringEvent')}
             volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
             event={triggerEvent?.toJS()}
           />

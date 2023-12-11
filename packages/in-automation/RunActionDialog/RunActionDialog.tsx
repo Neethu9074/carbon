@@ -61,7 +61,7 @@ import RunActionContent, {
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution';
-import { Action, Event, ParameterValue, VolatileId } from 'in-types';
+import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
@@ -82,10 +82,19 @@ interface RunActionDialogProps {
   action: Action;
   test?: boolean;
   policy?: NewPolicy;
+  executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
 }
 
-export default function RunActionDialog({ action, volatileId, event, test, policy, handleSave }: RunActionDialogProps) {
+export default function RunActionDialog({
+  action,
+  volatileId,
+  event,
+  test,
+  policy,
+  handleSave,
+  executePolicy
+}: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -94,7 +103,14 @@ export default function RunActionDialog({ action, volatileId, event, test, polic
     action,
     event
   });
-  const [form, setForm] = useRunActionForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters, policy });
+  const [form, setForm] = useRunActionForm({
+    volatileId,
+    agentSnapShots,
+    action,
+    resolvedDynamicParameters,
+    policy,
+    executePolicy
+  });
   return (
     <Dialog
       className={locals.dialog}
@@ -137,7 +153,8 @@ export default function RunActionDialog({ action, volatileId, event, test, polic
                 setActionInstanceId,
                 event,
                 policy,
-                handleSave
+                handleSave,
+                executePolicy
               })
             }
           />
@@ -218,20 +235,22 @@ const useRunActionForm = ({
   agentSnapShots,
   action,
   resolvedDynamicParameters,
-  policy
+  policy,
+  executePolicy
 }: {
   volatileId: VolatileId;
   agentSnapShots: OUT | null | undefined;
   action: Action;
   resolvedDynamicParameters: ResolvedDynamicParamValue[] | null | undefined;
   policy?: NewPolicy;
+  executePolicy?: Policy;
 }) => {
   const [form, setForm] = useState<MapForm<any>>();
   useEffect(() => {
     if (agentSnapShots && resolvedDynamicParameters && !form) {
-      setForm(createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters, policy }));
+      setForm(createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters, policy, executePolicy }));
     }
-  }, [agentSnapShots, form, volatileId, action, resolvedDynamicParameters, policy]);
+  }, [agentSnapShots, form, volatileId, action, resolvedDynamicParameters, policy, executePolicy]);
   return [form, setForm] as const;
 };
 
@@ -244,6 +263,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
   policy?: NewPolicy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
+  executePolicy?: Policy;
 }
 
 function onSave({
@@ -256,7 +276,8 @@ function onSave({
   setActionInstanceId,
   event,
   policy,
-  handleSave
+  handleSave,
+  executePolicy
 }: OnSaveParams) {
   if (!form?.hierarchyValid) {
     setForm(form?.setTouched(true, { recurse: true }));
@@ -342,6 +363,7 @@ function onSave({
 
   const allInputParameters = [...inputParameters, ...hiddenInputParameters];
   const { id: actionId, name: actionName } = action;
+  const executePolicyId = executePolicy?.id ?? '';
   const hostsLimit = {
     name: 'hostsLimit',
     value: (form?.get('hostsLimit') as Field<Option[]>).value.map(host => host.value).join()
@@ -368,6 +390,7 @@ function onSave({
       timeout,
       actionId,
       interpreter,
+      policyId: executePolicyId,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isGithub(action.type)) {
@@ -387,7 +410,8 @@ function onSave({
         body,
         labels,
         assignees,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
 
@@ -403,7 +427,8 @@ function onSave({
         repo,
         ticketType,
         comment,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isGitlab(action.type)) {
@@ -422,7 +447,8 @@ function onSave({
         body: gitlab_description,
         labels,
         issue_type,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
 
@@ -437,7 +463,8 @@ function onSave({
         projectId,
         ticketType,
         comment,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isJira(action.type)) {
@@ -457,7 +484,8 @@ function onSave({
         assignee,
         labels,
         issue_type,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
 
@@ -472,7 +500,8 @@ function onSave({
         project,
         ticketType,
         comment,
-        inputParameters: allInputParameters
+        inputParameters: allInputParameters,
+        policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isWebhook(action.type)) {
@@ -489,7 +518,8 @@ function onSave({
       ignoreCertErrors,
       header,
       authen,
-      inputParameters: allInputParameters
+      inputParameters: allInputParameters,
+      policyId: executePolicyId
     }).once(handleActionResponse);
   } else if (isAnsible(action.type)) {
     const { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl } = getAnsibleFields(action);
@@ -503,7 +533,8 @@ function onSave({
       playbookFileName,
       ansibleUrl,
       jobTemplateUrl,
-      inputParameters: [...allInputParameters, hostsLimit]
+      inputParameters: [...allInputParameters, hostsLimit],
+      policyId: executePolicyId
     }).once(handleActionResponse);
   }
 }
@@ -535,14 +566,14 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
   );
 }
 
-interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action' | 'policy'> {
+interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action' | 'policy' | 'executePolicy'> {
   agentSnapShots: OUT;
   resolvedDynamicParameters: ResolvedDynamicParamValue[];
 }
 
-function getAgent(volatileId: VolatileId, agentSnapShots: OUT, policy: NewPolicy | undefined) {
-  if (policy) {
-    return policy.typeConfigurations[0].runnable.runConfiguration.actions[0].agentId;
+function getAgent(volatileId: VolatileId, agentSnapShots: OUT, executeOrNewPolicy: NewPolicy | Policy | undefined) {
+  if (executeOrNewPolicy) {
+    return executeOrNewPolicy.typeConfigurations[0].runnable.runConfiguration.actions[0].agentId;
   }
   return (
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
@@ -592,12 +623,20 @@ function getParameterFromPolicy(policy: NewPolicy | undefined, name: string): { 
   return { found: false, value: '' };
 }
 
-function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParameters, policy }: CreateFormParams) {
+function createForm({
+  volatileId,
+  agentSnapShots,
+  action,
+  resolvedDynamicParameters,
+  policy,
+  executePolicy
+}: CreateFormParams) {
+  const executeOrNewPolicy = policy || executePolicy;
   return createMapForm()
     .put(
       'targetAgent',
       createField({
-        value: getAgent(volatileId, agentSnapShots, policy),
+        value: getAgent(volatileId, agentSnapShots, executeOrNewPolicy),
         validator: notBlankValidator
       })
     )
@@ -609,7 +648,7 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
             return acc;
           }
           if (parameter.type === 'vault') {
-            const { found, value } = getParameterFromPolicy(policy, parameter.name);
+            const { found, value } = getParameterFromPolicy(executeOrNewPolicy, parameter.name);
             const { secretKey, secretPath } = parseVaultParameter(found ? value : parameter.value);
             return {
               ...acc,
@@ -649,7 +688,7 @@ function createForm({ volatileId, agentSnapShots, action, resolvedDynamicParamet
               })
             };
           }
-          const { found, value } = getParameterFromPolicy(policy, parameter.name);
+          const { found, value } = getParameterFromPolicy(executeOrNewPolicy, parameter.name);
           return {
             ...acc,
             [parameter.name]: createField({

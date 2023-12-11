@@ -32,7 +32,7 @@ import { success } from 'in-services/util/result';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './RecommendationctionsTable.mless';
+import locals from './RecommendationActionsTable.mless';
 
 interface RecommendedActionsCardAlertsProps {
   unusedSuggestedActions: ScoredAction[];
@@ -44,7 +44,7 @@ interface RecommendedActionsCardAlertsProps {
   setSelectedType: (str: string) => void;
 }
 
-export default function RecommendationctionsTable({
+export default function RecommendationActionsTable({
   unusedSuggestedActions,
   existingActions,
   eventSpecification,

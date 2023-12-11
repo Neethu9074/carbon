@@ -24,7 +24,8 @@ import {
   Policy,
   TagCatalog,
   ParameterValue,
-  GetDynamicParameterValues
+  GetDynamicParameterValues,
+  TriggerType
 } from 'in-types';
 import {
   ANSIBlE_TYPE,
@@ -630,6 +631,7 @@ interface RunActionBaseParams {
   inputParameters: ParameterValue[];
   timeout: string;
   hostsLimit?: string;
+  policyId: string;
 }
 
 interface RunActionRequest {
@@ -658,7 +660,8 @@ function runAction({
   inputParameters,
   actionId,
   timeout,
-  hostsLimit
+  hostsLimit,
+  policyId
 }: RunActionParams) {
   return submitActionExecution({
     action: 'action.run',
@@ -673,7 +676,8 @@ function runAction({
       actionName,
       actionId,
       timeout: timeout === '' ? null : timeout,
-      request: request
+      request: request,
+      policyId: policyId === '' ? null : policyId
     }
   });
 }
@@ -686,7 +690,8 @@ export function runScriptAction({
   actionId,
   interpreter,
   inputParameters,
-  timeout
+  timeout,
+  policyId
 }: RunScriptActionParams) {
   return runAction({
     type: SCRIPT_TYPE,
@@ -696,6 +701,7 @@ export function runScriptAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'script_ssh',
@@ -733,7 +739,8 @@ export function runWebhookAction({
   header,
   authen,
   inputParameters,
-  timeout
+  timeout,
+  policyId
 }: RunWebhookActionParams) {
   return runAction({
     type: WEBHOOK_TYPE,
@@ -743,6 +750,7 @@ export function runWebhookAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'method',
@@ -812,7 +820,8 @@ export function runGithubOpenAction({
   title,
   body,
   labels,
-  assignees
+  assignees,
+  policyId
 }: RunGithubOpenActionParams) {
   return runAction({
     type: GITHUB_TYPE,
@@ -822,6 +831,7 @@ export function runGithubOpenAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'owner',
@@ -877,6 +887,7 @@ export function runGithubCloseAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   owner,
   repo,
   ticketType,
@@ -890,6 +901,7 @@ export function runGithubCloseAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'owner',
@@ -931,6 +943,7 @@ export function runGitlabOpenAction({
   actionName,
   actionId,
   inputParameters,
+  policyId,
   timeout,
   projectId,
   ticketType,
@@ -947,6 +960,7 @@ export function runGitlabOpenAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'projectId',
@@ -996,6 +1010,7 @@ export function runGitlabCloseAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   projectId,
   ticketType,
   comment
@@ -1008,6 +1023,7 @@ export function runGitlabCloseAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'projectId',
@@ -1045,6 +1061,7 @@ export function runJiraOpenAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   project,
   ticketType,
   summary,
@@ -1061,6 +1078,7 @@ export function runJiraOpenAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'project',
@@ -1115,6 +1133,7 @@ export function runJiraCloseAction({
   actionId,
   inputParameters,
   timeout,
+  policyId,
   project,
   ticketType,
   comment
@@ -1127,6 +1146,7 @@ export function runJiraCloseAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'project',
@@ -1164,7 +1184,8 @@ export function runAnsibleAction({
   ansibleUrl,
   jobTemplateUrl,
   inputParameters,
-  timeout
+  timeout,
+  policyId
 }: RunAnsibleActionParams) {
   return runAction({
     type: ANSIBlE_TYPE,
@@ -1174,6 +1195,7 @@ export function runAnsibleAction({
     timeout,
     actionId,
     inputParameters,
+    policyId,
     request: [
       {
         name: 'playbookId',
@@ -1387,6 +1409,27 @@ export function savePolicy(policy: NewPolicy, id: string) {
     headers: getCsrfHeader(),
     url: `${policiesUrl}/${id}`,
     data: policy,
+    mapToResultObject: true
+  });
+}
+
+export function getPoliciesForTrigger(triggerId: string, triggerType: TriggerType) {
+  return http<Policy[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}?triggerType=${triggerType}&triggerId=${encodeURIComponent(triggerId)}`,
+    mapToResultObject: true
+  });
+}
+
+export function saveBulkPolicies(policies: NewPolicy[]) {
+  return http<Policy[]>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${policiesUrl}/bulk`,
+    data: policies,
     mapToResultObject: true
   });
 }

@@ -13,7 +13,9 @@ import { Card } from '@instana/components';
 // @ts-ignore
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AnalyzeEntityCountVerificationEventButton from 'in-events/components/AnalyzeEntityCountVerificationEventButton';
+import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
+import { actionAutomationEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -22,7 +24,6 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { numberCompact } from 'in-stores/metric/formatters';
@@ -111,7 +112,18 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
         </Col>
       </Row>
 
-      {actionAutomationEnabled &&
+      {automationPoliciesEnabled &&
+        role?.canConfigureAutomationPolicies &&
+        actionAutomationEnabled &&
+        role?.canConfigureAutomationActions &&
+        role?.canConfigureCustomAlerts &&
+        isIssue &&
+        hasEventSpec && (
+          <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
+        )}
+
+      {!automationPoliciesEnabled &&
+        actionAutomationEnabled &&
         role?.canConfigureAutomationActions &&
         role?.canConfigureCustomAlerts &&
         isIssue &&

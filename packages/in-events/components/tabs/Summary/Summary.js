@@ -27,10 +27,12 @@ import {
 import {
   actionAutomationEnabled,
   incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled
+  incidentSummarizationTimelineEnabled,
+  automationPoliciesEnabled
 } from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
+import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
@@ -225,7 +227,21 @@ const EventContent = connectTo(
             </Col>
           </Row>
         )}
-        {actionAutomationEnabled &&
+
+        {automationPoliciesEnabled &&
+          role?.canConfigureAutomationPolicies &&
+          actionAutomationEnabled &&
+          role.canConfigureAutomationActions &&
+          role.canConfigureCustomAlerts &&
+          isIssue &&
+          hasEventSpec && (
+            <AssociatedAndRecommendedPolicies
+              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+              event={event?.toJS()}
+            />
+          )}
+        {!automationPoliciesEnabled &&
+          actionAutomationEnabled &&
           role.canConfigureAutomationActions &&
           role.canConfigureCustomAlerts &&
           isIssue &&

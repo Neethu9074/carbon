@@ -44,6 +44,7 @@
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Failed to resolve dynamic parameters.",
   "associateActionWithName": "Associate action {{actionName}}",
+  "deletePolicyWithName": "Delete policy {{actionName}}",
   "actionAssociationWithNameForDelete": "action association to {{actionName}}",
   "jobTemplate": "Job Template",
   "hostsLimit": "Hosts Limit (optional)",
@@ -77,11 +78,14 @@
   "noTagsConfigured": "No Tags Configured",
   "value": "Value",
   "type": "Type",
+  "associatedPolicies": "Associated Policies",
+  "actionType": "Action type",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
   "hostsLimitHelpText":"Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "aiEngine": "AI Engine",
   "eventSimilarity": "Event Similarity",
+  "recommendedActionsCount": "Recommended Actions ({{count}})",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -268,8 +272,11 @@
     "atLeastOneOfTheTwoMustBeSelected": "At least one of the two must be selected.",
     "onSaveSuccessTitle": "Policy was saved successfully.",
     "onSaveSuccessContent": "Policy \"{{name}}\" has been saved successfully.",
+    "onCreateSuccessTitle": "Policy was created successfully.",
+    "onCreateSuccessContent": "Policy \"{{name}}\" has been created successfully.",
     "onSaveFailedTitle": "Failed to save policy.",
     "onSaveFailedContent": "There was a problem saving this policy: \"{{name}}\"",
+    "onAssociateFailedContent": "There was a problem saving this policy.",
     "noActionConfigured": "No Action Configured",
     "noTriggerConfigured": "No Trigger Configured",
     "configure": "Configure",
@@ -293,7 +300,8 @@
     "deleteDialog": {
       "success": "Policy was successfully deleted.",
       "failure": "Failed to delete the policy."
-    }
+    },
+    "addPolicies":"Create Policies"
   },
   "deleteDialog": {
     "pleaseConfirm": "Please Confirm",

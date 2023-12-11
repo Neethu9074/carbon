@@ -14,7 +14,7 @@ import {
   getApplicationAlertActionAssociations,
   updateApplicationAlertActionAssociations
 } from 'in-automation/api';
-import RecommendationctionsTable from 'in-automation/AssociatedActions/RecommendationctionsTable';
+import RecommendationActionsTable from 'in-automation/AssociatedActions/RecommendationActionsTable';
 import { Event, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getEventSpecificationId, getIsCustomEvent } from './shared';
@@ -86,7 +86,7 @@ export default function RecommendedActionsCardAlerts({
         </Message>
       )}
       {actionError === null && Array.isArray(existingActions) && (
-        <RecommendationctionsTable
+        <RecommendationActionsTable
           unusedSuggestedActions={unusedSuggestedActions}
           existingActions={existingActions}
           eventSpecification={alertConfig}
