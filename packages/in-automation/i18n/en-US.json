@@ -85,7 +85,6 @@
   "hostsLimitHelpText":"Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "aiEngine": "AI Engine",
   "eventSimilarity": "Event Similarity",
-  "noRecommendedActionsAvailable": "No recommended actions available",
   "recommendedActionsCount": "Recommended Actions ({{count}})",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
