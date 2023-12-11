@@ -6,7 +6,8 @@
 @import '~in-components/QueryBuilder/shared.less';
 
 :local {
-  .expression {
+  .expression,
+  .expression_disablehover {
     display: inline;
 
     padding: 0.5rem 0;
@@ -14,16 +15,15 @@
     line-height: @query-builder-line-height;
     border: 1px solid transparent;
     border-radius: var(--ids-border-radius-option-medium);
+  }
 
-    &:focus,
-    &:hover {
-      outline: 0;
-
-      & > * {
-        &:first-child {
-          border-color: transparent;
-          background: 0;
-        }
+  .expression:focus,
+  .expression:hover {
+    outline: 0;
+    & > * {
+      &:first-child {
+        border-color: transparent;
+        background: 0;
       }
     }
   }

@@ -21,10 +21,6 @@
       "transferSizeLabel": "Transfer Size",
       "transferSizeCategory": "Resource Sizing"
     },
-    "crash": {
-      "crashAffectedSessionCount": "Crash Affected Session Count",
-      "crashAffectedUserCount": "Crash Affected User Count"
-    },
     "errorRate": {
       "label": "Error Rate",
       "rawDataLabel": "Error Count"

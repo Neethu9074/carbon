@@ -90,6 +90,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
   CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
+  CAN_CONFIGURE_AUTOMATION_POLICIES: 'CAN_CONFIGURE_AUTOMATION_POLICIES',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
@@ -529,6 +530,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanViewActionHistoryDescription'),
     category: t('in-stores:permissionCanViewActionHistoryCategory')
   },
+  [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
+    keyForApiTokenApi: 'canConfigureAutomationPolicies',
+    label: t('in-stores:permissionCanConfigureAutomationPolicies'),
+    description: t('in-stores:permissionCanConfigureAutomationPoliciesDescription'),
+    category: t('in-stores:permissionCanConfigureAutomationPoliciesCategory')
+  },
   /* Synthetic */
   [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
@@ -650,7 +658,8 @@ export function getProductPermissions(): Array<ProductPermission> {
       const automationCapabilities: Array<CapabilityType> = [
         Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
         Capability.CAN_RUN_AUTOMATION_ACTIONS,
-        Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES
+        Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
+        Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
       ];
 
       return !automationCapabilities.includes(keyForGroupApi);

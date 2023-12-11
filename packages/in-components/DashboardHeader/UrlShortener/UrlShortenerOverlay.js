@@ -46,7 +46,6 @@ export default function UrlShortenerOverlay() {
         // Deliberately do not show active style by setting activeTabIndex to a tab index that doesn't exist
         activeTabIndex={1}
       />
-
       {!shortUrl && <Wait />}
       {shortUrl && (
         <Ready shortUrl={shortUrl} fixateTime={fixateTime} setFixateTime={setFixateTime} timeConfig={timeConfig} />
@@ -100,6 +99,8 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
 }
 
 function Explanation({ timeConfig, fixateTime }) {
+  const timeZone = new Date().toLocaleDateString('default', { day: '2-digit', timeZoneName: 'short' }).slice(4);
+
   if (fixateTime) {
     timeConfig = fixateTimeConfig(timeConfig);
   }
@@ -113,7 +114,8 @@ function Explanation({ timeConfig, fixateTime }) {
           ? t('in-components:dashboardHeader.urlShortenerLabelLive', {
               timeConfig: timeDisplayBottomFormat(timeConfig)
             })
-          : timeDisplayBottomFormat(timeConfig)}
+          : timeDisplayBottomFormat(timeConfig)}{' '}
+        {timeZone}
       </span>
     </div>
   );

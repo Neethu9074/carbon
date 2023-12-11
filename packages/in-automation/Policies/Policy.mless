@@ -1,0 +1,38 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+:local {
+  .subTextFormField {
+    color: var(--ids-color-option-neutral-600);
+    margin: 0.5rem 0 0 0.5rem;
+  }
+
+  .subErrorTextFormField {
+    margin-left: 0.5rem;
+  }
+
+  .spaceBetween {
+    justify-content: space-between;
+    padding-top: 1rem;
+    background-color: var(--ids-color-option-white);
+    padding-left: 1.5rem;
+    height: 76px;
+  }
+  .actionBody > div {
+    padding-left: 0px;
+  }
+  .actionBody {
+    fieldset {
+      padding-left: 1.5rem;
+    }
+  }
+  .selectDialog {
+    padding: 0 3.5rem;
+  }
+  .select {
+    width: 80vw;
+  }
+}

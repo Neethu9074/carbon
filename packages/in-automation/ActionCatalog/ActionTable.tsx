@@ -41,21 +41,38 @@ import { t } from 'in-i18n';
 
 import locals from './ActionTable.mless';
 
-const columnDefinitions = [
-  {
-    label: t('in-automation:ActionCatalog.description'),
-    id: 'description',
-    getContent(row: Action) {
-      return <div className={locals.fourLines}>{row.description}</div>;
-    }
-  },
-  {
-    label: t('in-automation:ActionCatalog.type'),
-    id: 'type',
-    getContent(row: Action) {
-      return getType(row.type);
-    }
-  },
+export const descriptionColumn = {
+  label: t('in-automation:description'),
+  id: 'description',
+  getContent(row: Action) {
+    return <div className={locals.fourLines}>{row.description}</div>;
+  }
+};
+export const typeColumn = {
+  label: t('in-automation:type'),
+  id: 'type',
+  getContent(row: Action) {
+    return getType(row.type);
+  }
+};
+export const tagsColumn = {
+  label: t('in-automation:tags'),
+  id: 'tags',
+  getContent(row: Action) {
+    const { tags = [] } = row;
+    return (
+      <>
+        {tags.map((tag, idx) => (
+          <Tag key={tag + idx} tag={tag} />
+        ))}
+      </>
+    );
+  }
+};
+
+export const columnDefinitions = [
+  descriptionColumn,
+  typeColumn,
   {
     label: t('in-automation:ActionCatalog.lastModified'),
     id: 'modifiedAt',
@@ -63,20 +80,7 @@ const columnDefinitions = [
       return formatDateTime(+row.modifiedAt * 1000);
     }
   },
-  {
-    label: t('in-automation:ActionCatalog.tags'),
-    id: 'tags',
-    getContent(row: Action) {
-      const { tags = [] } = row;
-      return (
-        <>
-          {tags.map((tag, idx) => (
-            <Tag key={tag + idx} tag={tag} />
-          ))}
-        </>
-      );
-    }
-  }
+  tagsColumn
 ];
 
 const executeColumn = (volatileId: VolatileId, event?: Event) => ({
@@ -137,8 +141,8 @@ const testColumn = {
   }
 };
 
-const nameColumn = (showActionLink: boolean) => ({
-  label: t('in-automation:ActionCatalog.name'),
+export const nameColumn = (showActionLink: boolean) => ({
+  label: t('in-automation:name'),
   id: 'name',
   getContent(row: Action) {
     return (
@@ -255,7 +259,7 @@ export default function ActionTable({
       columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader(title, isBeta)}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
-      searchPlaceholder={t('in-automation:ActionCatalog.searchActions')}
+      searchPlaceholder={t('in-automation:searchActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
       tableActions={tableActions}

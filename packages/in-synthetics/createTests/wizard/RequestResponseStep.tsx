@@ -165,17 +165,26 @@ export default function RequestResponseStep({
       });
       return;
     }
+
     try {
       const text = await e.target.files[0].text();
       const extension = e.target.value.substring(e.target.value.lastIndexOf('.') + 1);
       const testType = isBrowser ? scriptTestType(extension, syntheticType.value) : syntheticType.value;
       setScriptDetails({ modified: extension === 'side' ? true : false, name: e.target.files[0].name });
+
+      if (extension === 'zip') {
+        setScript({ name: '', text, extension });
+        return;
+      }
+
       if (extension === 'js') {
         setScriptErrors(validate(text));
       } else {
         setScriptErrors([] as ScriptError[]);
       }
+
       setScript({ name: e.target.files[0].name, text, extension });
+
       updateForm(
         form
           .updateIn(['configuration', 'script'], (field: Item) =>
@@ -245,7 +254,7 @@ export default function RequestResponseStep({
 
           {renderScript && (
             <div className={locals.scriptUpload}>
-              {script.extension !== 'side' ? (
+              {script.extension === 'js' ? (
                 scriptField.map(field => (
                   <>
                     <Code
@@ -262,7 +271,11 @@ export default function RequestResponseStep({
                 <Message
                   className={locals.message}
                   withIcon
-                  title={t('in-synthetics:dialog.createTest.advancedMode.configStep.sideFileUploadedMessage')}
+                  title={
+                    script.extension === 'side'
+                      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.sideFileUploadedMessage')
+                      : t('in-synthetics:dialog.createTest.advancedMode.configStep.bundleFileNotSupportedMessage')
+                  }
                 />
               )}
             </div>

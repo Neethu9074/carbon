@@ -83,14 +83,14 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
     return [
       {
         severity: 'error',
-        message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
+        message: t('in-automation:theValueMustNotBeBlank')
       }
     ];
   }
   return null;
 }
 
-export function createActionFormDefinition(action: ActionFormEntity, _isCreate: boolean) {
+export function createActionFormDefinition(action: ActionFormEntity) {
   const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
   const parameters = action.inputParameters ?? [];
@@ -127,7 +127,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
             return [
               {
                 severity: 'error',
-                message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
+                message: t('in-automation:theValueMustNotBeBlank')
               }
             ];
           }

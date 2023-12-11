@@ -10,7 +10,13 @@ const { createImportRestrictionRule } = require('../../build/linting/restrictedI
 module.exports = {
   rules: {
     ...createImportRestrictionRule({
-      enforceAbsoluteImportPaths: true
+      enforceAbsoluteImportPaths: true,
+      /*
+       * Disabling the restriction, because this is the only place where
+       * we currently enable the use of @carbon/colors, because
+       * they are used in the chart color definitions
+       */
+      patterns: ['!@carbon/colors']
     })
   }
 };

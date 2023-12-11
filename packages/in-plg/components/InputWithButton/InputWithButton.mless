@@ -1,0 +1,12 @@
+/*
+ * (c) Copyright IBM Corp. 2023
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .input {
+    user-select: none;
+    pointer-events: none;
+    min-width: 15rem;
+  }
+}

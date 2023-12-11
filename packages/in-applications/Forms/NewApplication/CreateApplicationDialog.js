@@ -143,7 +143,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
                                 form={form}
                                 updateForm={noop}
                                 userRestrictedApplications={createUserRestrictedApplication(appConfig)}
-                                disabled
+                                className={locals.contributionFilterDropdownItem}
                               />
                             </div>
                           )}

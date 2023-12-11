@@ -7,32 +7,31 @@
 import React, { useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 
 import {
   getAllActionsWithAISuggestions,
-  getApplicationAlertActionAssociationsWithResult,
+  getApplicationAlertActionAssociations,
   updateApplicationAlertActionAssociations
 } from 'in-automation/api';
-import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
+import RecommendationctionsTable from 'in-automation/AssociatedActions/RecommendationctionsTable';
+import { Event, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getEventSpecificationId, getIsCustomEvent } from './shared';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import ActionTable from 'in-automation/ActionCatalog/ActionTable';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 interface RecommendedActionsCardAlertsProps {
   event: Event;
-  volatileId: VolatileId;
   reload: number;
   setReload: (r: number) => void;
-  alertConfig?: ApplicationAlertConfigWithMetadata;
+  alertConfig: ApplicationAlertConfigWithMetadata;
   setSelectedType: (str: string) => void;
 }
 
 export default function RecommendedActionsCardAlerts({
   event,
-  volatileId,
   reload,
   setReload,
   alertConfig,
@@ -42,63 +41,61 @@ export default function RecommendedActionsCardAlerts({
 
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
-
+  const entityId = event?.entityId ?? '';
   const existingActions =
-    useObservable(
-      () => getApplicationAlertActionAssociationsWithResult(eventSpecificationId),
+    useObservable<Action[] | { code: string; message: string }, [string, number]>(
+      () => getApplicationAlertActionAssociations(eventSpecificationId),
       [eventSpecificationId, reload]
     ) ?? null;
 
   const triggerReload = () => setReload(Math.random());
+  // Memoize the creation of selectedActionsSet
+  const selectedActionsSet = useMemo(() => {
+    if (existingActions && Array.isArray(existingActions)) {
+      return (existingActions ?? []).map(action => action.id);
+    }
+    return [];
+  }, [existingActions]);
+  let actionError = null;
 
-  const getUnusedSuggestedActions = useMemo(() => {
-    if (!alertConfig) return null;
+  if (existingActions && 'message' in existingActions) {
+    actionError = existingActions.message;
+  }
 
-    const selectedActionsSet = new Set((existingActions?.data ?? []).map(action => action.id));
+  function getUnusedSuggestedActions() {
+    return getAllActionsWithAISuggestions(alertConfig?.name, alertConfig?.description ?? '', entityId).map(
+      allActions => {
+        return allActions
+          .filter(action => action.confidence != 'low' && !selectedActionsSet.includes(action.id))
+          .sort((a, b) => b.score - a.score);
+      }
+    );
+  }
+  const unusedSuggestedActions = useObservable(getUnusedSuggestedActions, [alertConfig, selectedActionsSet, reload]);
 
-    return getAllActionsWithAISuggestions(alertConfig.name, alertConfig.description ?? '').map(allActions => {
-      if (!existingActions) return [];
-      return allActions
-        .filter(action => action.confidence != 'low' && !selectedActionsSet.has(action.id))
-        .slice(0, 5)
-        .sort((a, b) => b.score - a.score);
-    });
-  }, [alertConfig, existingActions]);
-
-  if (!alertConfig || !getUnusedSuggestedActions || !existingActions) {
+  if (!alertConfig || !unusedSuggestedActions || !existingActions) {
     return <LoadingIndicator size="xl" />;
   }
 
   return (
     <>
       {error && <NotificationComponent failure>{t('in-automation:failedToSaveAssocation')}</NotificationComponent>}
-      <ActionTable
-        noDataMessage={t('in-automation:noRecommendedActionsAvailable')}
-        showActionLink
-        event={event}
-        volatileId={volatileId}
-        title={t('in-automation:recommendedActions')}
-        rightHeader={<></>} // required to get the title of the card to show with the beta badge
-        pageSize={5}
-        isSearchable={false}
-        loadEntities={() => getUnusedSuggestedActions}
-        scored
-        tableActions={{
-          select: {
-            title: action => t('in-automation:associateActionWithName', { actionName: action.name }),
-            select: selectedAction =>
-              associateAction({
-                action: selectedAction,
-                existingActions,
-                alertConfig,
-                triggerReload,
-                setError,
-                isCustomEvent,
-                setSelectedType
-              })
-          }
-        }}
-      />
+      {actionError && (
+        <Message type="error" small withIcon>
+          {actionError}
+        </Message>
+      )}
+      {actionError === null && Array.isArray(existingActions) && (
+        <RecommendationctionsTable
+          unusedSuggestedActions={unusedSuggestedActions}
+          existingActions={existingActions}
+          eventSpecification={alertConfig}
+          triggerReload={triggerReload}
+          setError={setError}
+          isCustomEvent={isCustomEvent}
+          setSelectedType={setSelectedType}
+        />
+      )}
     </>
   );
 }

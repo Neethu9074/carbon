@@ -466,6 +466,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'automationPoliciesEnabled',
+    instanaCtlKey: 'feature.automation.policies.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false

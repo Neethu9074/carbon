@@ -39,6 +39,8 @@ export default function ActionLog() {
         let type = t('in-settings:tabs.userCall');
         if (logEntry.actor.type !== 'USER' || !logEntry.actor.email) {
           type = t('in-settings:tabs.apiCall');
+        } else if (logEntry.action.type === 'POLICY') {
+          type = t('in-settings:tabs.policyCall');
         }
         return <span>{type}</span>;
       }

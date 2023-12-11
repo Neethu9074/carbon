@@ -7,7 +7,12 @@ import React, { forwardRef } from 'react';
 
 import locals from './WithSubscript.mless';
 
-export default forwardRef(function WithSubscript({ subscript, children }, ref) {
+interface WithSubscriptProps {
+  subscript: React.ReactNode;
+  children: React.ReactNode;
+}
+
+export default forwardRef<HTMLDivElement, WithSubscriptProps>(function WithSubscript({ subscript, children }, ref) {
   return (
     <div className={locals.container} ref={ref}>
       {children}

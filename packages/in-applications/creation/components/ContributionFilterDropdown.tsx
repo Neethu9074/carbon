@@ -6,6 +6,7 @@
 
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
+import classNames from 'classnames';
 
 import { ApiApplicationScope, TagFilterExpressionElementUnion } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -96,6 +97,7 @@ export default function ContributionFilterDropdown({
       disableAutomaticOptionSorting
       aria-label={t('in-applications:creation.selectContributionFilter')}
       listItemClassName={className}
+      listItemAlignment={'left'}
     >
       {({ elementProps, isOpen }) => (
         // @ts-expect-error not fully matching expected type
@@ -107,18 +109,23 @@ export default function ContributionFilterDropdown({
           className={locals.dropdownButton}
           spanClassName={locals.span}
         >
-          {renderSelectedOption(options, groupIdField.value)}
+          {renderSelectedOption(options, groupIdField.value, true)}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
   );
 }
 
-function renderSelectedOption(options: OptionsProps[], value: string) {
+function renderSelectedOption(options: OptionsProps[], value: string, truncateText: boolean) {
   const selectedItemObj = options.find(o => o.value === value);
   const tagFilterData = fromBackendModel(selectedItemObj?.tagFilterExpression);
   return selectedItemObj?.value ? (
-    <AdvancedModeDropdownItem query={tagFilterData} labelTxt={selectedItemObj?.labelTxt} isOpen />
+    <AdvancedModeDropdownItem
+      query={tagFilterData}
+      labelTxt={selectedItemObj?.labelTxt}
+      truncateText={truncateText}
+      isOpen
+    />
   ) : selectedItemObj?.labelTxt === t('in-applications:creation.noContributionFilter') ? (
     t('in-applications:creation.noContributionFilter')
   ) : (
@@ -168,14 +175,20 @@ function limitScope(scope: ApiApplicationScope, groupScope: ApiApplicationScope)
 function AdvancedModeDropdownItem({
   query,
   labelTxt,
-  isOpen
+  isOpen,
+  truncateText = false
 }: {
   query: any;
   labelTxt: string | undefined;
   isOpen: boolean;
+  truncateText?: boolean;
 }) {
   return (
-    <div>
+    <div
+      className={classNames({
+        [locals.showEllipsisForLongText]: truncateText
+      })}
+    >
       {!isOpen && (
         <div className={locals.contribution_filter_label_txt}>
           <h4>{labelTxt}</h4>

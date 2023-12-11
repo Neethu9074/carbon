@@ -12,11 +12,13 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
+import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import StepsContainer from 'in-components/StepsContainer';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -25,7 +27,8 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, updateForm, onChange } = props;
+  const { form, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, onChange } = props;
+
   return (
     <StepsContainer
       messages={[]}
@@ -56,8 +59,18 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '2',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.threshold.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.threshold.title'),
-          valid: true,
-          content: <></>
+          valid: isThresholdSectionValid(),
+          content: (
+            <>
+              <ThresholdSelectionInteractiveChart
+                form={form}
+                onChartViewConfigChange={onChartViewConfigChange}
+                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                // @ts-expect-error updateForm is required
+                updateForm={updateForm}
+              />
+            </>
+          )
         },
         {
           scrollId: '3',
@@ -90,4 +103,11 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
       ]}
     />
   );
+
+  function isThresholdSectionValid() {
+    if (fieldTouchedAndInvalid(form.get('threshold'))) {
+      return false;
+    }
+    return true;
+  }
 }

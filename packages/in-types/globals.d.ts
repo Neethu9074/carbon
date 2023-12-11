@@ -31,6 +31,7 @@ export interface Role {
   canConfigureCustomAlerts: boolean;
   canConfigureAutomationActions: boolean;
   canRunAutomationActions: boolean;
+  canConfigureAutomationPolicies: boolean;
   canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;

@@ -70,8 +70,8 @@ import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/naviga
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
-import { actionCatalogPath, actionHistoryPath } from 'in-automation/navigation/paths';
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { actionCatalogPath, isAutomationView } from 'in-automation/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
@@ -434,7 +434,7 @@ function AutomationMenu(props) {
         id="main-nav-automation-dashboard"
         label={t('in-automation:automation')}
         icon="lib_automation"
-        isActive={matchLocation(actionCatalogPath) || matchLocation(actionHistoryPath)}
+        isActive={matchLocation(isAutomationView)}
         href={createHrefToPath(actionCatalogPath)}
         isBeta
         {...props}

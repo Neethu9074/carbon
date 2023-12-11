@@ -201,7 +201,7 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
       {name.map(field => (
         <FormGroup>
           <Label htmlFor="action-name" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.name')}
+            {t('in-automation:name')}
           </Label>
           <Input
             id="action-name"
@@ -222,7 +222,7 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
       {description.map(field => (
         <FormGroup>
           <Label htmlFor="action-description" hasError={!field.valid && field.touched}>
-            {t('in-automation:ActionCatalog.description')}
+            {t('in-automation:description')}
           </Label>
           <TextArea
             id="action-description"
@@ -256,7 +256,7 @@ const TypeSection = ({
   return type.map(field => (
     <FormGroup>
       <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
-        {t('in-automation:ActionCatalog.type')}
+        {t('in-automation:type')}
       </Label>
       {isCreate && !isNotEditable ? (
         <>
@@ -1332,7 +1332,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
         {apiKeyValue.map(field => (
           <FormGroup>
             <Label htmlFor="action-apiKeyValue" hasError={!field.valid && field.touched}>
-              {t('in-automation:ActionCatalog.value')}
+              {t('in-automation:value')}
             </Label>
             <SecuredInput form={form} onChange={onChange} fieldKey="apiKeyValue" />
             <TouchedMessages field={field} className={locals.subErrorTextFormField} />

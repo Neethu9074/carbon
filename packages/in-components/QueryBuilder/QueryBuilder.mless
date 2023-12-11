@@ -22,12 +22,6 @@
     }
   }
 
-  .showEllipsisForLongText {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inherit;
-  }
-
   .emptyQueryHelpText {
     margin-left: 0.125rem;
 

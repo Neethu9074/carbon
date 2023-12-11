@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import oldTheme from 'in-themes/active.json';
+import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface Color {

@@ -94,6 +94,7 @@ module.exports = {
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
   logDeletionEnabled: true,
+  automationPoliciesEnabled: false,
   autoFormatterTimeSeriesEnabled: true,
   multiGroupTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,

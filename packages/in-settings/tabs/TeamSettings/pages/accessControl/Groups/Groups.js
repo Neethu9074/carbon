@@ -13,6 +13,8 @@ import {
   teamSettingsAccessControlGroupNew
 } from 'in-settings/navigation/paths';
 import { ProductAreaPermissionMap } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import CustomDeleteGroupMessage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/CustomDeleteGroupMessage';
+import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -104,6 +106,12 @@ const columnDefinitions = [
         ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
         : undefined;
 
+      const contributorApplicationIds = group?.permissionSet?.applicationIds?.filter(
+        g => g.scopeRoleId === ScopeRoles.Contributor
+      );
+      const isContributorApplicationIdPresent =
+        Array.isArray(contributorApplicationIds) && contributorApplicationIds.length > 0;
+
       return (
         <Delete
           disabled={isDisabled}
@@ -111,6 +119,13 @@ const columnDefinitions = [
           tooltipContent={tooltipContent}
           doDelete={() => deleteItem(group.id)}
           isDeleting={currentDeletingItemIds.has(group.id)}
+          dialogMessage={
+            <CustomDeleteGroupMessage
+              group={group}
+              isContributorApplicationIdPresent={isContributorApplicationIdPresent}
+              apCount={contributorApplicationIds.length}
+            />
+          }
         />
       );
     }

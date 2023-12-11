@@ -202,6 +202,8 @@ export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', f
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
 
+export const automationPoliciesEnabled = isFeatureFlagEnabled('automationPoliciesEnabled', false);
+
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);

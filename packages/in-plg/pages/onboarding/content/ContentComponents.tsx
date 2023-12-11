@@ -14,7 +14,7 @@ import InputComponent from 'in-components/form/Input';
 import Select from 'in-components/form/Select';
 import { region } from 'in-services/config';
 
-import locals from './contentComponents.mless';
+import locals from './ContentComponents.mless';
 
 export function toURLstring(str?: string) {
   return encodeURIComponent(str ? str : '');
@@ -133,4 +133,20 @@ export function Input({
       autoComplete="off"
     />
   );
+}
+
+export function FormInputPlg({
+  value,
+  onChange,
+  placeholder
+}: {
+  value?: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
+  return <FormInput value={value} placeholder={placeholder} className={locals.inputField} onChange={handleChange} />;
 }

@@ -4,7 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import { GenericInfraAlertRule, InfraAlertConfig, InfraAlertConfigWithMetadata } from '@instana/types';
+import {
+  GenericInfraAlertRule,
+  InfraAlertConfig,
+  InfraAlertConfigWithMetadata,
+  StaticThresholdConfig
+} from '@instana/types';
+
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export interface InfraAlertConfigWithID extends InfraAlertConfig {
   readonly id?: string;
@@ -19,6 +26,12 @@ export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
     metricName: ''
   };
 
+  const threshold: StaticThresholdConfig = {
+    type: STATIC_THRESHOLD,
+    lastUpdated: 0,
+    operator: '>='
+  } as StaticThresholdConfig;
+
   return {
     alertChannelIds: [],
     description: '',
@@ -29,6 +42,7 @@ export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
 
     //@ts-expect-error type-conflict: created would be a timestamp if created on the server.
     created: undefined,
+    threshold,
     timeThreshold: {
       type: 'violationsInSequence',
       timeWindow: 1

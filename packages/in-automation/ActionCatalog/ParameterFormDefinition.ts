@@ -175,7 +175,7 @@ export function emptyObjectValidator(value: DynamicFieldValue): ValidationResult
     return [
       {
         severity: 'error',
-        message: t('in-automation:ActionCatalog.theValueMustNotBeBlank')
+        message: t('in-automation:theValueMustNotBeBlank')
       }
     ];
   }

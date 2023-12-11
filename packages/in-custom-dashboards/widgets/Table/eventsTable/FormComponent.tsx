@@ -11,12 +11,11 @@ import { Spacer, Stack } from '@instana/components';
 
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { eventColumns } from 'in-custom-dashboards/widgets/Table/eventsTable/EventColumns';
-//@ts-expect-error
-import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 //@ts-expect-error
 import { trim } from 'in-components/SearchBar/Input';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';

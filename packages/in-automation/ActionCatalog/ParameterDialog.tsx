@@ -156,7 +156,7 @@ const MetaDataSection = ({
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-name" hasError={!name.valid && name.touched}>
-          {t('in-automation:ActionCatalog.name')}
+          {t('in-automation:name')}
         </Label>
         <Input
           id="parameter-name"
@@ -173,7 +173,7 @@ const MetaDataSection = ({
       </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-description" hasError={!description.valid && description.touched}>
-          {t('in-automation:ActionCatalog.description')}
+          {t('in-automation:description')}
         </Label>
         <Input
           id="parameter-description"
@@ -395,7 +395,7 @@ const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEdita
   return (
     <FormGroup>
       <Label htmlFor="parameter-secretPath" hasError={!value.valid && value.touched}>
-        {t('in-automation:ActionCatalog.value')}
+        {t('in-automation:value')}
       </Label>
       <div>
         <TagBasedPayloadConfigurator

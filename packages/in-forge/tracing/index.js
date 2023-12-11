@@ -110,6 +110,7 @@ import './sqlalchemy';
 import './webmethods';
 import './activejob';
 import './aerospike';
+import './azstorage';
 import './cassandra';
 import './couchbase';
 import './hibernate';

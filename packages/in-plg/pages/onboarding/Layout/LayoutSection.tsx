@@ -17,7 +17,7 @@ interface LayoutSectionProps {
 
 const LayoutSection: React.FC<LayoutSectionProps> = ({ title, children }) => {
   return (
-    <Stack>
+    <Stack gap="medium">
       <Typography variant="body-bold">{title}</Typography>
       <div className={locals.childrenBlock}>{children}</div>
     </Stack>

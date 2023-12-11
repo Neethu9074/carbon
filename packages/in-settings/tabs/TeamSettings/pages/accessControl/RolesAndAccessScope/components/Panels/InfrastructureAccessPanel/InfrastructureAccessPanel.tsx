@@ -158,13 +158,5 @@ export interface InfraDfqProps {
 }
 
 export function InfraDfq({ infraDfqFilter, update }: InfraDfqProps) {
-  return (
-    <DfqSearchBar
-      id="infra-dfq-filter"
-      theme="light"
-      onQueryValueChange={update}
-      queryValue={infraDfqFilter}
-      manageFiltersDisabled
-    />
-  );
+  return <DfqSearchBar theme="light" onQueryValueChange={update} queryValue={infraDfqFilter} manageFiltersDisabled />;
 }
