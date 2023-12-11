@@ -707,3 +707,15 @@ export function removeBearerField(form: MapForm<any>) {
 export function removeApiKeyFields(form: MapForm<any>) {
   return form.remove('apiKey').remove('apiKeyValue').remove('apiKeyAddTo');
 }
+
+export const createTicketIdParameter = (description: string) => ({
+  id: generateUniqueShortId(),
+  value: {
+    label: 'Ticket Id',
+    name: 'ticketId',
+    description: `${description}`,
+    required: true,
+    type: 'static',
+    valueType: 'string'
+  }
+});

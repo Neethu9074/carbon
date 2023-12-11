@@ -8,7 +8,6 @@ import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Link, Spacer, Toggle, Typography } from '@instana/components';
-import { generateUniqueShortId } from '@instana/utils';
 
 import {
   putApiKeyFields,
@@ -41,7 +40,8 @@ import {
   removeJiraOpenTicketFields,
   putJiraOpenTicketFields,
   putJiraCloseTicketFields,
-  putJiraCommentTicketFields
+  putJiraCommentTicketFields,
+  createTicketIdParameter
 } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import {
   API_KEY,
@@ -483,17 +483,7 @@ const GithubSection = ({
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push({
-                          id: generateUniqueShortId(),
-                          value: {
-                            label: 'Ticket Id',
-                            name: 'ticketId',
-                            description: 'Github ticket id to close ticket',
-                            required: true,
-                            type: 'static',
-                            valueType: 'string'
-                          }
-                        });
+                        parameters.push(createTicketIdParameter('Github ticket id'));
                       }
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
@@ -502,17 +492,7 @@ const GithubSection = ({
                       updatedForm = putGithubCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push({
-                          id: generateUniqueShortId(),
-                          value: {
-                            label: 'Ticket Id',
-                            name: 'ticketId',
-                            description: 'Github ticket id to add comment',
-                            required: true,
-                            type: 'static',
-                            valueType: 'string'
-                          }
-                        });
+                        parameters.push(createTicketIdParameter('Github ticket id'));
                       }
                       onChange('parameters', parameters);
                     }
@@ -703,17 +683,7 @@ const GitlabSection = ({
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push({
-                          id: generateUniqueShortId(),
-                          value: {
-                            label: 'Ticket Id',
-                            name: 'ticketId',
-                            description: 'Gitlab ticket id to close ticket',
-                            required: true,
-                            type: 'static',
-                            valueType: 'string'
-                          }
-                        });
+                        parameters.push(createTicketIdParameter('Gitlab ticket id'));
                       }
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
@@ -722,17 +692,7 @@ const GitlabSection = ({
                       updatedForm = putGitlabCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push({
-                          id: generateUniqueShortId(),
-                          value: {
-                            label: 'Ticket Id',
-                            name: 'ticketId',
-                            description: 'Gitlab ticket id to add comment',
-                            required: true,
-                            type: 'static',
-                            valueType: 'string'
-                          }
-                        });
+                        parameters.push(createTicketIdParameter('Gitlab ticket id'));
                       }
                       onChange('parameters', parameters);
                     }
@@ -907,17 +867,7 @@ const JiraSection = ({
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraCloseTicketFields(updatedForm, action);
                       if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push({
-                          id: generateUniqueShortId(),
-                          value: {
-                            label: 'Ticket Id',
-                            name: 'ticketId',
-                            description: 'Jira ticket id to close ticket',
-                            required: true,
-                            type: 'static',
-                            valueType: 'string'
-                          }
-                        });
+                        parameters.push(createTicketIdParameter('Jira ticket id'));
                       }
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
@@ -926,17 +876,7 @@ const JiraSection = ({
                       updatedForm = putJiraCommentTicketFields(updatedForm, action);
 
                       if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push({
-                          id: generateUniqueShortId(),
-                          value: {
-                            label: 'Ticket Id',
-                            name: 'ticketId',
-                            description: 'Jira ticket id to add comment',
-                            required: true,
-                            type: 'static',
-                            valueType: 'string'
-                          }
-                        });
+                        parameters.push(createTicketIdParameter('Jira ticket id'));
                       }
                       onChange('parameters', parameters);
                     }
