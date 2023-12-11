@@ -14,17 +14,19 @@ export interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement>
   value?: string;
   hasError?: boolean;
   disabled?: boolean;
+  rows?: number;
   hideValidityInformationOnFocus?: boolean;
 }
 
 export default forwardRef<HTMLTextAreaElement, TextAreaProps>(function FormTextArea(
-  { hasError, hideValidityInformationOnFocus, className, ...textAreaProps },
+  { hasError, hideValidityInformationOnFocus, className, rows, ...textAreaProps },
   ref
 ) {
   return (
     <textarea
       {...textAreaProps}
       ref={ref}
+      rows={rows}
       className={classNames(locals.textArea, className, {
         [locals.error]: hasError,
         [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus

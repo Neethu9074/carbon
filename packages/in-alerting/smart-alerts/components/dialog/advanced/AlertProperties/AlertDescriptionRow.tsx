@@ -26,7 +26,7 @@ export default function AlertDescriptionRow({ form, onChange, getDescriptionPlac
       <AlertPropertiesTextarea
         name="description"
         id="description"
-        rows="3"
+        rows={3}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
           onChange(['description'], (field: Item) => {
             return (field as Field<string>).setValue(e.target.value || '').setTouched(true);

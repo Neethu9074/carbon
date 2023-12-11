@@ -20,10 +20,36 @@ import {
   isAnsible,
   isScript,
   isWebhook,
+  isJira,
   parseDynamicParameter,
   parseVaultParameter,
-  getAnsibleFields
+  getAnsibleFields,
+  isGithub,
+  getGithubFields,
+  getGithubOpenTicketFields,
+  getCloseAndCommentFields,
+  OPEN,
+  CLOSE,
+  ADD_COMMENT,
+  getGitlabFields,
+  isGitlab,
+  getGitlabOpenTicketFields,
+  getJiraFields,
+  getJiraOpenTicketFields
 } from 'in-automation/ActionCatalog/shared';
+import {
+  ResolvedDynamicParamValue,
+  resolveDynamicParameters,
+  runScriptAction,
+  runWebhookAction,
+  runAnsibleAction,
+  runGithubCloseAction,
+  runGithubOpenAction,
+  runGitlabOpenAction,
+  runGitlabCloseAction,
+  runJiraOpenAction,
+  runJiraCloseAction
+} from 'in-automation/api';
 import RunActionContent, {
   shouldHideParameter,
   TRIGGERING_AGENT,
@@ -32,13 +58,6 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
-import {
-  ResolvedDynamicParamValue,
-  resolveDynamicParameters,
-  runScriptAction,
-  runWebhookAction,
-  runAnsibleAction
-} from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution';
@@ -164,6 +183,9 @@ function useAgentSnapShots({ action }: { action: Action }) {
   if (isScript(action.type)) query = 'entity.agent.capability:action-script';
   else if (isWebhook(action.type)) query = 'entity.agent.capability:action-http';
   else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
+  else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
+  else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
+  else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
@@ -371,6 +393,111 @@ function onSave({
       policyId: executePolicyId,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
+  } else if (isGithub(action.type)) {
+    const { owner, repo, ticketType } = getGithubFields(action);
+    if (ticketType.value === OPEN) {
+      const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
+      runGithubOpenAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        owner,
+        repo,
+        ticketType,
+        title,
+        body,
+        labels,
+        assignees,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+
+    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+      const { comment } = getCloseAndCommentFields(action);
+      runGithubCloseAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        owner,
+        repo,
+        ticketType,
+        comment,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+  } else if (isGitlab(action.type)) {
+    const { projectId, ticketType } = getGitlabFields(action);
+    if (ticketType.value === OPEN) {
+      const { title, gitlab_description, labels, issue_type } = getGitlabOpenTicketFields(action);
+      runGitlabOpenAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        projectId,
+        ticketType,
+        title,
+        body: gitlab_description,
+        labels,
+        issue_type,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+
+    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+      const { comment } = getCloseAndCommentFields(action);
+      runGitlabCloseAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        projectId,
+        ticketType,
+        comment,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+  } else if (isJira(action.type)) {
+    const { project, ticketType } = getJiraFields(action);
+    if (ticketType.value === OPEN) {
+      const { summary, jira_description, assignee, labels, issue_type } = getJiraOpenTicketFields(action);
+      runJiraOpenAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        project,
+        ticketType,
+        summary,
+        body: jira_description,
+        assignee,
+        labels,
+        issue_type,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
+
+    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+      const { comment } = getCloseAndCommentFields(action);
+      runJiraCloseAction({
+        volatileId: selectedVolatileId,
+        event,
+        actionName,
+        timeout,
+        actionId,
+        project,
+        ticketType,
+        comment,
+        inputParameters: allInputParameters
+      }).once(handleActionResponse);
+    }
   } else if (isWebhook(action.type)) {
     const { host, method, body, ignoreCertErrors, header, authen } = getWebhookFields(action);
     runWebhookAction({

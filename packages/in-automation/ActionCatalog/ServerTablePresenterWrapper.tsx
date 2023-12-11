@@ -6,6 +6,7 @@
 
 import { Field, MapForm } from 'formalistic';
 import React, { useContext } from 'react';
+import classNames from 'classnames';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { Button, SvgIcon } from '@instana/components';
@@ -41,7 +42,9 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
   setForm: SetFormFunction;
   customAddRow?: () => void;
   customAddRowLabel?: string;
+  ticketIdParameterExist?: boolean;
 }
+const hasNameProperty = (obj: any): obj is { name: string } => obj && typeof obj.name === 'string';
 
 export default function ServerTablePresenterWrapper<VALUETYPE>({
   columnDefinitions,
@@ -53,7 +56,8 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
   defaultRow,
   setForm,
   customAddRow,
-  customAddRowLabel
+  customAddRowLabel,
+  ticketIdParameterExist = false
 }: ServerTablePresenterWrapperProps<VALUETYPE>) {
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
@@ -75,10 +79,20 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
     sortable: false,
     label: '',
     getContent(item: ListItem<VALUETYPE>) {
+      // we should not delete the ticketId parameter for GH Action.
+      const isTicketId = item.value && hasNameProperty(item.value) && item.value.name === 'ticketId';
+      const disabled = ticketIdParameterExist && isTicketId;
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
-            <SvgIcon type="lib_actions_delete" className={locals.delete} onClick={() => deleteRow(item.id)} />
+            <SvgIcon
+              type="lib_actions_delete"
+              className={classNames({
+                [locals.delete]: true,
+                [locals.disabled]: disabled
+              })}
+              onClick={() => !disabled && deleteRow(item.id)}
+            />
           </Tooltip>
         </div>
       );

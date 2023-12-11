@@ -16,7 +16,6 @@ import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { hasInfrastructureAccess } from 'in-stores/permission';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import { emptyMap } from 'in-services/fixedImmutables';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
@@ -65,16 +64,17 @@ addFormattedValueLocator(
 );
 
 function containerInfoAvailable(snapshot) {
-  const labels = snapshot?.getIn(['data', 'Labels'], emptyMap);
-  return !isServerless(labels);
+  const hostId = snapshot?.getIn(['entityId', 'host']);
+  return !isServerless(hostId);
 }
 
-function isServerless(labels) {
+function isServerless(hostId) {
   // Containers monitored by serverless monitoring (via an in-process collector reporting to serverless-acceptor)
   // currently do not provide a backchannel, thus they do not have the container info button available.
-  return isAwsFargate(labels);
+  return isAwsFargate(hostId);
 }
 
-function isAwsFargate(labels) {
-  return labels.has('com.amazonaws.ecs.container-name') || labels.has('com.amazonaws.ecs.task-arn');
+function isAwsFargate(hostId) {
+  // When running in AWS Fargate the host id of Docker sensor will be the Task's ARN.
+  return hostId.startsWith('arn:aws:ecs') || !hostId;
 }

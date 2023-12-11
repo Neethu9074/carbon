@@ -18,7 +18,10 @@ import {
   isScript,
   isWebhook,
   getDocLinkFromFields,
-  isAnsible
+  isAnsible,
+  isGithub,
+  isJira,
+  isGitlab
 } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -104,7 +107,14 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-automation:ActionCatalog.launch')}
         </Button>
       );
-    } else if (isScript(type) || isWebhook(type) || isAnsible(type)) {
+    } else if (
+      isScript(type) ||
+      isWebhook(type) ||
+      isAnsible(type) ||
+      isGithub(type) ||
+      isJira(type) ||
+      isGitlab(type)
+    ) {
       return (
         <Button
           kind="action"

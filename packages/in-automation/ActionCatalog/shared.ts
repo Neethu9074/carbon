@@ -6,6 +6,7 @@
 
 import { keyBy } from 'lodash';
 
+import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
 import { Action, Field } from 'in-types';
 import { t } from 'in-i18n';
@@ -23,8 +24,30 @@ export const getType = (type: string) => {
     return t('in-automation:actionHistory.external');
   } else if (isAnsible(type)) {
     return t('in-automation:ActionCatalog.ansible');
+  } else if (isGithub(type)) {
+    return t('in-automation:ActionCatalog.github');
+  } else if (isGitlab(type)) {
+    return t('in-automation:ActionCatalog.gitlab');
+  } else if (isJira(type)) {
+    return t('in-automation:ActionCatalog.jira');
   } else {
     return type;
+  }
+};
+
+export const getHelpTextType = (type: string) => {
+  if (isDocLink(type)) {
+    return t('in-automation:ActionCatalog.docLinkHelpText');
+  } else if (isScript(type)) {
+    return t('in-automation:ActionCatalog.scripthelpText');
+  } else if (isWebhook(type)) {
+    return t('in-automation:ActionCatalog.httpHelpText');
+  } else if (isManual(type)) {
+    return t('in-automation:ActionCatalog.manualHelpText');
+  } else if (isGithub(type) || isGitlab(type) || isJira(type)) {
+    return t('in-automation:ActionCatalog.githubHelpText');
+  } else {
+    return '';
   }
 };
 
@@ -57,6 +80,42 @@ export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Fiel
   getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.ansibleUrl ?? { value: '', encoding: 'ascii', name: 'ansibleUrl' };
+export const getGithubOwnerFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.owner ?? { value: '', encoding: 'ascii', name: 'owner' };
+export const getGithubRepoFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.repo ?? { value: '', encoding: 'ascii', name: 'repo' };
+export const getGithubTicketTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.ticketType ?? { value: `${OPEN}`, encoding: 'ascii', name: 'ticketType' };
+
+export const getGithubTitleFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.title ?? { value: '', encoding: 'ascii', name: 'title' };
+export const getGithubBodyFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
+export const getGithubLabelsFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.labels ?? { value: '', encoding: 'ascii', name: 'labels' };
+export const getGithubAssigneesFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.assignees ?? { value: '', encoding: 'ascii', name: 'assignees' };
+
+export const getGithubCommentFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.comment ?? { value: '', encoding: 'ascii', name: 'comment' };
+
+export const getGitlabProjectIdFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.projectId ?? { value: '', encoding: 'ascii', name: 'projectId' };
+export const getGitlabDescriptionFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.gitlab_description ?? { value: '', encoding: 'ascii', name: 'gitlab_description' };
+export const getGitlabIssueTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.issue_type ?? { value: `${ISSUE}`, encoding: 'ascii', name: 'issue_type' };
+
+export const getJiraProjectFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.project ?? { value: '', encoding: 'ascii', name: 'project' };
+export const getJiraSummaryFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.summary ?? { value: '', encoding: 'ascii', name: 'summary' };
+export const getJiraDescriptionFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.jira_description ?? { value: '', encoding: 'ascii', name: 'jira_description' };
+export const getJiraAssigneeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.assignee ?? { value: '', encoding: 'ascii', name: 'assignee' };
+export const getJiraIssueTypeFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.issue_type ?? { value: `${TASK}`, encoding: 'ascii', name: 'issue_type' };
 
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
@@ -112,12 +171,107 @@ export function getAnsibleFields(action: Action | NewAction): AnsibleFields {
   return { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl };
 }
 
+interface GithubOpenFields {
+  title: Field;
+  body: Field;
+  labels: Field;
+  assignees: Field;
+}
+
+interface GithubFields {
+  owner: Field;
+  repo: Field;
+  ticketType: Field;
+}
+
+interface GithubCloseFields {
+  comment: Field;
+}
+
+export function getGithubFields(action: Action | NewAction): GithubFields {
+  const owner = getGithubOwnerFromFields(action.fields);
+  const repo = getGithubRepoFromFields(action.fields);
+  const ticketType = getGithubTicketTypeFromFields(action.fields);
+
+  return { owner, repo, ticketType };
+}
+export function getGithubOpenTicketFields(action: Action | NewAction): GithubOpenFields {
+  const title = getGithubTitleFromFields(action.fields);
+  const body = getGithubBodyFromFields(action.fields);
+  const labels = getGithubLabelsFromFields(action.fields);
+  const assignees = getGithubAssigneesFromFields(action.fields);
+  return { title, body, labels, assignees };
+}
+
+export function getCloseAndCommentFields(action: Action | NewAction): GithubCloseFields {
+  const comment = getGithubCommentFromFields(action.fields);
+  return { comment };
+}
+
+interface GitlabFields {
+  projectId: Field;
+  ticketType: Field;
+}
+
+export function getGitlabFields(action: Action | NewAction): GitlabFields {
+  const projectId = getGitlabProjectIdFromFields(action.fields);
+  const ticketType = getGithubTicketTypeFromFields(action.fields);
+
+  return { projectId, ticketType };
+}
+interface GitlabOpenFields {
+  title: Field;
+  gitlab_description: Field;
+  labels: Field;
+  issue_type: Field;
+}
+
+export function getGitlabOpenTicketFields(action: Action | NewAction): GitlabOpenFields {
+  const title = getGithubTitleFromFields(action.fields);
+  const gitlab_description = getGitlabDescriptionFromFields(action.fields);
+  const labels = getGithubLabelsFromFields(action.fields);
+  const issue_type = getGitlabIssueTypeFromFields(action.fields);
+  return { title, gitlab_description, labels, issue_type };
+}
+
+interface JiraOpenFields {
+  summary: Field;
+  jira_description: Field;
+  labels: Field;
+  assignee: Field;
+  issue_type: Field;
+}
+
+interface JiraFields {
+  project: Field;
+  ticketType: Field;
+}
+
+export function getJiraFields(action: Action | NewAction): JiraFields {
+  const project = getJiraProjectFromFields(action.fields);
+  const ticketType = getGithubTicketTypeFromFields(action.fields);
+
+  return { project, ticketType };
+}
+
+export function getJiraOpenTicketFields(action: Action | NewAction): JiraOpenFields {
+  const summary = getJiraSummaryFromFields(action.fields);
+  const jira_description = getJiraDescriptionFromFields(action.fields);
+  const labels = getGithubLabelsFromFields(action.fields);
+  const assignee = getJiraAssigneeFromFields(action.fields);
+  const issue_type = getJiraIssueTypeFromFields(action.fields);
+  return { summary, jira_description, labels, assignee, issue_type };
+}
+
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isManual = (type?: string) => type === MANUAL_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const isExternal = (type?: string) => type === EXTERNAL_TYPE;
 export const isAnsible = (type?: string) => type === ANSIBlE_TYPE;
+export const isGithub = (type?: string) => type === GITHUB_TYPE;
+export const isGitlab = (type?: string) => type === GITLAB_TYPE;
+export const isJira = (type?: string) => type === JIRA_TYPE;
 
 export const DOC_LINK_TYPE = 'doc_link';
 export const MANUAL_TYPE = 'MANUAL';
@@ -125,9 +279,44 @@ export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 export const EXTERNAL_TYPE = 'EXTERNAL';
 export const ANSIBlE_TYPE = 'ANSIBLE';
+export const GITHUB_TYPE = 'GITHUB';
+export const GITLAB_TYPE = 'GITLAB';
+export const JIRA_TYPE = 'JIRA';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
+export const OPEN = 'open';
+export const CLOSE = 'close';
+export const ADD_COMMENT = 'add_comment';
+export const GH_TICKET_TYPES = Object.freeze([
+  { value: OPEN, translation: t('in-automation:openTicket') },
+  { value: CLOSE, translation: t('in-automation:closeTicket') },
+  { value: ADD_COMMENT, translation: t('in-automation:commentTicket') }
+]);
+
+export const ISSUE = 'issue';
+export const INCIDENT = 'incident';
+export const TEST_CASE = 'test_case';
+export const GL_ISSUE_TYPES = Object.freeze([
+  { value: ISSUE, translation: t('in-automation:issue') },
+  { value: INCIDENT, translation: t('in-automation:incident') },
+  { value: TEST_CASE, translation: t('in-automation:testcase') }
+]);
+
+export const EPIC = 'Epic';
+export const TASK = 'Task';
+export const SUBTASK = 'Subtask';
+export const BUG = 'Bug';
+export const IMPROVEMENT = 'Improvement';
+export const NEW_FEATURE = 'new_feature';
+export const JIRA_ISSUE_TYPES = Object.freeze([
+  { value: EPIC, translation: t('in-automation:ActionCatalog.epic') },
+  { value: TASK, translation: t('in-automation:ActionCatalog.task') },
+  { value: SUBTASK, translation: t('in-automation:ActionCatalog.subTask') },
+  { value: BUG, translation: t('in-automation:ActionCatalog.bug') },
+  { value: IMPROVEMENT, translation: t('in-automation:ActionCatalog.improvement') },
+  { value: NEW_FEATURE, translation: t('in-automation:ActionCatalog.newFeature') }
+]);
 
 export const NO_AUTH = 'noAuth';
 export const BASIC_AUTH = 'basicAuth';
@@ -177,3 +366,7 @@ export const parseDynamicParameter = (str?: string) => {
 
 export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
   ((action?.metadata?.builtIn ?? false) && !isCopy) || isAnsible(action.type);
+
+export const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
+  return parameters.some(param => param.value.name === paramName);
+};

@@ -17,6 +17,7 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
+import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -25,7 +26,6 @@ import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import { isAnsible } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
@@ -177,6 +177,22 @@ export default function DetailTab({
         stringLink: jobUrl,
         actionLane: false,
         showCondition: ansibleJobId.value && ansibleUrl.value ? ansibleUrl.value : ''
+      });
+    }
+  }
+
+  if (isGithub(type) || isGitlab(type) || isJira(type)) {
+    const ticketId = metadata?.find(data => data.name === 'ticketId');
+    const ticketUrl = metadata?.find(data => data.name === 'ticketUrl');
+    if (ticketId && ticketUrl) {
+      const ticketUrlValue = `${ticketUrl.value}`;
+      tableData.push({
+        label: t('in-automation:actionHistory.ticketUrl'),
+        value: ticketId.value ?? '',
+        isLink: true,
+        stringLink: ticketUrlValue,
+        actionLane: false,
+        showCondition: ticketId.value && ticketUrl.value ? ticketId.value : ''
       });
     }
   }
