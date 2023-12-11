@@ -36,7 +36,7 @@ export function getEventObservables(isCustomEvent: boolean) {
   };
 }
 
-export function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
+export function useEventSpecificationData(eventSpecificationId: string, isCustomEvent: boolean, reload: number) {
   const { getEventSpecification } = getEventObservables(isCustomEvent);
 
   const eventSpecification = useObservable<EventSpecification, [string, number]>(

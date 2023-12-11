@@ -42,7 +42,6 @@ export default function AssociatedAndRecommendedPolicies({ volatileId, event }: 
               <Row withoutSideMargin>
                 <Col xs>
                   <RecommendedActionsForPoliciesCard
-                    volatileId={volatileId}
                     event={event}
                     reload={reload}
                     setReload={setReload}

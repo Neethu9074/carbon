@@ -12,7 +12,7 @@ import { Message } from '@instana/components';
 import {
   getEventSpecificationId,
   getIsCustomEvent,
-  useAssociatedActionsData,
+  useEventSpecificationData,
   useDualReload
 } from 'in-automation/AssociatedActions/sharedPolicies';
 import { EventSpecification, getAllActionsWithAISuggestions, getAllActions, saveBulkPolicies } from 'in-automation/api';
@@ -42,7 +42,7 @@ export default function AssociatedPoliciesCard({
 
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
 
-  const { eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent, reload);
+  const { eventSpecification } = useEventSpecificationData(eventSpecificationId, isCustomEvent, reload);
 
   if (!eventSpecification) {
     return <LoadingIndicator size="xl" />;
@@ -100,7 +100,7 @@ function RightHeader({ eventSpecification, isCustomEvent, triggerReload }: Right
       if (filteredAction) {
         const policy = {
           name: `policy_${filteredAction.name}_${filteredAction.id}`,
-          description: 'test',
+          description: `${filteredAction.description}`,
           tags: [],
           trigger: {
             type: triggerType,

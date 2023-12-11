@@ -87,7 +87,7 @@ function RightHeader({ eventSpecification, triggerReload }: RightHeaderProps) {
       if (filteredAction) {
         const policy = {
           name: `policy_${filteredAction.name}_${filteredAction.id}`,
-          description: 'test',
+          description: `${filteredAction.description}`,
           tags: [],
           trigger: {
             type: triggerType,

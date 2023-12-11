@@ -30,12 +30,6 @@
   .scrollableTable {
     overflow-x: auto;
   }
-  .title {
-    display: flex;
-    font-size: 1.375rem;
-    margin-top: 1.5rem;
-    font-weight: 500;
-  }
 
   .shadowless {
     box-shadow: none;

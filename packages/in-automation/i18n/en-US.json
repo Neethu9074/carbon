@@ -64,6 +64,7 @@
   "aiEngine": "AI Engine",
   "eventSimilarity": "Event Similarity",
   "noRecommendedActionsAvailable": "No recommended actions available",
+  "recommendedActionsCount": "Recommended Actions ({{count}})",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -232,6 +233,7 @@
     "onCreateSuccessContent": "Policy \"{{name}}\" has been created successfully.",
     "onSaveFailedTitle": "Failed to save policy.",
     "onSaveFailedContent": "There was a problem saving this policy: \"{{name}}\"",
+    "onAssociateFailedContent": "There was a problem saving this policy.",
     "noActionConfigured": "No Action Configured",
     "noTriggerConfigured": "No Trigger Configured",
     "configure": "Configure",

@@ -54,7 +54,6 @@ export default function AssociatedAndRecommendedPoliciesAlerts({
               <Row withoutSideMargin>
                 <Col xs>
                   <RecommendedActionsAlertsForPolicies
-                    volatileId={volatileId}
                     event={event}
                     reload={reload}
                     setReload={setReload}
