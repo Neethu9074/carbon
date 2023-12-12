@@ -592,7 +592,8 @@
         "thousandCallsFormat": "{{count}}K calls"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Preview data is shown only up to 7 days in the past. The final widget will only include data since SLI creation."
+        "previewDataInfo": "Preview data is shown only up to 7 days in the past. The final widget will only include data since SLI creation.",
+        "liveDataInfo": "Live data is unavailable for Error Budget data"
       },
       "boundaryScopeConfigurator": {
         "all": {

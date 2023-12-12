@@ -27,4 +27,8 @@
 
     .ellipsis();
   }
+
+  .approximateIcon {
+    padding-top: 0.19rem;
+  }
 }

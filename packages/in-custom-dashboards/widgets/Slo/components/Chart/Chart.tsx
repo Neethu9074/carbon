@@ -106,7 +106,7 @@ export default function Chart({
           customHeight,
           automaticallySize: !nonInteractive,
           granularity,
-          timeConfig,
+          timeConfig: { ...timeConfig, autoRefresh: false },
           y1: {
             metricIds: ['consumed', 'hourlyBudget'],
             labels: [
