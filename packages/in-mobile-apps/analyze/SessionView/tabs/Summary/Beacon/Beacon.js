@@ -67,9 +67,10 @@ export default function Beacon(props) {
                 <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
               </div>
               <div className={locals.rightHeader}>
-                <BackendTraceButton beacon={beacon} />
-                {beacon?.type === 'crash' && (
+                {beacon?.type === 'crash' ? (
                   <ViewCrashGroupButton mobileAppId={beacon?.mobileAppId} errorMessage={beacon?.errorMessage} />
+                ) : (
+                  <BackendTraceButton beacon={beacon} />
                 )}
                 <HeaderToggleIcon {...props} />
               </div>

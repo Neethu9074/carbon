@@ -198,8 +198,7 @@
       "showID": "ID: {{id}}"
     },
     "tabsSumCrashGroupButton": {
-      "viewCrashGrpBtn": "View Crash Group Details",
-      "showID": "ID: {{id}}"
+      "viewCrashGrpBtn": "View Crash Group Details"
     },
     "tabsSumBatchIndicatorTooltip": "{{number}} occurrences",
     "tabsSumCustomEventBeacon": {
