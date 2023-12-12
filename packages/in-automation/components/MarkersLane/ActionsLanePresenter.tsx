@@ -52,7 +52,7 @@ export default function ActionsLanePresenter({
   const actionInstances = useMemo(() => {
     return actionInstancesData.map((entry: ActionsData) => ({
       timestamp: entry.timestamp,
-      count: entry.actionInstances?.filter((instance: ActionInstance) => instance.status !== 'READY').length, // Filter Ready status for turbo instances
+      count: entry.actionInstances?.filter((instance: ActionInstance) => instance.status !== 'READY')?.length, // Filter Ready status for turbo instances
       actionInstances: entry.actionInstances?.filter((instance: ActionInstance) => instance.status !== 'READY') ?? [], //filter ready status for turbo instances
       boundaryScope,
       labels: labels,
