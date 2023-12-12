@@ -52,8 +52,8 @@ export default function ActionsLanePresenter({
   const actionInstances = useMemo(() => {
     return actionInstancesData.map((entry: ActionsData) => ({
       timestamp: entry.timestamp,
-      count: entry.actionInstances?.filter((instance: any) => instance.status !== 'READY').length, // Filter Ready status for turbo instances
-      actionInstances: entry.actionInstances?.filter((instance: any) => instance.status !== 'READY') ?? [], //filter ready status for turbo instances
+      count: entry.actionInstances?.filter((instance: ActionInstance) => instance.status !== 'READY').length, // Filter Ready status for turbo instances
+      actionInstances: entry.actionInstances?.filter((instance: ActionInstance) => instance.status !== 'READY') ?? [], //filter ready status for turbo instances
       boundaryScope,
       labels: labels,
       hasButtonInActionslane: hasButtonInActionslane,
@@ -61,7 +61,7 @@ export default function ActionsLanePresenter({
     }));
   }, [actionInstancesData, boundaryScope, labels, snapshotHostFqdn, hasButtonInActionslane]);
   // After filtering instances with ready status, if count become zero, filter the entry.
-  const filteredActionInstances = actionInstances.filter(test => test.count !== 0);
+  const filteredActionInstances = actionInstances.filter(instance => instance.count !== 0);
 
   return (
     <>
