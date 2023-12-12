@@ -303,6 +303,10 @@
         "automatic": "Automatic"
       },
       "color": {
+        "magenta": "Magenta",
+        "darkRed": "Dark Red",
+        "blue": "Blue",
+        "yellow": "Yellow",
         "lightBlue": "Light Blue",
         "green": "Green",
         "red": "Red",
