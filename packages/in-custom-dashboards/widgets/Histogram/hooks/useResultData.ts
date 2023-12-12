@@ -28,8 +28,7 @@ export default function useResultData({ config }: any) {
       timeConfig,
       ...config.metricConfiguration,
       ...config.tagFilters,
-      ...metricDefaults,
-      granularity: timeConfig.windowSize
+      ...metricDefaults
     }
   };
 
