@@ -27,6 +27,7 @@ import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopName
 // @ts-expect-error
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sChartColors';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { useClusterDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
@@ -38,7 +39,6 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const showUsage = k8sClusterUsageEnabled;
@@ -51,14 +51,8 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster.id;
 
-  const running = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const pending = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const allocated = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const capacity = oldTheme.lib.colors.chart.fourColorPalette[3];
-
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
+  const { running, limits, requests, usage } = k8sChartColors;
+  const { pending, capacity, allocated } = k8sClusterChart;
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

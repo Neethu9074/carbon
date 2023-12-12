@@ -31,6 +31,7 @@ import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDep
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
+import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sChartColors';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { useNamespaceDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
@@ -42,7 +43,6 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -53,12 +53,9 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = namespace.id;
-  const hardLimits = oldTheme.lib.colors.chart.fiveColorPalette[2];
-  const hardRequests = oldTheme.lib.colors.chart.fiveColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.fiveColorPalette[3];
-  const requests = oldTheme.lib.colors.chart.fiveColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.fiveColorPalette[4];
-  const pods = oldTheme.lib.colors.chart.strokeColors100[0];
+
+  const { hardLimits, hardRequests, pods } = k8sChartColors;
+  const { limits, requests, usage } = k8sNamespaceChart;
 
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(namespace.label);

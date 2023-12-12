@@ -36,7 +36,6 @@ export function useTheme(params?: UseThemeParams) {
   }
   return themes.g10;
 }
-
 /**
  * For getting tokens depending on current theme (with ...cds...), please use the hook {@link useTheme()}
  */

@@ -24,6 +24,7 @@ import {
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
+import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sChartColors';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
@@ -34,7 +35,6 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const resourceQuotaSet = v => v !== -1;
@@ -42,12 +42,8 @@ const resourceQuotaSet = v => v !== -1;
 export default function SummaryWithoutTimeShift({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
 
-  const hardLimits = oldTheme.lib.colors.chart.fiveColorPalette[2];
-  const hardRequests = oldTheme.lib.colors.chart.fiveColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.fiveColorPalette[3];
-  const requests = oldTheme.lib.colors.chart.fiveColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.fiveColorPalette[4];
-  const pods = oldTheme.lib.colors.chart.strokeColors100[0];
+  const { hardLimits, hardRequests, pods } = k8sChartColors;
+  const { limits, requests, usage } = k8sNamespaceChart;
 
   const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(namespace.label);

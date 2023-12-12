@@ -25,6 +25,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -35,7 +36,6 @@ import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -46,9 +46,7 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: service }: SummaryProps) {
   // Removing the old destructuring syntax for colors
   const snapshotId = service.id;
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
+  const { limits, requests, usage } = k8sPodAndServiceChart;
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

@@ -27,8 +27,8 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { useDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import { Row, Col } from 'in-components/layout/Grid';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
@@ -37,14 +37,7 @@ const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 export default function Summary({ timeConfig, data: deploymentConfig }) {
   const snapshotId = deploymentConfig.id;
 
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
-
-  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
+  const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
 
   const clusterTag = kubernetesClusterTagEquals(deploymentConfig.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(deploymentConfig.namespace);

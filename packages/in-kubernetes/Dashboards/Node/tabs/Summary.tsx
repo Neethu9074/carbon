@@ -24,6 +24,7 @@ import { zeroDecimalPlaces, percentage, number, bytes } from 'in-services/format
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { useNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -32,7 +33,6 @@ import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -44,10 +44,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = node.id;
 
-  const capacity = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const requests = oldTheme.lib.colors.chart.fourColorPalette[3];
+  const { capacity, limits, requests, usage } = k8sNodeChart;
 
   const clusterTag = kubernetesClusterTagEquals(node.clusterId);
   const workloadTag = tagEquals('kubernetes.node.name', node.name);

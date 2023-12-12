@@ -27,12 +27,12 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { useDeploymentDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
@@ -47,17 +47,7 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
   const timeShift = useTimeShiftConfig();
   const snapshotId = deployment.id;
 
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
-
-  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
-
-  const available = oldTheme.lib.colors.chart.strokeColors100[0];
-  const desired = oldTheme.lib.colors.chart.strokeColors100[1];
+  const { usage, limits, requests, pending, allocated, unscheduled, unready, available, desired } = k8sChartColors;
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

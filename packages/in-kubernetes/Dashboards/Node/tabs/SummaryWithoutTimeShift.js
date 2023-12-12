@@ -21,22 +21,19 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
 import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
   const snapshotId = node.id;
 
-  const capacity = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const requests = oldTheme.lib.colors.chart.fourColorPalette[3];
+  const { capacity, limits, requests, usage } = k8sNodeChart;
 
   const clusterTag = kubernetesClusterTagEquals(node.clusterId);
   const workloadTag = tagEquals('kubernetes.node.name', node.name);

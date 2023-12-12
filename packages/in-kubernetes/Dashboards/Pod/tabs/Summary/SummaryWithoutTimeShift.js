@@ -23,6 +23,7 @@ import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Container
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
@@ -30,7 +31,6 @@ import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -40,9 +40,7 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
 
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
+  const { limits, requests, usage } = k8sPodAndServiceChart;
 
   const kpiWidth = 2;
 

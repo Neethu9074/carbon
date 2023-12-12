@@ -23,6 +23,7 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -30,24 +31,14 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: statefulSet }: any) {
   const timeShift = useTimeShiftConfig();
 
   const snapshotId = statefulSet.id;
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
 
-  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
-
-  const available = oldTheme.lib.colors.chart.strokeColors100[0];
-  const desired = oldTheme.lib.colors.chart.strokeColors100[1];
+  const { usage, limits, requests, pending, allocated, unscheduled, unready, available, desired } = k8sChartColors;
 
   const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);

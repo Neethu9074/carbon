@@ -19,21 +19,19 @@ import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
   const snapshotId = service.id;
 
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[2];
+  const { limits, requests, usage } = k8sPodAndServiceChart;
 
   const clusterTag = kubernetesClusterTagEquals(service.clusterName);
   const nsTag = kubernetesNamespaceTagEquals(service.namespace);

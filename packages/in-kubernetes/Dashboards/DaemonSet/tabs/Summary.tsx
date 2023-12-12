@@ -23,6 +23,7 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -30,20 +31,13 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: daemonSet }: any) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = daemonSet.id;
-  const usage = oldTheme.lib.colors.chart.threeColorPalette[0];
-  const limits = oldTheme.lib.colors.chart.threeColorPalette[1];
-  const requests = oldTheme.lib.colors.chart.threeColorPalette[2];
 
-  const pending = oldTheme.lib.colors.chart.fourColorPalette[0];
-  const allocated = oldTheme.lib.colors.chart.fourColorPalette[1];
-  const unscheduled = oldTheme.lib.colors.chart.fourColorPalette[2];
-  const unready = oldTheme.lib.colors.chart.fourColorPalette[3];
+  const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
 
   const clusterTag = kubernetesClusterTagEquals(daemonSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(daemonSet.namespace);
@@ -214,7 +208,6 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             hasActionlane
             snapshotId={snapshotId}
             hasButtonInActionslane={false}
-
           />
         </Col>
         <Col lg={4}>
