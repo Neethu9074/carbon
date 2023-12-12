@@ -117,13 +117,15 @@ export default function InfraEventContent({ event }: Props) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <InfraAlertChartWrapper
-            alertConfig={alertConfigWithGroupingExpression}
-            timeConfig={timeConfig}
-            predictions={infraSmartAlertsPredictionsEnabled ? predictions : []}
-            lowerBound={infraSmartAlertsPredictionsEnabled ? lowerBound : []}
-            upperBound={infraSmartAlertsPredictionsEnabled ? upperBound : []}
-          />
+          <Card title={t('in-events:titleMetrics')}>
+            <InfraAlertChartWrapper
+              alertConfig={alertConfigWithGroupingExpression}
+              timeConfig={timeConfig}
+              predictions={infraSmartAlertsPredictionsEnabled ? predictions : []}
+              lowerBound={infraSmartAlertsPredictionsEnabled ? lowerBound : []}
+              upperBound={infraSmartAlertsPredictionsEnabled ? upperBound : []}
+            />
+          </Card>
         </Col>
       </Row>
 

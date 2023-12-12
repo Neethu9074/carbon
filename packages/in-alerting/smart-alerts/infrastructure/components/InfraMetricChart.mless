@@ -1,0 +1,15 @@
+@import '~in-themes/active.less';
+
+:local {
+  .minHeight {
+    min-height: 240px;
+  }
+  .container {
+    display: flex;
+    padding-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+  .space {
+    padding-left: 0.25rem;
+  }
+}

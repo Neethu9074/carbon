@@ -4,21 +4,51 @@
  * Copyright IBM Corp. 2023
  */
 
-import { InfraAlertConfigWithMetadata, TimeConfig } from '@instana/types';
+import { InfraAlertConfigWithMetadata, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { addTagFilters, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NumberFormatterObject } from 'in-services/formatters/number/types';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
 
 interface UnifiedMetricConfigProps {
   alertConfig: InfraAlertConfigWithMetadata;
+  selectedMetricGroup?: Tags;
 }
 
-export function getUnifiedMetricConfig({ alertConfig }: UnifiedMetricConfigProps) {
+export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: UnifiedMetricConfigProps) {
   const { entityType, metricName, aggregation, crossSeriesAggregation } = alertConfig.rule;
+  let { tagFilterExpression } = alertConfig;
+
+  if (selectedMetricGroup) {
+    const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
+
+    Object.keys(selectedMetricGroup).forEach(function (key: any) {
+      const groupExpression = tagFilter(key, EQUALS, selectedMetricGroup[key]);
+      groupingTFE.elements.push(groupExpression);
+    });
+
+    let filterTE =
+      (tagFilterExpression as unknown as TagFilter[]).length > 0
+        ? toBackendQueryModel(tagFilterExpression as unknown as TagFilter[])
+        : [];
+
+    if ('elements' in filterTE) {
+      tagFilterExpression = addTagFilters(filterTE, [groupingTFE]);
+    } else {
+      tagFilterExpression = {
+        type: 'EXPRESSION',
+        logicalOperator: 'AND',
+        elements: [...(tagFilterExpression as unknown as TagFilter[]), groupingTFE]
+      };
+    }
+  }
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const metricLabel = metricDefinition.getLabel();
@@ -44,7 +74,7 @@ export function getUnifiedMetricConfig({ alertConfig }: UnifiedMetricConfigProps
           label: metricLabel,
           metric: metricName,
           source: 'INFRASTRUCTURE_METRICS',
-          tagFilterExpression: alertConfig.tagFilterExpression,
+          tagFilterExpression: tagFilterExpression,
           timeShift: 0,
           type: entityType
         }

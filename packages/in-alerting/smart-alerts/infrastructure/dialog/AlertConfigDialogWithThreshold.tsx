@@ -29,6 +29,8 @@ interface AlertConfigDialogWithThresholdProps {
   form: MapForm<any>;
   updateForm: ((form: MapForm<any>, setForm?: (form: MapForm<any>) => void) => void) | ((form: MapForm<any>) => void);
   onChange: (path: string[], updater: (item: Item) => Item) => void;
+  onChartViewConfigChange: (arg: number) => void;
+  selectedChartViewConfigIndex: number;
   onClose: () => void;
   editMode: boolean;
   startWithSimpleMode: boolean;
@@ -52,7 +54,9 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     messages,
     onChange,
     timeConfig,
-    setIsSimpleMode
+    setIsSimpleMode,
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex
   } = props;
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
@@ -98,6 +102,8 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       QueryBuilderComponent={() => <></>}
       AdvancedModeElement={AdvancedModeContainer}
       SimpleModeElement={SimpleModeContainer}
+      onChartViewConfigChange={onChartViewConfigChange}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       timeConfig={timeConfig}
       isTagFilterFormModelValid
     />

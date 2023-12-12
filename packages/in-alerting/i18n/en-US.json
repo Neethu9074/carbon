@@ -1261,7 +1261,8 @@
       "groupedViewHeader_2": "{{formattedCount}} Results",
       "resultHeaderLoading": "Loading…",
       "loadMore": "Load More",
-      "count": "Count"
+      "count": "Count",
+      "previewFor": "Preview for: "
     }
   }
 }

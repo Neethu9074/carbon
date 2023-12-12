@@ -28,7 +28,7 @@ export default function AlertConfigDialog({
   editMode,
   startWithSimpleMode
 }: AlertConfigDialogType) {
-  const [selectedChartViewConfigIndex] = useState(initialChartConfigIndex);
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
 
@@ -41,6 +41,8 @@ export default function AlertConfigDialog({
       updateForm={updateForm}
       form={form}
       onChange={createOnChange(updateForm, form)}
+      onChartViewConfigChange={setSelectedChartViewConfigIndex}
+      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       onCreate={() => {}}
       onClose={() => {

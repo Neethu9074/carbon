@@ -52,11 +52,7 @@ export const tagSuggestionTimeConfig = {
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigurationAlertConfiguration({
-  alertConfig
-}: {
-  alertConfig: InfraAlertConfigWithMetadata;
-}) {
+export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraAlertConfigWithMetadata }) {
   const {
     timeThreshold,
     granularity,

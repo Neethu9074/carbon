@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
@@ -13,7 +13,9 @@ import { InfrastructureGroup, Order, Progress, Result, TimeConfig } from '@insta
 
 //@ts-expect-error
 import { getGroupTagValue, getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { InfraMetricGroupHeader } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupHeader';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 //@ts-expect-error
@@ -32,7 +34,6 @@ interface OrderByProps {
   orderDirection: 'ASC' | 'DESC';
 }
 
-type Tags = { [index: string]: any };
 interface InfraMetricGroupTableListProps extends State<any, any> {
   groupBy: string[];
   isTableMode: boolean;
@@ -81,8 +82,11 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;
+  const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
 
-  const [selectedGroup, setSelectedGroup] = useState<Tags>();
+  useEffect(() => {
+    selectedMetricGroup$.emit(selectedMetricGroup);
+  }, [selectedMetricGroup]);
 
   const columnDefinitions = getColumnDefinition({
     groupBy,
@@ -92,7 +96,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     metricMetadatas,
     timeConfig,
     granularity,
-    selectedGroup
+    selectedMetricGroup
   });
 
   return (
@@ -118,7 +122,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
           defaultPageSize={retrievalSize}
           defaultOrderDirection={order.direction}
           onRowClick={(item: InfrastructureGroup) => {
-            setSelectedGroup(item?.tags);
+            setSelectedMetricGroup(item?.tags);
           }}
           fixedLayout={fixedLayout}
           size="compact"
@@ -132,7 +136,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
         />
       )}
       {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-      {progress?.loading && <Loading progress={progress} />}
+      {progress?.loading && items.length === 0 && <Loading progress={progress} />}
     </>
   );
 }
@@ -145,7 +149,7 @@ interface ColumnDefinitionProps {
   metricMetadatas: Result<Metadatas>;
   timeConfig: TimeConfig;
   granularity: number;
-  selectedGroup?: Tags;
+  selectedMetricGroup?: Tags;
 }
 
 /**
@@ -168,7 +172,7 @@ function getColumnDefinition({
   metricMetadatas,
   timeConfig,
   granularity,
-  selectedGroup
+  selectedMetricGroup
 }: ColumnDefinitionProps) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : t('in-alerting:smartAlerts.infrastructure.count');
@@ -181,7 +185,7 @@ function getColumnDefinition({
     sortable: false,
     verticallyCenter: true,
     getContent(item: InfrastructureGroup) {
-      const displayIcon = isEqual(item.tags, selectedGroup);
+      const displayIcon = isEqual(item.tags, selectedMetricGroup);
       return (
         <SvgIcon
           type="lib_check"

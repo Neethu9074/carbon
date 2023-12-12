@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { AggregationType, InfraAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
-import { Card } from '@instana/components';
 
 //@ts-expect-error TS migration
 import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
@@ -17,6 +16,7 @@ import {
   getUnifiedMetricConfig,
   getChartConfig
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // @ts-expect-error TS migration
 import { getUniqueMetricsAndLabels } from 'in-infrastructure/Explore/Explore';
 import { MetricItem } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
@@ -29,7 +29,6 @@ import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getMetricDefinition } from 'in-sdk/metrics';
-import { t } from 'in-i18n';
 
 interface InfraAlertChartWrapperProps {
   alertConfig: InfraAlertConfigWithMetadata;
@@ -37,12 +36,16 @@ interface InfraAlertChartWrapperProps {
   predictions?: number[][];
   lowerBound?: number[][];
   upperBound?: number[][];
+  selectedMetricGroup?: Tags;
 }
 
 export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
-  const { alertConfig, timeConfig, predictions, lowerBound, upperBound } = props;
-  const { entityType, metricName, aggregation } = alertConfig.rule;
-  const { threshold, granularity } = alertConfig;
+  const { alertConfig, timeConfig, predictions, lowerBound, upperBound, selectedMetricGroup } = props;
+  const {
+    threshold,
+    granularity,
+    rule: { entityType, metricName, aggregation }
+  } = alertConfig;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const formatter = metricDefinition.formatter;
@@ -59,7 +62,8 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
 
   // config to get unified metric data
   const unifiedMetricConfig = getUnifiedMetricConfig({
-    alertConfig
+    alertConfig,
+    selectedMetricGroup
   });
 
   // chartProps to render the metric values and threshold to the chart
@@ -114,14 +118,12 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
 
   const metricChartProps = { ...chartProps, result: metricResults as Result<MetricData> };
   return (
-    <Card title={t('in-events:titleMetrics')}>
-      <ChartWrapper
-        showNoDataInfoWhenEmpty
-        {...metricChartProps}
-        metricsConfiguration={extendMetricConfiguration(chartProps)}
-        granularity={granularity}
-      />
-    </Card>
+    <ChartWrapper
+      showNoDataInfoWhenEmpty
+      {...metricChartProps}
+      metricsConfiguration={extendMetricConfiguration(chartProps)}
+      granularity={granularity}
+    />
   );
 }
 

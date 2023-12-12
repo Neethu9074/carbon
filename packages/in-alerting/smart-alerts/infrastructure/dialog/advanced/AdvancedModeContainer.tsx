@@ -27,7 +27,7 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, onChange } = props;
+  const { form, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, timeConfig, onChange } = props;
 
   return (
     <StepsContainer
@@ -68,6 +68,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                 // @ts-expect-error updateForm is required
                 updateForm={updateForm}
+                timeConfig={timeConfig}
               />
             </>
           )

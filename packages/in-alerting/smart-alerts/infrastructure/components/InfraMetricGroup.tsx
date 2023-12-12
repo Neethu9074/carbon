@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Cursor, Order, Result, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
@@ -16,6 +16,7 @@ import {
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraMetricGroupTableList from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
@@ -39,6 +40,8 @@ interface InfraMetricGroupProps {
   timeConfig: TimeConfig;
   groupBy: string[];
   metricMetadatas: Result<Metadatas>;
+  selectedMetricGroup?: Tags;
+  setSelectedMetricGroup?: React.Dispatch<Tags>;
 }
 
 /**
@@ -50,8 +53,12 @@ interface InfraMetricGroupProps {
 export default function InfraMetricGroup(props: InfraMetricGroupProps) {
   const { backendQueryModel, backendGroupBy, order, type, metrics, granularity, timeConfig } = props;
 
-  const [filterExpression, setFilterExpression] = useState(backendQueryModel);
+  const [filterExpression, setFilterExpression] = useState<any>();
   const [orderByDirection, setOrderByDirection] = useState(order);
+
+  useEffect(() => {
+    setFilterExpression(backendQueryModel);
+  }, [backendQueryModel]);
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -77,32 +84,6 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
     setOrderByDirection(orderBy);
   }
 
-  /**
-   * Sets the backend query model.
-   * @param searchBy The table search by value.
-   */
-  function setBackendQueryModel(searchBy?: string) {
-    if (searchBy) {
-      const searchQuery = backendGroupBy.map((groupBy: string) => {
-        return tagFilter(groupBy, CONTAINS, searchBy, null, NOT_APPLICABLE);
-      });
-
-      if (backendQueryModel?.type === 'TAG_FILTER' || backendQueryModel?.elements?.length > 0) {
-        const searchQueryModel = addTagFilters(createTagFilterExpression(OPERATOR_OR, searchQuery), [
-          backendQueryModel
-        ]);
-
-        setFilterExpression(searchQueryModel);
-        return;
-      } else {
-        setFilterExpression(createTagFilterExpression(OPERATOR_OR, searchQuery));
-        return;
-      }
-    }
-
-    setFilterExpression(backendQueryModel);
-  }
-
   return (
     <InfraMetricGroupTableList
       retrievalSize={retrievalSize}
@@ -112,13 +93,19 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
       {...props}
       {...cursorPaginatedProps}
       order={orderByDirection}
-      setBackendQueryModel={setBackendQueryModel}
+      setBackendQueryModel={searchBy =>
+        setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
+      }
       onOrderByChange={onOrderByChange}
     />
   );
 }
 
-interface GroupProps extends Omit<InfraMetricGroupProps, 'backendGroupBy' | 'metricMetadatas'> {
+interface GroupProps
+  extends Omit<
+    InfraMetricGroupProps,
+    'backendGroupBy' | 'metricMetadatas' | 'selectedMetricGroup' | 'setSelectedMetricGroup'
+  > {
   cursor?: Cursor;
   retrievalSize: number;
 }
@@ -168,7 +155,7 @@ export function getGroups({
         .filter(metricType => new Boolean(metricType.metric))
         .flatMap(({ metric, aggregation, crossSeriesAggregation, regex }: MetricType) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-          const kpiGranularity = timeConfig.windowSize;
+          const kpiGranularity = timeConfig && timeConfig.windowSize;
           return [
             [
               id,
@@ -195,4 +182,34 @@ export function getGroups({
     ),
     order
   });
+}
+
+/**
+ * Sets the backend query model.
+ * @param searchBy The table search by value.
+ */
+function setBackendQueryModel(
+  backendGroupBy: string[],
+  backendQueryModel: TagFilterExpressionElementUnion,
+  setFilterExpression: any,
+  searchBy?: string
+) {
+  if (searchBy) {
+    const searchQuery = backendGroupBy.map((groupBy: string) => {
+      groupBy = groupBy === 'dfq.type' ? 'dfq.selftype' : groupBy;
+      return tagFilter(groupBy, CONTAINS, searchBy, null, NOT_APPLICABLE);
+    });
+
+    if (backendQueryModel?.type === 'TAG_FILTER' || backendQueryModel?.elements?.length > 0) {
+      const searchQueryModel = addTagFilters(createTagFilterExpression(OPERATOR_OR, searchQuery), [backendQueryModel]);
+
+      setFilterExpression(searchQueryModel);
+      return;
+    } else {
+      setFilterExpression(createTagFilterExpression(OPERATOR_OR, searchQuery));
+      return;
+    }
+  }
+
+  setFilterExpression(backendQueryModel);
 }
