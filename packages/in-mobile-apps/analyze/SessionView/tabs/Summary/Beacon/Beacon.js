@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { toInteractiveElement } from '@instana/components';
 
-import ViewCrashGroupButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/ViewCrashGroupButton.tsx';
+import ViewCrashGroupButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/ViewCrashGroupButton';
 import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
@@ -67,10 +67,9 @@ export default function Beacon(props) {
                 <beaconRenderers.LeftHeader {...props} toggleExpanded={() => setExpanded(!expanded)} />
               </div>
               <div className={locals.rightHeader}>
-                {beacon?.type === 'crash' ? (
-                  <ViewCrashGroupButton mobileAppId={beacon?.mobileAppId} errorMessage={beacon?.errorMessage} />
-                ) : (
-                  <BackendTraceButton beacon={beacon} />
+                <BackendTraceButton beacon={beacon} />
+                {beacon.type === 'crash' && (
+                  <ViewCrashGroupButton mobileAppId={beacon.mobileAppId} errorMessage={beacon.errorMessage} />
                 )}
                 <HeaderToggleIcon {...props} />
               </div>
