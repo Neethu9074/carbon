@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { mobileAppCrashBeaconEnabled, mobileAppSmartAlertsEnabled } from 'in-services/featureFlags';
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
+import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import Crashes from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes';
 import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
@@ -49,7 +49,7 @@ export const mobileAppTabs = [
     path: `${mobileAppPathFullyQualified}/customEvents`,
     component: CustomEvents
   },
-  mobileAppSmartAlertsEnabled && {
+  {
     label: t('in-mobile-apps:dashboard.tabs.smartAlerts'),
     path: `${mobileAppPathFullyQualified}/alerts`,
     component: Alerts

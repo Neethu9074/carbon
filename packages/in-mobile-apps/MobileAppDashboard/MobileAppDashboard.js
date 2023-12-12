@@ -24,7 +24,6 @@ import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracke
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
-import { mobileAppSmartAlertsEnabled } from 'in-services/featureFlags';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -88,9 +87,7 @@ export default function MobileAppDashboard() {
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
   const showAlertButton =
-    role.canConfigureCustomAlerts &&
-    mobileAppSmartAlertsEnabled &&
-    !location.pathname.includes('/mobileAppMonitoring/mobileApp/configuration');
+    role.canConfigureCustomAlerts && !location.pathname.includes('/mobileAppMonitoring/mobileApp/configuration');
 
   return (
     <>

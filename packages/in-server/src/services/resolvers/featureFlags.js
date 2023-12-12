@@ -336,11 +336,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'mobileAppSmartAlertsEnabled',
-    instanaCtlKey: 'feature.mobileapp.smart.alerts.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.adaptive.baseline.enabled',
     defaultValue: false
