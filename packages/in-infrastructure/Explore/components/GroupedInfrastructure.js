@@ -644,7 +644,7 @@ function getHeaderActions(props) {
   );
 }
 
-function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
+export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
   return metrics.map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
     const metadata = mapData(metricMetadatas, data => data[metric]);
     const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);

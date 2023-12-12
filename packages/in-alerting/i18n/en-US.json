@@ -1253,7 +1253,15 @@
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noMetricSelected": "No metric selected"
-      }
+      },
+      "groupedViewHeader": "{{formattedCount}} Results",
+      "groupedViewHeader_plural": "{{formattedCount}} Results",
+      "groupedViewHeader_0": "{{formattedCount}} Results",
+      "groupedViewHeader_1": "{{formattedCount}} Results",
+      "groupedViewHeader_2": "{{formattedCount}} Results",
+      "resultHeaderLoading": "Loading…",
+      "loadMore": "Load More",
+      "count": "Count"
     }
   }
 }

@@ -43,7 +43,7 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
       'crossSeriesAggregation',
       createField({
         //Todo : update this when cross-series-Agg. is implemented.
-        value: 'null'
+        value: undefined
       })
     );
 }

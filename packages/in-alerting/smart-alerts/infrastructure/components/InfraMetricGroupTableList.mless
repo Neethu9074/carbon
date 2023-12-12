@@ -1,0 +1,25 @@
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    padding: 1rem 1rem;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 0.5 rem;
+  }
+  .fullWidth {
+    width: 100% !important;
+  }
+  .displayIcon {
+    display: block;
+  }
+  .hideIcon {
+    display: none;
+  }
+}

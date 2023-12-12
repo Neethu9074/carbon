@@ -20,8 +20,8 @@ export interface InfraAlertConfigWithID extends InfraAlertConfig {
 export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
   const rule: GenericInfraAlertRule = {
     alertType: 'genericRule',
-    aggregation: 'SUM',
-    crossSeriesAggregation: 'SUM',
+    aggregation: 'MEAN',
+    crossSeriesAggregation: 'MEAN',
     entityType: '',
     metricName: ''
   };

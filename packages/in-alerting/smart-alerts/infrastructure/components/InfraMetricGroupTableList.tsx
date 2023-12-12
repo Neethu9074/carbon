@@ -1,0 +1,263 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import React, { useState } from 'react';
+import classNames from 'classnames';
+import { isEqual } from 'lodash';
+
+import { KeyValue, LiLoadMore, TableHorizontalIndicatorRow, Table, Tbody, SvgIcon } from '@instana/components';
+import { InfrastructureGroup, Order, Progress, Result, TimeConfig } from '@instana/types';
+
+//@ts-expect-error
+import { getGroupTagValue, getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { InfraMetricGroupHeader } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupHeader';
+//@ts-expect-error
+import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+//@ts-expect-error
+import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
+import { State } from 'in-hooks/useCursorPagination';
+import { getPluginName } from 'in-sdk/pluginName';
+import { t } from 'in-i18n';
+
+import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList.mless';
+import locals from 'in-infrastructure/Explore/components/GroupedInfrastructure.mless';
+
+interface OrderByProps {
+  orderBy: string;
+  orderDirection: 'ASC' | 'DESC';
+}
+
+type Tags = { [index: string]: any };
+interface InfraMetricGroupTableListProps extends State<any, any> {
+  groupBy: string[];
+  isTableMode: boolean;
+  metrics: object[];
+  order: Order;
+  retrievalSize: number;
+  totalHits?: number;
+  fixedLayout?: boolean;
+  type: string;
+  metricMetadatas: Result<Metadatas>;
+  timeConfig: TimeConfig;
+  granularity: number;
+  loadMore: () => void;
+  canLoadMore: boolean;
+  setBackendQueryModel: (arg?: string) => void;
+  onOrderByChange: ({ by, direction }: Order) => void;
+}
+
+/**
+ * Renders the infrastructure metric group table list.
+ * @param props The props.
+ * @returns The component.
+ */
+
+export default function InfraMetricGroupTableList(props: InfraMetricGroupTableListProps) {
+  const {
+    errors,
+    progress,
+    groupBy,
+    isTableMode,
+    items,
+    metrics,
+    order,
+    retrievalSize,
+    totalHits,
+    fixedLayout,
+    type,
+    metricMetadatas,
+    timeConfig,
+    granularity,
+    loadMore: defaultCursorPaginationLoadMore,
+    canLoadMore,
+    setBackendQueryModel,
+    onOrderByChange
+  } = props;
+
+  const hasErrors = errors && errors?.length > 0;
+  const isLoading = progress && progress?.loading;
+
+  const [selectedGroup, setSelectedGroup] = useState<Tags>();
+
+  const columnDefinitions = getColumnDefinition({
+    groupBy,
+    isTableMode,
+    metrics,
+    type,
+    metricMetadatas,
+    timeConfig,
+    granularity,
+    selectedGroup
+  });
+
+  return (
+    <>
+      <InfraMetricGroupHeader isLoading={isLoading} totalHits={totalHits} setBackendQueryModel={setBackendQueryModel} />
+      {!hasErrors && items?.length > 0 && (
+        <CursorPaginatedTable
+          columnDefinitions={columnDefinitions}
+          numSkeletonRows={retrievalSize}
+          totalHits={totalHits}
+          onChange={({ orderBy, orderDirection }: OrderByProps) =>
+            onOrderByChange({
+              by: orderBy,
+              direction: orderDirection
+            })
+          }
+          progress={progress}
+          canLoadMore={canLoadMore}
+          items={items}
+          orderBy={order.by}
+          orderDirection={order.direction}
+          isSearchable={false}
+          defaultPageSize={retrievalSize}
+          defaultOrderDirection={order.direction}
+          onRowClick={(item: InfrastructureGroup) => {
+            setSelectedGroup(item?.tags);
+          }}
+          fixedLayout={fixedLayout}
+          size="compact"
+        />
+      )}
+      {canLoadMore && (
+        <LiLoadMore
+          label={t('in-alerting:smartAlerts.infrastructure.loadMore')}
+          //@ts-expect-error TS incompactable
+          loadMore={() => defaultCursorPaginationLoadMore()}
+        />
+      )}
+      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+      {progress?.loading && <Loading progress={progress} />}
+    </>
+  );
+}
+
+interface ColumnDefinitionProps {
+  groupBy: string[];
+  isTableMode: boolean;
+  metrics: object[];
+  type: string;
+  metricMetadatas: Result<Metadatas>;
+  timeConfig: TimeConfig;
+  granularity: number;
+  selectedGroup?: Tags;
+}
+
+/**
+ * Returns the column definition for the infrastructure table.
+ * @param groupBy The group by fields.
+ * @param isTableMode Whether the table mode is enabled.
+ * @param metrics The metrics.
+ * @param type The type of the snapshot.
+ * @param metricMetadatas The metric metadata.
+ * @param timeConfig The time configuration.
+ * @param granularity The granularity.
+ * @param selectedGroup The selected group.
+ * @returns The column definition.
+ */
+function getColumnDefinition({
+  groupBy,
+  isTableMode,
+  metrics,
+  type,
+  metricMetadatas,
+  timeConfig,
+  granularity,
+  selectedGroup
+}: ColumnDefinitionProps) {
+  const snapshotDefinition = getOptionalSnapshotDefinition(type);
+  const countLabel = snapshotDefinition ? getPluginName(type, 2) : t('in-alerting:smartAlerts.infrastructure.count');
+
+  const iconColumn = {
+    width: '3rem',
+    id: 'icon',
+    getId: () => 'icon',
+    widthInAbsoluteUnit: true,
+    sortable: false,
+    verticallyCenter: true,
+    getContent(item: InfrastructureGroup) {
+      const displayIcon = isEqual(item.tags, selectedGroup);
+      return (
+        <SvgIcon
+          type="lib_check"
+          className={classNames({
+            [local.hideIcon]: !displayIcon
+          })}
+        />
+      );
+    }
+  };
+
+  const groupsColumn = groupBy.map((groupKey: string) => {
+    return {
+      width: getColumnWidth(groupBy, metrics, isTableMode),
+      getId: () => groupKey,
+      id: groupKey,
+      cellClassName: locals.wordBreak,
+      headCellProps: {
+        className: locals.wordBreak
+      },
+      ...(isTableMode
+        ? {
+            sortable: true,
+            label: groupKey,
+            getContent(item: InfrastructureGroup) {
+              return getGroupTagValue(item, groupKey);
+            }
+          }
+        : {
+            getContent({ group }: { [index: string]: any }) {
+              const value = getGroupTagValue(group, groupKey);
+              return <KeyValue label={groupKey} value={value} accentuated />;
+            }
+          })
+    };
+  });
+
+  const countLabelColumnTable = {
+    width: '6rem',
+    id: countLabel,
+    getId: () => countLabel,
+    label: countLabel,
+    sortable: false,
+    getContent(item: InfrastructureGroup) {
+      return item?.count;
+    }
+  };
+
+  const metricsColumn = getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode });
+
+  return [iconColumn, ...groupsColumn, countLabelColumnTable, ...metricsColumn];
+}
+
+/**
+ * Returns the column width for the infrastructure table.
+ * @param groupBy The group by fields.
+ * @param metrics The metrics.
+ * @param isTableMode Whether the table mode is enabled.
+ * @returns The column width.
+ */
+function getColumnWidth(groupBy: string[], metrics: object[], isTableMode: boolean): string {
+  const totalMetrics = isTableMode ? 4 : 5;
+  return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 12 + 'rem';
+}
+
+/**
+ * Renders a loading indicator.
+ * @param progress The progress.
+ * @returns The component.
+ */
+function Loading({ progress }: { progress: Progress }): JSX.Element {
+  return (
+    <Table className={local.fullWidth}>
+      <Tbody>
+        <TableHorizontalIndicatorRow cols={3} progress={progress} />
+      </Tbody>
+    </Table>
+  );
+}
