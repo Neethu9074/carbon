@@ -11,15 +11,15 @@ import { Button } from '@instana/components';
 import { useLinkToCrash } from 'in-mobile-apps/navigation/paths';
 import { t } from 'in-i18n';
 
-import locals from './ViewCrashGroupButton.mless';
+import locals from './BackendTraceButton.mless';
 
-const ViewCrashGroupButton = ({ mobileAppId, errorMessage }) => {
+interface ButtonProps {
+  errorMessage: string;
+  mobileAppId: string;
+}
+
+const ViewCrashGroupButton: React.FC<ButtonProps> = ({ errorMessage, mobileAppId }) => {
   const getLinkToMobileAppCrash = useLinkToCrash();
-  try {
-    errorMessage = String(JSON.parse(errorMessage));
-  } catch (e) {
-    // ignore
-  }
   return (
     <Button
       className={locals.button}

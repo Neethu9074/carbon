@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { toInteractiveElement } from '@instana/components';
 
-import ViewCrashGroupButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/ViewCrashGroupButton';
+import ViewCrashGroupButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/ViewCrashGroupButton.tsx';
 import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
