@@ -49,23 +49,24 @@ export default function ActionsLanePresenter({
   labels: { applicationLabel: string; serviceLabel?: string; endpointLabel?: string };
 }) {
   const { boundaryScope, hasButtonInActionslane } = remainingProps;
-
   const actionInstances = useMemo(() => {
     return actionInstancesData.map((entry: ActionsData) => ({
       timestamp: entry.timestamp,
-      count: entry.actionInstances?.length,
-      actionInstances: entry.actionInstances ?? [],
+      count: entry.actionInstances?.filter((instance: any) => instance.status !== 'READY').length, // Filter Ready status for turbo instances
+      actionInstances: entry.actionInstances?.filter((instance: any) => instance.status !== 'READY') ?? [], //filter ready status for turbo instances
       boundaryScope,
       labels: labels,
       hasButtonInActionslane: hasButtonInActionslane,
       snapshotHostFqdn: snapshotHostFqdn
     }));
   }, [actionInstancesData, boundaryScope, labels, snapshotHostFqdn, hasButtonInActionslane]);
+  // After filtering instances with ready status, if count become zero, filter the entry.
+  const filteredActionInstances = actionInstances.filter(test => test.count !== 0);
 
   return (
     <>
       <MarkerLane<ActionsData>
-        events={actionInstances}
+        events={filteredActionInstances}
         label={t('in-automation:ActionCatalog.actions')}
         isClustered
         chartContentPosition="pre"
