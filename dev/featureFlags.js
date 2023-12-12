@@ -103,5 +103,6 @@ module.exports = {
   syntheticInstanaHostedPoPEnabled: true,
   infraSmartAlertsDialogEnabled: true,
   simplifiedFlowMapEnabled: true,
-  fullscreenWidgetEnabled: true
+  fullscreenWidgetEnabled: true,
+  agentInstallationV2Enabled: false
 };

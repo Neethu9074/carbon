@@ -23,13 +23,17 @@ import AgentsPresenceChart from 'in-infrastructure/agentView/components/AgentsPr
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { resetAgent, updateAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import AgentInstallationViewV2 from 'in-plg/pages/onboarding/AgentInstallationViewV2';
 import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AgentBasedIntegrationView from './components/AgentBasedIntegrationView';
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
+import { agentInstallationV2Enabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -37,6 +41,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { debouncedQuery$ } from 'in-stores/search/query';
+import getUsageInfo from 'in-subscription/getUsageInfo';
 import { emptyList } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
 import Dashboard from 'in-infrastructure/Dashboard';
@@ -49,7 +54,10 @@ import { t, Trans } from 'in-i18n';
 
 export default connectTo(
   props => {
-    const observables = { timeConfig: timeConfig$ };
+    const observables = {
+      timeConfig: timeConfig$,
+      accountConfig: messages$
+    };
     if (!props.agentSnapshotsResult) {
       observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
         ([timeConfig, query]) => {
@@ -57,17 +65,23 @@ export default connectTo(
         }
       );
     }
+    if (!props.accountConfig) {
+      observables.accountConfig = getUsageInfo();
+    }
     return observables;
   },
-  function AgentView({ agentSnapshotsResult }) {
+  function AgentView({ agentSnapshotsResult, accountConfig }) {
     if (
+      !accountConfig ||
       !agentSnapshotsResult ||
       agentSnapshotsResult.getIn(['progress', 'loading']) ||
       agentSnapshotsResult.getIn(['errors']).length > 0
     ) {
       return <LoadingIndicator type="dark" />;
     }
+    const activeLicenseType = accountConfig.activeLicenseType;
     const agentSnapshots = agentSnapshotsResult.getIn(['data']);
+    const agentInstallV2PathAllowed = agentInstallationV2Enabled && activeLicenseType === ('selfService' || 'quota');
     return (
       <>
         <ViewTrackingMeta
@@ -80,10 +94,22 @@ export default connectTo(
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
+          {agentInstallV2PathAllowed && (
+            <Route
+              exact
+              path="/agents/installation/:selectedservice"
+              render={({ match }) => <AgentViewRouter selectedService={match.params.selectedservice} />}
+            />
+          )}
+
           <Route path="/agents/installation">
-            <MaxWidthFullscreenContainer>
-              <AgentInstallationView />
-            </MaxWidthFullscreenContainer>
+            {agentInstallV2PathAllowed ? (
+              <AgentInstallationViewV2 />
+            ) : (
+              <MaxWidthFullscreenContainer>
+                <AgentInstallationView />
+              </MaxWidthFullscreenContainer>
+            )}
           </Route>
 
           <Route path="/agents">

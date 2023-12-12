@@ -212,3 +212,5 @@ export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incide
 export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);
 
 export const simplifiedFlowMapEnabled = isFeatureFlagEnabled('simplifiedFlowMapEnabled', false);
+
+export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
