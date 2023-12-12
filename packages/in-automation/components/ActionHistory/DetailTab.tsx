@@ -17,12 +17,13 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
+import { actionCatalogPath, policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { actionCatalogPath } from 'in-automation/navigation/paths';
+import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
@@ -48,6 +49,14 @@ export default function DetailTab({
   inActionLane?: boolean;
 }) {
   const { createHref, location } = useNavigation();
+
+  function getPolicyView(id: string): string {
+    const path = location;
+    path.pathname = policiesDetailsFullyQualified;
+    setOrDeleteMatrixKey(path, '/policies', 'policyId', id);
+    return createHref(path);
+  }
+
   function getLinkToEventDetails(id: string) {
     const path = location;
     path.pathname = eventsPath;
@@ -106,8 +115,13 @@ export default function DetailTab({
         actorName &&
         actorType !== 'ACTOR_UNKNOWN' &&
         ((actorType === 'USER' && role?.canConfigureUsers) ||
-          (actorType === 'APITOKEN' && role?.canConfigureApiTokens)),
-      ObservableLink: getActorLink(actorType, actorId)
+          (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
+          (actorType === 'POLICY' && automationPoliciesEnabled && role?.canConfigureAutomationPolicies)),
+      ObservableLink: actorType === 'POLICY' ? undefined : getActorLink(actorType, actorId),
+      stringLink:
+        actorType === 'POLICY' && automationPoliciesEnabled && role?.canConfigureAutomationPolicies
+          ? getPolicyView(actorId ?? '')
+          : undefined
     },
     {
       label: t('in-automation:actionHistory.eventId'),
