@@ -56,8 +56,7 @@
       "submit": "Submit"
     },
     "states": {
-      "saving": "Saving…",
-      "loading": "Loading…"
+      "saving": "Saving…"
     }
   },
   "language_en-US": "English",

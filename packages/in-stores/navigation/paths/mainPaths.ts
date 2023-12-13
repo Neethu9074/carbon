@@ -11,7 +11,6 @@ export const homePath = '/';
 export const agentsPath = '/agents';
 export const settingsPath = '/config';
 export const containerPath = '/container';
-export const graphPath = '/graph';
 export const physicalPath = '/physical';
 export const physicalDashboardPath = `${physicalPath}/dashboard`;
 export const tablePath = '/table';
