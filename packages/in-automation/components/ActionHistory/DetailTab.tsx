@@ -157,7 +157,7 @@ export default function DetailTab({
       isLink: true,
       isObservable: true,
       ObservableLink: type === 'EXTERNAL' ? undefined : getEntityIdView(actionCatalogPath, actionId),
-      stringLink: type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionDetailsURL')?.value : undefined,
+      stringLink: type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined,
       actionLane: inActionLane
     },
     { label: t('in-automation:actionHistory.actionInstanceId'), value: id }
