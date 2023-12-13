@@ -283,6 +283,7 @@
     "labelService": "Service",
     "labelEndpoint": "Endpoint",
     "labelAggregatedTime": "Aggregated Time",
+    "labelCalls": "Calls",
     "labelErroneousCalls": "Erroneous Calls",
     "buttonTechnology": "Technology",
     "callDetails": {

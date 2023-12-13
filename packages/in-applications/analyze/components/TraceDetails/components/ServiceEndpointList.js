@@ -87,6 +87,14 @@ export default function ServiceEndpointList({
     },
 
     {
+      id: 'callCount',
+      label: t('in-analyze:traceDetails.labelCalls'),
+      getContent(item) {
+        return <span>{item.callCount ? item.callCount : null}</span>;
+      }
+    },
+
+    {
       id: 'errorCount',
       label: t('in-analyze:traceDetails.labelErroneousCalls'),
       getContent(item) {
