@@ -1,8 +1,10 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
+/* eslint-disable import/no-deprecated */
 import React, { Fragment } from 'react';
 
 import {
@@ -22,13 +24,13 @@ import ConfigurationManagementDialog from 'in-forge/plugins/instanaAgent/Dashboa
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
 import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
-import SupportButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/SupportButtonSection';
 import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
+import SupportSection from 'in-forge/plugins/instanaAgent/Dashboard/SupportButtonSection';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
+import AgentLogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/AgentLogStreamer';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import SpanMetrics from 'in-forge/plugins/instanaAgent/Dashboard/SpanMetrics';
 import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
@@ -54,7 +56,13 @@ export default connectTo(
     hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot),
     isTroubleshootingModeEnabled: isTroubleshootingModeEnabled$
   }),
-  function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot, isTroubleshootingModeEnabled }) {
+  function InstanaAgentDashboard({
+    snapshot,
+    timeConfig,
+    isInternalVisible,
+    hostSnapshot,
+    isTroubleshootingModeEnabled
+  }) {
     const snapshotId = snapshot.get('id');
     const metricIds = snapshot.get('metricIds');
     const collectors = metricIds
@@ -88,9 +96,9 @@ export default connectTo(
             <ConfigurationManagement snapshot={snapshot} />
           </DashboardSection>
         </Columize>
-        {(isTroubleshootingModeEnabled || isInternalVisible) && (
+        {role.canConfigureAgents && (isTroubleshootingModeEnabled || isInternalVisible) && (
           <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.support')}>
-            <SupportButtonSection snapshot={snapshot} />
+            <SupportSection snapshot={snapshot} />
           </DashboardSection>
         )}
         {(agentMonitoringIssuesEnabled || isInternalVisible) && (
@@ -441,7 +449,7 @@ export default connectTo(
                       ],
                       labels: [
                         t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
-                        t('in-forge:plugins.instanaAgent.dashboard.executor'),
+                        t('in-forge:plugins.instanaAgent.dashboard.executor')
                       ],
                       type: 'line',
                       formatter: number.compact
@@ -473,26 +481,26 @@ export default connectTo(
                   />
                 </>
                 <>
-                    <h3>PoolSize</h3>
-                    <Chart
-                      snapshotId={snapshotId}
-                      timeConfig={timeConfig}
-                      y1={{
-                        min: 0,
-                        metrics: [
-                          'sensors.scheduler.poolStats.scheduler.poolSize',
-                          'sensors.scheduler.poolStats.executor.poolSize'
-                        ],
-                        labels: [
-                          t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
-                          t('in-forge:plugins.instanaAgent.dashboard.executor')
-                        ],
-                        type: 'line',
-                        formatter: number.compact
-                      }}
-                      renderPostChartContent={PluginDashboardsMarkerLanes}
-                    />
-                  </>
+                  <h3>PoolSize</h3>
+                  <Chart
+                    snapshotId={snapshotId}
+                    timeConfig={timeConfig}
+                    y1={{
+                      min: 0,
+                      metrics: [
+                        'sensors.scheduler.poolStats.scheduler.poolSize',
+                        'sensors.scheduler.poolStats.executor.poolSize'
+                      ],
+                      labels: [
+                        t('in-forge:plugins.instanaAgent.dashboard.scheduler'),
+                        t('in-forge:plugins.instanaAgent.dashboard.executor')
+                      ],
+                      type: 'line',
+                      formatter: number.compact
+                    }}
+                    renderPostChartContent={PluginDashboardsMarkerLanes}
+                  />
+                </>
               </Columize>
             </DashboardSection>
             <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
@@ -569,7 +577,7 @@ export default connectTo(
 
         {role.canConfigureAgents ? (
           <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.logOutput')}>
-            <LogStreamer snapshot={snapshot} />
+            <AgentLogStreamer snapshot={snapshot} />
           </DashboardSection>
         ) : null}
       </Fragment>

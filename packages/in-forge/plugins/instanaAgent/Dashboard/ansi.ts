@@ -5,6 +5,6 @@
 
 import Convert from 'ansi-to-html';
 
-export function ansiToHtml(ansi) {
+export function ansiToHtml(ansi: string): string {
   return new Convert().toHtml(ansi);
 }

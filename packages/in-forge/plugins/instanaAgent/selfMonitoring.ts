@@ -1,15 +1,17 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import { createLogger } from '@instana/logger';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 const logger = createLogger('in-forge/instanaAgent/selfMonitoring');
 
-export function setMode(snapshot, mode) {
+export function setMode(snapshot: SnapshotData, mode: number) {
   createAgentResponseObservable({
     action: 'agent.mode',
     target: snapshot.get('volatileId'),
@@ -21,7 +23,7 @@ export function setMode(snapshot, mode) {
   });
 }
 
-export function setLogLevel(snapshot, logLevel) {
+export function setLogLevel(snapshot: SnapshotData, logLevel: string) {
   createAgentResponseObservable({
     action: 'agent.log.level',
     target: snapshot.get('volatileId'),
@@ -33,7 +35,7 @@ export function setLogLevel(snapshot, logLevel) {
   });
 }
 
-export function resetAgent(snapshot) {
+export function resetAgent(snapshot: SnapshotData) {
   createAgentResponseObservable({
     action: 'agent.restart',
     target: snapshot.get('volatileId'),
@@ -43,7 +45,7 @@ export function resetAgent(snapshot) {
   });
 }
 
-export function resetSensors(snapshot) {
+export function resetSensors(snapshot: SnapshotData) {
   createAgentResponseObservable({
     action: 'sensors.reset',
     target: snapshot.get('volatileId'),
@@ -53,7 +55,7 @@ export function resetSensors(snapshot) {
   });
 }
 
-export function updateAgent(snapshot) {
+export function updateAgent(snapshot: SnapshotData) {
   createAgentResponseObservable({
     action: 'agent.update',
     target: snapshot.get('volatileId'),
@@ -63,7 +65,17 @@ export function updateAgent(snapshot) {
   });
 }
 
-export function updateConfiguration({ volatileId, remoteName, remoteBranch, remoteUri }) {
+export function updateConfiguration({
+  volatileId,
+  remoteName,
+  remoteBranch,
+  remoteUri
+}: {
+  volatileId: string;
+  remoteName: string;
+  remoteBranch: string;
+  remoteUri: string;
+}) {
   createAgentResponseObservable({
     action: 'agent.configuration.update',
     target: volatileId,
@@ -77,7 +89,7 @@ export function updateConfiguration({ volatileId, remoteName, remoteBranch, remo
   });
 }
 
-export function rebootAgent(snapshot) {
+export function rebootAgent(snapshot: SnapshotData) {
   createAgentResponseObservable({
     action: 'agent.reboot',
     target: snapshot.get('volatileId'),
@@ -87,7 +99,7 @@ export function rebootAgent(snapshot) {
   });
 }
 
-export function profileAgent(snapshot) {
+export function profileAgent(snapshot: SnapshotData) {
   createAgentResponseObservable({
     action: 'runAgentProfiler',
     target: snapshot.get('volatileId'),
@@ -97,7 +109,7 @@ export function profileAgent(snapshot) {
   });
 }
 
-export function listSensors(snapshot) {
+export function listSensors(snapshot: SnapshotData) {
   return createAgentResponseObservable({
     action: 'agent.sensors.list',
     target: snapshot.get('volatileId'),
@@ -105,7 +117,7 @@ export function listSensors(snapshot) {
   }).map(response => response.data.sensors);
 }
 
-export function loadRawAgentConfiguration(snapshot) {
+export function loadRawAgentConfiguration(snapshot: SnapshotData) {
   return createAgentResponseObservable({
     action: 'agent.config.raw',
     target: snapshot.get('volatileId'),
@@ -113,7 +125,7 @@ export function loadRawAgentConfiguration(snapshot) {
   });
 }
 
-export function loadDownloadableLogs([snapshot]) {
+export function loadDownloadableLogs([snapshot]: [snapshot: SnapshotData]) {
   return createAgentResponseObservable({
     action: 'agent.logs.list',
     target: snapshot.get('volatileId'),

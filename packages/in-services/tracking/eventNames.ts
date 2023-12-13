@@ -309,6 +309,9 @@ export const AGENT_UPDATE_CLICKED = 'agent.update.clicked';
 export const AGENT_SENSOR_RESET_INTERNAL_CLICKED = 'agent.internal.reset.sensors.clicked';
 export const AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.reset.all.clicked';
 export const AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.update.all.clicked';
+export const AGENT_PROFILER_CLICKED = 'agent.profiler.clicked';
+export const AGENT_SUPPORT_INFO_CLICKED = 'agent.support.info.clicked';
+export const AGENT_SUPPORT_DOWNLOAD_CLICKED = 'agent.support.download.clicked';
 
 // Potential Problems Marker Lane
 export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';

@@ -10637,6 +10637,8 @@
         "resetAgent": "Reset Agent",
         "rebootAgent": "Reboot Agent",
         "profileAgent": "Profile Agent",
+        "collectSupportInformation": "Collect Support Information",
+        "downloadSupportInformation": "Download Support Information",
         "mode": "Mode",
         "changeMode": "Change Mode",
         "usageCount": "Usage Count",

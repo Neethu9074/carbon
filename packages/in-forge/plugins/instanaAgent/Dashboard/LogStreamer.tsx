@@ -4,7 +4,6 @@
  */
 
 /* eslint-disable react/no-danger */
-import irpt from 'react-immutable-proptypes';
 import React, { Fragment } from 'react';
 import DOMPurify from 'dompurify';
 
@@ -15,24 +14,48 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import { ansiToHtml } from 'in-forge/plugins/instanaAgent/Dashboard/ansiLoader';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
 import locals from './LogStreamer.mless';
 
 const maxDisplayedChars = 100000;
 
-export default class extends React.PureComponent {
+const emptyAggregate: Readonly<AggregateOptions> = {
+  error: null,
+  additionalData: null,
+  log: ''
+};
+
+const emptyState: StateOptions = { ...emptyAggregate, scrollToBottomOnChange: true };
+
+interface LogStreamerProps {
+  snapshot: SnapshotData;
+  action: string;
+  stopAction?: string;
+  logStreamTargetId: string;
+  throttle?: boolean;
+  onAggregate: (data: any, agg: AggregateOptions) => void;
+  onRender?: (state: StateOptions, snapshot: SnapshotData) => void;
+}
+
+export interface AggregateOptions {
+  log: string;
+  additionalData: string | null;
+  error: string | null;
+}
+
+export interface StateOptions extends AggregateOptions {
+  scrollToBottomOnChange: boolean;
+}
+
+class LogStreamer extends React.PureComponent<LogStreamerProps> {
   static displayName = 'LogStreamer';
 
-  static propTypes = {
-    snapshot: irpt.map.isRequired
-  };
-
-  state = {
-    error: null,
-    log: '',
-    scrollToBottomOnChange: true
-  };
+  state = emptyState;
+  code: HTMLElement | null | undefined;
+  subscription: any;
+  snapshot: SnapshotData | undefined;
 
   componentDidMount() {
     this.subscribe();
@@ -49,60 +72,40 @@ export default class extends React.PureComponent {
 
   subscribe = () => {
     // nothing to do, snapshot did not change
-    if (this.snapshot != null && this.snapshot.get('id') === this.props.snapshot.get('id')) {
+    const { action, snapshot, onAggregate, throttle } = this.props;
+
+    if (this.snapshot?.get('id') === snapshot.get('id')) {
       return;
     }
 
     this.disposeSubscription();
-    this.snapshot = this.props.snapshot;
-    this.setState({
-      error: null,
-      log: ''
-    });
+    this.snapshot = snapshot;
+    this.setState(emptyState);
 
-    this.subscription = createAgentResponseObservable({
-      action: 'agent.log.start',
-      target: this.props.snapshot.get('volatileId'),
+    const observable = createAgentResponseObservable({
+      action: action,
+      target: snapshot.get('volatileId'),
       args: {}
     })
-      .scan(
+      .scan<AggregateOptions>(
         (agg, response) => {
           agg.error = response.error;
-          if (response.data) {
-            agg.log += response.data;
-          }
+          onAggregate(response.data, agg);
           if (agg.log.length > maxDisplayedChars) {
             agg.log = agg.log.substring(agg.log.length - maxDisplayedChars, agg.log.length);
           }
           return agg;
         },
-        { log: '', error: null }
+        { ...emptyAggregate }
       )
-      .nextFrame()
-      .throttle(2000)
-      .map(aggregated => {
-        return {
-          log: replaceHtmlChars(aggregated.log),
-          error: aggregated.error
-        };
-      })
-      .flatMap(aggregated => {
-        return ansiToHtml(aggregated.log).map(html => {
-          return {
-            log: html,
-            error: aggregated.error
-          };
-        });
-      })
-      .map(aggregated => ({
-        log: DOMPurify.sanitize(aggregated.log),
-        error: aggregated.error
-      }))
+      .nextFrame();
+
+    this.subscription = (throttle ? observable.throttle(2000) : observable)
+      .map(aggregated => mapLog(aggregated, log => replaceHtmlChars(log)))
+      .flatMap(aggregated => ansiToHtml(aggregated.log).map(html => replaceLog(aggregated, html)))
+      .map(aggregated => mapLog(aggregated, log => DOMPurify.sanitize(log)))
       .subscribe(aggregated => {
-        this.setState({
-          error: aggregated.error,
-          log: aggregated.log
-        });
+        this.setState({ ...aggregated });
       });
   };
 
@@ -111,9 +114,10 @@ export default class extends React.PureComponent {
   }
 
   disposeSubscription = () => {
-    if (this.snapshot) {
+    const { stopAction } = this.props;
+    if (this.snapshot && stopAction) {
       createAgentResponseObservable({
-        action: 'agent.log.stop',
+        action: stopAction,
         target: this.snapshot.get('volatileId'),
         args: {}
       }).once(() => {});
@@ -126,14 +130,16 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    const logStreamTargetId = 'logStreamId';
+    const { logStreamTargetId, snapshot, onRender } = this.props;
+    const { error, log, scrollToBottomOnChange } = this.state;
+
     return (
       <Fragment>
-        {this.state.error != null ? (
+        {error && (
           <DashboardNotification type="danger">
-            {t('in-forge:plugins.instanaAgent.dashboard.error', { error: this.state.error })}
+            {t('in-forge:plugins.instanaAgent.dashboard.error', { error })}
           </DashboardNotification>
-        ) : null}
+        )}
 
         <CopyToClipboardButton kind="secondary" size="compact" targetId={logStreamTargetId} />
 
@@ -142,7 +148,7 @@ export default class extends React.PureComponent {
           <Spacer horizontal="xxsmall" />
           <Toggle
             onChange={e => this.setState({ scrollToBottomOnChange: e.target.checked })}
-            checked={this.state.scrollToBottomOnChange}
+            checked={scrollToBottomOnChange}
             id="set-auto-scroll"
             className={locals.toggle}
           />
@@ -152,11 +158,23 @@ export default class extends React.PureComponent {
           <code
             className={locals.log}
             id={logStreamTargetId}
-            dangerouslySetInnerHTML={{ __html: this.state.log }}
+            dangerouslySetInnerHTML={{ __html: log }}
             ref={ele => (this.code = ele)}
           />
         </pre>
+
+        {onRender?.(this.state, snapshot)}
       </Fragment>
     );
   }
+}
+
+export default LogStreamer;
+
+function mapLog(aggregate: AggregateOptions, logMapper: (s: string) => string) {
+  return { ...aggregate, log: logMapper(aggregate.log) };
+}
+
+function replaceLog(aggregate: AggregateOptions, newLogValue: string) {
+  return { ...aggregate, log: newLogValue };
 }
