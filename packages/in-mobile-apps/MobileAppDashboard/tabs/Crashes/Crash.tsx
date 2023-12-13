@@ -60,7 +60,7 @@ const labels = [
 const beaconType = 'crash';
 const viewGroupByFilter = 'mobileBeacon.view.name';
 const deviceGroupByFilter = 'mobileBeacon.device.model';
-const osGroupByFilter = 'mobileBeacon.os.name';
+const osGroupByFilter = 'mobileBeacon.os.nameVersion';
 const appVersionGroupByFilter = 'mobileBeacon.app.version';
 
 interface CrashProp {
