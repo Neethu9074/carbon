@@ -39,8 +39,7 @@ export function getEntriesForFreeTrial() {
       id: 'aws_sensor',
       title: 'Amazon Web Services - Instana AWS Sensor',
       label: t('in-waiting-for-deployment:content.aws'),
-      icon: 'lib_aws',
-      // iconColor: '#FF9900',
+      icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -53,8 +52,7 @@ export function getEntriesForFreeTrial() {
       id: 'aws_ec2_linux',
       title: 'Amazon Web Services - Elastic Computing (EC2) - Linux',
       label: t('in-waiting-for-deployment:content.aws'),
-      icon: 'lib_aws',
-      // iconColor: '#FF9900',
+      icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -67,8 +65,7 @@ export function getEntriesForFreeTrial() {
       id: 'aws_ec2_windows',
       title: 'Amazon Web Services - Elastic Computing (EC2) - Windows 64 bit',
       label: t('in-waiting-for-deployment:content.aws'),
-      icon: 'lib_aws',
-      // iconColor: '#FF9900',
+      icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -81,8 +78,7 @@ export function getEntriesForFreeTrial() {
       id: 'aws_eks',
       title: 'Amazon Web Services - Elastic Container Service for Kubernetes (EKS)',
       label: t('in-waiting-for-deployment:content.aws'),
-      icon: 'lib_aws',
-      // iconColor: '#FF9900',
+      icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -95,8 +91,7 @@ export function getEntriesForFreeTrial() {
       id: 'aws_fargate',
       title: 'Amazon Web Services - AWS Fargate',
       label: t('in-waiting-for-deployment:content.aws'),
-      icon: 'lib_aws',
-      // iconColor: '#FF9900',
+      icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -109,8 +104,7 @@ export function getEntriesForFreeTrial() {
       id: 'aws_lambda',
       title: 'Amazon Web Services - AWS Lambda',
       label: t('in-waiting-for-deployment:content.aws'),
-      icon: 'lib_aws',
-      // iconColor: '#FF9900',
+      icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -124,7 +118,7 @@ export function getEntriesForFreeTrial() {
       title: 'Microsoft Azure - Azure Kubernetes Service (AKS)',
       label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
-      // iconColor: '#3178CD',
+      iconColor: '#3178CD',
       fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -137,7 +131,7 @@ export function getEntriesForFreeTrial() {
       id: 'gcp_gce',
       title: 'Google CLoud Platform - Google Cloud Engine (GCE) - Linux',
       label: t('in-waiting-for-deployment:content.googleCloud'),
-      icon: 'lib_google_cloud',
+      icon: 'google_cloud_icon',
       fullLabel: t('in-waiting-for-deployment:content.googleCloudPlatform'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -150,7 +144,7 @@ export function getEntriesForFreeTrial() {
       id: 'gcp_gcr',
       title: 'Google CLoud Platform - Google Cloud Run',
       label: t('in-waiting-for-deployment:content.googleCloud'),
-      icon: 'lib_google_cloud',
+      icon: 'google_cloud_icon',
       fullLabel: t('in-waiting-for-deployment:content.googleCloudPlatform'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
@@ -164,6 +158,7 @@ export function getEntriesForFreeTrial() {
       title: 'Docker',
       label: t('in-waiting-for-deployment:content.docker'),
       icon: 'lib_container_docker',
+      iconColor: '#2D6DD0',
       category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'dockercontainer'
       // Content: Docker
@@ -173,7 +168,7 @@ export function getEntriesForFreeTrial() {
       title: 'Kubernetes - Operator',
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      // iconColor: '#3F6EDE',
+      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
@@ -199,7 +194,7 @@ export function getEntriesForFreeTrial() {
       title: 'Kubernetes - Yaml',
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      // iconColor: '#3F6EDE',
+      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
@@ -212,7 +207,7 @@ export function getEntriesForFreeTrial() {
       title: 'Kubernetes - Azure Kubernetes Service (AKS)',
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      // iconColor: '#3F6EDE',
+      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
@@ -225,7 +220,7 @@ export function getEntriesForFreeTrial() {
       title: 'Kubernetes - AWS Elastic Kubernetes Service (EKS)',
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      // iconColor: '#3F6EDE',
+      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
@@ -238,7 +233,7 @@ export function getEntriesForFreeTrial() {
       title: 'Openshift - Operator',
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      // iconColor: '#DA2430',
+      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
@@ -251,7 +246,7 @@ export function getEntriesForFreeTrial() {
       title: 'Openshift - Helm Chart',
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      // iconColor: '#DA2430',
+      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
@@ -264,7 +259,7 @@ export function getEntriesForFreeTrial() {
       title: 'Openshift - YAML',
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      // iconColor: '#DA2430',
+      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
@@ -277,7 +272,7 @@ export function getEntriesForFreeTrial() {
       title: 'Cloud Foundry and other BOSH based deployments',
       label: t('in-waiting-for-deployment:content.cloudFoundryAndBosh'),
       fullLabel: t('in-waiting-for-deployment:content.cloudFoundryAndOtherBoshBasedDeployments'),
-      icon: 'lib_cloudfoundry',
+      icon: 'cloud_foundry_icon',
       category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'cloudfoundryboshcf'
       // Content: CfAndBosh
