@@ -28,6 +28,7 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import { syntheticDetailsPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import getTestResultListStatus from 'in-synthetics/subscriptions/getTestResultListStatus';
+import { startTimeTagName, testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
@@ -40,7 +41,6 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getValidFormat } from 'in-synthetics/utils/getValidFormat';
@@ -112,6 +112,14 @@ export default function SyntheticAnalyzeView() {
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
+    },
+    {
+      //Add startTime in tagFilter to improve synthetics-reader side CH query performance
+      numberValue: startTime,
+      name: startTimeTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
     }
   ];
 
@@ -126,6 +134,9 @@ export default function SyntheticAnalyzeView() {
           order: { by: 'errors', direction: 'DESC' },
           syntheticMetrics: ['errors', 'status', 'start_time', 'response_size'],
           filter: {
+            //timeConfig is ignored in synthetics-reader CH query
+            //since given a testId and testResultId, the entry should be unique
+            //and should not be changed as time window changes.
             timeConfig,
             includeInternalCalls: false,
             includeSyntheticCalls: false,
