@@ -38,6 +38,12 @@ const definePlugin = new webpack.DefinePlugin({
   // this is necessary for the React and Invariant modules
   'process.env.NODE_ENV': isDevModeBuild ? '"development"' : '"production"',
 
+  // This is necessary for SvgIcons rendering properly, as it contains a
+  // check of this env variable:
+  // see https://github.ibm.com/instana/ui-foundation/blob/main/packages/components/src/components/SvgIcon/SvgIcon.tsx
+  // It will be removed after carbon migration of icons is done.
+  'process.env.STORYBOOK': 'false',
+
   'process.env.IS_TEST': 'false'
 });
 

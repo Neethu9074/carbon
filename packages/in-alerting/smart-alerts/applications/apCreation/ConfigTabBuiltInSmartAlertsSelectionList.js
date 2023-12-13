@@ -134,7 +134,11 @@ function ReadOnlyMainColumnContent({ config, applicationId }) {
             : t('in-alerting:smartAlerts.applications.apCreation.eventsCriticalIcon')
         }
       />
-      <div className={locals.labelTextWrapper}>{config.customLabel?.() ?? <LabelText>{name}</LabelText>}</div>
+      {
+        // This has been added back in 2021 and my not really be needed?
+        // eslint-disable-next-line no-undef
+        <div className={locals.labelTextWrapper}>{config.customLabel?.() ?? <LabelText>{name}</LabelText>}</div>
+      }
       <Link
         href={getLinkToAlertDetails(config)}
         aria-label={t('in-alerting:smartAlerts.applications.apCreation.viewAlertDetails', {

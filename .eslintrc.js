@@ -28,7 +28,7 @@ module.exports = {
     }
   },
 
-  globals: (function() {
+  globals: (function () {
     let globals = require('globals').browser;
     delete globals['name'];
     delete globals['Notification'];
@@ -43,6 +43,15 @@ module.exports = {
   })(),
 
   rules: {
+    /**
+     * With the latest eslint upgrade, this rule fails on many places, even on working code.
+     * While it is only an issue with react in developer mode - we can disable it, but
+     * need to investigate and fix the places it reports.
+     * See Kanban Card 148861:
+     * https://instana.kanbanize.com/ctrl_board/103/cards/148861
+     */
+    'react/display-name': 'off',
+
     // prevent from throwing no-unused-expression error when using optional chaining
     'no-unused-expressions': 'off',
     'babel/no-unused-expressions': ['error'],
