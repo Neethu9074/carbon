@@ -28,8 +28,8 @@
 
   .input {
     background: var(--ids-color-option-white);
-    width: 100%;
-    height: 2rem;
+    min-width: 0;
+    flex-grow: 1;
   }
 
   .helpOverlay {

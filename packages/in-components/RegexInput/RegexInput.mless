@@ -7,7 +7,6 @@
 :local {
   .container {
     box-sizing: border-box;
-    padding: 0.25rem 0 0.25rem 0.5rem;
     font-size: 0.75rem;
     line-height: 1.42857143;
     color: var(--ids-color-option-neutral-900);
@@ -15,5 +14,11 @@
     background-image: none;
     border: 1px solid var(--ids-color-option-neutral-300);
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+    :global(.cm-editor .cm-scroller) {
+      padding-left: 0.5rem;
+      padding-top: 0.7rem;
+      height: 2.7rem;
+    }
   }
 }
