@@ -197,6 +197,9 @@
       "viewTraceBtn": "View Backend Trace",
       "showID": "ID: {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "View Crash Group Details"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} occurrences",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Custom Event",
