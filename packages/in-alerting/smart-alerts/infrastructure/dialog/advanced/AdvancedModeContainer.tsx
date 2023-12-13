@@ -18,7 +18,10 @@ import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
+import { InfraTimeThreshold } from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
 import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StepsContainer from 'in-components/StepsContainer';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -27,7 +30,8 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, timeConfig, onChange } = props;
+  const { form, onChange, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, timeConfig } = props;
+  const thresholdType = form.get('threshold').get('type').value;
 
   return (
     <StepsContainer
@@ -78,7 +82,18 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.timeThreshold.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.timeThreshold.title'),
           valid: true,
-          content: <></>
+          content: (
+            <>
+              <InfraTimeThreshold
+                form={form}
+                updateForm={updateForm}
+                onChange={onChange}
+                oneMinuteGranularityAllowed={
+                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+                }
+              />
+            </>
+          )
         },
         {
           scrollId: '4',

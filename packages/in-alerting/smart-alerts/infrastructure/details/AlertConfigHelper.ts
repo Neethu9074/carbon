@@ -46,6 +46,8 @@ export function getMetricUnitPostfix(formatter: string) {
       return 'ms';
     case 'PERCENTAGE':
       return '%';
+    case 'NANOS':
+      return 'ns';
     default:
       return '';
   }

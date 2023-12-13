@@ -7,13 +7,14 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
+import { InfraAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { InfraAlertConfig, VersionedConfig } from 'in-types';
 
 const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
@@ -114,6 +115,10 @@ export default function alertFormDefinition(
       })
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
+    .put(
+      'timeThreshold',
+      createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
+    )
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
