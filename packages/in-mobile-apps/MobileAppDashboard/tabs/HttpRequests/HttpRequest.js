@@ -23,6 +23,7 @@ import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/Vi
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -32,7 +33,6 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import BackButton from 'in-components/BackButton';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './HttpRequest.mless';
@@ -92,7 +92,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 t('in-mobile-apps:dashboard.tabs.erroneousCallsLabel')
               ],
               metricIds: ['calls', 'errors'],
-              colors: [theme.lib.colors.chart.strokeColors100[0], theme.lib.carbonAlert.red60]
+              colors: [chartColors.strokeColors100[0], carbonAlert.red60]
             }}
             metricsConfiguration={{
               timeConfig,
@@ -126,7 +126,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               formatter: percentage.detailed,
               labels: [t('in-mobile-apps:dashboard.tabs.erroneousCallRateLabel')],
               metricIds: ['errors'],
-              colors: [theme.lib.carbonAlert.red60]
+              colors: [carbonAlert.red60]
             }}
             metricsConfiguration={{
               timeConfig,
@@ -232,11 +232,11 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               fallbackMetricValue: 0,
               metricIds: ['http1xx', 'http2xx', 'http3xx', 'http4xx', 'http5xx'],
               colors: [
-                theme.lib.colors.chart.strokeColors25[0],
-                theme.lib.colors.chart.strokeColors25[1],
-                theme.lib.colors.chart.strokeColors25[4],
-                theme.lib.colors.chart.strokeColors25[2],
-                theme.lib.colors.chart.strokeColors25[6]
+                chartColors.strokeColors25[0],
+                chartColors.strokeColors25[1],
+                chartColors.strokeColors25[4],
+                chartColors.strokeColors25[2],
+                chartColors.strokeColors25[6]
               ]
             }}
             metricsConfiguration={{

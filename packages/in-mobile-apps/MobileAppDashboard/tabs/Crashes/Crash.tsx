@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 
 import { TimeConfig, TagFilter } from '@instana/types';
 import { Button, Card } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { just } from '@instana/observables';
 
 // @ts-expect-error Could not find a declaration file for module
@@ -44,7 +45,6 @@ import { Col, Row } from 'in-components/layout/Grid';
 import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Crash.mless';
@@ -105,7 +105,6 @@ interface CrashTabProp {
 }
 
 function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFilters, timeConfig }: CrashTabProp) {
-  const theme = useTheme();
   const tagCatalogCrash = useTagCatalog('crash');
 
   const tagFiltersWithCrashId = tagFilters.slice();
@@ -257,7 +256,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                 formatter: number.forcedCompact,
                 labels: [t('in-mobile-apps:dashboard.tabs.occurrencesLabel')],
                 metricIds: ['beaconCount'],
-                colors: [theme.ids.color.option.red['500']]
+                colors: [themes.default.ids.color.option.red['500']]
               }}
               metricsConfiguration={{
                 timeConfig,
