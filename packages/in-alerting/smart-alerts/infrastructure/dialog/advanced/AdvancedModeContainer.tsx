@@ -21,12 +21,31 @@ import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/Alert
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import {
+  AlertPreview,
+  AlertPreviewHeadline
+} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
+import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, onChange, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, timeConfig } = props;
+  const {
+    form,
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex,
+    updateForm,
+    onChange,
+    timeConfig,
+    setSliderState,
+    setCustomSlideInHeaderConfig
+  } = props;
   const thresholdType = form.get('threshold').get('type').value;
+  const metricLabel = form.get('hiddenFields').get('metricLabel').value;
 
   return (
     <StepsContainer
@@ -80,14 +99,54 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.alertChannel.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.alertChannel.title'),
           valid: true,
-          content: <></>
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
+          )
         },
         {
           scrollId: '5',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.title'),
           valid: true,
-          content: <></>
+          content: (
+            <AlertPropertiesContainer
+              renderAlertProperties={() => (
+                <AlertProperties
+                  form={form}
+                  onChange={onChange}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  renderAlertPropertiesTitleRow={() => (
+                    <AlertPropertiesTitleRow
+                      form={form}
+                      onChange={onChange}
+                      getTitlePlaceholder={getTitlePlaceholder}
+                    />
+                  )}
+                />
+              )}
+              renderAlertPreview={() => (
+                <AlertPreview
+                  form={form}
+                  renderHeadline={() => (
+                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
+                  )}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  entityLabel={
+                    metricLabel
+                      ? metricLabel
+                      : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.preview.subtitle')
+                  }
+                  entityIconType="lib_infrastructure"
+                />
+              )}
+            />
+          )
         },
         {
           scrollId: '6',

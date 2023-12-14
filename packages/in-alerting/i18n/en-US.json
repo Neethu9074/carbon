@@ -1240,8 +1240,13 @@
           "title": "Alert Channels: Who needs to be alerted?"
         },
         "properties": {
+          "preview": {
+            "subtitle": "Metric-Name"
+          },
           "label": "Properties",
-          "title": "Additional Alert Properties"
+          "title": "Additional Alert Properties",
+          "alertPropertiesTitlePlaceholder": "Infrastructure Smart alert",
+          "alertPropertiesDescriptionPlaceholder": "Something is going wrong in your infrastructure."
         },
         "customPayloads": {
           "label": "Payloads",
