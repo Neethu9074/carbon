@@ -229,7 +229,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current`
+    explanationLinkHref: `https://ibm.biz/int-sdks-apis`
   },
   turbonomic_sensor_auth_exception: {
     issueDescription: {
@@ -242,7 +242,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current`
+    explanationLinkHref: `https://ibm.biz/int-sdks-apis`
   },
   turbonomic_sensor_warning: {
     issueDescription: {
@@ -255,6 +255,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current`
+    explanationLinkHref: `https://ibm.biz/int-sdks-apis`
   }
 };
