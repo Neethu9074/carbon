@@ -89,23 +89,33 @@ export default connectTo(
                 'workprocessList.' + row.key + '.wpIStatus',
                 'workprocessList.' + row.key + '.wpDumps',
                 'workprocessList.' + row.key + '.wpIType',
-                'workprocessList.' + row.key + '.wpRestart',
-                'workprocessList.' + row.key + '.wpMutex'
+                'workprocessList.' + row.key + '.wpRestart'
               ],
               labels: [
                 t('in-sap:dashboards.workProcessStatus'),
                 t('in-sap:dashboards.workProcessDumps'),
                 t('in-sap:dashboards.workProcessType'),
-                t('in-sap:dashboards.workProcessRestart'),
-                t('in-sap:dashboards.workProcessMutex')
+                t('in-sap:dashboards.workProcessRestart')
               ],
               type: 'line'
             }}
-            y2={{
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          <Chart
+            snapshotId={row.snapshotId}
+            timeConfig={row.timeConfig}
+            y1={{
               min: 0,
               formatter: seconds.detailed,
               metrics: ['workprocessList.' + row.key + '.wpCPU'],
               labels: [t('in-sap:dashboards.workProcessCpu')],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['workprocessList.' + row.key + '.wpMutex'],
+              labels: [t('in-sap:dashboards.workProcessMutex')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

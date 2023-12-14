@@ -89,16 +89,24 @@ export default connectTo(
               formatter: number.compact,
               metrics: [
                 'requestQueueList.' + row.key + '.requestsWaiting',
-                'requestQueueList.' + row.key + '.maxRequestsWaiting',
+                'requestQueueList.' + row.key + '.maxRequestsWaiting'
+              ],
+              labels: [t('in-sap:dashboards.requestsWaiting'), t('in-sap:dashboards.maxRequestsWaiting')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          <Chart
+            snapshotId={row.snapshotId}
+            timeConfig={row.timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [
                 'requestQueueList.' + row.key + '.requestsWritten',
                 'requestQueueList.' + row.key + '.requestsRead'
               ],
-              labels: [
-                t('in-sap:dashboards.requestsWaiting'),
-                t('in-sap:dashboards.maxRequestsWaiting'),
-                t('in-sap:dashboards.requestsWritten'),
-                t('in-sap:dashboards.requestsRead')
-              ],
+              labels: [t('in-sap:dashboards.requestsWritten'), t('in-sap:dashboards.requestsRead')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

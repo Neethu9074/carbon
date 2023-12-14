@@ -6,6 +6,7 @@
 
 import React, { Fragment } from 'react';
 
+import DiskSummaryStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskSummaryStats';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -134,6 +135,30 @@ export default function Summary({ timeConfig, data: sap }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.versionInfo')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'versionstats.version750',
+                'versionstats.version760',
+                'versionstats.version780',
+                'versionstats.versionOthers'
+              ],
+              labels: [
+                t('in-sap:dashboards.noOfVersion750'),
+                t('in-sap:dashboards.noOfVersion760'),
+                t('in-sap:dashboards.noOfVersion780'),
+                t('in-sap:dashboards.noOfVersionOthers')
+              ],
+              type: 'line',
+              formatter: number
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
       </Columize>
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.workProcessStats')}>
@@ -236,6 +261,7 @@ export default function Summary({ timeConfig, data: sap }) {
         />
       </DashboardSection>
       <CombinedMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
+      <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <AbapShortDumps snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );

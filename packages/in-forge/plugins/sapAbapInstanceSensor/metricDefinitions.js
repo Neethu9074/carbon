@@ -295,6 +295,30 @@ export default [
     formatter: number
   },
   {
+    metrics: ['versionstats.version750'],
+    labels: [t('in-sap:dashboards.noOfVersion750')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['versionstats.version760'],
+    labels: [t('in-sap:dashboards.noOfVersion760')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['versionstats.version780'],
+    labels: [t('in-sap:dashboards.noOfVersion780')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['versionstats.versionOthers'],
+    labels: [t('in-sap:dashboards.noOfVersionOthers')],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: ['queueStats.update2Wait'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.update2Wait')],
     min: 0,
@@ -404,6 +428,80 @@ export default [
       t('in-sap:dashboards.collisions')
     ],
     category: [t('in-sap:dashboards.lanMetricStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('diskHourDataStats', 'avgQueueLength', t('in-sap:dashboards.avgQueueLength')),
+      getDynamicMetricMatch('diskHourDataStats', 'response', t('in-sap:dashboards.response')),
+      getDynamicMetricMatch('diskHourDataStats', 'mbPerHour', t('in-sap:dashboards.mbPerHour')),
+      getDynamicMetricMatch('diskHourDataStats', 'operationsPerHour', t('in-sap:dashboards.operationsPerHour'))
+    ],
+    labels: [
+      t('in-sap:dashboards.avgQueueLength'),
+      t('in-sap:dashboards.response'),
+      t('in-sap:dashboards.mbPerHour'),
+      t('in-sap:dashboards.operationsPerHour')
+    ],
+    category: [t('in-sap:dashboards.diskHourDataStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('diskHourDataStats', 'avgWaitTime', t('in-sap:dashboards.avgWaitTime'))],
+    labels: [t('in-sap:dashboards.avgWaitTime')],
+    category: [t('in-sap:dashboards.diskHourDataStats')],
+    min: 0,
+    formatter: seconds
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('diskSummaryStats', 'avgQueueLength', t('in-sap:dashboards.avgQueueLength')),
+      getDynamicMetricMatch('diskSummaryStats', 'response', t('in-sap:dashboards.response')),
+      getDynamicMetricMatch('diskSummaryStats', 'kbPerSec', t('in-sap:dashboards.kbPerSec')),
+      getDynamicMetricMatch('diskSummaryStats', 'operationsPerSec', t('in-sap:dashboards.operationsPerSec'))
+    ],
+    labels: [
+      t('in-sap:dashboards.avgQueueLength'),
+      t('in-sap:dashboards.response'),
+      t('in-sap:dashboards.kbPerSec'),
+      t('in-sap:dashboards.operationsPerSec')
+    ],
+    category: [t('in-sap:dashboards.diskSummaryStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('diskSummaryStats', 'avgWaitTime', t('in-sap:dashboards.avgWaitTime'))],
+    labels: [t('in-sap:dashboards.avgWaitTime')],
+    category: [t('in-sap:dashboards.diskSummaryStats')],
+    min: 0,
+    formatter: seconds
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('httpMetricsStats', 'callTime', t('in-sap:dashboards.callTime')),
+      getDynamicMetricMatch('httpMetricsStats', 'executionTime', t('in-sap:dashboards.executionTime')),
+      getDynamicMetricMatch('httpMetricsStats', 'dataSendTime', t('in-sap:dashboards.dataSendTime')),
+      getDynamicMetricMatch('httpMetricsStats', 'dataReceiveTime', t('in-sap:dashboards.dataReceiveTime')),
+      getDynamicMetricMatch('httpMetricsStats', 'logonTime', t('in-sap:dashboards.logonTime'))
+    ],
+    labels: [
+      t('in-sap:dashboards.callTime'),
+      t('in-sap:dashboards.executionTime'),
+      t('in-sap:dashboards.dataSendTime'),
+      t('in-sap:dashboards.dataReceiveTime'),
+      t('in-sap:dashboards.logonTime')
+    ],
+    category: [t('in-sap:dashboards.httpMetricsStats')],
+    min: 0,
+    formatter: seconds
+  },
+  {
+    metrics: [getDynamicMetricMatch('httpMetricsStats', 'counter', t('in-sap:dashboards.counter'))],
+    labels: [t('in-sap:dashboards.counter')],
+    category: [t('in-sap:dashboards.httpMetricsStats')],
     min: 0,
     formatter: number
   }

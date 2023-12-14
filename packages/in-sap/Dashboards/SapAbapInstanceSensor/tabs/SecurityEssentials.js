@@ -6,17 +6,19 @@
 
 import React, { Fragment } from 'react';
 
-import UserList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserList.js';
-import RFCCalls from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls.js';
-import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserInfo.js';
+import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
+import UserList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserList';
+import RFCCalls from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
+import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserInfo';
 
 export default function SecurityEssentials({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
-      <UserInfo snapshotId={snapshotId} />
+      <UserInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
       <RFCCalls snapshotId={snapshotId} />
+      <HttpMetricsStats snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }
