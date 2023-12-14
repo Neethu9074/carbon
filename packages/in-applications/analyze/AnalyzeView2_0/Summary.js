@@ -134,15 +134,21 @@ export default function Summary({
     progress: logProgress
   } = useLogsCursorPagination(params => getLogDataForCalls({ traceId, timeConfigForLogs, ...params }), [traceId]);
 
+  useEffect(() => {
+    const callLogs =
+      logItems.filter(item => getCallIdFromTags(item.tags) === callId).map(item => ({ logId: item.itemId })) || [];
+    setSelectedLogIds(callLogs);
+  }, [callId, logItems]);
+
   const hasLogs = loggingEnabled && totalNumberOfLogs > 0;
 
-  const selectLogId = selectedLog => {
+  function selectLogId(selectedLog) {
     const { callId, logId, label } = selectedLog;
     const getCallOrSpanId = tags => getCallIdFromTags(tags) || getSpanIdFromTags(tags);
 
     if (!logId) {
       //Logs have to be correlated by message also since multiple logs can be related to the same call
-      const cleanLabel = label && label.replace('ERROR:', '');
+      const cleanLabel = label && label.replace('ERROR:', '').replace('WARN:', '');
       const findLog = ({ tags, message }) => {
         const isRelatedToCall = getCallOrSpanId(tags) === callId;
         const isSameMessage = label ? message === cleanLabel : true;
@@ -166,16 +172,13 @@ export default function Summary({
       setExpandedLogId(logId);
       setSelectedLogIds(newSelectedLogs);
     }
-  };
+  }
 
-  const onCallClicked = call => {
-    const callLogs =
-      logItems.filter(item => getCallIdFromTags(item.tags) === call.id).map(item => ({ logId: item.itemId })) || [];
-
-    setCallId(call.id);
-    setSelectedLogIds(callLogs);
+  const onCallClicked = ({ id }) => {
+    setCallId(id);
     tracker.traceViewCallTimelineDetailClickedTracker();
   };
+
   const clearSelectedLogId = () => {
     setLogId(null);
   };
