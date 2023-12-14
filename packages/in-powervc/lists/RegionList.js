@@ -84,6 +84,13 @@ const columnDefinitions = [
         />
       );
     }
+  },
+  {
+    id: 'project',
+    label: t('in-powervc:project'),
+    getContent(item) {
+      return item.project;
+    }
   }
 ];
 

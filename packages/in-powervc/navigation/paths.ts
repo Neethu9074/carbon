@@ -6,6 +6,7 @@
 
 import { getModifiedUrlStream, LocationMutator } from 'in-stores/navigation/navigation';
 import { hypervisorId as matrixHypervisorId } from 'in-powervc/navigation/matrix';
+import { instanceId as matrixInstanceId } from 'in-powervc/navigation/matrix';
 import { regionId as matrixRegionId } from 'in-powervc/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
@@ -17,6 +18,8 @@ export const powervcRegionDashboard = `/region`;
 export const powervcRegionDashboardFullyQualified = `${powervc}${powervcRegionDashboard}`;
 export const powervcHypervisorDashboard = `/hypervisor`;
 export const powervcHypervisorDashboardFullyQualified = `${powervc}${powervcHypervisorDashboard}`;
+export const powervcInstanceDashboard = `/instance`;
+export const powervcInstanceDashboardFullyQualified = `${powervc}${powervcInstanceDashboard}`;
 
 
 type NavigateToDashboardProps = {
@@ -42,6 +45,16 @@ export function usePowervcHypervisorDashboard(regionId?: string) {
     matrixParam: matrixHypervisorId,
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, powervcHypervisorDashboard, matrixRegionId, regionId);
+    }
+  });
+}
+export function usePowervcInstanceDashboard(regionId?: string) {
+  return useNavigateToDashboard({
+    base: powervcInstanceDashboardFullyQualified,
+    matrixSegment: powervcInstanceDashboard,
+    matrixParam: matrixInstanceId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, powervcInstanceDashboard, matrixRegionId, regionId);
     }
   });
 }

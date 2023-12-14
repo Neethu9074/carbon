@@ -22,7 +22,7 @@ export default function Summary({ timeConfig, data: hypervisor }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-powervc:id')} value={hypervisor.id} raw borderless />
+        <KpiCard title={t('in-powervc:id')} value={hypervisor.itemId} raw borderless />
         <KpiCard title={t('in-powervc:cpuArch')} value={hypervisor.powervcItem.architecture} raw borderless />
         <KpiCard title={t('in-powervc:cpuModel')} value={hypervisor.powervcItem.model} raw borderless />
         <KpiCard title={t('in-powervc:cpuVendor')} value={hypervisor.powervcItem.vendor} raw borderless />

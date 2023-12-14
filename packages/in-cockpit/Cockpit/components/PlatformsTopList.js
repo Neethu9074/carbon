@@ -283,7 +283,7 @@ const columnDefinitions = [
         return null;
       } else if (item.isPhmc || item.isZhmc) {
         return <KeyValue label={t('in-cockpit:component.platformsTopList.systems')} value={item.systems} accentuated />;
-      } else if (item.isOpenstack || item.isSap) {
+      } else if (item.isOpenstack || item.isSap || item.isPowervc) {
         return null;
       }
       return item.isKubernetes ? (

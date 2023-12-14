@@ -9,8 +9,10 @@ import React from 'react';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import PowerVCHypervisorLabel from 'in-powervc/Dashboards/commonComponents/PowerVCHypervisorLabel';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytes, megaBytes, number, percentage } from 'in-services/formatters/number';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import getPowerVCHypervisors from 'in-powervc/subscriptions/getPowerVCHypervisors';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { regionIdUrlParameter } from 'in-powervc/navigation/urlParameters';
@@ -26,13 +28,6 @@ const columnDefinitions = [
     label: t('in-powervc:name'),
     getContent(item) {
       return <PowerVCHypervisorLabel item={item} />;
-    }
-  },
-  {
-    id: 'id',
-    label: t('in-powervc:id'),
-    getContent(item) {
-      return item.powervcItem.id;
     }
   },
   {
@@ -155,21 +150,6 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'currentWorkload',
-    label: t('in-powervc:currentWorkload'),
-    sortable: true,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.id}
-          metric="currentWorkload"
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={number.compact}
-        />
-      );
-    }
-  },
-  {
     id: 'status',
     label: t('in-powervc:status'),
     sortable: true,
@@ -182,6 +162,22 @@ const columnDefinitions = [
     label: t('in-powervc:state'),
     getContent(item) {
       return item.powervcItem.state;
+    }
+  },
+  {
+    id: 'health',
+    label: t('in-powervc:health'),
+    getContent(item, { timeConfig }) {
+      return (
+        <EntityHealthIndicator
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
+          IndicatorPresenter={HealthIndicatorPresenter}
+          timeConfig={timeConfig}
+          snapshotId={item.id}
+          inContentArea
+        />
+      );
     }
   }
 ];

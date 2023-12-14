@@ -43,7 +43,7 @@ export default function Summary({ timeConfig, data: region }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['instanceUsage'],
+                metrics: ['totalInstancesUsed'],
                 labels: [t('in-powervc:instanceUsage')],
                 formatter: number.compact,
                 type: 'line'

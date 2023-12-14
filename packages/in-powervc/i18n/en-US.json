@@ -19,6 +19,9 @@
   "totalCpu": "Total CPU",
   "totalMemory": "Total Memory",
   "totalStorage": "Total Storage",
+  "totalCapacity": "Total Capacity",
+  "availableCapacity": "Available Capacity",
+  "volumeCount": "Volume Count",
   "cpuArch": "CPU Architecture",
   "cpuModel": "CPU Model",
   "cpuVendor": "CPU Vendor",
@@ -26,6 +29,7 @@
   "status": "Status",
   "state": "State",
   "hostIP": "Host IP",
+  "ip": "IP",
   "hypervisorType": "Hypervisor Type",
   "hypervisorVersion": "Hypervisor Version",
   "instanceCount": "Instance Count",
@@ -37,6 +41,10 @@
   "serverGroupsUsage": "Server Groups Usage",
   "floatingIpsUsage": "Floating IPs Usage",
   "securityGroupsUsage": "Security Groups Usage",
+  "project": "Project",
+  "hostName": "Host Name",
+  "cpuUtilization": "CPU Utilization",
+  "health": "Health",
   "dashboards": {
     "powervcRegions": "PowerVC Regions",
     "hypervisors": "Hypervisors",
@@ -57,12 +65,11 @@
     "totalServerGroupsUsed": "Total Server Groups Used",
     "totalFloatingIpsUsed": "Total Floating IPs Used",
     "totalSecurityGroupsUsed": "Total Security Groups Used",
-    "memoryUsageAll": "Memory Usage by All VMs",
-    "cpuUsageAll": "CPU Usage by All VMs",
-    "storageUsageAll": "Storage Usage by All VMs",
     "noDataAvailable": {
       "hypervisorTitle": "No PowerVC Hypervisor available",
-      "hypervisorDescription": "There was no PowerVC Hypervisor retrieved for the selected time range."
+      "hypervisorDescription": "There was no PowerVC Hypervisor retrieved for the selected time range.",
+      "instanceTitle": "No PowerVC Instance available",
+      "instanceDescription": "There was no PowerVC Instance retrieved for the selected time range."
     }
   }
 }
