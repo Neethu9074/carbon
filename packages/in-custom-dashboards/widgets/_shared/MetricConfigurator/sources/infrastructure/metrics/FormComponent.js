@@ -87,7 +87,7 @@ export default function FormComponent({
     onChangeGrouping(onChange, { ...grouping, direction, maxResults }, groupKey);
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers }, groupKey);
   const isCrossSeriesSumAggregationToggleEnabled =
-    !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
+    !isCrossSeriesAggregationRestricted && includesInSelectedAggregations(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
   const type = typeField.value || undefined;
@@ -310,7 +310,7 @@ function getGrouping(form) {
   return form.get('grouping')?.get(0)?.toJS();
 }
 
-function getCrossSeriesAggregationTooltip(
+export function getCrossSeriesAggregationTooltip(
   isCrossSeriesAggregationRestricted,
   isCrossSeriesAggregationEnabled,
   aggregation
@@ -349,4 +349,8 @@ export function getGroups({ isMultiGroup, infraExploreGrouping }) {
     groupKey: 'groupBys',
     groups: uniqueGroupBys
   };
+}
+
+export function includesInSelectedAggregations(aggregationFieldValue) {
+  return ['MEAN', 'MIN', 'MAX'].includes(aggregationFieldValue);
 }
