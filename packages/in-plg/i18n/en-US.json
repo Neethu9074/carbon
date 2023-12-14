@@ -22,6 +22,13 @@
       "dynamic": "Dynamic",
       "static": "Static"
     },
+    "docker": {
+      "pullTheAgentContainerImage": "Pull the Instana agent container image",
+      "runTheInstanaAgentContainerImage": "Run the Instana agent container image",
+      "upgradeTheInstanaAgentContainerImage": "Upgrade the Instana agent container image",
+      "installAgentOnDocker": "Install agent on Docker",
+      "configurationOptions": "Configuration options"
+    },
     "jvmVendor": {
       "azulZulu18": "Azul Zulu 1.8",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
@@ -29,13 +36,14 @@
     "askForHelp": {
       "email": "email",
       "send": "Send",
-      "askForHelpTitle": "Ask for help",
+      "askForHelpTitle": "Ask a colleague for help",
       "thisWillBeAvailableOnceYourInstanceIsReady": "This will be available once your instance is ready.",
       "inviteAColeague": "Invite a colleague",
       "agentKey": "Agent key"
     },
     "common": {
       "download": "Download",
+      "support": "Support",
       "clusterName": "Cluster name",
       "agentZoneOptional": "Agent zone (optional)",
       "networkRequirements": "Network requirements",
@@ -43,15 +51,48 @@
       "enterANameForAClusterGroupYouWantToAddThisClusterTo": "Enter a name for a cluster group<br>you want to add this cluster to.",
       "agentKey": "Instana agent key",
       "documentationTitle": "Documentation",
+      "choosingTheProperInstallationMethod": "Choosing the proper installation method",
+      "configuringTheAgentAfterInstall": "Configuring the agent after install",
       "packaging": "Packaging",
       "runtime": "Runtime",
       "prerequisitesTitle": "Prerequisites",
       "viewDeployedAgents": "View Deployed Agents",
-      "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map."
+      "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map.",
+      "sideCard":{
+        "prerequisites":"Prerequisites",
+        "documentation":"Documentation",
+        "askAColleagueForHelp":"Ask a colleague for help"
+      }
     },
     "kubernetes": {
       "kubernetes": {
+        "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
         "support": "Support"
+      },
+      "operator": {
+        "installUsingTheOperator": "Install using the Operator",
+        "installAnAgentOnKubernetes": "Install an agent on Kubernetes",
+        "installOperatorsManually": "Step 1: Install operators manually.",
+        "theLatestOperatorWillBeInstalled": "The latest Operator will be installed, and 1.x CRDs will not be upgraded:",
+        "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "Step 2: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+        "configureTheCustomResourceYAMLFile": "Step 3: Configure the custom resource YAML file.",
+        "followTheInstructionsInTheDocumentation": "Follow the instructions in the <documentation>documentation</documentation>.",
+        "runTheFollowingCommandToDeployTheInstanaAgent": "Step 4: Run the following command to deploy the Instana agent with your chosen configuration."
+      },
+      "helmChart": {
+        "installAnAgentOnKubernetes": "Install an agent on Kubernetes",
+        "configurationParameters": "Configuration parameters"
+      },
+      "k8_deamon": {
+        "installUsingYAML": "Install using YAML",
+        "installAnAgentOnKubernetes": "Install an agent on Kubernetes"
+      },
+      "k8_aks": {
+        "installAnAgentOnAKS": "Install an agent on AKS"
+      },
+      "k8_eks": {
+        "installAnAgentOnAWSEKS": "Install an agent on AWS EKS"
       }
     },
     "aws": {
@@ -101,6 +142,12 @@
       "documentationLinks": {
         "installAgentOnAwsEc2": "Install the agent on AWS EC2 (Windows)",
         "monitoringGo": "Monitoring Go",
+        "gcrDocumentation": "Google Cloud Run Documentation",
+        "gcBuildpackDocs": "Google cloud run buildpack documentation",
+        "setupGcpAgent": "Set up the GCP agent",
+        "monitoringPython": "Monitoring Python",
+        "runningStartupScript": "Running Startup Script",
+        "uninstallingTheHostAgent": "Uninstalling the host agent",
         "monitoringAwsFargate": "Monitoring AWS Fargate",
         "monitoringAwsFargateJava": "Monitoring AWS Fargate (Java)",
         "configureTaskDefinition": "Configuring task definition",
@@ -108,9 +155,12 @@
         "monitoringAwsFargateNodejs": "Monitoring AWS Fargate (Node.js)",
         "monitoringAwsFargatePython": "Monitoring AWS Fargate (Python)",
         "monitoredAwsServices": "Monitored AWS services",
+        "monitoringNodejs": "Monitoring Node js",
+        "installGcrCollectors": "Install Gogle Cloud Run in-process collectors",
         "installAgentOnEc2": "Install agent on AWS EC2",
         "configurationOptions": "Configuration options",
         "installAgentAwsEks":"Install an agent on AWS EKS",
+        "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby":"Monitoring AWS Fargate (Ruby)"
       }
     },
@@ -134,8 +184,42 @@
         "configurationParameters": "Configuration Parameters"
       }
     },
+    "openshift":{
+      "documentLinks":{
+      "installOperatorByUsingOlm":"Installing Operator by using OLM",
+      "setUpProject":"Set up a project and service account",
+      "installAgentUsingOperator":"Install agent using the Operator",
+      "configuringAgentAfterInstall":"Configuring the agent after install",
+      "installUsingHelm":" Install using the Helm chart",
+      "installUsingYaml":"Install using YAML"
+    },
+    "instructions":{
+      "operator":{
+        "installOperatorsManually":"Step 1: Install operators manually.",
+        "installOperatorsManuallySubtext":"The latest Operator will be installed, and 1.x CRDs will not be upgraded:",
+        "enterAClusterNameAndOptionallyTheAgentZone": "Step 2: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+        "configureCustomYamlFile":"Step 3: Configure the custom resource YAML file.",
+        "configureCustomYamlFileSubtext1":"Follow the instructions in the <installOperatorDoc>documentation.</installOperatorDoc>",
+        "configureCustomYamlFileSubtext2":"You can further configure the host agent to your requirements, as described in <networkAccess>Configure network access for monitored applications.</networkAccess>",
+        "runTheFollowingCommand":"Step 4: Run the following command to deploy the Instana agent with your chosen configuration."
+      },
+      "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+      "reviewPrerequisiteAndRunCode": "Step 2: Review the prerequisites and run the agent deployment code."
+      }
+    },
+    "azure": {
+      "installingAgentOnAks": "Installing an Agent on Aks",
+      "configureAfterInstall": "Configuring the agent after install"
+    },
     "gcp": {
+      "dockerBuild": "Docker build",
+      "cloudNativeBuildPack": "Cloud native buildpack",
+      "applicationRuntime": "Application runtime",
+      "reviewInfoStep": "Step 2: Review the additional information and integrate the instana in-process collector for Google Cloud Run.",
       "installationMethod": "Installation method",
+      "selectInstallationMethod":"Step 1: Select the installation method and application runtime.",
+      "selectAgentPackagingMode": "Step 1: Select agent packaging mode",
+      "useScript": "Step 2: Use the following script as 'Startup Script' for the GCE instance",
       "integrateInstanaInProcessCollectorForGoogle": "Step 2: Integrate the Instana in-process collector for Google Cloud Run.",
       "setEnvironmentVariablesCloudRunServiceDefinition": "Step 3: Set the following environment variables on the Cloud Run Service Definition.",
       "setEnvVariablesInCloudRunServiceRevision": "Set the following environment variables in the Cloud Run Service Revision."

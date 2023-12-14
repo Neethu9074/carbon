@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
+
 export default interface ContentProps {
   id: string;
   title: string;
@@ -12,7 +14,7 @@ export default interface ContentProps {
   iconColor?: string;
   fullLabel?: string;
   category?: string;
-  Content?: JSX.Element;
+  Content?: (props: OnboardingProps) => JSX.Element;
   __score?: number;
   subTechnology?: SubTechnology;
 }
@@ -20,6 +22,6 @@ export default interface ContentProps {
 export interface SubTechnology {
   label?: string;
   keyWords?: string;
-  Content?: any;
+  Content?: (props: OnboardingProps) => JSX.Element;
   __score?: number;
 }

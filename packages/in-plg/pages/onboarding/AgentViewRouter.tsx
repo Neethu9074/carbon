@@ -48,9 +48,9 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
     <Stack>
       <Header crumbs={createBreadCrumb()} />
       <Stack>
-        {technology?.Content && (
+        {technology?.Content && selectedEntity?.id && (
           <technology.Content
-            id={selectedEntity?.id}
+            id={selectedEntity.id}
             agentKey={unitKeysResp.agentKey}
             downloadKey={unitKeysResp.downloadKey}
             tenant={config.tenant}

@@ -4,34 +4,44 @@
  * Copyright IBM Corp. 2023
  */
 
-// import GoogleComputeEngine from 'in-plg/screens/OnBoardingWidget/AgentList/GoogleCloudPlatform/GoogleComputeEngine';
-// import LinuxGoogleCloudComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxGoogleCloudComputing';
-// import Windows64BitUnattended from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64BitUnattended';
-// import GoogleCloudRun from 'in-plg/screens/OnBoardingWidget/AgentList/GoogleCloudPlatform/GoogleCloudRun';
-// import LinuxElasticComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxElasticComputing';
-// import OpenshiftOperator from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/OpenshiftOperator';
-// import WindowsZipArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsZipArchive';
-// import Operator from 'in-plg/screens/OnBoardingWidget/AgentList/Kubernetes/KubernetesOperator';
-import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
 // import VmwareTanzu from 'in-plg/screens/OnBoardingWidget/AgentList/Vmware/VmwareTanzu';
 // import WindowsEC2 from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsEC2';
 // import Openshift from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/Openshift';
-import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
+// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
+// import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 // import LinuxAutomatic from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxAutomatic';
 // import Windows64Bit from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64Bit';
-import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
-// import LinuxPackages from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxPackages';
-// import Kubernetes from 'in-plg/screens/OnBoardingWidget/AgentList/Kubernetes/Kubernetes';
-import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
-// import Azure from 'in-plg/screens/OnBoardingWidget/AgentList/Azure/Azure';
+// import LinuxElasticComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxElasticComputing';
+// import OpenshiftOperator from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/OpenshiftOperator';
+// import WindowsZipArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsZipArchive';
+import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
+// import LinuxGoogleCloudComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxGoogleCloudComputing';
+// import Windows64BitUnattended from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64BitUnattended';
+import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
+// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
+// import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
+// import CfAndBosh from 'in-plg/screens/OnBoardingWidget/AgentList/Bosh/CfAndBosh';
+import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
+// import WindowsZipArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsZipArchive';
 // import MacOs from 'in-plg/screens/OnBoardingWidget/AgentList/Mac/MacOs';
 // import Unix from 'in-plg/screens/OnBoardingWidget/AgentList/Unix/Unix';
 import { t } from 'in-i18n';
-// import CfAndBosh from 'in-plg/screens/OnBoardingWidget/AgentList/Bosh/CfAndBosh';
-// import Docker from 'in-plg/screens/OnBoardingWidget/AgentList/Docker/Docker';
+// import LinuxAutomatic from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxAutomatic';
+// import Windows64Bit from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64Bit';
+import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
+// import VmwareTanzu from 'in-plg/screens/OnBoardingWidget/AgentList/Vmware/VmwareTanzu';
+// import WindowsEC2 from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsEC2';
+import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
+// import LinuxElasticComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxElasticComputing';
+import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
+// import LinuxPackages from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxPackages';
+import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes';
+import GoogleComputeEngine from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleComputeEngine';
+import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
+import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
+import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
 import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
-// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
-// import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
+import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 
 export function getEntriesForFreeTrial() {
   return [
@@ -123,8 +133,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
-        keyWords: 'azurekubernetesk8s'
-        // Content: Azure
+        keyWords: 'azurekubernetesk8s',
+        Content: Azure
       }
     },
     {
@@ -136,8 +146,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.googleComputeEngineGceLinux'),
-        keyWords: 'googlecloudplatformcomputeenginelinuxgce'
-        // Content: GoogleComputeEngine
+        keyWords: 'googlecloudplatformcomputeenginelinuxgce',
+        Content: GoogleComputeEngine
       }
     },
     {
@@ -149,8 +159,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.googleCloudRun'),
-        keyWords: 'googlecloudrun'
-        // Content: GoogleCloudRun
+        keyWords: 'googlecloudrun',
+        Content: GoogleCloudRun
       }
     },
     {
@@ -160,8 +170,8 @@ export function getEntriesForFreeTrial() {
       icon: 'lib_container_docker',
       iconColor: '#2D6DD0',
       category: t('in-waiting-for-deployment:content.platform'),
-      keyWords: 'dockercontainer'
-      // Content: Docker
+      keyWords: 'dockercontainer',
+      Content: Docker
     },
     {
       id: 'k8_operator',
@@ -172,8 +182,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
-        keyWords: 'kubernetesoperatork8s'
-        // Content: Operator
+        keyWords: 'kubernetesoperatork8s',
+        Content: KubernetesOperator
       }
     },
     {
@@ -185,8 +195,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
-        keyWords: 'kuberneteshelmchartk8s'
-        // Content: Kubernetes
+        keyWords: 'kuberneteshelmchartk8s',
+        Content: Kubernetes
       }
     },
     {
@@ -198,8 +208,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
-        keyWords: 'kubernetesdeamonsetk8s'
-        // Content: Kubernetes
+        keyWords: 'kubernetesdeamonsetk8s',
+        Content: Kubernetes
       }
     },
     {
@@ -211,8 +221,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
-        keyWords: 'azurekubernetesserviceaksk8s'
-        // Content: Kubernetes
+        keyWords: 'azurekubernetesserviceaksk8s',
+        Content: Kubernetes
       }
     },
     {
@@ -224,8 +234,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
-        keyWords: 'awselastickubernetesserviceeksk8s'
-        // Content: Kubernetes
+        keyWords: 'awselastickubernetesserviceeksk8s',
+        Content: Kubernetes
       }
     },
     {
@@ -237,8 +247,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
-        keyWords: 'kubernetesoperatork8s'
-        // Content: OpenshiftOperator
+        keyWords: 'kubernetesoperatork8s',
+        Content: OpenshiftOperator
       }
     },
     {
@@ -250,8 +260,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
-        keyWords: 'openshifthelmchartk8s'
-        // Content: Openshift
+        keyWords: 'openshifthelmchartk8s',
+        Content: Openshift
       }
     },
     {
@@ -263,8 +273,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
-        keyWords: 'kubernetesdeamonsetk8s'
-        // Content: Openshift
+        keyWords: 'kubernetesdeamonsetk8s',
+        Content: Openshift
       }
     },
     {
