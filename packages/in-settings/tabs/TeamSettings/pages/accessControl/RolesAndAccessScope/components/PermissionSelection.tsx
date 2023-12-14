@@ -12,17 +12,16 @@ import { SvgIcon, Typography, Stack, Spacer } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
 import {
-  ProductArea,
   ProductAreaType,
   ProductAreaPermissionMap
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { productPermissionsObject, LimitedAccessScope } from 'in-stores/permission';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { productPermissionsObject } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -56,19 +55,9 @@ export default function PermissionSelection<FORM_TYPE extends MapFormItems>({
     if (!permissionSet) return;
 
     const hasToggledCapability = permissionSet.permissions.includes(value);
-    let newPermissions = hasToggledCapability
+    const newPermissions = hasToggledCapability
       ? permissionSet.permissions.filter(permission => permission !== value)
       : [...permissionSet.permissions, value];
-
-    // SYNTHETICS workaround as long it is not a own 'section' with proper limitation functionality
-    // for now this hides SYNTHETICS area if no permission to the area is granted and gives access vice versa
-    const { capabilities } = ProductAreaPermissionMap[ProductArea.SYNTHETICS];
-    const hasAnySyntheticsPermission = capabilities ? capabilities.some(cap => newPermissions.includes(cap)) : false;
-    if (hasAnySyntheticsPermission && newPermissions.includes(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE)) {
-      newPermissions = newPermissions.filter(perm => perm !== LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE);
-    } else if (!hasAnySyntheticsPermission && !newPermissions.includes(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE)) {
-      newPermissions.push(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE);
-    }
 
     const newPermissionSet = { ...permissionSet, permissions: newPermissions };
 
