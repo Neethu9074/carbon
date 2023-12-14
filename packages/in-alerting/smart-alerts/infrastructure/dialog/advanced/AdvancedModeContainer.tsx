@@ -6,28 +6,18 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-//@ts-expect-error
-import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
-import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
-import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
-import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
 import { InfraTimeThreshold } from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
+import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
 import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StepsContainer from 'in-components/StepsContainer';
-import Sections from 'in-components/workspace/Sections';
-import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
   const { form, onChange, onChartViewConfigChange, selectedChartViewConfigIndex, updateForm, timeConfig } = props;
@@ -42,22 +32,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
           valid: true,
-          content: (
-            <div className={locals.container}>
-              <Stack gap="xsmall">
-                <Sections>
-                  <Section
-                    title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.metric')}
-                  >
-                    <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} />
-                  </Section>
-                  <ScopeAggregation form={form} updateForm={updateForm} />
-                  <ScopeFilter form={form} updateForm={updateForm} />
-                  <ScopeGroup form={form} updateForm={updateForm} />
-                </Sections>
-              </Stack>
-            </div>
-          )
+          content: <ScopeSection form={form} updateForm={updateForm} onChange={onChange} />
         },
         {
           scrollId: '2',

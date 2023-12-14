@@ -17,7 +17,9 @@ import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 export default function ScopeGroup({ form, updateForm }) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const groupBy = form?.get('groupBy')?.value;
-  const tagCatalog = useTagCatalog({});
+  const entityType = form.get('entityType')?.value;
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: false });
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const validGroupResult = isGroupingConfigurationValid(groupBy, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message

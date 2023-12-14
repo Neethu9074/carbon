@@ -20,7 +20,9 @@ interface ScopeFilterProps {
 }
 export default function ScopeFilter({ form, updateForm }: ScopeFilterProps) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
-  const tagCatalog = useTagCatalog({});
+  const entityType = form.get('entityType')?.value;
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: false });
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const isInvalid = validTagFilterExpressionResult.data === false;
   return (
