@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { InfraAlertConfigWithMetadata, TimeConfig } from '@instana/types';
@@ -13,19 +12,17 @@ import { Message } from '@instana/components';
 
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
-import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { t } from 'in-i18n';
 
 import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart.mless';
 
 interface InfraMetricChartProps {
-  form: MapForm<any>;
+  alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
 }
 
-export function InfraMetricChart({ form, timeConfig }: InfraMetricChartProps) {
+export function InfraMetricChart({ alertConfig, timeConfig }: InfraMetricChartProps) {
   const selectedMetricGroup = useObservable(selectedMetricGroup$, []);
-  const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form) as InfraAlertConfigWithMetadata;
 
   if (!selectedMetricGroup) {
     return (
@@ -47,7 +44,7 @@ export function InfraMetricChart({ form, timeConfig }: InfraMetricChartProps) {
       </div>
 
       <InfraAlertChartWrapper
-        alertConfig={alertConfigWithFormModel}
+        alertConfig={alertConfig}
         timeConfig={timeConfig}
         selectedMetricGroup={selectedMetricGroup}
       />

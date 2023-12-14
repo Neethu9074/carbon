@@ -7,24 +7,28 @@
 import React, { useState } from 'react';
 
 import { Stack } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   InfraAlertConfigWithMetadata,
   InfraAlertRuleUnion,
+  Order,
   StaticThresholdConfig,
   TagCatalog,
   ThresholdConfigUnion
 } from 'in-types';
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
+import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
-import ViewAnalyzeButton from 'in-alerting/smart-alerts/infrastructure/details/ViewAnalyzeButton';
+import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { AlertGrouping } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
@@ -32,12 +36,14 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
+import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import ListTitle from 'in-components/lists/Title';
 import { getPluginName } from 'in-sdk/pluginName';
-import { days } from 'in-services/time';
+import { days, minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
@@ -56,12 +62,14 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const {
     timeThreshold,
     granularity,
-    rule: { metricName, entityType },
+    rule: { metricName, entityType, aggregation, crossSeriesAggregation },
     threshold,
     alertChannelIds,
     tagFilterExpression,
     groupBy
   } = alertConfig;
+
+  const order = { by: groupBy[0], direction: 'DESC' };
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const tagCatalog = useTagCatalog({ ownerType: entityType });
@@ -69,6 +77,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
 
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
+
+  const kpiDefinitions = getKpiDefinitions(entityType);
+  const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
 
   return (
     <AlertDetailsCard>
@@ -84,22 +97,44 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
           rule={{ metricName, entityType } as InfraAlertRuleUnion}
         />
       </ExpandableLightCard>
-      {groupBy.length == 0 ? (
-        <ChartViewConfigurator
-          chartViewConfigs={chartViewConfigs}
-          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}
-          doNotSetDefaultHeight
-          framed
-        >
-          {chartViewConfig => (
-            <>
+
+      <ChartViewConfigurator
+        chartViewConfigs={chartViewConfigs}
+        onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleTrigger')}
+        doNotSetDefaultHeight
+        framed
+      >
+        {chartViewConfig => (
+          <Card title={t('in-events:titleMetrics')}>
+            {groupBy.length === 0 ? (
               <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
-            </>
-          )}
-        </ChartViewConfigurator>
-      ) : null}
+            ) : (
+              <>
+                <InfraMetricChart alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
+                <InfraMetricGroup
+                  granularity={granularity}
+                  backendQueryModel={tagFilterExpression}
+                  backendGroupBy={groupBy}
+                  order={order as Order}
+                  type={entityType}
+                  metrics={metrics}
+                  groupBy={groupBy}
+                  timeConfig={{
+                    ...chartViewConfig.timeConfig,
+                    to: Date.now(),
+                    windowSize: minutes.toMillis(30),
+                    focusedMoment: Date.now()
+                  }}
+                  metricMetadatas={metricMetadatas}
+                />
+              </>
+            )}
+          </Card>
+        )}
+      </ChartViewConfigurator>
+
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleScope')}
         useMaxAvailableHeight={false}
@@ -118,7 +153,6 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
             />
 
             <AlertGrouping AlertQueryBuilder={AlertQueryBuilder} groupBy={groupBy} />
-            {groupBy.length > 0 ? <ViewAnalyzeButton alertConfig={alertConfig} /> : null}
           </Stack>
         </div>
       </ExpandableLightCard>

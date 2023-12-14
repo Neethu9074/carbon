@@ -1196,8 +1196,7 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertProperties": "Alert Properties",
-        "viewDetail": "View Details"
+        "alertConfigurationTitleAlertProperties": "Alert Properties"
       },
       "list": {
         "columns": {

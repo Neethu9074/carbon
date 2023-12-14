@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { isArray } from 'lodash';
+
 import { InfraAlertConfigWithMetadata, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
@@ -34,18 +36,20 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
       groupingTFE.elements.push(groupExpression);
     });
 
-    let filterTE =
+    let tagFE =
       (tagFilterExpression as unknown as TagFilter[]).length > 0
         ? toBackendQueryModel(tagFilterExpression as unknown as TagFilter[])
         : [];
 
-    if ('elements' in filterTE) {
-      tagFilterExpression = addTagFilters(filterTE, [groupingTFE]);
+    if ('elements' in tagFE) {
+      tagFilterExpression = addTagFilters(tagFE, [groupingTFE]);
     } else {
       tagFilterExpression = {
         type: 'EXPRESSION',
         logicalOperator: 'AND',
-        elements: [...(tagFilterExpression as unknown as TagFilter[]), groupingTFE]
+        elements: isArray(tagFilterExpression)
+          ? [...(tagFilterExpression as unknown as TagFilter[]), groupingTFE]
+          : [tagFilterExpression, groupingTFE]
       };
     }
   }

@@ -7,30 +7,31 @@
 import React, { useEffect } from 'react';
 import { MapForm } from 'formalistic';
 
-import { Order, TimeConfig } from '@instana/types';
 import { create } from '@instana/observables';
+import { Order } from '@instana/types';
 
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import InfraThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
+import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
+import { AggregationType, InfraAlertConfigWithMetadata } from 'in-types';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getPluginName } from 'in-sdk/pluginName';
-import { AggregationType } from 'in-types';
+import { days } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
-export const selectedMetricGroup$ = create().emit('');
+export const selectedMetricGroup$ = create().emit(null);
 export interface ThresholdProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
-  timeConfig?: TimeConfig;
 }
 
 export type Tags = { [index: string]: any };
@@ -39,8 +40,7 @@ export default function ThresholdSelectionInteractiveChart({
   form,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex,
-  timeConfig
+  selectedChartViewConfigIndex
 }: ThresholdProps): JSX.Element {
   const chartViewConfigs = defaultChartViewConfigs;
 
@@ -64,8 +64,6 @@ export default function ThresholdSelectionInteractiveChart({
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
   const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
   const backendQueryModel = toBackendQueryModel(tagFilterExpression);
-
-  const groupTimeConfig = { ...timeConfig, to: Date.now(), focusedMoment: Date.now() };
 
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
@@ -93,7 +91,10 @@ export default function ThresholdSelectionInteractiveChart({
       >
         {chartViewConfig => (
           <>
-            <InfraMetricChart form={form} timeConfig={chartViewConfig.timeConfig} />
+            <InfraMetricChart
+              alertConfig={alertConfigWithDefaultThreshold(form) as InfraAlertConfigWithMetadata}
+              timeConfig={chartViewConfig.timeConfig}
+            />
             {groupBy.length > 0 && (
               <InfraMetricGroup
                 granularity={granularity}
@@ -103,7 +104,12 @@ export default function ThresholdSelectionInteractiveChart({
                 type={entityType}
                 metrics={metrics}
                 groupBy={backendGroupBy}
-                timeConfig={groupTimeConfig as TimeConfig}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: Date.now(),
+                  windowSize: days.toMillis(1),
+                  focusedMoment: Date.now()
+                }}
                 metricMetadatas={metricMetadatas}
               />
             )}
@@ -130,7 +136,7 @@ export interface MetricType {
  * @param entityLabel The entity label.
  * @returns The metrics.
  */
-function getMetrics(
+export function getMetrics(
   metricName: string,
   aggregation: AggregationType,
   crossSeriesAggregation: AggregationType,

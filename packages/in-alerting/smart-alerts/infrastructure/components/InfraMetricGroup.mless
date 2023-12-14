@@ -1,7 +1,0 @@
-@import '~in-themes/active.less';
-
-:local {
-  .container {
-    padding: 0 0.75rem;
-  }
-}
