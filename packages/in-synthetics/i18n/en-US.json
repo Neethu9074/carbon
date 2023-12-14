@@ -193,7 +193,9 @@
           "addLocations": "Add {{count}} Locations",
           "addLocation": "Add Location",
           "cancel": "Cancel",
-          "selectLocation": "Select Location"
+          "selectLocation": "Select Location",
+          "privatePoPLabel": "Private",
+          "managedPoPLabel": "Managed"
         },
         "advancedBluePrint": {
           "apiName": "API",

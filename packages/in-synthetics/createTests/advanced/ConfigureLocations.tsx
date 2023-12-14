@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useMemo, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
@@ -21,7 +21,9 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import LocationsSection from 'in-synthetics/createTests/advanced/LocationsSection';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
+import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 import { SliderState } from 'in-synthetics/utils/constants';
 import SaveButton from 'in-components/form/SaveButton';
 
@@ -66,14 +68,15 @@ export default function ConfigureLocations({
       .map(result => result ?? EMPTY);
   });
 
-  const locations = getLocationsAsResultObservable(syntheticType)
-    .map((result: Result<SyntheticLocation[]> | null) => {
-      if (result == null) {
-        return EMPTY;
-      }
-      return (result as Result<SyntheticLocation[]>)?.data;
-    })
-    .map(result => result ?? EMPTY);
+  const locations = (locationType: string) =>
+    getLocationsAsResultObservable(syntheticType, locationType)
+      .map((result: Result<SyntheticLocation[]> | null) => {
+        if (result == null) {
+          return EMPTY;
+        }
+        return (result as Result<SyntheticLocation[]>)?.data;
+      })
+      .map(result => result ?? EMPTY);
 
   const loadEntities = () => getSelectedLocations((form.get('locations') as Field<string[]>).value ?? []);
 
@@ -136,7 +139,7 @@ export interface SelectListDialogContentProps {
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig?: (state: { title: string | null; onClose: (() => void) | null }) => void;
   numberOfLocationListRows: number;
-  locations: Observable<SyntheticLocation[]>;
+  locations: (locationType: string) => Observable<SyntheticLocation[]>;
 }
 
 function SelectListDialogContent({
@@ -148,10 +151,53 @@ function SelectListDialogContent({
 }: SelectListDialogContentProps) {
   const initialState = false;
   const [slideInContentVisible, setSlideInContentVisible] = useState(initialState);
+  const locationTypes = ['Private', 'Managed'];
+  const [activeLocationType, setActiveLocationType] = useState(locationTypes[0]);
+  const locationtypeLabels = [
+    t('in-synthetics:dialog.createTest.advancedMode.selectTests.privatePoPLabel'),
+    t('in-synthetics:dialog.createTest.advancedMode.selectTests.managedPoPLabel')
+  ];
+  const loadLocationEntities = useMemo(() => locations(activeLocationType), [locations, activeLocationType]);
 
-  const LoadingListComponent = (props: Omit<LocationsListProps, 'loadEntities'>) => (
-    <LocationsSection {...props} loadEntities={() => locations} />
+  const buttonGroup = (
+    <div className={locals.inline}>
+      <ButtonGroup
+        buttonPropsList={locationTypes.map((locationType, index) => ({
+          text: locationtypeLabels[index],
+          key: locationType,
+          onClick: () => setActiveLocationType(locationType)
+        }))}
+        activeKey={activeLocationType}
+      />
+    </div>
   );
+  const LoadingListComponent = (props: Omit<LocationsListProps, 'loadEntities'>) =>
+    syntheticInstanaHostedPoPEnabled ? (
+      <LocationsSection
+        {...props}
+        loadEntities={() => loadLocationEntities}
+        rightHeader={buttonGroup}
+        renderNoDataAvailable={() => (
+          <NoDataAvailable
+            type="lib_synthetic"
+            height={160}
+            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
+          />
+        )}
+      />
+    ) : (
+      <LocationsSection
+        {...props}
+        loadEntities={() => locations('')}
+        renderNoDataAvailable={() => (
+          <NoDataAvailable
+            type="lib_synthetic"
+            height={160}
+            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
+          />
+        )}
+      />
+    );
 
   return (
     <SlideInView

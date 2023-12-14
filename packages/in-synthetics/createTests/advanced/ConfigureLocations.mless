@@ -17,4 +17,8 @@
   .createAlertTestButton {
     margin-right: 1rem;
   }
+
+  .inline {
+    margin: 0 1rem;
+  }
 }
