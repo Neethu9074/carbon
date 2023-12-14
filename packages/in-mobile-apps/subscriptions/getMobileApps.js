@@ -51,11 +51,11 @@ export function getMobileAppsWithDefaults({
         granularity: getSparkChartGranularity(timeConfig)
       },
       crashesAgg: {
-        metric: 'crashFreeSessionRate',
+        metric: 'crashAffectedSessionRate',
         aggregation: 'MEAN'
       },
       crashes: {
-        metric: 'crashFreeSessionRate',
+        metric: 'crashAffectedSessionRate',
         aggregation: 'MEAN',
         granularity: getSparkChartGranularity(timeConfig)
       }
