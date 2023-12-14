@@ -278,7 +278,7 @@ module.exports = exports = [
   {
     uiClientKey: 'mobileAppCrashBeaconEnabled',
     instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'controlPlaneEnabled',
