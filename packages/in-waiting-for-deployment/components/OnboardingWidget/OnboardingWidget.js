@@ -6,6 +6,8 @@
 import React, { useEffect } from 'react';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
+import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
+import { agentInstallationV2Enabled } from 'in-services/featureFlags';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import useUrlState from 'in-hooks/useUrlState';
@@ -33,7 +35,10 @@ const urlStateDefinition = {
 };
 
 export default function OnboardingWidget(props) {
-  const Renderer = props.Renderer || OnboardingWidgetPresenter;
+  const onboardingWidgetV2Enabled =
+    props.activeLicenseType === ('selfService' || 'quota') && agentInstallationV2Enabled;
+  const Renderer =
+    props.Renderer || (onboardingWidgetV2Enabled ? OnboardingWidgetPresenterV2 : OnboardingWidgetPresenter);
   const trackingService = createTracker(props.trackingIdPrefix);
   const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
   useEffect(() => {
