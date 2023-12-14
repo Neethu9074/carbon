@@ -437,7 +437,7 @@
     "nameLabel": "Name",
     "sessionStartsLabel": "Session Starts",
     "viewTransitionsLabel": "View Transitions",
-    "crashFreeSessionRateLabel": "Crash Free Session Rate",
+    "crashAffectedSessionRateTitle": "Crash Affected Session Rate",
     "addMobileAppBtn": "Add Mobile App",
     "mobileAppsTitle": "Mobile Apps"
   },

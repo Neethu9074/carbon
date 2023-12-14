@@ -87,8 +87,8 @@ const columnDefinitions = [
     ? [
         {
           id: 'crashesAgg',
-          label: t('in-mobile-apps:appsList.crashFreeSessionRateLabel'),
-          defaultOrderDirection: 'ASC',
+          label: t('in-mobile-apps:appsList.crashAffectedSessionRateTitle'),
+          defaultOrderDirection: 'DESC',
           getContent(item, { result, timeConfig }) {
             return (
               <SparkChart
