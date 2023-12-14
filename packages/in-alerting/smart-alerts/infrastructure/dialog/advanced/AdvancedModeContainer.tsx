@@ -11,9 +11,14 @@ import {
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import {
+  isCustomPayloadValidOrUntouched,
+  fieldTouchedAndInvalid
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { InfraTimeThreshold } from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
-import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StepsContainer from 'in-components/StepsContainer';
@@ -88,8 +93,14 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '6',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.customPayloads.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.customPayloads.title'),
-          valid: true,
-          content: <></>
+          valid: isCustomPayloadValidOrUntouched(form),
+          content: (
+            <>
+              {/* TODO :  Context need to be updated once it is added to typedefinition.  */}
+              <GlobalCustomPayloadCard context="ALL" />
+              <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
+            </>
+          )
         }
       ]}
     />

@@ -25,12 +25,14 @@ import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
+import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { AlertGrouping } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -66,6 +68,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
     threshold,
     alertChannelIds,
     tagFilterExpression,
+    customPayloadFields,
     groupBy
   } = alertConfig;
 
@@ -74,6 +77,14 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const tagCatalog = useTagCatalog({ ownerType: entityType });
   const entityLabel = getPluginName(entityType, 1);
+  // TODO : below logic can be removed once the dynamic payload support is enabled for infa SA
+  const customPayloadFieldsAllStatic = customPayloadFields.map(customPayload => {
+    const newCustomPayload = { ...customPayload };
+    if (typeof customPayload.value != 'string') {
+      newCustomPayload.value = customPayload.value.tagName;
+    }
+    return newCustomPayload;
+  });
 
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -185,6 +196,12 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       >
         <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
       </ExpandableLightCard>
+      <GlobalCustomPayloadCard context="ALL" />
+      <CustomPayloadCard
+        customPayloadFields={customPayloadFieldsAllStatic} //this can be replaced with - customPayloadFields - once the dynamic payload support is enabled for infa SA
+        TagBasedPayloadConfigurator={() => <></>}
+        openByDefault
+      />
     </AlertDetailsCard>
   );
 }
