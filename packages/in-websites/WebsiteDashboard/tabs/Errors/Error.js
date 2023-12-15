@@ -33,12 +33,12 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
+import { carbonAlert } from 'in-themes/chartColors';
 import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Code from 'in-components/Code';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Error.mless';
@@ -305,7 +305,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 formatter: number.forcedCompact,
                 labels: [t('in-websites:websiteDashboard.tabs.errors.errorLabelOccurrences')],
                 metricIds: ['errors'],
-                colors: [theme.lib.carbonAlert.red60]
+                colors: [carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,

@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/components';
 import { just } from '@instana/observables';
 
@@ -25,6 +26,7 @@ import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -35,7 +37,6 @@ import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './XhrRequest.mless';
@@ -144,7 +145,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelErroneousCalls')
                 ],
                 metricIds: ['calls', 'errors'],
-                colors: [theme.lib.colors.chart.strokeColors100[0], theme.lib.carbonAlert.red60]
+                colors: [chartColors.strokeColors100[0], carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -178,7 +179,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 formatter: percentage.detailed,
                 labels: [t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelErroneousCallRate')],
                 metricIds: ['errors'],
-                colors: [theme.lib.carbonAlert.red60]
+                colors: [carbonAlert.red60]
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -313,7 +314,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                       labels: [t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelTimeToFirstByte')],
                       metricIds: ['ttfb'],
                       // Ensure high readability
-                      colors: [theme.lib.colors.N900Primary]
+                      colors: [themes.default.ids.color.option.neutral['900']]
                     }}
                     metricsConfiguration={{
                       timeConfig,
@@ -396,7 +397,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 tooltipFormatter: number.compact,
                 fallbackMetricValue: 0,
                 metricIds: ['http1xx', 'http2xx', 'http3xx', 'http4xx', 'http5xx'],
-                colors: theme.lib.colors.chart.fiveColorPalette
+                colors: chartColors.fiveColorPalette
               }}
               metricsConfiguration={{
                 timeConfig,
@@ -447,7 +448,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 renderer: Renderer.stackedBar,
                 formatter: number.forcedCompact,
                 fallbackMetricValue: 0,
-                colors: theme.lib.colors.chart.fourColorPalette,
+                colors: chartColors.fourColorPalette,
                 labels: [
                   t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelGET'),
                   t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelPOST'),
@@ -533,7 +534,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                     y1={{
                       renderer: Renderer.line,
                       formatter: bytes,
-                      colors: theme.lib.colors.chart.threeColorPalette,
+                      colors: chartColors.threeColorPalette,
                       labels: [
                         t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelTransferSize'),
                         t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabelEncodedBodySize'),

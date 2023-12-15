@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
 import OverviewChartTooltip from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChartTooltip';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
@@ -15,7 +17,6 @@ import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
-import { useTheme } from 'in-themes';
 
 import locals from './OverviewChart.mless';
 
@@ -23,7 +24,6 @@ const barHeight = 8;
 
 export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp }) {
   const { width, ref } = useResizeObserverCustom();
-  const theme = useTheme();
 
   const scale = createScale();
   const beaconsStacked = applyLayout(beacons);
@@ -45,8 +45,8 @@ export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp
           formatter={millis.forcedCompactOnMs}
           detailedFormatting
           tickLength={8}
-          tickColor={theme.ids.color.option.neutral['400']}
-          tickLabelColor={theme.ids.color.option.neutral['800']}
+          tickColor={themes.default.ids.color.option.neutral['400']}
+          tickLabelColor={themes.default.ids.color.option.neutral['800']}
           scale={{ from: 0, to: endTimestamp - earliestTimestamp }}
           fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
         />

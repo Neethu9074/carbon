@@ -7,19 +7,19 @@ import React, { useMemo } from 'react';
 import { sortedUniqBy } from 'lodash';
 import classNames from 'classnames';
 
+import { themes } from '@instana/design-tokens';
+
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-components/SearchInput';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Filter.mless';
 
 export default function Filter({ query, setQuery, page, setPage, filterTypes, setFilterTypes, beacons }) {
-  const theme = useTheme();
   const pages = useMemo(() => getPages(beacons), [beacons]);
 
   return (
@@ -68,7 +68,7 @@ export default function Filter({ query, setQuery, page, setPage, filterTypes, se
           <li className={locals.typeFilter}>
             <a
               href=""
-              style={{ '--type-color': theme.ids.color.option.blue['400'] }}
+              style={{ '--type-color': themes.default.ids.color.option.blue['400'] }}
               className={classNames({
                 [locals.typeFilterLink]: true,
                 [locals.active]: filterTypes.length === 0

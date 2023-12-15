@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -31,10 +32,8 @@ import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
-import { useTheme } from 'in-themes';
 
 export default function WebsiteQueryBuilderWorkspace(props) {
-  const theme = useTheme();
   const {
     formModel,
     onFormModelChange,
@@ -55,7 +54,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
   return (
     <Sticky
       header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
-      backgroundColor={theme.ids.color.option.white}
+      backgroundColor={themes.default.ids.color.option.white}
     >
       <LeftRightPadding>
         <Stack gap="gutter">

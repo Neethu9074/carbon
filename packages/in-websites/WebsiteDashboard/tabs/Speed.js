@@ -9,13 +9,13 @@ import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/component
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import AggregationSelectorWithUrlState from 'in-components/AggregationSelectorWithUrlState';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
+import { chartColors, carbonCategorical } from 'in-themes/chartColors';
 import { number, millis } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { speedTab } from 'in-websites/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId }) {
@@ -44,7 +44,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               formatter: millis.forcedFixedCompact,
               labels: [t('in-websites:websiteDashboard.tabs.speedLabelOnLoadTime')],
               metricIds: ['onLoadTime'],
-              colors: [theme.lib.carbonCategorical.teal70]
+              colors: [carbonCategorical.teal70]
             }}
             metricsConfiguration={{
               timeConfig,
@@ -81,7 +81,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               renderer: Renderer.integral,
               calculateStackDifferences: true,
               formatter: millis.forcedFixedCompact,
-              colors: theme.lib.colors.chart.strokeColors100,
+              colors: chartColors.strokeColors100,
               labels: [
                 t('in-websites:websiteDashboard.tabs.speedLabel50th'),
                 t('in-websites:websiteDashboard.tabs.speedLabel90th'),
@@ -96,7 +96,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
               renderer: Renderer.line,
               formatter: millis.forcedFixedCompact,
               // stroke color 5, after 0-4 from y1 above
-              colors: [theme.lib.colors.chart.strokeColors100[5]],
+              colors: [chartColors.strokeColors100[5]],
               labels: [t('in-websites:websiteDashboard.tabs.speedLabelMean')],
               defaultDisabledMetrics: ['onLoadTimeMean'],
               metricIds: ['onLoadTimeMean']
@@ -203,7 +203,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   formatter: millis.forcedFixedCompact,
                   labels: [t('in-websites:websiteDashboard.tabs.speedLabelTimeToFirstByte')],
                   metricIds: ['ttfb'],
-                  colors: [theme.lib.carbonCategorical.cyan90]
+                  colors: [carbonCategorical.cyan90]
                 }}
                 metricsConfiguration={{
                   timeConfig,
@@ -310,7 +310,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                     t('in-websites:websiteDashboard.tabs.speedLabelFirstContentfulPaint'),
                     t('in-websites:websiteDashboard.tabs.speedLabelLargestContentfulPaint')
                   ],
-                  colors: theme.lib.colors.chart.threeColorPalette,
+                  colors: chartColors.threeColorPalette,
                   metricIds: ['firstPaintTime', 'firstContentfulPaintTime', 'largestContentfulPaintTime']
                 }}
                 metricsConfiguration={{

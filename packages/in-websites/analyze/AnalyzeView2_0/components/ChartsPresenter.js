@@ -11,7 +11,7 @@ import { ua2ChartChangedTracker } from 'in-websites/tracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
-import theme from 'in-themes';
+import { carbonAlert } from 'in-themes/chartColors';
 
 import locals from './ChartsPresenter.mless';
 
@@ -46,7 +46,7 @@ export function ChartsPresenter(props) {
             return (
               <Chart
                 {...chartProps}
-                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.carbonAlert.red60]}
+                getCustomChartColor={() => !chartProps.isGrouped && [carbonAlert.red60]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
                 chartedMetrics={[metricConfig]}
               />

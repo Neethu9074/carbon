@@ -32,6 +32,7 @@ import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboa
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { chartColors, carbonCategorical } from 'in-themes/chartColors';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -45,26 +46,25 @@ import BackButton from 'in-components/BackButton';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Resource.mless';
 
 export const cacheTypes = {
   fullLoad: {
-    color: theme.lib.colors.chart.fourColorPalette[0],
+    color: chartColors.fourColorPalette[0],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesFullLoad')
   },
   validated: {
-    color: theme.lib.colors.chart.fourColorPalette[1],
+    color: chartColors.fourColorPalette[1],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesValidated')
   },
   cached: {
-    color: theme.lib.colors.chart.fourColorPalette[2],
+    color: chartColors.fourColorPalette[2],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesCached')
   },
   unknown: {
-    color: theme.lib.colors.chart.fourColorPalette[3],
+    color: chartColors.fourColorPalette[3],
     long: t('in-websites:websiteDashboard.tabs.resources.resourceCacheTypesUnknown')
   }
 };
@@ -183,7 +183,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 renderer: Renderer.integral,
                 calculateStackDifferences: true,
                 formatter: millis.forcedFixedCompact,
-                colors: theme.lib.colors.chart.strokeColors100,
+                colors: chartColors.strokeColors100,
                 labels: [
                   t('in-websites:websiteDashboard.tabs.resources.resourceLabel50th'),
                   t('in-websites:websiteDashboard.tabs.resources.resourceLabel90th'),
@@ -198,7 +198,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 renderer: Renderer.line,
                 formatter: millis.forcedFixedCompact,
                 // stroke color 5, after 0-4 from y1 above
-                colors: [theme.lib.colors.chart.strokeColors100[5]],
+                colors: [chartColors.strokeColors100[5]],
                 labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelMean')],
                 defaultDisabledMetrics: ['onLoadTimeMean'],
                 metricIds: ['onLoadTimeMean']
@@ -305,7 +305,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                       formatter: millis.forcedFixedCompact,
                       labels: [t('in-websites:websiteDashboard.tabs.resources.resourceLabelTimeToFirstByte')],
                       metricIds: ['ttfb'],
-                      colors: [theme.lib.carbonCategorical.cyan90]
+                      colors: [carbonCategorical.cyan90]
                     }}
                     metricsConfiguration={{
                       timeConfig,

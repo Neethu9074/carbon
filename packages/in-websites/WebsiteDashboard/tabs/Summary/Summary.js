@@ -24,8 +24,8 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Col, Row } from 'in-components/layout/Grid';
+import { carbonAlert } from 'in-themes/chartColors';
 import Footer from 'in-components/Footer';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ websiteId, tagFilters, timeConfig, pageId, websiteLabel }) {
@@ -327,7 +327,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               formatter: number.forcedCompact,
               labels: [t('in-websites:websiteDashboard.tabs.summary.summaryLabelJSErrors')],
               metricIds: ['errors'],
-              colors: [theme.lib.carbonAlert.red60]
+              colors: [carbonAlert.red60]
             }}
             metricsConfiguration={{
               timeConfig,
