@@ -9,8 +9,8 @@ import { useObservable } from '@instana/hooks';
 
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { outlineForColor, carbonAlert } from 'in-themes/chartColors';
 import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function EventChartCardWidget({ config }) {
@@ -26,8 +26,8 @@ export default function EventChartCardWidget({ config }) {
       <ChartWidget
         config={{
           y1: {
-            colors: [theme.lib.carbonAlert.orange40, theme.lib.carbonAlert.red60, theme.lib.carbonAlert.yellow30],
-            outlineForColor: theme.lib.outlineForColor,
+            colors: [carbonAlert.orange40, carbonAlert.red60, carbonAlert.yellow30],
+            outlineForColor: outlineForColor,
             formatter: 'number.compact',
             renderer: 'stackedBar',
             metrics: [
