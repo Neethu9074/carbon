@@ -8,6 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -28,7 +29,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import HealthDot from 'in-components/health/HealthDot';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -306,7 +306,6 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
     label: t('in-synthetics:dashboard.testList.health'),
     defaultOrderDirection: 'ASC',
     getContent: function Content(item: TestResultListItem) {
-      const theme = useTheme();
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
       const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
       let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 10;
@@ -323,7 +322,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
             <div>
               <SvgIcon
                 type="lib_help_error_warning"
-                color={theme.ids.color.option.yellow['500']}
+                color={themes.default.ids.color.option.yellow['500']}
                 className={locals.icon}
               />
             </div>

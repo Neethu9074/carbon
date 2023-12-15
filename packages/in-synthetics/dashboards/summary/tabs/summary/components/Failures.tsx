@@ -11,8 +11,8 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
+import { chartColors } from 'in-themes/chartColors';
 import { TimeShift } from 'in-types';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 type Props = {
@@ -84,7 +84,7 @@ const RenderChart = ({
       label: locationDisplayLabel
     };
 
-    colors[i] = theme.lib.colors.chart.strokeColors25[i];
+    colors[i] = chartColors.strokeColors25[i];
   }
 
   const renderer = stackedBar.id;

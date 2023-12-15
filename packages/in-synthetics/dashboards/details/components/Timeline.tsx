@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
 import { TestResultSubtransaction } from '@instana/types/typeDefinitions';
+import { themes } from '@instana/design-tokens';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -28,7 +29,6 @@ import Filter from 'in-synthetics/dashboards/details/components/Filter';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import createScale from 'in-services/scale/scale';
-import theme from 'in-themes';
 
 import locals from './Timeline.mless';
 
@@ -120,8 +120,8 @@ function OverviewChart({ subtransactions, earliestTimestamp, endTimestamp }: Sub
             formatter={millis.forcedCompactOnMs}
             detailedFormatting
             tickLength={8}
-            tickColor={theme.lib.colors.N800Dark}
-            tickLabelColor={theme.lib.colors.N800Dark}
+            tickColor={themes.default.ids.color.option.neutral['800']}
+            tickLabelColor={themes.default.ids.color.option.neutral['800']}
             // @ts-expect-error
             scale={{ from: earliestTimestamp, to: endTimestamp - earliestTimestamp }}
             fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}

@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { themes } from '@instana/design-tokens';
 
 // @ts-expect-error Module needs to be translated to TS
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
@@ -14,7 +15,6 @@ import { getType, types } from 'in-synthetics/utils/browserFileTypes';
 import { TestResultEntry } from 'in-synthetics/utils/constants';
 import { millis } from 'in-services/formatters/number';
 import createScale from 'in-services/scale/scale';
-import theme from 'in-themes';
 
 import local from 'in-synthetics/dashboards/details/components/browser/BrowserTimeline.mless';
 
@@ -61,8 +61,8 @@ const OverviewChart = ({ width, entries, earliestTimestamp, endTimestamp }: Over
         width={width}
         formatter={millis.forcedCompactOnMs}
         detailedFormatting
-        tickColor={theme.lib.colors.N800Dark}
-        tickLabelColor={theme.lib.colors.N800Dark}
+        tickColor={themes.default.ids.color.option.neutral['800']}
+        tickLabelColor={themes.default.ids.color.option.neutral['800']}
         scale={{ from: earliestTimestamp || 0, to: (endTimestamp || 0) - (earliestTimestamp || 0) }}
         fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
       />

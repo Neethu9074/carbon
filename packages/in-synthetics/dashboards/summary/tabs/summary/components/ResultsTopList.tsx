@@ -8,6 +8,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 
 import { formatDateTime, fromNow } from '@instana/format-date';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -27,7 +28,6 @@ import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
@@ -55,8 +55,7 @@ interface ResultsTopListProps {
 
 export default function ResultsTopList({ testId }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
-  const theme = useTheme();
-  const colors = [null, null, theme.ids.color.option.red['500']];
+  const colors = [null, null, themes.default.ids.color.option.red['500']];
   const urlMatrixParamConfig = {
     paramTab: 'resultsTab',
     path: '/summary'

@@ -13,8 +13,8 @@ import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { latencyFixed } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
+import { chartColors } from 'in-themes/chartColors';
 import { TimeShift } from 'in-types';
-import theme from 'in-themes';
 
 type Props = {
   timeShiftConfig: TimeShift;
@@ -76,7 +76,7 @@ const RenderChart = ({
       timeShift: timeShiftConfig.offset,
       metric: 'response_time',
       label: locationDisplayLabel,
-      color: theme.lib.colors.chart.strokeColors25[i]
+      color: chartColors.strokeColors25[i]
     };
   }
 

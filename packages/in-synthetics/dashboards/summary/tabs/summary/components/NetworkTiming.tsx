@@ -16,8 +16,8 @@ import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { latencyFixed } from 'in-services/formatters/number';
 import { stackedArea } from 'in-stores/metric/renderer';
+import { chartColors } from 'in-themes/chartColors';
 import { TimeShift } from 'in-types';
-import theme from 'in-themes';
 
 type NetworkTimingProps = {
   timeShiftConfig: TimeShift;
@@ -83,7 +83,7 @@ export default function NetworkTimings({
       timeShift: timeShiftConfig.offset,
       metric: 'blocking',
       label: `${t('in-synthetics:dashboard.summary.widgets.blocking')}`,
-      color: theme.lib.colors.chart.strokeColors25[0]
+      color: chartColors.strokeColors25[0]
     },
     {
       aggregation: 'MEAN',
@@ -92,7 +92,7 @@ export default function NetworkTimings({
       timeShift: timeShiftConfig.offset,
       metric: 'dns',
       label: `${t('in-synthetics:dashboard.summary.widgets.dns')}`,
-      color: theme.lib.colors.chart.strokeColors25[1]
+      color: chartColors.strokeColors25[1]
     },
     {
       aggregation: 'MEAN',
@@ -101,7 +101,7 @@ export default function NetworkTimings({
       timeShift: timeShiftConfig.offset,
       metric: 'sending',
       label: `${t('in-synthetics:dashboard.summary.widgets.sending')}`,
-      color: theme.lib.colors.chart.strokeColors25[2]
+      color: chartColors.strokeColors25[2]
     },
     {
       aggregation: 'MEAN',
@@ -110,7 +110,7 @@ export default function NetworkTimings({
       timeShift: timeShiftConfig.offset,
       metric: 'waiting',
       label: `${t('in-synthetics:dashboard.summary.widgets.waiting')}`,
-      color: theme.lib.colors.chart.strokeColors25[3]
+      color: chartColors.strokeColors25[3]
     },
     {
       aggregation: 'MEAN',
@@ -119,7 +119,7 @@ export default function NetworkTimings({
       timeShift: timeShiftConfig.offset,
       metric: 'receiving',
       label: `${t('in-synthetics:dashboard.summary.widgets.receiving')}`,
-      color: theme.lib.colors.chart.strokeColors25[4]
+      color: chartColors.strokeColors25[4]
     }
   ];
 

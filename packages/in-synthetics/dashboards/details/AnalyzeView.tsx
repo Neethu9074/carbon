@@ -9,6 +9,7 @@ import { get, head } from 'lodash';
 
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Link } from '@instana/components';
@@ -53,12 +54,10 @@ import { getTestResultMetadata } from 'in-synthetics/api';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
-import { useTheme } from 'in-themes';
 
 import locals from 'in-bizops/dashboards/activity/BusinessActivitySummary.mless';
 
 export default function SyntheticAnalyzeView() {
-  const theme = useTheme();
   const location = useLocation();
   const timeConfig = useTimeConfig();
   const page = 1;
@@ -195,13 +194,13 @@ export default function SyntheticAnalyzeView() {
                     <KpiCard
                       title={t('in-synthetics:dashboard.detailsPage.statusKpiCard')}
                       value={t('in-synthetics:dashboard.detailsPage.successResult')}
-                      color={theme.ids.color.option.green['500']}
+                      color={themes.default.ids.color.option.green['500']}
                     />
                   ) : (
                     <KpiCard
                       title={t('in-synthetics:dashboard.detailsPage.statusKpiCard')}
                       value={t('in-synthetics:dashboard.detailsPage.failedResult')}
-                      color={theme.ids.color.option.red['500']}
+                      color={themes.default.ids.color.option.red['500']}
                     />
                   )}
                 </Col>

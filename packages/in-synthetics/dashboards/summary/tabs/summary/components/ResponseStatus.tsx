@@ -28,9 +28,9 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
+import { chartColors } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { testIdTagName } from 'in-synthetics/tags';
-import theme from 'in-themes';
 
 type Props = {
   test: TestResponse;
@@ -145,7 +145,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
   // array of colors for labels
   let labelColors: AxisColor[] = [];
   for (let i = 0; i < distinctCount; i++) {
-    labelColors.push(theme.lib.colors.chart.strokeColors25[i]);
+    labelColors.push(chartColors.strokeColors25[i]);
   }
 
   return (
