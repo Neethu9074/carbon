@@ -54,7 +54,9 @@ export default function RoleAndAccessScopeColumns({ email, refresh }: RoleAndAcc
   }
 
   return (
-    <LightCard title={t('in-settings:roleAndAccessScope.productArea', { tenantUnit: config.tenantUnit })}>
+    <LightCard
+      title={t('in-settings:roleAndAccessScope.productArea', { tenantUnit: config.tenantUnit + '-' + config.tenant })}
+    >
       {permissionsSet && <RolesAndAccessScopeOverview permissionsSet={permissionsSet} />}
     </LightCard>
   );

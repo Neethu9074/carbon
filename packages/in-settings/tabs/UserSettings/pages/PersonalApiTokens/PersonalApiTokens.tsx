@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { Observable, create } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Link, Message } from '@instana/components';
 
 import {
   PersonalApiToken,
@@ -20,10 +20,12 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { getTenantsWithUnits, TenantUnit } from 'in-api/account';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
+import { config } from 'in-services/config';
 import { user } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
   const observer = create<PersonalApiToken[]>();
@@ -43,22 +45,42 @@ export default function PersonalApiTokens() {
   // @ts-expect-error no types available
   const userId = user.id;
 
+  const [currentTenantWithUnits, setTenantsWithUnits] = useState<TenantUnit[]>([]);
+  useEffect(() => {
+    const result$ = getTenantsWithUnits();
+    result$.once(data => {
+      const currentTenantWithUnits = data[config.tenant];
+      setTenantsWithUnits(currentTenantWithUnits);
+    });
+  }, []);
+
   return (
-    <List
-      title={t('in-settings:tabs.personalApiTokens')}
-      getHeader={defaultHeaderWithCount(t('in-settings:tabs.personalApiTokens'))}
-      getEntityName={entity => t('in-settings:tabs.personalApiTokenEntityName', { entityName: entity.name })}
-      columnDefinitions={columnDefinitions}
-      tableActions={tableActions}
-      loadEntities={() => loadEntities(userId)}
-      initialOrderBy="name"
-      onRowClick={item => addActiveDialog(<EditPersonalApiToken onClose={close} current={item} />)}
-      onCreateNew={() => addActiveDialog(<CreatePersonalApiToken onClose={close} />)}
-      labelNew={t('in-settings:tabs.newPersonalApiToken')}
-      searchAttributes={['name', 'tokenId', 'accessGrantingToken']}
-      searchPlaceholder={t('in-settings:components.search')}
-      noDataMessage={t('in-settings:tabs.noPersonalApiTokens')}
-    />
+    <>
+      {/* Show information banner only when there are more than one units */}
+      {currentTenantWithUnits.length > 1 && (
+        <Message type={'neutral'} withIcon>
+          <Trans
+            i18nKey="in-settings:tabs.personalApiTokenUnits"
+            values={{ name: config.tenant + '-' + config.tenantUnit }}
+          />
+        </Message>
+      )}
+      <List
+        title={t('in-settings:tabs.personalApiTokens')}
+        getHeader={defaultHeaderWithCount(t('in-settings:tabs.personalApiTokens'))}
+        getEntityName={entity => t('in-settings:tabs.personalApiTokenEntityName', { entityName: entity.name })}
+        columnDefinitions={columnDefinitions}
+        tableActions={tableActions}
+        loadEntities={() => loadEntities(userId)}
+        initialOrderBy="name"
+        onRowClick={item => addActiveDialog(<EditPersonalApiToken onClose={close} current={item} />)}
+        onCreateNew={() => addActiveDialog(<CreatePersonalApiToken onClose={close} />)}
+        labelNew={t('in-settings:tabs.newPersonalApiToken')}
+        searchAttributes={['name', 'tokenId', 'accessGrantingToken']}
+        searchPlaceholder={t('in-settings:components.search')}
+        noDataMessage={t('in-settings:tabs.noPersonalApiTokens')}
+      />
+    </>
   );
 }
 

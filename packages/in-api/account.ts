@@ -6,7 +6,7 @@
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import http from 'in-services/http';
 
-interface TenantUnit {}
+export interface TenantUnit {}
 
 interface TenantsWithUnits {
   [tenant: string]: TenantUnit[];

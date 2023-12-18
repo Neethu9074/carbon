@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { Link, Message } from '@instana/components';
 import { createLogger } from '@instana/logger';
-import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -27,7 +27,9 @@ import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
-import { t } from 'in-i18n';
+import { getTenantsWithUnits, TenantUnit } from 'in-api/account';
+import { config } from 'in-services/config';
+import { Trans, t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
 
@@ -36,25 +38,43 @@ const logger = createLogger('ApiTokens');
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
 
+  const [currentTenantWithUnits, setTenantsWithUnits] = useState<TenantUnit[]>([]);
+  useEffect(() => {
+    const result$ = getTenantsWithUnits();
+    result$.once(data => {
+      const currentTenantWithUnits = data[config.tenant];
+      setTenantsWithUnits(currentTenantWithUnits);
+    });
+  }, []);
+
   return (
-    <List
-      title={t('in-settings:tabs.apiTokens')}
-      getHeader={defaultHeaderWithCount(t('in-settings:tabs.apiTokens'))}
-      getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions}
-      tableActions={tableActions}
-      loadEntities={() => getApiTokens()}
-      initialOrderBy="name"
-      onCreateNew={() => onCreateNew(goToPath)}
-      labelNew={t('in-settings:tabs.newApiToken')}
-      searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
-      searchPlaceholder={t('in-settings:components.search')}
-      noDataMessage={t('in-settings:tabs.noApiToken')}
-      // @ts-ignore
-      getDetailsHref={(entity: any) => {
-        getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
-      }}
-    />
+    <>
+      {/* Show message only when there are more than one units */}
+      {currentTenantWithUnits.length > 1 && (
+        <Message type={'neutral'} withIcon>
+          <Trans i18nKey="in-settings:tabs.apiTokenUnits" values={{ name: config.tenant + '-' + config.tenantUnit }} />
+        </Message>
+      )}
+
+      <List
+        title={t('in-settings:tabs.apiTokens')}
+        getHeader={defaultHeaderWithCount(t('in-settings:tabs.apiTokens'))}
+        getEntityName={getEntityName}
+        columnDefinitions={columnDefinitions}
+        tableActions={tableActions}
+        loadEntities={() => getApiTokens()}
+        initialOrderBy="name"
+        onCreateNew={() => onCreateNew(goToPath)}
+        labelNew={t('in-settings:tabs.newApiToken')}
+        searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
+        searchPlaceholder={t('in-settings:components.search')}
+        noDataMessage={t('in-settings:tabs.noApiToken')}
+        // @ts-ignore
+        getDetailsHref={(entity: any) => {
+          getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId);
+        }}
+      />
+    </>
   );
 }
 
