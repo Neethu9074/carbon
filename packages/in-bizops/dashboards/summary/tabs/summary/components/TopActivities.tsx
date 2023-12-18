@@ -20,9 +20,8 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { clickBizopsProcessViewAllActivitiesTracker, selectBizopsProcessActivitiesTracker } from 'in-bizops/tracker';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
+import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -97,39 +96,31 @@ function ViewAll({ className }: viewAllProps) {
 
 type GetListProps = {
   businessProcessId: string;
-  businessProcessName: string;
   timeConfig: TimeConfig;
 };
 
 // Invoke the websocket to fetch business activity list data from backend
-function getList({ businessProcessId, businessProcessName, timeConfig }: GetListProps) {
+function getList({ businessProcessId, timeConfig }: GetListProps) {
   const tagFilterExpression: TagFilterExpression = {
     logicalOperator: 'AND',
     type: 'EXPRESSION',
     elements: [
       {
         entity: 'SOURCE',
-        name: 'process_id',
+        name: 'bpm_process_definition_id',
         operator: 'EQUALS',
         value: businessProcessId,
-        type: 'TAG_FILTER'
-      },
-      {
-        name: 'bpm_process_definition_name',
-        operator: 'EQUALS',
-        stringValue: businessProcessName,
-        entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       }
     ]
   };
 
   // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
-  return getBusinessActivityList({
+  return getBusinessActivities({
     dataType: 'ACTIVITY',
     metrics: {
       activitiesCount: {
-        metric: 'activitiesCount',
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT'
       }
     },

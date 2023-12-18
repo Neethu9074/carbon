@@ -59,7 +59,7 @@ export function getBusinessProcessListWithDefaults({
     //to the backend to get the data for the response time spark chart.
     metrics: {
       startedProcessesCount: {
-        metric: 'bpm_root_process_id',
+        metric: 'started_processes',
         granularity: 60,
         aggregation: 'DISTINCT_COUNT'
       }

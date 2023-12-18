@@ -40,7 +40,7 @@ export function getBusinessActivityListWithDefaults({
   //The value of query is from the Search box, by default, it is ''.
   page = 1,
   pageSize = 20,
-  orderBy = 'activitiesCount',
+  orderBy = 'count',
   orderDirection = 'DESC',
   timeConfig,
   tagFilterExpression
@@ -59,7 +59,7 @@ export function getBusinessActivityListWithDefaults({
     metrics: {
       count: {
         aggregation: 'DISTINCT_COUNT',
-        metric: 'activitiesCounts'
+        metric: 'activities_count'
       }
     },
     timeConfig,

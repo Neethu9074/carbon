@@ -14,7 +14,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { activitiesColumnDefinitions } from 'in-bizops/dashboards/summary/tabs/activities/columnDefinitions';
 import { businessProcessActivityListPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
-import getBusinessActivityList from 'in-bizops/subscriptions/getBusinessActivityList';
+import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -52,7 +52,7 @@ export default function Activities() {
   );
 }
 
-interface GetBusinessProcessActivityListProps {
+interface GetBusinessActivitiesListProps {
   businessProcessId: string;
   timeConfig: TimeConfig;
   page?: number;
@@ -71,7 +71,7 @@ function getBusinessProcessActivityList({
   orderBy = 'bpm_activity_name',
   orderDirection = 'ASC',
   query = ''
-}: GetBusinessProcessActivityListProps) {
+}: GetBusinessActivitiesListProps) {
   const tagFilterExpression: TagFilterExpression = {
     logicalOperator: 'AND',
     type: 'EXPRESSION',
@@ -86,6 +86,7 @@ function getBusinessProcessActivityList({
     ]
   };
 
+  // Further filtering for search box
   if (query && query.length > 0) {
     tagFilterExpression.elements.push({
       name: 'bpm_activity_name',
@@ -96,16 +97,15 @@ function getBusinessProcessActivityList({
     });
   }
 
-  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
-  return getBusinessActivityList({
-    dataType: "ACTIVITY",
+  return getBusinessActivities({
+    dataType: 'ACTIVITY',
     metrics: {
       count: {
-        metric: 'activitiesCount',
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT'
       },
       timeseries_counts: {
-        metric: 'activitiesCount',
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT',
         granularity: getChartGranularity(timeConfig)
       }
