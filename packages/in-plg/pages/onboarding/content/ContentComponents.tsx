@@ -4,13 +4,26 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import {
+  Field,
+  MapForm,
+  MapFormItems,
+  UpdatedMapForm,
+  ValidationResult,
+  composeValidators,
+  createField,
+  createMapForm
+} from 'formalistic';
+import React, { useState } from 'react';
+import { get } from 'lodash';
 
 import { Button } from '@instana/components';
 
+import { notBlankValidator } from 'in-services/validators/string';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FormInput from 'in-components/form/Input/Input';
 import InputComponent from 'in-components/form/Input';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import Select from 'in-components/form/Select';
 import { region } from 'in-services/config';
 
@@ -149,4 +162,83 @@ export function FormInputPlg({
   };
 
   return <FormInput value={value} placeholder={placeholder} className={locals.inputField} onChange={handleChange} />;
+}
+
+interface InputFieldProp {
+  name: string;
+  placeholder: string;
+  validate: (value: string) => ValidationResult;
+}
+
+interface ValidatedInputFieldsProps {
+  fields: InputFieldProp[];
+  renderContent: (props: Record<string, any>) => JSX.Element;
+}
+
+export function ValidatedInputFields({ fields, renderContent }: ValidatedInputFieldsProps) {
+  const [form, setForm] = useState<MapForm<MapFormItems> | UpdatedMapForm<MapFormItems, string, Field<string>>>(() =>
+    createForm(fields)
+  );
+
+  const props: Record<string, string | JSX.Element | undefined> = {};
+
+  function update(key: string) {
+    return (newValue: string) => {
+      const updatedForm = form as MapForm<{ [key: string]: Field<string> }>;
+
+      setForm(
+        updatedForm.updateIn<[string], Field<string>>([key], (f: Field<string>) =>
+          f.setValue(newValue).setTouched(true)
+        )
+      );
+    };
+  }
+
+  for (let i = 0; i < fields.length; i++) {
+    const field = fields[i];
+    const onChange = update(field.name);
+    const formField = form.get(field.name) as Field<string>;
+    props[field.name] = (formField as Field<string>).value;
+    props[`${field.name}ValidationMessage`] = get(formField, ['messages', 0, 'message']);
+    props[`${field.name}Input`] = (
+      <>
+        <Tooltip
+          content={
+            !formField.valid && formField.touched && props[`${field.name}ValidationMessage`]
+              ? props[`${field.name}ValidationMessage`]
+              : undefined
+          }
+          align="mousePosition"
+        >
+          <div>
+            <Input
+              id={field.name}
+              key={field.name}
+              value={formField.value}
+              onChange={onChange}
+              placeholder={field.placeholder}
+              hasError={!formField.valid && formField.touched}
+            />
+          </div>
+        </Tooltip>
+      </>
+    );
+  }
+  return renderContent(props);
+}
+
+function createForm(fields: InputFieldProp[]) {
+  let form = createMapForm();
+  for (let i = 0; i < fields.length; i++) {
+    const field = fields[i];
+    form = form.put(
+      field.name,
+      createField({
+        value: '',
+        validator: composeValidators(notBlankValidator, field.validate)
+      })
+    ) as MapForm<MapFormItems>;
+  }
+
+  return form;
 }

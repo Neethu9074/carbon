@@ -4,44 +4,33 @@
  * Copyright IBM Corp. 2023
  */
 
-// import VmwareTanzu from 'in-plg/screens/OnBoardingWidget/AgentList/Vmware/VmwareTanzu';
-// import WindowsEC2 from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsEC2';
-// import Openshift from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/Openshift';
-// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
-// import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
-// import LinuxAutomatic from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxAutomatic';
-// import Windows64Bit from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64Bit';
-// import LinuxElasticComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxElasticComputing';
-// import OpenshiftOperator from 'in-plg/screens/OnBoardingWidget/AgentList/Openshift/OpenshiftOperator';
-// import WindowsZipArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsZipArchive';
-import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
-// import LinuxGoogleCloudComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxGoogleCloudComputing';
-// import Windows64BitUnattended from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64BitUnattended';
-import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
-// import LinuxArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxArchive';
-// import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
-// import CfAndBosh from 'in-plg/screens/OnBoardingWidget/AgentList/Bosh/CfAndBosh';
-import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
-// import WindowsZipArchive from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsZipArchive';
-// import MacOs from 'in-plg/screens/OnBoardingWidget/AgentList/Mac/MacOs';
-// import Unix from 'in-plg/screens/OnBoardingWidget/AgentList/Unix/Unix';
-import { t } from 'in-i18n';
-// import LinuxAutomatic from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxAutomatic';
-// import Windows64Bit from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/Windows64Bit';
-import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
-// import VmwareTanzu from 'in-plg/screens/OnBoardingWidget/AgentList/Vmware/VmwareTanzu';
-// import WindowsEC2 from 'in-plg/screens/OnBoardingWidget/AgentList/Windows/WindowsEC2';
-import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
-// import LinuxElasticComputing from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxElasticComputing';
-import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
-// import LinuxPackages from 'in-plg/screens/OnBoardingWidget/AgentList/Linux/LinuxPackages';
-import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes';
 import GoogleComputeEngine from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleComputeEngine';
+import LinuxGoogleCloudComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxGoogleCloudComputing';
+import Windows64BitUnattended from 'in-plg/pages/onboarding/AgentList/Windows/Windows64BitUnattended';
+import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxElasticComputing';
+import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
+import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
+import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
+import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
+import LinuxAutomatic from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAutomatic';
+import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
+import Windows64Bit from 'in-plg/pages/onboarding/AgentList/Windows/Windows64Bit';
+import LinuxPackages from 'in-plg/pages/onboarding/AgentList/Linux/LinuxPackages';
+import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes';
 import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
+import LinuxArchive from 'in-plg/pages/onboarding/AgentList/Linux/LinuxArchive';
+import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
+import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
+import WindowsEC2 from 'in-plg/pages/onboarding/AgentList/Windows/WindowsEC2';
 import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
+import CfAndBosh from 'in-plg/pages/onboarding/AgentList/Bosh/CfAndBosh';
+import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
 import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
 import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
+import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
+import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
+import { t } from 'in-i18n';
 
 export function getEntriesForFreeTrial() {
   return [
@@ -284,8 +273,8 @@ export function getEntriesForFreeTrial() {
       fullLabel: t('in-waiting-for-deployment:content.cloudFoundryAndOtherBoshBasedDeployments'),
       icon: 'cloud_foundry_icon',
       category: t('in-waiting-for-deployment:content.platform'),
-      keyWords: 'cloudfoundryboshcf'
-      // Content: CfAndBosh
+      keyWords: 'cloudfoundryboshcf',
+      Content: CfAndBosh
     },
     {
       id: 'vmware_tanzu',
@@ -294,8 +283,8 @@ export function getEntriesForFreeTrial() {
       icon: 'lib_vmware_tanzu',
       fullLabel: t('in-waiting-for-deployment:content.vMwareTanzuFormerlyKnownAsPivotalCloudFoundry'),
       category: t('in-waiting-for-deployment:content.platform'),
-      keyWords: 'vmwaretanzupivotalpcf'
-      // Content: VmwareTanzu
+      keyWords: 'vmwaretanzupivotalpcf',
+      Content: VmwareTanzu
     },
     {
       id: 'linux_auto',
@@ -305,8 +294,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
-        keyWords: 'linuxautomaticoneliner'
-        // Content: LinuxAutomatic
+        keyWords: 'linuxautomaticoneliner',
+        Content: LinuxAutomatic
       }
     },
     {
@@ -317,8 +306,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.packagesDebRpm'),
-        keyWords: 'linuxpackagesdebrpm'
-        // Content: LinuxPackages
+        keyWords: 'linuxpackagesdebrpm',
+        Content: LinuxPackages
       }
     },
     {
@@ -329,8 +318,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.archiveTarGz'),
-        keyWords: 'linuxmanualtarball'
-        // Content: LinuxArchive
+        keyWords: 'linuxmanualtarball',
+        Content: LinuxArchive
       }
     },
     {
@@ -341,8 +330,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsElasticComputingEc2'),
-        keyWords: 'linuxawselasticcomputingec2'
-        // Content: LinuxElasticComputing
+        keyWords: 'linuxawselasticcomputingec2',
+        Content: LinuxElasticComputing
       }
     },
     {
@@ -353,8 +342,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.googleComputeEngineGce'),
-        keyWords: 'linuxgooglecomputeenginegce'
-        // Content: LinuxGoogleCloudComputing
+        keyWords: 'linuxgooglecomputeenginegce',
+        Content: LinuxGoogleCloudComputing
       }
     },
     {
@@ -366,8 +355,8 @@ export function getEntriesForFreeTrial() {
       icon: 'lib_apple',
       subTechnology: {
         label: t('in-waiting-for-deployment:content.macOs64BitUniversal'),
-        keyWords: 'macos64bituniversal'
-        // Content: MacOs
+        keyWords: 'macos64bituniversal',
+        Content: MacOs
       }
     },
     {
@@ -376,8 +365,8 @@ export function getEntriesForFreeTrial() {
       label: t('in-waiting-for-deployment:content.unix'),
       category: t('in-waiting-for-deployment:content.os'),
       keyWords: 'unixtarball',
-      icon: 'lib_unix'
-      // Content: Unix
+      icon: 'lib_unix',
+      Content: Unix
     },
     {
       id: 'windows_64_bit',
@@ -387,8 +376,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.windowsInstaller64Bit'),
-        keyWords: 'windowsexe'
-        // Content: Windows64Bit
+        keyWords: 'windowsexe',
+        Content: Windows64Bit
       }
     },
     {
@@ -399,8 +388,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.windowsInstaller64BitUnattended'),
-        keyWords: 'windowsexe'
-        // Content: Windows64BitUnattended
+        keyWords: 'windowsexe',
+        Content: Windows64BitUnattended
       }
     },
     {
@@ -411,8 +400,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.zipArchives'),
-        keyWords: 'windowszip'
-        // Content: WindowsZipArchive
+        keyWords: 'windowszip',
+        Content: WindowsZipArchive
       }
     },
     {
@@ -423,8 +412,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
-        keyWords: 'elasticcomputeec2windows'
-        // Content: WindowsEC2
+        keyWords: 'elasticcomputeec2windows',
+        Content: WindowsEC2
       }
     }
   ];
