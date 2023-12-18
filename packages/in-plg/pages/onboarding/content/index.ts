@@ -31,6 +31,7 @@ import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
 import { t } from 'in-i18n';
+import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 
 export function getEntriesForFreeTrial() {
   return [
@@ -108,8 +109,8 @@ export function getEntriesForFreeTrial() {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsLambda'),
-        keyWords: 'awslambda'
-        // Content: AwsLambda
+        keyWords: 'awslambda',
+        Content: AwsLambda
       }
     },
     {
