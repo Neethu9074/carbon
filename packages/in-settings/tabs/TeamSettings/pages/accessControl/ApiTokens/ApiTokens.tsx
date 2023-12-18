@@ -53,7 +53,7 @@ export default function ApiTokens() {
       {/* Show message only when there are more than one units */}
       {currentTenantWithUnits.length > 1 && (
         <Message type={'neutral'} withIcon>
-          <Trans i18nKey="in-settings:tabs.apiTokenUnits" values={{ name: config.tenant + '-' + config.tenantUnit }} />
+          <Trans i18nKey="in-settings:tabs.apiTokenUnits" values={{ name: config.tenantUnit + '-' + config.tenant }} />
         </Message>
       )}
 

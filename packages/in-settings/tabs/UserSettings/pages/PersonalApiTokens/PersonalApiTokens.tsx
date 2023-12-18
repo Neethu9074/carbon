@@ -61,7 +61,7 @@ export default function PersonalApiTokens() {
         <Message type={'neutral'} withIcon>
           <Trans
             i18nKey="in-settings:tabs.personalApiTokenUnits"
-            values={{ name: config.tenant + '-' + config.tenantUnit }}
+            values={{ name: config.tenantUnit + '-' + config.tenant }}
           />
         </Message>
       )}
