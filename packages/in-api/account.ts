@@ -8,7 +8,7 @@ import http from 'in-services/http';
 
 export interface TenantUnit {}
 
-interface TenantsWithUnits {
+export interface TenantsWithUnits {
   [tenant: string]: TenantUnit[];
 }
 

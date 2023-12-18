@@ -39,6 +39,7 @@ export default function ApiTokens() {
   const { goToPath } = useNavigation();
 
   const [currentTenantWithUnits, setTenantsWithUnits] = useState<TenantUnit[]>([]);
+
   useEffect(() => {
     const result$ = getTenantsWithUnits();
     result$.once(data => {
