@@ -21,6 +21,13 @@ interface UnitKeys {
   downloadKey: string;
 }
 
+interface BreadCrumbItem {
+  icon?: string;
+  title?: string;
+  href?: string;
+  iconColor?: string;
+}
+
 export default function AgentViewRouter({ selectedService }: { selectedService: string }) {
   const unitKeysResp: UnitKeys = useObservable<UnitKeys, []>(getUnitKeys(), []) ?? {
     agentKey: 'agentKey',
@@ -31,15 +38,17 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
   const selectedEntity = entities.find(entity => entity.id === selectedService);
   const technology = selectedEntity?.subTechnology ?? selectedEntity;
 
-  const createBreadCrumb = () => {
+  const createBreadCrumb = (): BreadCrumbItem[] => {
     return [
       {
         icon: 'lib_infrastructure',
-        title: 'Agents Catalog'
+        title: 'Agents Catalog',
+        href: '#/agents/installation'
       },
       {
         icon: selectedEntity?.icon,
-        title: selectedEntity?.title
+        title: selectedEntity?.title,
+        iconColor: selectedEntity?.iconColor
       }
     ];
   };

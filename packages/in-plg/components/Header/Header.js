@@ -8,18 +8,35 @@ import React from 'react';
 
 import { Stack, SvgIcon, Typography } from '@instana/components';
 
+import GoogleCloudIcon from 'in-plg/pages/onboarding/icons/GoogleCloudIcon';
+import CloudFoundryIcon from 'in-plg/pages/onboarding/icons/CloudFoundry';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import AwsIcon from 'in-plg/pages/onboarding/icons/AwsIcon';
+
+const IconSwitch = ({ icon, iconColor }) => {
+  //handling the case of custom icons for tech
+  switch (icon) {
+    case 'google_cloud_icon':
+      return <GoogleCloudIcon />;
+    case 'aws_icon':
+      return <AwsIcon />;
+    case 'cloud_foundry_icon':
+      return <CloudFoundryIcon />;
+    default:
+      return <SvgIcon type={icon} color={iconColor} />;
+  }
+};
 
 const AgentInstallBreadCrumbs = crumbs => {
   let content = crumbs.map((ele, index) => {
     const isLastItem = index === crumbs.length - 1;
     const textClass = isLastItem ? 'body-bold' : 'body-regular';
     return (
-      <Breadcrumb href={'#/agents/installation'} key={index}>
+      <Breadcrumb href={ele.href} key={index}>
         <Stack direction="horizontal" align="center">
-          <SvgIcon type={ele.icon} />
+          <IconSwitch icon={ele.icon} iconColor={ele.iconColor} />
           <Typography variant={textClass}>{ele.title}</Typography>
         </Stack>
       </Breadcrumb>

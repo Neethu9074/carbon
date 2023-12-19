@@ -17,6 +17,8 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import CardGrid from 'in-plg/components/Card/CardGrid';
 import SearchInput from 'in-components/SearchInput';
 
+import locals from './AgentCatalog.mless';
+
 export default function AgentCatalog() {
   const entities = getEntriesForFreeTrial();
 
@@ -42,7 +44,7 @@ export default function AgentCatalog() {
         <BreadcrumbHeader />
         <Breadcrumbs items={breadCrumbs} />
       </Stack>
-      <LeftRightPadding>
+      <LeftRightPadding className={locals.catalog}>
         <Stack direction="vertical">
           <SearchInput width="100%" onChange={onQueryChange} query={query} autoFocus hasError={false} />
           <Spacer vertical="xxsmall" />
