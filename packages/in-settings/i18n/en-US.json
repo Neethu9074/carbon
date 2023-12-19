@@ -61,7 +61,7 @@
     "dialogTitle": "Create new group",
     "dialogTitle_edit": "Edit access scope",
     "editButton": "Edit",
-    "productArea": "Access configuration for {{tenantUnit}}"
+    "productArea": "Access configuration for {{tenantUnit}}-{{tenant}}"
   },
   "productAreas": {
     "allApplications": "All applications",
@@ -401,12 +401,12 @@
     "apiTokenDescription": "This unit specific API token can be seen/modified by anyone or any API token with the permission for API token configuration.",
     "noApiToken": "No API Tokens",
     "newApiToken": "New API Token",
-    "apiTokenUnits": "API tokens can be used for <strong>{{name}}</strong>",
+    "apiTokenUnits": "API tokens can be used for <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "No Personal API Tokens",
     "newPersonalApiToken": "New Personal API Token",
     "apiTokenEntityName": "API token {{entityName}}",
     "personalApiTokenEntityName": "Personal API token {{entityName}}",
-    "personalApiTokenUnits": "Personal API tokens can be used for <strong>{{name}}</strong>",
+    "personalApiTokenUnits": "Personal API tokens can be used for <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "addUser": "Add User",
     "permitsAccessToLabelMonitoringFunctionality": "Permits access to {{label}} monitoring functionality.",
     "failedToSaveGroup": "Failed to save group: {{err}}",

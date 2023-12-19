@@ -44,9 +44,9 @@ jest.mock('in-settings/navigation/paths', () => ({
 describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
-    // @ts-ignore
+    // @ts-expect-error
     getApiTokens.mockClear();
-    // @ts-ignore
+    // @ts-expect-error
     getTenantsWithUnits.mockClear();
   });
 
@@ -63,7 +63,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     readonly first?: ApiTokenProps;
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   const mockGet = ({ amount, errors = null, first = null }: MockConfig) => {
     const res = create();
     res.emit({ errors: null, progress: { loading: false } });
@@ -93,7 +93,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     const res = create();
     res.emit({ errors: null, progress: { loading: true }, data: null });
     res.emit(data);
-    // @ts-ignore
+    // @ts-expect-error
     getTenantsWithUnits.mockReturnValue(res);
   };
 

@@ -34,9 +34,9 @@ jest.mock('in-components/DialogPresenter/store', () => ({
 describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
-    // @ts-ignore
+    // @ts-expect-error
     getPersonalApiTokens.mockClear();
-    // @ts-ignore
+    // @ts-expect-error
     getTenantsWithUnits.mockClear();
   });
 
@@ -54,7 +54,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     readonly first?: PersonalApiToken;
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   const mockGet = ({ amount, errors = null, delay = null, first = null }: MockConfig) => {
     const res = create();
     res.emit({ errors: null, progress: { loading: false } });
@@ -88,7 +88,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     const res = create();
     res.emit({ errors: null, progress: { loading: true }, data: null });
     res.emit(data);
-    // @ts-ignore
+    // @ts-expect-error
     getTenantsWithUnits.mockReturnValue(res);
   };
 

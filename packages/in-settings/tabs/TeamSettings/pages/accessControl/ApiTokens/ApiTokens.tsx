@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { Link, Message } from '@instana/components';
 import { createLogger } from '@instana/logger';
+import { useObservable } from '@instana/hooks';
 
 import {
   getEntityHref,
@@ -27,7 +28,7 @@ import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { apiTokenDialogEnabled } from 'in-services/featureFlags';
-import { getTenantsWithUnits, TenantUnit } from 'in-api/account';
+import { getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
@@ -38,22 +39,17 @@ const logger = createLogger('ApiTokens');
 export default function ApiTokens() {
   const { goToPath } = useNavigation();
 
-  const [currentTenantWithUnits, setTenantsWithUnits] = useState<TenantUnit[]>([]);
-
-  useEffect(() => {
-    const result$ = getTenantsWithUnits();
-    result$.once(data => {
-      const currentTenantWithUnits = data[config.tenant];
-      setTenantsWithUnits(currentTenantWithUnits);
-    });
-  }, []);
+  const tenantWithUnits = useObservable(getTenantsWithUnits, []);
+  const unitsData = tenantWithUnits?.[config.tenant] || [];
 
   return (
     <>
-      {/* Show message only when there are more than one units */}
-      {currentTenantWithUnits.length > 1 && (
+      {unitsData.length > 1 && (
         <Message type={'neutral'} withIcon>
-          <Trans i18nKey="in-settings:tabs.apiTokenUnits" values={{ name: config.tenantUnit + '-' + config.tenant }} />
+          <Trans
+            i18nKey="in-settings:tabs.apiTokenUnits"
+            values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
+          />
         </Message>
       )}
 
