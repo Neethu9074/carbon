@@ -30,14 +30,14 @@ const IconSwitch = ({ icon, iconColor }) => {
 };
 
 const AgentInstallBreadCrumbs = crumbs => {
-  let content = crumbs.map((ele, index) => {
+  let content = crumbs.map((item, index) => {
     const isLastItem = index === crumbs.length - 1;
     const textClass = isLastItem ? 'body-bold' : 'body-regular';
     return (
-      <Breadcrumb href={ele.href} key={index}>
+      <Breadcrumb href={item.href} key={index}>
         <Stack direction="horizontal" align="center">
-          <IconSwitch icon={ele.icon} iconColor={ele.iconColor} />
-          <Typography variant={textClass}>{ele.title}</Typography>
+          <IconSwitch icon={item.icon} iconColor={item.iconColor} />
+          <Typography variant={textClass}>{item.title}</Typography>
         </Stack>
       </Breadcrumb>
     );

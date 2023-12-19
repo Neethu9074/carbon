@@ -7,6 +7,6 @@
 :local {
   .catalog {
     overflow-y: auto;
-    max-height: 90vh;
+    max-height: calc(100vh - 5rem);
   }
 }

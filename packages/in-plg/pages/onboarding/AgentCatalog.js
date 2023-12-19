@@ -16,6 +16,7 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import CardGrid from 'in-plg/components/Card/CardGrid';
 import SearchInput from 'in-components/SearchInput';
+import { t } from 'in-i18n';
 
 import locals from './AgentCatalog.mless';
 
@@ -34,7 +35,7 @@ export default function AgentCatalog() {
     <Breadcrumb href={'#/agents/installation'}>
       <Stack direction="horizontal" align="center">
         <SvgIcon type="lib_infrastructure" />
-        <Typography variant="body-bold">{'Agents Catalog'}</Typography>
+        <Typography variant="body-bold">{t('in-plg:agentDetails.common.agentCatalog')}</Typography>
       </Stack>
     </Breadcrumb>
   ];
