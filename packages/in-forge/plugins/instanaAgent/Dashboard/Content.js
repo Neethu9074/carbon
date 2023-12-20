@@ -24,7 +24,6 @@ import ConfigurationManagementDialog from 'in-forge/plugins/instanaAgent/Dashboa
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
 import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
-import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import SupportSection from 'in-forge/plugins/instanaAgent/Dashboard/SupportButtonSection';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
@@ -53,16 +52,9 @@ import { t } from 'in-i18n';
 export default connectTo(
   ({ snapshot }) => ({
     isInternalVisible: isInternalVisible$,
-    hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot),
-    isTroubleshootingModeEnabled: isTroubleshootingModeEnabled$
+    hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot)
   }),
-  function InstanaAgentDashboard({
-    snapshot,
-    timeConfig,
-    isInternalVisible,
-    hostSnapshot,
-    isTroubleshootingModeEnabled
-  }) {
+  function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot }) {
     const snapshotId = snapshot.get('id');
     const metricIds = snapshot.get('metricIds');
     const collectors = metricIds
@@ -96,7 +88,7 @@ export default connectTo(
             <ConfigurationManagement snapshot={snapshot} />
           </DashboardSection>
         </Columize>
-        {role.canConfigureAgents && (isTroubleshootingModeEnabled || isInternalVisible) && (
+        {(role.canConfigureAgents || isInternalVisible) && (
           <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.support')}>
             <SupportSection snapshot={snapshot} />
           </DashboardSection>
