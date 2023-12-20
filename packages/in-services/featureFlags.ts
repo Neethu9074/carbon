@@ -72,7 +72,7 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 
-export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', false);
+export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', true);
 
 export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', true);
 
