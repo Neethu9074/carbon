@@ -10,8 +10,8 @@ import { InfraAlertRuleUnion, StaticThresholdConfig, ThresholdConfigUnion } from
 
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
+import { getFormatter, getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
-import { getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -23,9 +23,10 @@ export const AlertThresholdInfos = ({ threshold, rule }: Props) => {
   const { operator, type: thresholdType, value } = threshold;
   const { metricName, entityType, aggregation } = rule;
 
+  const formatter = getFormatter(entityType, metricName);
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
-  const metricFormat = getMetricFormat();
+  const metricFormat = getMetricFormat(formatter);
   const metricWithThresholdLabel = createMetricWithThresholdLabel(
     metricLabel,
     thresholdType,
