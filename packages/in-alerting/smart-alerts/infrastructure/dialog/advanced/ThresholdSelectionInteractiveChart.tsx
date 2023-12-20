@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
 import { create } from '@instana/observables';
@@ -23,7 +23,7 @@ import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { AggregationType, InfraAlertConfigWithMetadata } from 'in-types';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getPluginName } from 'in-sdk/pluginName';
-import { days } from 'in-services/time/time';
+import { minutes } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 export const selectedMetricGroup$ = create().emit(null);
@@ -68,8 +68,20 @@ export default function ThresholdSelectionInteractiveChart({
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
 
+  // Since the timeConfig is part of the dependency array for the 'getGroups' API, memoised it to avoid the table refreshing frequently.
+  const timeConfig = useMemo(() => {
+    return {
+      autoRefresh: false,
+      to: Date.now(),
+      windowSize: minutes.toMillis(30),
+      focusedMoment: Date.now()
+    };
+  }, []);
+
   useEffect(() => {
-    selectedMetricGroup$.emit(null);
+    if (groupBy.length === 0) {
+      selectedMetricGroup$.emit(null);
+    }
   }, [groupBy]);
 
   return (
@@ -104,12 +116,7 @@ export default function ThresholdSelectionInteractiveChart({
                 type={entityType}
                 metrics={metrics}
                 groupBy={backendGroupBy}
-                timeConfig={{
-                  ...chartViewConfig.timeConfig,
-                  to: Date.now(),
-                  windowSize: days.toMillis(1),
-                  focusedMoment: Date.now()
-                }}
+                timeConfig={timeConfig}
                 metricMetadatas={metricMetadatas}
               />
             )}

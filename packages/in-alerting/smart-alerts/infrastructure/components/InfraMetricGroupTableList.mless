@@ -22,4 +22,7 @@
   .hideIcon {
     display: none;
   }
+  .tableMinHeight {
+    min-height: 27rem;
+  }
 }
