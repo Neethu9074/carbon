@@ -406,6 +406,7 @@
       "apNameDescription": "Application Perspective names should have a well established definition within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".",
       "defineUsingTags": "2. Define the Application Perspective using one or more tags.",
       "defineUsingTagsDescription": "For example where key is \"docker.label\" and value is \"environment=Production Blue\", or key is \"call.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pill-database>DATABASE</pill-database> service or <pill-messaging>MESSAGING</pill-messaging> service from services matching this definition will automatically be included.",
+      "defineUsingTagsContributionFilterDescription": "Tags within the contribution filter are inherited from your access right and cannot be modified. Choose a contribution filter and then add more tags to your configuration.",
       "andOperatorsPrecedenceBrackets": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
       "downstreamCalls": "3. Store Calls of Downstream Services",
       "downstreamCallsDescription": "Choose which downstream services to include in the Application Perspective.",
