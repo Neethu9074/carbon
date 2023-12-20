@@ -126,7 +126,10 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
   return (
     <Col lg={6}>
       <LightCard
-        title={t('in-settings:roleAndAccessScope.productArea', { tenantUnit: config.tenantUnit })}
+        title={t('in-settings:roleAndAccessScope.productArea', {
+          tenantUnit: config.tenantUnit,
+          tenant: config.tenant
+        })}
         header={
           !readOnly && (
             <Button onClick={openAccessScopeDialog} kind="action">

@@ -15,10 +15,14 @@ import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiToken
 import { getApiTokens } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import ApiTokens from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
+import { TenantsWithUnits, getTenantsWithUnits } from 'in-api/account';
 
 jest.mock('in-i18n', () => ({
-  t: (key: string) => key
+  ...jest.requireActual('in-i18n'),
+  t: (key: string) => key,
+  Trans: ({ i18nKey }: { i18nKey: string }) => i18nKey
 }));
+jest.mock('in-api/account');
 jest.mock('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api');
 jest.mock('in-services/featureFlags', () => ({
   apiTokenDialogEnabled: true
@@ -40,8 +44,10 @@ jest.mock('in-settings/navigation/paths', () => ({
 describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
-    // @ts-ignore
+    // @ts-expect-error
     getApiTokens.mockClear();
+    // @ts-expect-error
+    getTenantsWithUnits.mockClear();
   });
 
   const createToken = () => ({
@@ -57,7 +63,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     readonly first?: ApiTokenProps;
   }
 
-  // @ts-ignore
+  // @ts-expect-error
   const mockGet = ({ amount, errors = null, first = null }: MockConfig) => {
     const res = create();
     res.emit({ errors: null, progress: { loading: false } });
@@ -82,6 +88,109 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     // @ts-expect-error jest api apparently not supported by TS
     getApiTokens.mockReturnValue(res);
   };
+
+  const mockGetTenantUnit = (data: TenantsWithUnits) => {
+    const res = create();
+    res.emit({ errors: null, progress: { loading: true }, data: null });
+    res.emit(data);
+    // @ts-expect-error
+    getTenantsWithUnits.mockReturnValue(res);
+  };
+
+  it('should show information banner if there are more than one units for the tenant', () => {
+    const token: ApiTokenProps = {
+      name: 'my-api-token-name',
+      accessGrantingToken: 'my-token',
+      internalId: 'my-internal-token',
+      id: 'my-token'
+    };
+    mockGet({ amount: 0, first: token });
+
+    const data: TenantsWithUnits = {
+      instana: [
+        {
+          status: 'ACTIVE',
+          tenantId: '55557f97186b9c0007857730',
+          tenantName: 'instana',
+          tenantUnitId: '55557f97186b9c0007857901',
+          tenantUnitName: 'nightly',
+          tenantUnitKey: 'nightly',
+          agentKey: '2Zykc2m_RiKJnVE-TNNdrA',
+          region: 'pink',
+          createDate: 1592304623410
+        },
+        {
+          status: 'ACTIVE',
+          tenantId: '55557f97186b9c0007857730',
+          tenantName: 'instana',
+          tenantUnitId: '646b1ad08bb80d0001a5f95b',
+          tenantUnitName: 'plg',
+          tenantUnitKey: 'plg',
+          agentKey: '8RWwEQZ5SLOi3hZ6LVckeA',
+          region: 'saas',
+          createDate: 1684740816639
+        },
+        {
+          status: 'ACTIVE',
+          tenantId: '55557f97186b9c0007857730',
+          tenantName: 'instana',
+          tenantUnitId: '649158770951b300012d1990',
+          tenantUnitName: 'plgprovider',
+          tenantUnitKey: 'plgprovider',
+          agentKey: 'gV9g7fmKQx2rLydRKRxy7g',
+          region: 'saas',
+          createDate: 1687246967277
+        },
+        {
+          status: 'ACTIVE',
+          tenantId: '55557f97186b9c0007857730',
+          tenantName: 'instana',
+          tenantUnitId: '55557f97186b9c0007857900',
+          tenantUnitName: 'test',
+          tenantUnitKey: 'test',
+          agentKey: '2Zykc2m_RiKJnVE-TNNdrA',
+          region: 'pink',
+          createDate: 1592304616757
+        }
+      ]
+    };
+    mockGetTenantUnit(data);
+
+    const { queryByText, getByText } = render(<ApiTokens />);
+    expect(getByText('in-settings:tabs.apiTokens (1)')).toBeInTheDocument();
+    expect(queryByText('in-settings:tabs.apiTokenUnits')).toBeInTheDocument();
+  });
+
+  it('should hide information banner if there are one unit for the tenant', () => {
+    const token: ApiTokenProps = {
+      name: 'my-api-token-name',
+      accessGrantingToken: 'my-token',
+      internalId: 'my-internal-token',
+      id: 'my-token'
+    };
+    mockGet({ amount: 0, first: token });
+
+    const data: TenantsWithUnits = {
+      instana: [
+        {
+          status: 'ACTIVE',
+          tenantId: '55557f97186b9c0007857730',
+          tenantName: 'instana',
+          tenantUnitId: '55557f97186b9c0007857901',
+          tenantUnitName: 'nightly',
+          tenantUnitKey: 'nightly',
+          agentKey: '2Zykc2m_RiKJnVE-TNNdrA',
+          region: 'pink',
+          createDate: 1592304623410
+        }
+      ]
+    };
+    mockGetTenantUnit(data);
+
+    const { queryByText, getByText } = render(<ApiTokens />);
+    expect(getByText('in-settings:tabs.apiTokens (1)')).toBeInTheDocument();
+    expect(queryByText('in-settings:tabs.apiTokenUnits')).not.toBeInTheDocument();
+  });
 
   it('should contain a list of api tokens', () => {
     const token: ApiTokenProps = {
