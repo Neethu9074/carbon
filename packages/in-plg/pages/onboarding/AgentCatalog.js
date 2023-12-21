@@ -49,7 +49,9 @@ export default function AgentCatalog() {
         <Stack direction="vertical">
           <SearchInput width="100%" onChange={onQueryChange} query={query} autoFocus hasError={false} />
           <Spacer vertical="xxsmall" />
-          <Typography variant="heading-200">{`Agent catalogs (${filteredEntities.length})`}</Typography>
+          <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentCatalog')} (${
+            filteredEntities.length
+          })`}</Typography>
           <CardGrid data={filteredEntities} />
         </Stack>
       </LeftRightPadding>
