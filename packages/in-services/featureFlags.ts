@@ -213,3 +213,5 @@ export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applic
 export const simplifiedFlowMapEnabled = isFeatureFlagEnabled('simplifiedFlowMapEnabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
+
+export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);

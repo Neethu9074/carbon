@@ -489,5 +489,10 @@ module.exports = exports = [
     uiClientKey: 'fullscreenWidgetEnabled',
     instanaCtlKey: 'feature.fullscreen.widget.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'enableCarbonIcons',
+    instanaCtlKey: 'feature.enable.carbon.icons.enabled',
+    defaultValue: false
   }
 ];
