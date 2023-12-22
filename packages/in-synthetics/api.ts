@@ -65,7 +65,7 @@ export const getLocationsAsResultObservable: (
 ) => Observable<Result<SyntheticLocation[]> | null> = memoize(
   getLocationsAsResultObservableInternal,
   (testType: string, locationType?: string) => (locationType ? testType + locationType : testType),
-  2000
+  5000
 );
 export function getLocationsAsResultObservableInternal(testType: string, locationType?: string) {
   const filters: string[] = [];
