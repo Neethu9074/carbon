@@ -492,7 +492,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'enableCarbonIcons',
-    instanaCtlKey: 'feature.enable.carbon.icons.enabled',
+    instanaCtlKey: 'feature.carbon.icons.enabled',
     defaultValue: false
   }
 ];
