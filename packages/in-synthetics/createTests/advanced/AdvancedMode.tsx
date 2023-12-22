@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { GroupPermissionEntity, Result } from '@instana/types';
+import { GroupPermissionEntity, Result, SyntheticLocation } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -23,6 +23,7 @@ import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection'
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -52,6 +53,7 @@ const AdvancedMode = ({
   invalidCustomProperty,
   setInvalidCustomProperty
 }: AdvancedModeProps) => {
+  const EMPTY = [] as SyntheticLocation[];
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
     getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[
       testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
@@ -62,6 +64,13 @@ const AdvancedMode = ({
     useObservable<any, []>(() => getAllApplicationsForEntitySelectionWithDefaults({ timeConfig }), []) ?? pendingResult;
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
+
+  const locations = (locationType: string) =>
+    getLocationsAsResultObservable(syntheticTypeField.value, locationType)
+      .map((result: Result<SyntheticLocation[]> | null) => {
+        return (result as Result<SyntheticLocation[]>)?.data;
+      })
+      .map(result => result ?? EMPTY);
 
   const getTestTypeSection = (syntheticType: string) => {
     switch (syntheticType) {
@@ -146,6 +155,7 @@ const AdvancedMode = ({
           updateForm={updateForm}
           setSliderState={setSliderState}
           syntheticType={syntheticTypeField.value}
+          locations={locations}
         />
       )
     },
