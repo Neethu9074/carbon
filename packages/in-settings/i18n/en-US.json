@@ -341,7 +341,15 @@
       "wrong": "Something is wrong",
       "errorInfo": "We are unable to retrieve data from the database",
       "failed": "Failure",
-      "inProgress": "In progress"
+      "inProgress": "In progress",
+      "deletionUntilTime": "Deletion until time",
+      "deletionUntilDate": "Deletion until date",
+      "untilDateValidationMessage": "Date must be on or before the current date",
+      "reasonValidationMessage": "Deletion reason cannot be empty",
+      "toastSuccessTitle": "Log deletion successful",
+      "toastSuccessMessage": "Logs for the selected time period are successfully deleted.",
+      "toastErrorTitle": "Log deletion failed",
+      "toastErrorMessage": "Logs could not be deleted. Please try again."
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
