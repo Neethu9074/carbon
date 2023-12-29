@@ -126,26 +126,4 @@ describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEvent
       }
     ]);
   });
-
-  it('no more than one threshold can be defined on same metric', () => {
-    const entityType = 'host';
-
-    const rules: Partial<ThresholdRule>[] = [
-      defaultRuleWithMetricName,
-      {
-        ...defaultRuleWithMetricName,
-        conditionOperator: '>',
-        conditionValue: 0.2
-      }
-    ];
-
-    const mapForms = rules.map(rule => putMetricDataSourceFieldsForOneRule(entityType, rule));
-
-    expect(customEventRulesValidator(mapForms)).toEqual([
-      {
-        severity: 'error',
-        message: t('in-settings:tabs.noMoreThanOneThresholdCanBeDefinedOnSameMetric')
-      }
-    ]);
-  });
 });

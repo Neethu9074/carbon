@@ -554,7 +554,6 @@
     "instanaAgentCountDetection": "Count of Instana Agents",
     "pleaseSelectASeverity": "Please select a severity",
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
-    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "No more than one threshold can be defined on the same metric.",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "When defining multiple metrics by pattern, only one rule is allowed to use a different matching operator from 'is'.",
     "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "A time window of 1 second is not allowed when absolute or relative difference aggregation is used.",
     "thisEntityTypeHasBeenDeprecated": "This entity type has been deprecated. Please choose a different type.",
