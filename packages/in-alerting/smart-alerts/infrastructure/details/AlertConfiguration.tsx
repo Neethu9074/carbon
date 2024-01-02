@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
@@ -94,6 +94,15 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
 
+  const timeConfig = useMemo(() => {
+    return {
+      autoRefresh: false,
+      to: Date.now(),
+      windowSize: minutes.toMillis(30),
+      focusedMoment: Date.now()
+    };
+  }, []);
+
   return (
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfiguration')}</ListTitle>
@@ -132,12 +141,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                   type={entityType}
                   metrics={metrics}
                   groupBy={groupBy}
-                  timeConfig={{
-                    ...chartViewConfig.timeConfig,
-                    to: Date.now(),
-                    windowSize: minutes.toMillis(30),
-                    focusedMoment: Date.now()
-                  }}
+                  timeConfig={timeConfig}
                   metricMetadatas={metricMetadatas}
                 />
               </>

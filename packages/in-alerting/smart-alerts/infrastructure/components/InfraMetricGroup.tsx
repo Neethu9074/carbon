@@ -28,7 +28,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { TagFilterExpressionElementUnion } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 
-const retrievalSize = 5;
+const listSize = 5;
 
 interface InfraMetricGroupProps {
   backendQueryModel: TagFilterExpressionElementUnion;
@@ -55,6 +55,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
 
   const [filterExpression, setFilterExpression] = useState<any>();
   const [orderByDirection, setOrderByDirection] = useState(order);
+  const [retrievalSize, setRetrievalSize] = useState(5);
 
   useEffect(() => {
     setFilterExpression(backendQueryModel);
@@ -97,6 +98,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
         setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
       }
       onOrderByChange={onOrderByChange}
+      setRetrievalSize={setRetrievalSize}
     />
   );
 }
@@ -144,8 +146,8 @@ export function getGroups({
       tagFilterExpression: backendQueryModel
     },
     pagination: {
-      cursor,
-      retrievalSize,
+      cursor: cursor && { ...cursor, offset: retrievalSize === listSize ? 0 : retrievalSize - listSize },
+      retrievalSize: !cursor ? retrievalSize : listSize,
       fullData: false
     },
     groupBy,

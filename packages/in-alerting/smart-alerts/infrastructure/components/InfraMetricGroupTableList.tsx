@@ -58,6 +58,7 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
+  setRetrievalSize: any;
 }
 
 /**
@@ -85,7 +86,8 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     loadMore: defaultCursorPaginationLoadMore,
     canLoadMore,
     setBackendQueryModel,
-    onOrderByChange
+    onOrderByChange,
+    setRetrievalSize
   } = props;
 
   const hasErrors = errors && errors?.length > 0;
@@ -150,7 +152,10 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
           <LiLoadMore
             label={t('in-alerting:smartAlerts.infrastructure.loadMore')}
             //@ts-expect-error TS incompactable
-            loadMore={() => defaultCursorPaginationLoadMore()}
+            loadMore={() => {
+              defaultCursorPaginationLoadMore();
+              setRetrievalSize(retrievalSize + 5);
+            }}
           />
         )}
         {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
@@ -197,7 +202,7 @@ function getColumnDefinition({
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : t('in-alerting:smartAlerts.infrastructure.count');
 
   const iconColumn = {
-    width: '3rem',
+    width: '2rem',
     id: 'icon',
     getId: () => 'icon',
     widthInAbsoluteUnit: true,
@@ -295,12 +300,7 @@ function setDefaultMetrics(
     return;
   }
 
-  if (selectedMetricGroup) {
-    const metricExistsInItems = items.find(item => item.tags === selectedMetricGroup);
-    if (metricExistsInItems) {
-      return;
-    }
+  if (!selectedMetricGroup) {
+    setSelectedMetricGroup(items[0].tags);
   }
-
-  setSelectedMetricGroup(items[0].tags);
 }
