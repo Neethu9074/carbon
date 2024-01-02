@@ -120,7 +120,7 @@ export default function LinuxElasticComputing({
     },
     {
       title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={downloadKey} />,
+      body: <AskForHelp agentKey={agentKey} />,
       openByDefault: false
     }
   ];
