@@ -4,17 +4,27 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
-import { TimeConfig } from '@instana/types';
+import { InfraAlertRuleUnion, TagCatalog, TimeConfig } from '@instana/types';
 
+import {
+  StepConfig,
+  useSimpleModePageNavigation
+} from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+import { CreateBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer';
+//@ts-expect-error TS migration
+import { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { days } from 'in-services/time';
 
 /**
@@ -42,6 +52,13 @@ interface AlertConfigDialogWithThresholdProps {
 }
 
 const FORM_ID = 'smart-alert-editor';
+const stepConfigs: StepConfig[] = [];
+const stepRenderers = [
+  () => {
+    return <></>;
+  }
+];
+
 export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogWithThresholdProps) {
   const {
     form,
@@ -65,10 +82,38 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simpleMode]);
 
-  const footer = simpleMode ? (
-    // Add simpleMode component
-    <></>
-  ) : (
+  const alertConfigWithFormModel = form.toJS();
+  const { rule, tagFilterExpression } = alertConfigWithFormModel;
+  const { metricName, entityType } = rule as InfraAlertRuleUnion;
+
+  const tagCatalog = useTagCatalog({ ownerType: entityType, metric: metricName, regex: false });
+  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
+  const isTagFilterFormModelValid = validTagFilterExpressionResult.data === true;
+
+  const { getTagCatalog } = useMemo(() => CreateBoundedAlertQueryBuilder(tagCatalog as TagCatalog), [tagCatalog]);
+
+  const updateTagFilterExpression = (filteredTagFilterExpression: any) => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  const isMetricAndEntityValid = metricName != '' || entityType != '';
+
+  const { step, handleSubmit } = useSimpleModePageNavigation({
+    stepConfigs,
+    form,
+    setForm: updateForm,
+    onCreate,
+    onClose,
+    onStepChanged: () => {}
+  });
+
+  useRemoveInvalidTagsFromFilterExpression(
+    getTagCatalog,
+    tagFilterExpression as FormModelElement[],
+    updateTagFilterExpression
+  );
+
+  const footer = (
     <AdvancedModeFooter
       form={form}
       setForm={updateForm}
@@ -76,11 +121,10 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       onCreate={() => onCreate(simpleMode)}
       isSaving={isSaving}
       editMode={editMode}
-      additionalValidationCheck={() => false}
+      additionalValidationCheck={() => isTagFilterFormModelValid && isMetricAndEntityValid}
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
-
   return (
     <AlertConfigDialogPresenter
       editMode={editMode}
@@ -90,22 +134,24 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       updateForm={updateForm}
       messages={messages}
       onChange={onChange}
-      //@ts-expect-error
-      stepRenderers={{}}
+      stepConfigs={stepConfigs}
+      stepRenderers={stepRenderers}
+      step={step}
       formId={FORM_ID}
-      handleSubmit={() => {}}
+      handleSubmit={handleSubmit}
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       TagBasedPayloadConfigurator={() => <></>}
-      isDynamicCustomPayloadValid={false}
+      isDynamicCustomPayloadValid // TODO to be changed when custom payload is implemented
       QueryBuilderComponent={() => <></>}
       AdvancedModeElement={AdvancedModeContainer}
       SimpleModeElement={SimpleModeContainer}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+      thresholdResult={null}
       timeConfig={timeConfig}
-      isTagFilterFormModelValid
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
 }

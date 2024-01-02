@@ -8,6 +8,8 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { GenericInfraAlertRule } from '@instana/types';
 
+import { t } from 'in-i18n';
+
 export default function createRuleForm(rule: GenericInfraAlertRule): MapForm<any> {
   const baseForm = createBaseForm(rule);
   return baseForm;
@@ -30,7 +32,18 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
     .put(
       'metricName',
       createField({
-        value: rule.metricName ?? ''
+        value: rule.metricName ?? '',
+        validator: metric => {
+          if (metric === '') {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.ruleFormMetricError')
+              }
+            ];
+          }
+          return null;
+        }
       })
     )
     .put(

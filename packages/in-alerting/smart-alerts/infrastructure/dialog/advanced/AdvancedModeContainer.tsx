@@ -12,24 +12,24 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
-  isCustomPayloadValidOrUntouched,
-  fieldTouchedAndInvalid
-} from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { InfraTimeThreshold } from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
-import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import {
+  isCustomPayloadValidOrUntouched,
+  fieldTouchedAndInvalid
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import { InfraTimeThreshold } from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
+import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
@@ -55,7 +55,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
-          valid: true,
+          valid: isMetricAndEntityValid(),
           content: <ScopeSection form={form} updateForm={updateForm} onChange={onChange} />
         },
         {
@@ -64,16 +64,14 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.threshold.title'),
           valid: isThresholdSectionValid(),
           content: (
-            <>
-              <ThresholdSelectionInteractiveChart
-                form={form}
-                onChartViewConfigChange={onChartViewConfigChange}
-                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                // @ts-expect-error updateForm is required
-                updateForm={updateForm}
-                timeConfig={timeConfig}
-              />
-            </>
+            <ThresholdSelectionInteractiveChart
+              form={form}
+              onChartViewConfigChange={onChartViewConfigChange}
+              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+              // @ts-expect-error updateForm is required
+              updateForm={updateForm}
+              timeConfig={timeConfig}
+            />
           )
         },
         {
@@ -82,16 +80,14 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.timeThreshold.title'),
           valid: true,
           content: (
-            <>
-              <InfraTimeThreshold
-                form={form}
-                updateForm={updateForm}
-                onChange={onChange}
-                oneMinuteGranularityAllowed={
-                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-                }
-              />
-            </>
+            <InfraTimeThreshold
+              form={form}
+              updateForm={updateForm}
+              onChange={onChange}
+              oneMinuteGranularityAllowed={
+                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+              }
+            />
           )
         },
         {
@@ -165,10 +161,10 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     />
   );
 
-  function isThresholdSectionValid() {
-    if (fieldTouchedAndInvalid(form.get('threshold'))) {
-      return false;
-    }
-    return true;
+  function isThresholdSectionValid(): boolean {
+    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+  }
+  function isMetricAndEntityValid(): boolean {
+    return !fieldTouchedAndInvalid(form.get('rule')?.get('metricName'));
   }
 }
