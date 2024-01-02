@@ -375,7 +375,8 @@ function onSave({
       // @ts-expect-error
       selectedVolatileId.host_id = TRIGGERING_AGENT;
     }
-    const params = hostsLimit.value ? [...allInputParameters, hostsLimit] : allInputParameters;
+    const params =
+      hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
 
@@ -533,7 +534,8 @@ function onSave({
       playbookFileName,
       ansibleUrl,
       jobTemplateUrl,
-      inputParameters: [...allInputParameters, hostsLimit],
+      inputParameters:
+        hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters,
       policyId: executePolicyId
     }).once(handleActionResponse);
   }
