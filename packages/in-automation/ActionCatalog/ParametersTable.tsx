@@ -129,7 +129,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
   const isGitlab = isGitlabFn((form.get('type') as Field<string>).value);
   const isJira = isJiraFn((form.get('type') as Field<string>).value);
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const ticketIdParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'ticketId');
+  const ticketIdParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'id');
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, ticketIdParameterExist });
 
   return (

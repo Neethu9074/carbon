@@ -253,7 +253,7 @@ export function putGithubFields(form: MapForm<any>, action: ActionFormEntity) {
 
 export function removeGithubFields(form: MapForm<any>) {
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  const updatedParameters = parameters.filter(param => param.value.name !== 'id');
   form = form.put('parameters', createField({ value: updatedParameters }));
   form = removeCloseAndCommentTicketFields(form);
   return form.remove('owner').remove('repo').remove('ticketType');
@@ -261,9 +261,9 @@ export function removeGithubFields(form: MapForm<any>) {
 export function putGithubOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeCloseAndCommentTicketFields(form);
   form = removeGithubOpenTicketFields(form);
-  // Remove parameter with name "ticketId"
+  // Remove parameter with name "id"
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  const updatedParameters = parameters.filter(param => param.value.name !== 'id');
   form = form.put('parameters', createField({ value: updatedParameters }));
 
   const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
@@ -359,7 +359,7 @@ export function putGitlabFields(form: MapForm<any>, action: ActionFormEntity) {
 
 export function removeGitlabFields(form: MapForm<any>) {
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  const updatedParameters = parameters.filter(param => param.value.name !== 'id');
   form = form.put('parameters', createField({ value: updatedParameters }));
   form = removeCloseAndCommentTicketFields(form);
   return form.remove('projectId').remove('ticketType');
@@ -367,9 +367,9 @@ export function removeGitlabFields(form: MapForm<any>) {
 export function putGitlabOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeCloseAndCommentTicketFields(form);
   form = removeGitlabOpenTicketFields(form);
-  // Remove parameter with name "ticketId"
+  // Remove parameter with name "id"
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  const updatedParameters = parameters.filter(param => param.value.name !== 'id');
   form = form.put('parameters', createField({ value: updatedParameters }));
 
   const { title, gitlab_description, labels, issue_type } = getGitlabOpenTicketFields(action);
@@ -459,7 +459,7 @@ export function putJiraFields(form: MapForm<any>, action: ActionFormEntity) {
 
 export function removeJiraFields(form: MapForm<any>) {
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  const updatedParameters = parameters.filter(param => param.value.name !== 'id');
   form = form.put('parameters', createField({ value: updatedParameters }));
   form = removeCloseAndCommentTicketFields(form);
   return form.remove('project').remove('ticketType');
@@ -467,9 +467,9 @@ export function removeJiraFields(form: MapForm<any>) {
 export function putJiraOpenTicketFields(form: MapForm<any>, action: ActionFormEntity) {
   form = removeCloseAndCommentTicketFields(form);
   form = removeJiraOpenTicketFields(form);
-  // Remove parameter with name "ticketId"
+  // Remove parameter with name "id"
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const updatedParameters = parameters.filter(param => param.value.name !== 'ticketId');
+  const updatedParameters = parameters.filter(param => param.value.name !== 'id');
   form = form.put('parameters', createField({ value: updatedParameters }));
 
   const { summary, jira_description, labels, assignee, issue_type } = getJiraOpenTicketFields(action);
@@ -708,12 +708,12 @@ export function removeApiKeyFields(form: MapForm<any>) {
   return form.remove('apiKey').remove('apiKeyValue').remove('apiKeyAddTo');
 }
 
-export const createTicketIdParameter = (description: string) => ({
+export const createTicketIdParameter = (type: string, description: string) => ({
   id: generateUniqueShortId(),
   value: {
-    label: 'Ticket Id',
-    name: 'ticketId',
-    description: `${description}`,
+    label: `${type} Id`,
+    name: 'id',
+    description: description,
     required: true,
     type: 'static',
     valueType: 'string'
