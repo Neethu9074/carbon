@@ -55,6 +55,25 @@ export default function CustomDashboardLoader(props) {
     setSaving(getInitialState(result).isSaving);
   }, [result]);
 
+  useEffect(() => {
+    const handlePasteAnywhere = event => {
+      const input = JSON.parse(event.clipboardData.getData('text'));
+      const newConfig = deepCopy(config);
+      const widgets = Array.isArray(input) ? input : [input];
+      widgets.forEach(widget => {
+        input.id = generateUniqueShortId();
+        newConfig.widgets.push(widget);
+      });
+      setConfig(newConfig);
+    };
+
+    window.addEventListener('paste', handlePasteAnywhere);
+
+    return () => {
+      window.removeEventListener('paste', handlePasteAnywhere);
+    };
+  }, [config]);
+
   return (
     <CustomDashboardPresenter
       {...props}
@@ -75,6 +94,8 @@ export default function CustomDashboardLoader(props) {
       onDuplicateDashboard={onDuplicateDashboard}
       onAddWidget={onAddWidget}
       onEditWidget={onEditWidget}
+      onCopyWidget={onCopyWidget}
+      onCopyAllWidgets={onCopyAllWidgets}
       onDuplicateWidget={onDuplicateWidget}
       onFullScreenWidget={onFullScreenWidget}
       onExitFullScreenWidget={onExitFullScreenWidget}
@@ -116,6 +137,14 @@ export default function CustomDashboardLoader(props) {
         }}
       />
     );
+  }
+
+  function onCopyWidget(id) {
+    return JSON.stringify(find(config.widgets, eachWidget => id === eachWidget.id));
+  }
+
+  function onCopyAllWidgets() {
+    return JSON.stringify(config.widgets);
   }
 
   function onDuplicateWidget(id) {
