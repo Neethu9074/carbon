@@ -44,8 +44,12 @@ export const getHelpTextType = (type: string) => {
     return t('in-automation:ActionCatalog.httpHelpText');
   } else if (isManual(type)) {
     return t('in-automation:ActionCatalog.manualHelpText');
-  } else if (isGithub(type) || isGitlab(type) || isJira(type)) {
+  } else if (isGithub(type)) {
     return t('in-automation:ActionCatalog.githubHelpText');
+  } else if (isGitlab(type)) {
+    return t('in-automation:ActionCatalog.gitlabHelpText');
+  } else if (isJira(type)) {
+    return t('in-automation:ActionCatalog.jiraHelpText');
   } else {
     return '';
   }
@@ -289,9 +293,15 @@ export const OPEN = 'open';
 export const CLOSE = 'close';
 export const ADD_COMMENT = 'add_comment';
 export const GH_TICKET_TYPES = Object.freeze([
-  { value: OPEN, translation: t('in-automation:openTicket') },
-  { value: CLOSE, translation: t('in-automation:closeTicket') },
-  { value: ADD_COMMENT, translation: t('in-automation:commentTicket') }
+  { value: OPEN, translation: t('in-automation:openIssue') },
+  { value: CLOSE, translation: t('in-automation:closeIssue') },
+  { value: ADD_COMMENT, translation: t('in-automation:commentIssue') }
+]);
+
+export const JIRA_OPERATIONS = Object.freeze([
+  { value: OPEN, translation: t('in-automation:openTask') },
+  { value: CLOSE, translation: t('in-automation:closeTask') },
+  { value: ADD_COMMENT, translation: t('in-automation:commentTask') }
 ]);
 
 export const ISSUE = 'issue';
