@@ -59,7 +59,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     snapshotId,
     snapshotHostFqdn,
     hasActionlane = false,
-    hasButtonInActionslane = true
+    hasButtonInActionslane = true,
+    onLegendItemToggle
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
@@ -133,7 +134,13 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
       style={{ height: customChartSkeletonHeight ?? 'auto' }}
     >
       <div ref={legendRef}>
-        {chart && renderLegend && <ChartLegend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
+        {chart && renderLegend && (
+          <ChartLegend
+            chart={chart}
+            filteredDataSeries={chart.config.filteredDataSeries}
+            onLegendItemToggle={onLegendItemToggle}
+          />
+        )}
       </div>
 
       <div className={locals.markerLanesWrapper}>

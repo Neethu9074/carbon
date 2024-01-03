@@ -12,16 +12,27 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { CONTAINERD_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
+import { loggingEnabled } from 'in-services/featureFlags';
+import RestrictedAccessMessage from 'in-components/rbac';
 import MetricValue from 'in-components/MetricValue';
+import { useHasLogs } from 'in-logging/hooks';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function ContainerdDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
+
+  const tagFilterExpression = getValueMatchTagFilter({ name: CONTAINERD_ID, value: snapshot.get('data')?.get('id') });
+  const hasLogs = useHasLogs({ tagFilterExpression, timeConfig });
+
   return (
     <div>
       <KpiSection>
@@ -38,6 +49,7 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             formatter={percentageZeroDecimalPlaces}
           />
         </KpiKeyValue>
+        {loggingEnabled && <LogsKpiCard hasLogs={hasLogs} timeConfig={timeConfig} snapshot={snapshot} />}
       </KpiSection>
 
       <DashboardSection title={t('in-forge:plugins.containerd.dashboard.titleCPUTime')}>
@@ -151,6 +163,14 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      {loggingEnabled && role.canViewLogs && (
+        <LogsChartInteractionWrapper tagFilterExpression={[tagFilterExpression]} timeConfig={timeConfig} />
+      )}
+      {loggingEnabled && !role.canViewLogs && (
+        <DashboardSection title={t('in-forge:plugins.docker.dashboard.logs')}>
+          <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
+        </DashboardSection>
+      )}
     </div>
   );
 }

@@ -6,11 +6,13 @@
 
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
+import { ChartConfig } from 'in-components/Chart/types';
 
 export interface LogsDistributionChartSectionProps extends UngroupedViewProps {
   disableClose?: boolean;
   hideRenderer?: boolean;
   showHeader?: boolean;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
 export interface ChartProps extends UngroupedViewProps {

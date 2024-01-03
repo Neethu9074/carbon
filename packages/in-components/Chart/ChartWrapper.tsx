@@ -7,8 +7,8 @@ import invariant from 'invariant';
 import { pick } from 'lodash';
 import React from 'react';
 
+import { AxisConfiguration, ChartConfig, MetricMap, TimeShift } from 'in-components/Chart/types';
 import ResultAwareChart, { ResultAwareChartConfig } from 'in-components/Chart/ResultAwareChart';
-import { AxisConfiguration, MetricMap, TimeShift } from 'in-components/Chart/types';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
@@ -66,6 +66,7 @@ import { t } from 'in-i18n';
 interface Props extends ResultAwareChartConfig {
   result: Result<MetricData>;
   companionResult?: Result<MetricData>;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
 export default function ChartWrapper({ result, companionResult, ...props }: Props): React.ReactElement {
@@ -117,12 +118,10 @@ function wrapProps(
     };
   }
 
-  const propsClone: Pick<
-    ResultAwareChartConfig,
-    'y1' | 'y2' | 'originalTimeConfig' | 'timeConfig' | 'granularity'
-  > = deepCopy({
-    ...pick(props, ['y1', 'y2', 'originalTimeConfig', 'timeConfig', 'granularity'])
-  });
+  const propsClone: Pick<ResultAwareChartConfig, 'y1' | 'y2' | 'originalTimeConfig' | 'timeConfig' | 'granularity'> =
+    deepCopy({
+      ...pick(props, ['y1', 'y2', 'originalTimeConfig', 'timeConfig', 'granularity'])
+    });
 
   if (propsClone.y1 != null) {
     propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data?.[id] || []);

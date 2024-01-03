@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AxisConfiguration, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
+import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
 import { Grouping, ResultType, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
@@ -65,6 +65,7 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   hasActionlane?: boolean;
   hasButtonInActionslane?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
 interface MetricData {
