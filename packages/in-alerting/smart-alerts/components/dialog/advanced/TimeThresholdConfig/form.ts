@@ -15,7 +15,8 @@ import {
   ViolationsInSequenceApplicationTimeThreshold,
   ViolationsInSequenceWebsiteTimeThreshold,
   ViolationsInPeriodApplicationTimeThreshold,
-  ViolationsInPeriodWebsiteTimeThreshold
+  ViolationsInPeriodWebsiteTimeThreshold,
+  ViolationsInSequenceInfraTimeThreshold
 } from 'in-types';
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -25,7 +26,7 @@ import { t } from 'in-i18n';
 export const percentageOfUserDefault = 0.2;
 export const numberOfUsersDefault = 20;
 const numberOfRequestsDefault = 20;
-const defaultTimeWindow = 600000;
+export const defaultTimeWindow = 600000;
 export const defaultAdaptiveBaselineTimeWindow = 1200000;
 
 export const ImpactMeasurementMethods: Record<ImpactMeasurementMethod, ImpactMeasurementMethod> = {
@@ -121,7 +122,10 @@ export function createTraceImpactForm(
 }
 
 export function createViolationsInSequenceForm(
-  timeThresholdConfig?: ViolationsInSequenceApplicationTimeThreshold | ViolationsInSequenceWebsiteTimeThreshold,
+  timeThresholdConfig?:
+    | ViolationsInSequenceApplicationTimeThreshold
+    | ViolationsInSequenceWebsiteTimeThreshold
+    | ViolationsInSequenceInfraTimeThreshold,
   thresholdType?: ThresholdType
 ) {
   return createMapBase('violationsInSequence', thresholdType, timeThresholdConfig?.timeWindow);

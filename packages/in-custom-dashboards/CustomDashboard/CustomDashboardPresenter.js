@@ -23,6 +23,7 @@ import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pageNames } from 'in-services/tracking/pageNames';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
@@ -44,6 +45,7 @@ export default function CustomDashboardPresenter(props) {
     onAddWidget,
     onEditWidget,
     onRemoveWidget,
+    onCopyWidget,
     onDuplicateWidget,
     onFullScreenWidget,
     onExitFullScreenWidget
@@ -137,6 +139,7 @@ export default function CustomDashboardPresenter(props) {
                       onLayoutChange={onLayoutChange}
                       onEditWidget={onEditWidget}
                       onRemoveWidget={onRemoveWidget}
+                      onCopyWidget={onCopyWidget}
                       onDuplicateWidget={onDuplicateWidget}
                       onFullScreenWidget={onFullScreenWidget}
                       onExitFullScreenWidget={onExitFullScreenWidget}
@@ -187,7 +190,8 @@ function SecondaryButtonLine({
   onDuplicateDashboard,
   editable,
   onEditAsJson,
-  onViewAsJson
+  onViewAsJson,
+  onCopyAllWidgets
 }) {
   return (
     <>
@@ -219,7 +223,14 @@ function SecondaryButtonLine({
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
           </MoreMenuButton>
         )}
-        <MoreMenuButton icon="lib_actions_copy" onClick={onDuplicateDashboard}>
+        <CopyToClipboard getText={() => onCopyAllWidgets()}>
+          {copyToClipboardRef => (
+            <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+              {t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}
+            </MoreMenuButton>
+          )}
+        </CopyToClipboard>
+        <MoreMenuButton icon="lib_group_by" onClick={onDuplicateDashboard}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (

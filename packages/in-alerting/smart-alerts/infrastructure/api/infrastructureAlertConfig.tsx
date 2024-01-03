@@ -11,8 +11,8 @@ import {
   disableAlertConfig as disableAlertConfigApi,
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
+import { ConfigVersion, InfraAlertConfig, InfraAlertConfigWithMetadata, Result } from 'in-types';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
-import { ConfigVersion, InfraAlertConfigWithMetadata, Result } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
@@ -103,5 +103,25 @@ export function restoreAlertConfigVersion(id: string, created: number): Observab
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/restore/${created}`
+  }).map(response => response.body);
+}
+
+export function createAlertConfig(data: InfraAlertConfig): Observable<InfraAlertConfigWithMetadata> {
+  return http<InfraAlertConfigWithMetadata>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl,
+    data
+  }).map(response => response.body);
+}
+
+export function updateAlertConfig(data: InfraAlertConfig, id: string): Observable<InfraAlertConfigWithMetadata> {
+  return http<InfraAlertConfigWithMetadata>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    data
   }).map(response => response.body);
 }

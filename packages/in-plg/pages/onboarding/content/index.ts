@@ -21,6 +21,7 @@ import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes'
 import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
 import LinuxArchive from 'in-plg/pages/onboarding/AgentList/Linux/LinuxArchive';
 import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
+import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
 import WindowsEC2 from 'in-plg/pages/onboarding/AgentList/Windows/WindowsEC2';
 import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
@@ -31,10 +32,192 @@ import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
 import { t } from 'in-i18n';
-import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 
 export function getEntriesForFreeTrial() {
   return [
+    {
+      id: 'k8_helm',
+      title: 'Kubernetes - Helm Chart',
+      label: t('in-waiting-for-deployment:content.kubernetes'),
+      icon: 'lib_kubernetes',
+      iconColor: '#3F6EDE',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.helmChart'),
+        keyWords: 'kuberneteshelmchartk8s',
+        Content: Kubernetes
+      }
+    },
+    {
+      id: 'k8_operator',
+      title: 'Kubernetes - Operator',
+      label: t('in-waiting-for-deployment:content.kubernetes'),
+      icon: 'lib_kubernetes',
+      iconColor: '#3F6EDE',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.operator'),
+        keyWords: 'kubernetesoperatork8s',
+        Content: KubernetesOperator
+      }
+    },
+    {
+      id: 'k8_deamon',
+      title: 'Kubernetes - Yaml',
+      label: t('in-waiting-for-deployment:content.kubernetes'),
+      icon: 'lib_kubernetes',
+      iconColor: '#3F6EDE',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.yaml'),
+        keyWords: 'kubernetesdeamonsetk8s',
+        Content: Kubernetes
+      }
+    },
+    {
+      id: 'k8_aks',
+      title: 'Kubernetes - Azure Kubernetes Service (AKS)',
+      label: t('in-waiting-for-deployment:content.kubernetes'),
+      icon: 'lib_kubernetes',
+      iconColor: '#3F6EDE',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
+        keyWords: 'azurekubernetesserviceaksk8s',
+        Content: Kubernetes
+      }
+    },
+    {
+      id: 'k8_eks',
+      title: 'Kubernetes - AWS Elastic Kubernetes Service (EKS)',
+      label: t('in-waiting-for-deployment:content.kubernetes'),
+      icon: 'lib_kubernetes',
+      iconColor: '#3F6EDE',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
+        keyWords: 'awselastickubernetesserviceeksk8s',
+        Content: Kubernetes
+      }
+    },
+    {
+      id: 'openshift_operator',
+      title: 'Openshift - Operator',
+      label: t('in-waiting-for-deployment:content.openShift'),
+      icon: 'lib_openshift',
+      iconColor: '#DA2430',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.operator'),
+        keyWords: 'kubernetesoperatork8s',
+        Content: OpenshiftOperator
+      }
+    },
+    {
+      id: 'openshift_helm',
+      title: 'Openshift - Helm Chart',
+      label: t('in-waiting-for-deployment:content.openShift'),
+      icon: 'lib_openshift',
+      iconColor: '#DA2430',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.helmChart'),
+        keyWords: 'openshifthelmchartk8s',
+        Content: Openshift
+      }
+    },
+    {
+      id: 'openshift_k8_daemon',
+      title: 'Openshift - YAML',
+      label: t('in-waiting-for-deployment:content.openShift'),
+      icon: 'lib_openshift',
+      iconColor: '#DA2430',
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.yaml'),
+        keyWords: 'kubernetesdeamonsetk8s',
+        Content: Openshift
+      }
+    },
+    {
+      id: 'docker',
+      title: 'Docker',
+      label: t('in-waiting-for-deployment:content.docker'),
+      icon: 'lib_container_docker',
+      iconColor: '#2D6DD0',
+      category: t('in-waiting-for-deployment:content.platform'),
+      keyWords: 'dockercontainer',
+      Content: Docker
+    },
+    {
+      id: 'linux_auto',
+      label: t('in-waiting-for-deployment:content.linux'),
+      title: 'Linux - Automatic Installation (One-liner)',
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
+        keyWords: 'linuxautomaticoneliner',
+        Content: LinuxAutomatic
+      }
+    },
+    {
+      id: 'linux_deb_rpm',
+      title: 'Linux - Packages(DEB, RPM)',
+      label: t('in-waiting-for-deployment:content.linux'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.packagesDebRpm'),
+        keyWords: 'linuxpackagesdebrpm',
+        Content: LinuxPackages
+      }
+    },
+    {
+      id: 'linux_archive_tar',
+      title: 'Linux - Archive (tar.gz)',
+      label: t('in-waiting-for-deployment:content.linux'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.archiveTarGz'),
+        keyWords: 'linuxmanualtarball',
+        Content: LinuxArchive
+      }
+    },
+    {
+      id: 'linux_ec2',
+      title: 'Linux - AWS Elastic Computing (EC2)',
+      label: t('in-waiting-for-deployment:content.linux'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.awsElasticComputingEc2'),
+        keyWords: 'linuxawselasticcomputingec2',
+        Content: LinuxElasticComputing
+      }
+    },
+    {
+      id: 'linux_gce',
+      title: 'Linux - Google Computer Engine (GCE)',
+      label: t('in-waiting-for-deployment:content.linux'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.googleComputeEngineGce'),
+        keyWords: 'linuxgooglecomputeenginegce',
+        Content: LinuxGoogleCloudComputing
+      }
+    },
+    {
+      id: 'unix',
+      title: 'Unix',
+      label: t('in-waiting-for-deployment:content.unix'),
+      category: t('in-waiting-for-deployment:content.os'),
+      keyWords: 'unixtarball',
+      icon: 'lib_unix',
+      Content: Unix
+    },
     {
       id: 'aws_sensor',
       title: 'Amazon Web Services - Instana AWS Sensor',
@@ -154,120 +337,6 @@ export function getEntriesForFreeTrial() {
       }
     },
     {
-      id: 'docker',
-      title: 'Docker',
-      label: t('in-waiting-for-deployment:content.docker'),
-      icon: 'lib_container_docker',
-      iconColor: '#2D6DD0',
-      category: t('in-waiting-for-deployment:content.platform'),
-      keyWords: 'dockercontainer',
-      Content: Docker
-    },
-    {
-      id: 'k8_operator',
-      title: 'Kubernetes - Operator',
-      label: t('in-waiting-for-deployment:content.kubernetes'),
-      icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.operator'),
-        keyWords: 'kubernetesoperatork8s',
-        Content: KubernetesOperator
-      }
-    },
-    {
-      id: 'k8_helm',
-      title: 'Kubernetes - Helm Chart',
-      label: t('in-waiting-for-deployment:content.kubernetes'),
-      icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.helmChart'),
-        keyWords: 'kuberneteshelmchartk8s',
-        Content: Kubernetes
-      }
-    },
-    {
-      id: 'k8_deamon',
-      title: 'Kubernetes - Yaml',
-      label: t('in-waiting-for-deployment:content.kubernetes'),
-      icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.yaml'),
-        keyWords: 'kubernetesdeamonsetk8s',
-        Content: Kubernetes
-      }
-    },
-    {
-      id: 'k8_aks',
-      title: 'Kubernetes - Azure Kubernetes Service (AKS)',
-      label: t('in-waiting-for-deployment:content.kubernetes'),
-      icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
-        keyWords: 'azurekubernetesserviceaksk8s',
-        Content: Kubernetes
-      }
-    },
-    {
-      id: 'k8_eks',
-      title: 'Kubernetes - AWS Elastic Kubernetes Service (EKS)',
-      label: t('in-waiting-for-deployment:content.kubernetes'),
-      icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
-        keyWords: 'awselastickubernetesserviceeksk8s',
-        Content: Kubernetes
-      }
-    },
-    {
-      id: 'openshift_operator',
-      title: 'Openshift - Operator',
-      label: t('in-waiting-for-deployment:content.openShift'),
-      icon: 'lib_openshift',
-      iconColor: '#DA2430',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.operator'),
-        keyWords: 'kubernetesoperatork8s',
-        Content: OpenshiftOperator
-      }
-    },
-    {
-      id: 'openshift_helm',
-      title: 'Openshift - Helm Chart',
-      label: t('in-waiting-for-deployment:content.openShift'),
-      icon: 'lib_openshift',
-      iconColor: '#DA2430',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.helmChart'),
-        keyWords: 'openshifthelmchartk8s',
-        Content: Openshift
-      }
-    },
-    {
-      id: 'openshift_k8_daemon',
-      title: 'Openshift - YAML',
-      label: t('in-waiting-for-deployment:content.openShift'),
-      icon: 'lib_openshift',
-      iconColor: '#DA2430',
-      category: t('in-waiting-for-deployment:content.platform'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.yaml'),
-        keyWords: 'kubernetesdeamonsetk8s',
-        Content: Openshift
-      }
-    },
-    {
       id: 'cf_bosh',
       title: 'Cloud Foundry and other BOSH based deployments',
       label: t('in-waiting-for-deployment:content.cloudFoundryAndBosh'),
@@ -288,66 +357,6 @@ export function getEntriesForFreeTrial() {
       Content: VmwareTanzu
     },
     {
-      id: 'linux_auto',
-      label: t('in-waiting-for-deployment:content.linux'),
-      title: 'Linux - Automatic Installation (One-liner)',
-      icon: 'lib_linux',
-      category: t('in-waiting-for-deployment:content.os'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
-        keyWords: 'linuxautomaticoneliner',
-        Content: LinuxAutomatic
-      }
-    },
-    {
-      id: 'linux_deb_rpm',
-      title: 'Linux - Packages(DEB, RPM)',
-      label: t('in-waiting-for-deployment:content.linux'),
-      icon: 'lib_linux',
-      category: t('in-waiting-for-deployment:content.os'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.packagesDebRpm'),
-        keyWords: 'linuxpackagesdebrpm',
-        Content: LinuxPackages
-      }
-    },
-    {
-      id: 'linux_archive_tar',
-      title: 'Linux - Archive (tar.gz)',
-      label: t('in-waiting-for-deployment:content.linux'),
-      icon: 'lib_linux',
-      category: t('in-waiting-for-deployment:content.os'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.archiveTarGz'),
-        keyWords: 'linuxmanualtarball',
-        Content: LinuxArchive
-      }
-    },
-    {
-      id: 'linux_ec2',
-      title: 'Linux - AWS Elastic Computing (EC2)',
-      label: t('in-waiting-for-deployment:content.linux'),
-      icon: 'lib_linux',
-      category: t('in-waiting-for-deployment:content.os'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.awsElasticComputingEc2'),
-        keyWords: 'linuxawselasticcomputingec2',
-        Content: LinuxElasticComputing
-      }
-    },
-    {
-      id: 'linux_gce',
-      title: 'Linux - Google Computer Engine (GCE)',
-      label: t('in-waiting-for-deployment:content.linux'),
-      icon: 'lib_linux',
-      category: t('in-waiting-for-deployment:content.os'),
-      subTechnology: {
-        label: t('in-waiting-for-deployment:content.googleComputeEngineGce'),
-        keyWords: 'linuxgooglecomputeenginegce',
-        Content: LinuxGoogleCloudComputing
-      }
-    },
-    {
       id: 'macos_universal',
       title: 'macOs',
       label: t('in-waiting-for-deployment:content.macOs'),
@@ -359,15 +368,6 @@ export function getEntriesForFreeTrial() {
         keyWords: 'macos64bituniversal',
         Content: MacOs
       }
-    },
-    {
-      id: 'unix',
-      title: 'Unix',
-      label: t('in-waiting-for-deployment:content.unix'),
-      category: t('in-waiting-for-deployment:content.os'),
-      keyWords: 'unixtarball',
-      icon: 'lib_unix',
-      Content: Unix
     },
     {
       id: 'windows_64_bit',

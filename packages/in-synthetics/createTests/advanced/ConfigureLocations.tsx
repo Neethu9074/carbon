@@ -34,6 +34,7 @@ interface ConfigureLocationsProps {
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
   syntheticType: string;
+  locations: (syntheticType: string) => Observable<SyntheticLocation[]>;
 }
 
 function createMemoizedObservableForReferencedLocations<RESULT>(
@@ -52,7 +53,8 @@ export default function ConfigureLocations({
   form,
   updateForm,
   setSliderState,
-  syntheticType
+  syntheticType,
+  locations
 }: ConfigureLocationsProps) {
   const EMPTY = [] as SyntheticLocation[];
   const getSelectedLocations = createMemoizedObservableForReferencedLocations(locationIds => {
@@ -67,16 +69,6 @@ export default function ConfigureLocations({
       })
       .map(result => result ?? EMPTY);
   });
-
-  const locations = (locationType: string) =>
-    getLocationsAsResultObservable(syntheticType, locationType)
-      .map((result: Result<SyntheticLocation[]> | null) => {
-        if (result == null) {
-          return EMPTY;
-        }
-        return (result as Result<SyntheticLocation[]>)?.data;
-      })
-      .map(result => result ?? EMPTY);
 
   const loadEntities = () => getSelectedLocations((form.get('locations') as Field<string[]>).value ?? []);
 

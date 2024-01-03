@@ -1,5 +1,5 @@
 {
-  "welcomeToInstana": "Welcome to instana!",
+  "welcomeToInstana": "Welcome to Instana!",
   "getStartedAndInstallYourFirstAgent": "Get started and install your first agent.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Your trial has expired",
@@ -44,6 +44,7 @@
       "agentKey": "Agent key"
     },
     "common": {
+      "agentCatalog": "Agent catalog",
       "step1": "Step 1: ",
       "step2": "Step 2: ",
       "step3": "Step 3: ",

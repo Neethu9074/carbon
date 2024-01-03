@@ -408,7 +408,7 @@ module.exports = exports = [
   {
     uiClientKey: 'apiTokenDialogEnabled',
     instanaCtlKey: 'feature.apitoken.dialog.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'regexMetricSelectionEnabled',
@@ -488,6 +488,11 @@ module.exports = exports = [
   {
     uiClientKey: 'fullscreenWidgetEnabled',
     instanaCtlKey: 'feature.fullscreen.widget.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'enableCarbonIcons',
+    instanaCtlKey: 'feature.carbon.icons.enabled',
     defaultValue: false
   }
 ];

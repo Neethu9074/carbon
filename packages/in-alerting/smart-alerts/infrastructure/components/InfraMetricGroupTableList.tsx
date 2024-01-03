@@ -8,7 +8,15 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
-import { KeyValue, LiLoadMore, TableHorizontalIndicatorRow, Table, Tbody, SvgIcon } from '@instana/components';
+import {
+  KeyValue,
+  LiLoadMore,
+  TableHorizontalIndicatorRow,
+  Table,
+  Tbody,
+  SvgIcon,
+  TableLoadingSkeletonRows
+} from '@instana/components';
 import { InfrastructureGroup, Order, Progress, Result, TimeConfig } from '@instana/types';
 
 //@ts-expect-error
@@ -50,6 +58,7 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
+  setRetrievalSize: any;
 }
 
 /**
@@ -77,7 +86,8 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     loadMore: defaultCursorPaginationLoadMore,
     canLoadMore,
     setBackendQueryModel,
-    onOrderByChange
+    onOrderByChange,
+    setRetrievalSize
   } = props;
 
   const hasErrors = errors && errors?.length > 0;
@@ -85,8 +95,13 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
   const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
 
   useEffect(() => {
-    selectedMetricGroup$.emit(selectedMetricGroup);
-  }, [selectedMetricGroup]);
+    // If the value is not in the'selectedMetricGroup', set the first one as selected by default.
+    setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup);
+
+    if (selectedMetricGroup) {
+      selectedMetricGroup$.emit(selectedMetricGroup);
+    }
+  }, [selectedMetricGroup, items]);
 
   const columnDefinitions = getColumnDefinition({
     groupBy,
@@ -101,42 +116,51 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
 
   return (
     <>
-      <InfraMetricGroupHeader isLoading={isLoading} totalHits={totalHits} setBackendQueryModel={setBackendQueryModel} />
-      {!hasErrors && items?.length > 0 && (
-        <CursorPaginatedTable
-          columnDefinitions={columnDefinitions}
-          numSkeletonRows={retrievalSize}
+      <div className={local.tableMinHeight}>
+        <InfraMetricGroupHeader
+          isLoading={isLoading}
           totalHits={totalHits}
-          onChange={({ orderBy, orderDirection }: OrderByProps) =>
-            onOrderByChange({
-              by: orderBy,
-              direction: orderDirection
-            })
-          }
-          progress={progress}
-          canLoadMore={canLoadMore}
-          items={items}
-          orderBy={order.by}
-          orderDirection={order.direction}
-          isSearchable={false}
-          defaultPageSize={retrievalSize}
-          defaultOrderDirection={order.direction}
-          onRowClick={(item: InfrastructureGroup) => {
-            setSelectedMetricGroup(item?.tags);
-          }}
-          fixedLayout={fixedLayout}
-          size="compact"
+          setBackendQueryModel={setBackendQueryModel}
         />
-      )}
-      {canLoadMore && (
-        <LiLoadMore
-          label={t('in-alerting:smartAlerts.infrastructure.loadMore')}
-          //@ts-expect-error TS incompactable
-          loadMore={() => defaultCursorPaginationLoadMore()}
-        />
-      )}
-      {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-      {progress?.loading && items.length === 0 && <Loading progress={progress} />}
+        {!hasErrors && items?.length > 0 && (
+          <CursorPaginatedTable
+            columnDefinitions={columnDefinitions}
+            numSkeletonRows={3}
+            totalHits={totalHits}
+            onChange={({ orderBy, orderDirection }: OrderByProps) =>
+              onOrderByChange({
+                by: orderBy,
+                direction: orderDirection
+              })
+            }
+            progress={progress}
+            canLoadMore={canLoadMore}
+            items={items}
+            orderBy={order.by}
+            orderDirection={order.direction}
+            isSearchable={false}
+            defaultPageSize={retrievalSize}
+            defaultOrderDirection={order.direction}
+            onRowClick={(item: InfrastructureGroup) => {
+              setSelectedMetricGroup(item?.tags);
+            }}
+            fixedLayout={fixedLayout}
+            size="compact"
+          />
+        )}
+        {canLoadMore && (
+          <LiLoadMore
+            label={t('in-alerting:smartAlerts.infrastructure.loadMore')}
+            //@ts-expect-error TS incompactable
+            loadMore={() => {
+              defaultCursorPaginationLoadMore();
+              setRetrievalSize(retrievalSize + 5);
+            }}
+          />
+        )}
+        {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
+        {progress?.loading && items.length === 0 && <Loading progress={progress} />}
+      </div>
     </>
   );
 }
@@ -178,7 +202,7 @@ function getColumnDefinition({
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : t('in-alerting:smartAlerts.infrastructure.count');
 
   const iconColumn = {
-    width: '3rem',
+    width: '2rem',
     id: 'icon',
     getId: () => 'icon',
     widthInAbsoluteUnit: true,
@@ -261,7 +285,22 @@ function Loading({ progress }: { progress: Progress }): JSX.Element {
     <Table className={local.fullWidth}>
       <Tbody>
         <TableHorizontalIndicatorRow cols={3} progress={progress} />
+        {progress.loading && <TableLoadingSkeletonRows cols={3} rows={3} />}
       </Tbody>
     </Table>
   );
+}
+
+function setDefaultMetrics(
+  items: InfrastructureGroup[],
+  setSelectedMetricGroup: React.Dispatch<Tags | undefined>,
+  selectedMetricGroup?: Tags
+) {
+  if (items?.length === 0) {
+    return;
+  }
+
+  if (!selectedMetricGroup) {
+    setSelectedMetricGroup(items[0].tags);
+  }
 }

@@ -74,7 +74,7 @@ const KubernetesOperator = ({
     },
     {
       title: t('in-plg:agentDetails.common.sideCard.askAColleagueForHelp'),
-      body: <AskForHelp agentKey={downloadKey} />,
+      body: <AskForHelp agentKey={agentKey} />,
       openByDefault: false
     }
   ];

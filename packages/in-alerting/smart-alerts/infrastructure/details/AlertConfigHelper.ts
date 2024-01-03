@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { getFormatterType, number, NumberFormatter, NumberFormatterObject } from 'in-services/formatters/number';
+import {
+  getFormatterType,
+  number,
+  NumberFormatter,
+  NumberFormatterObject,
+  percentage
+} from 'in-services/formatters/number';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getMetricDefinition, MetricDefinition } from 'in-sdk/metrics/metrics';
@@ -17,7 +23,10 @@ const infraThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions.filter(option => option.value === STATIC_THRESHOLD)
 ]);
 
-export function getMetricFormat(): NumberFormatter {
+export function getMetricFormat(formatter: any): NumberFormatter {
+  if (formatter === 'PERCENTAGE') {
+    return percentage;
+  }
   return number.forcedCompact;
 }
 

@@ -23,6 +23,7 @@ import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { isBrowserInFullScreen } from 'in-custom-dashboards/utils';
 import { fullscreenWidgetEnabled } from 'in-services/featureFlags';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import { t, Trans } from 'in-i18n';
@@ -52,6 +53,7 @@ function Grid({
   isConfigurable,
   isDraggable,
   onEditWidget,
+  onCopyWidget,
   onDuplicateWidget,
   onFullScreenWidget,
   onExitFullScreenWidget,
@@ -124,6 +126,7 @@ function Grid({
             widget={widget}
             isConfigurable={isConfigurable}
             onEditWidget={onEditWidget}
+            onCopyWidget={onCopyWidget}
             onDuplicateWidget={onDuplicateWidget}
             onFullScreenWidget={onFullScreenWidget}
             onExitFullScreenWidget={onExitFullScreenWidget}
@@ -178,6 +181,7 @@ function WidgetContent({
   widget,
   isConfigurable,
   onEditWidget,
+  onCopyWidget,
   onDuplicateWidget,
   onFullScreenWidget,
   onExitFullScreenWidget,
@@ -193,6 +197,7 @@ function WidgetContent({
       onEditWidget={onEditWidget}
       widget={widget}
       onDuplicateWidget={onDuplicateWidget}
+      onCopyWidget={onCopyWidget}
       onFullScreenWidget={onFullScreenWidget}
       onExitFullScreenWidget={onExitFullScreenWidget}
       onRemoveWidget={onRemoveWidget}
@@ -235,6 +240,7 @@ function WidgetMoreMenu({
   onEditWidget,
   widget,
   onDuplicateWidget,
+  onCopyWidget,
   onFullScreenWidget,
   onExitFullScreenWidget,
   onRemoveWidget,
@@ -254,7 +260,14 @@ function WidgetMoreMenu({
           <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
             {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
           </MoreMenuButton>
-          <MoreMenuButton icon="lib_actions_copy" onClick={() => onDuplicateWidget(widget.id)}>
+          <CopyToClipboard getText={() => onCopyWidget(widget.id)}>
+            {copyToClipboardRef => (
+              <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+                {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
+              </MoreMenuButton>
+            )}
+          </CopyToClipboard>
+          <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
             {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
           </MoreMenuButton>
           <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>

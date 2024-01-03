@@ -13,6 +13,7 @@
     "grid": {
       "grid": {
         "edit": "Edit",
+        "copy": "Copy",
         "duplicate": "Duplicate",
         "delete": "Delete",
         "customDashboardWidgetTitle": "Custom dashboard widget: {{title}}"
@@ -81,6 +82,7 @@
       "editName": "Edit Name",
       "editAsJson": "Edit As JSON",
       "viewAsJson": "View As JSON",
+      "copyAllWidgets": "Copy All Widgets",
       "duplicate": "Duplicate",
       "delete": "Delete",
       "share": "Share",

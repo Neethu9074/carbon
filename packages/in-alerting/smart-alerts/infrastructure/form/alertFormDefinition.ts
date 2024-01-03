@@ -51,7 +51,7 @@ export default function alertFormDefinition(
     granularity = 600000,
     groupBy = [],
     name = '',
-    predictiveTrigger = {},
+    predictiveTrigger = null,
     severity = severityWarning,
     tagFilterExpression,
     id = ''

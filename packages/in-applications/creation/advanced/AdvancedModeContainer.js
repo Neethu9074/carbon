@@ -84,21 +84,25 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage, 
 
           <Section headingText={t('in-applications:creation.advanced.defineUsingTags')}>
             <DescriptionText className={locals.descriptionText}>
-              <Trans
-                i18nKey="in-applications:creation.advanced.defineUsingTagsDescription"
-                components={{
-                  'pill-database': (
-                    <Pill color={getColor('DATABASE')} kind="light">
-                      {t('in-applications:creation.advanced.database')}
-                    </Pill>
-                  ),
-                  'pill-messaging': (
-                    <Pill color={getColor('MESSAGING')} kind="light">
-                      {t('in-applications:creation.advanced.messaging')}
-                    </Pill>
-                  )
-                }}
-              />
+              {showContributionFilterDropdown(userRestrictedApplications) ? (
+                <Trans i18nKey="in-applications:creation.advanced.defineUsingTagsContributionFilterDescription" />
+              ) : (
+                <Trans
+                  i18nKey="in-applications:creation.advanced.defineUsingTagsDescription"
+                  components={{
+                    'pill-database': (
+                      <Pill color={getColor('DATABASE')} kind="light">
+                        {t('in-applications:creation.advanced.database')}
+                      </Pill>
+                    ),
+                    'pill-messaging': (
+                      <Pill color={getColor('MESSAGING')} kind="light">
+                        {t('in-applications:creation.advanced.messaging')}
+                      </Pill>
+                    )
+                  }}
+                />
+              )}
               <Spacer vertical="normal" />
               <strong>{t('in-applications:creation.advanced.andOperatorsPrecedenceBrackets')}</strong>
             </DescriptionText>

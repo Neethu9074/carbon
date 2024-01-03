@@ -15,10 +15,18 @@ import ContentProps from 'in-plg/pages/onboarding/content/ContentProps';
 import { getUnitKeys } from 'in-api/unitKeys';
 import Header from 'in-plg/components/Header/Header';
 import config from 'in-services/config';
+import { t } from 'in-i18n';
 
 interface UnitKeys {
   agentKey: string;
   downloadKey: string;
+}
+
+interface BreadCrumbItem {
+  icon?: string;
+  title?: string;
+  href?: string;
+  iconColor?: string;
 }
 
 export default function AgentViewRouter({ selectedService }: { selectedService: string }) {
@@ -31,15 +39,17 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
   const selectedEntity = entities.find(entity => entity.id === selectedService);
   const technology = selectedEntity?.subTechnology ?? selectedEntity;
 
-  const createBreadCrumb = () => {
+  const createBreadCrumb = (): BreadCrumbItem[] => {
     return [
       {
         icon: 'lib_infrastructure',
-        title: 'Agents Catalog'
+        title: t('in-plg:agentDetails.common.agentCatalog'),
+        href: '#/agents/installation'
       },
       {
         icon: selectedEntity?.icon,
-        title: selectedEntity?.title
+        title: selectedEntity?.title,
+        iconColor: selectedEntity?.iconColor
       }
     ];
   };

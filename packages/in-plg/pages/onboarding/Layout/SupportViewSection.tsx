@@ -19,7 +19,7 @@ interface SupportViewItem {
 
 export default function SupportViewSection({ items }: { items: SupportViewItem[] }): JSX.Element {
   return (
-    <Stack>
+    <Stack gap="large">
       <Typography variant="body-bold">{t('in-plg:agentDetails.common.support')}</Typography>
       {items.map((sideCard, index) => (
         <OnboardingExpandCard

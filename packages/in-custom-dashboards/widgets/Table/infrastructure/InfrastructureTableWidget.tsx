@@ -9,10 +9,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { AggregationType, Group, TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
 
-import {
-  FormModelElement,
-  fromBackendModel
-} from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 // @ts-expect-error
@@ -20,6 +16,7 @@ import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedI
 import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
@@ -75,9 +72,8 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const isGroup = groupBy && groupBy?.length > 0;
 
-  const [loadedItems, setLoadedItems] = useState(tableSize);
   const [tagFilterExpression, setTagFilterExpression] = useState(baseTagFilterExpression);
-  const isShowResultsVisible = loadedItems > 0 && totalItemsCount;
+  const isShowResultsVisible = tableSize > 0 && totalItemsCount;
 
   const kpiDefinitions = getKpiDefinitions(type);
 
@@ -158,7 +154,7 @@ function InfrastructureTable(props: TableWidgetProps) {
             {isShowResultsVisible && (
               <Typography variant="body-bold">
                 {t('in-custom-dashboards:widgets.table.form.infrastructure.showResult', {
-                  loadedItems: Math.min(loadedItems, totalItemsCount),
+                  loadedItems: Math.min(tableSize, totalItemsCount),
                   totalItems: totalItemsCount
                 })}
               </Typography>
@@ -181,7 +177,6 @@ function InfrastructureTable(props: TableWidgetProps) {
             backendQueryModel={tagFilterExpression}
             backendGroupBy={backendGroupBy}
             getTotalItems={setTotalItemsCount}
-            getLoadedItems={setLoadedItems}
             groupBy={groupBy}
             isHeaderVisible={false}
             isLoadMoreEnabled={false}
@@ -206,7 +201,6 @@ function InfrastructureTable(props: TableWidgetProps) {
             backendQueryModel={tagFilterExpression}
             displayChart={false}
             getTotalItems={setTotalItemsCount}
-            getLoadedItems={setLoadedItems}
             isLoadMoreEnabled={false}
             isPreview={isPreview}
             isSearchable
@@ -294,13 +288,10 @@ function getTagFilterExpressionFromQuery({
         {
           type: 'EXPRESSION',
           logicalOperator: 'OR',
-          elements: [
-            tagFiltersFromEntity,
-            ...tagFiltersFromGroups
-          ]
+          elements: [tagFiltersFromEntity, ...tagFiltersFromGroups]
         }
       ]
-    }
+    };
 
     setTagFilterExpression(updatedTagFilterExpression);
   } else {

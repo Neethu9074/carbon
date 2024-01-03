@@ -72,7 +72,7 @@ export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 
-export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', false);
+export const apiTokenDialogEnabled = isFeatureFlagEnabled('apiTokenDialogEnabled', true);
 
 export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', true);
 
@@ -213,3 +213,5 @@ export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applic
 export const simplifiedFlowMapEnabled = isFeatureFlagEnabled('simplifiedFlowMapEnabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
+
+export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);

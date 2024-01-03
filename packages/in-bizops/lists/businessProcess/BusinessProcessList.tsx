@@ -90,7 +90,7 @@ export function getBusinessProcessListData({
   const sparkChartGranularity = getChartGranularity(timeConfig);
 
   const businessProcessMetric: MetricConfiguration = {
-    metric: 'bpm_root_process_id',
+    metric: 'started_processes',
     granularity: sparkChartGranularity,
     aggregation: 'DISTINCT_COUNT'
   };

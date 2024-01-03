@@ -76,6 +76,7 @@ export default function InfrastructureList({
     isPreview,
     isSearchable,
     hasMetricsChanged: !isEqual(previousMetrics, metrics),
+    retrievalSize,
     metrics
   });
 

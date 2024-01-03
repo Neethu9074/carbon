@@ -1252,7 +1252,8 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
-        "thresholdValue": "Threshold Value"
+        "thresholdValue": "Threshold Value",
+        "ruleFormMetricError": "Please select a metric"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",

@@ -20,6 +20,7 @@
     "viewInAnalyticsBtnLabel": "View in Analyze",
     "chartLendMetricTimeShifted": "Metric is time shifted to: {{timeShiftedLabel}}",
     "chartDownloadLabel": "Download JSON",
+    "chartDownloadCSVLabel": "Download CSV",
     "chartGlobalHighlightLabel": "Highlight on all charts",
     "chartZoomInLabel": "Zoom to time range",
     "chartAlertsLanePresenterAlertsLabel": "Alerts",

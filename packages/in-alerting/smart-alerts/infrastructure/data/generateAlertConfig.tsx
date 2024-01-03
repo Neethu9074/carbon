@@ -11,6 +11,7 @@ import {
   StaticThresholdConfig
 } from '@instana/types';
 
+import { defaultTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export interface InfraAlertConfigWithID extends InfraAlertConfig {
@@ -45,7 +46,7 @@ export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
     threshold,
     timeThreshold: {
       type: 'violationsInSequence',
-      timeWindow: 1
+      timeWindow: defaultTimeWindow
     }
   };
 }
