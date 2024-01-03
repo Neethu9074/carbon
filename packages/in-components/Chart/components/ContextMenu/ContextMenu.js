@@ -10,7 +10,8 @@ import { Button, keyCodes, SvgIcon } from '@instana/components';
 import { on } from '@instana/observables';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
-import downloadAction from 'in-components/Chart/components/ContextMenu/actions/download';
+import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';
+import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
@@ -44,8 +45,12 @@ export default class extends React.Component {
         getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
       },
       allowDownloadMetricsFromCharts && {
-        ...downloadAction,
-        onClick: () => downloadAction.onClick(this.props.metrics, highlightedTimeframe)
+        ...downloadJSONAction,
+        onClick: () => downloadJSONAction.onClick(this.props.metrics, highlightedTimeframe)
+      },
+      allowDownloadMetricsFromCharts && {
+        ...downloadCSVAction,
+        onClick: () => downloadCSVAction.onClick(this.props.metrics, highlightedTimeframe)
       }
     ];
 
