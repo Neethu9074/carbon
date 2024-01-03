@@ -11,9 +11,12 @@ import { Button } from '@instana/components';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-export default function DisabledTagFilterButton() {
+interface DisabledTagFilterButtonProps {
+  width?: string;
+}
+export default function DisabledTagFilterButton({ width }: DisabledTagFilterButtonProps) {
   return (
-    <Section title={t('in-service-levels:createSloDialog.customFilter')}>
+    <Section title={t('in-service-levels:createSloDialog.customFilter')} titleWidth={width}>
       <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
         {t('in-components:queryBuilder.components.filterButtonAddFilter')}
       </Button>

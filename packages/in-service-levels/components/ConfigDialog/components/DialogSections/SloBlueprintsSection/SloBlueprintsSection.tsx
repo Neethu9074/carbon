@@ -31,39 +31,44 @@ export default function SloBlueprintsSection() {
   const isFormInEditMode = mode === 'EDIT';
 
   return (
-    <TabSelect<CustomBlueprintType>
-      activePanelId={blueprintField.value ?? defaultBlueprint}
-      onChange={blueprint => {
-        onChange(['indicator', 'blueprint'], () => blueprintField.setValue(blueprint));
-      }}
-    >
-      <TabSelectHeader>
-        <Typography variant="heading-200" noWrap noMargin>
-          {t('in-service-levels:createSloDialog.selectIndicator')}
-        </Typography>
-      </TabSelectHeader>
-      <TabSelectMenu>
-        <TabSelectItem<CustomBlueprintType> forId="latency" disabled={isFormInEditMode} withRadioButton>
-          <span>{t('in-service-levels:general.latency')}</span>
-        </TabSelectItem>
-        <TabSelectItem<CustomBlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
-          <span>{t('in-service-levels:general.availability')}</span>
-        </TabSelectItem>
-        <TabSelectItem<CustomBlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
-          <span>{t('in-service-levels:general.custom')}</span>
-        </TabSelectItem>
-      </TabSelectMenu>
-      <TabSelectPanels>
-        <TabSelectPanel<CustomBlueprintType> id="latency">
-          <SloIndicatorLatencyForm />
-        </TabSelectPanel>
-        <TabSelectPanel<CustomBlueprintType> id="availability">
-          <SloIndicatorAvailabilityForm />
-        </TabSelectPanel>
-        <TabSelectPanel<CustomBlueprintType> id="custom">
-          <SloIndicatorCustomForm />
-        </TabSelectPanel>
-      </TabSelectPanels>
-    </TabSelect>
+    <section>
+      <Typography variant="heading-200" component="h2">
+        {t('in-service-levels:createSloDialog.selectIndicatorTitle')}
+      </Typography>
+      <TabSelect<CustomBlueprintType>
+        activePanelId={blueprintField.value ?? defaultBlueprint}
+        onChange={blueprint => {
+          onChange(['indicator', 'blueprint'], () => blueprintField.setValue(blueprint));
+        }}
+      >
+        <TabSelectHeader>
+          <Typography variant="heading-200" noWrap noMargin>
+            {t('in-service-levels:createSloDialog.selectIndicator')}
+          </Typography>
+        </TabSelectHeader>
+        <TabSelectMenu>
+          <TabSelectItem<CustomBlueprintType> forId="latency" disabled={isFormInEditMode} withRadioButton>
+            <span>{t('in-service-levels:general.latency')}</span>
+          </TabSelectItem>
+          <TabSelectItem<CustomBlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
+            <span>{t('in-service-levels:general.availability')}</span>
+          </TabSelectItem>
+          <TabSelectItem<CustomBlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
+            <span>{t('in-service-levels:general.custom')}</span>
+          </TabSelectItem>
+        </TabSelectMenu>
+        <TabSelectPanels>
+          <TabSelectPanel<CustomBlueprintType> id="latency">
+            <SloIndicatorLatencyForm />
+          </TabSelectPanel>
+          <TabSelectPanel<CustomBlueprintType> id="availability">
+            <SloIndicatorAvailabilityForm />
+          </TabSelectPanel>
+          <TabSelectPanel<CustomBlueprintType> id="custom">
+            <SloIndicatorCustomForm />
+          </TabSelectPanel>
+        </TabSelectPanels>
+      </TabSelect>
+    </section>
   );
 }

@@ -39,7 +39,7 @@ export default function SloScopeWebsiteSection() {
             value={beaconTypeField.value}
           />
         </Section>
-        <WebsiteTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} />
+        <WebsiteTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} width={titleWidth} />
       </Sections>
     </section>
   );

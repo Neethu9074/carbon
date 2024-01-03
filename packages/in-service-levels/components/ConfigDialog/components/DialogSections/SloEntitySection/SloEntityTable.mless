@@ -22,3 +22,6 @@
     pointer-events: none;
   }
 }
+.itemHeader {
+  background-color: var(--ids-color-option-neutral-200);
+}

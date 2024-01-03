@@ -126,11 +126,12 @@
   "createSloDialog": {
     "customFilter": "Custom Filter (optional)",
     "title": "Create Service Level Objective (SLO)",
-    "selectIndicator": "Select Indicator",
+    "selectIndicator": "Select Blueprints",
     "selectEntityNavItem": "Select Entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
     "selectScopeNavItem": "Select Scope",
     "selectScopeTitle": "Select Scope",
+    "selectIndicatorTitle": "SLI Indicator",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
