@@ -8,12 +8,12 @@ import { AgentRequest } from '@instana/types';
 
 import createSubscription from 'in-subscription/subscription';
 
-export default createSubscription<AgentRequest, AgentResponse>({
+export default createSubscription<AgentRequest, ActionInstance>({
   eventId: 'submitAction',
   memoizeFor: 100
 });
 
-export type AgentResponse = {
-  data: { actionInstanceId: string };
-  error: string;
+export type ActionInstance = {
+  actionInstanceId: string;
+  errorMessage: string;
 };
