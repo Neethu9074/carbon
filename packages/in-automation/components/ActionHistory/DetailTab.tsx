@@ -199,7 +199,7 @@ export default function DetailTab({
     const id = metadata?.find(data => data.name === 'id');
     const url = metadata?.find(data => data.name === 'url');
     if (id && url) {
-      const ticketUrlValue = `${id.value}`;
+      const ticketUrlValue = `${url.value}`;
       tableData.push({
         label: isJira(type) ? t('in-automation:actionHistory.taskUrl') : t('in-automation:actionHistory.issueUrl'),
         value: id.value ?? '',
