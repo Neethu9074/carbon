@@ -71,7 +71,7 @@ export default function Timeline({ details, startTime, finishTime }: TimelinePro
           <div className={locals.overviewChartContainer}>
             {
               // @ts-expect-error Object is possibly undefined
-              data.subtransactions?.length > 0 && data?.subtransactions[0]?.properties != null && (
+              data?.subtransactions?.length > 0 && data?.subtransactions[0]?.properties != null && (
                 <OverviewChart
                   subtransactions={filteredSubtransactions}
                   earliestTimestamp={startTime}
