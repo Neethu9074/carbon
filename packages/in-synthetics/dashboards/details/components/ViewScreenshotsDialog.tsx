@@ -15,7 +15,7 @@ import {
   SecondLevelNavigation,
   SecondLevelNavigationItem
 } from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
-import { ViewScreenshotsDialogProps, dummyTestResultImages } from 'in-synthetics/utils/constants';
+import { ResultImages, ViewScreenshotsDialogProps, dummyTestResultImages } from 'in-synthetics/utils/constants';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -64,14 +64,14 @@ export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreensh
             text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.ScreenshotsLoadingMessage')}
             className={locals.loading}
           />
-        ) : Object.keys(data?.imageFiles).length === 0 ? (
+        ) : Object.keys((data as ResultImages)?.imageFiles).length === 0 ? (
           <NoDataAvailable
             type="lib_synthetic"
             height={160}
             text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.noScreenshotsAvailableMessage')}
           />
         ) : (
-          Object.keys(data?.imageFiles).length && (
+          Object.keys((data as ResultImages)?.imageFiles).length && (
             <>
               <div className={locals.buttonWrapper}>
                 <Button
@@ -79,12 +79,12 @@ export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreensh
                   kind="secondary"
                   icon={'lib_actions_download'}
                   onClick={() => download('IMAGES', imageRef)}
-                  hidden={Object.keys(data?.imageFiles).length <= 1}
+                  hidden={Object.keys((data as ResultImages)?.imageFiles).length <= 1}
                 >
                   {t('in-synthetics:dashboard.detailsPage.viewScreenshots.allImagesButton')}
                 </Button>
               </div>
-              {Object.keys(data?.imageFiles).map(filename => {
+              {Object.keys((data as ResultImages)?.imageFiles).map(filename => {
                 return (
                   <div className={locals.imagesWrapper} key={generateUniqueShortId()}>
                     <Button
