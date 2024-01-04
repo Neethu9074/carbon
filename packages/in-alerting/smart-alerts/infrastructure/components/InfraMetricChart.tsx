@@ -19,34 +19,41 @@ import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetri
 interface InfraMetricChartProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  groupBy: string[];
+  entityType: string;
+  metricName: string;
 }
 
-export function InfraMetricChart({ alertConfig, timeConfig }: InfraMetricChartProps) {
+export function InfraMetricChart({ alertConfig, timeConfig, groupBy, entityType, metricName }: InfraMetricChartProps) {
   const selectedMetricGroup = useObservable(selectedMetricGroup$, []);
 
-  if (!selectedMetricGroup) {
+  if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
     return (
       <div className={local.minHeight}>
         <Message withIcon>{t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}</Message>
       </div>
     );
+  } else if (groupBy.length === 0 && entityType && metricName) {
+    return <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={timeConfig} />;
   }
 
-  let chartPreviewName = Object.entries(selectedMetricGroup).map(([, value]) => {
-    return value;
-  });
+  let chartPreviewName =
+    selectedMetricGroup &&
+    Object.entries(selectedMetricGroup).map(([, value]) => {
+      return value;
+    });
 
   return (
     <div className={local.minHeight}>
       <div className={local.container}>
         {t('in-alerting:smartAlerts.infrastructure.previewFor')}
-        <h4 className={local.space}> {chartPreviewName.join(', ')}</h4>
+        <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>
       </div>
 
       <InfraAlertChartWrapper
         alertConfig={alertConfig}
         timeConfig={timeConfig}
-        selectedMetricGroup={selectedMetricGroup}
+        selectedMetricGroup={selectedMetricGroup ?? undefined}
       />
     </div>
   );

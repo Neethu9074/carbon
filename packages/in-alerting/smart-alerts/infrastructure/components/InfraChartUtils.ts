@@ -18,11 +18,19 @@ import { NumberFormatterObject } from 'in-services/formatters/number/types';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
+import { minutes } from 'in-services/time';
 
 interface UnifiedMetricConfigProps {
   alertConfig: InfraAlertConfigWithMetadata;
   selectedMetricGroup?: Tags;
 }
+
+export const chartTimeConfig = {
+  autoRefresh: false,
+  to: Date.now(),
+  windowSize: minutes.toMillis(30),
+  focusedMoment: Date.now()
+};
 
 export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: UnifiedMetricConfigProps) {
   const { entityType, metricName, aggregation, crossSeriesAggregation } = alertConfig.rule;
@@ -47,6 +55,12 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
           : [tagFilterExpression, groupingTFE]
       };
     }
+  } else if (!('elements' in tagFilterExpression)) {
+    tagFilterExpression = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: isArray(tagFilterExpression) ? [...tagFilterExpression] : [tagFilterExpression]
+    };
   }
 
   const metricDefinition = getMetricDefinition(entityType, metricName);

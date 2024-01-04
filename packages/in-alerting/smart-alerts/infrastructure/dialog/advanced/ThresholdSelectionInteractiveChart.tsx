@@ -16,12 +16,12 @@ import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/compone
 import { infraAlertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { getPluginName } from 'in-sdk/pluginName';
-import { minutes } from 'in-services/time/time';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -69,12 +69,7 @@ export default function ThresholdSelectionInteractiveChart({
 
   // Since the timeConfig is part of the dependency array for the 'getGroups' API, memoised it to avoid the table refreshing frequently.
   const timeConfig = useMemo(() => {
-    return {
-      autoRefresh: false,
-      to: Date.now(),
-      windowSize: minutes.toMillis(30),
-      focusedMoment: Date.now()
-    };
+    return chartTimeConfig;
   }, []);
 
   useEffect(() => {
@@ -105,6 +100,9 @@ export default function ThresholdSelectionInteractiveChart({
             <InfraMetricChart
               alertConfig={alertConfigModel as InfraAlertConfigWithMetadata}
               timeConfig={chartViewConfig.timeConfig}
+              groupBy={groupBy}
+              entityType={entityType}
+              metricName={metricName}
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup

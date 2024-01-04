@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
@@ -58,7 +58,7 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
-  setRetrievalSize: any;
+  setRetrievalSize: React.Dispatch<number>;
 }
 
 /**
@@ -94,14 +94,34 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
   const isLoading = progress && progress?.loading;
   const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
 
+  const lastGroupByValue = useRef<any>([]);
+
   useEffect(() => {
-    // If the value is not in the'selectedMetricGroup', set the first one as selected by default.
-    setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup);
+    if (isLoading) return;
+
+    if (items?.length > 0) {
+      // If the value is not in the'selectedMetricGroup', set the first one as selected by default.
+      setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup);
+    } else {
+      // if the loading is completed and the item is empty set the selected metric group to null
+      setSelectedMetricGroup(undefined);
+      selectedMetricGroup$.emit(null);
+    }
 
     if (selectedMetricGroup) {
       selectedMetricGroup$.emit(selectedMetricGroup);
     }
-  }, [selectedMetricGroup, items]);
+  }, [selectedMetricGroup, items, isLoading]);
+
+  useEffect(() => {
+    if (!isEqual(lastGroupByValue.current, groupBy)) {
+      lastGroupByValue.current = groupBy;
+      setSelectedMetricGroup(undefined);
+      selectedMetricGroup$.emit(null);
+      setRetrievalSize(5);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupBy]);
 
   const columnDefinitions = getColumnDefinition({
     groupBy,
@@ -116,7 +136,11 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
 
   return (
     <>
-      <div className={local.tableMinHeight}>
+      <div
+        className={classNames({
+          [locals.tableMinHeight]: items?.length >= 5
+        })}
+      >
         <InfraMetricGroupHeader
           isLoading={isLoading}
           totalHits={totalHits}
@@ -285,7 +309,7 @@ function Loading({ progress }: { progress: Progress }): JSX.Element {
     <Table className={local.fullWidth}>
       <Tbody>
         <TableHorizontalIndicatorRow cols={3} progress={progress} />
-        {progress.loading && <TableLoadingSkeletonRows cols={3} rows={3} />}
+        <TableLoadingSkeletonRows cols={3} rows={6} />
       </Tbody>
     </Table>
   );
