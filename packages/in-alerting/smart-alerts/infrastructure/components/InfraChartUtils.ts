@@ -6,12 +6,12 @@
 
 import { isArray } from 'lodash';
 
-import { InfraAlertConfigWithMetadata, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
+import { InfraAlertConfigWithMetadata, TagFilterExpression, TimeConfig } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import { addTagFilters, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NumberFormatterObject } from 'in-services/formatters/number/types';
@@ -36,19 +36,14 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
       groupingTFE.elements.push(groupExpression);
     });
 
-    let tagFE =
-      (tagFilterExpression as unknown as TagFilter[]).length > 0
-        ? toBackendQueryModel(tagFilterExpression as unknown as TagFilter[])
-        : [];
-
-    if ('elements' in tagFE) {
-      tagFilterExpression = addTagFilters(tagFE, [groupingTFE]);
+    if ('elements' in tagFilterExpression) {
+      tagFilterExpression = addTagFilters(tagFilterExpression, [groupingTFE]);
     } else {
       tagFilterExpression = {
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: isArray(tagFilterExpression)
-          ? [...(tagFilterExpression as unknown as TagFilter[]), groupingTFE]
+          ? [...tagFilterExpression, groupingTFE]
           : [tagFilterExpression, groupingTFE]
       };
     }
