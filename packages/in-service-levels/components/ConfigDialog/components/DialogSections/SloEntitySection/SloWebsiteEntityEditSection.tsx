@@ -12,6 +12,7 @@ import { Website } from '@instana/types';
 
 import SloEntityTable from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import Sections from 'in-components/workspace/Sections/Sections';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { t } from 'in-i18n';
 
@@ -27,7 +28,7 @@ export default function SloWebsiteEntityEditSection() {
   const [selectedWebsite, , , progress] = useWebsite(entityId);
 
   return (
-    <div>
+    <Sections>
       <Ul>
         <Li className={locals.itemHeader}>
           <Typography variant="heading-200" component="h2">
@@ -36,6 +37,6 @@ export default function SloWebsiteEntityEditSection() {
         </Li>
       </Ul>
       <SloEntityTable disabled entityList={[selectedWebsite] as Website[]} onChange={noop} progress={progress} />
-    </div>
+    </Sections>
   );
 }

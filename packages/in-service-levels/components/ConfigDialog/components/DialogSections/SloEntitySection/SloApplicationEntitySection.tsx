@@ -18,6 +18,7 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import useApplicationEntities from 'in-service-levels/hooks/useApplicationEntities';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useApplication from 'in-applications/hooks/useApplication';
+import Sections from 'in-components/workspace/Sections/Sections';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -65,7 +66,7 @@ export default function SloApplicationEntitySection() {
   const progress = all(entityAlreadyLoaded || !entityId ? finishedProgress : labelProgress, entitiesProgress);
 
   return (
-    <div>
+    <Sections>
       <Ul>
         <Li className={locals.itemHeader}>
           <Typography variant="heading-200" component="h2">
@@ -86,6 +87,6 @@ export default function SloApplicationEntitySection() {
         canLoadMore={canLoadMore}
         loadMore={loadMore}
       />
-    </div>
+    </Sections>
   );
 }

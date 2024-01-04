@@ -10,6 +10,8 @@ import { noop } from 'lodash';
 import { Li, Typography, Ul } from '@instana/components';
 import { Application } from '@instana/types';
 
+// import Section from 'in-components/workspace/Section/Section';
+import Sections from 'in-components/workspace/Sections/Sections';
 import SloEntityTable from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useApplication from 'in-applications/hooks/useApplication';
@@ -27,7 +29,10 @@ export default function SloApplicationEntityEditSection() {
   const [selectedApplication, , , progress] = useApplication(entityId);
 
   return (
-    <div>
+    // <div>
+
+    // <div>
+    <Sections>
       <Ul>
         <Li className={locals.itemHeader}>
           <Typography variant="heading-200" component="h2">
@@ -41,6 +46,6 @@ export default function SloApplicationEntityEditSection() {
         onChange={noop}
         progress={progress}
       />
-    </div>
+    </Sections>
   );
 }

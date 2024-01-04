@@ -17,6 +17,7 @@ import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloF
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
+import Sections from 'in-components/workspace/Sections/Sections';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -66,7 +67,7 @@ export default function SloWebsiteEntitySection() {
   const progress = all(entityAlreadyLoaded || !entityId ? finishedProgress : labelProgress, entitiesProgress);
 
   return (
-    <div>
+    <Sections>
       <Ul>
         <Li className={locals.itemHeader}>
           <Typography variant="heading-200" component="h2">
@@ -88,6 +89,6 @@ export default function SloWebsiteEntitySection() {
         canLoadMore={canLoadMore}
         loadMore={loadMore}
       />
-    </div>
+    </Sections>
   );
 }
