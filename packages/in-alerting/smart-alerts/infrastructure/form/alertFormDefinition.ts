@@ -8,6 +8,8 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+//@ts-expect-error
+import { groupbyTag } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
@@ -80,7 +82,7 @@ export default function alertFormDefinition(
     .put(
       'groupBy',
       createField({
-        value: groupBy
+        value: groupbyTag(groupBy)
       })
     )
     .put(
