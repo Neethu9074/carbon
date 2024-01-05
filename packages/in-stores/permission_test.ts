@@ -49,6 +49,7 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = true;
       featureFlags.actionAutomationEnabled = true;
+      featureFlags.automationPoliciesEnabled = true;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -72,6 +73,7 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = false;
       featureFlags.actionAutomationEnabled = true;
+      featureFlags.automationPoliciesEnabled = true;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -95,6 +97,7 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = true;
       featureFlags.actionAutomationEnabled = false;
+      featureFlags.automationPoliciesEnabled = false;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -120,6 +123,7 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = false;
       featureFlags.actionAutomationEnabled = false;
+      featureFlags.automationPoliciesEnabled = false;
 
       // Given
       const productPermissions = getProductPermissions();
