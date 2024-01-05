@@ -64,7 +64,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const {
     timeThreshold,
     granularity,
-    rule: { metricName, entityType, aggregation, crossSeriesAggregation },
+    rule: { metricName, entityType, aggregation, crossSeriesAggregation, regex },
     threshold,
     alertChannelIds,
     tagFilterExpression,
@@ -89,7 +89,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, entityLabel);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });

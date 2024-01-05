@@ -52,6 +52,7 @@ export default function ThresholdSelectionInteractiveChart({
   const entityType = ruleForm.get('entityType').value;
   const metricName = ruleForm.get('metricName').value;
   const aggregation = ruleForm.get('aggregation').value;
+  const regex = false;
 
   const crossSeriesAggregation = ruleForm.get('crossSeriesAggregation').value;
 
@@ -62,7 +63,7 @@ export default function ThresholdSelectionInteractiveChart({
 
   const backendGroupBy = groupBy?.map((groups: any) => groups?.groupbyTag) ?? [];
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
-  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, entityLabel);
   const backendQueryModel = toBackendQueryModel(tagFilterExpression);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
@@ -133,6 +134,7 @@ export interface MetricType {
  * @param metricName The metric name.
  * @param aggregation The aggregation.
  * @param crossSeriesAggregation The cross series aggregation.
+ * @param regex Whether the metric name represents a regex for selecting metrics
  * @param entityLabel The entity label.
  * @returns The metrics.
  */
@@ -140,14 +142,15 @@ export function getMetrics(
   metricName: string,
   aggregation: AggregationType,
   crossSeriesAggregation: AggregationType,
-  entityLabel?: string
+  regex: boolean,
+  entityLabel?: string,
 ): MetricType[] {
   return [
     {
       metric: metricName,
       aggregation: aggregation ?? 'MEAN',
       crossSeriesAggregation: crossSeriesAggregation,
-      regex: false,
+      regex,
       label: entityLabel
     }
   ];

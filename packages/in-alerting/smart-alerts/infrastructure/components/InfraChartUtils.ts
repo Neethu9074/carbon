@@ -4,14 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { isArray } from 'lodash';
-
-import { InfraAlertConfigWithMetadata, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
+import { InfraAlertConfigWithMetadata, TimeConfig } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import { addTagFilters, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NumberFormatterObject } from 'in-services/formatters/number/types';
@@ -25,33 +23,11 @@ interface UnifiedMetricConfigProps {
 }
 
 export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: UnifiedMetricConfigProps) {
-  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertConfig.rule;
+  const { entityType, metricName, aggregation, crossSeriesAggregation, regex } = alertConfig.rule;
   let { tagFilterExpression } = alertConfig;
 
   if (selectedMetricGroup) {
-    const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
-
-    Object.keys(selectedMetricGroup).forEach(function (key: any) {
-      const groupExpression = tagFilter(key, EQUALS, selectedMetricGroup[key]);
-      groupingTFE.elements.push(groupExpression);
-    });
-
-    let tagFE =
-      (tagFilterExpression as unknown as TagFilter[]).length > 0
-        ? toBackendQueryModel(tagFilterExpression as unknown as TagFilter[])
-        : [];
-
-    if ('elements' in tagFE) {
-      tagFilterExpression = addTagFilters(tagFE, [groupingTFE]);
-    } else {
-      tagFilterExpression = {
-        type: 'EXPRESSION',
-        logicalOperator: 'AND',
-        elements: isArray(tagFilterExpression)
-          ? [...(tagFilterExpression as unknown as TagFilter[]), groupingTFE]
-          : [tagFilterExpression, groupingTFE]
-      };
-    }
+    tagFilterExpression = addTagFilters(tagFilterExpression, Object.entries(selectedMetricGroup).map(([k, v]) => tagFilter(k, EQUALS, v)));
   }
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
@@ -80,7 +56,8 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
           source: 'INFRASTRUCTURE_METRICS',
           tagFilterExpression: tagFilterExpression,
           timeShift: 0,
-          type: entityType
+          type: entityType,
+          regex
         }
       ]
     }
@@ -94,7 +71,7 @@ interface ChartConfigProps {
 
 export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
   const { threshold, granularity } = alertConfig;
-  const { metricName, aggregation } = alertConfig.rule;
+  const { metricName, aggregation, regex } = alertConfig.rule;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
@@ -108,7 +85,8 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
         [metricName]: {
           metric: metricName,
           granularity,
-          aggregation
+          aggregation,
+          regex
         },
         ['violations']: {
           metric: 'violations',
