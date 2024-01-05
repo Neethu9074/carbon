@@ -231,7 +231,7 @@
       "failureMesssageDelete": "Failed to delete the location. Please try again later"
     },
     "updateTest":{
-      "dialogTitle": "Edit API Test",
+      "dialogTitle": "Edit {{syntheticType}} Test",
       "buttonSave": "Save",
       "scriptSavedMessage": "Script added",
       "bundleSavedMessage": "Bundled scripts added"
