@@ -17,8 +17,6 @@ import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichS
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { CreateBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer';
-//@ts-expect-error TS migration
-import { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
@@ -87,8 +85,6 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
   const { metricName, entityType } = rule as InfraAlertRuleUnion;
 
   const tagCatalog = useTagCatalog({ ownerType: entityType, metric: metricName, regex: false });
-  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
-  const isTagFilterFormModelValid = validTagFilterExpressionResult.data === true;
 
   const { getTagCatalog } = useMemo(() => CreateBoundedAlertQueryBuilder(tagCatalog as TagCatalog), [tagCatalog]);
 
@@ -121,7 +117,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       onCreate={() => onCreate(simpleMode)}
       isSaving={isSaving}
       editMode={editMode}
-      additionalValidationCheck={() => isTagFilterFormModelValid && isMetricAndEntityValid}
+      additionalValidationCheck={() => isMetricAndEntityValid}
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
@@ -151,7 +147,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       thresholdResult={null}
       timeConfig={timeConfig}
-      isTagFilterFormModelValid={isTagFilterFormModelValid}
+      isTagFilterFormModelValid
     />
   );
 }
