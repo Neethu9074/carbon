@@ -67,8 +67,8 @@ export default function InfraEventContent({ event }: Props) {
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
   const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
   const predictions = event.getIn(['metadata', 'predictions'], emptyList).toJS();
-  const lowerBound = event.getIn(['metadata', 'lowerBound'], emptyList).toJS();
-  const upperBound = event.getIn(['metadata', 'lowerBound'], emptyList).toJS();
+  const lowerBound = event.getIn(['metadata', 'predictionsLowerBound'], emptyList).toJS();
+  const upperBound = event.getIn(['metadata', 'predictionsUpperBound'], emptyList).toJS();
 
   const tagFilterExpression = alertConfig.tagFilterExpression;
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
