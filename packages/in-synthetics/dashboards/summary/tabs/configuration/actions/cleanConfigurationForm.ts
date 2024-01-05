@@ -14,6 +14,7 @@ import { isBlank, isNotBlank } from 'in-services/util/string';
 const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): SyntheticTest => {
   const testId: string = test.id || '';
   const isActive: boolean = test.active;
+  const modifiedAt: number = test.modifiedAt || 0;
   const { retries, timeout, retryInterval, markSyntheticCall } = test.configuration;
   const isBrowserScript = form.get('configuration').get('syntheticType').value === 'BrowserScript';
   const isHTTPScript = form.get('configuration').get('syntheticType').value === 'HTTPScript';
@@ -25,30 +26,36 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
   // Add common properties
   updatedForm =
     isHTTPScript || isBrowserScript
-      ? form.put('active', createField({ value: isActive })).put(
-          'configuration',
-          form
-            .get('configuration')
-            .put('retries', createField({ value: retries }))
-            .put('timeout', createField({ value: timeout }))
-            .put('retryInterval', createField({ value: retryInterval }))
-            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
-            .put(
-              'scriptType',
-              createField({
-                value: (test.configuration as BrowserScriptConfiguration | HttpScriptConfiguration).scriptType
-              })
-            )
-        )
-      : form.put('active', createField({ value: isActive })).put(
-          'configuration',
-          form
-            .get('configuration')
-            .put('retries', createField({ value: retries }))
-            .put('timeout', createField({ value: timeout }))
-            .put('retryInterval', createField({ value: retryInterval }))
-            .put('markSyntheticCall', createField({ value: markSyntheticCall }))
-        );
+      ? form
+          .put('active', createField({ value: isActive }))
+          .put('modifiedAt', createField({ value: modifiedAt }))
+          .put(
+            'configuration',
+            form
+              .get('configuration')
+              .put('retries', createField({ value: retries }))
+              .put('timeout', createField({ value: timeout }))
+              .put('retryInterval', createField({ value: retryInterval }))
+              .put('markSyntheticCall', createField({ value: markSyntheticCall }))
+              .put(
+                'scriptType',
+                createField({
+                  value: (test.configuration as BrowserScriptConfiguration | HttpScriptConfiguration).scriptType
+                })
+              )
+          )
+      : form
+          .put('active', createField({ value: isActive }))
+          .put('modifiedAt', createField({ value: modifiedAt }))
+          .put(
+            'configuration',
+            form
+              .get('configuration')
+              .put('retries', createField({ value: retries }))
+              .put('timeout', createField({ value: timeout }))
+              .put('retryInterval', createField({ value: retryInterval }))
+              .put('markSyntheticCall', createField({ value: markSyntheticCall }))
+          );
 
   // Add browser property if present in browser script test
   // @ts-expect-error browser property could be present
