@@ -103,6 +103,7 @@ export default function ThresholdSelectionInteractiveChart({
               groupBy={groupBy}
               entityType={entityType}
               metricName={metricName}
+              alertsPreviewEnabled
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup

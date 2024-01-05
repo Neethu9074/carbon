@@ -6,7 +6,14 @@
 
 import { isArray } from 'lodash';
 
-import { InfraAlertConfigWithMetadata, TagFilterExpression, TimeConfig } from '@instana/types';
+import {
+  Granularity,
+  InfraAlertConfigWithMetadata,
+  InfraAlertRuleUnion,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  TimeConfig
+} from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
@@ -20,11 +27,6 @@ import { getFormatterId } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
 import { minutes } from 'in-services/time';
 
-interface UnifiedMetricConfigProps {
-  alertConfig: InfraAlertConfigWithMetadata;
-  selectedMetricGroup?: Tags;
-}
-
 export const chartTimeConfig = {
   autoRefresh: false,
   to: Date.now(),
@@ -32,10 +34,10 @@ export const chartTimeConfig = {
   focusedMoment: Date.now()
 };
 
-export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: UnifiedMetricConfigProps) {
-  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertConfig.rule;
-  let { tagFilterExpression } = alertConfig;
-
+export function getEnrichedTagFilterExpression(
+  tagFilterExpression: TagFilterExpressionElementUnion,
+  selectedMetricGroup: Tags | undefined
+) {
   if (selectedMetricGroup) {
     const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 
@@ -62,6 +64,15 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
       elements: isArray(tagFilterExpression) ? [...tagFilterExpression] : [tagFilterExpression]
     };
   }
+  return tagFilterExpression;
+}
+
+export function getUnifiedMetricConfig(
+  alertRule: InfraAlertRuleUnion,
+  enrichedTagFilterExpression: TagFilterExpressionElementUnion,
+  granularity: Granularity
+) {
+  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertRule;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const metricLabel = metricDefinition.getLabel();
@@ -75,7 +86,7 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
 
   return {
     type: 'TIME_SERIES',
-    granularity: alertConfig.granularity,
+    granularity,
     y1: {
       formatter: metricFormatterId,
       min: 0,
@@ -87,7 +98,7 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
           label: metricLabel,
           metric: metricName,
           source: 'INFRASTRUCTURE_METRICS',
-          tagFilterExpression: tagFilterExpression,
+          tagFilterExpression: enrichedTagFilterExpression,
           timeShift: 0,
           type: entityType
         }

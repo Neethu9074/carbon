@@ -11,7 +11,9 @@ import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart.mless';
@@ -22,10 +24,18 @@ interface InfraMetricChartProps {
   groupBy: string[];
   entityType: string;
   metricName: string;
+  alertsPreviewEnabled?: boolean;
 }
 
-export function InfraMetricChart({ alertConfig, timeConfig, groupBy, entityType, metricName }: InfraMetricChartProps) {
-  const selectedMetricGroup = useObservable(selectedMetricGroup$, []);
+export function InfraMetricChart({
+  alertConfig,
+  timeConfig,
+  groupBy,
+  entityType,
+  metricName,
+  alertsPreviewEnabled = false
+}: InfraMetricChartProps) {
+  const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as Tags | Nullish;
 
   if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
     return (
@@ -34,7 +44,13 @@ export function InfraMetricChart({ alertConfig, timeConfig, groupBy, entityType,
       </div>
     );
   } else if (groupBy.length === 0 && entityType && metricName) {
-    return <InfraAlertChartWrapper alertConfig={alertConfig} timeConfig={timeConfig} />;
+    return (
+      <InfraAlertChartWrapper
+        alertConfig={alertConfig}
+        timeConfig={timeConfig}
+        alertsPreviewEnabled={alertsPreviewEnabled}
+      />
+    );
   }
 
   let chartPreviewName =
@@ -54,6 +70,7 @@ export function InfraMetricChart({ alertConfig, timeConfig, groupBy, entityType,
         alertConfig={alertConfig}
         timeConfig={timeConfig}
         selectedMetricGroup={selectedMetricGroup ?? undefined}
+        alertsPreviewEnabled={alertsPreviewEnabled}
       />
     </div>
   );

@@ -71,6 +71,7 @@ export default function AlertingChart({
             <AlertsPreviewLane
               getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
               alertsPreviewConfiguration={alertsPreviewQuery}
+              resultMetricKey="alerts"
             />
           </MarkerLanesPresenter>
         );

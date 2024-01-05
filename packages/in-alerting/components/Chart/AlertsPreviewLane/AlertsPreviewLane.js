@@ -13,6 +13,7 @@ import AlertsPreviewLanePresenter from 'in-alerting/components/Chart/AlertsPrevi
 import { trackAlertPreviewMarkerFetchRetry } from 'in-alerting/components/Chart/AlertsPreviewLane/tracker';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import { isLoading, hasError } from 'in-services/util/result';
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export default function AlertsPreviewLanePropsChecker(props) {
@@ -24,7 +25,7 @@ export default function AlertsPreviewLanePropsChecker(props) {
   return <AlertsPreviewLane {...props} />;
 }
 
-function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
+function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, resultMetricKey, ...remainingProps }) {
   const [retryCounter, setRetryCounter] = React.useState(0);
 
   const result =
@@ -32,6 +33,7 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...re
       getAlertsPreview,
       alertsPreviewConfiguration,
       remainingProps.clusterSizeMillis,
+      resultMetricKey,
       // we use this counter also to trigger the reloading when the counter was changed.
       retryCounter
     ]) ?? pendingResult;
@@ -73,16 +75,27 @@ function isConfigValid({ granularity, threshold }) {
 
 AlertsPreviewLane.propTypes = {
   alertsPreviewConfiguration: PropTypes.object,
-  getAlertsPreview: PropTypes.func
+  getAlertsPreview: PropTypes.func,
+  resultMetricKey: PropTypes.string
 };
 
-function getAlertsPreviewObservable([getAlertsPreview, alertsPreviewConfiguration, clusterSizeMillis]) {
+function getAlertsPreviewObservable([
+  getAlertsPreview,
+  alertsPreviewConfiguration,
+  clusterSizeMillis,
+  resultMetricKey
+]) {
   return getAlertsPreview({ ...alertsPreviewConfiguration, granularity: clusterSizeMillis })
     .startWith(pendingResult)
     .map(result => {
+      const alerts = isNotBlank(resultMetricKey)
+        ? // when the result is a metric-map, pick the appropriate metric
+          result.data?.[resultMetricKey]
+        : // when the result is just a single metric
+          result.data;
       return {
         ...result,
-        data: result.data?.alerts.map(([timestamp, count]) => ({ timestamp, count })) ?? []
+        data: alerts?.map(([timestamp, count]) => ({ timestamp, count })) ?? []
       };
     });
 }

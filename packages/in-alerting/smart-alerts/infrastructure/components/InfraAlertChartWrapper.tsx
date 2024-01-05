@@ -6,21 +6,38 @@
 
 import React from 'react';
 
-import { AggregationType, InfraAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
+import {
+  AggregationType,
+  GetInfraMetricAlertsPreviewQuery,
+  Granularity,
+  InfraAlertConfigWithMetadata,
+  InfraTimeThreshold,
+  Result,
+  StaticThresholdData,
+  TagFilter,
+  TagFilterExpression,
+  ThresholdData,
+  TimeConfig
+} from '@instana/types';
 
+import {
+  getChartConfig,
+  getEnrichedTagFilterExpression,
+  getUnifiedMetricConfig
+} from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 //@ts-expect-error TS migration
 import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 //@ts-expect-error TS migration
 import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
-import {
-  getUnifiedMetricConfig,
-  getChartConfig
-} from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+// @ts-expect-error TS migration
+import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
+import getInfraMetricsAlertPreview from 'in-alerting/smart-alerts/infrastructure/subscriptions/getInfraMetricsAlertPreview';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // @ts-expect-error TS migration
 import { getUniqueMetricsAndLabels } from 'in-infrastructure/Explore/Explore';
 import { MetricItem } from 'in-custom-dashboards/widgets/Table/infrastructure/InfrastructureTableWidget';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
@@ -37,14 +54,24 @@ interface InfraAlertChartWrapperProps {
   lowerBound?: number[][];
   upperBound?: number[][];
   selectedMetricGroup?: Tags;
+  alertsPreviewEnabled?: boolean;
 }
 
-export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProps) {
-  const { alertConfig, timeConfig, predictions, lowerBound, upperBound, selectedMetricGroup } = props;
+export default function InfraAlertChartWrapper({
+  alertConfig,
+  timeConfig,
+  predictions,
+  lowerBound,
+  upperBound,
+  selectedMetricGroup,
+  alertsPreviewEnabled
+}: InfraAlertChartWrapperProps) {
   const {
     threshold,
+    timeThreshold,
     granularity,
-    rule: { entityType, metricName, aggregation }
+    tagFilterExpression,
+    rule: { entityType, metricName, aggregation, crossSeriesAggregation }
   } = alertConfig;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
@@ -60,11 +87,8 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
 
   const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], displayPredictions);
 
-  // config to get unified metric data
-  const unifiedMetricConfig = getUnifiedMetricConfig({
-    alertConfig,
-    selectedMetricGroup
-  });
+  const enrichedTagFilterExpression = getEnrichedTagFilterExpression(tagFilterExpression, selectedMetricGroup);
+  const unifiedMetricConfig = getUnifiedMetricConfig(alertConfig.rule, enrichedTagFilterExpression, granularity);
 
   // chartProps to render the metric values and threshold to the chart
   const chartProps = {
@@ -123,6 +147,31 @@ export default function InfraAlertChartWrapper(props: InfraAlertChartWrapperProp
       {...metricChartProps}
       metricsConfiguration={extendMetricConfiguration(chartProps)}
       granularity={granularity}
+      renderPreChartContent={props => {
+        if (!alertsPreviewEnabled) {
+          return;
+        }
+
+        const alertsPreviewQuery = getAlertsPreviewQuery(
+          timeConfig,
+          enrichedTagFilterExpression,
+          metricName,
+          aggregation,
+          crossSeriesAggregation,
+          granularity,
+          threshold,
+          timeThreshold
+        );
+
+        return (
+          <MarkerLanesPresenter {...props}>
+            <AlertsPreviewLane
+              getAlertsPreview={getInfraMetricsAlertPreview}
+              alertsPreviewConfiguration={alertsPreviewQuery}
+            />
+          </MarkerLanesPresenter>
+        );
+      }}
     />
   );
 }
@@ -144,4 +193,41 @@ export function useGetMetricLabel(entityType: string, metricName: string, aggreg
   const uniqueMetrics = getUniqueMetricsAndLabels([metric], metricMetadatas);
 
   return uniqueMetrics.find((metric: MetricItem) => metric.metric === metricName)?.label;
+}
+
+function getAlertsPreviewQuery(
+  timeConfig: TimeConfig,
+  enrichedTagFilterExpression: TagFilter | TagFilterExpression,
+  metricName: string,
+  aggregation: AggregationType,
+  crossSeriesAggregation: AggregationType,
+  granularity: Granularity,
+  threshold: ThresholdData,
+  timeThreshold: InfraTimeThreshold
+) {
+  if (shouldRequestAlertsPreview(threshold)) {
+    return {
+      timeThreshold,
+      threshold,
+      granularity, // to request clustered alert preview results
+      metric: {
+        source: 'INFRASTRUCTURE_METRICS',
+        metric: metricName,
+        aggregation,
+        crossSeriesAggregation,
+        granularity,
+        tagFilterExpression: enrichedTagFilterExpression,
+        timeConfig,
+        regex: false
+      }
+    } as GetInfraMetricAlertsPreviewQuery;
+  }
+  return null;
+}
+
+function shouldRequestAlertsPreview(threshold: ThresholdData) {
+  if (threshold.type === 'staticThreshold') {
+    return (threshold as StaticThresholdData).value != null;
+  }
+  return false;
 }
