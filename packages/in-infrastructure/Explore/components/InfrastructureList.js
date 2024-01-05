@@ -20,7 +20,6 @@ import {
   getSeriesKey
 } from 'in-infrastructure/Explore/services/metrics';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
-import { getFormatter, getBackendTypeKeyByUiMetric } from 'in-services/formatters/backendFormatter';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
@@ -31,6 +30,7 @@ import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -341,9 +341,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         getContent(item) {
           const id = getMetricKey(metric, aggregation);
           const metadata = mapData(metricMetadatas, data => data[metric]);
-          const formatter = formatterId
-            ? getFormatter(getBackendTypeKeyByUiMetric(formatterId))
-            : mapData(metadata, data => data?.formatter).data;
+          const formatter = getFormatter(formatterId) ?? mapData(metadata, data => data?.formatter).data;
 
           const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
           const kpi = firstValue(item.metrics[id]);
