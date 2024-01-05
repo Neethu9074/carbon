@@ -132,6 +132,7 @@
     "selectScopeNavItem": "Select Scope",
     "selectScopeTitle": "Select Scope",
     "selectIndicatorTitle": "SLI Indicator",
+    "selectIndicatorNavItem": "Set Indicator",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
