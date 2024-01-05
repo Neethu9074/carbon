@@ -21,7 +21,6 @@ import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
-import { getPluginName } from 'in-sdk/pluginName';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -52,15 +51,15 @@ export default function ThresholdSelectionInteractiveChart({
   const aggregation = ruleForm.get('aggregation').value;
 
   const crossSeriesAggregation = ruleForm.get('crossSeriesAggregation').value;
+  const metricLabel = form.get('hiddenFields').get('metricLabel').value;
 
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
-  const entityLabel = getPluginName(entityType, 1);
 
   const backendGroupBy = groupBy?.map((groups: any) => groups?.groupbyTag) ?? [];
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
-  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, metricLabel);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
@@ -104,6 +103,7 @@ export default function ThresholdSelectionInteractiveChart({
               entityType={entityType}
               metricName={metricName}
               alertsPreviewEnabled
+              metricLabel={metricLabel}
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup

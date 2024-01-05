@@ -22,6 +22,7 @@ import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructur
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
+import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
@@ -89,7 +90,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, metricLabel);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
@@ -110,6 +112,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         <AlertThresholdInfos
           threshold={threshold as ThresholdConfigUnion & StaticThresholdConfig}
           rule={{ metricName, entityType } as InfraAlertRuleUnion}
+          metricLabel={metricLabel}
         />
       </ExpandableLightCard>
 
@@ -129,6 +132,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
               groupBy={groupBy}
               entityType={entityType}
               metricName={metricName}
+              metricLabel={metricLabel}
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup

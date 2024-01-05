@@ -50,6 +50,7 @@ import { getMetricDefinition } from 'in-sdk/metrics';
 interface InfraAlertChartWrapperProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  metricLabel: string;
   predictions?: number[][];
   lowerBound?: number[][];
   upperBound?: number[][];
@@ -64,7 +65,8 @@ export default function InfraAlertChartWrapper({
   lowerBound,
   upperBound,
   selectedMetricGroup,
-  alertsPreviewEnabled
+  alertsPreviewEnabled,
+  metricLabel
 }: InfraAlertChartWrapperProps) {
   const {
     threshold,
@@ -80,8 +82,6 @@ export default function InfraAlertChartWrapper({
   const highlight = undefined;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
-
-  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   const displayPredictions = predictions && predictions?.length > 0 ? true : false;
 

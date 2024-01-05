@@ -25,6 +25,7 @@ interface InfraMetricChartProps {
   entityType: string;
   metricName: string;
   alertsPreviewEnabled?: boolean;
+  metricLabel: string;
 }
 
 export function InfraMetricChart({
@@ -33,7 +34,8 @@ export function InfraMetricChart({
   groupBy,
   entityType,
   metricName,
-  alertsPreviewEnabled = false
+  alertsPreviewEnabled = false,
+  metricLabel
 }: InfraMetricChartProps) {
   const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as Tags | Nullish;
 
@@ -49,6 +51,7 @@ export function InfraMetricChart({
         alertConfig={alertConfig}
         timeConfig={timeConfig}
         alertsPreviewEnabled={alertsPreviewEnabled}
+        metricLabel={metricLabel}
       />
     );
   }
@@ -71,6 +74,7 @@ export function InfraMetricChart({
         timeConfig={timeConfig}
         selectedMetricGroup={selectedMetricGroup ?? undefined}
         alertsPreviewEnabled={alertsPreviewEnabled}
+        metricLabel={metricLabel}
       />
     </div>
   );
