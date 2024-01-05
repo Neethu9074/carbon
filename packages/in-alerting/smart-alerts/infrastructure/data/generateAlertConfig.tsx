@@ -23,7 +23,8 @@ export default function generateAlertConfig(): InfraAlertConfigWithMetadata {
     aggregation: 'MEAN',
     crossSeriesAggregation: 'MEAN',
     entityType: '',
-    metricName: ''
+    metricName: '',
+    regex: false
   };
 
   const threshold: StaticThresholdConfig = {

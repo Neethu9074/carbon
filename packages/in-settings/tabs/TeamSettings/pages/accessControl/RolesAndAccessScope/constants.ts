@@ -14,7 +14,7 @@ import {
   LimitedAccessScope,
   LimitedAccessScopeType
 } from 'in-stores/permission';
-import { syntheticRbacEnabled } from 'in-services/featureFlags';
+import { automationPoliciesEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -183,7 +183,7 @@ export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS,
   Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-  Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
+  ...(automationPoliciesEnabled ? [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES] : [])
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [

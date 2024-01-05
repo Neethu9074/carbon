@@ -102,7 +102,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 0,
-        totalNumberOfAreaCapabilities: 28
+        totalNumberOfAreaCapabilities: 27
       });
     });
 
@@ -116,8 +116,8 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Then
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
-        numberOfcapabilitiesUserHas: 13,
-        totalNumberOfAreaCapabilities: 28
+        numberOfcapabilitiesUserHas: 12,
+        totalNumberOfAreaCapabilities: 27
       });
     });
   });
@@ -138,7 +138,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 0,
-        totalNumberOfAreaCapabilities: 28
+        totalNumberOfAreaCapabilities: 27
       });
     });
 
@@ -152,8 +152,8 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Then
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
-        numberOfcapabilitiesUserHas: 13,
-        totalNumberOfAreaCapabilities: 28
+        numberOfcapabilitiesUserHas: 12,
+        totalNumberOfAreaCapabilities: 27
       });
     });
   });
