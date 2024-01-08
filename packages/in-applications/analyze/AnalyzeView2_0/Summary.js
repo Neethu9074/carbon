@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, Card, Link, Message, Stack } from '@instana/components';
 import { create, just } from '@instana/observables';
@@ -15,15 +15,14 @@ import MobileAppMonitoringData from 'in-applications/analyze/components/TraceDet
 import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
 import WebsiteMonitoringData from 'in-applications/analyze/components/TraceDetails/tabs/Summary/WebsiteMonitoringData';
 import TraceValidationResult from 'in-applications/analyze/components/TraceDetails/tabs/Summary/TraceValidationResult';
-import { getCallIdFromTags, getLogDataForCalls, getSpanIdFromTags } from 'in-components/Logging/TraceDetails/utils';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails/components/ServiceEndpointList';
 import { isLargeTrace, shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
-import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import { FAKE_ROOT_CALL_ID } from '../components/TraceDetails/components/CallTree/lazyCallTree';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
+import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
@@ -54,7 +53,6 @@ export default function Summary({
   callId,
   traceId,
   setCallId,
-  setLogId,
   colorCodeType,
   setColorCodeMechanism,
   tracker
@@ -69,8 +67,6 @@ export default function Summary({
 
   const [selectedCall$] = useState(() => create());
   const [hoveredServiceEndpoint$] = useState(() => create());
-  const [selectedLogIds, setSelectedLogIds] = useState([]);
-  const [expandedLogId, setExpandedLogId] = useState();
 
   const [
     callTreeResult,
@@ -121,78 +117,32 @@ export default function Summary({
     : countLogs(callTreeResult);
 
   const timeWindowExtend = minutes.toMillis(10);
-  const timeConfigForLogs = {
-    to: trace.startTime + timeWindowExtend,
-    windowSize: trace.duration + timeWindowExtend * 2,
-    focusedMoment: trace.startTime + timeWindowExtend,
-    autoRefresh: false
-  };
-
-  const {
-    items: logItems,
-    errors: logErrors,
-    progress: logProgress
-  } = useLogsCursorPagination(params => getLogDataForCalls({ traceId, timeConfigForLogs, ...params }), [traceId]);
+  const timeConfigForLogs = useMemo(
+    () => ({
+      to: trace.startTime + timeWindowExtend,
+      windowSize: trace.duration + timeWindowExtend * 2,
+      focusedMoment: trace.startTime + timeWindowExtend,
+      autoRefresh: false
+    }),
+    [timeWindowExtend, trace.duration, trace.startTime]
+  );
 
   const hasLogs = loggingEnabled && totalNumberOfLogs > 0;
 
-  const selectLogId = selectedLog => {
-    const { callId, logId, label } = selectedLog;
-    const getCallOrSpanId = tags => getCallIdFromTags(tags) || getSpanIdFromTags(tags);
-
-    if (!logId) {
-      //Logs have to be correlated by message also since multiple logs can be related to the same call
-      const cleanLabel = label && label.replace('ERROR:', '');
-      const findLog = ({ tags, message }) => {
-        const isRelatedToCall = getCallOrSpanId(tags) === callId;
-        const isSameMessage = label ? message === cleanLabel : true;
-        return isRelatedToCall && isSameMessage;
-      };
-      const spanLogId = logItems.find(findLog)?.itemId;
-
-      const callLogs =
-        logItems.filter(item => getCallIdFromTags(item.tags) === callId).map(item => ({ logId: item.itemId })) || [];
-
-      setSelectedLogIds(callLogs.map(({ logId }) => ({ logId, callId })));
-      setCallId(callId);
-      setExpandedLogId(spanLogId);
-    } else {
-      const log = logItems.find(({ itemId }) => itemId === logId);
-      const logCallId = getCallOrSpanId(log.tags);
-      const callLogs = logItems.filter(({ tags }) => getCallOrSpanId(tags) === logCallId);
-      const newSelectedLogs = callLogs.map(({ itemId }) => ({ logId: itemId, logCallId }));
-
-      setCallId(logCallId);
-      setExpandedLogId(logId);
-      setSelectedLogIds(newSelectedLogs);
-    }
-  };
+  const [selectedLog, setSelectedLog] = useState(null);
+  const logsContextValue = useMemo(
+    () => ({ selectedLog, setSelectedLog, timeConfigForLogs }),
+    [selectedLog, timeConfigForLogs]
+  );
 
   const onCallClicked = call => {
-    const callLogs =
-      logItems.filter(item => getCallIdFromTags(item.tags) === call.id).map(item => ({ logId: item.itemId })) || [];
-
     setCallId(call.id);
-    setSelectedLogIds(callLogs);
     tracker.traceViewCallTimelineDetailClickedTracker();
-  };
-  const clearSelectedLogId = () => {
-    setLogId(null);
   };
 
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
   const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
-
-  const logCardProps = {
-    items: logItems,
-    selectedLogIds: selectedLogIds,
-    expandedLogId,
-    callId: callId,
-    onClose: clearSelectedLogId,
-    timeConfigForLogs: timeConfigForLogs,
-    totalNumberOfLogs: totalNumberOfLogs
-  };
 
   const traceDetails = (
     <ContentWrapper>
@@ -314,8 +264,6 @@ export default function Summary({
                     onCallClicked={onCallClicked}
                     hoveredServiceEndpoint$={hoveredServiceEndpoint$}
                     openedCallId={effectiveCallId}
-                    timeConfigForLogs={timeConfigForLogs}
-                    selectLogId={selectLogId}
                     totalNumberOfLogs={totalNumberOfLogs}
                   />
                 </div>
@@ -377,8 +325,6 @@ export default function Summary({
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
                   isLargeTrace={lazyLoading ? false : largeTrace}
-                  timeConfigForLogs={timeConfigForLogs}
-                  selectLogId={selectLogId}
                   onRelatedCallsLoaded={onRelatedCallsLoaded}
                   onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
                   expandedCalls={expandedCalls}
@@ -413,11 +359,10 @@ export default function Summary({
                     }
                   >
                     <Logs
-                      selectLogId={selectLogId}
-                      selectedLogIds={selectedLogIds}
-                      items={logItems}
-                      errors={logErrors}
-                      progress={logProgress}
+                      setCallId={setCallId}
+                      traceId={traceId}
+                      timeConfigForLogs={timeConfigForLogs}
+                      totalNumberOfLogs={totalNumberOfLogs}
                     />
                   </Card>
                 ) : (
@@ -459,8 +404,6 @@ export default function Summary({
         onClose={() => setCallId(null)}
         startTime={trace.startTime}
         rootCall={callTreeResult.data}
-        selectLogId={selectLogId}
-        logsCardProps={logCardProps}
       />
     </ErrorBoundary>
   );
@@ -471,12 +414,14 @@ export default function Summary({
   );
 
   return (
-    <TwoColumnView
-      leftContent={leftContent}
-      rightContent={rightContent}
-      leftWidth="65%"
-      expandedSide$={effectiveCallId || selectedLogIds.length > 0 ? just(null) : just('left')}
-    />
+    <LogsInCallsContext.Provider value={logsContextValue}>
+      <TwoColumnView
+        leftContent={leftContent}
+        rightContent={rightContent}
+        leftWidth="65%"
+        expandedSide$={effectiveCallId ? just(null) : just('left')}
+      />
+    </LogsInCallsContext.Provider>
   );
 }
 

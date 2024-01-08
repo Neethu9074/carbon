@@ -61,8 +61,7 @@ export default function EnhancedRow({
   onCallCollapsed,
   hasLazyOrHiddenParentNode,
   onShowHiddenParentNestingLevel,
-  onShowHiddenChildNestingLevel,
-  selectLogId
+  onShowHiddenChildNestingLevel
 }) {
   const isSelected = useObservable(
     isCallNode(call) && selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
@@ -100,7 +99,6 @@ export default function EnhancedRow({
       hasLazyOrHiddenParentNode={hasLazyOrHiddenParentNode}
       onShowHiddenParentNestingLevel={onShowHiddenParentNestingLevel}
       onShowHiddenChildNestingLevel={onShowHiddenChildNestingLevel}
-      selectLogId={selectLogId}
     />
   );
 }
@@ -127,8 +125,7 @@ function Row({
   onCallCollapsed,
   hasLazyOrHiddenParentNode,
   onShowHiddenParentNestingLevel,
-  onShowHiddenChildNestingLevel,
-  selectLogId
+  onShowHiddenChildNestingLevel
 }) {
   const hasChildren = isCallNode(call) && call.children && call.children.filter(child => !isLog(child)).length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
@@ -216,7 +213,6 @@ function Row({
             onCallCollapsed={onCallCollapsed}
             isLazyNode={isLazyNode(call)}
             onShowHiddenChildNestingLevel={onShowHiddenChildNestingLevel}
-            selectLogId={selectLogId}
           />
 
           {!isLargeTrace && (
@@ -256,7 +252,6 @@ function Row({
               onCallCollapsed={onCallCollapsed}
               hasLazyOrHiddenParentNode={isParenWithHiddenNestingLevel(call) || isLazyParentNode(call)}
               onShowHiddenChildNestingLevel={onShowHiddenChildNestingLevel}
-              selectLogId={selectLogId}
             />
           ))}
     </div>
@@ -279,8 +274,7 @@ function CallInformation(props) {
     expandedCalls,
     onCallExpanded,
     onCallCollapsed,
-    onShowHiddenChildNestingLevel,
-    selectLogId
+    onShowHiddenChildNestingLevel
   } = props;
 
   const isChildNestingLevelVisible = isVisibleNestingLevel(depth + 1);
@@ -352,7 +346,6 @@ function CallInformation(props) {
           scale={scale}
           onCallClicked={onCallClicked}
           onSubCallClicked={onSubCallClicked}
-          selectLogId={selectLogId}
         />
       )}
     </div>
