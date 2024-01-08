@@ -489,7 +489,6 @@
     "alertChannels": "Alert Channels",
     "alertChannelEntityName": "alert channel {{entityName}}",
     "noEventsSelected": "No Events Selected",
-    "noActionsSelected": "No Actions Selected",
     "addActions": "Add Actions",
     "addEvents": "Add Events",
     "pleaseSelectAtLeastOneEvent": "Please select at least one event.",
