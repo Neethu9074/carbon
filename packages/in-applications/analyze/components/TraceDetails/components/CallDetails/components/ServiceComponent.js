@@ -34,7 +34,7 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceComponent.mless';
 
-export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon, logsCardProps }) {
+export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
   const timeConfig = useTimeConfig();
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
@@ -346,7 +346,10 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon,
               }
             />
           )}
-          <LogsCard {...logsCardProps} />
+          <LogsCard
+            call={call}
+            processSnapshotId={destinationProcessSnapshotId}
+          />
         </Stack>
       </div>
     </>
