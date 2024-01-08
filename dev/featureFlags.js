@@ -103,6 +103,6 @@ module.exports = {
   infraSmartAlertsDialogEnabled: true,
   simplifiedFlowMapEnabled: true,
   fullscreenWidgetEnabled: true,
-  agentInstallationV2Enabled: false,
+  agentInstallationV2Enabled: true,
   enableCarbonIcons: true
 };

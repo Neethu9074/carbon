@@ -483,7 +483,7 @@ module.exports = exports = [
   {
     uiClientKey: 'agentInstallationV2Enabled',
     instanaCtlKey: 'feature.agent.install.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'fullscreenWidgetEnabled',
