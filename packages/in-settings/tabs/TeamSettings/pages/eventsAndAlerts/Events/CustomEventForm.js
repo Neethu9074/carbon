@@ -24,17 +24,11 @@ import { isEntityCountSystemRule } from 'in-settings/tabs/TeamSettings/pages/eve
 import { getEntityTypeOptionsOfBuiltInMetrics } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { EventDetailsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/EventDetailsSection';
 import { ConditionsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ConditionsSection';
-import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import ScopeSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeSelection';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { containsMetricInList } from 'in-sdk/metrics';
 import { isBlank } from 'in-services/util/string';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-import locals from './CustomEventForm.mless';
 
 export default function CustomEventForm({ form, setForm, onChange, hideLegacyAppDataEventDeprecationInfo, disabled }) {
   const entityType = form.get('entityType')?.value;
@@ -79,7 +73,6 @@ export default function CustomEventForm({ form, setForm, onChange, hideLegacyApp
   }
 
   const showScopingSection = !isEntityCountSystemRule(form);
-  const actionAssociationStepNumber = showScopingSection ? 4 : 3;
   return (
     <fieldset>
       <SectionHeading>{t('in-settings:tabs.1EventDetails')}</SectionHeading>
@@ -107,20 +100,6 @@ export default function CustomEventForm({ form, setForm, onChange, hideLegacyApp
             setForm={setForm}
             onChange={onChange}
           />
-        </>
-      )}
-
-      {role.canConfigureAutomationActions && actionAutomationEnabled && (
-        <>
-          <div className={locals.titleWithBetatag}>
-            <SectionHeading>
-              {t('in-settings:tabs.actionAssociationsStep', {
-                step: actionAssociationStepNumber
-              })}
-            </SectionHeading>
-            <BetaBadge />
-          </div>
-          <ActionsSelection form={form} setForm={setForm} />
         </>
       )}
     </fieldset>

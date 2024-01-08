@@ -24,8 +24,8 @@ import {
 import { Action, ApplicationAlertConfigWithMetadata, Policy, Result, VolatileId, Event } from 'in-types';
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { createPolicyTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { ScoredAction, saveNewPolicy, EventSpecification } from 'in-automation/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -244,11 +244,12 @@ function associateAction({
     if (hasError(response)) {
       onCreateFailed();
     } else {
-      associateActionsTracker({
-        eventName: event.name,
-        actionNames: [action.name]
+      createPolicyTracker({
+        name: policy.name,
+        triggerName: event.name,
+        actionName: action.name,
+        type: 'manual'
       });
-
       triggerReload();
       setSelectedType('associatedPolicies');
       oncreateSuccess(policy.name);

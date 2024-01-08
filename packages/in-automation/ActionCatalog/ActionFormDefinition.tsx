@@ -5,7 +5,6 @@
  */
 
 import { createField, createMapForm, MapForm, ValidationResult, Field } from 'formalistic';
-import { List } from 'immutable';
 import mimeDb from 'mime-db';
 
 import { generateUniqueShortId } from '@instana/utils';
@@ -141,18 +140,6 @@ export function createActionFormDefinition(action: ActionFormEntity) {
       'parameters',
       createField({
         value: mappedParams
-      })
-    )
-    .put(
-      'selectedEvents',
-      createField({
-        value: List(action.selectedEvents)
-      })
-    )
-    .put(
-      'applicationAlertConfigIds',
-      createField({
-        value: List(action.applicationAlertConfigIds)
       })
     )
     .put(
