@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { KeyValue, Link, Message, MessageTypes, Typography } from '@instana/components';
 import { Observable, create } from '@instana/observables';
@@ -17,10 +17,7 @@ import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 //@ts-expect-error TS migration
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
-import InviteUserDialog, {
-  UserInvite
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
-import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites//InviteUserButton';
+import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
@@ -36,8 +33,6 @@ export interface ConfigProps {
 }
 
 export default function Users() {
-  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
-
   const isSamlConfigured: Result<ConfigProps> | undefined | null = useObservable(getSamlConfig, []);
   const isLdapConfigured: Result<ConfigProps> | undefined | null = useObservable(getLdapConfig, []);
   const isOidcConfigured: Result<ConfigProps> | undefined | null = useObservable(getOidcConfig, []);
@@ -61,8 +56,7 @@ export default function Users() {
 
   return (
     <>
-      {isAnyIDPActive && <CustomUserListInfo />}
-      {message && <Message type={message?.type} withIcon title={message?.text} small />}
+      {isAnyIDPActive && <CustomUserListInfo />}{' '}
       <List
         title={t('in-settings:tabs.users')}
         getHeader={defaultHeaderWithCount(t('in-settings:tabs.users'))}
@@ -76,11 +70,7 @@ export default function Users() {
             ? undefined
             : () => {
                 track(USER_INVITE, emptyObject);
-                addActiveDialog(
-                  <InviteUserDialog
-                    onSubmit={(invitations: UserInvite[]) => onDoInviteUser(setMessage, invitations, undefined)}
-                  />
-                );
+                addActiveDialog(<InviteUserDialog />);
               }
         }
         labelNew={t('in-settings:tabs.inviteUser')}
