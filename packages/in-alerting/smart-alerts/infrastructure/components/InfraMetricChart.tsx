@@ -11,7 +11,9 @@ import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart.mless';
@@ -19,34 +21,60 @@ import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetri
 interface InfraMetricChartProps {
   alertConfig: InfraAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  groupBy: string[];
+  entityType: string;
+  metricName: string;
+  alertsPreviewEnabled?: boolean;
+  metricLabel: string;
 }
 
-export function InfraMetricChart({ alertConfig, timeConfig }: InfraMetricChartProps) {
-  const selectedMetricGroup = useObservable(selectedMetricGroup$, []);
+export function InfraMetricChart({
+  alertConfig,
+  timeConfig,
+  groupBy,
+  entityType,
+  metricName,
+  alertsPreviewEnabled = false,
+  metricLabel
+}: InfraMetricChartProps) {
+  const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as Tags | Nullish;
 
-  if (!selectedMetricGroup) {
+  if ((!selectedMetricGroup && groupBy.length > 0) || (!entityType && !metricName)) {
     return (
       <div className={local.minHeight}>
         <Message withIcon>{t('in-alerting:smartAlerts.infrastructure.form.noMetricSelected')}</Message>
       </div>
     );
+  } else if (groupBy.length === 0 && entityType && metricName) {
+    return (
+      <InfraAlertChartWrapper
+        alertConfig={alertConfig}
+        timeConfig={timeConfig}
+        alertsPreviewEnabled={alertsPreviewEnabled}
+        metricLabel={metricLabel}
+      />
+    );
   }
 
-  let chartPreviewName = Object.entries(selectedMetricGroup).map(([, value]) => {
-    return value;
-  });
+  let chartPreviewName =
+    selectedMetricGroup &&
+    Object.entries(selectedMetricGroup).map(([, value]) => {
+      return value;
+    });
 
   return (
     <div className={local.minHeight}>
       <div className={local.container}>
         {t('in-alerting:smartAlerts.infrastructure.previewFor')}
-        <h4 className={local.space}> {chartPreviewName.join(', ')}</h4>
+        <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>
       </div>
 
       <InfraAlertChartWrapper
         alertConfig={alertConfig}
         timeConfig={timeConfig}
-        selectedMetricGroup={selectedMetricGroup}
+        selectedMetricGroup={selectedMetricGroup ?? undefined}
+        alertsPreviewEnabled={alertsPreviewEnabled}
+        metricLabel={metricLabel}
       />
     </div>
   );

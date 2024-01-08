@@ -6,47 +6,7 @@
 
 import { expect } from 'chai';
 
-import { getBackendTypeKeyByUiMetric, getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
-
-describe('getBackendTypeKeyByUiMetric', () => {
-  it('should mathc ui metric value', () => {
-    let backendType = getBackendTypeKeyByUiMetric('number.compact');
-    expect(backendType).to.equal('NUMBER');
-
-    backendType = getBackendTypeKeyByUiMetric('perSecond.detailed');
-    expect(backendType).to.equal('RATE');
-
-    backendType = getBackendTypeKeyByUiMetric('percentage.detailed');
-    expect(backendType).to.equal('PERCENTAGE');
-
-    backendType = getBackendTypeKeyByUiMetric('bytes.detailed');
-    expect(backendType).to.equal('BYTES');
-
-    backendType = getBackendTypeKeyByUiMetric('latency.detailed');
-    expect(backendType).to.equal('LATENCY');
-
-    backendType = getBackendTypeKeyByUiMetric('millis.compact');
-    expect(backendType).to.equal('MILLIS');
-
-    backendType = getBackendTypeKeyByUiMetric('seconds.fixedCompact');
-    expect(backendType).to.equal('SECONDS');
-  });
-
-  it('should return default when value is empty', () => {
-    const backendType = getBackendTypeKeyByUiMetric('');
-    expect(backendType).to.equal('NUMBER');
-  });
-
-  it('should return default when value is undefined', () => {
-    const backendType = getBackendTypeKeyByUiMetric(undefined);
-    expect(backendType).to.equal('NUMBER');
-  });
-
-  it('should return the correct backend type when value is not present in the mapping', () => {
-    const backendType = getBackendTypeKeyByUiMetric('percentage.compact');
-    expect(backendType).to.equal('PERCENTAGE');
-  });
-});
+import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
 
 describe('getUiMetricsValueByBackendType', () => {
   it('should mathc ui metric value', () => {

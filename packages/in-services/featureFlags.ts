@@ -199,7 +199,6 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 );
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
-export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
 
 export const automationPoliciesEnabled = isFeatureFlagEnabled('automationPoliciesEnabled', false);
 

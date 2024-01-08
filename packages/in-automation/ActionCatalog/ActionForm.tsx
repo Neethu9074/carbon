@@ -75,7 +75,8 @@ import {
   GITLAB_TYPE,
   JIRA_TYPE,
   JIRA_ISSUE_TYPES,
-  getHelpTextType
+  getHelpTextType,
+  JIRA_OPERATIONS
 } from 'in-automation/ActionCatalog/shared';
 import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
 import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
@@ -466,7 +467,7 @@ const GithubSection = ({
           {ticketType.map(field => (
             <FormGroup>
               <Label htmlFor="github-ticket-type" hasError={!field.valid && field.touched}>
-                {t('in-automation:ticketType')}
+                {t('in-automation:operation')}
               </Label>
               <Select
                 id="github-ticket-type"
@@ -482,8 +483,8 @@ const GithubSection = ({
                       updatedForm = removeGithubOpenTicketFields(updatedForm);
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubCloseTicketFields(updatedForm, action);
-                      if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push(createTicketIdParameter('Github ticket id'));
+                      if (!doesParameterExist(parameters, 'id')) {
+                        parameters.push(createTicketIdParameter('Issue', 'Github issue id'));
                       }
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
@@ -491,8 +492,8 @@ const GithubSection = ({
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubCommentTicketFields(updatedForm, action);
 
-                      if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push(createTicketIdParameter('Github ticket id'));
+                      if (!doesParameterExist(parameters, 'id')) {
+                        parameters.push(createTicketIdParameter('Issue', 'Github issue id'));
                       }
                       onChange('parameters', parameters);
                     }
@@ -544,7 +545,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               <HelpText className={locals.subTextFormField}>
-                {t('in-automation:ActionCatalog.githubTitleHelptext')}
+                {t('in-automation:ActionCatalog.gitTitleHelptext')}
               </HelpText>
             </FormGroup>
           ))}
@@ -567,7 +568,7 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               <HelpText className={locals.subTextFormField}>
-                {t('in-automation:ActionCatalog.githubBodyHelptext')}
+                {t('in-automation:ActionCatalog.gitBodyHelptext')}
               </HelpText>
             </FormGroup>
           ))}
@@ -666,7 +667,7 @@ const GitlabSection = ({
           {ticketType.map(field => (
             <FormGroup>
               <Label htmlFor="github-ticket-type" hasError={!field.valid && field.touched}>
-                {t('in-automation:ticketType')}
+                {t('in-automation:operation')}
               </Label>
               <Select
                 id="github-ticket-type"
@@ -682,8 +683,8 @@ const GitlabSection = ({
                       updatedForm = removeGitlabOpenTicketFields(updatedForm);
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabCloseTicketFields(updatedForm, action);
-                      if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push(createTicketIdParameter('Gitlab ticket id'));
+                      if (!doesParameterExist(parameters, 'id')) {
+                        parameters.push(createTicketIdParameter('Issue', 'Gitlab issue id'));
                       }
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
@@ -691,8 +692,8 @@ const GitlabSection = ({
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabCommentTicketFields(updatedForm, action);
 
-                      if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push(createTicketIdParameter('Gitlab ticket id'));
+                      if (!doesParameterExist(parameters, 'id')) {
+                        parameters.push(createTicketIdParameter('Issue', 'Gitlab issue id'));
                       }
                       onChange('parameters', parameters);
                     }
@@ -745,7 +746,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               <HelpText className={locals.subTextFormField}>
-                {t('in-automation:ActionCatalog.githubTitleHelptext')}
+                {t('in-automation:ActionCatalog.gitTitleHelptext')}
               </HelpText>
             </FormGroup>
           ))}
@@ -768,7 +769,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               <HelpText className={locals.subTextFormField}>
-                {t('in-automation:ActionCatalog.githubBodyHelptext')}
+                {t('in-automation:ActionCatalog.gitBodyHelptext')}
               </HelpText>
             </FormGroup>
           ))}
@@ -850,7 +851,7 @@ const JiraSection = ({
           {ticketType.map(field => (
             <FormGroup>
               <Label htmlFor="jira-ticket-type" hasError={!field.valid && field.touched}>
-                {t('in-automation:ticketType')}
+                {t('in-automation:operation')}
               </Label>
               <Select
                 id="jira-ticket-type"
@@ -866,8 +867,8 @@ const JiraSection = ({
                       updatedForm = removeJiraOpenTicketFields(updatedForm);
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraCloseTicketFields(updatedForm, action);
-                      if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push(createTicketIdParameter('Jira ticket id'));
+                      if (!doesParameterExist(parameters, 'id')) {
+                        parameters.push(createTicketIdParameter('Task', 'Jira task id'));
                       }
                       onChange('parameters', parameters);
                     } else if (type == ADD_COMMENT) {
@@ -875,8 +876,8 @@ const JiraSection = ({
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraCommentTicketFields(updatedForm, action);
 
-                      if (!doesParameterExist(parameters, 'ticketId')) {
-                        parameters.push(createTicketIdParameter('Jira ticket id'));
+                      if (!doesParameterExist(parameters, 'id')) {
+                        parameters.push(createTicketIdParameter('Task', 'Jira task id'));
                       }
                       onChange('parameters', parameters);
                     }
@@ -885,7 +886,7 @@ const JiraSection = ({
                 }
                 hasError={!field.valid && field.touched}
               >
-                {GH_TICKET_TYPES.map(({ value, translation }) => (
+                {JIRA_OPERATIONS.map(({ value, translation }) => (
                   <option key={value} value={value}>
                     {translation}
                   </option>
@@ -930,7 +931,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               <HelpText className={locals.subTextFormField}>
-                {t('in-automation:ActionCatalog.githubTitleHelptext')}
+                {t('in-automation:ActionCatalog.jiraTitleHelptext')}
               </HelpText>
             </FormGroup>
           ))}
@@ -953,7 +954,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               <HelpText className={locals.subTextFormField}>
-                {t('in-automation:ActionCatalog.githubBodyHelptext')}
+                {t('in-automation:ActionCatalog.jiraBodyHelptext')}
               </HelpText>
             </FormGroup>
           ))}

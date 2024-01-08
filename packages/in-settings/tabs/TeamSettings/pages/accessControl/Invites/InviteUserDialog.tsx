@@ -3,88 +3,111 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, createListForm, Field, Item, ListForm, MapForm, Path } from 'formalistic';
+import { Field, Item, ListForm, MapForm, Path } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Message, SvgIcon, Button } from '@instana/components';
+import { Message, Button, Stack, StackItem } from '@instana/components';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  anyValidEntry,
+  checkInviteAlreadyExists,
+  checkUserAlreadyExists,
+  createInviteForm,
+  emptyInvite
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteForm';
+import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
+import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
-import { notBlankValidator } from 'in-services/validators/string';
+import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import { submitInviteUserTracker } from 'in-settings/tracker';
+import IconButton from 'in-components/IconButton/IconButton';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-settings/components/FormGroup';
+import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';
-import Tooltip from 'in-components/Tooltip';
 import { ApiGroup } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './InviteUserDialog.mless';
 
-export type UserSentState = 'sentSuccess' | 'notSentYet' | 'sentFailureUserExists' | 'sentFailureServerError';
+export const InviteSentState = Object.freeze({
+  SUCCESS: 'sentSuccess',
+  notSentYet: 'notSentYet',
+  FAILURE_USER_ALREADY_EXISTS: 'sentFailureUserExists',
+  INTERNAL_ERROR: 'sentFailureServerError',
+  FAILURE_USER_ALREADY_INVITED: 'sentFailureInviteExists'
+} as const);
 
+export type UserSentStateStatus = keyof typeof InviteSentState;
+
+export type UserSentState = (typeof InviteSentState)[UserSentStateStatus];
 export interface UserInvite {
   groupId: string;
   email: string;
   userSentState: UserSentState;
 }
-
-export default function InviteUserDialog({
-  onSubmit,
-  previousResult
-}: {
-  onSubmit: (toSend: UserInvite[]) => void;
-  previousResult?: UserInvite[];
-}) {
-  const initialState = createListForm({
-    validator: invites => {
-      const invitesMapForms: MapForm<any>[] = invites as MapForm<any>[];
-      const rows: Field<UserSentState>[] = invitesMapForms.map(mF => mF.get('userSentState') as Field<UserSentState>);
-      const someNotSent = rows.some(r => r.value === 'notSentYet' || r.value === 'sentFailureServerError');
-      if (!someNotSent) {
-        return [
-          {
-            severity: 'error',
-            message: t('in-settings:tabs.pleaseInviteAtLeastOneUser')
-          }
-        ];
-      }
-
-      if (invites.length === 0) {
-        return [
-          {
-            severity: 'error',
-            message: t('in-settings:tabs.pleaseInviteAtLeastOneUser')
-          }
-        ];
-      }
-
-      return null;
-    },
-
-    items: previousResult ? previousResult.map(mapToFormItem) : [emptyInvite()]
-  });
-
-  const [form, setForm]: [ListForm<any>, any] = useState(initialState);
+export interface PendingInvite {
+  id: string;
+  email: string;
+  groupId: string;
+}
+export default function InviteUserDialog() {
+  const { goToPath } = useNavigation();
+  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string }>();
   const groups: any = useObservable(getStrippedGroupsAsResultObservable(), []);
+  const usersResult = useObservable(getUsersAsResultObservable, []) ?? pendingResult;
+  const users = usersResult?.data;
+  const pendingInvitationResult = useObservable(getInvitations$, []) ?? pendingResult;
+  const pendingInvitations = pendingInvitationResult?.data;
+  const [invitationResult, setInvitationResult] = useState<UserInvite[]>([]);
 
-  const onChange = (path: Path<any>, value: any) => {
-    setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
+  const initialState = createInviteForm(invitationResult);
+  const [form, setForm]: [ListForm<any>, any] = useState(initialState);
+
+  const onChange = (index: number | string, path: Path<any>, value: any, invite: MapForm<any>) => {
+    let updatedForm;
+    const emailValue = path[1] === 'email' ? value : invite.get('email').value;
+    const userInvite = {
+      groupId: path[1] === 'groupId' ? value : invite.get('groupId').value,
+      email: emailValue,
+      userSentState: invite.get('userSentState').value
+    };
+    if (checkInviteAlreadyExists(userInvite, pendingInvitations)) {
+      updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
+        field.setValue(InviteSentState.FAILURE_USER_ALREADY_INVITED).setTouched(true)
+      );
+    } else if (
+      checkUserAlreadyExists(emailValue, users) ||
+      invitationResult.find(
+        i => i.email === emailValue && i.userSentState === InviteSentState.FAILURE_USER_ALREADY_EXISTS
+      )
+    ) {
+      updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
+        field.setValue('sentFailureUserExists').setTouched(true)
+      );
+    } else {
+      updatedForm = form.updateIn([index, 'userSentState'] as Path<any>, field =>
+        field.setValue(InviteSentState.notSentYet)
+      );
+    }
+    setForm(updatedForm.updateIn(path, field => field.setValue(value).setTouched(true)));
   };
 
   const onRemove = (index: number) => {
     setForm(form.remove(index).setTouched(true));
   };
 
-  const internalOnSubmit = (canSelectGroup: boolean) => {
+  const onSubmitInvitation = (canSelectGroup: boolean) => {
     return (event: any) => {
       event.preventDefault();
 
@@ -108,14 +131,12 @@ export default function InviteUserDialog({
           submitInviteUserTracker({ group: 'default' });
         }
       });
-
-      onSubmit(
-        form.toJS().map((e: any) => ({
-          groupId: e.groupId,
-          email: e.email,
-          userSentState: e.userSentState === 'sentFailureServerError' ? 'notSentYet' : e.userSentState
-        }))
-      );
+      const invitations = form.toJS().map((e: any) => ({
+        groupId: e.groupId,
+        email: e.email,
+        userSentState: e.userSentState === InviteSentState.INTERNAL_ERROR ? InviteSentState.notSentYet : e.userSentState
+      }));
+      onDoInviteUser(setMessage, invitations, setForm, setInvitationResult, goToPath);
     };
   };
 
@@ -138,34 +159,6 @@ export default function InviteUserDialog({
 
   const renderRow = (invite: MapForm<any>, index: number) => {
     const i: string = `${index}`;
-    let iconOrButton = (
-      <SvgIcon
-        className={locals.removeButton}
-        data-testid={`delete_invite_${i}`}
-        type={'lib_actions_delete'}
-        onClick={() => onRemove(index)}
-      />
-    );
-
-    const isSuccessInvite: boolean =
-      (invite.get('userSentState') as Field<UserSentState>).value === ('sentSuccess' as UserSentState);
-    if (isSuccessInvite) {
-      iconOrButton = <SvgIcon className={locals.sentIcon} data-testid={`already_sent_${i}`} type={'lib_check'} />;
-    }
-
-    const isUserAlreadyExists: boolean =
-      (invite.get('userSentState') as Field<UserSentState>).value === ('sentFailureUserExists' as UserSentState);
-    if (isUserAlreadyExists) {
-      iconOrButton = (
-        <Tooltip content={t('in-settings:tabs.thisUserAlreadyExists')}>
-          <SvgIcon
-            className={locals.alreadyExistsIcon}
-            data-testid={`already_exists_${i}`}
-            type={'lib_help_error_warning'}
-          />
-        </Tooltip>
-      );
-    }
 
     return (
       <Row className={locals.row} key={i}>
@@ -181,12 +174,14 @@ export default function InviteUserDialog({
                   data-testid={`invitation-email_${i}`}
                   type="email"
                   value={field.value}
-                  onChange={e => onChange([i, 'email'], e.target.value)}
+                  onChange={e => onChange(i, [i, 'email'], e.target.value, invite)}
                   hasError={!field.valid && field.touched}
                   autoFocus
-                  disabled={isSuccessInvite || isUserAlreadyExists}
                 />
                 <TouchedMessages field={field} />
+                {(invite.get('userSentState') as Field<string>).map((field: Field<string>) => {
+                  return <TouchedMessages field={field} />;
+                })}
               </FormGroup>
             );
           })}
@@ -202,9 +197,8 @@ export default function InviteUserDialog({
                   id={`invitation-group_${i}`}
                   data-testid={`invitation-group_${i}`}
                   value={field.value}
-                  onChange={e => onChange([i, 'groupId'], e.target.value)}
+                  onChange={e => onChange(i, [i, 'groupId'], e.target.value, invite)}
                   hasError={!field.valid && field.touched}
-                  disabled={isSuccessInvite || isUserAlreadyExists}
                 >
                   {sortedGroups &&
                     sortedGroups.map(group => (
@@ -217,97 +211,70 @@ export default function InviteUserDialog({
               </FormGroup>
             ))}
         </Col>
-        <Col xs={1}>{iconOrButton}</Col>
+        <Col xs={1}>
+          <IconButton
+            className={locals.removeButton}
+            kind="primaryv2"
+            type="lib_openclose_remove_circle_outline"
+            id={`delete_invite_${i}`}
+            onClick={() => onRemove(index)}
+          />
+        </Col>
       </Row>
     );
   };
-
   const invitesMapForms: MapForm<any>[] = form.map(i => i) as MapForm<any>[];
   const rows: Field<UserSentState>[] = invitesMapForms.map(mF => mF.get('userSentState') as Field<UserSentState>);
-  const hasSentFailures = rows.some(r => r.value === 'sentFailureServerError');
-
+  const hasSentFailures = rows.some(r => r.value === InviteSentState.INTERNAL_ERROR);
   return (
     <Dialog
-      className={locals.dialog}
       title={t('in-settings:tabs.inviteUserToTenant', { tenant: config.tenant })}
       onClose={close}
+      withoutBodyPadding
+      showOverflow
     >
-      <>
-        <div className={locals.description}>
-          <Typography variant="body-small" component="div">
-            {t('in-settings:tabs.inviteDescription', { tenant: config.tenant })}
-          </Typography>
-          <Typography variant="body-small" component="div">
-            {t('in-settings:tabs.inviteGroupDescription')}
-          </Typography>
+      <form onSubmit={onSubmitInvitation(canSelectGroup)}>
+        <div role="form" className={locals.dialogBody}>
+          <Stack direction="vertical" gap="xxsmall">
+            <StackItem>{message && <Message type={message?.type} withIcon title={message?.text} small />}</StackItem>
+            <div className={locals.description}>
+              <Typography variant="body-regular" component="div">
+                {t('in-settings:tabs.inviteDescription', { tenant: config.tenant })}
+              </Typography>
+              <Typography variant="body-regular" component="div">
+                {t('in-settings:tabs.inviteGroupDescription')}
+              </Typography>
+            </div>
+            <StackItem>
+              {(form as any).map((entry: MapForm<any>, i: number) => renderRow(entry, i))}
+              <div className={locals.anotherUserRow}>
+                <Button
+                  kind="action"
+                  icon="lib_openclose_add_circle_outline"
+                  className={locals.button}
+                  onClick={() => setForm(form.push(emptyInvite()).setTouched(true))}
+                >
+                  {t('in-settings:tabs.anotherUser')}
+                </Button>
+              </div>
+            </StackItem>
+
+            {hasSentFailures ? (
+              <Message className={locals.message} type="error" withIcon>
+                {t('in-settings:tabs.someEmailsHaveFailedToSend')}
+              </Message>
+            ) : (
+              <></>
+            )}
+          </Stack>
         </div>
-        <form onSubmit={internalOnSubmit(canSelectGroup)}>
-          {(form as any).map((entry: MapForm<any>, i: number) => renderRow(entry, i))}
-
-          <div className={locals.anotherUserRow}>
-            <Button
-              kind="action"
-              icon="lib_openclose_add_circle_outline"
-              className={locals.button}
-              onClick={() => setForm(form.push(emptyInvite()).setTouched(true))}
-            >
-              {t('in-settings:tabs.anotherUser')}
-            </Button>
-          </div>
-          <Button
-            className={locals.button}
-            kind="primary"
-            type="submit"
-            disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}
-          >
+        <FormFooter className={locals.formFooter}>
+          <CancelButton onClick={close}>{t('in-service-levels:general.cancelButtonLabel')}</CancelButton>
+          <SaveButton type="submit" disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}>
             {t('in-settings:tabs.sendInvitation')}
-          </Button>
-        </form>
-
-        {hasSentFailures ? (
-          <Message className={locals.message} type="error" withIcon>
-            {t('in-settings:tabs.someEmailsHaveFailedToSend')}
-          </Message>
-        ) : (
-          <></>
-        )}
-      </>
+          </SaveButton>
+        </FormFooter>
+      </form>
     </Dialog>
   );
-}
-
-function anyValidEntry(form: ListForm<any>) {
-  const asJsObject = form.toJS();
-  return asJsObject.some(
-    (e: any) =>
-      (e.userSentState === 'notSentYet' || e.userSentState === 'sentFailureServerError') && e.email.trim() !== ''
-  );
-}
-
-function emptyInvite() {
-  return mapToFormItem({ groupId: defaultRoleId, email: '', userSentState: 'notSentYet' });
-}
-
-function mapToFormItem(previousResult: UserInvite) {
-  return createMapForm()
-    .put(
-      'groupId',
-      createField({
-        value: previousResult.groupId,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'email',
-      createField({
-        value: previousResult.email,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'userSentState',
-      createField({
-        value: previousResult.userSentState
-      })
-    );
 }

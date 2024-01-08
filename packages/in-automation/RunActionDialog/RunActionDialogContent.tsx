@@ -30,7 +30,8 @@ import {
   isJira,
   GH_TICKET_TYPES,
   getGitlabFields,
-  getJiraFields
+  getJiraFields,
+  JIRA_OPERATIONS
 } from 'in-automation/ActionCatalog/shared';
 import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -354,7 +355,7 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         </div>
         <div>
           <Typography variant="body-small">
-            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+            {t('in-automation:operationInfo', { ticketType: ticketTypeTranslated })}
           </Typography>
         </div>
       </DescriptionItem>
@@ -378,7 +379,7 @@ function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         </div>
         <div>
           <Typography variant="body-small">
-            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+            {t('in-automation:operationInfo', { ticketType: ticketTypeTranslated })}
           </Typography>
         </div>
       </DescriptionItem>
@@ -388,7 +389,7 @@ function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
 
 function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { project, ticketType } = getJiraFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  const ticketTypeTranslated = JIRA_OPERATIONS.find(a => a.value === ticketType.value)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -400,7 +401,7 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
         </div>
         <div>
           <Typography variant="body-small">
-            {t('in-automation:ticketTypeInfo', { ticketType: ticketTypeTranslated })}
+            {t('in-automation:operationInfo', { ticketType: ticketTypeTranslated })}
           </Typography>
         </div>
       </DescriptionItem>

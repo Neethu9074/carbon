@@ -29,7 +29,6 @@ import {
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
-import { getFormatter, getBackendTypeKeyByUiMetric } from 'in-services/formatters/backendFormatter';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
@@ -46,6 +45,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { typeTag } from 'in-infrastructure/Explore/constants';
 import { toGroupTag } from 'in-infrastructure/Explore/utils';
+import { getFormatter } from 'in-stores/metric/formatters';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
@@ -683,9 +683,8 @@ function generateMetric({ item, id, metadata, label, aggregation, timeConfig, gr
   const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-  const formatter = formatterId
-    ? getFormatter(getBackendTypeKeyByUiMetric(formatterId))
-    : mapData(metadata, data => data?.formatter).data;
+
+  const formatter = getFormatter(formatterId) ?? mapData(metadata, data => data?.formatter).data;
   const kpi = firstValue(metrics[id]);
   const series = metrics[getSeriesKey(id)];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;

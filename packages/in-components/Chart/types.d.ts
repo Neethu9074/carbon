@@ -192,8 +192,8 @@ export type ChartContentPostition = 'pre' | 'post';
 export interface AdditionChartContentProps {
   timeConfig: TimeConfig;
   granularity?: number;
-  chartBucketWidth?: number;
-  chartWidth?: number;
+  chartBucketWidth: number;
+  chartWidth: number;
   chartHeight?: number;
   timeAxisHeight?: number;
   markerPaneHeight?: number;

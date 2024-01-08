@@ -416,11 +416,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'logDeletionEnabled',
-    instanaCtlKey: 'feature.logging.logDeletion.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'rcaUIEnabled',
     instanaCtlKey: 'feature.rca.ui.enabled',
     defaultValue: false
@@ -483,7 +478,7 @@ module.exports = exports = [
   {
     uiClientKey: 'agentInstallationV2Enabled',
     instanaCtlKey: 'feature.agent.install.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'fullscreenWidgetEnabled',

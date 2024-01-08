@@ -196,17 +196,17 @@ export default function DetailTab({
   }
 
   if (isGithub(type) || isGitlab(type) || isJira(type)) {
-    const ticketId = metadata?.find(data => data.name === 'ticketId');
-    const ticketUrl = metadata?.find(data => data.name === 'ticketUrl');
-    if (ticketId && ticketUrl) {
-      const ticketUrlValue = `${ticketUrl.value}`;
+    const id = metadata?.find(data => data.name === 'id');
+    const url = metadata?.find(data => data.name === 'url');
+    if (id && url) {
+      const ticketUrlValue = `${url.value}`;
       tableData.push({
-        label: t('in-automation:actionHistory.ticketUrl'),
-        value: ticketId.value ?? '',
+        label: isJira(type) ? t('in-automation:actionHistory.taskUrl') : t('in-automation:actionHistory.issueUrl'),
+        value: id.value ?? '',
         isLink: true,
         stringLink: ticketUrlValue,
         actionLane: false,
-        showCondition: ticketId.value && ticketUrl.value ? ticketId.value : ''
+        showCondition: id.value && url.value ? id.value : ''
       });
     }
   }

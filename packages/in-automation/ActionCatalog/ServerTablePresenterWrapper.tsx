@@ -79,8 +79,8 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
     sortable: false,
     label: '',
     getContent(item: ListItem<VALUETYPE>) {
-      // we should not delete the ticketId parameter for GH Action.
-      const isTicketId = item.value && hasNameProperty(item.value) && item.value.name === 'ticketId';
+      // we should not delete the id parameter for GH Action.
+      const isTicketId = item.value && hasNameProperty(item.value) && item.value.name === 'id';
       const disabled = ticketIdParameterExist && isTicketId;
       return (
         <div className={locals.controls}>

@@ -6,28 +6,38 @@
 
 import { isArray } from 'lodash';
 
-import { InfraAlertConfigWithMetadata, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
+import {
+  Granularity,
+  InfraAlertConfigWithMetadata,
+  InfraAlertRuleUnion,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  TimeConfig
+} from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { MetricDefinition, getMetricDefinition } from 'in-sdk/metrics';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import { addTagFilters, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NumberFormatterObject } from 'in-services/formatters/number/types';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
+import { minutes } from 'in-services/time';
 
-interface UnifiedMetricConfigProps {
-  alertConfig: InfraAlertConfigWithMetadata;
-  selectedMetricGroup?: Tags;
-}
+export const chartTimeConfig = {
+  autoRefresh: false,
+  to: Date.now(),
+  windowSize: minutes.toMillis(30),
+  focusedMoment: Date.now()
+};
 
-export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: UnifiedMetricConfigProps) {
-  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertConfig.rule;
-  let { tagFilterExpression } = alertConfig;
-
+export function getEnrichedTagFilterExpression(
+  tagFilterExpression: TagFilterExpressionElementUnion,
+  selectedMetricGroup: Tags | undefined
+) {
   if (selectedMetricGroup) {
     const groupingTFE: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 
@@ -36,23 +46,33 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
       groupingTFE.elements.push(groupExpression);
     });
 
-    let tagFE =
-      (tagFilterExpression as unknown as TagFilter[]).length > 0
-        ? toBackendQueryModel(tagFilterExpression as unknown as TagFilter[])
-        : [];
-
-    if ('elements' in tagFE) {
-      tagFilterExpression = addTagFilters(tagFE, [groupingTFE]);
+    if ('elements' in tagFilterExpression) {
+      tagFilterExpression = addTagFilters(tagFilterExpression, [groupingTFE]);
     } else {
       tagFilterExpression = {
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: isArray(tagFilterExpression)
-          ? [...(tagFilterExpression as unknown as TagFilter[]), groupingTFE]
+          ? [...tagFilterExpression, groupingTFE]
           : [tagFilterExpression, groupingTFE]
       };
     }
+  } else if (!('elements' in tagFilterExpression)) {
+    tagFilterExpression = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: isArray(tagFilterExpression) ? [...tagFilterExpression] : [tagFilterExpression]
+    };
   }
+  return tagFilterExpression;
+}
+
+export function getUnifiedMetricConfig(
+  alertRule: InfraAlertRuleUnion,
+  enrichedTagFilterExpression: TagFilterExpressionElementUnion,
+  granularity: Granularity
+) {
+  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertRule;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const metricLabel = metricDefinition.getLabel();
@@ -66,7 +86,7 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
 
   return {
     type: 'TIME_SERIES',
-    granularity: alertConfig.granularity,
+    granularity,
     y1: {
       formatter: metricFormatterId,
       min: 0,
@@ -78,7 +98,7 @@ export function getUnifiedMetricConfig({ alertConfig, selectedMetricGroup }: Uni
           label: metricLabel,
           metric: metricName,
           source: 'INFRASTRUCTURE_METRICS',
-          tagFilterExpression: tagFilterExpression,
+          tagFilterExpression: enrichedTagFilterExpression,
           timeShift: 0,
           type: entityType
         }

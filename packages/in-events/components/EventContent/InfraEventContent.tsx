@@ -12,7 +12,9 @@ import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
-import InfraAlertChartWrapper from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import InfraAlertChartWrapper, {
+  useGetMetricLabel
+} from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { InfraGrouping } from 'in-alerting/smart-alerts/infrastructure/components/InfraGrouping';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
@@ -52,6 +54,10 @@ export default function InfraEventContent({ event }: Props) {
   const entityType = alertConfig?.rule?.entityType ?? 'all';
   const tagCatalog = useTagCatalog({ ownerType: entityType });
 
+  const aggregation = event.getIn(['metadata', 'smartAlertInfo', 'metricAggregation'], '');
+  const metricName = event.getIn(['metadata', 'smartAlertInfo', 'metricName'], '');
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
+
   if (!alertConfig) {
     return null;
   }
@@ -61,8 +67,8 @@ export default function InfraEventContent({ event }: Props) {
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
   const groupingTags = event.getIn(['metadata', 'groupingTags'], emptyMap).toJS();
   const predictions = event.getIn(['metadata', 'predictions'], emptyList).toJS();
-  const lowerBound = event.getIn(['metadata', 'lowerBound'], emptyList).toJS();
-  const upperBound = event.getIn(['metadata', 'lowerBound'], emptyList).toJS();
+  const lowerBound = event.getIn(['metadata', 'predictionsLowerBound'], emptyList).toJS();
+  const upperBound = event.getIn(['metadata', 'predictionsUpperBound'], emptyList).toJS();
 
   const tagFilterExpression = alertConfig.tagFilterExpression;
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
@@ -121,6 +127,7 @@ export default function InfraEventContent({ event }: Props) {
             <InfraAlertChartWrapper
               alertConfig={alertConfigWithGroupingExpression}
               timeConfig={timeConfig}
+              metricLabel={metricLabel}
               predictions={infraSmartAlertsPredictionsEnabled ? predictions : []}
               lowerBound={infraSmartAlertsPredictionsEnabled ? lowerBound : []}
               upperBound={infraSmartAlertsPredictionsEnabled ? upperBound : []}

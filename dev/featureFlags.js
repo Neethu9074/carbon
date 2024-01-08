@@ -92,7 +92,6 @@ module.exports = {
   incidentSummarizationTimelineEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  logDeletionEnabled: true,
   automationPoliciesEnabled: false,
   autoFormatterTimeSeriesEnabled: true,
   multiGroupTimeSeriesEnabled: true,
@@ -103,6 +102,6 @@ module.exports = {
   infraSmartAlertsDialogEnabled: true,
   simplifiedFlowMapEnabled: true,
   fullscreenWidgetEnabled: true,
-  agentInstallationV2Enabled: false,
+  agentInstallationV2Enabled: true,
   enableCarbonIcons: true
 };

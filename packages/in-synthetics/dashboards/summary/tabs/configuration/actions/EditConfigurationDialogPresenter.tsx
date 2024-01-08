@@ -245,7 +245,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   return (
     <DialogWithSlideInView
       footer={footer}
-      title={t('in-synthetics:dialog.updateTest.dialogTitle')}
+      title={t('in-synthetics:dialog.updateTest.dialogTitle', {
+        syntheticType: testTypeSelected.browser.simple || testTypeSelected.browser.script ? 'Browser' : 'API'
+      })}
       slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>
         customSlideInHeaderConfig.onClose

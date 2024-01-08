@@ -102,20 +102,6 @@ export const mappingsBackendTypesToUiMetrics = {
   LATENCY_WITH_DECIMALS: 'millis.compact'
 } as const;
 
-export function getBackendTypeKeyByUiMetric(value?: string): string {
-  if (!value) {
-    return 'NUMBER';
-  }
-
-  const item = Object.entries(mappingsBackendTypesToUiMetrics).find(([_key, val]) => val === value);
-
-  if (!item) {
-    return value?.split('.')[0].toUpperCase();
-  }
-
-  return item[0];
-}
-
 export function getUiMetricsValueByBackendType(backendType?: BackendFormatterType): string {
   if (!backendType) {
     return 'number.detailed';
