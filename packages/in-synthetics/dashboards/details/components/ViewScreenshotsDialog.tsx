@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
@@ -64,7 +65,10 @@ export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreensh
             text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.ScreenshotsLoadingMessage')}
             className={locals.loading}
           />
-        ) : Object.keys((data as ResultImages)?.imageFiles).length === 0 ? (
+        ) : data === undefined ||
+          data === null ||
+          isEmpty(data) ||
+          Object.keys((data as ResultImages)?.imageFiles).length === 0 ? (
           <NoDataAvailable
             type="lib_synthetic"
             height={160}
