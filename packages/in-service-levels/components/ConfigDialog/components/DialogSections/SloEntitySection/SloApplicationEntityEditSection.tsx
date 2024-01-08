@@ -7,17 +7,15 @@
 import React, { useContext } from 'react';
 import { noop } from 'lodash';
 
-import { Li, Typography, Ul } from '@instana/components';
+import { Typography } from '@instana/components';
 import { Application } from '@instana/types';
 
-// import Section from 'in-components/workspace/Section/Section';
-import Sections from 'in-components/workspace/Sections/Sections';
 import SloEntityTable from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
+import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useApplication from 'in-applications/hooks/useApplication';
+import Sections from 'in-components/workspace/Sections/Sections';
 import { t } from 'in-i18n';
-
-import locals from './SloEntityTable.mless';
 
 export default function SloApplicationEntityEditSection() {
   const { form } = useContext(SloFormContext);
@@ -29,17 +27,12 @@ export default function SloApplicationEntityEditSection() {
   const [selectedApplication, , , progress] = useApplication(entityId);
 
   return (
-    // <div>
-
-    // <div>
     <Sections>
-      <Ul>
-        <Li className={locals.itemHeader}>
-          <Typography variant="heading-200" component="h2">
-            {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
-          </Typography>
-        </Li>
-      </Ul>
+      <SloTableHeader>
+        <Typography variant="heading-200" component="h2">
+          {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
+        </Typography>
+      </SloTableHeader>
       <SloEntityTable
         disabled
         entityList={[selectedApplication] as Application[]}

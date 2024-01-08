@@ -6,13 +6,14 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
+import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections';
@@ -32,10 +33,7 @@ export default function SloScopeApplicationSection() {
   const isFormInEditMode = mode === 'EDIT';
 
   return (
-    <section>
-      <Typography variant="heading-200" component="h2">
-        {t('in-service-levels:createSloDialog.selectScopeTitle')}
-      </Typography>
+    <SloDialogSection title={t('in-service-levels:createSloDialog.selectScopeTitle')}>
       <Stack gap="small">
         <Sections>
           <Section title={t('in-service-levels:general.boundary')} titleWidth={titleWidth}>
@@ -84,6 +82,6 @@ export default function SloScopeApplicationSection() {
           <ApplicationTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} width={titleWidth} />
         </Sections>
       </Stack>
-    </section>
+    </SloDialogSection>
   );
 }

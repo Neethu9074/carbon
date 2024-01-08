@@ -18,6 +18,7 @@ import TabSelect, {
   TabSelectPanels,
   TabSelectPanel
 } from 'in-components/TabSelect';
+import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { defaultBlueprint } from 'in-service-levels/constants';
@@ -31,10 +32,7 @@ export default function SloBlueprintsSection() {
   const isFormInEditMode = mode === 'EDIT';
 
   return (
-    <section>
-      <Typography variant="heading-200" component="h2">
-        {t('in-service-levels:createSloDialog.selectIndicatorTitle')}
-      </Typography>
+    <SloDialogSection title={t('in-service-levels:createSloDialog.selectIndicatorTitle')}>
       <TabSelect<CustomBlueprintType>
         activePanelId={blueprintField.value ?? defaultBlueprint}
         onChange={blueprint => {
@@ -69,6 +67,6 @@ export default function SloBlueprintsSection() {
           </TabSelectPanel>
         </TabSelectPanels>
       </TabSelect>
-    </section>
+    </SloDialogSection>
   );
 }

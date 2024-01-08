@@ -22,6 +22,10 @@
     pointer-events: none;
   }
 }
-.itemHeader {
-  background-color: var(--ids-color-option-neutral-200);
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--ids-color-option-neutral-200);
 }

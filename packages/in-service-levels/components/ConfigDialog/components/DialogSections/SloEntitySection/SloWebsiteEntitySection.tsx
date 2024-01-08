@@ -6,13 +6,14 @@
 
 import React, { useContext, useState } from 'react';
 
-import { Li, Typography, Ul } from '@instana/components';
+import { Typography } from '@instana/components';
 import { Website } from '@instana/types';
 
 import SloEntityTable, {
   EntityData,
   SloEntityTablePageSize
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
+import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
@@ -24,8 +25,6 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
-
-import locals from './SloEntityTable.mless';
 
 export default function SloWebsiteEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
@@ -68,15 +67,12 @@ export default function SloWebsiteEntitySection() {
 
   return (
     <Sections>
-      <Ul>
-        <Li className={locals.itemHeader}>
-          <Typography variant="heading-200" component="h2">
-            {t('in-service-levels:general.select', { entity: entityTypeField.value })}
-          </Typography>
-          <SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />
-        </Li>
-      </Ul>
-
+      <SloTableHeader>
+        <Typography variant="heading-200" component="h2">
+          {t('in-service-levels:general.select', { entity: entityTypeField.value })}
+        </Typography>
+        <SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />
+      </SloTableHeader>
       {!isEntityIdFieldValid &&
         entityIdField.messages.map(({ message, path }, index) => (
           <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
