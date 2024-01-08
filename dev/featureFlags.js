@@ -92,7 +92,6 @@ module.exports = {
   incidentSummarizationTimelineEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  logDeletionEnabled: true,
   automationPoliciesEnabled: false,
   autoFormatterTimeSeriesEnabled: true,
   multiGroupTimeSeriesEnabled: true,

@@ -416,11 +416,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'logDeletionEnabled',
-    instanaCtlKey: 'feature.logging.logDeletion.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'rcaUIEnabled',
     instanaCtlKey: 'feature.rca.ui.enabled',
     defaultValue: false
