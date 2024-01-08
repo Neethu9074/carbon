@@ -22,7 +22,7 @@ export default function LogMessageColumnReadOnly(props: LogMessageColumnReadOnly
   return (
     <div className={locals.messageWrapper}>
       <span className={locals.messageExpanded}>
-        <LogMessage tags={tags} message={message} isExpanded isHovered={false} />
+        <LogMessage tags={tags} message={message} />
       </span>
       <LogExceptionReadMode tags={tags} />
     </div>
