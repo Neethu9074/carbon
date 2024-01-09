@@ -127,8 +127,6 @@ export const getBashCode = ({
     case 'k8_helm': {
       let content = [];
       content.push(
-        '#!/bin/bash',
-        '',
         'helm install instana-agent \\',
         `  --repo https://agents.instana.${instanaDomain}/helm \\`,
         '  --namespace instana-agent \\',

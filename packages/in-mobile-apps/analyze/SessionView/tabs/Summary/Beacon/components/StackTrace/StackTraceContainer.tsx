@@ -32,19 +32,19 @@ export default function StackTraceContainer({ data, onChange, pretty, children }
         className={locals.buttonGroup}
         buttonPropsList={[
           {
-            text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonPrettyStackTrace'),
-            key: 'pretty',
+            text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonCrashedThreadsStackTrace'),
+            key: 'crashed',
             size: 'compact',
             onClick: () => onChange(true)
           },
           {
-            text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonRawStackTrace'),
-            key: 'raw',
+            text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonAllThreadsStackTrace'),
+            key: 'all',
             size: 'compact',
             onClick: () => onChange(false)
           }
         ]}
-        activeKey={pretty ? 'pretty' : 'raw'}
+        activeKey={pretty ? 'crashed' : 'all'}
       />
     ) : (
       <></>
