@@ -95,7 +95,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   const chartWidth = customWidth || width;
   const chartHeight = (customHeight || height) - horizontalAxisHeight;
   const data = cachedResult.data || { buckets: [] };
-  const resultArray = data.groups && !loading ? data.groups : data.buckets;
+  const resultArray = data.groups && data.groups.length != 0 && !loading ? data.groups : data.buckets;
   let bucketArray = [];
   if (isGrouped && !loading) {
     resultArray.map(bcktGrp => {

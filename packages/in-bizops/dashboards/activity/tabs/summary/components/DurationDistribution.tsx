@@ -6,13 +6,18 @@
 
 import React, { useState } from 'react';
 
+import { GetActivityDurationDistributionBase10Query, DurationDistributionScale } from '@instana/types';
 import { Card } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
-import TimespanSelector, { ValidTimespanSelection } from './TimespanSelector';
-import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import TimespanSelector, {
+  TimespanSelectorOption
+} from 'in-bizops/dashboards/activity/tabs/summary/components/TimespanSelector';
+import getActivityDurationDistributionBase10 from 'in-bizops/subscriptions/getActivityDurationDistributionBase10';
+import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -22,55 +27,66 @@ type DurationDistributionProps = {
 };
 
 export default function DurationDistribution({ rightHeaderContent }: DurationDistributionProps) {
-  const [selectedTimespan, setSelectedTimespan] = useState(ValidTimespanSelection.Minute);
+  const [selectedTimespan, setSelectedTimespan] = useState('MINUTE');
   const timeShiftConfig = useTimeShiftConfig();
   const timeConfig = useTimeConfig();
 
-  const timespans = [
+  const location = useLocation();
+  const businessProcessId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
+    t('in-bizops:dashboards.summary.pageTitle');
+  const businessActivityName: string =
+    getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
+
+  // timespans that will be used in the content selector
+  const timespans: TimespanSelectorOption[] = [
     {
-      value: ValidTimespanSelection.Minute,
+      value: 'MINUTE',
       label: `${t('in-bizops:dashboards.activity.timespans.minute')}`
     },
     {
-      value: ValidTimespanSelection.Hour,
+      value: 'HOUR',
       label: `${t('in-bizops:dashboards.activity.timespans.hour')}`
     },
     {
-      value: ValidTimespanSelection.Day,
+      value: 'DAY',
       label: `${t('in-bizops:dashboards.activity.timespans.day')}`
     },
     {
-      value: ValidTimespanSelection.Week,
+      value: 'WEEK',
       label: `${t('in-bizops:dashboards.activity.timespans.week')}`
     }
   ];
 
-  const onTimespanChange = (timespan: ValidTimespanSelection) => {
+  const onTimespanChange = (timespan: DurationDistributionScale) => {
     setSelectedTimespan(timespan);
   };
 
-  const distDurationRequest = {
+  // create request for chart
+  const distDurationRequest: GetActivityDurationDistributionBase10Query = {
     includePercentiles: true,
-    filter: {
-      timeConfig
-    },
+    timeConfig: timeConfig,
+    scale: selectedTimespan as DurationDistributionScale,
     tagFilterExpression: {
-      type: 'EXPRESSION',
       logicalOperator: 'AND',
+      type: 'EXPRESSION',
       elements: [
         {
-          type: 'TAG_FILTER',
-          name: 'application.id',
-          stringValue: 'IYS1XOEcTNiT1eOD8pxgXg',
-          operator: 'EQUALS'
+          name: 'bpm_process_definition_id',
+          operator: 'EQUALS',
+          stringValue: businessProcessId,
+          entity: 'NOT_APPLICABLE',
+          type: 'TAG_FILTER'
+        },
+        {
+          name: 'bpm_activity_name',
+          operator: 'EQUALS',
+          stringValue: businessActivityName,
+          entity: 'NOT_APPLICABLE',
+          type: 'TAG_FILTER'
         }
       ]
     }
-  };
-  const timeShiftDistDurationRequest = {
-    ...distDurationRequest,
-    includePercentiles: false,
-    timeShift: translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
   };
 
   return (
@@ -80,25 +96,16 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
       size="l"
       rightHeaderContent={rightHeaderContent} // tabs for swapping charts
     >
-      <TimespanSelector timespans={timespans} selectedTimespan={selectedTimespan} onChange={onTimespanChange} />
+      <TimespanSelector
+        timespans={timespans}
+        selectedTimespan={selectedTimespan as DurationDistributionScale}
+        onChange={onTimespanChange}
+      />
 
       <LatencyDistributionBase10Chart
         dataSource="calls"
-        // @ts-expect-error duration request from a non-ts file
-        subscription={getLatencyDistributionBase10(distDurationRequest)}
-        // @ts-expect-error same as above
-        timeShiftSubscription={timeShiftConfig.offset && getLatencyDistributionBase10(timeShiftDistDurationRequest)}
-        selectionMenuItems={[
-          {
-            name: 'testName',
-            icon: 'lib_analyze',
-            label: 'test',
-            getHref$: () => {
-              return 'hrefHere';
-            },
-            onClick: () => {}
-          }
-        ]}
+        subscription={getActivityDurationDistributionBase10(distDurationRequest)}
+        timeShiftSubscription={getActivityDurationDistributionBase10(distDurationRequest)}
         showLegend
         timeShiftConfig={timeShiftConfig}
         renderWidgetNotSupportedIndicator={false}
