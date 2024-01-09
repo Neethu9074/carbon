@@ -128,11 +128,11 @@ export function getTest(testId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
-export function getTestResultMetadata(testId: string, testResultId: string): Observable<unknown> {
+export function getTestResultMetadata(testId: string, testResultId: string, startTime: number): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: resultUrl + '/' + testId + '/' + testResultId,
+    url: resultUrl + '/' + testId + '/' + testResultId + '?startTime=' + startTime,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }

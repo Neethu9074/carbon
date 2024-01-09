@@ -538,4 +538,5 @@ export const dummyTestResultImages: Result<ResultImages> = {
 export interface ViewScreenshotsDialogProps {
   testId: string;
   resultId: string;
+  startTime: number;
 }
