@@ -68,6 +68,17 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
   if (!metricLabel && !metricPath?.length && !isEmpty(metricPathAndLabel)) {
     metricLabel = metricPathAndLabel.label;
     metricPath = metricPathAndLabel.path;
+    if (updateForm) {
+      updateForm(
+        form
+          .updateIn(['hiddenFields', 'metricLabel'], field =>
+            (field as Field<string>).setValue(metricLabel).setTouched(true)
+          )
+          .updateIn(['hiddenFields', 'metricPath'], field =>
+            (field as Field<string>).setValue(metricPath).setTouched(true)
+          )
+      );
+    }
   }
 
   const metricMetadata = {
@@ -83,21 +94,25 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
     form: MapForm<any>,
     updateForm: ((form: MapForm<any>) => void) | undefined
   ) => {
-    //@ts-expect-error
-    updateForm(
-      form
-        .updateIn(['hiddenFields', 'metricLabel'], field =>
-          (field as Field<string>).setValue(metricObj.label).setTouched(true)
-        )
-        .updateIn(['hiddenFields', 'metricPath'], field =>
+    if (metric !== metricObj.metric && updateForm) {
+      updateForm(
+        form
+          .updateIn(['hiddenFields', 'metricLabel'], field =>
+            (field as Field<string>).setValue(metricObj.label).setTouched(true)
+          )
+          .updateIn(['hiddenFields', 'metricPath'], field =>
+            //@ts-expect-error
+            (field as Field<string>).setValue(metricObj.parentLabels).setTouched(true)
+          )
+          .updateIn(['rule', 'entityType'], field =>
+            (field as Field<string>).setValue(metricObj.parentType).setTouched(true)
+          )
+          .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(metricObj.metric).setTouched(true))
           //@ts-expect-error
-          (field as Field<string>).setValue(metricObj.parentLabels).setTouched(true)
-        )
-        .updateIn(['rule', 'entityType'], field =>
-          (field as Field<string>).setValue(metricObj.parentType).setTouched(true)
-        )
-        .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(metricObj.metric).setTouched(true))
-    );
+          .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
+          .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true))
+      );
+    }
   };
   return (
     <>
