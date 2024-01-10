@@ -6,23 +6,25 @@
 
 import React, { useContext, useState } from 'react';
 
+import { Typography } from '@instana/components';
 import { Application } from '@instana/types';
-import { Card } from '@instana/components';
 
 import SloEntityTable, {
   EntityData,
   SloEntityTablePageSize
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
+import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import useApplicationEntities from 'in-service-levels/hooks/useApplicationEntities';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import useApplicationEntities from 'in-service-levels/hooks/useApplicationEntities';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import useApplication from 'in-applications/hooks/useApplication';
+import Sections from 'in-components/workspace/Sections/Sections';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
-import useApplication from 'in-applications/hooks/useApplication';
 
 export default function SloApplicationEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
@@ -63,24 +65,25 @@ export default function SloApplicationEntitySection() {
   const progress = all(entityAlreadyLoaded || !entityId ? finishedProgress : labelProgress, entitiesProgress);
 
   return (
-    <Card
-      title={t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
-      rightHeaderContent={<SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />}
-    >
-      <>
-        {!isEntityIdFieldValid &&
-          entityIdField.messages.map(({ message, path }, index) => (
-            <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
-          ))}
-        <SloEntityTable
-          hasError={!isEntityIdFieldValid}
-          entityList={sortedEntities}
-          onChange={onEntityChange}
-          progress={progress}
-          canLoadMore={canLoadMore}
-          loadMore={loadMore}
-        />
-      </>
-    </Card>
+    <Sections>
+      <SloTableHeader>
+        <Typography variant="heading-200" component="h2">
+          {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
+        </Typography>
+        <SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />
+      </SloTableHeader>
+      {!isEntityIdFieldValid &&
+        entityIdField.messages.map(({ message, path }, index) => (
+          <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
+        ))}
+      <SloEntityTable
+        hasError={!isEntityIdFieldValid}
+        entityList={sortedEntities}
+        onChange={onEntityChange}
+        progress={progress}
+        canLoadMore={canLoadMore}
+        loadMore={loadMore}
+      />
+    </Sections>
   );
 }

@@ -6,32 +6,31 @@
 
 import React from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import EstimatedErrorBudget from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/EstimatedErrorBudget';
 import TimeWindowSelector from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimeWindowSelector';
 import TargetSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TargetSection';
+import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import Sections from 'in-components/workspace/Sections/Sections';
 
 import locals from './SloObjectiveSection.mless';
 
 export default function SloObjectiveSection() {
   return (
-    <Stack direction="vertical" wrap gap="xxsmall">
-      <Typography variant="heading-200" component="h2">
-        {t('in-service-levels:createSloDialog.selectObjectiveTitle')}
-      </Typography>
-
-      <Stack gap="medium" direction="horizontal" distribution="stretch" wrap>
-        <Sections className={locals.inputSection}>
-          <TargetSection />
-          <TimeWindowSelector />
-        </Sections>
-        <Sections className={locals.estimatedBudgetSection}>
-          <EstimatedErrorBudget />
-        </Sections>
+    <SloDialogSection title={t('in-service-levels:createSloDialog.selectObjectiveTitle')}>
+      <Stack direction="vertical" wrap gap="xxsmall">
+        <Stack gap="medium" direction="horizontal" distribution="stretch" wrap>
+          <Sections className={locals.inputSection}>
+            <TargetSection />
+            <TimeWindowSelector />
+          </Sections>
+          <Sections className={locals.estimatedBudgetSection}>
+            <EstimatedErrorBudget />
+          </Sections>
+        </Stack>
       </Stack>
-    </Stack>
+    </SloDialogSection>
   );
 }

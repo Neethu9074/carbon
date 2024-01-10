@@ -28,7 +28,7 @@ export default function ApplicationTagFilterBuilder({
 
   const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
 
-  if (!isScopeSelected) return <DisabledTagFilterButton />;
+  if (!isScopeSelected) return <DisabledTagFilterButton width={width} />;
 
   return <ApplicationTagFilterBuilderContent form={form} onChange={onChange} readOnly={readOnly} width={width} />;
 }
