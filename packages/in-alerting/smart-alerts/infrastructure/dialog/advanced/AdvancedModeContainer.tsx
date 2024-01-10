@@ -151,8 +151,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           valid: isCustomPayloadValidOrUntouched(form),
           content: (
             <>
-              {/* TODO :  Context need to be updated once it is added to typedefinition.  */}
-              <GlobalCustomPayloadCard context="ALL" />
+              <GlobalCustomPayloadCard context="INFRA" />
               <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
             </>
           )

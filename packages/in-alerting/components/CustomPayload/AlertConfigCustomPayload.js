@@ -46,7 +46,11 @@ export default function AlertConfigCustomPayload({ form, setForm, supportDynamic
         },
         errors: [],
         data: {
-          items: form.get('customPayloadFields').items ?? []
+          //this is for enabling edit option only for static payloads in Infra SA, as dynamic is not yet supported  in UI
+          //normal case, this could be just -  items:form.get('customPayloadFields').items ?? []
+          items: supportDynamicTypes
+            ? form.get('customPayloadFields').items
+            : getStaticPayload(form.get('customPayloadFields').items) ?? []
         }
       }}
       customPayloadForm={form.get('customPayloadFields')}
@@ -76,4 +80,8 @@ export default function AlertConfigCustomPayload({ form, setForm, supportDynamic
   function addRow() {
     setForm(form.updateIn(['customPayloadFields'], f => f.push(createNewFormEntry()).setTouched(true)));
   }
+}
+
+function getStaticPayload(formItem) {
+  return formItem.filter(item => item.items.type.value == 'staticString');
 }

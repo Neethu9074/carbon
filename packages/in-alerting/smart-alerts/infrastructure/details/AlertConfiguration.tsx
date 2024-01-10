@@ -201,7 +201,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       >
         <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
       </ExpandableLightCard>
-      <GlobalCustomPayloadCard context="ALL" />
+      <GlobalCustomPayloadCard context="INFRA" />
       <CustomPayloadCard
         customPayloadFields={customPayloadFieldsAllStatic} //this can be replaced with - customPayloadFields - once the dynamic payload support is enabled for infa SA
         TagBasedPayloadConfigurator={() => <></>}
