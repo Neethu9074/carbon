@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { enabledWidgets } from 'in-custom-dashboards/widgets';
-import Pill from 'in-components/Pill';
 
 import locals from './WidgetTypeSidebar.mless';
 

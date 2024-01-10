@@ -6,7 +6,7 @@
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React from 'react';
 
-import { ColumnizedContent, Li, Stack, SvgIcon, toInteractiveElement, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Stack, SvgIcon, toInteractiveElement, Ul, Pill } from '@instana/components';
 
 import {
   formatterPath,
@@ -20,7 +20,6 @@ import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './AxesConfigurator.mless';
