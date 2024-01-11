@@ -21,7 +21,7 @@ import MobileAppBeaconDetails from 'in-applications/analyze/components/TraceDeta
 import WebsiteBeaconDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/WebsiteBeaconDetails';
 import ProfileInformation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ProfileInformation';
 import SpanDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SpanDetails';
-import LogsCard from 'in-components/Logging/TraceDetails/components/LogDetails/LogsCard.tsx';
+import LogsCard from 'in-components/Logging/TraceDetails/components/LogDetails/LogsCard';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-components/ExpandableGroup';
@@ -34,7 +34,7 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceComponent.mless';
 
-export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon, logsCardProps }) {
+export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon }) {
   const timeConfig = useTimeConfig();
   const sourceService = get(call, ['source', 'service']);
   const service = get(call, ['destination', 'service']);
@@ -346,7 +346,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon,
               }
             />
           )}
-          <LogsCard {...logsCardProps} />
+          <LogsCard call={call} processSnapshotId={destinationProcessSnapshotId} />
         </Stack>
       </div>
     </>

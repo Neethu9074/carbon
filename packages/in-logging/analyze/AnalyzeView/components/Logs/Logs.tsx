@@ -112,13 +112,7 @@ export default function Logs(props: LogsProps) {
     timestampColumn,
     {
       id: 'log',
-      getContent: (columnContentProps: ColumnContentProps) => (
-        <LogMessageColumn
-          {...columnContentProps}
-          getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
-          getHrefToGroupedView={getHrefToGroupedView}
-        />
-      )
+      getContent: (columnContentProps: ColumnContentProps) => <LogMessageColumn {...columnContentProps} />
     },
     centerAlignedLinkColumn,
     centerAlignedCopyColumn
