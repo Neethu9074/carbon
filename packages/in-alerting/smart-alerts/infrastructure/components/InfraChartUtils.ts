@@ -72,7 +72,7 @@ export function getUnifiedMetricConfig(
   enrichedTagFilterExpression: TagFilterExpressionElementUnion,
   granularity: Granularity
 ) {
-  const { entityType, metricName, aggregation, crossSeriesAggregation } = alertRule;
+  const { entityType, metricName, aggregation, crossSeriesAggregation, regex } = alertRule;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
   const metricLabel = metricDefinition.getLabel();
@@ -100,7 +100,8 @@ export function getUnifiedMetricConfig(
           source: 'INFRASTRUCTURE_METRICS',
           tagFilterExpression: enrichedTagFilterExpression,
           timeShift: 0,
-          type: entityType
+          type: entityType,
+          regex
         }
       ]
     }
@@ -114,7 +115,7 @@ interface ChartConfigProps {
 
 export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
   const { threshold, granularity } = alertConfig;
-  const { metricName, aggregation } = alertConfig.rule;
+  const { metricName, aggregation, regex } = alertConfig.rule;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
@@ -128,7 +129,8 @@ export function getChartConfig({ alertConfig, timeConfig }: ChartConfigProps) {
         [metricName]: {
           metric: metricName,
           granularity,
-          aggregation
+          aggregation,
+          regex
         },
         ['violations']: {
           metric: 'violations',

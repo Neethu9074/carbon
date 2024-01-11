@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { StackTraceItem } from '@instana/types';
+
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
-import { ParsedStackTrace } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
 import { SnapshotData } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -20,7 +21,7 @@ export interface StackTracePresentationProps {
   noPadding: boolean;
   snapshot?: SnapshotData | null;
   isOnline: boolean;
-  stackTrace: ParsedStackTrace[] | null;
+  stackTrace: StackTraceItem[] | null;
 }
 
 export default function StackTracePresentation({
@@ -57,7 +58,7 @@ export default function StackTracePresentation({
   );
 }
 
-function combine(file: string, line: string) {
+function combine(file: string, line?: string) {
   if (line != null) {
     return `${file}:${line}`;
   }
@@ -80,14 +81,18 @@ function ListContent({ stackTrace, isOnline, snapshot, noPadding }: StackTracePr
       })}
     >
       {stackTrace?.map((st, i) => {
-        const fileLine = combine(st.file, st.line);
+        const { file, line, method } = st;
+
+        const fileLine = file && combine(file, line);
+        const canShowCodeView = isOnline && snapshot && file && line && fileLine;
+
         return (
           <li key={i}>
-            {st.method && <span className={locals.method}>{stripQuotes(st.method)} </span>}
+            {method && <span className={locals.method}>{stripQuotes(method)} </span>}
             <span className={locals.in}>{t('in-analyze:traceDetail.components.callDetails.in')}</span>
             <span>
-              {isOnline && snapshot ? (
-                <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>
+              {canShowCodeView ? (
+                <ShowCodeButton snapshot={snapshot} file={file} line={line}>
                   {fileLine}
                 </ShowCodeButton>
               ) : (
