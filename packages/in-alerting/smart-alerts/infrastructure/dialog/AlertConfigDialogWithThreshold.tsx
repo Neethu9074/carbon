@@ -75,6 +75,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
   } = props;
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+  const [tagFilterValid, setTagFilterValid] = useState(true);
   useEffect(() => {
     setIsSimpleMode(simpleMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +118,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       onCreate={() => onCreate(simpleMode)}
       isSaving={isSaving}
       editMode={editMode}
-      additionalValidationCheck={() => isMetricAndEntityValid}
+      additionalValidationCheck={() => isMetricAndEntityValid && tagFilterValid}
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
@@ -148,6 +149,8 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       thresholdResult={null}
       timeConfig={timeConfig}
       isTagFilterFormModelValid
+      setTagFilterValid={setTagFilterValid}
+      tagFilterValid={tagFilterValid}
     />
   );
 }

@@ -42,7 +42,9 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     onChange,
     timeConfig,
     setSliderState,
-    setCustomSlideInHeaderConfig
+    setCustomSlideInHeaderConfig,
+    setTagFilterValid,
+    tagFilterValid
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
@@ -55,8 +57,15 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
-          valid: isMetricAndEntityValid(),
-          content: <ScopeSection form={form} updateForm={updateForm} onChange={onChange} />
+          valid: isMetricAndEntityValid() && tagFilterValid,
+          content: (
+            <ScopeSection
+              form={form}
+              updateForm={updateForm}
+              onChange={onChange}
+              setTagFilterValid={setTagFilterValid}
+            />
+          )
         },
         {
           scrollId: '2',

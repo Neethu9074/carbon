@@ -36,6 +36,7 @@ interface QueryBuilderSectionProps {
 
   actions?: ReactNode;
   withoutIcon?: boolean;
+  onErrorStateChange?: (hasError: boolean) => void;
 }
 
 export default function QueryBuilderSection({
@@ -51,7 +52,8 @@ export default function QueryBuilderSection({
   errors: externalErrors,
   tagCatalog,
   getSuggestionsProps = {},
-  getSuggestionLabel
+  getSuggestionLabel,
+  onErrorStateChange
 }: QueryBuilderSectionProps) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -69,6 +71,11 @@ export default function QueryBuilderSection({
   useEffect(() => {
     setInternalError(emptyObject);
   }, [tagFilterExpression]);
+
+  useEffect(() => {
+    if (onErrorStateChange) onErrorStateChange(!hasInternalError);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasInternalError]);
 
   const title = withOptionalMarker ? (
     <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>
