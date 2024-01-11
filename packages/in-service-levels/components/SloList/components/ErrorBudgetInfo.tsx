@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { isEventBasedSli } from '@instana/types/typeDefinitions';
+import { isEventBasedSli, isCustomEventBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -45,9 +44,10 @@ export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }:
         context: indicatorType,
         entityType,
         remaining: remainingErrorBudget,
-        remainingFormatted: isEventBasedSli(indicator)
-          ? number.compact(remainingErrorBudget)
-          : minutes.fixedCompact(remainingErrorBudget),
+        remainingFormatted:
+          isEventBasedSli(indicator) || isCustomEventBasedSli(indicator)
+            ? number.compact(remainingErrorBudget)
+            : minutes.fixedCompact(remainingErrorBudget),
         budget: minutes.fixedCompact(minutesInTimeWindow)
       })}
       inverted
