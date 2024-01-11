@@ -5,9 +5,9 @@
  */
 
 import React, { useContext } from 'react';
+import classNames from 'classnames';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
-import { TimeConfig } from '@instana/types';
 
 import {
   getTraceIdTagFilter,
@@ -30,6 +30,8 @@ import { getCallIdFromTags } from 'in-components/Logging/TraceDetails/utils';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import getLogs from 'in-logging/subscriptions/getLogs';
 
+import locals from 'in-components/Logging/TraceDetails/components/Logs.mless';
+
 const columnDefinitions = [
   logLevelColumn,
   timestampColumn,
@@ -39,17 +41,10 @@ const columnDefinitions = [
   }
 ];
 
-interface LogsProps {
-  setCallId: (callId: string) => void;
-  traceId: string;
-  timeConfigForLogs: TimeConfig;
-  totalNumberOfLogs: number;
-}
-
-export default function Logs(props: LogsProps) {
+export default function Logs(props) {
   const { setSelectedLog } = useContext(LogsInCallsContext);
 
-  const { traceId, totalNumberOfLogs, timeConfigForLogs, setCallId } = props;
+  const { traceId, totalNumberOfLogs, selectedLogIdPair, timeConfigForLogs, setCallId } = props;
   const { items, errors, progress } = useLogsCursorPagination(
     params => getData({ traceId, totalNumberOfLogs, timeConfigForLogs, ...params }),
     [traceId]
@@ -68,15 +63,23 @@ export default function Logs(props: LogsProps) {
     <Ul space="disabled">
       {items.map(log => {
         const id = log.itemId;
+        const spanId = getSpanIdFromTags(log.tags);
         const callId = getCallIdFromTags(log.tags);
+
+        const isSelected = selectedLogIdPair
+          ? selectedLogIdPair.logId === id && spanId === selectedLogIdPair.spanId
+          : false;
 
         return (
           <Li
             onClick={() => {
-              setCallId(callId!);
+              setCallId(callId);
               setSelectedLog(log);
             }}
             key={id}
+            className={classNames({
+              [locals.selectedRow]: isSelected
+            })}
             renderNestedContent={() => <LogTagsTable item={log} />}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} {...log} />
@@ -86,15 +89,7 @@ export default function Logs(props: LogsProps) {
     </Ul>
   );
 }
-function getData({
-  traceId,
-  totalNumberOfLogs,
-  timeConfigForLogs
-}: {
-  traceId: string;
-  totalNumberOfLogs: number;
-  timeConfigForLogs: TimeConfig;
-}) {
+function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
   const cappedRetrievalSize = totalNumberOfLogs < maxRetrievalSize ? totalNumberOfLogs : maxRetrievalSize;
 
   return getLogs({
@@ -111,4 +106,8 @@ function getData({
       LOG_CALL_ID
     ]
   });
+}
+
+function getSpanIdFromTags(tags) {
+  return tags.filter(({ name }) => name === LOG_SPAN_ID)[0]?.stringValue;
 }

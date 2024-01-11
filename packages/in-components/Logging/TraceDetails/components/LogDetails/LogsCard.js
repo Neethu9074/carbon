@@ -6,7 +6,6 @@
 
 import React, { useContext, useEffect } from 'react';
 
-import { LogItem, TimeConfig, TraceActivityTreeNodeDetails } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -18,9 +17,9 @@ import {
   LOG_LEVEL,
   SPAN_STACK_TRACE
 } from 'in-logging/queryBuilder';
-import LogDetails, { LogSpanExcerpt } from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import { getCardTitle } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { loggingEnabled } from 'in-services/featureFlags';
@@ -29,10 +28,10 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import { t } from 'in-i18n';
 
-const LogsCard = ({ call, processSnapshotId }: { call: TraceActivityTreeNodeDetails; processSnapshotId: string }) => {
+const LogsCard = ({ call, processSnapshotId }) => {
   const { logs } = call;
   const { selectedLog, timeConfigForLogs, setSelectedLog } = useContext(LogsInCallsContext);
-  const logsResult = useObservable(getData({ callId: call.id, timeConfig: timeConfigForLogs! }), []) ?? pendingResult;
+  const logsResult = useObservable(getData({ callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
   const hasLoggingLogs = logsResult.data?.items?.length > 0;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,22 +43,17 @@ const LogsCard = ({ call, processSnapshotId }: { call: TraceActivityTreeNodeDeta
     hasLoggingLogs ? logsResult.data?.items : logs
   )})`;
 
-  const handleToggle = (isToggled: boolean) => {
+  const handleToggle = isToggled => {
     if (!isToggled) setSelectedLog(null);
   };
 
   return (
     <ErrorBoundary name="log tree sidebar">
-      <ExpandableGroup
-        key={String(!!selectedLog)}
-        onToggle={handleToggle}
-        defaultExpanded={!!selectedLog}
-        title={cardTitle}
-      >
+      <ExpandableGroup key={!!selectedLog} onToggle={handleToggle} defaultExpanded={!!selectedLog} title={cardTitle}>
         {loggingEnabled && hasLoggingLogs
-          ? logsResult.data.items.map((log: LogItem, i: number) => (
+          ? logsResult.data.items.map((log, i) => (
               <LogDetails
-                callLog={logs[i] as LogSpanExcerpt}
+                callLog={logs[i]}
                 callId={call.id}
                 loggingLog={log}
                 processSnapshotId={processSnapshotId}
@@ -67,19 +61,14 @@ const LogsCard = ({ call, processSnapshotId }: { call: TraceActivityTreeNodeDeta
               />
             ))
           : logs.map((log, i) => (
-              <LogDetails
-                callId={call.id}
-                callLog={log as LogSpanExcerpt}
-                processSnapshotId={processSnapshotId}
-                key={i}
-              />
+              <LogDetails callId={call.id} callLog={log} processSnapshotId={processSnapshotId} key={i} />
             ))}
       </ExpandableGroup>
     </ErrorBoundary>
   );
 };
 
-function getData({ callId, timeConfig }: { callId: string; timeConfig: TimeConfig }) {
+function getData({ callId, timeConfig }) {
   return getLogs({
     timeConfig,
     retrievalSize: maxRetrievalSize,
