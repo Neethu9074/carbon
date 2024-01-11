@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { ColumnizedContent, Li, SvgIcon } from '@instana/components';
+import { ColumnizedContent, Li, SvgIcon, Pill } from '@instana/components';
 import { create } from '@instana/observables';
 
 import {
@@ -22,7 +22,6 @@ import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/
 import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './MetricConfiguration.mless';
