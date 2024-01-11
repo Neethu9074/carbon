@@ -5,36 +5,33 @@
 
 import React from 'react';
 
+import AdvanceSpinningDiskTypeTable from 'in-forge/plugins/ibmIOs/Dashboard/AdvanceSpinningDiskTypeTable';
+import BasicSpinningDiskTypeTable from 'in-forge/plugins/ibmIOs/Dashboard/BasicSpinningDiskTypeTable';
+import AdvanceSolidStateDiskTable from 'in-forge/plugins/ibmIOs/Dashboard/AdvanceSolidStateDiskTable';
+import BasicSolidStateDiskTable from 'in-forge/plugins/ibmIOs/Dashboard/BasicSolidStateDiskTable';
+import NonVolatileMemoryTable from 'in-forge/plugins/ibmIOs/Dashboard/NonVolatileMemoryTable';
+import SystemDiskStatusTable from 'in-forge/plugins/ibmIOs/Dashboard/SystemDiskStatusTable';
+import UserSpoolSpaceTable from 'in-forge/plugins/ibmIOs/Dashboard/UserSpoolSpaceTable';
+import MessageQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/MessageQueueTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import NetworkInfoTable from 'in-forge/plugins/ibmIOs/Dashboard/NetworkInfoTable';
+import OutputQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/OutputQueueTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import MemoryPoolsTable from 'in-forge/plugins/ibmIOs/Dashboard/MemoryPoolTable';
+import ActiveJobsTable from 'in-forge/plugins/ibmIOs/Dashboard/ActiveJobsTable';
+import HistoryLogTable from 'in-forge/plugins/ibmIOs/Dashboard/HistoryLogTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import SubsystemTable from 'in-forge/plugins/ibmIOs/Dashboard/SubsystemTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import JobQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/JobQueueTable';
 import { number, percentage, bytes } from 'in-services/formatters/number';
-import AdvanceSpinningDiskTypeTable from './AdvanceSpinningDiskTypeTable';
-import BasicSpinningDiskTypeTable from './BasicSpinningDiskTypeTable';
-import AdvanceSolidStateDiskTable from './AdvanceSolidStateDiskTable';
-import BasicSolidStateDiskTable from './BasicSolidStateDiskTable';
-import NonVolatileMemoryTable from './NonVolatileMemoryTable';
+import AspTable from 'in-forge/plugins/ibmIOs/Dashboard/AspTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import NetstatInterfaceTable from './NetstatInterfaceTable';
-import SystemDiskStatusTable from './SystemDiskStatusTable';
-import NetstatBytesOutTable from './NetstatBytesOutTable';
-import NetstatBytesInTable from './NetstatBytesInTable';
-import UserSpoolSpaceTable from './UserSpoolSpaceTable';
 import MetricValue from 'in-components/MetricValue';
-import MessageQueueTable from './MessageQueueTable';
-import OutputQueueTable from './OutputQueueTable';
-import MemoryPoolsTable from './MemoryPoolTable';
-import ActiveJobsTable from './ActiveJobsTable';
-import HistoryLogTable from './HistoryLogTable';
-import SubsystemTable from './SubsystemTable';
-import JobQueueTable from './JobQueueTable';
-import AspTable from './AspTable';
 import { t } from 'in-i18n';
 
 export default function IbmIOsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-
   return (
     <div>
       <KpiSection>
@@ -185,12 +182,10 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
         <UserSpoolSpaceTable snapshotId={snapshotId} />
       </Columize>
+      <NetworkInfoTable snapshot={snapshot} timeConfig={timeConfig} />
       <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <NetstatInterfaceTable snapshot={snapshot} timeConfig={timeConfig} />
-      <NetstatBytesInTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <NetstatBytesOutTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HistoryLogTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );

@@ -816,6 +816,11 @@
   "pluginName_ibmIOs_1": "IBM i",
   "pluginName_ibmIOs_2": "IBM i",
   "pluginName_ibmIOs": "IBM i",
+  "pluginName_ibmiNetworkInfo_plural": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo_0": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo_1": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo_2": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo": "Network Information on IBM i",
   "pluginName_ibmIDb2_plural": "Db2s on i",
   "pluginName_ibmIDb2_0": "Db2s on i",
   "pluginName_ibmIDb2_1": "Db2s on i",
@@ -7246,7 +7251,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-    "powervcRegion":{
+"powervcRegion":{
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -9848,6 +9853,36 @@
         }
       }
     },
+    "ibmiNetworkInfo": {
+      "name": "Network Information in IBM i",
+      "dashboard":{
+        "tables":{
+          "netstatInterfaces": {
+            "name": "Netstat Interfaces",
+            "internetAddress": "Internet Address",
+            "subnetMask": "Subnet Mask",
+            "connectionType": "Connection Type",
+            "InterfaceLineType": "Interface Line Type",
+            "lineDescription": "Line Description",
+            "virtualLanId": "VLAN ID",
+            "status": "Status"
+          },
+          "netstatInfo": {
+            "bytesInName": "Network connections (Top Receivers)",
+            "bytesOutName": "Network connections (Top Sender)",
+            "bindUser": "Bind User",
+            "protocol": "Protocol",
+            "remotePortAndAddress": "Remote Port & Address",
+            "remotePortName": "Remote Port Name",
+            "localPortAndAddress": "Local Port & Address",
+            "localPortName": "Local Port Name",
+            "tcpState": "Tcp State",
+            "bytesSentRemotely": "Bytes Sent Remotely",
+            "bytesReceivedLocally": "Bytes Received Locally"
+          }
+        }
+      }
+    },
     "ibmIOs": {
       "sidebar": {
         "ibmIOSInfo": "IBM i Info",
@@ -10001,29 +10036,6 @@
               "scheduledJobs": "Scheduled Jobs"
             }
           },
-          "netstatInterfaces": {
-            "name": "Netstat Interfaces",
-            "internetAddress": "Internet Address",
-            "subnetMask": "Subnet Mask",
-            "connectionType": "Connection Type",
-            "InterfaceLineType": "Interface Line Type",
-            "lineDescription": "Line Description",
-            "virtualLanId": "VLAN ID",
-            "status": "Status"
-          },
-          "netstatInfo": {
-            "bytesInName": "Network connections (Top Receivers)",
-            "bytesOutName": "Network connections (Top Sender)",
-            "bindUser": "Bind User",
-            "protocol": "Protocol",
-            "remotePortAndAddress": "Remote Port & Address",
-            "remotePortName": "Remote Port Name",
-            "localPortAndAddress": "Local Port & Address",
-            "localPortName": "Local Port Name",
-            "tcpState": "Tcp State",
-            "bytesSentRemotely": "Bytes Sent Remotely",
-            "bytesReceivedLocally": "Bytes Received Locally"
-          },
           "messageQueue": {
             "name": "Message Queue",
             "messageId": "ID",
@@ -10107,6 +10119,7 @@
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
     },

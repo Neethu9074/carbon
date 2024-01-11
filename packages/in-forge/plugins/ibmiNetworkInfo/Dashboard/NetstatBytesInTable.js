@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -15,7 +16,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.remotePortAndAddress'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.remotePortAndAddress'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.bindUser'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.bindUser'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +34,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.localPortAndAddress'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.localPortAndAddress'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -42,7 +43,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.remotePortName'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.remotePortName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -51,7 +52,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.localPortName'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.localPortName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -60,14 +61,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.bytesSentRemotely'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.bytesSentRemotely'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `netstatMetricsBytesOut.${row.key}.bytesSentRemotely`;
+        return `netstatMetricsBytesIn.${row.key}.bytesSentRemotely`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {
@@ -76,14 +77,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.bytesReceivedLocally'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.bytesReceivedLocally'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `netstatMetricsBytesOut.${row.key}.bytesReceivedLocally`;
+        return `netstatMetricsBytesIn.${row.key}.bytesReceivedLocally`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {
@@ -92,14 +93,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.protocol'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.protocol'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `netstatMetricsBytesOut.${row.key}.protocol`;
+        return `netstatMetricsBytesIn.${row.key}.protocol`;
       },
       getContent: ProtocolEnum,
       getTimeWindowAggregation() {
@@ -108,14 +109,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.tcpState'),
+    title: t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.tcpState'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `netstatMetricsBytesOut.${row.key}.tcpState`;
+        return `netstatMetricsBytesIn.${row.key}.tcpState`;
       },
       getContent: TcpStatusEnum,
       getTimeWindowAggregation() {
@@ -129,19 +130,19 @@ export default connectTo(
   props => {
     const { snapshotId } = props;
     return {
-      data: getRawPayloadWithTimestamp(snapshotId, 'netstatInfoRawPayloadBytesOut')
+      data: getRawPayloadWithTimestamp(snapshotId, 'netstatInfoRawPayloadBytesIn')
     };
   },
   function netstatInfoTable({ data, snapshotId, timeConfig }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-    const netstatInfoRawPayloadBytesOut = data.get('raw_payload');
-    if (netstatInfoRawPayloadBytesOut.size === 0) {
+    const netstatInfoRawPayloadBytesIn = data.get('raw_payload');
+    if (netstatInfoRawPayloadBytesIn.size === 0) {
       return null;
     }
 
-    const rows = netstatInfoRawPayloadBytesOut
+    const rows = netstatInfoRawPayloadBytesIn
       .map((netstatStringData, key) => {
         return {
           key,
@@ -158,13 +159,13 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.netstatInfo.bytesOutName')}
+            title={t('in-forge:plugins.ibmiNetworkInfo.dashboard.tables.netstatInfo.bytesInName')}
             timestamp={data.get('timestamp')}
           />
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={5}
+        initialSortColumn={6}
         initialSortDirection="desc"
       />
     );
