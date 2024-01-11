@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useContext } from 'react';
 
+import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
 import { role } from 'in-stores/user';
 import { useTheme } from 'in-themes';
 
@@ -17,7 +18,8 @@ export default forwardRef(function LogIndicator(props, ref) {
 });
 
 const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
-  const { selectLogId, log, logId } = props;
+  const { onCallClicked } = props;
+  const { setSelectedLog } = useContext(LogsInCallsContext);
 
   return (
     <div
@@ -25,7 +27,8 @@ const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
       {...getStyleProps(props)}
       onClick={e => {
         if (role.canViewLogs) {
-          selectLogId({ logId, callId: log?.id, label: log.label });
+          onCallClicked?.({ ...props.log, id: props.parentCall.id });
+          setSelectedLog(props.log);
           e.preventDefault();
           e.stopPropagation();
         }

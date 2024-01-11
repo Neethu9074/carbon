@@ -27,7 +27,7 @@ import { t } from 'in-i18n';
 import locals from './CallDetails.mless';
 
 export default function CallDetails(props) {
-  const { rootCall, callId, traceId, correlationId, correlationType, startTime, getColor, onClose, logsCardProps } =
+  const { rootCall, callId, traceId, correlationId, correlationType, startTime, getColor, onClose } =
     props;
   const callResult =
     useObservable(() => {
@@ -101,11 +101,9 @@ export default function CallDetails(props) {
       >
         <Stack direction="vertical" gap="normal">
           <ServiceComponent
-            selectLogId={props.selectLogId}
             call={call}
             websiteBeacon={websiteBeacon}
             mobileAppBeacon={mobileAppBeacon}
-            logsCardProps={logsCardProps}
           />
           <IsSynthetic call={call} />
         </Stack>
