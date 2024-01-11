@@ -16,6 +16,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
+import { scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -53,36 +54,7 @@ export default function ScriptsSection({
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
-  const isSideScript = () => {
-    try {
-      JSON.parse((configForm.get('script') as Field<string>).value);
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
-  const [script, setScript] = useState(
-    isUpdateConfig && !isUpdated
-      ? configForm.get('script')
-        ? {
-            name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
-            text: (configForm.get('script') as Field<string>).value,
-            extension: isSideScript() ? 'side' : 'js'
-          }
-        : {
-            name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
-            text: (configForm.getIn(['scripts', 'bundle']) as Field<string>).value,
-            scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
-            extension: 'zip'
-          }
-      : scriptDetails?.modified && configForm.get('script')
-      ? {
-          name: scriptDetails?.name,
-          text: (configForm.get('script') as Field<string>).value,
-          extension: isNotBlank(scriptDetails?.name) ? (isSideScript() ? 'side' : 'js') : ''
-        }
-      : { name: '', text: '', extension: 'js' }
-  );
+  const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
   const [columnLabel, setColumnLabel] = useState(
     (isUpdateConfig && !isUpdated) || (scriptDetails?.modified && isBlank(scriptDetails?.name))
