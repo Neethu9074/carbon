@@ -320,6 +320,7 @@ import './ping';
 import './solr';
 import './zDb2';
 import './zIms';
+import './zCtg';
 import './ec2';
 import './gce';
 import './lxc';

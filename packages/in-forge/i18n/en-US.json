@@ -1481,6 +1481,11 @@
   "pluginName_zIms_1": "IBM IMS for z/OS",
   "pluginName_zIms_2": "IBM IMS for z/OS",
   "pluginName_zIms": "IBM IMS for z/OS",
+  "pluginName_zCtg_plural": "IBM CTG for z/OS",
+  "pluginName_zCtg_0": "IBM CTG for z/OS",
+  "pluginName_zCtg_1": "IBM CTG for z/OS",
+  "pluginName_zCtg_2": "IBM CTG for z/OS",
+  "pluginName_zCtg": "IBM CTG for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_0": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_1": "WebLogic Servers",
@@ -13585,6 +13590,41 @@
         "transactionElapsedTime": "Transaction Elapsed Time",
         "externalSubsystemCalls": "External Subsystem Calls",
         "locksHeldCount": "Locks Held Count"
+      }
+    },
+    "zCtg": {
+      "label": "IBM CTG for z/OS",
+      "hostName": "Host Name",
+      "originNode": "Origin Node",
+      "systemId": "System ID",
+      "cicsTransactionGatewayName": "CICS TG Name",
+      "cicsTgVersion": "CICS TG Version",
+      "startTimeAndDate": "Region Start Time",
+      "tcpPortNumber": "TCP Port Number",
+      "sslPortNumber": "SSL Port Number",
+      "cpuUtilization": "CPU Utilization",
+      "totalRequestsPerMinute": "Requests Per Minute",
+      "allocatedConnectionManagerThreads": "C Manager Threads",
+      "allocatedWorkerThreads": "Worker Threads",
+      "gatewayDaemonHealth": "Gateway Daemon Health",
+      "threads": "Threads",
+      "connectionManagerThreadsCreated": "Connection Manager Threads [created]",
+      "connectionManagerThreadsAllocated": "Connection Manager Threads [allocated]",
+      "workerThreadsCreated": "Worker Threads [created]",
+      "workerThreadsAllocated": "Worker Threads [allocated]",
+      
+      
+      "numberWaiting": "Connection Manager Threads waiting on Worker Threads",
+      "clientConnecttimeoutPerMinute": "Client Connection Timeouts Per Minute",
+      "timesConnecttimeoutLimitHitPerMinute": "Client Connection Timeouts Per Minute (Percentage)",
+      "ioPerMinute": "IO Per Minute",
+      "cicsConnections": {
+        "title": "CICS Connections",
+        "cicsServer": "CICS Server",
+        "requestsExecutedPerMinute": "Requests Executed Per Minute",
+        "averageResponseTime": "Average Response Time",
+        "connectionFailuresPerMinute": "Connection Failures Per Minute",
+        "lostConnectionsPerMinute": "Lost Connections Per Minute"
       }
     },
     "zOS": {
