@@ -76,7 +76,7 @@
     "@codemirror/state": "6.2.0",
     "@codemirror/theme-one-dark": "^6.0.0",
     "@codemirror/view": "6.6.0",
-    "@instana/components": "2.31.0",
+    "@instana/components": "2.31.1",
     "@instana/design-tokens": "1.23.3",
     "@instana/format-date": "1.6.1",
     "@instana/format-numbers": "^1.4.1",
