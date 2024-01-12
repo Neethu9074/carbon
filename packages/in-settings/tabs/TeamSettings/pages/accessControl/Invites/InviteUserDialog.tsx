@@ -213,6 +213,7 @@ export default function InviteUserDialog() {
         </Col>
         <Col xs={1}>
           <IconButton
+            buttonType="button"
             className={locals.removeButton}
             kind="primaryv2"
             type="lib_openclose_remove_circle_outline"
@@ -250,6 +251,7 @@ export default function InviteUserDialog() {
               <div className={locals.anotherUserRow}>
                 <Button
                   kind="action"
+                  type="button"
                   icon="lib_openclose_add_circle_outline"
                   className={locals.button}
                   onClick={() => setForm(form.push(emptyInvite()).setTouched(true))}
