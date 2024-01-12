@@ -202,7 +202,12 @@ export const amountPlatformAccesses = (() => {
 
 export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
 export const hasEventsAccess =
-  hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+  hasWebsitesAccess ||
+  hasMobileAppsAccess ||
+  hasApplicationsAccess ||
+  hasAPlatformAccess ||
+  hasInfrastructureAccess ||
+  hasSyntheticsAccess;
 export const hasBizOpsAccess =
   hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
