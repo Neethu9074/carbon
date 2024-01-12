@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import { isTimeBasedSli, Result, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
-import { useTheme } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -35,8 +35,6 @@ interface ErrorBudgetChartProps {
 }
 
 export default function ErrorBudgetChart({ configuration, timeConfig, showFullSloTimeWindow }: ErrorBudgetChartProps) {
-  const theme = useTheme();
-
   const { indicator, entity, lastUpdated } = configuration;
 
   const [metricResult, , errors, progress] = useErrorBudgetChartMetrics(
@@ -65,7 +63,7 @@ export default function ErrorBudgetChart({ configuration, timeConfig, showFullSl
           min: showFullConsumption ? findMinMetricValue(metric) : 0,
           renderAllTickLabels: showFullConsumption,
           labels: [sloMetrics.remainingBudget.label],
-          colors: [theme.ids.color.option.blue['400']],
+          colors: [themes.default.ids.color.option.blue['400']],
           renderer,
           formatter
         },

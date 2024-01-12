@@ -7,7 +7,8 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { Typography, useTheme } from '@instana/components';
+import { Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
 import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
@@ -42,8 +43,6 @@ export function SloDynamicTagList({ tags }: SloDynamicTagListProps) {
 
   const hasCompletedFirstCalculationRef = useRef(false);
   const hasCompletedSecondCalculationRef = useRef(false);
-
-  const theme = useTheme();
 
   useLayoutEffect(() => {
     if (!width || !hasCompletedFirstCalculationRef.current) return;
@@ -114,7 +113,7 @@ export function SloDynamicTagList({ tags }: SloDynamicTagListProps) {
             }
             delay={500}
           >
-            <Pill className={locals.singleTag} color={theme.ids.color.option.neutral[400]}>
+            <Pill className={locals.singleTag} color={themes.default.ids.color.option.neutral['400']}>
               <Typography variant="body-small">+{hiddenTags.length}</Typography>
             </Pill>
           </Tooltip>

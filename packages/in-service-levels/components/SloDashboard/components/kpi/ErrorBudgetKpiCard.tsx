@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { isTimeBasedSli, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
-import { useTheme } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
@@ -23,7 +23,6 @@ interface ErrorBudgetKpiCardProps {
 export default function ErrorBudgetKpiCard({ configuration, timeConfig }: ErrorBudgetKpiCardProps) {
   const { id, entity } = configuration;
   const formatter = isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : createSloEventFormatter(entity);
-  const theme = useTheme();
 
   return (
     <BigNumberKpiCard
@@ -37,7 +36,7 @@ export default function ErrorBudgetKpiCard({ configuration, timeConfig }: ErrorB
       config={{
         metricConfiguration: sloMetrics.remainingBudget.singleNumber({ timeConfig, configId: id! }),
         companionMetricConfiguration: sloMetrics.totalBudget.singleNumber({ timeConfig, configId: id! }),
-        getColor: value => (value != null && value < 0 ? theme.ids.color.option.red['500'] : undefined)
+        getColor: value => (value != null && value < 0 ? themes.default.ids.color.option.red['500'] : undefined)
       }}
     />
   );

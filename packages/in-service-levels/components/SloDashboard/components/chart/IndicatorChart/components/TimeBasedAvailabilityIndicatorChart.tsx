@@ -15,7 +15,7 @@ import {
   UnifiedMetricConfiguration
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
-import { useTheme } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -47,7 +47,6 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const { threshold } = indicator;
 
   const granularity = calculateSloReferenceChartGranularity(timeConfig);
-  const theme = useTheme();
   const metricConfiguration = useMetricConfiguration(entity, indicator, granularity, timeConfig);
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
@@ -69,7 +68,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
             isApplicationSloEntity(entity) ? applicationMetrics.errorRate.label : websiteMetrics.beaconErrorRate.label,
             t('in-service-levels:general.metrics.threshold')
           ],
-          colors: [theme.ids.color.option.blue['400'], theme.ids.color.option.red['500']],
+          colors: [themes.default.ids.color.option.blue['400'], themes.default.ids.color.option.red['500']],
           formatter: percentage.detailed,
           renderer: lineWithThreshold
         },

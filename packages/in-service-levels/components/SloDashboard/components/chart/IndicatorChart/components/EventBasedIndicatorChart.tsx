@@ -18,7 +18,7 @@ import {
   UnifiedMetricConfiguration
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
-import { useTheme } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
@@ -48,7 +48,6 @@ export default function EventBasedIndicatorChart({
 }: IndicatorChartProps<EventBasedSli | CustomEventBasedSli>) {
   const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
   const granularity = calculateSloReferenceChartGranularity(timeConfig, true);
-  const theme = useTheme();
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
       () =>
@@ -77,7 +76,7 @@ export default function EventBasedIndicatorChart({
             (goodEventsMetricResult?.values ?? []) as MetricDataSeries
           ],
           labels: [t('in-service-levels:general.metrics.badEvents'), t('in-service-levels:general.metrics.goodEvents')],
-          colors: [theme.ids.color.option.red['500'], theme.ids.color.option.green['500']],
+          colors: [themes.default.ids.color.option.red['500'], themes.default.ids.color.option.green['500']],
           formatter: number.compact,
           renderer: Renderer.bar
         },
