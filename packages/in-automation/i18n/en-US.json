@@ -191,7 +191,7 @@
     "jiraBodyHelptext": "This is the content of the task.",
     "jiraTitleHelptext": "This is the title of the task to be opened.",
     "docLinkHelpText": "Documentation link refers to a URL.",
-    "scripthelpText": "Script is to run an automation script on Linux.",
+    "scripthelpText": "Script is to run an automation script.",
     "httpHelpText": "HTTP is to invoke a webhook.",
     "manualHelpText": "Manual describes manual actions used for AI model training.",
     "githubHelpText": "Open, close or comment on a Github issue.",
