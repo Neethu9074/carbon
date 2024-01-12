@@ -42,7 +42,6 @@ export default function ThresholdSelectionInteractiveChart({
 }: ThresholdProps): JSX.Element {
   const chartViewConfigs = defaultChartViewConfigs;
 
-  const granularity = form.get('granularity').value;
   const groupBy = form.get('groupBy').value;
 
   const ruleForm = form.get('rule');
@@ -108,14 +107,17 @@ export default function ThresholdSelectionInteractiveChart({
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup
-                granularity={granularity}
                 backendQueryModel={alertConfigModel.tagFilterExpression}
                 backendGroupBy={backendGroupBy}
                 order={order as Order}
                 type={entityType}
                 metrics={metrics}
                 groupBy={backendGroupBy}
-                timeConfig={timeConfig}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
                 metricMetadatas={metricMetadatas}
               />
             )}

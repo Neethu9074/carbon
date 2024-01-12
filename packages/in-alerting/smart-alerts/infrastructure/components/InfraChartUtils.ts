@@ -34,6 +34,8 @@ export const chartTimeConfig = {
   focusedMoment: Date.now()
 };
 
+export const sparkChartGranularity = minutes.toMillis(30);
+
 export function getEnrichedTagFilterExpression(
   tagFilterExpression: TagFilterExpressionElementUnion,
   selectedMetricGroup: Tags | undefined
