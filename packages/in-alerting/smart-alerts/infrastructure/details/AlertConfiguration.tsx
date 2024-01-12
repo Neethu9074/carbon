@@ -20,6 +20,7 @@ import {
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -70,7 +71,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
     alertChannelIds,
     tagFilterExpression,
     customPayloadFields,
-    groupBy
+    groupBy,
+    predictiveTrigger
   } = alertConfig;
 
   const order = { by: groupBy[0], direction: 'DESC' };
@@ -180,6 +182,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+        <PredictiveTriggerDescription predictiveTrigger={predictiveTrigger} />
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}

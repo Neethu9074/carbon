@@ -10,13 +10,13 @@ import { SvgIcon } from '@instana/components';
 import { timeThresholdLabels } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { getDescription } from 'in-alerting/smart-alerts/components/dialog/timeThresholdDescriptionText';
-import { ApplicationTimeThreshold, WebsiteTimeThreshold } from 'in-types';
+import { ApplicationTimeThreshold, WebsiteTimeThreshold, InfraTimeThreshold } from 'in-types';
 
 import locals from './TimeThresholdDescription.mless';
 
 interface TimeThresholdDescriptionProps {
   granularity?: number;
-  timeThreshold: WebsiteTimeThreshold | ApplicationTimeThreshold;
+  timeThreshold: WebsiteTimeThreshold | ApplicationTimeThreshold | InfraTimeThreshold;
 }
 export default function TimeThresholdDescription({ timeThreshold, granularity = 1 }: TimeThresholdDescriptionProps) {
   return (

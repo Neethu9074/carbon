@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { AggregationType } from '@instana/types';
+import { AggregationType, PredictiveTrigger } from '@instana/types';
 
 import { getFormatter, getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -18,7 +18,8 @@ interface MetricLabelProps {
   metricName: string;
   aggregation: AggregationType;
   humanReadableOperator: string;
-  value?: number;
+  value: number;
+  predictiveTrigger: PredictiveTrigger | null;
 }
 
 export function MetricLabel({
@@ -26,22 +27,36 @@ export function MetricLabel({
   metricName,
   aggregation,
   humanReadableOperator,
-  value
+  value,
+  predictiveTrigger
 }: MetricLabelProps): JSX.Element {
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
   const formatter = getFormatter(entityType, metricName);
   const metricFormat = getMetricFormat(formatter);
-  const formattedValue = value ? formatMetricValue(metricFormat, value) : 0;
+  const formattedValue = formatMetricValue(metricFormat, value);
+  const timeToFailure = predictiveTrigger?.timeToFailure;
 
-  return (
-    <>
-      {metricLabel
-        ? t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitleForStaticThreshold', {
-            metricName: metricLabel,
-            operator: humanReadableOperator,
-            value: formattedValue
-          })
-        : t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitleForStaticThreshold')}
-    </>
-  );
+  const subtitleElements = [t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.staticThresholdType')];
+
+  if (metricLabel) {
+    subtitleElements.push(
+      t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.metricThresholdValue', {
+        metricName: metricLabel,
+        operator: humanReadableOperator,
+        value: formattedValue
+      })
+    );
+  }
+
+  if (timeToFailure) {
+    subtitleElements.push(
+      t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.predictiveTrigger', {
+        metricName: metricLabel,
+        operator: humanReadableOperator,
+        value: formattedValue
+      })
+    );
+  }
+
+  return <>{subtitleElements.join(', ')}</>;
 }
