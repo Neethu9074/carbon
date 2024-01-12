@@ -17,6 +17,7 @@ import {
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraMetricGroupTableList from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 //@ts-expect-error
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
@@ -28,7 +29,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { TagFilterExpressionElementUnion } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 
-const listSize = 5;
+const retrievalSize = 5;
 
 interface InfraMetricGroupProps {
   backendQueryModel: TagFilterExpressionElementUnion;
@@ -36,7 +37,6 @@ interface InfraMetricGroupProps {
   order: Order;
   type: string;
   metrics: MetricType[];
-  granularity: number;
   timeConfig: TimeConfig;
   groupBy: string[];
   metricMetadatas: Result<Metadatas>;
@@ -51,30 +51,41 @@ interface InfraMetricGroupProps {
  */
 
 export default function InfraMetricGroup(props: InfraMetricGroupProps) {
-  const { backendQueryModel, backendGroupBy, order, type, metrics, granularity, timeConfig } = props;
+  const { backendQueryModel, backendGroupBy, order, type, metrics, timeConfig } = props;
 
   const [filterExpression, setFilterExpression] = useState<any>();
   const [orderByDirection, setOrderByDirection] = useState(order);
-  const [retrievalSize, setRetrievalSize] = useState(5);
+
+  // entire metrics [] do not need to be passed as dependency array to the 'useCursorPagination',
+  // so extracting the fields and passing it to the dependency array.
+  // The metric is not passed to the dependency array because when the metric value changes, the groupby is set to empty.
+  // also, the entityType (type) is part of the dep array that is extracted from the selected metric.
+  const crossSeriesAggregation = metrics?.[0]?.crossSeriesAggregation;
+  const aggregation = metrics?.[0]?.aggregation;
+
+  // backendGroupBy is an array, and shallowEquals checking for the array returns false,
+  // resulting in re-rending of the table each time even if there is no change,
+  // so passing it as a string value to the dependency array of useCursorPagination
+  const groupByString = backendGroupBy?.toString();
 
   useEffect(() => {
     setFilterExpression(backendQueryModel);
   }, [backendQueryModel]);
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
-    ({ cursor }) =>
-      getGroups({
+    ({ cursor }) => {
+      return getGroups({
         timeConfig,
         backendQueryModel: filterExpression,
         groupBy: backendGroupBy,
         order: orderByDirection,
         type,
         metrics,
-        granularity,
         cursor,
         retrievalSize
-      }),
-    [timeConfig, filterExpression, backendGroupBy, orderByDirection, type, metrics]
+      });
+    },
+    [timeConfig, filterExpression, orderByDirection, type, crossSeriesAggregation, groupByString, aggregation]
   );
 
   /**
@@ -98,7 +109,6 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
         setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
       }
       onOrderByChange={onOrderByChange}
-      setRetrievalSize={setRetrievalSize}
     />
   );
 }
@@ -121,21 +131,9 @@ interface GroupProps
  * @param type The type.
  * @param order The order.
  * @param metrics The metrics.
- * @param retrievalSize The retrieval size.
- * @param granularity The granularity.
  * @returns The groups.
  */
-export function getGroups({
-  timeConfig,
-  backendQueryModel,
-  groupBy,
-  cursor,
-  type,
-  order,
-  metrics,
-  retrievalSize,
-  granularity
-}: GroupProps) {
+export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type, order, metrics }: GroupProps) {
   if (!backendQueryModel) {
     return just(pendingResult);
   }
@@ -146,8 +144,8 @@ export function getGroups({
       tagFilterExpression: backendQueryModel
     },
     pagination: {
-      cursor: cursor && { ...cursor, offset: retrievalSize === listSize ? 0 : retrievalSize - listSize },
-      retrievalSize: !cursor ? retrievalSize : listSize,
+      cursor,
+      retrievalSize,
       fullData: false
     },
     groupBy,
@@ -173,7 +171,7 @@ export function getGroups({
               getSeriesKey(id),
               {
                 metric,
-                granularity,
+                granularity: sparkChartGranularity,
                 aggregation,
                 crossSeriesAggregation,
                 regex

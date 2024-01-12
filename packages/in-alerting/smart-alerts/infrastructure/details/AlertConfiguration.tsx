@@ -136,14 +136,17 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup
-                granularity={granularity}
                 backendQueryModel={tagFilterExpression}
                 backendGroupBy={groupBy}
                 order={order as Order}
                 type={entityType}
                 metrics={metrics}
                 groupBy={groupBy}
-                timeConfig={timeConfig}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
                 metricMetadatas={metricMetadatas}
               />
             )}
