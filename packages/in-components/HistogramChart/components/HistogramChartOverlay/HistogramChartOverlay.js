@@ -14,10 +14,10 @@ import { mutateUrl } from 'in-stores/navigation';
 import HistogramChartContextMenu from 'in-components/HistogramChart/components/HistogramChartOverlay/components/HistogramChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { latencySelectionChanged } from 'in-analyze/tracker';
+import { chartSelection } from 'in-themes/chartColors';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import cursors from 'in-components/cursors';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './HistogramChartOverlay.mless';
@@ -532,7 +532,7 @@ function Selection({ height, selectionStart, selectionWidth, selectionAdjustable
           height: height,
           left: selectionStart,
           width: selectionWidth - selectionAdjustment,
-          backgroundColor: theme.lib.colors.chartSelection
+          backgroundColor: chartSelection
         }}
       />
       {selectionAdjustable && (

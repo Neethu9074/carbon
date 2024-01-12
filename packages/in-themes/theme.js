@@ -3,9 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { gray60 } from '@carbon/colors';
-
-import { chartColors, carbonAlert, carbonCategorical, outlineForColor } from 'in-themes/chartColors';
+import { chartColors, carbonAlert, carbonCategorical, outlineForColor, timeShift } from 'in-themes/chartColors';
 import { lighten } from 'in-services/formatters/color';
 
 /**
@@ -152,8 +150,7 @@ export default {
        */
       chart: chartColors,
 
-      chartSelection: 'rgba(75, 165, 210, 0.2)',
-      timeShift: gray60,
+      timeShift,
 
       primary240: lighten(oldThemeColors.blue800, 0.4),
       lightPrimary240: lighten(oldThemeColors.lightBlue800, 0.4),

@@ -195,7 +195,6 @@
       "warning": "#FFC600",
       "tableRowSelectedOdd": "rgba(0, 179, 179, 0.11)",
       "tableRowSelectedEven": "rgba(0, 204, 204, 0.1)",
-      "chartSelection": "rgba(75, 165, 210, 0.2)",
       "timeShift": "#6f6f6f",
       "primary240": "#a7cde0",
       "lightPrimary240": "#a2d9f5",
