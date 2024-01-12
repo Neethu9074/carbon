@@ -57,5 +57,11 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
       createField({
         value: rule.crossSeriesAggregation
       })
+    )
+    .put(
+      'regex',
+      createField({
+        value: rule.regex ?? false
+      })
     );
 }

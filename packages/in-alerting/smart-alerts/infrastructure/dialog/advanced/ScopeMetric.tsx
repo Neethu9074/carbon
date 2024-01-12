@@ -42,7 +42,8 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
   const entityTypeField = form.get('rule').get('entityType');
   const metricLabelField = form.get('hiddenFields').get('metricLabel');
   const metricPathField = form.get('hiddenFields').get('metricPath');
-  const metric = metricField.value || undefined;
+  const isRegex = form.get('rule').get('regex')?.value;
+  const metric = !isRegex ? metricField.value || undefined : undefined;
   const entityType = entityTypeField?.value;
   let metricLabel = metricLabelField?.value;
   let metricPath = metricPathField?.value;
