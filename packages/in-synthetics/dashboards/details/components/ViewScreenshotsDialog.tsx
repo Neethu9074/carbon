@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
@@ -15,7 +16,7 @@ import {
   SecondLevelNavigation,
   SecondLevelNavigationItem
 } from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
-import { ViewScreenshotsDialogProps, dummyTestResultImages } from 'in-synthetics/utils/constants';
+import { ResultImages, ViewScreenshotsDialogProps, dummyTestResultImages } from 'in-synthetics/utils/constants';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -65,14 +66,17 @@ export default function ViewScreenshotsDialog({ testId, resultId, startTime }: V
             text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.ScreenshotsLoadingMessage')}
             className={locals.loading}
           />
-        ) : Object.keys(data?.imageFiles).length === 0 ? (
+        ) : data === undefined ||
+          data === null ||
+          isEmpty(data) ||
+          Object.keys((data as ResultImages)?.imageFiles).length === 0 ? (
           <NoDataAvailable
             type="lib_synthetic"
             height={160}
             text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.noScreenshotsAvailableMessage')}
           />
         ) : (
-          Object.keys(data?.imageFiles).length && (
+          Object.keys((data as ResultImages)?.imageFiles).length && (
             <>
               <div className={locals.buttonWrapper}>
                 <Button
@@ -80,12 +84,12 @@ export default function ViewScreenshotsDialog({ testId, resultId, startTime }: V
                   kind="secondary"
                   icon={'lib_actions_download'}
                   onClick={() => download('IMAGES', imageRef)}
-                  hidden={Object.keys(data?.imageFiles).length <= 1}
+                  hidden={Object.keys((data as ResultImages)?.imageFiles).length <= 1}
                 >
                   {t('in-synthetics:dashboard.detailsPage.viewScreenshots.allImagesButton')}
                 </Button>
               </div>
-              {Object.keys(data.imageFiles).map(filename => {
+              {Object.keys((data as ResultImages)?.imageFiles).map(filename => {
                 return (
                   <div className={locals.imagesWrapper} key={generateUniqueShortId()}>
                     <Button
@@ -93,12 +97,12 @@ export default function ViewScreenshotsDialog({ testId, resultId, startTime }: V
                       kind="secondary"
                       icon={'lib_actions_download'}
                       onClick={() =>
-                        downloadBase64File(`data:image/png;base64, ${data.imageFiles[filename]}`, filename)
+                        downloadBase64File(`data:image/png;base64, ${data?.imageFiles[filename]}`, filename)
                       }
                     >
                       {t('in-synthetics:dashboard.detailsPage.viewScreenshots.imageButton')}
                     </Button>
-                    <img className={locals.image} src={`data:image/png;base64, ${data.imageFiles[filename]}`} />
+                    <img className={locals.image} src={`data:image/png;base64, ${data?.imageFiles[filename]}`} />
                   </div>
                 );
               })}

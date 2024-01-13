@@ -72,8 +72,8 @@ function retainGroupNames(result: Result<any>): Result<Suggestions> {
   return {
     ...result,
     data: {
-      suggestions: result.data.suggestions,
-      totalHits: result.data.totalHits
+      suggestions: result.data?.suggestions,
+      totalHits: result.data?.totalHits
     }
   };
 }
