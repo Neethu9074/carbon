@@ -39,11 +39,7 @@ export default function JavaRuntimeContent({ type, agentKey, agentEndpoint, agen
         <Stack>
           <Code
             lang="bash"
-            code={[
-              '#!/bin/bash',
-              '',
-              `docker login containers.instana.io --username ${username} --password ${agentKey}`
-            ]}
+            code={[`docker login containers.instana.io --username ${username} --password ${agentKey}`]}
           />
           <Stack direction="horizontal">
             <KeyValue

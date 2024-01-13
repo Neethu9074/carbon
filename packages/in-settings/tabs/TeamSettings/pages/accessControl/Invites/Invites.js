@@ -87,6 +87,6 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
   );
 }
 
-function renderAdditionalHeaderContent({ setMessage, reload }) {
-  return <InviteUserButton setMessage={setMessage} reload={reload} />;
+function renderAdditionalHeaderContent() {
+  return <InviteUserButton />;
 }

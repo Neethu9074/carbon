@@ -131,8 +131,6 @@ export default function AwsEc2Linux({ agentKey, downloadKey, azulDisabled = fals
           <Code
             lang="bash"
             code={[
-              `#!/bin/bash`,
-              ` `,
               `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -d ${downloadKey} -t ${
                 agentMode === 'dynamic' ? 'dynamic' : 'static'
               } -e ingress-pink-saas.instana.rocks:443 -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`

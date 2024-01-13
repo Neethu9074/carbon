@@ -18,10 +18,21 @@ interface ExpandableGroupProps {
   expandedTitle?: string;
   children: React.ReactNode;
   defaultExpanded?: boolean;
+  onToggle?: (isToggled: boolean) => void;
+  expanded?: boolean;
 }
 
-export default function ExpandableGroup({ title, expandedTitle, children, defaultExpanded }: ExpandableGroupProps) {
+export default function ExpandableGroup({
+  title,
+  expandedTitle,
+  children,
+  defaultExpanded,
+  onToggle,
+  expanded: expandedProp
+}: ExpandableGroupProps) {
   const [isExpanded, setIsExpanded] = useState(!!defaultExpanded);
+
+  const expanded = typeof expandedProp === 'boolean' ? expandedProp : isExpanded;
 
   return (
     <div className={locals.wrapper}>
@@ -32,16 +43,19 @@ export default function ExpandableGroup({ title, expandedTitle, children, defaul
             <Tooltip content={t('in-components:expandableGroup.tooltipShowContent')}>
               <SvgIcon
                 className={locals.expandIcon}
-                type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+                type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
                 aria-label={t('in-components:expandableGroup.labelExpandButtonForContent')}
                 tabIndex={0}
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => {
+                  onToggle?.(!isExpanded);
+                  setIsExpanded(!isExpanded);
+                }}
               />
             </Tooltip>
           </div>
         )}
       </div>
-      {isExpanded && <div className={locals.expandedContentWrapper}>{children}</div>}
+      {expanded && <div className={locals.expandedContentWrapper}>{children}</div>}
     </div>
   );
 }

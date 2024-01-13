@@ -5,15 +5,15 @@
 
 import { Property } from 'csstype';
 
+import { chartColors } from 'in-themes/chartColors';
 import { Axis } from 'in-components/Chart/types';
-import theme from 'in-themes';
 
 export function enrichAxisWithColors(axis: Axis, offset = 0) {
   if (axis.colors100 && axis.colors50) {
     return;
   }
 
-  const colors = theme.lib.colors.chart.strokeColors25;
+  const colors = chartColors.strokeColors25;
 
   axis.colors = axis.colors?.slice() || [];
   axis.colors50 = [];
@@ -34,38 +34,38 @@ export interface ColorWithTransparency {
 }
 
 export function getColorWithTransparency(color: Property.Color): ColorWithTransparency {
-  const color25Index = theme.lib.colors.chart.strokeColors25.indexOf(color);
+  const color25Index = chartColors.strokeColors25.indexOf(color);
   if (color25Index >= 0) {
     return {
       c25: color,
-      c50: theme.lib.colors.chart.strokeColors50[color25Index],
-      c100: theme.lib.colors.chart.strokeColors100[color25Index]
+      c50: chartColors.strokeColors50[color25Index],
+      c100: chartColors.strokeColors100[color25Index]
     };
   }
 
-  const color50Index = theme.lib.colors.chart.strokeColors50.indexOf(color);
+  const color50Index = chartColors.strokeColors50.indexOf(color);
   if (color50Index >= 0) {
     return {
-      c25: theme.lib.colors.chart.strokeColors25[color50Index],
+      c25: chartColors.strokeColors25[color50Index],
       c50: color,
-      c100: theme.lib.colors.chart.strokeColors100[color50Index]
+      c100: chartColors.strokeColors100[color50Index]
     };
   }
 
-  const color100Index = theme.lib.colors.chart.strokeColors100.indexOf(color);
+  const color100Index = chartColors.strokeColors100.indexOf(color);
   if (color100Index >= 0) {
     return {
-      c25: theme.lib.colors.chart.strokeColors25[color100Index],
-      c50: theme.lib.colors.chart.strokeColors50[color100Index],
+      c25: chartColors.strokeColors25[color100Index],
+      c50: chartColors.strokeColors50[color100Index],
       c100: color
     };
   }
 
-  if (color === theme.lib.colors.chart.self25 || color === theme.lib.colors.chart.self100) {
+  if (color === chartColors.self25 || color === chartColors.self100) {
     return {
-      c25: theme.lib.colors.chart.self25,
-      c50: theme.lib.colors.chart.self25,
-      c100: theme.lib.colors.chart.self100
+      c25: chartColors.self25,
+      c50: chartColors.self25,
+      c100: chartColors.self100
     };
   }
 

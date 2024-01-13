@@ -816,6 +816,11 @@
   "pluginName_ibmIOs_1": "IBM i",
   "pluginName_ibmIOs_2": "IBM i",
   "pluginName_ibmIOs": "IBM i",
+  "pluginName_ibmiNetworkInfo_plural": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo_0": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo_1": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo_2": "Network Information on IBM i",
+  "pluginName_ibmiNetworkInfo": "Network Information on IBM i",
   "pluginName_ibmIDb2_plural": "Db2s on i",
   "pluginName_ibmIDb2_0": "Db2s on i",
   "pluginName_ibmIDb2_1": "Db2s on i",
@@ -1476,6 +1481,11 @@
   "pluginName_zIms_1": "IBM IMS for z/OS",
   "pluginName_zIms_2": "IBM IMS for z/OS",
   "pluginName_zIms": "IBM IMS for z/OS",
+  "pluginName_zCtg_plural": "IBM CTG for z/OS",
+  "pluginName_zCtg_0": "IBM CTG for z/OS",
+  "pluginName_zCtg_1": "IBM CTG for z/OS",
+  "pluginName_zCtg_2": "IBM CTG for z/OS",
+  "pluginName_zCtg": "IBM CTG for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_0": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_1": "WebLogic Servers",
@@ -7246,7 +7256,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-    "powervcRegion":{
+"powervcRegion":{
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -9848,6 +9858,36 @@
         }
       }
     },
+    "ibmiNetworkInfo": {
+      "name": "Network Information in IBM i",
+      "dashboard":{
+        "tables":{
+          "netstatInterfaces": {
+            "name": "Netstat Interfaces",
+            "internetAddress": "Internet Address",
+            "subnetMask": "Subnet Mask",
+            "connectionType": "Connection Type",
+            "InterfaceLineType": "Interface Line Type",
+            "lineDescription": "Line Description",
+            "virtualLanId": "VLAN ID",
+            "status": "Status"
+          },
+          "netstatInfo": {
+            "bytesInName": "Network connections (Top Receivers)",
+            "bytesOutName": "Network connections (Top Sender)",
+            "bindUser": "Bind User",
+            "protocol": "Protocol",
+            "remotePortAndAddress": "Remote Port & Address",
+            "remotePortName": "Remote Port Name",
+            "localPortAndAddress": "Local Port & Address",
+            "localPortName": "Local Port Name",
+            "tcpState": "Tcp State",
+            "bytesSentRemotely": "Bytes Sent Remotely",
+            "bytesReceivedLocally": "Bytes Received Locally"
+          }
+        }
+      }
+    },
     "ibmIOs": {
       "sidebar": {
         "ibmIOSInfo": "IBM i Info",
@@ -10001,29 +10041,6 @@
               "scheduledJobs": "Scheduled Jobs"
             }
           },
-          "netstatInterfaces": {
-            "name": "Netstat Interfaces",
-            "internetAddress": "Internet Address",
-            "subnetMask": "Subnet Mask",
-            "connectionType": "Connection Type",
-            "InterfaceLineType": "Interface Line Type",
-            "lineDescription": "Line Description",
-            "virtualLanId": "VLAN ID",
-            "status": "Status"
-          },
-          "netstatInfo": {
-            "bytesInName": "Network connections (Top Receivers)",
-            "bytesOutName": "Network connections (Top Sender)",
-            "bindUser": "Bind User",
-            "protocol": "Protocol",
-            "remotePortAndAddress": "Remote Port & Address",
-            "remotePortName": "Remote Port Name",
-            "localPortAndAddress": "Local Port & Address",
-            "localPortName": "Local Port Name",
-            "tcpState": "Tcp State",
-            "bytesSentRemotely": "Bytes Sent Remotely",
-            "bytesReceivedLocally": "Bytes Received Locally"
-          },
           "messageQueue": {
             "name": "Message Queue",
             "messageId": "ID",
@@ -10107,6 +10124,7 @@
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
     },
@@ -13572,6 +13590,41 @@
         "transactionElapsedTime": "Transaction Elapsed Time",
         "externalSubsystemCalls": "External Subsystem Calls",
         "locksHeldCount": "Locks Held Count"
+      }
+    },
+    "zCtg": {
+      "label": "IBM CTG for z/OS",
+      "hostName": "Host Name",
+      "originNode": "Origin Node",
+      "systemId": "System ID",
+      "cicsTransactionGatewayName": "CICS TG Name",
+      "cicsTgVersion": "CICS TG Version",
+      "startTimeAndDate": "Region Start Time",
+      "tcpPortNumber": "TCP Port Number",
+      "sslPortNumber": "SSL Port Number",
+      "cpuUtilization": "CPU Utilization",
+      "totalRequestsPerMinute": "Requests Per Minute",
+      "allocatedConnectionManagerThreads": "C Manager Threads",
+      "allocatedWorkerThreads": "Worker Threads",
+      "gatewayDaemonHealth": "Gateway Daemon Health",
+      "threads": "Threads",
+      "connectionManagerThreadsCreated": "Connection Manager Threads [created]",
+      "connectionManagerThreadsAllocated": "Connection Manager Threads [allocated]",
+      "workerThreadsCreated": "Worker Threads [created]",
+      "workerThreadsAllocated": "Worker Threads [allocated]",
+      
+      
+      "numberWaiting": "Connection Manager Threads waiting on Worker Threads",
+      "clientConnecttimeoutPerMinute": "Client Connection Timeouts Per Minute",
+      "timesConnecttimeoutLimitHitPerMinute": "Client Connection Timeouts Per Minute (Percentage)",
+      "ioPerMinute": "IO Per Minute",
+      "cicsConnections": {
+        "title": "CICS Connections",
+        "cicsServer": "CICS Server",
+        "requestsExecutedPerMinute": "Requests Executed Per Minute",
+        "averageResponseTime": "Average Response Time",
+        "connectionFailuresPerMinute": "Connection Failures Per Minute",
+        "lostConnectionsPerMinute": "Lost Connections Per Minute"
       }
     },
     "zOS": {

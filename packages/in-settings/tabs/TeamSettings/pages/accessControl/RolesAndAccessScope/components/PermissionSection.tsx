@@ -97,7 +97,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     scope: getField<string>(form, 'scope')?.value,
     tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value
   });
-  const [initialLimitation] = useState(limitedPermission);
   const isContributorRole =
     applicationContributionFilterEnabled &&
     productArea === ProductArea.APPLICATION &&
@@ -119,14 +118,10 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       selected
     );
     if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
-      if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation === initialLimitation) {
+      if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation !== ScopedPermissionItem.NO_ACCESS) {
         label = initialApplicationConfig.label;
         tagFilterExpression = initialApplicationConfig.tagFilterExpression;
         scope = initialApplicationConfig.scope;
-      } else if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation !== ScopedPermissionItem.NO_ACCESS) {
-        label = defaultApplicationConfig.label;
-        tagFilterExpression = defaultApplicationConfig.tagFilterExpression;
-        scope = defaultApplicationConfig.scope;
       } else {
         label = defaultApplicationConfig.label;
         tagFilterExpression = undefined;

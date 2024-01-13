@@ -21,9 +21,10 @@ interface DownloadButtonProps {
   testId: string;
   resultId: string;
   metadata: string;
+  startTime: number;
 }
 
-export default function DownloadButton({ testId, resultId, metadata }: DownloadButtonProps) {
+export default function DownloadButton({ testId, resultId, metadata, startTime }: DownloadButtonProps) {
   const resultMetadata = metadata.split(',');
   const resultsApiPath = '/api/synthetics/results/';
   const harRef: string = `${resultsApiPath}${testId}/${resultId}/file?type=HAR`;
@@ -56,7 +57,9 @@ export default function DownloadButton({ testId, resultId, metadata }: DownloadB
           className={locals.buttonLabel}
           kind="secondary"
           icon={'lib_views_external_link'}
-          onClick={() => addActiveDialog(<ViewScreenshotsDialog testId={testId} resultId={resultId} />)}
+          onClick={() =>
+            addActiveDialog(<ViewScreenshotsDialog testId={testId} resultId={resultId} startTime={startTime} />)
+          }
           hidden={isScreenshotAvailable ? false : true}
         >
           {t('in-synthetics:dashboard.detailsPage.viewScreenshotsLabel')}

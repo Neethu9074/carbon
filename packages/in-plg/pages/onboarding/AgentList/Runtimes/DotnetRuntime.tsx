@@ -60,8 +60,6 @@ export default function DotnetRuntime({ type, agentKey, agentEndpoint, agentEndp
           <Code
             lang="bash"
             code={[
-              '#!/bin/bash',
-              ' ',
               `dotnet add <project_name>.csproj package Instana.Tracing.Core.Rewriter.${
                 baseImage === imageOptions[0] ? 'Linux' : 'Alpine'
               }`

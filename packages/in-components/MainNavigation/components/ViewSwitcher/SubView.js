@@ -7,10 +7,10 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 
 import connectTo from 'in-hoc/connectTo';
-import theme from 'in-themes';
 
 import locals from './SubView.mless';
 
@@ -42,7 +42,9 @@ export const SubViewItem = connectTo(
         })}
       >
         <Stack direction="horizontal" gap="small" align="center">
-          {icon && <SvgIcon size="l" type={icon} color={theme.lib.colors.N400} aria-hidden="true" />}
+          {icon && (
+            <SvgIcon size="l" type={icon} color={themes.default.ids.color.option.neutral['400']} aria-hidden="true" />
+          )}
           <span className={locals.label}>{label}</span>
         </Stack>
       </Link>

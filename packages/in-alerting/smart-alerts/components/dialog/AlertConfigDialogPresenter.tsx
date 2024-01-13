@@ -62,6 +62,8 @@ export interface AlertConfigDialogPresenterProps {
   selectedChartViewConfigIndex?: number;
   timeConfig?: TimeConfig;
   thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
+  setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
+  tagFilterValid?: boolean;
 }
 
 export interface SlideInConfig {
@@ -90,7 +92,9 @@ export default function AlertConfigDialogPresenter(props: AlertConfigDialogPrese
     withTrackCreate,
     updateForm,
     footer,
-    isGlobalSmartAlert
+    isGlobalSmartAlert,
+    setTagFilterValid,
+    tagFilterValid
   } = props;
 
   const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
@@ -180,6 +184,8 @@ export default function AlertConfigDialogPresenter(props: AlertConfigDialogPrese
             setSliderState={setSliderState}
             setSimpleModeStep={setSimpleModeStep}
             setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+            setTagFilterValid={setTagFilterValid}
+            tagFilterValid={tagFilterValid}
           />
         )}
       </form>

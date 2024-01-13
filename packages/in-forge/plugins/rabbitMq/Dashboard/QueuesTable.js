@@ -69,14 +69,27 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.rabbitMq.dashboard.consumers'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return 'queue_map.' + row.key + '.consumers';
+      },
+      getContent: zeroDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
 export default function QueuesTable({ snapshot, timeConfig }) {
-  const queues = snapshot
-    .getIn(['data', 'monitoredQueues'], emptyList)
-    .toArray()
-    .sort();
+  const queues = snapshot.getIn(['data', 'monitoredQueues'], emptyList).toArray().sort();
   if (queues.length === 0) {
     return null;
   }
@@ -105,6 +118,7 @@ export default function QueuesTable({ snapshot, timeConfig }) {
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;
   const timeConfig = row.timeConfig;
+  const rowKey = row.key;
 
   return (
     <div>
@@ -112,17 +126,22 @@ function getRowDetails(row) {
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{
-          metrics: ['queue_map.' + row.key + '.messages_ready', 'queue_map.' + row.key + '.messages_unacknowledged'],
+          metrics: [
+            'queue_map.' + rowKey + '.messages_ready',
+            'queue_map.' + rowKey + '.messages_unacknowledged',
+            'queue_map.' + rowKey + '.messages'
+          ],
           labels: [
             t('in-forge:plugins.rabbitMq.dashboard.messagesReady'),
-            t('in-forge:plugins.rabbitMq.dashboard.messagesUnacknowledged')
+            t('in-forge:plugins.rabbitMq.dashboard.messagesUnacknowledged'),
+            t('in-forge:plugins.rabbitMq.dashboard.messagesTotal')
           ],
           type: 'stackedArea',
           formatter: zeroDecimalPlaces
         }}
         y2={{
-          metrics: ['queue_map.' + row.key + '.messages'],
-          labels: [t('in-forge:plugins.rabbitMq.dashboard.messagesTotal')],
+          metrics: ['queue_map.' + rowKey + '.consumers'],
+          labels: [t('in-forge:plugins.rabbitMq.dashboard.consumers')],
           type: 'line',
           formatter: zeroDecimalPlaces
         }}

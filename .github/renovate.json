@@ -8,6 +8,10 @@
   ],
   "packageRules": [
     {
+      "matchRepositories": ["^@instana/types"],
+      "enabled": false
+    },
+    {
       "excludePackagePatterns": ["^@instana"],
       "enabled": false
     },

@@ -24,8 +24,9 @@ interface ScopeSectionProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
+  setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function ScopeSection({ form, updateForm, onChange }: ScopeSectionProps) {
+export default function ScopeSection({ form, updateForm, onChange, setTagFilterValid }: ScopeSectionProps) {
   return (
     <div className={locals.container}>
       <Stack gap="xsmall">
@@ -34,7 +35,7 @@ export default function ScopeSection({ form, updateForm, onChange }: ScopeSectio
             <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} />
           </Section>
           <ScopeAggregation form={form} updateForm={updateForm} />
-          <ScopeFilter form={form} updateForm={updateForm} />
+          <ScopeFilter form={form} updateForm={updateForm} setTagFilterValid={setTagFilterValid} />
           <ScopeGroup form={form} updateForm={updateForm} />
         </Sections>
       </Stack>

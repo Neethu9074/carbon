@@ -17,8 +17,9 @@ import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 interface ScopeFilterProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
+  setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function ScopeFilter({ form, updateForm }: ScopeFilterProps) {
+export default function ScopeFilter({ form, updateForm, setTagFilterValid }: ScopeFilterProps) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const entityType = form.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
@@ -33,6 +34,7 @@ export default function ScopeFilter({ form, updateForm }: ScopeFilterProps) {
       onChange={tfe => handleChangeTagFilterExpressionChange(tfe, form, updateForm)}
       hasError={isInvalid}
       useLastValidStateWhenErroneous
+      onErrorStateChange={setTagFilterValid}
     />
   );
 }

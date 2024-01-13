@@ -8,3 +8,4 @@ CVE-2023-32002 # Excluded temporarily to unblock the release 258 build: https://
 CVE-2023-4911 # blocking release-260: https://instana.slack.com/archives/C59JUG0NB/p1696523972905179 | https://access.redhat.com/errata/RHSA-2023:5453
 CVE-2023-38545 # blocking develop build https://instana.slack.com/archives/CKKKN695Y/p1697636002983089
 CVE-2023-44487 # blocking develop build https://instana.slack.com/archives/CKKKN695Y/p1697636002983089
+CVE-2023-39331 # Blocking R261 build: https://instana.slack.com/archives/C5LCSUJGY/p1704707332255689

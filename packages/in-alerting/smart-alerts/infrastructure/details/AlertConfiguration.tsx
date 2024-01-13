@@ -20,6 +20,7 @@ import {
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -65,12 +66,13 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const {
     timeThreshold,
     granularity,
-    rule: { metricName, entityType, aggregation, crossSeriesAggregation },
+    rule: { metricName, entityType, aggregation, crossSeriesAggregation, regex },
     threshold,
     alertChannelIds,
     tagFilterExpression,
     customPayloadFields,
-    groupBy
+    groupBy,
+    predictiveTrigger
   } = alertConfig;
 
   const order = { by: groupBy[0], direction: 'DESC' };
@@ -91,7 +93,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
-  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, metricLabel);
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, metricLabel);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
@@ -136,14 +138,17 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup
-                granularity={granularity}
                 backendQueryModel={tagFilterExpression}
                 backendGroupBy={groupBy}
                 order={order as Order}
                 type={entityType}
                 metrics={metrics}
                 groupBy={groupBy}
-                timeConfig={timeConfig}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
                 metricMetadatas={metricMetadatas}
               />
             )}
@@ -180,6 +185,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
+        <PredictiveTriggerDescription predictiveTrigger={predictiveTrigger} />
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}
@@ -201,7 +207,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
       >
         <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
       </ExpandableLightCard>
-      <GlobalCustomPayloadCard context="ALL" />
+      <GlobalCustomPayloadCard context="INFRA" />
       <CustomPayloadCard
         customPayloadFields={customPayloadFieldsAllStatic} //this can be replaced with - customPayloadFields - once the dynamic payload support is enabled for infa SA
         TagBasedPayloadConfigurator={() => <></>}

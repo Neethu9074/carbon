@@ -1196,12 +1196,19 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertProperties": "Alert Properties"
+        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "predictiveTrigger" : {
+          "title": "Predictively trigger the alert in advance"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Static Threshold, {{metricName}} {{operator}} {{value}}"
+            "subtitle" : {
+              "staticThresholdType": "Static Threshold",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Predictive Trigger"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} more filter",
@@ -1234,6 +1241,10 @@
         "timeThreshold": {
           "label": "Time Threshold",
           "title": "Time Threshold: When do you want to be alerted?"
+        },
+        "predictiveTrigger": {
+          "title": "Predictive trigger",
+          "timeToFailure": "Time to Failure"
         },
         "alertChannel": {
           "label": "Alert Channels",

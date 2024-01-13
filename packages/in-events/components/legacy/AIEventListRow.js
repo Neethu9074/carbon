@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Button, Card, Link, Message, Stack, SvgIcon, Typography } from '@instana/components';
+import { Button, Card, Link, Message, Stack, SvgIcon, Typography, Pill } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -39,7 +39,6 @@ import { Row, Col } from 'in-components/layout/Grid';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getEvent } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 

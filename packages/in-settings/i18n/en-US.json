@@ -207,7 +207,7 @@
       "limited_access": {
         "access_level": "Limited access only for the application dashboards selected below.",
         "access_level_contributor": "Limited access only for the application dashboards selected below",
-        "role_permissions_contributor": "Create, configure and delete application dashboards using the contribution filter. (Application dashboards created by contributors will be visible on the group overview and in the list of Applications section.)"
+        "role_permissions_contributor": "Create application dashboards with the contribution filter applied; view, configure and delete these application dashboards that are created for the contribution filter."
       },
       "role_permissions_owner": "Create, configure, view and delete application dashboards.",
       "role_permissions_viewer": "View application perspective dashboards and their configuration."
@@ -419,7 +419,9 @@
     "inviteGroupDescription": "You can control access by configuring roles and access scopes of groups under each unit.",
     "failedToSendInvitation": "Failed to send invitation: {{err}}",
     "pleaseInviteAtLeastOneUser": "Please invite at least one user.",
-    "thisUserAlreadyExists": "This user already exists. You can edit it on the 'Users' menu.",
+    "thisUserAlreadyExists": "This user already exists and can be found in the list of users",
+    "thisInviteAlreadyExists": "This invite already exists and can be found in the list of pending invitations",
+    "emailFormatNotValid":"The format of the email field is not valid",
     "someEmailsHaveFailedToSend": "Some emails have failed to send",
     "inviteUserToTenant": "Invite user to {{tenant}}",
     "anotherUser": "Another user",

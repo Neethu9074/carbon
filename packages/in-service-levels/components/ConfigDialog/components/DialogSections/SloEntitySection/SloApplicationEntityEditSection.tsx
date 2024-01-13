@@ -7,12 +7,14 @@
 import React, { useContext } from 'react';
 import { noop } from 'lodash';
 
+import { Typography } from '@instana/components';
 import { Application } from '@instana/types';
-import { Card } from '@instana/components';
 
 import SloEntityTable from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
+import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import useApplication from 'in-applications/hooks/useApplication';
+import Sections from 'in-components/workspace/Sections/Sections';
 import { t } from 'in-i18n';
 
 export default function SloApplicationEntityEditSection() {
@@ -25,13 +27,18 @@ export default function SloApplicationEntityEditSection() {
   const [selectedApplication, , , progress] = useApplication(entityId);
 
   return (
-    <Card title={t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}>
+    <Sections>
+      <SloTableHeader>
+        <Typography variant="heading-200" component="h2">
+          {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
+        </Typography>
+      </SloTableHeader>
       <SloEntityTable
         disabled
         entityList={[selectedApplication] as Application[]}
         onChange={noop}
         progress={progress}
       />
-    </Card>
+    </Sections>
   );
 }

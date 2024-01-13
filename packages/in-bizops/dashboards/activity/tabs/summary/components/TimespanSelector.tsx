@@ -6,30 +6,25 @@
 
 import React from 'react';
 
+import { DurationDistributionScale } from '@instana/types';
 import { Button } from '@instana/components';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 
 import locals from './TimespanSelector.mless';
 
-export enum ValidTimespanSelection {
-  'Minute',
-  'Hour',
-  'Day',
-  'Week'
-}
-
 export type TimespanSelectorOption = {
-  value: ValidTimespanSelection;
+  value: DurationDistributionScale;
   label: string;
 };
 
 export type TimespanSelectorProps = {
   timespans: TimespanSelectorOption[];
-  selectedTimespan: ValidTimespanSelection;
+  selectedTimespan: DurationDistributionScale;
   onChange: (v: any) => void;
 };
 
+// Dropdown displayed with duration distribution chart which allows the user to select a timespan
 export default function TimespanSelector({ timespans, selectedTimespan, onChange }: TimespanSelectorProps) {
   return (
     <ComboBoxBehavior
@@ -42,7 +37,7 @@ export default function TimespanSelector({ timespans, selectedTimespan, onChange
     >
       {({ elementProps }) => (
         <Button {...elementProps} kind="subtle" size="compact" icon="lib_arrow_drop_down" className={locals.timespan}>
-          <span>1 {ValidTimespanSelection[selectedTimespan]}</span>
+          <span>1 {selectedTimespan.toLocaleLowerCase()}</span>
         </Button>
       )}
     </ComboBoxBehavior>

@@ -401,8 +401,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraSmartAlertsPredictionsEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.predictions.enabled',
+    uiClientKey: 'infraPredictiveDetectionEnabled',
+    instanaCtlKey: 'feature.infra.predictive.detection.enabled',
     defaultValue: false
   },
   {

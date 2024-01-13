@@ -28,7 +28,7 @@ export default function WebsiteTagFilterBuilder({
 
   const isScopeSelected = beaconTypeField.value && websiteIdField.value;
 
-  if (!isScopeSelected) return <DisabledTagFilterButton />;
+  if (!isScopeSelected) return <DisabledTagFilterButton width={width} />;
 
   return <WebsiteTagBuilderContent form={form} onChange={onChange} readOnly={readOnly} width={width} />;
 }

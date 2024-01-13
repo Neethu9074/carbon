@@ -6,8 +6,9 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import oldTheme from 'in-themes';
 
 export default {
   component: KpiCard,
@@ -32,7 +33,7 @@ export const FalseValue = { args: { ...UndefinedValue.args, title: 'Title', valu
 export const FalseValueRaw = { args: { ...FalseValue.args, raw: true } };
 
 export const WithColor = {
-  args: { ...Default.args, value: '10', title: 'Errors', color: oldTheme.lib.colors.failure }
+  args: { ...Default.args, value: '10', title: 'Errors', color: themes.default.ids.color.option.red['500'] }
 };
 export const WithCompanionValue = { args: { ...WithTitle.args, companionValue: 'Companion Value' } };
 export const WithActions = { args: { ...WithTitle.args, actions: <div>Action</div> } };

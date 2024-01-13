@@ -97,7 +97,7 @@ module.exports = {
   multiGroupTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
   applicationContributionFilterEnabled: true,
-  infraSmartAlertsPredictionsEnabled: true,
+  infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   infraSmartAlertsDialogEnabled: true,
   simplifiedFlowMapEnabled: true,

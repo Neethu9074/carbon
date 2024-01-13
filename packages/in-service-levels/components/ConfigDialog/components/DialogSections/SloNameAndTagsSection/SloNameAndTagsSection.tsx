@@ -6,8 +6,9 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack } from '@instana/components';
 
+import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import CreatableTagSelect from 'in-service-levels/components/ConfigDialog/components/FormComponents/CreatableTagSelect';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
@@ -32,10 +33,7 @@ export default function SloNameAndTagsSection() {
   const isNameValid = isFieldValid(nameField);
 
   return (
-    <section>
-      <Typography variant="heading-200" component="h2">
-        {t('in-service-levels:createSloDialog.nameAndTagsTitle')}
-      </Typography>
+    <SloDialogSection title={t('in-service-levels:createSloDialog.nameAndTagsTitle')}>
       <Stack gap="small">
         <Sections>
           <Section
@@ -75,6 +73,6 @@ export default function SloNameAndTagsSection() {
           </Section>
         </Sections>
       </Stack>
-    </section>
+    </SloDialogSection>
   );
 }

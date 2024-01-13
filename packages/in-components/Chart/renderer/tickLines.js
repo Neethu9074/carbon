@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import oldTheme from 'in-themes';
+import { themes } from '@instana/design-tokens';
 
 export default function axis(config) {
   const backBufferCtx = config.backBufferCtx;
   backBufferCtx.save();
   backBufferCtx.globalCompositeOperation = 'multiply';
 
-  backBufferCtx.fillStyle = oldTheme.lib.colors.N300;
+  backBufferCtx.fillStyle = themes.default.ids.color.option.neutral['300'];
   backBufferCtx.beginPath();
 
   drawTickPositionsForAxis(config.scales.y1);

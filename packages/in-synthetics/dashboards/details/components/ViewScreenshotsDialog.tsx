@@ -26,7 +26,7 @@ import Dialog from 'in-components/Dialog/Dialog';
 
 import locals from './ViewScreenshotsDialog.mless';
 
-export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreenshotsDialogProps) {
+export default function ViewScreenshotsDialog({ testId, resultId, startTime }: ViewScreenshotsDialogProps) {
   const resultsApiUrl = '/api/synthetics/results/';
   const imageRef: string = `${resultsApiUrl}${testId}/${resultId}/file?type=IMAGES`;
 
@@ -35,7 +35,8 @@ export default function ViewScreenshotsDialog({ testId, resultId }: ViewScreensh
       return getTestResultDetailData({
         testId: testId,
         testResultId: resultId,
-        type: 'IMAGES'
+        type: 'IMAGES',
+        startTime: startTime
       });
     }, [0]) || dummyTestResultImages;
 

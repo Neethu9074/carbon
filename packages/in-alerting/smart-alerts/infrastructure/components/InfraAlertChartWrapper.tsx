@@ -192,7 +192,7 @@ export function useGetMetricLabel(entityType: string, metricName: string, aggreg
   const metric = { aggregation, metric: metricName };
   const uniqueMetrics = getUniqueMetricsAndLabels([metric], metricMetadatas);
 
-  return uniqueMetrics.find((metric: MetricItem) => metric.metric === metricName)?.label;
+  return uniqueMetrics.find((metric: MetricItem) => metric.metric === metricName)?.label || metricName;
 }
 
 function getAlertsPreviewQuery(

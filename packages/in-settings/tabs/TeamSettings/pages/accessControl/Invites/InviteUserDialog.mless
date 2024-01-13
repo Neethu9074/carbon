@@ -4,8 +4,11 @@
  */
 
 :local {
-  .dialog {
-    max-height: 400px;
+  .dialogBody {
+    width: 66.25rem;
+    height: calc(100vh - 14rem);
+    padding: 0 1.5rem;
+    max-height: 40vh;
     overflow: auto;
   }
 
@@ -21,7 +24,7 @@
     fill: var(--ids-color-option-blue-500);
     flex-grow: 0;
     flex-shrink: 0;
-    margin: 1.5rem 0 0 -0.5rem;
+    margin-top: 1rem;
   }
 
   .sentIcon {

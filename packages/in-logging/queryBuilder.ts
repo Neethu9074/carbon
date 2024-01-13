@@ -31,6 +31,17 @@ export function getSpanIdTagFilter(spanId: string) {
     : getEmptyTagFilterExpression();
 }
 
+export function getCallIdTagFilter(callId: string) {
+  return callId
+    ? getValueMatchTagFilter({
+        name: LOG_CALL_ID,
+        value: callId,
+        operator: EQUALS,
+        type: TAG_FILTER_TYPE
+      })
+    : getEmptyTagFilterExpression();
+}
+
 export interface ReducedTagFilterWithDefaults {
   name: string;
   value: string;

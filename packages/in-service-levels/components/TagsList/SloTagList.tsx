@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Typography, useTheme } from '@instana/components';
+import { Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import Pill from 'in-components/Pill';
 
@@ -17,11 +18,10 @@ interface SloTagListProps {
 }
 
 export default function SloTagList({ tags }: SloTagListProps) {
-  const theme = useTheme();
   return (
     <div className={locals.tagsWrapper}>
       {tags.map(tag => (
-        <Pill className={locals.singleTag} color={theme.ids.color.option.neutral[400]} key={tag}>
+        <Pill className={locals.singleTag} color={themes.default.ids.color.option.neutral['400']} key={tag}>
           <Typography variant="body-small">{tag}</Typography>
         </Pill>
       ))}

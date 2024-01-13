@@ -5,12 +5,15 @@
 
 import React, { useState } from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import {
   createLineWithThreshold,
   createLineWithBaselineAndOptionalPotentialProblem
 } from 'in-alerting/components/Chart/renderer/Renderer';
 import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -18,7 +21,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import theme from 'in-themes';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -306,10 +308,10 @@ export function BarWithThreshold() {
               return threshold >= metricsMaxValue ? Math.max(metricsMaxValue, threshold * 1.2) : metricsMaxValue;
             },
             colors: [
-              theme.lib.colors.blue800,
-              theme.lib.colors.red800,
-              theme.lib.colors.lightBlue800,
-              theme.lib.colors.pink800
+              themes.default.ids.color.option.blue['500'],
+              themes.default.ids.color.option.red['500'],
+              themes.default.ids.color.option.blue['400'],
+              themes.default.ids.color.option.pink['500']
             ],
             renderer: createLineWithThreshold('>=', threshold),
             metricIds: [],
@@ -358,10 +360,10 @@ export function BarWithBaseline() {
               return metricsMaxValue; // TODO include sensitivity and baseline as well, not just the max-metric-value
             },
             colors: [
-              theme.lib.colors.blue800,
-              theme.lib.colors.red800,
-              theme.lib.colors.lightBlue800,
-              theme.lib.colors.pink800
+              themes.default.ids.color.option.blue['500'],
+              themes.default.ids.color.option.red['500'],
+              themes.default.ids.color.option.blue['400'],
+              themes.default.ids.color.option.pink['500']
             ],
             renderer: createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity),
             metricIds: [],
@@ -509,8 +511,8 @@ export function StackedBarWithOutline() {
           y1: {
             renderer: Renderer.stackedBar,
             labels: ['foo', 'bar', 'baz'],
-            outlineForColor: theme.lib.outlineForColor,
-            colors: [theme.lib.carbonAlert.red60, theme.lib.carbonAlert.orange40, theme.lib.carbonAlert.yellow30],
+            outlineForColor: outlineForColor,
+            colors: [carbonAlert.red60, carbonAlert.orange40, carbonAlert.yellow30],
             metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
           }
@@ -523,10 +525,10 @@ export function StackedBarWithOutline() {
         {`
   y1: {
     ...
-    outlineForColor: theme.lib.outlineForColor
+    outlineForColor: outlineForColor
   }`}
       </pre>
-      <p>theme.lib.outlineForColor is defined as a map from primary colors to outline colors.</p>
+      <p>outlineForColor is defined as a map from primary colors to outline colors.</p>
       <pre>
         {`
   outlineForColor: {
@@ -841,7 +843,11 @@ export function WithCustomIconsInLegend() {
             labels: ['foo', 'bar', 'baz'],
             icons: {
               types: ['lib_flame', 'lib_release_rocket', 'lib_linux'],
-              colors: [theme.lib.colors.blue800, theme.lib.colors.pink800, theme.lib.colors.red800]
+              colors: [
+                themes.default.ids.color.option.blue['500'],
+                themes.default.ids.color.option.pink['500'],
+                themes.default.ids.color.option.red['500']
+              ]
             },
             metricIds: [],
             metrics: generateMultipleMetrics(3, 30, 10, oneMinute)

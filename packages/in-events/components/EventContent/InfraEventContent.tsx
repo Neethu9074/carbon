@@ -30,7 +30,7 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { infraSmartAlertsPredictionsEnabled } from 'in-services/featureFlags';
+import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -90,7 +90,7 @@ export default function InfraEventContent({ event }: Props) {
   } as TimeConfig;
 
   // If the event includes predictions, the endtime is either the end date or the last timestamp in the prediction, whichever is greater.
-  if (predictions?.length > 0 && infraSmartAlertsPredictionsEnabled) {
+  if (predictions?.length > 0 && infraPredictiveDetectionEnabled) {
     const predictionMaxTime = predictions[predictions.length - 1][0];
     const endTime = timeConfig?.to ? Math.max(timeConfig?.to, predictionMaxTime) : predictionMaxTime;
     timeConfig = { ...timeConfig, to: endTime, focusedMoment: endTime };
@@ -128,9 +128,9 @@ export default function InfraEventContent({ event }: Props) {
               alertConfig={alertConfigWithGroupingExpression}
               timeConfig={timeConfig}
               metricLabel={metricLabel}
-              predictions={infraSmartAlertsPredictionsEnabled ? predictions : []}
-              lowerBound={infraSmartAlertsPredictionsEnabled ? lowerBound : []}
-              upperBound={infraSmartAlertsPredictionsEnabled ? upperBound : []}
+              predictions={infraPredictiveDetectionEnabled ? predictions : []}
+              lowerBound={infraPredictiveDetectionEnabled ? lowerBound : []}
+              upperBound={infraPredictiveDetectionEnabled ? upperBound : []}
             />
           </Card>
         </Col>

@@ -16,7 +16,8 @@ import {
   vsphereEnabled,
   zhmcEnabled,
   sloV2Enabled,
-  powervcEnabled
+  powervcEnabled,
+  automationPoliciesEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -201,7 +202,12 @@ export const amountPlatformAccesses = (() => {
 
 export const hasSloAccess = sloV2Enabled && (hasWebsitesAccess || hasApplicationsAccess);
 export const hasEventsAccess =
-  hasWebsitesAccess || hasMobileAppsAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+  hasWebsitesAccess ||
+  hasMobileAppsAccess ||
+  hasApplicationsAccess ||
+  hasAPlatformAccess ||
+  hasInfrastructureAccess ||
+  hasSyntheticsAccess;
 export const hasBizOpsAccess =
   hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
@@ -664,7 +670,14 @@ export function getProductPermissions(): Array<ProductPermission> {
 
       return !automationCapabilities.includes(keyForGroupApi);
     });
+  } else if (!automationPoliciesEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      const automationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES];
+
+      return !automationCapabilities.includes(keyForGroupApi);
+    });
   }
+
   if (!businessObservabilityEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       const bizopsCapabilities: Array<CapabilityType> = [

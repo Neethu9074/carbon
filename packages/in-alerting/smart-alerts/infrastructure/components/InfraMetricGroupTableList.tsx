@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
@@ -22,10 +22,12 @@ import { InfrastructureGroup, Order, Progress, Result, TimeConfig } from '@insta
 //@ts-expect-error
 import { getGroupTagValue, getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { InfraMetricGroupHeader } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupHeader';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 //@ts-expect-error
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -45,7 +47,7 @@ interface OrderByProps {
 interface InfraMetricGroupTableListProps extends State<any, any> {
   groupBy: string[];
   isTableMode: boolean;
-  metrics: object[];
+  metrics: MetricType[];
   order: Order;
   retrievalSize: number;
   totalHits?: number;
@@ -53,12 +55,10 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   type: string;
   metricMetadatas: Result<Metadatas>;
   timeConfig: TimeConfig;
-  granularity: number;
   loadMore: () => void;
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
-  setRetrievalSize: React.Dispatch<number>;
 }
 
 /**
@@ -82,19 +82,15 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     type,
     metricMetadatas,
     timeConfig,
-    granularity,
     loadMore: defaultCursorPaginationLoadMore,
     canLoadMore,
     setBackendQueryModel,
-    onOrderByChange,
-    setRetrievalSize
+    onOrderByChange
   } = props;
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;
   const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
-
-  const lastGroupByValue = useRef<any>([]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -113,16 +109,6 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     }
   }, [selectedMetricGroup, items, isLoading]);
 
-  useEffect(() => {
-    if (!isEqual(lastGroupByValue.current, groupBy)) {
-      lastGroupByValue.current = groupBy;
-      setSelectedMetricGroup(undefined);
-      selectedMetricGroup$.emit(null);
-      setRetrievalSize(5);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groupBy]);
-
   const columnDefinitions = getColumnDefinition({
     groupBy,
     isTableMode,
@@ -130,7 +116,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     type,
     metricMetadatas,
     timeConfig,
-    granularity,
+    granularity: sparkChartGranularity,
     selectedMetricGroup
   });
 
@@ -178,7 +164,6 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
             //@ts-expect-error TS incompactable
             loadMore={() => {
               defaultCursorPaginationLoadMore();
-              setRetrievalSize(retrievalSize + 5);
             }}
           />
         )}
@@ -324,7 +309,12 @@ function setDefaultMetrics(
     return;
   }
 
-  if (!selectedMetricGroup) {
-    setSelectedMetricGroup(items[0].tags);
+  if (selectedMetricGroup) {
+    const metricExistsInItems = items.find(item => item.tags === selectedMetricGroup);
+    if (metricExistsInItems) {
+      return;
+    }
   }
+
+  setSelectedMetricGroup(items[0].tags);
 }

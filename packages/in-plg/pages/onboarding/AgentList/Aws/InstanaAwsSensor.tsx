@@ -167,8 +167,6 @@ export default function InstanaAwsSensor({
             <Code
               lang="bash"
               code={[
-                `#!/bin/bash`,
-                ` `,
                 `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent`,
                 'chmod 700 ./setup_agent.sh',
                 `sudo ./setup_agent.sh -y -a ${agentKey} -d ${downloadKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`

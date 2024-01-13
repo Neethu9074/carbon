@@ -4,18 +4,19 @@
  * Copyright IBM Corp. 2022
  */
 
-import theme from 'in-themes';
+import { themes } from '@instana/design-tokens';
+
 import { t } from 'in-i18n';
 
 export const maxInitialLogLines = 200;
 export const customChartHeight = 215;
 export const maxRetrievalSize = 200;
 export const logLevelColors: Record<string, string> = {
-  error: theme.lib.colors.failure,
-  warn: theme.lib.colors.warning,
-  info: theme.lib.colors.lightBlue800,
-  debug: theme.lib.colors.black,
-  trace: theme.lib.colors.black
+  error: themes.default.ids.color.option.red['500'],
+  warn: themes.default.ids.color.option.yellow['500'],
+  info: themes.default.ids.color.option.blue['400'],
+  debug: themes.default.ids.color.option.black,
+  trace: themes.default.ids.color.option.black
 };
 export const logsChartOptions = {
   templates: [],

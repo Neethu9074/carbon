@@ -35,13 +35,18 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
   const crossSeriesAggregationValue = crossSeriesAggregationField.value;
   const isCrossSeriesSumAggregationToggleEnabled = includesInSelectedAggregations(aggregationField.value);
   const [isSumCrossSeriesAggregation, setIsSumCrossSeriesAggregation] = useState(
-    crossSeriesAggregationValue == 'SUM' && isCrossSeriesSumAggregationToggleEnabled ? true : false
+    crossSeriesAggregationValue == 'SUM' &&
+      (isCrossSeriesSumAggregationToggleEnabled || ifAggregationSumOrRate(aggregationField.value))
+      ? true
+      : false
   );
   const [aggregation, setAggregation] = useState(aggregationField.value ?? 'MEAN');
 
   const handleAggregationChange = (aggregationValue: string) => {
     setAggregation(aggregationValue);
-    if (!isCrossSeriesSumAggregationToggleEnabled) {
+    if (ifAggregationSumOrRate(aggregationValue)) {
+      setIsSumCrossSeriesAggregation(true);
+    } else if (!includesInSelectedAggregations(aggregationValue)) {
       setIsSumCrossSeriesAggregation(false);
     }
   };
@@ -112,4 +117,8 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
       </>
     </SelectInSection>
   );
+}
+
+function ifAggregationSumOrRate(aggregationFieldValue: string) {
+  return ['SUM', 'PER_SECOND'].includes(aggregationFieldValue);
 }

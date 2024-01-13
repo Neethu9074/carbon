@@ -20,15 +20,19 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import {
+  oneMinuteGranularityForStaticThresholdEnabled,
+  infraPredictiveDetectionEnabled
+} from 'in-services/featureFlags';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
-import { InfraTimeThreshold } from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
+import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import InfraTimeThreshold from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
-import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -42,7 +46,9 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     onChange,
     timeConfig,
     setSliderState,
-    setCustomSlideInHeaderConfig
+    setCustomSlideInHeaderConfig,
+    setTagFilterValid,
+    tagFilterValid
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
@@ -55,8 +61,15 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
-          valid: isMetricAndEntityValid(),
-          content: <ScopeSection form={form} updateForm={updateForm} onChange={onChange} />
+          valid: isMetricAndEntityValid() && tagFilterValid,
+          content: (
+            <ScopeSection
+              form={form}
+              updateForm={updateForm}
+              onChange={onChange}
+              setTagFilterValid={setTagFilterValid}
+            />
+          )
         },
         {
           scrollId: '2',
@@ -80,14 +93,17 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.timeThreshold.title'),
           valid: true,
           content: (
-            <InfraTimeThreshold
-              form={form}
-              updateForm={updateForm}
-              onChange={onChange}
-              oneMinuteGranularityAllowed={
-                thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-              }
-            />
+            <>
+              <InfraTimeThreshold
+                form={form}
+                updateForm={updateForm}
+                onChange={onChange}
+                oneMinuteGranularityAllowed={
+                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+                }
+              />
+              {infraPredictiveDetectionEnabled && <InfraPredictiveTrigger form={form} updateForm={updateForm} />}
+            </>
           )
         },
         {
@@ -151,8 +167,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           valid: isCustomPayloadValidOrUntouched(form),
           content: (
             <>
-              {/* TODO :  Context need to be updated once it is added to typedefinition.  */}
-              <GlobalCustomPayloadCard context="ALL" />
+              <GlobalCustomPayloadCard context="INFRA" />
               <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
             </>
           )

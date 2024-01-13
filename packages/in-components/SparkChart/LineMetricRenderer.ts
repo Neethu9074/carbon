@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { themes } from '@instana/design-tokens';
 import { TimeConfig } from '@instana/types';
 
 import {
@@ -11,7 +12,7 @@ import {
 } from 'in-services/featureFlags';
 import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import createScale, { ScaleType } from 'in-services/scale';
-import oldTheme from 'in-themes';
+import { chartColors } from 'in-themes/chartColors';
 
 interface Props {
   width?: number;
@@ -236,7 +237,7 @@ export default class LineMetricRenderer {
     }
 
     this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = oldTheme.lib.colors.chart.strokeColors100[0];
+    this.ctx.strokeStyle = chartColors.strokeColors100[0];
 
     this.renderBlocks();
     this.renderDataPoints();
@@ -244,9 +245,9 @@ export default class LineMetricRenderer {
 
   renderBlocks(): void {
     if (this.theme === 'light') {
-      this.ctx.fillStyle = oldTheme.lib.colors.chart.strokeColors25[0];
+      this.ctx.fillStyle = chartColors.strokeColors25[0];
     } else {
-      this.ctx.fillStyle = oldTheme.lib.colors.N700Medium;
+      this.ctx.fillStyle = themes.default.ids.color.option.neutral['700'];
     }
 
     for (let i = 0; i < this.blocks.length; i++) {
@@ -361,9 +362,9 @@ export default class LineMetricRenderer {
     if (this.theme === 'light') {
       this.drawPoints('#ffffff', 3);
     } else {
-      this.drawPoints(oldTheme.lib.colors.N900Primary, 3);
+      this.drawPoints(themes.default.ids.color.option.neutral['900'], 3);
     }
-    this.drawPoints(oldTheme.lib.colors.chart.strokeColors100[0], 2, true);
+    this.drawPoints(chartColors.strokeColors100[0], 2, true);
   }
 
   drawPoints(fillStyle: string, radius: number, withRespectToZeroValues = false): void {
