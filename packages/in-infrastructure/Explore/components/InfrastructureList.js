@@ -320,7 +320,7 @@ InfrastructureList.propTypes = {
 function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {
   return metrics
     .filter(m => !m.removeFromTable)
-    .map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
+    .map(({ metric, aggregation, crossSeriesAggregation, formatterId, isFormatterSelected, label: metricLabel }) => {
       const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
@@ -341,7 +341,9 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         getContent(item) {
           const id = getMetricKey(metric, aggregation);
           const metadata = mapData(metricMetadatas, data => data[metric]);
-          const formatter = getFormatter(formatterId) ?? mapData(metadata, data => data?.formatter).data;
+          const formatter = isFormatterSelected
+            ? getFormatter(formatterId)
+            : mapData(metadata, data => data?.formatter).data;
 
           const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
           const kpi = firstValue(item.metrics[id]);

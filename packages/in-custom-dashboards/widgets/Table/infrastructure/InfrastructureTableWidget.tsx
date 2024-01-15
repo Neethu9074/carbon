@@ -39,6 +39,7 @@ export interface MetricItem {
   aggregation: AggregationType;
   metric: string;
   formatter: string;
+  formatterSelected: boolean;
   crossSeriesAggregation: string;
   metricLabel: string;
   label: string;
@@ -243,12 +244,13 @@ function InfrastructureTable(props: TableWidgetProps) {
 
 function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ aggregation, metric, formatter, label, metricLabel, regex }) => ({
+    ({ aggregation, metric, formatter, formatterSelected: isFormatterSelected, label, metricLabel, regex }) => ({
       aggregation,
       formatterId: formatter,
       label: label !== '' ? label : metricLabel,
       metricLabel,
       metric,
+      isFormatterSelected,
       regex
     })
   );
