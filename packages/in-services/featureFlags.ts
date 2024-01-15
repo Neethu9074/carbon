@@ -105,6 +105,9 @@ export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCu
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
 
+// Synthetic Instana Deploy PoP feature flag
+export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUpdateDeployPoPEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
