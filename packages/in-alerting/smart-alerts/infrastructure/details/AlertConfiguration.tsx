@@ -19,6 +19,10 @@ import {
 } from 'in-types';
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
+import {
+  getQueryBuilder,
+  getGroupByQueryBuilder
+} from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -26,7 +30,6 @@ import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/compo
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/infrastructure/details/AlertThresholdInfos';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
@@ -88,6 +91,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   });
 
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+
+  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
@@ -148,6 +153,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                   focusedMoment: timeConfig.focusedMoment
                 }}
                 metricMetadatas={metricMetadatas}
+                tagCatalog={tagCatalog}
               />
             )}
           </Card>
@@ -171,7 +177,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
               scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
             />
 
-            <AlertGrouping AlertQueryBuilder={AlertQueryBuilder} groupBy={groupBy} />
+            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupBy} />
           </Stack>
         </div>
       </ExpandableLightCard>
