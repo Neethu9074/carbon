@@ -45,7 +45,7 @@ export function AlertGrouping({ AlertQueryBuilder, groupBy }: AlertGroupingProps
   );
 }
 
-function getGroupingFE(groupBy: string[]) {
+export function getGroupingFE(groupBy: string[]) {
   if (!groupBy.length) {
     return [];
   }

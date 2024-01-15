@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Cursor, Order, Result, TimeConfig } from '@instana/types';
+import { Cursor, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
 import {
@@ -42,6 +42,7 @@ interface InfraMetricGroupProps {
   metricMetadatas: Result<Metadatas>;
   selectedMetricGroup?: Tags;
   setSelectedMetricGroup?: React.Dispatch<Tags>;
+  tagCatalog?: TagCatalog;
 }
 
 /**
@@ -67,6 +68,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
   // resulting in re-rending of the table each time even if there is no change,
   // so passing it as a string value to the dependency array of useCursorPagination
   const groupByString = backendGroupBy?.toString();
+  const chartConfig = JSON.stringify(timeConfig);
 
   useEffect(() => {
     setFilterExpression(backendQueryModel);
@@ -85,7 +87,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
         retrievalSize
       });
     },
-    [timeConfig, filterExpression, orderByDirection, type, crossSeriesAggregation, groupByString, aggregation]
+    [chartConfig, filterExpression, orderByDirection, type, crossSeriesAggregation, groupByString, aggregation]
   );
 
   /**
@@ -116,7 +118,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
 interface GroupProps
   extends Omit<
     InfraMetricGroupProps,
-    'backendGroupBy' | 'metricMetadatas' | 'selectedMetricGroup' | 'setSelectedMetricGroup'
+    'backendGroupBy' | 'metricMetadatas' | 'selectedMetricGroup' | 'setSelectedMetricGroup' | 'tagCatalog'
   > {
   cursor?: Cursor;
   retrievalSize: number;

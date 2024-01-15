@@ -12,6 +12,7 @@ import { create } from '@instana/observables';
 
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import InfraThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition';
+import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { infraAlertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
@@ -20,6 +21,7 @@ import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/compone
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
@@ -51,11 +53,12 @@ export default function ThresholdSelectionInteractiveChart({
   const regex = false;
 
   const crossSeriesAggregation = ruleForm.get('crossSeriesAggregation').value;
-  const metricLabel = form.get('hiddenFields').get('metricLabel').value;
 
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
+
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   const backendGroupBy = groupBy?.map((groups: any) => groups?.groupbyTag) ?? [];
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
@@ -65,6 +68,8 @@ export default function ThresholdSelectionInteractiveChart({
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
 
   const alertConfigModel = infraAlertConfigWithDefaultThreshold(form);
+
+  const tagCatalog = useTagCatalog({ ownerType: entityType });
 
   // Since the timeConfig is part of the dependency array for the 'getGroups' API, memoised it to avoid the table refreshing frequently.
   const timeConfig = useMemo(() => {
@@ -119,6 +124,7 @@ export default function ThresholdSelectionInteractiveChart({
                   focusedMoment: timeConfig.focusedMoment
                 }}
                 metricMetadatas={metricMetadatas}
+                tagCatalog={tagCatalog}
               />
             )}
           </>
