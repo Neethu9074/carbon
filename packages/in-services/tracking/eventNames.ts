@@ -449,3 +449,9 @@ export const INCIDENT_SUMMARIZATION_SUBMIT = 'incident.summarization.feedback.su
 export const INCIDENT_SUMMARIZATION_CLOSED_MANUALLY = 'incident.summarization.feedback.manually';
 export const INCIDENT_SUMMARIZATION_NEXT = 'incident.summarization.feedback.next';
 export const INCIDENT_SUMMARIZATION_SKIP = 'incident.summarization.feedback.skip';
+
+// Journal Fake Door Tracking
+export const JOURNAL_FAKE_DOOR_START_CLICK = 'journal.fake.door.start.click';
+export const JOURNAL_FAKE_DOOR_NOT_INTERESTED = 'journal.fake.door.notInterested';
+export const JOURNAL_FAKE_DOOR_INTERESTED = 'journal.fake.door.interested';
+export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
