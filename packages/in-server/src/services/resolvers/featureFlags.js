@@ -466,11 +466,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraSmartAlertsDialogEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.dialog.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'simplifiedFlowMapEnabled',
     instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
     defaultValue: false

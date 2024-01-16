@@ -99,7 +99,6 @@ module.exports = {
   applicationContributionFilterEnabled: true,
   infraSmartAlertsPredictionsEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
-  infraSmartAlertsDialogEnabled: true,
   simplifiedFlowMapEnabled: true,
   fullscreenWidgetEnabled: true,
   agentInstallationV2Enabled: true,
