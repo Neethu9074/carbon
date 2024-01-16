@@ -46,13 +46,6 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
   viewConfig,
   ...remainingProps
 }: AlertingChartWithErrorMessageProps<AlertConfig>) {
-  const { numeratorTagFilterFormModel, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
-    alertConfigWithFormModel,
-    blueprintConfig,
-    applicationId,
-    serviceId,
-    endpointId
-  );
 
   const queryValidationResult: Result<boolean> =
     useObservable(() => {
@@ -62,9 +55,19 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
 
   const isValid = Boolean(queryValidationResult?.data);
 
-  const enrichedTagFilterExpression = useMemo(
-    () => (isValid ? toBackendQueryModel(enrichedTagFilterFormModel) : null),
-    [isValid, enrichedTagFilterFormModel]
+  const [numeratorTagFilterExpression, enrichedTagFilterExpression] = useMemo(
+    () => {
+      if (!isValid) {
+        return [null, null];
+      }
+      const { numeratorTagFilterFormModel, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(alertConfigWithFormModel,
+        blueprintConfig,
+        applicationId,
+        serviceId,
+        endpointId);
+      return [toBackendQueryModel(numeratorTagFilterFormModel), toBackendQueryModel(enrichedTagFilterFormModel)];
+    },
+    [isValid, alertConfigWithFormModel, blueprintConfig, applicationId, serviceId, endpointId]
   );
 
   // queryValidator returns undefined -> null -> true || false.
@@ -79,7 +82,7 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
       viewConfig={viewConfig}
-      numeratorTagFilterExpression={toBackendQueryModel(numeratorTagFilterFormModel)}
+      numeratorTagFilterExpression={numeratorTagFilterExpression}
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (

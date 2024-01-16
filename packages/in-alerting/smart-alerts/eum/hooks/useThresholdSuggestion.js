@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -19,16 +20,12 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
     simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
   } = config;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
       resolveThresholdRequest(
         alertConfigWithFormModel,
         blueprintConfig,
-        enrichedTagFilterFormModel,
-        numeratorTagFilterFormModel,
         simpleMode,
         isValid
       ),
@@ -52,8 +49,6 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
 function resolveThresholdRequest(
   alertConfigWithFormModel,
   blueprintConfig,
-  enrichedTagFilterFormModel,
-  numeratorTagFilterFormModel,
   isSimpleMode,
   isValid
 ) {
@@ -68,6 +63,11 @@ function resolveThresholdRequest(
   if (!isValid || !calculateThresholdOnBackend) {
     return empty;
   }
+
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
+    alertConfigWithFormModel,
+    blueprintConfig
+  );
 
   const getSeasonality = () => {
     if (!blueprintConfig.baselineEnabled) {
