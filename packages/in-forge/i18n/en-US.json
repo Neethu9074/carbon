@@ -1247,21 +1247,21 @@
   "pluginName_pluginName_powerVC_1": "PowerVCs",
   "pluginName_pluginName_powerVC_2": "PowerVCs",
   "pluginName_pluginName_powerVC": "PowerVC",
-  "pluginName_powervcRegion_plural": "PowerVC Regions",
-  "pluginName_powervcRegion_2": "PowerVC Regions",
-  "pluginName_powervcRegion_1": "PowerVC Regions",
-  "pluginName_powervcRegion_0": "PowerVC Regions",
-  "pluginName_powervcRegion": "PowerVC Region",
-  "pluginName_powervcHypervisor_plural": "PowerVC Hypervisors",
-  "pluginName_powervcHypervisor_2": "PowerVC Hypervisors",
-  "pluginName_powervcHypervisor_1": "PowerVC Hypervisors",
-  "pluginName_powervcHypervisor_0": "PowerVC Hypervisors",
-  "pluginName_powervcHypervisor": "PowerVC Hypervisor",
-  "pluginName_powervcInstance_plural": "PowerVC Instances",
-  "pluginName_powervcInstance_2": "PowerVC Instances",
-  "pluginName_powervcInstance_1": "PowerVC Instances",
-  "pluginName_powervcInstance_0": "PowerVC Instances",
-  "pluginName_powervcInstance": "PowerVC Instance",
+  "pluginName_powerVCRegion_plural": "PowerVC Regions",
+  "pluginName_powerVCRegion_2": "PowerVC Regions",
+  "pluginName_powerVCRegion_1": "PowerVC Regions",
+  "pluginName_powerVCRegion_0": "PowerVC Regions",
+  "pluginName_powerVCRegion": "PowerVC Region",
+  "pluginName_powerVCHypervisor_plural": "PowerVC Hypervisors",
+  "pluginName_powerVCHypervisor_2": "PowerVC Hypervisors",
+  "pluginName_powerVCHypervisor_1": "PowerVC Hypervisors",
+  "pluginName_powerVCHypervisor_0": "PowerVC Hypervisors",
+  "pluginName_powerVCHypervisor": "PowerVC Hypervisor",
+  "pluginName_powerVCComputeInstance_plural": "PowerVC Instances",
+  "pluginName_powerVCComputeInstance_2": "PowerVC Instances",
+  "pluginName_powerVCComputeInstance_1": "PowerVC Instances",
+  "pluginName_powerVCComputeInstance_0": "PowerVC Instances",
+  "pluginName_powerVCComputeInstance": "PowerVC Instance",
   "pluginName_process_plural": "Processes",
   "pluginName_process_0": "Processes",
   "pluginName_process_1": "Processes",
@@ -7251,7 +7251,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-"powervcRegion":{
+    "powerVCRegion":{
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -7262,14 +7262,14 @@
       "availableCapacity": "Available Capacity",
       "volumeCount": "Volume Count"
     },
-    "powervcHypervisor":{
+    "powerVCHypervisor":{
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage ",
       "storageUsage": "Storage Usage",
       "instanceCount": "Instance Count",
       "currentWorkload":"Current Workload"
     },
-    "powervcInstance":{
+    "powerVCComputeInstance":{
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },

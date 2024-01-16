@@ -10,31 +10,31 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: ['cpuUsage'],
-    labels: [t('in-forge:plugins.powervcHypervisor.cpuUsage')],
+    labels: [t('in-forge:plugins.powerVCHypervisor.cpuUsage')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: ['memoryUsage'],
-    labels: [t('in-forge:plugins.powervcHypervisor.memoryUsage')],
+    labels: [t('in-forge:plugins.powerVCHypervisor.memoryUsage')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: ['instanceCount'],
-    labels: [t('in-forge:plugins.powervcHypervisor.instanceCount')],
+    labels: [t('in-forge:plugins.powerVCHypervisor.instanceCount')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['storageUsage'],
-    labels: [t('in-forge:plugins.powervcHypervisor.storageUsage')],
+    labels: [t('in-forge:plugins.powerVCHypervisor.storageUsage')],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['currentWorkload'],
-    labels: [t('in-forge:plugins.powervcHypervisor.currentWorkload')],
+    labels: [t('in-forge:plugins.powerVCHypervisor.currentWorkload')],
     min: 0,
     formatter: number
   }
