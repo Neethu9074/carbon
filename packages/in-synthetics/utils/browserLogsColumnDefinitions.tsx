@@ -8,10 +8,10 @@ import React from 'react';
 
 import { formatDateTime } from '@instana/format-date';
 import { themes } from '@instana/design-tokens';
+import { Pill } from '@instana/components';
 
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
 import { BrowserMessage } from 'in-synthetics/utils/constants';
-import Pill from 'in-components/Pill/Pill';
 
 import locals from 'in-synthetics/dashboards/details/components/Logs.mless';
 

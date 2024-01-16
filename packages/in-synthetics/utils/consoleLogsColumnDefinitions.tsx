@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import Pill from 'in-components/Pill/Pill';
+import { Pill } from '@instana/components';
 
 import locals from 'in-synthetics/dashboards/details/components/Logs.mless';
 
