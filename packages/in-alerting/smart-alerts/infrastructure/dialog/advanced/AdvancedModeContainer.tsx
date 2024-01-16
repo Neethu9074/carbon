@@ -30,6 +30,7 @@ import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/Co
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
@@ -48,6 +49,10 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
+  const entityType = form.get('entityType')?.value;
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const isRegex = form.get('rule').get('regex')?.value;
+  const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
 
   return (
     <StepsContainer
@@ -64,6 +69,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               updateForm={updateForm}
               onChange={onChange}
               setTagFilterValid={setTagFilterValid}
+              tagCatalog={tagCatalog}
+              isRegex={isRegex}
             />
           )
         },
@@ -80,6 +87,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               // @ts-expect-error updateForm is required
               updateForm={updateForm}
               timeConfig={timeConfig}
+              tagCatalog={tagCatalog}
+              regex={isRegex}
             />
           )
         },

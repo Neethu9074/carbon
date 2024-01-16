@@ -29,6 +29,7 @@ interface ScopeMetricProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
+  isRegex: boolean;
 }
 interface Node {
   metric: string;
@@ -37,12 +38,11 @@ interface Node {
   parentLabels: string[];
 }
 
-export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricProps) {
+export default function ScopeMetric({ form, updateForm, onChange, isRegex }: ScopeMetricProps) {
   const metricField = form.get('rule').get('metricName');
   const entityTypeField = form.get('rule').get('entityType');
   const metricLabelField = form.get('hiddenFields').get('metricLabel');
   const metricPathField = form.get('hiddenFields').get('metricPath');
-  const isRegex = form.get('rule').get('regex')?.value;
   const metric = !isRegex ? metricField.value || undefined : undefined;
   const entityType = entityTypeField?.value;
   let metricLabel = metricLabelField?.value;
@@ -70,15 +70,13 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
     metricLabel = metricPathAndLabel.label;
     metricPath = metricPathAndLabel.path;
     if (updateForm) {
-      updateForm(
-        form
-          .updateIn(['hiddenFields', 'metricLabel'], field =>
-            (field as Field<string>).setValue(metricLabel).setTouched(true)
-          )
-          .updateIn(['hiddenFields', 'metricPath'], field =>
-            (field as Field<string>).setValue(metricPath).setTouched(true)
-          )
-      );
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: metricLabel,
+        metricPath: metricPath,
+        clearGroupFilter: false
+      });
     }
   }
 
@@ -96,23 +94,15 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
     updateForm: ((form: MapForm<any>) => void) | undefined
   ) => {
     if (metric !== metricObj.metric && updateForm) {
-      updateForm(
-        form
-          .updateIn(['hiddenFields', 'metricLabel'], field =>
-            (field as Field<string>).setValue(metricObj.label).setTouched(true)
-          )
-          .updateIn(['hiddenFields', 'metricPath'], field =>
-            //@ts-expect-error
-            (field as Field<string>).setValue(metricObj.parentLabels).setTouched(true)
-          )
-          .updateIn(['rule', 'entityType'], field =>
-            (field as Field<string>).setValue(metricObj.parentType).setTouched(true)
-          )
-          .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(metricObj.metric).setTouched(true))
-          //@ts-expect-error
-          .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-          .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-      );
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: metricObj.label,
+        metricPath: metricObj.parentLabels,
+        entityType: metricObj.parentType,
+        metric: metricObj.metric,
+        clearGroupFilter: true
+      });
     }
   };
   return (
@@ -134,4 +124,53 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
       <TouchedMessages field={metricField} />
     </>
   );
+}
+
+interface UpdateFormFieldProp {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  metricLabel: string;
+  metricPath: string[];
+  entityType?: string;
+  metric?: string;
+  clearGroupFilter: boolean;
+}
+
+function updateFormField({
+  updateForm,
+  form,
+  metricLabel,
+  metricPath,
+  entityType,
+  metric,
+  clearGroupFilter
+}: UpdateFormFieldProp) {
+  let updatedForm = form;
+  if (metricLabel) {
+    updatedForm = updatedForm.updateIn(['hiddenFields', 'metricLabel'], field =>
+      (field as Field<string>).setValue(metricLabel).setTouched(true)
+    );
+  }
+  if (metricPath) {
+    updatedForm = updatedForm.updateIn(['hiddenFields', 'metricPath'], field =>
+      (field as Field<string[]>).setValue(metricPath).setTouched(true)
+    );
+  }
+  if (entityType) {
+    updatedForm = updatedForm.updateIn(['rule', 'entityType'], field =>
+      (field as Field<string>).setValue(entityType).setTouched(true)
+    );
+  }
+  if (metric) {
+    updatedForm = updatedForm.updateIn(['rule', 'metricName'], field =>
+      (field as Field<string>).setValue(metric).setTouched(true)
+    );
+  }
+  if (clearGroupFilter) {
+    updatedForm = updatedForm
+      .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
+      .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true));
+  }
+
+  updateForm(updatedForm);
 }
