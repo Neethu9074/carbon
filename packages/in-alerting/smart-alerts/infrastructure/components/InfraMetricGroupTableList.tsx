@@ -245,7 +245,7 @@ function getColumnDefinition({
       },
       ...{
         sortable: true,
-        label: <GroupLabel groupKey={groupKey} tagCatalog={tagCatalog} />,
+        label: groupKey && tagCatalog ? <GroupLabel groupKey={groupKey} tagCatalog={tagCatalog} /> : null,
         getContent(item: InfrastructureGroup) {
           return getGroupTagValue(item, groupKey);
         }

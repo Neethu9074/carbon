@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
-import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import { useGroupByCatalog } from 'in-alerting/smart-alerts/infrastructure/hooks/useGroupByLabel';
 import { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel.mless';
@@ -31,17 +31,7 @@ export default function ScopeGroup({ form, updateForm, tagCatalog }) {
     updateForm(form.updateIn(['groupBy'], f => f.setValue(groups).setTouched(true)));
   };
 
-  const [groupByTagCatalog, setGroupByTagCatalog] = useState(undefined);
-
-  useEffect(() => {
-    if (!tagCatalog) {
-      return;
-    }
-
-    const groupByTagCatalog = tagCatalog ? getGroupByTagCatalog(tagCatalog) : {};
-
-    setGroupByTagCatalog(groupByTagCatalog);
-  }, [tagCatalog]);
+  const groupByTagCatalog = useGroupByCatalog(tagCatalog);
 
   return (
     <div className={locals.container}>
