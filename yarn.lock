@@ -2177,10 +2177,10 @@
     "@instana/logger" "^1.3.2"
     "@instana/observables" "^1.7.1"
 
-"@instana/types@1.266.61":
-  version "1.266.61"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.266.61.tgz#0b8fdd4d5f00910aa14b39dadad62954d3a0718b"
-  integrity sha512-ql6FAR7PC2Ow6xTRXer1NXOvpZAeMT/igFT0+iWUUCRcTby1ewvlu0MbHCqjECpJzXQSFIsoVjQp3sbodOKPFw==
+"@instana/types@1.266.125":
+  version "1.266.125"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.266.125.tgz#0c650b92f577368d1c197ae1a269cc8e47b469ad"
+  integrity sha512-OKhAIeMGypJClCX7xViP1ACqKLX4aBDDJAT4Pa1z6ORrevnhI+m53qAEa9wfk7iEO/ZHMKFejwKv6nLV7bG2dA==
 
 "@instana/utils@^1.3.1", "@instana/utils@^1.4.1":
   version "1.4.1"
