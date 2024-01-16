@@ -112,7 +112,7 @@ export default function CustomEndpointMappingDialog({ location }) {
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <BasicForm
-        title={t('in-applications:forms.titleConfigureEndpointExtraction')}
+        title={t('in-applications:forms.titleConfigureEndpointMapping')}
         saveButtonLabel={t('in-applications:buttonSave')}
         onCancelHref={createHrefToPath(`${serviceDashboard}/endpoints`)}
         getOnSavePath={() => `${serviceDashboard}/endpoints`}
@@ -205,7 +205,7 @@ export default function CustomEndpointMappingDialog({ location }) {
                 <Steps
                   steps={[
                     {
-                      stepTitle: t('in-applications:forms.titleConfigureEndpointsExtract'),
+                      stepTitle: t('in-applications:forms.titleConfigureEndpointsMapping'),
                       content: (
                         <>
                           <DescriptionText>
