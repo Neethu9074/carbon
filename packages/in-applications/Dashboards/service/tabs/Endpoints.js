@@ -15,8 +15,8 @@ import {
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import { useLinkToEndpointDashboard, useLinkToEndpointConfiguration } from 'in-applications/navigation/paths';
+import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -230,7 +230,7 @@ export default function Endpoints(props) {
   const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
   const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
-  const getLinkToServiceDashboard = useLinkToEndpointConfiguration();
+  const getLinkToEndpointConfig = useLinkToEndpointConfiguration();
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
 
   const rightHeader = ({ query }) => (
@@ -240,7 +240,7 @@ export default function Endpoints(props) {
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
-          href={getLinkToServiceDashboard(hasHttpType)}
+          href={getLinkToEndpointConfig(hasHttpType)}
         >
           {t('in-applications:buttonConfigureEndpoints')}
         </Button>
