@@ -17,7 +17,7 @@ export const hideDownstream = 'hideDownstream';
 export const tagFilters = 'tagFilters';
 export const snapshotId = 'snapshotId';
 export const plugin = 'plugin';
-
+export const hasHttpType = 'hasHttpType';
 export const applicationListPrefix = 'app.';
 export const serviceListPrefix = 'service.';
 

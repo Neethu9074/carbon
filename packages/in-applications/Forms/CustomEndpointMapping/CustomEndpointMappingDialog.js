@@ -7,7 +7,7 @@ import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Button } from '@instana/components';
+import { Button, Typography } from '@instana/components';
 import { just } from '@instana/observables';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
@@ -17,25 +17,29 @@ import {
   addEndpointConfig,
   getEndpointConfig
 } from 'in-api/endpointConfiguration';
+import {
+  serviceId as serviceIdMatrixParameter,
+  hasHttpType as hasHttpTypeMatrixParameter
+} from 'in-applications/navigation/matrix';
 import UnspecifiedExtractionRule from 'in-applications/Forms/CustomEndpointMapping/UnspecifiedExtractionRule';
 import DragAndDropRuleList from 'in-applications/Forms/CustomEndpointMapping/DragAndDropRuleList';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { serviceId as serviceIdMatrixParameter } from 'in-applications/navigation/matrix';
 import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/ExtractionRule';
+import { serviceDashboard, endpointsTab } from 'in-applications/navigation/paths';
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
-import { serviceDashboard } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './CustomEndpointMappingDialog.mless';
 
@@ -98,8 +102,13 @@ function RouteIdRule() {
 export default function CustomEndpointMappingDialog({ location }) {
   const { createHrefToPath } = useNavigation();
   const [isNewConfig, setIsNewConfig] = useState(false);
-
   const serviceId = getMatrixParameter(location, serviceDashboard, serviceIdMatrixParameter);
+  const hasHttpType = getMatrixParameter(location, endpointsTab, hasHttpTypeMatrixParameter) === 'true' ? true : false;
+  const endpointCaseConfig = {
+    original: 'ORIGINAL',
+    lower: 'LOWER',
+    upper: 'UPPER'
+  };
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <BasicForm
@@ -125,12 +134,25 @@ export default function CustomEndpointMappingDialog({ location }) {
                 return newConfig;
               }
             }
-            return result;
+
+            return {
+              ...result,
+              data: {
+                ...result.data,
+                rules: result.data.rules ?? []
+              }
+            };
           });
         }}
-        updateEntity={config => (isNewConfig ? addEndpointConfig(config) : updateEndpointConfig(config))}
+        updateEntity={config => {
+          if (!config.rules.length) {
+            delete config['rules'];
+          }
+          return isNewConfig ? addEndpointConfig(config) : updateEndpointConfig(config);
+        }}
         getInitialForm={getInitialForm}
         renderFormContent={(config, form, setValue, updateForm) => {
+          const endpointCase = form.get('endpointCase').value;
           return (
             <>
               <ViewTrackingMeta
@@ -139,79 +161,121 @@ export default function CustomEndpointMappingDialog({ location }) {
                   pageRootName: pageNames.custom_end_point_config
                 }}
               />
-              <Steps
-                steps={[
-                  {
-                    stepTitle: t('in-applications:forms.titleConfigureEndpointsExtract'),
-                    content: (
-                      <>
-                        <DescriptionText>
-                          {t('in-applications:forms.descriptionConfigureEndpointsExtract')}
-                        </DescriptionText>
+              <div className={locals.endpointCaseContainer}>
+                <Typography variant="heading-200">{t('in-applications:forms.endpointNameCaseSensitivity')}</Typography>
+                <CheckboxFancy
+                  size={'large'}
+                  label={t('in-applications:forms.titleKeepTheOriginalCase')}
+                  explanation={<Explanation i18nKey="in-applications:forms.descriptionKeepTheOriginalCase" />}
+                  checked={endpointCase === endpointCaseConfig.original}
+                  onChange={() => {
+                    updateForm(form.updateIn(['endpointCase'], f => f.setValue('ORIGINAL')));
+                  }}
+                  className={locals.radioButton}
+                  wrapperClassName={locals.wrapperClassName}
+                  asRadioButton
+                />
+                <CheckboxFancy
+                  size={'large'}
+                  label={t('in-applications:forms.titleConvertToLowercase')}
+                  explanation={<Explanation i18nKey="in-applications:forms.descriptionConvertToLowercase" />}
+                  checked={endpointCase === endpointCaseConfig.lower}
+                  onChange={() => {
+                    updateForm(form.updateIn(['endpointCase'], f => f.setValue('LOWER')));
+                  }}
+                  className={locals.radioButton}
+                  wrapperClassName={locals.wrapperClassName}
+                  asRadioButton
+                />
+                <CheckboxFancy
+                  size={'large'}
+                  label={t('in-applications:forms.titleConvertToUppercase')}
+                  explanation={<Explanation i18nKey={'in-applications:forms.descriptionConvertToUppercase'} />}
+                  checked={endpointCase === endpointCaseConfig.upper}
+                  onChange={() => {
+                    updateForm(form.updateIn(['endpointCase'], f => f.setValue('UPPER')));
+                  }}
+                  className={locals.radioButton}
+                  wrapperClassName={locals.wrapperClassName}
+                  asRadioButton
+                />
+              </div>
 
-                        <div className={locals.addRuleButtonWrapper}>
-                          <Button
-                            kind="action"
-                            onClick={() =>
-                              addActiveDialog(
-                                <EndpointExtractionRuleDialog
-                                  ruleIndex={0}
-                                  rules={form.get('rules')}
-                                  onSave={_rule =>
-                                    updateForm(
-                                      form.updateIn(['rules'], list =>
-                                        list.unshift(getConfigRuleForm(_rule)).setTouched(true)
+              {hasHttpType && (
+                <Steps
+                  steps={[
+                    {
+                      stepTitle: t('in-applications:forms.titleConfigureEndpointsExtract'),
+                      content: (
+                        <>
+                          <DescriptionText>
+                            {t('in-applications:forms.descriptionConfigureEndpointsExtract')}
+                          </DescriptionText>
+
+                          <div className={locals.addRuleButtonWrapper}>
+                            <Button
+                              kind="action"
+                              onClick={() =>
+                                addActiveDialog(
+                                  <EndpointExtractionRuleDialog
+                                    ruleIndex={0}
+                                    rules={form.get('rules')}
+                                    onSave={_rule =>
+                                      updateForm(
+                                        form.updateIn(['rules'], list =>
+                                          list.unshift(getConfigRuleForm(_rule)).setTouched(true)
+                                        )
                                       )
-                                    )
-                                  }
-                                />
-                              )
+                                    }
+                                  />
+                                )
+                              }
+                              icon="lib_openclose_add_circle_outline"
+                            >
+                              {t('in-applications:buttonAddCustomHTTPRule')}
+                            </Button>
+                          </div>
+
+                          <DragAndDropRuleList
+                            rules={form.get('rules')}
+                            form={form}
+                            setValue={setValue}
+                            onSave={(_rule, i) => {
+                              form = form.updateIn(['rules', i, 'pathSegments'], field =>
+                                field.setValue(_rule.pathSegments).setTouched(true)
+                              );
+                              form = form.updateIn(['rules', i, 'testCases'], field =>
+                                field.setValue(_rule.testCases).setTouched(true)
+                              );
+                              updateForm(form);
+                            }}
+                            onRemove={i => removeRule(i, form, updateForm)}
+                            switchIndices={(sourceIndex, destinationIndex) =>
+                              switchIndices(sourceIndex, destinationIndex, form, updateForm)
                             }
-                            icon="lib_openclose_add_circle_outline"
+                          />
+
+                          {routeIdOverPathTplEnabled && <RouteIdRule />}
+                          <PathTemplateRule form={form} setValue={setValue} />
+                          <FirstParameterRule form={form} setValue={setValue} />
+
+                          <Tooltip
+                            align="topMiddle"
+                            themeStyle="light"
+                            content={[
+                              t('in-applications:forms.tooltipEndpointCallsNotMatch'),
+                              t('in-applications:forms.tooltipEndpointFallbackRule')
+                            ]}
                           >
-                            {t('in-applications:buttonAddCustomHTTPRule')}
-                          </Button>
-                        </div>
-
-                        <DragAndDropRuleList
-                          rules={form.get('rules')}
-                          form={form}
-                          setValue={setValue}
-                          onSave={(_rule, i) => {
-                            form = form.updateIn(['rules', i, 'pathSegments'], field =>
-                              field.setValue(_rule.pathSegments).setTouched(true)
-                            );
-                            form = form.updateIn(['rules', i, 'testCases'], field =>
-                              field.setValue(_rule.testCases).setTouched(true)
-                            );
-                            updateForm(form);
-                          }}
-                          onRemove={i => removeRule(i, form, updateForm)}
-                          switchIndices={(sourceIndex, destinationIndex) =>
-                            switchIndices(sourceIndex, destinationIndex, form, updateForm)
-                          }
-                        />
-
-                        {routeIdOverPathTplEnabled && <RouteIdRule />}
-                        <PathTemplateRule form={form} setValue={setValue} />
-                        <FirstParameterRule form={form} setValue={setValue} />
-
-                        <Tooltip
-                          align="topMiddle"
-                          themeStyle="light"
-                          content={[
-                            t('in-applications:forms.tooltipEndpointCallsNotMatch'),
-                            t('in-applications:forms.tooltipEndpointFallbackRule')
-                          ]}
-                        >
-                          <UnspecifiedExtractionRule />
-                        </Tooltip>
-                      </>
-                    )
-                  }
-                ]}
-              />
-              {!isNewConfig && <RemoveSection config={config} />}
+                            <UnspecifiedExtractionRule />
+                          </Tooltip>
+                        </>
+                      )
+                    }
+                  ]}
+                />
+              )}
+              {!isNewConfig && hasHttpType && <RemoveSection config={config} />}
             </>
           );
         }}
@@ -245,6 +309,12 @@ function getInitialForm(config) {
       'serviceId',
       createField({
         value: config.serviceId
+      })
+    )
+    .put(
+      'endpointCase',
+      createField({
+        value: get(config, 'endpointCase') ?? 'ORIGINAL'
       })
     )
     .put(
@@ -285,4 +355,12 @@ export function getConfigRuleForm(rule = {}) {
         value: get(rule, 'enabled', true)
       })
     );
+}
+
+function Explanation({ i18nKey }) {
+  return (
+    <div className={locals.explanation}>
+      <Trans i18nKey={i18nKey} components={{ bold: <strong /> }} />
+    </div>
+  );
 }
