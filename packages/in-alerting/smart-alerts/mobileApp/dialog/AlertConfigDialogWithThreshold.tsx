@@ -15,8 +15,6 @@ import {
   TimeConfig
 } from '@instana/types';
 
-// import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/eum/hooks/useCalculateThresholdOnBackendSignalEmitter';
-import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 //@ts-expect-error ts migartion
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import {
@@ -138,11 +136,6 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     updateTagFilterExpression
   );
 
-  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
-    alertConfigWithFormModel,
-    blueprintConfig
-  );
-
   const isValid = blueprintConfig.isRuleComplete(rule as MobileAppAlertRule) && isTagFilterFormModelValid;
 
   const [thresholdResult, setThresholdResult] = useState();
@@ -151,9 +144,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     isValid,
     simpleMode,
     alertConfigWithFormModel,
-    blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
+    blueprintConfig
   });
 
   const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(

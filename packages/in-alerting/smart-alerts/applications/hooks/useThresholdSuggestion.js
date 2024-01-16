@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -22,17 +23,14 @@ export function useThresholdSuggestion(form, updateForm, setThresholdResult, con
     isValid,
     simpleMode,
     alertConfigWithFormModel,
-    blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
+    blueprintConfig
   } = config;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
       resolveThresholdRequest(
         alertConfigWithFormModel,
+        isGlobalSmartAlert,
         blueprintConfig,
-        enrichedTagFilterFormModel,
-        numeratorTagFilterFormModel,
         simpleMode,
         isValid
       ),
@@ -85,9 +83,8 @@ function shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel
 
 function resolveThresholdRequest(
   alertConfigWithFormModel,
+  isGlobalSmartAlert,
   blueprintConfig,
-  enrichedTagFilterFormModel,
-  numeratorTagFilterFormModel,
   isSimpleMode,
   isValid
 ) {
@@ -104,6 +101,12 @@ function resolveThresholdRequest(
   if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel)) {
     return empty;
   }
+
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnrichedTagFilterFormModel(
+    isGlobalSmartAlert,
+    alertConfigWithFormModel,
+    blueprintConfig
+  );
 
   const getSeasonality = () => {
     if (!blueprintConfig.baselineEnabled) {
@@ -133,4 +136,28 @@ function resolveThresholdRequest(
     fallbackOnError: isSimpleMode,
     type
   });
+}
+
+
+
+function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormModel, blueprintConfig) {
+  const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
+
+  if (isAdaptiveBaseline) {
+    const { applicationId, serviceId, endpointId } = alertConfigWithFormModel.hiddenFields.chartViewEntitySelection;
+
+    return getEnhancedTagFilterFormModel(
+      alertConfigWithFormModel,
+      blueprintConfig,
+      applicationId,
+      serviceId,
+      endpointId
+    );
+  } else if (!isGlobalSmartAlert) {
+    // for the threshold (except adaptive baseline), we don't include the sub-entity filters,
+    // because we perform a grouping on the entire scope
+    return getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig);
+  }
+
+  return [];
 }
