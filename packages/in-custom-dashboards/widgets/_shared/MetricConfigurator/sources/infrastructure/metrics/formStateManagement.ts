@@ -141,10 +141,10 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
   };
 }
 
-function getLabelForRegex(regex?: string) {
+export function getLabelForRegex(regex?: string) {
   return regex ?? '/' + regex + '/';
 }
 
-function getPathForRegex(regex?: string) {
+export function getPathForRegex(regex?: string) {
   return regex ? ['Others', 'Regex'] : [];
 }

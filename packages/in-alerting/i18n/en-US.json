@@ -1263,8 +1263,7 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
-        "thresholdValue": "Threshold Value",
-        "ruleFormMetricError": "Please select a metric"
+        "thresholdValue": "Threshold Value"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
@@ -1278,7 +1277,9 @@
       "resultHeaderLoading": "Loading…",
       "loadMore": "Load More",
       "count": "Count",
-      "previewFor": "Preview for: "
+      "previewFor": "Preview for: ",
+      "selectEntityType": "Please select an entity type",
+      "regexNotValid": "Regex is not valid"
     }
   }
 }

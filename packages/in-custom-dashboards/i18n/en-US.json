@@ -14,6 +14,7 @@
       "grid": {
         "edit": "Edit",
         "copy": "Copy",
+        "copied": "Widget copied, use CTRL-V or CMD-V to paste on any custom dashboard",
         "duplicate": "Duplicate",
         "delete": "Delete",
         "customDashboardWidgetTitle": "Custom dashboard widget: {{title}}"
@@ -83,6 +84,7 @@
       "editAsJson": "Edit As JSON",
       "viewAsJson": "View As JSON",
       "copyAllWidgets": "Copy All Widgets",
+      "copiedAllWidgets": "Widgets copied, use CTRL-V or CMD-V to paste on any custom dashboard",
       "duplicate": "Duplicate",
       "delete": "Delete",
       "share": "Share",

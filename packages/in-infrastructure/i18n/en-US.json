@@ -81,6 +81,7 @@
     "focusOnThisGroup": "Focus on this group",
     "theQueryConfigurationIsInvalid": "The query configuration is invalid. Please address the validation failures before continuing.",
     "allInfrastructure": "All Infrastructure",
+    "emptyInfrastructure": "Select Entity Type",
     "name": "Name",
     "search": "Search for a type",
     "explore": "Explore",
