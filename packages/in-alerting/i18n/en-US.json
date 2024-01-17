@@ -1278,6 +1278,7 @@
       "loadMore": "Load More",
       "count": "Count",
       "previewFor": "Preview for: ",
+      "selectEntityType": "Please select an entity type",
       "regexNotValid": "Regex is not valid"
     }
   }

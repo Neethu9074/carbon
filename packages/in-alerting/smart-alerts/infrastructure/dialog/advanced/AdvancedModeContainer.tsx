@@ -54,7 +54,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
-  const entityType = form.get('entityType')?.value;
+  const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
   const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
@@ -190,7 +190,13 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
   }
   function isMetricAndEntityValid(): boolean {
+    const metric = form.get('rule')?.get('metricName')?.value;
+    const entityType = form.get('rule')?.get('entityType')?.value;
     const regexpValidator = regexValidator((form as any)?.items);
-    return !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) && !regexpValidator?.length;
+    return (
+      !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
+      !regexpValidator?.length &&
+      !(metric.length && !entityType)
+    );
   }
 }
