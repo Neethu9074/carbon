@@ -13,7 +13,9 @@ import {
   bluePrintForCallsMetric,
   potentialProblemsCategory
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
-import ValidationMessages, { hasErrorOfCategory } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
+import ValidationMessages, {
+  hasErrorOfCategory
+} from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -71,11 +73,11 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
         </Stack>
         {
           // validation on current dataset
-          <ValidationMessages field={form} category={potentialProblemsCategory} />
+          <ValidationMessages form={form} category={potentialProblemsCategory} />
         }
         {
           // validation on all metrics
-          <ValidationMessages field={axisForm} category={potentialProblemsCategory} />
+          <ValidationMessages form={axisForm} category={potentialProblemsCategory} />
         }
       </Section>
 

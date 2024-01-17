@@ -210,7 +210,7 @@ export default function FormComponent({
             SelectorOverlay={MetricSelectionCategoryOverlay}
           />
           <TouchedMessages field={metricField} />
-          <ValidationMessages field={form} category={regexValidationError} />
+          <ValidationMessages form={form} category={regexValidationError} />
         </Section>
 
         {withAggregationInMetrics && (

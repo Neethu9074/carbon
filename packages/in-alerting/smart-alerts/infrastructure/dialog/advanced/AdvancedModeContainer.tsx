@@ -29,6 +29,7 @@ import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/Alert
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
@@ -182,6 +183,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
   }
   function isMetricAndEntityValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('rule')?.get('metricName'));
+    const regexpValidator = regexValidator((form as any)?.items);
+    return !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) && !regexpValidator?.length;
   }
 }

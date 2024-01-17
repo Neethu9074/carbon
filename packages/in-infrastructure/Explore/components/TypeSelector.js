@@ -210,6 +210,7 @@ function getType(type, excludeAllType) {
   if (!type || type === allTypes) {
     return allInfrastructureType;
   }
+
   return {
     plugin: type,
     icon: getIconType(type),

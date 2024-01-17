@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ValidationMessage, Field, MapForm } from "formalistic";
+import { ValidationMessage, MapForm } from 'formalistic';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -26,7 +26,7 @@ function isCategorized(message: ValidationMessage): message is CategorizedValida
 }
 
 interface ValidationMessagesProps {
-  field: Field<any>;
+  form: MapForm<any>;
   category: string;
 }
 
@@ -34,17 +34,24 @@ interface ValidationMessagesProps {
  * Renders all validation error messages of a form of a specific category.
  * It does not show any path info of any message.
  *
- * @param field formalistic field
+ * @param form formalistic form
  * @param category only messages of this category are shown, or all if it is not defined
  * @returns {null|[ValidationBlock]}
  */
-export default function ValidationMessages({ field, category }: ValidationMessagesProps) {
-  if (!field?.hierarchyTouched) {
+export default function ValidationMessages({ form, category }: ValidationMessagesProps) {
+  if (!form?.hierarchyTouched) {
     return null;
   }
 
-  return field.messages.filter(filterByCategory(category)).map((message, i) => {
-    return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
-  });
+  /*
+   Wrapping it into a fragment, to avoid this TS error
+   TS2786: Its return type 'Element[]' is not a valid JSX element.
+   */
+  return (
+    <>
+      {form.messages.filter(filterByCategory(category)).map((message, i) => {
+        return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
+      })}
+    </>
+  );
 }
-
