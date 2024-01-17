@@ -83,9 +83,13 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
 
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression } = alertConfigWithFormModel;
-  const { metricName, entityType } = rule as InfraAlertRuleUnion;
+  const { metricName, entityType, regex } = rule as InfraAlertRuleUnion;
 
-  const tagCatalog = useTagCatalog({ ownerType: entityType, metric: metricName, regex: false });
+  const tagCatalog = useTagCatalog({
+    ownerType: entityType,
+    metric: metricName,
+    regex: regex
+  });
 
   const { getTagCatalog } = useMemo(() => CreateBoundedAlertQueryBuilder(tagCatalog as TagCatalog), [tagCatalog]);
 

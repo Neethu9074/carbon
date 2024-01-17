@@ -15,7 +15,7 @@ export default function regexValidator(datasetForm: any) {
 
   const { rule } = datasetForm;
   if (rule) {
-    const { regex, metricName } = rule.toJS();
+    const { regex, metricName, entityType } = rule.toJS();
     if (regex) {
       try {
         new RegExp(metricName);
@@ -24,6 +24,15 @@ export default function regexValidator(datasetForm: any) {
           {
             severity: 'error',
             message: t('in-alerting:smartAlerts.infrastructure.regexNotValid'),
+            category: regexValidationError
+          }
+        ];
+      }
+      if (!entityType.length) {
+        return [
+          {
+            severity: 'error',
+            message: t('in-alerting:smartAlerts.infrastructure.selectEntityType'),
             category: regexValidationError
           }
         ];

@@ -6,7 +6,7 @@
 
 import { MapForm, Field, Item } from 'formalistic';
 import { isEmpty, escapeRegExp } from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 //@ts-expect-error
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
@@ -55,6 +55,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   let metricPath = metricPathField?.value;
   const backendQueryModel = EMPTY_EXPRESSION;
   const catalogQuery = useDebouncedValue('', noop, 800);
+  const initialRegex = useRef('');
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
@@ -110,9 +111,9 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         form,
         metricLabel: metricObj.label,
         metricPath: metricObj.parentLabels,
-        entityType: metricObj.parentType,
         metric: metricObj.metric,
-        clearGroupFilter: true
+        entityType: metricObj.parentType,
+        clearGroupFilter: entityType == metricObj.parentType ? false : true
       });
     }
   };
@@ -122,20 +123,14 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
       return;
     }
 
-    updateForm(
-      form
-        .updateIn(['hiddenFields', 'metricLabel'], field =>
-          (field as Field<string>).setValue(getLabelForRegex(regex)).setTouched(true)
-        )
-        .updateIn(['hiddenFields', 'metricPath'], field =>
-          //@ts-expect-error field is actually string[]
-          (field as Field<string>).setValue(getPathForRegex(regex)).setTouched(true)
-        )
-        .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(regex).setTouched(true))
-        //@ts-expect-error
-        .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-        .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-    );
+    updateFormField({
+      updateForm,
+      form,
+      metricLabel: getLabelForRegex(regex),
+      metricPath: getPathForRegex(regex),
+      metric: regex,
+      clearGroupFilter: initialRegex.current && initialRegex.current !== regex ? true : false
+    });
   };
 
   const setIsRegex = (newIsRegex: boolean) => {
@@ -146,38 +141,25 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
     const toPlain = !newIsRegex && isRegex;
     const toRegex = newIsRegex && !isRegex;
     if (toPlain) {
-      updateForm(
-        form
-          .updateIn(['hiddenFields', 'metricLabel'], field => (field as Field<string>).setValue('').setTouched(true))
-          .updateIn(['hiddenFields', 'metricPath'], field =>
-            //@ts-expect-error field is actually string[]
-            (field as Field<string>).setValue([]).setTouched(true)
-          )
-          .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue('').setTouched(true))
-          //@ts-expect-error
-          .updateIn(['rule', 'regex'], f => (f as Field<boolean>).setValue(newIsRegex).setTouched(true))
-          //@ts-expect-error
-          .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-          .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-      );
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: '',
+        metricPath: [],
+        metric: '',
+        regex: newIsRegex
+      });
     } else if (toRegex) {
       const escapedRegex = escapeRegExp(metric);
-      updateForm(
-        form
-          .updateIn(['hiddenFields', 'metricLabel'], field =>
-            (field as Field<string>).setValue(getLabelForRegex(escapedRegex)).setTouched(true)
-          )
-          .updateIn(['hiddenFields', 'metricPath'], field =>
-            //@ts-expect-error field is actually string[]
-            (field as Field<string>).setValue(getPathForRegex(escapedRegex)).setTouched(true)
-          )
-          .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(escapedRegex).setTouched(true))
-          //@ts-expect-error
-          .updateIn(['rule', 'regex'], f => (f as Field<boolean>).setValue(newIsRegex).setTouched(true))
-          //@ts-expect-error
-          .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-          .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-      );
+      initialRegex.current = escapedRegex;
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: getLabelForRegex(escapedRegex),
+        metricPath: getPathForRegex(escapedRegex),
+        metric: escapedRegex,
+        regex: newIsRegex
+      });
     }
   };
 
@@ -185,10 +167,12 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
     if (!updateForm) {
       return;
     }
-
-    updateForm(
-      form.updateIn(['rule', 'entityType'], field => (field as Field<string>).setValue(type).setTouched(true))
-    );
+    updateFormField({
+      updateForm,
+      form,
+      entityType: type,
+      clearGroupFilter: true
+    });
   };
 
   return (
@@ -221,11 +205,12 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
 interface UpdateFormFieldProp {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-  metricLabel: string;
-  metricPath: string[];
+  metricLabel?: string;
+  metricPath?: string[];
   entityType?: string;
   metric?: string;
-  clearGroupFilter: boolean;
+  regex?: boolean;
+  clearGroupFilter?: boolean;
 }
 
 function updateFormField({
@@ -235,10 +220,11 @@ function updateFormField({
   metricPath,
   entityType,
   metric,
+  regex,
   clearGroupFilter
 }: UpdateFormFieldProp) {
   let updatedForm = form;
-  if (metricLabel) {
+  if (typeof metricLabel !== 'undefined') {
     updatedForm = updatedForm.updateIn(['hiddenFields', 'metricLabel'], field =>
       (field as Field<string>).setValue(metricLabel).setTouched(true)
     );
@@ -253,9 +239,15 @@ function updateFormField({
       (field as Field<string>).setValue(entityType).setTouched(true)
     );
   }
-  if (metric) {
+
+  if (typeof metric !== 'undefined') {
     updatedForm = updatedForm.updateIn(['rule', 'metricName'], field =>
       (field as Field<string>).setValue(metric).setTouched(true)
+    );
+  }
+  if (typeof regex !== 'undefined') {
+    updatedForm = updatedForm.updateIn(['rule', 'regex'], field =>
+      (field as Field<boolean>).setValue(regex).setTouched(true)
     );
   }
   if (clearGroupFilter) {
