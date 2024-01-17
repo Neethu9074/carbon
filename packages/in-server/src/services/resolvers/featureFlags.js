@@ -301,6 +301,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsCockpitWidgetEnabled',
+    instanaCtlKey: 'feature.bizops.cockpit.widget.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: true
