@@ -13,6 +13,11 @@ export const allInfrastructureType = {
   name: t('in-infrastructure:explore.allInfrastructure'),
   icon: 'lib_infrastructure'
 };
+export const emptyInfrastructureType = {
+  plugin: null,
+  name: t('in-infrastructure:explore.emptyInfrastructure'),
+  icon: 'lib_infrastructure'
+};
 export const typeTag = 'type';
 export const defaultAllInfraGroup = {
   groupbyTag: typeTag,

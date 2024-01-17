@@ -7,7 +7,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { InfraAlertConfigWithMetadata, Order } from '@instana/types';
+import { InfraAlertConfigWithMetadata, Order, TagCatalog } from '@instana/types';
 import { create } from '@instana/observables';
 
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
@@ -21,7 +21,6 @@ import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/compone
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
-import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
@@ -32,6 +31,8 @@ export interface ThresholdProps {
   updateForm: (form: MapForm<any>) => void;
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
+  tagCatalog: TagCatalog | undefined;
+  regex: boolean;
 }
 
 export type Tags = { [index: string]: any };
@@ -40,7 +41,9 @@ export default function ThresholdSelectionInteractiveChart({
   form,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  tagCatalog,
+  regex
 }: ThresholdProps): JSX.Element {
   const chartViewConfigs = defaultChartViewConfigs;
 
@@ -50,7 +53,6 @@ export default function ThresholdSelectionInteractiveChart({
   const entityType = ruleForm.get('entityType').value;
   const metricName = ruleForm.get('metricName').value;
   const aggregation = ruleForm.get('aggregation').value;
-  const regex = false;
 
   const crossSeriesAggregation = ruleForm.get('crossSeriesAggregation').value;
 
@@ -68,8 +70,6 @@ export default function ThresholdSelectionInteractiveChart({
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
 
   const alertConfigModel = infraAlertConfigWithDefaultThreshold(form);
-
-  const tagCatalog = useTagCatalog({ ownerType: entityType });
 
   // Since the timeConfig is part of the dependency array for the 'getGroups' API, memoised it to avoid the table refreshing frequently.
   const timeConfig = useMemo(() => {

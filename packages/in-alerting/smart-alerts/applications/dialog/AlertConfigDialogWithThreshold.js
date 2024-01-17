@@ -12,7 +12,6 @@ import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
-import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/applications/dialog/simple/simpleModeSteps';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/dialog/advanced/AdvancedModeContainer';
@@ -24,7 +23,6 @@ import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simp
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
-import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function AlertConfigDialogWithThreshold(props) {
   const { form, isGlobalSmartAlert } = props;
@@ -34,43 +32,14 @@ export default function AlertConfigDialogWithThreshold(props) {
   const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
-  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnrichedTagFilterFormModel(
-    isGlobalSmartAlert,
-    alertConfigWithFormModel,
-    blueprintConfig
-  );
-
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
-      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
-      numeratorTagFilterFormModel={numeratorTagFilterFormModel}
+      isGlobalSmartAlert={isGlobalSmartAlert}
     />
   );
-}
-
-function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormModel, blueprintConfig) {
-  const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
-
-  if (isAdaptiveBaseline) {
-    const { applicationId, serviceId, endpointId } = alertConfigWithFormModel.hiddenFields.chartViewEntitySelection;
-
-    return getEnhancedTagFilterFormModel(
-      alertConfigWithFormModel,
-      blueprintConfig,
-      applicationId,
-      serviceId,
-      endpointId
-    );
-  } else if (!isGlobalSmartAlert) {
-    // for the threshold (except adaptive baseline), we don't include the sub-entity filters,
-    // because we perform a grouping on the entire scope
-    return getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig);
-  }
-
-  return [];
 }
 
 const FORM_ID = 'smart-alert-editor';
