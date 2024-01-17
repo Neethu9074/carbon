@@ -16,7 +16,12 @@ import {
   typeMatrixParameter,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
-import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
+import {
+  allInfrastructureType,
+  defaultAllInfraGroup,
+  allTypes,
+  emptyInfrastructureType
+} from 'in-infrastructure/Explore/constants';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
@@ -40,7 +45,7 @@ const urlStateDefinition = {
   bind: [groupMatrixParameter, typeMatrixParameter]
 };
 
-export default function HeaderTypeSelector({ onHrefSideEffect }) {
+export default function HeaderTypeSelector({ onHrefSideEffect, excludeAllType }) {
   const [{ group, type }] = useUrlState(urlStateDefinition);
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
   const tagFilterExpression = EMPTY_EXPRESSION;
@@ -53,6 +58,7 @@ export default function HeaderTypeSelector({ onHrefSideEffect }) {
       getHrefForType={getHrefForType}
       group={group}
       type={type}
+      excludeAllType={excludeAllType}
       tagFilterExpression={tagFilterExpression}
       onHrefSideEffect={onHrefSideEffect}
       ButtonComponent={DashboardHeaderButton}
@@ -65,6 +71,7 @@ export function TypeSelector(props) {
   const {
     getHrefForType,
     type,
+    excludeAllType,
     tagFilterExpression,
     onTypeChange,
     onHrefSideEffect,
@@ -79,17 +86,8 @@ export function TypeSelector(props) {
       timeConfig,
       tagFilterExpression
     ]) || pendingResult;
-  const types = useMemo(
-    () =>
-      [allInfrastructureType].concat(
-        (result?.data?.plugins || [])
-          .map(getType)
-          .filter(Boolean)
-          .sort((a, b) => compareIgnoreCase(a.name, b.name))
-      ),
-    [result]
-  );
-  const { icon, name } = getType(type);
+  const types = useMemo(() => getTypesFromResult(result, excludeAllType), [result, excludeAllType]);
+  const { icon, name } = getType(type, excludeAllType);
 
   return (
     <Overlay
@@ -115,6 +113,19 @@ export function TypeSelector(props) {
       }}
     </Overlay>
   );
+}
+
+function getTypesFromResult(availableTypesResult, excludeAllType) {
+  const availableTypes = (availableTypesResult?.data?.plugins || [])
+    .map(type => getType(type, excludeAllType))
+    .filter(Boolean)
+    .sort((a, b) => compareIgnoreCase(a.name, b.name));
+
+  if (excludeAllType) {
+    return availableTypes;
+  }
+
+  return [allInfrastructureType].concat(availableTypes);
 }
 
 const DefaultButton = forwardRef(function DefaultButton({ className, ...buttonProps }, ref) {
@@ -192,7 +203,10 @@ function TypeRow({ icon, name, className }) {
   );
 }
 
-function getType(type) {
+function getType(type, excludeAllType) {
+  if (!type && excludeAllType) {
+    return emptyInfrastructureType;
+  }
   if (!type || type === allTypes) {
     return allInfrastructureType;
   }
