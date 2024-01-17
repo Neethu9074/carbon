@@ -17,7 +17,6 @@ import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-aler
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/hooks/useIsTagFilterFormModelValid';
-import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/dialog/simple/simpleModeSteps';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
@@ -46,31 +45,18 @@ export default function AlertConfigDialogWithThreshold(props) {
   const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
-  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
-    alertConfigWithFormModel,
-    blueprintConfig
-  );
-
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
-      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
-      numeratorTagFilterFormModel={numeratorTagFilterFormModel}
     />
   );
 }
 
 const FORM_ID = 'smart-alert-editor';
 
-function SmartAlertConfigDialogWithQueryValidation({
-  alertConfigWithFormModel,
-  blueprintConfig,
-  enrichedTagFilterFormModel,
-  numeratorTagFilterFormModel,
-  ...props
-}) {
+function SmartAlertConfigDialogWithQueryValidation({ alertConfigWithFormModel, blueprintConfig, ...props }) {
   const {
     form,
     updateForm,
@@ -118,9 +104,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     isValid,
     simpleMode,
     alertConfigWithFormModel,
-    blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
+    blueprintConfig
   });
 
   const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(

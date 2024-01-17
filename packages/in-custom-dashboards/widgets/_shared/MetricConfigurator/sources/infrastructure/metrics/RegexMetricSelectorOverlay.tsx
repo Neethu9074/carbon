@@ -58,6 +58,7 @@ export default function RegexMetricSelectorOverlay({
           type={type}
           onTypeChange={onTypeChange}
           getAvailablePlugins={getAvailablePlugins}
+          excludeAllType
         />
       </div>
       <div className={locals.wrapper}>
@@ -71,19 +72,31 @@ export default function RegexMetricSelectorOverlay({
         />
         <Overlay content={HelpOverlay}>
           {({ toggle }) => (
-            <SvgIcon type="lib_help_error_help_outline" className={classNames(locals.icon, { [locals.clickable]: true })} onClick={toggle}/>
+            <SvgIcon
+              type="lib_help_error_help_outline"
+              className={classNames(locals.icon, { [locals.clickable]: true })}
+              onClick={toggle}
+            />
           )}
         </Overlay>
       </div>
-      <Button kind="action" onClick={done}>
+      <Button kind="action" disabled={!type} onClick={done}>
         {t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.done')}
       </Button>
     </div>
   );
 }
 
-const documentationLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure';
+const documentationLink =
+  'https://www.ibm.com/docs/en/instana-observability/current?topic=dashboards-example-infrastructure';
 
 function HelpOverlay() {
-  return <DangerousHtmlPresenter className={locals.helpOverlay} html={toHtml(t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.help', {documentationLink}))} />
+  return (
+    <DangerousHtmlPresenter
+      className={locals.helpOverlay}
+      html={toHtml(
+        t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.help', { documentationLink })
+      )}
+    />
+  );
 }

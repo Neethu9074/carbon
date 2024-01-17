@@ -20,10 +20,6 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import {
-  oneMinuteGranularityForStaticThresholdEnabled,
-  infraPredictiveDetectionEnabled
-} from 'in-services/featureFlags';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
@@ -33,7 +29,10 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/Ale
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
+import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
@@ -52,6 +51,10 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const metricLabel = form.get('hiddenFields').get('metricLabel').value;
+  const entityType = form.get('entityType')?.value;
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const isRegex = form.get('rule').get('regex')?.value;
+  const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
 
   return (
     <StepsContainer
@@ -68,6 +71,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               updateForm={updateForm}
               onChange={onChange}
               setTagFilterValid={setTagFilterValid}
+              tagCatalog={tagCatalog}
+              isRegex={isRegex}
             />
           )
         },
@@ -84,6 +89,8 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               // @ts-expect-error updateForm is required
               updateForm={updateForm}
               timeConfig={timeConfig}
+              tagCatalog={tagCatalog}
+              regex={isRegex}
             />
           )
         },
@@ -180,6 +187,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
   }
   function isMetricAndEntityValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('rule')?.get('metricName'));
+    const regexpValidator = regexValidator((form as any)?.items);
+    return !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) && !regexpValidator?.length;
   }
 }

@@ -90,13 +90,15 @@ export default function alertFormDefinition(
     .put(
       fieldNames.description,
       createField({
-        value: description
+        value: description,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
     .put(
       fieldNames.name,
       createField({
-        value: name
+        value: name,
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(
