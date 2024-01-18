@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import Pill from 'in-components/Pill/Pill';
+import { Pill } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function AlertEnabledStateColumn({ enabled }: { enabled: boolean }) {
