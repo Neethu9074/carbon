@@ -29,7 +29,7 @@ export function GroupLabel({ groupKey, tagCatalog }: { groupKey: string; tagCata
       <NameReadOnly
         tagCatalog={groupByTagCatalog}
         element={renderModel?.length > 0 ? renderModel[0] : undefined}
-        isBold={false}
+        rawStyle
       />
     </div>
   );
