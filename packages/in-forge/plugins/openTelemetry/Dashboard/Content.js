@@ -10,14 +10,12 @@ import { t } from 'in-i18n';
 
 export default function OpenTelemetryDashboard({ snapshot, timeConfig }) {
   return (
-    <div>
-      <CustomMetricsV2
-        snapshot={snapshot}
-        timeConfig={timeConfig}
-        titlePrefix={t('in-forge:plugins.openTelemetry.openTelemetry')}
-        specs={SPECS}
-      />
-    </div>
+    <CustomMetricsV2
+      snapshot={snapshot}
+      timeConfig={timeConfig}
+      titlePrefix={t('in-forge:plugins.openTelemetry.openTelemetry')}
+      specs={SPECS}
+    />
   );
 }
 
