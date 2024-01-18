@@ -14,6 +14,7 @@ interface Axis {
   labels: string[];
   type: string;
   min?: number;
+  aggregation?: string;
 }
 
 interface InfrastructureMetricChartProps {
