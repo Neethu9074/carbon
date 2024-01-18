@@ -6,10 +6,8 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-
-import Pill from 'in-components/Pill';
 
 import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
 

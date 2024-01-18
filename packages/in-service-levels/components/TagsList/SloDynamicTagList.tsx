@@ -7,14 +7,13 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { Typography } from '@instana/components';
+import { Typography, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
 import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
 
