@@ -13,7 +13,7 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { number } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
-import oldTheme from 'in-themes';
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 /*
@@ -81,7 +81,7 @@ export default function BizOpsCountChart({
       source: 'BIZOPS',
       timeShift: timeShiftConfig.offset,
       timeConfig: timeConfig,
-      color: oldTheme.lib.colors.chart.strokeColors25[0],
+      color: chartColors.strokeColors25[0],
       tagFilterExpression: tagFilterExpression,
       metric: metric,
       label: label,
