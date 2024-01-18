@@ -5,44 +5,86 @@
  */
 
 :local {
+  .configContainer {
+    border: 0.0625rem solid var(--ids-color-option-neutral-300);
+    padding: 0.625rem;
+    margin-bottom: 2%;
+  }
+
+  .descriptionInput {
+    flex: 1;
+    .validationsBtn {
+      padding-left: 0;
+    }
+  }
+
   .leftHeader {
     font-size: 1.375rem;
     color: unset;
   }
+
   .boldText {
     font-weight: 600;
   }
+
   .row {
     justify-content: space-between;
   }
+
   .section {
     border: 0.0625rem solid var(--ids-color-option-neutral-300);
     padding: 1rem;
   }
+
   .upload {
     justify-content: space-between;
   }
+
   .fileName {
     width: 25%;
     padding-top: 1rem;
     margin-bottom: 0;
   }
+
   .innerBox {
     padding: 2rem 0 4rem 0;
   }
+
   .scriptTitle {
     font-size: 1rem;
     padding-bottom: 0.625rem;
   }
+
   .scriptSubTitle {
     padding-bottom: 1rem;
   }
+
   .errorList {
     margin-top: -0.0625rem;
   }
+
   .message {
     border: 0.0625rem solid var(--ids-color-option-neutral-300);
     margin-top: -0.0625rem;
     padding: 0.75rem 1rem;
+  }
+
+  .timeoutLabel {
+    margin-bottom: 1rem;
+  }
+
+  .subText {
+    color: var(--ids-color-option-neutral-600);
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .row {
+    margin-bottom: 0.5rem;
+  }
+
+  .alignText {
+    display: flex;
+    align-items: center;
   }
 }

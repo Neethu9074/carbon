@@ -43,4 +43,23 @@
   .deleteValidation {
     height: 2rem;
   }
+
+  .timeoutLabel {
+    margin-bottom: 1rem;
+  }
+
+  .subText {
+    color: var(--ids-color-option-neutral-600);
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .row {
+    margin-bottom: 0.5rem;
+  }
+
+  .alignText {
+    display: flex;
+    align-items: center;
+  }
 }

@@ -51,7 +51,9 @@ const AdvancedMode = ({
   customProperties,
   setCustomProperties,
   invalidCustomProperty,
-  setInvalidCustomProperty
+  setInvalidCustomProperty,
+  invalidTimeout,
+  setInvalidTimeout
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
@@ -89,6 +91,8 @@ const AdvancedMode = ({
             commonAttributes={commonAttributes}
             setCommonAttributes={setCommonAttributes}
             isBrowser={syntheticType === 'HTTPScript' ? false : true}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
           />
         );
       case 'HTTPAction':
@@ -103,10 +107,19 @@ const AdvancedMode = ({
             setInvalidHeader={setInvalidHeader}
             invalidJSON={invalidJSON}
             setInvalidJSON={setInvalidJSON}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
           />
         );
       case 'WebpageAction':
-        return <BrowserSimpleConfiguration form={form} updateForm={updateForm} />;
+        return (
+          <BrowserSimpleConfiguration
+            form={form}
+            updateForm={updateForm}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
+          />
+        );
       default:
         return null;
     }
