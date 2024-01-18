@@ -14,6 +14,7 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import Code from 'in-synthetics/packages/Code/Code';
 import CodeComponent from 'in-components/Code';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -156,15 +157,7 @@ const renderScriptTestTypeContent = (configuration: HttpScriptConfiguration) => 
         framed
       >
         {configuration.script != undefined ? (
-          <CodeComponent
-            wrapperClassName={locals.code}
-            code={JSON.stringify(configuration.script, undefined, 2)}
-            lang="json"
-            showLineNumbers={false}
-            withoutCopyButton
-            withExpandButton
-            softWrap
-          />
+          <Code value={configuration.script} height="30vh" readOnly />
         ) : configuration.scripts ? (
           <KeyValue
             label={t('in-synthetics:dashboard.configuration.configScriptFileName')}
