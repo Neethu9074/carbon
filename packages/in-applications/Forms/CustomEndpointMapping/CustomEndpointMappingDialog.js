@@ -166,7 +166,12 @@ export default function CustomEndpointMappingDialog({ location }) {
                 <CheckboxFancy
                   size={'large'}
                   label={t('in-applications:forms.titleKeepTheOriginalCase')}
-                  explanation={<Explanation i18nKey="in-applications:forms.descriptionKeepTheOriginalCase" />}
+                  explanation={
+                    <Trans
+                      i18nKey="in-applications:forms.descriptionKeepTheOriginalCase"
+                      components={{ bold: <strong />, wrapper: <div className={locals.explanation} /> }}
+                    />
+                  }
                   checked={endpointCase === endpointCaseConfig.original}
                   onChange={() => {
                     updateForm(form.updateIn(['endpointCase'], f => f.setValue('ORIGINAL')));
@@ -178,7 +183,12 @@ export default function CustomEndpointMappingDialog({ location }) {
                 <CheckboxFancy
                   size={'large'}
                   label={t('in-applications:forms.titleConvertToLowercase')}
-                  explanation={<Explanation i18nKey="in-applications:forms.descriptionConvertToLowercase" />}
+                  explanation={
+                    <Trans
+                      i18nKey="in-applications:forms.descriptionConvertToLowercase"
+                      components={{ bold: <strong />, wrapper: <div className={locals.explanation} /> }}
+                    />
+                  }
                   checked={endpointCase === endpointCaseConfig.lower}
                   onChange={() => {
                     updateForm(form.updateIn(['endpointCase'], f => f.setValue('LOWER')));
@@ -190,7 +200,12 @@ export default function CustomEndpointMappingDialog({ location }) {
                 <CheckboxFancy
                   size={'large'}
                   label={t('in-applications:forms.titleConvertToUppercase')}
-                  explanation={<Explanation i18nKey={'in-applications:forms.descriptionConvertToUppercase'} />}
+                  explanation={
+                    <Trans
+                      i18nKey="in-applications:forms.descriptionConvertToUppercase"
+                      components={{ bold: <strong />, wrapper: <div className={locals.explanation} /> }}
+                    />
+                  }
                   checked={endpointCase === endpointCaseConfig.upper}
                   onChange={() => {
                     updateForm(form.updateIn(['endpointCase'], f => f.setValue('UPPER')));
@@ -355,12 +370,4 @@ export function getConfigRuleForm(rule = {}) {
         value: get(rule, 'enabled', true)
       })
     );
-}
-
-function Explanation({ i18nKey }) {
-  return (
-    <div className={locals.explanation}>
-      <Trans i18nKey={i18nKey} components={{ bold: <strong /> }} />
-    </div>
-  );
 }
