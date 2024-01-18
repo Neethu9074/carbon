@@ -39,7 +39,7 @@ export default function Summary() {
             timeConfig={timeConfig}
             businessProcessName={businessProcessName}
             businessProcessId={businessProcessId}
-            metric={'started_processes'}
+            metric={'startedProcessesCount'}
             label={businessProcessName}
             dataSource={'BUSINESS_PROCESSES'}
           />
