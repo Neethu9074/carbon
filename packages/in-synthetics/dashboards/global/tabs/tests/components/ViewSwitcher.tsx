@@ -7,6 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import NewLocationButton from 'in-synthetics/dashboards/global/tabs/tests/components/NewLocationButton';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
@@ -72,6 +73,7 @@ export default function ViewSwitcher() {
               syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
             />
           )}
+          <NewLocationButton />
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
