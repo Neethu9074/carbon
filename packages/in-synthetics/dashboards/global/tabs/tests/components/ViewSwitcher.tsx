@@ -68,8 +68,7 @@ export default function ViewSwitcher() {
           {!popProperties.progress.loading && role?.canConfigureSyntheticLocations && (
             <PopDeployButton
               downloadKey={popProperties.data?.downloadKey || ''}
-              agentKey={popProperties.data?.downloadKey || ''}
-              agentKeys={popProperties.data?.agentKeys || []}
+              agentKey={popProperties.data?.agentKey || ''}
               syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
             />
           )}

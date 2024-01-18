@@ -13,12 +13,12 @@ import DeployTabSelection from 'in-synthetics/dashboards/global/tabs/tests/compo
 import { PoPProperties } from 'in-synthetics/utils/constants';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 
-export default function PopDeployButton({ downloadKey, agentKey, agentKeys, syntheticAcceptorURL }: PoPProperties) {
+export default function PopDeployButton({ downloadKey, agentKey, syntheticAcceptorURL }: PoPProperties) {
   return (
     <Overlay
       withoutWrapper
       align="topLeft"
-      props={{ downloadKey, agentKey, syntheticAcceptorURL, agentKeys }}
+      props={{ downloadKey, agentKey, syntheticAcceptorURL }}
       content={DeployTabSelection}
     >
       {({ toggle, refSetter }) => (
