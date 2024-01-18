@@ -140,7 +140,6 @@ export interface ResultLogs {
 
 export interface PoPProperties {
   agentKey: string;
-  agentKeys: string[];
   downloadKey: string;
   syntheticAcceptorURL: string;
 }
