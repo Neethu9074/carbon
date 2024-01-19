@@ -46,7 +46,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     selectedChartViewConfigIndex,
     updateForm,
     onChange,
-    timeConfig,
     setSliderState,
     setCustomSlideInHeaderConfig,
     setTagFilterValid,
@@ -91,7 +90,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               selectedChartViewConfigIndex={selectedChartViewConfigIndex}
               // @ts-expect-error updateForm is required
               updateForm={updateForm}
-              timeConfig={timeConfig}
               tagCatalog={tagCatalog}
               regex={isRegex}
             />
