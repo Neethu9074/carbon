@@ -44,20 +44,19 @@ export default function EventListItem({
   triggeringProblemId,
   event,
   latestSnapshot,
-  isRCA,
   expandedFromTimeline,
   setExpandedEventOnClickInTimeline,
-  highlightEventOnHover
+  highlightEventOnHover,
+  setBackground,
+  setIconColor
 }) {
   const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(expandedFromTimeline || false);
-  const [activeEventBackground, setActiveEventBackground] = useState(
-    isRCA ? theme.ids.color.option['deep-purple'][500] : ''
-  );
+  const [activeEventBackground, setActiveEventBackground] = useState(setBackground ? setBackground : '');
   const background =
     useObservable(
       getColorForEventAtFocusedMomentAsStream(event, {
-        defaultColor: isRCA ? theme.ids.color.option['deep-purple'][500] : theme.cds['background-active']
+        defaultColor: setBackground ? setBackground : theme.cds['background-active']
       }),
       [event]
     ) ?? '';
@@ -100,9 +99,9 @@ export default function EventListItem({
       <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
 
       <div className={classNames({ [locals.right]: true, [locals.highlighted]: highlightEventOnHover })}>
-        <div className={locals.background} style={{ background }} />
+        <div className={locals.background} style={{ background: setBackground ? setBackground : background }} />
 
-        <div className={locals.leftBorder} style={{ background }} />
+        <div className={locals.leftBorder} style={{ background: setBackground ? setBackground : background }} />
 
         <div className={locals.contentWrapper}>
           <DetailsHeader
@@ -115,7 +114,8 @@ export default function EventListItem({
             background={background}
             timeConfig={timeConfigFromEvent}
             onClick={() => setIsExpanded(!isExpanded)}
-            isRCA={isRCA}
+            setBackground={setBackground}
+            setIconColor={setIconColor}
           />
           {isExpanded || expandedFromTimeline ? <div className={locals.border} style={{ background }} /> : null}
           {isExpanded || expandedFromTimeline ? (
@@ -146,19 +146,19 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   );
 }
 
-function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA }) {
+function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBackground, setIconColor }) {
   const theme = useTheme();
-  if (isRCA) background = theme.ids.color.option.purple[500]; //50% opacity of background colour
+  if (setBackground) background = setBackground; //50% opacity of background colour
   return (
     <div className={locals.heading} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={locals.left}>
-        <div className={locals.iconWrapper} style={{ background }}>
+        <div className={locals.iconWrapper} style={{ background: setBackground ? setBackground : background }}>
           <EventIcon
             event={event}
             tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
-            color={isRCA ? theme.ids.color.option.white : undefined}
+            color={setIconColor ? setIconColor : undefined}
           />
         </div>
 

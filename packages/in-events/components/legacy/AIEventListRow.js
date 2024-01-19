@@ -21,6 +21,8 @@ import {
 } from 'in-events/tracker';
 import { default as EmptyStateMagnifyingGlass } from './assets/empty-state-magnifying-glass.svg';
 import EventListPagination from 'in-components/EventListPagination/EventListPagination';
+import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
@@ -30,7 +32,6 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import EventFeedbackDialog from '../feedback/EventFeedbackDialog';
 import { getSnapshotVersions } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { rcaUIEnabled } from 'in-services/featureFlags';
@@ -174,6 +175,10 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
                       .get('probableRootCauseSnapshotMetadata')
                       .get(currentRCAEntity)}
                     eventsRelatedToEntity={eventsRelatedToEntity}
+                    probabilityScore={extractProbabilityScoreForProbableRootCause(
+                      incident.get('metadata'),
+                      currentRCAEntity
+                    )}
                   />
                 )}
 
@@ -184,7 +189,8 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
                     triggeringProblemId={eventsRelatedToEntity.length > 0 && eventsRelatedToEntity[0].get('id')}
                     event={_event}
                     latestSnapshot={latestSnapshot}
-                    isRCA
+                    setBackground={theme.ids.color.option['deep-purple'][500]}
+                    setIconColor={theme.ids.color.option.white}
                   />
                 </div>
               ))}
@@ -335,11 +341,24 @@ function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, 
 
       if (List.isList(snapshot.get('RCASnapshotID'))) {
         snapshotID = snapshot.get('RCASnapshotID').first();
+      } else if (snapshot.get('RCASnapshotID') instanceof String || typeof snapshot.get('RCASnapshotID') === 'string') {
+        snapshotID = snapshot.get('RCASnapshotID');
       }
       probableRootCauseWithSnapshotIDsAsKeys = probableRootCauseWithSnapshotIDsAsKeys.set(snapshotID, rcaEvents);
     });
     return probableRootCauseWithSnapshotIDsAsKeys;
   }
+}
+
+function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedSnapshot) {
+  const probableRootCauseArray = incidentMetadata.get('probableRootCause');
+  if (List.isList(probableRootCauseArray)) {
+    const foundSnapshot = probableRootCauseArray.find(
+      snapshotData => snapshotData.get('RCASnapshotID') === selectedSnapshot
+    );
+    if (foundSnapshot && foundSnapshot.get('rcaProbFailure')) return foundSnapshot.get('rcaProbFailure');
+  }
+  return null;
 }
 
 function useGenerateLinksForEntity(entityType, originalID, location) {
@@ -374,7 +393,7 @@ function useGenerateLinksForEntity(entityType, originalID, location) {
   }
 }
 
-function RootCauseEntityDetails({ selectedSnapshotMetadata, eventsRelatedToEntity }) {
+function RootCauseEntityDetails({ selectedSnapshotMetadata, eventsRelatedToEntity, probabilityScore }) {
   const [query, setQuery] = useState(null);
   const theme = useTheme();
   const { location } = useNavigation();
@@ -432,6 +451,7 @@ function RootCauseEntityDetails({ selectedSnapshotMetadata, eventsRelatedToEntit
               </Stack>
             </Link>
           )}
+          <AIProbabilityBadge probabilityScore={probabilityScore} />
         </Stack>
 
         <Typography variant="body-regular">
