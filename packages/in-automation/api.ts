@@ -204,6 +204,13 @@ export const createDocLinkField = (value: string): Field => ({
   name: 'URL'
 });
 
+export const createManualField = (value: string): Field => ({
+  value,
+  description: 'Content for manual action',
+  encoding: 'base64',
+  name: 'content'
+});
+
 interface ScriptFields {
   value: string;
   subtype: string;

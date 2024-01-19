@@ -21,7 +21,8 @@ import {
   isAnsible,
   isGithub,
   isJira,
-  isGitlab
+  isGitlab,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
@@ -105,6 +106,23 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           noAutoMargin
         >
           {t('in-automation:ActionCatalog.launch')}
+        </Button>
+      );
+    } else if (isManual(type)) {
+      return (
+        <Button
+          kind="action"
+          icon={'lib_views_show'}
+          onClick={() => {
+            addActiveDialog(<RunActionDialog action={row} volatileId={volatileId} event={event} />);
+            runActionTracker({
+              actionType: row.type,
+              actionName: row.name
+            });
+          }}
+          noAutoMargin
+        >
+          {t('in-automation:ActionCatalog.view')}
         </Button>
       );
     } else if (

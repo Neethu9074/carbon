@@ -11,14 +11,22 @@ import MarkdownIt from 'markdown-it';
 // for the overall size due to the UI access and caching pattern, but this is
 // certainly a point for future optimization.
 const md = new MarkdownIt();
+md.use(linkTarget, { target: '_blank' });
 
-md.use(linkTarget, {
-  target: '_blank'
-});
+// Function to reconfigure MarkdownIt instance with options
+function configureMarkdown(md: MarkdownIt, options?: MarkdownIt.Options) {
+  if (options) {
+    md.set(options);
+  }
+}
 
-export function toHtml(markdown?: string) {
+export function toHtml(markdown?: string, options?: MarkdownIt.Options) {
   if (typeof markdown !== 'string') {
     return '';
   }
+
+  // Reconfigure MarkdownIt instance with provided options
+  configureMarkdown(md, options);
+
   return md.render(markdown);
 }
