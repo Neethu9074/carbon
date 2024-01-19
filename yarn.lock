@@ -2164,18 +2164,23 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/observables/-/@instana/observables-1.7.1.tgz#eb69f499b41579c8e04bf72b69a8ada23d9e3713"
   integrity sha512-eUnHgrSrNOFNgcTzkcuB1ivB7tunuq1aH2vL8jhXyUoHryllL5TQrv9uE7ZwftTtFgd91lWBiqmRUnOAvFh0Sw==
 
+"@instana/observables@^1.7.2":
+  version "1.7.2"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/observables/-/@instana/observables-1.7.2.tgz#cf768d7569369b3345ec8da28faa211d0f0b55ac"
+  integrity sha512-0mVmZAxcjyYIAObfQSKnOlngnbeRLJWdcRUfBUsUAzdDSCYjzZ1Bm7kRTiIZY3N2WeIR1U/rWkJ7LQdg9+IOWA==
+
 "@instana/pseudo-translation@^1.3.1":
   version "1.4.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/pseudo-translation/-/@instana/pseudo-translation-1.4.1.tgz#71a28a457f4b47144e21edfe5555d00e62d9c07f"
   integrity sha512-JBXFzp6q62meKWx7AGza/eNbdojGSQ/Gut3orVfLcaMPfdsHYgdZmjnQXYqJI2P3hA7cSY/4uJ5764Ovu9QfQA==
 
 "@instana/roemitter@^1.3.2":
-  version "1.3.4"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/roemitter/-/@instana/roemitter-1.3.4.tgz#98573bbf7babda2511ad34d44aa7ce4696d0d483"
-  integrity sha512-Ice+4eAFphFR7FXxMwcr8HkcCWHZU63oZ59883LOVmJOzW6X24BSGOIDseqH4jmBkuAXDgVJ8qkO7NDC5ozs7w==
+  version "1.3.5"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/roemitter/-/@instana/roemitter-1.3.5.tgz#a97c5ba7a07205baa908f57d4d5c05e258cfdde7"
+  integrity sha512-2UdVn6UUORwef68msidzObrLFzMLzodsXsRUztGZNJNJNgj/Qmdf4t4uXTJ9Bny7W8x+q2DanIbetBZwTWGeyQ==
   dependencies:
     "@instana/logger" "^1.3.2"
-    "@instana/observables" "^1.7.1"
+    "@instana/observables" "^1.7.2"
 
 "@instana/types@1.624.0":
   version "1.624.0"
