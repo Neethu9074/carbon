@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Add Synthetic Test",
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
       "noApplicationsFound": "No applications found",
@@ -251,10 +252,14 @@
       "buttonSave": "Save",
       "scriptSavedMessage": "Script added",
       "bundleSavedMessage": "Bundled scripts added"
+    },
+    "createLocation": {
+      "newLocation": "New Location",
+      "stepConfigs": {
+        "selectType": "Step 1: Select type",
+        "configuration": "Step 2: Configuration"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Add Synthetic Test"
   },
   "createSmartAlert": {
     "buttonLabel": "Add Synthetic Smart Alert"

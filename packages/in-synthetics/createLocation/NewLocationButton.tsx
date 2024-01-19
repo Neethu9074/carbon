@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
 import CreateNewLocationDialog from 'in-synthetics/createLocation/CreateNewLocationDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -17,7 +18,7 @@ const NewLocationButton = () => {
   };
   return (
     <Button onClick={handleClick} kind="info" icon="lib_synthetic_location">
-      New Location
+      {t('in-synthetics:dialog.createLocation.newLocation')}
     </Button>
   );
 };

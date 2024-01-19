@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
+
+import { t } from '@instana/i18n-react';
 
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
@@ -14,6 +17,15 @@ import Configuration from 'in-synthetics/createLocation/steps/Configuration';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
+interface Props {
+  onClose: () => void;
+  formId: string;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  simpleModeStep: number;
+  setSimpleModeStep: React.Dispatch<React.SetStateAction<number>>;
+}
+
 const CreateNewLocationDialogPresenter = ({
   onClose,
   formId,
@@ -21,19 +33,23 @@ const CreateNewLocationDialogPresenter = ({
   updateForm,
   simpleModeStep,
   setSimpleModeStep
-}: any) => {
-  // Steps
+}: Props) => {
+  // Steps configuration for the dialog
   const stepConfigs = Object.freeze([
     {
-      title: 'Step 1: Select type'
+      title: t('in-synthetics:dialog.createLocation.stepConfigs.selectType')
     },
     {
-      title: 'Step 2: Configuration'
+      title: t('in-synthetics:dialog.createLocation.stepConfigs.selectType')
     }
   ]);
 
   return (
-    <DialogWithSlideInView onClose={onClose} title={'New Location'} titleIconType="lib_synthetic_location">
+    <DialogWithSlideInView
+      onClose={onClose}
+      title={t('in-synthetics:dialog.createLocation.newLocation')}
+      titleIconType="lib_synthetic_location"
+    >
       <div className={locals.simpleDialog}>
         <div className={locals.container}>
           <SimpleModePageNavigation

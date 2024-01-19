@@ -9,7 +9,11 @@ import React, { useState } from 'react';
 import CreateNewLocationDialogPresenter from 'in-synthetics/createLocation/CreateNewLocationDialogPresenter';
 import createNewLocationForm from 'in-synthetics/createLocation/createLocationForm';
 
-const CreateNewLocationDialog = ({ onClose }: any) => {
+interface Props {
+  onClose: () => void;
+}
+
+const CreateNewLocationDialog = ({ onClose }: Props) => {
   const formId = 'new-location-form';
   const [form, updateForm] = useState(() => createNewLocationForm());
 
