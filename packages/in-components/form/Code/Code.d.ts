@@ -5,7 +5,7 @@
  */
 
 // There are likely others
-type Mode = 'application/json' | 'shell';
+type Mode = 'application/json' | 'shell' | 'text';
 
 interface CodeProps {
   mode: Mode;

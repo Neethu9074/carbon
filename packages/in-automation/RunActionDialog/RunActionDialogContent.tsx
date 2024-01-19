@@ -21,9 +21,11 @@ import {
   getScriptFromFields,
   getType,
   getWebhookFields,
+  getManualContentFromFields,
   getGithubFields,
   isAnsible,
   isScript,
+  isManual,
   isWebhook,
   isGithub,
   isGitlab,
@@ -136,6 +138,9 @@ export default function RunActionDialogContent({
         )}
       </Typography>
     );
+  }
+  if (isManual(action.type)) {
+    return <ManualActionContent action={action} />;
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
@@ -404,6 +409,22 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
             {t('in-automation:operationInfo', { ticketType: ticketTypeTranslated })}
           </Typography>
         </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const content = getManualContentFromFields(action.fields);
+  let plaintextScript = content.value;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
+        title={t('in-automation:ActionCatalog.content')}
+      >
+        <Spacer vertical="normal" />
+        <Code code={plaintextScript} lang={'bash'} softWrap />
       </DescriptionItem>
     </DescriptionList>
   );

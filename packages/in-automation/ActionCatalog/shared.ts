@@ -121,6 +121,9 @@ export const getJiraAssigneeFromFields = (fields: Field[] | undefined): Field =>
 export const getJiraIssueTypeFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.issue_type ?? { value: `${TASK}`, encoding: 'ascii', name: 'issue_type' };
 
+export const getManualContentFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.content ?? { value: '', encoding: 'ascii', name: 'content' };
+
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;

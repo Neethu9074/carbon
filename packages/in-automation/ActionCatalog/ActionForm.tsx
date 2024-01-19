@@ -16,10 +16,12 @@ import {
   putDocLinkField,
   putScriptField,
   putWebhookFields,
+  putManualField,
   removeApiKeyFields,
   removeBasicFields,
   removeBearerField,
   removeDocLinkField,
+  removeManualContentField,
   removeScriptField,
   removeWebhookFields,
   removeGithubFields,
@@ -133,6 +135,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
           {isGithub(type) && <GithubSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
           {isGitlab(type) && <GitlabSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
           {isJira(type) && <JiraSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
+          {isManual(type) && <ManualSection form={form} onChange={onChange} />}
           {showTimeoutSection && (
             <>
               <TimeoutSection form={form} onChange={onChange} />
@@ -228,7 +231,7 @@ const MetaDataSection = ({ form, setForm, onChange }: Pick<ActionFormProps, 'for
           <TextArea
             id="action-description"
             value={field.value}
-            disabled={isNotEditable}
+            readOnly={isNotEditable}
             onChange={e => onChange('description', (e.target as HTMLTextAreaElement).value)}
             hasError={!field.valid && field.touched}
           />
@@ -274,6 +277,7 @@ const TypeSection = ({
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
                   updatedForm = removeJiraFields(updatedForm);
+                  updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putDocLinkField(updatedForm, action);
                 } else if (isScript(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
@@ -281,6 +285,7 @@ const TypeSection = ({
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
                   updatedForm = removeJiraFields(updatedForm);
+                  updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putScriptField(updatedForm, action);
                 } else if (isWebhook(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
@@ -288,6 +293,7 @@ const TypeSection = ({
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
                   updatedForm = removeJiraFields(updatedForm);
+                  updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putWebhookFields(updatedForm, action);
                 } else if (isManual(type)) {
                   // manual actions don't have any associated fields
@@ -297,12 +303,14 @@ const TypeSection = ({
                   updatedForm = removeGitlabFields(updatedForm);
                   updatedForm = removeJiraFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
+                  updatedForm = putManualField(updatedForm, action);
                 } else if (isGithub(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
                   updatedForm = removeJiraFields(updatedForm);
+                  updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putGithubFields(updatedForm, action);
                 } else if (isGitlab(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
@@ -310,6 +318,7 @@ const TypeSection = ({
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeJiraFields(updatedForm);
+                  updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putGitlabFields(updatedForm, action);
                 } else if (isJira(type)) {
                   updatedForm = removeDocLinkField(updatedForm);
@@ -317,6 +326,7 @@ const TypeSection = ({
                   updatedForm = removeWebhookFields(updatedForm);
                   updatedForm = removeGithubFields(updatedForm);
                   updatedForm = removeGitlabFields(updatedForm);
+                  updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putJiraFields(updatedForm, action);
                 }
                 return updatedForm;
@@ -362,6 +372,23 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>{t('in-automation:ActionCatalog.docLinkDescription')}</HelpText>
+    </FormGroup>
+  ));
+};
+
+const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+  const manualContent = form.get('manualContent') as Field<string>;
+
+  return manualContent.map(field => (
+    <FormGroup>
+      <Label htmlFor="action-docLink" hasError={!field.valid && field.touched}>
+        {t('in-automation:ActionCatalog.content')}
+      </Label>
+      <Code lineNumbers mode={'text'} value={field.value} onChange={value => onChange('manualContent', value)} />
+      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+      <HelpText className={locals.subTextFormField}>
+        {t('in-automation:ActionCatalog.manualContentDescription')}
+      </HelpText>
     </FormGroup>
   ));
 };

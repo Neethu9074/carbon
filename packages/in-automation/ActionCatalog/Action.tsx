@@ -17,6 +17,7 @@ import {
   TicketTypes,
   createDocLinkField,
   createScriptFields,
+  createManualField,
   createWebhookFields,
   NewAction,
   saveAction,
@@ -44,7 +45,8 @@ import {
   NO_AUTH,
   OPEN,
   CLOSE,
-  ADD_COMMENT
+  ADD_COMMENT,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -269,6 +271,9 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   if (isDocLink(type)) {
     const docLink = (form.get('docLink') as FormField<string>).value;
     fields.push(createDocLinkField(docLink));
+  } else if (isManual(type)) {
+    const content = (form.get('manualContent') as FormField<string>).value;
+    fields.push(createManualField(content));
   } else if (isScript(type)) {
     const value = (form.get('script') as FormField<string>).value;
     const subtype = (form.get('subtype') as FormField<string>).value;
