@@ -4,14 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
-import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocationType';
+import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import Configuration from 'in-synthetics/createLocation/steps/Configuration';
 
@@ -44,6 +45,9 @@ const CreateNewLocationDialogPresenter = ({
     }
   ]);
 
+  // Locations Blueprint State
+  const [selectedBlueprint, setSelectedBlueprint] = useState(getLocationsBluePrintConfig()[0]);
+
   return (
     <DialogWithSlideInView
       onClose={onClose}
@@ -65,7 +69,13 @@ const CreateNewLocationDialogPresenter = ({
             renderStep={(step: number) => {
               switch (step) {
                 case 0:
-                  return <SelectLocationType />;
+                  return (
+                    <SelectLocationType
+                      selectedBlueprint={selectedBlueprint}
+                      setSelectedBlueprint={setSelectedBlueprint}
+                      updateForm={updateForm}
+                    />
+                  );
                 case 1:
                   return <Configuration />;
                 default:

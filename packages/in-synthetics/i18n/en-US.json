@@ -258,6 +258,27 @@
       "stepConfigs": {
         "selectType": "Step 1: Select type",
         "configuration": "Step 2: Configuration"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "What type of location would you like to use?"
+      },
+      "privateLocation": {
+        "type": "private",
+        "name": "Private",
+        "headline": "Private Location",
+        "description": {
+          "headline": "When to use",
+          "htmlContent": "Description of private location and use case"
+        }
+      },
+      "managedLocation": {
+        "type": "managed",
+        "name": "Managed",
+        "headline": "Managed Location",
+        "description": {
+          "headline": "When to use",
+          "htmlContent": "Description of managed location and use case"
+        }
       }
     }
   },
