@@ -460,6 +460,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "N/A",
+    "headerLabel": "Sort by",
     "buttonAscending": "Ascending",
     "buttonDescending": "Descending"
   },
