@@ -5,10 +5,10 @@
  */
 
 import { createLineWithThreshold } from 'in-alerting/components/Chart/renderer/Renderer';
-import oldTheme from 'in-themes';
 import { fixedTimestamp, generateMetrics } from 'in-test/util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { days } from 'in-services/time';
+import oldTheme from 'in-themes';
 
 const oneDay = days.toMillis(1);
 
@@ -35,7 +35,7 @@ export const ExcludeLegends = {
         metricIds: ['latency', 'threshold'],
         excludedLabelsFromTooltip: ['Violations'],
         icons: {
-          types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'],
           colors: [oldTheme.lib.colors.lightBlue800, oldTheme.lib.colors.red800, oldTheme.lib.colors.orange800]
         },
         getMax: (metricsMaxValue: number) => metricsMaxValue * 1.4,
