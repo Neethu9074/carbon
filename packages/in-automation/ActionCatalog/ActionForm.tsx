@@ -377,13 +377,19 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
 
 const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
   const manualContent = form.get('manualContent') as Field<string>;
-
+  const isNotEditable = useContext(isNotEditableContext);
   return manualContent.map(field => (
     <FormGroup>
       <Label htmlFor="action-docLink" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.content')}
       </Label>
-      <Code lineNumbers mode={'markdown'} value={field.value} onChange={value => onChange('manualContent', value)} />
+      <Code
+        lineNumbers
+        readOnly={isNotEditable}
+        mode={'markdown'}
+        value={field.value}
+        onChange={value => onChange('manualContent', value)}
+      />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>
         {t('in-automation:ActionCatalog.manualContentDescription')}
