@@ -6,12 +6,12 @@
 import React from 'react';
 
 import { Observable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface AdditionalContextMenuButtonConfig {
@@ -37,7 +37,11 @@ export default function LogsChart(props: LogsChartProps) {
         additionalContextMenuButtons,
         y1: {
           metrics: [errorMetric(tagFilterExpression), warnMetric(tagFilterExpression), infoMetric(tagFilterExpression)],
-          colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
+          colors: [
+            themes.default.ids.color.option.red[500],
+            themes.default.ids.color.option.yellow[500],
+            themes.default.ids.color.option.blue[400]
+          ],
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },
