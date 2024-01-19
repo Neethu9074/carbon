@@ -67,13 +67,15 @@ export default function ViewSwitcher() {
               icon={'lib_alerts_alert'}
             />
           </SecondLevelNavigation>
-          {!popProperties.progress.loading && role?.canConfigureSyntheticLocations && (
-            <PopDeployButton
-              downloadKey={popProperties.data?.downloadKey || ''}
-              agentKey={popProperties.data?.agentKey || ''}
-              syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
-            />
-          )}
+          {!popProperties.progress.loading &&
+            role?.canConfigureSyntheticLocations &&
+            !syntheticInstanaHostedPoPEnabled && (
+              <PopDeployButton
+                downloadKey={popProperties.data?.downloadKey || ''}
+                agentKey={popProperties.data?.agentKey || ''}
+                syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
+              />
+            )}
           {syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
         </div>
       </DashboardHeaderModule>

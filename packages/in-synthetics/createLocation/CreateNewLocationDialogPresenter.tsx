@@ -41,7 +41,7 @@ const CreateNewLocationDialogPresenter = ({
       title: t('in-synthetics:dialog.createLocation.stepConfigs.selectType')
     },
     {
-      title: t('in-synthetics:dialog.createLocation.stepConfigs.selectType')
+      title: t('in-synthetics:dialog.createLocation.stepConfigs.configuration')
     }
   ]);
 
