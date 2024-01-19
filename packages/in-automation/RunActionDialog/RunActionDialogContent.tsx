@@ -416,7 +416,7 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
 
 function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const content = getManualContentFromFields(action.fields);
-  let plaintextScript = content.value;
+  let contentText = content.value;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -424,7 +424,7 @@ function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         title={t('in-automation:ActionCatalog.content')}
       >
         <Spacer vertical="normal" />
-        <Code code={plaintextScript} lang={'bash'} softWrap />
+        <Code code={contentText} lang={'bash'} softWrap />
       </DescriptionItem>
     </DescriptionList>
   );

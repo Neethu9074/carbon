@@ -113,7 +113,7 @@
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
     "docLinkDescription": "URL to documentation that can help with remediation.",
-    "manualContentDescription": "Enter instructions for the manual action here..",
+    "manualContentDescription": "Enter instructions for the manual action here.",
     "manual": "Manual",
     "execute": "Execute",
     "confidence_low": "Low",

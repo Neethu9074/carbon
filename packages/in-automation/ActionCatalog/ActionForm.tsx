@@ -296,7 +296,6 @@ const TypeSection = ({
                   updatedForm = removeManualContentField(updatedForm);
                   updatedForm = putWebhookFields(updatedForm, action);
                 } else if (isManual(type)) {
-                  // manual actions don't have any associated fields
                   updatedForm = removeDocLinkField(updatedForm);
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
