@@ -383,7 +383,7 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCha
       <Label htmlFor="action-docLink" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.content')}
       </Label>
-      <Code lineNumbers mode={'text'} value={field.value} onChange={value => onChange('manualContent', value)} />
+      <Code lineNumbers mode={'markdown'} value={field.value} onChange={value => onChange('manualContent', value)} />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>
         {t('in-automation:ActionCatalog.manualContentDescription')}

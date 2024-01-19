@@ -424,7 +424,7 @@ function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
         title={t('in-automation:ActionCatalog.content')}
       >
         <Spacer vertical="normal" />
-        <Code code={contentText} lang={'bash'} softWrap />
+        <Code code={contentText} lang={'markdown'} softWrap />
       </DescriptionItem>
     </DescriptionList>
   );
