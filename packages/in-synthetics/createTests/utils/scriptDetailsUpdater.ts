@@ -7,9 +7,10 @@
 import { Field, MapForm } from 'formalistic';
 
 import { Code } from 'in-synthetics/utils/constants';
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-const isSideScript = (script: string) => {
+export const isSideScript = (script: string) => {
   try {
     JSON.parse(script);
   } catch (e) {
@@ -41,7 +42,11 @@ export function scriptDetailsUpdater(
     ? {
         name: scriptDetails?.name,
         text: (configForm.get('script') as Field<string>).value,
-        extension: isSideScript((configForm.get('script') as Field<string>).value) ? 'side' : 'js'
+        extension: isNotBlank(scriptDetails?.name)
+          ? isSideScript((configForm.get('script') as Field<string>).value)
+            ? 'side'
+            : 'js'
+          : ''
       }
     : { name: '', text: '', extension: 'js' };
 }
