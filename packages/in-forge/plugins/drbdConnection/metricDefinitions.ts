@@ -9,12 +9,11 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['resourceSuspended', 'resourceMaypromote', 'resourceForceiofailures', 'resourcePromotionscore'],
+    metrics: ['connectionRsinflightBytes', 'connectionApinflightBytes', 'connectionCongested'],
     labels: [
-      t('in-forge:plugins.drbdConnection.resourceSuspended'),
-      t('in-forge:plugins.drbdConnection.resourceMaypromote'),
-      t('in-forge:plugins.drbdConnection.resourceForceiofailures'),
-      t('in-forge:plugins.drbdConnection.resourcePromotionscore')
+      t('in-forge:plugins.drbdConnection.connectionRsinflightBytes'),
+      t('in-forge:plugins.drbdConnection.connectionApinflightBytes'),
+      t('in-forge:plugins.drbdConnection.connectionCongested')
     ],
     min: 0,
     category: [t('in-forge:plugins.drbdConnection.drbdConnection')],

@@ -488,6 +488,31 @@
   "pluginName_domino_1": "Domino Server",
   "pluginName_domino_2": "Domino Server",
   "pluginName_domino": "Domino Server",
+  "pluginName_drbd_plural": "DRBD",
+  "pluginName_drbd_0": "DRBD",
+  "pluginName_drbd_1": "DRBD",
+  "pluginName_drbd_2": "DRBD",
+  "pluginName_drbd": "DRBD",
+  "pluginName_drbdResource_plural": "DRBD Resources",
+  "pluginName_drbdResource_0": "DRBD Resources",
+  "pluginName_drbdResource_1": "DRBD Resources",
+  "pluginName_drbdResource_2": "DRBD Resources",
+  "pluginName_drbdResource": "DRBD Resource",
+  "pluginName_drbdDevice_plural": "DRBD Devices",
+  "pluginName_drbdDevice_0": "DRBD Devices",
+  "pluginName_drbdDevice_1": "DRBD Devices",
+  "pluginName_drbdDevice_2": "DRBD Devices",
+  "pluginName_drbdDevice": "DRBD Device",
+  "pluginName_drbdConnection_plural": "DRBD Connections",
+  "pluginName_drbdConnection_0": "DRBD Connections",
+  "pluginName_drbdConnection_1": "DRBD Connections",
+  "pluginName_drbdConnection_2": "DRBD Connections",
+  "pluginName_drbdConnection": "DRBD Connection",
+  "pluginName_drbdPeer_plural": "DRBD Peer Devices",
+  "pluginName_drbdPeer_0": "DRBD Peer Devices",
+  "pluginName_drbdPeer_1": "DRBD Peer Devices",
+  "pluginName_drbdPeer_2": "DRBD  Peer devices",
+  "pluginName_drbdPeer": "DRBD Peer Device",
   "pluginName_dropwizardApplicationContainer_plural": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_0": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_1": "Dropwizard Apps",
@@ -6654,6 +6679,52 @@
       "troubleshootingDocs": "Troubleshooting docs",
       "metricsIncludeRegexDoesNotMatchAnyMetric": "Regex: {{metrics_include}} from the configuration file does not match any metric",
       "missingDominoStatsFile": "Metrics file could not be found on the host"
+    },
+    "drbd": {
+      "dashboard": {
+        "resourcesNumber": "Number of Resources",
+        "resourceSuspendedCount": "Messages Count"
+      },
+      "drbdName": "DRBD Name",
+      "resourcesNumber": "Number of Resources",
+      "resourceSuspendedCount": "Number of Suspended Resources",
+      "kmodVersion": "Alternated At",
+      "UtilsVersion": "Number of Messages"
+    },
+    "drbdResource": {
+      "dashboard": {
+        "resourceSuspended": "Resource Suspended",
+        "resourceMaypromote": "Resource Promoted to Primary",
+        "resourceForceiofailures": "Resource Configured to Force IO Failures",
+        "resourcePromotionscore": "Resource Promotion Score"
+      },
+      "name": "DRBD Resource Name",
+      "resourceSuspended": "Resource Suspended",
+      "resourceMaypromote": "Resource Promoted to Primary",
+      "resourceForceiofailures": "Resource Configured to Force IO Failures",
+      "resourcePromotionscore": "Resource Promotion Score",
+      "resourceRole": "Resource Role"
+    },
+    "drbdDevice": {
+      "dashboard": {
+        "resourceSuspended": "Resource Suspended",
+        "resourceMaypromote": "Resource Promoted to Primary",
+        "resourceForceiofailures": "Resource Configured to Force IO Failures",
+        "resourcePromotionscore": "Resource Promotion Score"
+      },
+      "deviceName": "DRBD Device Name",
+      "drbdDeviceReadBytesTotal": "Device Read Bytes Total",
+      "drbdDeviceWrittenBytesTotal": "Device Written Bytes Total",
+      "drbdDeviceSizeBytes": "Device Size Bytes",
+      "drbdDeviceUpperpending": "Number of block I/O requests not yet answered",
+      "drbdDeviceLowerpending": "Number of block I/O requests not yet answered Role issued by DRBD",
+      "drbdDeviceAlsuspended": "Activity-Log is suspended",
+      "drbdDeviceAlwritesTotal": "Resource Promoted to Primary",
+      "drbdDeviceQuorum": "Resource Configured to Force IO Failures",
+      "drbdDeviceClient": "Resource Promotion Score",
+      "volume": "Volume",
+      "minor": "Minor",
+      "deviceState": "DRBD Device State"
     },
     "dropwizardApplicationContainer": {
       "dashboard": {
@@ -13612,8 +13683,8 @@
       "connectionManagerThreadsAllocated": "Connection Manager Threads [allocated]",
       "workerThreadsCreated": "Worker Threads [created]",
       "workerThreadsAllocated": "Worker Threads [allocated]",
-      
-      
+
+
       "numberWaiting": "Connection Manager Threads waiting on Worker Threads",
       "clientConnecttimeoutPerMinute": "Client Connection Timeouts Per Minute",
       "timesConnecttimeoutLimitHitPerMinute": "Client Connection Timeouts Per Minute (Percentage)",

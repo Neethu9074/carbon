@@ -9,13 +9,13 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.drbdConnection.resourceSuspended'),
-    metric: 'resourceSuspended',
+    label: t('in-forge:plugins.drbdConnection.connectionRsinflightBytes'),
+    metric: 'connectionRsinflightBytes',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdConnection.resourceMaypromote'),
-    metric: 'resourceMaypromote',
+    label: t('in-forge:plugins.drbdConnection.connectionApinflightBytes'),
+    metric: 'connectionApinflightBytes',
     formatter: number.compact
   }
 ];

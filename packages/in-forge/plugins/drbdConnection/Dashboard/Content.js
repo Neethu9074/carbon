@@ -60,7 +60,3 @@ export default function ConnectionDashboard({ snapshot, timeConfig }) {
     </div>
   );
 }
-
-// { "connectionRsinflightBytes" },
-// { "connectionApinflightBytes" },
-// { "connectionCongested" }

@@ -40,7 +40,7 @@ export default function ResourceDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['ts_avgResTime'],
+              metrics: ['resourceForceiofailures'],
               labels: [t('in-forge:plugins.drbdResource.resourceForceiofailures')],
               type: 'line',
               formatter: number.compact
@@ -52,7 +52,7 @@ export default function ResourceDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['ts_throughput'],
+              metrics: ['resourcePromotionscore'],
               labels: [t('in-forge:plugins.drbdResource.resourcePromotionscore')],
               type: 'line',
               formatter: number.compact
