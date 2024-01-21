@@ -65,6 +65,9 @@ export const nonServicePlugins = {
   azureQueue: 'azureQueue',
   azureFunctionApp: 'azureFunctionApp',
   azureFunction: 'azureFunction',
+  azureServiceBus: 'azureServiceBus',
+  azureServiceBusQueues: 'azureServiceBusQueues',
+  azureServiceBusTopics: 'azureServiceBusTopics',
   beeInstanaNode: 'beeInstanaNode',
   bizTalk: 'bizTalk',
   camunda: 'camunda',
@@ -418,6 +421,11 @@ export const fullyQualifiedPlugins = {
   azureSqlDb: 'com.instana.forge.hardware.virtual.azure.sqldb.AzureSqlDb',
   azureSqlElasticPool: 'com.instana.forge.hardware.virtual.azure.sqlelasticpool.AzureSqlElasticPool',
   azureSqlServer: 'com.instana.forge.hardware.virtual.azure.sqlserver.AzureSqlServer',
+  azureServiceBus: 'com.instana.forge.hardware.virtual.azure.servicebus.AzureServiceBus',
+  azureServiceBusQueues:
+    'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.queues.AzureServiceBusQueues',
+  azureServiceBusTopics:
+    'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.topics.AzureServiceBusTopics',
   beeInstanaNode: 'com.instana.forge.infrastructure.database.beeinstana.BeeInstanaNode',
   bizTalk: 'com.instana.forge.infrastructure.messaging.biztalk.BizTalk',
   camunda: 'camunda',
