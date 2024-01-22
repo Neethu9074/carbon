@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ComponentType, ReactNode } from 'react';
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -32,10 +32,16 @@ interface TabViewProps<TabData, TabProps extends {}, ExtensionProps extends {}> 
   withProps?: (props: TabProps & { result: Result<TabData> | Nullish }) => ExtensionProps;
   filterTabByResult?: TabFilterPredicate<TabData, Tab<TabData, TabProps & ExtensionProps>>;
   withoutBreadcrumb?: boolean;
-  HeaderComponent: React.ComponentType<TabProps & ExtensionProps & { result: Result<TabData> | Nullish }>;
+  HeaderComponent: ComponentType<TabProps & ExtensionProps & { result: Result<TabData> | Nullish }>;
   tabChangeTracker?: (props: { tab: string }) => void;
   renderHeaderOnErrors?: boolean;
   renderErrors?: (errors: Error[]) => JSX.Element;
+  /**
+   * This prop can be used to render additional elements below the tab navigation.
+   * Even if this can take any component, it is recommended to wrap your custom elements
+   * with the AdditionalDashboardHeader component first.
+   */
+  additionalHeader?: ReactNode;
 }
 
 export default function TabView<TabData, TabProps extends {} = {}, ExtensionProps extends {} = {}>({
@@ -49,7 +55,8 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
   props,
   withoutBreadcrumb = false,
   tabChangeTracker,
-  withProps: customWithPropsExtension
+  withProps: customWithPropsExtension,
+  additionalHeader
 }: TabViewProps<TabData, TabProps, ExtensionProps>) {
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
@@ -84,6 +91,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
                 props={tabProps}
                 HeaderComponent={HeaderComponent}
                 tabChangeTracker={tabChangeTracker}
+                additionalHeader={additionalHeader}
               />
             )}
           </div>

@@ -8,11 +8,18 @@ import React from 'react';
 
 import { Error, isApplicationSloEntity, Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import tabs, {
+  ApplicationSloTabData,
+  isApplicationSloTabData,
+  SloTabData
+} from 'in-service-levels/components/SloDashboard/tabs';
+import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
-import tabs, { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
+import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
@@ -31,8 +38,26 @@ export default function ServiceLevelsObjectiveDashboard() {
     bind: [defaultServiceLevelObjectiveUrlParameters.sloId]
   });
 
+  const tabProps = useObservable(() => {
+    return getData(sloId);
+  }, [sloId]);
+
+  const tabData = tabProps?.data;
+  const entity = tabData?.entity;
+  const service = tabData && isApplicationSloTabData(tabData) ? tabData.service : undefined;
+  const configuration = tabData?.configuration;
+  const sloTimeWindow = configuration?.timeWindow;
+
   return (
-    <TabView location={location} result$={getData(sloId)} HeaderComponent={SloDashboardHeader} tabs={tabs} props={{}} />
+    <SloTimeWindowProvider sloConfigId={sloId} sloTimeWindow={sloTimeWindow}>
+      <TabView
+        location={location}
+        HeaderComponent={SloDashboardHeader}
+        tabs={tabs}
+        props={tabProps ?? {}}
+        additionalHeader={<SloMetaInfoHeader configuration={configuration} entity={entity} service={service} />}
+      />
+    </SloTimeWindowProvider>
   );
 }
 
