@@ -87,7 +87,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
           //@ts-ignore
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.startedProcessesCount}
+          metrics={item.metrics.started_processes}
           metric={item.businessProcess.startedInstancesCount}
           tooltipFormatter={number.compact}
         />
