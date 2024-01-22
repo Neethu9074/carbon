@@ -43,6 +43,7 @@ import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constan
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { role } from 'in-stores/user';
 
 const endpointConfig = { asObservable: true };
 
