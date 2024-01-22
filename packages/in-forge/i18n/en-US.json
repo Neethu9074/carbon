@@ -6288,7 +6288,8 @@
         "vmonlockStats": "Lock Statistics",
         "databaseVmondeltaStats": "Transaction Performance (Incremental Value)",
         "standbyId": "Standby ID",
-        "backupDetails": "Recent Backup Details"
+        "backupDetails": "Recent Backup Details",
+        "uowExecutors": "Connections in Execution"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6297,6 +6298,7 @@
       "role": "Role",
       "maxConnections": "Max connections",
       "connections": "Connections",
+      "uowExecutors": "Connections in Execution",
       "queries": "Queries",
       "status": "Status",
       "allQueries": "All Queries",
@@ -13695,8 +13697,8 @@
       "connectionManagerThreadsAllocated": "Connection Manager Threads [allocated]",
       "workerThreadsCreated": "Worker Threads [created]",
       "workerThreadsAllocated": "Worker Threads [allocated]",
-      
-      
+
+
       "numberWaiting": "Connection Manager Threads waiting on Worker Threads",
       "clientConnecttimeoutPerMinute": "Client Connection Timeouts Per Minute",
       "timesConnecttimeoutLimitHitPerMinute": "Client Connection Timeouts Per Minute (Percentage)",
