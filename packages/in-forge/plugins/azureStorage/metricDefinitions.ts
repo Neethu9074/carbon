@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number } from 'in-services/formatters/number';
+import { bytes, millis, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -130,7 +130,6 @@ export default [
     min: 0,
     formatter: number
   },
-
   {
     metric: 'av_to',
     label: t('in-forge:plugins.azureStorage.labelAvTo'),
@@ -159,26 +158,146 @@ export default [
     min: 0,
     formatter: number
   },
-
+  // Queue metrics
   {
     metric: 'qcap_av',
     label: t('in-forge:plugins.azureStorage.labelQuCa'),
     category: [t('in-forge:plugins.azureStorage.dashboard.titleQueueCapacity')],
     min: 0,
-    formatter: number
+    formatter: number.detailed
   },
   {
     metric: 'qc_av',
     label: t('in-forge:plugins.azureStorage.labelQuCo'),
     category: [t('in-forge:plugins.azureStorage.dashboard.titleQueueCount')],
     min: 0,
-    formatter: number
+    formatter: number.compact
   },
   {
     metric: 'qms_av',
     label: t('in-forge:plugins.azureStorage.labelQuMeCo'),
     category: [t('in-forge:plugins.azureStorage.dashboard.titleQueueMessageCount')],
     min: 0,
-    formatter: number
+    formatter: number.compact
+  },
+  // Blob metrics
+  {
+    metric: 'blobCapacity',
+    label: t('in-forge:plugins.azureStorage.labelBlobCapacity'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobCount',
+    label: t('in-forge:plugins.azureStorage.labelBlobCount'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: 'blobContainerCount',
+    label: t('in-forge:plugins.azureStorage.labelBlobContainerCount'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metric: 'blobIngressTotal',
+    label: t('in-forge:plugins.azureStorage.labelInTo'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobIngressAverage',
+    label: t('in-forge:plugins.azureStorage.labelInAv'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobIngressMin',
+    label: t('in-forge:plugins.azureStorage.labelInMi'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobIngressMax',
+    label: t('in-forge:plugins.azureStorage.labelInMx'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobEgressTotal',
+    label: t('in-forge:plugins.azureStorage.labelEgTo'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobEgressAverage',
+    label: t('in-forge:plugins.azureStorage.labelEgAv'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobEgressMin',
+    label: t('in-forge:plugins.azureStorage.labelEgMi'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobEgressMax',
+    label: t('in-forge:plugins.azureStorage.labelEgMx'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metric: 'blobSuccessServerLatencyAverage',
+    label: t('in-forge:plugins.azureStorage.labelSlAv'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: 'blobSuccessServerLatencyMin',
+    label: t('in-forge:plugins.azureStorage.labelSlMi'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: 'blobSuccessServerLatencyMax',
+    label: t('in-forge:plugins.azureStorage.labelSlMx'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: 'blobSuccessE2ELatencyAverage',
+    label: t('in-forge:plugins.azureStorage.labelElAv'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: 'blobSuccessE2ELatencyMin',
+    label: t('in-forge:plugins.azureStorage.labelElMi'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metric: 'blobSuccessE2ELatencyMax',
+    label: t('in-forge:plugins.azureStorage.labelElMx'),
+    category: [t('in-forge:plugins.azureStorage.blob')],
+    min: 0,
+    formatter: millis.detailed
   }
 ];

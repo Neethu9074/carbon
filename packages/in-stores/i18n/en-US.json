@@ -204,6 +204,8 @@
     "fieldsEntityAzureServiceSqlelasticpool": "Azure SQL Elastic Pool",
     "fieldsEntityAzureServiceSqlserver": "Azure SQL Server",
     "fieldsEntityAzureServiceStorage": "Azure Storage",
+    "fieldsEntityAzureServiceStorageQueue": "Azure Storage Queue",
+    "fieldsEntityAzureServiceStorageBlob": "Azure Storage Blob",
     "fieldsEntityHost": "Infrastructure host",
     "fieldsEntityHostOs": "Operating system",
     "fieldsEntityIbmMq": "IBM MQ",

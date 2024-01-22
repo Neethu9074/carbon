@@ -239,6 +239,11 @@
   "pluginName_azureQueue_1": "Azure Storage Queue Services",
   "pluginName_azureQueue_2": "Azure Storage Queue Services",
   "pluginName_azureQueue": "Azure Storage Queue Service",
+  "pluginName_azureBlob_plural": "Azure Storage Blob Services",
+  "pluginName_azureBlob_0": "Azure Storage Blob Services",
+  "pluginName_azureBlob_1": "Azure Storage Blob Services",
+  "pluginName_azureBlob_2": "Azure Storage Blob Services",
+  "pluginName_azureBlob": "Azure Storage Blob Service",
   "pluginName_azureFunction_plural": "Azure Functions Services",
   "pluginName_azureFunction_0": "Azure Functions Services",
   "pluginName_azureFunction_1": "Azure Functions Services",
@@ -5037,6 +5042,16 @@
       "infoSubscriptionID": "Subscription ID",
       "infoResourceGroup": "Resource Group"
     },
+    "azureBlob": {
+      "dashboard": {
+        "azureBlob": "Azure Storage Blob"
+      },
+      "infoName": "Name",
+      "infoType": "Type",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoResourceGroup": "Resource Group"
+    },
     "azureStorage": {
       "infoName": "Name",
       "infoResourceGroup": "Resource Group",
@@ -5047,6 +5062,7 @@
       "infoKind": "Kind",
       "infoState": "State",
       "infoAccessTier": "Access Tier",
+      "infoBlobCapabilities": "Blob Capabilities",
       "labelTrTo": "Total Transactions",
       "labelInTo": "Total Ingress",
       "labelInAv": "Average Ingress",
@@ -5071,30 +5087,42 @@
       "labelQuCa": "Average Queue Capacity",
       "labelQuCo": "Average Queue Count",
       "labelQuMeCo": "Average Queue Message Count",
+      "labelBlobCapacity": "Average Blob Capacity",
+      "labelBlobCount": "Average Blob Count",
+      "labelBlobContainerCount": "Average Blob Container Count",
       "dashboard": {
         "titleTransactions": "Transactions",
         "labelTransactions": "Total number of transactions",
         "titleIngress": "Ingress",
+        "titleBlobIngress": "Blob Ingress",
         "labelIngress": "The total ingress in bytes",
         "labelAverage": "Average",
         "labelMinimum": "Minimum",
         "labelMaximum": "Maximum",
         "titleEgress": "Egress",
+        "titleBlobEgress": "Blob Egress",
         "labelEgress": "The total egress in bytes",
         "titleServerLatency": "Server Latency",
+        "titleBlobServerLatency": "Blob Server Latency",
         "titleE2ELatency": "E2E Latency",
+        "titleBlobE2ELatency": "Blob E2E Latency",
         "titleAvailability": "Availability",
         "titleQueueCapacity": "Queue Capacity",
         "titleQueueCount": "Queue Count",
         "titleQueueMessageCount": "Queue Message Count",
+        "titleBlobCapacity": "Blob Capacity",
+        "titleBlobCount": "Blob Count",
+        "titleBlobContainerCount": "Blob Container Count",
         "name": "Name",
         "type": "Type",
         "location": "Location",
-        "queuesWithCount": "Queues ({{len}})"
+        "queuesWithCount": "Queues ({{len}})",
+        "blobsWithCount": "Blob Containers ({{len}})"
       },
       "traffic": "Traffic",
       "latency": "Latency",
-      "availability": "Availability"
+      "availability": "Availability",
+      "blob": "Blob"
     },
     "azureFunctionApp": {
       "infoName": "Name",
