@@ -40,6 +40,7 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
+  carbonShellEnabled: false,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,

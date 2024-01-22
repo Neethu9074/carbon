@@ -39,6 +39,7 @@ export interface Role {
   canConfigureGlobalAlertConfigs: boolean;
   canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
+  canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
   canConfigureIntegrations: boolean;

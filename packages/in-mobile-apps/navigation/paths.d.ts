@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TagCatalog, TimeConfig } from '@instana/types';
+import { TagCatalog, TimeConfig, Observable } from '@instana/types';
 import { Group } from '@instana/types/typeDefinitions';
 
 import { ChartedMetric, ChartedTemplateMetric } from 'in-applications/navigation/paths';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { MetricField } from 'in-analyze/navigation/paths';
 
+export declare const mobileAppMonitoringPath: string;
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const crashesTabFullyQualified: string;
@@ -18,10 +19,12 @@ export declare const alertsTab: string;
 export declare const summaryTab: string;
 export declare const detailsPath: string;
 
+export declare const isAnalyzeView: Observable<any>;
+
 interface UseLinkToAnalyzeProps {
   beaconType: string;
   groupBy: Partial<Group>;
-  formModel: FormModelElement[];
+  formModel?: FormModelElement[];
   chartedMetrics?: Array<ChartedMetric | ChartedTemplateMetric>;
   timeConfig?: TimeConfig;
   fields?: MetricField[];

@@ -44,6 +44,7 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');

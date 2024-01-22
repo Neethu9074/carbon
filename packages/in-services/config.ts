@@ -8,6 +8,7 @@ export interface ClientConfig {
     [name: string]: boolean;
   };
   instanaRegion: string;
+  tenantUnitDomainSuffix: string;
   region: string;
   tenant: string;
   tenantUnit: string;
