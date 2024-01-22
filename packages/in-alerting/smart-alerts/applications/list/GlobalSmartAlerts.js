@@ -55,7 +55,7 @@ export default function GlobalSmartAlerts({ location }) {
           </Card>
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      {role.canConfigureGlobalAlertConfigs && (
+      {(role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs) && (
         <FloatingActionButtons>
           <CreateGlobalSmartAlertButton location={location} />
         </FloatingActionButtons>

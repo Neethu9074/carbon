@@ -84,7 +84,7 @@
     "platform_permissions": "Access {{quantityOfAreas}}",
     "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
-    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Synthetic Monitoring, Platforms & Infrastructure",
     "permissions": "Permissions",
     "additionalPermissions": "Additional permissions",
     "permissions_DASHBOARD": "Custom dashboard permissions",

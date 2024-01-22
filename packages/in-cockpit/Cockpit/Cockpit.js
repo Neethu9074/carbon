@@ -289,9 +289,10 @@ const Content = function Content({ itemOrder, applicationId, width }) {
       >
         {width && (
           <>
-            {role.canConfigureCustomAlerts && legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && (
-              <CustomEventDeprecatedWarning legacyAlertConfigStats={legacyAlertConfigStats} />
-            )}
+            {(role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+              legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && (
+                <CustomEventDeprecatedWarning legacyAlertConfigStats={legacyAlertConfigStats} />
+              )}
             <DragDropContext
               onDragEnd={({ source, destination }) => {
                 if (!destination) {
