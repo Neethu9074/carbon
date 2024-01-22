@@ -13,7 +13,7 @@ import { number, percentage, millis } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
-import theme from 'in-themes';
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -247,7 +247,7 @@ function getDetails(row) {
               t('in-forge:plugins.labelRequests.5xx'),
               t('in-forge:plugins.labelRequests.total')
             ],
-            colors: theme.lib.colors.chart.fiveColorPalette,
+            colors: chartColors.fiveColorPalette,
             type: 'line',
             formatter: number.compact
           }}

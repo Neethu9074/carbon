@@ -43,10 +43,10 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { carbonAlert } from 'in-themes/chartColors';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default connectTo(
@@ -394,7 +394,7 @@ export default connectTo(
                   labels: [t('in-forge:plugins.instanaAgent.dashboard.slowSensors')],
                   type: 'bar',
                   aggregation: 'sum',
-                  colors: [theme.lib.carbonAlert.red60],
+                  colors: [carbonAlert.red60],
                   formatter: number.compact
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -9,8 +9,8 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ContextMenuButton } from 'in-components/Chart/types';
+import { carbonAlert } from 'in-themes/chartColors';
 import { TagFilterExpression } from 'in-types';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface LogsChartProps {
@@ -58,7 +58,7 @@ export default function LogsChart(props: LogsChartProps) {
               label: t('in-logging:logsOverTime', { context: 'INFO' })
             })
           ],
-          colors: [theme.lib.carbonAlert.red60, theme.lib.carbonAlert.yellow30, theme.lib.carbonAlert.blue70],
+          colors: [carbonAlert.red60, carbonAlert.yellow30, carbonAlert.blue70],
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },
