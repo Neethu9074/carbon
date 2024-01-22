@@ -87,6 +87,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
             return (
               <div key={app.id} className={locals.item}>
                 <CheckboxFancy
+                  asRadioButton
                   key={app.id}
                   label={app.name}
                   checked={applicationsField?.value === app.id}
