@@ -9,10 +9,10 @@ import React, { Fragment } from 'react';
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
+import { bizopsActivityDistributionChartsEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -49,7 +49,7 @@ export default function Summary() {
             dataSource={'BUSINESS_ACTIVITIES'}
           />
         </Col>
-        {bizopsFeatureEnabled && (
+        {bizopsActivityDistributionChartsEnabled && (
           <Col lg>
             <DurationAndDistribution />
           </Col>
