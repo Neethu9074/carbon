@@ -45,12 +45,14 @@ export default function ThresholdValueInput({
 }: ThresholdValueInputProps) {
   const onValueChange = (targetValue: number | undefined) => {
     const value = targetValue ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
-    if (!value || value > max) {
+    if (value && value > max) {
       return;
     }
 
     if (updateForm) {
-      updateForm?.(form.updateIn(['threshold', 'value'], f => (f as Field<number>).setValue(value).setTouched(true)));
+      updateForm?.(
+        form.updateIn(['threshold', 'value'], f => (f as Field<number | null>).setValue(value).setTouched(true))
+      );
     }
   };
 
