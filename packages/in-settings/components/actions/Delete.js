@@ -49,6 +49,7 @@ export default forwardRef(function Delete(
               close();
               doDelete(entity, deleteEntity, setErrorMessage);
             }}
+            confirmButtonAutoFocus
           />
         );
       }}

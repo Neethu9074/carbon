@@ -81,6 +81,7 @@ export function RemoveUserDialog({ groupId, userId, username, removeLocally }: P
       errors={errors}
       confirmButtonLabel={t('in-settings:tabs.remove')}
       confirmButtonKind="danger"
+      confirmButtonAutoFocus
     />
   );
 }
