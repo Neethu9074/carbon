@@ -6707,24 +6707,52 @@
     },
     "drbdDevice": {
       "dashboard": {
-        "resourceSuspended": "Resource Suspended",
-        "resourceMaypromote": "Resource Promoted to Primary",
-        "resourceForceiofailures": "Resource Configured to Force IO Failures",
-        "resourcePromotionscore": "Resource Promotion Score"
+        "deviceName": "DRBD Device Name",
+        "drbdDeviceReadBytesTotal": "Device Read Bytes Total",
+        "drbdDeviceWrittenBytesTotal": "Device Written Bytes Total",
+        "drbdDeviceSizeBytes": "Device Size Bytes",
+        "drbdDeviceUpperpending": "Block I/O Requests Number not Answered",
+        "drbdDeviceLowerpending": "Open Requests Number Issued",
+        "drbdDeviceAlsuspended": "Activity-Log is Suspended",
+        "drbdDeviceAlwritesTotal": "Updates Number Of The Activity-Log",
+        "drbdDeviceQuorum": "Quorum",
+        "drbdDeviceClient": "Client"
       },
       "deviceName": "DRBD Device Name",
       "drbdDeviceReadBytesTotal": "Device Read Bytes Total",
       "drbdDeviceWrittenBytesTotal": "Device Written Bytes Total",
       "drbdDeviceSizeBytes": "Device Size Bytes",
-      "drbdDeviceUpperpending": "Number of block I/O requests not yet answered",
-      "drbdDeviceLowerpending": "Number of block I/O requests not yet answered Role issued by DRBD",
-      "drbdDeviceAlsuspended": "Activity-Log is suspended",
-      "drbdDeviceAlwritesTotal": "Resource Promoted to Primary",
-      "drbdDeviceQuorum": "Resource Configured to Force IO Failures",
-      "drbdDeviceClient": "Resource Promotion Score",
+      "drbdDeviceUpperpending": "Block I/O Requests Number not Answered",
+      "drbdDeviceLowerpending": "Open Requests Number Issued",
+      "drbdDeviceAlsuspended": "Activity-Log is Suspended",
+      "drbdDeviceAlwritesTotal": "Updates Number Of The Activity-Log",
+      "drbdDeviceQuorum": "Quorum",
+      "drbdDeviceClient": "Client",
       "volume": "Volume",
       "minor": "Minor",
-      "deviceState": "DRBD Device State"
+      "deviceState": "Device State"
+    },
+    "drbdConnection": {
+      "dashboard": {
+        "connectionCongested": "Connection Congested",
+        "connectionRsinflightBytes": "Number of Application Requests in Flight",
+        "connectionApinflightBytes": "Number of Resync Requests in Flight"
+      },
+      "connectionName": "DRBD Connection Name",
+      "peerNodeId": "Peer Node Id",
+      "connectionState": "Connection State",
+      "connectionCongested": "Connection Congested",
+      "connectionRsinflightBytes": "Number of Application Requests in Flight",
+      "connectionApinflightBytes": "Number of Resync Requests in Flight"
+    },
+    "drbdPeer": {
+      "dashboard": {
+        "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number"
+      },
+      "connectionName": "DRBD Connection Name",
+      "peerNodeId": "Peer Node Id",
+      "volume": "Volume",
+      "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number"
     },
     "dropwizardApplicationContainer": {
       "dashboard": {

@@ -39,7 +39,7 @@ export default function DrbdDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['sbp_avgResTime'],
+              metrics: ['resourcesNumber'],
               labels: [t('in-forge:plugins.drbd.resourcesNumber')],
               type: 'line',
               formatter: number.compact
@@ -51,7 +51,7 @@ export default function DrbdDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['sbp_throughput'],
+              metrics: ['resourceSuspendedCount'],
               labels: [t('in-forge:plugins.drbd.resourceSuspendedCount')],
               type: 'line',
               formatter: twoDecimalPlaces
