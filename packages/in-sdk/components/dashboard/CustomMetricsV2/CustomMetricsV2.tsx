@@ -60,6 +60,7 @@ interface MetricsSpec {
   color: string;
   metrics: MetricSpec[];
   tableMetric?: number;
+  discrete: boolean;
 }
 
 interface MetricSpec {
@@ -79,6 +80,7 @@ interface Row {
   type: string;
   color: string;
   tableMetric: number;
+  discrete: boolean;
   snapshotId: string;
   timeConfig: TimeConfig;
   rollup?: number;
@@ -162,7 +164,7 @@ const cols = [
         return (row.metrics[row.tableMetric] || row.metrics[0]).formatter(value);
       },
       getTimeWindowAggregation(row: Row) {
-        return row.type == 'counter' ? 'sum' : 'mean';
+        return row.discrete ? 'sum' : 'mean';
       },
       getTimeConfig(row: Row) {
         return row.timeConfig;
@@ -263,8 +265,8 @@ function getDetails(row: Row) {
     formatter: y1DataSeries[0].formatter,
     metrics: y1DataSeries.map(m => m.name),
     labels: y1DataSeries.map(m => m.label),
-    type: charTypeFromMetricType(row.type),
-    aggregation: aggregationFromMetricType(row.type)
+    type: charTypeFromMetricType(row.discrete),
+    aggregation: aggregationFromMetricType(row.discrete)
   };
 
   let y2 = undefined;
@@ -273,8 +275,8 @@ function getDetails(row: Row) {
       formatter: y2DataSeries[0].formatter,
       metrics: y2DataSeries.map(m => m.name),
       labels: y2DataSeries.map(m => m.label),
-      type: charTypeFromMetricType(row.type),
-      aggregation: aggregationFromMetricType(row.type)
+      type: charTypeFromMetricType(row.discrete),
+      aggregation: aggregationFromMetricType(row.discrete)
     };
   }
 
@@ -289,12 +291,12 @@ function getDetails(row: Row) {
   );
 }
 
-function charTypeFromMetricType(type: string) {
-  return type == 'counter' ? 'bar' : 'line';
+function charTypeFromMetricType(discrete: boolean) {
+  return discrete ? 'bar' : 'line';
 }
 
-function aggregationFromMetricType(type: string) {
-  return type == 'counter' ? 'SUM' : 'MEAN';
+function aggregationFromMetricType(discrete: boolean) {
+  return discrete ? 'SUM' : 'MEAN';
 }
 
 export function getDefaultRows({
@@ -314,13 +316,14 @@ export function getDefaultRows({
       if (!metric) {
         return acc;
       }
-      const { i, key, name, type, color, tableMetric, label, formatter } = metric;
+      const { i, key, name, type, color, tableMetric, discrete, label, formatter } = metric;
       acc[key] = acc[key] || {
         key,
         name,
         type,
         color,
         tableMetric,
+        discrete,
         snapshotId,
         timeConfig,
         rollup: adjustMetricRollup(metric.type, metric.name, defaultRollup),
@@ -353,7 +356,7 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
   const suffixLength = metric.suffix?.length ?? 0;
   const key = id.slice(0, id.length - suffixLength);
   const name = id.slice(spec.prefix.length, id.length - suffixLength);
-  const { type, color, tableMetric } = spec;
+  const { type, color, tableMetric, discrete } = spec;
 
   return {
     key,
@@ -361,6 +364,7 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
     type,
     color,
     tableMetric,
+    discrete,
     ...metric
   };
 }
@@ -400,7 +404,7 @@ function nativeBeeInstanaHistogram(metricName: string): boolean {
 }
 
 export const AVAILABLE_SPECS: MetricsSpecs = {
-  COUNTER: {
+  COUNTER_CUMULATIVE: {
     prefix: 'metrics.counters.',
     type: 'counter',
     color: '#00CC66',
@@ -409,7 +413,20 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
         formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
+  },
+  COUNTER_DISCRETE: {
+    prefix: 'metrics.counters.',
+    type: 'counter',
+    color: '#00CC66',
+    metrics: [
+      {
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        formatter: withSiMultiplyPrefixZeroDecimalPlaces
+      }
+    ],
+    discrete: true
   },
   GAUGE: {
     prefix: 'metrics.gauges.',
@@ -420,7 +437,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   HISTOGRAM: {
     prefix: 'metrics.histograms.',
@@ -431,7 +449,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   EXPANDED_HISTOGRAM: {
     prefix: 'metrics.histograms.',
@@ -453,7 +472,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   METER: {
     prefix: 'metrics.meters.',
@@ -464,7 +484,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
         formatter: rateFormatter
       }
-    ]
+    ],
+    discrete: false
   },
   TIMER: {
     prefix: 'metrics.timers.',
@@ -475,7 +496,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   EXPANDED_TIMER: {
     prefix: 'metrics.timers.',
@@ -503,7 +525,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
         formatter: timeByMillisTwoDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   SUMMARY: {
     prefix: 'metrics.summaries.',
@@ -514,7 +537,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   GENERIC: {
     prefix: '',
@@ -525,7 +549,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   SUM: {
     prefix: 'metrics.sums.',
@@ -536,12 +561,13 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   }
 };
 
 export const DEFAULT_SPECS = [
-  AVAILABLE_SPECS.COUNTER,
+  AVAILABLE_SPECS.COUNTER_CUMULATIVE,
   AVAILABLE_SPECS.GAUGE,
   AVAILABLE_SPECS.EXPANDED_HISTOGRAM,
   AVAILABLE_SPECS.METER,
