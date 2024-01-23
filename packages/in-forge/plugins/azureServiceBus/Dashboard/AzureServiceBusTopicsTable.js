@@ -87,7 +87,6 @@ export default connectTo(
       return {
         key: topic.get('id'),
         topicName: topic.getIn(['data', 'name']),
-
         maxSize: topic.getIn(['data', 'maxSizeInMegabytes']),
         size: topic.getIn(['data', 'sizeInBytes']),
         status: topic.getIn(['data', 'status']),
