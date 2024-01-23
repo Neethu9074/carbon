@@ -6316,7 +6316,15 @@
         "vmonlockStats": "Lock Statistics",
         "databaseVmondeltaStats": "Transaction Performance (Incremental Value)",
         "standbyId": "Standby ID",
-        "backupDetails": "Recent Backup Details"
+        "backupDetails": "Recent Backup Details",
+        "db2MemberDetails": "Member Details",
+        "db2cfDetails": "CF Details",
+        "purescaleGeneralDetails": "Purescale General",
+        "purescaleMem": "Member ID",
+        "purescaleMemAlert": "Member Node Alert",
+        "purescaleCFAlert": "CF Node Alert",
+        "purescaleCf": "CF ID"
+
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6544,7 +6552,24 @@
       "tbspace": "Table Space",
       "type": "Type",
       "tbspState": "Table Space State",
-      "uowExecutors": "Connections in Execution"
+      "uowExecutors": "Connections in Execution",
+      "db2MemberNumber": "Member Nodes",
+      "db2MemberAlert": "Member Alert",
+      "db2CfAlert": "CF Alert",
+      "member": "Member",
+      "memberId": "Member ID",
+      "memberState": "Member State",
+      "memberHomeHost": "Member Home Host",
+      "memberCurrentHost": "Member Current Host",
+      "cf": "CF",
+      "cfId": "CF ID",
+      "cfState": "CF State",
+      "cfHomeHost": "CF Home Host",
+      "cfCurrentHost": "CF Current Host",
+      "pgHostName": "Host Name",
+      "pgState": "State",
+      "instanceStopped": "Instance Stopped",
+      "pgAlert": "Alert"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
