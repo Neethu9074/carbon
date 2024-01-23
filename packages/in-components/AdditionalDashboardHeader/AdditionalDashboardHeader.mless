@@ -5,7 +5,7 @@
  */
 
 :local {
-  .metaInfoHeader {
+  .wrapper {
     background-color: var(--ids-color-option-neutral-100);
     border-top: 1px solid var(--ids-color-option-neutral-300);
     padding-top: 1.5rem;
