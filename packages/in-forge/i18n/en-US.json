@@ -4795,7 +4795,7 @@
       "name": "Queues"
     },
     "azureServiceBusTopics" : {
-      "infoAzureServiceBusTopic": "Azure ServiceBus Topic",
+      "infoAzureServiceBusTopic": "Azure Service Bus Topic",
       "status": "Status",
       "maxSize": "Max Size",
       "size": "Size",
