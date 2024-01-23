@@ -14,7 +14,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { millis, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
-import theme from 'in-themes';
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
@@ -134,7 +134,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.labelRequests.5xx'),
               t('in-forge:plugins.labelRequests.total')
             ],
-            colors: theme.lib.colors.chart.fiveColorPalette,
+            colors: chartColors.fiveColorPalette,
             min: 0,
             type: 'line',
             formatter: number.compact

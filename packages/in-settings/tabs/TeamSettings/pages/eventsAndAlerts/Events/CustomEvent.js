@@ -126,7 +126,9 @@ export default function CustomEvent(props) {
   } else {
     const entityType = getPluginName(entity.entityType, 1) ?? '';
     const isLegacyAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
-    const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
+    const hasPermissionsToEditSmartAlerts =
+      (role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts) &&
+      (role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs);
     const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
     const isMigratable =

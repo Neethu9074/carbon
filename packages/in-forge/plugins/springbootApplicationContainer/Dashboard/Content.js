@@ -16,9 +16,9 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { chartColors } from 'in-themes/chartColors';
 import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
-import theme from 'in-themes';
 
 export default connectTo(({ snapshot, timeConfig }) => {
   const snapshotId = snapshot.get('id');
@@ -73,7 +73,7 @@ export default connectTo(({ snapshot, timeConfig }) => {
               t('in-forge:plugins.labelRequests.4xx'),
               t('in-forge:plugins.labelRequests.5xx')
             ],
-            colors: theme.lib.colors.chart.fiveColorPalette,
+            colors: chartColors.fiveColorPalette,
             type: 'stackedBar',
             aggregation: 'sum',
             formatter: number.compact

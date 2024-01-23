@@ -84,7 +84,7 @@
     "platform_permissions": "Access {{quantityOfAreas}}",
     "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
-    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Synthetic Monitoring, Platforms & Infrastructure",
     "permissions": "Permissions",
     "additionalPermissions": "Additional permissions",
     "permissions_DASHBOARD": "Custom dashboard permissions",
@@ -411,7 +411,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "Permits access to {{label}} monitoring functionality.",
     "failedToSaveGroup": "Failed to save group: {{err}}",
     "limitedAccess": "Limited Access",
-    "filterInvites": "Filter invites",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Are you sure you want to revoke the invitation to join the <strong>{{tenant}}</strong> tenant for <strong>{{email}}</strong>?",
     "inviteUser": "Invite user",
     "sendInvitation": "Send invitation",
@@ -421,7 +420,7 @@
     "pleaseInviteAtLeastOneUser": "Please invite at least one user.",
     "thisUserAlreadyExists": "This user already exists and can be found in the list of users",
     "thisInviteAlreadyExists": "This invite already exists and can be found in the list of pending invitations",
-    "emailFormatNotValid":"The format of the email field is not valid",
+    "emailFormatNotValid": "The format of the email field is not valid",
     "someEmailsHaveFailedToSend": "Some emails have failed to send",
     "inviteUserToTenant": "Invite user to {{tenant}}",
     "anotherUser": "Another user",
@@ -1151,7 +1150,10 @@
     "salesforceUrl": "Salesforce Organization URL",
     "alertChannelDocumentationMessage": "For more details on setting up this alert channel, <documentationLink>check out our documentation</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Ensure that the user access to Instana is disabled in your identity provider.",
-    "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP)."
+    "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP).",
+    "revokeInvitationForUserWithEmail": "Revoke the invitation to join the {{tenant}} tenant for {{email}}",
+    "invitationValidUntil": "Invitation valid until",
+    "invitedBy": "Invited by"
   },
   "languageSelection": {
     "language": "Language",

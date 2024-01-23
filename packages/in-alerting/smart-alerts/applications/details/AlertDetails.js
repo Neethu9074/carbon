@@ -82,6 +82,10 @@ function GlobalAlertDetails(props) {
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
       getAllowedPlaceholders={evaluationType => placeholdersByEvaluationType[evaluationType]}
+      canConfigureGlobalAlertConfigs={
+        role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs
+      }
+      canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts}
       isGlobalSmartAlert
     />
   );
@@ -137,6 +141,10 @@ function IndividualAlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
+      canConfigureGlobalAlertConfigs={
+        role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs
+      }
+      canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts}
     />
   );
 }

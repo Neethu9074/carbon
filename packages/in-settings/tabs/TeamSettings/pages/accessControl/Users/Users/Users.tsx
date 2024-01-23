@@ -26,6 +26,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
 import Gravatar from 'in-components/Gravatar/Gravatar';
 import { emptyObject } from 'in-services/fixedObjects';
+import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 export interface ConfigProps {
@@ -77,6 +78,7 @@ export default function Users() {
         searchAttributes={['fullName', 'email']}
         searchPlaceholder={t('in-settings:components.search')}
         customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
+        onRowClick={noop}
       />
     </>
   );

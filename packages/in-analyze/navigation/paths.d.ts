@@ -27,6 +27,8 @@ interface MetricField {
   type: 'metric';
 }
 
+export function isAnalyzeView(...paths: string[]): boolean;
+
 export function tagFilterForBoundaryScope(boundaryScope: BoundaryScope, applicationName: string): TagFilter;
 
 export function createMetricField(metric: string, aggregation: AggregationType): MetricField;

@@ -9,7 +9,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import theme from 'in-themes';
+import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -91,7 +91,7 @@ function getRowDetails(row) {
         metrics: ['storage.' + row.key + '_success', 'storage.' + row.key + '_fail'],
         labels: [t('in-forge:plugins.etcd.dashboard.success'), t('in-forge:plugins.etcd.dashboard.fail')],
         type: 'stackedBar',
-        colors: [theme.lib.carbonAlert.green50, theme.lib.carbonAlert.red60],
+        colors: [carbonAlert.green50, carbonAlert.red60],
         aggregation: 'sum'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -6,9 +6,10 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export default function Info({ snapshot }) {
+export default function Info({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
 
   return (
@@ -32,6 +33,9 @@ export default function Info({ snapshot }) {
         </DescriptionItem>
         <DescriptionItem title={t('in-forge:plugins.azureStorage.infoAccessTier')}>
           {data.get('accessTier')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureStorage.infoBlobCapabilities')}>
+          {data.get('blobCapabilities')}
         </DescriptionItem>
       </DescriptionList>
     </div>

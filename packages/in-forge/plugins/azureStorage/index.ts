@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error Module needs to be translated to TS
+import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from 'in-forge/plugins/azureStorage/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/azureStorage/kpiDefinitions';
-import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 

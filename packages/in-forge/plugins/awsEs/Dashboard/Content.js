@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import {
   percentagePlainZeroDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces,
@@ -19,7 +21,6 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
@@ -57,7 +58,11 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               ],
               type: 'stackedArea',
               formatter: number.compact,
-              colors: [theme.lib.colors.green800, theme.lib.colors.yellow800, theme.lib.colors.red800]
+              colors: [
+                themes.default.ids.color.option.green['500'],
+                themes.default.ids.color.option.yellow['500'],
+                themes.default.ids.color.option.red['500']
+              ]
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -179,10 +184,10 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               type: 'line',
               formatter: number.compact,
               colors: [
-                theme.lib.colors.green800,
-                theme.lib.colors.yellow800,
-                theme.lib.colors.blue800,
-                theme.lib.colors.red800
+                themes.default.ids.color.option.green['500'],
+                themes.default.ids.color.option.yellow['500'],
+                themes.default.ids.color.option.blue['500'],
+                themes.default.ids.color.option.red['500']
               ]
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -198,7 +203,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               labels: [t('in-forge:plugins.awsEs.labelReadLatency'), t('in-forge:plugins.awsEs.labelWriteLatency')],
               type: 'line',
               formatter: seconds.fixedCompact,
-              colors: [theme.lib.colors.green800, theme.lib.colors.red800]
+              colors: [themes.default.ids.color.option.green['500'], themes.default.ids.color.option.red['500']]
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -218,7 +223,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               ],
               type: 'line',
               formatter: bytesPerSecondZeroDecimalPlaces,
-              colors: [theme.lib.colors.green800, theme.lib.colors.red800]
+              colors: [themes.default.ids.color.option.green['500'], themes.default.ids.color.option.red['500']]
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
@@ -233,7 +238,7 @@ export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
               labels: [t('in-forge:plugins.awsEs.labelReadIops'), t('in-forge:plugins.awsEs.labelWriteIops')],
               type: 'line',
               formatter: number.perSecond.detailed,
-              colors: [theme.lib.colors.green800, theme.lib.colors.red800]
+              colors: [themes.default.ids.color.option.green['500'], themes.default.ids.color.option.red['500']]
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />

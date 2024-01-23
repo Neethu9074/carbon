@@ -15,6 +15,7 @@ import { t } from 'in-i18n';
 interface Props {
   entity: LabeledEntity;
   entityType: SloEntityType;
+  service?: LabeledEntity;
 }
 
 type EntityDisplayData = {
@@ -22,15 +23,23 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({ entity, entityType }: Props) {
+export default function SloEntityInfo({ entity, entityType, service }: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType);
+  const showServiceInfo = entityType === 'application' && service?.label;
 
   return (
-    <Stack direction="horizontal" align="center" gap="xxsmall">
-      <Tooltip content={toolTipText}>
-        <SvgIcon type={iconType} aria-label={toolTipText} />
-      </Tooltip>
-      <Typography variant="body-regular">{entity.label}</Typography>
+    <Stack direction="horizontal" align="center">
+      <Stack direction="horizontal" align="center" gap="xxsmall">
+        <Tooltip content={toolTipText}>
+          <SvgIcon type={iconType} aria-label={toolTipText} />
+        </Tooltip>
+        <Typography variant="body-regular">{entity.label}</Typography>
+      </Stack>
+      {showServiceInfo && (
+        <Typography variant="body-small">
+          {t('in-service-levels:sloList.components.sloEntityInfo.service', { label: service.label })}
+        </Typography>
+      )}
     </Stack>
   );
 }

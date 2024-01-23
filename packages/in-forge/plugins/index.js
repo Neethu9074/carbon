@@ -249,6 +249,7 @@ import './ibmMqTopic';
 import './prometheus';
 import './abapSystem';
 import './remoteHost';
+import './azureBlob';
 import './aerospike';
 import './awsLambda';
 import './memcached';

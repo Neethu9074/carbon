@@ -39,7 +39,7 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
-  const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
+  const handlers = role?.canConfigureMobileAppSmartAlerts ?? role?.canConfigureCustomAlerts ? actionHandlers : {};
   const location = useLocation();
   return (
     <>

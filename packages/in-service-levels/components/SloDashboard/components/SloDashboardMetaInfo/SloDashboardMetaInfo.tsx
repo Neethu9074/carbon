@@ -13,17 +13,22 @@ import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEn
 import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
 import { LabeledEntity } from 'in-service-levels/types';
 
+import locals from './SloDashboardMetaInfo.mless';
+
 interface SloDashboardMetaInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;
   entity?: LabeledEntity;
+  service?: LabeledEntity;
 }
 
-export default function SloDashboardMetaInfo({ configuration, entity }: SloDashboardMetaInfoProps) {
+export default function SloDashboardMetaInfo({ configuration, entity, service }: SloDashboardMetaInfoProps) {
   const { tags, entity: sloEntity } = configuration;
   return (
-    <Stack direction="horizontal" align="center" distribution="start" wrap>
-      {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} />}
-      <SloTagList tags={tags} />
-    </Stack>
+    <div className={locals.metaInfo}>
+      <Stack direction="horizontal" align="center" distribution="start">
+        {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} service={service} />}
+        <SloTagList tags={tags} />
+      </Stack>
+    </div>
   );
 }

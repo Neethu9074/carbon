@@ -5,11 +5,15 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error Module needs to be translated to TS
+import { getSnapshots } from 'in-stores/snapshot';
 import getQueuesForStorage from 'in-forge/plugins/azureStorage/subscriptions/getQueuesForStorage';
+// @ts-expect-error Module needs to be translated to TS
+import connectTo from 'in-hoc/connectTo';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getSnapshots } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -17,7 +21,7 @@ const cols = [
     title: t('in-forge:plugins.azureStorage.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: any) {
         return row.key;
       }
     }
@@ -26,7 +30,7 @@ const cols = [
     title: t('in-forge:plugins.azureStorage.dashboard.type'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: any) {
         return row.snapshot.getIn(['data', 'type']);
       }
     }
@@ -35,20 +39,27 @@ const cols = [
     title: t('in-forge:plugins.azureStorage.dashboard.location'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: any) {
         return row.snapshot.getIn(['data', 'location']);
       }
     }
   }
 ];
 
+interface QueueInformationProps {
+  snapshot: any;
+  location: any;
+  queues: any[];
+  timeConfig: TimeConfig;
+}
+
 export default connectTo(
-  props => ({
+  (props: QueueInformationProps) => ({
     queues: timeConfig$
       .flatMap(timeConfig => getQueuesForStorage({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
-  function QueuesTable({ queues, timeConfig }) {
+  function QueuesTable({ queues, timeConfig }: QueueInformationProps) {
     if (queues == null || queues.length === 0) {
       return null;
     }

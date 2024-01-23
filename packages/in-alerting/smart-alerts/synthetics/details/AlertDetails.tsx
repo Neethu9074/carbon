@@ -36,6 +36,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import { Location } from 'in-stores/navigation/types';
+import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 const endpointConfig: { asObservable: true } = { asObservable: true };
@@ -83,6 +84,9 @@ export default function AlertDetails(props: AlertDetailsProps) {
       )}
       getAllowedPlaceholders={() => allowedPlaceholders}
       isGlobalSmartAlert
+      canConfigureGlobalAlertConfigs={
+        role?.canConfigureGlobalSyntheticSmartAlerts ?? role?.canConfigureGlobalAlertConfigs
+      }
     />
   );
 }

@@ -28,6 +28,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
 import { MobileAppAlertConfigWithMetadata, Nullish, VersionedConfig } from 'in-types';
+import { role } from 'in-stores/user';
 
 export interface AlertDetailsProps {
   mobileAppId: string;
@@ -56,6 +57,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       showActionButton
+      canConfigureIndividualAlertConfigs={role?.canConfigureMobileAppSmartAlerts ?? role?.canConfigureCustomAlerts}
     />
   );
 }

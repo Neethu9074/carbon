@@ -26,6 +26,7 @@ export interface SaveButtonProps {
   kind?: keyof typeof ButtonKinds;
   onClick?: (e: MouseEvent) => void;
   type?: keyof typeof ButtonTypes;
+  autoFocus?: boolean;
 }
 
 export default function SaveButton({
@@ -39,6 +40,7 @@ export default function SaveButton({
   icon,
   type = 'submit',
   onClick,
+  autoFocus,
   disabled
 }: SaveButtonProps) {
   return (
@@ -51,6 +53,8 @@ export default function SaveButton({
       icon={isSaving ? 'lib_actions_loading' : icon}
       iconSpinning={isSaving}
       className={className}
+      // @ts-expect-error: Property 'autoFocus' does not exist on type 'IntrinsicAttributes & PropsType & RefAttributes<any>'
+      autoFocus={autoFocus}
     >
       {children}
     </Button>

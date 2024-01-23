@@ -76,7 +76,8 @@ export default function ApplicationDashboard({ location }) {
       ? getApplicationConfigScopeRoleId(appId)
           .map(result => result?.data?.toString())
           .map(data => data === ScopeRoles.Owner || data === ScopeRoles.Contributor)
-      : false, [appId]
+      : false,
+    [appId]
   );
 
   const props = {
@@ -151,7 +152,9 @@ function renderButtonLine(props) {
     />
   );
 
-  const allowActionButtons = isGlobalAlertConfig ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts;
+  const allowActionButtons = isGlobalAlertConfig
+    ? role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs
+    : role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts;
 
   const showAlertButton = allowActionButtons && !location.pathname.includes('/application/configuration');
 

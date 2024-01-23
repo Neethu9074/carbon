@@ -3,26 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ComponentType, ReactNode } from 'react';
 
 import { HorizontalIndicator } from '@instana/components';
+import { Result } from '@instana/types';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { getModifiedUrlStream } from 'in-stores/navigation';
-
-import locals from './Header.mless';
 import { Tab, TabHeaderProps } from 'in-components/LocationAwareTabView/types';
-import { Result } from '@instana/types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { Location } from 'in-stores/navigation/types';
 import { Nullish } from 'in-types';
+
+import locals from './Header.mless';
 
 interface HeaderProps<TabData, TabProps extends {}> {
   tabs: Tab<TabData, TabProps>[];
   result: Result<TabData> | Nullish;
   props: TabProps | undefined;
-  HeaderComponent: React.ComponentType<TabProps & { result: Result<TabData> | Nullish }>;
+  HeaderComponent: ComponentType<TabProps & { result: Result<TabData> | Nullish }>;
   location: Location;
+  /**
+   * This prop can be used to render additional elements below the header.
+   * Even if this can take any component, it is recommended to wrap your custom elements
+   * with the AdditionalDashboardHeader component first.
+   */
+  additionalHeader?: ReactNode;
   tabChangeTracker?: (props: { tab: string }) => void;
 }
 
@@ -32,6 +38,7 @@ export default function Header<TabData, TabProps extends {} = {}>({
   HeaderComponent,
   location,
   props,
+  additionalHeader,
   tabChangeTracker
 }: HeaderProps<TabData, TabProps>) {
   return (
@@ -54,6 +61,7 @@ export default function Header<TabData, TabProps extends {} = {}>({
           </SecondLevelNavigation>
         )}
       </DashboardHeaderModule>
+      {additionalHeader}
       <DashboardHeaderModule className={locals.loadingModule} withTopBorder={false} theme={themes.light}>
         {result && <HorizontalIndicator className={locals.loadingIndicator} progress={result.progress} />}
       </DashboardHeaderModule>
@@ -66,6 +74,7 @@ interface TapComponentProps<TabData, TabProps extends {}> extends TabHeaderProps
 }
 
 function TabComponent<TabData, TabProps extends {}>(props: TapComponentProps<TabData, TabProps>) {
+  const { createHrefToPath } = useNavigation();
   const { tab, result, location, tabChangeTracker } = props;
   if (tab.isVisible && !tab.isVisible(result)) {
     return null;
@@ -82,13 +91,7 @@ function TabComponent<TabData, TabProps extends {}>(props: TapComponentProps<Tab
       postIcon={tab.postIcon}
       isActive={isActive}
       isDisabled={isDisabled}
-      href$={
-        !isDisabled
-          ? getModifiedUrlStream(params => {
-              params.pathname = tab.path;
-            })
-          : undefined
-      }
+      href={!isDisabled ? createHrefToPath(tab.path) : undefined}
       onClick={() => {
         if (tabChangeTracker) {
           tabChangeTracker({
