@@ -4784,7 +4784,7 @@
       }
     },
     "azureServiceBusQueues" : {
-      "infoAzureServiceBusQueue": "Azure ServiceBus Queue",
+      "infoAzureServiceBusQueue": "Azure Service Bus Queue",
       "status": "Status",
       "maxSize": "Max Size",
       "size": "Size",
