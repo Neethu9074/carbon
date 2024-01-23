@@ -10,8 +10,8 @@ import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, bytes } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function AzureServiceBusTopicDashboard({
