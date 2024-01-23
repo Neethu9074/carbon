@@ -6543,7 +6543,8 @@
       "owner": "Owner",
       "tbspace": "Table Space",
       "type": "Type",
-      "tbspState": "Table Space State"
+      "tbspState": "Table Space State",
+      "uowExecutors": "Connections in Execution"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
