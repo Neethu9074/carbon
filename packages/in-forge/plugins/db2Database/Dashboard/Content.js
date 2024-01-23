@@ -90,10 +90,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: ['databases.connectionsCount', 'databases.uowExecutors'],
-            labels: [
-              t('in-forge:plugins.db2Database.dashboard.count'),
-              t('in-forge:plugins.db2Database.dashboard.uowExecutors')
-            ],
+            labels: [t('in-forge:plugins.db2Database.dashboard.count'), t('in-forge:plugins.db2Database.uowExecutors')],
             formatter: number.compact,
             type: 'line'
           }}

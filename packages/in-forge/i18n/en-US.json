@@ -6316,8 +6316,7 @@
         "vmonlockStats": "Lock Statistics",
         "databaseVmondeltaStats": "Transaction Performance (Incremental Value)",
         "standbyId": "Standby ID",
-        "backupDetails": "Recent Backup Details",
-        "uowExecutors": "Connections in Execution"
+        "backupDetails": "Recent Backup Details"
       },
       "db2": "DB2",
       "processId": "Process ID",
