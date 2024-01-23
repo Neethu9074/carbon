@@ -5,7 +5,6 @@
 
 import { themes } from '@instana/design-tokens';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
-import oldTheme from 'in-themes';
 
 const axisFont = `10px ${themes.default.ids.font.family.option['sans-serif']}`;
 
@@ -54,7 +53,7 @@ export default function render(
     }
 
     if (isSelected) {
-      ctx.fillStyle = oldTheme.lib.colors.blue800;
+      ctx.fillStyle = themes.default.ids.color.option.blue['500'];
       ctx.fillRect(s_x, y - 1, s_width + 1, 1);
       ctx.fillRect(s_x, y - 1, 1, height);
       ctx.fillRect(s_x - 1 + s_width, y - 1, 1, height);
@@ -75,7 +74,7 @@ export default function render(
     const width = Math.max(0, s_width - 1);
     const selfTimeWidth = valueSelfTimeRatio * width;
     const valueWidth = width - selfTimeWidth;
-    ctx.fillStyle = oldTheme.lib.colors.N400;
+    ctx.fillStyle = themes.default.ids.color.option.neutral['400'];
     ctx.fillRect(s_x, y, valueWidth, height - 1);
     ctx.fillStyle = node.color;
     ctx.fillRect(s_x + valueWidth, y, selfTimeWidth, height - 1);
@@ -83,7 +82,7 @@ export default function render(
 
   function drawText({ name: textToRender, s_x, y, s_width }) {
     ctx.font = axisFont;
-    ctx.fillStyle = oldTheme.lib.colors.N900Primary;
+    ctx.fillStyle = themes.default.ids.color.option.neutral['500'];
 
     let text = '';
     let textWidth = 0;
