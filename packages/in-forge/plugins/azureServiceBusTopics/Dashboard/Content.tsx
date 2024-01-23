@@ -30,13 +30,6 @@ export default function AzureServiceBusTopicDashboard({
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            metrics: ['messages'],
-            labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')],
-            type: 'line',
-            min: 0
-          }}
-          y2={{
             formatter: bytes.detailed,
             metrics: ['size'],
             labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelDimensionSize')],
@@ -53,6 +46,13 @@ export default function AzureServiceBusTopicDashboard({
             formatter: number.compact,
             metrics: ['activeMessages'],
             labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelActiveMessages')],
+            type: 'line',
+            min: 0
+          }}
+          y2={{
+            formatter: number.compact,
+            metrics: ['messages'],
+            labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelTotalMessages')],
             type: 'line',
             min: 0
           }}
