@@ -4844,8 +4844,7 @@
         "labelAbandonMessage": "Abandoned Message",
         "titleStatus": "Status",
         "titleMaxSize": "Max Size",
-        "labelSize": "Size",
-        "titleMessageAndSize": "Message And Size"
+        "labelSize": "Size"
       }
     },
     "azureMySql": {

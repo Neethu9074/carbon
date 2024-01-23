@@ -25,7 +25,7 @@ export default function AzureServiceBusTopicDashboard({
 
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.azureServiceBus.dashboard.titleMessageAndSize')}>
+      <DashboardSection title={t('in-forge:plugins.azureServiceBus.dashboard.labelSize')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -38,7 +38,7 @@ export default function AzureServiceBusTopicDashboard({
           }}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.azureServiceBus.dashboard.labelActiveMessages')}>
+      <DashboardSection title={t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
