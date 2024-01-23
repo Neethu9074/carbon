@@ -6,15 +6,16 @@
 
 import { themes } from '@instana/design-tokens';
 
+import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 export const maxInitialLogLines = 200;
 export const customChartHeight = 215;
 export const maxRetrievalSize = 200;
 export const logLevelColors: Record<string, string> = {
-  error: themes.default.ids.color.option.red['500'],
-  warn: themes.default.ids.color.option.yellow['500'],
-  info: themes.default.ids.color.option.blue['400'],
+  error: carbonAlert.red60,
+  warn: carbonAlert.yellow30,
+  info: carbonAlert.blue70,
   debug: themes.default.ids.color.option.black,
   trace: themes.default.ids.color.option.black
 };

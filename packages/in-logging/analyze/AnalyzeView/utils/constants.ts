@@ -4,10 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { themes } from '@instana/design-tokens';
-
 import { facetedSearchItems } from 'in-logging/analyze/AnalyzeView/utils/facetedSearchItems';
 import { defaultChartedMetrics } from 'in-logging/analyze/AnalyzeView/utils/index';
+import { carbonAlert } from 'in-themes/chartColors';
 
 export const dataSourceConfigurations = {
   logs: {
@@ -25,7 +24,7 @@ export const dataSourceConfigurations = {
   }
 } as never;
 export const logPillColorMap = new Map<string, string>([
-  ['error', themes.default.ids.color.option.red['500']],
-  ['warn', themes.default.ids.color.option.yellow['500']],
-  ['info', themes.default.ids.color.option.blue['400']]
+  ['error', carbonAlert.red60],
+  ['warn', carbonAlert.yellow30],
+  ['info', carbonAlert.blue70]
 ]);

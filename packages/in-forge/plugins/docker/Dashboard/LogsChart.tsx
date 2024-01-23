@@ -9,7 +9,7 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ContextMenuButton } from 'in-components/Chart/types';
-import { carbonAlert } from 'in-themes/chartColors';
+import { outlineForColor, carbonAlert } from 'in-themes/chartColors';
 import { TagFilterExpression } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -41,6 +41,7 @@ export default function LogsChart(props: LogsChartProps) {
       config={{
         additionalContextMenuButtons,
         y1: {
+          outlineForColor,
           metrics: [
             getMetricConfig({
               tagFilterExpression,
