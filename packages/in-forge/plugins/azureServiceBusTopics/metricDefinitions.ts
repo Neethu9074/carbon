@@ -12,19 +12,13 @@ export default [
     metrics: ['size'],
     labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelSize')],
     min: 0,
-    category: [t('in-forge:plugins.azureServiceBus.dashboard.labelSize')],
+    category: [t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')],
     formatter: bytes.detailed
   },
   {
-    metrics: ['messages'],
-    labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')],
-    min: 0,
-    category: [t('in-forge:plugins.azureServiceBus.dashboard.labelCount')],
-    formatter: number
-  },
-  {
-    metrics: ['deadletteredMessages', 'scheduledMessages', 'completeMessage', 'abandonMessage'],
+    metrics: ['messages', 'deadletteredMessages', 'scheduledMessages', 'completeMessage', 'abandonMessage'],
     labels: [
+      t('in-forge:plugins.azureServiceBus.dashboard.labelMessages'),
       t('in-forge:plugins.azureServiceBus.dashboard.labelDeadletteredMessages'),
       t('in-forge:plugins.azureServiceBus.dashboard.labelScheduledMessages'),
       t('in-forge:plugins.azureServiceBus.dashboard.labelCompleteMessage'),
@@ -32,6 +26,6 @@ export default [
     ],
     min: 0,
     category: [t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')],
-    formatter: number
+    formatter: number.compact
   }
 ];

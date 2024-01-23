@@ -4844,7 +4844,6 @@
         "titleStatus": "Status",
         "titleMaxSize": "Max Size",
         "labelSize": "Size",
-        "labelCount": "Count",
         "titleMessageAndSize": "Message And Size"
       }
     },
