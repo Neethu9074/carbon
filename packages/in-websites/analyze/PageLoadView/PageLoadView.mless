@@ -17,8 +17,17 @@
 
   .analyticsLink {
     color: var(--ids-color-option-neutral-600);
+    font-size: 1.375rem;
 
-    &:hover {
+    &:hover,
+    &:visited:hover,
+    &:active,
+    &:active:visited,
+    &:focus {
+      color: var(--ids-color-option-neutral-600) !important ;
+      outline: none;
+    }
+    &:visited {
       color: var(--ids-color-option-neutral-600);
       text-decoration: none;
     }

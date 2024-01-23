@@ -9,7 +9,7 @@ import { get } from 'lodash';
 import { Button, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   LARGE_TRACE_THRESHOLD,
