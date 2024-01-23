@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -34,7 +36,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function NodeDashboard({ location }) {
@@ -142,12 +143,11 @@ function renderButtonLineSecondary({ nodeId, timeConfig }) {
 }
 
 function RenderMetaInformation({ result }) {
-  const theme = useTheme();
   const version = get(result, ['data', 'version']);
 
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
+      {version && <BadgeList type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />}
       <TypesBadgeList type={t('in-kubernetes:dashboards.k8SNode')} />
       <KubernetesIndicator result={result} />
     </>
