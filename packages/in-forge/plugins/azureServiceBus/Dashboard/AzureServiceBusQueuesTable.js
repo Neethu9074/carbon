@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2024
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -14,7 +15,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.name'),
+    title: t('in-forge:plugins.azureServiceBusQueues.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.size'),
+    title: t('in-forge:plugins.azureServiceBusQueues.size'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.maxSize'),
+    title: t('in-forge:plugins.azureServiceBusQueues.maxSize'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.messages'),
+    title: t('in-forge:plugins.azureServiceBusQueues.messages'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.activeMessages'),
+    title: t('in-forge:plugins.azureServiceBusQueues.activeMessages'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.deadletteredMessages'),
+    title: t('in-forge:plugins.azureServiceBusQueues.deadletteredMessages'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -68,7 +69,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.status'),
+    title: t('in-forge:plugins.azureServiceBusQueues.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {

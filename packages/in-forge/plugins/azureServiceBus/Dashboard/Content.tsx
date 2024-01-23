@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -40,7 +40,7 @@ export default function AzureServiceBusDashboard({
             snapshotId={snapshotId}
             metric="activeConnections"
             formatter={number.compact}
-            tooltipFormatter={number.detailed}
+            tooltipFormatter={number.compact}
           />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.azureServiceBus.kpi.labelServerErrors')}>
@@ -48,14 +48,14 @@ export default function AzureServiceBusDashboard({
             snapshotId={snapshotId}
             metric="serverErrors"
             formatter={number.compact}
-            tooltipFormatter={number.detailed}
+            tooltipFormatter={number.compact}
           />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.azureServiceBus.kpi.labelServerSendLatency')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="serverSendLatency"
-            formatter={millis.compact}
+            formatter={millis.detailed}
             tooltipFormatter={millis.detailed}
           />
         </KpiKeyValue>

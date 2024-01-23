@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2024
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,8 +10,8 @@ import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { bytes, number } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function AzureServiceBusQueueDashboard({
@@ -35,7 +36,7 @@ export default function AzureServiceBusQueueDashboard({
             min: 0
           }}
           y2={{
-            formatter: number.compact,
+            formatter: bytes.detailed,
             metrics: ['size'],
             labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelDimensionSize')],
             type: 'line',

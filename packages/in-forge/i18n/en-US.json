@@ -4786,8 +4786,8 @@
     "azureServiceBusQueues" : {
       "infoAzureServiceBusQueue": "Azure ServiceBus Queue",
       "status": "Status",
-      "maxSize": "Max Size (MegaBytes)",
-      "size": "Size (Bytes)",
+      "maxSize": "Max Size",
+      "size": "Size",
       "activeMessages": "Active Messages",
       "deadletteredMessages": "Dead Lettered Messages",
       "queuesWithCount": "Queues ({{len}})",
@@ -4796,8 +4796,8 @@
     "azureServiceBusTopics" : {
       "infoAzureServiceBusTopic": "Azure ServiceBus Topic",
       "status": "Status",
-      "maxSize": "Max Size (MegaBytes)",
-      "size": "Size (Bytes)",
+      "maxSize": "Max Size",
+      "size": "Size",
       "messages": "Messages",
       "activeMessages": "Active Messages",
       "deadletteredMessages": "Dead Lettered Messages",
@@ -4842,7 +4842,7 @@
         "labelCompleteMessage": "Completed Message",
         "labelAbandonMessage": "Abandoned Message",
         "titleStatus": "Status",
-        "titleMaxSize": "Max Size (MegaBytes)",
+        "titleMaxSize": "Max Size",
         "labelSize": "Size",
         "labelCount": "Count",
         "titleMessageAndSize": "Message And Size"

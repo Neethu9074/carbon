@@ -4,28 +4,28 @@
  * Copyright IBM Corp. 2024
  */
 
-import { number, meanLatency } from 'in-services/formatters/number';
+import { number, millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['ServerSendLatency'],
+    metrics: ['serverSendLatency'],
     labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelServerSendLatency')],
-    formatter: meanLatency.detailed,
+    formatter: millis.detailed,
     min: 0
   },
   {
     metrics: [
-      'SuccessfulRequests',
-      'ServerErrors',
-      'ThrottledRequests',
-      'IncomingRequests',
-      'IncomingMessages',
-      'OutgoingMessages',
-      'ActiveConnections',
-      'ConnectionsOpened',
-      'ConnectionsClosed',
-      'DeadletteredMessages'
+      'successfulRequests',
+      'serverErrors',
+      'throttledRequests',
+      'incomingRequests',
+      'incomingMessages',
+      'outgoingMessages',
+      'activeConnections',
+      'connectionsOpened',
+      'connectionsClosed',
+      'deadletteredMessages'
     ],
     labels: [
       t('in-forge:plugins.azureServiceBus.dashboard.labelSuccessfulRequests'),
