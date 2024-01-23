@@ -154,7 +154,8 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
     .map(mapToSiderbarTagListObject);
 
   const stackTraceTagValue = tags.find((tag: LogTag) => tag.name === SPAN_STACK_TRACE)?.value;
-  const stackTrace = stackTraceTagValue && parseStackTrace(stackTraceTagValue as string);
+  const stackTrace =
+    stackTraceTagValue && typeof stackTraceTagValue === 'string' ? parseStackTrace(stackTraceTagValue) : undefined;
 
   // translate tag param key to not leak the technical rake
   const parameterTags = tags.filter(isParameterTag).map(mapToSiderbarTagListObject);
@@ -175,7 +176,7 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
         </ExpandableGroup>
       )}
 
-      {!!stackTrace && stackTrace.length > 0 && (
+      {stackTrace && stackTrace.length > 0 && (
         <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />
       )}
       <AnalyzeLogsButton log={loggingLog} />
