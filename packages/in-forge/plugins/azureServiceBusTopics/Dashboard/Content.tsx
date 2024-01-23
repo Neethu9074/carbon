@@ -37,7 +37,7 @@ export default function AzureServiceBusTopicDashboard({
             min: 0
           }}
           y2={{
-            formatter: number.compact,
+            formatter: bytes.detailed,
             metrics: ['size'],
             labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelDimensionSize')],
             type: 'line',
