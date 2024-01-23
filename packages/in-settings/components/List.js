@@ -120,7 +120,9 @@ function InnerList({
   initialOrderBy,
   initalOrderDir,
   initialPageNumber,
-  customDialogMessage
+  customDialogMessage,
+  customDialogConfirmLabel,
+  customDeleteTooltipMessage
 }) {
   const [orderByState, setOrderBy] = useState(initialOrderBy ?? 'name');
   const [orderDirectionState, setOrderDirection] = useState(initalOrderDir ?? 'ASC');
@@ -207,7 +209,9 @@ function InnerList({
           perCellLoadingIndicator,
           getEntityName,
           setErrorMessage,
-          customDialogMessage
+          customDialogMessage,
+          customDialogConfirmLabel,
+          customDeleteTooltipMessage
         })}
         leftHeader={leftHeader}
         orderBy={orderByState}
@@ -365,7 +369,9 @@ function addTableActions({
   perCellLoadingIndicator,
   getEntityName,
   setErrorMessage,
-  customDialogMessage
+  customDialogMessage,
+  customDialogConfirmLabel,
+  customDeleteTooltipMessage
 }) {
   let allColumns = columnDefinitions;
   if (tableActions.toggleEnabled) {
@@ -384,7 +390,9 @@ function addTableActions({
       perCellLoadingIndicator,
       getEntityName,
       setErrorMessage,
-      customDialogMessage
+      customDialogMessage,
+      customDialogConfirmLabel,
+      customDeleteTooltipMessage
     );
   }
   if (tableActions.deselect) {
@@ -453,7 +461,9 @@ function addDeleteAction(
   perCellLoadingIndicator,
   getEntityName,
   setErrorMessage,
-  customDialogMessage
+  customDialogMessage,
+  customDialogConfirmLabel,
+  customDeleteTooltipMessage
 ) {
   return columns.concat({
     id: 'deleteAction',
@@ -469,9 +479,13 @@ function addDeleteAction(
         (actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity)) ||
         actionDefinition.disabled?.(entity);
 
+      const tooltipContent = customDeleteTooltipMessage
+        ? customDeleteTooltipMessage(entity)
+        : t('in-settings:components.deleteEntity', { entity: getEntityName(entity) });
+
       return (
         <div className={locals.deleteWrapper}>
-          <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })} delay={500}>
+          <Tooltip content={tooltipContent} delay={500}>
             <Delete
               {...actionDefinition}
               disabled={disabled}
@@ -480,6 +494,7 @@ function addDeleteAction(
               doDelete={doDelete}
               setErrorMessage={setErrorMessage}
               dialogMessage={customDialogMessage}
+              confirmLabel={customDialogConfirmLabel}
             />
           </Tooltip>
         </div>
@@ -752,7 +767,9 @@ List.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   initialPageNumber: PropTypes.number,
   searchWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  customDialogMessage: PropTypes.func
+  customDialogMessage: PropTypes.func,
+  customDialogConfirmLabel: PropTypes.string,
+  customDeleteTooltipMessage: PropTypes.func
 };
 
 export function reload() {

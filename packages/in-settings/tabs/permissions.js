@@ -20,7 +20,7 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureUsers ||
     role.canConfigureTeams ||
     role.canConfigureApiTokens ||
-    role.canConfigureCustomAlerts ||
+    (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) ||
     role.canConfigureIntegrations ||
     role.canViewAuditLog ||
     role.canConfigureLogManagement
@@ -37,7 +37,7 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureApiTokens) {
     return teamSettingsAccessControlApiTokens;
   }
-  if (role.canConfigureCustomAlerts) {
+  if (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) {
     return teamSettingsAlertingEvents;
   }
   if (role.canConfigureIntegrations) {

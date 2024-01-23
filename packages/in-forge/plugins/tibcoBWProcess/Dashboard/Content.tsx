@@ -15,7 +15,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
+import { millis, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function TibcoBWAppProcessDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
@@ -50,7 +50,7 @@ export default function TibcoBWAppProcessDashboard({ snapshot, timeConfig }: { s
                       t('in-forge:plugins.tibcoBWProcess.max')
                     ],
             type: 'line',
-            formatter: number.short
+            formatter: millis.fixedCompact
           }}
         />
       </DashboardSection>
@@ -68,7 +68,7 @@ export default function TibcoBWAppProcessDashboard({ snapshot, timeConfig }: { s
                       t('in-forge:plugins.tibcoBWProcess.max')
                     ],
             type: 'line',
-            formatter: number.short
+            formatter: millis.fixedCompact
           }}
         />
       </DashboardSection>

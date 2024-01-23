@@ -284,7 +284,7 @@ function getDetails(row: Row) {
     <Chart
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
-      minRollup={adjustMetricRollup(row.type, row.name, getInfraGranularity(row.timeConfig))}
+      minRollup={adjustMetricRollup(row.type, getInfraGranularity(row.timeConfig))}
       y1={y1}
       y2={y2}
     />
@@ -326,7 +326,7 @@ export function getDefaultRows({
         discrete,
         snapshotId,
         timeConfig,
-        rollup: adjustMetricRollup(metric.type, metric.name, defaultRollup),
+        rollup: adjustMetricRollup(metric.type, defaultRollup),
         setPinnedMetrics,
         pinnedMetrics,
         metrics: []
@@ -372,35 +372,13 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
 /*
  * Adjusts the metric rollup if necessary
  * to enable the retrieval of histogram metrics
- * that are stored only in BeeInstana. Returns
- * undefined if the rollup does not need to
- * be changed.
+ * that are stored only in BeeInstana.
  */
-function adjustMetricRollup(metricType: string, metricName: string, defaultRollup: number): number | undefined {
-  if (beeinstanaHistogramsEnabled && defaultRollup < beeInstanaMinimumRollupMillis) {
-    if (metricType === 'histogram' && nativeBeeInstanaHistogram(metricName)) {
-      return beeInstanaMinimumRollupMillis;
-    }
+function adjustMetricRollup(metricType: string, defaultRollup: number): number | undefined {
+  if (beeinstanaHistogramsEnabled && metricType === 'histogram' && defaultRollup < beeInstanaMinimumRollupMillis) {
+    return beeInstanaMinimumRollupMillis;
   }
   return;
-}
-
-/*
- * Returns true if a histogram metric is stored
- * natively in BeeInstana. Native histograms
- * do not include _bucket, _sum, or _count as
- * part of the metric name.
- */
-function nativeBeeInstanaHistogram(metricName: string): boolean {
-  const nonNativeMetrics = ['_bucket', '_count', '_sum', '_mean', '_gcount', '_gsum'];
-  const metricSplit = metricName.split('{');
-  if (metricSplit.length > 0) {
-    let index = metricSplit[0].lastIndexOf('_');
-    if (index === -1 || !nonNativeMetrics.includes(metricSplit[0].substr(index))) {
-      return true;
-    }
-  }
-  return false;
 }
 
 export const AVAILABLE_SPECS: MetricsSpecs = {

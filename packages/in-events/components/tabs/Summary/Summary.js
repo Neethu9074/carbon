@@ -232,7 +232,7 @@ const EventContent = connectTo(
           role?.canConfigureAutomationPolicies &&
           actionAutomationEnabled &&
           role.canConfigureAutomationActions &&
-          role.canConfigureCustomAlerts &&
+          (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
           isIssue &&
           hasEventSpec && (
             <AssociatedAndRecommendedPolicies
@@ -243,7 +243,7 @@ const EventContent = connectTo(
         {!automationPoliciesEnabled &&
           actionAutomationEnabled &&
           role.canConfigureAutomationActions &&
-          role.canConfigureCustomAlerts &&
+          (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
           isIssue &&
           hasEventSpec && (
             <AssociatedAndRecommendedActions

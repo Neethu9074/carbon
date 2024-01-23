@@ -4,8 +4,8 @@
  */
 
 import { hexToRGBNormalized } from 'in-services/formatters/color';
+import { chartColors } from 'in-themes/chartColors';
 import { Color } from 'in-map/3DLibProvider';
-import theme from 'in-themes';
 
 const colorService = new Color(0, 0, 0);
 
@@ -140,7 +140,7 @@ export function createColorPool(nameOfPool, numColors = 10, colors) {
 export const processesColorPool = createColorPool('processes', 100);
 export const groupsColorPool = createColorPool('groups', 20);
 export const tagsColorPool = createColorPool('tags', 100);
-export const tagsColorsNew = createColorPool('tagsNew', 100, theme.lib.colors.chart.strokeColors100);
+export const tagsColorsNew = createColorPool('tagsNew', 100, chartColors.strokeColors100);
 
 function getMiddle(from, to) {
   const index = Math.floor((from + to) / 2);

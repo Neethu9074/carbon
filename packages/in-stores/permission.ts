@@ -69,9 +69,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_AGENTS: 'CAN_CONFIGURE_AGENTS',
   CAN_CONFIGURE_AGENT_RUN_MODE: 'CAN_CONFIGURE_AGENT_RUN_MODE',
   CAN_CONFIGURE_INTEGRATIONS: 'CAN_CONFIGURE_INTEGRATIONS',
-  CAN_CONFIGURE_CUSTOM_ALERTS: 'CAN_CONFIGURE_CUSTOM_ALERTS',
   CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD: 'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
-  CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS: 'CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS',
   CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
   CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
@@ -102,7 +100,15 @@ export const Capability = Object.freeze({
   CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
   CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS',
   CAN_USE_SYNTHETIC_CREDENTIALS: 'CAN_USE_SYNTHETIC_CREDENTIALS',
-  CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS'
+  CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS',
+  CAN_CONFIGURE_EVENTS_AND_ALERTS: 'CAN_CONFIGURE_EVENTS_AND_ALERTS',
+  CAN_CONFIGURE_MAINTENANCE_WINDOWS: 'CAN_CONFIGURE_MAINTENANCE_WINDOWS',
+  CAN_CONFIGURE_APPLICATION_SMART_ALERTS: 'CAN_CONFIGURE_APPLICATION_SMART_ALERTS',
+  CAN_CONFIGURE_WEBSITE_SMART_ALERTS: 'CAN_CONFIGURE_WEBSITE_SMART_ALERTS',
+  CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS: 'CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS',
+  CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS',
+  CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS',
+  CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -360,13 +366,66 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     category: t('in-stores:permissionCanConfigureIntegrationsCategory'),
     isOwnerPermission: false
   },
-  [Capability.CAN_CONFIGURE_CUSTOM_ALERTS]: {
-    keyForGroupApi: Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
-    keyForApiTokenApi: 'canConfigureCustomAlerts',
-    label: t('in-stores:permissionCanConfigureCustomAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureCustomAlertsDescription'),
-    category: t('in-stores:permissionCanConfigureCustomAlertsCategory'),
+  [Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS,
+    keyForApiTokenApi: 'canConfigureEventsAndAlerts',
+    label: t('in-stores:permissionCanConfigureEventsAndAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureEventsAndAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureEventsAndAlertsCategory'),
     isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS,
+    keyForApiTokenApi: 'canConfigureMaintenanceWindows',
+    label: t('in-stores:permissionCanConfigureMaintenanceWindowsLabel'),
+    description: t('in-stores:permissionCanConfigureMaintenanceWindowsDescription'),
+    category: t('in-stores:permissionCanConfigureMaintenanceWindowsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureApplicationSmartAlerts',
+    label: t('in-stores:permissionCanConfigureApplicationSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureApplicationSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureApplicationSmartAlertsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureWebsiteSmartAlerts',
+    label: t('in-stores:permissionCanConfigureWebsiteSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureWebsiteSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureWebsiteSmartAlertsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureMobileAppSmartAlerts',
+    label: t('in-stores:permissionCanConfigureMobileAppSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureMobileAppSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureMobileAppSmartAlertsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureGlobalApplicationSmartAlerts',
+    label: t('in-stores:permissionCanConfigureGlobalApplicationSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureGlobalApplicationSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureGlobalApplicationSmartAlertsCategory')
+  },
+  [Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureGlobalSyntheticSmartAlerts',
+    label: t('in-stores:permissionCanConfigureGlobalSyntheticSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureGlobalSyntheticSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureGlobalSyntheticSmartAlertsCategory')
+  },
+  [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureGlobalInfraSmartAlerts',
+    label: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsCategory')
   },
   [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
@@ -375,13 +434,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanConfigureGlobalAlertPayloadDescription'),
     category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory'),
     isOwnerPermission: false
-  },
-  [Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS]: {
-    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
-    keyForApiTokenApi: 'canConfigureGlobalAlertConfigs',
-    label: t('in-stores:permissionCanConfigureGlobalAlertConfigsLabel'),
-    description: t('in-stores:permissionCanConfigureGlobalAlertConfigsDescription'),
-    category: t('in-stores:permissionCanConfigureGlobalAlertConfigsCategory')
   },
   /* Custom Dashboards */
   [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS]: {

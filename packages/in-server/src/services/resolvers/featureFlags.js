@@ -301,6 +301,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsActivityDistributionChartsEnabled',
+    instanaCtlKey: 'feature.bizops.activity.distribution.charts.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: true

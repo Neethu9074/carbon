@@ -5,11 +5,12 @@
 
 import React, { Fragment } from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage, number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default {
@@ -252,12 +253,12 @@ export default {
                 t('in-internal:monitoringUnit.units.application.dropTraceThrottler')
               ],
               colors: [
-                theme.lib.colors.success,
-                theme.lib.colors.red800,
-                theme.lib.colors.orange800,
-                theme.lib.colors.yellow800,
-                theme.lib.colors.pink800,
-                theme.lib.colors.purple800
+                themes.default.ids.color.option.green['500'],
+                themes.default.ids.color.option.red['500'],
+                themes.default.ids.color.option.orange['500'],
+                themes.default.ids.color.option.yellow['500'],
+                themes.default.ids.color.option.pink['500'],
+                themes.default.ids.color.option.purple['500']
               ],
               type: 'stackedArea'
             }}
@@ -299,7 +300,7 @@ export default {
                 t('in-internal:monitoringUnit.units.application.acceptorDropSpanMsgsRateLimit'),
                 t('in-internal:monitoringUnit.units.application.serverlessAcceptorDropSpanMsgRateLimit')
               ],
-              colors: [theme.lib.colors.red800, theme.lib.colors.orange800],
+              colors: [themes.default.ids.color.option.red['500'], themes.default.ids.color.option.orange['500']],
               type: 'stackedArea'
             }}
           />

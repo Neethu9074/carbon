@@ -27,6 +27,8 @@ interface GetLinkToExploreProps {
   chartedMetrics?: Array<MetricItem>;
 }
 
+export function isInfraExploreView(): boolean[];
+
 export function useLinkToExplore(): (getLinkToExploreProps: GetLinkToExploreProps) => string;
 
 export const defaultInfraExploreViewParams: GetLinkToExploreProps;

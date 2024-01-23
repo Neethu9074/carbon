@@ -62,7 +62,7 @@ export interface GetEventsViewProps {
   snapshotId?: string;
   eventId?: string;
   eventTypeFilter?: string;
-  timeConfig: TimeConfig;
+  timeConfig?: TimeConfig;
   additionalDFQFilter?: string;
 }
 export function getEventsViewFilteredBy({

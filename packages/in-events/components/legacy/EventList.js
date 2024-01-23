@@ -97,7 +97,7 @@ export default function IncidentEventList({
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        role.canConfigureCustomAlerts &&
+        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -109,7 +109,7 @@ export default function IncidentEventList({
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        role.canConfigureCustomAlerts &&
+        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (

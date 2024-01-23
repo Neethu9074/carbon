@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -12,7 +14,6 @@ import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import { percentage, number, millis } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
-import theme from 'in-themes';
 
 export default connectTo(
   ({ tenant, unit }) => ({
@@ -113,12 +114,12 @@ export default connectTo(
                 t('in-internal:monitoringUnit.unit.appDataStatistic.dropTraceThrottler')
               ],
               colors: [
-                theme.lib.colors.success,
-                theme.lib.colors.red800,
-                theme.lib.colors.orange800,
-                theme.lib.colors.yellow800,
-                theme.lib.colors.pink800,
-                theme.lib.colors.purple800
+                themes.default.ids.color.option.green['500'],
+                themes.default.ids.color.option.red['500'],
+                themes.default.ids.color.option.orange['500'],
+                themes.default.ids.color.option.yellow['500'],
+                themes.default.ids.color.option.pink['500'],
+                themes.default.ids.color.option.purple['500']
               ],
               type: 'stackedArea'
             }}

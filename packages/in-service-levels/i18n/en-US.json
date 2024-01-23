@@ -208,6 +208,7 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
+        "service": "Service: {{label}}",
         "tooltip": {
           "applications": "Application SLO",
           "websites": "Website SLO"
@@ -255,6 +256,11 @@
     "tabs": {
       "summaryLabel": "Summary",
       "configurationLabel": "Configuration"
+    },
+    "timeWindowSelection": {
+      "timeWindow": "Unknown Selection",
+      "timeWindow_SELECTED_TIME": "Selected Time",
+      "timeWindow_SLO_TIME_WINDOW": "SLO Time Window"
     },
     "components": {
       "errorBudgetKpiCard": {
