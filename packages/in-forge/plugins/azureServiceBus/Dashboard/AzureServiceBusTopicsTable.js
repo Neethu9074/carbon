@@ -7,6 +7,7 @@
 import React from 'react';
 
 import getServiceBusTopics from 'in-forge/plugins/azureServiceBus/dimensions/getServiceBusTopics';
+import { number, bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -25,10 +26,17 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.azureServiceBusTopics.size'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.size;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'size';
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
@@ -37,25 +45,39 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.maxSize;
+        return row.maxSize + ' MB';
       }
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusTopics.activeMessages'),
-    type: 'string',
+    title: t('in-forge:plugins.azureServiceBusQueues.activeMessages'),
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.activeMessages;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'activeMessages';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
   {
     title: t('in-forge:plugins.azureServiceBusTopics.deadletteredMessages'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.deadLetteredMessages;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'deadletteredMessages';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
@@ -88,11 +110,7 @@ export default connectTo(
         key: topic.get('id'),
         topicName: topic.getIn(['data', 'name']),
         maxSize: topic.getIn(['data', 'maxSizeInMegabytes']),
-        size: topic.getIn(['data', 'sizeInBytes']),
         status: topic.getIn(['data', 'status']),
-        activeMessages: topic.getIn(['data', 'activeMessageCount']),
-        deadLetteredMessages: topic.getIn(['data', 'deadLetterMessageCount']),
-        messages: topic.getIn(['data', 'messageCount']),
         topic,
         timeConfig
       };

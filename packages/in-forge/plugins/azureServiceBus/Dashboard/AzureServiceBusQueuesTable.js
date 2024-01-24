@@ -7,6 +7,7 @@
 import React from 'react';
 
 import getServiceBusQueues from 'in-forge/plugins/azureServiceBus/dimensions/getServiceBusQueues';
+import { number, bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -25,10 +26,17 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.azureServiceBusQueues.size'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.size;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'size';
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
@@ -37,34 +45,55 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.maxSize;
+        return row.maxSize + ' MB';
       }
     }
   },
   {
     title: t('in-forge:plugins.azureServiceBusQueues.messages'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.messages;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'messages';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
   {
     title: t('in-forge:plugins.azureServiceBusQueues.activeMessages'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.activeMessages;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'activeMessages';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
   {
     title: t('in-forge:plugins.azureServiceBusQueues.deadletteredMessages'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.deadLetteredMessages;
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'deadletteredMessages';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
@@ -96,12 +125,8 @@ export default connectTo(
       return {
         key: queue.get('id'),
         queueName: queue.getIn(['data', 'name']),
-        maxSize: queue.getIn(['data', 'maxSizeInMegabytes']),
-        size: queue.getIn(['data', 'sizeInBytes']),
         status: queue.getIn(['data', 'status']),
-        activeMessages: queue.getIn(['data', 'activeMessageCount']),
-        deadLetteredMessages: queue.getIn(['data', 'deadLetterMessageCount']),
-        messages: queue.getIn(['data', 'messageCount']),
+        maxSize: queue.getIn(['data', 'maxSizeInMegabytes']),
         queue,
         timeConfig
       };

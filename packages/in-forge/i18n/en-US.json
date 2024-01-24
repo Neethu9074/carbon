@@ -4825,7 +4825,7 @@
         "labelConnectionsOpened":"Opened",
         "labelConnectionsClosed": "Closed",
         "labelNameSpaceRequests": "Namespace Request",
-        "labelDimensionSize": "Size in bytes",
+        "labelDimensionSize": "Size",
         "labelIncomingRequests": "Incoming",
         "labelSuccessfulRequests":"Successful",
         "labelThrottledRequests": "Throttled",
