@@ -5,8 +5,10 @@
  */
 
 import React, { Dispatch, ReactNode, SetStateAction, createContext, useMemo, useState } from 'react';
+import _ from 'lodash';
 
 import { TimeConfig, TimeWindow } from '@instana/types';
+import { useTheme } from '@instana/components';
 
 import { calculateTimeConfigForSloTimeWindow } from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
@@ -14,10 +16,22 @@ import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { SloTimeWindowTypes } from 'in-service-levels/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
+const TIME_WINDOW_COLOR_TOKEN_PATHS = [
+  'ids.color.option.blue.400',
+  'ids.color.option.purple.500',
+  'ids.color.option.green.500',
+  'ids.color.option.deep.purple.500',
+  'ids.color.option.blue.500',
+  'ids.color.option.green.800',
+  'ids.color.option.teal.400',
+  'ids.color.option.indigo.500'
+];
+
 type AvailableTimeWindowTypes = keyof typeof SloTimeWindowTypes;
 
 export interface TimeWindowContext {
   timeWindows: TimeConfig[];
+  timeWindowColors: string[];
   selectedTimeWindowType: AvailableTimeWindowTypes;
   updateSelectedTimeWindowType: Dispatch<SetStateAction<AvailableTimeWindowTypes>>;
 }
@@ -50,6 +64,7 @@ function useSelectedTimeWindowContext({
   sloTimeWindow,
   sloConfigId
 }: UseSelectedTimeWindowContextProps): TimeWindowContext {
+  const theme = useTheme();
   const [selectedTimeWindowType, updateSelectedTimeWindowType] =
     useState<AvailableTimeWindowTypes>(defaultTimeWindowType);
   const timeConfig = useMemo(
@@ -61,6 +76,7 @@ function useSelectedTimeWindowContext({
   return useStableObjectInstance({
     selectedTimeWindowType,
     timeWindows: timeWindows ?? [],
+    timeWindowColors: timeWindows?.map((_, index) => getColorByTimeWindowIndex(index, theme)) ?? [],
     updateSelectedTimeWindowType
   });
 }
@@ -75,4 +91,12 @@ function getTimeConfigBySelectedType(
   return selectedTimeWindowType === SloTimeWindowTypes.SELECTED_TIME
     ? selectedTimeConfig
     : calculateTimeConfigForSloTimeWindow(selectedTimeConfig, sloTimeWindow);
+}
+
+function getColorByTimeWindowIndex(index: number, theme: ReturnType<typeof useTheme>): string {
+  const tokenPath =
+    index < TIME_WINDOW_COLOR_TOKEN_PATHS.length
+      ? TIME_WINDOW_COLOR_TOKEN_PATHS[index]
+      : TIME_WINDOW_COLOR_TOKEN_PATHS[index % TIME_WINDOW_COLOR_TOKEN_PATHS.length];
+  return _.get(theme, tokenPath);
 }
