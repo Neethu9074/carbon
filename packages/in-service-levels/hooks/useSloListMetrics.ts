@@ -16,12 +16,12 @@ import {
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
-import { calculateTimeConfigForSloTimeWindow } from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
 import { sloMetrics } from 'in-service-levels/metrics';
 import { FetchedState } from 'in-hooks/utils/types';
+import { hours } from 'in-services/time/time';
 
 export interface SloMetricsResult {
   status: MetricResult;
@@ -50,22 +50,23 @@ export default function useSloListMetrics(
 
 function getMetricConfig(
   configurations: ServiceLevelObjectiveConfiguration[],
-  timeConfig: TimeConfig
+  selectedTimeConfig: TimeConfig
 ): Record<string, UnifiedMetricConfiguration> {
   return configurations.reduce<Record<string, UnifiedMetricConfiguration>>((metricConfig, sloConfig) => {
-    const sloTimeConfig = calculateTimeConfigForSloTimeWindow(timeConfig, sloConfig.timeWindow);
+    // To make sure we only get a single time-window we need to limit the window-size to one hour for the metrics
+    const timeConfig = { ...selectedTimeConfig, windowSize: hours.toMillis(1) };
 
     metricConfig[`${sloConfig.id}-status`] = sloMetrics.status.singleNumber({
       configId: sloConfig.id!,
-      timeConfig: sloTimeConfig
+      timeConfig
     });
     metricConfig[`${sloConfig.id}-remainingBudget`] = sloMetrics.remainingBudget.singleNumber({
       configId: sloConfig.id!,
-      timeConfig: sloTimeConfig
+      timeConfig
     });
     metricConfig[`${sloConfig.id}-remainingBudgetSpark`] = sloMetrics.remainingBudget.timeSeriesCompact({
       configId: sloConfig.id!,
-      timeConfig: sloTimeConfig
+      timeConfig
     });
 
     return metricConfig;

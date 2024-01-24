@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AdjustedTimeframe, DurationUnitType, TimeConfig } from '@instana/types';
+import { AdjustedTimeframe, DurationUnitType, TimeConfig, TimeWindow } from '@instana/types';
 
 import { days, hours, minutes } from 'in-services/time/time';
 
@@ -31,10 +31,33 @@ export function calculateSloGranularity(timeConfig: TimeConfig): number {
   return hours.toMillis(1);
 }
 
-export function calculateTimeRemaining(timeConfig: TimeConfig): number {
+export function calculateTimeRemaining(
+  sloTimeConfig: TimeConfig,
+  selectedTimeConfig: TimeConfig,
+  timeWindowType: TimeWindow['type'],
+  timeWindows?: TimeConfig[]
+) {
+  if (timeWindowType === 'rolling') return calculateTimeRemainingFromNow(sloTimeConfig);
+
+  // In case the there is no valid result from backend we return 0
+  if (!timeWindows || timeWindows.length < 1) return 0;
+
+  // Calculate remaining time for fixed time windows
+  return calculateTimeRemainingFromWithinTimeWindow(selectedTimeConfig, timeWindows[0]);
+}
+
+export function calculateTimeRemainingFromNow(timeConfig: TimeConfig): number {
   const now = Date.now();
   const to = timeConfig.to ?? now;
   return to - now;
+}
+
+export function calculateTimeRemainingFromWithinTimeWindow(timeConfig: TimeConfig, timeWindow: TimeConfig): number {
+  const now = Date.now();
+  const selectedTo = timeConfig.to ?? now;
+
+  const windowTo = timeWindow.to ?? now;
+  return windowTo - selectedTo;
 }
 
 export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {

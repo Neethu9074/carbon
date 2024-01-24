@@ -155,10 +155,12 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     expect(getUnifiedMetrics).toHaveBeenCalledWith({ metrics: {} });
   });
 
-  it('it requests metrics for the full timeWindow of each individual configuration', () => {
+  it('requests metrics only within a single hour of the selected time-config for each individual configuration', () => {
     // Given
     jest.useFakeTimers();
     jest.setSystemTime(days.toMillis(5));
+    // Select time-window of seven days in time-picker
+    const selectedTimeConfig = { ...timeConfig, windowSize: days.toMillis(7) };
     const configurations: ServiceLevelObjectiveConfiguration[] = [
       {
         id: 'slo1',
@@ -180,16 +182,28 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
     ];
 
     // When
-    renderHook(() => useSloListMetrics(configurations, timeConfig));
+    renderHook(() => useSloListMetrics(configurations, selectedTimeConfig));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenCalledWith({
       metrics: expect.objectContaining({
         'slo1-status': expect.objectContaining({
-          timeConfig: expect.objectContaining({ windowSize: days.toMillis(1), to: days.toMillis(5) })
+          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
+        }),
+        'slo1-remainingBudget': expect.objectContaining({
+          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
+        }),
+        'slo1-remainingBudgetSpark': expect.objectContaining({
+          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
         }),
         'slo2-status': expect.objectContaining({
-          timeConfig: expect.objectContaining({ windowSize: days.toMillis(2), to: days.toMillis(6) })
+          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
+        }),
+        'slo2-remainingBudget': expect.objectContaining({
+          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
+        }),
+        'slo2-remainingBudgetSpark': expect.objectContaining({
+          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
         })
       })
     });
