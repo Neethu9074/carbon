@@ -10,11 +10,11 @@ import _ from 'lodash';
 import { TimeConfig, TimeWindow } from '@instana/types';
 import { useTheme } from '@instana/components';
 
-import { calculateTimeConfigForSloTimeWindow } from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { SloTimeWindowTypes } from 'in-service-levels/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { hours } from 'in-services/time/time';
 
 const TIME_WINDOW_COLOR_TOKEN_PATHS = [
   'ids.color.option.blue.400',
@@ -90,7 +90,8 @@ function getTimeConfigBySelectedType(
 
   return selectedTimeWindowType === SloTimeWindowTypes.SELECTED_TIME
     ? selectedTimeConfig
-    : calculateTimeConfigForSloTimeWindow(selectedTimeConfig, sloTimeWindow);
+    : // Limit the window-size to a single hour to make sure we only fetch one time-window
+      { ...selectedTimeConfig, windowSize: hours.toMillis(1) };
 }
 
 function getColorByTimeWindowIndex(index: number, theme: ReturnType<typeof useTheme>): string {

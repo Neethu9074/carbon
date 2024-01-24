@@ -39,7 +39,7 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
   const { indicator, entity, lastUpdated } = configuration;
 
   const timeConfig = useTimeConfig();
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
   const [metricResult, , errors, progress] = useErrorBudgetChartMetrics(configuration, timeConfig, timeWindows);
 
   const formatter = isTimeBasedSli(indicator) ? minutes.fixedCompact : number.compact;
@@ -63,7 +63,7 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
           formatter
         },
         granularity: metricResult?.granularity,
-        timeConfig,
+        timeConfig: selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows?.[0] ?? timeConfig : timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work
