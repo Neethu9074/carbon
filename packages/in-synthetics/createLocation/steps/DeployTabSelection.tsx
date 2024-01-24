@@ -10,14 +10,14 @@ import { KeyValue } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
 import { Link } from '@instana/components';
 
-import RedisTLSDeployContent from 'in-synthetics/dashboards/global/tabs/tests/components/RedisTLSDeployContent';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import RedisTLSDeployContent from 'in-synthetics/createLocation/steps/RedisTLSDeployContent';
 import InlineTabNavigation from 'in-components/InlineTabNavigation/InlineTabNavigation';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { PoPProperties } from 'in-synthetics/utils/constants';
 import CodeComponent from 'in-components/Code';
 
-import locals from './DeployTabSelection.mless';
+import locals from 'in-synthetics/createLocation/steps/DeployTabSelection.mless';
 
 export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcceptorURL }: PoPProperties) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -76,7 +76,6 @@ export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcc
       <div className={locals.content}>
         {activeTabIndex == 0 ? (
           <CodeComponent
-            wrapperClassName={locals.code}
             code={t('in-synthetics:dashboard.testList.popDialog.simpleCode', {
               downloadKey: downloadKey,
               instanaAgentKey: agentKey,

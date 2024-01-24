@@ -6,8 +6,29 @@
 
 import React from 'react';
 
-const ConfigurationStep = () => {
-  return <h1>ConfigurationStep</h1>;
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import PrivateLocation from 'in-synthetics/createLocation/steps/PrivateLocation';
+import { LocationsBluePrint } from 'in-synthetics/createLocation/bluePrints';
+
+interface Props {
+  selectedBlueprint: LocationsBluePrint;
+}
+
+const ConfigurationStep = ({ selectedBlueprint }: Props) => {
+  const isPrivateLocation = selectedBlueprint.type === 'private';
+  const isManagedLocation = selectedBlueprint.type === 'managed';
+
+  if (isPrivateLocation) {
+    return <PrivateLocation />;
+  }
+
+  if (isManagedLocation) {
+    return <h1>Managed Location</h1>;
+  }
+
+  // If for some random case there is no private or managed location defined,
+  // we default to display the NoDataAvailable component with some text.
+  return <NoDataAvailable />;
 };
 
 export default ConfigurationStep;

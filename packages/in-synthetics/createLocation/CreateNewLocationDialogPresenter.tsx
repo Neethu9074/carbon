@@ -77,7 +77,7 @@ const CreateNewLocationDialogPresenter = ({
                     />
                   );
                 case 1:
-                  return <Configuration />;
+                  return <Configuration selectedBlueprint={selectedBlueprint} />;
                 default:
                   return null;
               }

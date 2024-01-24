@@ -10,13 +10,12 @@
   .header {
     justify-content: space-between;
     min-width: 30rem;
-    padding: 1rem 1.5rem;
+    padding: 1rem;
   }
 
   .content {
     max-height: 30rem;
     padding-top: 1rem;
-    overflow: auto;
   }
 
   .primaryText {
