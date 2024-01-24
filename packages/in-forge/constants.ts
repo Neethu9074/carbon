@@ -127,6 +127,7 @@ export const nonServicePlugins = {
   httpd: 'httpd',
   ibmApiConnect: 'ibmApiConnect',
   ibmApiConnectCatalog: 'ibmApiConnectCatalog',
+  ibmApiConnectSpace: 'ibmApiConnectSpace',
   ibmCics: 'ibmCics',
   ibmCtg: 'ibmCtg',
   ibmCloudClinicalData: 'ibmCloudClinicalData',
@@ -487,6 +488,8 @@ export const fullyQualifiedPlugins = {
   ibmApiConnect: 'com.instana.forge.infrastructure.apigateway.ibmapiconnect.IbmApiConnect',
   ibmApiConnectCatalog:
     'com.instana.forge.infrastructure.apigateway.ibmapiconnect.derivedentity.catalog.IbmApiConnectCatalog',
+  ibmApiConnectSpace:
+    'com.instana.forge.infrastructure.apigateway.ibmapiconnect.derivedentity.space.IbmApiConnectSpace',
   ibmCics: 'com.instana.forge.infrastructure.application.ibmzos.IbmCics',
   ibmCloudClinicalData: 'com.instana.forge.infrastructure.machine_learning.ibmcloud.clinicaldata.IbmCloudClinicalData',
   ibmCloudCloudant: 'com.instana.forge.infrastructure.database.ibmcloud.cloudant.IbmCloudCloudant',

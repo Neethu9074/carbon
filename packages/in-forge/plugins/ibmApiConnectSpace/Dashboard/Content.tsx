@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -12,7 +12,6 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import Space from 'in-forge/plugins/ibmApiConnectCatalog/Dashboard/SpaceTables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 //@ts-expect-error
 import MetricValue from 'in-components/MetricValue';
@@ -21,12 +20,12 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-interface IbmApiConnectCatalogDashboardProps {
+interface IbmApiConnectSpaceDashboardProps {
   snapshot: SnapshotData;
   timeConfig: TimeConfig;
 }
 
-const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCatalogDashboardProps) => {
+const IbmApiConnectSpaceDashboard = ({ snapshot, timeConfig }: IbmApiConnectSpaceDashboardProps) => {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -52,15 +51,15 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
       </KpiSection>
 
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.ibmApiConnectCatalog.2xxstatus')}>
+        <DashboardSection title={t('in-forge:plugins.ibmApiConnectSpace.2xxstatus')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['status2xx', 'avgStatus2xx'],
               labels: [
-                t('in-forge:plugins.ibmApiConnectCatalog.count'),
-                t('in-forge:plugins.ibmApiConnectCatalog.average')
+                t('in-forge:plugins.ibmApiConnectSpace.count'),
+                t('in-forge:plugins.ibmApiConnectSpace.average')
               ],
               type: 'line',
               formatter: number.compact
@@ -68,7 +67,7 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.ibmApiConnectCatalog.4xxstatus')}>
+        <DashboardSection title={t('in-forge:plugins.ibmApiConnectSpace.4xxstatus')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -76,15 +75,15 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
               formatter: number.compact,
               metrics: ['status4xx', 'avgStatus4xx'],
               labels: [
-                t('in-forge:plugins.ibmApiConnectCatalog.count'),
-                t('in-forge:plugins.ibmApiConnectCatalog.average')
+                t('in-forge:plugins.ibmApiConnectSpace.count'),
+                t('in-forge:plugins.ibmApiConnectSpace.average')
               ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.ibmApiConnectCatalog.5xxstatus')}>
+        <DashboardSection title={t('in-forge:plugins.ibmApiConnectSpace.5xxstatus')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -92,8 +91,8 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
               formatter: number.compact,
               metrics: ['status5xx', 'avgStatus5xx'],
               labels: [
-                t('in-forge:plugins.ibmApiConnectCatalog.count'),
-                t('in-forge:plugins.ibmApiConnectCatalog.average')
+                t('in-forge:plugins.ibmApiConnectSpace.count'),
+                t('in-forge:plugins.ibmApiConnectSpace.average')
               ],
               type: 'line'
             }}
@@ -101,7 +100,7 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title={t('in-forge:plugins.ibmApiConnectCatalog.timeToServeSuccess')}>
+      <DashboardSection title={t('in-forge:plugins.ibmApiConnectSpace.timeToServeSuccess')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -115,16 +114,16 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
             ],
             labels: [
               t('in-forge:plugins.ibmApiConnect.totalApiCalls'),
-              t('in-forge:plugins.ibmApiConnectCatalog.averageResponseTime'),
-              t('in-forge:plugins.ibmApiConnectCatalog.minResponseTime'),
-              t('in-forge:plugins.ibmApiConnectCatalog.maxResponseTime')
+              t('in-forge:plugins.ibmApiConnectSpace.averageResponseTime'),
+              t('in-forge:plugins.ibmApiConnectSpace.minResponseTime'),
+              t('in-forge:plugins.ibmApiConnectSpace.maxResponseTime')
             ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmApiConnectCatalog.timeToServeFailure')}>
+      <DashboardSection title={t('in-forge:plugins.ibmApiConnectSpace.timeToServeFailure')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -133,19 +132,17 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
             metrics: ['totalApiCallError', 'avgResponseTimeError', 'minResponseTimeError', 'maxResponseTimeError'],
             labels: [
               t('in-forge:plugins.ibmApiConnect.totalApiCalls'),
-              t('in-forge:plugins.ibmApiConnectCatalog.averageResponseTime'),
-              t('in-forge:plugins.ibmApiConnectCatalog.minResponseTime'),
-              t('in-forge:plugins.ibmApiConnectCatalog.maxResponseTime')
+              t('in-forge:plugins.ibmApiConnectSpace.averageResponseTime'),
+              t('in-forge:plugins.ibmApiConnectSpace.minResponseTime'),
+              t('in-forge:plugins.ibmApiConnectSpace.maxResponseTime')
             ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
-      <Space snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 };
 
-export default IbmApiConnectCatalogDashboard;
+export default IbmApiConnectSpaceDashboard;

@@ -20,7 +20,7 @@ export default [
   },
   {
     label: t('in-forge:plugins.ibmApiConnect.maxApiResponse'),
-    metric: 'maxApiResponse',
+    metric: 'maxResponseTime',
     formatter: millis.compact
   }
 ];

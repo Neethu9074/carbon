@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { number, millis } from 'in-services/formatters/number';
@@ -27,9 +27,9 @@ export default [
   {
     metrics: ['status2xx', 'status4xx', 'status5xx'],
     labels: [
-      t('in-forge:plugins.ibmApiConnectCatalog.2xxStatusCount'),
-      t('in-forge:plugins.ibmApiConnectCatalog.4xxStatusCount'),
-      t('in-forge:plugins.ibmApiConnectCatalog.5xxStatusCount')
+      t('in-forge:plugins.ibmApiConnectSpace.2xxStatusCount'),
+      t('in-forge:plugins.ibmApiConnectSpace.4xxStatusCount'),
+      t('in-forge:plugins.ibmApiConnectSpace.5xxStatusCount')
     ],
     min: 0,
     formatter: number
@@ -37,9 +37,9 @@ export default [
   {
     metrics: ['avgStatus2xx', 'avgStatus4xx', 'avgStatus5xx'],
     labels: [
-      t('in-forge:plugins.ibmApiConnectCatalog.2xxStatusAvg'),
-      t('in-forge:plugins.ibmApiConnectCatalog.4xxStatusAvg'),
-      t('in-forge:plugins.ibmApiConnectCatalog.5xxStatusAvg')
+      t('in-forge:plugins.ibmApiConnectSpace.2xxStatusAvg'),
+      t('in-forge:plugins.ibmApiConnectSpace.4xxStatusAvg'),
+      t('in-forge:plugins.ibmApiConnectSpace.5xxStatusAvg')
     ],
     min: 0,
     formatter: number
@@ -47,10 +47,10 @@ export default [
   {
     metrics: ['totalApiCallSuccess', 'maxResponseTimeSuccess', 'minResponseTimeSuccess', 'avgResponseTimeSuccess'],
     labels: [
-      t('in-forge:plugins.ibmApiConnectCatalog.timeToServeSuccess'),
-      t('in-forge:plugins.ibmApiConnectCatalog.maxResponseSuccess'),
-      t('in-forge:plugins.ibmApiConnectCatalog.minResponseSuccess'),
-      t('in-forge:plugins.ibmApiConnectCatalog.avgResponseSuccess')
+      t('in-forge:plugins.ibmApiConnectSpace.timeToServeSuccess'),
+      t('in-forge:plugins.ibmApiConnectSpace.maxResponseSuccess'),
+      t('in-forge:plugins.ibmApiConnectSpace.minResponseSuccess'),
+      t('in-forge:plugins.ibmApiConnectSpace.avgResponseSuccess')
     ],
     min: 0,
     formatter: number
@@ -58,10 +58,10 @@ export default [
   {
     metrics: ['totalApiCallError', 'maxResponseTimeError', 'minResponseTimeError', 'avgResponseTimeError'],
     labels: [
-      t('in-forge:plugins.ibmApiConnectCatalog.timeToServeFailure'),
-      t('in-forge:plugins.ibmApiConnectCatalog.maxResponseFailure'),
-      t('in-forge:plugins.ibmApiConnectCatalog.minResponseFailure'),
-      t('in-forge:plugins.ibmApiConnectCatalog.avgResponseFailure')
+      t('in-forge:plugins.ibmApiConnectSpace.timeToServeFailure'),
+      t('in-forge:plugins.ibmApiConnectSpace.maxResponseFailure'),
+      t('in-forge:plugins.ibmApiConnectSpace.minResponseFailure'),
+      t('in-forge:plugins.ibmApiConnectSpace.avgResponseFailure')
     ],
     min: 0,
     formatter: number
