@@ -50,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.azureServiceBusQueues.activeMessages'),
+    title: t('in-forge:plugins.azureServiceBusTopics.activeMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
