@@ -7,7 +7,7 @@
 import React from 'react';
 
 import getServiceBusTopics from 'in-forge/plugins/azureServiceBus/dimensions/getServiceBusTopics';
-import { number, bytes } from 'in-services/formatters/number';
+import { number, bytes, megaBytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -45,8 +45,9 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.maxSize + ' MB';
-      }
+        return row.maxSize;
+      },
+      getContent: megaBytes.compact
     }
   },
   {
