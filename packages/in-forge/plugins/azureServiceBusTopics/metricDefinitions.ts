@@ -1,0 +1,31 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { number, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
+
+export default [
+  {
+    metrics: ['size'],
+    labels: [t('in-forge:plugins.azureServiceBus.dashboard.labelSize')],
+    min: 0,
+    category: [t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')],
+    formatter: bytes.detailed
+  },
+  {
+    metrics: ['messages', 'deadletteredMessages', 'scheduledMessages', 'completeMessage', 'abandonMessage'],
+    labels: [
+      t('in-forge:plugins.azureServiceBus.dashboard.labelMessages'),
+      t('in-forge:plugins.azureServiceBus.dashboard.labelDeadletteredMessages'),
+      t('in-forge:plugins.azureServiceBus.dashboard.labelScheduledMessages'),
+      t('in-forge:plugins.azureServiceBus.dashboard.labelCompleteMessage'),
+      t('in-forge:plugins.azureServiceBus.dashboard.labelAbandonMessage')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.azureServiceBus.dashboard.labelMessages')],
+    formatter: number.compact
+  }
+];
