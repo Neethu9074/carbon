@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Status",
-      "remainingBudget": "Error Budget Remaining",
+      "remainingBudget": "Spent",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
       "momentaryBudgetConsumption": "Error Budget Consumption",
@@ -274,13 +274,7 @@
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Error Budget",
-        "title_fullWindow": "Error Budget Over Entire Time Window",
-        "optionCompact": "Compact",
-        "optionFull": "Full Consumption"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Error Budget Consumption Over Entire Time Window"
+        "title": "Error Budget"
       },
       "trafficChart": {
         "title": "Traffic"

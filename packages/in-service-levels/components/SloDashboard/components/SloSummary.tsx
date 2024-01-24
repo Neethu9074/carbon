@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import ErrorBudgetConsumptionChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetConsumptionChart';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
@@ -39,7 +38,6 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const fullWindowTimeConfig = useSloWindowTimeConfig(timeWindow);
   const selectedTimeConfig = useTimeConfig();
 
-  // TODO: Rows need to automatically size instead of relying on a fixed chart height
   return (
     <>
       <Row>
@@ -62,18 +60,10 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           />
         </Col>
         <Col lg={4}>
-          <ErrorBudgetChart configuration={configuration} timeConfig={selectedTimeConfig} />
+          <ErrorBudgetChart configuration={configuration} />
         </Col>
         <Col lg={4}>
           <TrafficChart configuration={configuration} timeConfig={selectedTimeConfig} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg>
-          <ErrorBudgetChart configuration={configuration} timeConfig={selectedTimeConfig} showFullSloTimeWindow />
-        </Col>
-        <Col lg>
-          <ErrorBudgetConsumptionChart configuration={configuration} timeConfig={fullWindowTimeConfig} />
         </Col>
       </Row>
     </>
