@@ -33,7 +33,7 @@ export default function UiConfigGeneralPage() {
   }
 
   const currentShell = localStorage.getItem('ids-override-shell') || 'default';
-  const currentTheme = getThemeOverride() ?? 'g10';
+  const currentTheme = getThemeOverride() ?? 'default';
   // eslint-disable-next-line no-console
   console.log('currentTheme', currentTheme);
 

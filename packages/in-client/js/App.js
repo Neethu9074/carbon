@@ -30,7 +30,7 @@ import 'in-themes/foundation.less';
 import locals from './App.mless';
 
 export default function App() {
-  const currentTheme = getThemeOverride() ?? 'g10';
+  const currentTheme = getThemeOverride() ?? 'default';
   const carbonShell = isCarbonShellEnabled();
   return (
     <ErrorBoundary name="app">
