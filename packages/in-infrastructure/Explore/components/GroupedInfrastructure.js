@@ -29,7 +29,6 @@ import {
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
-import { getFormatter, getBackendTypeKeyByUiMetric } from 'in-services/formatters/backendFormatter';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
@@ -46,6 +45,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { typeTag } from 'in-infrastructure/Explore/constants';
 import { toGroupTag } from 'in-infrastructure/Explore/utils';
+import { getFormatter } from 'in-stores/metric/formatters';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
@@ -645,47 +645,66 @@ function getHeaderActions(props) {
 }
 
 export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
-  return metrics.map(({ metric, aggregation, crossSeriesAggregation, formatterId, label: metricLabel }) => {
-    const metadata = mapData(metricMetadatas, data => data[metric]);
-    const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
-    const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-    const sharedProps = { id, timeConfig, granularity, metadata, label, aggregation, formatterId };
-    const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
+  return metrics.map(
+    ({ metric, aggregation, crossSeriesAggregation, formatterId, isFormatterSelected, label: metricLabel }) => {
+      const metadata = mapData(metricMetadatas, data => data[metric]);
+      const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
+      const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+      const sharedProps = {
+        id,
+        timeConfig,
+        granularity,
+        metadata,
+        label,
+        aggregation,
+        formatterId,
+        isFormatterSelected
+      };
+      const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
-    return {
-      width: '12rem',
-      id,
-      label,
-      headCellProps: { className: locals.metricLabel },
-      aggregation,
-      renderLabel: MetricLabel,
-      ...metricsColumns,
-      getId() {
-        return getMetricKey(metric, aggregation, crossSeriesAggregation);
-      },
-      getColumnLabel() {
-        const metadata = mapData(metricMetadatas, data => data[metric]);
-        const label = mapData(metadata, data => data?.label);
-        const formatter = mapData(metadata, data => data?.formatter).data;
-        return formatCsvColumnName(label['data'], aggregation, formatter);
-      },
-      getFormatter() {
-        const metadata = mapData(metricMetadatas, data => data[metric]);
-        const formatter = mapData(metadata, data => data?.formatter).data;
-        return formatter;
-      },
-      exported: true
-    };
-  });
+      return {
+        width: '12rem',
+        id,
+        label,
+        headCellProps: { className: locals.metricLabel },
+        aggregation,
+        renderLabel: MetricLabel,
+        ...metricsColumns,
+        getId() {
+          return getMetricKey(metric, aggregation, crossSeriesAggregation);
+        },
+        getColumnLabel() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatCsvColumnName(label['data'], aggregation, formatter);
+        },
+        getFormatter() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatter;
+        },
+        exported: true
+      };
+    }
+  );
 }
 
-function generateMetric({ item, id, metadata, label, aggregation, timeConfig, granularity, formatterId }) {
+function generateMetric({
+  item,
+  id,
+  metadata,
+  label,
+  aggregation,
+  timeConfig,
+  granularity,
+  formatterId,
+  isFormatterSelected
+}) {
   const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-  const formatter = formatterId
-    ? getFormatter(getBackendTypeKeyByUiMetric(formatterId))
-    : mapData(metadata, data => data?.formatter).data;
+  const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
   const kpi = firstValue(metrics[id]);
   const series = metrics[getSeriesKey(id)];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;

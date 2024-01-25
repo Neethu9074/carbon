@@ -8,6 +8,7 @@ import { MapForm, Item } from 'formalistic';
 import React from 'react';
 
 import { Stack } from '@instana/components';
+import { TagCatalog } from '@instana/types';
 
 //@ts-expect-error
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
@@ -23,19 +24,34 @@ import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/Scop
 interface ScopeSectionProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
+  tagCatalog: TagCatalog | undefined;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
+  setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
+  isRegex: boolean;
 }
-export default function ScopeSection({ form, updateForm, onChange }: ScopeSectionProps) {
+export default function ScopeSection({
+  form,
+  updateForm,
+  tagCatalog,
+  onChange,
+  setTagFilterValid,
+  isRegex
+}: ScopeSectionProps) {
   return (
     <div className={locals.container}>
       <Stack gap="xsmall">
         <Sections>
           <Section title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.metric')}>
-            <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} />
+            <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} isRegex={isRegex} />
           </Section>
           <ScopeAggregation form={form} updateForm={updateForm} />
-          <ScopeFilter form={form} updateForm={updateForm} />
-          <ScopeGroup form={form} updateForm={updateForm} />
+          <ScopeFilter
+            form={form}
+            updateForm={updateForm}
+            tagCatalog={tagCatalog}
+            setTagFilterValid={setTagFilterValid}
+          />
+          <ScopeGroup form={form} updateForm={updateForm} tagCatalog={tagCatalog} />
         </Sections>
       </Stack>
     </div>

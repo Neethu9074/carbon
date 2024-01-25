@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Observable, create } from '@instana/observables';
 import { UserGroupRestrictions } from '@instana/types';
-import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -32,6 +32,14 @@ export interface InvitationResponse {
 export interface Invitation {
   readonly email: string;
   readonly groupId: string;
+}
+
+export interface PendingInvitation {
+  readonly email: string;
+  readonly groupId: string;
+  readonly groupName: string;
+  readonly expireAt: number;
+  readonly invitedBy: string;
 }
 
 export interface UserResult {
@@ -96,6 +104,17 @@ function getInvitationsInternal() {
         url: `/api/settings/invitations`
       })
     )
+  );
+}
+
+export const getPendingInvitations = memoize(getPendingInvitationsInternal, () => '', 60000);
+function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
+  return refreshSignalInvitations.flatMap(() =>
+    http<PendingInvitation[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/settings/invitations`
+    }).map(response => response.body)
   );
 }
 

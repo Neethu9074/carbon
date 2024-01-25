@@ -39,10 +39,10 @@
         "duration": "Duration"
       },
       "timespans": {
-        "minute": "1 Minute",
-        "hour": "1 Hour",
-        "day": "1 Day",
-        "week" : "1 Week"
+        "minute": "1 minute",
+        "hour": "1 hour",
+        "day": "1 day",
+        "week" : "1 week"
       }
     }
   }

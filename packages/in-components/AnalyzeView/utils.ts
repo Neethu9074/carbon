@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import oldTheme from 'in-themes';
+import { chartColors } from 'in-themes/chartColors';
 
 export const getLabel = ({ name }: { name: string }) => {
   const label = JSON.parse(name);
@@ -14,8 +14,8 @@ export const getLabel = ({ name }: { name: string }) => {
 };
 
 export const GROUP_COLORS = (() => {
-  const maxGroupsOnChart = Math.min(5, oldTheme.lib.colors.chart.strokeColors100.length);
-  return oldTheme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
+  const maxGroupsOnChart = Math.min(5, chartColors.strokeColors100.length);
+  return chartColors.strokeColors100.slice(0, maxGroupsOnChart);
 })();
 
 export const clickhouseTimeoutErrorMessage = 'Clickhouse timeout';

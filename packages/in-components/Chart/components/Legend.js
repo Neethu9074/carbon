@@ -118,7 +118,7 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
                   [locals.disabledIcon]: isDisabled
                 })}
                 size="xs"
-                style={{ fill: icons.colors ? icons.colors[i] : axis.colors100[i] }}
+                color={icons.colors ? icons.colors[i] : axis.colors100[i]}
                 type={icons.types[i]}
               />
             ) : (

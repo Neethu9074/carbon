@@ -6,6 +6,8 @@
 import { Map } from 'immutable';
 import { get } from 'lodash';
 
+import { themes } from '@instana/design-tokens';
+
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
 import createEventObservable from 'in-subscription/event';
@@ -13,7 +15,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const noProblemsHealthInfo = Map({
@@ -178,9 +179,9 @@ export function getColorBySeverity(severity, params = {}) {
 
 export function getDesignLibraryColorBySeverity(severity, fallback = '#92A5AE') {
   if (severity > 5) {
-    return theme.lib.colors.failure;
+    return themes.default.ids.color.option.red['500'];
   } else if (severity > 0) {
-    return theme.lib.colors.warning;
+    return themes.default.ids.color.option.yellow['500'];
   }
   return fallback;
 }

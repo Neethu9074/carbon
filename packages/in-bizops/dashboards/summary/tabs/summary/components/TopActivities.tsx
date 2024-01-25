@@ -120,7 +120,7 @@ function getList({ businessProcessId, timeConfig }: GetListProps) {
     dataType: 'ACTIVITY',
     metrics: {
       activitiesCount: {
-        metric: 'activities_count',
+        metric: 'activitiesCount',
         aggregation: 'DISTINCT_COUNT'
       }
     },

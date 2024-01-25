@@ -219,8 +219,8 @@
       "metaHeader": "Meta",
       "stackTrace": "Stack Trace",
       "stackTraceLastOccurrence": "Stack Trace (Last Occurrence)",
-      "stackTraceButtonPrettyStackTrace": "Pretty Stack Trace",
-      "stackTraceButtonRawStackTrace": "Raw Stack Trace"
+      "stackTraceButtonCrashedThreadsStackTrace": "Crashed Threads",
+      "stackTraceButtonAllThreadsStackTrace": "All Threads"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Retrieval Time",

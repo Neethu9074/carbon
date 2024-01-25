@@ -46,7 +46,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
       pinItem={(id: string, item: BusinessProcessItem) =>
         add({
           id,
-          label: item.businessProcess.definitionName,
+          label: item?.businessProcess?.definitionName,
           type: businessProcessType
         })
       }
@@ -62,7 +62,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
 
 function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
   const started_processes: BizOpsMetricConfiguration = {
-    metric: 'bpm_root_process_id',
+    metric: 'startedProcessesCount',
     granularity: getChartGranularity(timeConfig),
     aggregation: 'DISTINCT_COUNT'
   };
@@ -78,15 +78,15 @@ function getItem(id: string, timeConfig: TimeConfig): Observable<Result<Business
 }
 
 function getId(item: BusinessProcessItem): string {
-  return item.businessProcess.definitionId;
+  return item?.businessProcess?.definitionId;
 }
 
 // Creates a link to the business process clicked by the user
 function getItemLink(item: BusinessProcessItem, location: Location, createHref: (target: Location) => string) {
   location.pathname = `${businessProcessDashboard}${summaryTab}`;
-  setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', item.businessProcess.definitionName);
-  setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', item.businessProcess.definitionId);
-  setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', item.service.id);
+  setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', item?.businessProcess?.definitionName);
+  setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', item?.businessProcess?.definitionId);
+  setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', item?.service?.id);
 
   return createHref(location);
 }
@@ -109,7 +109,7 @@ const columnDefinitions: ColumnizedDefinition[] = [
     getContent({ item }: { item: BusinessProcessItem }) {
       return (
         <KeyValue
-          value={item.businessProcess.definitionName}
+          value={item?.businessProcess?.definitionName}
           label={t('in-cockpit:component.bizopsTopList.businessProcess')}
           inverted
           accentuated
@@ -122,7 +122,7 @@ const columnDefinitions: ColumnizedDefinition[] = [
     getContent({ item }: { item: BusinessProcessItem }) {
       return (
         <KeyValue
-          value={item.businessProcess.activitiesCount}
+          value={item?.businessProcess?.activitiesCount}
           label={t('in-cockpit:component.bizopsTopList.activities')}
           accentuated
         />
@@ -146,8 +146,8 @@ const columnDefinitions: ColumnizedDefinition[] = [
           rollup={getChartGranularity(timeConfig)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.started_processes}
-          metric={item.businessProcess.startedInstancesCount}
+          metrics={item?.metrics?.started_processes}
+          metric={item?.businessProcess?.startedInstancesCount}
           label={t('in-cockpit:component.bizopsTopList.count')}
           tooltipFormatter={number.compact}
         />

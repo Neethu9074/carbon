@@ -112,6 +112,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   const [headers, setHeaders] = useState(getDefaultHeaders());
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
+  const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
 
   const getDefaultCustomProperties = (): ConfigItem[] => {
     const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
@@ -219,7 +220,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           (property.error.name.invalid && !property.error.value.invalid) ||
           (!property.error.name.invalid && property.error.value.invalid)
       ).length > 0 ||
-      invalidCustomProperty.invalid
+      invalidCustomProperty.invalid ||
+      invalidTimeout.invalid
     ) {
       return true;
     }
@@ -245,7 +247,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   return (
     <DialogWithSlideInView
       footer={footer}
-      title={t('in-synthetics:dialog.updateTest.dialogTitle')}
+      title={t('in-synthetics:dialog.updateTest.dialogTitle', {
+        syntheticType: testTypeSelected.browser.simple || testTypeSelected.browser.script ? 'Browser' : 'API'
+      })}
       slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>
         customSlideInHeaderConfig.onClose
@@ -292,6 +296,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setCustomProperties={setCustomProperties}
           invalidCustomProperty={invalidCustomProperty}
           setInvalidCustomProperty={setInvalidCustomProperty}
+          invalidTimeout={invalidTimeout}
+          setInvalidTimeout={setInvalidTimeout}
         />
       </form>
     </DialogWithSlideInView>

@@ -30,4 +30,30 @@
     border-radius: 0.25rem;
     width: 99.4%;
   }
+  .confidencePilled {
+    margin-left: auto;
+  }
+  .probabilityPill {
+    width: fit-content;
+    height: 1.375rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .highProbabilityText {
+    color: var(--ids-color-option-green-500);
+  }
+  .moderateProbabilityText {
+    color: var(--ids-color-option-yellow-500);
+  }
+  .lowProbabilityText {
+    color: var(--ids-color-option-red-500);
+  }
+  .naProbabilityText {
+    color: var(--ids-color-option-neutral-800);
+  }
+  .highProbabilityText,
+  .moderateProbabilityText,
+  .lowProbabilityText,
+  .naProbabilityText {
+    line-height: 0.875rem;
+  }
 }

@@ -13,6 +13,8 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
+import NewLocationButton from 'in-synthetics/createLocation/NewLocationButton';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
@@ -65,14 +67,16 @@ export default function ViewSwitcher() {
               icon={'lib_alerts_alert'}
             />
           </SecondLevelNavigation>
-          {!popProperties.progress.loading && role?.canConfigureSyntheticLocations && (
-            <PopDeployButton
-              downloadKey={popProperties.data?.downloadKey || ''}
-              agentKey={popProperties.data?.downloadKey || ''}
-              agentKeys={popProperties.data?.agentKeys || []}
-              syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
-            />
-          )}
+          {!popProperties.progress.loading &&
+            role?.canConfigureSyntheticLocations &&
+            !syntheticInstanaHostedPoPEnabled && (
+              <PopDeployButton
+                downloadKey={popProperties.data?.downloadKey || ''}
+                agentKey={popProperties.data?.agentKey || ''}
+                syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
+              />
+            )}
+          {syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

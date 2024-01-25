@@ -9,7 +9,7 @@ import { Card } from '@instana/components';
 
 import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
-import theme from 'in-themes';
+import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 export default function UsageCharts({
@@ -33,7 +33,7 @@ export default function UsageCharts({
                       ...tenantUnit,
                       metrics: ['licensed_apm_hosts'],
                       labels: [t('in-amp:components.usageCharts.purchased')],
-                      colors: [theme.lib.carbonAlert.red60]
+                      colors: [carbonAlert.red60]
                     }
                   : getEmptyMetricConfig()
               }
@@ -56,7 +56,7 @@ export default function UsageCharts({
                       ...tenantUnit,
                       metrics: ['licensed_infra_hosts'],
                       labels: [t('in-amp:components.usageCharts.purchased')],
-                      colors: [theme.lib.carbonAlert.red60]
+                      colors: [carbonAlert.red60]
                     }
                   : getEmptyMetricConfig()
               }

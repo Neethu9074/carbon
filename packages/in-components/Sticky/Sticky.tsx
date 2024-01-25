@@ -7,12 +7,13 @@ import invariant from 'invariant';
 import React from 'react';
 
 import { create, Disposable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/CarbonUIShell';
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
-import theme from 'in-themes';
 
 interface StickyProps {
   header?: React.ReactElement;
@@ -71,6 +72,15 @@ export default class Sticky extends React.Component<StickyProps> {
     this.header.style.width = 'auto';
     this.headerCoords = getCoords(this.header);
 
+    if (isCarbonShellEnabled()) {
+      if (this.headerCoords.top === 0) {
+        this.headerCoords.top = 48;
+      }
+      if (this.headerCoords.left === 72) {
+        this.headerCoords.left = 48;
+      }
+    }
+
     this.headerHeight = this.header.clientHeight;
     this.headerWidth = this.header.clientWidth;
 
@@ -91,7 +101,7 @@ export default class Sticky extends React.Component<StickyProps> {
     }
 
     if (this.order !== undefined && this.order >= 0) {
-      this.header.style.zIndex = String(theme.zIndex.stickyHeader - this.order);
+      this.header.style.zIndex = String(Number(themes.default.ids.zIndex.option.stickyHeader) - this.order);
     }
 
     if (this.props.backgroundColor) {

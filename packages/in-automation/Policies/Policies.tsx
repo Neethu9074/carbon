@@ -21,6 +21,7 @@ import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { PoliciesFilterState, usePoliciesFilterUrlState } from 'in-automation/Policies/usePoliciesFilterUrlState';
 import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -40,6 +41,7 @@ import { all as allProgress } from 'in-hooks/utils/progress';
 import { close } from 'in-components/DialogPresenter/store';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { listSuccess } from 'in-services/util/result';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import Tag from 'in-automation/ActionCatalog/Tag';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
@@ -130,6 +132,7 @@ export default function Policies() {
           data: result
         }}
         columnDefinitions={columnDefinition}
+        fixedLayout
       />
     </AutomationTabs>
   );
@@ -217,9 +220,13 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     id: 'name',
     label: t('in-automation:name'),
     getContent: item => (
-      <WithSubscript subscript={<Subscript policy={item} />}>
-        <Typography variant="body-regular">{item.name}</Typography>
-      </WithSubscript>
+      <Tooltip content={item.name} align="topLeft" delay={500}>
+        <WithSubscript subscript={<Subscript policy={item} />}>
+          <Typography noWrap variant="body-regular">
+            {item.name}
+          </Typography>
+        </WithSubscript>
+      </Tooltip>
     ),
     width: 23,
     sortable: true
@@ -245,9 +252,17 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     id: 'actionName',
     label: t('in-automation:policies.actionName'),
     getContent: item => (
-      <Typography variant="body-regular">
-        {item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-      </Typography>
+      <Tooltip
+        content={item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
+        align="topLeft"
+        delay={500}
+      >
+        <HorizontalFlexWrapper>
+          <Typography noWrap variant="body-regular">
+            {item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
+          </Typography>
+        </HorizontalFlexWrapper>
+      </Tooltip>
     ),
     width: 23,
     sortable: true

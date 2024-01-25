@@ -9,7 +9,7 @@ import { TagFilterExpression } from '@instana/types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
-import theme from 'in-themes';
+import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 export const getLogsChartConfig = (
@@ -17,6 +17,7 @@ export const getLogsChartConfig = (
   metric: ChartedMetric
 ): Config => ({
   y1: {
+    outlineForColor,
     metrics: [
       getMetricConfig({
         backendQueryModelWithFacets,
@@ -40,7 +41,7 @@ export const getLogsChartConfig = (
         label: t('in-logging:logsOverTime', { context: 'INFO' })
       })
     ],
-    colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
+    colors: [carbonAlert.red60, carbonAlert.yellow30, carbonAlert.blue70],
     formatter: 'number.compact',
     renderer: 'stackedBar'
   },

@@ -9,7 +9,7 @@ import { HighlightedTimeframe } from 'in-stores/highlightedTimeframe';
 
 export interface InputMetrics {
   y1: AxisConfiguration;
-  cardTitle: string;
+  title: string;
 }
 
 export interface MetricData {
@@ -57,5 +57,5 @@ function getMetricData(metricValues: MetricDataSeries): MetricData[] {
 }
 
 export function getName(metrics: InputMetrics): string {
-  return metrics.cardTitle ?? 'metrics';
+  return metrics.title ?? 'metrics';
 }

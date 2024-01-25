@@ -64,8 +64,8 @@ export default function Alerts({ applicationId }) {
 
 function getColumnDefinitions(isGlobalSmartAlertConfig) {
   const showActionButtons = isGlobalSmartAlertConfig
-    ? role.canConfigureGlobalAlertConfigs
-    : role.canConfigureCustomAlerts;
+    ? role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs
+    : role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts;
   return [
     linkedListNameColumnDefinition(),
     evaluationInfoColumnDefinition({ isGlobalSmartAlertConfig }),

@@ -11,15 +11,14 @@ import GroupingConfigurator, {
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import { useGroupByCatalog } from 'in-alerting/smart-alerts/infrastructure/hooks/useGroupByLabel';
 import { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
-import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 
-export default function ScopeGroup({ form, updateForm }) {
+import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel.mless';
+
+export default function ScopeGroup({ form, updateForm, tagCatalog }) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const groupBy = form?.get('groupBy')?.value;
-  const entityType = form.get('entityType')?.value;
-  const metric = form.get('rule')?.get('metricName')?.value;
-  const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: false });
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const validGroupResult = isGroupingConfigurationValid(groupBy, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
@@ -32,13 +31,19 @@ export default function ScopeGroup({ form, updateForm }) {
     updateForm(form.updateIn(['groupBy'], f => f.setValue(groups).setTouched(true)));
   };
 
+  const groupByTagCatalog = useGroupByCatalog(tagCatalog);
+
   return (
-    <GroupingConfiguratorSection
-      value={groupBy}
-      GroupingConfigurator={GroupingConfigurator}
-      tagCatalog={tagCatalog}
-      tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
-      onChange={groups => handleGroupChange(groups, form, updateForm)}
-    />
+    <div className={locals.container}>
+      {groupByTagCatalog && (
+        <GroupingConfiguratorSection
+          value={groupBy}
+          GroupingConfigurator={GroupingConfigurator}
+          tagCatalog={groupByTagCatalog}
+          tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
+          onChange={groups => handleGroupChange(groups, form, updateForm)}
+        />
+      )}
+    </div>
   );
 }

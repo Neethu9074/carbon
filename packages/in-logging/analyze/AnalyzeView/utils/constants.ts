@@ -6,7 +6,7 @@
 
 import { facetedSearchItems } from 'in-logging/analyze/AnalyzeView/utils/facetedSearchItems';
 import { defaultChartedMetrics } from 'in-logging/analyze/AnalyzeView/utils/index';
-import theme from 'in-themes';
+import { carbonAlert } from 'in-themes/chartColors';
 
 export const dataSourceConfigurations = {
   logs: {
@@ -24,7 +24,7 @@ export const dataSourceConfigurations = {
   }
 } as never;
 export const logPillColorMap = new Map<string, string>([
-  ['error', theme.lib.colors.red800],
-  ['warn', theme.lib.colors.yellow800],
-  ['info', theme.lib.colors.lightBlue800]
+  ['error', carbonAlert.red60],
+  ['warn', carbonAlert.yellow30],
+  ['info', carbonAlert.blue70]
 ]);

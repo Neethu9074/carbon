@@ -5,6 +5,7 @@
 
 import { Field, ListForm, MapForm } from 'formalistic';
 
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Option } from 'in-components/ComboBox/ComboBox';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
@@ -48,6 +49,20 @@ export function alertConfigWithDefaultThreshold(form: MapForm<any>) {
       ...threshold?.toJS(),
       value: thresholdValue?.value ?? null
     }
+  };
+}
+
+export function infraAlertConfigWithDefaultThreshold(form: MapForm<any>) {
+  const threshold: MapForm<any> = form.get('threshold') as MapForm<any>;
+  const thresholdValue: Field<any> | undefined = threshold.get('value') as Field<any> | undefined;
+  const tagFilterExpression = form.get('tagFilterExpression').value;
+  return {
+    ...form.toJS(),
+    threshold: {
+      ...threshold?.toJS(),
+      value: thresholdValue?.value ?? null
+    },
+    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
   };
 }
 

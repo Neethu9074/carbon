@@ -6,12 +6,12 @@
 
 import React, { Fragment } from 'react';
 
-import GatewayConnections from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/GatewayConnections.js';
-import ICMServicesList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServicesList.js';
-import ICMServiceList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServiceList.js';
+import GatewayConnections from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/GatewayConnections';
+import ICMServicesList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServicesList';
+import ICMServiceList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServiceList';
+import ICMThreadList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMThreadList';
+import LanInterface from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LanInterface';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import ICMThreadList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMThreadList.js';
-import LanInterface from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LanInterface.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';

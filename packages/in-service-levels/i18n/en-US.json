@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Status",
-      "remainingBudget": "Error Budget Remaining",
+      "remainingBudget": "Spent",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
       "momentaryBudgetConsumption": "Error Budget Consumption",
@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "Custom Filter (optional)",
     "title": "Create Service Level Objective (SLO)",
-    "selectIndicator": "Select Indicator",
+    "selectIndicator": "Select Blueprints",
     "selectEntityNavItem": "Select Entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
     "selectScopeNavItem": "Select Scope",
     "selectScopeTitle": "Select Scope",
+    "selectIndicatorTitle": "SLI Indicator",
+    "selectIndicatorNavItem": "Set Indicator",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
@@ -206,6 +208,7 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
+        "service": "Service: {{label}}",
         "tooltip": {
           "applications": "Application SLO",
           "websites": "Website SLO"
@@ -254,6 +257,11 @@
       "summaryLabel": "Summary",
       "configurationLabel": "Configuration"
     },
+    "timeWindowSelection": {
+      "timeWindow": "Unknown Selection",
+      "timeWindow_SELECTED_TIME": "Selected Time",
+      "timeWindow_SLO_TIME_WINDOW": "SLO Time Window"
+    },
     "components": {
       "errorBudgetKpiCard": {
         "totalBudget": "Budget: {{value}}"
@@ -266,13 +274,7 @@
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Error Budget",
-        "title_fullWindow": "Error Budget Over Entire Time Window",
-        "optionCompact": "Compact",
-        "optionFull": "Full Consumption"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Error Budget Consumption Over Entire Time Window"
+        "title": "Error Budget"
       },
       "trafficChart": {
         "title": "Traffic"

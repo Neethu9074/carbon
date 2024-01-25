@@ -6,7 +6,12 @@
 
 import React from 'react';
 
-import { InfraAlertConfigWithMetadata, ThresholdConfigUnion, InfraAlertRuleUnion } from '@instana/types';
+import {
+  InfraAlertConfigWithMetadata,
+  ThresholdConfigUnion,
+  InfraAlertRuleUnion,
+  PredictiveTrigger
+} from '@instana/types';
 
 import {
   infraAlertsDetailsPath,
@@ -30,7 +35,8 @@ import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 
 export default function Alerts() {
-  const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
+  const handlers =
+    role?.canConfigureGlobalInfraSmartAlerts ?? role?.canConfigureGlobalAlertConfigs ? actionHandlers : {};
 
   function getColumnDefinitions() {
     return [
@@ -49,7 +55,7 @@ export default function Alerts() {
         actionHandlers={handlers}
         getAlertConfigs={() => getAllAlertConfigsWithResult()}
         createRowLinkLocation={createRowLinkLocation}
-        getSubtitle={config => getSubtitle(config.rule, config.threshold)}
+        getSubtitle={config => getSubtitle(config.rule, config.threshold, config.predictiveTrigger)}
         sortOptions={sortOptions}
         alertsTab={infraSmartAlerts}
       />
@@ -57,7 +63,11 @@ export default function Alerts() {
   );
 }
 
-function getSubtitle(rule: InfraAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
+function getSubtitle(
+  rule: InfraAlertRuleUnion,
+  threshold: ThresholdConfigUnion & { value?: number },
+  predictiveTrigger?: PredictiveTrigger
+) {
   const { type, operator, value } = threshold;
   const { entityType, metricName, aggregation } = rule;
 
@@ -70,7 +80,8 @@ function getSubtitle(rule: InfraAlertRuleUnion, threshold: ThresholdConfigUnion 
         metricName={metricName}
         aggregation={aggregation}
         humanReadableOperator={humanReadableOperator}
-        value={value}
+        value={value ?? 0}
+        predictiveTrigger={predictiveTrigger ?? null}
       />
     );
   }

@@ -21,11 +21,11 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 // @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import { containerPath, physicalPath, tablePath, infraSmartAlerts } from 'in-stores/navigation/paths/mainPaths';
-import { infraSmartAlertsEnabled, infraSmartAlertsDialogEnabled } from 'in-services/featureFlags';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import CreateSmartAlert from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
+import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 const infrastructureRoutes = [
@@ -62,8 +62,7 @@ export default infrastructureRoutes;
 
 function infraSmartAlertFloatingButton() {
   return (
-    role?.canConfigureGlobalAlertConfigs &&
-    infraSmartAlertsDialogEnabled && (
+    (role?.canConfigureGlobalInfraSmartAlerts ?? role?.canConfigureGlobalAlertConfigs) && (
       <FloatingActionButtons>
         <CreateSmartAlert />
       </FloatingActionButtons>

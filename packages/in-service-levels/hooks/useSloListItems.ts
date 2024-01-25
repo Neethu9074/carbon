@@ -49,7 +49,7 @@ export default function useSloListItems({
   const progress = allProgress(configurationProgress, labelsProgress, metricProgress);
   const errors = [...configurationErrors, ...labelsErrors, ...metricErrors];
 
-  if (status != 'resolved') {
+  if (status !== 'resolved') {
     return [undefined, status, errors, progress];
   }
 

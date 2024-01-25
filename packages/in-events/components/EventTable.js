@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { findIndex } from 'lodash';
 
-import { Button, Stack, SvgIcon, Typography } from '@instana/components';
+import { Button, Stack, SvgIcon, Typography, Pill } from '@instana/components';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
@@ -40,7 +40,6 @@ import { eventId } from 'in-events/navigation/matrix';
 import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 

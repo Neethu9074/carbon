@@ -36,7 +36,7 @@ export default connectTo(
     };
 
     return (
-      <Fragment>
+      <>
         {companions.map(companion => (
           <CustomMetricsV2
             key={companion.get('id')}
@@ -46,7 +46,7 @@ export default connectTo(
             titlePrefix={resolveTitlePrefix(companion)}
           />
         ))}
-      </Fragment>
+      </>
     );
   }
 );

@@ -43,7 +43,7 @@ export function createForm(
   if (simpleMode) {
     switch (wizardModeBlueprintTestType) {
       case apiScriptTest:
-        config = createScriptConfigurationForm(savedState ?? {});
+        config = createScriptConfigurationForm(simpleMode, savedState ?? {});
         break;
       case apiSimpleTest:
         config = createActionConfigurationForm(savedState ?? {});
@@ -52,7 +52,7 @@ export function createForm(
         config = createWebpageActionConfigurationForm(savedState ?? {});
         break;
       case browserScriptTest:
-        config = createBrowserScriptConfigurationForm(savedState ?? {});
+        config = createBrowserScriptConfigurationForm(simpleMode, savedState ?? {});
         break;
     }
   } else {
@@ -65,12 +65,12 @@ export function createForm(
       case apiScriptTest:
         config = !savedState?.script
           ? createAdvancedScriptConfigurationForm(savedState ?? {})
-          : createScriptConfigurationForm(savedState ?? {});
+          : createScriptConfigurationForm(simpleMode, savedState ?? {});
         break;
       case 'BrowserScript':
       case 'WebpageScript':
       case browserScriptTest:
-        config = createBrowserScriptConfigurationForm(savedState ?? {});
+        config = createBrowserScriptConfigurationForm(simpleMode, savedState ?? {});
         break;
       case 'WebpageAction':
       case browserSimpleTest:
@@ -160,40 +160,118 @@ function createActionConfigurationForm(savedState?: Record<string, any>) {
     );
 }
 
-function createScriptConfigurationForm(savedState?: Record<string, any>) {
-  return createMapForm()
-    .put(
-      'syntheticType',
-      createField({
-        value: savedState?.syntheticType ?? 'HTTPScript',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
-      'script',
-      createField({
-        value: savedState?.script,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    );
+function createScriptConfigurationForm(simpleMode: boolean, savedState?: Record<string, any>) {
+  if (simpleMode) {
+    return createMapForm()
+      .put(
+        'syntheticType',
+        createField({
+          value: savedState?.syntheticType ?? 'HTTPScript',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'script',
+        createField({
+          value: savedState?.script,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      );
+  } else {
+    return createMapForm()
+      .put(
+        'syntheticType',
+        createField({
+          value: savedState?.syntheticType ?? 'HTTPScript',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'script',
+        createField({
+          value: savedState?.script,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'timeout',
+        createField({
+          value: savedState?.timeout ?? '0m',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'retries',
+        createField({
+          value: savedState?.retries ?? 0,
+          validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+        })
+      )
+      .put(
+        'markSyntheticCall',
+        createField({
+          value: savedState?.markSyntheticCall ?? true,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+        })
+      );
+  }
 }
 
-function createBrowserScriptConfigurationForm(savedState?: Record<string, any>) {
-  return createMapForm()
-    .put(
-      'syntheticType',
-      createField({
-        value: savedState?.syntheticType ?? 'BrowserScript',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
-      'script',
-      createField({
-        value: savedState?.script,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    );
+function createBrowserScriptConfigurationForm(simpleMode: boolean, savedState?: Record<string, any>) {
+  if (simpleMode) {
+    return createMapForm()
+      .put(
+        'syntheticType',
+        createField({
+          value: savedState?.syntheticType ?? 'BrowserScript',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'script',
+        createField({
+          value: savedState?.script,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      );
+  } else {
+    return createMapForm()
+      .put(
+        'syntheticType',
+        createField({
+          value: savedState?.syntheticType ?? 'BrowserScript',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'script',
+        createField({
+          value: savedState?.script,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'timeout',
+        createField({
+          value: savedState?.timeout ?? '0m',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        })
+      )
+      .put(
+        'retries',
+        createField({
+          value: savedState?.retries ?? 0,
+          validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+        })
+      )
+      .put(
+        'markSyntheticCall',
+        createField({
+          value: savedState?.markSyntheticCall ?? true,
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+        })
+      );
+  }
 }
 
 function createWebpageActionConfigurationForm(savedState?: Record<string, any>) {
@@ -220,13 +298,35 @@ function createWebpageActionConfigurationForm(savedState?: Record<string, any>) 
 }
 
 function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>) {
-  return createMapForm().put(
-    'syntheticType',
-    createField({
-      value: savedState?.syntheticType,
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-    })
-  );
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout ?? '0m',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries ?? 0,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: savedState?.markSyntheticCall ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
 }
 
 export function createZipScriptConfigurationForm(bundle: string, scriptFile: string) {
@@ -321,6 +421,20 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       })
     )
     .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout ?? '0m',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries ?? 0,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
       'followRedirect',
       createField({
         value: savedState?.followRedirect ?? true,
@@ -331,6 +445,13 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
       'allowInsecure',
       createField({
         value: savedState?.allowInsecure ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: savedState?.markSyntheticCall ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     );
@@ -355,6 +476,20 @@ function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string
           notBlankValidator,
           urlValidator
         )
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout ?? '0m',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries ?? 0,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
       })
     )
     .put(

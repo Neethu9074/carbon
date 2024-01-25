@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useEffect, useState } from 'react';
 import { MapForm, Field } from 'formalistic';
-import React, { useState } from 'react';
 
 import { Toggle } from '@instana/components';
 import { Spacer } from '@instana/components';
@@ -34,46 +34,47 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
   const crossSeriesAggregationField = form.get('rule')?.get('crossSeriesAggregation');
   const crossSeriesAggregationValue = crossSeriesAggregationField.value;
   const isCrossSeriesSumAggregationToggleEnabled = includesInSelectedAggregations(aggregationField.value);
-
   const [isSumCrossSeriesAggregation, setIsSumCrossSeriesAggregation] = useState(
-    crossSeriesAggregationValue == 'SUM' && isCrossSeriesSumAggregationToggleEnabled ? true : false
+    crossSeriesAggregationValue == 'SUM' &&
+      (isCrossSeriesSumAggregationToggleEnabled || ifAggregationSumOrRate(aggregationField.value))
+      ? true
+      : false
   );
-  const handleAggregationChange = (
-    aggregation: string,
-    form: MapForm<any>,
-    updateForm?: (form: MapForm<any>) => void
-  ) => {
-    if (!isCrossSeriesSumAggregationToggleEnabled) {
+  const [aggregation, setAggregation] = useState(aggregationField.value ?? 'MEAN');
+
+  const handleAggregationChange = (aggregationValue: string) => {
+    setAggregation(aggregationValue);
+    if (ifAggregationSumOrRate(aggregationValue)) {
+      setIsSumCrossSeriesAggregation(true);
+    } else if (!includesInSelectedAggregations(aggregationValue)) {
       setIsSumCrossSeriesAggregation(false);
-      setcrossSeriesAggregation(form, updateForm);
     }
-    if (updateForm)
-      updateForm(
-        form.updateIn(['rule', 'aggregation'], f => (f as Field<string>).setValue(aggregation).setTouched(true))
-      );
   };
 
-  const handleSumCrossSeriesAggregationChange = (form: MapForm<any>, updateForm?: (form: MapForm<any>) => void) => {
+  const handleSumCrossSeriesAggregationChange = () => {
     setIsSumCrossSeriesAggregation(!isSumCrossSeriesAggregation);
-    setcrossSeriesAggregation(form, updateForm);
   };
 
-  function setcrossSeriesAggregation(form: MapForm<any>, updateForm?: (form: MapForm<any>) => void) {
-    const newCrossSeriesAggregation = isSumCrossSeriesAggregation ? 'SUM' : form.get('rule')?.get('aggregation').value;
-    if (updateForm)
+  useEffect(() => {
+    const newCrossSeriesAggregation = isSumCrossSeriesAggregation ? 'SUM' : aggregation;
+    if (updateForm) {
       updateForm(
-        form.updateIn(['rule', 'crossSeriesAggregation'], field =>
-          (field as Field<string>).setValue(newCrossSeriesAggregation).setTouched(true)
-        )
+        form
+          .updateIn(['rule', 'crossSeriesAggregation'], field =>
+            (field as Field<string>).setValue(newCrossSeriesAggregation).setTouched(true)
+          )
+          .updateIn(['rule', 'aggregation'], f => (f as Field<string>).setValue(aggregation).setTouched(true))
       );
-  }
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSumCrossSeriesAggregation, aggregation]);
 
   return (
     <SelectInSection
       label={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.aggregation.aggregation')}
       id="metric-configurator-infra-aggregation"
       value={aggregationField?.value}
-      onChange={e => handleAggregationChange(e.target.value, form, updateForm)}
+      onChange={e => handleAggregationChange(e.target.value)}
       useAlternateBg
       disabled={!metricField.valid}
       additionalContent={
@@ -92,7 +93,7 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
                   id="metric-configurator-cross-series-aggregation"
                   checked={isSumCrossSeriesAggregation}
                   disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                  onChange={() => handleSumCrossSeriesAggregationChange(form, updateForm)}
+                  onChange={handleSumCrossSeriesAggregationChange}
                 />
               </span>
             </Tooltip>
@@ -116,4 +117,8 @@ export default function ScopeAggregation({ form, updateForm }: ScopeAggregationP
       </>
     </SelectInSection>
   );
+}
+
+function ifAggregationSumOrRate(aggregationFieldValue: string) {
+  return ['SUM', 'PER_SECOND'].includes(aggregationFieldValue);
 }

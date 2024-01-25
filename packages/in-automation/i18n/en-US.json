@@ -14,6 +14,7 @@
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
+  "viewManualAction":"View Manual Action {{actionName}}",
   "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",
   "hasBeenInitiated": "{{actionName}} has been initiated.",
@@ -89,6 +90,7 @@
   "aiEngine": "AI Engine",
   "eventSimilarity": "Event Similarity",
   "recommendedActionsCount": "Recommended Actions ({{count}})",
+  "close":"Close",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -111,6 +113,7 @@
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
     "docLinkDescription": "URL to documentation that can help with remediation.",
+    "manualContentDescription": "Enter instructions for the manual action here.",
     "manual": "Manual",
     "execute": "Execute",
     "confidence_low": "Low",
@@ -191,7 +194,7 @@
     "jiraBodyHelptext": "This is the content of the task.",
     "jiraTitleHelptext": "This is the title of the task to be opened.",
     "docLinkHelpText": "Documentation link refers to a URL.",
-    "scripthelpText": "Script is to run an automation script on Linux.",
+    "scripthelpText": "Script is to run an automation script.",
     "httpHelpText": "HTTP is to invoke a webhook.",
     "manualHelpText": "Manual describes manual actions used for AI model training.",
     "githubHelpText": "Open, close or comment on a Github issue.",
@@ -203,7 +206,9 @@
     "bug": "Bug",
     "improvement": "Improvement",
     "newFeature": "New Feature",
-    "aiScore": "AI Score"
+    "aiScore": "AI Score",
+    "view": "View",
+    "content":"Content"
   },
   "actionHistory": {
     "actionHistory": "Action History",

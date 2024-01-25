@@ -7,20 +7,16 @@ import React, { PureComponent, createElement } from 'react';
 import classNames from 'classnames';
 
 import { SvgIconSizes } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import SVG_LINES from 'in-components/LoadingIndicators/SvgLineCoordinates';
 import SVG_PATHS from 'in-components/LoadingIndicators/SvgPaths';
-import theme from 'in-themes';
 
 import locals from './IndeterminateLoadingIndicator.mless';
 
-const {
-  lib: { colors: COLORS }
-} = theme;
-
 const DEFAULT_STYLES = {
   fillColor: 'transparent',
-  strokeColor: COLORS.N600Light,
+  strokeColor: themes.default.ids.color.option.neutral['600'],
   strokeWidth: 1.5
 };
 

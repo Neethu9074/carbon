@@ -21,7 +21,7 @@ interface InfraTimeThresholdProps {
   oneMinuteGranularityAllowed: boolean;
 }
 
-export function InfraTimeThreshold({
+export default function InfraTimeThreshold({
   form,
   onChange,
   updateForm,

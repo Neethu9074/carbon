@@ -5,8 +5,8 @@
 
 import invariant from 'invariant';
 
+import { carbonCategorical } from 'in-themes/chartColors';
 import { lighten } from 'in-services/formatters/color';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export const endpointNameTranslations = {
@@ -26,20 +26,20 @@ export const endpointNameTranslations = {
 };
 
 export const colorTranslation = {
-  BATCH: theme.lib.carbonCategorical.purple70,
-  SHELL: theme.lib.carbonCategorical.cyan50,
-  DATABASE: theme.lib.carbonCategorical.teal70,
-  HTTP: theme.lib.carbonCategorical.magenta70,
-  MESSAGING: theme.lib.carbonCategorical.red50,
-  RPC: theme.lib.carbonCategorical.red90,
-  EVENT: theme.lib.carbonCategorical.green60,
-  GRAPHQL: theme.lib.carbonCategorical.blue80,
-  INTERNAL: theme.lib.carbonCategorical.magenta50,
-  UNDEFINED: theme.lib.carbonCategorical.yellow50,
-  UNKNOWN: theme.lib.carbonCategorical.teal50,
-  SELF: theme.lib.carbonCategorical.cyan90,
-  SDK: theme.lib.carbonCategorical.orange70,
-  OPENTELEMETRY: theme.lib.carbonCategorical.purple50
+  BATCH: carbonCategorical.purple70,
+  SHELL: carbonCategorical.cyan50,
+  DATABASE: carbonCategorical.teal70,
+  HTTP: carbonCategorical.magenta70,
+  MESSAGING: carbonCategorical.red50,
+  RPC: carbonCategorical.red90,
+  EVENT: carbonCategorical.green60,
+  GRAPHQL: carbonCategorical.blue80,
+  INTERNAL: carbonCategorical.magenta50,
+  UNDEFINED: carbonCategorical.yellow50,
+  UNKNOWN: carbonCategorical.teal50,
+  SELF: carbonCategorical.cyan90,
+  SDK: carbonCategorical.orange70,
+  OPENTELEMETRY: carbonCategorical.purple50
 };
 
 export function getColor(type) {

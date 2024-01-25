@@ -500,7 +500,12 @@
     "noOfVersion750": "750",
     "noOfVersion760": "760",
     "noOfVersion780": "780",
-    "noOfVersionOthers": "Unknown"
+    "noOfVersionOthers": "Unknown",
+    "procId": "Process ID",
+    "command": "Command",
+    "resSize": "Resource Size",
+    "priority": "Priority",
+    "TopProcessList": "Top Process List"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

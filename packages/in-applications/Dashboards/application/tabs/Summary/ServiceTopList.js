@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 
 import { useLinkToApplicationDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
@@ -12,7 +13,6 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopLi
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getTopServices from 'in-applications/subscriptions/getTopServices';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ServiceTopList.mless';
@@ -28,7 +28,7 @@ const formatters = [meanLatencyLargeInSeconds.compact, number.compact, percentag
 const companionMetrics = [null, 'calls', 'erroneousCalls'];
 const companionAggregations = [null, 'PER_SECOND', 'SUM'];
 const companionFormatters = [null, number.perSecond.compact, number.compact];
-const colors = [null, null, theme.lib.colors.failure];
+const colors = [null, null, themes.default.ids.color.option.red['500']];
 
 export default function ServiceTopList({
   applicationId,

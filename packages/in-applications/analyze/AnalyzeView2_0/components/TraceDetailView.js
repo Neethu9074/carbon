@@ -9,7 +9,7 @@ import { get } from 'lodash';
 import { Button, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import { Link } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   LARGE_TRACE_THRESHOLD,
@@ -44,13 +44,13 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { getColor } from 'in-applications/endpointTypes';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric';
+import { chartColors } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours, seconds } from 'in-services/time';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 import Pill from 'in-components/Pill';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './TraceDetailView.mless';
@@ -184,7 +184,7 @@ function getTraceSummaryRetriable([traceId, retry]) {
 }
 
 function getColorByEndpoint({ service, endpoint, traceId }) {
-  return getColorPool(traceId, theme.lib.colors.chart.strokeColors100).getColorHex(
+  return getColorPool(traceId, chartColors.strokeColors100).getColorHex(
     `${service && service.id}__${endpoint && endpoint.id}`
   );
 }

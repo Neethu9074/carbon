@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -37,7 +39,6 @@ import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function ClusterDashboard({ location }) {
@@ -156,10 +157,9 @@ function RenderMetaInformation({ result }) {
   const version = get(result, ['data', 'version']);
   const clusterDistribution = get(result, ['data', 'clusterDistribution'], 'kubernetes');
   const clusterManagement = get(result, ['data', 'clusterManagement']);
-  const theme = useTheme();
   return (
     <>
-      {version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}
+      {version && <BadgeList type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />}
       <TypesBadgeList
         type={t('in-kubernetes:dashboards.clusterDistributionBadgeType', {
           clusterDistributionName: clusterBadgeName(clusterDistribution)

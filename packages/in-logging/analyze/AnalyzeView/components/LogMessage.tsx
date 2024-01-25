@@ -9,13 +9,12 @@ import classNames from 'classnames';
 import { Li, Ul } from '@instana/components';
 
 import { GetHrefToGroupedView, GetHrefWithAdditionalTagFilter } from 'in-components/AnalyzeView/StateManagement';
+import { useParamTagLinks } from 'in-logging/analyze/AnalyzeView/components/hooks/useParamTagLinks';
 import { fillWithParams, MESSAGE_CHUNK, toChunks } from 'in-services/util/stringToChunks';
 import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-components/overlays/Overlay';
-import { LogTag, TagFilter } from 'in-types';
+import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';
@@ -23,9 +22,6 @@ import locals from './LogMessage.mless';
 interface LogMessageProps {
   tags: LogTag[];
   message: string;
-  isExpanded: boolean;
-  isHovered: boolean;
-  setIsExpanded?: React.Dispatch<React.SetStateAction<boolean>>;
   setIsHovered?: React.Dispatch<React.SetStateAction<boolean>>;
   getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
   getHrefToGroupedView?: GetHrefToGroupedView;
@@ -35,8 +31,7 @@ export default function LogMessage({
   tags,
   message,
   getHrefWithAdditionalTagFilter,
-  getHrefToGroupedView,
-  setIsHovered
+  getHrefToGroupedView
 }: LogMessageProps) {
   return useMemo(() => {
     const paramTags = tags
@@ -46,31 +41,12 @@ export default function LogMessage({
     return (
       <>
         {fillWithParams(toChunks(message, ['{}']), paramTags).map(({ type, value }, i) =>
-          type === MESSAGE_CHUNK ? (
-            <MessageTag key={i} message={value} setIsHovered={setIsHovered} />
-          ) : (
-            <ParamTag
-              key={i}
-              tag={value as LogTag}
-              getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
-              getHrefToGroupedView={getHrefToGroupedView}
-            />
-          )
+          type === MESSAGE_CHUNK ? <MessageTag key={i} message={value} /> : <ParamTag key={i} tag={value as LogTag} />
         )}
       </>
     );
-  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView, setIsHovered]);
-}
-
-function getTagExpressionWithTag(name: string, key?: string, value?: string): TagFilter {
-  return {
-    key,
-    value,
-    name,
-    type: TAG,
-    operator: EQUALS,
-    entity: 'NOT_APPLICABLE'
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView]);
 }
 
 interface MessageTagProps {
@@ -94,12 +70,12 @@ function MessageTag({ message, setIsHovered }: MessageTagProps) {
 
 interface ParamTagProps {
   tag: LogTag;
-  getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
-  getHrefToGroupedView?: GetHrefToGroupedView;
 }
 
-function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }: ParamTagProps) {
+function ParamTag({ tag }: ParamTagProps) {
   const value = String((tag.stringValue ?? tag.doubleValue ?? tag.booleanValue ?? tag.longValue) || '');
+
+  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView } = useParamTagLinks();
 
   if (getHrefWithAdditionalTagFilter && getHrefToGroupedView) {
     return (
@@ -109,7 +85,7 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }:
           <Ul className={locals.list}>
             <Li
               className={locals.listItem}
-              href={getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag.name || '', tag.key, value))}
+              href={getHrefWithAdditionalTagFilter(tag.name || '', tag.key || '', value)}
               onDefaultHrefInteractionSideEffect={() => logMessageParameterClicked({ key: tag.key })}
             >
               {t('in-logging:addAsFilter')}
@@ -117,7 +93,7 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }:
             {tag.name && (
               <Li
                 className={locals.listItem}
-                href={getHrefToGroupedView({ tag: tag.name, secondLevelKey: tag.key })}
+                href={getHrefToGroupedView(tag.name, tag.key || '')}
                 onDefaultHrefInteractionSideEffect={() => logMessageParameterClicked({ key: tag.key })}
               >
                 {t('in-logging:addAsGroup')}

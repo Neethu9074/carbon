@@ -14,6 +14,7 @@ import {
 import { combineLatest, just, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
+import { t } from '@instana/i18n-react';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -42,9 +43,14 @@ export default function useSloEntitiesLabels(
 
   const result: Result<Record<string, LabeledEntity>> = {
     progress: all(...results.map(r => r[1].progress)),
-    errors: results.flatMap(r => r[1].errors),
+    // If an entity got deleted we get a NOT_FOUND error for labels from the backend and the status will be rejected.
+    // However, the NOT_FOUND error is an expected error that can happen and we should display the SLO list anyway.
+    errors: results.flatMap(r => r[1].errors.filter(({ code }) => code !== 'NOT_FOUND')),
     data: results.reduce((acc, [id = '', r]) => {
-      acc[id] = r.data ?? { label: '' };
+      const entityNotFound = r.errors.filter(({ code }) => code !== 'NOT_FOUND');
+      acc[id] = r.data ?? {
+        label: entityNotFound ? t('in-service-levels:general.entityTypes.label', { context: 'unknown' }) : ''
+      };
       return acc;
     }, {} as Record<string, LabeledEntity>)
   };

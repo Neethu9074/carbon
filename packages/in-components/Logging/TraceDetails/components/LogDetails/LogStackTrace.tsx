@@ -9,53 +9,33 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import StackTracePresentation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
-import { ParsedStackTrace } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
 import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
 import ExpandableGroup from 'in-components/ExpandableGroup';
-import { getPhysicalHierarchy } from 'in-stores/snapshot';
-import { ID_PROCESS } from 'in-logging/queryBuilder';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { LogItem, LogTag } from 'in-types';
+import { StackTraceItem } from 'in-types';
 import { t } from 'in-i18n';
 
 interface StackTraceProps {
-  stackTrace?: ParsedStackTrace[] | null;
-  log: LogItem;
+  stackTrace: StackTraceItem[];
+  processSnapshotId?: string;
 }
-export default function LogStackTraceGroup({ stackTrace, log }: StackTraceProps) {
+export default function LogStackTraceGroup({ stackTrace, processSnapshotId }: StackTraceProps) {
   const timeConfig = useTimeConfig();
 
-  const logSnapshotId = getProcessSnapshotId(log.tags);
-
-  const physicalHierarchy = useObservable(
-    () => (logSnapshotId ? getPhysicalHierarchy({ snapshotId: logSnapshotId, timeConfig }) : just(null)),
-    [logSnapshotId, timeConfig]
-  );
-
-  const snapshotId = physicalHierarchy?.get(0);
-
   const snapshot = useObservable(
-    () => (snapshotId ? getSnapshot(snapshotId, timeConfig) : just(null)),
-    [snapshotId, timeConfig]
+    () => (processSnapshotId ? getSnapshot(processSnapshotId, timeConfig) : just(null)),
+    [processSnapshotId, timeConfig]
   );
 
   const isSnapshotOnline =
     useObservable<boolean, (string | undefined)[]>(
-      () => (snapshotId ? isEntityOnline(snapshotId) : just(false)),
-      [snapshotId]
+      () => (processSnapshotId ? isEntityOnline(processSnapshotId) : just(false)),
+      [processSnapshotId]
     ) || false;
-
-  if (!stackTrace) {
-    return null;
-  }
 
   return (
     <ExpandableGroup title={t('in-analyze:traceDetail.components.callDetails.stackTrace')} defaultExpanded>
       <StackTracePresentation stackTrace={stackTrace} isOnline={isSnapshotOnline} snapshot={snapshot} noPadding />
     </ExpandableGroup>
   );
-}
-
-function getProcessSnapshotId(tags: LogTag[]): string | undefined {
-  return tags.find(({ name }) => name === ID_PROCESS)?.stringValue;
 }

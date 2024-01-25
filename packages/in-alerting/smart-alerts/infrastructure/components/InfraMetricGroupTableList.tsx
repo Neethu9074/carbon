@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
 import {
-  KeyValue,
   LiLoadMore,
   TableHorizontalIndicatorRow,
   Table,
@@ -17,15 +16,18 @@ import {
   SvgIcon,
   TableLoadingSkeletonRows
 } from '@instana/components';
-import { InfrastructureGroup, Order, Progress, Result, TimeConfig } from '@instana/types';
+import { InfrastructureGroup, Order, Progress, Result, TagCatalog, TimeConfig } from '@instana/types';
 
 //@ts-expect-error
 import { getGroupTagValue, getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { InfraMetricGroupHeader } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupHeader';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+import { GroupLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel';
 //@ts-expect-error
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -34,8 +36,7 @@ import { State } from 'in-hooks/useCursorPagination';
 import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';
 
-import local from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList.mless';
-import locals from 'in-infrastructure/Explore/components/GroupedInfrastructure.mless';
+import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList.mless';
 
 interface OrderByProps {
   orderBy: string;
@@ -45,7 +46,7 @@ interface OrderByProps {
 interface InfraMetricGroupTableListProps extends State<any, any> {
   groupBy: string[];
   isTableMode: boolean;
-  metrics: object[];
+  metrics: MetricType[];
   order: Order;
   retrievalSize: number;
   totalHits?: number;
@@ -53,12 +54,11 @@ interface InfraMetricGroupTableListProps extends State<any, any> {
   type: string;
   metricMetadatas: Result<Metadatas>;
   timeConfig: TimeConfig;
-  granularity: number;
   loadMore: () => void;
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
   onOrderByChange: ({ by, direction }: Order) => void;
-  setRetrievalSize: any;
+  tagCatalog?: TagCatalog;
 }
 
 /**
@@ -82,12 +82,11 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     type,
     metricMetadatas,
     timeConfig,
-    granularity,
     loadMore: defaultCursorPaginationLoadMore,
     canLoadMore,
     setBackendQueryModel,
     onOrderByChange,
-    setRetrievalSize
+    tagCatalog
   } = props;
 
   const hasErrors = errors && errors?.length > 0;
@@ -95,13 +94,21 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
   const [selectedMetricGroup, setSelectedMetricGroup] = useState<Tags>();
 
   useEffect(() => {
-    // If the value is not in the'selectedMetricGroup', set the first one as selected by default.
-    setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup);
+    if (isLoading) return;
+
+    if (items?.length > 0) {
+      // If the value is not in the'selectedMetricGroup', set the first one as selected by default.
+      setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup);
+    } else {
+      // if the loading is completed and the item is empty set the selected metric group to null
+      setSelectedMetricGroup(undefined);
+      selectedMetricGroup$.emit(null);
+    }
 
     if (selectedMetricGroup) {
       selectedMetricGroup$.emit(selectedMetricGroup);
     }
-  }, [selectedMetricGroup, items]);
+  }, [selectedMetricGroup, items, isLoading]);
 
   const columnDefinitions = getColumnDefinition({
     groupBy,
@@ -110,13 +117,18 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     type,
     metricMetadatas,
     timeConfig,
-    granularity,
-    selectedMetricGroup
+    granularity: sparkChartGranularity,
+    selectedMetricGroup,
+    tagCatalog
   });
 
   return (
     <>
-      <div className={local.tableMinHeight}>
+      <div
+        className={classNames({
+          [locals.tableMinHeight]: items?.length >= 5
+        })}
+      >
         <InfraMetricGroupHeader
           isLoading={isLoading}
           totalHits={totalHits}
@@ -154,7 +166,6 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
             //@ts-expect-error TS incompactable
             loadMore={() => {
               defaultCursorPaginationLoadMore();
-              setRetrievalSize(retrievalSize + 5);
             }}
           />
         )}
@@ -174,6 +185,7 @@ interface ColumnDefinitionProps {
   timeConfig: TimeConfig;
   granularity: number;
   selectedMetricGroup?: Tags;
+  tagCatalog?: TagCatalog;
 }
 
 /**
@@ -196,7 +208,8 @@ function getColumnDefinition({
   metricMetadatas,
   timeConfig,
   granularity,
-  selectedMetricGroup
+  selectedMetricGroup,
+  tagCatalog
 }: ColumnDefinitionProps) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : t('in-alerting:smartAlerts.infrastructure.count');
@@ -214,7 +227,7 @@ function getColumnDefinition({
         <SvgIcon
           type="lib_check"
           className={classNames({
-            [local.hideIcon]: !displayIcon
+            [locals.hideIcon]: !displayIcon
           })}
         />
       );
@@ -223,32 +236,25 @@ function getColumnDefinition({
 
   const groupsColumn = groupBy.map((groupKey: string) => {
     return {
-      width: getColumnWidth(groupBy, metrics, isTableMode),
+      width: getColumnWidth(groupBy, metrics),
       getId: () => groupKey,
       id: groupKey,
       cellClassName: locals.wordBreak,
       headCellProps: {
         className: locals.wordBreak
       },
-      ...(isTableMode
-        ? {
-            sortable: true,
-            label: groupKey,
-            getContent(item: InfrastructureGroup) {
-              return getGroupTagValue(item, groupKey);
-            }
-          }
-        : {
-            getContent({ group }: { [index: string]: any }) {
-              const value = getGroupTagValue(group, groupKey);
-              return <KeyValue label={groupKey} value={value} accentuated />;
-            }
-          })
+      ...{
+        sortable: true,
+        label: groupKey && tagCatalog ? <GroupLabel groupKey={groupKey} tagCatalog={tagCatalog} /> : null,
+        getContent(item: InfrastructureGroup) {
+          return getGroupTagValue(item, groupKey);
+        }
+      }
     };
   });
 
   const countLabelColumnTable = {
-    width: '6rem',
+    width: '4rem',
     id: countLabel,
     getId: () => countLabel,
     label: countLabel,
@@ -267,12 +273,11 @@ function getColumnDefinition({
  * Returns the column width for the infrastructure table.
  * @param groupBy The group by fields.
  * @param metrics The metrics.
- * @param isTableMode Whether the table mode is enabled.
  * @returns The column width.
  */
-function getColumnWidth(groupBy: string[], metrics: object[], isTableMode: boolean): string {
-  const totalMetrics = isTableMode ? 4 : 5;
-  return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 12 + 'rem';
+function getColumnWidth(groupBy: string[], metrics: object[]): string {
+  const totalMetrics = 5;
+  return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 10 + 'rem';
 }
 
 /**
@@ -282,10 +287,10 @@ function getColumnWidth(groupBy: string[], metrics: object[], isTableMode: boole
  */
 function Loading({ progress }: { progress: Progress }): JSX.Element {
   return (
-    <Table className={local.fullWidth}>
+    <Table className={locals.fullWidth}>
       <Tbody>
         <TableHorizontalIndicatorRow cols={3} progress={progress} />
-        {progress.loading && <TableLoadingSkeletonRows cols={3} rows={3} />}
+        <TableLoadingSkeletonRows cols={3} rows={6} />
       </Tbody>
     </Table>
   );
@@ -300,7 +305,12 @@ function setDefaultMetrics(
     return;
   }
 
-  if (!selectedMetricGroup) {
-    setSelectedMetricGroup(items[0].tags);
+  if (selectedMetricGroup) {
+    const metricExistsInItems = items.find(item => item.tags === selectedMetricGroup);
+    if (metricExistsInItems) {
+      return;
+    }
   }
+
+  setSelectedMetricGroup(items[0].tags);
 }

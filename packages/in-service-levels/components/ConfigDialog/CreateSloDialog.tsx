@@ -96,9 +96,9 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
     },
     {
       content: <SloBlueprintsSection />,
-      label: t('in-service-levels:createSloDialog.selectIndicator'),
+      label: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
       scrollId: '3-select-indicator',
-      title: t('in-service-levels:createSloDialog.selectIndicator'),
+      title: t('in-service-levels:createSloDialog.selectIndicatorNavItem'),
       valid: isThresholdValid
     },
     {

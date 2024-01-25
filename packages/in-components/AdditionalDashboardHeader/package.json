@@ -1,0 +1,6 @@
+{
+  "name": "AdditionalDashboardHeader",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AdditionalDashboardHeader.tsx"
+}

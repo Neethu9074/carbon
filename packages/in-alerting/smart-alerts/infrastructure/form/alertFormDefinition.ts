@@ -8,8 +8,11 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+//@ts-expect-error
+import { groupbyTag } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
@@ -57,7 +60,8 @@ export default function alertFormDefinition(
     id = ''
   } = alertConfig;
 
-  const form = createMapForm()
+  //@ts-expect-error
+  const form = createMapForm({ validator: regexValidator })
     .put(
       fieldNames.alertChannelIds,
       createField({
@@ -68,7 +72,8 @@ export default function alertFormDefinition(
     .put(
       fieldNames.description,
       createField({
-        value: description
+        value: description,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
     .put(
@@ -80,13 +85,14 @@ export default function alertFormDefinition(
     .put(
       'groupBy',
       createField({
-        value: groupBy
+        value: groupbyTag(groupBy)
       })
     )
     .put(
       fieldNames.name,
       createField({
-        value: name
+        value: name,
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(

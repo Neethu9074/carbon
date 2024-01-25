@@ -174,8 +174,6 @@ export default function LinuxAutomatic({
             <Code
               lang="bash"
               code={[
-                '#!/bin/bash',
-                ' ',
                 `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -d ${downloadKey} -t ${
                   agentMode === 'dynamic' ? 'dynamic' : 'static'
                 } -e ${agentEndpoint}:${agentEndpointPort} ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'} ${

@@ -127,7 +127,6 @@ export const getBashCode = ({
     case 'openshift_helm': {
       let content = [];
       content.push(
-        '#!/bin/bash',
         'helm install instana-agent \\',
         '--repo https://agents.instana.io/helm \\',
         '--namespace instana-agent \\',

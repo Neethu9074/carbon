@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelIndicatorUnion, SloEntityUnion, TimeConfig } from '@instana/types';
+import { ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
 import { isCustomEventBasedSli, isEventBasedSli } from '@instana/types/typeDefinitions';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
@@ -20,18 +20,17 @@ import {
 export interface IndicatorChartProps<IndicatorType = ServiceLevelIndicatorUnion> {
   entity: SloEntityUnion;
   indicator: IndicatorType;
-  timeConfig: TimeConfig;
 }
 
-export default function IndicatorChart({ indicator, entity, timeConfig }: IndicatorChartProps) {
+export default function IndicatorChart({ indicator, entity }: IndicatorChartProps) {
   if (isTimeBasedLatencyBlueprintIndicator(indicator)) {
-    return <TimeBasedLatencyIndicatorChart indicator={indicator} entity={entity} timeConfig={timeConfig} />;
+    return <TimeBasedLatencyIndicatorChart indicator={indicator} entity={entity} />;
   }
   if (isTimeBasedAvailabilityBlueprintIndicator(indicator)) {
-    return <TimeBasedAvailabilityIndicatorChart entity={entity} indicator={indicator} timeConfig={timeConfig} />;
+    return <TimeBasedAvailabilityIndicatorChart entity={entity} indicator={indicator} />;
   }
   if (isEventBasedSli(indicator) || isCustomEventBasedSli(indicator)) {
-    return <EventBasedIndicatorChart entity={entity} indicator={indicator} timeConfig={timeConfig} />;
+    return <EventBasedIndicatorChart entity={entity} indicator={indicator} />;
   }
 
   return null;

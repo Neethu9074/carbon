@@ -109,7 +109,7 @@ function Chart({ renderer }) {
           metricIds: ['latency', 'threshold'],
           excludedLabelsFromTooltip: ['Violations'],
           icons: {
-            types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+            types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'],
             colors: [oldTheme.lib.colors.lightBlue800, oldTheme.lib.colors.red800, '#ffe2e2']
           },
           getMax: metricsMaxValue => metricsMaxValue * 1.4,
@@ -195,7 +195,7 @@ function ChartPrediction({ renderer, isMetricOverlap }) {
             metricIds: ['cpu.used', 'threshold', 'violations', 'predictions', 'lowerBound', 'upperBound'],
             excludedLabelsFromTooltip: ['Violations'],
             icons: {
-              types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_line_chart'],
+              types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_legend_line_chart'],
               colors: [
                 oldTheme.lib.carbonCategorical.cyan50,
                 oldTheme.lib.carbonAlert.red60,

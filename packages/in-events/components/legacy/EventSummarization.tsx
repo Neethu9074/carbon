@@ -6,7 +6,7 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, Card, Stack, SvgIcon, Typography } from '@instana/components';
+import { Button, Card, Stack, SvgIcon, Typography, Pill } from '@instana/components';
 import { Incident } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -18,7 +18,6 @@ import {
 } from 'in-events/tracker';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Pill from 'in-components/Pill/Pill';
 import { useTheme } from 'in-themes';
 
 import locals from 'in-events/components/legacy/EventList.mless';

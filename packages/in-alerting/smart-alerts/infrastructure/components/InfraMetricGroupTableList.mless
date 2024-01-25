@@ -25,4 +25,8 @@
   .tableMinHeight {
     min-height: 27rem;
   }
+
+  .wordBreak {
+    word-break: break-word;
+  }
 }

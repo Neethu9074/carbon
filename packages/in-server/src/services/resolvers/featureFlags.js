@@ -301,6 +301,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsActivityDistributionChartsEnabled',
+    instanaCtlKey: 'feature.bizops.activity.distribution.charts.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: true
@@ -381,6 +386,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticUpdateDeployPoPEnabled',
+    instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -401,8 +411,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraSmartAlertsPredictionsEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.predictions.enabled',
+    uiClientKey: 'infraPredictiveDetectionEnabled',
+    instanaCtlKey: 'feature.infra.predictive.detection.enabled',
     defaultValue: false
   },
   {
@@ -414,11 +424,6 @@ module.exports = exports = [
     uiClientKey: 'regexMetricSelectionEnabled',
     instanaCtlKey: 'feature.regex.metric.selection.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'logDeletionEnabled',
-    instanaCtlKey: 'feature.logging.logDeletion.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'rcaUIEnabled',
@@ -471,11 +476,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraSmartAlertsDialogEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.dialog.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'simplifiedFlowMapEnabled',
     instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
     defaultValue: false
@@ -483,7 +483,7 @@ module.exports = exports = [
   {
     uiClientKey: 'agentInstallationV2Enabled',
     instanaCtlKey: 'feature.agent.install.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'fullscreenWidgetEnabled',
@@ -494,5 +494,10 @@ module.exports = exports = [
     uiClientKey: 'enableCarbonIcons',
     instanaCtlKey: 'feature.carbon.icons.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'allowDownloadMetricsFromCharts',
+    instanaCtlKey: 'feature.chart.download.enabled',
+    defaultValue: true
   }
 ];

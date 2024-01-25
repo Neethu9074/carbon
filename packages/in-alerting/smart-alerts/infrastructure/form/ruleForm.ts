@@ -8,7 +8,10 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { GenericInfraAlertRule } from '@instana/types';
 
-import { t } from 'in-i18n';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { stringValidator } from 'in-services/validators/jsonType';
+import { notBlankValidator } from 'in-services/validators/string';
 
 export default function createRuleForm(rule: GenericInfraAlertRule): MapForm<any> {
   const baseForm = createBaseForm(rule);
@@ -33,17 +36,7 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
       'metricName',
       createField({
         value: rule.metricName ?? '',
-        validator: metric => {
-          if (metric === '') {
-            return [
-              {
-                severity: 'error',
-                message: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.ruleFormMetricError')
-              }
-            ];
-          }
-          return null;
-        }
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(
@@ -55,8 +48,13 @@ function createBaseForm(rule: GenericInfraAlertRule): MapForm<any> {
     .put(
       'crossSeriesAggregation',
       createField({
-        //Todo : update this when cross-series-Agg. is implemented.
-        value: undefined
+        value: rule.crossSeriesAggregation
+      })
+    )
+    .put(
+      'regex',
+      createField({
+        value: rule.regex ?? false
       })
     );
 }

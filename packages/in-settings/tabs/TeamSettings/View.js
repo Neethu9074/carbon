@@ -45,15 +45,14 @@ import {
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
-import {
-  alertsHubEnabled,
-  disableInvitesWithIdpEnabled,
-  logDeletionEnabled,
-  recurrentMaintenanceWindowEnabled
-} from 'in-services/featureFlags';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
+import {
+  alertsHubEnabled,
+  disableInvitesWithIdpEnabled,
+  recurrentMaintenanceWindowEnabled
+} from 'in-services/featureFlags';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
@@ -169,10 +168,10 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     });
   }
 
-  if (role.canConfigureCustomAlerts || role.canConfigureIntegrations) {
+  if ((role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) || role.canConfigureIntegrations) {
     const eventsAndAlertsPages = [];
 
-    if (role.canConfigureCustomAlerts) {
+    if (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) {
       if (alertsHubEnabled) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingHub,
@@ -240,7 +239,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
       });
     }
 
-    if (role.canConfigureCustomAlerts) {
+    if (role.canConfigureMaintenanceWindows ?? role.canConfigureCustomAlerts) {
       if (recurrentMaintenanceWindowEnabled) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingMaintenanceConfigurations,
@@ -325,7 +324,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
       pages = logManagementPages;
     }
 
-    if (role.canDeleteLogs && logDeletionEnabled) {
+    if (role.canDeleteLogs) {
       pages.push(deleteLogsPage);
     }
 

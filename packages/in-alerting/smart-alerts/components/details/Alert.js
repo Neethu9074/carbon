@@ -57,7 +57,9 @@ export default function Alert({
   showActionButton = true,
   getAllowedPlaceholders = () => [],
   displayEditAction = true,
-  displayDuplicateAction = true
+  displayDuplicateAction = true,
+  canConfigureGlobalAlertConfigs = false,
+  canConfigureIndividualAlertConfigs = false
 }) {
   const theme = useTheme();
   const { location, navigate } = useNavigation();
@@ -164,7 +166,7 @@ export default function Alert({
             );
           }}
           showActionButton={showActionButton}
-          allowActionButtons={isGlobalSmartAlert ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts}
+          allowActionButtons={isGlobalSmartAlert ? canConfigureGlobalAlertConfigs : canConfigureIndividualAlertConfigs}
           onConfigDeleteTrigger={() => {
             trackAlertDeleteTrigger(alertConfig);
           }}
@@ -236,5 +238,7 @@ Alert.propTypes = {
   showActionButton: PropTypes.bool,
   getAllowedPlaceholders: PropTypes.func,
   displayEditAction: PropTypes.bool,
-  displayDuplicateAction: PropTypes.bool
+  displayDuplicateAction: PropTypes.bool,
+  canConfigureGlobalAlertConfigs: PropTypes.bool,
+  canConfigureIndividualAlertConfigs: PropTypes.bool
 };

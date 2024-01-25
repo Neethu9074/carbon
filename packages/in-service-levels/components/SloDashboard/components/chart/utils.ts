@@ -13,7 +13,8 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { getChartGranularity } from 'in-stores/metric';
 
 export function findMinMetricValue(metrics: MetricDataSeries): number {
-  return metrics.reduce((acc, [, value]) => {
+  return metrics.reduce<number>((acc, [, value], index) => {
+    if (index === 0) return value;
     return Math.min(acc, value);
   }, 0);
 }

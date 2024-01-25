@@ -14,7 +14,7 @@ import {
   LimitedAccessScope,
   LimitedAccessScopeType
 } from 'in-stores/permission';
-import { syntheticRbacEnabled } from 'in-services/featureFlags';
+import { automationPoliciesEnabled, infraSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -131,9 +131,15 @@ export const syntheticOtherCapabilities: Array<CapabilityType> = [
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
 
 export const eventCapabilities: Array<CapabilityType> = [
-  Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
+  Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS,
+  Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS,
+  Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
+  Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS,
+  Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS,
+  Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS,
+  Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
+  ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : []),
   Capability.CAN_CONFIGURE_INTEGRATIONS,
-  Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
   Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
 ];
 
@@ -183,7 +189,7 @@ export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS,
   Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-  Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
+  ...(automationPoliciesEnabled ? [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES] : [])
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [
@@ -201,6 +207,7 @@ interface ProductAreaAccess {
   permission?: AreaPermissionType;
   capabilities: Array<CapabilityType>;
 }
+
 type ProductAreaPermissionStructure = Record<ProductAreaType, ProductAreaAccess>;
 const noCapabilities: Array<CapabilityType> = [];
 export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFreeze({

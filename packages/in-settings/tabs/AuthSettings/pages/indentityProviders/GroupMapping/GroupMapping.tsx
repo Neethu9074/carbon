@@ -18,6 +18,8 @@ import {
 import React, { useState } from 'react';
 
 import { Button, Link, SvgIcon, Message } from '@instana/components';
+import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import {
   firstMappingAdded,
@@ -37,19 +39,25 @@ import {
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
 import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+// @ts-expect-error
+import ApiItemView from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/APIItemView';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error
 import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
-// @ts-expect-error
-import ApiItemView from 'in-settings/components/ApiItemView';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { isLoading, hasError } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { containsIgnoreCase } from 'in-services/util/string';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { pendingResult } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
+import SearchInput from 'in-components/SearchInput';
+import { error } from 'in-services/util/result';
 import Select from 'in-components/form/Select';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
@@ -58,7 +66,6 @@ import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 import locals from './GroupMapping.mless';
-import { compareIgnoreCase } from 'in-services/util/string';
 
 interface InstanaGroup {
   id: string;
@@ -80,13 +87,46 @@ const GROUP_ID = 'groupId';
 const TRACKING = 'tracking';
 
 interface RenderProps {
+  // eslint-disable-next-line react/no-unused-prop-types
   readonly form: MapForm<any>;
-  readonly setForm: (newForm: MapForm<any>) => void
+  // eslint-disable-next-line react/no-unused-prop-types
+  readonly setForm: (newForm: MapForm<any>) => void;
 }
 
 export default function GroupMapping() {
   const [page, setPage] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState<string | undefined>('');
   const pageSize = 100;
+
+  function getMappingData() {
+    const apis = {
+      mappings: getMappings(),
+      instanaGroups: getGroupsAsResultObservable(),
+      denyCheck: getIdpRestriction(),
+      samlConfig: samlConfig(),
+      ldapConfig: ldapConfig(),
+      oidcConfig: oidcConfig()
+    };
+    const observableKeys: any = Object.keys(apis);
+    const observableValues: any = Object.values(apis);
+    return combineLatest(observableValues).map((results: any) => {
+      const resultData: any = {};
+      for (let i = 0; i < results.length; i++) {
+        const result = results[i];
+        if (isLoading(result)) {
+          return pendingResult;
+        }
+        if (hasError(result)) {
+          return error(result.errors);
+        }
+        resultData[observableKeys[i]] = result.data;
+      }
+
+      return resultData;
+    });
+  }
+  const mappingData = getMappingData();
+  const data = useObservable(mappingData, []);
 
   function render({ form, setForm }: RenderProps): JSX.Element {
     if (!form.get('hasIdp')?.value) {
@@ -130,12 +170,27 @@ export default function GroupMapping() {
     );
 
     const groupMappings: MapForm<any>[] = form.get(GROUP_MAPPINGS) ?? [];
+
+    let filteredItems: MapForm<any>[] = { ...groupMappings };
+    if (searchQuery !== '')
+      filteredItems = {
+        ...groupMappings,
+        // @ts-expect-error invalid type
+        items: groupMappings.items.filter(item => searchItem(item, ['key'], searchQuery))
+      };
+
     const firstItem = (page - 1) * pageSize; // 1. => 0., 2 => 101
     let lastItem = pageSize * page; // 1. => 100, 2. => 200
     // @ts-expect-error invalid type
-    if (lastItem > (groupMappings.items?.length ?? 0)) {
+    if (lastItem > (filteredItems.items?.length ?? 0)) {
       // @ts-expect-error invalid type
-      lastItem = groupMappings.items.length;
+      lastItem = filteredItems.items.length;
+    }
+
+    // @ts-expect-error invalid type
+    if (searchQuery !== '' && filteredItems.items?.length > 0) {
+      // @ts-expect-error invalid type
+      setPage(parseInt(filteredItems.items?.length / pageSize) + 1);
     }
 
     return (
@@ -183,7 +238,7 @@ export default function GroupMapping() {
           noDataMessage={t('in-settings:tabs.noGroupMapping')}
           orderBy="label"
           orderDirection="ASC"
-          rightHeader={<RightHeader addRow={addRow} />}
+          rightHeader={<RightHeader addRow={addRow} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />}
           getRowIndex={getRowIndex}
           deleteRow={deleteRow}
           updateIn={updateIn}
@@ -194,10 +249,10 @@ export default function GroupMapping() {
             errors: [],
             data: {
               // @ts-ignore
-              items: groupMappings.items?.slice(firstItem , lastItem) ?? [],
+              items: filteredItems.items?.slice(firstItem, lastItem) ?? [],
               pageSize,
               // @ts-ignore
-              totalHits: groupMappings.items?.length ?? 0,
+              totalHits: filteredItems.items?.length ?? 0,
               page
             }
           }}
@@ -214,11 +269,11 @@ export default function GroupMapping() {
 
     function addRow() {
       setForm(
-        form.updateIn(
-          [GROUP_MAPPINGS],
-          (f: Item): Item =>
-            (f as ListForm<any>).unshift(newEntry({ id: null, key: '', value: '', groupId: defaultRoleId })).setTouched(true)
-        )
+        form.updateIn([GROUP_MAPPINGS], (f: Item): Item => {
+          return (f as ListForm<any>)
+            .insert((page - 1) * pageSize, newEntry({ id: null, key: '', value: '', groupId: defaultRoleId }))
+            .setTouched(true);
+        })
       );
     }
 
@@ -229,6 +284,9 @@ export default function GroupMapping() {
         setForm(
           form.updateIn([GROUP_MAPPINGS], (f: Item) => (f as ListForm<any>).remove(entryPosition).setTouched(true))
         );
+      }
+      if (page != 0 && entryPosition % pageSize == 0) {
+        setPage(entryPosition / pageSize);
       }
     }
 
@@ -246,6 +304,16 @@ export default function GroupMapping() {
     }
   }
 
+  // @ts-ignore
+  function searchItem(item: any, searchFields: string[], query: string) {
+    for (let i = 0; i < searchFields.length; i++) {
+      if (containsIgnoreCase(item.get(searchFields[i]).value + '', query)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   return (
     <ApiItemView
       getObservables={() => ({
@@ -259,12 +327,44 @@ export default function GroupMapping() {
       enrichForm={enrichForm}
       onCancelClick={refresh}
       saveItem={saveItem}
+      searchFields={['name']}
       render={render}
+      result={data}
     />
   );
+
+  function enrichForm(_form: MapForm<any>, { result }: { result: any }) {
+    const hasIdp = result.samlConfig?.activated || result.oidcConfig?.activated || result.ldapConfig?.url;
+    if (!hasIdp) {
+      return createMapForm({ items: { hasIdp: createField({ value: false }) } });
+    }
+
+    const formRows = result.mappings
+      ?.slice()
+      .sort(idpGroupMappingComparator)
+      .map((e: IdpGroupMapping) => newEntry(e));
+
+    const denyCheck: IdentityProviderPatch = result.denyCheck;
+    const mappingsListForm = createListForm({ items: formRows });
+    return createMapForm({
+      validator: checkThereIsAtLeastOneGroupMappingIfDenyIsChecked,
+      items: {
+        hasIdp: createField({ value: true }),
+        groupMappings: mappingsListForm,
+        denyAccess: createField({
+          value: denyCheck.restrictEmptyIdpGroups
+        }),
+        instanaGroups: createField({ value: result.instanaGroups }),
+        tracking: createMapForm({
+          items: {
+            initialSize: createField({ value: formRows.length }),
+            initialRestrictAccessFlag: createField({ value: denyCheck.restrictEmptyIdpGroups })
+          }
+        })
+      }
+    });
+  }
 }
-
-
 
 type OnChangeInput = (path: string[], doThis: (f: Item) => Field<string>) => void;
 
@@ -378,11 +478,29 @@ const deleteRowColumnDefinition = {
     DeleteMapping(item, deleteRow)
 };
 
-function RightHeader({ addRow }: { addRow: () => void }): JSX.Element {
+function RightHeader({
+  addRow,
+  searchQuery,
+  setSearchQuery
+}: {
+  addRow: () => void;
+  searchQuery: string | undefined;
+  setSearchQuery: any;
+}): JSX.Element {
   return (
-    <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={addRow}>
-      {t('in-settings:tabs.addGroupMapping')}
-    </Button>
+    <>
+      <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={addRow}>
+        {t('in-settings:tabs.addGroupMapping')}
+      </Button>
+      <SearchInput
+        maxWidth={200}
+        placeholder={t('in-settings:components.search')}
+        query={searchQuery}
+        onChange={query => {
+          setSearchQuery(query);
+        }}
+      />
+    </>
   );
 }
 
@@ -459,51 +577,19 @@ function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm<any> {
   });
 }
 
-const idpGroupMappingComparator = (a: IdpGroupMapping, b: IdpGroupMapping): 1|0|-1 => {
-    const keyCompare = compareIgnoreCase(a?.key ?? '', b?.key ?? '');
-    if (keyCompare !== 0) {
-      return keyCompare;
-    }
-
-    const valueCompare = compareIgnoreCase(a?.value ?? '', b?.value ?? '');
-    if (valueCompare !== 0) {
-      return valueCompare;
-    }
-
-    return compareIgnoreCase(a?.groupId ?? '', b?.groupId ?? '');
-};
-
-function enrichForm(_form: MapForm<any>, { result }: { result: any }) {
-  const hasIdp = result.samlConfig?.activated || result.oidcConfig?.activated || result.ldapConfig?.url;
-  if (!hasIdp) {
-    return createMapForm({ items: { hasIdp: createField({ value: false }) } });
+const idpGroupMappingComparator = (a: IdpGroupMapping, b: IdpGroupMapping): 1 | 0 | -1 => {
+  const keyCompare = compareIgnoreCase(a?.key ?? '', b?.key ?? '');
+  if (keyCompare !== 0) {
+    return keyCompare;
   }
 
+  const valueCompare = compareIgnoreCase(a?.value ?? '', b?.value ?? '');
+  if (valueCompare !== 0) {
+    return valueCompare;
+  }
 
-  const formRows = result.mappings?.slice()
-    .sort(idpGroupMappingComparator)
-    .map((e: IdpGroupMapping) => newEntry(e));
-
-  const denyCheck: IdentityProviderPatch = result.denyCheck;
-  const mappingsListForm = createListForm({ items: formRows });
-  return createMapForm({
-    validator: checkThereIsAtLeastOneGroupMappingIfDenyIsChecked,
-    items: {
-      hasIdp: createField({ value: true }),
-      groupMappings: mappingsListForm,
-      denyAccess: createField({
-        value: denyCheck.restrictEmptyIdpGroups
-      }),
-      instanaGroups: createField({ value: result.instanaGroups }),
-      tracking: createMapForm({
-        items: {
-          initialSize: createField({ value: formRows.length }),
-          initialRestrictAccessFlag: createField({ value: denyCheck.restrictEmptyIdpGroups })
-        }
-      })
-    }
-  });
-}
+  return compareIgnoreCase(a?.groupId ?? '', b?.groupId ?? '');
+};
 
 function checkThereIsAtLeastOneGroupMappingIfDenyIsChecked({ groupMappings, denyAccess }: MapFormItems) {
   const groupMappingsList: ListForm<any> = groupMappings as ListForm<any>;

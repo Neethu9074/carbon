@@ -116,7 +116,7 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role?.canConfigureAutomationActions &&
-        role?.canConfigureCustomAlerts &&
+        (role?.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
         isIssue &&
         hasEventSpec && (
           <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
@@ -125,7 +125,7 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role?.canConfigureAutomationActions &&
-        role?.canConfigureCustomAlerts &&
+        (role?.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
         isIssue &&
         hasEventSpec && (
           <AssociatedAndRecommendedActions volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />

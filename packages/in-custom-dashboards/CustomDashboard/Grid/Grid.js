@@ -260,7 +260,10 @@ function WidgetMoreMenu({
           <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
             {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
           </MoreMenuButton>
-          <CopyToClipboard getText={() => onCopyWidget(widget.id)}>
+          <CopyToClipboard
+            getText={() => onCopyWidget(widget.id)}
+            successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
+          >
             {copyToClipboardRef => (
               <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
                 {t('in-custom-dashboards:customDashboard.grid.grid.copy')}

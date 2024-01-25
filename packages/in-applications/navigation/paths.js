@@ -18,6 +18,7 @@ import {
   endpointId as matrixEndpointId,
   facetedSearchMatrixParameter,
   hiddenCallsMatrixParameter,
+  hasHttpType as matrixHasHttpType,
   plugin as matrixPlugin,
   fastQueryModeEnabledMatrixParameter,
   serviceId as matrixServiceId,
@@ -75,6 +76,7 @@ export const logMessagesTab = '/logMessages';
 export const syntheticsTab = '/synthetics';
 export const smartAlertsTab = '/alerts';
 export const configurationTab = '/configuration';
+export const endpointsTab = '/endpoints';
 
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
@@ -421,6 +423,17 @@ function useDashboard(base) {
     [base, location, createHref]
   );
 }
+
+export const useLinkToEndpointConfiguration = () => {
+  const { location, createHref } = useNavigation();
+
+  return hasHttpType => {
+    location.pathname = configureEndpointsView;
+    setOrDeleteMatrixKey(location, endpointsTab, matrixHasHttpType, hasHttpType);
+
+    return createHref(location);
+  };
+};
 
 export function useLinkToAlertConfig() {
   const { location, createHref } = useNavigation();

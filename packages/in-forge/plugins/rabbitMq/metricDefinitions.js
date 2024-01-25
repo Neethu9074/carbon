@@ -133,6 +133,13 @@ export default [
     formatter: number
   },
   {
+    metric: getDynamicMetricMatch('queue_map', 'consumers', t('in-forge:plugins.rabbitMq.queue')),
+    label: t('in-forge:plugins.rabbitMq.consumers'),
+    min: 0,
+    category: [t('in-forge:plugins.rabbitMq.queues')],
+    formatter: number
+  },
+  {
     metric: 'net_partitions_count',
     label: t('in-forge:plugins.rabbitMq.totalNumberOfNetworkPartitions'),
     min: 0,

@@ -8,6 +8,7 @@ import React from 'react';
 import { ThemeProvider, getThemeOverride } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/CarbonUIShell';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
@@ -15,11 +16,11 @@ import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
-import PlayWithHeader from 'in-plg/Demo/PlayWithHeader';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { playwithEnabled } from 'in-services/featureFlags';
 import MainNavigation from 'in-components/MainNavigation';
+import PlayWithHeader from 'in-plg/Demo/PlayWithHeader';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
@@ -29,7 +30,8 @@ import 'in-themes/foundation.less';
 import locals from './App.mless';
 
 export default function App() {
-  const currentTheme = getThemeOverride() ?? 'g10';
+  const currentTheme = getThemeOverride() ?? 'default';
+  const carbonShell = isCarbonShellEnabled();
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
@@ -50,7 +52,7 @@ export default function App() {
                   <MainNavigation />
                 </ErrorBoundary>
 
-                <div className={locals.content}>
+                <div className={carbonShell ? locals.contentCarbon : locals.content}>
                   <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
                 </div>
 

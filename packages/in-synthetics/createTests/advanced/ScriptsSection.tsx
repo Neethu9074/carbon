@@ -9,18 +9,41 @@ import React, { useState } from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
+import { Stack } from '@instana/components';
 
+import {
+  timeoutObject,
+  retriesObject,
+  Code,
+  Invalid,
+  SlideInHeader,
+  SliderState,
+  Zip,
+  scriptTestType
+} from 'in-synthetics/utils/constants';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { Code, SlideInHeader, SliderState, Zip, scriptTestType } from 'in-synthetics/utils/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
 import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScriptDialogContent';
+import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
+import { scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
+import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
+import { numberValidator } from 'in-services/validators/jsonType';
+import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { minValidator } from 'in-services/validators/number';
+import { Row, Col } from 'in-components/layout/Grid/Grid';
+import Label from 'in-components/form/Label/Label';
+import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ScriptsSection.mless';
@@ -36,6 +59,8 @@ interface ScriptProps {
   commonAttributes: Record<string, any>;
   setCommonAttributes: (type: Record<string, any>) => void;
   isBrowser: boolean;
+  invalidTimeout: Invalid;
+  setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
 export default function ScriptsSection({
@@ -48,47 +73,31 @@ export default function ScriptsSection({
   setScriptDetails,
   commonAttributes,
   setCommonAttributes,
-  isBrowser
+  isBrowser,
+  invalidTimeout,
+  setInvalidTimeout
 }: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
-  const isSideScript = () => {
-    try {
-      JSON.parse((configForm.get('script') as Field<string>).value);
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
-  const [script, setScript] = useState(
-    isUpdateConfig && !isUpdated
-      ? configForm.get('script')
-        ? {
-            name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
-            text: (configForm.get('script') as Field<string>).value,
-            extension: isSideScript() ? 'side' : 'js'
-          }
-        : {
-            name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
-            text: (configForm.getIn(['scripts', 'bundle']) as Field<string>).value,
-            scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
-            extension: 'zip'
-          }
-      : scriptDetails?.modified && configForm.get('script')
-      ? {
-          name: scriptDetails?.name,
-          text: (configForm.get('script') as Field<string>).value,
-          extension: isNotBlank(scriptDetails?.name) ? (isSideScript() ? 'side' : 'js') : ''
-        }
-      : { name: '', text: '', extension: 'js' }
-  );
+  const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
   const [columnLabel, setColumnLabel] = useState(
     (isUpdateConfig && !isUpdated) || (scriptDetails?.modified && isBlank(scriptDetails?.name))
       ? ''
       : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
   );
+
+  const timeoutField = configForm.get('timeout') as Field<string>;
+  const retriesField = configForm.get('retries') as Field<number>;
+  const retryIntervalField = configForm.get('retryInterval') as Field<number>;
+  const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
+
+  const [timeout, setTimeout] = useState({
+    value: timeoutField.value.replace(/[^0-9]/g, ''),
+    unit: timeoutField.value.replace(/[0-9]/g, '')
+  });
+  const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 
   function deleteScript() {
     if (script.extension !== 'zip') {
@@ -141,157 +150,295 @@ export default function ScriptsSection({
   ];
 
   return (
-    <List
-      getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
-      columnDefinitions={columnDefinition}
-      renderNoDataAvailable={() => (
-        <NoDataAvailable
-          type="lib_help_error_warning_outline"
-          height={100}
-          className={locals.boldText}
-          text={t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptNotAdded')}
-        />
-      )}
-      pageSize={1}
-      initialOrderBy={''}
-      rightHeader={
-        <Button
-          className={locals.selectButton}
-          kind="action"
-          onClick={() => {
-            setSliderState({
-              slideInConfig: {
-                component: (
-                  <AddScriptDialogContent
-                    form={form}
-                    scriptContent={script}
-                    zipFileDetails={zipFile}
-                    setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                    onSubmit={(scriptContent, zipFile) => {
-                      let updatedForm;
-                      let testType = isBrowser ? scriptTestType(scriptContent.extension, syntheticType) : syntheticType;
-                      if (scriptContent.extension !== 'zip') {
-                        if (!form.get('configuration').get('script')) {
-                          updatedForm = form.put(
-                            'configuration',
-                            form
-                              .get('configuration')
-                              .put(
-                                'script',
-                                createField({
-                                  value: scriptContent.text,
-                                  validator: composeAndShortCircuitOnError(
-                                    notUndefinedValidator,
-                                    stringValidator,
-                                    notBlankValidator
-                                  )
-                                }).setTouched(true)
-                              )
-                              .updateIn(['syntheticType'], (field: Item) =>
-                                (field as Field<string>).setValue(testType).setTouched(true)
-                              )
-                              .remove('scripts')
-                          );
+    <>
+      <List
+        getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
+        columnDefinitions={columnDefinition}
+        renderNoDataAvailable={() => (
+          <NoDataAvailable
+            type="lib_help_error_warning_outline"
+            height={100}
+            className={locals.boldText}
+            text={t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptNotAdded')}
+          />
+        )}
+        pageSize={1}
+        initialOrderBy={''}
+        rightHeader={
+          <Button
+            className={locals.selectButton}
+            kind="action"
+            onClick={() => {
+              setSliderState({
+                slideInConfig: {
+                  component: (
+                    <AddScriptDialogContent
+                      form={form}
+                      scriptContent={script}
+                      zipFileDetails={zipFile}
+                      setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                      onSubmit={(scriptContent, zipFile) => {
+                        let updatedForm;
+                        let testType = isBrowser
+                          ? scriptTestType(scriptContent.extension, syntheticType)
+                          : syntheticType;
+                        if (scriptContent.extension !== 'zip') {
+                          if (!form.get('configuration').get('script')) {
+                            updatedForm = form.put(
+                              'configuration',
+                              form
+                                .get('configuration')
+                                .put(
+                                  'script',
+                                  createField({
+                                    value: scriptContent.text,
+                                    validator: composeAndShortCircuitOnError(
+                                      notUndefinedValidator,
+                                      stringValidator,
+                                      notBlankValidator
+                                    )
+                                  }).setTouched(true)
+                                )
+                                .updateIn(['syntheticType'], (field: Item) =>
+                                  (field as Field<string>).setValue(testType).setTouched(true)
+                                )
+                                .remove('scripts')
+                            );
+                          } else {
+                            updatedForm = form.put(
+                              'configuration',
+                              form
+                                .get('configuration')
+                                .updateIn(['script'], (field: Item) =>
+                                  (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                                )
+                                .updateIn(['syntheticType'], (field: Item) =>
+                                  (field as Field<string>).setValue(testType).setTouched(true)
+                                )
+                                .remove('scripts')
+                            );
+                          }
+                          updateForm(updatedForm);
                         } else {
-                          updatedForm = form.put(
-                            'configuration',
-                            form
-                              .get('configuration')
-                              .updateIn(['script'], (field: Item) =>
-                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
-                              )
-                              .updateIn(['syntheticType'], (field: Item) =>
-                                (field as Field<string>).setValue(testType).setTouched(true)
-                              )
-                              .remove('scripts')
-                          );
+                          if (!form.get('configuration').get('scripts')) {
+                            updatedForm = form.put(
+                              'configuration',
+                              form
+                                .get('configuration')
+                                .put(
+                                  'scripts',
+                                  createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
+                                )
+                                .updateIn(['syntheticType'], (field: Item) =>
+                                  (field as Field<string>).setValue(testType).setTouched(true)
+                                )
+                                .remove('script')
+                            );
+                          } else {
+                            updatedForm = form.put(
+                              'configuration',
+                              form
+                                .get('configuration')
+                                .updateIn(['scripts', 'bundle'], (field: Item) =>
+                                  (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                                )
+                                .updateIn(['scripts', 'scriptFile'], (field: Item) =>
+                                  (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+                                )
+                                .updateIn(['syntheticType'], (field: Item) =>
+                                  (field as Field<string>).setValue(testType).setTouched(true)
+                                )
+                                .remove('script')
+                            );
+                          }
+                          updateForm(updatedForm);
                         }
-                        updateForm(updatedForm);
-                      } else {
-                        if (!form.get('configuration').get('scripts')) {
-                          updatedForm = form.put(
-                            'configuration',
-                            form
-                              .get('configuration')
-                              .put(
-                                'scripts',
-                                createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
-                              )
-                              .updateIn(['syntheticType'], (field: Item) =>
-                                (field as Field<string>).setValue(testType).setTouched(true)
-                              )
-                              .remove('script')
-                          );
-                        } else {
-                          updatedForm = form.put(
-                            'configuration',
-                            form
-                              .get('configuration')
-                              .updateIn(['scripts', 'bundle'], (field: Item) =>
-                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
-                              )
-                              .updateIn(['scripts', 'scriptFile'], (field: Item) =>
-                                (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
-                              )
-                              .updateIn(['syntheticType'], (field: Item) =>
-                                (field as Field<string>).setValue(testType).setTouched(true)
-                              )
-                              .remove('script')
-                          );
+                        setScript(scriptContent);
+                        setZipFile(zipFile);
+                        setSliderState({
+                          slideInConfig: {},
+                          isVisible: false
+                        });
+                        setColumnLabel(
+                          isBlank(scriptContent.extension)
+                            ? ''
+                            : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
+                        );
+                        setIsUpdated(true);
+                        if (isBrowser) {
+                          setCommonAttributes({ ...commonAttributes, syntheticType: testType });
                         }
-                        updateForm(updatedForm);
-                      }
-                      setScript(scriptContent);
-                      setZipFile(zipFile);
-                      setSliderState({
-                        slideInConfig: {},
-                        isVisible: false
-                      });
-                      setColumnLabel(
-                        isBlank(scriptContent.extension)
-                          ? ''
-                          : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
-                      );
-                      setIsUpdated(true);
-                      if (isBrowser) {
-                        setCommonAttributes({ ...commonAttributes, syntheticType: testType });
-                      }
-                    }}
-                    setSliderState={setSliderState}
-                    isBrowser={isBrowser}
-                  />
-                ),
-                title:
-                  script.text !== '' || (isUpdateConfig && !isUpdated)
-                    ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
-                    : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
-              },
-              isVisible: true
-            });
-          }}
-          icon={
-            script.text !== '' || (isUpdateConfig && !isUpdated)
-              ? 'lib_actions_edit'
-              : 'lib_openclose_add_circle_outline'
-          }
-        >
-          {script.text !== '' || (isUpdateConfig && !isUpdated)
-            ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
-            : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')}
-        </Button>
-      }
-      isSearchable={false}
-      loadEntities={() => {
-        return just(
-          script.extension !== 'zip'
-            ? configForm.get('script') && isNotBlank((configForm.getIn(['script']) as Field<string>)?.value)
-              ? [configForm.getIn(['script']) as Field<string>]
+                      }}
+                      setSliderState={setSliderState}
+                      isBrowser={isBrowser}
+                    />
+                  ),
+                  title:
+                    script.text !== '' || (isUpdateConfig && !isUpdated)
+                      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+                      : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
+                },
+                isVisible: true
+              });
+            }}
+            icon={
+              script.text !== '' || (isUpdateConfig && !isUpdated)
+                ? 'lib_actions_edit'
+                : 'lib_openclose_add_circle_outline'
+            }
+          >
+            {script.text !== '' || (isUpdateConfig && !isUpdated)
+              ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+              : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')}
+          </Button>
+        }
+        isSearchable={false}
+        loadEntities={() => {
+          return just(
+            script.extension !== 'zip'
+              ? configForm.get('script') && isNotBlank((configForm.getIn(['script']) as Field<string>)?.value)
+                ? [configForm.getIn(['script']) as Field<string>]
+                : []
+              : configForm.get('scripts') &&
+                isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+              ? [configForm.getIn(['scripts', 'bundle']) as Field<string>]
               : []
-            : configForm.get('scripts') && isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
-            ? [configForm.getIn(['scripts', 'bundle']) as Field<string>]
-            : []
-        );
-      }}
-    />
+          );
+        }}
+      />
+      <div className={locals.configContainer}>
+        <FormGroup className={locals.descriptionInput}>
+          <Label className={locals.timeoutLabel}>
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel')}
+          </Label>
+          <div className={locals.subText}>
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeUnitsLabel')}
+          </div>
+          <Row className={locals.row}>
+            {Object.keys(timeoutObject).map(unit => (
+              <Col lg={4} key={unit}>
+                <CheckboxFancy
+                  key={unit}
+                  label={timeoutObject[unit].label}
+                  checked={timeoutObject[unit].value === timeout.unit}
+                  onChange={() => {
+                    setTimeout({ value: '0', unit: timeoutObject[unit].value });
+                    updateForm(
+                      form.updateIn(['configuration', 'timeout'], (field: Item) =>
+                        (field as Field<string>).setValue('0' + timeoutObject[unit].value).setTouched(true)
+                      )
+                    );
+                  }}
+                  asRadioButton
+                />
+              </Col>
+            ))}
+          </Row>
+          <Stack direction="horizontal">
+            <div className={locals.alignText}>
+              {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldDescription')}
+            </div>
+            <Input
+              name="timeout"
+              hasError={invalidTimeout.invalid && timeoutField.touched}
+              value={timeout.value}
+              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                setTimeout({ value: target?.value, unit: timeout.unit });
+                const timeoutInvalid = timeoutValidator(target?.value, timeout.unit);
+                setInvalidTimeout({ invalid: timeoutInvalid[0].invalid, message: timeoutInvalid[0].message });
+                updateForm(
+                  form.updateIn(['configuration', 'timeout'], (field: Item) =>
+                    (field as Field<string>).setValue(Number(target?.value).toString() + timeout.unit).setTouched(true)
+                  )
+                );
+              }}
+            />
+            <div className={locals.alignText}>{timeoutObject[selectedUnit]?.label}</div>
+          </Stack>
+          {invalidTimeout.invalid && <ValidationBlock>{invalidTimeout.message}</ValidationBlock>}
+        </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
+        <FormGroup className={locals.descriptionInput}>
+          <Label>{t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel')}</Label>
+          <Row className={locals.row}>
+            {retriesObject.map(retry => (
+              <Col lg={4} key={retry.value}>
+                <CheckboxFancy
+                  key={retry.value}
+                  label={retry.label}
+                  checked={retry.value === retriesField.value}
+                  onChange={() => {
+                    if (retry.value === 0) {
+                      updateForm(
+                        form
+                          .updateIn(['configuration', 'retries'], (field: Item) =>
+                            (field as Field<number>).setValue(retry.value).setTouched(true)
+                          )
+                          .updateIn(['configuration', 'retryInterval'], (field: Item) =>
+                            (field as Field<number>).setValue(1).setTouched(true)
+                          )
+                      );
+                    } else {
+                      updateForm(
+                        form
+                          .put(
+                            'configuration',
+                            form.get('configuration').put(
+                              'retryInterval',
+                              createField({
+                                value: 1,
+                                validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+                              })
+                            )
+                          )
+                          .updateIn(['configuration', 'retries'], (field: Item) =>
+                            (field as Field<number>).setValue(retry.value).setTouched(true)
+                          )
+                      );
+                    }
+                  }}
+                  asRadioButton
+                />
+              </Col>
+            ))}
+          </Row>
+
+          {(retriesField.value === 1 || retriesField.value === 2) && (
+            <Section>
+              <ActionTitle>
+                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
+              </ActionTitle>
+              <Description>
+                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalDescription', {
+                  retryCount: retriesField.value === 1 ? 'once' : 'twice',
+                  retryIntervalValue: retryIntervalField.value
+                })}
+              </Description>
+              {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
+              <TouchedMessages field={retryIntervalField} />
+            </Section>
+          )}
+        </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
+        <Stack direction="horizontal">
+          <CheckboxFancy
+            wrapperClassName={locals.configCheckbox}
+            onChange={({ target }) => {
+              updateForm(
+                form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
+                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                )
+              );
+            }}
+            checked={markSyntheticCall.value}
+            size="larger"
+            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
+            disabled={false}
+          />
+        </Stack>
+      </div>
+    </>
   );
 }

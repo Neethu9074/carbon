@@ -6,7 +6,8 @@
 
 import React, { useContext } from 'react';
 
-import { Card, HorizontalIndicator, useTheme } from '@instana/components';
+import { Card, HorizontalIndicator } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import PreviewChartLeftHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/PreviewChartLeftHeader';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -25,8 +26,6 @@ import locals from 'in-service-levels/components/ConfigDialog/components/DialogS
 
 export default function SloConfigPreview() {
   const { form } = useContext(SloFormContext);
-
-  const theme = useTheme();
   const timeConfig = useTimeConfig();
 
   const granularity = calculateSloGranularity(timeConfig);
@@ -77,7 +76,7 @@ export default function SloConfigPreview() {
               metricIds: ['errorBudgetRemaining'],
               metrics: [errorBudgetRemaining?.values as MetricDataPoint[]],
               labels: [sloPreviewMetrics.remainingBudget.label],
-              colors: [theme.ids.color.option.blue['400']],
+              colors: [themes.default.ids.color.option.blue['400']],
               formatter: number.compact,
               renderer: renderer.line
             },

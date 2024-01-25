@@ -1,13 +1,15 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
-import React, { useCallback } from 'react';
+/* eslint-disable react/no-unused-prop-types */
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
+import { LogItem, LogMessageItem, LogTag } from '@instana/types';
+import { SpanExcerpt } from '@instana/types/typeDefinitions';
 import { Stack, useTheme } from '@instana/components';
-import { LogTag, TimeConfig } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 
 import {
   isParameterTag,
@@ -17,36 +19,44 @@ import {
 // @ts-ignore
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
 // @ts-ignore
-import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/LoadingCallDetails';
-// @ts-ignore
 import AnalyzeLogsButton from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
-import { getSpanIdTagFilter, LOG_MESSAGE, logTableTags, SPAN_STACK_TRACE } from 'in-logging/queryBuilder';
 import LogStackTrace from 'in-components/Logging/TraceDetails/components/LogDetails/LogStackTrace';
+import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
 import { filterTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
-import { hasError, isLoading } from 'in-services/util/result';
+import { isLogItem } from 'in-logging/analyze/AnalyzeView/utils';
 import ExpandableGroup from 'in-components/ExpandableGroup';
-import { pendingResult } from 'in-services/fixedObjects';
-import getLog from 'in-logging/subscriptions/getLog';
+import { SPAN_STACK_TRACE } from 'in-logging/queryBuilder';
+import { loggingEnabled } from 'in-services/featureFlags';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import logIndicatorLocals from 'in-applications/analyze/components/TraceDetails/components/LogIndicator.mless';
 import locals from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails.mless';
 
+export interface LogSpanExcerpt extends Omit<SpanExcerpt, 'data'> {
+  data: {
+    log: LogMessageItem;
+  };
+}
 interface LogDetailsSwitchProps {
-  callId?: string;
-  onClose?: () => void;
-  timeConfigForLogs?: TimeConfig;
-  totalNumberOfLogs?: number;
-  selectedLogIdPair: { spanId: string; logId: string };
-  expandedLogId?: string;
+  callLog: LogSpanExcerpt;
+  processSnapshotId?: string;
+  callId: string;
+  loggingLog?: LogItem;
 }
 
 export default function LogDetailsSwitch(props: LogDetailsSwitchProps) {
-  return role?.canViewLogs ? <LogDetails {...props} /> : <LogDetailsWithNoAccess />;
+  return role?.canViewLogs ? (
+    <ErrorBoundary name="calls-sidebar-log">
+      <LogDetails {...props} />
+    </ErrorBoundary>
+  ) : (
+    <LogDetailsWithNoAccess />
+  );
 }
 
 function LogDetailsWithNoAccess() {
@@ -66,59 +76,38 @@ function LogDetailsWithNoAccess() {
 }
 
 function LogDetails(props: LogDetailsSwitchProps) {
-  const { selectedLogIdPair, onClose, expandedLogId } = props;
-
-  const ref = useCallback(node => {
-    if (node !== null && selectedLogIdPair.logId === expandedLogId) {
-      node.scrollIntoView({ block: 'start' });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const { callLog, loggingLog } = props;
   const theme = useTheme();
 
-  const logResult =
-    useObservable(
-      () =>
-        getLog({
-          itemId: selectedLogIdPair.logId,
-          tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId),
-          requestedTags: [...logTableTags, SPAN_STACK_TRACE, LOG_MESSAGE]
-        }),
-      [selectedLogIdPair.logId, selectedLogIdPair.spanId]
-    ) ?? pendingResult;
+  const { selectedLog } = useContext(LogsInCallsContext);
 
-  if (isLoading(logResult)) {
-    return (
-      <div className={locals.logDetails}>
-        <LoadingCallDetails onClose={onClose} progress={0} />
-      </div>
-    );
-  }
-  if (hasError(logResult)) {
-    return (
-      <div className={locals.logDetails}>
-        <ErroneousResultPresenter errors={logResult.errors} />
-      </div>
-    );
-  }
+  const useLoggingData = loggingEnabled && loggingLog;
 
-  const log = logResult.data;
+  const logLevel = useLoggingData
+    ? getLogLevel(loggingLog.tags)
+    : callLog.data.log?.level || (callLog.errorCount > 0 ? 'ERROR' : 'WARN');
 
-  const logLevel = getLogLevel(log.tags);
   const logLevelColor = logLevel === 'ERROR' ? theme.ids.color.option.red['500'] : theme.ids.color.option.yellow['500'];
 
-  const tags = log.tags
-    .filter(filterTag)
-    .filter((tag: LogTag) => !isParameterTag(tag))
-    .map(mapToSiderbarTagListObject);
+  const logMessage = useLoggingData ? loggingLog?.message : callLog.data.log?.message;
 
-  const stackTraceTagValue = tags.find((tag: LogTag) => tag.name === SPAN_STACK_TRACE)?.value;
+  const isExpandedLog = isLogItem(selectedLog)
+    ? loggingLog?.itemId === selectedLog.itemId
+    : selectedLog?.label.replace('WARN:', '').replace('ERROR:', '') === logMessage;
 
-  const stackTrace = stackTraceTagValue ? parseStackTrace(stackTraceTagValue) : null;
+  useEffect(() => {
+    setIsExpanded(isExpandedLog);
+  }, [isExpandedLog]);
 
-  // translate tag param key to not leak the technical rake
-  const parameterTags = log.tags.filter(isParameterTag).map(mapToSiderbarTagListObject);
+  const ref = useCallback(
+    node => {
+      if (node !== null && isExpanded) {
+        node.scrollIntoView({ block: 'start' });
+      }
+    },
+    [isExpanded]
+  );
 
   const title = (
     <div className={locals.title}>
@@ -132,34 +121,94 @@ function LogDetails(props: LogDetailsSwitchProps) {
       </aside>
       <header>
         <span className={locals.titleLevel}>{logLevel}</span>
-        <LogMessage {...log} />
+        {useLoggingData ? <LogMessage tags={loggingLog?.tags} message={logMessage} /> : <span>{logMessage}</span>}
       </header>
     </div>
   );
 
+  const handleToggle = () => setIsExpanded(expanded => !expanded);
+
   return (
     <aside ref={ref} className={locals.logDetails}>
-      <ExpandableGroup defaultExpanded={expandedLogId === log.itemId} title={title}>
-        <Stack direction="vertical" gap="normal">
-          <ExpandableGroup title="Message" defaultExpanded>
-            <LogMessage {...log} />
-          </ExpandableGroup>
-
-          <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-            <SidebarTagList tags={tags} />
-          </ExpandableGroup>
-
-          {parameterTags.length > 0 && (
-            <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
-              <SidebarTagList tags={parameterTags} />
-            </ExpandableGroup>
-          )}
-
-          <LogStackTrace log={log} stackTrace={stackTrace} />
-
-          <AnalyzeLogsButton log={log} />
-        </Stack>
+      <ExpandableGroup onToggle={handleToggle} expanded={isExpanded} title={title}>
+        {useLoggingData ? (
+          <ExpandedLogWithLogging {...(props as ExpandedLogWithLoggingProps)} />
+        ) : (
+          <ExpandedLogWithoutLogging {...props} />
+        )}
       </ExpandableGroup>
     </aside>
   );
 }
+
+interface ExpandedLogWithLoggingProps extends LogDetailsSwitchProps {
+  loggingLog: LogItem;
+}
+
+const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
+  const { loggingLog, processSnapshotId } = props;
+
+  const tags = loggingLog.tags
+    .filter(filterTag)
+    .filter((tag: LogTag) => !isParameterTag(tag))
+    .map(mapToSiderbarTagListObject);
+
+  const stackTraceTagValue = tags.find((tag: LogTag) => tag.name === SPAN_STACK_TRACE)?.value;
+  const stackTrace =
+    stackTraceTagValue && typeof stackTraceTagValue === 'string' ? parseStackTrace(stackTraceTagValue) : undefined;
+
+  // translate tag param key to not leak the technical rake
+  const parameterTags = tags.filter(isParameterTag).map(mapToSiderbarTagListObject);
+
+  return (
+    <Stack direction="vertical" gap="normal">
+      <ExpandableGroup title="Message" defaultExpanded>
+        <LogMessage {...loggingLog} />
+      </ExpandableGroup>
+
+      <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
+        <SidebarTagList tags={tags} />
+      </ExpandableGroup>
+
+      {parameterTags.length > 0 && (
+        <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
+          <SidebarTagList tags={parameterTags} />
+        </ExpandableGroup>
+      )}
+
+      {stackTrace && stackTrace.length > 0 && (
+        <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />
+      )}
+      <AnalyzeLogsButton log={loggingLog} />
+    </Stack>
+  );
+};
+
+const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
+  const { callLog, processSnapshotId } = props;
+
+  const stackTrace = callLog.stackTrace;
+  const hasStackTrace = stackTrace.length > 0;
+
+  const content = (
+    <>
+      <ExpandableGroup title="Message" defaultExpanded>
+        <LogMessage tags={[]} message={callLog.data?.log?.message} />
+      </ExpandableGroup>
+
+      {hasStackTrace && <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />}
+    </>
+  );
+
+  const error = (
+    <ErroneousResultPresenter
+      errors={[{ message: t('in-components:error.erroneousResultPresenterMessage'), code: 'NOT_FOUND' }]}
+    />
+  );
+
+  return (
+    <Stack direction="vertical" gap="normal">
+      {callLog.data?.log ? content : error}
+    </Stack>
+  );
+};

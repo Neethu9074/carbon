@@ -1196,12 +1196,19 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertProperties": "Alert Properties"
+        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "predictiveTrigger" : {
+          "title": "Predictively trigger the alert in advance"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Static Threshold, {{metricName}} {{operator}} {{value}}"
+            "subtitle" : {
+              "staticThresholdType": "Static Threshold",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Predictive Trigger"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} more filter",
@@ -1235,6 +1242,10 @@
           "label": "Time Threshold",
           "title": "Time Threshold: When do you want to be alerted?"
         },
+        "predictiveTrigger": {
+          "title": "Predictive trigger",
+          "timeToFailure": "Time to Failure"
+        },
         "alertChannel": {
           "label": "Alert Channels",
           "title": "Alert Channels: Who needs to be alerted?"
@@ -1252,8 +1263,7 @@
           "label": "Payloads",
           "title": "Custom Payload"
         },
-        "thresholdValue": "Threshold Value",
-        "ruleFormMetricError": "Please select a metric"
+        "thresholdValue": "Threshold Value"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
@@ -1267,7 +1277,9 @@
       "resultHeaderLoading": "Loading…",
       "loadMore": "Load More",
       "count": "Count",
-      "previewFor": "Preview for: "
+      "previewFor": "Preview for: ",
+      "selectEntityType": "Please select an entity type",
+      "regexNotValid": "Regex is not valid"
     }
   }
 }

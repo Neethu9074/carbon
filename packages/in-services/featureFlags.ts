@@ -5,7 +5,6 @@
  */
 
 import { isFeatureFlagEnabled } from 'in-services/config';
-import { isInstanaEmail } from 'in-stores/user';
 
 // ########################################################################################
 // Regular feature flags
@@ -44,6 +43,7 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -105,6 +105,9 @@ export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCu
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
 
+// Synthetic Instana Deploy PoP feature flag
+export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUpdateDeployPoPEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
@@ -116,8 +119,8 @@ export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('cus
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
+export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
 export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
-export const infraSmartAlertsDialogEnabled = isFeatureFlagEnabled('infraSmartAlertsDialogEnabled');
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
@@ -147,6 +150,7 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
+export const bizopsActivityDistributionChartsEnabled = isFeatureFlagEnabled('bizopsActivityDistributionChartsEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -159,7 +163,7 @@ export const allowedMillisGapsInOneSecondResolution = 20000;
 export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
 //Flag which exposes the download button - enables the download of metrics from event view
-export const allowDownloadMetricsFromCharts = isInstanaEmail;
+export const allowDownloadMetricsFromCharts = isFeatureFlagEnabled('allowDownloadMetricsFromCharts', false);
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
@@ -199,7 +203,6 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 );
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
-export const logDeletionEnabled = isFeatureFlagEnabled('logDeletionEnabled', true);
 
 export const automationPoliciesEnabled = isFeatureFlagEnabled('automationPoliciesEnabled', false);
 

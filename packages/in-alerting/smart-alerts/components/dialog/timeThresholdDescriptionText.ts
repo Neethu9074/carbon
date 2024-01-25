@@ -8,7 +8,8 @@ import {
   TraceImpactApplicationTimeThreshold,
   UserImpactWebsiteTimeThreshold,
   ViolationsInPeriodWebsiteTimeThreshold,
-  WebsiteTimeThreshold
+  WebsiteTimeThreshold,
+  InfraTimeThreshold
 } from 'in-types';
 import { ImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
@@ -23,7 +24,7 @@ import { t } from 'in-i18n';
  * @param granularity - required, when timeThreshold is of type UserImpactWebsiteTimeThreshold and for perWindowEvaluation
  */
 export function getDescription(
-  timeThreshold: WebsiteTimeThreshold | ApplicationTimeThreshold,
+  timeThreshold: WebsiteTimeThreshold | ApplicationTimeThreshold | InfraTimeThreshold,
   granularity: number
 ): string {
   const { type, timeWindow } = timeThreshold;
@@ -32,12 +33,8 @@ export function getDescription(
 
   switch (type) {
     case timeThresholdTypes.userImpactOfViolationsInSequence: {
-      const {
-        users,
-        userPercentage,
-        timeWindow,
-        impactMeasurementMethod
-      } = timeThreshold as UserImpactWebsiteTimeThreshold;
+      const { users, userPercentage, timeWindow, impactMeasurementMethod } =
+        timeThreshold as UserImpactWebsiteTimeThreshold;
       const perWindowEvaluation = impactMeasurementMethod === ImpactMeasurementMethods.PER_WINDOW;
 
       if (users && userPercentage) {

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import theme from 'in-themes';
+import { chartSelection } from 'in-themes/chartColors';
 
 export default function render(config, highlightedTimeframe) {
   if (!highlightedTimeframe) return null;
@@ -19,7 +19,7 @@ export default function render(config, highlightedTimeframe) {
   backBufferCtx.globalCompositeOperation = 'multiply';
   backBufferCtx.beginPath();
   backBufferCtx.rect(from, config.markerPaneHeight, width, height);
-  backBufferCtx.fillStyle = theme.lib.colors.chartSelection;
+  backBufferCtx.fillStyle = chartSelection;
   backBufferCtx.fill();
   backBufferCtx.globalCompositeOperation = 'source-over';
 }

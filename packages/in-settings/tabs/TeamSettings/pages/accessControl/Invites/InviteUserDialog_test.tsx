@@ -7,10 +7,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import InviteUserDialog, {
-  UserInvite
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
+import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
+import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
+import { close as u1 } from 'in-components/DialogPresenter/store';
 import { ApiGroup, PermissionSet } from 'in-types';
+import { sendInvitations } from 'in-api/users';
 import { t } from 'in-i18n';
 
 const emptyPermissions: PermissionSet = {
@@ -23,6 +24,7 @@ const emptyPermissions: PermissionSet = {
   websiteIds: [],
   syntheticTestIds: []
 };
+const close = u1 as jest.MockedFunction<typeof u1>;
 
 const getStrippedGroups: { data: ApiGroup[] } = {
   data: [
@@ -46,131 +48,135 @@ const getStrippedGroups: { data: ApiGroup[] } = {
     }
   ]
 };
+const apiCallResult = {
+  body: {
+    invitationResults: [
+      {
+        userEmail: 'lannister@example.com',
+        invitationStatus: 'SUCCESS'
+      }
+    ]
+  }
+};
+const apiCallResultUserExists = {
+  body: {
+    invitationResults: [
+      {
+        userEmail: 'baratheon@example.com',
+        invitationStatus: 'FAILURE_USER_ALREADY_EXISTS'
+      }
+    ]
+  }
+};
 
+jest.mock('in-components/DialogPresenter/store', () => ({
+  addActiveDialog: jest.fn(),
+  close: jest.fn()
+}));
 jest.mock('@instana/hooks', () => ({
   useObservable: () => getStrippedGroups
 }));
+jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
+  useNavigation: jest.fn(() => ({ location: { pathname: '', matrix: {} }, navigate: jest.fn() }))
+}));
+jest.mock('in-api/users');
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog', () => {
+  beforeEach(jest.clearAllMocks);
+
   it('happy day', async () => {
-    let val = {};
-    render(
-      <InviteUserDialog
-        onSubmit={v => {
-          val = v;
-        }}
-      />
-    );
+    const { container } = render(<InviteUserDialog />);
+    const removeButton = container.querySelector('#delete_invite_0');
     expect(screen.getByText(t('in-settings:tabs.emailAddress'))).toBeInTheDocument();
     expect(screen.getByText(t('in-settings:tabs.group'))).toBeInTheDocument();
-    expect(screen.getByTestId('delete_invite_0')).toBeVisible();
     expect(screen.queryByText(t('in-settings:tabs.someEmailsHaveFailedToSend'))).not.toBeInTheDocument();
-    const emailInput = screen.getByLabelText(t('in-settings:tabs.emailAddress'));
+    expect(removeButton).toBeVisible();
+  });
+
+  it('should disable button if email format is invalid', async () => {
+    const { container } = render(<InviteUserDialog />);
+    const emailInput = screen.getByTestId('invitation-email_0');
+    fireEvent.change(emailInput, { target: { value: 'jimmy.mcgill' } });
+    fireEvent.submit(container.querySelector('form') as HTMLFormElement);
+    const sendInviteButton = screen.getByText(t('in-settings:tabs.sendInvitation'));
+    expect(sendInviteButton).toBeDisabled();
+  });
+
+  it('invite users success', async () => {
+    const setMessage = jest.fn();
+    const setInvitationResult = jest.fn();
+    const setForm = jest.fn();
+    (sendInvitations as jest.Mock).mockReturnValue({
+      once: (onSuccess: (data: any) => void) => onSuccess(apiCallResult),
+      errors: () => ({ once: () => {} })
+    });
+
+    render(<InviteUserDialog />);
+
+    const emailInput = screen.getByTestId('invitation-email_0');
     fireEvent.change(emailInput, { target: { value: 'jimmy.mcgill@example.com' } });
-    const emailInputbutton = screen.getByText(t('in-settings:tabs.sendInvitation'));
-    fireEvent.click(emailInputbutton);
-    expect(val).toStrictEqual([{ groupId: '-3', email: 'jimmy.mcgill@example.com', userSentState: 'notSentYet' }]);
-  });
+    const sendInviteButton = screen.getByText(t('in-settings:tabs.sendInvitation'));
+    fireEvent.click(sendInviteButton);
 
-  it('renders one email that worked and two that did not', async () => {
-    const previousResult: UserInvite[] = [
-      {
-        groupId: 'groupId1',
-        email: 'jimmy.mcgill@example.com',
-        userSentState: 'sentSuccess'
-      },
-      {
-        groupId: 'groupId0',
-        email: 'kim.wexler@example.com',
-        userSentState: 'sentFailureServerError'
-      },
-      {
-        groupId: 'groupId0',
-        email: 'nacho@example.com',
-        userSentState: 'sentFailureUserExists'
-      }
-    ];
-    render(<InviteUserDialog onSubmit={() => {}} previousResult={previousResult} />);
-
-    expect(screen.getByText(t('in-settings:tabs.someEmailsHaveFailedToSend'))).toBeInTheDocument();
-
-    expect(screen.getByTestId('invitation-email_0')).toHaveValue('jimmy.mcgill@example.com');
-    expect(screen.getByTestId('invitation-email_0')).toBeDisabled();
-    expect(screen.getByTestId('invitation-group_0')).toHaveValue('groupId1');
-    expect(screen.getByTestId('invitation-group_0')).toBeDisabled();
-    expect(screen.getByTestId('already_sent_0')).toBeInTheDocument();
-
-    expect(screen.getByTestId('invitation-email_1')).toHaveValue('kim.wexler@example.com');
-    expect(screen.getByTestId('invitation-group_1')).toHaveValue('groupId0');
-    expect(screen.getByTestId('delete_invite_1')).toBeInTheDocument();
-
-    expect(screen.getByTestId('invitation-email_2')).toHaveValue('nacho@example.com');
-    expect(screen.getByTestId('invitation-email_2')).toBeDisabled();
-    expect(screen.getByTestId('invitation-group_2')).toHaveValue('groupId0');
-    expect(screen.getByTestId('invitation-group_2')).toBeDisabled();
-    expect(screen.getByTestId('already_exists_2')).toBeInTheDocument();
-  });
-
-  it('the ones with error become not sent on retry', async () => {
-    const previousResult: UserInvite[] = [
-      {
-        groupId: 'groupId1',
-        email: 'jimmy.mcgill@example.com',
-        userSentState: 'sentSuccess'
-      },
-      {
-        groupId: 'groupId0',
-        email: 'kim.wexler@example.com',
-        userSentState: 'sentFailureServerError'
-      },
-      {
-        groupId: 'groupId0',
-        email: 'nacho@example.com',
-        userSentState: 'sentFailureUserExists'
-      }
-    ];
-    let val = {};
-    render(
-      <InviteUserDialog
-        onSubmit={v => {
-          val = v;
-        }}
-        previousResult={previousResult}
-      />
+    onDoInviteUser(
+      setMessage,
+      [
+        {
+          groupId: '-3',
+          email: 'jimmy.mcgill@example.com',
+          userSentState: 'notSentYet'
+        }
+      ],
+      setForm,
+      setInvitationResult
     );
-    const emailInputbutton = screen.getByText(t('in-settings:tabs.sendInvitation'));
-    fireEvent.click(emailInputbutton);
-    expect(val).toStrictEqual([
-      { groupId: 'groupId1', email: 'jimmy.mcgill@example.com', userSentState: 'sentSuccess' },
-      { groupId: 'groupId0', email: 'kim.wexler@example.com', userSentState: 'notSentYet' },
-      { groupId: 'groupId0', email: 'nacho@example.com', userSentState: 'sentFailureUserExists' }
-    ]);
+    expect(setMessage.mock.calls[0][0]).toMatchObject({
+      text: t('in-settings:tabs.sendingInvitation'),
+      type: 'success'
+    });
+    expect(setMessage.mock.calls[1][0]).toMatchObject({
+      text: t('in-settings:tabs.invitationSuccessfullySent'),
+      type: 'success'
+    });
+    expect(close).toBeCalled();
   });
+  it('should show error message if user already isExists', async () => {
+    const setMessage = jest.fn();
+    const setInvitationResult = jest.fn();
+    const setForm = jest.fn();
+    (sendInvitations as jest.Mock).mockReturnValue({
+      once: (onSuccess: (data: any) => void) => onSuccess(apiCallResultUserExists),
+      errors: () => ({ once: () => {} })
+    });
 
-  it('button is disabled if no good email is added', async () => {
-    const previousResult: UserInvite[] = [
-      {
-        groupId: 'groupId1',
-        email: 'jimmy.mcgill@example.com',
-        userSentState: 'sentSuccess'
-      },
-      {
-        groupId: 'groupId0',
-        email: 'nacho@example.com',
-        userSentState: 'sentFailureUserExists'
-      }
-    ];
-    let val = 'not called';
-    render(
-      <InviteUserDialog
-        onSubmit={v => {
-          val = 'called' + JSON.stringify(v);
-        }}
-        previousResult={previousResult}
-      />
+    render(<InviteUserDialog />);
+
+    const emailInputValue = 'baratheon@example.com';
+    const emailInput = screen.getByTestId('invitation-email_0');
+    fireEvent.change(emailInput, { target: { value: emailInputValue } });
+    const sendInviteButton = screen.getByText(t('in-settings:tabs.sendInvitation'));
+    fireEvent.click(sendInviteButton);
+
+    onDoInviteUser(
+      setMessage,
+      [
+        {
+          groupId: '-3',
+          email: 'baratheon@example.com',
+          userSentState: 'notSentYet'
+        }
+      ],
+      setForm,
+      setInvitationResult
     );
-    const emailInputbutton = screen.getByText(t('in-settings:tabs.sendInvitation'));
-    fireEvent.click(emailInputbutton);
-    expect(val).toBe('not called');
+    expect(setMessage.mock.calls[0][0]).toMatchObject({
+      text: t('in-settings:tabs.sendingInvitation'),
+      type: 'success'
+    });
+    expect(setMessage.mock.calls[1][0]).toMatchObject({
+      text: t('in-settings:tabs.failedToSendInvitation') + emailInputValue,
+      type: 'error'
+    });
+    expect(close).not.toBeCalled();
   });
 });

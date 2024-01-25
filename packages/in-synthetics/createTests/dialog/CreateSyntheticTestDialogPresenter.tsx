@@ -131,6 +131,7 @@ const CreateSyntheticTestDialogPresenter = ({
   const [headers, setHeaders] = useState(getDefaultHeaders());
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
+  const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
 
   const getDefaultCustomProperties = (): ConfigItem[] => {
     const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
@@ -255,7 +256,8 @@ const CreateSyntheticTestDialogPresenter = ({
           (property.error.name.invalid && !property.error.value.invalid) ||
           (!property.error.name.invalid && property.error.value.invalid)
       ).length > 0 ||
-      invalidCustomProperty.invalid
+      invalidCustomProperty.invalid ||
+      invalidTimeout.invalid
     ) {
       return true;
     }
@@ -390,6 +392,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setCustomProperties={setCustomProperties}
             invalidCustomProperty={invalidCustomProperty}
             setInvalidCustomProperty={setInvalidCustomProperty}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
           />
         )}
       </div>

@@ -25,10 +25,13 @@ import {
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-infrastructure/navigation/matrix';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { InfraAlertConfigWithMetadata } from 'in-types';
+import { InfraAlertConfigWithMetadata, Nullish } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { role } from 'in-stores/user';
 
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
@@ -55,18 +58,31 @@ export default function AlertDetails() {
           <AlertConfiguration alertConfig={alertConfig} />
         )}
         getAllowedPlaceholders={() => []}
-        displayEditAction={false}
-        displayDuplicateAction={false}
+        canConfigureGlobalAlertConfigs={
+          role?.canConfigureGlobalInfraSmartAlerts ?? role?.canConfigureGlobalAlertConfigs
+        }
       />
     </LeftRightPadding>
   );
 }
 
 interface SmartAlertDialogWrapperProps {
+  close: () => void;
   alertConfig: InfraAlertConfigWithMetadata;
+  setRevision: (arg: string | Nullish) => void;
+  isCopy: boolean;
 }
 
-//@ts-expect-error can be removed later when smart alert dialog is available
-function SmartAlertDialogWrapper({ alertConfig }: SmartAlertDialogWrapperProps) {
-  return <></>;
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: SmartAlertDialogWrapperProps) {
+  return (
+    <AlertConfigDialog
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
+      onClose={() => {
+        close();
+        setRevision(null);
+      }}
+      editMode={!isCopy}
+      startWithSimpleMode={false}
+    />
+  );
 }

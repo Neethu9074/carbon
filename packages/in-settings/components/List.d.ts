@@ -68,6 +68,8 @@ interface ListProps<ItemType extends Object> {
   onCreateNew?: () => void;
   labelNew?: string;
   customDialogMessage?: (entity: ItemType) => void;
+  customDialogConfirmLabel?: string;
+  customDeleteTooltipMessage?: (entity: ItemType) => string;
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;

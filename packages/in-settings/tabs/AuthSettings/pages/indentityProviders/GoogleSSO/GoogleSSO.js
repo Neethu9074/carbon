@@ -6,6 +6,8 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { Typography } from '@instana/components';
+
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -32,21 +34,22 @@ export default function GoogleSSO() {
   );
 }
 
+//       <h2>{t('in-settings:tabs.configureAllowedEmailDomains')}</h2>
+
 function render({ form, setForm }) {
   return (
     <>
-      <Title title={t('in-settings:tabs.configureGoogleSso')} />
-      <SubViewHeader>{t('in-settings:tabs.googleSsoConfiguration')}</SubViewHeader>
-      <h2>{t('in-settings:tabs.configureAllowedEmailDomains')}</h2>
+      <Title title={t('in-settings:tabs.googleSSO.configure')} />
+      <SubViewHeader>{t('in-settings:tabs.googleSSO.configure')}</SubViewHeader>
+      <Typography component="p">{t('in-settings:tabs.googleSSO.domainOnlyMessage')}</Typography>
+      <Typography component="p">{t('in-settings:tabs.googleSSO.domainExistingUsersMessage')}</Typography>
 
       <form>
         <Section restrictWidth="50rem">
           {form.get('filter').map(field => (
             <FormGroup>
               <Label htmlFor="google_sso_filter" hasError={!field.valid && field.touched}>
-                {t(
-                  'in-settings:tabs.onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant'
-                )}
+                {t('in-settings:tabs.googleSSO.allowedDomains')}
               </Label>
 
               <Input
@@ -60,7 +63,7 @@ function render({ form, setForm }) {
                 autoComplete="off"
                 hasError={!field.valid && field.touched}
               />
-              <DescriptionText>{t('in-settings:tabs.separateMultipleDomainsWithAComma')}</DescriptionText>
+              <DescriptionText>{t('in-settings:tabs.googleSSO.hint')}</DescriptionText>
               <TouchedMessages field={field} />
             </FormGroup>
           ))}

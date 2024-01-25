@@ -10,7 +10,11 @@ import { Map } from 'immutable';
 import { Result, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
-import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import {
+  timeByMillisTwoDecimalPlaces,
+  withSiMultiplyPrefixThreeDecimalPlaces,
+  withSiMultiplyPrefixZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
@@ -29,6 +33,8 @@ const rateFormatter = (d: number) => withSiMultiplyPrefixThreeDecimalPlaces(d) +
 const beeInstanaMinimumRollupMillis = 10000;
 
 interface CustomMetricProps {
+  // ES lint thinks this field is not used except it is used in getDefaultRows
+  // eslint-disable-next-line react/no-unused-prop-types
   specs: MetricsSpec[];
   timeConfig: TimeConfig;
   snapshot: Map<string, any>;
@@ -54,6 +60,7 @@ interface MetricsSpec {
   color: string;
   metrics: MetricSpec[];
   tableMetric?: number;
+  discrete: boolean;
 }
 
 interface MetricSpec {
@@ -73,6 +80,7 @@ interface Row {
   type: string;
   color: string;
   tableMetric: number;
+  discrete: boolean;
   snapshotId: string;
   timeConfig: TimeConfig;
   rollup?: number;
@@ -155,15 +163,16 @@ const cols = [
       getContent(value: number, row: Row) {
         return (row.metrics[row.tableMetric] || row.metrics[0]).formatter(value);
       },
-      getTimeWindowAggregation() {
-        return 'mean';
+      getTimeWindowAggregation(row: Row) {
+        return row.discrete ? 'sum' : 'mean';
       },
       getTimeConfig(row: Row) {
         return row.timeConfig;
       },
       getRollup(row: Row) {
         return row.rollup;
-      }
+      },
+      forceTimeWindowAggregation: true
     }
   }
 ];
@@ -256,7 +265,8 @@ function getDetails(row: Row) {
     formatter: y1DataSeries[0].formatter,
     metrics: y1DataSeries.map(m => m.name),
     labels: y1DataSeries.map(m => m.label),
-    type: 'line'
+    type: charTypeFromMetricType(row.discrete),
+    aggregation: aggregationFromMetricType(row.discrete)
   };
 
   let y2 = undefined;
@@ -265,7 +275,8 @@ function getDetails(row: Row) {
       formatter: y2DataSeries[0].formatter,
       metrics: y2DataSeries.map(m => m.name),
       labels: y2DataSeries.map(m => m.label),
-      type: 'line'
+      type: charTypeFromMetricType(row.discrete),
+      aggregation: aggregationFromMetricType(row.discrete)
     };
   }
 
@@ -273,11 +284,19 @@ function getDetails(row: Row) {
     <Chart
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
-      minRollup={adjustMetricRollup(row.type, row.name, getInfraGranularity(row.timeConfig))}
+      minRollup={adjustMetricRollup(row.type, getInfraGranularity(row.timeConfig))}
       y1={y1}
       y2={y2}
     />
   );
+}
+
+function charTypeFromMetricType(discrete: boolean) {
+  return discrete ? 'bar' : 'line';
+}
+
+function aggregationFromMetricType(discrete: boolean) {
+  return discrete ? 'SUM' : 'MEAN';
 }
 
 export function getDefaultRows({
@@ -297,16 +316,17 @@ export function getDefaultRows({
       if (!metric) {
         return acc;
       }
-      const { i, key, name, type, color, tableMetric, label, formatter } = metric;
+      const { i, key, name, type, color, tableMetric, discrete, label, formatter } = metric;
       acc[key] = acc[key] || {
         key,
         name,
         type,
         color,
         tableMetric,
+        discrete,
         snapshotId,
         timeConfig,
-        rollup: adjustMetricRollup(metric.type, metric.name, defaultRollup),
+        rollup: adjustMetricRollup(metric.type, defaultRollup),
         setPinnedMetrics,
         pinnedMetrics,
         metrics: []
@@ -336,7 +356,7 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
   const suffixLength = metric.suffix?.length ?? 0;
   const key = id.slice(0, id.length - suffixLength);
   const name = id.slice(spec.prefix.length, id.length - suffixLength);
-  const { type, color, tableMetric } = spec;
+  const { type, color, tableMetric, discrete } = spec;
 
   return {
     key,
@@ -344,61 +364,47 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
     type,
     color,
     tableMetric,
+    discrete,
     ...metric
   };
 }
 
-
 /*
  * Adjusts the metric rollup if necessary
  * to enable the retrieval of histogram metrics
- * that are stored only in BeeInstana. Returns
- * undefined if the rollup does not need to
- * be changed.
+ * that are stored only in BeeInstana.
  */
-function adjustMetricRollup(
-  metricType: string,
-  metricName: string,
-  defaultRollup: number): number | undefined {
-
-    if (beeinstanaHistogramsEnabled && defaultRollup < beeInstanaMinimumRollupMillis) {
-      if (metricType === "histogram" && nativeBeeInstanaHistogram(metricName)) {
-        return beeInstanaMinimumRollupMillis;
-      }
-    }
+function adjustMetricRollup(metricType: string, defaultRollup: number): number | undefined {
+  if (beeinstanaHistogramsEnabled && metricType === 'histogram' && defaultRollup < beeInstanaMinimumRollupMillis) {
+    return beeInstanaMinimumRollupMillis;
+  }
   return;
 }
 
-/*
- * Returns true if a histogram metric is stored
- * natively in BeeInstana. Native histograms
- * do not include _bucket, _sum, or _count as
- * part of the metric name.
- */
-function nativeBeeInstanaHistogram(metricName: string): boolean {
-  const nonNativeMetrics = ["_bucket","_count","_sum","_mean","_gcount","_gsum"];
-  const metricSplit = metricName.split("{");
-  if (metricSplit.length > 0) {
-    let index = metricSplit[0].lastIndexOf("_");
-    if (index === -1 ||
-      !nonNativeMetrics.includes(metricSplit[0].substr(index))) {
-      return true;
-    }
-  }
-  return false;
-}
-
 export const AVAILABLE_SPECS: MetricsSpecs = {
-  COUNTER: {
+  COUNTER_CUMULATIVE: {
     prefix: 'metrics.counters.',
     type: 'counter',
     color: '#00CC66',
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
-        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+        formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
+  },
+  COUNTER_DISCRETE: {
+    prefix: 'metrics.counters.',
+    type: 'counter',
+    color: '#00CC66',
+    metrics: [
+      {
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        formatter: withSiMultiplyPrefixZeroDecimalPlaces
+      }
+    ],
+    discrete: true
   },
   GAUGE: {
     prefix: 'metrics.gauges.',
@@ -409,7 +415,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   HISTOGRAM: {
     prefix: 'metrics.histograms.',
@@ -420,7 +427,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   EXPANDED_HISTOGRAM: {
     prefix: 'metrics.histograms.',
@@ -442,7 +450,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   METER: {
     prefix: 'metrics.meters.',
@@ -453,7 +462,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
         formatter: rateFormatter
       }
-    ]
+    ],
+    discrete: false
   },
   TIMER: {
     prefix: 'metrics.timers.',
@@ -464,7 +474,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   EXPANDED_TIMER: {
     prefix: 'metrics.timers.',
@@ -492,7 +503,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
         formatter: timeByMillisTwoDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   SUMMARY: {
     prefix: 'metrics.summaries.',
@@ -503,7 +515,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   GENERIC: {
     prefix: '',
@@ -514,7 +527,8 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   },
   SUM: {
     prefix: 'metrics.sums.',
@@ -525,12 +539,13 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
-    ]
+    ],
+    discrete: false
   }
 };
 
 export const DEFAULT_SPECS = [
-  AVAILABLE_SPECS.COUNTER,
+  AVAILABLE_SPECS.COUNTER_CUMULATIVE,
   AVAILABLE_SPECS.GAUGE,
   AVAILABLE_SPECS.EXPANDED_HISTOGRAM,
   AVAILABLE_SPECS.METER,

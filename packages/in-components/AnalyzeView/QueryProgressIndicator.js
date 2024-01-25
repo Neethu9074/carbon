@@ -10,11 +10,11 @@ import { SvgIcon } from '@instana/components';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './QueryProgressIndicator.mless';
-import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
 
 const height = 189;
 const iconSize = 'xl';
@@ -98,7 +98,7 @@ function QueryFailed({ errors }) {
               size={iconSize}
               className={locals.errorIcon}
               type="lib_help_error_warning"
-              style={{ fill: theme.ids.color.option.red['500'] }}
+              color={theme.ids.color.option.red['500']}
             />
           </div>
           <div className={locals.progressText}>{t('in-components:error.serverError')}</div>

@@ -7,23 +7,22 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
+import { InfraAlertConfigWithMetadata, Order, TagCatalog } from '@instana/types';
 import { create } from '@instana/observables';
-import { Order } from '@instana/types';
 
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import InfraThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition';
+import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { infraAlertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
-import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
-import { AggregationType, InfraAlertConfigWithMetadata } from 'in-types';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
-import { getPluginName } from 'in-sdk/pluginName';
-import { minutes } from 'in-services/time/time';
+import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export const selectedMetricGroup$ = create().emit(null);
@@ -32,6 +31,8 @@ export interface ThresholdProps {
   updateForm: (form: MapForm<any>) => void;
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
+  tagCatalog: TagCatalog | undefined;
+  regex: boolean;
 }
 
 export type Tags = { [index: string]: any };
@@ -40,12 +41,12 @@ export default function ThresholdSelectionInteractiveChart({
   form,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  tagCatalog,
+  regex
 }: ThresholdProps): JSX.Element {
   const chartViewConfigs = defaultChartViewConfigs;
 
-  const granularity = form.get('granularity').value;
-  const tagFilterExpression = form.get('tagFilterExpression').value;
   const groupBy = form.get('groupBy').value;
 
   const ruleForm = form.get('rule');
@@ -58,24 +59,21 @@ export default function ThresholdSelectionInteractiveChart({
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
-  const entityLabel = getPluginName(entityType, 1);
+
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   const backendGroupBy = groupBy?.map((groups: any) => groups?.groupbyTag) ?? [];
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
-  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, entityLabel);
-  const backendQueryModel = toBackendQueryModel(tagFilterExpression);
+  const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, metricLabel);
 
   const kpiDefinitions = getKpiDefinitions(entityType);
   const metricMetadatas = useMetricMetadatas({ type: entityType, queries: [metrics[0].metric], kpiDefinitions });
 
+  const alertConfigModel = infraAlertConfigWithDefaultThreshold(form);
+
   // Since the timeConfig is part of the dependency array for the 'getGroups' API, memoised it to avoid the table refreshing frequently.
   const timeConfig = useMemo(() => {
-    return {
-      autoRefresh: false,
-      to: Date.now(),
-      windowSize: minutes.toMillis(30),
-      focusedMoment: Date.now()
-    };
+    return chartTimeConfig;
   }, []);
 
   useEffect(() => {
@@ -104,20 +102,29 @@ export default function ThresholdSelectionInteractiveChart({
         {chartViewConfig => (
           <>
             <InfraMetricChart
-              alertConfig={alertConfigWithDefaultThreshold(form) as InfraAlertConfigWithMetadata}
+              alertConfig={alertConfigModel as InfraAlertConfigWithMetadata}
               timeConfig={chartViewConfig.timeConfig}
+              groupBy={groupBy}
+              entityType={entityType}
+              metricName={metricName}
+              alertsPreviewEnabled
+              metricLabel={metricLabel}
             />
             {groupBy.length > 0 && (
               <InfraMetricGroup
-                granularity={granularity}
-                backendQueryModel={backendQueryModel}
+                backendQueryModel={alertConfigModel.tagFilterExpression}
                 backendGroupBy={backendGroupBy}
                 order={order as Order}
                 type={entityType}
                 metrics={metrics}
                 groupBy={backendGroupBy}
-                timeConfig={timeConfig}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
                 metricMetadatas={metricMetadatas}
+                tagCatalog={tagCatalog}
               />
             )}
           </>
@@ -140,6 +147,7 @@ export interface MetricType {
  * @param metricName The metric name.
  * @param aggregation The aggregation.
  * @param crossSeriesAggregation The cross series aggregation.
+ * @param regex Whether the metric name represents a regex for selecting metrics
  * @param entityLabel The entity label.
  * @returns The metrics.
  */
@@ -147,6 +155,7 @@ export function getMetrics(
   metricName: string,
   aggregation: AggregationType,
   crossSeriesAggregation: AggregationType,
+  regex: boolean,
   entityLabel?: string
 ): MetricType[] {
   return [
@@ -154,7 +163,7 @@ export function getMetrics(
       metric: metricName,
       aggregation: aggregation ?? 'MEAN',
       crossSeriesAggregation: crossSeriesAggregation,
-      regex: false,
+      regex,
       label: entityLabel
     }
   ];

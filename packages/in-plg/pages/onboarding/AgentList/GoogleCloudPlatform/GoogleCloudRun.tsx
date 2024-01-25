@@ -222,8 +222,6 @@ export default function GoogleCloudRun({
                 <Code
                   lang="bash"
                   code={[
-                    `#!/bin/bash`,
-                    ' ',
                     `echo '${downloadKey}' | docker login --username "_" --password-stdin containers.instana.${instanaDomain}`,
                     `pack build <image-name> --buildpack from=builder --buildpack containers.instana.${instanaDomain}/instana/release/google/buildpack --builder gcr.io/buildpacks/builder`
                   ]}

@@ -11,6 +11,7 @@ import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGeneri
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
 import LogDiskWaitTable from 'in-forge/plugins/db2Database/Dashboard/LogDiskWaitTable';
 import DbUtilitiesTable from 'in-forge/plugins/db2Database/Dashboard/DbUtilitiesTable';
+import PurescaleGeneral from 'in-forge/plugins/db2Database/Dashboard/PurescaleGeneral';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TopQueriesTable from 'in-forge/plugins/db2Database/Dashboard//TopQueriesTable';
 import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
@@ -28,7 +29,9 @@ import SysCatIndex from 'in-forge/plugins/db2Database/Dashboard/SysCatIndex';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ReorgTable from 'in-forge/plugins/db2Database/Dashboard/ReorgTable';
 import TableSizes from 'in-forge/plugins/db2Database/Dashboard/TableSizes';
+import Db2Member from 'in-forge/plugins/db2Database/Dashboard/Db2Member';
 import UOWTable from 'in-forge/plugins/db2Database/Dashboard/UOWTable';
+import Db2Cf from 'in-forge/plugins/db2Database/Dashboard/Db2Cf';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import BackupDetailsTable from './BackupDetailsTable';
@@ -82,6 +85,9 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="databases.daysLastBackup" formatter={backupFormatter} />
         </KpiKeyValue>
         {data.get('versionCheck') && <HadrTakeOverInfo snapshotId={snapshotId} timeConfig={timeConfig} />}
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.db2MemberNumber')}>
+          <MetricValue snapshotId={snapshotId} metric="db2membermetrics.db2MemberNumber" formatter={number.compact} />
+        </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.connections')}>
         <Chart
@@ -89,14 +95,17 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['databases.connectionsCount'],
-            labels: [t('in-forge:plugins.db2Database.dashboard.count')],
+            metrics: ['databases.connectionsCount', 'databases.uowExecutors'],
+            labels: [t('in-forge:plugins.db2Database.dashboard.count'), t('in-forge:plugins.db2Database.uowExecutors')],
             formatter: number.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <PurescaleGeneral snapshotId={snapshotId} />
+      <Db2Member snapshotId={snapshotId} />
+      <Db2Cf snapshotId={snapshotId} />
       <BackupDetailsTable snapshotId={snapshotId} />
       <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />

@@ -4,11 +4,11 @@
  */
 
 import { themes } from '@instana/design-tokens';
-import { formatTime, formatDateShort } from 'in-services/formatters/date';
-import oldTheme from 'in-themes';
 
-const axisFontColor = oldTheme.lib.colors.N800Dark;
-const dayAxisFontColor = oldTheme.lib.colors.N900Primary;
+import { formatTime, formatDateShort } from 'in-services/formatters/date';
+
+const axisFontColor = themes.default.ids.color.option.neutral['800'];
+const dayAxisFontColor = themes.default.ids.color.option.neutral['900'];
 // Be warned (ben @ 2016-10-04): Safari 10 cannot use font sizes in rem with varying
 // text alignments. This used to work with Safari 9 (and all other browsers).
 const axisFont = `10px ${themes.default.ids.font.family.option['sans-serif']}`;
@@ -20,7 +20,7 @@ export default function axis(config, tickPositions) {
 
   ctx.save();
   ctx.beginPath();
-  ctx.fillStyle = oldTheme.lib.colors.N300;
+  ctx.fillStyle = themes.default.ids.color.option.neutral['300'];
 
   drawLine(config);
   drawTicks(tickPositions, config);
@@ -77,7 +77,7 @@ function drawTicks(tickPositions, config) {
 }
 
 function renderTickLine(ctx, xPos, timeLineTop) {
-  ctx.fillStyle = oldTheme.lib.colors.N300;
+  ctx.fillStyle = themes.default.ids.color.option.neutral['300'];
   ctx.rect(xPos, timeLineTop, 1, 6);
 }
 

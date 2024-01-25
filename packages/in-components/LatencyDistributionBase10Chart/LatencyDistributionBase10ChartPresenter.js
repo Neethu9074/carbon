@@ -5,6 +5,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Message } from '@instana/components';
@@ -23,18 +24,18 @@ import { HEIGHT as horizontalAxisHeight } from 'in-components/Axis/HorizontalAxi
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { chartColors, timeShift } from 'in-themes/chartColors';
 import VerticalAxis from 'in-components/Axis/VerticalAxis';
 import { defaultTimeShift } from 'in-stores/time/shifting';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/fixedObjects';
-import oldTheme, { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
 
-const colorLatency = oldTheme.lib.colors.chart.strokeColors100[0];
-const colorLatencyTimeShift = oldTheme.lib.colors.timeShift;
+const colorLatency = chartColors.strokeColors100[0];
+const colorLatencyTimeShift = timeShift;
 
 export default function LatencyDistributionBase10ChartPresenter({
   height,
@@ -60,7 +61,6 @@ export default function LatencyDistributionBase10ChartPresenter({
   isGrouped,
   setApproximateData = noop
 }) {
-  const theme = useTheme();
   // which metrics to hide on the chart
   const filteredDataSeriesRef = useRef(create());
   const filteredDataSeries$ = filteredDataSeriesRef.current;
@@ -95,7 +95,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   const chartWidth = customWidth || width;
   const chartHeight = (customHeight || height) - horizontalAxisHeight;
   const data = cachedResult.data || { buckets: [] };
-  const resultArray = data.groups && !loading ? data.groups : data.buckets;
+  const resultArray = data.groups && data.groups.length != 0 && !loading ? data.groups : data.buckets;
   let bucketArray = [];
   if (isGrouped && !loading) {
     resultArray.map(bcktGrp => {
@@ -269,11 +269,11 @@ export default function LatencyDistributionBase10ChartPresenter({
               height={chartHeight - percentileStripHeight}
               style={{
                 marginTop: percentileStripHeight,
-                backgroundColor: theme.ids.color.option.white,
+                backgroundColor: themes.default.ids.color.option.white,
                 position: 'absolute',
                 zIndex: 1 // z-index__axisLabel from shared
               }}
-              tickLabelBackgroundColor={theme.ids.color.option.white}
+              tickLabelBackgroundColor={themes.default.ids.color.option.white}
             />
           )
         }

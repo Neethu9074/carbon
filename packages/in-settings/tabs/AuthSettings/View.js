@@ -43,7 +43,7 @@ function getNavigationTree(props) {
       pages: [
         props.isGoogleSSOAvailable && {
           path: googleSSO,
-          label: t('in-settings:tabs.googleSso'),
+          label: t('in-settings:tabs.googleSSO.idpTitle'),
           component: GoogleSSO
         },
         props.isSamlAvailable && {

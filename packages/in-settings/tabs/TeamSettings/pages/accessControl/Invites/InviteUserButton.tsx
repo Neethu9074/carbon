@@ -9,9 +9,12 @@ import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
 import InviteUserDialog, {
+  InviteSentState,
   UserInvite,
-  UserSentState
+  UserSentStateStatus
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
+import { createInviteForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteForm';
+import { teamSettingsAccessControlInvites } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { InvitationResult, sendInvitations } from 'in-api/users';
@@ -20,28 +23,19 @@ import { t } from 'in-i18n';
 
 const logger = createLogger('InviteUserButton');
 
-type InvitationStatus = 'SUCCESS' | 'INTERNAL_ERROR' | 'FAILURE_USER_ALREADY_EXISTS' | 'notSentYet';
-
 interface UserInvitationResult {
   // Replace with generated type
   userEmail: string;
-  invitationStatus: InvitationStatus;
+  invitationStatus: UserSentStateStatus;
 }
 
-interface UserInvitationResults {
-  // Replace with generated type
-  invitationResults: UserInvitationResult[];
-}
-
-export default function InviteUserButton({ setMessage, reload }: { setMessage: any; reload: any }) {
+export default function InviteUserButton() {
   return (
     <Button
       kind="action"
       onClick={() => {
         track(USER_INVITE, emptyObject);
-        addActiveDialog(
-          <InviteUserDialog onSubmit={(invitations: UserInvite[]) => onDoInviteUser(setMessage, invitations, reload)} />
-        );
+        addActiveDialog(<InviteUserDialog />);
       }}
       icon="lib_openclose_add_circle_outline"
     >
@@ -50,66 +44,55 @@ export default function InviteUserButton({ setMessage, reload }: { setMessage: a
   );
 }
 
-function mapToUserSentState(invitationStatus: InvitationStatus): UserSentState {
-  switch (invitationStatus) {
-    case 'SUCCESS':
-      return 'sentSuccess';
-    case 'INTERNAL_ERROR':
-      return 'sentFailureServerError';
-    case 'FAILURE_USER_ALREADY_EXISTS':
-      return 'sentFailureUserExists';
-    case 'notSentYet':
-      return 'notSentYet';
-  }
-}
-
-export function onDoInviteUser(setMessage: any, invitations: UserInvite[], reload: any) {
-  close();
+export function onDoInviteUser(
+  setMessage: any,
+  invitations: UserInvite[],
+  setForm: any,
+  setInvitationResult: React.Dispatch<React.SetStateAction<UserInvite[]>>,
+  goToPath?: (path: string) => void
+) {
   setMessage({
     id: `${Math.random()}`,
     text: t('in-settings:tabs.sendingInvitation'),
     type: 'success'
   });
-  // @ts-ignore
+
   const invitationResult$ = sendInvitations(
-    invitations.filter(i => i.userSentState === 'notSentYet').map(({ email, groupId }) => ({ email, groupId }))
+    invitations
+      .filter(i => i.userSentState === InviteSentState.notSentYet)
+      .map(({ email, groupId }) => ({ email, groupId }))
   );
   invitationResult$.once((data: any) => {
     const failed = data.body.invitationResults.filter(
       (userInvitationResult: UserInvitationResult): boolean => userInvitationResult.invitationStatus !== 'SUCCESS'
     );
     if (failed?.length > 0) {
-      const result: UserInvitationResults = data.body;
-      const previousResult: UserInvite[] = result.invitationResults.map(
-        (userInvitationResult: UserInvitationResult): UserInvite => {
-          const maybeGroupId = invitations.find(i => i.email === userInvitationResult.userEmail)?.groupId;
-          return {
-            groupId: maybeGroupId as string,
-            email: userInvitationResult.userEmail,
-            userSentState: mapToUserSentState(userInvitationResult.invitationStatus)
-          };
-        }
-      );
+      const previousResult: UserInvite[] = failed.map((userInvitationResult: UserInvitationResult): UserInvite => {
+        const maybeGroupId = invitations.find(i => i.email === userInvitationResult.userEmail)?.groupId;
+        return {
+          groupId: maybeGroupId as string,
+          email: userInvitationResult.userEmail,
+          userSentState: InviteSentState[userInvitationResult.invitationStatus]
+        };
+      });
+
+      setInvitationResult(previousResult);
+      setForm(createInviteForm(previousResult, true).setTouched(true));
       setMessage({
         text: t('in-settings:tabs.failedToSendInvitation', {
           err: failed.map(({ userEmail }: InvitationResult) => userEmail).join(', ')
         }),
         type: 'error'
       });
-      addActiveDialog(
-        <InviteUserDialog
-          previousResult={previousResult}
-          onSubmit={(invitations: UserInvite[]) => onDoInviteUser(setMessage, invitations, reload)}
-        />
-      );
     } else {
       setMessage({
         id: `${Math.random()}`,
         text: t('in-settings:tabs.invitationSuccessfullySent'),
         type: 'success'
       });
-      if (reload) {
-        reload();
+      close();
+      if (goToPath) {
+        goToPath(teamSettingsAccessControlInvites);
       }
     }
     setTimeout(() => {

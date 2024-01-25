@@ -13,11 +13,11 @@ import { AdditionChartContentProps, ChartedMetricsConfig } from 'in-components/C
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { carbonAlert, timeShift, chartColors } from 'in-themes/chartColors';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -74,14 +74,14 @@ export default function CallsErrorsChart({
       id: 'calls.all',
       metric: 'calls',
       label: callsLabel,
-      color: theme.lib.colors.chart.strokeColors25[0]
+      color: chartColors.strokeColors25[0]
     },
     {
       config: defaultMetricConfig,
       id: 'erroneousCalls',
       metric: 'erroneousCalls',
       label: erroneousCallsLabel,
-      color: theme.lib.carbonAlert.red60
+      color: carbonAlert.red60
     }
   ];
 
@@ -122,7 +122,7 @@ export default function CallsErrorsChart({
         ...timeShiftMetricConfig
       }
     ];
-    colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
+    colors = [timeShift, timeShiftChartMetric.color];
     renderer = line.id;
   } else {
     metricConfigs = chartMetrics.map(m => ({

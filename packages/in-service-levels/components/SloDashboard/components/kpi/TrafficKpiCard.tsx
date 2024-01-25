@@ -22,15 +22,16 @@ import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { number } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 interface TrafficKpiCardProps {
   configuration: ServiceLevelObjectiveConfiguration;
-  timeConfig: TimeConfig;
 }
 
-export default function TrafficKpiCard({ configuration, timeConfig }: TrafficKpiCardProps) {
+export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   const { entity } = configuration;
+  const timeConfig = useTimeConfig();
   const { primaryMetricConfiguration, companionMetricConfiguration } = useMetricConfiguration(entity, timeConfig);
   const { primaryFormatter, companionFormatter } = getFormatters(entity);
 

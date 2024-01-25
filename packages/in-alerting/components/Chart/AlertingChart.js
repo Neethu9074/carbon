@@ -71,6 +71,7 @@ export default function AlertingChart({
             <AlertsPreviewLane
               getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
               alertsPreviewConfiguration={alertsPreviewQuery}
+              resultMetricKey="alerts"
             />
           </MarkerLanesPresenter>
         );
@@ -139,7 +140,7 @@ export function getY1(
     getColorWithTransparency(theme.lib.carbonAlert.red60).c50
   ];
 
-  let iconTypes = ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'];
+  let iconTypes = ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'];
 
   let excludedLabelsFromLegend = [];
 
@@ -161,9 +162,9 @@ export function getY1(
       t('in-alerting:components.chart.alertingChartLabelUpperBound')
     ];
 
-    // There are only three icons required for smart alerts, the last icon, 'lib_actions_stop,' is added to `iconTypes` for potential problems but is not displayed in alerting charts. However, when predictions are included in smart alerts, we must display 'lib_line_chart' as the fourth icon for legends, so removing the last icon from iconTypes ('lib_actions_stop') and replacing it with the prediction-appropriate icon.
+    // There are only three icons required for smart alerts, the last icon, 'lib_actions_stop,' is added to `iconTypes` for potential problems but is not displayed in alerting charts. However, when predictions are included in smart alerts, we must display 'lib_legend_line_chart' as the fourth icon for legends, so removing the last icon from iconTypes ('lib_actions_stop') and replacing it with the prediction-appropriate icon.
     iconTypes.pop();
-    iconTypes = [...iconTypes, 'lib_line_chart'];
+    iconTypes = [...iconTypes, 'lib_legend_line_chart'];
   }
 
   return {

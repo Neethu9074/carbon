@@ -36,6 +36,7 @@ import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { defaultFormatter } from 'in-stores/metric/formatters';
+import { getFormatterId } from 'in-stores/metric/formatters';
 import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -115,9 +116,10 @@ export default function FormComponent({
 
   const kpiDefinitions = getKpiDefinitions(type);
   const metricMetadatas = useMetricMetadatas({ type, queries: [metric], kpiDefinitions })?.data;
-  const isMetricAndMetadatas = metric && metricMetadatas;
-  const formatterBackendType = isMetricAndMetadatas && metricMetadatas[metric]?.formatterType;
-  const uiMetricFormatter = getUiMetricsValueByBackendType(formatterBackendType);
+  const formatterBackendType = metricMetadatas?.[metric]?.formatterType;
+  const uiMetricFormatter = formatterBackendType
+    ? getUiMetricsValueByBackendType(formatterBackendType)
+    : getFormatterId(metricMetadatas?.[metric]?.formatter);
   const metricDefaultFormatter =
     isFormatterSelected || (metric && formatter !== defaultFormatter.id) ? formatter : uiMetricFormatter;
 
@@ -208,7 +210,7 @@ export default function FormComponent({
             SelectorOverlay={MetricSelectionCategoryOverlay}
           />
           <TouchedMessages field={metricField} />
-          <ValidationMessages field={form} category={regexValidationError} />
+          <ValidationMessages form={form} category={regexValidationError} />
         </Section>
 
         {withAggregationInMetrics && (

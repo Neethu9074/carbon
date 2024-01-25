@@ -58,3 +58,8 @@ export const timeAggregationOptions: TimeAggregationOptions = deepFreeze([
 ]);
 
 export const defaultBlueprint: BlueprintType = 'availability';
+
+export const SloTimeWindowTypes = Object.freeze({
+  SELECTED_TIME: 'SELECTED_TIME',
+  SLO_TIME_WINDOW: 'SLO_TIME_WINDOW'
+});

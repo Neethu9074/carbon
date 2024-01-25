@@ -48,7 +48,7 @@ export default function MetricSelectorOverlay({
   );
 }
 
-function toOptions(metricTreeNodes, parentLabels = []) {
+export function toOptions(metricTreeNodes, parentLabels = []) {
   const joinedParentLabels = parentLabels.join(' ');
   return metricTreeNodes.map(metricTreeNode => {
     return {

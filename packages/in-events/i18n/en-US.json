@@ -165,7 +165,16 @@
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
     "relatedEventsLabel": "Entity events found: {{number_of_events}}",
     "entitiesNumber": "Entities",
-    "techPreview": "TECH PREVIEW"
+    "techPreview": "TECH PREVIEW",
+    "probabilityLevelText": "Probability Level:",
+    "highProbability": "HIGH",
+    "moderateProbability": "MODERATE",
+    "lowProbability": "LOW",
+    "naProbability": "N/A",
+    "highProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. High probability indicates that this entity is likely problematic based on the evidence provided.",
+    "moderateProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. It is likely that this entity is the root cause however more analysis is needed.",
+    "lowProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Given present information, this component has a low likelihood of being unhealthy, but warrants being further investigated.",
+    "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
