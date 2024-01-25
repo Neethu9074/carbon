@@ -6,22 +6,23 @@
 
 import React, { useMemo } from 'react';
 
-import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import { createSloPercentageFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { sloMetrics } from 'in-service-levels/metrics';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 interface SloStatusKpiCardProps {
   configuration: ServiceLevelObjectiveConfiguration;
-  timeConfig: TimeConfig;
 }
 
-export default function SloStatusKpiCard({ configuration, timeConfig }: SloStatusKpiCardProps) {
+export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProps) {
   const { id, target } = configuration;
   const formatter = useMemo(() => createSloPercentageFormatter(target), [target]);
+  const timeConfig = useTimeConfig();
 
   return (
     <BigNumberKpiCard

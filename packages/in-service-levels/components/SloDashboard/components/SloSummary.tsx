@@ -12,7 +12,6 @@ import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/componen
 import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/SloStatusKpiCard';
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
-import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Col, Row } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -34,21 +33,19 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
-  const { timeWindow } = configuration;
-  const fullWindowTimeConfig = useSloWindowTimeConfig(timeWindow);
   const selectedTimeConfig = useTimeConfig();
 
   return (
     <>
       <Row>
         <Col xs={4}>
-          <SloStatusKpiCard configuration={configuration} timeConfig={fullWindowTimeConfig} />
+          <SloStatusKpiCard configuration={configuration} />
         </Col>
         <Col xs={4}>
-          <ErrorBudgetKpiCard configuration={configuration} timeConfig={fullWindowTimeConfig} />
+          <ErrorBudgetKpiCard configuration={configuration} />
         </Col>
         <Col xs={4}>
-          <TrafficKpiCard configuration={configuration} timeConfig={selectedTimeConfig} />
+          <TrafficKpiCard configuration={configuration} />
         </Col>
       </Row>
       <Row>
