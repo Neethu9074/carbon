@@ -12,10 +12,10 @@ import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
-import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Menu from 'in-components/Menu';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
@@ -50,11 +50,11 @@ const BluePrintSelectionSection = ({
   setHeaders
 }: BluePrintSelectionSectionProps) => {
   return (
-    <ExpandableLightCard
+    <LightCard
       title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.selectedTestTypeLightCardTitle')}
       label={selectedBlueprint.label}
-      bodyWithoutPadding
-      openByDefault
+      withoutPadding
+      useMaxAvailableHeight
       darkFrame
     >
       <SelectionMenu
@@ -71,7 +71,7 @@ const BluePrintSelectionSection = ({
         setScriptDetails={setScriptDetails}
         setHeaders={setHeaders}
       />
-    </ExpandableLightCard>
+    </LightCard>
   );
 };
 
