@@ -189,11 +189,15 @@ export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): M
 }
 
 export function putManualField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
-  const value = getManualContentFromFields(action.fields).value;
+  const content = getManualContentFromFields(action.fields);
+  let ContentText = content.value;
+  if (content.encoding === 'base64') {
+    ContentText = atob(ContentText);
+  }
   return form.put(
     'manualContent',
     createField({
-      value: value,
+      value: ContentText,
       validator: notBlankValidator
     })
   );
