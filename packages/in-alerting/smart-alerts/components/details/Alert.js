@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -35,7 +36,6 @@ import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Alert.mless';
@@ -61,7 +61,6 @@ export default function Alert({
   canConfigureGlobalAlertConfigs = false,
   canConfigureIndividualAlertConfigs = false
 }) {
-  const theme = useTheme();
   const { location, navigate } = useNavigation();
 
   const [reload, triggerReload] = useState();
@@ -181,7 +180,7 @@ export default function Alert({
           </Col>
         </Row>
       </div>
-      <SetBodyColor color={theme.ids.color.option.white} />
+      <SetBodyColor color={themes.default.ids.color.option.white} />
       <Footer />
     </>
   );
