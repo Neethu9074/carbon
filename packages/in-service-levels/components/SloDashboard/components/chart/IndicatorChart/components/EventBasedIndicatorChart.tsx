@@ -38,14 +38,15 @@ import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
 export default function EventBasedIndicatorChart({
   entity,
-  indicator,
-  timeConfig
+  indicator
 }: IndicatorChartProps<EventBasedSli | CustomEventBasedSli>) {
+  const timeConfig = useTimeConfig();
   const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
   const granularity = calculateSloReferenceChartGranularity(timeConfig, true);
   const result: Result<UnifiedMetricsResult[]> =
