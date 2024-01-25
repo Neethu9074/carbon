@@ -422,6 +422,10 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
 function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const content = getManualContentFromFields(action.fields);
   let contentText = content.value;
+  if (content.encoding === 'base64') {
+    contentText = atob(contentText);
+  }
+
   return (
     <DescriptionList>
       <DescriptionItem
