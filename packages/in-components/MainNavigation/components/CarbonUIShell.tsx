@@ -72,18 +72,19 @@ import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error no declaration file
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { carbonShellEnabled, playwithEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { actionCatalogPath, isAutomationView } from 'in-automation/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
-import { carbonShellEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -389,6 +390,27 @@ function Incidents() {
   );
 }
 
+function AutomationMenu() {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  if (!role?.canConfigureAutomationActions || !actionAutomationEnabled) {
+    return null;
+  }
+
+  if (playwithEnabled) {
+    return null;
+  }
+
+  return (
+    <MenuItem
+      label={t('in-automation:automation')}
+      icon="lib_automation"
+      isActive={matchLocation(isAutomationView)}
+      href={createHrefToPath(actionCatalogPath)}
+    />
+  );
+}
+
 function SloDashboard() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
@@ -535,8 +557,9 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
       <Synthetics />
       <Analyze />
       <Incidents />
-      <MenuItem isDivider />
+      <AutomationMenu />
       <SloDashboard />
+      <MenuItem isDivider />
       <SettingsAndMore onViewSwitched={onViewSwitched} />
     </UIShell>
   );
