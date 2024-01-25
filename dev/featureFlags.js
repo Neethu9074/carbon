@@ -104,5 +104,6 @@ module.exports = {
   simplifiedFlowMapEnabled: true,
   fullscreenWidgetEnabled: true,
   agentInstallationV2Enabled: true,
+  allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true
 };
