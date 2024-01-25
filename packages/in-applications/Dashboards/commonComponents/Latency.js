@@ -12,10 +12,10 @@ import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { timeShift, chartColors } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { latencyFixed } from 'in-services/formatters/number';
 import { integral, line } from 'in-stores/metric/renderer';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Latency({
@@ -64,38 +64,38 @@ export default function Latency({
       config: defaultMetricConfig,
       aggregation: 'P50',
       label: t('in-mobile-apps:dashboard.tabs.50thLabel'),
-      color: theme.lib.colors.chart.strokeColors100[0]
+      color: chartColors.strokeColors100[0]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P90',
       label: t('in-mobile-apps:dashboard.tabs.90thLabel'),
-      color: theme.lib.colors.chart.strokeColors100[1]
+      color: chartColors.strokeColors100[1]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P95',
       label: t('in-mobile-apps:dashboard.tabs.95thLabel'),
-      color: theme.lib.colors.chart.strokeColors100[2]
+      color: chartColors.strokeColors100[2]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'P99',
       label: t('in-mobile-apps:dashboard.tabs.99thLabel'),
-      color: theme.lib.colors.chart.strokeColors100[3]
+      color: chartColors.strokeColors100[3]
     },
     {
       config: defaultMetricConfig,
       aggregation: 'MAX',
       label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
-      color: theme.lib.colors.chart.strokeColors100[4],
+      color: chartColors.strokeColors100[4],
       defaultDisabled: !timeShiftConfig.offset
     },
     {
       config: defaultMetricConfig,
       aggregation: 'MEAN',
       label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-      color: theme.lib.colors.chart.strokeColors100[5],
+      color: chartColors.strokeColors100[5],
       defaultDisabled: !timeShiftConfig.offset
     }
   ];
@@ -120,7 +120,7 @@ export default function Latency({
         ...timeShiftMetricConfig
       }
     ];
-    colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
+    colors = [timeShift, timeShiftChartMetric.color];
     renderer = line.id;
   } else {
     metricConfigs = latencyMetrics.map(m => ({

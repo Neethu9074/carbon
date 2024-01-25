@@ -18,10 +18,10 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
+import { timeShift, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { line, stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function HttpSections({
@@ -68,31 +68,31 @@ export default function HttpSections({
       config: defaultMetricConfig,
       metric: 'http.1xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel1XX'),
-      color: theme.lib.carbonAlert.purple50
+      color: carbonAlert.purple50
     },
     {
       config: defaultMetricConfig,
       metric: 'http.2xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel2XX'),
-      color: theme.lib.carbonAlert.green50
+      color: carbonAlert.green50
     },
     {
       config: defaultMetricConfig,
       metric: 'http.3xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel3XX'),
-      color: theme.lib.carbonAlert.blue70
+      color: carbonAlert.blue70
     },
     {
       config: defaultMetricConfig,
       metric: 'http.4xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel4XX'),
-      color: theme.lib.carbonAlert.orange40
+      color: carbonAlert.orange40
     },
     {
       config: defaultMetricConfig,
       metric: 'http.5xx',
       label: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestLabel5XX'),
-      color: theme.lib.carbonAlert.red60
+      color: carbonAlert.red60
     }
   ];
 
@@ -170,7 +170,7 @@ export default function HttpSections({
         ...timeShiftMetricConfig
       }
     ];
-    colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
+    colors = [timeShift, timeShiftChartMetric.color];
     renderer = line.id;
   } else {
     metricConfigs = chartMetrics.map(m => ({

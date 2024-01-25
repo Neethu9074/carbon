@@ -15,6 +15,7 @@ import {
   DatabaseStatementTopListItem,
   ApplicationBoundaryScope
 } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Link } from '@instana/components';
@@ -34,7 +35,6 @@ import { UrlMatrixParamConfig, WithLabel } from 'in-applications/types';
 import { millis, number } from 'in-services/formatters/number';
 import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const metrics = ['latency', 'calls', 'errors'];
@@ -45,7 +45,7 @@ const labels = [
 ];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
-const colors = [null, null, theme.lib.colors.failure];
+const colors = [null, null, themes.default.ids.color.option.red['500']];
 
 interface DatabaseStatementTopListProps {
   applicationId?: string | null;

@@ -22,7 +22,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
-import theme from 'in-themes';
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 function getTechnologyBreakdownObservable(parameters) {
@@ -72,7 +72,7 @@ export default function TechnologyBreakdownPresenter({
     const labels = endpointTypes.map(type => endpointNameTranslations[type]);
     const metricIds = endpointTypes.map(type => endpointNameTranslations[type]);
     const metrics = endpointTypes.map(type => result?.data[type]);
-    const colors = endpointTypes.map(type => (type === 'SELF' ? theme.lib.colors.chart.self25 : getColorChart(type)));
+    const colors = endpointTypes.map(type => (type === 'SELF' ? chartColors.self25 : getColorChart(type)));
     const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
     config = {
