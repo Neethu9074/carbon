@@ -13,6 +13,7 @@ import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
 import { reportLicenseType } from 'in-services/tracking/appcues';
+import { carbonShellEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { createStore } from 'in-stores/store';
@@ -41,15 +42,19 @@ export function init() {
     }
 
     if (!visible || usageInfo.type === 'OK' || !isUsageInfoPopupEnabled) {
-      removeMessage(messageId);
-      return;
+      if (!carbonShellEnabled) {
+        removeMessage(messageId);
+        return;
+      }
     }
 
     addMessage(
       {
         type: usageInfo.type.toLowerCase(),
         icon: 'info',
-        content: <DangerousHtmlPresenter html={toHtml(filterContentIfNotOnprem(usageInfo.note))} />,
+        content: (
+          <DangerousHtmlPresenter html={toHtml(filterContentIfNotOnprem(usageInfo.note, usageInfo.remainingDays))} />
+        ),
         onClick: hideUsageInfo,
         isLicenseUsageMsg: true,
         activeLicense: usageInfo.activeLicenseType,
@@ -70,8 +75,11 @@ export function init() {
  * @param msg
  * @returns {*}
  */
-function filterContentIfNotOnprem(msg) {
+function filterContentIfNotOnprem(msg, remainingDays) {
   if (!onPremLicenseInformationEnabled) {
+    if (msg == '') {
+      return 'Your license expires in ' + remainingDays + ' days';
+    }
     if (msg.indexOf('(s)') === -1) {
       return msg.replace(/\*/g, '');
     }

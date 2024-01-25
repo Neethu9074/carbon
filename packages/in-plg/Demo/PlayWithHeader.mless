@@ -37,9 +37,17 @@
       margin-right: 12px;
       font-weight: bold;
     }
-
     .buttonDemo {
       margin-right: 24px;
     }
+  }
+  .newPlayWithInstana {
+    width: stretch;
+    display: flex;
+    z-index: 8003;
+    align-items: center;
+    right: 0px !important;
+    top: 0px !important;
+    position: fixed;
   }
 }
