@@ -10,10 +10,11 @@ import WorkProcessListMetric from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/
 import DBConnectionProvider from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DBConnectionProvider';
 import DiskHourDataStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskHourDataStats';
 import DatabaseHitList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DatabaseHitList';
+import TopProcessList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TopProcessList';
+import JobDetails from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobDetailsMetric';
 import RequestQueue from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RequestQueue';
 import TotalMemory from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TotalMemory';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import JobDetails from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobDetails';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DumpStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DumpStats';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -25,6 +26,7 @@ export default function Detailed({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
+      <TopProcessList snapshotId={snapshotId} timeConfig={timeConfig} />
       <WorkProcessListMetric snapshotId={snapshotId} timeConfig={timeConfig} />
       <RequestQueue snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
@@ -58,7 +60,7 @@ export default function Detailed({ timeConfig, data: sap }) {
           />
         </DashboardSection>
       </Columize>
-      <JobDetails snapshotId={snapshotId} />
+      <JobDetails snapshotId={snapshotId} timeConfig={timeConfig} />
       <DiskHourDataStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalMemory snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
