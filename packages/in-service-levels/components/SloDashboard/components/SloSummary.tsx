@@ -63,7 +63,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           <ErrorBudgetChart configuration={configuration} />
         </Col>
         <Col lg={4}>
-          <TrafficChart configuration={configuration} timeConfig={selectedTimeConfig} />
+          <TrafficChart configuration={configuration} />
         </Col>
       </Row>
     </>
