@@ -14,7 +14,6 @@ import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Col, Row } from 'in-components/layout/Grid';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Nullish } from 'in-types';
 
 interface SloSummaryProps {
@@ -33,7 +32,6 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
-  const selectedTimeConfig = useTimeConfig();
 
   return (
     <>
