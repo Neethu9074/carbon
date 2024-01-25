@@ -5,7 +5,6 @@
  */
 
 import { isFeatureFlagEnabled } from 'in-services/config';
-import { isInstanaEmail } from 'in-stores/user';
 
 // ########################################################################################
 // Regular feature flags
@@ -159,7 +158,7 @@ export const allowedMillisGapsInOneSecondResolution = 20000;
 export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
 //Flag which exposes the download button - enables the download of metrics from event view
-export const allowDownloadMetricsFromCharts = isInstanaEmail;
+export const allowDownloadMetricsFromCharts = isFeatureFlagEnabled('allowDownloadMetricsFromCharts', false);
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
