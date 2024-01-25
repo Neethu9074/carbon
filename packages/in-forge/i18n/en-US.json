@@ -209,6 +209,11 @@
   "pluginName_awsCloudFront_1": "AWS CloudFronts",
   "pluginName_awsCloudFront_2": "AWS CloudFronts",
   "pluginName_awsCloudFront": "AWS CloudFront",
+  "pluginName_awsAppSync_plural": "AWS AppSyncs",
+  "pluginName_awsAppSync_0": "AWS AppSyncs",
+  "pluginName_awsAppSync_1": "AWS AppSyncs",
+  "pluginName_awsAppSync_2": "AWS AppSyncs",
+  "pluginName_awsAppSync": "AWS AppSync",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -4536,6 +4541,53 @@
       "titleFunctionErrors": "Errors",
       "titleFunctionNames": "Function Names",
       "titleAssociatedFunctions": "Associated Functions"
+    },
+
+    "awsAppSync": {
+      "dashboard": {
+        "titleErrors": "Errors",
+        "titleLatency": "Latency",
+        "titleRequests": "Requests",
+        "titleActiveConnections": "Active Connections",
+        "titleActiveSubscriptions": "Active Subscriptions",
+        "titleConnectionDuration": "Connection Duration",
+        "titleConnections": "Connections",
+        "titleSubscriptions": "Subscriptions",
+        "titlePublishedDataMessages": "Published Data Messages"
+      },
+      "category": {
+        "network": "Network",
+        "connections": "Connections",
+        "subscriptions": "Subscriptions",
+        "publishData": "Publish Data"
+      },
+      "infoTitle": {
+        "apiId": "API ID",
+        "apiType": "API Type",
+        "authenticationType": "Authentication Type",
+        "visibility": "Visibility"
+      },
+      "dataSources": "Data Sources",
+      "headerAppSyncInfo": "AppSync Info",
+      "labelLatency": "Latency",
+      "labelPublishDataMessageSize": "Publish Data Message Size",
+      "labelConnectionDuration": "Connection Duration",
+      "label4xxError": "4xx",
+      "label5xxError": "5xx",
+      "labelTotalErrors": "Total Errors",
+      "labelRequests": "Requests",
+      "labelTokensConsumed": "Tokens Consumed",
+      "labelConnectSuccess": "Connect Success",
+      "labelConnectClientError": "Connect Client Errors",
+      "labelConnectServerError": "Connect Server Errors",
+      "labelSubscribeSuccess": "Subscribe Success",
+      "labelSubscribeClientError": "Subscribe Client Errors",
+      "labelSubscribeServerError": "Subscribe Server Errors",
+      "labelPublishDataMessageSuccess": "Publish Data Message Success",
+      "labelPublishDataMessageClientError": "Publish Data Message Client Error",
+      "labelPublishDataMessageServerError": "Publish Data Message Server Error",
+      "labelActiveConnections": "Active Connections",
+      "labelActiveSubscriptions": "Active Subscriptions"
     },
 
     "azure": {

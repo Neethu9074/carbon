@@ -30,6 +30,7 @@ const helpTexts = {
   'entity.aws.lambda': t('in-stores:search.fieldsEntityAwsLambda'),
   'entity.aws.ecs': t('in-stores:search.fieldsEntityAwsEcs'),
   'entity.aws.apigateway': t('in-stores:search.fieldsEntityAwsApiGateway'),
+  'entity.aws.appsync': t('in-stores:search.fieldsEntityAwsAppSync'),
   'entity.azure': t('in-stores:search.fieldsEntityAzure'),
   'entity.aws.redshift': t('in-stores:search.fieldsEntityAwsRedshift'),
   'entity.aws.redshift.cluster': t('in-stores:search.fieldsEntityAwsRedshiftCluster'),

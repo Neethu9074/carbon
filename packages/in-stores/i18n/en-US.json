@@ -209,6 +209,7 @@
     "fieldsEntityAwsLambda": "AWS Lambda",
     "fieldsEntityAwsEcs": "AWS Elastic Container Service",
     "fieldsEntityAwsApiGateway": "AWS API Gateway",
+    "fieldsEntityAwsAppSync": "AWS AppSync",
     "fieldsEntityAzure": "Microsoft Azure",
     "fieldsEntityAzureService": "Microsoft Azure services",
     "fieldsEntityAzureServiceApim": "Azure API Management",
