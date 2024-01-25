@@ -193,16 +193,10 @@ describe('in-service-levels/hooks/useSloListMetrics', () => {
         'slo1-remainingBudget': expect.objectContaining({
           timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
         }),
-        'slo1-remainingBudgetSpark': expect.objectContaining({
-          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
-        }),
         'slo2-status': expect.objectContaining({
           timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
         }),
         'slo2-remainingBudget': expect.objectContaining({
-          timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
-        }),
-        'slo2-remainingBudgetSpark': expect.objectContaining({
           timeConfig: expect.objectContaining({ windowSize: hours.toMillis(1) })
         })
       })

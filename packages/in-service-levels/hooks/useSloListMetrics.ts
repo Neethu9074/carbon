@@ -66,7 +66,7 @@ function getMetricConfig(
     });
     metricConfig[`${sloConfig.id}-remainingBudgetSpark`] = sloMetrics.remainingBudget.timeSeriesCompact({
       configId: sloConfig.id!,
-      timeConfig
+      timeConfig: selectedTimeConfig
     });
 
     return metricConfig;
