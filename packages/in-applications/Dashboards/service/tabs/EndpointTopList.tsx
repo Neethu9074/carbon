@@ -29,9 +29,9 @@ const labels = [
 ];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [meanLatencyLargeInSeconds.compact, number.compact, percentage.detailed];
-const companionMetrics = [null, null, 'erroneousCalls'];
-const companionAggregations = [null, null, 'SUM'];
-const companionFormatters = [null, null, number.compact];
+const companionMetrics = [null, 'calls', 'erroneousCalls'];
+const companionAggregations = [null, 'PER_SECOND', 'SUM'];
+const companionFormatters = [null, number.perSecond.compact, number.compact];
 const colors = [null, null, themes.default.ids.color.option.red['500']];
 
 interface EndpointTopListProps {
@@ -96,6 +96,7 @@ interface GetListProps {
   selectedMetricAggregation: AggregationType;
   selectedCompanionMetric: string;
   selectedCompanionMetricAggregation: AggregationType;
+  selectedCompanionMetricAlias: string;
 }
 
 function getList({
@@ -106,7 +107,8 @@ function getList({
   selectedMetric,
   selectedMetricAggregation,
   selectedCompanionMetric,
-  selectedCompanionMetricAggregation
+  selectedCompanionMetricAggregation,
+  selectedCompanionMetricAlias
 }: GetListProps) {
   const metrics = {
     [selectedMetric]: {
@@ -115,10 +117,17 @@ function getList({
     }
   };
   if (selectedCompanionMetric) {
-    metrics[selectedCompanionMetric] = {
-      metric: selectedCompanionMetric,
-      aggregation: selectedCompanionMetricAggregation
-    };
+    if (selectedCompanionMetric === selectedMetric) {
+      metrics[selectedCompanionMetricAlias] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    } else {
+      metrics[selectedCompanionMetric] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    }
   }
   return getEndpoints({
     pagination: {
