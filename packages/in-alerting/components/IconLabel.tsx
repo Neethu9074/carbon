@@ -6,10 +6,10 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { useTheme } from 'in-themes';
 
 import locals from 'in-alerting/components/IconLabel.mless';
 
@@ -29,9 +29,7 @@ interface IconLabelProps {
 
 const IconLabel = forwardRef<HTMLDivElement, IconLabelProps>(
   ({ text = '', type, noBottomMargin, color, iconColor, width, ellipsis }, ref) => {
-    const theme = useTheme();
-
-    color ??= theme.ids.color.option.neutral['900'];
+    color ??= themes.default.ids.color.option.neutral['900'];
 
     return (
       <HorizontalFlexWrapper

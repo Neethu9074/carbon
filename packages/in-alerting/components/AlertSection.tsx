@@ -5,8 +5,9 @@
 
 import React, { ReactNode } from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import Section from 'in-components/workspace/Section';
-import { useTheme } from 'in-themes';
 
 interface AlertSectionProps {
   title: ReactNode;
@@ -29,8 +30,6 @@ export default function AlertSection({
   useAlternateBg,
   iconColor
 }: AlertSectionProps) {
-  const theme = useTheme();
-
   return (
     <Section
       titleHtmlFor={titleHtmlFor}
@@ -39,7 +38,7 @@ export default function AlertSection({
       icon={icon}
       actions={actions}
       useAlternateBg={useAlternateBg}
-      iconColor={iconColor ?? theme.ids.color.option.neutral['600']}
+      iconColor={iconColor ?? themes.default.ids.color.option.neutral['600']}
     >
       {children}
     </Section>
