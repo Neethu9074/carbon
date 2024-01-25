@@ -6,10 +6,25 @@
 
 import React from 'react';
 
+import { LicenseBannerButton } from '@instana/components';
+
+import { carbonShellEnabled } from 'in-services/featureFlags';
 import IconButton from 'in-components/IconButton/IconButton';
 
 export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) {
   if (tryOfferLicenseType) {
+    if (carbonShellEnabled) {
+      return (
+        <LicenseBannerButton
+          kind="ghost"
+          icon="lib_help_error_help_outline"
+          iconColor="var(--cds-button-primary)"
+          onClick={openAssistMe}
+        >
+          Get Answers
+        </LicenseBannerButton>
+      );
+    }
     return (
       <div data-search-context="getting started">
         <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />

@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Message, Spacer, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -21,7 +22,6 @@ import IconButton from 'in-components/IconButton/IconButton';
 import { playwithEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-alerting/components/AlertHeader.mless';
@@ -46,8 +46,6 @@ export default function AlertHeader({
   displayEditAction,
   displayDuplicateAction
 }) {
-  const theme = useTheme();
-
   const { goToPath, createHrefToPath } = useNavigation();
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
@@ -163,7 +161,7 @@ export default function AlertHeader({
         </div>
 
         <div className={locals.right}>
-          <Pill className={locals.badge} color={theme.ids.color.option.purple['500']} kind="light">
+          <Pill className={locals.badge} color={themes.default.ids.color.option.purple['500']} kind="light">
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
           {extendedAlertConfigVersions.length > 0 && (

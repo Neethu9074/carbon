@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { InfraAlertConfigWithMetadata, TagCatalog } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
@@ -18,13 +19,11 @@ import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transf
 import { getPluginName } from 'in-sdk/pluginName';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn.mless';
 
 export default function ScopeColumn({ config }: { config: InfraAlertConfigWithMetadata }) {
-  const theme = useTheme();
   const {
     rule: { entityType },
     tagFilterExpression
@@ -46,7 +45,7 @@ export default function ScopeColumn({ config }: { config: InfraAlertConfigWithMe
     <div className={locals.filters}>
       {entityType && (
         <Tooltip content={getPluginName(entityType, 1)} align="topLeft" delay={500}>
-          <WithIcon plugin={entityType} iconColor={theme.ids.color.option.neutral['700']}>
+          <WithIcon plugin={entityType} iconColor={themes.default.ids.color.option.neutral['700']}>
             {getPluginName(entityType, 1)}
           </WithIcon>
         </Tooltip>
