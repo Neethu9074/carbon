@@ -59,6 +59,7 @@ export default function DrbdDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
+      <ResourcesTable snapshot={snapshot} timeConfig={timeConfig} snapshotId={snapshotId} />
     </div>
   );
 }
