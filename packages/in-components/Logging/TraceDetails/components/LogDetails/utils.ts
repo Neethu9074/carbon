@@ -45,13 +45,22 @@ type RawStackTrace = Record<RawSpanStackAttributes, string>;
 type RawSpanStackAttributes = 'c' | 'f' | 'm' | 'n';
 type ParsedSpanStackAttributes = 'class' | 'file' | 'method' | 'line';
 
+const levelStringGetters: Record<WarnOrError, (count: number) => string> = {
+  warn: (count: number) => t('in-logging:warn', { count }),
+  error: (count: number) => t('in-logging:error', { count })
+};
+
+type WarnOrError = 'warn' | 'error';
 export const getCardTitle = (logs: LogSpanExcerpt[] | LogItem[]) => {
-  const logLevelCounts = { error: 0, warn: 0 };
+  const logLevelCounts: Record<WarnOrError, number> = {
+    error: 0,
+    warn: 0
+  };
 
   if (isLogItems(logs)) {
     logs.forEach(log => {
-      const level = getLogLevel(log.tags)?.toLowerCase();
-      logLevelCounts[level as 'warn' | 'error']++;
+      const level = getLogLevel(log.tags)?.toLowerCase() as WarnOrError;
+      logLevelCounts[level]++;
     });
   } else {
     logs.forEach(log => {
@@ -60,16 +69,11 @@ export const getCardTitle = (logs: LogSpanExcerpt[] | LogItem[]) => {
     });
   }
 
-  const { getWarnString, getErrorString } = {
-    getWarnString: (count: number) => t('in-logging:warn', { count }),
-    getErrorString: (count: number) => t('in-logging:error', { count })
-  };
-
   return Object.entries(logLevelCounts)
-    .flatMap(([level, count]) => (count > 0 ? [level === 'error' ? getErrorString(count) : getWarnString(count)] : []))
+    .flatMap(([level, count]) => (count > 0 ? levelStringGetters[level as WarnOrError](count) : []))
     .join(', ');
 };
 
 function isLogItems(logs: any): logs is LogItem[] {
-  return !!logs[0].tags;
+  return !!logs[0]?.tags;
 }

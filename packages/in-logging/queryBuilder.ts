@@ -164,3 +164,5 @@ export const restrictedTags = new Set<string>([
   ...containerIds,
   ...kubernetesEntitySnapshotIds
 ]);
+
+export const OTEL_STREAM_NAME = "opentelemetry-stream";

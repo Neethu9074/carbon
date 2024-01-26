@@ -5,11 +5,11 @@
  */
 
 /* eslint-disable react/no-unused-prop-types */
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { LogItem, LogMessageItem, LogTag } from '@instana/types';
 import { SpanExcerpt } from '@instana/types/typeDefinitions';
-import { Stack, useTheme } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import {
   isParameterTag,
@@ -21,7 +21,8 @@ import SidebarTagList from 'in-applications/analyze/components/TraceDetails/comp
 // @ts-ignore
 import AnalyzeLogsButton from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
 import LogStackTrace from 'in-components/Logging/TraceDetails/components/LogDetails/LogStackTrace';
-import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
+import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import { filterTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
@@ -79,9 +80,8 @@ function LogDetailsWithNoAccess() {
 function LogDetails(props: LogDetailsSwitchProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { callLog, loggingLog } = props;
-  const theme = useTheme();
 
-  const { selectedLog } = useContext(LogsInCallsContext);
+  const { selectedLog } = useLogsInCallsContext();
 
   const useLoggingData = loggingEnabled && loggingLog;
 
@@ -89,7 +89,7 @@ function LogDetails(props: LogDetailsSwitchProps) {
     ? getLogLevel(loggingLog.tags)
     : callLog.data.log?.level || (callLog.errorCount > 0 ? 'ERROR' : 'WARN');
 
-  const logLevelColor = logLevel === 'ERROR' ? theme.ids.color.option.red['500'] : theme.ids.color.option.yellow['500'];
+  const logLevelColor = getLogLevelColor(logLevel);
 
   const logMessage = (useLoggingData ? loggingLog?.message : callLog.data.log?.message) ?? '';
 
@@ -104,7 +104,7 @@ function LogDetails(props: LogDetailsSwitchProps) {
   const ref = useCallback(
     node => {
       if (node !== null && isExpanded) {
-        node.scrollIntoView({ block: 'start' });
+        setTimeout(() => node.scrollIntoView(true, { block: 'start' }), 200);
       }
     },
     [isExpanded]

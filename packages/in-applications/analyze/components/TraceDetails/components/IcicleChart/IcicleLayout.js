@@ -8,11 +8,12 @@ import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetail
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import { deepFreeze } from 'in-services/util/object';
 
-export function applyLayout(rootCall) {
+export function applyLayout(rootCall, logs = []) {
   let callFrames = [];
 
-  const traceStart = getStart(rootCall);
-  const traceEnd = getEnd(rootCall);
+  const traceStart = getStart(rootCall, logs);
+  const traceEnd = getEnd(rootCall, logs);
+
   const totalDuration = traceEnd - traceStart;
 
   positionCall(callFrames, rootCall, null, 0, traceStart, totalDuration, []);

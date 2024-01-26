@@ -5,22 +5,24 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import CallStartLabel from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis/CallStartLabel';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';
-import { useTheme } from 'in-themes';
 
 import locals from './CallTimeAxis.mless';
 
 export default function CallTimeAxis({ call, showStartLabel }) {
+  const { items: loggingLogItems } = useLogsInCallsContext();
   const { width, ref } = useResizeObserverCustom();
 
-  const startTime = getStart(call);
-  const endTime = getEnd(call);
+  const startTime = getStart(call, loggingLogItems);
+  const endTime = getEnd(call, loggingLogItems);
   const duration = endTime - startTime;
-  const theme = useTheme();
 
   return (
     <div className={locals.timeAxis} ref={ref}>
@@ -33,8 +35,8 @@ export default function CallTimeAxis({ call, showStartLabel }) {
           detailedFormatting
           roundTickPositions
           tickLength={8}
-          tickColor={theme.ids.color.option.neutral['400']}
-          tickLabelColor={theme.ids.color.option.neutral['800']}
+          tickColor={themes.default.ids.color.option.neutral['400']}
+          tickLabelColor={themes.default.ids.color.option.neutral['800']}
           scale={{ from: 0, to: duration }}
           fixedTickPositions={calculateTickPositions(duration)}
         />
