@@ -11,7 +11,7 @@ import kpiDefinitions from 'in-forge/plugins/drbd/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.drbd,
+  plugin: plugins.drbdReactor,
   kpiDefinitions,
   metricDefinitions
 });
