@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
 import { isCustomEventBasedSli, isEventBasedSli } from '@instana/types/typeDefinitions';
+import { ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
