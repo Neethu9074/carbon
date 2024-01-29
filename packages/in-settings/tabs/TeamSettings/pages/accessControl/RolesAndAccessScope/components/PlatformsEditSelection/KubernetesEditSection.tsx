@@ -118,6 +118,8 @@ export default function _KubernetesEditSection<FORM_TYPE extends MapFormItems>({
             title={t('in-settings:permissionScope.selection', { context: 'access_all' })}
             description={t('in-settings:PermissionSection.descriptionAccessAll_kubernetes')}
             productArea={ProductArea.KUBERNETES}
+            form={form}
+            setForm={setForm}
           />
         </TabSelectPanel>
         <TabSelectPanel key="LIMITED_ACCESS" id={ScopedPermissionItem.LIMITED_ACCESS}>

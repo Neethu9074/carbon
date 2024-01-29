@@ -191,47 +191,57 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       })
       .map<string>(({ scopeId }) => scopeId!);
   }
+  const RoleSelectionSection = () => {
+    return (
+      <RoleFormGroup
+        htmlFor={`${entityPermissionKey}-role-select`}
+        tooltipText={roleTooltipText}
+        value={role}
+        defaultRole={AreaRole.VIEWER}
+        onChange={onChangeRole}
+        {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+          ? { options: AreaRolesWithContributor }
+          : {})}
+      />
+    );
+  };
 
   return (
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
         <StackItem>
-          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+          <ConfigurationSummary
+            accessLevelTitle={ScopedPermissionItem.LIMITED_ACCESS.toLocaleLowerCase()}
+            accessLevelMsg={accessLevelMessage}
+            rolePermissionMsg={rolePermissionMessage}
+          >
+            {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
+            <RoleSelectionSection />
+            {isContributor && (
+              <ContributionFilterWrapper form={form} setForm={setForm} isContributorRole={isContributor} />
+            )}
+            {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+              <SyntheticCommonSection form={form} setForm={setForm} />
+            )}
+          </ConfigurationSummary>
         </StackItem>
       ) : (
-        <StackItem>
-          <Typography variant="heading-200" component="div">
-            {t('in-settings:permissionScope.selection_limited_access')}
-          </Typography>
-          <Typography variant="body-regular" component="div">
-            {description}
-          </Typography>
-        </StackItem>
+        <>
+          <StackItem>
+            <Typography variant="heading-200" component="div">
+              {t('in-settings:permissionScope.selection_limited_access')}
+            </Typography>
+            <Typography variant="body-regular" component="div">
+              {description}
+            </Typography>
+          </StackItem>
+          <RoleSelectionSection />
+          {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+            <SyntheticCommonSection form={form} setForm={setForm} />
+          )}
+        </>
       )}
-      {isContributor && (
-        <StackItem>
-          <Typography variant="heading-200" component="h2">
-            {t('in-settings:permissionScope.role_permissions')}
-          </Typography>
-          {isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
-        </StackItem>
-      )}
-      <StackItem>
-        <RoleFormGroup
-          htmlFor={`${entityPermissionKey}-role-select`}
-          tooltipText={roleTooltipText}
-          value={role}
-          defaultRole={AreaRole.VIEWER}
-          onChange={onChangeRole}
-          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
-            ? { options: AreaRolesWithContributor }
-            : {})}
-        />
-        {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
-          <SyntheticCommonSection form={form} setForm={setForm} />
-        )}
-        {isContributor && <ContributionFilterWrapper form={form} setForm={setForm} />}
-      </StackItem>
+
       <Divider />
       {isContributor && (
         <StackItem>

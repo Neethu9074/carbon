@@ -49,33 +49,49 @@ export default function SyntheticAccessAllPanel<FORM_TYPE extends MapFormItems>(
     ScopedPermissionItem.ACCESS_ALL,
     role
   );
-
+  const RoleSelectionSection = () => {
+    return (
+      <>
+        {roleTooltipText && onChangeRole && entityPermissionKey && (
+          <RoleFormGroup
+            htmlFor={`${entityPermissionKey}-role-select`}
+            tooltipText={roleTooltipText}
+            value={role}
+            defaultRole={AreaRole.VIEWER}
+            onChange={onChangeRole}
+          />
+        )}
+        {role === AreaRole.OWNER && <SyntheticCommonSection form={form} setForm={setForm} />}
+      </>
+    );
+  };
   return (
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
         <StackItem>
-          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+          <ConfigurationSummary
+            accessLevelTitle={ScopedPermissionItem.ACCESS_ALL.toLocaleLowerCase()}
+            accessLevelMsg={accessLevelMessage}
+            rolePermissionMsg={rolePermissionMessage}
+          >
+            <RoleSelectionSection />
+          </ConfigurationSummary>
         </StackItem>
       ) : (
-        <StackItem>
-          <Typography variant="heading-200" component="div">
-            {t('in-settings:permissionScope.description_access_all')}
-          </Typography>
-          <Typography variant="body-regular" component="div">
-            {description}
-          </Typography>
-        </StackItem>
+        <>
+          <StackItem>
+            <Typography variant="heading-200" component="div">
+              {t('in-settings:permissionScope.description_access_all')}
+            </Typography>
+            <Typography variant="body-regular" component="div">
+              {description}
+            </Typography>
+          </StackItem>
+          <StackItem>
+            <RoleSelectionSection />
+          </StackItem>
+        </>
       )}
-      {roleTooltipText && onChangeRole && entityPermissionKey && (
-        <RoleFormGroup
-          htmlFor={`${entityPermissionKey}-role-select`}
-          tooltipText={roleTooltipText}
-          value={role}
-          defaultRole={AreaRole.VIEWER}
-          onChange={onChangeRole}
-        />
-      )}
-      {role === AreaRole.OWNER && <SyntheticCommonSection form={form} setForm={setForm} />}
     </Stack>
   );
 }

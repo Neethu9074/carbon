@@ -49,7 +49,11 @@ export default function RoleFormGroup({
   return (
     <FormGroup>
       <Label htmlFor={htmlFor} className={locals.label}>
-        <Typography variant="body-regular">{t('in-settings:permissionScope.roleSelection')}</Typography>
+        <Typography variant="body-regular">
+          {applicationContributionFilterEnabled
+            ? t('in-settings:permissionScope.access_type')
+            : t('in-settings:permissionScope.roleSelection')}
+        </Typography>
         {applicationContributionFilterEnabled ? (
           <></>
         ) : (

@@ -11,6 +11,7 @@ import { ConfigurationSummary } from 'in-settings/tabs/TeamSettings/pages/access
 import { t } from 'in-i18n';
 
 const messages = {
+  accessLevelTitle: 'Access all',
   accessLevel: 'Access all items under this unit',
   rolePermission: 'View, create, delete and configure items.',
   noAccess: "Can't access this area at all."
@@ -23,9 +24,9 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     );
 
     // Check that all labels and messages are displayed
-    expect(getByText(t('in-settings:permissionScope.configuration_summary'))).toBeVisible();
-    expect(getByText(t('in-settings:permissionScope.access_level'))).toBeVisible();
-    expect(getByText(t('in-settings:permissionScope.role_permissions'))).toBeVisible();
+    expect(getByText(t('in-settings:permissionScope.permissions'))).toBeVisible();
+    expect(getByText(t('in-settings:permissionScope.access_type'))).toBeVisible();
+    expect(getByText(t('in-settings:permissionScope.selection', { context: messages.accessLevelTitle }))).toBeVisible();
     expect(getByText(messages.accessLevel)).toBeVisible();
     expect(getByText(messages.rolePermission)).toBeVisible();
     // No access should not be shown
@@ -43,11 +44,13 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     );
 
     // Only no access message should be shown
-    expect(getByText(t('in-settings:permissionScope.configuration_summary'))).toBeVisible();
+    expect(getByText(t('in-settings:permissionScope.permissions'))).toBeVisible();
     expect(getByText(messages.noAccess)).toBeVisible();
     // Access level and role / permissions messages should not be shown
-    expect(queryByText(t('in-settings:permissionScope.access_level'))).not.toBeInTheDocument();
-    expect(queryByText(t('in-settings:permissionScope.role_permissions'))).not.toBeInTheDocument();
+    expect(queryByText(t('in-settings:permissionScope.access_type'))).not.toBeInTheDocument();
+    expect(
+      queryByText(t('in-settings:permissionScope.selection', { context: messages.accessLevelTitle }))
+    ).not.toBeInTheDocument();
     expect(queryByText(messages.accessLevel)).not.toBeInTheDocument();
     expect(queryByText(messages.rolePermission)).not.toBeInTheDocument();
   });

@@ -64,7 +64,11 @@ export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormI
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
         <StackItem>
-          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+          <ConfigurationSummary
+            accessLevelTitle={ScopedPermissionItem.LIMITED_ACCESS.toLocaleLowerCase()}
+            accessLevelMsg={accessLevelMessage}
+            rolePermissionMsg={rolePermissionMessage}
+          />
         </StackItem>
       ) : (
         <StackItem>

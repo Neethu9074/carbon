@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Typography } from '@instana/components';
 
@@ -14,24 +14,27 @@ import { t } from 'in-i18n';
 import locals from './ConfigurationSummary.mless';
 
 export interface ConfigurationSummaryProps {
+  accessLevelTitle?: string;
   accessLevelMsg?: string;
   rolePermissionMsg?: string;
   noAccess?: boolean;
+  children?: ReactNode;
   noAccessMsg?: string;
 }
 
 export const ConfigurationSummary = ({
+  accessLevelTitle,
   accessLevelMsg,
   rolePermissionMsg,
   noAccess,
+  children,
   noAccessMsg
 }: ConfigurationSummaryProps) => {
   return (
     <div>
       <Typography variant="heading-200" component="h2">
-        {t('in-settings:permissionScope.configuration_summary')}
+        {t('in-settings:permissionScope.permissions')}
       </Typography>
-
       {noAccess ? (
         <Typography variant="body-regular" component="div">
           {noAccessMsg}
@@ -39,16 +42,18 @@ export const ConfigurationSummary = ({
       ) : (
         <>
           <div className={locals.accessLevel}>
-            <Label className={locals.label}>{t('in-settings:permissionScope.access_level')}</Label>
-            <Typography variant="body-regular" component="div">
-              {accessLevelMsg}
-            </Typography>
-          </div>
-
-          <div>
-            <Label className={locals.label}>{t('in-settings:permissionScope.role_permissions')}</Label>
+            <Label className={locals.label}>{t('in-settings:permissionScope.access_type')}</Label>
             <Typography variant="body-regular" component="div">
               {rolePermissionMsg}
+            </Typography>
+          </div>
+          {children}
+          <div className={locals.accessLevel}>
+            <Label className={locals.label}>
+              {t('in-settings:permissionScope.selection', { context: accessLevelTitle })}
+            </Label>
+            <Typography variant="body-regular" component="div">
+              {accessLevelMsg}
             </Typography>
           </div>
         </>
