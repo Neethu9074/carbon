@@ -14296,7 +14296,8 @@
       "titleBucket": "Bucket",
       "titleType": "Type",
       "titleErrorCode": "Error Code",
-      "titleSQL": "SQL"
+      "titleSQL": "SQL",
+      "titleIndexName": "Index Name"
     },
     "datagrid": {
       "titleOperation": "Operation",
