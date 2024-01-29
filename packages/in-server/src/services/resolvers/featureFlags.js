@@ -496,6 +496,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonShellEnabled',
+    instanaCtlKey: 'feature.carbon.shell.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allowDownloadMetricsFromCharts',
     instanaCtlKey: 'feature.chart.download.enabled',
     defaultValue: true
