@@ -23,6 +23,9 @@ import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alert/synthetics/AlertDialog');
 export interface DuplicateFrom {
@@ -43,6 +46,7 @@ export default function AlertConfigDialog({
   startWithSimpleMode,
   testId
 }: AlertConfigDialogType) {
+  const [toInitialStep, setToInitialStep] = useState(false);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
 
   const [isSaving, setIsSaving] = useState(false);
@@ -59,6 +63,39 @@ export default function AlertConfigDialog({
       form={form}
       onChange={createOnChange(setForm, form)}
       onCreate={simpleMode => {
+        if (form.get(fieldNames.syntheticTestIds).value.length === 0) {
+          addActiveDialog(
+            <ConfirmationDialog
+              header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+              description={t('in-alerting:components.alertConfirmationDialogDescription', {
+                entityPlaceholder: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsLabel')
+              })}
+              confirmButtonLabel={t('in-alerting:components.labelConfirm')}
+              confirmButtonKind="danger"
+              onClose={() => {
+                navigateToStep1(simpleMode, setToInitialStep);
+                close();
+              }}
+              onSubmit={() => {
+                close();
+                createOrSaveAlert(
+                  form,
+                  setForm,
+                  onClose,
+                  editMode,
+                  setIsSaving,
+                  setMessages,
+                  testId,
+                  getLinkToAlertConfig,
+                  getLinkToGlobalAlertConfig,
+                  simpleMode,
+                  duplicateFrom
+                );
+              }}
+            />
+          );
+          return;
+        }
         createOrSaveAlert(
           form,
           setForm,
@@ -81,6 +118,8 @@ export default function AlertConfigDialog({
       startWithSimpleMode={startWithSimpleMode}
       isSaving={isSaving}
       messages={messages}
+      setToInitialStep={setToInitialStep}
+      toInitialStep={toInitialStep}
     />
   );
 }
@@ -168,4 +207,10 @@ function toAlertConfig(form: MapForm<any>): Readonly<SyntheticAlertConfig> {
     timeThreshold: (form.get('timeThreshold') as Field<SyntheticTimeThresholdUnion>).toJS(),
     customPayloadFields: form.get('customPayloadFields').toJS()
   });
+}
+
+function navigateToStep1(simpleMode: boolean, setToInitialStep: React.Dispatch<React.SetStateAction<boolean>>) {
+  if (simpleMode) {
+    setToInitialStep(true);
+  }
 }

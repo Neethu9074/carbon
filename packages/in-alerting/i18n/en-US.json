@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "You are looking at a deleted alert configuration. Modifications are not possible.",
     "alertPropertyInfosWarning": "Warning",
     "alertPropertyInfosCritical": "Critical",
+    "alertConfirmationDialogDescription": "There are no {{entityPlaceholder}} configured to be alerted on. Are you sure you want to continue?",
+    "labelConfirm": "Confirm",
     "customPayload": {
       "deleteRow": "Delete Row",
       "key": "Key",
