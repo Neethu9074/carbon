@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "Filtre personnalisé (facultatif)",
     "title": "Créer un objectif de niveau de service (SLO)",
-    "selectIndicator": "Sélectionner un indicateur",
+    "selectIndicator": "Sélectionner des plans directeurs",
     "selectEntityNavItem": "Sélectionner une entité",
     "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :",
     "selectScopeNavItem": "Sélectionner une portée",
     "selectScopeTitle": "Sélectionner une portée",
+    "selectIndicatorTitle": "Indicateur SLI",
+    "selectIndicatorNavItem": "Définir l'indicateur",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Demandes HTTP",
       "beaconLabel_pageLoad": "Chargements de page de site Web",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "Une erreur inattendue est survenue lors de la création de cette configuration d'objectif du niveau de service. Réessayez ultérieurement."
     },
     "indicatorSection": {
-      "description_custom": "Il doit être mis à jour ultérieurement car il est manquant dans les conceptions",
+      "description_custom": "Mesure le nombre d'événements corrects et.ou incorrects à l'aide de filtres définis par l'utilisateur.",
       "description_latency": "Mesure la vitesse à laquelle le service a répondu au-delà d'un seuil défini. Par exemple, la vitesse au-delà de 100 ms à laquelle votre service de paiement répond.",
       "description_availability": "Mesure la fréquence à laquelle un service répond de manière appropriée. Par exemple, la fréquence à laquelle vos appels HTTP sont erronés.",
       "timeTypeExplanation": "Appels corrects/incorrects regroupés par minute",

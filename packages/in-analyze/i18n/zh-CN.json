@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "错误",
-        "warning": "警告",
-        "showStackTrace": "显示堆栈跟踪",
-        "expandButtonForContent": "展开内容按钮",
-        "logParameters": "日志参数",
-        "logStackTrace": "日志堆栈跟踪",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "此调用已批处理，并表示 {{batchSize}} 个个别调用。",
         "downloadRawSpanData": "下载调用详细信息",
         "correlationMissing": "缺少关联",
@@ -283,6 +277,7 @@
     "labelService": "服务",
     "labelEndpoint": "端点",
     "labelAggregatedTime": "汇总时间",
+    "labelCalls": "调用数",
     "labelErroneousCalls": "错误调用数",
     "buttonTechnology": "技术",
     "callDetails": {

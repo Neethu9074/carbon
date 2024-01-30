@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "오류",
-        "warning": "경고",
-        "showStackTrace": "스택 추적 표시",
-        "expandButtonForContent": "컨텐츠에 대한 단추 펼치기",
-        "logParameters": "로그 매개변수",
-        "logStackTrace": "로그 스택 추적",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "이 호출이 일괄처리되며 {{batchSize}}의 개별 호출을 나타냅니다.",
         "downloadRawSpanData": "호출 세부사항 다운로드",
         "correlationMissing": "상관 누락",
@@ -283,6 +277,7 @@
     "labelService": "서비스",
     "labelEndpoint": "엔드포인트",
     "labelAggregatedTime": "집계된 시간",
+    "labelCalls": "호출",
     "labelErroneousCalls": "잘못된 호출",
     "buttonTechnology": "기술",
     "callDetails": {

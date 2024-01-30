@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "Error",
-        "warning": "Aviso",
-        "showStackTrace": "Mostrar rastreo de pila",
-        "expandButtonForContent": "Ampliar botón para contenido",
-        "logParameters": "Parámetros de registro",
-        "logStackTrace": "Rastreo de pila de registro",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "Esta llamada está incluida en un lote y representa {{batchSize}} llamadas individuales.",
         "downloadRawSpanData": "Descargar detalles de llamada",
         "correlationMissing": "Falta la correlación",
@@ -283,6 +277,7 @@
     "labelService": "Servicio",
     "labelEndpoint": "Punto final",
     "labelAggregatedTime": "Tiempo agregado",
+    "labelCalls": "Llamadas",
     "labelErroneousCalls": "Llamadas erróneas",
     "buttonTechnology": "Tecnología",
     "callDetails": {

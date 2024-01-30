@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleTimeThreshold": "Limite de tempo",
         "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
-        "viewDetail": "Visualizar detalhes"
+        "predictiveTrigger": {
+          "title": "Acionar preditivamente o alerta com antecedência"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Limite estático, {{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "Limite estático",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Acionador preditivo"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} mais filtro",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Escopo",
-          "title": "Escopo: onde a condição está acontecendo?"
+          "title": "Escopo: onde a condição está acontecendo?",
+          "metric": {
+            "metric": "Métrica",
+            "selectMetric": "Selecionar métrica"
+          },
+          "aggregation": {
+            "aggregation": "Agregação"
+          }
         },
         "threshold": {
           "label": "Limite",
@@ -1233,19 +1246,44 @@
           "label": "Limite de tempo",
           "title": "Limite de tempo: quando você quer ser alertado?"
         },
+        "predictiveTrigger": {
+          "title": "Acionador preditivo",
+          "timeToFailure": "Tempo para falha"
+        },
         "alertChannel": {
           "label": "Canais de alerta",
           "title": "Canais de alerta: quem precisa ser alertado?"
         },
         "properties": {
+          "preview": {
+            "subtitle": "Métrica-Nome"
+          },
           "label": "Propriedades",
-          "title": "Propriedades de alerta adicionais"
+          "title": "Propriedades de alerta adicionais",
+          "alertPropertiesTitlePlaceholder": "Alerta inteligente de infraestrutura",
+          "alertPropertiesDescriptionPlaceholder": "Algo está errado em sua infraestrutura."
         },
         "customPayloads": {
           "label": "Cargas úteis",
           "title": "Carga útil customizada"
-        }
-      }
+        },
+        "thresholdValue": "Valor do limite"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
+        "noMetricSelected": "Nenhuma métrica selecionada"
+      },
+      "groupedViewHeader": "{{formattedCount}} Resultados",
+      "groupedViewHeader_plural": "{{formattedCount}} Resultados",
+      "groupedViewHeader_0": "{{formattedCount}} Resultados",
+      "groupedViewHeader_1": "{{formattedCount}} Resultados",
+      "groupedViewHeader_2": "{{formattedCount}} Resultados",
+      "resultHeaderLoading": "Carregando...",
+      "loadMore": "Carregar mais",
+      "count": "Contagem",
+      "previewFor": "Visualização para: ",
+      "selectEntityType": "Selecione um tipo de entidade",
+      "regexNotValid": "Regex não é válido"
     }
   }
 }

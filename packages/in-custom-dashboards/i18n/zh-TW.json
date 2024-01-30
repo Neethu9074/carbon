@@ -13,6 +13,8 @@
     "grid": {
       "grid": {
         "edit": "編輯",
+        "copy": "複製",
+        "copied": "已複製小組件，使用 CTRL-V 或 CMD-V 貼到任何自訂儀表板上",
         "duplicate": "複製",
         "delete": "刪除",
         "customDashboardWidgetTitle": "自訂儀表板小組件：{{title}}"
@@ -81,6 +83,8 @@
       "editName": "編輯名稱",
       "editAsJson": "以 JSON 型式編輯",
       "viewAsJson": "以 JSON 型式檢視",
+      "copyAllWidgets": "複製所有小組件",
+      "copiedAllWidgets": "已複製的小組件，使用 CTRL-V 或 CMD-V 貼到任何自訂儀表板上",
       "duplicate": "複製",
       "delete": "刪除",
       "share": "共用",
@@ -174,7 +178,8 @@
       },
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "度量型樣（例如：metric_. *）",
-        "done": "完成"
+        "done": "完成",
+        "help": "## 快速提示\n下列運算子支援 Apache Lucene 特性的正規表示式。\n###。\n符合任何字元。 例如：\n\n    ab.     # 符合 'aba'、'abb '、'abz' 等。\n### ? + *\n重複前面的字元一定次數。 例如：\n\n    abc?     # 重複 ' c' 一或零次。 符合 'ab' 和 'abc'\nab+      # 重複 'b' 一次以上。 符合 'ab'、'abb'、'abbb' 等。\n    ab*      # 重複 'b' 零次或多次。 符合 'a'、'ab'、'abb'、'abbb' 等。\n### |\n OR 運算子。 如果左側或右側的最長型樣相符，則相符項將成功。 例如：\n\nabc|xyz  # 符合 'abc' 和 'xyz'\n### ( … )\n形成群組。 您可以使用群組將部分表示式視為單一字元。 例如：\n\n    abc(def)?  # 符合 'abc' 和 'abcdef' 但不符合 'abcd'\n### [ … ]\n符合方括弧中的其中一個字元。 例如：\n\n    [abc]   # 符合 'a'、'b'、'c'\n在方括弧內，除非 `-` 是第一個字元或跳出字元，否則 `-` 表示範圍。 例如：\n\n    [a-c]   # 符合 'a'、'b' 或 'c'\n    [-abc]  # '-' 是第一個字元。 符合 '-'、'a'、'b' 或 'c''\n    [abc\\-] # 跳出 '-'。符合 'a'、'b'、'c' 或 '-'\n方括弧中的字元之前的 ` ^ ` 會使字元或範圍無效。 例如：\n\n    [^abc]      # 符合 'a'、'b' 或 'c' 以外的任何字元\n    [^a-c]      #符合 'a'、'b' 或 'c' 以外的任何字元\n    [^-abc]      # 符合 '-'、'a'、'b' 或 'c' 以外的任何字元\n    [^abc\\-]    # 符合 'a'、'b'、'c' 或 '-' 以外的任何字元\n\n請注意，目前不支援 '\\w' 或 '\\S' 之類的 PCRE 字元類別。 另請注意，不支援 '^' 或 '$' 之類的錨點運算子。 表示式必須符合整個字串。\n## 進一步閱讀\n如需完整語法，請參閱我們的 [文件] ({{documentationLink}})。"
       },
       "metricSelectionCategoryOverlay": {
         "list": "清單",
@@ -302,6 +307,10 @@
         "automatic": "自動"
       },
       "color": {
+        "magenta": "紫紅色",
+        "darkRed": "暗紅色",
+        "blue": "藍色",
+        "yellow": "黃色",
         "lightBlue": "淺藍色",
         "green": "綠色",
         "red": "紅色",
@@ -591,7 +600,8 @@
         "thousandCallsFormat": "{{count}}K 個呼叫"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "預覽資料在過去最多只會顯示 7 天。 最終小組件將僅包含自建立 SLI 以來的資料。"
+        "previewDataInfo": "預覽資料在過去最多只會顯示 7 天。 最終小組件將僅包含自建立 SLI 以來的資料。",
+        "liveDataInfo": "現用資料無法用於錯誤預算資料"
       },
       "boundaryScopeConfigurator": {
         "all": {

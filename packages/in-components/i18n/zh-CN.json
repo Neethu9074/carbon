@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "查看分析",
     "chartLendMetricTimeShifted": "指标时移到：{{timeShiftedLabel}}",
     "chartDownloadLabel": "下载 JSON",
+    "chartDownloadCSVLabel": "下载 CSV",
     "chartGlobalHighlightLabel": "在所有图表上突出显示",
     "chartZoomInLabel": "缩放到时间范围",
     "chartAlertsLanePresenterAlertsLabel": "警报",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}}（位于 <codeWithClass>{{path}}</codeWithClass>)"
-  },
-  "graphView": {
-    "graphTitle": "图形",
-    "explanationHeader": "Dynamic Graph 展示",
-    "explanationP1": "Dynamic Graph 是支持 Instana 的核心技术。这是一种应用程序模型，可方便您了解组件的所有物理和逻辑依赖关系。在右侧，您会看到当前环境的 Dynamic Graph！",
-    "explanationP2": "该图不仅包含物理组件，而且还包含逻辑组件，例如，跟踪、应用程序、服务、集群或表空间。组件及其依赖关系是由 Instana 代理程序和传感器自动发现的，因此该图总能保持最新状态。根据语义知识和机器学习方法，还会不断使用指标、配置数据和计算出的运行状况值等状态信息来更新该图中的每个节点。这些知识还会分析该图中的依赖关系以查找服务和应用程序等逻辑分组，继而了解对该级别的影响并推理出问题的严重程度。整个图具有持久性，您可以来回调整时间以将该图的知识用于多个操作用例。",
-    "explanationLink": "<linkToBlog>访问我们的博客</linkToBlog> 以获取更多信息。",
-    "closeBtn": "关闭图形"
   },
   "gravatar": {
     "avatarUrlAlt": "来自 gravatar.com 的 {{email}} 头像。",
@@ -240,7 +233,6 @@
     "labelRegion": "区域",
     "labelTag": "标记",
     "labelCommit": "落实",
-    "buttonGraphShowcase": "图形展示",
     "geo": {
       "title": "地理数据",
       "description": "此产品包含 MaxMind 创建的 GeoLite2 数据，可从以下站点获取：<linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "不适用",
+    "headerLabel": "排序依据",
     "buttonAscending": "升序",
     "buttonDescending": "降序"
   },

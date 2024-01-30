@@ -119,7 +119,6 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso. En el futuro, los sucesos personalizados para estos tres tipos de entidad se eliminarán y ya no recibirá esta {{issueOrIncident}}</strong><br/>Ver configuración de sucesos personalizados para migrar a alerta inteligente. <documentationLink>Más información en nuestra documentación</documentationLink>",
-  "associatedActionsForTriggeringEvent": "Acciones asociadas para suceso desencadenante",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} sucesos personalizados requieren una acción",
     "message": "Los sucesos personalizados en aplicación, servicio y punto final están en desuso. No podrá crear o actualizar estos tipos de sucesos personalizados en el futuro.",
@@ -158,18 +157,30 @@
     "titlePRCA": "Causa principal probable",
     "AIGenBadgeText": "IA generada",
     "suggestionHelpfulText": "¿Fue útil esta sugerencia?",
+    "thankYouForYourFeedback": "Gracias por sus comentarios.",
     "noEntitiesErrorTitle": "No se ha encontrado ninguna causa raíz probable",
     "noEntitiesErrorDescription": "Esto suele ocurrir cuando la incidencia no ha tenido un impacto significativo en el servicio",
     "performanceConstantlyEvaluated": "El rendimiento se está evaluando activamente y mejorando durante la versión Beta. Deje sus comentarios para ayudarnos a mejorar nuestra inteligencia artificial",
-    "regenerate": "Volver a generar",
     "probableRootCauseLabel": "Entidad de causa principal probable: {{entity_name}}",
-    "relatedEventsLabel": "Sucesos de entidad encontrados: {{number_of_events}}"
+    "relatedEventsLabel": "Sucesos de entidad encontrados: {{number_of_events}}",
+    "entitiesNumber": "Entidades",
+    "techPreview": "VISTA PREVIA DE TECNOLOGÍA"
+  },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "Resumen de la incidencia",
+    "thisIncident": "Esta incidencia parece ser:",
+    "errorTitle": "No se ha encontrado ningún resumen",
+    "errorDescription": "No se ha podido crear ningún resumen para este suceso",
+    "summarizationHelpfulText": "¿Le ha resultado útil este resumen?"
   },
   "feedback": {
     "skip": "Omitir",
     "descriptionUnpleasant": {
       "firstLineApology": "Lamentamos que su experiencia no haya sido agradable.",
       "secondLineQuestion": "¿Podría ayudarnos a identificar lo que ha ido mal?"
+    },
+    "rca": {
+      "apology": "Lamentamos que su experiencia no haya sido agradable. Ayúdenos a descubrir el potencial de la característica de análisis de causa raíz de Instana compartiendo sus conocimientos y experiencias"
     },
     "pleaseDescribeWhatWentWrongTextBox": "Descríbalos",
     "contactMeYes": "Sí, póngase en contacto conmigo",

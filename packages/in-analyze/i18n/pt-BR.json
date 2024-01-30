@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "Erro",
-        "warning": "Aviso",
-        "showStackTrace": "Mostrar rastreio de pilha",
-        "expandButtonForContent": "Botão Expandir para conteúdo",
-        "logParameters": "Parâmetros de log",
-        "logStackTrace": "Rastreio de pilha de log",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "Esta chamada está em lote e representa chamadas individuais de {{batchSize}}.",
         "downloadRawSpanData": "Detalhes da chamada de download",
         "correlationMissing": "Correlação ausente",
@@ -283,6 +277,7 @@
     "labelService": "Serviço",
     "labelEndpoint": "Terminal",
     "labelAggregatedTime": "Tempo agregado",
+    "labelCalls": "Chamadas",
     "labelErroneousCalls": "Chamadas errôneas",
     "buttonTechnology": "Tecnologia",
     "callDetails": {

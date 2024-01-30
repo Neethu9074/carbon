@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "In Analyse anzeigen",
     "chartLendMetricTimeShifted": "Messwert-Zeitverschiebung nach {{timeShiftedLabel}}",
     "chartDownloadLabel": "JSON herunterladen",
+    "chartDownloadCSVLabel": "CSV herunterladen",
     "chartGlobalHighlightLabel": "In allen Diagrammen hervorheben",
     "chartZoomInLabel": "Zoom auf Zeitbereich",
     "chartAlertsLanePresenterAlertsLabel": "Alerts",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (unter <codeWithClass>{{path}}</codeWithClass>)"
-  },
-  "graphView": {
-    "graphTitle": "Diagramm",
-    "explanationHeader": "Showcase für dynamisches Diagramm",
-    "explanationP1": "Die Kerntechnologie, die Instana antreibt, ist das dynamische Diagramm. Das Diagramm ist ein Modell für Ihre Anwendung, das alle physischen und logischen Abhängigkeiten von Komponenten abbildet. Auf der rechten Seite sehen Sie das dynamische Diagramm Ihrer aktuellen Umgebung!",
-    "explanationP2": "Das Diagramm enthält mehr als die physischen Komponenten. Es enthält auch logische Komponenten wie Traces, Anwendungen, Services, Cluster oder Tabellenbereiche. Komponenten und ihre Abhängigkeiten werden vom Instana-Agenten und den Sensoren automatisch erkannt, sodass das Diagramm kontinuierlich auf dem neuesten Stand gehalten wird. Jeder Knoten im Diagramm wird außerdem kontinuierlich mit Statusinformationen wie Messdaten, Konfigurationsdaten und einem berechneten Wert für den Allgemeinzustand auf Basis semantischer Kenntnisse und eines maschinellen Lernansatzes aktualisiert. Mit diesem Wissen werden auch die Abhängigkeiten im Diagramm analysiert, um logische Gruppierungen wie Services und Anwendungen zu finden, Auswirkungen auf diese Ebene zu verstehen und den Schweregrad von Problemen abzuleiten. Das gesamte Diagramm ist persistent und Sie können im Zeitablauf hin- und herblättern, um die Aussagen des Diagramms für viele Anwendungsfälle zu nutzen.",
-    "explanationLink": "<linkToBlog>Rufen Sie unseren Blog auf</linkToBlog>, um weitere Informationen zu erhalten.",
-    "closeBtn": "Diagramm schließen"
   },
   "gravatar": {
     "avatarUrlAlt": "Avatar für {{email}} von gravatar.com.",
@@ -240,7 +233,6 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Festschreiben",
-    "buttonGraphShowcase": "Diagramm-Showcase",
     "geo": {
       "title": "Geodaten",
       "description": "Dieses Produkt enthält von MaxMind erstellte GeoLite2-Daten; verfügbar unter <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "Nicht zutreffend",
+    "headerLabel": "Sortieren nach",
     "buttonAscending": "Aufsteigend",
     "buttonDescending": "Absteigend"
   },

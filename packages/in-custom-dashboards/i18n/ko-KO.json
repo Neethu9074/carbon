@@ -13,6 +13,8 @@
     "grid": {
       "grid": {
         "edit": "편집",
+        "copy": "복사",
+        "copied": "위젯이 복사되었습니다. CTRL-V 또는 CMD-V를 사용하여 사용자 정의 대시보드에 붙여넣으십시오.",
         "duplicate": "복제",
         "delete": "삭제",
         "customDashboardWidgetTitle": "사용자 정의 대시보드 위젯: {{title}}"
@@ -81,6 +83,8 @@
       "editName": "이름 편집",
       "editAsJson": "JSON으로 편집",
       "viewAsJson": "JSON으로 보기",
+      "copyAllWidgets": "모든 위젯 복사",
+      "copiedAllWidgets": "위젯이 복사되었습니다. CTRL-V 또는 CMD-V를 사용하여 사용자 정의 대시보드에 붙여넣으십시오.",
       "duplicate": "복제",
       "delete": "삭제",
       "share": "공유",
@@ -174,7 +178,8 @@
       },
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "메트릭 패턴(예: metric_. *)",
-        "done": "완료"
+        "done": "완료",
+        "help": "## 꿀팁\nApache Lucene 플레이버 regex는 다음 연산자와 함께 지원됩니다.\n###.\n모든 문자와 일치합니다. 예:\n\n    ab.     # 'aba', 'abb', 'abz' 등과 일치합니다.\n### ? + *\n선행 문자를 특정 횟수만큼 반복하십시오. 예:\n\n    abc?     # 'c' 를 한 번 또는 0번 반복합니다. 'ab' and 'abc'와 일치합니다.\n    ab+      # 'b'를 한 번 이상 반복합니다. 'ab', 'abb', 'abbb' 등과 일치합니다.\n    ab*      # 'b'를 0번이상 반복합니다. 'a', 'ab', 'abb', 'abbb' 등과 일치합니다.\n### |\n OR 연산자. 왼쪽 또는 오른쪽에서 가장 긴 패턴이 일치하는 경우 일치가 성공합니다. 예:\n\n    abc|xyz # 'abc' 및 'xyz'와 일치\n ### ( ... )\n그룹을 형성합니다. 그룹을 사용하여 표현식의 일부를 단일 문자로 처리할 수 있습니다. 예:\n\n    abc(def)?  # 'abc' 및 'abcdef'와 일치하지만 'abcd'는 일치하지 않습니다.\n### [...]\n대괄호 안의 문자 중 하나와 일치합니다. 예:\n\n    [abc]   #는 'a', 'b', 'c'와 일치합니다.\n대괄호 안에서, `-` 는 `-` 가 첫 번째 문자이거나 이스케이프된 경우가 아니라면 범위를 표시합니다. 예:\n\n    [a-c] #는 'a', 'b' 또는 'c' 와 일치합니다.\n [-abc] # '-'는 첫 번째 문자입니다. '-', 'a', 'b', 또는 'c'와 일치합니다.\n    [abc\\-] # '-'를 이스케이프합니다. 'a', 'b', 'c', 또는 '-'와 일치합니다.\n 대괄호 안의 문자 앞에 있는 `^` 는 문자 또는 범위를 부정합니다. 예:\n\n    [^abc]      'a', 'b' 또는 'c' 를 제외한 모든 문자와 일치합니다.\n    [^a-c]      # 'a', 'b' 또는 'c' 를 제외한 모든 문자와 일치합니다.\n    [^-abc]     # '-', 'a', 'b', 또는 'c' 를 제외한 모든 문자와 일치합니다.\n    [^abc\\-]    # matches any character except 'a', 'b', 'c', 또는 '-'를 제외한 모든 문자와 일치합니다.\n\n`\\w` 또는 `\\S`와 같은 PCRE 문자 클래스는 현재 지원되지 않습니다. 또한 `^` 또는 `$`와 같은 앵커 연산자는 지원되지 않습니다. 표현식은 전체 문자열과 일치해야 합니다.\n## 자세한 정보\n전체 구문은 [문서] ({{documentationLink}})를 참조하십시오."
       },
       "metricSelectionCategoryOverlay": {
         "list": "목록",
@@ -302,6 +307,10 @@
         "automatic": "자동"
       },
       "color": {
+        "magenta": "자홍색",
+        "darkRed": "진한 빨간색",
+        "blue": "파란색",
+        "yellow": "노란색",
         "lightBlue": "연한 파란색",
         "green": "녹색",
         "red": "빨간색",
@@ -591,7 +600,8 @@
         "thousandCallsFormat": "{{count}}K개의 호출"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. 최종 위젯에는 SLI 작성 이후의 데이터만 포함됩니다."
+        "previewDataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. 최종 위젯에는 SLI 작성 이후의 데이터만 포함됩니다.",
+        "liveDataInfo": "오류 예산 데이터에 대해 라이브 데이터를 사용할 수 없습니다."
       },
       "boundaryScopeConfigurator": {
         "all": {

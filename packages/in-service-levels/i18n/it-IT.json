@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "Filtro personalizzato (facoltativo)",
     "title": "Crea SLO (Service Level Objective)",
-    "selectIndicator": "Seleziona indicatore",
+    "selectIndicator": "Seleziona blueprint",
     "selectEntityNavItem": "Seleziona entità",
     "selectEntityTitle": "Selezionare un'entità a cui aggiungere SLO:",
     "selectScopeNavItem": "Seleziona ambito",
     "selectScopeTitle": "Seleziona ambito",
+    "selectIndicatorTitle": "Indicatore SLI",
+    "selectIndicatorNavItem": "Imposta indicatore",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Richieste HTTP",
       "beaconLabel_pageLoad": "Caricamenti pagine di siti web",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "Si è verificato un errore imprevisto durante la creazione di questa configurazione dell'SLO (service level objective - obiettivo del livello di servizio), ripetere l'operazione successivamente."
     },
     "indicatorSection": {
-      "description_custom": "Questo dovrebbe essere aggiornato in seguito in quanto manca nelle progettazioni",
+      "description_custom": "Misura il conteggio degli eventi corretti e/o non corretti utilizzando i filtri definiti dall'utente.",
       "description_latency": "Misura la velocità con cui il servizio ha risposto al di sopra di una soglia impostata. Ad esempio, la misura di quanto la velocità di risposta del proprio servizio di checkout è inferiore ai 100ms.",
       "description_availability": "Misura la frequenza con cui un servizio risponde in modo appropriato. Ad esempio, la frequenza con cui le chiamate HTTP risultano errate.",
       "timeTypeExplanation": "Chiamate valide e non valide raggruppate per minuto",

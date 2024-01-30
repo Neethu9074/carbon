@@ -81,6 +81,7 @@
     "focusOnThisGroup": "Auf diese Gruppe konzentrieren",
     "theQueryConfigurationIsInvalid": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
     "allInfrastructure": "Gesamte Infrastruktur",
+    "emptyInfrastructure": "Entitätstyp auswählen",
     "name": "Name",
     "search": "Typ suchen",
     "explore": "Durchsuchen",

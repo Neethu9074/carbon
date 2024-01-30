@@ -21,10 +21,6 @@
       "transferSizeLabel": "Taille du transfert",
       "transferSizeCategory": "Redimensionnement des ressources"
     },
-    "crash": {
-      "crashAffectedSessionCount": "Nombre de sessions affectées par les pannes",
-      "crashAffectedUserCount": "Nombre d'utilisateurs affectés par les pannes"
-    },
     "errorRate": {
       "label": "Taux d'erreurs",
       "rawDataLabel": "Nombre d'erreurs"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "Afficher la trace back-end",
       "showID": "ID : {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "Afficher les détails du groupe de pannes"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} occurrences",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Evénement personnalisé",
@@ -220,8 +219,8 @@
       "metaHeader": "Méta",
       "stackTrace": "StackTrace",
       "stackTraceLastOccurrence": "Trace de pile (dernière occurrence)",
-      "stackTraceButtonPrettyStackTrace": "Trace de pile formatée",
-      "stackTraceButtonRawStackTrace": "Trace de pile brute"
+      "stackTraceButtonCrashedThreadsStackTrace": "Unités d'exécution en panne",
+      "stackTraceButtonAllThreadsStackTrace": "Toutes les unités d'exécution"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Temps d'extraction",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "Description",
           "fileUploadConfigurationDialogDescriptionHelp": "Une configuration d'importation vous aidera à mieux organiser vos fichiers téléchargés.",
           "fileUploadConfigurationDialogHeadingOpenAPI": "Transfert en cours des fichiers de symboles",
-          "fileUploadConfigurationDialogOpenAPIHelp": "Transférez vos fichiers de symboles en appelant l'API REST Web d'Instana. Possibilité d'intégration à votre traitement de pipeline pour un déploiement automatisé. L'explication et l'utilisation de notre API REST Web figurent dans notre <documentation>documentation</documentation>.",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Transférez vos fichiers de symboles en appelant l'API REST Web d'Instana. Possibilité d'intégration à votre traitement de pipeline pour un déploiement automatisé. L'explication et l'utilisation de notre API REST Web sont définies dans notre <documentation>documentation</documentation>.",
           "fileUploadUrl": "API de transfert de fichier de symboles",
           "stackTraceTranslationLabelConfiguration": "Configuration",
           "stackTraceTranslationLabelFiles": "Fichiers",
@@ -438,7 +437,7 @@
     "nameLabel": "Nom",
     "sessionStartsLabel": "Démarrages de session",
     "viewTransitionsLabel": "Transitions de vue",
-    "crashFreeSessionRateLabel": "Taux de sessions sans panne",
+    "crashAffectedSessionRateTitle": "Taux de sessions affectées par les pannes",
     "addMobileAppBtn": "Ajouter une application mobile",
     "mobileAppsTitle": "Applications mobiles"
   },

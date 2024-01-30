@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "自訂過濾器（選用）",
     "title": "建立服務水準目標 (SLO)",
-    "selectIndicator": "選取指示器",
+    "selectIndicator": "選取藍圖",
     "selectEntityNavItem": "選取實體",
     "selectEntityTitle": "選取要新增 SLO 的實體：",
     "selectScopeNavItem": "選取範圍",
     "selectScopeTitle": "選取範圍",
+    "selectIndicatorTitle": "SLI 指示器",
+    "selectIndicatorNavItem": "設定指示器",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "網站頁面載入",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "建立此 SLO 配置時發生非預期的錯誤，請稍後重試。"
     },
     "indicatorSection": {
-      "description_custom": "這應該稍後更新，因為在設計中遺漏它",
+      "description_custom": "使用使用者定義的過濾器來測量良好及/或不良事件的計數。",
       "description_latency": "測量服務回應超過設定臨界值的速度。 例如，測量您的移出服務回應速度比 100 毫秒還快的速度。",
       "description_availability": "測量服務適當回應的頻率。 例如，HTTP 呼叫錯誤的頻率。",
       "timeTypeExplanation": "依分鐘分組的良好與不正確呼叫數",
