@@ -971,12 +971,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Step 1: Tests",
-        "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
+        "simpleAlertConfigDialogStep1Headline": "Which synthetic tests you want to be alerted on?",
         "simpleAlertConfigDialogStep1Tooltip": "Individual alerts will be sent independently for each synthetic test, per location",
         "stepConfigsStep4Title": "Step 4: Alert Channels",
         "alertDialogHeadline": "What should appear in the alert?",
         "stepConfigsStep2Title": "Step 2: Scope",
-        "scopeHeadline": "Where do you want the alert to trigger?",
+        "scopeHeadline": "What is the scope?",
+        "scopeDescription": "Choose where you want the condition to be applied.",
         "stepConfigsStep3Title": "Step 3: Time Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
@@ -1001,7 +1002,7 @@
         "alertChannelsTitle": "Who should get the alerts?",
         "scopeFilterLabel": "Scope",
         "alertTestsLabel": "Synthetic Tests",
-        "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
+        "alertTestsTitle": "Synthetic Tests : Which synthetic tests you want to be alerted on?",
         "propertiesLabel": "Alert Properties",
         "propertiesTitle": "What should alert notification include?",
         "failureThreshold": "Time Threshold",
@@ -1197,14 +1198,14 @@
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
         "alertConfigurationTitleAlertProperties": "Alert Properties",
-        "predictiveTrigger" : {
+        "predictiveTrigger": {
           "title": "Predictively trigger the alert in advance"
         }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitle" : {
+            "subtitle": {
               "staticThresholdType": "Static Threshold",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
               "predictiveTrigger": "Predictive Trigger"

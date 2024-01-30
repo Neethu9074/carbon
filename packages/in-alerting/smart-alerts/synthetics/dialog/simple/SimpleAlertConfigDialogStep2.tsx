@@ -28,7 +28,10 @@ export default function SimpleAlertConfigDialogStep2({
   headerTransparent = false
 }: SimpleAlertConfigDialogStep2Props) {
   return (
-    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline')}>
+    <SimpleModeStepContentWrapper
+      headline={t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline')}
+      titleToolTipText={t('in-alerting:smartAlerts.synthetics.simple.scopeDescription')}
+    >
       <div className={locals.alertLocationFiltersWrapper}>
         <AlertTagFilterExpressionConfig
           form={form}
