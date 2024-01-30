@@ -13,6 +13,7 @@ import { t } from 'in-i18n';
 
 export default function CouchbaseSpanDetailView({ span }) {
   const sql = span.getIn(['data', 'couchbase', 'sql']);
+  const indexname = span.getIn(['data', 'couchbase', 'indexname']);
 
   return (
     <div>
@@ -28,6 +29,12 @@ export default function CouchbaseSpanDetailView({ span }) {
         {sql ? (
           <Di title={t('in-forge:tracing.couchbase.titleSQL')} verticalDisplay>
             <Code code={formatSql(sql)} lang="sql" showLineNumbers={false} />
+          </Di>
+        ) : null}
+
+        {indexname ? (
+          <Di title={t('in-forge:tracing.couchbase.titleIndexName')} verticalDisplay>
+            <Code code={indexname} lang="indexname" showLineNumbers={false} />
           </Di>
         ) : null}
       </Dl>
