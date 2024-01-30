@@ -14,6 +14,8 @@ import {
   isWebsiteSmartAlertEvent,
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
+import AssociatedAndRecommendedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedPoliciesAlerts';
+import AssociatedAndRecommendedActionsAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedActionsAlerts';
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import { actionAutomationEnabled, rcaUIEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
@@ -60,7 +62,10 @@ export default function IncidentEventList({
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
+
   const triggerEvent = events.find(isTriggeringEvent);
+  const isGlobalSmartAlert =
+    isApplicationSmartAlertEvent(triggerEvent) && triggerEvent.getIn(['metadata', 'globalSmartAlert'], false);
 
   return (
     <>
@@ -114,6 +119,30 @@ export default function IncidentEventList({
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedActions
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={triggerEvent?.toJS()}
+          />
+        )}
+
+      {automationPoliciesEnabled &&
+        role?.canConfigureAutomationPolicies &&
+        actionAutomationEnabled &&
+        role.canConfigureAutomationActions &&
+        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        !isGlobalSmartAlert &&
+        isApplicationSmartAlertEvent(triggerEvent) && (
+          <AssociatedAndRecommendedPoliciesAlerts
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={triggerEvent?.toJS()}
+          />
+        )}
+      {!automationPoliciesEnabled &&
+        actionAutomationEnabled &&
+        role.canConfigureAutomationActions &&
+        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        !isGlobalSmartAlert &&
+        isApplicationSmartAlertEvent(triggerEvent) && (
+          <AssociatedAndRecommendedActionsAlerts
             volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
             event={triggerEvent?.toJS()}
           />
