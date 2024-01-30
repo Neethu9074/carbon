@@ -9,6 +9,7 @@ import React from 'react';
 
 import { Observable, just } from '@instana/observables';
 import { Li, Link, Ul } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
@@ -34,7 +35,6 @@ import { eventsPath } from 'in-events/navigation/paths';
 import { ActionInstance, ActorType } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
@@ -84,7 +84,6 @@ export default function DetailTab({
   } = properties;
 
   const timeConfig = useTimeConfig();
-  const theme = useTheme();
 
   const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id, 'actionInstanceId');
   const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
@@ -233,7 +232,7 @@ export default function DetailTab({
         <td>
           {isLink ? (
             <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-              {value} <SvgIcon size="s" type="lib_views_external_link" color={theme.ids.color.option.blue['500']} />
+              {value} <SvgIcon size="s" type="lib_views_external_link" color={themes.default.ids.color.option.blue['500']} />
             </Link>
           ) : (
             value

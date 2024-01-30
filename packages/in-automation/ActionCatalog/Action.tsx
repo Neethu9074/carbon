@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router';
 import React, { createContext } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -72,7 +73,6 @@ import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
@@ -110,7 +110,6 @@ export const isNotEditableContext = createContext(false);
 export type ActionFormEntity = (NewAction | Action) & AssociatedResources;
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
-  const theme = useTheme();
   const { goToPath } = useNavigation();
 
   const id = props.match.params.id;
@@ -141,7 +140,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   } else if (errorLoading) {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-automation:ActionCatalog.unknownAction')}
         </SubViewHeader>
         <SectionLine />

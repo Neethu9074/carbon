@@ -8,6 +8,7 @@ import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { Button, Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -45,7 +46,6 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import Tag from 'in-automation/ActionCatalog/Tag';
 import { deletePolicy } from 'in-automation/api';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
@@ -69,7 +69,6 @@ export default function Policies({
   volatileId,
   triggerReload
 }: PoliciesProps) {
-  const theme = useTheme();
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -124,7 +123,7 @@ export default function Policies({
         <div>
           <Tooltip content={t('in-automation:deletePolicyWithName', { actionName: item.name })}>
             <SvgIcon
-              color={theme.ids.color.option.blue['400']}
+              color={themes.default.ids.color.option.blue['400']}
               type="lib_actions_delete"
               onClick={() => showConfirmationDialog(item, triggerReload)}
             />
