@@ -8,6 +8,7 @@ import React from 'react';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import PrivateLocation from 'in-synthetics/createLocation/steps/PrivateLocation';
+import ManagedLocation from 'in-synthetics/createLocation/steps/ManagedLocation';
 import { LocationsBluePrint } from 'in-synthetics/createLocation/bluePrints';
 
 interface Props {
@@ -23,7 +24,7 @@ const ConfigurationStep = ({ selectedBlueprint }: Props) => {
   }
 
   if (isManagedLocation) {
-    return <h1>Managed Location</h1>;
+    return <ManagedLocation />;
   }
 
   // If for some random case there is no private or managed location defined,

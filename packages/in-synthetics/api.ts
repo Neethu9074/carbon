@@ -192,3 +192,13 @@ export const getSyntheticTagCatalog =
       }
     }).map(response => deepFreeze(response));
   };
+
+export function getDatacenters(): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/synthetics/settings/datacenters',
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}

@@ -172,7 +172,7 @@
           "addscriptAction": "Add Script",
           "editscriptAction": "Edit Script",
           "scriptFileName": "File Name",
-          "scriptNotAdded" : "No script added.",
+          "scriptNotAdded": "No script added.",
           "buttonAdd": "Add",
           "buttonBack": "Back",
           "buttonSave": "Save",
@@ -247,7 +247,7 @@
       "successMessageDelete": "Successfully deleted the location",
       "failureMesssageDelete": "Failed to delete the location. Please try again later"
     },
-    "updateTest":{
+    "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
       "buttonSave": "Save",
       "scriptSavedMessage": "Script added",
@@ -278,7 +278,15 @@
         "description": {
           "headline": "When to use",
           "htmlContent": "Description of managed location and use case"
-        }
+        },
+        "managedDatacentersLabel": "Instana Managed Datacenters",
+        "datacenterCode": "Datacenter Code",
+        "datacenterName": "Datacenter Name",
+        "provider": "Provider",
+        "status": "Status",
+        "ActivatedButtonLabel": "Activated",
+        "ActivateButtonLabel": "Activate",
+        "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>."
       }
     }
   },
@@ -532,7 +540,7 @@
           }
         }
       },
-      "viewScreenshots":  {
+      "viewScreenshots": {
         "screenshotsDialogLabel": "Screeenshot(s)",
         "allScreenshots": "All Screenshots",
         "allImagesButton": "All Images",
@@ -580,7 +588,7 @@
       "locationsTitle": "Location(s)",
       "scheduleTitle": "Schedule",
       "frequencyTitle": "Frequency",
-      "simultaneousValue":"Simultaneous",
+      "simultaneousValue": "Simultaneous",
       "frequencyPluralValue": "{{minutes}} minutes",
       "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",
