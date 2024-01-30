@@ -198,6 +198,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         tooltipText={roleTooltipText}
         value={role}
         defaultRole={AreaRole.VIEWER}
+        roleDescription={rolePermissionMessage}
         onChange={onChangeRole}
         {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
           ? { options: AreaRolesWithContributor }
@@ -211,9 +212,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       {applicationContributionFilterEnabled ? (
         <StackItem>
           <ConfigurationSummary
-            accessLevelTitle={ScopedPermissionItem.LIMITED_ACCESS.toLocaleLowerCase()}
+            accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
             accessLevelMsg={accessLevelMessage}
-            rolePermissionMsg={rolePermissionMessage}
           >
             {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
             <RoleSelectionSection />

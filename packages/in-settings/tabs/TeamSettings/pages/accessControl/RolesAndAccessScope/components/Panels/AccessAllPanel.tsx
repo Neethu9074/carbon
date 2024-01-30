@@ -71,6 +71,7 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
             tooltipText={roleTooltipText}
             value={role}
             defaultRole={AreaRole.VIEWER}
+            roleDescription={rolePermissionMessage}
             onChange={onChangeRole}
             {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
               ? { options: AreaRolesWithContributor }
@@ -84,11 +85,7 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
         <StackItem>
-          <ConfigurationSummary
-            accessLevelTitle={ScopedPermissionItem.ACCESS_ALL.toLowerCase()}
-            accessLevelMsg={accessLevelMessage}
-            rolePermissionMsg={rolePermissionMessage}
-          >
+          <ConfigurationSummary accessLevelType={ScopedPermissionItem.ACCESS_ALL} accessLevelMsg={accessLevelMessage}>
             {isContributor && contributionFilterConfigured ? <ContributorFilterWarning /> : null}
             <RoleSelectionSection />
             {isContributor && (

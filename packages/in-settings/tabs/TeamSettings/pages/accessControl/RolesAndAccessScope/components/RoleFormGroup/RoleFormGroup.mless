@@ -10,4 +10,13 @@
     gap: 15px;
     align-items: center;
   }
+  .accessType {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .accessType_description {
+    margin-top: 0.5rem;
+  }
 }

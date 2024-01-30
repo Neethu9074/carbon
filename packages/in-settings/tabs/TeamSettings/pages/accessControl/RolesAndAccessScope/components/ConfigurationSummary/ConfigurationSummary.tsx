@@ -14,18 +14,16 @@ import { t } from 'in-i18n';
 import locals from './ConfigurationSummary.mless';
 
 export interface ConfigurationSummaryProps {
-  accessLevelTitle?: string;
+  accessLevelType?: string;
   accessLevelMsg?: string;
-  rolePermissionMsg?: string;
   noAccess?: boolean;
   children?: ReactNode;
   noAccessMsg?: string;
 }
 
 export const ConfigurationSummary = ({
-  accessLevelTitle,
+  accessLevelType,
   accessLevelMsg,
-  rolePermissionMsg,
   noAccess,
   children,
   noAccessMsg
@@ -41,16 +39,10 @@ export const ConfigurationSummary = ({
         </Typography>
       ) : (
         <>
-          <div className={locals.accessLevel}>
-            <Label className={locals.label}>{t('in-settings:permissionScope.access_type')}</Label>
-            <Typography variant="body-regular" component="div">
-              {rolePermissionMsg}
-            </Typography>
-          </div>
           {children}
           <div className={locals.accessLevel}>
             <Label className={locals.label}>
-              {t('in-settings:permissionScope.selection', { context: accessLevelTitle })}
+              {t('in-settings:permissionScope.selection', { context: accessLevelType?.toLocaleLowerCase() })}
             </Label>
             <Typography variant="body-regular" component="div">
               {accessLevelMsg}

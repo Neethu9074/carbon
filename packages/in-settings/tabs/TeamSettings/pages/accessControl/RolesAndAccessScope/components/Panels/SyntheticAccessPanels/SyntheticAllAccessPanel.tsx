@@ -59,6 +59,7 @@ export default function SyntheticAccessAllPanel<FORM_TYPE extends MapFormItems>(
             value={role}
             defaultRole={AreaRole.VIEWER}
             onChange={onChangeRole}
+            roleDescription={rolePermissionMessage}
           />
         )}
         {role === AreaRole.OWNER && <SyntheticCommonSection form={form} setForm={setForm} />}
@@ -69,11 +70,7 @@ export default function SyntheticAccessAllPanel<FORM_TYPE extends MapFormItems>(
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
         <StackItem>
-          <ConfigurationSummary
-            accessLevelTitle={ScopedPermissionItem.ACCESS_ALL.toLocaleLowerCase()}
-            accessLevelMsg={accessLevelMessage}
-            rolePermissionMsg={rolePermissionMessage}
-          >
+          <ConfigurationSummary accessLevelType={ScopedPermissionItem.ACCESS_ALL} accessLevelMsg={accessLevelMessage}>
             <RoleSelectionSection />
           </ConfigurationSummary>
         </StackItem>

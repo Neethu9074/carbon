@@ -87,7 +87,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     updatePermissionSet({ ...permissionSet, permissions: newPermissions });
   };
 
-  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+  const { accessLevelMessage } = getConfigurationSummaryMsg(
     ProductArea.INFRASTRUCTURE,
     ScopedPermissionItem.LIMITED_ACCESS,
     AreaRole.OWNER
@@ -140,11 +140,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
   return (
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
-        <ConfigurationSummary
-          accessLevelTitle={ScopedPermissionItem.LIMITED_ACCESS.toLocaleLowerCase()}
-          accessLevelMsg={accessLevelMessage}
-          rolePermissionMsg={rolePermissionMessage}
-        >
+        <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
           <Stack>
             <InfrastructureFilterSection />
           </Stack>
