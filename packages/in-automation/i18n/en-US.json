@@ -202,7 +202,6 @@
     "jiraHelpText": "Open, close or comment on a Jira task.",
     "epic": "Epic",
     "task": "Task",
-    "subTask": "Sub task",
     "bug": "Bug",
     "improvement": "Improvement",
     "newFeature": "New Feature",
