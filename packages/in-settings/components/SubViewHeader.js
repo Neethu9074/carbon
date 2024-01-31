@@ -5,18 +5,16 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-
-import { useTheme } from 'in-themes';
 
 import locals from './SubViewHeader.mless';
 
 export default function SubViewHeader({ children, iconType, iconColor }) {
-  const theme = useTheme();
   return (
     <div>
       {iconType && (
-        <SvgIcon className={locals.icon} type={iconType} color={iconColor ?? theme.ids.color.option.black} />
+        <SvgIcon className={locals.icon} type={iconType} color={iconColor ?? themes.default.ids.color.option.black} />
       )}
       <h1 className={locals.header}>{children}</h1>
     </div>
