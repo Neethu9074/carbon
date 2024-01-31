@@ -21,10 +21,6 @@
       "transferSizeLabel": "Dimensione trasferimento",
       "transferSizeCategory": "Dimensionamento risorsa"
     },
-    "crash": {
-      "crashAffectedSessionCount": "Conteggio sessioni interessate da arresto anomalo",
-      "crashAffectedUserCount": "Conteggio utenti interessati da arresto anomalo"
-    },
     "errorRate": {
       "label": "Tasso di errore",
       "rawDataLabel": "Numero di errori"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "Visualizza traccia di backend",
       "showID": "ID: {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "Visualizza dettagli gruppo di arresti anomali"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} ricorrenze",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Evento personalizzato",
@@ -219,9 +218,9 @@
       "crashLabel": "Arresto anomalo",
       "metaHeader": "Meta",
       "stackTrace": "Traccia di stack",
-      "stackTraceLastOccurrence": "Traccia di stack (ultima ricorrenza)",
-      "stackTraceButtonPrettyStackTrace": "Traccia di stack Pretty",
-      "stackTraceButtonRawStackTrace": "Traccia di stack non elaborata"
+      "stackTraceLastOccurrence": "Traccia di stack (Ultima ricorrenza)",
+      "stackTraceButtonCrashedThreadsStackTrace": "Thread arrestati in modo anomalo",
+      "stackTraceButtonAllThreadsStackTrace": "Tutti i thread"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Tempo richiamo",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "Descrizione",
           "fileUploadConfigurationDialogDescriptionHelp": "Una configurazione di caricamento consentirà di organizzare meglio i file caricati.",
           "fileUploadConfigurationDialogHeadingOpenAPI": "Caricamento dei file di simboli",
-          "fileUploadConfigurationDialogOpenAPIHelp": "Caricare i file di simboli richiamando l'API REST web di Instana. Questo potrebbe essere integrato nel processo di pipeline per la distribuzione automatizzata. Le spiegazioni e l'utilizzo dell'API REST Web sono definiti nella <documentation>documentazione</documentation>.",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Caricare i file di simboli richiamando l'API REST web di Instana. Questo potrebbe essere integrato nel processo di pipeline per la distribuzione automatizzata. La spiegazione e l'utilizzo della nostra API REST Web sono definiti nella <documentation>documentazione</documentation>.",
           "fileUploadUrl": "API di caricamento file di simboli",
           "stackTraceTranslationLabelConfiguration": "Configurazione",
           "stackTraceTranslationLabelFiles": "File",
@@ -438,7 +437,7 @@
     "nameLabel": "Nome",
     "sessionStartsLabel": "Avvii di sessione",
     "viewTransitionsLabel": "Transizioni vista",
-    "crashFreeSessionRateLabel": "Tasso sessioni senza arresti anomali",
+    "crashAffectedSessionRateTitle": "Frequenza sessioni interessate da arresto anomalo",
     "addMobileAppBtn": "Aggiungi app per dispositivi mobili",
     "mobileAppsTitle": "App per dispositivi mobili"
   },

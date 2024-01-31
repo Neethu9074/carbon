@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Button, Card, Link, Message, Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { Button, Card, Message, Stack, SvgIcon, Typography, Pill } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -21,33 +21,21 @@ import {
 } from 'in-events/tracker';
 import { default as EmptyStateMagnifyingGlass } from './assets/empty-state-magnifying-glass.svg';
 import EventListPagination from 'in-components/EventListPagination/EventListPagination';
+import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
-import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
-import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
-import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
-import getApplication from 'in-applications/subscriptions/getApplication';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getSnapshotVersions } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { rcaUIEnabled } from 'in-services/featureFlags';
-import { setTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
-import { getSnapshot } from 'in-stores/snapshot';
 import { getEvent } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
-
-const endpointIDURLParameter = 'endpointId';
-const serviceIDURLParameter = 'serviceId';
-const appIDURLParameter = 'appId';
 
 const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
 
@@ -179,6 +167,11 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
                       incident.get('metadata'),
                       currentRCAEntity
                     )}
+                    relatedAPID={
+                      incident.get('metadata').has('app20ApplicationId')
+                        ? incident.get('metadata').get('app20ApplicationId')
+                        : null
+                    }
                   />
                 )}
 
@@ -359,123 +352,4 @@ function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedS
     if (foundSnapshot && foundSnapshot.get('rcaProbFailure')) return foundSnapshot.get('rcaProbFailure');
   }
   return null;
-}
-
-function useGenerateLinksForEntity(entityType, originalID, location) {
-  const { createHref } = useNavigation();
-
-  const query = { ...location.query };
-  const matrixParam = {};
-  let pathname = '';
-
-  if (entityType === 'infrastructure' || entityType === 'process') {
-    query[snapshotIdUrlParameter.name] = originalID;
-    pathname = '/physical/dashboard';
-  } else if (entityType === 'endpoint') {
-    pathname = '/endpoint/summary';
-    matrixParam['/endpoint'] = { [endpointIDURLParameter]: originalID };
-  } else if (entityType === 'service') {
-    pathname = '/service/summary';
-    matrixParam['/service'] = { [serviceIDURLParameter]: originalID };
-    //query[serviceIDURLParameter] = originalID;
-  } else if (entityType === 'application') {
-    pathname = '/application/summary';
-    matrixParam['/application'] = { [appIDURLParameter]: originalID };
-  }
-
-  if (pathname !== '') {
-    return createHref({
-      ...location,
-      pathname,
-      query,
-      matrix: matrixParam
-    });
-  }
-}
-
-function RootCauseEntityDetails({ selectedSnapshotMetadata, eventsRelatedToEntity, probabilityScore }) {
-  const [query, setQuery] = useState(null);
-  const theme = useTheme();
-  const { location } = useNavigation();
-  const entityType = selectedSnapshotMetadata.get('EntityType');
-  const originalID = selectedSnapshotMetadata.get('UntransformedEntityID');
-  const urlForEntity = useGenerateLinksForEntity(entityType, originalID, location);
-
-  // generates a list of event information based on Observables
-  const entityInformation = useObservable(query, [query], { resetStateOnObservableChange: true }) ?? null;
-
-  useEffect(() => {
-    if (entityType === 'infrastructure' || entityType === 'process') {
-      // Need to get snapshot versions first and then retrieve appropriate snapshot
-      setQuery(
-        getSnapshotVersions(originalID).map(versions => {
-          if (List.isList(versions)) {
-            const snapVersions = versions.toJS();
-            if (snapVersions.length > 0) {
-              const { to, from } = snapVersions[snapVersions.length - 1];
-
-              const timeConfigFromSnapVersion = {
-                windowSize: (to || Date.now()) - from,
-                to,
-                focusedMoment: to
-              };
-              setTimeConfig(location, timeConfigFromSnapVersion);
-              setQuery(getSnapshot(originalID, timeConfigFromSnapVersion));
-            }
-          }
-        })
-      );
-    } else if (entityType === 'endpoint') {
-      setQuery(getEndpointInfo({ id: originalID }).map(data => data.data));
-    } else if (entityType === 'service') {
-      setQuery(getServiceLabel({ id: originalID }).map(data => data.data));
-    } else if (entityType === 'application') {
-      setQuery(getApplication({ id: originalID }).map(data => data.data));
-    }
-  }, [originalID, entityType, selectedSnapshotMetadata, location]);
-
-  if (entityInformation === null || (entityInformation?.progress && entityInformation.progress?.loading)) {
-    return <LoadingIndicator />;
-  }
-
-  return (
-    <div className={locals.entityDescription}>
-      <Stack gap="small">
-        <Stack direction="horizontal" gap="small" align="center">
-          <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
-          {entityInformation !== null && (
-            <Link href={urlForEntity}>
-              <Stack direction="horizontal" align="center" gap="xxsmall">
-                <SvgIcon type={getIcon(entityType)} color={theme.cds.link.primary} />
-                {Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label}
-              </Stack>
-            </Link>
-          )}
-          <AIProbabilityBadge probabilityScore={probabilityScore} />
-        </Stack>
-
-        <Typography variant="body-regular">
-          {t('in-events:RCA.relatedEventsLabel', {
-            number_of_events: Array.isArray(eventsRelatedToEntity) ? eventsRelatedToEntity.length : 0
-          })}
-        </Typography>
-      </Stack>
-    </div>
-  );
-}
-
-function getIcon(entityType) {
-  if (entityType === 'infrastructure') {
-    return 'lib_infrastructure';
-  } else if (entityType === 'process') {
-    return 'lib_infra_process';
-  } else if (entityType === 'endpoint') {
-    return 'lib_infra_endpoint';
-  } else if (entityType === 'service') {
-    return 'lib_infra_service';
-  } else if (entityType === 'application') {
-    return 'lib_application';
-  } else {
-    return 'lib_infra_unknownIcon';
-  }
 }

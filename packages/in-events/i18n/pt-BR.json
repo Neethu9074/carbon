@@ -119,7 +119,6 @@
   "releaseOccurName": "Liberação: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados. No futuro, os Eventos customizados para esses três tipos de entidade serão removidos e você não receberá mais esta configuração {{issueOrIncident}}</strong><br/>Visualizar evento customizado para migrar para o Alerta inteligente. <documentationLink>Leia mais em nossa documentação</documentationLink>",
-  "associatedActionsForTriggeringEvent": "Ações associadas para evento acionador",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventos customizados requerem ação",
     "message": "Os eventos customizados no aplicativo, serviço e terminal foram descontinuados. Não será possível criar ou atualizar esses tipos de eventos customizados no futuro.",
@@ -158,18 +157,30 @@
     "titlePRCA": "Causa raiz provável",
     "AIGenBadgeText": "Gerados por IA",
     "suggestionHelpfulText": "Esta sugestão foi útil?",
+    "thankYouForYourFeedback": "Obrigado por seu feedback.",
     "noEntitiesErrorTitle": "Nenhuma causa raiz provável localizada",
     "noEntitiesErrorDescription": "Isso geralmente ocorre quando o incidente não teve impacto significativo no serviço",
     "performanceConstantlyEvaluated": "O desempenho está sendo ativamente avaliado e melhorado durante o Beta. Deixe o seu feedback para nos ajudar a melhorar nossa IA",
-    "regenerate": "Gerar novamente",
     "probableRootCauseLabel": "Entidade de causa raiz provável: {{entity_name}}",
-    "relatedEventsLabel": "Eventos de entidade localizados: {{number_of_events}}"
+    "relatedEventsLabel": "Eventos de entidade localizados: {{number_of_events}}",
+    "entitiesNumber": "Entidades",
+    "techPreview": "VISUALIZAÇÃO DE TECNOLOGIA"
+  },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "Resumo do incidente",
+    "thisIncident": "Este incidente parece ser:",
+    "errorTitle": "Nenhum resumo localizado",
+    "errorDescription": "Nenhum resumo pôde ser criado para este evento",
+    "summarizationHelpfulText": "Este resumo foi útil?"
   },
   "feedback": {
     "skip": "Ignorar",
     "descriptionUnpleasant": {
       "firstLineApology": "Lamentamos que você não tenha tido uma experiência agradável.",
       "secondLineQuestion": "Você pode nos ajudar a identificar o que deu errado?"
+    },
+    "rca": {
+      "apology": "Lamentamos que você não tenha tido uma experiência agradável. Ajude-nos a descobrir o potencial do recurso de análise de causa raiz do Instana compartilhando seus insights e experiências"
     },
     "pleaseDescribeWhatWentWrongTextBox": "Descreva-os",
     "contactMeYes": "Sim, contacte-me",

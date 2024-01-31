@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
         "alertConfigurationTitleTimeThreshold": "Soglia temporale",
         "alertConfigurationTitleAlertProperties": "Proprietà avviso",
-        "viewDetail": "Visualizza dettagli"
+        "predictiveTrigger": {
+          "title": "Attiva come previsione l'avviso in anticipo"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Soglia statica, {{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "Soglia statica",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Trigger predittivo"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} altri filtri",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Ambito",
-          "title": "Ambito: dove si sta verificando la condizione?"
+          "title": "Ambito: dove si sta verificando la condizione?",
+          "metric": {
+            "metric": "Metrica",
+            "selectMetric": "Seleziona metrica"
+          },
+          "aggregation": {
+            "aggregation": "Aggregazione"
+          }
         },
         "threshold": {
           "label": "Soglia",
@@ -1233,19 +1246,44 @@
           "label": "Soglia temporale",
           "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
         },
+        "predictiveTrigger": {
+          "title": "Trigger predittivo",
+          "timeToFailure": "Tempo prima di un malfunzionamento"
+        },
         "alertChannel": {
           "label": "Canali di avviso",
           "title": "Canali di avviso: Chi deve ricevere l'avviso?"
         },
         "properties": {
+          "preview": {
+            "subtitle": "Nome metrica"
+          },
           "label": "Proprietà",
-          "title": "Proprietà aggiuntive degli avvisi"
+          "title": "Proprietà aggiuntive degli avvisi",
+          "alertPropertiesTitlePlaceholder": "Avviso intelligente dell'infrastruttura",
+          "alertPropertiesDescriptionPlaceholder": "Si sta verificando qualche problema nell'infrastruttura."
         },
         "customPayloads": {
           "label": "Payload",
           "title": "Payload personalizzato"
-        }
-      }
+        },
+        "thresholdValue": "Valore soglia"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
+        "noMetricSelected": "Nessuna metrica selezionata"
+      },
+      "groupedViewHeader": "{{formattedCount}} risultati",
+      "groupedViewHeader_plural": "{{formattedCount}} risultati",
+      "groupedViewHeader_0": "{{formattedCount}} risultati",
+      "groupedViewHeader_1": "{{formattedCount}} risultati",
+      "groupedViewHeader_2": "{{formattedCount}} risultati",
+      "resultHeaderLoading": "Caricamento…",
+      "loadMore": "Carica altro",
+      "count": "Conteggio",
+      "previewFor": "Anteprima per: ",
+      "selectEntityType": "Selezionare un tipo di entità",
+      "regexNotValid": "La regex non è valida"
     }
   }
 }

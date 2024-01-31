@@ -80,33 +80,11 @@ export default {
   /**
    * These are colors only used in the 3d map.
    */
-  chart: {
-    strokeColors: [
-      '#5da6da',
-      '#61bd68',
-      '#decf3f',
-      '#c39eff',
-      '#ff57a8',
-      '#ff9800',
-      '#d03035',
-      '#d0e035',
-      '#9999cc',
-      '#965742'
-    ]
-  },
   maxWidth: 1500,
   mainNavigationWidth: '4.5rem',
   grid: {
     gutter: 24,
     columns: 12
-  },
-  map: {
-    colors: {
-      cubeColorFalloffValues: {
-        right: { r: 0.78, g: 0.84, b: 0.87 },
-        top: { r: 0.957, g: 0.97, b: 0.98 }
-      }
-    }
   },
 
   zIndex: {

@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "Afficher dans l'analyse",
     "chartLendMetricTimeShifted": "La métrique est comparée à : {{timeShiftedLabel}}",
     "chartDownloadLabel": "Télécharger le code JSON",
+    "chartDownloadCSVLabel": "Télécharger un CSV",
     "chartGlobalHighlightLabel": "Mettre en évidence tous les graphiques",
     "chartZoomInLabel": "Zoom sur la période",
     "chartAlertsLanePresenterAlertsLabel": "Alertes",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (à <codeWithClass>{{path}}</codeWithClass>)"
-  },
-  "graphView": {
-    "graphTitle": "Graphique",
-    "explanationHeader": "Présentation du graphique dynamique",
-    "explanationP1": "La technologie de base d'Instana s'appelle Graphique dynamique. Le graphique est un modèle de votre application qui comprend toutes les dépendances physiques et logiques des composants. Sur la droite, figure le graphique dynamique de votre environnement actuel.",
-    "explanationP2": "Le graphique ne se limite pas aux composants physiques. Il contient également les composants logiques comme les traces, les applications, les services, les clusters ou les espaces table. Les composants et leurs dépendances sont reconnus automatiquement par l'agent Instana et les capteurs de façon à ce que le graphique soit mis à jour en permanence. Chaque noeud dans le graphique est également mis à jour en permanence avec les informations d'état telles que les métriques, les données de configuration et une valeur d'intégrité calculée en fonction des connaissances sémantiques et une approche d'apprentissage automatique. Ces connaissances analysent également les dépendances dans le graphique pour rechercher les regroupements logiques, comme les services et les applications, pour comprendre l'impact sur ce niveau et en déduire la criticité des problèmes. L'ensemble du graphique est persistant, et vous pouvez revenir en arrière dans le temps pour tirer parti des connaissances du graphique pour de nombreux cas d'utilisation opérationnelle.",
-    "explanationLink": "<linkToBlog>Consultez notre blog</linkToBlog> pour plus d'informations.",
-    "closeBtn": "Fermer le graphique"
   },
   "gravatar": {
     "avatarUrlAlt": "Avatar pour {{email}} à partir de gravatar.com.",
@@ -240,7 +233,6 @@
     "labelRegion": "Région",
     "labelTag": "Étiquette",
     "labelCommit": "Valider",
-    "buttonGraphShowcase": "Présentation graphique",
     "geo": {
       "title": "Données géographiques",
       "description": "Ce produit inclut les données GeoLite2 créées par MaxMind, disponibles depuis <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "S/O",
+    "headerLabel": "Trier par",
     "buttonAscending": "Croissant",
     "buttonDescending": "Décroissant"
   },

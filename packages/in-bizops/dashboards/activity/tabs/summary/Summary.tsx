@@ -8,12 +8,17 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
+import { bizopsActivityDistributionChartsEnabled, bizopsFeatureEnabled } from 'in-services/featureFlags';
+import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
-import { bizopsActivityDistributionChartsEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
+import ActivityMetricKpiCard from './components/ActivityMetricKpiCard';
+import BizOpsErrorsChart from 'in-bizops/components/BizOpsErrorsChart';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -36,6 +41,12 @@ export default function Summary() {
 
   return (
     <Fragment>
+      {bizopsFeatureEnabled && ( // generic FF while under development
+        <KpiGridRow sizes={[true, true]}>
+          <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityCount')} />
+          <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityErrors')} />
+        </KpiGridRow>
+      )}
       <Row>
         <Col lg>
           <BizOpsCountChart
@@ -49,17 +60,34 @@ export default function Summary() {
             dataSource={'BUSINESS_ACTIVITIES'}
           />
         </Col>
-        {bizopsActivityDistributionChartsEnabled && (
-          <Col lg>
-            <DurationAndDistribution />
-          </Col>
-        )}
+        <Col lg>
+          <TopServices />
+        </Col>
+      </Row>
+      <Row>
         <Col lg>
           <InfrastructureIssuesAndChanges
             businessProcessId={businessProcessId}
             businessProcessName={businessProcessName}
           />
         </Col>
+        {bizopsFeatureEnabled && (
+          <Col lg>
+            <BizOpsErrorsChart />
+          </Col>
+        )}
+      </Row>
+      <Row>
+        {bizopsFeatureEnabled && (
+          <Col lg>
+            <BizOpsLatencyChart />
+          </Col>
+        )}
+        {bizopsActivityDistributionChartsEnabled && (
+          <Col lg>
+            <DurationAndDistribution />
+          </Col>
+        )}
       </Row>
     </Fragment>
   );

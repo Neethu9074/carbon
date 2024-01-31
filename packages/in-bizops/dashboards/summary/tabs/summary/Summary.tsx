@@ -9,10 +9,15 @@ import React, { Fragment } from 'react';
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
+import BizOpsErrorsChart from 'in-bizops/components/BizOpsErrorsChart';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
+import ProcessMetricKpiCard from './components/ProcessMetricsKpiCard';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Col, Row } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -32,8 +37,14 @@ export default function Summary() {
 
   return (
     <Fragment>
+      {bizopsFeatureEnabled && ( // generic FF while under development
+        <KpiGridRow sizes={[true, true]}>
+          <ProcessMetricKpiCard title={t('in-bizops:dashboards.summary.widgets.processCount')} />
+          <ProcessMetricKpiCard title={t('in-bizops:dashboards.summary.widgets.processErrors')} />
+        </KpiGridRow>
+      )}
       <Row>
-        <Col lg={4}>
+        <Col lg>
           <BizOpsCountChart
             timeShiftConfig={timeShiftConfig}
             timeConfig={timeConfig}
@@ -44,15 +55,29 @@ export default function Summary() {
             dataSource={'BUSINESS_PROCESSES'}
           />
         </Col>
-        <Col lg={4}>
+        <Col lg>
           <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
         </Col>
-        <Col lg={4}>
+      </Row>
+      <Row>
+        <Col lg>
           <InfrastructureIssuesAndChanges
             businessProcessId={businessProcessId}
             businessProcessName={businessProcessName}
           />
         </Col>
+        {bizopsFeatureEnabled && (
+          <Col lg>
+            <BizOpsErrorsChart />
+          </Col>
+        )}
+      </Row>
+      <Row>
+        {bizopsFeatureEnabled && (
+          <Col lg>
+            <BizOpsLatencyChart />
+          </Col>
+        )}
       </Row>
     </Fragment>
   );

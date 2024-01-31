@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import { defaultPolicyUrlParameters, detailsPolicyUrlParameters } from 'in-automation/navigation/urlParameters';
@@ -32,7 +33,6 @@ import { seconds } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { Action, Policy } from 'in-types';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -60,8 +60,6 @@ function usePolicyDetailsUrlParams() {
 }
 
 export default function PolicyDetails() {
-  const theme = useTheme();
-
   const { policyId, isNew, isCopy } = usePolicyDetailsUrlParams();
   const [actions, actionsStatus, actionsErrors] = useActions();
   const [triggers, triggersStatus, triggersErrors] = useTriggers();
@@ -81,7 +79,7 @@ export default function PolicyDetails() {
   if (status === 'rejected') {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-automation:policies.unknownPolicy')}
         </SubViewHeader>
         <SectionLine />

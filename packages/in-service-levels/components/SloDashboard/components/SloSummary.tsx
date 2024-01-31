@@ -6,15 +6,16 @@
 
 import React from 'react';
 
+import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import ErrorBudgetKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/ErrorBudgetKpiCard';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
 import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/SloStatusKpiCard';
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
+import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { Col, Row } from 'in-components/layout/Grid';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Nullish } from 'in-types';
 
 interface SloSummaryProps {
@@ -33,10 +34,17 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
-  const selectedTimeConfig = useTimeConfig();
 
   return (
     <>
+      <Row>
+        <Col xs={6}>
+          <TimeWindowCard configuration={configuration} />
+        </Col>
+        <Col xs={6}>
+          <MatchingSloTimeWindowsCard />
+        </Col>
+      </Row>
       <Row>
         <Col xs={4}>
           <SloStatusKpiCard configuration={configuration} />

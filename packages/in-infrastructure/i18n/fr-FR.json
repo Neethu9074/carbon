@@ -81,6 +81,7 @@
     "focusOnThisGroup": "Axer sur ce groupe",
     "theQueryConfigurationIsInvalid": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
     "allInfrastructure": "Toutes les infrastructures",
+    "emptyInfrastructure": "Sélectionner un type d'entité",
     "name": "Nom",
     "search": "Rechercher un type",
     "explore": "Explorer",

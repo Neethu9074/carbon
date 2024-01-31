@@ -6,14 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-
-import { useTheme } from 'in-themes';
 
 import locals from './TermsProgressIndicator.mless';
 
 export default function TermsProgressIndicator({ pageNumber, nrPages }) {
-  const theme = useTheme();
   const steps = [];
   for (let i = 1; i <= nrPages; i++) {
     if (i < pageNumber) {
@@ -22,7 +20,7 @@ export default function TermsProgressIndicator({ pageNumber, nrPages }) {
           key={`${i}-icon`}
           className={locals.icon}
           type="lib_check"
-          color={theme.ids.color.option.white}
+          color={themes.default.ids.color.option.white}
           size="regular"
         />
       );

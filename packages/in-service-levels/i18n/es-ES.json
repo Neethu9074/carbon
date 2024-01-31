@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "Filtro personalizado (opcional)",
     "title": "Crear objetivo de nivel de servicio (SLO)",
-    "selectIndicator": "Seleccionar indicador",
+    "selectIndicator": "Seleccionar blueprints",
     "selectEntityNavItem": "Seleccionar entidad",
     "selectEntityTitle": "Seleccione una entidad a la que añadir SLO:",
     "selectScopeNavItem": "Seleccionar ámbito",
     "selectScopeTitle": "Seleccionar ámbito",
+    "selectIndicatorTitle": "Indicador de SLI",
+    "selectIndicatorNavItem": "Establecer indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitudes HTTP",
       "beaconLabel_pageLoad": "Cargas de página de sitio web",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "Se ha producido un error inesperado al crear esta configuración de SLO. Inténtelo de nuevo más tarde."
     },
     "indicatorSection": {
-      "description_custom": "Esto se debe actualizar más adelante, ya que falta en los diseños",
+      "description_custom": "Mide el recuento de sucesos buenos y/o malos utilizando filtros definidos por el usuario.",
       "description_latency": "Mide la rapidez con la que el servicio ha respondido por encima de un umbral establecido. Por ejemplo, la medida de la rapidez con la que el servicio de pago responde más rápido que 100ms.",
       "description_availability": "Mide la frecuencia con la que un servicio responde adecuadamente. Por ejemplo, la frecuencia con la que las llamadas HTTP son erróneas.",
       "timeTypeExplanation": "Llamadas correctas frente a malas agrupadas, agregadas por minuto",

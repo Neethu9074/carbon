@@ -20,7 +20,7 @@ const TIME_WINDOW_COLOR_TOKEN_PATHS = [
   'ids.color.option.blue.400',
   'ids.color.option.purple.500',
   'ids.color.option.green.500',
-  'ids.color.option.deep.purple.500',
+  'ids.color.option.deep-purple.500',
   'ids.color.option.blue.500',
   'ids.color.option.green.800',
   'ids.color.option.teal.400',

@@ -28,7 +28,6 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -97,10 +96,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     scope: getField<string>(form, 'scope')?.value,
     tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value
   });
-  const isContributorRole =
-    applicationContributionFilterEnabled &&
-    productArea === ProductArea.APPLICATION &&
-    role === AreaRoleWithContributor.CONTRIBUTOR;
+
   const isAppContributionFilterConfigured =
     applicationContributionFilterEnabled &&
     permissionSet?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
@@ -173,10 +169,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   description={accessAllDescription}
                   productArea={productArea}
                   contributionFilterConfigured={isAppContributionFilterConfigured}
+                  form={form}
+                  setForm={setForm}
                 />
-                {isContributorRole && (
-                  <ContributionFilterWrapper form={form} setForm={setForm} isContributorRole={isContributorRole} />
-                )}
               </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}

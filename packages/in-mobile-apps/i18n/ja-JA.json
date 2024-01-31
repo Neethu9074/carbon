@@ -21,10 +21,6 @@
       "transferSizeLabel": "転送サイズ",
       "transferSizeCategory": "リソースのサイジング"
     },
-    "crash": {
-      "crashAffectedSessionCount": "クラッシュの影響を受けたセッション数",
-      "crashAffectedUserCount": "クラッシュの影響を受けたユーザー数"
-    },
     "errorRate": {
       "label": "エラー率",
       "rawDataLabel": "エラー件数"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "バックエンド・トレースの表示",
       "showID": "ID: {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "クラッシュ・グループの詳細の表示"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} 回発生",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "カスタム・イベント",
@@ -219,9 +218,9 @@
       "crashLabel": "異常終了",
       "metaHeader": "メタ",
       "stackTrace": "スタック・トレース",
-      "stackTraceLastOccurrence": "スタック・トレース(最後の発生)",
-      "stackTraceButtonPrettyStackTrace": "プリティー・スタック・トレース",
-      "stackTraceButtonRawStackTrace": "未加工のスタック・トレース"
+      "stackTraceLastOccurrence": "スタック・トレース (最後の発生)",
+      "stackTraceButtonCrashedThreadsStackTrace": "異常終了したスレッド",
+      "stackTraceButtonAllThreadsStackTrace": "すべてのスレッド"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "取得時間",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "説明",
           "fileUploadConfigurationDialogDescriptionHelp": "アップロード構成を使用すると、アップロードしたファイルを適切に整理することができます。",
           "fileUploadConfigurationDialogHeadingOpenAPI": "シンボル・ファイルのアップロード",
-          "fileUploadConfigurationDialogOpenAPIHelp": "InstanaのWeb REST APIを呼び出して、シンボル・ファイルをアップロードします。 これは、デプロイメントの自動化で使用しているパイプライン・プロセスに統合できます。 Web REST API の説明と使用法は、<documentation>資料</documentation>でご確認ください。",
+          "fileUploadConfigurationDialogOpenAPIHelp": "InstanaのWeb REST APIを呼び出して、シンボル・ファイルをアップロードします。 これは、デプロイメントの自動化で使用しているパイプライン・プロセスに統合できます。 Web REST API の説明と使用法は、<documentation>資料</documentation> で定義されています。",
           "fileUploadUrl": "シンボル・ファイルのアップロードAPI",
           "stackTraceTranslationLabelConfiguration": "構成",
           "stackTraceTranslationLabelFiles": "ファイル",
@@ -438,7 +437,7 @@
     "nameLabel": "名前",
     "sessionStartsLabel": "セッション開始",
     "viewTransitionsLabel": "遷移の表示",
-    "crashFreeSessionRateLabel": "クラッシュ・フリー・セッション率",
+    "crashAffectedSessionRateTitle": "クラッシュの影響を受けるセッション率",
     "addMobileAppBtn": "モバイル・アプリケーションの追加",
     "mobileAppsTitle": "モバイル・アプリケーション"
   },

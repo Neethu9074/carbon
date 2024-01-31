@@ -119,7 +119,6 @@
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>不推荐使用实体类型“应用程序”、“服务”和“端点”上的定制事件。 将来，将移除这三种实体类型的定制事件，并且您将不再接收此 {{issueOrIncident}}</strong><br/>查看定制事件配置以迁移到智能警报。 <documentationLink>阅读文档中的更多信息</documentationLink>",
-  "associatedActionsForTriggeringEvent": "触发事件的关联操作",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 个定制事件需要操作",
     "message": "已弃用“应用程序”、“服务”和“端点”上的定制事件。 您在将来无法创建或更新这些类型的定制事件。",
@@ -158,18 +157,30 @@
     "titlePRCA": "可能的根本原因",
     "AIGenBadgeText": "AI 生成",
     "suggestionHelpfulText": "这个建议是否有帮助？",
+    "thankYouForYourFeedback": "谢谢您的反馈！",
     "noEntitiesErrorTitle": "找不到可能的根本原因",
     "noEntitiesErrorDescription": "这通常在事件未对服务产生重大影响时发生",
     "performanceConstantlyEvaluated": "在 Beta 期间，正在积极评估和改进性能。 请留下反馈，以帮助我们更好地改进人工智能",
-    "regenerate": "重新生成",
     "probableRootCauseLabel": "可能的根本原因实体：{{entity_name}}",
-    "relatedEventsLabel": "找到实体事件：{{number_of_events}}"
+    "relatedEventsLabel": "找到实体事件：{{number_of_events}}",
+    "entitiesNumber": "实体",
+    "techPreview": "技术预览"
+  },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "事件摘要",
+    "thisIncident": "此事件似乎是：",
+    "errorTitle": "找不到摘要",
+    "errorDescription": "无法为此事件创建摘要",
+    "summarizationHelpfulText": "此摘要是否有帮助？"
   },
   "feedback": {
     "skip": "跳过",
     "descriptionUnpleasant": {
       "firstLineApology": "我们很抱歉您没有一个愉快的体验。",
       "secondLineQuestion": "您能否帮助我们确定哪里出了问题？"
+    },
+    "rca": {
+      "apology": "我们很抱歉您没有一个愉快的体验。 通过分享您的洞察和经验，帮助我们发掘 Instana 的根本原因分析功能的潜力"
     },
     "pleaseDescribeWhatWentWrongTextBox": "请描述它们",
     "contactMeYes": "是，请联系我",

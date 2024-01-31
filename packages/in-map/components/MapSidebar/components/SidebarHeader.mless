@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/mixins.less';
-
 :local {
   .sidebarHeader {
     padding: 0 0 1rem 0;
@@ -25,7 +23,6 @@
     font-weight: normal;
     color: var(--ids-color-option-neutral-900);
     margin: 0 0 0.4rem;
-    // word-break: break-all;
   }
 
   .entityType {

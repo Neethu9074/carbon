@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
-        "viewDetail": "詳細の表示"
+        "predictiveTrigger": {
+          "title": "事前にアラートを予測的にトリガーする"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "静的しきい値、{{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "静的しきい値",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "予測トリガー"
+            }
           }
         },
         "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "範囲",
-          "title": "スコープ: 状況が発生している場所"
+          "title": "スコープ: 状況が発生している場所",
+          "metric": {
+            "metric": "メトリック",
+            "selectMetric": "メトリックの選択"
+          },
+          "aggregation": {
+            "aggregation": "集約"
+          }
         },
         "threshold": {
           "label": "しきい値",
@@ -1233,19 +1246,44 @@
           "label": "時間しきい値",
           "title": "時間しきい値: アラートを出すタイミング"
         },
+        "predictiveTrigger": {
+          "title": "予測トリガー",
+          "timeToFailure": "障害までの時間"
+        },
         "alertChannel": {
           "label": "アラート・チャネル",
           "title": "アラート・チャネル: アラートを受け取るユーザー"
         },
         "properties": {
+          "preview": {
+            "subtitle": "メトリック-名前"
+          },
           "label": "プロパティー",
-          "title": "追加のアラートのプロパティー"
+          "title": "追加のアラートのプロパティー",
+          "alertPropertiesTitlePlaceholder": "インフラストラクチャー・スマート・アラート",
+          "alertPropertiesDescriptionPlaceholder": "インフラストラクチャーで何らかの問題が発生しています。"
         },
         "customPayloads": {
           "label": "積載量",
           "title": "カスタム・ペイロード"
-        }
-      }
+        },
+        "thresholdValue": "しきい値"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
+        "noMetricSelected": "メトリックが選択されていない"
+      },
+      "groupedViewHeader": "{{formattedCount}} 件の結果",
+      "groupedViewHeader_plural": "{{formattedCount}} 件の結果",
+      "groupedViewHeader_0": "{{formattedCount}} 件の結果",
+      "groupedViewHeader_1": "{{formattedCount}} 件の結果",
+      "groupedViewHeader_2": "{{formattedCount}} 件の結果",
+      "resultHeaderLoading": "ロード中です…",
+      "loadMore": "さらにロード",
+      "count": "数",
+      "previewFor": "プレビュー: ",
+      "selectEntityType": "エンティティー・タイプを選択してください",
+      "regexNotValid": "正規表現が無効です"
     }
   }
 }

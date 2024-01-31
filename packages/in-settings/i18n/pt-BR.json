@@ -61,7 +61,7 @@
     "dialogTitle": "Criar novo grupo",
     "dialogTitle_edit": "Editar escopo de acesso",
     "editButton": "Editar",
-    "productArea": "Configuração de acesso para {{tenantUnit}}"
+    "productArea": "Acessar configuração para {{tenantUnit}}-{{tenant}}"
   },
   "productAreas": {
     "allApplications": "Todos os Aplicativos",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "Todos os testes do Synthetic podem ser acessados com a função selecionada.",
     "descriptionLimitedAccess_synthetics": "Selecione a função e inclua os testes do Synthetic abaixo para conceder acesso.",
     "contribution_filter": "Filtro de contribuição",
-    "contributionFilter_description": "O filtro será herdado para a criação de novas configurações de aplicativo. Na configuração da perspectiva do aplicativo, ele pode ser refinado com tag de filtro adicional seguindo um operador {{logicalOperator}}",
+    "contributionFilter_description": "O filtro de contribuição é aplicado ao criar novas configurações de aplicativo. Na configuração do aplicativo, o filtro de contribuição pode ser refinado com tags de filtro após um operador {{logicalOperator}}",
     "contributionFilter_downstreamCalls": "Determinar o nível máximo de informações adicionais que podem ser incluídas nas perspectivas de aplicativo",
     "contributionFilter_name": "Nome"
   },
@@ -173,7 +173,12 @@
     "selection_owner_access": "Acesso de proprietário",
     "selection_contributor_access": "Acesso de contribuidor",
     "description_no_access": "Não é possível usar esta área de forma alguma",
+    "description_no_access_website": "Sem acesso: o acesso a websites é negado.",
+    "description_no_access_mobile_app": "Sem acesso: o acesso a aplicativos móveis é negado.",
+    "description_no_access_application": "Sem acesso: o acesso a aplicativos é negado.",
     "description_no_access_kubernetes": "Não há acesso a namespaces e clusters.",
+    "description_no_access_infrastructure": "Sem acesso: o acesso à infraestrutura é negado.",
+    "description_no_access_synthetics": "Sem acesso: o acesso ao monitoramento sintético é negado.",
     "description_access_all": "Acessar tudo sem limitação",
     "description_access_all_except_contributor": "Acessar todos, exceto aqueles acessados como contribuidor",
     "role": "Selecionar uma função",
@@ -189,8 +194,8 @@
     "roleTooltip_synthetics": "Visualizador: capacidade de visualizar painéis de teste sintético (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos testes sintéticos; visualizar, configurar e excluir testes sintéticos e visualizar e excluir localizações sintéticas.",
     "contribution_filter_accessScope": "Escopo de acesso limitado (visualizador)",
     "contribution_filter_warning": {
-      "firstParagraph": "Qualquer modificação que for salva, atualizará todas as perspectivas de aplicativo usando este filtro de contribuição.",
-      "secondParagraph": "Se modificar a função, o filtro de contribuição será excluído e todas as perspectivas de aplicativo que usam o filtro de contribuição se tornarão editáveis por qualquer usuário com acesso de proprietário à seção Aplicativos. Isto não pode ser desfeito."
+      "firstParagraph": "Qualquer mudança salva atualizará todas as perspectivas de aplicativo que usam esse filtro de contribuição.",
+      "secondParagraph": "Se você alterar a função, então o filtro de contribuição será excluído. Todas as perspectivas de aplicativo que usam o filtro de contribuição podem ser editadas por qualquer usuário com acesso de Proprietário à seção Aplicativos. Isto não pode ser desfeito."
     }
   },
   "configurationSummary": {
@@ -200,9 +205,9 @@
         "role_permissions_contributor": "Visualize todos os painéis do aplicativo sob esta unidade. Crie, configure ou exclua painéis de aplicativos usando o filtro de contribuição."
       },
       "limited_access": {
-        "access_level": "Acesso limitado para os aplicativos selecionados abaixo.",
-        "access_level_contributor": "Visualize os painéis do aplicativo selecionados abaixo",
-        "role_permissions_contributor": "Crie, configure ou exclua painéis de aplicativos usando o filtro de contribuição. (Os painéis de aplicativos criados por contribuidores serão visíveis na visão geral do grupo e na lista da seção Aplicativos.)"
+        "access_level": "Acesso limitado apenas para os painéis do aplicativo selecionados abaixo.",
+        "access_level_contributor": "Acesso limitado apenas para os painéis do aplicativo selecionados abaixo",
+        "role_permissions_contributor": "Crie painéis de aplicativo com o filtro de contribuição aplicado; visualize, configure e exclua esses painéis de aplicativo que são criados para o filtro de contribuição."
       },
       "role_permissions_owner": "Crie, configure, visualize e exclua os painéis de aplicativos.",
       "role_permissions_viewer": "Visualize os painéis da perspectiva do aplicativo e sua configuração."
@@ -219,7 +224,7 @@
         "access_level": "Acesso para todos os namespaces e clusters sob esta unidade."
       },
       "limited_access": {
-        "access_level": "Acesso limitado para namespaces e clusters selecionados abaixo."
+        "access_level": "Acesso limitado apenas para os namespaces e clusters selecionados abaixo."
       },
       "role_permissions": "Visualize namespaces e clusters."
     },
@@ -228,7 +233,7 @@
         "access_level": "Acesso para todos os aplicativos móveis sob esta unidade."
       },
       "limited_access": {
-        "access_level": "Acesso limitado para os aplicativos móveis selecionados abaixo."
+        "access_level": "Acesso limitado apenas para os aplicativos móveis selecionados abaixo."
       },
       "role_permissions_owner": "Crie, configure, visualize e exclua os aplicativos móveis.",
       "role_permissions_viewer": "Visualize os aplicativos móveis e suas configurações."
@@ -238,7 +243,7 @@
         "access_level": "Acesso para todos os testes sintéticos nesta unidade."
       },
       "limited_access": {
-        "access_level": "Acesso limitado para os testes sintéticos selecionados abaixo."
+        "access_level": "Acesso limitado apenas para os testes sintéticos selecionados abaixo."
       },
       "role_permissions_owner": "Crie, configure, visualize e exclua os testes sintéticos.",
       "role_permissions_viewer": "Visualize os testes sintéticos e suas configurações."
@@ -248,7 +253,7 @@
         "access_level": "Acesso para todos os websites nesta unidade."
       },
       "limited_access": {
-        "access_level": "Acesso limitado para os websites selecionados abaixo."
+        "access_level": "Acesso limitado apenas para os sites selecionados abaixo."
       },
       "role_permissions_owner": "Crie, visualize e exclua os websites.",
       "role_permissions_viewer": "Visualize os websites e suas configurações."
@@ -285,6 +290,7 @@
     "backToParentViewName": "Voltar para {{parentViewName}}",
     "search": "Procurar...",
     "confirmRemoveItem": "Tem certeza de que deseja remover <strong>{{itemName}}</strong>?",
+    "confirmSaveGroup": "O salvamento dessas atualizações removerá o filtro de contribuição das perspectivas do aplicativo {{numberOfContributorAPs}} e se tornará desativado",
     "enable": "Ativar",
     "disable": "Desativar",
     "deleteEntity": "Excluir {{entity}}.",
@@ -395,10 +401,12 @@
     "apiTokenDescription": "Este token da API específico da unidade pode ser visto/modificado por qualquer pessoa ou qualquer token da API com a permissão para a configuração do token da API.",
     "noApiToken": "Nenhum token da API",
     "newApiToken": "Novo token da API",
+    "apiTokenUnits": "Tokens de API podem ser usados para <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "Nenhum token da API pessoal",
     "newPersonalApiToken": "Novo token da API pessoal",
     "apiTokenEntityName": "Token da API {{entityName}}",
     "personalApiTokenEntityName": "Token da API pessoal {{entityName}}",
+    "personalApiTokenUnits": "Tokens de API pessoais podem ser usados para <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "addUser": "Incluir usuário",
     "permitsAccessToLabelMonitoringFunctionality": "Permite acesso à funcionalidade de monitoramento {{label}}.",
     "failedToSaveGroup": "Falha ao salvar grupo: {{err}}",
@@ -411,7 +419,9 @@
     "inviteGroupDescription": "Pode-se controlar o acesso configurando funções e escopos de acesso de grupos em cada unidade.",
     "failedToSendInvitation": "Falha ao enviar convite: {{err}}",
     "pleaseInviteAtLeastOneUser": "Convide pelo menos um usuário.",
-    "thisUserAlreadyExists": "Esse usuário já existe. É possível editá-lo no menu 'Usuários'.",
+    "thisUserAlreadyExists": "Este usuário já existe e pode ser localizado na lista de usuários",
+    "thisInviteAlreadyExists": "Este convite já existe e pode ser localizado na lista de convites pendentes",
+    "emailFormatNotValid": "O formato do campo de e-mail não é válido",
     "someEmailsHaveFailedToSend": "Alguns e-mails falharam ao enviar",
     "inviteUserToTenant": "Convidar usuário para {{tenant}}",
     "anotherUser": "Outro usuário",
@@ -434,6 +444,7 @@
     "userDoesNotExist": "O usuário não existe",
     "apiCall": "API",
     "userCall": "Usuário",
+    "policyCall": "Política",
     "testChannel": "Testar canal",
     "pleaseDefineAtLeastOneEmail": "Defina pelo menos um e-mail",
     "remove": "Remover",
@@ -547,7 +558,6 @@
     "instanaAgentCountDetection": "Contagem de agentes Instana",
     "pleaseSelectASeverity": "Selecione uma gravidade",
     "pleaseEnterAValidMetric": "Insira uma métrica válida.",
-    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "Não é possível definir mais de um limite na mesma métrica.",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "Ao definir várias métricas por padrão, é permitido que apenas uma regra use um operador de correspondência diferente de 'is'.",
     "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "Não será permitida uma fração de tempo de 1 segundo quando for usada a agregação de diferença absoluta ou relativa.",
     "thisEntityTypeHasBeenDeprecated": "Este tipo de entidade foi descontinuado. Escolha um tipo diferente.",
@@ -621,11 +631,7 @@
     "activationAdoption": "Ativação e adoção",
     "technologiesReporting": "Relatório de tecnologias",
     "accountSettings": "Configurações da conta",
-    "configureGoogleSso": "Configurar o Google SSO",
-    "googleSsoConfiguration": "Configuração do Google SSO",
     "configureAllowedEmailDomains": "Configurar domínios de e-mail permitidos",
-    "onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant": "Somente os usuários com endereços de e-mail nos domínios a seguir serão autorizados a se conectarem ao locatário da Instana:",
-    "separateMultipleDomainsWithAComma": "Separe diversos domínios com uma vírgula.",
     "savingConfig": "Salvar configuração",
     "configSuccessfullySaved": "Configuração salva com sucesso.",
     "configureLdap": "Configurar LDAP",
@@ -733,7 +739,6 @@
     "failedToSaveTwoFactorToken": "Falha ao salvar token de dois fatores: ",
     "pleaseSpecifyAValidToken": "Especifique um token válido.",
     "identityProviders": "Provedores de identidade",
-    "googleSso": "Google SSO",
     "saml": "SAML",
     "oidc": "OpenID Connect",
     "ldap": "LDAP",
@@ -785,6 +790,8 @@
     "groups": "Grupos",
     "groupDeleteTooltip_Default": "O grupo padrão é um grupo integrado e não pode ser excluído ou renomeado.",
     "groupDeleteTooltip_Owner": "O grupo proprietário é um grupo integrado e não pode ser excluído ou renomeado.",
+    "deleteGroupMessage": "Tem certeza de que deseja remover <strong>{{groupName}}</strong> de todas as unidades neste locatário?",
+    "thisWillRemoveContributionFilterMessage": "Isso removerá o filtro de Contribuição das perspectivas do aplicativo <strong>{{apCount}}</strong> e se tornará desativado",
     "addGroup": "Novo Grupo",
     "pendingInvitations": "Convites pendentes",
     "revoke": "Revogar",
@@ -1039,6 +1046,14 @@
     "humio": "Humio",
     "mezmo": "Mezmo",
     "audit": "Auditoria",
+    "googleSSO": {
+      "allowedDomains": "Domínios permitidos",
+      "configure": "Configuração do Google SSO",
+      "domainOnlyMessage": "Somente os usuários com endereços de e-mail nos domínios a seguir têm permissão para se conectar como novos usuários do Instana.",
+      "domainExistingUsersMessage": "Os usuários que receberam acesso por meio dessa configuração podem acessar o Instana, mesmo se você mudar ou remover os domínios permitidos posteriormente, a menos que eles sejam removidos de seu locatário do Instana.",
+      "hint": "Separe vários domínios com uma vírgula, por exemplo: @example.com, @example.io",
+      "idpTitle": "Google SSO"
+    },
     "advancedUserInterfaceSettings": "Configurações avançadas da interface com o usuário",
     "3DMaps": "Mapas 3D",
     "invertScrollDirection": "Inverter direção de rolagem",

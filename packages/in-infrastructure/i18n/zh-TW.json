@@ -81,6 +81,7 @@
     "focusOnThisGroup": "聚焦於此群組",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
+    "emptyInfrastructure": "選取實體類型",
     "name": "名稱",
     "search": "搜尋類型",
     "explore": "瀏覽",

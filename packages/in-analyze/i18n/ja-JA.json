@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "エラー",
-        "warning": "警告",
-        "showStackTrace": "スタック・トレースの表示",
-        "expandButtonForContent": "コンテンツの展開ボタン",
-        "logParameters": "ログ・パラメーター",
-        "logStackTrace": "ログ・スタック・トレース",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "この呼び出しはバッチ処理され、{{batchSize}} 個の個別の呼び出しを表します。",
         "downloadRawSpanData": "呼び出し詳細のダウンロード",
         "correlationMissing": "相関がありません",
@@ -283,6 +277,7 @@
     "labelService": "サービス",
     "labelEndpoint": "エンドポイント",
     "labelAggregatedTime": "集約時間",
+    "labelCalls": "呼び出し",
     "labelErroneousCalls": "エラーのある呼び出し数",
     "buttonTechnology": "テクノロジー",
     "callDetails": {

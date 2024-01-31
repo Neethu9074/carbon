@@ -20,7 +20,7 @@ interface RecommendedActionsAlertsForPoliciesCardProps {
   event: Event;
   reload: number;
   setReload: (r: number) => void;
-  alertConfig?: ApplicationAlertConfigWithMetadata;
+  alertConfig?: ApplicationAlertConfigWithMetadata | null;
   setSelectedType: (str: string) => void;
 }
 

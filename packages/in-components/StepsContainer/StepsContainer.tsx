@@ -48,7 +48,7 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
                               <Tooltip align="bottomMiddle" content={titleToolTipText}>
                                 <SvgIcon
                                   className={locals.helpicon}
-                                  type="lib_help_error_error_outline"
+                                  type="lib_help_error_info_outline"
                                   color={theme.ids.color.option.neutral['600']}
                                 />
                               </Tooltip>

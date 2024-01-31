@@ -30,7 +30,7 @@ export default function SimpleModeStepContentWrapper({
         {headline}
         {titleToolTipText && (
           <Tooltip align="bottomMiddle" content={titleToolTipText}>
-            <SvgIcon type="lib_help_error_help_outline" color={theme.ids.color.option.neutral['600']} />
+            <SvgIcon type="lib_help_error_info_outline" color={theme.ids.color.option.neutral['600']} />
           </Tooltip>
         )}
       </h1>

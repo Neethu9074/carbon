@@ -29,14 +29,18 @@
       "widgets": {
         "topActivities": "Top Activities (Count)",
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
-        "viewAll": "View all activities"
+        "viewAll": "View all activities",
+        "processCount": "Count",
+        "processErrors": "Errors"
       }
     },
     "activity": {
       "pageTitle": "Business Activity",
       "summaryTab": "Summary",
       "widgets": {
-        "duration": "Duration"
+        "duration": "Duration",
+        "activityCount": "Count",
+        "activityErrors": "Errors"
       },
       "timespans": {
         "minute": "1 minute",

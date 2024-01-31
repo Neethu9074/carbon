@@ -61,7 +61,7 @@
     "dialogTitle": "创建新组",
     "dialogTitle_edit": "编辑访问作用域",
     "editButton": "编辑",
-    "productArea": "{{tenantUnit}} 的访问配置"
+    "productArea": "{{tenantUnit}}-{{tenant}} 的访问配置"
   },
   "productAreas": {
     "allApplications": "所有应用程序",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "可以使用所选角色访问所有合成测试。",
     "descriptionLimitedAccess_synthetics": "选择角色并在下面添加合成测试以授予访问权。",
     "contribution_filter": "添加项过滤器",
-    "contributionFilter_description": "将继承过滤器以创建新的应用程序配置。 在应用程序透视图配置上，可以在 {{logicalOperator}} 操作程序之后使用进一步的过滤器标记对其进行优化",
+    "contributionFilter_description": "创建新的应用程序配置时，将应用添加项过滤器。 在应用程序配置上，可以在 {{logicalOperator}} 运算符之后使用过滤器标记来优化添加项过滤器",
     "contributionFilter_downstreamCalls": "确定可以包含在应用程序透视图中的其他信息的最大级别",
     "contributionFilter_name": "名称"
   },
@@ -173,7 +173,12 @@
     "selection_owner_access": "所有者访问权",
     "selection_contributor_access": "添加者访问权",
     "description_no_access": "根本无法使用此区域",
+    "description_no_access_website": "无访问权：拒绝访问 Web 站点。",
+    "description_no_access_mobile_app": "无访问权：拒绝访问移动应用程序。",
+    "description_no_access_application": "无访问权：拒绝访问应用程序。",
     "description_no_access_kubernetes": "无法访问名称空间和集群。",
+    "description_no_access_infrastructure": "无访问权：拒绝访问基础结构。",
+    "description_no_access_synthetics": "无访问权：拒绝访问合成监视。",
     "description_access_all": "全部访问，但不限于",
     "description_access_all_except_contributor": "全部访问 - 作为添加者访问的对象除外",
     "role": "选择一个角色",
@@ -189,8 +194,8 @@
     "roleTooltip_synthetics": "查看者：能够查看合成测试仪表板（无法查看配置）。 <br /> 所有者：能够创建新的合成测试；查看、配置和删除合成测试，以及查看和删除合成位置。",
     "contribution_filter_accessScope": "受限访问作用域（查看者）",
     "contribution_filter_warning": {
-      "firstParagraph": "您将保存的所有修改都将使用此添加项过滤器更新所有应用程序透视图。",
-      "secondParagraph": "如果您更改角色，那么将删除添加项过滤器，并且具有“应用程序”部分的“所有者”访问权的任何用户都将可编辑使用添加项过滤器的所有应用程序透视图。 此操作无法撤销。"
+      "firstParagraph": "您保存的任何更改都将更新使用此添加项过滤器的所有应用程序透视图。",
+      "secondParagraph": "如果更改角色，那么将删除添加项过滤器。 然后，具有“应用程序”部分的“所有者”访问权的任何用户都可以编辑使用添加项过滤器的所有应用程序透视图。 此操作无法撤销。"
     }
   },
   "configurationSummary": {
@@ -200,9 +205,9 @@
         "role_permissions_contributor": "查看此单元下的所有应用程序仪表板。 使用添加项过滤器创建、配置和删除应用程序仪表板。"
       },
       "limited_access": {
-        "access_level": "以下所选应用程序的访问权受限。",
-        "access_level_contributor": "查看以下所选应用程序仪表板",
-        "role_permissions_contributor": "使用添加项过滤器创建、配置和删除应用程序仪表板。 （由添加者创建的应用程序仪表板将显示在组概述和“应用程序”部分的列表中。）"
+        "access_level": "仅对以下所选应用程序仪表板具有有限访问权。",
+        "access_level_contributor": "仅对以下所选应用程序仪表板具有有限访问权",
+        "role_permissions_contributor": "创建应用了添加项过滤器的应用程序仪表板；查看、配置和删除为添加项过滤器创建的这些应用程序仪表板。"
       },
       "role_permissions_owner": "创建、配置、查看和删除应用程序仪表板。",
       "role_permissions_viewer": "查看应用程序透视图仪表板及其配置。"
@@ -219,7 +224,7 @@
         "access_level": "此单元下所有名称空间和集群的访问权。"
       },
       "limited_access": {
-        "access_level": "以下所选名称空间和集群的访问权受限。"
+        "access_level": "仅对以下所选名称空间和集群具有有限访问权。"
       },
       "role_permissions": "查看名称空间和集群。"
     },
@@ -228,7 +233,7 @@
         "access_level": "此单元下所有移动应用程序的访问权。"
       },
       "limited_access": {
-        "access_level": "以下所选移动应用程序的访问权受限。"
+        "access_level": "仅对以下所选移动应用程序具有有限访问权。"
       },
       "role_permissions_owner": "创建、配置、查看和删除移动应用程序。",
       "role_permissions_viewer": "查看移动应用程序及其配置。"
@@ -238,7 +243,7 @@
         "access_level": "此单元下所有合成测试的访问权。"
       },
       "limited_access": {
-        "access_level": "以下所选合成测试的访问权受限。"
+        "access_level": "仅对以下所选合成测试具有有限访问权。"
       },
       "role_permissions_owner": "创建、配置、查看和删除合成测试。",
       "role_permissions_viewer": "查看合成测试及其配置。"
@@ -248,7 +253,7 @@
         "access_level": "此单元下的所有 Web 站点的访问权。"
       },
       "limited_access": {
-        "access_level": "以下所选 Web 站点的访问受限。"
+        "access_level": "仅对以下所选 Web 站点具有有限访问限。"
       },
       "role_permissions_owner": "创建、查看和删除 Web 站点。",
       "role_permissions_viewer": "查看 Web 站点及其配置。"
@@ -285,6 +290,7 @@
     "backToParentViewName": "返回到 {{parentViewName}}",
     "search": "搜索...",
     "confirmRemoveItem": "确定要移除 <strong>{{itemName}}</strong> 吗?",
+    "confirmSaveGroup": "保存这些更新将从 {{numberOfContributorAPs}} 个应用程序透视图中除去添加项过滤器，并将其禁用",
     "enable": "启用",
     "disable": "禁用",
     "deleteEntity": "删除 {{entity}}。",
@@ -395,10 +401,12 @@
     "apiTokenDescription": "任何人或任何具有 API 令牌配置许可权的 API 令牌都可以查看/修改此特定于单元的 API 令牌。",
     "noApiToken": "无 API 令牌",
     "newApiToken": "新建 API 令牌",
+    "apiTokenUnits": "API 令牌可用于 <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "无个人 API 令牌",
     "newPersonalApiToken": "新建个人 API 令牌",
     "apiTokenEntityName": "API 令牌 {{entityName}}",
     "personalApiTokenEntityName": "个人 API 令牌 {{entityName}}",
+    "personalApiTokenUnits": "个人 API 令牌可用于 <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "addUser": "添加用户",
     "permitsAccessToLabelMonitoringFunctionality": "允许访问 {{label}} 监视功能。",
     "failedToSaveGroup": "未能保存组：{{err}}",
@@ -411,7 +419,9 @@
     "inviteGroupDescription": "您可以通过配置每个单元下组的角色和访问作用域来控制访问权。",
     "failedToSendInvitation": "发送邀请失败：{{err}}",
     "pleaseInviteAtLeastOneUser": "请至少邀请一个用户。",
-    "thisUserAlreadyExists": "此用户已存在。 您可以在“用户”菜单上对其进行编辑。",
+    "thisUserAlreadyExists": "此用户已存在，可在用户列表中找到",
+    "thisInviteAlreadyExists": "此邀请已存在，可在暂挂邀请列表中找到",
+    "emailFormatNotValid": "电子邮件字段的格式无效",
     "someEmailsHaveFailedToSend": "某些电子邮件已发送失败",
     "inviteUserToTenant": "邀请用户加入 {{tenant}}",
     "anotherUser": "其他用户",
@@ -434,6 +444,7 @@
     "userDoesNotExist": "用户不存在",
     "apiCall": "API",
     "userCall": "用户",
+    "policyCall": "策略",
     "testChannel": "测试通道",
     "pleaseDefineAtLeastOneEmail": "请至少定义一封电子邮件",
     "remove": "移除",
@@ -547,7 +558,6 @@
     "instanaAgentCountDetection": "Instana 代理程序计数",
     "pleaseSelectASeverity": "请选择严重性",
     "pleaseEnterAValidMetric": "请输入有效的指标。",
-    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "不能在同一度量上定义多个阈值。",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "按模式定义多个度量时，仅允许一个规则使用与“is”不同的匹配运算符。",
     "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "当使用绝对或相对差异聚集时，不允许使用 1 秒的时间窗口。",
     "thisEntityTypeHasBeenDeprecated": "已弃用此实体类型。请选择其他类型。",
@@ -621,11 +631,7 @@
     "activationAdoption": "激活并采用",
     "technologiesReporting": "技术报告",
     "accountSettings": "帐户设置",
-    "configureGoogleSso": "配置 Google SSO",
-    "googleSsoConfiguration": "Google SSO 配置",
     "configureAllowedEmailDomains": "配置允许的电子邮件域",
-    "onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant": "只有具有以下域中电子邮件地址的用户才能登录到 Instana 租户：",
-    "separateMultipleDomainsWithAComma": "使用逗号分隔多个域。",
     "savingConfig": "正在保存配置",
     "configSuccessfullySaved": "配置已成功保存。",
     "configureLdap": "配置 LDAP",
@@ -733,7 +739,6 @@
     "failedToSaveTwoFactorToken": "未能保存双因子令牌：",
     "pleaseSpecifyAValidToken": "请指定有效令牌。",
     "identityProviders": "身份提供者",
-    "googleSso": "Google SSO",
     "saml": "SAML",
     "oidc": "OpenID Connect",
     "ldap": "LDAP",
@@ -785,6 +790,8 @@
     "groups": "组",
     "groupDeleteTooltip_Default": "缺省组是内置组，无法删除或重命名。",
     "groupDeleteTooltip_Owner": "所有者组是内置组，无法删除或重命名。",
+    "deleteGroupMessage": "确定要从此租户上的所有单元中除去 <strong>{{groupName}}</strong> 吗？",
+    "thisWillRemoveContributionFilterMessage": "这将从 <strong>{{apCount}}</strong> 个应用程序透视图中除去添加项过滤器，并将其禁用",
     "addGroup": "新建组",
     "pendingInvitations": "待处理邀请",
     "revoke": "撤销",
@@ -1039,6 +1046,14 @@
     "humio": "Humio",
     "mezmo": "Mezmo",
     "audit": "审计",
+    "googleSSO": {
+      "allowedDomains": "允许的域",
+      "configure": "Google SSO 配置",
+      "domainOnlyMessage": "仅允许具有以下域中的电子邮件地址的用户以新的 Instana 用户身份登录。",
+      "domainExistingUsersMessage": "通过此配置获得访问权的用户可以访问 Instana，即使您稍后更改或除去允许的域也是如此，除非将其从 Instana 租户中除去。",
+      "hint": "使用逗号分隔多个域，例如：@example.com, @example.io",
+      "idpTitle": "Google SSO"
+    },
     "advancedUserInterfaceSettings": "高级用户界面设置",
     "3DMaps": "3D 映射",
     "invertScrollDirection": "反转滚动方向",

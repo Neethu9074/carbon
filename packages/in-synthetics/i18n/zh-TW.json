@@ -26,7 +26,9 @@
         "uploadScriptTitle": "上傳 Script",
         "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
         "emptyScriptFileError": "空代碼。 沒有要驗證的項目。",
-        "enterTheScriptMessage": "在這裡輸入 Script"
+        "enterTheScriptMessage": "在這裡輸入 Script",
+        "privatePoPLabel": "專用",
+        "managedPoPLabel": "受管理"
       },
       "basicDetails": {
         "title": "此 API 簡式（HTTP 動作）測試的名稱是什麼",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "主要檔名稱無效",
           "webpageUrl": "網頁 URL",
           "browserUploadFileDescription": "您可以上傳單一 .js 檔案、隨附 .js 檔案的 zip 檔案，或 SeleniumIDE 所記錄的 .side Script。",
-          "sideFileUploadedMessage": "無法修改或驗證 Selenium Script"
+          "sideFileUploadedMessage": "無法修改或驗證 Selenium Script",
+          "bundleFileNotSupportedMessage": "已選取不受支援的檔案。 只有在「進階模式」中才支援軟體組。",
+          "timeoutFieldLabel": "逾時",
+          "timeUnitsLabel": "時間單位",
+          "timeoutFieldOptionMinutes": "分鐘 (m)",
+          "timeoutFieldOptionSeconds": "秒 (s)",
+          "timeoutFieldOptionMilliseconds": "毫秒 (ms)",
+          "timeoutValueGreaterthanZero": "逾時值應該大於零",
+          "invalidTimeoutvalue": "逾時值無效",
+          "invalidTimeoutUnit": "逾時單位無效",
+          "timeoutFieldDescription": "此測試將在以下時間後失敗",
+          "retryFieldLabel": "重試策略",
+          "retryFieldOptionNone": "無",
+          "retryFieldOptionOnce": "重試一次",
+          "retryFieldOptionTwice": "重試兩次",
+          "retryIntervalFieldLabel": "重試間隔",
+          "retryIntervalDescription": "此測試將在 {{retryIntervalValue}} 秒之後重試 {{retryCount}} 次。",
+          "markSyntheticCall": "標示虛構呼叫"
         },
         "loadMore": "載入更多",
         "selectTests": {
           "addLocations": "新增 {{count}} 個位置",
           "addLocation": "新增位置",
           "cancel": "取消",
-          "selectLocation": "選取位置"
+          "selectLocation": "選取位置",
+          "privatePoPLabel": "專用",
+          "managedPoPLabel": "受管理"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "已順利更新綜合測試",
       "successMessageDelete": "已順利刪除綜合測試",
       "failureTitle": "失敗！",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "無法更新綜合測試。{{errorMessage}}。 請重新整理頁面，然後再試一次。",
+      "failureMessageCreate": "無法建立虛構測試：{{errorMessage}}",
+      "failureMessageUpdate": "無法更新虛構測試：{{errorMessage}}",
       "failuteMesssageDelete": "無法刪除綜合測試。 請稍後重試"
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "無法刪除位置。 請稍後重試"
     },
     "updateTest": {
-      "dialogTitle": "編輯 API 測試",
+      "dialogTitle": "編輯 {{syntheticType}} 測試",
       "buttonSave": "儲存",
       "scriptSavedMessage": "已新增 Script",
       "bundleSavedMessage": "已新增組合 Script"
@@ -298,7 +319,7 @@
       "health": "性能",
       "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
-      "activeTestLinked": "有 {{linkedTests}} 個作用中測試與位置 <strong>{{label}}</strong> ({{status}}) 相關聯。 刪除此位置將導致測試摘要圖表中的資料流失。 您確定要刪除此位置嗎？<br/>若要升級位置而不刪除，請參閱<documentLink>文件</documentLink>。",
+      "activeTestLinked": "有 {{linkedTests}} 個作用中測試與位置 <strong>{{label}}</strong> ({{status}}) 相關聯。 刪除此位置將導致測試摘要圖表中的資料流失。 您確定要刪除此位置嗎？<br/><br/>若要升級位置而不刪除，請參閱<documentLink>文件</documentLink>。",
       "deleteLocation": "刪除位置",
       "noDataAvailable": {
         "message": "{{component}} 無法使用"
@@ -312,7 +333,8 @@
       "failure": "失敗",
       "popVersion": "版本",
       "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "無法刪除受管理位置。"
+      "deleteRestrictedDescription": "無法刪除受管理位置。",
+      "deleteLocationBroswerRefreshInfo": "該位置需要一段時間才能從位置清單中消失，且可能需要進行瀏覽器重新整理。"
     },
     "summary": {
       "successRate": "成功率",
@@ -552,10 +574,20 @@
         "reasonTitle": "刪除的原因",
         "typingValidationTitle": "鍵入 {{synthetic}} 以繼續",
         "cancelButton": "取消",
-        "deleteButton": "刪除測試"
+        "deleteButton": "刪除測試",
+        "deleteTestBrowserRefreshInfo": "該測試需要一段時間才能從測試清單中消失，且可能需要進行瀏覽器重新整理。"
       },
       "configurationEditAction": "編輯",
-      "configurationDeleteAction": "刪除"
+      "configurationDeleteAction": "刪除",
+      "timeoutLabel": "逾時",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "重試策略",
+      "retryStrategyNone": "無",
+      "retryStrategyDescription": "重試 {{retryStrategy}}",
+      "retryIntervalFieldLabel": "重試間隔",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
+      "markSyntheticCall": "標示虛構呼叫"
     }
   }
 }

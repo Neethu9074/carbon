@@ -51,6 +51,7 @@ const CreateNewLocationDialogPresenter = ({
   return (
     <DialogWithSlideInView
       onClose={onClose}
+      doNotCloseOnOutsideClick
       title={t('in-synthetics:dialog.createLocation.newLocation')}
       titleIconType="lib_synthetic_location"
     >
@@ -61,7 +62,7 @@ const CreateNewLocationDialogPresenter = ({
             formId={formId}
             form={form}
             updateForm={updateForm}
-            onCreate={() => {}}
+            onCreate={onClose}
             simpleModeStep={simpleModeStep}
             setSimpleModeStep={setSimpleModeStep}
             stepConfigs={stepConfigs}

@@ -119,7 +119,6 @@
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>實體類型「應用程式」、「服務」及「端點」上的「自訂事件」已淘汰。 未來將移除這三種實體類型的「自訂事件」，且您將不再收到此 {{issueOrIncident}}</strong><br/>檢視自訂事件配置以移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
-  "associatedActionsForTriggeringEvent": "觸發事件的相關聯動作",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} 自訂事件需要動作",
     "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 您未來將無法建立或更新這些類型的自訂事件。",
@@ -158,18 +157,30 @@
     "titlePRCA": "可能的主要原因",
     "AIGenBadgeText": "AI 產生",
     "suggestionHelpfulText": "這個建議有用嗎？",
+    "thankYouForYourFeedback": "謝謝您的意見！",
     "noEntitiesErrorTitle": "找不到可能的主要原因",
     "noEntitiesErrorDescription": "這通常在發生事件沒有重大服務影響時發生",
     "performanceConstantlyEvaluated": "在測試版期間，正在積極評估及改善效能。 請留下意見，以協助我們更充分地改善我們的 AI",
-    "regenerate": "重新產生",
     "probableRootCauseLabel": "可能的主要原因實體：{{entity_name}}",
-    "relatedEventsLabel": "找到的實體事件：{{number_of_events}}"
+    "relatedEventsLabel": "找到的實體事件：{{number_of_events}}",
+    "entitiesNumber": "實體",
+    "techPreview": "技術預覽"
+  },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "事件摘要",
+    "thisIncident": "此事件似乎是：",
+    "errorTitle": "找不到摘要",
+    "errorDescription": "無法建立此事件的摘要",
+    "summarizationHelpfulText": "此摘要是否有用？"
   },
   "feedback": {
     "skip": "略過",
     "descriptionUnpleasant": {
       "firstLineApology": "我們很抱歉您沒有愉快的經歷。",
       "secondLineQuestion": "您能幫我們找出出問題的地方嗎？"
+    },
+    "rca": {
+      "apology": "我們很抱歉您沒有愉快的經歷。 透過分享您的見解和經驗，協助我們發掘 Instana「主要原因分析」特性的潛力"
     },
     "pleaseDescribeWhatWentWrongTextBox": "請說明",
     "contactMeYes": "是，請聯絡我",

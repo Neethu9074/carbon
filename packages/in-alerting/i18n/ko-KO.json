@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "경보 채널",
         "alertConfigurationTitleTimeThreshold": "시간 임계값",
         "alertConfigurationTitleAlertProperties": "경보 특성",
-        "viewDetail": "세부사항 보기"
+        "predictiveTrigger": {
+          "title": "미리 경보를 예측적으로 트리거"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "정적 임계값, {{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "정적 임계값",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "예측 트리거"
+            }
           }
         },
         "moreFiltersWithCount": "{{count}}개 추가 필터",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "범위",
-          "title": "범위: 조건이 발생하는 위치"
+          "title": "범위: 조건이 발생하는 위치",
+          "metric": {
+            "metric": "메트릭",
+            "selectMetric": "지표 선택"
+          },
+          "aggregation": {
+            "aggregation": "집계"
+          }
         },
         "threshold": {
           "label": "임계값",
@@ -1233,19 +1246,44 @@
           "label": "시간 임계값",
           "title": "시간 임계값: 경보를 수신하려는 항목"
         },
+        "predictiveTrigger": {
+          "title": "예측 트리거",
+          "timeToFailure": "실패 시간"
+        },
         "alertChannel": {
           "label": "경보 채널",
           "title": "경보 채널: 경보 수신 대상"
         },
         "properties": {
+          "preview": {
+            "subtitle": "메트릭-이름"
+          },
           "label": "특성",
-          "title": "추가 경보 특성"
+          "title": "추가 경보 특성",
+          "alertPropertiesTitlePlaceholder": "인프라 스마트 경보",
+          "alertPropertiesDescriptionPlaceholder": "인프라에 문제가 있습니다."
         },
         "customPayloads": {
           "label": "페이로드",
           "title": "사용자 정의 페이로드"
-        }
-      }
+        },
+        "thresholdValue": "임계값"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "0 이상인 수를 제공하십시오.",
+        "noMetricSelected": "메트릭이 선택되지 않음"
+      },
+      "groupedViewHeader": "{{formattedCount}}개 결과",
+      "groupedViewHeader_plural": "{{formattedCount}}개 결과",
+      "groupedViewHeader_0": "{{formattedCount}}개 결과",
+      "groupedViewHeader_1": "{{formattedCount}}개 결과",
+      "groupedViewHeader_2": "{{formattedCount}}개 결과",
+      "resultHeaderLoading": "로드 중…",
+      "loadMore": "추가 로드",
+      "count": "개수",
+      "previewFor": "미리보기 대상: ",
+      "selectEntityType": "엔티티 유형을 선택하십시오.",
+      "regexNotValid": "Regex가 올바르지 않습니다."
     }
   }
 }

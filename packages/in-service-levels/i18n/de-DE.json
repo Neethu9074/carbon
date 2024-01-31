@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "Benutzerdefinierter Filter (optional)",
     "title": "Service Level Objective (SLO) erstellen",
-    "selectIndicator": "Anzeiger auswählen",
+    "selectIndicator": "Entwürfe auswählen",
     "selectEntityNavItem": "Entität auswählen",
     "selectEntityTitle": "Wählen Sie eine Entität aus, zu der SLO hinzugefügt werden soll:",
     "selectScopeNavItem": "Bereich auswählen",
     "selectScopeTitle": "Bereich auswählen",
+    "selectIndicatorTitle": "SLI-Anzeiger",
+    "selectIndicatorNavItem": "Anzeiger festlegen",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP-Anforderungen",
       "beaconLabel_pageLoad": "Laden von Websites",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "Beim Erstellen dieser SLO-Konfiguration ist ein unerwarteter Fehler aufgetreten. Versuchen Sie es später erneut."
     },
     "indicatorSection": {
-      "description_custom": "Dies sollte später aktualisiert werden, da es in den Designs fehlt.",
+      "description_custom": "Misst die Anzahl der fehlerfreien und/oder fehlerhaften Ereignisse mithilfe benutzerdefinierter Filter.",
       "description_latency": "Misst, wie schnell der Service oberhalb eines festgelegten Schwellenwerts reagiert hat. Beispiel: Die Kennzahl, wie schnell Ihr Checkout-Service schneller als 100ms antwortet.",
       "description_availability": "Misst, wie oft ein Service angemessen reagiert. Zum Beispiel, wie oft Ihre HTTP-Aufrufe fehlerhaft sind.",
       "timeTypeExplanation": "Gültige und fehlerhafte Aufrufe nach Minuten zusammengefasst",

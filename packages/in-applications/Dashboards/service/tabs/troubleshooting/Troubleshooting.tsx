@@ -42,6 +42,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import TroubleShootingChart from './TroubleShootingChart';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -62,49 +63,43 @@ export default function Troubleshooting(props: TroubleShootingProps) {
 
   return (
     <>
-      <Row>
-        <Col xs>
-          <GroupBigNumberKpiCard
-            title={t('in-applications:serviceTroubleshooting.numberOfHosts')}
-            resultMapper={groupedBigNumberKpiMapper}
-            timeConfig={timeConfig}
-            timeShiftConfig={timeShiftConfig}
-            boundaryScope={boundaryScope}
-            serviceId={serviceId}
-            tagFilters={[
-              tagFilter('host.name', NOT_EMPTY, '', null, DESTINATION),
-              ...filterByEndpointType(endpointTypes)
-            ]}
-            groupByTag={'host.name'}
-            groupByTagEntity={DESTINATION}
-          />
-        </Col>
-        <Col xs>
-          <GroupBigNumberKpiCard
-            title={t('in-applications:serviceTroubleshooting.numberOfHostnames')}
-            resultMapper={groupedBigNumberKpiMapper}
-            timeConfig={timeConfig}
-            timeShiftConfig={timeShiftConfig}
-            boundaryScope={boundaryScope}
-            serviceId={serviceId}
-            tagFilters={filterByEndpointType(endpointTypes)}
-            groupByTag={'call.http.host'}
-          />
-        </Col>
-        <Col xs>
-          <GroupBigNumberKpiCard
-            title={t('in-applications:serviceTroubleshooting.numberOfQualifiedReferences')}
-            resultMapper={groupedBigNumberKpiMapper}
-            timeConfig={timeConfig}
-            timeShiftConfig={timeShiftConfig}
-            boundaryScope={boundaryScope}
-            serviceId={serviceId}
-            groupByTag={'call.meta_tags'}
-            groupByTagSecondLevel={'destination_infra_reference'}
-            tagFilters={[qualifiedReferencesFilter, ...filterByEndpointType(endpointTypes)]}
-          />
-        </Col>
-      </Row>
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <GroupBigNumberKpiCard
+          title={t('in-applications:serviceTroubleshooting.numberOfHosts')}
+          resultMapper={groupedBigNumberKpiMapper}
+          timeConfig={timeConfig}
+          timeShiftConfig={timeShiftConfig}
+          boundaryScope={boundaryScope}
+          serviceId={serviceId}
+          tagFilters={[
+            tagFilter('host.name', NOT_EMPTY, '', null, DESTINATION),
+            ...filterByEndpointType(endpointTypes)
+          ]}
+          groupByTag={'host.name'}
+          groupByTagEntity={DESTINATION}
+        />
+        <GroupBigNumberKpiCard
+          title={t('in-applications:serviceTroubleshooting.numberOfHostnames')}
+          resultMapper={groupedBigNumberKpiMapper}
+          timeConfig={timeConfig}
+          timeShiftConfig={timeShiftConfig}
+          boundaryScope={boundaryScope}
+          serviceId={serviceId}
+          tagFilters={filterByEndpointType(endpointTypes)}
+          groupByTag={'call.http.host'}
+        />
+        <GroupBigNumberKpiCard
+          title={t('in-applications:serviceTroubleshooting.numberOfQualifiedReferences')}
+          resultMapper={groupedBigNumberKpiMapper}
+          timeConfig={timeConfig}
+          timeShiftConfig={timeShiftConfig}
+          boundaryScope={boundaryScope}
+          serviceId={serviceId}
+          groupByTag={'call.meta_tags'}
+          groupByTagSecondLevel={'destination_infra_reference'}
+          tagFilters={[qualifiedReferencesFilter, ...filterByEndpointType(endpointTypes)]}
+        />
+      </KpiGridRow>
       <Row>
         <Col xs>
           <TroubleShootingChart

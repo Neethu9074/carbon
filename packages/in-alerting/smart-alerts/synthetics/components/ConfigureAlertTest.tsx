@@ -135,6 +135,7 @@ function SelectListDialogContent({
             hiddenIds={(form.get('syntheticTestIds') as Field<string[]>)?.value ?? []}
             limit={limitForConnectedAlertTests}
             onSubmit={onSubmit}
+            requiresAtLeastOneMessage={' '}
             renderCustomFormActions={numberOfItems => {
               return (
                 <DialogFooter

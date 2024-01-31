@@ -26,7 +26,9 @@
         "uploadScriptTitle": "上载脚本",
         "failureToReadFileContent": "未能读取文件内容：{{error}}",
         "emptyScriptFileError": "空代码。 没有要验证的内容。",
-        "enterTheScriptMessage": "在此处输入脚本"
+        "enterTheScriptMessage": "在此处输入脚本",
+        "privatePoPLabel": "专用",
+        "managedPoPLabel": "受管"
       },
       "basicDetails": {
         "title": "此 API 简单（HTTP 操作）测试的名称",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "主文件名无效",
           "webpageUrl": "Web 页面 URL",
           "browserUploadFileDescription": "您可以上载单个 .js 文件、捆绑的 .js 文件的 zip 文件或 SeleniumIDE 记录的 .side 脚本。",
-          "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本"
+          "sideFileUploadedMessage": "无法修改或验证 Selenium 脚本",
+          "bundleFileNotSupportedMessage": "选择了不受支持的文件。 仅在高级方式下支持捆绑软件。",
+          "timeoutFieldLabel": "超时",
+          "timeUnitsLabel": "时间单位",
+          "timeoutFieldOptionMinutes": "分钟 (m)",
+          "timeoutFieldOptionSeconds": "秒 (s)",
+          "timeoutFieldOptionMilliseconds": "毫秒 (ms)",
+          "timeoutValueGreaterthanZero": "超时值应该大于零",
+          "invalidTimeoutvalue": "超时值无效",
+          "invalidTimeoutUnit": "超时单元无效",
+          "timeoutFieldDescription": "此测试将在以下时间之后失败：",
+          "retryFieldLabel": "重试策略",
+          "retryFieldOptionNone": "无",
+          "retryFieldOptionOnce": "重试一次",
+          "retryFieldOptionTwice": "重试两次",
+          "retryIntervalFieldLabel": "重试时间间隔",
+          "retryIntervalDescription": "此测试将在 {{retryIntervalValue}} 秒后重试 {{retryCount}}。",
+          "markSyntheticCall": "标记合成调用"
         },
         "loadMore": "加载更多",
         "selectTests": {
           "addLocations": "添加 {{count}} 个位置",
           "addLocation": "添加位置",
           "cancel": "取消",
-          "selectLocation": "选择位置"
+          "selectLocation": "选择位置",
+          "privatePoPLabel": "专用",
+          "managedPoPLabel": "受管"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "已成功更新合成测试",
       "successMessageDelete": "已成功删除合成测试",
       "failureTitle": "失败！",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "未能更新合成测试。{{errorMessage}}。 请刷新页面，然后重试。",
+      "failureMessageCreate": "未能创建合成测试：{{errorMessage}}",
+      "failureMessageUpdate": "未能更新合成测试：{{errorMessage}}",
       "failuteMesssageDelete": "未能删除合成测试。 请稍后重试"
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "无法删除该位置。 请稍后重试"
     },
     "updateTest": {
-      "dialogTitle": "编辑 API 测试",
+      "dialogTitle": "编辑 {{syntheticType}} 测试",
       "buttonSave": "保存",
       "scriptSavedMessage": "已添加脚本",
       "bundleSavedMessage": "已添加捆绑脚本"
@@ -298,7 +319,7 @@
       "health": "运行状况",
       "noHealthInfo": "不适用",
       "labelConfirmRemoveLocation": "确定要除去 <strong>{{label}}</strong> ({{status}}) 位置吗？",
-      "activeTestLinked": "存在 {{linkedTests}} 个与位置 <strong>{{label}}</strong> ({{status}}) 关联的活动测试。 删除此位置将导致测试摘要图表中的数据丢失。 确定要删除此位置吗？<br/>要在不删除的情况下升级位置，请参阅<documentLink>文档</documentLink>。",
+      "activeTestLinked": "存在 {{linkedTests}} 个与位置 <strong>{{label}}</strong> ({{status}}) 关联的活动测试。 删除此位置将导致测试摘要图表中的数据丢失。 确定要删除此位置吗？<br/><br/>要升级位置而不删除，请参阅<documentLink>文档</documentLink>。",
       "deleteLocation": "删除位置",
       "noDataAvailable": {
         "message": "{{component}} 不可用"
@@ -312,7 +333,8 @@
       "failure": "失败",
       "popVersion": "版本",
       "noActionsAllowed": "不适用",
-      "deleteRestrictedDescription": "无法删除受管位置。"
+      "deleteRestrictedDescription": "无法删除受管位置。",
+      "deleteLocationBroswerRefreshInfo": "该位置需要一些时间才能从位置列表中消失，并且可能需要浏览器刷新。"
     },
     "summary": {
       "successRate": "成功率",
@@ -552,10 +574,20 @@
         "reasonTitle": "删除原因",
         "typingValidationTitle": "输入 {{synthetic}} 以继续",
         "cancelButton": "取消",
-        "deleteButton": "删除测试"
+        "deleteButton": "删除测试",
+        "deleteTestBrowserRefreshInfo": "测试需要一些时间才能从测试列表中消失，并且可能需要浏览器刷新。"
       },
       "configurationEditAction": "编辑",
-      "configurationDeleteAction": "删除"
+      "configurationDeleteAction": "删除",
+      "timeoutLabel": "超时",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "重试策略",
+      "retryStrategyNone": "无",
+      "retryStrategyDescription": "重试 {{retryStrategy}}",
+      "retryIntervalFieldLabel": "重试时间间隔",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
+      "markSyntheticCall": "标记合成调用"
     }
   }
 }

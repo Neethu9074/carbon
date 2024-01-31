@@ -7,6 +7,7 @@
 import React, { forwardRef, ForwardedRef, useEffect, useMemo } from 'react';
 
 import { ActionInstance } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 
 import MarkerLane, { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import ActionlaneDialogPresenter from 'in-automation/components/MarkersLane/ActionlaneDialogPresenter';
@@ -20,7 +21,6 @@ import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TimeConfig, ApplicationBoundaryScope } from 'in-types';
 import { formatDateTime } from 'in-services/formatters/date';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ActionsLanePresenter.mless';
@@ -118,7 +118,6 @@ const ActionLaneItem = forwardRef(function ActionLaneItem(
   props: LaneItemProps<MarkerLaneEvent>,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const theme = useTheme();
   return (
     <SingleMarkerLaneItem<MarkerLaneEvent>
       ref={ref}
@@ -128,7 +127,7 @@ const ActionLaneItem = forwardRef(function ActionLaneItem(
           iconConfig={{
             type: 'lib_actionsLane_actions',
             typeCluster: 'lib_actionsLane_multiple_actions',
-            color: theme.ids.color.option.blue['500']
+            color: themes.default.ids.color.option.blue['500']
           }}
         />
       )}

@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "Canales de alerta",
         "alertConfigurationTitleTimeThreshold": "Umbral de tiempo",
         "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
-        "viewDetail": "Ver detalles"
+        "predictiveTrigger": {
+          "title": "Desencadenar la alerta de forma predictiva por adelantado"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Umbral estático, {{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "Umbral estático",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Desencadenante predictivo"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} filtro más",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Ámbito",
-          "title": "Ámbito: ¿Dónde se está produciendo la condición?"
+          "title": "Ámbito: ¿Dónde se está produciendo la condición?",
+          "metric": {
+            "metric": "Métrica",
+            "selectMetric": "Seleccionar métrica"
+          },
+          "aggregation": {
+            "aggregation": "Agregación"
+          }
         },
         "threshold": {
           "label": "Umbral",
@@ -1233,19 +1246,44 @@
           "label": "Umbral de tiempo",
           "title": "Umbral de tiempo: ¿Cuándo desea ser alertado?"
         },
+        "predictiveTrigger": {
+          "title": "Desencadenante predictivo",
+          "timeToFailure": "Tiempo hasta anomalía"
+        },
         "alertChannel": {
           "label": "Canales de alerta",
           "title": "Canales de alertas: ¿Quién necesita ser alertado?"
         },
         "properties": {
+          "preview": {
+            "subtitle": "Nombre-Métrica"
+          },
           "label": "Propiedades",
-          "title": "Propiedades de alerta adicionales"
+          "title": "Propiedades de alerta adicionales",
+          "alertPropertiesTitlePlaceholder": "Alerta inteligente de la infraestructura",
+          "alertPropertiesDescriptionPlaceholder": "Algo va mal en la infraestructura."
         },
         "customPayloads": {
           "label": "Cargas útiles",
           "title": "Carga útil personalizada"
-        }
-      }
+        },
+        "thresholdValue": "Valor de umbral"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
+        "noMetricSelected": "No se ha seleccionado ninguna métrica"
+      },
+      "groupedViewHeader": "{{formattedCount}} resultados",
+      "groupedViewHeader_plural": "{{formattedCount}} resultados",
+      "groupedViewHeader_0": "{{formattedCount}} resultados",
+      "groupedViewHeader_1": "{{formattedCount}} resultados",
+      "groupedViewHeader_2": "{{formattedCount}} resultados",
+      "resultHeaderLoading": "Cargando…",
+      "loadMore": "Cargar más",
+      "count": "Count",
+      "previewFor": "Vista previa de: ",
+      "selectEntityType": "Seleccione un tipo de entidad",
+      "regexNotValid": "La expresión regular no es válida"
     }
   }
 }

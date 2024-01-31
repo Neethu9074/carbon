@@ -29,6 +29,7 @@ interface RoleFormGroupProps extends Omit<RoleSelectProps, 'defaultRole'> {
   htmlFor: string;
   tooltipText: string | React.ReactElement;
   options?: AreaRolesWithContributorOptionsType | AreaRoleOptionsType;
+  roleDescription?: string;
 }
 
 export default function RoleFormGroup({
@@ -37,6 +38,7 @@ export default function RoleFormGroup({
   value,
   defaultRole,
   onChange,
+  roleDescription,
   options
 }: RoleFormGroupProps) {
   // We want to update all permissions accordingly when we set the role to the default value
@@ -47,18 +49,29 @@ export default function RoleFormGroup({
   }, [value, defaultRole, onChange]);
 
   return (
-    <FormGroup>
-      <Label htmlFor={htmlFor} className={locals.label}>
-        <Typography variant="body-regular">{t('in-settings:permissionScope.roleSelection')}</Typography>
-        {applicationContributionFilterEnabled ? (
-          <></>
-        ) : (
-          <Tooltip content={tooltipText} delay={500} align="bottomMiddle">
-            <SvgIcon type="lib_help_error_info_outline" size="xs" />
-          </Tooltip>
-        )}
-      </Label>
-      <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
-    </FormGroup>
+    <>
+      {applicationContributionFilterEnabled ? (
+        <FormGroup>
+          <Label htmlFor={htmlFor} className={locals.accessType_label}>
+            {t('in-settings:permissionScope.access_type')}
+          </Label>
+          <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
+          <Label htmlFor={htmlFor} className={locals.accessType_description}>
+            {roleDescription}
+          </Label>
+        </FormGroup>
+      ) : (
+        <FormGroup>
+          <Label htmlFor={htmlFor} className={locals.label}>
+            <Typography variant="body-regular">{t('in-settings:permissionScope.roleSelection')}</Typography>
+
+            <Tooltip content={tooltipText} delay={500} align="bottomMiddle">
+              <SvgIcon type="lib_help_error_info_outline" size="xs" />
+            </Tooltip>
+          </Label>
+          <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
+        </FormGroup>
+      )}
+    </>
   );
 }

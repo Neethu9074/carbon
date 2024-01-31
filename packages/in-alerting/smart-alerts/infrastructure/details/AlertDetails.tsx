@@ -58,6 +58,7 @@ export default function AlertDetails() {
           <AlertConfiguration alertConfig={alertConfig} />
         )}
         getAllowedPlaceholders={() => []}
+        isGlobalSmartAlert
         canConfigureGlobalAlertConfigs={
           role?.canConfigureGlobalInfraSmartAlerts ?? role?.canConfigureGlobalAlertConfigs
         }

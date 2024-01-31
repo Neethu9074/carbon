@@ -198,7 +198,12 @@
       "timeWindow": "Time Window",
       "timeWindowType_dynamic": "Dynamic time window",
       "timeWindowType_rolling": "Rolling time window",
-      "timeWindowType_fixed": "Fixed time window"
+      "timeWindowType_fixed": "Fixed time window",
+      "configuredTimeWindow": "Configured SLO Time Window:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "Start Time: {{startDay}} , {{startTime}}",
+      "matchedSLOTimeWindow": "Matching SLO Time Windows: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Preview not available because the configuration is incomplete.",

@@ -318,14 +318,12 @@ export const GL_ISSUE_TYPES = Object.freeze([
 
 export const EPIC = 'Epic';
 export const TASK = 'Task';
-export const SUBTASK = 'Subtask';
 export const BUG = 'Bug';
 export const IMPROVEMENT = 'Improvement';
-export const NEW_FEATURE = 'new_feature';
+export const NEW_FEATURE = 'New Feature';
 export const JIRA_ISSUE_TYPES = Object.freeze([
   { value: EPIC, translation: t('in-automation:ActionCatalog.epic') },
   { value: TASK, translation: t('in-automation:ActionCatalog.task') },
-  { value: SUBTASK, translation: t('in-automation:ActionCatalog.subTask') },
   { value: BUG, translation: t('in-automation:ActionCatalog.bug') },
   { value: IMPROVEMENT, translation: t('in-automation:ActionCatalog.improvement') },
   { value: NEW_FEATURE, translation: t('in-automation:ActionCatalog.newFeature') }

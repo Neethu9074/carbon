@@ -33,4 +33,18 @@
     font-weight: bold;
     margin: 1rem 0 0.25rem;
   }
+
+  .label {
+    width: 22%;
+  }
+
+  .action {
+    > button {
+      width: 5rem;
+    }
+  }
+
+  .wrapper {
+    padding-top: 2rem;
+  }
 }
