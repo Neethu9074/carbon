@@ -15,14 +15,16 @@ export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType:
   if (tryOfferLicenseType) {
     if (carbonShellEnabled) {
       return (
-        <LicenseBannerButton
-          kind="ghost"
-          icon="lib_help_error_help_outline"
-          iconColor="var(--cds-button-primary)"
-          onClick={openAssistMe}
-        >
-          Get Answers
-        </LicenseBannerButton>
+        <div data-search-context="getting started">
+          <LicenseBannerButton
+            kind="ghost"
+            icon="lib_help_error_help_outline"
+            iconColor="var(--cds-button-primary)"
+            onClick={openAssistMe}
+          >
+            Get Answers
+          </LicenseBannerButton>
+        </div>
       );
     }
     return (
