@@ -67,7 +67,7 @@ export default function NewPlayWithHeader() {
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
       <LicenseBannerButton
-        id="schedule_demo"
+        id="take_tour"
         kind="ghost"
         target="_blank"
         href="https://www.instana.com/schedule-demo/"
