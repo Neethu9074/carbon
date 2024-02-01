@@ -98,6 +98,7 @@ export const nonServicePlugins = {
   domino: 'domino',
   dropwizardApplicationContainer: 'dropwizardApplicationContainer',
   ec2: 'ec2',
+  ec2Tags: 'ec2Tags',
   elasticsearchNode: 'elasticsearchNode',
   elasticsearchCluster: 'elasticsearchCluster',
   entityStatistics: 'entityStatistics',
@@ -461,6 +462,7 @@ export const fullyQualifiedPlugins = {
   dropwizardApplicationContainer:
     'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
+  ec2Tags: 'com.instana.forge.hardware.virtual.ec2.Ec2Tags',
   elasticsearchCluster: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchCluster',
   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
   endpoint: 'com.instana.forge.application.Endpoint',
