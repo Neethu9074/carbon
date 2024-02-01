@@ -15,6 +15,7 @@ import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 import createrIsEntityOnlineObservable from 'in-subscription/isOnline';
 import createFoundationsObservable from 'in-subscription/foundations';
+import createEc2TagsObservable from 'in-subscription/ec2Tags';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import createRawPayloadObservable from 'in-subscription/rawPayload';
 import createSnapshotObservable from 'in-subscription/snapshot';
@@ -229,6 +230,10 @@ export function getHighlightedMapEntity(snapshotId) {
 
 export function getFoundations(snapshotId) {
   return timeConfig$.flatMap(timeConfig => createFoundationsObservable({ snapshotId, timeConfig }));
+}
+
+export function getEc2Tags(snapshotId) {
+  return timeConfig$.flatMap(timeConfig => createEc2TagsObservable({ snapshotId, timeConfig }));
 }
 
 export function getRunningComponents(snapshotId) {

@@ -1,19 +1,19 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import { emptyMap } from 'in-services/fixedImmutables';
+//@ts-expect-error
 import EbsList from './EbsList';
 import { t } from 'in-i18n';
+import { Ec2Tags } from 'in-forge/plugins/ec2/Ec2Tags';
 
-export default function Info({ snapshot }) {
+export default function Info({ snapshot }: { snapshot: any }) {
   const data = snapshot.get('data');
-  const tags = data.get('tags', emptyMap);
 
   return (
     <div>
@@ -47,7 +47,7 @@ export default function Info({ snapshot }) {
         <DescriptionItem title={t('in-forge:plugins.ec2.vpc')}>{data.get('vpc-ids', []).join(', ')}</DescriptionItem>
       </DescriptionList>
 
-      {tags.size > 0 && <KeyValueOverlay header={t('in-forge:plugins.ec2.tags')} data={tags} />}
+      <Ec2Tags snapshotId={snapshot.get('id')} />
 
       <EbsList snapshotId={snapshot.get('id')} />
     </div>
