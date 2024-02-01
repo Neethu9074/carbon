@@ -135,6 +135,12 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
       });
     },
 
+    setIsLastValue(isLastValueChecked: boolean) {
+      onChange([], form => {
+        return form.updateIn(['lastValue'], field => field.setValue(isLastValueChecked).setTouched(true));
+      });
+    },
+
     onTypeChange(type: string) {
       onChange([], form => form.updateIn(['type'], field => field.setValue(type).setTouched(true)));
     }

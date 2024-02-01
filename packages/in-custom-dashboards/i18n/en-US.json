@@ -166,7 +166,9 @@
         "crossSeriesAggregation": "Use SUM for cross-series aggregation",
         "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
         "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}",
-        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric"
+        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric",
+        "lastValue": "Use last value",
+        "lastValueHelp": "Display the value at the end of the timeframe"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",

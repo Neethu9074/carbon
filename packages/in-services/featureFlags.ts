@@ -132,6 +132,8 @@ export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeS
 
 export const fullscreenWidgetEnabled = isFeatureFlagEnabled('fullscreenWidgetEnabled');
 
+export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

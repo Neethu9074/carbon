@@ -9,6 +9,11 @@ import { Spacer, Stack, Toggle } from '@instana/components';
 
 import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import {
+  autoFormatterTimeSeriesEnabled,
+  lastValueForNonTimeSeriesWidgetEnabled,
+  multiGroupTimeSeriesEnabled
+} from 'in-services/featureFlags';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
 import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
@@ -21,7 +26,6 @@ import ValidationMessages, {
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import { autoFormatterTimeSeriesEnabled, multiGroupTimeSeriesEnabled } from 'in-services/featureFlags';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -62,7 +66,8 @@ export default function FormComponent({
   type: baseType,
   isTypePrefilled = false,
   withAggregationInMetrics = true,
-  maxGrouping = 50
+  maxGrouping = 50,
+  withLastValue = false
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
@@ -76,6 +81,7 @@ export default function FormComponent({
   const metricPathField = form.get('metricPath');
   const regexField = form.get('regex');
   const formatterField = form.get('formatter');
+  const lastValueField = form.get('lastValue');
 
   const isFormatterSelected = form.get('formatterSelected')?.value;
   const isTimeSeries = baseType === 'TIME_SERIES';
@@ -90,6 +96,7 @@ export default function FormComponent({
   const isCrossSeriesSumAggregationToggleEnabled =
     !isCrossSeriesAggregationRestricted && includesInSelectedAggregations(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
+  const isLastValue = lastValueField.value === true;
 
   const type = typeField.value || undefined;
   const isRegex = regexField.value || false;
@@ -130,6 +137,7 @@ export default function FormComponent({
     onRegexChange,
     setAggregation,
     setIsSumCrossSeriesAggregation,
+    setIsLastValue,
     onTypeChange
   } = formCallbacks({
     onChange,
@@ -249,6 +257,23 @@ export default function FormComponent({
                   </HelpAction>
                 </div>
                 <TouchedMessages field={crossSeriesAggregationField} />
+                {lastValueForNonTimeSeriesWidgetEnabled && withLastValue && (
+                  <div className={locals.lastValueWrapper}>
+                    <span>
+                      <Toggle
+                        id="metric-configurator-use-last-value"
+                        checked={isLastValue}
+                        onChange={e => setIsLastValue(e.target.checked)}
+                      />
+                    </span>
+                    <Spacer horizontal="xxsmall" />
+                    {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.lastValue')}
+                    <Spacer horizontal="small" />
+                    <HelpAction>
+                      {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.lastValueHelp')}
+                    </HelpAction>
+                  </div>
+                )}
               </>
             }
             useAlternateBg

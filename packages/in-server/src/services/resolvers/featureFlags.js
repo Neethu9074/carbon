@@ -504,5 +504,10 @@ module.exports = exports = [
     uiClientKey: 'allowDownloadMetricsFromCharts',
     instanaCtlKey: 'feature.chart.download.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
+    instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
+    defaultValue: false
   }
 ];

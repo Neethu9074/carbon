@@ -105,5 +105,6 @@ module.exports = {
   fullscreenWidgetEnabled: true,
   agentInstallationV2Enabled: true,
   allowDownloadMetricsFromCharts: true,
-  enableCarbonIcons: true
+  enableCarbonIcons: true,
+  lastValueForNonTimeSeriesWidgetEnabled: true
 };
