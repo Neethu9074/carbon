@@ -384,6 +384,8 @@ export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.histor
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
 export const CREATE_AUTOMATION_POLICY = 'automation.policy.create';
 export const EDIT_AUTOMATION_POLICY = 'automation.policy.edit';
+export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
+export const EXECUTE_TURBO_ACTION = 'execute.turbo.action';
 
 // Smart Alert Tracking
 

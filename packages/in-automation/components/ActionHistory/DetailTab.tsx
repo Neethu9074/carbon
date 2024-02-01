@@ -23,6 +23,7 @@ import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryT
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -64,6 +65,17 @@ export default function DetailTab({
     setOrDeleteMatrixKey(path, eventsPath, 'eventId', id);
     return createHref(path);
   }
+
+  const handleTracking = (name: string, actionLane: boolean, link: string | undefined) => {
+    if (link) {
+      clickTurboLinkForDetailsTracker({
+        actionName: name,
+        actionLink: link,
+        actionType: 'Turbonomic',
+        view: actionLane ? 'Actions lane' : 'Action history'
+      });
+    }
+  };
 
   const {
     actionName,
@@ -158,6 +170,12 @@ export default function DetailTab({
       isObservable: true,
       ObservableLink: type === 'EXTERNAL' ? undefined : getEntityIdView(actionCatalogPath, actionId),
       stringLink: type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined,
+      onClick: () =>
+        handleTracking(
+          actionName,
+          inActionLane,
+          type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined
+        ),
       actionLane: inActionLane
     },
     { label: t('in-automation:actionHistory.actionInstanceId'), value: id }
@@ -223,7 +241,8 @@ export default function DetailTab({
     stringLink?: string | null,
     showCondition?: string | boolean,
     actionLane?: boolean,
-    inActionLane?: boolean
+    inActionLane?: boolean,
+    onClick?: () => void
   ) => {
     if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
 
@@ -232,7 +251,12 @@ export default function DetailTab({
         <td>{label}</td>
         <td>
           {isLink ? (
-            <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
+            <Link
+              className={locals.detailsLink}
+              target="_blank"
+              onClick={onClick}
+              href={ObservableLink ?? stringLink ?? undefined}
+            >
               {value} <SvgIcon size="s" type="lib_views_external_link" color={theme.ids.color.option.blue['500']} />
             </Link>
           ) : (
@@ -258,8 +282,18 @@ export default function DetailTab({
       </thead>
       <tbody>
         {tableData.map(
-          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
-            renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
+            renderRow(
+              label,
+              value,
+              isLink,
+              ObservableLink,
+              stringLink,
+              showCondition,
+              actionLane,
+              inActionLane,
+              onClick
+            )
         )}
       </tbody>
     </table>
