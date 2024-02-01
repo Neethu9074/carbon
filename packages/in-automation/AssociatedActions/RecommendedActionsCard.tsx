@@ -94,6 +94,7 @@ export default function RecommendedActionsCard({
           setError={setError}
           isCustomEvent={isCustomEvent}
           setSelectedType={setSelectedType}
+          isApplicationSmartAlert={false}
         />
       )}
     </>
