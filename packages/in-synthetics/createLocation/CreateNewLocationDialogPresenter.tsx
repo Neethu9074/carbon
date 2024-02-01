@@ -47,6 +47,7 @@ const CreateNewLocationDialogPresenter = ({
 
   // Locations Blueprint State
   const [selectedBlueprint, setSelectedBlueprint] = useState(getLocationsBluePrintConfig()[0]);
+  const [selectedDatacenter, setSelectedDatacenter] = useState('');
 
   return (
     <DialogWithSlideInView
@@ -75,10 +76,17 @@ const CreateNewLocationDialogPresenter = ({
                       selectedBlueprint={selectedBlueprint}
                       setSelectedBlueprint={setSelectedBlueprint}
                       updateForm={updateForm}
+                      setSelectedDatacenter={setSelectedDatacenter}
                     />
                   );
                 case 1:
-                  return <Configuration selectedBlueprint={selectedBlueprint} />;
+                  return (
+                    <Configuration
+                      selectedBlueprint={selectedBlueprint}
+                      selectedDatacenter={selectedDatacenter}
+                      setSelectedDatacenter={setSelectedDatacenter}
+                    />
+                  );
                 default:
                   return null;
               }

@@ -4,15 +4,18 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
-import { Button, Link, Stack, Typography } from '@instana/components';
+import { Link, Stack, Typography } from '@instana/components';
 import { Result, SyntheticDatacenter } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 // eslint-disable-next-line no-restricted-imports
 import List, { ColumnDefinition } from 'in-settings/components/List';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { getDatacenters } from 'in-synthetics/api';
 import { Trans, t } from 'in-i18n';
 
@@ -22,10 +25,15 @@ interface SyntheticDatacenterProps extends SyntheticDatacenter {
   provider?: string;
 }
 
-const ManagedLocation = () => {
+interface ManagedLocationProps {
+  selectedDatacenter: string;
+  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ManagedLocation = ({ selectedDatacenter, setSelectedDatacenter }: ManagedLocationProps) => {
   const popDocsUrl = 'https://ibm.biz/pop_deployment';
 
-  const datacenters: Observable<SyntheticDatacenterProps[]> = getDatacenters()
+  const datacenters: Observable<SyntheticDatacenterProps[]> = getDatacenters({})
     .map(result => {
       return (result as Result<SyntheticDatacenterProps[]>)?.data;
     })
@@ -50,7 +58,7 @@ const ManagedLocation = () => {
         </div>
         <List<SyntheticDatacenterProps>
           getHeader={() => null}
-          columnDefinitions={columnDefinitions}
+          columnDefinitions={getColumnDefinitions(selectedDatacenter, setSelectedDatacenter)}
           loadEntities={() => datacenters}
           renderNoDataAvailable={() => (
             <NoDataAvailable
@@ -68,70 +76,62 @@ const ManagedLocation = () => {
   );
 };
 
-const columnDefinitions: Array<ColumnDefinition<SyntheticDatacenterProps>> = [
-  {
-    id: 'datacenter_code',
-    label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterCode'),
-    headCellProps: {
-      className: locals.label
+function getColumnDefinitions(
+  selectedDatacenter: string,
+  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>
+): Array<ColumnDefinition<SyntheticDatacenterProps>> {
+  const severity: Record<string, number> = { Active: 0, Pending: 5, Failure: 10 };
+  return [
+    {
+      id: 'datacenter_code',
+      label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterCode'),
+      defaultOrderDirection: 'ASC',
+      getContent(entity: SyntheticDatacenterProps) {
+        return (
+          <CheckboxFancy
+            asRadioButton
+            label={entity.code}
+            checked={selectedDatacenter === entity.code}
+            onChange={() => setSelectedDatacenter(selectedDatacenter === entity.code ? '' : entity.code!)}
+            disabled={entity.status !== 'Inactive'}
+          />
+        );
+      }
     },
-    cellClassName: locals.label,
-    defaultOrderDirection: 'DESC',
-    getContent(entity: SyntheticDatacenterProps) {
-      return <span className={locals.label}>{entity.code}</span>;
-    }
-  },
-  {
-    id: 'datacenter_name',
-    label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterName'),
-    headCellProps: {
-      className: locals.label
+    {
+      id: 'datacenter_name',
+      label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterName'),
+      defaultOrderDirection: 'ASC',
+      getContent(entity: SyntheticDatacenterProps) {
+        return <span className={locals.label}>{entity.label}</span>;
+      }
     },
-    cellClassName: locals.label,
-    defaultOrderDirection: 'ASC',
-    getContent(entity: SyntheticDatacenterProps) {
-      return <span className={locals.label}>{entity.label}</span>;
-    }
-  },
-  {
-    id: 'provider',
-    label: t('in-synthetics:dialog.createLocation.managedLocation.provider'),
-    headCellProps: {
-      className: locals.label
+    {
+      id: 'provider',
+      label: t('in-synthetics:dialog.createLocation.managedLocation.provider'),
+      defaultOrderDirection: 'ASC',
+      getContent(entity: SyntheticDatacenterProps) {
+        return <span className={locals.label}>{entity.provider}</span>;
+      }
     },
-    cellClassName: locals.label,
-    defaultOrderDirection: 'ASC',
-    getContent() {
-      return <span className={locals.label}>{'AWS'}</span>;
+    {
+      id: 'status',
+      label: t('in-synthetics:dialog.createLocation.managedLocation.status'),
+      defaultOrderDirection: 'ASC',
+      getContent(entity: SyntheticDatacenterProps) {
+        return (
+          <div className={locals.entityWrapper}>
+            <HealthDot
+              className={classNames({ [locals.dot]: true, [locals.inactive]: entity.status === 'Inactive' })}
+              severity={severity[entity.status]}
+              iconSize={8}
+            />
+            <span>{entity.status}</span>
+          </div>
+        );
+      }
     }
-  },
-  {
-    id: 'status',
-    label: t('in-synthetics:dialog.createLocation.managedLocation.status'),
-    headCellProps: {
-      className: locals.label
-    },
-    cellClassName: locals.label,
-    defaultOrderDirection: 'ASC',
-    getContent(entity: SyntheticDatacenterProps) {
-      return <span className={locals.label}>{entity.status}</span>;
-    }
-  },
-  {
-    id: 'action',
-    label: '',
-    sortable: false,
-    cellClassName: locals.action,
-    getContent(entity: SyntheticDatacenterProps) {
-      return (
-        <Button disabled={entity.status === 'Active' ? true : false} kind="primary">
-          {entity.status === 'Active'
-            ? t('in-synthetics:dialog.createLocation.managedLocation.ActivatedButtonLabel')
-            : t('in-synthetics:dialog.createLocation.managedLocation.ActivateButtonLabel')}
-        </Button>
-      );
-    }
-  }
-];
+  ];
+}
 
 export default ManagedLocation;

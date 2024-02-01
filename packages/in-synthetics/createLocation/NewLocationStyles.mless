@@ -34,17 +34,20 @@
     margin: 1rem 0 0.25rem;
   }
 
-  .label {
-    width: 22%;
-  }
-
-  .action {
-    > button {
-      width: 5rem;
-    }
-  }
-
   .wrapper {
     padding-top: 2rem;
+  }
+
+  .entityWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .dot {
+    margin-right: 0.5rem;
+  }
+
+  .inactive {
+    background-color: var(--ids-color-option-neutral-400) !important;
   }
 }

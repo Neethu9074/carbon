@@ -13,9 +13,11 @@ import { LocationsBluePrint } from 'in-synthetics/createLocation/bluePrints';
 
 interface Props {
   selectedBlueprint: LocationsBluePrint;
+  selectedDatacenter: string;
+  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ConfigurationStep = ({ selectedBlueprint }: Props) => {
+const ConfigurationStep = ({ selectedBlueprint, selectedDatacenter, setSelectedDatacenter }: Props) => {
   const isPrivateLocation = selectedBlueprint.type === 'private';
   const isManagedLocation = selectedBlueprint.type === 'managed';
 
@@ -24,7 +26,7 @@ const ConfigurationStep = ({ selectedBlueprint }: Props) => {
   }
 
   if (isManagedLocation) {
-    return <ManagedLocation />;
+    return <ManagedLocation selectedDatacenter={selectedDatacenter} setSelectedDatacenter={setSelectedDatacenter} />;
   }
 
   // If for some random case there is no private or managed location defined,

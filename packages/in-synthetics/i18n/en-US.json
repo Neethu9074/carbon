@@ -284,8 +284,6 @@
         "datacenterName": "Datacenter Name",
         "provider": "Provider",
         "status": "Status",
-        "ActivatedButtonLabel": "Activated",
-        "ActivateButtonLabel": "Activate",
         "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>."
       }
     }

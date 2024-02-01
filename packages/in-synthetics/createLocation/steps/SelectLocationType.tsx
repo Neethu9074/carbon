@@ -22,13 +22,14 @@ interface Props {
   selectedBlueprint: LocationsBluePrint;
   setSelectedBlueprint: (item: LocationsBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
+  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
 }
 interface Description {
   headline: string;
   htmlContent: string;
 }
 
-const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm }: Props) => {
+const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, setSelectedDatacenter }: Props) => {
   return (
     <SimpleModeStepContentWrapper
       headline={t('in-synthetics:dialog.createLocation.selectLocationType.contentWrapperHeadline')}
@@ -39,6 +40,7 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
           setSelectedBlueprint(item);
+          setSelectedDatacenter('');
           updateForm(createNewLocationForm());
         }}
       />
