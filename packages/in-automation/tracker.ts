@@ -17,7 +17,9 @@ import {
   DELETE_ASSOCIATE_ACTION,
   DELETE_ASSOCIATE_ACTION_APP_ALERT,
   CREATE_AUTOMATION_POLICY,
-  EDIT_AUTOMATION_POLICY
+  EDIT_AUTOMATION_POLICY,
+  CLICK_TURBO_LINK_FOR_DETAILS,
+  EXECUTE_TURBO_ACTION
 } from 'in-services/tracking/tracking';
 
 export const associateActionsTracker = (e: Object) => track(REMEDIATION_ASSOCIATE_ACTION, e);
@@ -32,3 +34,5 @@ export const actionHistoryInstanceViewTracker = (e: Object) => track(AUTOMATION_
 export const actionHistoryInstanceFeedbackTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND, e);
 export const createPolicyTracker = (e: Object) => track(CREATE_AUTOMATION_POLICY, e);
 export const editPolicyTracker = (e: Object) => track(EDIT_AUTOMATION_POLICY, e);
+export const clickTurboLinkForDetailsTracker = (e: Object) => track(CLICK_TURBO_LINK_FOR_DETAILS, e);
+export const executeTurboActionTracker = (e: Object) => track(EXECUTE_TURBO_ACTION, e);
