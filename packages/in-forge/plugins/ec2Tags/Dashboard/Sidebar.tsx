@@ -14,18 +14,16 @@ import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/Desc
 export default function Ec2TagsSidebar({ snapshot }: { snapshot: Map<string, Map<string, string>> }) {
   const data = snapshot.get('data');
   return (
-    <div>
-      <DescriptionList>
-        <DescriptionItem title={t('in-forge:plugins.ec2.instanceId')}>{data.get('instance-id')}</DescriptionItem>
-        <DescriptionItem title={t('in-forge:plugins.ec2.nameFromVirtualisationLayer')}>
-          {data.get('nameFromVirtualisationLayer')}
-        </DescriptionItem>
-        <DescriptionItem title={t('in-forge:plugins.ec2.nameFromVirtualisationLayerIsUnique.label')}>
-          {data.get('nameFromVirtualisationLayerIsUnique')
-            ? t('in-forge:plugins.ec2.nameFromVirtualisationLayerIsUnique.yes')
-            : t('in-forge:plugins.ec2.nameFromVirtualisationLayerIsUnique.no')}
-        </DescriptionItem>
-      </DescriptionList>
-    </div>
+    <DescriptionList>
+      <DescriptionItem title={t('in-forge:plugins.ec2.instanceId')}>{data.get('instance-id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ec2.nameFromVirtualisationLayer')}>
+        {data.get('nameFromVirtualisationLayer')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ec2.nameFromVirtualisationLayerIsUnique.label')}>
+        {data.get('nameFromVirtualisationLayerIsUnique')
+          ? t('in-forge:plugins.ec2.nameFromVirtualisationLayerIsUnique.yes')
+          : t('in-forge:plugins.ec2.nameFromVirtualisationLayerIsUnique.no')}
+      </DescriptionItem>
+    </DescriptionList>
   );
 }
