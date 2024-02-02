@@ -42,12 +42,13 @@
     }
   }
   .newPlayWithInstana {
-    width: stretch;
-    display: flex;
-    z-index: 8003;
     align-items: center;
-    right: 0px !important;
-    top: 0px !important;
-    position: fixed;
+    display: flex;
+    :global .cds--btn > svg.svg-icon {
+      margin-left: 0.75rem;
+    }
+    .message {
+      padding-right: 1rem;
+    }
   }
 }

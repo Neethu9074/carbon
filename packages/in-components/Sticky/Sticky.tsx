@@ -9,7 +9,7 @@ import React from 'react';
 import { create, Disposable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/CarbonUIShell';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { debouncedResize$ } from 'in-services/browser';

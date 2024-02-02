@@ -65,14 +65,16 @@ import {
 } from 'in-cloudfoundry/navigation/paths';
 // @ts-expect-error no declaration file
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
+//@ts-expect-error missing declaration file
+import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
 import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 // @ts-expect-error no declaration file
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
+import { playwithEnabled, playWithReleaseEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 // @ts-expect-error no declaration file
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
-import { carbonShellEnabled, playwithEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
@@ -91,6 +93,7 @@ import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import NewPlayWithHeader from 'in-plg/Demo/NewPlayWithHeader';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -98,18 +101,6 @@ import { all, any } from 'in-services/fixedStreams';
 import { config } from 'in-services/config';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-export function isCarbonShellEnabled() {
-  const override = localStorage.getItem('ids-override-shell');
-  if (override === 'carbon') {
-    return true;
-  } else if (override === 'instana') {
-    return false;
-  } else {
-    // return feature flag value
-    return carbonShellEnabled;
-  }
-}
 
 function HomeLink() {
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -540,13 +531,22 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
   );
 }
 
+function HeaderContent() {
+  return (
+    <>
+      {playwithEnabled || playWithReleaseEnabled ? <NewPlayWithHeader /> : null}
+      <NotificationBarSticky />
+    </>
+  );
+}
+
 type CarbonUIShellProps = {
   onViewSwitched: (e: React.MouseEvent<HTMLElement>, label: string) => void;
 };
 
 export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
   return (
-    <UIShell>
+    <UIShell headerContent={<HeaderContent />}>
       <HomeLink />
       <WebsiteMobileAppView />
       <BizOps />

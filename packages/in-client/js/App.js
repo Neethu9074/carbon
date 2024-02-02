@@ -8,10 +8,11 @@ import React from 'react';
 import { ThemeProvider, getThemeOverride } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/CarbonUIShell';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
+import MainNavigation from 'in-components/MainNavigation/MainNavigation';
 import ScrollTrackingWrapper from 'in-components/ScrollTrackingWrapper';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -19,7 +20,6 @@ import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { playwithEnabled } from 'in-services/featureFlags';
-import MainNavigation from 'in-components/MainNavigation';
 import PlayWithHeader from 'in-plg/Demo/PlayWithHeader';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
@@ -46,8 +46,13 @@ export default function App() {
           <ThemeProvider theme={currentTheme}>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
-                <NotificationBarSticky />
-                <PlayWithHeader />
+                {/* if carbonShell, render instead from CarbonUIShell.tsx */}
+                {carbonShell ? null : (
+                  <>
+                    <NotificationBarSticky />
+                    <PlayWithHeader />
+                  </>
+                )}
                 <ErrorBoundary name="main-navigation">
                   <MainNavigation />
                 </ErrorBoundary>

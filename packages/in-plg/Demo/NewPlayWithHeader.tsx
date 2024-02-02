@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LicenseBannerButton, Typography } from '@instana/components';
+import { LicenseBannerButton, ThemeProvider, Typography } from '@instana/components';
 
 import {
   track,
@@ -37,24 +37,31 @@ export function getPageType(pathname = '/') {
 
 export default function NewPlayWithHeader() {
   return (
-    <div className={classNames('g10', locals.newPlayWithInstana)}>
-      <Typography onDark variant="body-regular">
-        {t('in-plg:playwithinstana.content')}?
-      </Typography>
-
-      <LicenseBannerButton
-        id="free_trial"
-        kind="primary"
-        target="_blank"
-        href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52048"
-        onClick={() => {
-          track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
-        }}
-        icon="lib_arrow_short_right"
-      >
-        {t('in-plg:playwithinstana.freetrial')}
-      </LicenseBannerButton>
-
+    <div className={classNames(locals.newPlayWithInstana)}>
+      <span className={classNames(locals.message)}>
+        <Typography onDark variant="body-regular">
+          {t('in-plg:playwithinstana.content')}?
+        </Typography>
+      </span>
+      {
+        // this is a workaround to get the blueish Carbon Button
+        // in theory the whole header should be wrapped in a g90 theme
+        // with dark background and bright ghost colors
+      }
+      <ThemeProvider theme="g10">
+        <LicenseBannerButton
+          id="free_trial"
+          kind="primary"
+          target="_blank"
+          href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52048"
+          onClick={() => {
+            track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
+          }}
+          icon="lib_arrow_short_right"
+        >
+          {t('in-plg:playwithinstana.freetrial')}
+        </LicenseBannerButton>
+      </ThemeProvider>
       <LicenseBannerButton
         id="schedule_demo"
         kind="ghost"
@@ -67,12 +74,12 @@ export default function NewPlayWithHeader() {
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
       <LicenseBannerButton
-        id="schedule_demo"
+        id="take_tour"
         kind="ghost"
         target="_blank"
         href="https://www.instana.com/schedule-demo/"
         icon="lib_crossroads"
-        iconColor="var(--cds-button-primary)"
+        iconColor="var(--cds-link-primary)"
       >
         {t('in-plg:playwithinstana.taketour')}
       </LicenseBannerButton>

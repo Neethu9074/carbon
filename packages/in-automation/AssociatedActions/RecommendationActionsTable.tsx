@@ -13,7 +13,8 @@ import { Link } from '@instana/components';
 import {
   updateCustomEventActionAssociations,
   updateBuiltinEventActionAssociations,
-  ScoredAction
+  ScoredAction,
+  updateApplicationAlertActionAssociations
 } from 'in-automation/api';
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
@@ -42,6 +43,7 @@ interface RecommendedActionsCardAlertsProps {
   isCustomEvent: boolean;
   setError: (e: boolean) => void;
   setSelectedType: (str: string) => void;
+  isApplicationSmartAlert?: boolean;
 }
 
 export default function RecommendationActionsTable({
@@ -51,7 +53,8 @@ export default function RecommendationActionsTable({
   triggerReload,
   setError,
   isCustomEvent,
-  setSelectedType
+  setSelectedType,
+  isApplicationSmartAlert = false
 }: RecommendedActionsCardAlertsProps) {
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = usePagination('score', 'DESC');
   const { filteredActions, types, setTypes, aiEngines, setAiEngines } = useFilters(
@@ -115,7 +118,8 @@ export default function RecommendationActionsTable({
                         triggerReload,
                         setError,
                         isCustomEvent,
-                        setSelectedType
+                        setSelectedType,
+                        isApplicationSmartAlert
                       });
                     }}
                   />
@@ -199,6 +203,7 @@ interface AssociateActionProps {
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
   setSelectedType: (str: string) => void;
+  isApplicationSmartAlert: boolean;
 }
 
 function associateAction({
@@ -208,7 +213,8 @@ function associateAction({
   setError,
   isCustomEvent,
   existingActions,
-  setSelectedType
+  setSelectedType,
+  isApplicationSmartAlert
 }: AssociateActionProps) {
   associateActionsTracker({
     eventName: event.name,
@@ -222,7 +228,9 @@ function associateAction({
   const handleErrors = () => setError(true);
   const updatedActions = [...existingActions, action];
 
-  const updateActionAssociations = isCustomEvent
+  const updateActionAssociations = isApplicationSmartAlert
+    ? updateApplicationAlertActionAssociations
+    : isCustomEvent
     ? updateCustomEventActionAssociations
     : updateBuiltinEventActionAssociations;
 

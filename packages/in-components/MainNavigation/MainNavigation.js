@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import NewUiClientVersionAvailable from 'in-components/MainNavigation/components/NewUiClientVersionAvailable';
 import { click } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/CarbonUIShell';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import ViewSwitcher from 'in-components/MainNavigation/components/ViewSwitcher';
 import CarbonUIShell from './components/CarbonUIShell';
 import { scrollToTop } from 'in-services/util/dom';
