@@ -283,6 +283,7 @@ import './traefik';
 import './varnish';
 import './sapDbms';
 import './sapHost';
+import './ec2Tags';
 import './ibmCtg';
 import './ibmIOs';
 import './ibmCos';
