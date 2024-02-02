@@ -284,6 +284,11 @@
   "pluginName_azureFunctions_1": "Azure Functions",
   "pluginName_azureFunctions_2": "Azure Functions",
   "pluginName_azureFunctions": "Azure Function",
+  "pluginName_azureDatabricks_plural": "Azure Databricks",
+  "pluginName_azureDatabricks_0": "Azure Databricks",
+  "pluginName_azureDatabricks_1": "Azure Databricks",
+  "pluginName_azureDatabricks_2": "Azure Databricks",
+  "pluginName_azureDatabricks": "Azure Databricks",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -5257,6 +5262,37 @@
       "infoSubscriptionID": "Subscription ID",
       "infoResourceGroup": "Resource Group"
     },
+    "azureDatabricks": {
+      "infoAzureDatabricks": "Azure Databricks",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoType": "Type",
+      "labelClusterName": "Cluster Name",
+      "labelClusterId": "Cluster Id",
+      "labelSparkVersion": "Spark Version",
+      "labelClusterCore": "Cluster Core",
+      "labelExecutorCount": "Executor Count",
+      "labelMaxShuffleBytesWritten": "Max shuffle bytes written",
+      "labelSumShuffleClientUsedHeapMemory": "Sum Shuffle Client Used Heap Memory",
+      "labelClusterMemory": "Memory",
+      "labelJobCount": "Job Count",
+      "labelExecutorName": "Executor Name",
+      "labelDeSerializationCpuTime": "Deserialization CPU Time",
+      "labelSerializationCpuTime": "Serialization CPU Time",
+      "labelExecutorCpuTime": "Execution CPU Time",
+      "shuffleClientUsedDirectMemory": "Shuffle Client Used Direct Memory",
+      "shuffleClientUsedHeapMemory": "Shuffle Client Used Heap Memory",
+      "labelJvmCpuTime": "JVM CPU Time",
+      "labelTriggerExecutionCount": "Trigger Execution Count",
+      "titleServices": "Services",
+      "titleClusters": "Clusters",
+      "titleExecutors": "Executors",
+      "services": "services",
+      "clusters": "clusters",
+      "executors": "executors"
+    },
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "Process ID",
@@ -7262,7 +7298,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-    "powerVCRegion":{
+    "powerVCRegion": {
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -7273,14 +7309,14 @@
       "availableCapacity": "Available Capacity",
       "volumeCount": "Volume Count"
     },
-    "powerVCHypervisor":{
+    "powerVCHypervisor": {
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage ",
       "storageUsage": "Storage Usage",
       "instanceCount": "Instance Count",
-      "currentWorkload":"Current Workload"
+      "currentWorkload": "Current Workload"
     },
-    "powerVCComputeInstance":{
+    "powerVCComputeInstance": {
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
@@ -9866,8 +9902,8 @@
     },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
-      "dashboard":{
-        "tables":{
+      "dashboard": {
+        "tables": {
           "netstatInterfaces": {
             "name": "Netstat Interfaces",
             "internetAddress": "Internet Address",
@@ -13695,8 +13731,7 @@
       "connectionManagerThreadsAllocated": "Connection Manager Threads [allocated]",
       "workerThreadsCreated": "Worker Threads [created]",
       "workerThreadsAllocated": "Worker Threads [allocated]",
-      
-      
+
       "numberWaiting": "Connection Manager Threads waiting on Worker Threads",
       "clientConnecttimeoutPerMinute": "Client Connection Timeouts Per Minute",
       "timesConnecttimeoutLimitHitPerMinute": "Client Connection Timeouts Per Minute (Percentage)",
