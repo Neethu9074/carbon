@@ -6886,7 +6886,13 @@
       "securityGroups": "Security Groups",
       "publicKeys": "Public Keys",
       "vpc": "VPC",
-      "tags": "Tags"
+      "tags": "Tags",
+      "nameFromVirtualisationLayer": "Name",
+      "nameFromVirtualisationLayerIsUnique": {
+        "label": "Name is unique",
+        "yes": "Yes",
+        "no": "No"
+      }
     },
     "elasticsearchCluster": {
       "nodes": "Nodes",
