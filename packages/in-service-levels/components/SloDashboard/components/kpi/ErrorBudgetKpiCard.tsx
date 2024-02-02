@@ -27,7 +27,7 @@ export default function ErrorBudgetKpiCard({ configuration }: ErrorBudgetKpiCard
 
   return (
     <BigNumberKpiCard
-      title={sloMetrics.remainingBudget.label}
+      title={t('in-service-levels:sloDashboard.components.errorBudgetKpiCard.remainingBudget')}
       formatter={formatter}
       companionFormatter={value => {
         return t('in-service-levels:sloDashboard.components.errorBudgetKpiCard.totalBudget', {
