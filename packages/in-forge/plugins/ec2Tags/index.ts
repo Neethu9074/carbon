@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+// @ts-ignore
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
