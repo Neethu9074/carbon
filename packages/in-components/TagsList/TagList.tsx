@@ -9,13 +9,13 @@ import React from 'react';
 import { Typography, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
-import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
+import locals from 'in-components/TagsList/TagsList.mless';
 
-interface SloTagListProps {
+interface TagListProps {
   tags: string[];
 }
 
-export default function SloTagList({ tags }: SloTagListProps) {
+export default function TagList({ tags }: TagListProps) {
   return (
     <div className={locals.tagsWrapper}>
       {tags.map(tag => (

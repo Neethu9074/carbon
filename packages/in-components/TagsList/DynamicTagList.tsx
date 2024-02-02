@@ -10,12 +10,12 @@ import classNames from 'classnames';
 import { Typography, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
-import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-service-levels/components/TagsList/utils';
-import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
+import { getTagsThatFitAfterResize, getTagsThatFitIntoMaxWidth } from 'in-components/TagsList/utils';
 import useResizeObserver from 'in-hooks/useResizeObserver';
+import TagList from 'in-components/TagsList/TagList';
 import Tooltip from 'in-components/Tooltip';
 
-import locals from 'in-service-levels/components/TagsList/SloTagsList.mless';
+import locals from 'in-components/TagsList/TagsList.mless';
 
 export const tagsCssGap = 8;
 
@@ -24,11 +24,11 @@ export type TagsType = {
   width: number;
 }[];
 
-interface SloDynamicTagListProps {
+interface DynamicTagListProps {
   tags: string[];
 }
 
-export function SloDynamicTagList({ tags }: SloDynamicTagListProps) {
+export function DynamicTagList({ tags }: DynamicTagListProps) {
   const [displayedTags, setDisplayedTags] = useState<TagsType>(
     tags.map(tag => ({
       text: tag,
@@ -97,7 +97,7 @@ export function SloDynamicTagList({ tags }: SloDynamicTagListProps) {
 
   return (
     <div ref={ref} className={wrapperClasses}>
-      <SloTagList tags={displayedTags.map(({ text }) => text)} />
+      <TagList tags={displayedTags.map(({ text }) => text)} />
       <div ref={tooltipRef}>
         {shouldRenderTooltip && (
           <Tooltip

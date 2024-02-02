@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TagsType, tagsCssGap } from 'in-service-levels/components/TagsList/SloDynamicTagList';
+import { TagsType, tagsCssGap } from 'in-components/TagsList/DynamicTagList';
 
 export const getTagsThatFitIntoMaxWidth = (tags: TagsType, targetWidth: number) => {
   const tagsThatFit: TagsType = [];
