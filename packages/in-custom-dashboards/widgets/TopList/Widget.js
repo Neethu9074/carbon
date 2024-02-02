@@ -37,7 +37,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/TopList/Widget.mless';
 
-export default function ListWidget({ config, title, actions, dragHandle }) {
+export default function ListWidget({ config, title, actions, isInModal, dragHandle }) {
   const timeConfig = useTimeConfig();
   switch (config.metricConfiguration.source) {
     case 'APPLICATION':
@@ -46,6 +46,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -56,6 +57,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -66,6 +68,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -76,6 +79,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -86,6 +90,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -93,7 +98,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
   }
 }
 
-export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
+export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, isInModal, dragHandle }) {
   const theme = useTheme();
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
@@ -113,6 +118,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       renderHistoricDataIndicator
       hasApproximateData={hasApproximateData}
       isScrollbarVisible
+      isInModal={isInModal}
       header={
         <>
           {dragHandle}

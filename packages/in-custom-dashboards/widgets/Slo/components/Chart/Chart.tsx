@@ -51,6 +51,7 @@ export interface ChartProps {
   disableZooming?: boolean;
   trackers?: ChartTrackers;
   customHeight?: number;
+  noPadding?: boolean;
 }
 
 export default function Chart({

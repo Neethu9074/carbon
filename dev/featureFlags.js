@@ -103,7 +103,7 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   simplifiedFlowMapEnabled: true,
-  fullscreenWidgetEnabled: true,
+  zoomWidgetEnabled: true,
   agentInstallationV2Enabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,

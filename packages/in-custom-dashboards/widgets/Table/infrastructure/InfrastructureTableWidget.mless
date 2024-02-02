@@ -15,6 +15,10 @@
     .visibleScrollbar();
   }
 
+  .modal {
+    .widgetInModal();
+  }
+
   .viewFullTableLink {
     margin: 1rem 0 0.875rem 0;
   }

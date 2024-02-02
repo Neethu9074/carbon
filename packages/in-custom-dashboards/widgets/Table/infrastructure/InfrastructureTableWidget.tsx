@@ -5,6 +5,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
+import classNames from 'classnames';
 
 import { AggregationType, Group, TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { Card, Link, Spacer, Typography } from '@instana/components';
@@ -59,7 +60,7 @@ function InfrastructureTable(props: TableWidgetProps) {
   const { goToPath } = useNavigation();
   const [totalItemsCount, setTotalItemsCount] = useState();
 
-  const { config, title, actions, dragHandle, isPreview } = props;
+  const { config, title, actions, dragHandle, isInModal, isPreview } = props;
 
   const {
     entityType: type = '',
@@ -139,13 +140,21 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   return (
     <Card
-      className={locals.widgetCard}
-      leftHeaderContent={<Typography variant="heading-300">{title}</Typography>}
+      className={classNames({
+        [locals.widgetCard]: true,
+        [locals.modal]: isInModal
+      })}
+      bodyClassName={classNames({
+        [locals.modal]: isInModal
+      })}
+      leftHeaderContent={isInModal ? undefined : <Typography variant="heading-300">{title}</Typography>}
       rightHeaderContent={
-        <>
-          {dragHandle}
-          {actions}
-        </>
+        isInModal ? undefined : (
+          <>
+            {dragHandle}
+            {actions}
+          </>
+        )
       }
       isScrollable
     >

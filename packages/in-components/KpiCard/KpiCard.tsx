@@ -51,6 +51,7 @@ export interface KpiCardProps {
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   resultPrecision?: ResultPrecision;
+  isInModal?: boolean;
 }
 
 export default function KpiCard({
@@ -65,6 +66,7 @@ export default function KpiCard({
   borderless = false,
   shadowless = false,
   centerLabels = false,
+  isInModal,
   color,
   useMaxAvailableHeight = true,
   iconAction,
@@ -117,14 +119,16 @@ export default function KpiCard({
       className={classNames({
         [locals.wrapper]: true,
         [locals.borderless]: borderless,
-        [locals.shadowless]: shadowless,
+        [locals.shadowless]: shadowless || isInModal,
         [locals.centerValue]: centerLabels,
+        [locals.modal]: isInModal,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
       <div
         className={classNames({
           [locals.title]: true,
+          [locals.hidden]: isInModal,
           [locals.centerTitle]: centerLabels
         })}
         ref={ref}

@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .widgetCardWrapper {
     position: relative;
@@ -19,5 +21,13 @@
   .cardBody {
     min-height: 12rem;
     height: 100%;
+  }
+
+  .modal {
+    .widgetInModal();
+  }
+
+  .noPaddingTitle {
+    .noPaddingWidgetTitle();
   }
 }

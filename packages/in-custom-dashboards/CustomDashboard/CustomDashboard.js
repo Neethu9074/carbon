@@ -18,13 +18,14 @@ import {
   startEditWidget,
   finishEditWidget,
   deleteWidget,
-  startFullScreenWidget,
-  finishFullScreenWidget,
+  startZoomWidget,
+  finishZoomWidget,
   duplicateWidget
 } from 'in-custom-dashboards/tracker';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import { dashboardIdUrlParameter, goToCustomDashboardList } from 'in-custom-dashboards/navigation/url';
+import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
@@ -33,7 +34,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { getWidgetId } from 'in-custom-dashboards/CustomDashboard/Grid';
+import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
 import useUrlState from 'in-hooks/useUrlState';
@@ -97,8 +98,7 @@ export default function CustomDashboardLoader(props) {
       onCopyWidget={onCopyWidget}
       onCopyAllWidgets={onCopyAllWidgets}
       onDuplicateWidget={onDuplicateWidget}
-      onFullScreenWidget={onFullScreenWidget}
-      onExitFullScreenWidget={onExitFullScreenWidget}
+      onZoomWidget={onZoomWidget}
       onRemoveWidget={onRemoveWidget}
       onDiscardChanges={onDiscardChanges}
       onShare={onShare}
@@ -156,25 +156,20 @@ export default function CustomDashboardLoader(props) {
     setConfig(newConfig);
   }
 
-  function onFullScreenWidget(id) {
+  function onZoomWidget(id) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
-    const fullscreen = document.querySelector(`#${getWidgetId(widget.id)}`);
-
-    startFullScreenWidget(widget);
-
-    if (!document.fullscreenElement) {
-      fullscreen?.requestFullscreen();
-    }
-  }
-
-  function onExitFullScreenWidget(id) {
-    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
-
-    finishFullScreenWidget(widget);
-
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
+    const { Widget } = widgets[widget.type];
+    startZoomWidget(widget);
+    addActiveDialog(
+      <ZoomWidgetDialog
+        widget={widget}
+        component={Widget}
+        close={() => {
+          finishZoomWidget(widget);
+          close();
+        }}
+      />
+    );
   }
 
   function onRemoveWidget(id) {

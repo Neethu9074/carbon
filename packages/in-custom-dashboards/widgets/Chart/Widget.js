@@ -8,7 +8,7 @@ import React from 'react';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import CustomDashboardMarkerLanes from './CustomDashboardMarkerLanes';
 
-export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
+export default function ChartWidget({ actions, config, title, isPreview, dragHandle, isInModal, customHeight }) {
   return (
     <UnifiedMetricsChart
       renderPostChartContent={markerLaneProps => (
@@ -28,7 +28,7 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
       }
       config={config}
       title={title}
-      automaticallySize={!isPreview && !customHeight}
+      automaticallySize={!isPreview && !customHeight && !isInModal}
       customHeight={customHeight}
       shareMaxAxisDomain={config?.shareMaxAxisDomain}
       renderHistoricDataIndicator

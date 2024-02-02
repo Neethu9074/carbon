@@ -53,6 +53,7 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
+  isInModal?: boolean;
   raw?: boolean;
 }
 
@@ -78,6 +79,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   actions,
   dragHandle,
   result,
+  isInModal,
   raw
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
@@ -86,6 +88,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
     <ResultAwareKpiCard
       title={title}
       result={result}
+      isInModal={isInModal}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
         dragHandle || actions ? (
@@ -107,7 +110,8 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           actions,
           dragHandle,
           useMaxAvailableHeight,
-          raw
+          raw,
+          isInModal
         )
       }
     />
@@ -125,7 +129,8 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   actions: ReactNode,
   dragHandle: ReactNode,
   useMaxAvailableHeight: boolean | undefined,
-  raw: boolean | undefined
+  raw: boolean | undefined,
+  isInModal?: boolean
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
@@ -150,6 +155,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
     <KpiCard
       title={title}
       value={value}
+      isInModal={isInModal}
       renderValue={formatter}
       color={config.getColor?.(value)}
       useMaxAvailableHeight={useMaxAvailableHeight}

@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Card, HorizontalIndicator } from '@instana/components';
@@ -17,9 +18,10 @@ interface WidgetCardProps {
   actions: React.ReactNode;
   header: React.ReactElement;
   children: React.ReactNode;
+  isInModal?: boolean;
 }
 
-export default function WidgetCard({ children, progress, dragHandle, actions, header }: WidgetCardProps) {
+export default function WidgetCard({ children, progress, dragHandle, actions, isInModal, header }: WidgetCardProps) {
   return (
     <div className={locals.widgetCardWrapper}>
       {progress.loading && (
@@ -28,6 +30,15 @@ export default function WidgetCard({ children, progress, dragHandle, actions, he
         </div>
       )}
       <Card
+        className={classNames({
+          [locals.modal]: isInModal
+        })}
+        bodyClassName={classNames({
+          [locals.modal]: isInModal
+        })}
+        headerClassName={classNames({
+          [locals.noPaddingTitle]: isInModal
+        })}
         rightHeaderContent={
           <>
             {dragHandle}

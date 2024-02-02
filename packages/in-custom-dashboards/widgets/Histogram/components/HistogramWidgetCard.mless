@@ -5,9 +5,14 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .container {
     padding-right: 4.5rem;
+  }
+
+  .modal {
+    .widgetInModal();
   }
 }

@@ -17,8 +17,8 @@ import {
   CUSTOM_DASHBOARD_VIEW_WIDGET,
   CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE,
   CUSTOM_DASHBOARD_DELETE_WIDGET,
-  CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_START,
-  CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_FINISH
+  CUSTOM_DASHBOARD_ZOOM_WIDGET_START,
+  CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH
 } from 'in-services/tracking/tracking';
 import { emptyObject } from 'in-services/fixedObjects';
 import widgets from 'in-custom-dashboards/widgets';
@@ -36,9 +36,8 @@ export const startEditWidget = widget => track(CUSTOM_DASHBOARD_EDIT_WIDGET_STAR
 export const cancelEditWidget = widget => track(CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL, getTrackingMeta(widget));
 export const finishEditWidget = widget => track(CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH, getTrackingMeta(widget));
 
-export const startFullScreenWidget = widget => track(CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_START, getTrackingMeta(widget));
-export const finishFullScreenWidget = widget =>
-  track(CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_FINISH, getTrackingMeta(widget));
+export const startZoomWidget = widget => track(CUSTOM_DASHBOARD_ZOOM_WIDGET_START, getTrackingMeta(widget));
+export const finishZoomWidget = widget => track(CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH, getTrackingMeta(widget));
 
 export const deleteWidget = widget => track(CUSTOM_DASHBOARD_DELETE_WIDGET, getTrackingMeta(widget));
 

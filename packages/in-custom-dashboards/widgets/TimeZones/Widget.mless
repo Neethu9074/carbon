@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .zones {
     display: flex;
@@ -34,5 +36,9 @@
     // the presentation to be jumpy on number / time changes
     min-width: 6rem;
     margin-bottom: 0;
+  }
+
+  .modal {
+    .widgetInModal();
   }
 }

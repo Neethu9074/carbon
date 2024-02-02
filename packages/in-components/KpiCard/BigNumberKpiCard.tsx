@@ -38,6 +38,7 @@ export interface BigNumberKpiCardProps {
   actions?: ReactNode;
   dragHandle?: ReactNode;
   raw?: boolean;
+  isInModal?: boolean;
 }
 
 export default function BigNumberKpiCard({
@@ -48,6 +49,7 @@ export default function BigNumberKpiCard({
   iconAction,
   config,
   actions,
+  isInModal,
   dragHandle,
   raw
 }: BigNumberKpiCardProps) {
@@ -98,6 +100,7 @@ export default function BigNumberKpiCard({
       formatter={formatter}
       companionFormatter={companionFormatter}
       useMaxAvailableHeight={useMaxAvailableHeight}
+      isInModal={isInModal}
       iconAction={iconAction}
       config={config}
       actions={

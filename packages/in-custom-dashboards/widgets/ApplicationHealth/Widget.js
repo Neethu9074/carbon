@@ -7,7 +7,7 @@ import React from 'react';
 
 import ApplicationHealthOverview from 'in-custom-dashboards/widgets/ApplicationHealth/ApplicationHealthOverviewPresenter';
 
-export default function ApplicationHealthOverviewWidget({ config, title, actions, dragHandle, isPreview }) {
+export default function ApplicationHealthOverviewWidget({ config, title, actions, dragHandle, isInModal, isPreview }) {
   return (
     <ApplicationHealthOverview
       title={title}
@@ -15,6 +15,7 @@ export default function ApplicationHealthOverviewWidget({ config, title, actions
       actions={actions}
       dragHandle={dragHandle}
       isPreview={isPreview}
+      isInModal={isInModal}
     />
   );
 }

@@ -491,8 +491,8 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'fullscreenWidgetEnabled',
-    instanaCtlKey: 'feature.fullscreen.widget.enabled',
+    uiClientKey: 'zoomWidgetEnabled',
+    instanaCtlKey: 'feature.zoom.widget.enabled',
     defaultValue: false
   },
   {

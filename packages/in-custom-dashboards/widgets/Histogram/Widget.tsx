@@ -15,15 +15,27 @@ export interface HistogramWidgetProps {
   actions: ReactNode;
   isPreview?: boolean;
   dragHandle: ReactNode;
+  isInModal?: boolean;
+  height?: number;
 }
 
-export default function HistogramWidget({ title, config, actions, isPreview, dragHandle }: HistogramWidgetProps) {
+export default function HistogramWidget({
+  title,
+  config,
+  actions,
+  isPreview,
+  isInModal,
+  height,
+  dragHandle
+}: HistogramWidgetProps) {
   return (
     <HistogramWidgetCard
       actions={actions}
       config={config}
       dragHandle={dragHandle}
       title={title}
+      isInModal={isInModal}
+      height={height}
       useMaxAvailableHeight={!isPreview}
     />
   );

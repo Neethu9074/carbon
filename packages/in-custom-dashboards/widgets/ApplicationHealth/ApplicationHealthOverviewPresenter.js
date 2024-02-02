@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -35,6 +36,7 @@ export const ApplicationHealthOverviewPresenter = ({
   timeConfig,
   isPreview,
   title,
+  isInModal,
   dragHandle,
   actions
 }) => {
@@ -46,11 +48,19 @@ export const ApplicationHealthOverviewPresenter = ({
       title={title}
       withoutPadding
       useMaxAvailableHeight={!isPreview}
+      className={classNames({
+        [locals.modal]: isInModal
+      })}
+      bodyClassName={classNames({
+        [locals.modal]: isInModal
+      })}
       header={
-        <>
-          {dragHandle}
-          {actions}
-        </>
+        isInModal ? undefined : (
+          <>
+            {dragHandle}
+            {actions}
+          </>
+        )
       }
     >
       {!appsAndHealthInfo?.configWithHealthInfo && <LoadingIndicator />}

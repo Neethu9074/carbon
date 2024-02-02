@@ -130,7 +130,7 @@ export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatte
 
 export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeSeriesEnabled');
 
-export const fullscreenWidgetEnabled = isFeatureFlagEnabled('fullscreenWidgetEnabled');
+export const zoomWidgetEnabled = isFeatureFlagEnabled('zoomWidgetEnabled');
 
 export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
 
