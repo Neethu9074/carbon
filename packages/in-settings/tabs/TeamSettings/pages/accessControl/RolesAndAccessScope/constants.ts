@@ -122,6 +122,10 @@ const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
 export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
+export const applicationAdditionalCapabilities: Array<CapabilityType> = [
+  Capability.CAN_VIEW_TRACE_DETAILS,
+  Capability.CAN_CONFIGURE_SERVICE_MAPPING
+];
 export const syntheticOtherCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
   Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
@@ -146,7 +150,6 @@ export const eventCapabilities: Array<CapabilityType> = [
 export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
-  Capability.CAN_CONFIGURE_SERVICE_MAPPING,
   Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
 ];
 

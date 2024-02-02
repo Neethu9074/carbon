@@ -17,8 +17,10 @@ import {
   AreaRoleWithCustomType,
   AreaRolesWithContributor,
   ProductAreaType,
-  ScopedPermissionItem
+  ScopedPermissionItem,
+  applicationAdditionalCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import AdditionalPermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/AdditionalPermissionSection/AdditionalPermissionSection';
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
@@ -77,6 +79,9 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
               ? { options: AreaRolesWithContributor }
               : {})}
           />
+        )}
+        {entityPermissionKey === 'applicationIds' && (
+          <AdditionalPermissionSection form={form} setForm={setForm} capabilities={applicationAdditionalCapabilities} />
         )}
       </>
     );

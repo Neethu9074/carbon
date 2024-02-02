@@ -253,22 +253,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           )
         },
         {
-          scrollId: '9-analytics',
-          label: t('in-settings:productAreas.title_analytics'),
-          title: t('in-settings:productAreas.title_analytics'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_analytics')}
-              description={t('in-settings:PermissionSection.description_analytics')}
-              productAreas={[ProductArea.ANALYTICS]}
-              icon="lib_analyze"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
-        {
           scrollId: '10-eventsAndAlerts',
           label: t('in-settings:productAreas.title_events_and_alerts'),
           title: t('in-settings:productAreas.title_events_and_alerts'),
@@ -309,22 +293,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       ]
     : [
         ...navItems,
-        {
-          scrollId: '8-analytics',
-          label: t('in-settings:productAreas.title_analytics'),
-          title: t('in-settings:productAreas.title_analytics'),
-          valid: true,
-          content: (
-            <PermissionSelection
-              title={t('in-settings:productAreas.title_analytics')}
-              description={t('in-settings:PermissionSection.description_analytics')}
-              productAreas={[ProductArea.ANALYTICS]}
-              icon="lib_analyze"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
-        },
         {
           scrollId: '9-eventsAndAlerts',
           label: t('in-settings:productAreas.title_events_and_alerts'),

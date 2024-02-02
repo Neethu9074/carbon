@@ -15,7 +15,6 @@ import { GlobalFunctionsSection } from 'in-settings/tabs/TeamSettings/pages/acce
 import { InfrastructureSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Infrastructure/InfrastructureSection';
 import { ApplicationsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Applications/ApplicationsSection';
 import { MobileAppsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/MobileApps/MobileAppsSection';
-import { AnalyticsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Analytics/AnalyticsSection';
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
@@ -35,7 +34,6 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
         <PlatformsSection />
         <InfrastructureSection />
         {syntheticRbacEnabled && <SyntheticMonitoringSection />}
-        <AnalyticsSection />
         <EventsAndAlertsSection />
         <GlobalFunctionsSection />
       </RolesAndAccessScopeContext.Provider>

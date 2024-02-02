@@ -22,8 +22,10 @@ import {
   AreaRoleWithContributorType,
   AreaRoleType,
   ProductArea,
-  ScopeRoles
+  ScopeRoles,
+  applicationAdditionalCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import AdditionalPermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/AdditionalPermissionSection/AdditionalPermissionSection';
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
@@ -193,17 +195,22 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   }
   const RoleSelectionSection = () => {
     return (
-      <RoleFormGroup
-        htmlFor={`${entityPermissionKey}-role-select`}
-        tooltipText={roleTooltipText}
-        value={role}
-        defaultRole={AreaRole.VIEWER}
-        roleDescription={rolePermissionMessage}
-        onChange={onChangeRole}
-        {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
-          ? { options: AreaRolesWithContributor }
-          : {})}
-      />
+      <>
+        <RoleFormGroup
+          htmlFor={`${entityPermissionKey}-role-select`}
+          tooltipText={roleTooltipText}
+          value={role}
+          defaultRole={AreaRole.VIEWER}
+          roleDescription={rolePermissionMessage}
+          onChange={onChangeRole}
+          {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
+            ? { options: AreaRolesWithContributor }
+            : {})}
+        />
+        {entityPermissionKey === 'applicationIds' && (
+          <AdditionalPermissionSection form={form} setForm={setForm} capabilities={applicationAdditionalCapabilities} />
+        )}
+      </>
     );
   };
 

@@ -47,6 +47,7 @@
     }
 
     &_wrapper {
+      margin-top: 1rem;
       &_servicesLiveList {
         div:first-child {
           margin-right: 0;
