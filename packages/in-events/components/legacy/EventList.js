@@ -19,9 +19,11 @@ import AssociatedAndRecommendedActionsAlerts from 'in-automation/AssociatedActio
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import { actionAutomationEnabled, rcaUIEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
+import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
@@ -66,6 +68,9 @@ export default function IncidentEventList({
   const triggerEvent = events.find(isTriggeringEvent);
   const isGlobalSmartAlert =
     isApplicationSmartAlertEvent(triggerEvent) && triggerEvent.getIn(['metadata', 'globalSmartAlert'], false);
+
+  const eventType = getEventType(incident);
+  const serviceIds = getServiceIds(incident);
 
   return (
     <>
@@ -123,7 +128,6 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
-
       {automationPoliciesEnabled &&
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
@@ -147,6 +151,7 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
+      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );
 }

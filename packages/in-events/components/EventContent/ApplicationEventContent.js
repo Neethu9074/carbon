@@ -29,12 +29,14 @@ import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventA
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
 import { role } from 'in-stores/user';
@@ -76,6 +78,9 @@ export default function ApplicationEventContent({ event, snapshot }) {
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const isEndpointType = event.get('entityType') === 'Endpoint20';
+
+  const eventType = getEventType(event);
+  const serviceIds = getServiceIds(event);
 
   return (
     <>
@@ -174,6 +179,8 @@ export default function ApplicationEventContent({ event, snapshot }) {
             alertConfig={alertConfig}
           />
         )}
+
+      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );
 }

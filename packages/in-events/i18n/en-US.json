@@ -197,5 +197,9 @@
     "contactMeNo": "No, I prefer not to be contacted.",
     "appreciateResponse": "We appreciate your response!",
     "followUpQuestion": "Would you like us to follow up with you regarding your technical feedback for further clarification or discussion?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Impacted Business Processes",
+    "titleImpactedBusinessProcessesIncident": "Impacted Business Processes for Triggering Event"
   }
 }
