@@ -398,6 +398,7 @@ function AutomationMenu() {
     <MenuItem
       label={t('in-automation:automation')}
       icon="lib_automation"
+      isBeta
       isActive={matchLocation(isAutomationView)}
       href={createHrefToPath(actionCatalogPath)}
     />
@@ -418,6 +419,7 @@ function SloDashboard() {
     <MenuItem
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
+      isBeta
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(serviceLevelsOverview)}
     />
