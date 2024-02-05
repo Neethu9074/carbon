@@ -99,8 +99,10 @@ import { openEventsAtServerTime$ } from 'in-stores/events';
 import { eventsPath } from 'in-events/navigation/paths';
 import { all, any } from 'in-services/fixedStreams';
 import { config } from 'in-services/config';
-import { role } from 'in-stores/user';
+import { role, user } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+import local from './CarbonUIShell.mless';
 
 function HomeLink() {
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -525,7 +527,17 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
           }}
           label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
         />
-        <MenuItem onClick={signOut} label={t('in-components:mainNavigation.viewSwitcherButtonSignOut')} />
+        <div className={local.signOutButton}>
+          <MenuItem
+            onClick={signOut}
+            label={
+              <>
+                <div>{t('in-components:mainNavigation.viewSwitcherButtonSignOut')}</div>
+                <div className={local.emailAddress}>{user?.email}</div>
+              </>
+            }
+          />
+        </div>
       </MenuItem>
     </>
   );
