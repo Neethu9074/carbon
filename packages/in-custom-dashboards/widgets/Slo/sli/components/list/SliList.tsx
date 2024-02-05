@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { PaginatedResult, Result, SliConfigurationWithLastUpdated } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import {
@@ -30,7 +31,6 @@ import { FetchedState } from 'in-hooks/utils/types';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
@@ -88,10 +88,10 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
     getContent(sliConfig) {
       /** This is okay to disable since this function returns JSX and custom hooks work here */
       // eslint-disable-next-line
-      const theme = useTheme();
+
       return (
         <WithIcon
-          iconColor={theme.ids.color.option.neutral['500']}
+          iconColor={themes.default.ids.color.option.neutral['500']}
           icon={getIcon(sliConfig)}
           className={locals.withIcon}
         >

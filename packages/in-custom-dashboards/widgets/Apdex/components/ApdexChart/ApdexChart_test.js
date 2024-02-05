@@ -7,10 +7,11 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes } from 'in-services/time';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart', () => {
@@ -45,7 +46,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart', 
         y1: {
           metricIds: ['APDEX'],
           labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
-          colors: [oldTheme.lib.colors.lightBlue800],
+          colors: [themes.default.ids.color.option.blue[400]],
           metrics
         },
         granularity: minutes.toMillis(1),
