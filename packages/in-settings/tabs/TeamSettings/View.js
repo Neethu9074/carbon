@@ -168,7 +168,12 @@ function navigationTreeForRole(role, isAnyIDPActive) {
     });
   }
 
-  if ((role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) || role.canConfigureIntegrations) {
+  if (
+    (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) ||
+    role.canConfigureIntegrations ||
+    role.canConfigureMaintenanceWindows ||
+    role.canConfigureGlobalAlertPayload
+  ) {
     const eventsAndAlertsPages = [];
 
     if (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) {
@@ -271,11 +276,13 @@ function navigationTreeForRole(role, isAnyIDPActive) {
       }
     }
 
-    eventsAndAlertsPages.push({
-      path: teamSettingsAlertingCustomPayloadConfiguration,
-      label: t('in-settings:tabs.customPayload'),
-      component: GlobalCustomPayloadPage
-    });
+    if (role.canConfigureGlobalAlertPayload) {
+      eventsAndAlertsPages.push({
+        path: teamSettingsAlertingCustomPayloadConfiguration,
+        label: t('in-settings:tabs.customPayload'),
+        component: GlobalCustomPayloadPage
+      });
+    }
 
     navigationTree.push({
       title: t('in-settings:tabs.eventsAlerts'),

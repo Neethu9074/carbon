@@ -139,7 +139,7 @@ export default function CustomEndpointMappingDialog({ location }) {
               ...result,
               data: {
                 ...result.data,
-                rules: result.data.rules ?? []
+                rules: result.data?.rules ?? []
               }
             };
           });
