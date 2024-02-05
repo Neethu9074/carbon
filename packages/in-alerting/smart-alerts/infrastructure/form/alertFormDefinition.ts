@@ -132,7 +132,7 @@ export default function alertFormDefinition(
   return applyEditMode(form, editMode);
 }
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
