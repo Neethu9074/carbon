@@ -1,0 +1,34 @@
+{
+  "alertConfig": {
+    "alertChannelIds": [],
+    "description": "",
+    "groupBy": [],
+    "name": "",
+    "rule": {
+      "alertType": "genericRule",
+      "aggregation": "MEAN",
+      "crossSeriesAggregation": "MEAN",
+      "entityType": "",
+      "metricName": "",
+      "regex": false
+    },
+    "severity": 5,
+    "threshold": {
+      "type": "staticThreshold",
+      "lastUpdated": 0,
+      "operator": ">="
+    },
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "timeWindow": 600000
+    }
+  },
+  "tagCatalog": {
+    "tagTree": [],
+    "tags": [],
+    "__enriched": true,
+    "tagsByName": {},
+    "allTagNames": [],
+    "source": "infrastructure"
+  }
+}
