@@ -9,6 +9,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { Link, Message } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -25,7 +26,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { saveAlertChannel } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
-import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AlertChannelModificationForm.mless';
@@ -33,7 +33,6 @@ import locals from './AlertChannelModificationForm.mless';
 export default entityForm(AlertChannelModificationForm);
 
 function AlertChannelModificationForm(props) {
-  const theme = useTheme();
   const { entity, form, message, error, loading, setForm, isCreate, renderCustomFormActions, listPath } = props;
 
   if (!entity || !form) {
@@ -43,7 +42,7 @@ function AlertChannelModificationForm(props) {
   if (entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />
