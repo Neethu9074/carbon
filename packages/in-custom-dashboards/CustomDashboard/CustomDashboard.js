@@ -29,8 +29,8 @@ import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDia
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
+import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -51,6 +51,9 @@ export default function CustomDashboardLoader(props) {
 
   const [config, setConfig] = useState(getInitialState(result).config);
   const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
+
+  const activeDialogs = useObservable(activeDialogs$, []) ?? [];
+
   useEffect(() => {
     setConfig(getInitialState(result).config);
     setSaving(getInitialState(result).isSaving);
@@ -58,14 +61,16 @@ export default function CustomDashboardLoader(props) {
 
   useEffect(() => {
     const handlePasteAnywhere = event => {
-      const input = JSON.parse(event.clipboardData.getData('text'));
-      const newConfig = deepCopy(config);
-      const widgets = Array.isArray(input) ? input : [input];
-      widgets.forEach(widget => {
-        input.id = generateUniqueShortId();
-        newConfig.widgets.push(widget);
-      });
-      setConfig(newConfig);
+      if (activeDialogs.length === 0) {
+        const input = JSON.parse(event.clipboardData.getData('text'));
+        const newConfig = deepCopy(config);
+        const widgets = Array.isArray(input) ? input : [input];
+        widgets.forEach(widget => {
+          input.id = generateUniqueShortId();
+          newConfig.widgets.push(widget);
+        });
+        setConfig(newConfig);
+      }
     };
 
     window.addEventListener('paste', handlePasteAnywhere);
@@ -73,7 +78,7 @@ export default function CustomDashboardLoader(props) {
     return () => {
       window.removeEventListener('paste', handlePasteAnywhere);
     };
-  }, [config]);
+  }, [config, activeDialogs.length]);
 
   return (
     <CustomDashboardPresenter
