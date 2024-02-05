@@ -22,7 +22,7 @@ import { Trans, t } from 'in-i18n';
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
 interface SyntheticDatacenterProps extends SyntheticDatacenter {
-  provider?: string;
+  provider: string;
 }
 
 interface ManagedLocationProps {
@@ -123,7 +123,7 @@ function getColumnDefinitions(
           <div className={locals.entityWrapper}>
             <HealthDot
               className={classNames({ [locals.dot]: true, [locals.inactive]: entity.status === 'Inactive' })}
-              severity={severity[entity.status]}
+              severity={entity.status ? severity[entity.status] : undefined}
               iconSize={8}
             />
             <span>{entity.status}</span>
