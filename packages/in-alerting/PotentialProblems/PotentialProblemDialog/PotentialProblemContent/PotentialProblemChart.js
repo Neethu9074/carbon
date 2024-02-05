@@ -18,8 +18,8 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { hexToRGBA } from 'in-services/formatters/color';
+import { chartColors } from 'in-themes/chartColors';
 import { hours } from 'in-services/time';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function PotentialProblemChart({
@@ -47,7 +47,7 @@ export default function PotentialProblemChart({
     includeInternal,
     includeSynthetic
   };
-  const highlightColor = theme.lib.colors.chart.strokeColors100[3];
+  const highlightColor = chartColors.strokeColors100[3];
 
   const highlight = {
     area: alert,

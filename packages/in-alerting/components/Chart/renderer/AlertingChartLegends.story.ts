@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { themes } from '@instana/design-tokens';
+
 import { createLineWithThreshold } from 'in-alerting/components/Chart/renderer/Renderer';
 import { fixedTimestamp, generateMetrics } from 'in-test/util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { days } from 'in-services/time';
-import oldTheme from 'in-themes';
 
 const oneDay = days.toMillis(1);
 
@@ -36,10 +37,18 @@ export const ExcludeLegends = {
         excludedLabelsFromTooltip: ['Violations'],
         icons: {
           types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-          colors: [oldTheme.lib.colors.lightBlue800, oldTheme.lib.colors.red800, oldTheme.lib.colors.orange800]
+          colors: [
+            themes.default.ids.color.option.blue['400'],
+            themes.default.ids.color.option.red['500'],
+            themes.default.ids.color.option.orange['500']
+          ]
         },
         getMax: (metricsMaxValue: number) => metricsMaxValue * 1.4,
-        colors: [oldTheme.lib.colors.lightBlue800, oldTheme.lib.colors.red800, oldTheme.lib.colors.orange800],
+        colors: [
+          themes.default.ids.color.option.blue['400'],
+          themes.default.ids.color.option.red['500'],
+          themes.default.ids.color.option.orange['500']
+        ],
         renderer: createLineWithThreshold('>', granularity),
         metrics: metricsBarWithBaseline,
         labels: ['Latency', 'Threshold', 'Violations'],

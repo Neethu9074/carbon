@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
+import { themes } from '@instana/design-tokens';
+
 import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';
 import { ScaleType } from 'in-services/scale';
-import theme from 'in-themes';
 
 const defaultThresholdLineWidth = 1;
 
@@ -266,7 +267,7 @@ export function renderGreyAreaAsMetricUnavailableIndicator(
   const xPosEnd = xScaleBackBuffer.getRange(lastAvailableThresholdTimestamp);
 
   backBufferCtx.save();
-  backBufferCtx.fillStyle = hexToRGBA(theme.lib.colors.N600Light, 0.15);
+  backBufferCtx.fillStyle = hexToRGBA(themes.default.ids.color.option.neutral['600'], 0.15);
   backBufferCtx.fillRect(xStart, markerPaneHeight, xPosEnd - xStart, graphAreaHeight);
   backBufferCtx.restore();
 }
