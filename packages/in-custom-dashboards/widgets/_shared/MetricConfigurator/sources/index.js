@@ -10,6 +10,7 @@ import * as mobileApp from 'in-custom-dashboards/widgets/_shared/MetricConfigura
 import * as website from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website';
 import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import * as sli from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
+import * as logging from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import { syntheticCustomDashboardEnabled } from 'in-services/featureFlags';
 
 let all = {
@@ -18,7 +19,8 @@ let all = {
   [mobileApp.source]: mobileApp,
   [website.source]: website,
   [event.source]: event,
-  [sli.source]: sli
+  [sli.source]: sli,
+  [logging.source]: logging
 };
 if (syntheticCustomDashboardEnabled) {
   all = { ...all, [syntheticMonitoring.source]: syntheticMonitoring };

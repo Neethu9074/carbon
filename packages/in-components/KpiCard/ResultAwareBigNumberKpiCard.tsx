@@ -20,6 +20,7 @@ import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/l
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
+import { transformLogsResult } from 'in-components/KpiCard/utils';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import { percentage } from 'in-services/formatters/number';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -141,6 +142,11 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   isInModal?: boolean
 ) {
   let value = null;
+
+  if (config.metricConfiguration.source === 'LOG') {
+    result = transformLogsResult(result, config, timeConfig);
+  }
+
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {
     value = dataPoint.values[0][1];
@@ -209,8 +215,13 @@ function renderTimeShiftValue<METRIC_CONFIG extends UnifiedMetricConfiguration>(
 
   let comparisonValue;
   const dataPoint = find(result.data, ({ id }) => id === comparisonMetricKey);
+
   if (dataPoint?.values?.length === 1) {
     comparisonValue = dataPoint.values[0][1];
+  }
+
+  if (dataPoint?.values?.length && dataPoint?.values?.length > 1) {
+    comparisonValue = dataPoint?.values?.reduce((acc, currentValue) => acc + currentValue[1], 0);
   }
 
   if (comparisonValue == null) {
