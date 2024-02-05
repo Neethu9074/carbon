@@ -6,12 +6,21 @@
 import React from 'react';
 
 import { themes } from '@instana/design-tokens';
+import { HistoricBaselineData, Result, ResultPrecisionDetails } from '@instana/types';
 import { Message } from '@instana/components';
 
 import { hasError } from 'in-services/util/result';
 import { t, Trans } from 'in-i18n';
 
-export default function HistoricBaselineErrorMessage({ thresholdResult }) {
+interface ResultPrecisionType {
+  resultPrecisionDetails?: ResultPrecisionDetails;
+}
+type HistoricBaselineErrorMessageType = Result<HistoricBaselineData | ResultPrecisionType>;
+
+interface HistoricBaselineErrorMessageProps {
+  thresholdResult: HistoricBaselineErrorMessageType;
+}
+export default function HistoricBaselineErrorMessage({ thresholdResult }: HistoricBaselineErrorMessageProps) {
   if (hasError(thresholdResult)) {
     return (
       <Message type="neutral" iconColor={themes.default.ids.color.option.red['500']} withIcon>
@@ -34,6 +43,6 @@ export default function HistoricBaselineErrorMessage({ thresholdResult }) {
   return null;
 }
 
-function getErrorReason(thresholdResult) {
+function getErrorReason(thresholdResult: HistoricBaselineErrorMessageType) {
   return thresholdResult.errors[0].message;
 }
