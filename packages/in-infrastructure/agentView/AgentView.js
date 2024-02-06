@@ -33,7 +33,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
-import { agentInstallationV2Enabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -81,7 +80,7 @@ export default connectTo(
     }
     const activeLicenseType = accountConfig.activeLicenseType;
     const agentSnapshots = agentSnapshotsResult.getIn(['data']);
-    const agentInstallV2PathAllowed = agentInstallationV2Enabled && activeLicenseType === ('selfService' || 'quota');
+    const agentInstallV2PathAllowed = activeLicenseType === ('selfService' || 'quota');
     return (
       <>
         <ViewTrackingMeta

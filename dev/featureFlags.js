@@ -104,7 +104,6 @@ module.exports = {
   syntheticInstanaHostedPoPEnabled: true,
   simplifiedFlowMapEnabled: true,
   zoomWidgetEnabled: true,
-  agentInstallationV2Enabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,
   lastValueForNonTimeSeriesWidgetEnabled: true
