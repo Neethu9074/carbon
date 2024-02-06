@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { noop } from 'lodash';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
@@ -17,17 +16,16 @@ import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import IconButton from 'in-components/IconButton/IconButton';
-import { LabeledEntity } from 'in-service-levels/types';
+import { noop } from 'in-services/fixedObjects';
 
 interface SloActionButtonsProps {
   configuration: ServiceLevelObjectiveConfiguration;
-  entity: LabeledEntity;
+  editDisabled: boolean | undefined;
 }
 
-export default function SloActionButtons({ configuration, entity }: SloActionButtonsProps) {
+export default function SloActionButtons({ configuration, editDisabled }: SloActionButtonsProps) {
   const { goToPath } = useNavigation();
   const doDelete = useDoDeleteSloConfiguration(configuration, success => success && goToPath(serviceLevelsOverview));
-  const disabled = entity.deleted;
 
   const openCloneDialog = () => {
     addActiveDialog(
@@ -53,8 +51,8 @@ export default function SloActionButtons({ configuration, entity }: SloActionBut
         type="lib_actions_edit"
         buttonType="button"
         kind="primary"
-        onClick={disabled ? noop : openEditDialog}
-        disabled={disabled}
+        onClick={editDisabled ? noop : openEditDialog}
+        disabled={editDisabled}
       />
       <IconButton type="lib_actions_copy" buttonType="button" kind="primary" onClick={openCloneDialog} />
       <IconButton type="lib_actions_delete" buttonType="button" kind="primary" onClick={doDelete} />

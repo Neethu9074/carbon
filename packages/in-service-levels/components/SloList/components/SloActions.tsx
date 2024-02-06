@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { noop } from 'lodash';
 import React from 'react';
 
 import { Stack } from '@instana/components';
@@ -16,6 +15,7 @@ import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
+import { noop } from 'in-services/fixedObjects';
 
 interface Props {
   item: SloListItem;
