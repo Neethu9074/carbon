@@ -7,6 +7,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { LoadingSkeleton, Message } from '@instana/components';
+import { Result, SyntheticDatacenter } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -23,13 +25,39 @@ interface Props {
   setSelectedBlueprint: (item: LocationsBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
   setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
+  checkLicense: Result<SyntheticDatacenter[]>;
 }
 interface Description {
   headline: string;
   htmlContent: string;
 }
 
-const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, setSelectedDatacenter }: Props) => {
+const SelectLocationType = ({
+  selectedBlueprint,
+  setSelectedBlueprint,
+  updateForm,
+  setSelectedDatacenter,
+  checkLicense
+}: Props) => {
+  const getWarningMessage = () => {
+    if (!checkLicense.progress.loading) {
+      if (checkLicense.errors.length !== 0) {
+        return (
+          <Message
+            type="warning"
+            withIcon
+            bold
+            className={locals.warningMessage}
+            title={t('in-synthetics:dialog.createLocation.licenseCheck.title')}
+            description={t('in-synthetics:dialog.createLocation.licenseCheck.description')}
+          />
+        );
+      } else {
+        return null;
+      }
+    }
+    return <LoadingSkeleton />;
+  };
   return (
     <SimpleModeStepContentWrapper
       headline={t('in-synthetics:dialog.createLocation.selectLocationType.contentWrapperHeadline')}
@@ -45,6 +73,7 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
         }}
       />
       <div className={locals.presenterWrapper}>
+        {selectedBlueprint.type === 'managed' && getWarningMessage()}
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>
           {selectedBlueprint.description?.map((paragraph: Description) => {
             return (

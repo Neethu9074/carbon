@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import { Result, SyntheticDatacenter } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error
@@ -15,6 +17,8 @@ import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocatio
 import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import Configuration from 'in-synthetics/createLocation/steps/Configuration';
+import { pendingResult } from 'in-services/fixedObjects';
+import { getDatacenters } from 'in-synthetics/api';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
@@ -35,6 +39,9 @@ const CreateNewLocationDialogPresenter = ({
   simpleModeStep,
   setSimpleModeStep
 }: Props) => {
+  const checkLicense: Result<SyntheticDatacenter[]> =
+    useObservable<any, []>(() => getDatacenters({}), []) ?? pendingResult;
+
   // Steps configuration for the dialog
   const stepConfigs = Object.freeze([
     {
@@ -77,6 +84,7 @@ const CreateNewLocationDialogPresenter = ({
                       setSelectedBlueprint={setSelectedBlueprint}
                       updateForm={updateForm}
                       setSelectedDatacenter={setSelectedDatacenter}
+                      checkLicense={checkLicense}
                     />
                   );
                 case 1:
@@ -96,6 +104,13 @@ const CreateNewLocationDialogPresenter = ({
                 ? t('in-synthetics:dialog.createLocation.activate')
                 : t('in-synthetics:dialog.createLocation.done')
             }
+            additionalStepCheck={() => {
+              return selectedBlueprint.type === 'managed' &&
+                !checkLicense.progress.loading &&
+                checkLicense.errors.length !== 0
+                ? false
+                : true;
+            }}
           />
         </div>
       </div>

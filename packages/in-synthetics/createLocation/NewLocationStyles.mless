@@ -50,4 +50,8 @@
   .inactive {
     background-color: var(--ids-color-option-neutral-400) !important;
   }
+
+  .warningMessage {
+    margin-right: 1.5rem;
+  }
 }
