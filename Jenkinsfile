@@ -120,7 +120,7 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES') {
           timestamps {
             script {
-              if (isDeliveryBranch || branchName == 'version-provider') { // TODO: remove check for branch name before merging
+              if (isDeliveryBranch) {
                 // Mark stable version in Instana's own versioning system only on delivery branches
                 // as this value is only used on further build stages on delivery branches
                 sh "ci-shared-tools component-versions mark-stable-version ui-client ${branchName} ${instanaUiClientVersion}"
@@ -166,7 +166,7 @@ pipeline {
                 } else {
                    backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
                 }
-                if (isDeliveryBranch || branchName == 'version-provider') { // TODO: remove check for branch name before merging
+                if (isDeliveryBranch) {
                   rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
                 }
               }
