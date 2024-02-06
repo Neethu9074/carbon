@@ -8,6 +8,7 @@ import { List, Map } from 'immutable';
 
 import { Button, Card, Message, Stack, SvgIcon, Typography, Pill } from '@instana/components';
 import { combineLatest } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -32,7 +33,6 @@ import { rcaUIEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -40,7 +40,6 @@ import locals from 'in-events/components/legacy/EventList.mless';
 const defaultFeedbackState = { thumbsDown: false, thumbsUp: false };
 
 export default function AIEventListRow({ title, incident, incidentHasRCAProperty, latestSnapshot }) {
-  const theme = useTheme();
   // Holds map of { snapshot_ID: [event_id, event_id] }
   const rcaSnapshotMap = useMemo(
     () => extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, rcaUIEnabled),
@@ -92,7 +91,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             leftHeaderContent={
               <Tooltip align="rightTop" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <div>
-                  <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+                  <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
                     {t('in-events:RCA.techPreview')}
                   </Pill>
                 </div>
@@ -124,7 +123,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             title={title}
             leftHeaderContent={
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+                <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
                   {t('in-events:RCA.techPreview')}
                 </Pill>
               </Tooltip>
@@ -144,7 +143,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
           title={title}
           leftHeaderContent={
             <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-              <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+              <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
                 {t('in-events:RCA.techPreview')}
               </Pill>
             </Tooltip>
@@ -182,8 +181,8 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
                     triggeringProblemId={eventsRelatedToEntity.length > 0 && eventsRelatedToEntity[0].get('id')}
                     event={_event}
                     latestSnapshot={latestSnapshot}
-                    setBackground={theme.ids.color.option['deep-purple'][500]}
-                    setIconColor={theme.ids.color.option.white}
+                    setBackground={themes.default.ids.color.option['deep-purple']['500']}
+                    setIconColor={themes.default.ids.color.option.white}
                   />
                 </div>
               ))}
@@ -212,7 +211,6 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
 }
 
 function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshotMetadata, currentEntity }) {
-  const theme = useTheme();
   useEffect(() => {
     if (feedbackState[currentEntity] && feedbackState[currentEntity].thumbsDown) {
       addActiveDialog(
@@ -242,10 +240,12 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
         // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
         //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
         style={
-          feedbackState[currentEntity]?.thumbsUp ? { background: `${theme.ids.color.option.neutral[300]}` } : undefined
+          feedbackState[currentEntity]?.thumbsUp
+            ? { background: themes.default.ids.color.option.neutral['300'] }
+            : undefined
         }
         size="compact"
-        icon={'lib_thumbs_up'}
+        icon="lib_thumbs_up"
         iconSize="s"
         onClick={() => {
           helpfulRCASuggestionTracker();
@@ -262,12 +262,12 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
         //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
         style={
           feedbackState[currentEntity]?.thumbsDown
-            ? { background: `${theme.ids.color.option.neutral[300]}` }
+            ? { background: themes.default.ids.color.option.neutral['300'] }
             : undefined
         }
         size="compact"
         iconSize="s"
-        icon={'lib_thumbs_down'}
+        icon="lib_thumbs_down"
         onClick={() => {
           unhelpfulRCASuggestionTracker();
           if (feedbackState[currentEntity]?.thumbsDown) {
@@ -282,7 +282,6 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
 }
 
 function RCAErrorMessage({ title, description, tooltipDescription }) {
-  const theme = useTheme();
   return (
     <Stack direction="horizontal" gap="small" distribution="center">
       <img className={locals.errorImg} src={EmptyStateMagnifyingGlass} />
@@ -292,7 +291,11 @@ function RCAErrorMessage({ title, description, tooltipDescription }) {
           <Typography variant="body-regular">{description}</Typography>
           {tooltipDescription && (
             <Tooltip align="rightMiddle" content={tooltipDescription}>
-              <SvgIcon type="lib_help_error_help_outline" size="s" color={theme.ids.color.option.neutral['700']} />
+              <SvgIcon
+                type="lib_help_error_help_outline"
+                size="s"
+                color={themes.default.ids.color.option.neutral['700']}
+              />
             </Tooltip>
           )}
         </Stack>

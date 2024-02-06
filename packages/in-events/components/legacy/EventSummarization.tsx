@@ -7,6 +7,7 @@
 import React, { useMemo, useState } from 'react';
 
 import { Button, Card, Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { Incident } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -18,7 +19,6 @@ import {
 } from 'in-events/tracker';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { useTheme } from 'in-themes';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -43,7 +43,6 @@ interface FeedbackState {
 
 export default function EventSummarization({ title, incident }: EventSummarizationProps): JSX.Element {
   const incidentSummary = useMemo(() => extractSummaryFromIncident(incident), [incident]);
-  const theme = useTheme();
 
   return (
     <Row withoutSideMargin>
@@ -51,7 +50,7 @@ export default function EventSummarization({ title, incident }: EventSummarizati
         <Card
           title={title}
           leftHeaderContent={
-            <Pill kind="primary" color={theme.ids.color.option.blue['500']}>
+            <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
               {t('in-events:RCA.techPreview')}
             </Pill>
           }
@@ -95,7 +94,6 @@ function EventSummaryErrorMessage({
   description,
   tooltipDescription
 }: EventSummaryErrorMessageProps): JSX.Element {
-  const theme = useTheme();
   return (
     <Stack direction="horizontal" gap="small" distribution="center">
       <img className={locals.errorImg} src={EmptyStateMagnifyingGlass} />
@@ -105,7 +103,11 @@ function EventSummaryErrorMessage({
           <Typography variant="body-regular">{description}</Typography>
           {tooltipDescription && (
             <Tooltip align="rightMiddle" content={tooltipDescription}>
-              <SvgIcon type="lib_help_error_help_outline" size="s" color={theme.ids.color.option.neutral['700']} />
+              <SvgIcon
+                type="lib_help_error_help_outline"
+                size="s"
+                color={themes.default.ids.color.option.neutral['700']}
+              />
             </Tooltip>
           )}
         </Stack>
@@ -124,7 +126,6 @@ function extractSummaryFromIncident(incident: Incident): string[] {
 
 function FeedbackComponent({ incident }: { incident: Incident }): JSX.Element {
   const [feedbackState, setFeedbackState] = useState<FeedbackState>({ thumbsDown: false, thumbsUp: false });
-  const theme = useTheme();
   return (
     <Stack direction="horizontal" gap="small" align="center">
       {feedbackState.thumbsUp || feedbackState.thumbsDown ? (
@@ -138,7 +139,7 @@ function FeedbackComponent({ incident }: { incident: Incident }): JSX.Element {
       <Button
         kind="subtle"
         size="compact"
-        style={feedbackState.thumbsUp ? { background: `${theme.ids.color.option.neutral[300]}` } : undefined}
+        style={feedbackState.thumbsUp ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
         onClick={() => {
           setFeedbackState({ thumbsDown: false, thumbsUp: true });
           incidentSummarizationFeedbackHelpfulTracker(incident);
@@ -149,7 +150,7 @@ function FeedbackComponent({ incident }: { incident: Incident }): JSX.Element {
       <Button
         kind="subtle"
         size="compact"
-        style={feedbackState.thumbsDown ? { background: `${theme.ids.color.option.neutral[300]}` } : undefined}
+        style={feedbackState.thumbsDown ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
         onClick={() => {
           setFeedbackState({ thumbsDown: true, thumbsUp: false });
           incidentSummarizationFeedbackUnhelpfulTracker(incident);

@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
@@ -35,7 +36,6 @@ import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './EventListItem.mless';
@@ -50,13 +50,12 @@ export default function EventListItem({
   setBackground,
   setIconColor
 }) {
-  const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(expandedFromTimeline || false);
   const [activeEventBackground, setActiveEventBackground] = useState(setBackground ? setBackground : '');
   const background =
     useObservable(
       getColorForEventAtFocusedMomentAsStream(event, {
-        defaultColor: setBackground ? setBackground : theme.cds['background-active']
+        defaultColor: setBackground ? setBackground : themes.default.cds['background-active']
       }),
       [event]
     ) ?? '';
@@ -147,7 +146,6 @@ function TimeIndicator({ event, isTriggeringEvent }) {
 }
 
 function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBackground, setIconColor }) {
-  const theme = useTheme();
   if (setBackground) background = setBackground; //50% opacity of background colour
   return (
     <div className={locals.heading} id={`event-${event.get('id')}`} onClick={onClick}>
@@ -172,7 +170,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBa
         </div>
       </div>
 
-      <SvgIcon type={iconType} size="xs" color={theme.ids.color.option.neutral[600]} />
+      <SvgIcon type={iconType} size="xs" color={themes.default.ids.color.option.neutral['600']} />
     </div>
   );
 }
