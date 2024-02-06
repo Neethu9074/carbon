@@ -147,12 +147,12 @@ export function getY1(
     chartColors = [
       ...chartColors,
       '',
-      themes.default.ids.color.option['deep-purple'][800],
+      themes.default.ids.color.option['deep-purple'][500],
       lighten(carbonAlert.purple50, 0.4),
       lighten(carbonAlert.purple50, 0.4)
     ];
     metricIds = [...metricIds, 'violations', 'predictions', 'lowerBound', 'upperBound'];
-    legendColors = [...legendColors, themes.default.ids.color.option['deep-purple'][800]];
+    legendColors = [...legendColors, themes.default.ids.color.option['deep-purple'][500]];
 
     //We don't need lower and upper bounds displayed in the legends area for predictions, so it's added to excludedLabelsFromLegend and removed from legends.
     excludedLabelsFromLegend = [

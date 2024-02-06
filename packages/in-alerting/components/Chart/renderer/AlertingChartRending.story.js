@@ -201,7 +201,7 @@ function ChartPrediction({ renderer, isMetricOverlap }) {
                 carbonCategorical.cyan50,
                 carbonAlert.red60,
                 getColorWithTransparency(carbonAlert.red60).c50,
-                themes.default.ids.color.option['deep-purple'][800]
+                themes.default.ids.color.option['deep-purple'][500]
               ]
             },
             excludedLabelsFromLegend: ['Lower Bound', 'Upper Bound'],
@@ -210,7 +210,7 @@ function ChartPrediction({ renderer, isMetricOverlap }) {
               carbonCategorical.cyan50,
               carbonAlert.red60,
               lighten(carbonAlert.red60, 0.4),
-              themes.default.ids.color.option['deep-purple'][800],
+              themes.default.ids.color.option['deep-purple'][500],
               lighten(carbonAlert.purple50, 0.3),
               lighten(carbonAlert.purple50, 0.3)
             ],
