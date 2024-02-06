@@ -91,6 +91,11 @@ const CreateNewLocationDialogPresenter = ({
                   return null;
               }
             }}
+            customSaveButtonText={
+              selectedBlueprint.type == 'managed'
+                ? t('in-synthetics:dialog.createLocation.activate')
+                : t('in-synthetics:dialog.createLocation.done')
+            }
           />
         </div>
       </div>

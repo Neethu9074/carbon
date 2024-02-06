@@ -255,6 +255,8 @@
     },
     "createLocation": {
       "newLocation": "New Location",
+      "activate": "Activate",
+      "done": "Done",
       "stepConfigs": {
         "selectType": "Step 1: Select type",
         "configuration": "Step 2: Configuration"

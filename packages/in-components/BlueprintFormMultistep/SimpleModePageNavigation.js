@@ -24,7 +24,8 @@ export default function SimpleModePageNavigation({
   stepConfigs,
   onStepChanged,
   isSaving,
-  additionalStepCheck = () => true
+  additionalStepCheck = () => true,
+  customSaveButtonText
 }) {
   const [step, setStep] = useState(0);
 
@@ -80,6 +81,7 @@ export default function SimpleModePageNavigation({
           isSaving={isSaving}
           step={step}
           stepConfigs={stepConfigs}
+          customSaveButtonText={customSaveButtonText}
         />
       </form>
     </>
@@ -103,7 +105,8 @@ SimpleModePageNavigation.propTypes = {
   onStepChanged: PropTypes.func,
   isSaving: PropTypes.bool,
   simpleModeStep: PropTypes.number,
-  additionalStepCheck: PropTypes.func
+  additionalStepCheck: PropTypes.func,
+  customSaveButtonText: PropTypes.string
 };
 
 function mapTitles(stepConfigs) {
