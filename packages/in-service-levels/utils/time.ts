@@ -17,7 +17,7 @@ export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe
 }
 
 export function calculateSloGranularity(timeConfig: TimeConfig): number {
-  const now = Date.now();
+  const now = new Date().getTime();
   const toOrNow = timeConfig.to ?? now;
   const from = toOrNow - timeConfig.windowSize;
   const oneDay = days.toMillis(1);
@@ -47,17 +47,38 @@ export function calculateTimeRemaining(
 }
 
 export function calculateTimeRemainingFromNow(timeConfig: TimeConfig): number {
-  const now = Date.now();
+  const now = new Date().getTime();
   const to = timeConfig.to ?? now;
   return to - now;
 }
 
 export function calculateTimeRemainingFromWithinTimeWindow(timeConfig: TimeConfig, timeWindow: TimeConfig): number {
-  const now = Date.now();
+  const now = new Date().getTime();
   const selectedTo = timeConfig.to ?? now;
 
   const windowTo = timeWindow.to ?? now;
   return windowTo - selectedTo;
+}
+
+export function getEntireTimeWindowConfigFromTimeWindows(timeWindows: TimeConfig[]): TimeConfig {
+  const now = new Date().getTime();
+  const timeWindowEnd = timeWindows.reduce(
+    (prevTo, currTw) => (prevTo > (currTw.to ?? now) ? prevTo : currTw.to ?? now),
+    0
+  );
+  const timeWindowStart = timeWindows.reduce((prevFrom, currTw) => {
+    const currFrom = (currTw.to ?? timeWindowEnd) - currTw.windowSize;
+    return prevFrom < currFrom ? prevFrom : currFrom;
+  }, timeWindowEnd);
+
+  const to = timeWindowEnd;
+  const windowSize = timeWindowEnd - timeWindowStart;
+  return {
+    to,
+    windowSize,
+    focusedMoment: to,
+    autoRefresh: false
+  };
 }
 
 export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {

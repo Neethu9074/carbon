@@ -26,12 +26,12 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { TimeBasedAvailabilityBlueprintIndicator } from 'in-service-levels/types';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
@@ -48,7 +48,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
   const { threshold } = indicator;
 
   const selectedTimeConfig = useTimeConfig();
-  const granularity = calculateSloReferenceChartGranularity(selectedTimeConfig);
+  const granularity = calculateSloGranularity(selectedTimeConfig);
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
   const metricConfiguration = useSliMetricConfiguration<TimeBasedAvailabilityBlueprintIndicator>(
     entity,
