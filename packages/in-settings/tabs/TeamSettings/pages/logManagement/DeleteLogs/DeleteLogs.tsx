@@ -188,19 +188,29 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
         <section className={locals.deleteUntilSection}>
           <Label className={classNames(dateTimeValidationMessage && locals.invalidInput)} htmlFor="deletionUntilDate">
             {localisationStrings.deletionUntilDate}
-            <DateInput disabled={isDeleting} value={dateInputValue} onChange={e => setDateInputValue(e as string)} />
+            <DateInput
+              hasError={!!dateTimeValidationMessage}
+              disabled={isDeleting}
+              value={dateInputValue}
+              onChange={e => setDateInputValue(e as string)}
+            />
             {dateTimeValidationMessage && (
               <ValidationBlock className={locals.validationMessage}>{dateTimeValidationMessage}</ValidationBlock>
             )}
           </Label>
           <Label className={classNames(dateTimeValidationMessage && locals.invalidInput)} htmlFor="deletionUntilTime">
             {localisationStrings.deletionUntilTime}
-            <TimeInput value={timeInputValue as string} onChange={e => setTimeInputValue(e)} />
+            <TimeInput
+              hasError={!!dateTimeValidationMessage}
+              value={timeInputValue as string}
+              onChange={e => setTimeInputValue(e)}
+            />
           </Label>
         </section>
         <Label className={classNames(reasonValidationMessage && locals.invalidInput)} htmlFor="reason">
           {localisationStrings.deletionReason}
           <Input
+            hasError={!!reasonValidationMessage}
             value={reasonInputValue}
             onChange={e => setReasonInputValue(e.target.value)}
             disabled={isDeleting}
@@ -213,6 +223,7 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
         <Label className={classNames(validationValidationMessage && locals.invalidInput)} htmlFor="typingValidation">
           {localisationStrings.typeValidation}
           <Input
+            hasError={!!validationValidationMessage}
             disabled={isDeleting}
             value={validationInputValue}
             onChange={e => setValidationInputValue(e.target.value)}
