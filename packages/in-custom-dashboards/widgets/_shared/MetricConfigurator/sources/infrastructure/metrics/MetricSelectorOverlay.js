@@ -6,13 +6,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { SvgIcon } from '@instana/components';
-
+import BreadcrumbAndLabel from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/BreadcrumbAndLabel';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
-
-import locals from './MetricSelectorOverlay.mless';
 
 export default function MetricSelectorOverlay({
   metricCatalog,
@@ -83,23 +80,6 @@ export function toOptions(metricTreeNodes, parentLabels = []) {
   });
 }
 
-function BreadcrumbAndLabel({ path, label, hasChildren }) {
-  if (hasChildren) {
-    return <>{label}</>;
-  }
-
-  return (
-    <>
-      {path.map((part, i) => (
-        <span className={locals.path} key={i}>
-          {part}
-          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-        </span>
-      ))}
-      {label}
-    </>
-  );
-}
 
 MetricSelectorOverlay.propTypes = {
   metricCatalog: PropTypes.any,
