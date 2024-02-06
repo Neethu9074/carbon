@@ -18,14 +18,15 @@ import {
 } from '@instana/components';
 import { just } from '@instana/observables';
 
-import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import {
   firstValue,
   getGranularity,
   getMetricKey,
   getMetricValue,
-  getSeriesKey
+  getSeriesKey,
+  lastValueForMetric
 } from 'in-infrastructure/Explore/services/metrics';
+import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
@@ -646,7 +647,15 @@ function getHeaderActions(props) {
 
 export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
   return metrics.map(
-    ({ metric, aggregation, crossSeriesAggregation, formatterId, isFormatterSelected, label: metricLabel }) => {
+    ({
+      metric,
+      aggregation,
+      crossSeriesAggregation,
+      formatterId,
+      isFormatterSelected,
+      label: metricLabel,
+      lastValue
+    }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
       const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
@@ -658,7 +667,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         label,
         aggregation,
         formatterId,
-        isFormatterSelected
+        isFormatterSelected,
+        lastValue
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
@@ -699,14 +709,16 @@ function generateMetric({
   timeConfig,
   granularity,
   formatterId,
-  isFormatterSelected
+  isFormatterSelected,
+  lastValue
 }) {
   const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
   const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
-  const kpi = firstValue(metrics[id]);
-  const series = metrics[getSeriesKey(id)];
+  const seriesKey = getSeriesKey(id);
+  const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
+  const series = metrics[seriesKey];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
 
   return (

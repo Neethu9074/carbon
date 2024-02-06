@@ -13,6 +13,7 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
@@ -54,6 +55,7 @@ export default function BigNumberKpiCard({
   raw
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
+  const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
 
   const metricDefaults = {
     timeShift: {
@@ -65,7 +67,7 @@ export default function BigNumberKpiCard({
   const metrics: { [index: string]: UnifiedMetricConfiguration } = {
     [metricKey]: {
       // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig,
+      timeConfig: usedTimeConfig,
       ...config.metricConfiguration,
       ...config.tagFilters,
       ...metricDefaults
@@ -75,7 +77,7 @@ export default function BigNumberKpiCard({
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
       // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig,
+      timeConfig: usedTimeConfig,
       ...config.metricConfiguration,
       ...metricDefaults,
       timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)

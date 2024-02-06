@@ -45,6 +45,7 @@ export interface MetricItem {
   metricLabel: string;
   label: string;
   regex: boolean;
+  lastValue?: boolean;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -253,14 +254,24 @@ function InfrastructureTable(props: TableWidgetProps) {
 
 function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
   const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ aggregation, metric, formatter, formatterSelected: isFormatterSelected, label, metricLabel, regex }) => ({
+    ({
+      aggregation,
+      metric,
+      formatter,
+      formatterSelected: isFormatterSelected,
+      label,
+      metricLabel,
+      regex,
+      lastValue
+    }) => ({
       aggregation,
       formatterId: formatter,
       label: label !== '' ? label : metricLabel,
       metricLabel,
       metric,
       isFormatterSelected,
-      regex
+      regex,
+      lastValue
     })
   );
 
