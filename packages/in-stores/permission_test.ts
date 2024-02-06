@@ -184,6 +184,16 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_ACTIVITIES]);
       expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BIZOPS_ALERTS]);
     });
+
+    it('Checks that Infra SA permission is not available when infraSmartAlertsEnabled feature flag is not set', () => {
+      const featureFlags = jest.requireMock('in-services/featureFlags');
+      featureFlags.infraSmartAlertsEnabled = false;
+      const productPermissions = getProductPermissions();
+
+      expect(productPermissions).not.toContain(
+        productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS]
+      );
+    });
   });
 
   describe('getInfrastructurePermissions', () => {
