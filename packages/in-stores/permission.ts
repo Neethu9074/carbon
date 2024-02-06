@@ -17,7 +17,8 @@ import {
   zhmcEnabled,
   sloV2Enabled,
   powervcEnabled,
-  automationPoliciesEnabled
+  automationPoliciesEnabled,
+  infraSmartAlertsEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -686,60 +687,64 @@ export function getProductPermissions(): Array<ProductPermission> {
   let permissions: Array<ProductPermission> = Object.values(productPermissionsObject);
 
   if (!syntheticsEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      const syntheticCapabilities: Array<CapabilityType> = [
-        Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
-        Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
-        Capability.CAN_VIEW_SYNTHETIC_TESTS,
-        Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
-        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
-      ];
+    const syntheticCapabilities: Set<CapabilityType> = new Set([
+      Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
+      Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
+      Capability.CAN_VIEW_SYNTHETIC_TESTS,
+      Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
+      Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+      Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+      Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+    ]);
 
-      return !syntheticCapabilities.includes(keyForGroupApi);
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return !syntheticCapabilities.has(keyForGroupApi);
     });
   } else if (!syntheticsKeystoreEnabled) {
     //Synthetic credential is controlled by syntheticsKeystoreEnabled FF
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      const syntheticCapabilities: Array<CapabilityType> = [
-        Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-        Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
-      ];
+    const syntheticCapabilities: Set<CapabilityType> = new Set([
+      Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+      Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+    ]);
 
-      return !syntheticCapabilities.includes(keyForGroupApi);
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return !syntheticCapabilities.has(keyForGroupApi);
     });
   }
 
   if (!actionAutomationEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      const automationCapabilities: Array<CapabilityType> = [
-        Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-        Capability.CAN_RUN_AUTOMATION_ACTIONS,
-        Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-        Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
-      ];
+    const automationCapabilities: Set<CapabilityType> = new Set([
+      Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
+      Capability.CAN_RUN_AUTOMATION_ACTIONS,
+      Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
+      Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
+    ]);
 
-      return !automationCapabilities.includes(keyForGroupApi);
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return !automationCapabilities.has(keyForGroupApi);
     });
   } else if (!automationPoliciesEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
-      const automationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES];
-
-      return !automationCapabilities.includes(keyForGroupApi);
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_AUTOMATION_POLICIES;
     });
   }
 
   if (!businessObservabilityEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      const bizopsCapabilities: Array<CapabilityType> = [
-        Capability.CAN_VIEW_BUSINESS_PROCESSES,
-        Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
-        Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
-        Capability.CAN_VIEW_BIZOPS_ALERTS
-      ];
+    const bizopsCapabilities: Set<CapabilityType> = new Set([
+      Capability.CAN_VIEW_BUSINESS_PROCESSES,
+      Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
+      Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
+      Capability.CAN_VIEW_BIZOPS_ALERTS
+    ]);
 
-      return !bizopsCapabilities.includes(keyForGroupApi);
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return !bizopsCapabilities.has(keyForGroupApi);
+    });
+  }
+
+  if (!infraSmartAlertsEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS;
     });
   }
 
