@@ -96,7 +96,8 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
       // And we don't have a better way to combine such non uniform observables with better typing
       const configuration = results[0].data as ServiceLevelObjectiveConfiguration;
       const entity: LabeledEntity = (results[1]?.data as LabeledEntity) ?? {
-        label: t('in-service-levels:general.entityTypes.label', { context: 'unknown' })
+        label: t('in-service-levels:general.entityTypes.label', { context: 'unknown' }),
+        deleted: true
       };
       const service: LabeledEntity = (results[2]?.data as LabeledEntity) ?? undefined;
       const endpoint: LabeledEntity = (results[3]?.data as LabeledEntity) ?? undefined;
