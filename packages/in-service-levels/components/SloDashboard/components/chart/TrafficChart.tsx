@@ -18,16 +18,13 @@ import {
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
-// eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import {
-  calculateSloReferenceChartGranularity,
-  findMinMetricValue
-} from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import useSloResultAwareChartMetrics from 'in-service-levels/hooks/useSloResultAwareChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import lineRenderer from 'in-components/Chart/renderer/line';
@@ -89,7 +86,7 @@ function getMetricConfig(
   timeConfig: TimeConfig,
   tagFilterExpression: TagFilterExpression
 ): UnifiedMetricConfiguration {
-  const granularity = calculateSloReferenceChartGranularity(timeConfig);
+  const granularity = calculateSloGranularity(timeConfig);
 
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
