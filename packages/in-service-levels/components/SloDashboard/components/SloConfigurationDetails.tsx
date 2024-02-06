@@ -34,12 +34,12 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 }
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
-  const { configuration } = data;
+  const { configuration, entity } = data;
 
   return (
     <Card
       leftHeaderContent={<TagList tags={configuration.tags} />}
-      rightHeaderContent={<SloActionButtons configuration={configuration} />}
+      rightHeaderContent={<SloActionButtons configuration={configuration} entity={entity} />}
     >
       <Ul space="medium">
         <EntitySection data={data} />

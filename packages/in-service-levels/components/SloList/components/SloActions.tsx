@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { noop } from 'lodash';
 import React from 'react';
 
 import { Stack } from '@instana/components';
@@ -21,7 +22,8 @@ interface Props {
 }
 
 export default function SloActions({ item }: Props) {
-  const { configuration } = item;
+  const { configuration, entity } = item;
+  const disabled = entity.deleted;
 
   const openCloneDialog = () => {
     addActiveDialog(
@@ -44,7 +46,7 @@ export default function SloActions({ item }: Props) {
   return (
     <Stack align="end">
       <MoreMenu kind="subtle">
-        <MoreMenuButton icon="lib_actions_edit" onClick={openEditDialog}>
+        <MoreMenuButton icon="lib_actions_edit" disabled={disabled} onClick={disabled ? noop : openEditDialog}>
           {t('in-service-levels:general.editButtonLabel')}
         </MoreMenuButton>
         <MoreMenuButton icon="lib_actions_copy" onClick={openCloneDialog}>
