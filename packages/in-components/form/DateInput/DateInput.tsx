@@ -38,6 +38,7 @@ interface DateInputProps {
    * small width, so that about 10 chars fit well into it.
    */
   fixedWidth?: boolean;
+  hasError?: boolean;
 }
 
 export default function DateInput(props: DateInputProps) {
