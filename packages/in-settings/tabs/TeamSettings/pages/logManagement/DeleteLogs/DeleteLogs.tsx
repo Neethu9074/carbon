@@ -5,7 +5,6 @@
  */
 
 import React, { SetStateAction, useState } from 'react';
-import classNames from 'classnames';
 
 import { DeleteLogsHistoryResult } from '@instana/types/typeDefinitions';
 import { Button, SvgIcon, Typography } from '@instana/components';
@@ -186,7 +185,7 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
       <section className={locals.confirmationDialogContent}>
         <Typography variant="body-regular">{localisationStrings.confirmationDescription}</Typography>
         <section className={locals.deleteUntilSection}>
-          <Label className={classNames(dateTimeValidationMessage && locals.invalidInput)} htmlFor="deletionUntilDate">
+          <Label htmlFor="deletionUntilDate">
             {localisationStrings.deletionUntilDate}
             <DateInput
               hasError={!!dateTimeValidationMessage}
@@ -198,7 +197,7 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
               <ValidationBlock className={locals.validationMessage}>{dateTimeValidationMessage}</ValidationBlock>
             )}
           </Label>
-          <Label className={classNames(dateTimeValidationMessage && locals.invalidInput)} htmlFor="deletionUntilTime">
+          <Label htmlFor="deletionUntilTime">
             {localisationStrings.deletionUntilTime}
             <TimeInput
               hasError={!!dateTimeValidationMessage}
@@ -207,7 +206,7 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
             />
           </Label>
         </section>
-        <Label className={classNames(reasonValidationMessage && locals.invalidInput)} htmlFor="reason">
+        <Label htmlFor="reason">
           {localisationStrings.deletionReason}
           <Input
             hasError={!!reasonValidationMessage}
@@ -220,7 +219,7 @@ function DeleteLogsDialog({ setShowConfirmation, setIsDeleting, isDeleting }: De
             <ValidationBlock className={locals.validationMessage}>{reasonValidationMessage}</ValidationBlock>
           )}
         </Label>
-        <Label className={classNames(validationValidationMessage && locals.invalidInput)} htmlFor="typingValidation">
+        <Label htmlFor="typingValidation">
           {localisationStrings.typeValidation}
           <Input
             hasError={!!validationValidationMessage}
