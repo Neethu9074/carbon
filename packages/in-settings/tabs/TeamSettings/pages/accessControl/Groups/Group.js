@@ -10,11 +10,13 @@ import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 
 import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import { removeAdditionalPermissionsForNoaccess } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import {
   getGroupWithIdpFlagAsResultObservable,
   saveGroup,
   createNewGroup
 } from 'in-settings/tabs/TeamSettings/api/groups';
+import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { RemoveUserDialog } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/RemoveUserDialog';
 import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -186,34 +188,39 @@ function changeGroupName(form, updateForm, setMessage, updateGroupId) {
   saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm, updateGroupId });
 }
 
-function getPermissionSetWithApFilters(form) {
+function getPermissionSetWithApFilters(permissionSet, form) {
   const backendModel = toBackendQueryModel(form.get('tagFilterExpression').value, true);
   const contributionFilterConfig = {
     tagFilterExpression: backendModel,
     scope: form.get('scope')?.value,
     label: form.get('label')?.value
   };
-  const permissionSet = {
-    ...form.get('permissionSet').value,
+  const permissionSetWithFilter = {
+    ...permissionSet,
     ['restrictedApplicationFilter']: contributionFilterConfig
   };
-  return permissionSet;
+  return permissionSetWithFilter;
 }
 
 function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
   const isRestrictedFilter = applicationContributionFilterEnabled && form.get('tagFilterExpression').value?.length > 0;
-
+  let permissionSet = form.get('permissionSet').value;
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
     setCanSaveItem(false);
     return;
   }
 
+  permissionSet = removeAdditionalPermissionsForNoaccess(
+    [ProductArea.APPLICATION, ProductArea.INFRASTRUCTURE],
+    permissionSet
+  );
+
   const group = {
     id: form.get('id').value,
     name: form.get('name').value,
     members: form.get('members').value,
-    permissionSet: isRestrictedFilter ? getPermissionSetWithApFilters(form) : form.get('permissionSet').value
+    permissionSet: isRestrictedFilter ? getPermissionSetWithApFilters(permissionSet, form) : permissionSet
   };
 
   setMessage({ text: t('in-settings:tabs.savingGroup'), type: 'neutral', isSaving: true });

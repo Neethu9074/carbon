@@ -35,7 +35,6 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { AreaPermission } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'infraDfqFilter';
@@ -88,19 +87,10 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
       role
     );
 
-    // ACCESS_INFRASTRUCTURE_ANALYZE is implicitely removed if NO_ACCESS to ACCESS_INFRASTRUCTURE is set
-    const newPermissions =
-      limitation === ScopedPermissionItem.NO_ACCESS
-        ? restPermissionSet.permissions.filter(
-            permission => AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE !== permission
-          )
-        : restPermissionSet.permissions;
-    // infraDfqFilter is cleared in case limitation not set to LIMITED_ACCESS
     const newInfraFilter =
       limitation === ScopedPermissionItem.LIMITED_ACCESS ? infraFilter : { scopeId: '', scopeRoleId: '-1' };
     const newPermissionSet = {
       ...restPermissionSet,
-      permissions: newPermissions,
       [entityPermissionKey]: newInfraFilter
     };
 

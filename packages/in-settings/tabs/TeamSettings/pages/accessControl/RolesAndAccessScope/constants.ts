@@ -12,7 +12,8 @@ import {
   Capability,
   CapabilityType,
   LimitedAccessScope,
-  LimitedAccessScopeType
+  LimitedAccessScopeType,
+  PermissionsUnion
 } from 'in-stores/permission';
 import { automationPoliciesEnabled, infraSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
@@ -209,6 +210,7 @@ interface ProductAreaAccess {
   limitation?: LimitedAccessScopeType;
   permission?: AreaPermissionType;
   capabilities: Array<CapabilityType>;
+  additionalCapabilities?: PermissionsUnion[];
 }
 
 type ProductAreaPermissionStructure = Record<ProductAreaType, ProductAreaAccess>;
@@ -227,7 +229,8 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.APPLICATION]: {
     limitation: LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
     permission: AreaPermission.ACCESS_APPLICATIONS,
-    capabilities: applicationCapabilities
+    capabilities: applicationCapabilities,
+    additionalCapabilities: applicationAdditionalCapabilities
   },
   [ProductArea.KUBERNETES]: {
     limitation: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
@@ -272,7 +275,8 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.INFRASTRUCTURE]: {
     limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
     permission: AreaPermission.ACCESS_INFRASTRUCTURE,
-    capabilities: noCapabilities
+    capabilities: noCapabilities,
+    additionalCapabilities: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE] as PermissionsUnion[]
   },
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,

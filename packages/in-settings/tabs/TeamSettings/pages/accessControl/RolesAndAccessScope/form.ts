@@ -261,3 +261,20 @@ export const getDefaultApplicationConfig = (applicationContributionfilterName: s
     tagFilterExpression: []
   };
 };
+
+export const removeAdditionalPermissionsForNoaccess = (
+  productAreas: LimitableProductArea[],
+  permissionSet: PermissionSet
+) => {
+  let permissions = permissionSet.permissions as PermissionsUnion[];
+
+  productAreas.map(productArea => {
+    const limitation = getScopeFromProductArea(productArea, permissionSet);
+    if (limitation === ScopedPermissionItem.NO_ACCESS) {
+      permissions = permissions.filter(
+        permission => !ProductAreaPermissionMap[productArea]?.additionalCapabilities?.includes(permission)
+      );
+    }
+  });
+  return { ...permissionSet, permissions };
+};
