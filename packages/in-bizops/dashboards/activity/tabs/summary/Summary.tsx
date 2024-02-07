@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
-import { bizopsActivityDistributionChartsEnabled, bizopsFeatureEnabled } from 'in-services/featureFlags';
+import { bizopsActivityDistributionChartsEnabled, bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -41,7 +41,7 @@ export default function Summary() {
 
   return (
     <Fragment>
-      {bizopsFeatureEnabled && ( // generic FF while under development
+      {bizopsGoldenSignalsEnabled && (
         <KpiGridRow sizes={[true, true]}>
           <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityCount')} />
           <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityErrors')} />
@@ -71,14 +71,14 @@ export default function Summary() {
             businessProcessName={businessProcessName}
           />
         </Col>
-        {bizopsFeatureEnabled && (
+        {bizopsGoldenSignalsEnabled && (
           <Col lg>
             <BizOpsErrorsChart />
           </Col>
         )}
       </Row>
       <Row>
-        {bizopsFeatureEnabled && (
+        {bizopsGoldenSignalsEnabled && (
           <Col lg>
             <BizOpsLatencyChart />
           </Col>

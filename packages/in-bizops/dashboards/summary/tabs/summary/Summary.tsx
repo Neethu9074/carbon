@@ -13,9 +13,9 @@ import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
 import BizOpsErrorsChart from 'in-bizops/components/BizOpsErrorsChart';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import ProcessMetricKpiCard from './components/ProcessMetricsKpiCard';
+import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { bizopsFeatureEnabled } from 'in-services/featureFlags';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -37,7 +37,7 @@ export default function Summary() {
 
   return (
     <Fragment>
-      {bizopsFeatureEnabled && ( // generic FF while under development
+      {bizopsGoldenSignalsEnabled && (
         <KpiGridRow sizes={[true, true]}>
           <ProcessMetricKpiCard title={t('in-bizops:dashboards.summary.widgets.processCount')} />
           <ProcessMetricKpiCard title={t('in-bizops:dashboards.summary.widgets.processErrors')} />
@@ -66,14 +66,14 @@ export default function Summary() {
             businessProcessName={businessProcessName}
           />
         </Col>
-        {bizopsFeatureEnabled && (
+        {bizopsGoldenSignalsEnabled && (
           <Col lg>
             <BizOpsErrorsChart />
           </Col>
         )}
       </Row>
       <Row>
-        {bizopsFeatureEnabled && (
+        {bizopsGoldenSignalsEnabled && (
           <Col lg>
             <BizOpsLatencyChart />
           </Col>

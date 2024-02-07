@@ -306,6 +306,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsGoldenSignalsEnabled',
+    instanaCtlKey: 'feature.bizops.golden.signals.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
     instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
     defaultValue: false

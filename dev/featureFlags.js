@@ -11,6 +11,7 @@ module.exports = {
   businessObservabilityEnabled: true,
   bizopsFeatureEnabled: true,
   bizopsActivityDistributionChartsEnabled: true,
+  bizopsGoldenSignalsEnabled: true,
   bizopsImpactedBusinessProcessesTableEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
