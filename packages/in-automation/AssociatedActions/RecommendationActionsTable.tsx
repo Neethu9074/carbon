@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, Stack } from '@instana/components';
+import { Spacer, Stack, Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -21,9 +21,11 @@ import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useS
 import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
+import { Action, ApplicationAlertConfigWithMetadata, VolatileId, Event } from 'in-types';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
-import { Action, ApplicationAlertConfigWithMetadata } from 'in-types';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { usePagination } from 'in-automation/Policies/usePagination';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -43,7 +45,9 @@ interface RecommendedActionsCardAlertsProps {
   isCustomEvent: boolean;
   setError: (e: boolean) => void;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
   isApplicationSmartAlert?: boolean;
+  event: Event;
 }
 
 export default function RecommendationActionsTable({
@@ -54,7 +58,9 @@ export default function RecommendationActionsTable({
   setError,
   isCustomEvent,
   setSelectedType,
-  isApplicationSmartAlert = false
+  isApplicationSmartAlert = false,
+  volatileId,
+  event
 }: RecommendedActionsCardAlertsProps) {
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = usePagination('score', 'DESC');
   const { filteredActions, types, setTypes, aiEngines, setAiEngines } = useFilters(
@@ -125,7 +131,18 @@ export default function RecommendationActionsTable({
                   />
                 </Tooltip>
               ) : (
-                <div />
+                // <div />
+
+                <Button
+                  kind="action"
+                  icon={'lib_actions_play'}
+                  onClick={() =>
+                    addActiveDialog(<RunActionDialog action={item} volatileId={volatileId} event={event} />)
+                  }
+                  noAutoMargin
+                >
+                  {t('in-automation:ActionCatalog.run')}
+                </Button>
               )
           }
         ]}

@@ -192,6 +192,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
   else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
   else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
+  // else if (isExternal(action.type)) query = 'entity.agent.capability:action-turbo';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }

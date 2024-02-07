@@ -26,6 +26,7 @@ import {
   isAnsible,
   isScript,
   isManual,
+  isExternal,
   isWebhook,
   isGithub,
   isGitlab,
@@ -146,6 +147,9 @@ export default function RunActionDialogContent({
   }
   if (isManual(action.type)) {
     return <ManualActionContent action={action} />;
+  }
+  if (isExternal(action.type)) {
+    return <ExternalActionContent action={action} />;
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
@@ -420,6 +424,35 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
 }
 
 function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const content = getManualContentFromFields(action.fields);
+  let contentText = content.value;
+  if (content.encoding === 'base64') {
+    contentText = atob(contentText);
+  }
+
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
+        title={t('in-automation:ActionCatalog.content')}
+      >
+        <Spacer vertical="normal" />
+        <div className={locals.manualContentMarkdown}>
+          <DangerousHtmlPresenter html={toHtml(contentText, { breaks: true })} />
+          <CopyToClipboard getText={() => contentText}>
+            {refSetter => (
+              <span ref={refSetter}>
+                <IconButton onClick={stopPropagationAndPreventDefault} type="lib_actions_copy" />
+              </span>
+            )}
+          </CopyToClipboard>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function ExternalActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const content = getManualContentFromFields(action.fields);
   let contentText = content.value;
   if (content.encoding === 'base64') {

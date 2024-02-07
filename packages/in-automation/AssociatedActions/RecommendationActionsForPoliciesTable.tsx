@@ -7,19 +7,21 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, Stack } from '@instana/components';
+import { Spacer, Stack, Button } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { Action, ApplicationAlertConfigWithMetadata, Policy, Result, VolatileId, Event } from 'in-types';
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
-import { Action, ApplicationAlertConfigWithMetadata, Policy, Result } from 'in-types';
 import { ScoredAction, saveNewPolicy, EventSpecification } from 'in-automation/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { usePagination } from 'in-automation/Policies/usePagination';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { isLoading, hasError } from 'in-services/util/result';
@@ -38,6 +40,8 @@ interface RecommendedActionsCardAlertsProps {
   isCustomEvent: boolean;
   isApplicationSmartAlert?: boolean;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
+  event: Event;
 }
 
 export default function RecommendationActionForPoliciesTable({
@@ -46,7 +50,9 @@ export default function RecommendationActionForPoliciesTable({
   triggerReload,
   isCustomEvent,
   isApplicationSmartAlert = false,
-  setSelectedType
+  setSelectedType,
+  volatileId,
+  event
 }: RecommendedActionsCardAlertsProps) {
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = usePagination('score', 'DESC');
   const { filteredActions, types, setTypes, aiEngines, setAiEngines } = useFilters(
@@ -116,7 +122,15 @@ export default function RecommendationActionForPoliciesTable({
                 />
               </Tooltip>
             ) : (
-              <div />
+              // <div />
+              <Button
+                kind="action"
+                icon={'lib_actions_play'}
+                onClick={() => addActiveDialog(<RunActionDialog action={item} volatileId={volatileId} event={event} />)}
+                noAutoMargin
+              >
+                {t('in-automation:ActionCatalog.run')}
+              </Button>
             )
         }
       ]}
