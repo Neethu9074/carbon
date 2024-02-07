@@ -9,6 +9,7 @@ import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { keyCodes } from '@instana/components';
 
 import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
@@ -19,7 +20,6 @@ import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import { t, activeLanguage } from 'in-i18n';
-import { useTheme } from 'in-themes';
 import { Nullish } from 'in-types';
 
 import locals from './DateInput.mless';
@@ -125,12 +125,11 @@ interface DatePickerOverlayProps {
 }
 
 function DatePickerOverlay({ onChange, close, value }: DatePickerOverlayProps) {
-  const theme = useTheme();
   const dateValid = dateValidator(value) == null;
 
   const modifiersStyles = {
-    selected: { backgroundColor: theme.ids.color.option.teal['500'] },
-    current: { color: theme.ids.color.option.neutral['900'] }
+    selected: { backgroundColor: themes.default.ids.color.option.teal['500'] },
+    current: { color: themes.default.ids.color.option.neutral['900'] }
   } as const;
 
   const modifiers = {

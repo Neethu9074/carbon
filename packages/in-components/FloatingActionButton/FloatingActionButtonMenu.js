@@ -7,15 +7,14 @@ import ClickAwayListener from 'react-click-away-listener';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
-import { useTheme } from 'in-themes';
 
 import locals from './FloatingActionButtonMenu.mless';
 
 export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
-  const theme = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const filteredItems = children ? children.filter?.(Boolean) ?? [children] : [];
   const hasNoItems = filteredItems.length === 0;
@@ -46,7 +45,7 @@ export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
             <SvgIcon
               type={'lib_openclose_add'}
               className={menuOpen ? locals.rotate : ''}
-              color={theme.ids.color.option.white}
+              color={themes.default.ids.color.option.white}
             />
             <label className={menuOpen ? locals.labelHidden : ''}>{label}</label>
           </div>

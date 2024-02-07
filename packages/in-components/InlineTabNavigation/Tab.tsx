@@ -7,12 +7,12 @@ import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { toInteractiveElement } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import WithHealthDot from 'in-components/health/WithHealthDot/WithHealthDot';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Tab.mless';
@@ -40,17 +40,16 @@ export default function Tab({
   healthSeverity,
   withoutBottomBorder
 }: TabProps) {
-  const theme = useTheme();
   let iconElement = icon && (
     <SvgIcon
       className={locals.tabIcon}
       type={icon}
       color={
         isDisabled
-          ? theme.ids.color.option.neutral['400']
+          ? themes.default.ids.color.option.neutral['400']
           : isActive
-          ? theme.ids.color.option.neutral['900']
-          : theme.ids.color.option.neutral['600']
+          ? themes.default.ids.color.option.neutral['900']
+          : themes.default.ids.color.option.neutral['600']
       }
     />
   );
