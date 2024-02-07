@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Field, Item, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -21,23 +22,19 @@ import { Trans, t } from 'in-i18n';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
-interface SyntheticDatacenterProps extends SyntheticDatacenter {
-  provider: string;
-}
-
 interface ManagedLocationProps {
-  selectedDatacenter: string;
-  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
 }
 
-const ManagedLocation = ({ selectedDatacenter, setSelectedDatacenter }: ManagedLocationProps) => {
+const ManagedLocation = ({ form, updateForm }: ManagedLocationProps) => {
   const popDocsUrl = 'https://ibm.biz/pop_deployment';
 
-  const datacenters: Observable<SyntheticDatacenterProps[]> = getDatacenters({})
+  const datacenters: Observable<SyntheticDatacenter[]> = getDatacenters({})
     .map(result => {
-      return (result as Result<SyntheticDatacenterProps[]>)?.data;
+      return (result as Result<SyntheticDatacenter[]>)?.data;
     })
-    .map(result => result ?? ([] as SyntheticDatacenterProps[]));
+    .map(result => result ?? ([] as SyntheticDatacenter[]));
 
   return (
     <div className={locals.wrapper}>
@@ -56,9 +53,9 @@ const ManagedLocation = ({ selectedDatacenter, setSelectedDatacenter }: ManagedL
             />
           </Typography>
         </div>
-        <List<SyntheticDatacenterProps>
+        <List<SyntheticDatacenter>
           getHeader={() => null}
-          columnDefinitions={getColumnDefinitions(selectedDatacenter, setSelectedDatacenter)}
+          columnDefinitions={getColumnDefinitions(form, updateForm)}
           loadEntities={() => datacenters}
           renderNoDataAvailable={() => (
             <NoDataAvailable
@@ -76,24 +73,42 @@ const ManagedLocation = ({ selectedDatacenter, setSelectedDatacenter }: ManagedL
   );
 };
 
-function getColumnDefinitions(
-  selectedDatacenter: string,
-  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>
-): Array<ColumnDefinition<SyntheticDatacenterProps>> {
+const getColumnDefinitions = (
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void
+): Array<ColumnDefinition<SyntheticDatacenter>> => {
+  const datacentersField = form.get('syntheticDatacenters') as Field<SyntheticDatacenter[]>;
   const severity: Record<string, number> = { Active: 0, Pending: 5, Failure: 10 };
+
+  const onDatacenterSelect = (entity: SyntheticDatacenter) => {
+    const selectedDatacenters = datacentersField.value;
+    const { code, label, provider, countryName, cityName, latitude, longitude, status } = entity;
+    const index = selectedDatacenters.findIndex(datacenter => datacenter?.code === code);
+    if (index !== -1) {
+      selectedDatacenters.splice(index, 1);
+    } else {
+      selectedDatacenters.push({ code, label, provider, countryName, cityName, latitude, longitude, status });
+    }
+    updateForm(
+      form.updateIn(['syntheticDatacenters'], (field: Item) =>
+        (field as Field<SyntheticDatacenter[]>).setValue(selectedDatacenters).setTouched(true)
+      )
+    );
+  };
+
   return [
     {
       id: 'datacenter_code',
       label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterCode'),
       defaultOrderDirection: 'ASC',
-      getContent(entity: SyntheticDatacenterProps) {
+      getContent(entity: SyntheticDatacenter) {
         return (
           <CheckboxFancy
             asRadioButton
-            label={entity.code}
-            checked={selectedDatacenter === entity.code}
-            onChange={() => setSelectedDatacenter(selectedDatacenter === entity.code ? '' : entity.code!)}
-            disabled={entity.status !== 'Inactive'}
+            label={entity?.code}
+            checked={datacentersField.value.findIndex(datacenter => datacenter?.code === entity?.code) !== -1}
+            onChange={() => onDatacenterSelect(entity)}
+            disabled={entity?.status !== 'Inactive'}
           />
         );
       }
@@ -102,7 +117,7 @@ function getColumnDefinitions(
       id: 'datacenter_name',
       label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterName'),
       defaultOrderDirection: 'ASC',
-      getContent(entity: SyntheticDatacenterProps) {
+      getContent(entity: SyntheticDatacenter) {
         return <span className={locals.label}>{entity.label}</span>;
       }
     },
@@ -110,7 +125,7 @@ function getColumnDefinitions(
       id: 'provider',
       label: t('in-synthetics:dialog.createLocation.managedLocation.provider'),
       defaultOrderDirection: 'ASC',
-      getContent(entity: SyntheticDatacenterProps) {
+      getContent(entity: SyntheticDatacenter) {
         return <span className={locals.label}>{entity.provider}</span>;
       }
     },
@@ -118,20 +133,20 @@ function getColumnDefinitions(
       id: 'status',
       label: t('in-synthetics:dialog.createLocation.managedLocation.status'),
       defaultOrderDirection: 'ASC',
-      getContent(entity: SyntheticDatacenterProps) {
+      getContent(entity: SyntheticDatacenter) {
         return (
           <div className={locals.entityWrapper}>
             <HealthDot
-              className={classNames({ [locals.dot]: true, [locals.inactive]: entity.status === 'Inactive' })}
-              severity={entity.status ? severity[entity.status] : undefined}
+              className={classNames({ [locals.dot]: true, [locals.inactive]: entity?.status === 'Inactive' })}
+              severity={entity?.status ? severity[entity?.status] : undefined}
               iconSize={8}
             />
-            <span>{entity.status}</span>
+            <span>{entity?.status}</span>
           </div>
         );
       }
     }
   ];
-}
+};
 
 export default ManagedLocation;

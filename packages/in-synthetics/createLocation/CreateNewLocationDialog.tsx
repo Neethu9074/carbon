@@ -15,7 +15,7 @@ interface Props {
 
 const CreateNewLocationDialog = ({ onClose }: Props) => {
   const formId = 'new-location-form';
-  const [form, updateForm] = useState(() => createNewLocationForm());
+  const [form, updateForm] = useState(() => createNewLocationForm('private'));
 
   const [simpleModeStep, setSimpleModeStep] = useState(0);
 

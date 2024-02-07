@@ -24,7 +24,6 @@ interface Props {
   selectedBlueprint: LocationsBluePrint;
   setSelectedBlueprint: (item: LocationsBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
-  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
   checkLicense: Result<SyntheticDatacenter[]>;
 }
 interface Description {
@@ -32,13 +31,7 @@ interface Description {
   htmlContent: string;
 }
 
-const SelectLocationType = ({
-  selectedBlueprint,
-  setSelectedBlueprint,
-  updateForm,
-  setSelectedDatacenter,
-  checkLicense
-}: Props) => {
+const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, checkLicense }: Props) => {
   const getWarningMessage = () => {
     if (!checkLicense.progress.loading) {
       if (checkLicense.errors.length !== 0) {
@@ -68,8 +61,7 @@ const SelectLocationType = ({
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
           setSelectedBlueprint(item);
-          setSelectedDatacenter('');
-          updateForm(createNewLocationForm());
+          updateForm(createNewLocationForm(item.type));
         }}
       />
       <div className={locals.presenterWrapper}>

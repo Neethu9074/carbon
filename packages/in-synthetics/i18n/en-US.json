@@ -265,7 +265,6 @@
         "contentWrapperHeadline": "What type of location would you like to use?"
       },
       "privateLocation": {
-        "type": "private",
         "name": "Private",
         "headline": "Private Location",
         "description": {
@@ -274,7 +273,6 @@
         }
       },
       "managedLocation": {
-        "type": "managed",
         "name": "Managed",
         "headline": "Managed Location",
         "description": {
@@ -287,6 +285,9 @@
         "provider": "Provider",
         "status": "Status",
         "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>."
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
       },
       "licenseCheck": {
         "title": "You need a license.",

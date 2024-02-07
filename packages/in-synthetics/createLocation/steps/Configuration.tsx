@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -13,11 +14,11 @@ import { LocationsBluePrint } from 'in-synthetics/createLocation/bluePrints';
 
 interface Props {
   selectedBlueprint: LocationsBluePrint;
-  selectedDatacenter: string;
-  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
 }
 
-const ConfigurationStep = ({ selectedBlueprint, selectedDatacenter, setSelectedDatacenter }: Props) => {
+const ConfigurationStep = ({ selectedBlueprint, form, updateForm }: Props) => {
   const isPrivateLocation = selectedBlueprint.type === 'private';
   const isManagedLocation = selectedBlueprint.type === 'managed';
 
@@ -26,7 +27,7 @@ const ConfigurationStep = ({ selectedBlueprint, selectedDatacenter, setSelectedD
   }
 
   if (isManagedLocation) {
-    return <ManagedLocation selectedDatacenter={selectedDatacenter} setSelectedDatacenter={setSelectedDatacenter} />;
+    return <ManagedLocation form={form} updateForm={updateForm} />;
   }
 
   // If for some random case there is no private or managed location defined,

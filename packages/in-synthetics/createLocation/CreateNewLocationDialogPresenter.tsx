@@ -9,18 +9,23 @@ import { MapForm } from 'formalistic';
 
 import { Result, SyntheticDatacenter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { createLogger } from '@instana/logger';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import getSyntheticDatacenterDeployment from 'in-synthetics/subscriptions/getSyntheticDatacenterDeployment';
 import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocationType';
 import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import Configuration from 'in-synthetics/createLocation/steps/Configuration';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getDatacenters } from 'in-synthetics/api';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
+
+const logger = createLogger('in-synthetics/createLocation/CreateNewLocationDialogPresenter');
 
 interface Props {
   onClose: () => void;
@@ -54,7 +59,21 @@ const CreateNewLocationDialogPresenter = ({
 
   // Locations Blueprint State
   const [selectedBlueprint, setSelectedBlueprint] = useState(getLocationsBluePrintConfig()[0]);
-  const [selectedDatacenter, setSelectedDatacenter] = useState('');
+
+  const onSubmit = () => {
+    getSyntheticDatacenterDeployment({
+      deploymentAction: 'activate',
+      syntheticDatacenters: form.get('syntheticDatacenters').value
+    }).once(
+      () => {
+        // action on success
+      },
+      error => {
+        onClose();
+        logger.error(`failed to activate datacenters : ${deserializeErrorMessage(error.message)}`, error);
+      }
+    );
+  };
 
   return (
     <DialogWithSlideInView
@@ -70,7 +89,7 @@ const CreateNewLocationDialogPresenter = ({
             formId={formId}
             form={form}
             updateForm={updateForm}
-            onCreate={onClose}
+            onCreate={selectedBlueprint.type === 'private' ? onClose : onSubmit}
             simpleModeStep={simpleModeStep}
             setSimpleModeStep={setSimpleModeStep}
             stepConfigs={stepConfigs}
@@ -83,18 +102,11 @@ const CreateNewLocationDialogPresenter = ({
                       selectedBlueprint={selectedBlueprint}
                       setSelectedBlueprint={setSelectedBlueprint}
                       updateForm={updateForm}
-                      setSelectedDatacenter={setSelectedDatacenter}
                       checkLicense={checkLicense}
                     />
                   );
                 case 1:
-                  return (
-                    <Configuration
-                      selectedBlueprint={selectedBlueprint}
-                      selectedDatacenter={selectedDatacenter}
-                      setSelectedDatacenter={setSelectedDatacenter}
-                    />
-                  );
+                  return <Configuration selectedBlueprint={selectedBlueprint} form={form} updateForm={updateForm} />;
                 default:
                   return null;
               }
