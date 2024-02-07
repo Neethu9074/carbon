@@ -16,14 +16,14 @@
 > this PR, remove them.
 
 - [ ] Pull request tagged with one of the `type:*`[labels](https://github.ibm.com/instana/ui-client/blob/develop/docs/PR_WORKFLOW.md#applying-labels-to-your-pr)
-- [ ] Feature flags added [as explained in the docs](https://www.notion.so/instana/Using-Feature-Flags-81b9bc1405b84af2854321d22519000e#684213e4679e4f8ea1cb37f046f165f0)
+- [ ] Feature flags added [as explained in the docs](https://ibm.ent.box.com/file/1428459969372?sb=/activity)
 - [ ] Changes are visually consistent with current components
 - [ ] New user facing components were discussed with our design community
 - [ ] Add before/after screenshots
 - [ ] Affected areas were tested manually and everything works as expected
 - [ ] User facing change? Release Notes PR created and linked in references
 - [ ] Documentation needs an update? Docs PR created and linked in references
-- [ ] [Pull Request Guidelines](https://www.notion.so/instana/Pull-Request-reviews-8fd1ae2f48b84e53b1ef00accb0e52db?pvs=4) applied
+- [ ] [Pull Request Guidelines](https://github.ibm.com/instana/ui-notion-pages/blob/main/Frontend-Enablement/Process/Pull-Request-Guidelines.md) applied
 
 # References
 
