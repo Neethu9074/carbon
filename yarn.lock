@@ -2035,11 +2035,12 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.36.0":
-  version "2.36.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.36.0.tgz#eb319a578ab6c9315722c63c39e1c65ee3787527"
-  integrity sha512-b2Ddfrmwti8ynQoJXHe5RKM6Gc83iyarQ5sLxZgJ6gMTw8hyyvt0d4hLGVHVqUCH8/MHUqH07gl2CXA7+UHoPw==
+"@instana/components@2.37.0":
+  version "2.37.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.37.0.tgz#1b08008c525ca2ccef553444e3f67a77840e7733"
+  integrity sha512-3cOTPisptkN4u5C4WjB+c76wb19FDPM0EAijfkAjVbJR0daJrRyRzKtbiui6sUgORcElQoQHK0f6V3Lc5Q64wg==
   dependencies:
+    "@carbon/colors" "^11.14.0"
     "@carbon/icons-react" "^11.18.0"
     "@carbon/layout" "11.13.0"
     "@carbon/react" "1.27.0"
