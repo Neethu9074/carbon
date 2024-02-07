@@ -19,7 +19,7 @@ import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
-export default function Docker({ agentKey }: OnboardingProps): JSX.Element {
+export default function Docker({ agentKey, downloadKey }: OnboardingProps): JSX.Element {
   const [agentZone, setAgentZone] = useState<string>('');
   const sideCardData = [
     {
@@ -85,12 +85,12 @@ export default function Docker({ agentKey }: OnboardingProps): JSX.Element {
       '--pid=host \\',
       '--env="INSTANA_AGENT_ENDPOINT=ingress-blue-saas.instana.io" \\',
       '--env="INSTANA_AGENT_ENDPOINT_PORT=443" \\',
-      '--env="INSTANA_AGENT_KEY=dummy" \\',
-      '--env="INSTANA_DOWNLOAD_KEY=dummy" \\',
+      `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
+      `--env="INSTANA_DOWNLOAD_KEY=${downloadKey}" \\`,
       zoneEnv,
       'icr.io/instana/agent'
     ];
-  }, [agentZone]);
+  }, [agentZone, agentKey, downloadKey]);
 
   return (
     <Container>
