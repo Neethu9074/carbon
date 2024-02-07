@@ -7,12 +7,13 @@
 import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
+import ProcessMetricKpiCard from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessMetricsKpiCard';
+import ProcessErrorsKpiCard from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessErrorsKpiCard';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
 import BizOpsErrorsChart from 'in-bizops/components/BizOpsErrorsChart';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
-import ProcessMetricKpiCard from './components/ProcessMetricsKpiCard';
 import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -39,8 +40,12 @@ export default function Summary() {
     <Fragment>
       {bizopsGoldenSignalsEnabled && (
         <KpiGridRow sizes={[true, true]}>
-          <ProcessMetricKpiCard title={t('in-bizops:dashboards.summary.widgets.processCount')} />
-          <ProcessMetricKpiCard title={t('in-bizops:dashboards.summary.widgets.processErrors')} />
+          <ProcessMetricKpiCard
+            title={t('in-bizops:dashboards.summary.widgets.processCount')}
+            timeConfig={timeConfig}
+            processId={businessProcessId}
+          />
+          <ProcessErrorsKpiCard title={t('in-bizops:dashboards.summary.widgets.processErrors')} />
         </KpiGridRow>
       )}
       <Row>
