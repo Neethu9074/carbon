@@ -102,6 +102,7 @@ module.exports = {
   applicationContributionFilterEnabled: true,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
+  flowMapEnabled: true,
   simplifiedFlowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,

@@ -11,11 +11,11 @@ import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/Err
 import FlowMapSimplified from 'in-applications/Dashboards/service/tabs/FlowMapSimplified';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import LogMessagesTab from 'in-components/Logging/Dashboards/components/LogMessages';
+import { flowMapEnabled, simplifiedFlowMapEnabled } from 'in-services/featureFlags';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';
 import { serviceDashboard } from 'in-applications/navigation/paths';
-import { simplifiedFlowMapEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -25,7 +25,7 @@ export default [
     path: `${serviceDashboard}/summary`,
     component: wrapWithMessage(Summary)
   },
-  {
+  flowMapEnabled && {
     label: t('in-applications:labelFlow'),
     path: `${serviceDashboard}/flowMap`,
     component: FlowMap,

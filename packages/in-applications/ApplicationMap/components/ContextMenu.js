@@ -19,6 +19,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { boundaryScopes } from 'in-applications/constants';
+import { flowMapEnabled } from 'in-services/featureFlags';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -60,19 +61,21 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
         {t('in-applications:buttonGoToDashboard')}
       </Button>
 
-      <Button
-        className={locals.button}
-        kind="subtle"
-        icon="lib_actions_flow_layout"
-        href={getLinkToServiceDashboard({
-          applicationId,
-          serviceId: node.id,
-          boundaryScope: boundaryScopes.all,
-          tab: '/flowMap'
-        })}
-      >
-        {t('in-applications:buttonGoToFlow')}
-      </Button>
+      {flowMapEnabled && (
+        <Button
+          className={locals.button}
+          kind="subtle"
+          icon="lib_actions_flow_layout"
+          href={getLinkToServiceDashboard({
+            applicationId,
+            serviceId: node.id,
+            boundaryScope: boundaryScopes.all,
+            tab: '/flowMap'
+          })}
+        >
+          {t('in-applications:buttonGoToFlow')}
+        </Button>
+      )}
 
       <Button
         className={locals.button}
