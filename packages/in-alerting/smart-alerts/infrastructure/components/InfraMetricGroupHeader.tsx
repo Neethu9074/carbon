@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 import locals from './InfraMetricGroupTableList.mless';
 
-interface InfraMetricGroupHeaderProps {
+export interface InfraMetricGroupHeaderProps {
   isLoading?: boolean;
   totalHits?: number;
   setBackendQueryModel: (arg?: string) => void;
