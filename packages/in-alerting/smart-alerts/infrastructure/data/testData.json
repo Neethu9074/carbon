@@ -3,6 +3,9 @@
     "alertChannelIds": [],
     "description": "",
     "groupBy": [],
+    "predictiveTrigger": {
+      "timeToFailure": 1800000
+    },
     "name": "",
     "rule": {
       "alertType": "genericRule",
@@ -15,8 +18,9 @@
     "severity": 5,
     "threshold": {
       "type": "staticThreshold",
-      "lastUpdated": 0,
-      "operator": ">="
+      "operator": ">",
+      "value": 25,
+      "lastUpdated": 0
     },
     "timeThreshold": {
       "type": "violationsInSequence",
