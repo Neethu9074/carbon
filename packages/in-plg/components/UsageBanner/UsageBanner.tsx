@@ -4,17 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
-import { Link, LicenseBannerButton, SvgIcon, Stack, ThemeProvider } from '@instana/components';
+import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
 
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 //@ts-expect-error missing typescript migration
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -43,92 +41,82 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const queuedUpLicense = queuedLicenseDetails.data?.items[0]?.license.name;
   const isPaidLicenseUsage = message.activeLicense == 'paidPerUse' || message.activeLicense == 'hostBasedPaid';
   const noQueuedLicense = queuedUpLicense != 'paidPerUse' || queuedUpLicense != 'hostBasedPaid';
-  const sectionClass = isCarbonShellEnabled() ? undefined : classNames('g10', locals.section);
 
   return (
-    <>
-      <div className={sectionClass}>
-        <Stack align="center" direction="horizontal" gap="small">
+    <Stack align="center" direction="horizontal" gap="small">
+      {(message.activeLicense == 'selfService' ||
+        message.activeLicense == 'quota' ||
+        (message.activeLicense == 'free_not_for_resale' && message.remainingDays! <= 30) ||
+        (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
+        <>
+          <span className={locals.description}>{message.content}</span>
+          <IconForRemainingDays remainingDays={message.remainingDays} />
+        </>
+      )}
+
+      {onPremLicenseInformationEnabled && (
+        <div className={locals.subText}>
+          <Trans
+            i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
+            components={{
+              linkToDocker: (
+                //@ts-expect-error missing translation
+                <Link
+                  className={locals.bannerLink}
+                  external
+                  href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
+                />
+              ),
+              linkToKubernetes: (
+                //@ts-expect-error missing translation
+                <Link
+                  className={locals.bannerLink}
+                  external
+                  href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
+                />
+              )
+            }}
+          />
+        </div>
+      )}
+      {!onPremLicenseInformationEnabled && (
+        <>
+          {message.activeLicense == 'selfService' && (
+            <LicenseBannerButton
+              id="wm-buyonaws"
+              kind="primary"
+              target="_blank"
+              href="https://aws.amazon.com/marketplace/search/results?prevFilters=%257B%2522sr%2522%3A%25220-1%2522%2C%2522ref_%2522%3A%2522beagle%2522%2C%2522applicationId%2522%3A%2522AWSMPContessa%2522%257D&searchTerms=ibm+instana+observability"
+              //@ts-expect-error
+              rel="noopener noreferrer"
+              onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
+            >
+              {t('in-plg:licenseBanner.buyNowBtn')}
+            </LicenseBannerButton>
+          )}
           {(message.activeLicense == 'selfService' ||
             message.activeLicense == 'quota' ||
-            (message.activeLicense == 'free_not_for_resale' && message.remainingDays! <= 30) ||
             (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
-            <>
-              <span className={locals.description}>{message.content}</span>
-              <IconForRemainingDays remainingDays={message.remainingDays} />
-            </>
+            <LicenseBannerButton
+              icon="lib_actions_request_quote"
+              iconColor="var(--cds-link-primary)"
+              id="wm-requestaquote"
+              kind="ghost"
+              target="_blank"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
+                addActiveDialog(<RequestQuoteDialog />);
+              }}
+            >
+              {t('in-plg:licenseBanner.requestQuoteBtn')}
+            </LicenseBannerButton>
           )}
-
-          {onPremLicenseInformationEnabled && (
-            <div className={locals.subText}>
-              <Trans
-                i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
-                components={{
-                  linkToDocker: (
-                    //@ts-expect-error missing translation
-                    <Link
-                      className={locals.bannerLink}
-                      external
-                      href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
-                    />
-                  ),
-                  linkToKubernetes: (
-                    //@ts-expect-error missing translation
-                    <Link
-                      className={locals.bannerLink}
-                      external
-                      href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
-                    />
-                  )
-                }}
-              />
-            </div>
-          )}
-          {!onPremLicenseInformationEnabled && (
-            <>
-              {message.activeLicense == 'selfService' && (
-                // this is a workaround to get the blueish Carbon Button
-                // in theory the whole header should be wrapped in a g90 theme
-                // with dark background and bright ghost colors
-                <ThemeProvider theme="g10">
-                  <LicenseBannerButton
-                    data-walkme-id="wm-buyonaws"
-                    kind="primary"
-                    target="_blank"
-                    href="https://aws.amazon.com/marketplace/search/results?prevFilters=%257B%2522sr%2522%3A%25220-1%2522%2C%2522ref_%2522%3A%2522beagle%2522%2C%2522applicationId%2522%3A%2522AWSMPContessa%2522%257D&searchTerms=ibm+instana+observability"
-                    //@ts-expect-error
-                    rel="noopener noreferrer"
-                    onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
-                  >
-                    {t('in-plg:licenseBanner.buyNowBtn')}
-                  </LicenseBannerButton>
-                </ThemeProvider>
-              )}
-              {(message.activeLicense == 'selfService' ||
-                message.activeLicense == 'quota' ||
-                (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
-                <LicenseBannerButton
-                  icon="lib_actions_request_quote"
-                  iconColor="var(--cds-link-primary)"
-                  data-walkme-id="wm-requestaquote"
-                  kind="ghost"
-                  target="_blank"
-                  onClick={e => {
-                    stopPropagationAndPreventDefault(e);
-                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
-                    addActiveDialog(<RequestQuoteDialog />);
-                  }}
-                >
-                  {t('in-plg:licenseBanner.requestQuoteBtn')}
-                </LicenseBannerButton>
-              )}
-              <div className={locals.verticalLine} />
-              <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
-            </>
-          )}
-        </Stack>
-      </div>
-    </>
+          <div className={locals.verticalLine} />
+          <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
+        </>
+      )}
+    </Stack>
   );
 }
 

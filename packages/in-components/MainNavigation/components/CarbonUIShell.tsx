@@ -91,6 +91,7 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
+import useUIShellTitleDetail from 'in-plg/hooks/useUIShellTitleDetail';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import NewPlayWithHeader from 'in-plg/Demo/NewPlayWithHeader';
@@ -559,8 +560,10 @@ type CarbonUIShellProps = {
 };
 
 export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
+  const titleDetail = useUIShellTitleDetail();
+
   return (
-    <UIShell headerContent={<HeaderContent />}>
+    <UIShell titleDetail={titleDetail} headerContent={<HeaderContent />}>
       <HomeLink />
       <WebsiteMobileAppView />
       <BizOps />

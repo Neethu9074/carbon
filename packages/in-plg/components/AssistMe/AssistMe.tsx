@@ -10,6 +10,7 @@ import { LicenseBannerButton } from '@instana/components';
 
 import { carbonShellEnabled } from 'in-services/featureFlags';
 import IconButton from 'in-components/IconButton/IconButton';
+import { t } from 'in-i18n';
 
 export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) {
   if (tryOfferLicenseType) {
@@ -22,7 +23,7 @@ export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType:
             iconColor="currentColor"
             onClick={openAssistMe}
           >
-            Get Answers
+            {t('in-plg:licenseBanner.getAnswers')}
           </LicenseBannerButton>
         </div>
       );
