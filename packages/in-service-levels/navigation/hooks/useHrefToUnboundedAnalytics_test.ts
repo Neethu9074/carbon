@@ -6,13 +6,7 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import {
-  ApplicationSloEntity,
-  AvailabilityBlueprintIndicator,
-  LatencyBlueprintIndicator,
-  TimeConfig,
-  WebsiteSloEntity
-} from '@instana/types';
+import { ApplicationSloEntity, EventBasedSli, TimeBasedSli, TimeConfig, WebsiteSloEntity } from '@instana/types';
 
 import useBasicTagFilterExpressionOriginal from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
@@ -48,7 +42,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
   };
 
   describe('Given SLO entity is of type "application"', () => {
-    it('creates location object with matrix-parameter to group by endpoint-name, when entity object contains an endpoint-id', () => {
+    it('creates location object with matrix-parameter to group by endpoint-name, when entity object contains an enpoint-id', () => {
       // Given
       const entity: ApplicationSloEntity = {
         applicationId: 'someAppId',
@@ -58,7 +52,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         serviceId: 'someServiceId'
       };
 
-      const indicator: LatencyBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'latency',
         threshold: 0.8,
         type: 'eventBased'
@@ -80,7 +74,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
       );
     });
 
-    it('creates location object with matrix-parameter to group by service-name, when endpoint-id is missing in entity object', () => {
+    it('creates location object with matrix-parameter to group by service-name, when enpoint-id is missing in entity object', () => {
       // Given
       const entity: ApplicationSloEntity = {
         applicationId: 'someAppId',
@@ -89,7 +83,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         serviceId: 'someServiceId'
       };
 
-      const indicator: LatencyBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'latency',
         threshold: 0.8,
         type: 'eventBased'
@@ -120,7 +114,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         serviceId: 'someServiceId'
       };
 
-      const indicator: LatencyBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'latency',
         threshold: 0.8,
         type: 'eventBased'
@@ -151,7 +145,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         serviceId: 'someServiceId'
       };
 
-      const indicator: AvailabilityBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'availability',
         threshold: 0.8,
         type: 'eventBased'
@@ -183,7 +177,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         websiteId: 'someWebsiteId'
       };
 
-      const indicator: LatencyBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'latency',
         threshold: 0.8,
         type: 'eventBased'
@@ -213,7 +207,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         websiteId: 'someWebsiteId'
       };
 
-      const indicator: LatencyBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'latency',
         threshold: 0.8,
         type: 'eventBased'
@@ -244,7 +238,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         websiteId: 'someWebsiteId'
       };
 
-      const indicator: AvailabilityBlueprintIndicator = {
+      const indicator: EventBasedSli = {
         blueprint: 'availability',
         threshold: 0.8,
         type: 'eventBased'
@@ -275,7 +269,7 @@ describe('in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics', () =>
         websiteId: 'someWebsiteId'
       };
 
-      const indicator: LatencyBlueprintIndicator = {
+      const indicator: TimeBasedSli = {
         blueprint: 'latency',
         threshold: 0.8,
         type: 'timeBased',

@@ -23,6 +23,7 @@ export default function SloIndicatorTypeSelectorFormSection() {
 
   const isIndicatorTimeBased = typeField.value === 'timeBased';
   const isIndicatorEventBased = typeField.value === 'eventBased';
+  const isIndicatorCustomEventBased = typeField.value === 'customEventBased';
 
   const isIndicatorCustomBased = blueprintField.value === 'custom';
   const isFormInEditMode = mode === 'EDIT';
@@ -51,17 +52,34 @@ export default function SloIndicatorTypeSelectorFormSection() {
             wrapperClassName={locals.checkboxWrapper}
           />
         )}
-        <CheckboxFancy
-          asRadioButton
-          checked={isIndicatorEventBased}
-          disabled={isFormInEditMode}
-          explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}
-          label={t('in-service-levels:createSloDialog.indicatorSection.eventCount')}
-          onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('eventBased').setTouched(true))}
-          size="large"
-          verticalLabel
-          wrapperClassName={locals.checkboxWrapper}
-        />
+        {!isIndicatorCustomBased && (
+          <CheckboxFancy
+            asRadioButton
+            checked={isIndicatorEventBased}
+            disabled={isFormInEditMode}
+            explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}
+            label={t('in-service-levels:createSloDialog.indicatorSection.eventCount')}
+            onChange={() => onChange(['indicator', 'type'], () => typeField.setValue('eventBased').setTouched(true))}
+            size="large"
+            verticalLabel
+            wrapperClassName={locals.checkboxWrapper}
+          />
+        )}
+        {isIndicatorCustomBased && (
+          <CheckboxFancy
+            asRadioButton
+            checked={isIndicatorCustomEventBased}
+            disabled={isFormInEditMode}
+            explanation={t('in-service-levels:createSloDialog.indicatorSection.eventTypeExplanation')}
+            label={t('in-service-levels:createSloDialog.indicatorSection.eventCount')}
+            onChange={() =>
+              onChange(['indicator', 'type'], () => typeField.setValue('customEventBased').setTouched(true))
+            }
+            size="large"
+            verticalLabel
+            wrapperClassName={locals.checkboxWrapper}
+          />
+        )}
       </div>
     </Stack>
   );

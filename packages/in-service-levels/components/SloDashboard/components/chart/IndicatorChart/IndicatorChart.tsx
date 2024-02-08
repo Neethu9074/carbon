@@ -6,11 +6,16 @@
 
 import React from 'react';
 
+import { isCustomEventBasedSli, isEventBasedSli } from '@instana/types/typeDefinitions';
 import { ServiceLevelIndicatorUnion, SloEntityUnion } from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
 import EventBasedIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/EventBasedIndicatorChart';
+import {
+  isTimeBasedAvailabilityBlueprintIndicator,
+  isTimeBasedLatencyBlueprintIndicator
+} from 'in-service-levels/types';
 
 export interface IndicatorChartProps<IndicatorType = ServiceLevelIndicatorUnion> {
   entity: SloEntityUnion;
@@ -18,18 +23,13 @@ export interface IndicatorChartProps<IndicatorType = ServiceLevelIndicatorUnion>
 }
 
 export default function IndicatorChart({ indicator, entity }: IndicatorChartProps) {
-  if (indicator.blueprint === 'latency' && indicator.type === 'timeBased') {
+  if (isTimeBasedLatencyBlueprintIndicator(indicator)) {
     return <TimeBasedLatencyIndicatorChart indicator={indicator} entity={entity} />;
   }
-  if (indicator.blueprint === 'availability' && indicator.type === 'timeBased') {
+  if (isTimeBasedAvailabilityBlueprintIndicator(indicator)) {
     return <TimeBasedAvailabilityIndicatorChart entity={entity} indicator={indicator} />;
   }
-  if (indicator.type === 'eventBased') {
-    return <EventBasedIndicatorChart entity={entity} indicator={indicator} />;
-  }
-
-  // @ts-expect-error customEventBased indicator is just a legacy type that is only used on test-systems and can be removed in future
-  if (indicator.type === 'customEventBased') {
+  if (isEventBasedSli(indicator) || isCustomEventBasedSli(indicator)) {
     return <EventBasedIndicatorChart entity={entity} indicator={indicator} />;
   }
 

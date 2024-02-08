@@ -9,7 +9,6 @@ import React from 'react';
 import {
   isApplicationSloEntity,
   isWebsiteSloEntity,
-  LatencyBlueprintIndicator,
   Result,
   SloEntityUnion,
   TagFilterExpression,
@@ -31,6 +30,7 @@ import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnif
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import { TimeBasedLatencyBlueprintIndicator } from 'in-service-levels/types';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -44,13 +44,13 @@ const metricId = 'latency';
 export default function TimeBasedLatencyIndicatorChart({
   entity,
   indicator
-}: IndicatorChartProps<LatencyBlueprintIndicator>) {
+}: IndicatorChartProps<TimeBasedLatencyBlueprintIndicator>) {
   const { threshold } = indicator;
 
   const selectedTimeConfig = useTimeConfig();
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
   const granularity = calculateSloGranularity(selectedTimeConfig);
-  const metricConfiguration = useSliMetricConfiguration<LatencyBlueprintIndicator>(
+  const metricConfiguration = useSliMetricConfiguration<TimeBasedLatencyBlueprintIndicator>(
     entity,
     indicator,
     granularity,
@@ -95,7 +95,7 @@ export default function TimeBasedLatencyIndicatorChart({
 function getMetricConfig(
   entity: SloEntityUnion,
   timeConfig: TimeConfig,
-  indicator: LatencyBlueprintIndicator,
+  indicator: TimeBasedLatencyBlueprintIndicator,
   tagFilterExpression: TagFilterExpression,
   granularity: number
 ): UnifiedMetricConfiguration {

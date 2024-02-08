@@ -7,10 +7,11 @@
 import React from 'react';
 
 import {
+  CustomEventBasedSli,
+  EventBasedSli,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
-  ServiceLevelIndicatorUnion,
   SloEntityUnion,
   TagFilterExpressionElementUnion,
   TimeConfig,
@@ -44,7 +45,7 @@ const badEventsMetricId = 'badEvents';
 export default function EventBasedIndicatorChart({
   entity,
   indicator
-}: IndicatorChartProps<ServiceLevelIndicatorUnion>) {
+}: IndicatorChartProps<EventBasedSli | CustomEventBasedSli>) {
   const selectedTimeConfig = useTimeConfig();
   const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
   const { timeWindows, selectedTimeWindowType } = useSloTimeWindowContext();
@@ -95,7 +96,7 @@ export default function EventBasedIndicatorChart({
 
 function useTagFilterExpressions(
   entity: SloEntityUnion,
-  indicator: ServiceLevelIndicatorUnion
+  indicator: EventBasedSli | CustomEventBasedSli
 ): [TagFilterExpressionElementUnion, TagFilterExpressionElementUnion] {
   const baseTagFilterExpression = useBasicTagFilterExpression({ entity });
   const { good, bad } = createGoodBadTagFilterExpression({ entity, indicator });

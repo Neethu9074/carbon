@@ -6,8 +6,8 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { isApplicationSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { DurationUnitType } from '@instana/types';
+import { isApplicationSloEntity, isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { DurationUnitType, isEventBasedSli } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
 import {
@@ -33,8 +33,8 @@ import {
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { defaultBlueprint, ServiceLevelErrors } from 'in-service-levels/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { defaultBlueprint } from 'in-service-levels/constants';
 import { SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
@@ -87,7 +87,7 @@ export const getIndicatorFormFieldsFromSloConfig = (
   const { indicator } = sloConfig;
   const { type } = indicator;
 
-  if (indicator.type === 'timeBased') {
+  if (isTimeBasedSli(indicator)) {
     const blueprint = indicator.blueprint ?? defaultBlueprint;
     return {
       aggregation: createField({ value: indicator.aggregation ?? 'MEAN' }),
@@ -103,7 +103,7 @@ export const getIndicatorFormFieldsFromSloConfig = (
     };
   }
 
-  if (indicator.type === 'eventBased') {
+  if (isEventBasedSli(indicator)) {
     const blueprint = indicator.blueprint ?? defaultBlueprint;
     return {
       aggregation: createField({ value: 'MEAN' }),
@@ -122,9 +122,23 @@ export const getIndicatorFormFieldsFromSloConfig = (
     };
   }
 
-  throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);
+  const blueprint = defaultBlueprint;
+  return {
+    aggregation: createField({ value: 'MEAN' }),
+    badEventsFilter: createField({
+      value: fromBackendModel(indicator.badEventsFilter)
+    }),
+    blueprint: createField({ value: blueprint }),
+    goodEventsFilter: createField({
+      value: fromBackendModel(indicator.goodEventsFilter)
+    }),
+    threshold: createField({
+      value: indicator.threshold ?? 0,
+      validator: createThresholdFieldValidator(blueprint, type)
+    }),
+    type: createField({ value: type })
+  };
 };
-
 export const getObjectiveFormFieldsFromSloConfig = (
   sloConfig: ServiceLevelObjectiveConfiguration
 ): SloObjectiveFields => {

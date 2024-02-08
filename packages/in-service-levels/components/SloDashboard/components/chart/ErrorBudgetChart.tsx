@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
@@ -41,7 +41,7 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
     timeWindows
   );
 
-  const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
+  const formatter = isTimeBasedSli(indicator) ? minutes.fixedCompact : number.compact;
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: lastUpdated
   });

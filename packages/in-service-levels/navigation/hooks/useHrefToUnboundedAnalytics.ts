@@ -7,6 +7,7 @@
 import {
   TimeConfig,
   isApplicationSloEntity,
+  isTimeBasedSli,
   ApplicationSloEntity,
   WebsiteSloEntity,
   isWebsiteSloEntity,
@@ -17,7 +18,8 @@ import {
   ServiceLevelIndicatorUnion,
   TagFilterExpression,
   SloEntityUnion,
-  TagFilterExpressionElementUnion
+  TagFilterExpressionElementUnion,
+  isCustomEventBasedSli
 } from '@instana/types';
 
 import {
@@ -39,7 +41,6 @@ import { ServiceLevelErrors, defaultBlueprint } from 'in-service-levels/constant
 import { toSimplifiedFormModelElements } from 'in-service-levels/utils/tagFilter';
 import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/paths';
 import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
-import { isAggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
@@ -93,7 +94,7 @@ function getLocationToUnboundedAnalytics({
   timeConfig,
   tagFilterExpression
 }: UseLocationToUnboundedAnalyticsProps): Location {
-  const { blueprint } = indicator;
+  const blueprint = isCustomEventBasedSli(indicator) ? undefined : indicator.blueprint;
 
   if (isApplicationSloEntity(entity)) {
     return getApplicationEntityHref({
@@ -166,8 +167,8 @@ function getWebsiteEntityHref({
   tagFilterExpression
 }: GetWebsiteSloHrefProps): Location {
   const { beaconType } = entity;
-  const { blueprint } = indicator;
-  const aggregation = isAggregatedServiceLevelIndicator(indicator) ? indicator.aggregation : undefined;
+  const blueprint = isCustomEventBasedSli(indicator) ? undefined : indicator.blueprint;
+  const aggregation = isTimeBasedSli(indicator) ? indicator.aggregation : undefined;
   const analyzeParameters = createParameters(websiteAnalyzePath);
 
   return updateLocationForWebsiteEntity({
@@ -185,14 +186,12 @@ type MetricAggregationTuple = [string, AggregationType];
 
 const applicationChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['latency', 'DISTRIBUTION'],
-  availability: ['calls', 'SUM'],
-  custom: ['calls', 'SUM']
+  availability: ['calls', 'SUM']
 });
 
 const websiteChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['beaconDuration', 'MEAN'],
-  availability: ['beaconErrorRate', 'MEAN'],
-  custom: ['beaconErrorRate', 'MEAN']
+  availability: ['beaconErrorRate', 'MEAN']
 });
 
 interface UpdateLocationForEntityProps {
@@ -218,8 +217,8 @@ function updateLocationForApplicationEntity({
   const { includeInternal, includeSynthetic, endpointId } = entity;
 
   const hasEndpoint = endpointId !== undefined;
-  const groupByTag = hasEndpoint ? 'endpoint.name' : 'service.name';
-  const groupBy = createGroupBy(groupByTag, entityTypes.DESTINATION);
+  const groupbyTag = hasEndpoint ? 'endpoint.name' : 'service.name';
+  const groupBy = createGroupBy(groupbyTag, entityTypes.DESTINATION);
   const chartedMetrics = [createChartedMetric(...getApplicationMetric(blueprint))];
 
   const newLocation = setDefaultMatrixParameter({

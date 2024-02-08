@@ -11,10 +11,11 @@ import {
   getDefaultIndicatorFields,
   getDefaultScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
+
 import { createIndicatorThresholdField } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
-import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { getMaxTimeWindowDurationValue } from 'in-service-levels/utils/time';
+import useFormSideEffects, { CHANGE_TYPES, Effect } from 'in-hooks/useFormSideEffects';
 
 function resetScopes(form: SloForm): SloForm {
   return form.updateIn(['scope'], () =>
@@ -40,10 +41,18 @@ function resetIndicatorForm(form: SloForm): SloForm {
 
 function resetIndicatorFormAndPreserveBlueprint(form: SloForm) {
   const blueprintField = form.getIn(['indicator', 'blueprint']);
+  const typeField = form.getIn(['indicator', 'type']);
+
+  const isBlueprintCustom = blueprintField.value === 'custom';
+  const isIndicatorCustomEventBased = typeField.value === 'customEventBased';
 
   return resetIndicatorForm(form)
     .updateIn(['indicator', 'blueprint'], () => blueprintField)
-    .updateIn(['indicator', 'type'], defaultField => defaultField);
+    .updateIn(['indicator', 'type'], defaultField => {
+      if (isBlueprintCustom && !isIndicatorCustomEventBased) return defaultField.setValue('customEventBased');
+
+      return defaultField;
+    });
 }
 
 function clampTimeWindowDuration(form: SloForm): SloForm {
