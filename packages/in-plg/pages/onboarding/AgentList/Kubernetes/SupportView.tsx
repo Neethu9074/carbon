@@ -42,7 +42,7 @@ export const Prerequisites = ({ id }: { id: string }): JSX.Element => {
       return (
         <DocumentLink
           text={t('in-plg:agentDetails.common.networkRequirements')}
-          href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host#network-requirements"
+          href="https://ibm.biz/insta-agent-netreqs"
         />
       );
     default:
@@ -61,7 +61,7 @@ export const Documentations = ({ id }: { id: string }): JSX.Element => {
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.helmChart.configurationParameters')}
-            href="https://github.com/instana/helm-charts/tree/main/instana-agent#configuration-reference"
+            href="https://ibm.biz/insta-agent-helmparams"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
@@ -184,11 +184,11 @@ const ChooseProperInstallationAndNetworkRequiremtent = (): JSX.Element => (
   <Stack direction="vertical" gap="small">
     <DocumentLink
       text={t('in-plg:agentDetails.common.choosingTheProperInstallationMethod')}
-      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#installation-methods"
+      href="https://ibm.biz/insta-agent-k8schoose"
     />
     <DocumentLink
       text={t('in-plg:agentDetails.common.networkRequirements')}
-      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host#network-requirements"
+      href="https://ibm.biz/insta-agent-netreqs"
     />
   </Stack>
 );
