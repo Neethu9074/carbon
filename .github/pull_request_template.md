@@ -31,7 +31,7 @@
 
 - [Story](http://example.com)
 - [Documentation](http://example.com)
-- [Zendesk](http://example.com)
+- [CSP Case](http://example.com)
 - [Release Notes PR](https://github.ibm.com/instana/docs/compare)
 - [Documentation PR](https://github.ibm.com/instana/docs/compare)
 
