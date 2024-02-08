@@ -38,6 +38,7 @@ import {
   JIRA_TYPE
 } from 'in-automation/ActionCatalog/shared';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
+import turboSubmitActionExecution from './subscriptions/turboSubmitActionExecution';
 import submitActionExecution from './subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -684,6 +685,62 @@ function runAction({
       actionId,
       timeout: timeout === '' ? null : timeout,
       request: request,
+      policyId: policyId === '' ? null : policyId
+    }
+  });
+}
+
+interface RunActionBaseParams {
+  volatileId: VolatileId;
+  event: Event | undefined;
+  actionName: string;
+  actionId: string;
+  inputParameters: ParameterValue[];
+  timeout: string;
+  hostsLimit?: string;
+  policyId: string;
+}
+
+interface RunActionRequest {
+  name: string;
+  value: string;
+  encoding: string;
+}
+
+interface RunTurboActionParams {
+  volatileId: VolatileId;
+  event: Event | undefined;
+  actionName: string;
+  actionId: string;
+  timeout: string;
+  policyId: string;
+  createdAt: number;
+  actionInstanceId: string;
+}
+
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
+export function runTurboAction({
+  volatileId,
+  event,
+  actionName,
+  actionId,
+  timeout,
+  createdAt,
+  actionInstanceId,
+  policyId
+}: RunTurboActionParams) {
+  return turboSubmitActionExecution({
+    action: 'turbonomic.executeAction',
+    target: volatileId,
+    args: {
+      createdAt,
+      actionInstanceId,
+      async: 'true',
+      event: JSON.stringify(event),
+      eventId: event?.id,
+      actionName,
+      actionId,
+      timeout: timeout === '' ? null : timeout,
       policyId: policyId === '' ? null : policyId
     }
   });

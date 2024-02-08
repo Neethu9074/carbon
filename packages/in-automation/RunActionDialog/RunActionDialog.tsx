@@ -19,6 +19,7 @@ import {
   getWebhookFields,
   isAnsible,
   isScript,
+  isExternal,
   isWebhook,
   isJira,
   parseDynamicParameter,
@@ -42,6 +43,7 @@ import {
   ResolvedDynamicParamValue,
   resolveDynamicParameters,
   runScriptAction,
+  runTurboAction,
   runWebhookAction,
   runAnsibleAction,
   runGithubCloseAction,
@@ -175,11 +177,14 @@ interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 
 }
 const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitleParams) => {
   const actionName = action.name;
+
+  const actionDescription = action?.description;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
   if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
+  if (isExternal(action.type)) return t('in-automation:chosenToRun', { actionName: actionDescription });
   return t('in-automation:chosenToRun', { actionName });
 };
 
@@ -192,7 +197,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
   else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
   else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
-  // else if (isExternal(action.type)) query = 'entity.agent.capability:action-turbo';
+  else if (isExternal(action.type)) query = 'entity.agent.capability:turbonomic-action';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
@@ -286,7 +291,7 @@ function onSave({
   handleSave,
   executePolicy
 }: OnSaveParams) {
-  if (!form?.hierarchyValid) {
+  if (!form?.hierarchyValid && !isExternal(action.type)) {
     setForm(form?.setTouched(true, { recurse: true }));
     return;
   }
@@ -386,7 +391,6 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
-
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterToUse(action);
@@ -400,6 +404,21 @@ function onSave({
       interpreter,
       policyId: executePolicyId,
       inputParameters: allInputParameters
+    }).once(handleActionResponse);
+  } else if (isExternal(action.type)) {
+    const volatileId = agentSnapShots?.data?.online[0]?.volatileId;
+    const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
+
+    const createdTime = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceCreatedDate : 0;
+    runTurboAction({
+      volatileId: volatileId ?? {},
+      event,
+      createdAt: createdTime,
+      actionName: action?.description ?? '',
+      timeout,
+      actionId,
+      actionInstanceId: actionInstanceId,
+      policyId: executePolicyId
     }).once(handleActionResponse);
   } else if (isGithub(action.type)) {
     const { owner, repo, ticketType } = getGithubFields(action);

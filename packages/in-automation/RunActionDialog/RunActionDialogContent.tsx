@@ -149,7 +149,7 @@ export default function RunActionDialogContent({
     return <ManualActionContent action={action} />;
   }
   if (isExternal(action.type)) {
-    return <ExternalActionContent action={action} />;
+    return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} />;
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
@@ -452,30 +452,24 @@ function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   );
 }
 
-function ExternalActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const content = getManualContentFromFields(action.fields);
-  let contentText = content.value;
-  if (content.encoding === 'base64') {
-    contentText = atob(contentText);
-  }
-
+function ExternalActionContent({
+  action,
+  agentSnapShots
+}: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots'>) {
+  const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
   return (
     <DescriptionList>
       <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
-        title={t('in-automation:ActionCatalog.content')}
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:name')}
       >
-        <Spacer vertical="normal" />
-        <div className={locals.manualContentMarkdown}>
-          <DangerousHtmlPresenter html={toHtml(contentText, { breaks: true })} />
-          <CopyToClipboard getText={() => contentText}>
-            {refSetter => (
-              <span ref={refSetter}>
-                <IconButton onClick={stopPropagationAndPreventDefault} type="lib_actions_copy" />
-              </span>
-            )}
-          </CopyToClipboard>
-        </div>
+        {action.description}
+      </DescriptionItem>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:targetAgent')}
+      >
+        {targetAgentForTurbo}
       </DescriptionItem>
     </DescriptionList>
   );
