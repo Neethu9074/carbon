@@ -39,56 +39,83 @@ export default function Summary() {
   const businessActivityName: string =
     getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
 
-  return (
-    <Fragment>
-      {bizopsGoldenSignalsEnabled && (
+  // TODO: remove this if and just return once golden signals is complete
+  if (bizopsGoldenSignalsEnabled) {
+    return (
+      <Fragment>
         <KpiGridRow sizes={[true, true]}>
           <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityCount')} />
           <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityErrors')} />
         </KpiGridRow>
-      )}
-      <Row>
-        <Col lg>
-          <BizOpsCountChart
-            timeShiftConfig={timeShiftConfig}
-            timeConfig={timeConfig}
-            businessProcessId={businessProcessId}
-            businessProcessName={businessProcessName}
-            businessActivityName={businessActivityName}
-            metric={'activitiesCount'}
-            label={businessActivityName}
-            dataSource={'BUSINESS_ACTIVITIES'}
-          />
-        </Col>
-        <Col lg>
-          <TopServices />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg>
-          <InfrastructureIssuesAndChanges
-            businessProcessId={businessProcessId}
-            businessProcessName={businessProcessName}
-          />
-        </Col>
-        {bizopsGoldenSignalsEnabled && (
+        <Row>
+          <Col lg>
+            <BizOpsCountChart
+              timeShiftConfig={timeShiftConfig}
+              timeConfig={timeConfig}
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+              businessActivityName={businessActivityName}
+              metric={'activitiesCount'}
+              label={businessActivityName}
+              dataSource={'BUSINESS_ACTIVITIES'}
+            />
+          </Col>
+          <Col lg>
+            <TopServices />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg>
+            <InfrastructureIssuesAndChanges
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+            />
+          </Col>
           <Col lg>
             <BizOpsErrorsChart />
           </Col>
-        )}
-      </Row>
-      <Row>
-        {bizopsGoldenSignalsEnabled && (
+        </Row>
+        <Row>
           <Col lg>
             <BizOpsLatencyChart />
           </Col>
-        )}
-        {bizopsActivityDistributionChartsEnabled && (
+          {bizopsActivityDistributionChartsEnabled && (
+            <Col lg>
+              <DurationAndDistribution />
+            </Col>
+          )}
+        </Row>
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        <Row>
           <Col lg>
-            <DurationAndDistribution />
+            <BizOpsCountChart
+              timeShiftConfig={timeShiftConfig}
+              timeConfig={timeConfig}
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+              businessActivityName={businessActivityName}
+              metric={'activitiesCount'}
+              label={businessActivityName}
+              dataSource={'BUSINESS_ACTIVITIES'}
+            />
           </Col>
-        )}
-      </Row>
-    </Fragment>
-  );
+          {bizopsActivityDistributionChartsEnabled && (
+            <Col lg>
+              <DurationAndDistribution />
+            </Col>
+          )}
+          <Col lg>
+            <InfrastructureIssuesAndChanges
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+            />
+          </Col>
+        </Row>
+      </Fragment>
+    );
+  }
 }

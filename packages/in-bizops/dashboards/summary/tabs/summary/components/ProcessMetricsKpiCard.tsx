@@ -23,6 +23,7 @@ interface ProcessKpiProps {
 
 interface KpiCardProps {
   title: string;
+  metric: 'COUNT' | 'ERRORS';
   result: Result<BusinessProcessItem>;
 }
 
@@ -43,19 +44,24 @@ export default connectTo(
     })
   }),
   // render the actual card using result data from subscription
-  function ProcessMetricKpiCard({ title, result }: KpiCardProps) {
+  function ProcessMetricKpiCard({ title, metric, result }: KpiCardProps) {
     return (
       <ResultAwareKpiCard
         title={title}
         result={result}
         renderKpiCard={result => {
-          // the metric for started_processes looks like [[1707231540000,303.0]]
-          const processInstancesCount = result?.data?.metrics.started_processes[0][1];
+          let kpiValue: number | undefined = undefined;
+          if (metric === 'COUNT') {
+            // the metric for started_processes looks like [[id, value]]
+            kpiValue = result?.data?.metrics.started_processes[0][1];
+          } else if (metric === 'ERRORS') {
+            kpiValue = result?.data?.metrics.openIssues[0][1];
+          }
 
           return (
             <KpiCard
               title={title}
-              value={processInstancesCount}
+              value={kpiValue}
               companionValue={t('in-bizops:dashboards.summary.widgets.processCountTotal')}
             />
           );

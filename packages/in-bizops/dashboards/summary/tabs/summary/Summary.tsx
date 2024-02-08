@@ -8,7 +8,6 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import ProcessMetricKpiCard from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessMetricsKpiCard';
-import ProcessErrorsKpiCard from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessErrorsKpiCard';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
@@ -36,54 +35,84 @@ export default function Summary() {
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
     t('in-bizops:dashboards.summary.pageTitle');
 
-  return (
-    <Fragment>
-      {bizopsGoldenSignalsEnabled && (
+  // TODO: remove this if and just return once golden signals is complete
+  if (bizopsGoldenSignalsEnabled) {
+    return (
+      <Fragment>
         <KpiGridRow sizes={[true, true]}>
           <ProcessMetricKpiCard
             title={t('in-bizops:dashboards.summary.widgets.processCount')}
+            metric="COUNT"
             timeConfig={timeConfig}
             processId={businessProcessId}
           />
-          <ProcessErrorsKpiCard title={t('in-bizops:dashboards.summary.widgets.processErrors')} />
-        </KpiGridRow>
-      )}
-      <Row>
-        <Col lg>
-          <BizOpsCountChart
-            timeShiftConfig={timeShiftConfig}
+          <ProcessMetricKpiCard
+            title={t('in-bizops:dashboards.summary.widgets.processErrors')}
+            metric="ERRORS"
             timeConfig={timeConfig}
-            businessProcessName={businessProcessName}
-            businessProcessId={businessProcessId}
-            metric={'startedProcessesCount'}
-            label={businessProcessName}
-            dataSource={'BUSINESS_PROCESSES'}
+            processId={businessProcessId}
           />
-        </Col>
-        <Col lg>
-          <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg>
-          <InfrastructureIssuesAndChanges
-            businessProcessId={businessProcessId}
-            businessProcessName={businessProcessName}
-          />
-        </Col>
-        {bizopsGoldenSignalsEnabled && (
+        </KpiGridRow>
+        <Row>
+          <Col lg>
+            <BizOpsCountChart
+              timeShiftConfig={timeShiftConfig}
+              timeConfig={timeConfig}
+              businessProcessName={businessProcessName}
+              businessProcessId={businessProcessId}
+              metric={'startedProcessesCount'}
+              label={businessProcessName}
+              dataSource={'BUSINESS_PROCESSES'}
+            />
+          </Col>
+          <Col lg>
+            <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg>
+            <InfrastructureIssuesAndChanges
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+            />
+          </Col>
           <Col lg>
             <BizOpsErrorsChart />
           </Col>
-        )}
-      </Row>
-      <Row>
-        {bizopsGoldenSignalsEnabled && (
+        </Row>
+        <Row>
           <Col lg>
             <BizOpsLatencyChart />
           </Col>
-        )}
-      </Row>
-    </Fragment>
-  );
+        </Row>
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        <Row>
+          <Col lg={4}>
+            <BizOpsCountChart
+              timeShiftConfig={timeShiftConfig}
+              timeConfig={timeConfig}
+              businessProcessName={businessProcessName}
+              businessProcessId={businessProcessId}
+              metric={'startedProcessesCount'}
+              label={businessProcessName}
+              dataSource={'BUSINESS_PROCESSES'}
+            />
+          </Col>
+          <Col lg={4}>
+            <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
+          </Col>
+          <Col lg={4}>
+            <InfrastructureIssuesAndChanges
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+            />
+          </Col>
+        </Row>
+      </Fragment>
+    );
+  }
 }
