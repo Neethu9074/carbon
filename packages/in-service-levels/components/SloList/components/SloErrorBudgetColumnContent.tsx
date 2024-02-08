@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { isTimeBasedSli } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import ErrorBudgetInfo from 'in-service-levels/components/SloList/components/ErrorBudgetInfo';
@@ -29,7 +30,7 @@ export default function SloErrorBudgetColumnContent({ item, showSparkChart }: Sl
           metrics={burnDown}
           rollup={metricGranularity}
           // @ts-expect-error our number formatters are quite badly typed :/
-          tooltipFormatter={configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact}
+          tooltipFormatter={isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : number.compact}
         />
       )}
       <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />

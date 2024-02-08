@@ -7,7 +7,6 @@
 import React from 'react';
 
 import {
-  AvailabilityBlueprintIndicator,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
@@ -30,6 +29,7 @@ import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/c
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import { TimeBasedAvailabilityBlueprintIndicator } from 'in-service-levels/types';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -44,13 +44,13 @@ const metricId = 'availability';
 export default function TimeBasedAvailabilityIndicatorChart({
   entity,
   indicator
-}: IndicatorChartProps<AvailabilityBlueprintIndicator>) {
+}: IndicatorChartProps<TimeBasedAvailabilityBlueprintIndicator>) {
   const { threshold } = indicator;
 
   const selectedTimeConfig = useTimeConfig();
   const granularity = calculateSloGranularity(selectedTimeConfig);
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
-  const metricConfiguration = useSliMetricConfiguration<AvailabilityBlueprintIndicator>(
+  const metricConfiguration = useSliMetricConfiguration<TimeBasedAvailabilityBlueprintIndicator>(
     entity,
     indicator,
     granularity,
@@ -95,7 +95,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
 function getMetricConfig(
   entity: SloEntityUnion,
   timeConfig: TimeConfig,
-  indicator: AvailabilityBlueprintIndicator,
+  indicator: TimeBasedAvailabilityBlueprintIndicator,
   tagFilterExpression: TagFilterExpression,
   granularity: number
 ): UnifiedMetricConfiguration {
