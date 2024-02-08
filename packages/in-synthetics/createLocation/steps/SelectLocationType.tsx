@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { LoadingSkeleton, Message } from '@instana/components';
-import { Result, SyntheticDatacenter } from '@instana/types';
+import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -24,7 +24,7 @@ interface Props {
   selectedBlueprint: LocationsBluePrint;
   setSelectedBlueprint: (item: LocationsBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
-  checkLicense: Result<SyntheticDatacenter[]>;
+  checkLicense: Result<string>;
 }
 interface Description {
   headline: string;

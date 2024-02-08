@@ -7,9 +7,9 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
-import { Result, SyntheticDatacenter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { createLogger } from '@instana/logger';
+import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error
@@ -20,8 +20,8 @@ import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePr
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import Configuration from 'in-synthetics/createLocation/steps/Configuration';
+import { getDatacenterLicense } from 'in-synthetics/api';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getDatacenters } from 'in-synthetics/api';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
@@ -44,8 +44,7 @@ const CreateNewLocationDialogPresenter = ({
   simpleModeStep,
   setSimpleModeStep
 }: Props) => {
-  const checkLicense: Result<SyntheticDatacenter[]> =
-    useObservable<any, []>(() => getDatacenters({}), []) ?? pendingResult;
+  const checkLicense: Result<string> = useObservable<any, []>(() => getDatacenterLicense(), []) ?? pendingResult;
 
   // Steps configuration for the dialog
   const stepConfigs = Object.freeze([

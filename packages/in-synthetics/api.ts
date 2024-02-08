@@ -204,3 +204,13 @@ function getDatacentersInternal(): Observable<unknown> {
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
+
+export const getDatacenterLicense = (): Observable<any> => {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/synthetics/settings/datacenters/license',
+    mapToResultObject: true
+  }).map(result => deepFreeze(result));
+};
