@@ -108,5 +108,6 @@ module.exports = {
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,
-  lastValueForNonTimeSeriesWidgetEnabled: true
+  lastValueForNonTimeSeriesWidgetEnabled: true,
+  logSmartAlertsEnabled: true
 };

@@ -519,5 +519,10 @@ module.exports = exports = [
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
     instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'logSmartAlertsEnabled',
+    instanaCtlKey: 'feature.log.smart.alerts.enabled',
+    defaultValue: false
   }
 ];

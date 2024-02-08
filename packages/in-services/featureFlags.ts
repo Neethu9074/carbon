@@ -134,6 +134,8 @@ export const zoomWidgetEnabled = isFeatureFlagEnabled('zoomWidgetEnabled');
 
 export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
 
+export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
