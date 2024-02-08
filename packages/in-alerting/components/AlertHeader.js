@@ -152,7 +152,7 @@ export default function AlertHeader({
               [locals.alertIconSeverityHigh]: alertConfig.severity > 5
             })}
             size="l"
-            type="lib_alerts_alert"
+            type="lib_alerts_create"
             aria-label={t('in-alerting:components.alertHeaderAriaLabelSeverity', {
               severity: alertConfig.severity <= 5 ? 'low' : 'high'
             })}
