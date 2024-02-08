@@ -104,6 +104,38 @@ const cols = [
         return <Args args={shorten(args, 128)} />;
       }
     }
+  },
+  {
+    title: t('in-sap:dashboards.prdHours'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: JobDetailsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: JobDetailsRow) {
+        return `jobDetails.${row.key}.PRDHOURS`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.prdMins'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: JobDetailsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: JobDetailsRow) {
+        return `jobDetails.${row.key}.PRDMINS`;
+      },
+      getContent: minutes.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 

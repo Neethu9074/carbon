@@ -107,7 +107,8 @@ export default function TopProcessList({ snapshotId, timeConfig }: TopProcessSta
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
-
+          </DashboardSection>
+          <DashboardSection>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
