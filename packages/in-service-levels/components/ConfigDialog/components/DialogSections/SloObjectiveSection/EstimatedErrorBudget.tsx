@@ -22,7 +22,6 @@ export default function EstimatedErrorBudget() {
   const target = form.getIn(['objective', 'target']).value;
   const timeWindow = formToTimeWindow(form);
 
-  const isCustomEventBased = indicator === 'customEventBased';
   const isEventBased = indicator === 'eventBased';
   const isTimeBased = indicator === 'timeBased';
 
@@ -33,9 +32,7 @@ export default function EstimatedErrorBudget() {
       </Typography>
 
       {isTimeBased && <TimeBasedErrorBudgetPreview timeWindow={timeWindow} target={target} />}
-      {(isEventBased || isCustomEventBased) && (
-        <EventBasedErrorBudgetPreview entity={entity} target={target} timeWindow={timeWindow} />
-      )}
+      {isEventBased && <EventBasedErrorBudgetPreview entity={entity} target={target} timeWindow={timeWindow} />}
     </Stack>
   );
 }

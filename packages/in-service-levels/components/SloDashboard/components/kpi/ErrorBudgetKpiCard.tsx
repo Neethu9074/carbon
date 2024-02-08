@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
@@ -22,8 +22,9 @@ interface ErrorBudgetKpiCardProps {
 
 export default function ErrorBudgetKpiCard({ configuration }: ErrorBudgetKpiCardProps) {
   const { id, entity } = configuration;
-  const formatter = isTimeBasedSli(configuration.indicator) ? minutes.fixedCompact : createSloEventFormatter(entity);
   const timeConfig = useTimeConfig();
+  const formatter =
+    configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : createSloEventFormatter(entity);
 
   return (
     <BigNumberKpiCard
