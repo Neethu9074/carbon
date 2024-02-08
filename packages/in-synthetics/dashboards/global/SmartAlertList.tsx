@@ -35,10 +35,7 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function SmartAlertList() {
-  const handlers =
-    (role as Role).canConfigureGlobalSyntheticSmartAlerts ?? (role as Role).canConfigureGlobalAlertConfigs
-      ? actionHandlers
-      : {};
+  const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
   const location = useLocation();
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -63,7 +60,7 @@ export default function SmartAlertList() {
         />
       </LeftRightPadding>
       <Footer />
-      {(role?.canConfigureGlobalSyntheticSmartAlerts ?? role?.canConfigureGlobalAlertConfigs) && (
+      {role?.canConfigureGlobalSyntheticSmartAlerts && (
         <FloatingActionButtons>
           <CreateSmartAlert />
         </FloatingActionButtons>

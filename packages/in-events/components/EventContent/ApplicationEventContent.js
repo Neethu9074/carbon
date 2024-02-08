@@ -159,7 +159,7 @@ export default function ApplicationEventContent({ event, snapshot }) {
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureApplicationSmartAlerts &&
         !isGlobalSmartAlert && (
           <AssociatedAndRecommendedPoliciesAlerts
             volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
@@ -171,7 +171,7 @@ export default function ApplicationEventContent({ event, snapshot }) {
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureApplicationSmartAlerts &&
         !isGlobalSmartAlert && (
           <AssociatedAndRecommendedActionsAlerts
             volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}

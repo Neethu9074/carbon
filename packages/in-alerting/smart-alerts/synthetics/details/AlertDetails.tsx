@@ -84,9 +84,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       )}
       getAllowedPlaceholders={() => allowedPlaceholders}
       isGlobalSmartAlert
-      canConfigureGlobalAlertConfigs={
-        role?.canConfigureGlobalSyntheticSmartAlerts ?? role?.canConfigureGlobalAlertConfigs
-      }
+      canConfigureGlobalAlertConfigs={role?.canConfigureGlobalSyntheticSmartAlerts}
     />
   );
 }

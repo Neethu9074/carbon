@@ -107,7 +107,7 @@ export default function IncidentEventList({
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -119,7 +119,7 @@ export default function IncidentEventList({
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -132,7 +132,7 @@ export default function IncidentEventList({
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isGlobalSmartAlert &&
         isApplicationSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedPoliciesAlerts
@@ -143,7 +143,7 @@ export default function IncidentEventList({
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isGlobalSmartAlert &&
         isApplicationSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedActionsAlerts

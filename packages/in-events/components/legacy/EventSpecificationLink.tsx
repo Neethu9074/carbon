@@ -28,7 +28,7 @@ export default function EventSpecificationLink({
   buttonText?: string;
   hasMarginRight?: boolean;
 }) {
-  if (!(role?.canConfigureEventsAndAlerts ?? role?.canConfigureCustomAlerts)) {
+  if (!role?.canConfigureEventsAndAlerts) {
     // at the moment the link of this button generally does not work when the canConfigureEventsAndAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
     return null;
