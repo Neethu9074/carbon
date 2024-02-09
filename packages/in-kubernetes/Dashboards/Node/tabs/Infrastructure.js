@@ -25,9 +25,10 @@ export default connectTo(
   ({ nodeId, timeConfig }) => ({
     host: getHostByKubernetesNodeId({ nodeId, timeConfig })
   }),
-  function Infrastructure({ host, timeConfig }) {
+  function Infrastructure({ host, timeConfig, data: { labels } }) {
     const isLoading = host && get(host, ['progress', 'loading']);
     const isHostUnmonitored = host && host.errors.length > 0;
+    const isEksNode = labels.find(item => item.key === 'eks.amazonaws.com/compute-type' && item.value === 'fargate');
 
     if (isLoading) {
       return (
@@ -46,7 +47,11 @@ export default connectTo(
           <NoDataAvailable
             icon="lib_infrastructure"
             title={t('in-kubernetes:dashboards.unmonitoredHost')}
-            text={t('in-kubernetes:dashboards.theHostIsUnmonitoredOnAKubernetesMasterNode')}
+            text={
+              isEksNode
+                ? t('in-kubernetes:dashboards.theHostIsUnmonitoredFargateNode')
+                : t('in-kubernetes:dashboards.theHostIsUnmonitoredOnAKubernetesMasterNode')
+            }
             height={140}
           />
         </LeftRightPadding>
