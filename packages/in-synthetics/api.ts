@@ -193,7 +193,7 @@ export const getSyntheticTagCatalog =
     }).map(response => deepFreeze(response));
   };
 
-export const getDatacenters = memoize(getDatacentersInternal, () => '', 5000);
+export const getDatacenters = memoize(getDatacentersInternal, (id: string) => id, 5000);
 
 function getDatacentersInternal(): Observable<unknown> {
   return http({

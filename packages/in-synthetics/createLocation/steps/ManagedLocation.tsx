@@ -30,7 +30,8 @@ interface ManagedLocationProps {
 const ManagedLocation = ({ form, updateForm }: ManagedLocationProps) => {
   const popDocsUrl = 'https://ibm.biz/pop_deployment';
 
-  const datacenters: Observable<SyntheticDatacenter[]> = getDatacenters({})
+  // passing this id to getDatacenters() so as to memoize response until new form is created
+  const datacenters: Observable<SyntheticDatacenter[]> = getDatacenters(form.get('id').value)
     .map(result => {
       return (result as Result<SyntheticDatacenter[]>)?.data;
     })
