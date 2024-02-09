@@ -22,7 +22,10 @@ function PhysicalDashboardEntityLink({ item, timeConfig }: { item: Snapshot; tim
     item.id &&
     getHref(item.id, {
       pathname: '/physical/dashboard',
-      timeConfig
+      timeConfig: {
+        ...timeConfig,
+        focusedMoment: timeConfig.to
+      }
     });
 
   return <EntityLink snapshot={snapshot.id} label={getLabel(snapshot)} href={href} />;
