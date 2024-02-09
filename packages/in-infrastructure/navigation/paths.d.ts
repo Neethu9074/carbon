@@ -25,6 +25,7 @@ interface GetLinkToExploreProps {
   timeConfig?: TimeConfig;
   groupBy?: Partial<Grouping[]>;
   chartedMetrics?: Array<MetricItem>;
+  fromEventPage?: boolean;
 }
 
 export function isInfraExploreView(): boolean[];
