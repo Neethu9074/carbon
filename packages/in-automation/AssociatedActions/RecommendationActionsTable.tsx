@@ -20,8 +20,8 @@ import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionC
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { Action, ApplicationAlertConfigWithMetadata, VolatileId, Event } from 'in-types';
+import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
@@ -130,9 +130,11 @@ export default function RecommendationActionsTable({
                     }}
                   />
                 </Tooltip>
-              ) : (
-                // <div />
+              ) : // <div />
 
+              isExternal(item.type) &&
+                item?.metadata?.ai &&
+                item?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' ? (
                 <Button
                   kind="action"
                   icon={'lib_actions_play'}
@@ -143,6 +145,8 @@ export default function RecommendationActionsTable({
                 >
                   {t('in-automation:ActionCatalog.run')}
                 </Button>
+              ) : (
+                <div />
               )
           }
         ]}
