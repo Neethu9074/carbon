@@ -77,7 +77,7 @@ export default function SloEntityTable({
                 asRadioButton
                 checked={entityData.id === entityId.value}
                 disabled={disabled}
-                onChange={noop}
+                onChange={disabled ? noop : () => onChange(entityData)}
               />
               <div className={locals.checkBoxItem}>{entityData.label}</div>
             </Stack>
