@@ -18,11 +18,7 @@ export default function useUIShellTitleDetail(): string {
     return t('in-plg:licenseBanner.titleDetail.sandboxTrial');
   }
 
-  if (
-    firstLicenseUsageMsg?.activeLicense == 'selfService' ||
-    firstLicenseUsageMsg?.activeLicense == 'quota' ||
-    firstLicenseUsageMsg?.activeLicense == 'free_not_for_resale'
-  ) {
+  if (firstLicenseUsageMsg?.activeLicense == 'selfService') {
     return t('in-plg:licenseBanner.titleDetail.trial');
   }
   return '';
