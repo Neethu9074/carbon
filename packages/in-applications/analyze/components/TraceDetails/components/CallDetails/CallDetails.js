@@ -8,6 +8,7 @@ import { get } from 'lodash';
 
 import { Card, Link, Stack, SvgIcon } from '@instana/components';
 import { create, just } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
@@ -25,7 +26,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './CallDetails.mless';
@@ -107,15 +107,13 @@ export default function CallDetails(props) {
 }
 
 function ActionButtons({ traceId, callId, onClose }) {
-
   const downloadUrl = `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
-    traceId)}/calls/${encodeURIComponent(callId)}/details?pretty`;
-
-  const theme = useTheme();
+    traceId
+  )}/calls/${encodeURIComponent(callId)}/details?pretty`;
 
   const downloadLabel = t('in-analyze:traceDetail.components.callDetails.downloadRawSpanData');
   const closeLabel = t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails');
-  const svgIconColor = theme.ids.color.option.neutral['500'];
+  const svgIconColor = themes.default.ids.color.option.neutral['500'];
   return (
     <>
       <Link
