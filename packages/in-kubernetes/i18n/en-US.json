@@ -288,7 +288,6 @@
   "succeeded": "Succeeded",
   "failed": "Failed",
   "unknown": "Unknown",
-  "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "No Kubernetes data is available. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"

@@ -74,8 +74,6 @@
       "infrastructure": "Infrastructure",
       "profiles": "Profiles",
       "logs": "Logs",
-      "eumWebsites": "EUM: Websites",
-      "eumMobileApps": "EUM: Mobile Apps",
       "pageLoads": "Page loads",
       "pageTransitions": "Page transitions",
       "pageTransitions2": "Page Transitions",

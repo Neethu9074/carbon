@@ -20,6 +20,7 @@ export const pageNames = Object.freeze({
   mobile_app_view_summary: 'Mobile App View > Summary',
   mobile_app_session_start: 'Analytics > Mobile App Session Start',
   processes: 'Processes',
+  profiles: 'Profiles',
   activities: 'Activities',
   locations: 'Locations',
   tests: 'Tests',
@@ -50,6 +51,8 @@ export const pageNames = Object.freeze({
   infra_smart_alerts: 'Infra Smart Alerts',
   infra_comparison_table: 'Infrastructure > Comparison table',
   clusters: 'Clusters',
+  kubernetes_clusters: 'Kubernetes > Clusters',
+  kubernetes_namespaces: 'Kubernetes > Namespaces',
   cluster_summary: 'Cluster > summary',
   vsphere: 'vSphereDatacenters',
   user_settings: 'User Settings',
@@ -103,11 +106,13 @@ export const pageNames = Object.freeze({
   sap_abap_sensor: 'SAP ABAP Sensor > Summary',
   events_all: 'All',
   local_alerts: 'Local Alert Details',
+  logs: 'Logs',
   global_alerts: 'Global Alert Details',
   instances: 'Instances',
   deployment_summary: 'Deployment > Summary',
   powervc_hypervisors: 'RegionOne > Hypervisors',
   powervc_regions: 'regions',
+  powervc_compute_Instances: 'Compute Instances',
   powervc: 'PowerVC'
 } as const);
 type PageNameKeys = keyof typeof pageNames;
