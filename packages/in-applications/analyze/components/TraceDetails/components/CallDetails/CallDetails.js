@@ -98,7 +98,7 @@ export default function CallDetails(props) {
     <aside className={locals.callDetails}>
       <Card
         title={<Header call={call} getColor={getColor} />}
-        rightHeaderContent={<ActionButtons call={call} onClose={onClose} />}
+        rightHeaderContent={<ActionButtons traceId={traceId} callId={callId} onClose={onClose} />}
       >
         {cardContent}
       </Card>
@@ -106,22 +106,10 @@ export default function CallDetails(props) {
   );
 }
 
-function ActionButtons({ call, onClose }) {
-  const downloadLinkRef = useRef();
+function ActionButtons({ traceId, callId, onClose }) {
 
-  useEffect(() => {
-    let url = null;
-    if (call) {
-      const callBlob = new Blob([JSON.stringify(call, null, 2)], { type: 'application/json' });
-      url = URL.createObjectURL(callBlob);
-      downloadLinkRef.current.href = url;
-    }
-    return () => {
-      if (url) {
-        URL.revokeObjectURL(url);
-      }
-    };
-  }, [call]);
+  const downloadUrl = `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
+    traceId)}/calls/${encodeURIComponent(callId)}/details?pretty`;
 
   const theme = useTheme();
 
@@ -131,7 +119,7 @@ function ActionButtons({ call, onClose }) {
   return (
     <>
       <Link
-        ref={downloadLinkRef}
+        href={downloadUrl}
         className={locals.downloadLink}
         target="_blank"
         onClick={() => downloadCallDetailsClickedTracker({})}
