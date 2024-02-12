@@ -25,7 +25,7 @@ type AnySmartAlertConfig =
 
 export function getSmartAlertAnalyzeTimeConfig(event: EventOrMap, alertConfig: AnySmartAlertConfig) {
   const analyzeTimeConfig =
-    alertConfig.rule.alertType === 'throughput'
+    alertConfig?.rule.alertType === 'throughput'
       ? getWidenedTimeConfigFromEvent(event, alertConfig.granularity)
       : getTimeConfigFromEvent(event);
   return fixateTimeConfig(analyzeTimeConfig);
