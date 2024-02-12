@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import React, { Component } from 'react';
+
+import { create } from '@instana/observables';
 
 import FlowMapState from 'in-applications/ServerFlowMap/FlowMapState';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { serviceFlowMapLevelExpandedTracker } from '../tracker';
 
 const metrics = {
   callsAgg: {
@@ -100,10 +102,12 @@ export default () => ComposedComponent => {
     };
 
     expandNodeLeft = (nodeId, cursor) => {
+      if (this.props.rootNodeData?.id !== nodeId) serviceFlowMapLevelExpandedTracker({ direction: 'incoming', nodeId });
       this.createFlowNodesSubscription(nodeId, 'incoming', this.getIncomingFlowNodes$, cursor);
     };
 
     expandNodeRight = (nodeId, cursor) => {
+      if (this.props.rootNodeData?.id !== nodeId) serviceFlowMapLevelExpandedTracker({ direction: 'outgoing', nodeId });
       this.createFlowNodesSubscription(nodeId, 'outgoing', this.getOutgoingFlowNodes$, cursor);
     };
 

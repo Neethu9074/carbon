@@ -460,3 +460,4 @@ export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
 
 // Service Flow Map Tracking
 export const SERVICE_FLOW_MAP_CLICK = 'service.flowmap.click';
+export const SERVICE_FLOW_MAP_EXPAND_LEVEL = 'service.flowmap.level.expand';
