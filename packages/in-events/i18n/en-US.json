@@ -178,10 +178,11 @@
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
-    "thisIncident": "This incident appears to be:",
     "errorTitle": "No summarization found",
     "errorDescription": "No summarization could be created for this event",
-    "summarizationHelpfulText": "Was this summarization helpful?"
+    "summarizationHelpfulText": "Was this summarization helpful?",
+    "alertChannelTableTitle": "Alert Channels Associated with Incident",
+    "noDataAlertChannels": "No alert channels could be associated with this incident"
   },
   "feedback": {
     "skip": "Skip",
@@ -197,5 +198,9 @@
     "contactMeNo": "No, I prefer not to be contacted.",
     "appreciateResponse": "We appreciate your response!",
     "followUpQuestion": "Would you like us to follow up with you regarding your technical feedback for further clarification or discussion?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Impacted Business Processes",
+    "titleImpactedBusinessProcessesIncident": "Impacted Business Processes for Triggering Event"
   }
 }

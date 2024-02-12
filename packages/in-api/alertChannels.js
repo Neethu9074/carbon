@@ -6,28 +6,10 @@
 import { fromJS } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { create } from '@instana/observables';
 
 import { configs, fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
-import memoize from 'in-services/util/memoizingObservableGenerator';
-import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
-
-const refreshSignal = create().emit(true);
-export const getAlertChannelsAsResultObservable = memoize(getAlertChannelsAsResultObservableInternal, () => '', 300000);
-export function getAlertChannelsAsResultObservableInternal() {
-  return refreshSignal.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        maxRetries: 3,
-        url: '/api/events/settings/alertingChannels/infos'
-      }).map(response => deepFreeze(response))
-    ).startWith(null)
-  );
-}
 
 export function getAlertChannelsInfosMutable(ids = []) {
   return http({

@@ -193,7 +193,9 @@ export const getSyntheticTagCatalog =
     }).map(response => deepFreeze(response));
   };
 
-export function getDatacenters(): Observable<unknown> {
+export const getDatacenters = memoize(getDatacentersInternal, (id: string) => id, 5000);
+
+function getDatacentersInternal(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -202,3 +204,13 @@ export function getDatacenters(): Observable<unknown> {
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
+
+export const getDatacenterLicense = (): Observable<any> => {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/synthetics/settings/datacenters/license',
+    mapToResultObject: true
+  }).map(result => deepFreeze(result));
+};

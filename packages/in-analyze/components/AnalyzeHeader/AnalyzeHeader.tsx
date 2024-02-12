@@ -117,8 +117,8 @@ export default function AnalyzeHeader({
       <Title title={getLabelByType(activeConfiguration.dataSource)} />
       <ViewTrackingMeta
         data={{
-          productArea: productAreaTrackingNames[activeConfiguration.productArea as never],
-          pageRootName: pageNames.analytics
+          productArea: pageNames.analytics,
+          pageRootName: productAreaTrackingNames[activeConfiguration.productArea]
         }}
       />
       {renderQuickFilterBar && (

@@ -12,7 +12,8 @@ import {
   Capability,
   CapabilityType,
   LimitedAccessScope,
-  LimitedAccessScopeType
+  LimitedAccessScopeType,
+  PermissionsUnion
 } from 'in-stores/permission';
 import { automationPoliciesEnabled, infraSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
@@ -122,6 +123,10 @@ const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
 export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
+export const applicationAdditionalCapabilities: Array<CapabilityType> = [
+  Capability.CAN_VIEW_TRACE_DETAILS,
+  Capability.CAN_CONFIGURE_SERVICE_MAPPING
+];
 export const syntheticOtherCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
   Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
@@ -146,7 +151,6 @@ export const eventCapabilities: Array<CapabilityType> = [
 export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
-  Capability.CAN_CONFIGURE_SERVICE_MAPPING,
   Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
 ];
 
@@ -206,6 +210,7 @@ interface ProductAreaAccess {
   limitation?: LimitedAccessScopeType;
   permission?: AreaPermissionType;
   capabilities: Array<CapabilityType>;
+  additionalCapabilities?: PermissionsUnion[];
 }
 
 type ProductAreaPermissionStructure = Record<ProductAreaType, ProductAreaAccess>;
@@ -224,7 +229,8 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.APPLICATION]: {
     limitation: LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
     permission: AreaPermission.ACCESS_APPLICATIONS,
-    capabilities: applicationCapabilities
+    capabilities: applicationCapabilities,
+    additionalCapabilities: applicationAdditionalCapabilities
   },
   [ProductArea.KUBERNETES]: {
     limitation: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
@@ -269,7 +275,8 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.INFRASTRUCTURE]: {
     limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
     permission: AreaPermission.ACCESS_INFRASTRUCTURE,
-    capabilities: noCapabilities
+    capabilities: noCapabilities,
+    additionalCapabilities: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE] as PermissionsUnion[]
   },
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,

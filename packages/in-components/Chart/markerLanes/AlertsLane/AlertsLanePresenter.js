@@ -6,6 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
@@ -19,13 +20,11 @@ import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import { formatDateTime } from 'in-services/formatters/date';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AlertsLanePresenter.mless';
 
 export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
-  const theme = useTheme();
   return (
     <>
       <MarkerLane
@@ -36,15 +35,15 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
           smartAlerts: {
             type: 'lib_events_critical',
             typeCluster: 'lib_alerts_multiple_alerts',
-            color: theme.ids.color.option.red['500']
+            color: themes.default.ids.color.option.red['500']
           },
           incidents: {
             type: 'lib_events_incident',
             typeCluster: 'lib_alerts_multiple_alerts',
-            color: theme.ids.color.option.red['500']
+            color: themes.default.ids.color.option.red['500']
           }
         }}
-        color={theme.ids.color.option.red['500']}
+        color={themes.default.ids.color.option.red['500']}
         TooltipContent={AlertsLaneTooltipContent}
         LaneItem={TwoIconsLaneItem}
         HoverOverlay={remainingProps.isClustered ? HoverArea : HoverLine}

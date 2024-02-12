@@ -12,7 +12,10 @@ import { t } from 'in-i18n';
 
 export const isSideScript = (script: string) => {
   try {
-    JSON.parse(script);
+    const content = JSON.parse(script);
+    if (!content || typeof content !== 'object') {
+      return false;
+    }
   } catch (e) {
     return false;
   }

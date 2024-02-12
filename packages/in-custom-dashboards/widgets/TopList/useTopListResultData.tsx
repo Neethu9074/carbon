@@ -4,14 +4,19 @@
  * Copyright IBM Corp. 2023
  */
 
+import { TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { TimeConfig } from '@instana/types';
 
+import { getTimeConfigBasedOnMetricConfiguration } from '../_shared/lastTimeConfig';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 
 const useTopListResultData = (config: any, timeConfig: TimeConfig) => {
   const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
+  const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(
+    config.metricConfiguration as UnifiedMetricConfiguration,
+    timeConfigExtendedForLiveMode
+  );
 
   const metrics = {
     list: {
@@ -19,7 +24,7 @@ const useTopListResultData = (config: any, timeConfig: TimeConfig) => {
       timeShift: {
         offset: 0
       },
-      timeConfig: timeConfigExtendedForLiveMode,
+      timeConfig: usedTimeConfig,
       resultType: 'SINGLE_NUMBER'
     }
   };

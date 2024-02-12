@@ -74,8 +74,6 @@
       "infrastructure": "Infrastructure",
       "profiles": "Profiles",
       "logs": "Logs",
-      "eumWebsites": "EUM: Websites",
-      "eumMobileApps": "EUM: Mobile Apps",
       "pageLoads": "Page loads",
       "pageTransitions": "Page transitions",
       "pageTransitions2": "Page Transitions",
@@ -159,7 +157,10 @@
         "resourceUri": "Resource URI",
         "cacheInteraction": "Cache Interaction",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana does not monitor the {{location}} of this call",
-        "tags": "Tags"
+        "tags": "Tags",
+        "loading": "Loading call details.",
+        "labelError": "Unexpected error",
+        "retryError": "Call details could not be loaded."
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",

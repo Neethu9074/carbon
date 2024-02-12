@@ -6,12 +6,12 @@
 import React, { forwardRef } from 'react';
 
 import { Size } from '@instana/components/types/components/SvgIcon/types';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import { isWebsitePlugin, isSyntheticPlugin, isMobileAppPlugin } from 'in-forge/plugins/pluginTypes';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import { SnapshotMap } from 'in-components/EntityLink';
-import { useTheme } from 'in-themes';
 
 interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
   size?: Size;
@@ -21,8 +21,7 @@ interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'ty
 }
 
 export default forwardRef(function PluginIcon(props: PluginIconProps, ref: React.ForwardedRef<SVGSVGElement>) {
-  const theme = useTheme();
-  const { size, color = theme.ids.color.option.neutral['700'] } = props;
+  const { size, color = themes.default.ids.color.option.neutral['700'] } = props;
   return <SvgIcon ref={ref} {...props} size={size} color={color} type={getIconType(props.snapshot, props.plugin)} />;
 });
 

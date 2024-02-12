@@ -8,6 +8,7 @@ import { ServiceLevelIndicatorUnion, TimeBasedSli, isTimeBasedSli } from '@insta
 
 export interface LabeledEntity {
   label: string;
+  deleted?: boolean;
 }
 
 export type TimeBasedLatencyBlueprintIndicator = TimeBasedSli & { blueprint: 'latency' };

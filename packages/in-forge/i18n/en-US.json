@@ -523,6 +523,11 @@
   "pluginName_ec2_1": "EC2 Instances",
   "pluginName_ec2_2": "EC2 Instances",
   "pluginName_ec2": "EC2 Instance",
+  "pluginName_ec2Tags_plural": "EC2 Tags Instances",
+  "pluginName_ec2Tags_0": "EC2 Tags Instances",
+  "pluginName_ec2Tags_1": "EC2 Tags Instances",
+  "pluginName_ec2Tags_2": "EC2 Tags Instances",
+  "pluginName_ec2Tags": "EC2 Tags Instance",
   "pluginName_elasticsearchCluster_plural": "Elasticsearch Clusters",
   "pluginName_elasticsearchCluster_0": "Elasticsearch Clusters",
   "pluginName_elasticsearchCluster_1": "Elasticsearch Clusters",
@@ -6881,7 +6886,13 @@
       "securityGroups": "Security Groups",
       "publicKeys": "Public Keys",
       "vpc": "VPC",
-      "tags": "Tags"
+      "tags": "Tags",
+      "nameFromVirtualisationLayer": "Name",
+      "nameFromVirtualisationLayerIsUnique": {
+        "label": "Name is unique",
+        "yes": "Yes",
+        "no": "No"
+      }
     },
     "elasticsearchCluster": {
       "nodes": "Nodes",

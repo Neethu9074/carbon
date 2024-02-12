@@ -5,7 +5,14 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Grouping, LabeledMetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+import {
+  Grouping,
+  LabeledMetricResult,
+  Result,
+  TimeConfig,
+  UnifiedMetricConfiguration,
+  isInfraMetricConfiguration
+} from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { ResultType } from '@instana/types';
 
@@ -30,6 +37,7 @@ import {
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
@@ -251,15 +259,25 @@ function addUnifiedMetricsConfigForMetrics(
   timeConfig: TimeConfig,
   metrics: UnifiedMetricsConfigObject
 ) {
-  metricConfig[axisName]?.metrics.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId(axisName, i)] = {
-        ...metricConfiguration,
-        resultType,
-        granularity: adjustedGranularity,
-        timeConfig: timeConfig,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      } as UnifiedMetricConfiguration)
+  metricConfig[axisName]?.metrics.forEach((metricConfiguration, i) =>
+    isInfraMetricConfiguration(metricConfiguration as UnifiedMetricConfiguration)
+      ? (metrics[getMetricId(axisName, i)] = {
+          ...metricConfiguration,
+          resultType,
+          granularity: adjustedGranularity,
+          timeConfig: getTimeConfigBasedOnMetricConfiguration(
+            metricConfiguration as UnifiedMetricConfiguration,
+            timeConfig
+          ),
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+        } as UnifiedMetricConfiguration)
+      : (metrics[getMetricId(axisName, i)] = {
+          ...metricConfiguration,
+          resultType,
+          granularity: adjustedGranularity,
+          timeConfig: timeConfig,
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+        } as UnifiedMetricConfiguration)
   );
 }
 

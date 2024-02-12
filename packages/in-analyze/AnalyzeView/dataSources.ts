@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
 import { ApplicationTagFilterEntity, CallItem, DataSource, TagFilter, TraceItem } from 'in-types';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
@@ -112,12 +113,12 @@ export const productAreaLabels = Object.freeze<Record<ProductArea, string>>({
 } as const);
 
 export const productAreaTrackingNames = Object.freeze({
-  application: t('in-analyze:analyzeView.dataSources.applications'),
-  website: t('in-analyze:analyzeView.dataSources.eumWebsites'),
-  mobileApp: t('in-analyze:analyzeView.dataSources.eumMobileApps'),
-  profiles: t('in-analyze:analyzeView.dataSources.profiles'),
-  logs: t('in-analyze:analyzeView.dataSources.logs'),
-  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
+  application: pageNames.applications,
+  website: pageNames.websites,
+  mobileApp: pageNames.mobile_apps,
+  profiles: pageNames.profiles,
+  logs: pageNames.local_alerts,
+  infrastructure: pageNames.infrastructure
 } as const);
 
 enum ProductAreaEnum {

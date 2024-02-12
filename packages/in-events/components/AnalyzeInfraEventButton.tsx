@@ -68,7 +68,8 @@ export function getLinkToUnboundAnalytics(
         by: `${metricName}.${aggregation}`,
         direction: 'DESC'
       },
-      groupBy: groupByArray ?? []
+      groupBy: groupByArray ?? [],
+      fromEventPage: true
     })
   );
 }

@@ -7,6 +7,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { LoadingSkeleton, Message } from '@instana/components';
+import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -22,13 +24,33 @@ interface Props {
   selectedBlueprint: LocationsBluePrint;
   setSelectedBlueprint: (item: LocationsBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
+  checkLicense: Result<string>;
 }
 interface Description {
   headline: string;
   htmlContent: string;
 }
 
-const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm }: Props) => {
+const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, checkLicense }: Props) => {
+  const getWarningMessage = () => {
+    if (!checkLicense.progress.loading) {
+      if (checkLicense.errors.length !== 0) {
+        return (
+          <Message
+            type="warning"
+            withIcon
+            bold
+            className={locals.warningMessage}
+            title={t('in-synthetics:dialog.createLocation.licenseCheck.title')}
+            description={t('in-synthetics:dialog.createLocation.licenseCheck.description')}
+          />
+        );
+      } else {
+        return null;
+      }
+    }
+    return <LoadingSkeleton />;
+  };
   return (
     <SimpleModeStepContentWrapper
       headline={t('in-synthetics:dialog.createLocation.selectLocationType.contentWrapperHeadline')}
@@ -39,10 +61,11 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
           setSelectedBlueprint(item);
-          updateForm(createNewLocationForm());
+          updateForm(createNewLocationForm(item.type));
         }}
       />
       <div className={locals.presenterWrapper}>
+        {selectedBlueprint.type === 'managed' && getWarningMessage()}
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>
           {selectedBlueprint.description?.map((paragraph: Description) => {
             return (

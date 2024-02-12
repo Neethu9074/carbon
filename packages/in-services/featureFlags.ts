@@ -44,6 +44,7 @@ export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
+export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -130,7 +131,11 @@ export const autoFormatterTimeSeriesEnabled = isFeatureFlagEnabled('autoFormatte
 
 export const multiGroupTimeSeriesEnabled = isFeatureFlagEnabled('multiGroupTimeSeriesEnabled');
 
-export const fullscreenWidgetEnabled = isFeatureFlagEnabled('fullscreenWidgetEnabled');
+export const zoomWidgetEnabled = isFeatureFlagEnabled('zoomWidgetEnabled');
+
+export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('lastValueForNonTimeSeriesWidgetEnabled');
+
+export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -151,6 +156,10 @@ export const hiddenSearchFieldValues = {
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
 export const bizopsActivityDistributionChartsEnabled = isFeatureFlagEnabled('bizopsActivityDistributionChartsEnabled');
+export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
+export const bizopsImpactedBusinessProcessesTableEnabled = isFeatureFlagEnabled(
+  'bizopsImpactedBusinessProcessesTableEnabled'
+);
 
 // ########################################################################################
 // Chart gap hiding
@@ -213,8 +222,7 @@ export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incide
 
 export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);
 
+export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const simplifiedFlowMapEnabled = isFeatureFlagEnabled('simplifiedFlowMapEnabled', false);
-
-export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);

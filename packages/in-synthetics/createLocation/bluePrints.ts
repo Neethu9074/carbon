@@ -16,7 +16,7 @@ export interface LocationsBluePrint {
 const blueprintConfig: readonly Readonly<LocationsBluePrint>[] = Object.freeze([]);
 
 const privateLocation: LocationsBluePrint = {
-  type: t('in-synthetics:dialog.createLocation.privateLocation.type'),
+  type: 'private',
   name: t('in-synthetics:dialog.createLocation.privateLocation.name'),
   headline: t('in-synthetics:dialog.createLocation.privateLocation.headline'),
   description: [
@@ -28,7 +28,7 @@ const privateLocation: LocationsBluePrint = {
 };
 
 const managedLocation: LocationsBluePrint = {
-  type: t('in-synthetics:dialog.createLocation.managedLocation.type'),
+  type: 'managed',
   name: t('in-synthetics:dialog.createLocation.managedLocation.name'),
   headline: t('in-synthetics:dialog.createLocation.managedLocation.headline'),
   description: [

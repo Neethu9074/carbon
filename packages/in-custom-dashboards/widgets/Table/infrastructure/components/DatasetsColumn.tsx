@@ -89,6 +89,7 @@ export default function DatasetsColumn({
                 ))}
               </SelectInSection>
             }
+            withLastValue
           />
         );
       })}

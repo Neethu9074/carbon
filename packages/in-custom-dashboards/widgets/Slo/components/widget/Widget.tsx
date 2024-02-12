@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { MetricResult, Progress, SliConfigurationWithLastUpdated, Error } from '@instana/types';
@@ -42,6 +43,7 @@ interface WidgetProps {
   errors: Error[];
 
   isPreview?: boolean;
+  isInModal?: boolean;
   disableZooming?: boolean;
   nonInteractive?: boolean;
 
@@ -66,6 +68,7 @@ export default function Widget({
   disableZooming,
   nonInteractive,
   actions,
+  isInModal,
   dragHandle
 }: WidgetProps) {
   const { timeConfig, fromTimestamp, toTimestamp } = timeWindowConfig;
@@ -79,14 +82,20 @@ export default function Widget({
     <div className={locals.loadingBarContainer}>
       <WidgetLoadingIndicator progress={progress} />
       <Card
-        bodyClassName={locals.bodyNoPadding}
+        className={classNames({
+          [locals.modal]: isInModal
+        })}
+        bodyClassName={locals.noPadding}
         rightHeaderContent={
           <>
             {dragHandle}
             {actions}
           </>
         }
-        headerClassName={locals.title}
+        headerClassName={classNames({
+          [locals.title]: true,
+          [locals.noPaddingTitle]: isInModal
+        })}
         leftHeaderContent={
           <WidgetLeftHeader
             title={title}
@@ -98,7 +107,12 @@ export default function Widget({
           />
         }
       >
-        <div className={locals.chart}>
+        <div
+          className={classNames({
+            [locals.chart]: true,
+            [locals.noPadding]: isInModal
+          })}
+        >
           <SliSummary
             status={status}
             slo={slo}

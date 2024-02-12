@@ -26,6 +26,7 @@ export default function ApdexWidgetPresenter({
   dragHandle,
   title,
   isPreview,
+  isInModal,
   config
 }: WidgetProps<ApdexWidgetConfiguration>) {
   const originalTimeConfig = useApdexWidgetTimeConfig(isPreview);
@@ -67,6 +68,7 @@ export default function ApdexWidgetPresenter({
       progress={progress}
       granularity={granularity}
       timeConfig={timeConfig}
+      isInModal={isInModal}
       automaticallySize={!isPreview}
       nonInteractive={isPreview}
       height={height}

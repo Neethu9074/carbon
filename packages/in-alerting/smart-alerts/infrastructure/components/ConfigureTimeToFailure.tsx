@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 
 const MAX_STEPS_AHEAD = 10;
 
-interface ConfigureTimeToFailureProps {
+export interface ConfigureTimeToFailureProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
 }

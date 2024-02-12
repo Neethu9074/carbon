@@ -2035,11 +2035,12 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.34.1":
-  version "2.34.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.34.1.tgz#34beb6c7f1509049ef40b9bf2827e02fad33ece8"
-  integrity sha512-Q8p+PG1ABhNd0U/cj7XHVP9mpJYXYF3KG0XTGlRd0Ss3KHxAvllpMkd+sRt02erhm+nhlltEpM7GwHTwZmDyqA==
+"@instana/components@2.37.1":
+  version "2.37.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.37.1.tgz#a5cc78f189560d3eca574521e8504a777fc107da"
+  integrity sha512-IrWsvXjJKQgQFlc4OPY7pYM2rEj+VtVNNZ5U5/U8u/9YndyWCZJUss7RkOa4uk0KBTpT4EDIJWpbfA6Tb2UpQQ==
   dependencies:
+    "@carbon/colors" "^11.14.0"
     "@carbon/icons-react" "^11.18.0"
     "@carbon/layout" "11.13.0"
     "@carbon/react" "1.27.0"
@@ -2177,10 +2178,10 @@
     "@instana/logger" "^1.3.2"
     "@instana/observables" "^1.7.3"
 
-"@instana/types@1.624.0":
-  version "1.624.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.624.0.tgz#4896bd64f4ab34cfda8ae4a5d6dc3e281051a6c9"
-  integrity sha512-jdHuOueDKc9xv3QsifGSxjXksPJ6ItnMHuur14ob0X3NQFOH3Eeuv1RjzIhvgJ6hojJKGZoldBauj3CMM0Q7zQ==
+"@instana/types@1.267.691":
+  version "1.267.691"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.267.691.tgz#5bf955cc01f997862d628a74836716dd07e42fcd"
+  integrity sha512-xOr/mMFPTrfJLGTP9LYwoaQ/i4Biz4k3a3f3jBo5JUHNQfIO/3FpCwyP7Uhfa2Dicz2mmATwD2ML/o5Dyry6LA==
 
 "@instana/utils@^1.3.1", "@instana/utils@^1.4.3":
   version "1.4.3"
@@ -5028,9 +5029,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   integrity "sha1-k/qteyAWR1TMEwLaxdw236ROJ1g= sha512-5lzq/7B9e3Fj4puD8CnFpS/YleAmLsSvreMF/1KLvi4r71x3fPi4BtbPfDC3yE45sR2jYpTXUCIbphk2SKWrlg=="
 
 caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001517:
-  version "1.0.30001579"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001579.tgz"
-  integrity sha512-u5AUVkixruKHJjw/pj9wISlcMpgFWzSrczLZbrqBSxukQixmg0SJ5sZTpvaFvxU0HoQKd4yoyAogyrAz9pzJnA==
+  version "1.0.30001585"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001585.tgz"
+  integrity sha512-yr2BWR1yLXQ8fMpdS/4ZZXpseBgE7o4g41x3a6AJOqZuOi+iE/WdJYAuZ6Y95i4Ohd2Y+9MzIWRR+uGABH4s3Q==
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"

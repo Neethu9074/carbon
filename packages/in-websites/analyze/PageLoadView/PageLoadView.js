@@ -19,6 +19,7 @@ import {
 } from 'in-websites/navigation/urlParameters';
 import SplitScreenPageLoadContent from 'in-websites/analyze/PageLoadView/SplitScreenPageLoadContent';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
+import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
@@ -222,9 +223,10 @@ function renderButtonLine(props) {
 
 function renderContext({ getHrefToUngroupedView }) {
   return (
-    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
-      {t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
-    </Link>
+    <DashboardHeaderContext
+      href={getHrefToUngroupedView()}
+      label={t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
+    />
   );
 }
 

@@ -13,4 +13,5 @@ export interface WidgetProps<T> {
   dragHandle: React.ReactNode;
   isPreview?: boolean;
   timeConfig: TimeConfig;
+  isInModal?: boolean;
 }

@@ -103,6 +103,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
         })}
         disabledDataSources={[event, sli]}
         maxGrouping={10}
+        withLastValue
       />
     </>
   );

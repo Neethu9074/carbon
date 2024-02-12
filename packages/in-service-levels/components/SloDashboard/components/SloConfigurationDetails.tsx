@@ -14,7 +14,7 @@ import IndicatorSection from 'in-service-levels/components/SloDashboard/componen
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
-import SloTagList from 'in-service-levels/components/TagsList/SloTagList';
+import TagList from 'in-components/TagsList/TagList';
 import { Nullish } from 'in-types';
 
 interface SloConfigurationDetailsProps {
@@ -34,12 +34,12 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 }
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
-  const { configuration } = data;
+  const { configuration, entity } = data;
 
   return (
     <Card
-      leftHeaderContent={<SloTagList tags={configuration.tags} />}
-      rightHeaderContent={<SloActionButtons configuration={configuration} />}
+      leftHeaderContent={<TagList tags={configuration.tags} />}
+      rightHeaderContent={<SloActionButtons configuration={configuration} editDisabled={entity.deleted} />}
     >
       <Ul space="medium">
         <EntitySection data={data} />

@@ -306,6 +306,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsGoldenSignalsEnabled',
+    instanaCtlKey: 'feature.bizops.golden.signals.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
+    instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: true
@@ -476,24 +486,24 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'flowMapEnabled',
+    instanaCtlKey: 'feature.application.flowmap.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'simplifiedFlowMapEnabled',
     instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'agentInstallationV2Enabled',
-    instanaCtlKey: 'feature.agent.install.v2.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'fullscreenWidgetEnabled',
-    instanaCtlKey: 'feature.fullscreen.widget.enabled',
+    uiClientKey: 'zoomWidgetEnabled',
+    instanaCtlKey: 'feature.zoom.widget.enabled',
     defaultValue: false
   },
   {
     uiClientKey: 'enableCarbonIcons',
     instanaCtlKey: 'feature.carbon.icons.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonShellEnabled',
@@ -501,8 +511,23 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonPillEnabled',
+    instanaCtlKey: 'feature.carbon.pill.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allowDownloadMetricsFromCharts',
     instanaCtlKey: 'feature.chart.download.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
+    instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'logSmartAlertsEnabled',
+    instanaCtlKey: 'feature.log.smart.alerts.enabled',
+    defaultValue: false
   }
 ];

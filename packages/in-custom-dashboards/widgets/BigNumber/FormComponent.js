@@ -107,6 +107,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
           );
         })}
         withGrouping={false}
+        withLastValue
         timeShiftConfiguration={<TimeShiftingForm form={form} onChange={onChange} />}
       />
     </Stack>

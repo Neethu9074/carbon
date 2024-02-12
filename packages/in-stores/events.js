@@ -294,3 +294,7 @@ export function getEventType(event) {
       return EVENT_TYPES.CHANGE;
   }
 }
+
+export function getServiceIds(event) {
+  return event.getIn(['metadata', 'serviceIds'], []);
+}

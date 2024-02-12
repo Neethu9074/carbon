@@ -172,9 +172,7 @@ router.get('/', async (req, res) => {
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
     const nonce = uuidv4();
-    //Adding play-with-user
-    const customerEmail = { email: req.cookies['customer-email'] };
-    const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
+    const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const isTrialUser =

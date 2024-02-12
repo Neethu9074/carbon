@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
@@ -18,7 +19,6 @@ import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeFilterFormComponents.mless';
@@ -193,9 +193,8 @@ export function SelectBox({ options, id, value, onChange, autoFocus }) {
 }
 
 export function FieldSeperator({ children }) {
-  const theme = useTheme();
   return (
-    <Pill className={locals.fieldSeperator} color={theme.ids.color.option.neutral['500']}>
+    <Pill className={locals.fieldSeperator} color={themes.default.ids.color.option.neutral['500']}>
       {children}
     </Pill>
   );

@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
-import { bizopsActivityDistributionChartsEnabled, bizopsFeatureEnabled } from 'in-services/featureFlags';
+import { bizopsActivityDistributionChartsEnabled, bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -39,56 +39,83 @@ export default function Summary() {
   const businessActivityName: string =
     getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
 
-  return (
-    <Fragment>
-      {bizopsFeatureEnabled && ( // generic FF while under development
+  // TODO: remove this if and just return once golden signals is complete
+  if (bizopsGoldenSignalsEnabled) {
+    return (
+      <Fragment>
         <KpiGridRow sizes={[true, true]}>
           <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityCount')} />
           <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityErrors')} />
         </KpiGridRow>
-      )}
-      <Row>
-        <Col lg>
-          <BizOpsCountChart
-            timeShiftConfig={timeShiftConfig}
-            timeConfig={timeConfig}
-            businessProcessId={businessProcessId}
-            businessProcessName={businessProcessName}
-            businessActivityName={businessActivityName}
-            metric={'activitiesCount'}
-            label={businessActivityName}
-            dataSource={'BUSINESS_ACTIVITIES'}
-          />
-        </Col>
-        <Col lg>
-          <TopServices />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg>
-          <InfrastructureIssuesAndChanges
-            businessProcessId={businessProcessId}
-            businessProcessName={businessProcessName}
-          />
-        </Col>
-        {bizopsFeatureEnabled && (
+        <Row>
+          <Col lg>
+            <BizOpsCountChart
+              timeShiftConfig={timeShiftConfig}
+              timeConfig={timeConfig}
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+              businessActivityName={businessActivityName}
+              metric={'activitiesCount'}
+              label={businessActivityName}
+              dataSource={'BUSINESS_ACTIVITIES'}
+            />
+          </Col>
+          <Col lg>
+            <TopServices />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg>
+            <InfrastructureIssuesAndChanges
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+            />
+          </Col>
           <Col lg>
             <BizOpsErrorsChart />
           </Col>
-        )}
-      </Row>
-      <Row>
-        {bizopsFeatureEnabled && (
+        </Row>
+        <Row>
           <Col lg>
             <BizOpsLatencyChart />
           </Col>
-        )}
-        {bizopsActivityDistributionChartsEnabled && (
+          {bizopsActivityDistributionChartsEnabled && (
+            <Col lg>
+              <DurationAndDistribution />
+            </Col>
+          )}
+        </Row>
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        <Row>
           <Col lg>
-            <DurationAndDistribution />
+            <BizOpsCountChart
+              timeShiftConfig={timeShiftConfig}
+              timeConfig={timeConfig}
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+              businessActivityName={businessActivityName}
+              metric={'activitiesCount'}
+              label={businessActivityName}
+              dataSource={'BUSINESS_ACTIVITIES'}
+            />
           </Col>
-        )}
-      </Row>
-    </Fragment>
-  );
+          {bizopsActivityDistributionChartsEnabled && (
+            <Col lg>
+              <DurationAndDistribution />
+            </Col>
+          )}
+          <Col lg>
+            <InfrastructureIssuesAndChanges
+              businessProcessId={businessProcessId}
+              businessProcessName={businessProcessName}
+            />
+          </Col>
+        </Row>
+      </Fragment>
+    );
+  }
 }

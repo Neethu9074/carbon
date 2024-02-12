@@ -8,7 +8,7 @@ import React, { Dispatch, ReactNode, SetStateAction, createContext, useMemo, use
 import _ from 'lodash';
 
 import { TimeConfig, TimeWindow } from '@instana/types';
-import { useTheme } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
@@ -17,14 +17,14 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours } from 'in-services/time/time';
 
 const TIME_WINDOW_COLOR_TOKEN_PATHS = [
-  'ids.color.option.blue.400',
-  'ids.color.option.purple.500',
-  'ids.color.option.green.500',
-  'ids.color.option.deep-purple.500',
-  'ids.color.option.blue.500',
-  'ids.color.option.green.800',
-  'ids.color.option.teal.400',
-  'ids.color.option.indigo.500'
+  'default.ids.color.option.blue.400',
+  'default.ids.color.option.purple.500',
+  'default.ids.color.option.green.500',
+  'default.ids.color.option.deep-purple.500',
+  'default.ids.color.option.blue.500',
+  'default.ids.color.option.green.800',
+  'default.ids.color.option.teal.400',
+  'default.ids.color.option.indigo.500'
 ];
 
 type AvailableTimeWindowTypes = keyof typeof SloTimeWindowTypes;
@@ -64,7 +64,6 @@ function useSelectedTimeWindowContext({
   sloTimeWindow,
   sloConfigId
 }: UseSelectedTimeWindowContextProps): TimeWindowContext {
-  const theme = useTheme();
   const [selectedTimeWindowType, updateSelectedTimeWindowType] =
     useState<AvailableTimeWindowTypes>(defaultTimeWindowType);
   const timeConfig = useMemo(
@@ -76,7 +75,7 @@ function useSelectedTimeWindowContext({
   return useStableObjectInstance({
     selectedTimeWindowType,
     timeWindows: timeWindows ?? [],
-    timeWindowColors: timeWindows?.map((_, index) => getColorByTimeWindowIndex(index, theme)) ?? [],
+    timeWindowColors: timeWindows?.map((_, index) => getColorByTimeWindowIndex(index, themes)) ?? [],
     updateSelectedTimeWindowType
   });
 }
@@ -94,7 +93,7 @@ function getTimeConfigBySelectedType(
       { ...selectedTimeConfig, windowSize: hours.toMillis(1) };
 }
 
-function getColorByTimeWindowIndex(index: number, theme: ReturnType<typeof useTheme>): string {
+function getColorByTimeWindowIndex(index: number, theme: object): string {
   const tokenPath =
     index < TIME_WINDOW_COLOR_TOKEN_PATHS.length
       ? TIME_WINDOW_COLOR_TOKEN_PATHS[index]

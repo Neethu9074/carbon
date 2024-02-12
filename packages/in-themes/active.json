@@ -163,8 +163,6 @@
       "success": "#39BF7C",
       "failure": "#FF4040",
       "warning": "#FFC600",
-      "tableRowSelectedOdd": "rgba(0, 179, 179, 0.11)",
-      "tableRowSelectedEven": "rgba(0, 204, 204, 0.1)",
       "timeShift": "#6f6f6f",
       "primary240": "#a7cde0",
       "lightPrimary240": "#a2d9f5",

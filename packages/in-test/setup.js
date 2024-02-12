@@ -71,7 +71,6 @@ global.window.instana.user = {
         canConfigureEventsAndAlerts: true,
         canConfigureAutomationActions: true,
         canConfigureMaintenanceWindows: true,
-        canConfigureCustomAlerts: true,
         canConfigureApplicationSmartAlerts: true,
         canConfigureWebsiteSmartAlerts: true,
         canConfigureMobileAppSmartAlerts: true,

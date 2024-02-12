@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -16,7 +17,13 @@ import { getEc2Tags, getSnapshot } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-export function Ec2Tags({ snapshotId: ec2SnapshotId }: { snapshotId: string }) {
+export function Ec2Tags({
+  snapshotId: ec2SnapshotId,
+  deprecatedTags
+}: {
+  snapshotId: string;
+  deprecatedTags: Map<string, string>;
+}) {
   const ec2TagsSnapshot =
     useObservable(
       getEc2Tags(ec2SnapshotId).flatMap(result =>
@@ -28,7 +35,8 @@ export function Ec2Tags({ snapshotId: ec2SnapshotId }: { snapshotId: string }) {
   if (isLoading(ec2TagsSnapshot) || hasError(ec2TagsSnapshot)) {
     return null;
   }
-  const tags = ec2TagsSnapshot.data.get('data')?.get('tags');
+  const ec2Tags = ec2TagsSnapshot.data.get('data')?.get('tags');
+  const tags = ec2Tags?.size > 0 ? ec2Tags : deprecatedTags;
 
   return <KeyValueOverlay header={t('in-forge:plugins.ec2.tags')} data={tags} />;
 }

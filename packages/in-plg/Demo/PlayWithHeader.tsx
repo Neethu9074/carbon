@@ -14,7 +14,6 @@ import {
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
 import { playwithEnabled, playWithReleaseEnabled, carbonShellEnabled } from 'in-services/featureFlags';
-import NewPlayWithHeader from 'in-plg/Demo/NewPlayWithHeader';
 import Sticky from 'in-components/Sticky/Sticky';
 import { t } from 'in-i18n';
 
@@ -39,7 +38,7 @@ export function getPageType(pathname = '/') {
 
 export default function PlayWithHeader() {
   if ((playwithEnabled || playWithReleaseEnabled) && carbonShellEnabled) {
-    return <NewPlayWithHeader />;
+    return null;
   }
 
   return (

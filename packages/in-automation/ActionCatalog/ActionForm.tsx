@@ -149,7 +149,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </FormGroup>
             </>
           )}
-          {(role?.canConfigureEventsAndAlerts ?? role?.canConfigureCustomAlerts) && (
+          {role?.canConfigureEventsAndAlerts && (
             <>
               <SectionHeading>
                 {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
@@ -157,7 +157,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               <EventsSelection form={form} setForm={setForm} />
             </>
           )}
-          {(role?.canConfigureApplicationSmartAlerts ?? role?.canConfigureCustomAlerts) && (
+          {role?.canConfigureApplicationSmartAlerts && (
             <>
               <SectionHeading>
                 {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}

@@ -117,10 +117,6 @@ export default {
       failure: oldThemeColors.red800,
       warning: oldThemeColors.yellow800,
 
-      // table
-      tableRowSelectedOdd: oldThemeColors.fadedTeal800,
-      tableRowSelectedEven: oldThemeColors.fadedCyan800,
-
       /**
        * @deprecated replace theme.lib.colors.chart... with chartColors...
        * from different module:
@@ -128,6 +124,10 @@ export default {
        */
       chart: chartColors,
 
+      /**
+       * @deprecated replace with import from different module:
+       * import { timeShift } from 'in-themes/chartColors';
+       */
       timeShift,
 
       primary240: lighten(oldThemeColors.blue800, 0.4),

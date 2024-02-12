@@ -10,7 +10,9 @@ import {
   teamSettingsAlertingAlertChannels,
   teamSettingsActionLog,
   teamSettingsLogManagementHumio,
-  teamSettingsAccessControlGroups
+  teamSettingsAccessControlGroups,
+  teamSettingsAlertingCustomPayloadConfiguration,
+  teamSettingsAlertingMaintenanceConfigurations
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
@@ -20,8 +22,10 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureUsers ||
     role.canConfigureTeams ||
     role.canConfigureApiTokens ||
-    (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) ||
+    role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
+    role.canConfigureMaintenanceWindows ||
+    role.canConfigureGlobalAlertPayload ||
     role.canViewAuditLog ||
     role.canConfigureLogManagement
   );
@@ -37,11 +41,17 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureApiTokens) {
     return teamSettingsAccessControlApiTokens;
   }
-  if (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) {
+  if (role.canConfigureEventsAndAlerts) {
     return teamSettingsAlertingEvents;
   }
   if (role.canConfigureIntegrations) {
     return teamSettingsAlertingAlertChannels;
+  }
+  if (role.canConfigureMaintenanceWindows) {
+    return teamSettingsAlertingMaintenanceConfigurations;
+  }
+  if (role.canConfigureGlobalAlertPayload) {
+    return teamSettingsAlertingCustomPayloadConfiguration;
   }
   if (role.canViewAuditLog) {
     return teamSettingsActionLog;

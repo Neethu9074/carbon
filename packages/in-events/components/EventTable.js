@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { findIndex } from 'lodash';
 
 import { Button, Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
@@ -40,7 +41,6 @@ import { eventId } from 'in-events/navigation/matrix';
 import { isLoading } from 'in-services/util/result';
 import tabs from 'in-events/components/tabs/index';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
@@ -142,7 +142,6 @@ function EventTable(props) {
 }
 
 function Header(props) {
-  const theme = useTheme();
   if (isLoading(props.result)) {
     return (
       <DashboardHeader
@@ -163,19 +162,17 @@ function Header(props) {
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={TimeSelection}
       hideUrlShortener
-      theme={theme}
     />
   );
 }
 
-function renderMetaInformation({ event, theme }) {
-  return <TriggeredMarker event={event} theme={theme} />;
+function renderMetaInformation({ event }) {
+  return <TriggeredMarker event={event} />;
 }
 
 function FeedbackComponents() {
   const tup = 'thumbsUp';
   const tdown = 'thumbsDown';
-  const theme = useTheme();
   const [feedbackState, setFeedbackState] = useState('');
   const { location } = useNavigation();
   const [selectedID, setSelectedID] = useState(location.matrix[eventsPath].eventId);
@@ -222,7 +219,7 @@ function FeedbackComponents() {
         kind="subtle"
         // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
         //TODO: Find an alternative to this (i.e. bring in a filled in thumbs up icon)
-        style={feedbackState === tup ? { background: `${theme.ids.color.option.neutral[300]}` } : undefined}
+        style={feedbackState === tup ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
         size="compact"
         icon={'lib_thumbs_up'}
         iconSize="s"
@@ -242,7 +239,7 @@ function FeedbackComponents() {
         kind="subtle"
         // I acknowledge this isn't ideal but we will release a preliminary version and a discussion will take place to find a new way to do this
         //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
-        style={feedbackState === tdown ? { background: `${theme.ids.color.option.neutral[300]}` } : undefined}
+        style={feedbackState === tdown ? { background: themes.default.ids.color.option.neutral['300'] } : undefined}
         size="compact"
         iconSize="s"
         icon={'lib_thumbs_down'}
@@ -284,9 +281,9 @@ function TimeSelection() {
   );
 }
 
-function TriggeredMarker({ event, theme }) {
+function TriggeredMarker({ event }) {
   return getEventType(event) !== EVENT_TYPES.INCIDENT && hasServiceImpact(event) ? (
-    <Pill color={theme.ids.color.option.teal['400']}>{t('in-events:markerServiceImpact')}</Pill>
+    <Pill color={themes.default.ids.color.option.teal['400']}>{t('in-events:markerServiceImpact')}</Pill>
   ) : null;
 }
 

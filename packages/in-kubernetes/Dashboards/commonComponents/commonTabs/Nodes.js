@@ -28,6 +28,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
+import { isEks } from 'in-kubernetes/clusterDistributions';
 import { pendingResult } from 'in-services/fixedObjects';
 import EntityLink from 'in-components/EntityLink';
 import { shorten } from 'in-services/util/string';
@@ -37,8 +38,9 @@ import { t } from 'in-i18n';
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
 
-function EntityHost({ nodeId, timeConfig }) {
+function EntityHost({ nodeId, timeConfig, clusterDistribution }) {
   const host = useObservable(getHostByKubernetesNodeId({ nodeId, timeConfig }), []) ?? pendingResult;
+  const isEksCluster = isEks(clusterDistribution);
   const isLoading = host && get(host, ['progress', 'loading']);
   const isHostUnmonitored = host?.errors.length > 0;
   const hostData = host?.data;
@@ -65,7 +67,7 @@ function EntityHost({ nodeId, timeConfig }) {
     );
   }
 
-  return valueMissingPlaceholder;
+  return isEksCluster ? t('in-kubernetes:dashboards.fargateNode') : valueMissingPlaceholder;
 }
 
 const columnDefinitions = [
@@ -74,7 +76,6 @@ const columnDefinitions = [
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       const { node, name, entityHealthInfo } = item;
-
       return <NodeLink id={node.id} name={name} entityHealthInfo={entityHealthInfo} />;
     }
   },
@@ -181,8 +182,10 @@ const columnDefinitions = [
     id: 'host',
     label: t('in-kubernetes:dashboards.monitoredByInstana'),
     sortable: false,
-    getContent({ snapshotIdForMetric }, { timeConfig }) {
-      return <EntityHost nodeId={snapshotIdForMetric} timeConfig={timeConfig} />;
+    getContent({ snapshotIdForMetric }, { timeConfig, data: { clusterDistribution } }) {
+      return (
+        <EntityHost nodeId={snapshotIdForMetric} timeConfig={timeConfig} clusterDistribution={clusterDistribution} />
+      );
     }
   }
 ];

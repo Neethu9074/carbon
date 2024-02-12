@@ -8,6 +8,7 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
 import { Stack, StackItem } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/components';
 
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
@@ -16,7 +17,6 @@ import FormBoundInput from 'in-components/form/Input/FormBoundInput';
 import Form from 'in-components/form/binding/Form';
 import FormInput from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { useTheme } from 'in-themes';
 
 const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 
@@ -91,7 +91,6 @@ export const Default = args => (
 Default.args = { title: 'Some title' };
 
 export const Custom = () => {
-  const theme = useTheme();
   return (
     <div>
       <DialogWithSlideInView
@@ -100,7 +99,7 @@ export const Custom = () => {
           <Button
             style={{
               cursor: 'pointer',
-              color: theme.ids.color.option.neutral['800']
+              color: themes.default.ids.color.option.neutral['800']
             }}
             onClick={action('onCustomClose')}
           >
@@ -158,7 +157,6 @@ export const SlideIn = () => {
   );
 };
 export const ResetScrollPosition = () => {
-  const theme = useTheme();
   const inner = React.useRef();
   return (
     <div>
@@ -168,7 +166,7 @@ export const ResetScrollPosition = () => {
           <Button
             style={{
               cursor: 'pointer',
-              color: theme.ids.color.option.neutral['800']
+              color: themes.default.ids.color.option.neutral['800']
             }}
             onClick={() => {
               inner.current.parentNode.scrollTo(0, 0);

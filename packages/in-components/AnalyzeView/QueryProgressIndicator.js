@@ -6,12 +6,12 @@
 import React from 'react';
 
 import { HorizontalIndicator } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './QueryProgressIndicator.mless';
@@ -54,7 +54,6 @@ function QueryProgress({ progress, message }) {
 }
 
 function QueryFailed({ errors }) {
-  const theme = useTheme();
   const [error] = errors.map(e => {
     const [description, status] = e.message.split(':').reverse();
     return { code: e.code, status: status, description: description };
@@ -98,7 +97,7 @@ function QueryFailed({ errors }) {
               size={iconSize}
               className={locals.errorIcon}
               type="lib_help_error_warning"
-              color={theme.ids.color.option.red['500']}
+              color={themes.default.ids.color.option.red['500']}
             />
           </div>
           <div className={locals.progressText}>{t('in-components:error.serverError')}</div>

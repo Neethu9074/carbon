@@ -249,7 +249,7 @@ export default function Summary({
               <Card
                 title={t('in-applications:traceDetail.tabs.summary.timeline')}
                 withoutPadding
-                header={
+                rightHeaderContent={
                   <ColorCodingToggleButtons
                     colorCodeType={colorCodeType}
                     setColorCodeMechanism={setColorCodeMechanism}
@@ -301,7 +301,7 @@ export default function Summary({
             <Col lg={12}>
               <Card
                 title={t('in-applications:traceDetail.tabs.summary.calls')}
-                header={
+                rightHeaderContent={
                   <ColorCodingToggleButtons
                     colorCodeType={colorCodeType}
                     setColorCodeMechanism={setColorCodeMechanism}
@@ -403,6 +403,7 @@ export default function Summary({
         getColor={getColor}
         onClose={() => setCallId(null)}
         startTime={trace.startTime}
+        duration={trace.duration}
         rootCall={callTreeResult.data}
       />
     </ErrorBoundary>

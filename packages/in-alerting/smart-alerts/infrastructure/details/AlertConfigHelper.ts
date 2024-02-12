@@ -19,7 +19,7 @@ import { Option } from 'in-components/ComboBox';
 
 type ThresholdTypeOptions = readonly Option[];
 
-const infraThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
+export const infraThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions.filter(option => option.value === STATIC_THRESHOLD)
 ]);
 

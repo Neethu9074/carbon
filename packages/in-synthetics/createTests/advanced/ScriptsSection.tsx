@@ -183,6 +183,17 @@ export default function ScriptsSection({
                           ? scriptTestType(scriptContent.extension, syntheticType)
                           : syntheticType;
                         if (scriptContent.extension !== 'zip') {
+                          let scriptFile = '';
+                          // If we upload or enter a script that isn't a JSON string, JSON.parse() will throw an exception
+                          // In those cases, control enters the catch block and we assign the original script value to scriptFile.
+                          try {
+                            scriptFile =
+                              scriptContent.extension !== 'side'
+                                ? String(JSON.parse(scriptContent.text))
+                                : scriptContent.text;
+                          } catch (e) {
+                            scriptFile = scriptContent.text;
+                          }
                           if (!form.get('configuration').get('script')) {
                             updatedForm = form.put(
                               'configuration',
@@ -191,7 +202,7 @@ export default function ScriptsSection({
                                 .put(
                                   'script',
                                   createField({
-                                    value: scriptContent.text,
+                                    value: scriptFile,
                                     validator: composeAndShortCircuitOnError(
                                       notUndefinedValidator,
                                       stringValidator,
@@ -210,7 +221,7 @@ export default function ScriptsSection({
                               form
                                 .get('configuration')
                                 .updateIn(['script'], (field: Item) =>
-                                  (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                                  (field as Field<string>).setValue(scriptFile).setTouched(true)
                                 )
                                 .updateIn(['syntheticType'], (field: Item) =>
                                   (field as Field<string>).setValue(testType).setTouched(true)

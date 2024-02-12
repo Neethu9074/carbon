@@ -37,11 +37,12 @@ export function getPageType(pathname = '/') {
 
 export default function NewPlayWithHeader() {
   return (
-    <div className={classNames('g10', locals.newPlayWithInstana)}>
-      <Typography onDark variant="body-regular">
-        {t('in-plg:playwithinstana.content')}?
-      </Typography>
-
+    <div className={classNames(locals.newPlayWithInstana)}>
+      <span className={classNames(locals.message)}>
+        <Typography onDark variant="body-regular">
+          {t('in-plg:playwithinstana.content')}?
+        </Typography>
+      </span>
       <LicenseBannerButton
         id="free_trial"
         kind="primary"
@@ -54,7 +55,6 @@ export default function NewPlayWithHeader() {
       >
         {t('in-plg:playwithinstana.freetrial')}
       </LicenseBannerButton>
-
       <LicenseBannerButton
         id="schedule_demo"
         kind="ghost"
@@ -67,12 +67,11 @@ export default function NewPlayWithHeader() {
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
       <LicenseBannerButton
-        id="schedule_demo"
+        id="take_tour"
         kind="ghost"
         target="_blank"
-        href="https://www.instana.com/schedule-demo/"
         icon="lib_crossroads"
-        iconColor="var(--cds-button-primary)"
+        iconColor="var(--cds-link-primary)"
       >
         {t('in-plg:playwithinstana.taketour')}
       </LicenseBannerButton>

@@ -202,15 +202,15 @@
     "application": {
       "access_all": {
         "access_level": "Access for all application perspectives under this unit.",
-        "role_permissions_contributor": "View all application dashboards under this unit. Create, configure and delete application dashboards using the contribution filter."
+        "role_permissions_contributor":  "Create application perspectives using the contribution filter; view, configure and delete these application perspectives. View other application perspectives, if access is granted."
       },
       "limited_access": {
         "access_level": "Limited access only for the application dashboards selected below.",
         "access_level_contributor": "Limited access only for the application dashboards selected below",
         "role_permissions_contributor": "Create application dashboards with the contribution filter applied; view, configure and delete these application dashboards that are created for the contribution filter."
       },
-      "role_permissions_owner": "Create, configure, view and delete application dashboards.",
-      "role_permissions_viewer": "View application perspective dashboards and their configuration."
+      "role_permissions_owner": "Create, configure, view and delete application perspectives.",
+      "role_permissions_viewer": "View application perspectives and their configuration."
     },
     "infrastructure": {
       "limited_access": {
@@ -236,7 +236,7 @@
         "access_level": "Limited access only for the mobile apps selected below."
       },
       "role_permissions_owner": "Create, configure, view and delete mobile apps.",
-      "role_permissions_viewer": "View mobile apps and their configuration."
+      "role_permissions_viewer": "View mobile apps."
     },
     "synthetics": {
       "access_all": {
@@ -256,7 +256,7 @@
         "access_level": "Limited access only for the websites selected below."
       },
       "role_permissions_owner": "Create, view and delete websites.",
-      "role_permissions_viewer": "View websites and their configuration."
+      "role_permissions_viewer": "View websites."
     }
   },
   "cardTitle_Area": "Area",
@@ -341,7 +341,15 @@
       "wrong": "Something is wrong",
       "errorInfo": "We are unable to retrieve data from the database",
       "failed": "Failure",
-      "inProgress": "In progress"
+      "inProgress": "In progress",
+      "deletionUntilTime": "Deletion until time",
+      "deletionUntilDate": "Deletion until date",
+      "untilDateValidationMessage": "Date must be on or before the current date",
+      "reasonValidationMessage": "Deletion reason cannot be empty",
+      "toastSuccessTitle": "Log deletion successful",
+      "toastSuccessMessage": "Logs for the selected time period are successfully deleted.",
+      "toastErrorTitle": "Log deletion failed",
+      "toastErrorMessage": "Logs could not be deleted. Please try again."
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",

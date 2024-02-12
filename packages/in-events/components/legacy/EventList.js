@@ -19,9 +19,11 @@ import AssociatedAndRecommendedActionsAlerts from 'in-automation/AssociatedActio
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import { actionAutomationEnabled, rcaUIEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
+import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
@@ -67,6 +69,9 @@ export default function IncidentEventList({
   const isGlobalSmartAlert =
     isApplicationSmartAlertEvent(triggerEvent) && triggerEvent.getIn(['metadata', 'globalSmartAlert'], false);
 
+  const eventType = getEventType(incident);
+  const serviceIds = getServiceIds(incident);
+
   return (
     <>
       {incidentHasRCAProperty && rcaUIEnabled && (
@@ -102,7 +107,7 @@ export default function IncidentEventList({
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -114,7 +119,7 @@ export default function IncidentEventList({
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -123,12 +128,11 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
-
       {automationPoliciesEnabled &&
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isGlobalSmartAlert &&
         isApplicationSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedPoliciesAlerts
@@ -139,7 +143,7 @@ export default function IncidentEventList({
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) &&
+        role.canConfigureEventsAndAlerts &&
         !isGlobalSmartAlert &&
         isApplicationSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedActionsAlerts
@@ -147,6 +151,7 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
+      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );
 }

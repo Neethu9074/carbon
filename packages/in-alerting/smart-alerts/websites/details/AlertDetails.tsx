@@ -62,7 +62,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
-      canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts ?? role?.canConfigureCustomAlerts}
+      canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
     />
   );
 }

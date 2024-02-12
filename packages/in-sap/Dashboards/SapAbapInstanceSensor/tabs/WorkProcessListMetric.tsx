@@ -31,6 +31,22 @@ interface WorkProcessProps {
 
 const cols = [
   {
+    title: t('in-sap:dashboards.workProcessNumber'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: WorkProcessRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: WorkProcessRow) {
+        return `workprocessList.${row.key}.wpIndex`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.wpPID'),
     type: 'string',
     typeArgs: {
@@ -54,6 +70,54 @@ const cols = [
     typeArgs: {
       getValue(row: WorkProcessRow) {
         return row.workprocessList.get('wpType');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.restarted'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: WorkProcessRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: WorkProcessRow) {
+        return `workprocessList.${row.key}.wpRestart`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.numberOfDumps'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: WorkProcessRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: WorkProcessRow) {
+        return `workprocessList.${row.key}.wpDumps`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.cpuUsage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: WorkProcessRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: WorkProcessRow) {
+        return `workprocessList.${row.key}.wpCPU`;
+      },
+      getContent: seconds.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -88,12 +152,14 @@ export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkPr
             min: 0,
             formatter: number.compact,
             metrics: [
+              `workprocessList.${row.key}.wpIndex`,
               `workprocessList.${row.key}.wpIStatus`,
               `workprocessList.${row.key}.wpDumps`,
               `workprocessList.${row.key}.wpIType`,
               `workprocessList.${row.key}.wpRestart`
             ],
             labels: [
+              t('in-sap:dashboards.workProcessNumber'),
               t('in-sap:dashboards.workProcessStatus'),
               t('in-sap:dashboards.workProcessDumps'),
               t('in-sap:dashboards.workProcessType'),

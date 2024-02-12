@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Error, Progress, TimeConfig, ApdexConfiguration } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { Message } from '@instana/components';
 
 import useApdexRetentionPeriodCheck from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexRetentionPeriodCheck';
@@ -15,7 +16,6 @@ import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartM
 import { ContextMenuConfig, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const apdexAreas = [0, 0.7, 0.9, 1] as const;
@@ -82,7 +82,7 @@ export default function ApdexChart({
         y1: {
           metricIds: ['APDEX'],
           labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
-          colors: [theme.lib.colors.lightBlue800],
+          colors: [themes.default.ids.color.option.blue[400]],
           renderer,
           metrics,
           fixedTickPositions: [...apdexAreas],

@@ -20,8 +20,8 @@ export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
 export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
-export const CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_START = 'custom.dashboard.fullscreen.widget.start';
-export const CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_FINISH = 'custom.dashboard.fullscreen.widget.finish';
+export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
+export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
@@ -384,6 +384,8 @@ export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.histor
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
 export const CREATE_AUTOMATION_POLICY = 'automation.policy.create';
 export const EDIT_AUTOMATION_POLICY = 'automation.policy.edit';
+export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
+export const EXECUTE_TURBO_ACTION = 'execute.turbo.action';
 
 // Smart Alert Tracking
 

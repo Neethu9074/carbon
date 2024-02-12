@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Status",
-      "remainingBudget": "Spent",
+      "remainingBudget": "Remaining",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
       "momentaryBudgetConsumption": "Error Budget Consumption",
@@ -269,6 +269,7 @@
     },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "Error Budget Remaining",
         "totalBudget": "Budget: {{value}}"
       },
       "sloStatusKpiCard": {

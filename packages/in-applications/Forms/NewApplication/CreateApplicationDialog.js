@@ -267,7 +267,7 @@ function getMaxScope(appConfig) {
   return appConfig.contributionFilter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
 }
 
-function createUserRestrictedApplication(appConfig) {
+export function createUserRestrictedApplication(appConfig) {
   return [
     {
       id: appConfig.groupId,

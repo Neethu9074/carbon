@@ -6,15 +6,14 @@
 
 import React from 'react';
 
-import { Message, useTheme } from '@instana/components';
+import { themes } from '@instana/design-tokens';
+import { Message } from '@instana/components';
 
 import { t } from 'in-i18n';
 
 export default function EditConfigNotice() {
-  const theme = useTheme();
-
   return (
-    <Message withIcon iconType="lib_help_error_info_outline" iconColor={theme.ids.color.option.neutral[600]}>
+    <Message withIcon iconType="lib_help_error_info_outline" iconColor={themes.default.ids.color.option.neutral[600]}>
       {t('in-custom-dashboards:widgets.apdex.createApdexForm.editConfigNotice')}
     </Message>
   );

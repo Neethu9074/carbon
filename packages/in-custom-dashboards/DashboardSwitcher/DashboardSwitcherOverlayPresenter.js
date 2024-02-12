@@ -9,6 +9,7 @@ import rpt from 'prop-types';
 import { keyCodes, Pill, Button, Ul, Li } from '@instana/components';
 import { LiHorizontalIndicator } from '@instana/components';
 import { LiLoadingSkeleton } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
@@ -22,7 +23,6 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
@@ -176,7 +176,6 @@ function DashboardList({
   setCursor,
   moveToItem
 }) {
-  const theme = useTheme();
   const cockpitLink = useCockpitLink();
   const itemsRefs = React.useRef([]);
 
@@ -197,7 +196,7 @@ function DashboardList({
     titleElement: (
       <>
         <Lettering className={locals.lettering} />
-        <Pill color={theme.ids.color.option.purple['500']} className={locals.leftMargin}>
+        <Pill color={themes.default.ids.color.option.purple['500']} className={locals.leftMargin}>
           {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.builtIn')}
         </Pill>
       </>
@@ -261,7 +260,7 @@ function DashboardList({
           <div className={locals.itemContent}>
             {titleElement || title}
             {isDefault && (
-              <Pill color={theme.ids.color.option.blue['500']} className={locals.leftMargin}>
+              <Pill color={themes.default.ids.color.option.blue['500']} className={locals.leftMargin}>
                 {t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherOverlayPresenter.default')}
               </Pill>
             )}

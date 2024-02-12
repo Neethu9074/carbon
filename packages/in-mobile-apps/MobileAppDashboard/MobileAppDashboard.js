@@ -87,7 +87,7 @@ export default function MobileAppDashboard() {
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
   const showAlertButton =
-    (role.canConfigureMobileAppSmartAlerts ?? role.canConfigureCustomAlerts) &&
+    role.canConfigureMobileAppSmartAlerts &&
     !location.pathname.includes('/mobileAppMonitoring/mobileApp/configuration');
 
   return (

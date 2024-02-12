@@ -10,19 +10,22 @@ import { LicenseBannerButton } from '@instana/components';
 
 import { carbonShellEnabled } from 'in-services/featureFlags';
 import IconButton from 'in-components/IconButton/IconButton';
+import { t } from 'in-i18n';
 
 export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) {
   if (tryOfferLicenseType) {
     if (carbonShellEnabled) {
       return (
-        <LicenseBannerButton
-          kind="ghost"
-          icon="lib_help_error_help_outline"
-          iconColor="var(--cds-button-primary)"
-          onClick={openAssistMe}
-        >
-          Get Answers
-        </LicenseBannerButton>
+        <div data-search-context="getting started">
+          <LicenseBannerButton
+            kind="ghost"
+            icon="lib_help_error_help_outline"
+            iconColor="currentColor"
+            onClick={openAssistMe}
+          >
+            {t('in-plg:licenseBanner.getAnswers')}
+          </LicenseBannerButton>
+        </div>
       );
     }
     return (

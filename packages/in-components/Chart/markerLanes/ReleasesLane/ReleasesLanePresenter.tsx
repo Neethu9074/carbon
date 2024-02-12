@@ -6,6 +6,7 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 
 import { ReleaseCluster } from '@instana/types/typeDefinitions';
+import { themes } from '@instana/design-tokens';
 
 import MarkerLane, { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
@@ -15,7 +16,6 @@ import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import { ChartContentPostition } from 'in-components/Chart/types';
 import { formatDateTime } from 'in-services/formatters/date';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ReleasesLanePresenter.mless';
@@ -28,13 +28,12 @@ interface ReleasesLanePresenterProps extends PresentedLaneProps {
   chartContentPosition: ChartContentPostition;
 }
 export default function ReleasesLanePresenter(props: ReleasesLanePresenterProps) {
-  const theme = useTheme();
   return (
     <MarkerLane<ReleaseCluster>
       {...props}
       events={props.releases}
       label={t('in-components:chart.chartReleasesLanePresenterReleasesLabel')}
-      color={theme.ids.color.option.neutral['700']}
+      color={themes.default.ids.color.option.neutral['700']}
       TooltipContent={({ clusteredReleases = [] }) => (
         <div className={locals.tooltipContent}>
           {clusteredReleases.slice(0, maxNumReleasesToShow).map(({ name, start }) => (
@@ -62,7 +61,6 @@ const ReleasesMarkerLaneItem = forwardRef(function ReleasesMarkerLaneItem(
   props: LaneItemProps<MarkerLaneEvent>,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const theme = useTheme();
   return (
     <SingleMarkerLaneItem<MarkerLaneEvent>
       ref={ref}
@@ -72,7 +70,7 @@ const ReleasesMarkerLaneItem = forwardRef(function ReleasesMarkerLaneItem(
           iconConfig={{
             type: 'lib_release_rocket',
             typeCluster: 'lib_release_rocket',
-            color: theme.ids.color.option.neutral['700']
+            color: themes.default.ids.color.option.neutral['700']
           }}
         />
       )}

@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import oldTheme from 'in-themes';
+import { themes } from '@instana/design-tokens';
+
+import { chartColors } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 interface Color {
@@ -17,122 +19,122 @@ export const colors: Color[] = [
   {
     id: 'cLightBlue',
     label: t('in-custom-dashboards:widgets.formCompChart.color.lightBlue'),
-    color: oldTheme.lib.colors.chart.strokeColors100[0]
+    color: chartColors.strokeColors100[0]
   },
   {
     id: 'cTeal',
     label: t('in-custom-dashboards:widgets.formCompChart.color.teal'),
-    color: oldTheme.lib.colors.chart.strokeColors100[1]
+    color: chartColors.strokeColors100[1]
   },
   {
     id: 'cPurple',
     label: t('in-custom-dashboards:widgets.formCompChart.color.purple'),
-    color: oldTheme.lib.colors.chart.strokeColors100[2]
+    color: chartColors.strokeColors100[2]
   },
   {
     id: 'cMagenta',
     label: t('in-custom-dashboards:widgets.formCompChart.color.magenta'),
-    color: oldTheme.lib.colors.chart.strokeColors100[3]
+    color: chartColors.strokeColors100[3]
   },
   {
     id: 'cRed',
     label: t('in-custom-dashboards:widgets.formCompChart.color.red'),
-    color: oldTheme.lib.colors.chart.strokeColors100[4]
+    color: chartColors.strokeColors100[4]
   },
   {
     id: 'cDarkRed',
     label: t('in-custom-dashboards:widgets.formCompChart.color.darkRed'),
-    color: oldTheme.lib.colors.chart.strokeColors100[5]
+    color: chartColors.strokeColors100[5]
   },
   {
     id: 'cGreen',
     label: t('in-custom-dashboards:widgets.formCompChart.color.green'),
-    color: oldTheme.lib.colors.chart.strokeColors100[6]
+    color: chartColors.strokeColors100[6]
   },
   {
     id: 'cBlue',
     label: t('in-custom-dashboards:widgets.formCompChart.color.blue'),
-    color: oldTheme.lib.colors.chart.strokeColors100[7]
+    color: chartColors.strokeColors100[7]
   },
   {
     id: 'cPink',
     label: t('in-custom-dashboards:widgets.formCompChart.color.pink'),
-    color: oldTheme.lib.colors.chart.strokeColors100[8]
+    color: chartColors.strokeColors100[8]
   },
   {
     id: 'cYellow',
     label: t('in-custom-dashboards:widgets.formCompChart.color.yellow'),
-    color: oldTheme.lib.colors.chart.strokeColors100[9]
+    color: chartColors.strokeColors100[9]
   },
   {
     id: 'cCyan',
     label: t('in-custom-dashboards:widgets.formCompChart.color.cyan'),
-    color: oldTheme.lib.colors.chart.strokeColors100[10]
+    color: chartColors.strokeColors100[10]
   },
   {
     id: 'lightBlue',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.lightBlue'),
-    color: oldTheme.lib.colors.lightBlue800
+    color: themes.default.ids.color.option.blue[400]
   },
   {
     id: 'green',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.green'),
-    color: oldTheme.lib.colors.green800
+    color: themes.default.ids.color.option.green[500]
   },
   {
     id: 'orange',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.orange'),
-    color: oldTheme.lib.colors.orange800
+    color: themes.default.ids.color.option.orange[500]
   },
   {
     id: 'deepPurple',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.deepPurple'),
-    color: oldTheme.lib.colors.deepPurple800
+    color: themes.default.ids.color.option['deep-purple'][500]
   },
   {
     id: 'cyan',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.cyan'),
-    color: oldTheme.lib.colors.cyan800
+    color: themes.default.ids.color.option.teal[400]
   },
   {
     id: 'lime',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.lime'),
-    color: oldTheme.lib.colors.lime800
+    color: themes.default.ids.color.option.lime[500]
   },
   {
     id: 'pink',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.pink'),
-    color: oldTheme.lib.colors.pink800
+    color: themes.default.ids.color.option.pink[500]
   },
   {
     id: 'teal',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.teal'),
-    color: oldTheme.lib.colors.teal800
+    color: themes.default.ids.color.option.teal[500]
   },
   {
     id: 'purple',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.purple'),
-    color: oldTheme.lib.colors.purple800
+    color: themes.default.ids.color.option.purple[500]
   },
   {
     id: 'indigo',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.indigo'),
-    color: oldTheme.lib.colors.indigo800
+    color: themes.default.ids.color.option.indigo[500]
   },
   {
     id: 'red',
     legacy: true,
     label: t('in-custom-dashboards:widgets.formCompChart.color.red'),
-    color: oldTheme.lib.colors.red800
+    color: themes.default.ids.color.option.red[500]
   }
 ];

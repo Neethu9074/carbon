@@ -39,6 +39,9 @@ export const groupbyTag = groupBy => {
 };
 
 export function getGroupByTagCatalog(tagCatalog) {
+  if (!tagCatalog) {
+    return;
+  }
   const tagCatalogWithoutOthers = moveOthersChildrenOnTop(tagCatalog);
   const groupByTagCatalog = enrichTagCatalog({
     tagTree: tagCatalogWithoutOthers.tagTree,

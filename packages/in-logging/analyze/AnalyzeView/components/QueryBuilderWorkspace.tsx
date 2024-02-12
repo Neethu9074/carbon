@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { TagFilter } from '@instana/types';
 
 import {
@@ -29,7 +30,6 @@ import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
@@ -67,7 +67,6 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
       })
   };
 
-  const theme = useTheme();
   return (
     <Sticky
       header={
@@ -77,7 +76,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
           liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
         />
       }
-      backgroundColor={theme.ids.color.option.white}
+      backgroundColor={themes.default.ids.color.option.white}
     >
       <LeftRightPadding>
         <Stack gap="gutter">

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DeleteLogsHistoryResult } from '@instana/types/typeDefinitions';
+import { DeleteLogsHistoryResult } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result } from 'in-types';

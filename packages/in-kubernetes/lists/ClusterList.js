@@ -23,6 +23,7 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -142,9 +143,7 @@ export default connectTo(
         <ViewTrackingMeta
           data={{
             productArea: productAreas.kubernetes,
-            pageRootName: t('in-kubernetes:kubernetesPageRootName', {
-              objectType: t('in-kubernetes:clusters')
-            })
+            pageRootName: pageNames.kubernetes_clusters
           }}
         />
 

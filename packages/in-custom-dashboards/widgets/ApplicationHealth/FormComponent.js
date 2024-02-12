@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
@@ -20,13 +21,11 @@ import Header from 'in-components/workspace/Header';
 import Label from 'in-components/form/Label/Label';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
 
 export default function ApplicationHealthWidgetFormComponent({ form, onChange }) {
-  const theme = useTheme();
   const applications = useObservable(getApplicationsObservable, []) ?? pendingResult;
   const handleOnChange = (e, index) => {
     const application = applications.filter(item => item.id === e.target.value)[0];
@@ -48,7 +47,11 @@ export default function ApplicationHealthWidgetFormComponent({ form, onChange })
       <Stack gap="xsmall">
         <Header>{t('in-custom-dashboards:widgets.applicationHealth.form.header')}</Header>
         <span className={locals.secondaryHeading}>
-          <SvgIcon type="lib_help_error_info_outline" size={'s'} color={theme.ids.color.option.neutral['600']} />
+          <SvgIcon
+            type="lib_help_error_info_outline"
+            size={'s'}
+            color={themes.default.ids.color.option.neutral['600']}
+          />
           {t('in-custom-dashboards:widgets.applicationHealth.form.secondaryHeadingText')}
         </span>
         <Ul>
