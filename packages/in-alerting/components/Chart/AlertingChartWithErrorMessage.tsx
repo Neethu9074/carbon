@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
@@ -29,7 +29,7 @@ interface AlertingChartWithErrorMessageProps<AlertConfig extends Object> {
   endpointId?: string;
   alertsPreviewEnabled?: boolean;
   canReload?: boolean;
-  setMetricResultPrecision: () => void;
+  setMetricResultPrecision?: Dispatch<SetStateAction<string>>;
   queryValidator?: QueryValidatorType;
   getErrorMessage: (args: boolean) => string | undefined;
   customValidators?: (args: boolean) => boolean;

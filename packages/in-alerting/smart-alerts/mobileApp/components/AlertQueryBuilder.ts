@@ -104,7 +104,7 @@ const queryBuildersByBeaconTypeAdaptive = {
 
 /** helper, to create a query-builder dependent query validator */
 
-type isQueryValidType = (tagFilterFormModel: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<Boolean>>;
+type isQueryValidType = (tagFilterFormModel: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<boolean>>;
 type TagFilterTimeConfigTuple = [FormModelElement[], TimeConfig];
 export const createIsAlertQueryValid = (isQueryValid: isQueryValidType) => {
   return ([tagFilterFormModel, timeConfig]: TagFilterTimeConfigTuple) => {
