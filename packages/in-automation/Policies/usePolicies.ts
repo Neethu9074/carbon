@@ -71,12 +71,26 @@ export default function usePolicies({
         })
       };
   const availableTags = [...new Set(policies?.data?.flatMap(({ tags }) => tags ?? []))];
-  const result = usePaginatedResult(filteredPolicies, { page, pageSize, orderBy, orderDirection, query }, [
-    'name',
-    'description',
-    policy => policy?.tags?.toString() ?? '',
-    policy => policy?.trigger?.name ?? '',
-    policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name
-  ]);
+  const result = usePaginatedResult(
+    filteredPolicies,
+    { page, pageSize, orderBy, orderDirection, query },
+    [
+      'name',
+      'description',
+      policy => policy?.tags?.toString() ?? '',
+      policy => policy?.trigger?.name ?? '',
+      policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name
+    ],
+    entity => {
+      const value = entity[orderBy as keyof Policy];
+      if (orderBy === 'trigger') {
+        return entity.trigger.name?.trim()?.toLowerCase();
+      }
+      if (orderBy === 'actionName') {
+        return entity.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name?.trim()?.toLowerCase();
+      }
+      return typeof value === 'string' ? value.trim().toLowerCase() : value;
+    }
+  );
   return [resultToFetchedStateResponse(result), availableTags] as const;
 }
