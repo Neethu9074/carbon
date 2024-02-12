@@ -105,7 +105,6 @@ const getColumnDefinitions = (
       getContent(entity: SyntheticDatacenter) {
         return (
           <CheckboxFancy
-            asRadioButton
             label={entity?.code}
             checked={datacentersField.value.findIndex(datacenter => datacenter?.code === entity?.code) !== -1}
             onChange={() => onDatacenterSelect(entity)}

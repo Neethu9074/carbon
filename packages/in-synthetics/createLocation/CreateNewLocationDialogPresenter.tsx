@@ -16,10 +16,12 @@ import { t } from '@instana/i18n-react';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import getSyntheticDatacenterDeployment from 'in-synthetics/subscriptions/getSyntheticDatacenterDeployment';
 import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocationType';
+import ConfirmationDialog from 'in-synthetics/createLocation/steps/ConfirmationDialog';
 import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import Configuration from 'in-synthetics/createLocation/steps/Configuration';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getDatacenterLicense } from 'in-synthetics/api';
 import { pendingResult } from 'in-services/fixedObjects';
 
@@ -66,6 +68,17 @@ const CreateNewLocationDialogPresenter = ({
     }).once(
       () => {
         // action on success
+        onClose();
+        addActiveDialog(
+          <ConfirmationDialog
+            header={t('in-synthetics:dialog.createLocation.newLocation')}
+            headerIcon="lib_synthetic_location"
+            buttonLabel={t('in-synthetics:dialog.createLocation.done')}
+            buttonKind="primary"
+            onSubmit={() => onClose()}
+            form={form}
+          />
+        );
       },
       error => {
         onClose();

@@ -284,7 +284,18 @@
         "datacenterName": "Datacenter Name",
         "provider": "Provider",
         "status": "Status",
-        "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>."
+        "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Heads up!",
+          "message": "We are setting up the location(s) at the following datacenter(s). Please be patient while we auto-deploy this for you. Once this is finished, the location(s) will appear on the Locations tab. <strong>This may take up to 10 minutes.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Datacenter Code",
+              "datacenterName": "Datacenter Name",
+              "datacenterStatus": "Status"
+            }
+          }
+        }
       },
       "validators": {
         "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
@@ -292,6 +303,9 @@
       "licenseCheck": {
         "title": "You need a license.",
         "description": "To use Instana managed locations, an additional license is required. Please contact your Instana administrator for help."
+      },
+      "status": {
+        "pending": "Pending"
       }
     }
   },
