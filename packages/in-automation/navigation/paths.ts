@@ -20,13 +20,4 @@ export const policiesFullyQualified = `${automationRoot}${policies}`;
 export const policiesDetails = '/details';
 export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policiesDetails}`;
 
-export const policiesOverview = '/overview';
-export const policiesOverviewFullyQualified = `${policiesFullyQualified}${policiesOverview}`;
-
-export const policiesSummary = '/summary';
-export const policiesSummaryFullyQualified = `${policiesOverviewFullyQualified}${policiesSummary}`;
-
-export const policiesConfiguration = '/configuration';
-export const policiesConfigurationFullyQualified = `${policiesOverviewFullyQualified}${policiesConfiguration}`;
-
 export const isAutomationView = getRootPathPredicate(automationRoot);

@@ -9,12 +9,12 @@ import React from 'react';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import { defaultPolicyUrlParameters, detailsPolicyUrlParameters } from 'in-automation/navigation/urlParameters';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automation/Policies/PolicyForm';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { PolicyForm, Triggers, isAutomatic, isManual } from 'in-automation/Policies/types';
 import usePolicyForm, { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
+import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import { getAllActionsResult, saveNewPolicy, savePolicy } from 'in-automation/api';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
@@ -45,9 +45,13 @@ type SubmitPayload = {
   actions: Action[] | undefined;
 };
 
+function useActions() {
+  return resultToFetchedStateResponse(useObservable(getAllActionsResult, []));
+}
+
 function usePolicyDetailsUrlParams() {
-  const [{ policyId, op }] = useUrlState<{ policyId?: string; op: 'copy' | null }>({
-    bind: [defaultPolicyUrlParameters.policyId, detailsPolicyUrlParameters.op]
+  const [{ policyId, op }] = useUrlState<{ policyId?: string; op?: 'copy' }>({
+    bind: [policyDetailsUrlParameters.policyId, policyDetailsUrlParameters.op]
   });
   const isCopy = op === 'copy';
   const isCreate = !policyId;
@@ -68,7 +72,7 @@ export default function PolicyDetails() {
   const status = allStatus(policyStatus, triggersStatus, actionsStatus);
   const errors = [...policyErrors, ...triggersErrors, ...actionsErrors];
 
-  const [form, setForm] = usePolicyForm(policy, actions);
+  const [form, setForm] = usePolicyForm(policy, actions, triggers);
   const navigateToPolicies = useNavigateToPolicies();
 
   const [submitStatus, doSubmit] = useFormSubmission<SubmitPayload, Policy>(({ form, id, isNew }) =>
@@ -181,8 +185,4 @@ function onSaveFailure(name: string) {
     },
     'policy-save-failure'
   );
-}
-
-function useActions() {
-  return resultToFetchedStateResponse(useObservable(getAllActionsResult, []));
 }

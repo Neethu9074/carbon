@@ -34,6 +34,7 @@ import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import usePolicies from 'in-automation/AssociatedActions/usePolicies';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -43,7 +44,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import { runActionTracker } from 'in-automation/tracker';
 import { listSuccess } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Tag from 'in-automation/ActionCatalog/Tag';
 import { deletePolicy } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
@@ -154,6 +154,7 @@ export default function Policies({
         data: result
       }}
       columnDefinitions={columnDefinitionsToShow}
+      fixedLayout
     />
   );
 }
@@ -225,13 +226,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     width: 20,
     getContent(item) {
       const { tags = [] } = item;
-      return (
-        <>
-          {tags.map((tag, idx) => (
-            <Tag key={tag + idx} tag={tag} />
-          ))}
-        </>
-      );
+      return <DynamicTagList tags={tags} />;
     }
   }
 ];

@@ -8,8 +8,10 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ActionInstanceParameter } from '@instana/types';
+import { Typography } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import FourLineWrapper from '../FourLineWrapper/FourLineWrapper';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -67,7 +69,11 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
       sortable: false,
       label: 'Value',
       getContent(item: ActionInstanceParameter) {
-        return <div className={locals.fourLines}>{item.value}</div>;
+        return (
+          <FourLineWrapper>
+            <Typography variant="body-regular">{item.value}</Typography>
+          </FourLineWrapper>
+        );
       }
     },
     {

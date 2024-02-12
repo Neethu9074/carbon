@@ -12,6 +12,7 @@ import {
   AUTOMATIC,
   MANUAL,
   TriggerSpecification,
+  isApplicationSmartAlert,
   isAutomatic,
   isEventSpecification,
   isManual
@@ -42,12 +43,12 @@ import { close } from 'in-components/DialogPresenter/store';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { listSuccess } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Tag from 'in-automation/ActionCatalog/Tag';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
+import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 
 const pathSegment = '/policies';
 const matrixPrefix = '';
@@ -239,11 +240,14 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
       if (isEventSpecification(item.trigger)) {
         return <EventName hasRowNavigation={false} entity={item.trigger} />;
       }
-      return (
-        <div className={locals.alertName}>
-          <SimpleListNameColumn config={item.trigger} />
-        </div>
-      );
+      if (isApplicationSmartAlert(item.trigger)) {
+        return (
+          <div className={locals.alertName}>
+            <SimpleListNameColumn config={item.trigger} />
+          </div>
+        );
+      }
+      return null;
     },
     width: 23,
     sortable: true
@@ -270,16 +274,9 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
   {
     label: t('in-automation:tags'),
     id: 'tags',
-    width: 10,
     getContent(item) {
       const { tags = [] } = item;
-      return (
-        <>
-          {tags.map((tag, idx) => (
-            <Tag key={tag + idx} tag={tag} />
-          ))}
-        </>
-      );
+      return <DynamicTagList tags={tags} />;
     }
   },
   {
@@ -321,8 +318,8 @@ function showConfirmationDialog(policy: Policy) {
       confirmButtonLabel={t('in-automation:deleteDialog.delete')}
       onSubmit={() => {
         close();
-        // TODO: remove when type fixed
-        onDelete(id!);
+        // TODO: Tracker for policy delete
+        onDelete(id);
       }}
     />
   );

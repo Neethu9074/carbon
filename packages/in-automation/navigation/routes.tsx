@@ -9,8 +9,6 @@ import ActionHistory from 'promise-loader?global!in-automation/components/Action
 // @ts-expect-error
 import ActionCatalogTab from 'promise-loader?global!in-automation/ActionCatalog/ActionCatalog';
 // @ts-expect-error
-import PolicyDashboard from 'promise-loader?global!in-automation/Policies/PolicyDashboard';
-// @ts-expect-error
 import ActionDetailsPage from 'promise-loader?global!in-automation/ActionCatalog/Action';
 // @ts-expect-error
 import PolicyDetails from 'promise-loader?global!in-automation/Policies/Policy';
@@ -25,8 +23,7 @@ import {
   actionDetailsCopyFormPath,
   actionHistoryPath,
   policiesFullyQualified,
-  policiesDetailsFullyQualified,
-  policiesOverviewFullyQualified
+  policiesDetailsFullyQualified
 } from 'in-automation/navigation/paths';
 // @ts-expect-error
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -53,10 +50,5 @@ export default [
     path={policiesDetailsFullyQualified}
     key="policyDetails"
     render={props => addKeyToComponent(renderAsyncRouteChildren(PolicyDetails), props.match.params?.id)}
-  />,
-  <Route
-    path={policiesOverviewFullyQualified}
-    key="policyOverview"
-    render={props => addKeyToComponent(renderAsyncRouteChildren(PolicyDashboard), props.match.params?.id)}
   />
 ];

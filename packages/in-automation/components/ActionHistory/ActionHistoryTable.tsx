@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Typography } from '@instana/components';
 
 import {
   CurrentState,
@@ -31,6 +31,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import FourLineWrapper from '../FourLineWrapper/FourLineWrapper';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -44,7 +45,11 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.name'),
     id: 'actionName',
     getContent(row: ActionInstance) {
-      return <div className={locals.fourLines}>{row.actionName}</div>;
+      return (
+        <FourLineWrapper>
+          <Typography variant="body-regular">{row.actionName}</Typography>
+        </FourLineWrapper>
+      );
     }
   },
   {
@@ -72,7 +77,11 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.eventName'),
     id: 'problemText',
     getContent(row: ActionInstance) {
-      return <div className={locals.fourLines}>{row.problemText}</div>;
+      return (
+        <FourLineWrapper>
+          <Typography variant="body-regular">{row.problemText}</Typography>
+        </FourLineWrapper>
+      );
     }
   },
   {

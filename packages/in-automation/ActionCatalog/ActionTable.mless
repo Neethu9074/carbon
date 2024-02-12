@@ -4,23 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/mixins.less';
-
 :local {
-  .fourLines {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4; /* number of lines to show */
-    line-height: 1.15rem; /* fallback */
-    max-height: 4.6rem; /* fallback, line-height x number of lines */
-  }
-
-  .ellipsis {
-    .ellipsis();
-  }
-
   .block {
     display: block;
   }
