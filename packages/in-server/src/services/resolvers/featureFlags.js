@@ -511,6 +511,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonPillEnabled',
+    instanaCtlKey: 'feature.carbon.pill.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'allowDownloadMetricsFromCharts',
     instanaCtlKey: 'feature.chart.download.enabled',
     defaultValue: true
