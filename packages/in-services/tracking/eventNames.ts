@@ -457,3 +457,6 @@ export const JOURNAL_FAKE_DOOR_START_CLICK = 'journal.fake.door.start.click';
 export const JOURNAL_FAKE_DOOR_NOT_INTERESTED = 'journal.fake.door.notInterested';
 export const JOURNAL_FAKE_DOOR_INTERESTED = 'journal.fake.door.interested';
 export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
+
+// Service Flow Map Tracking
+export const SERVICE_FLOW_MAP_CLICK = 'service.flowmap.click';

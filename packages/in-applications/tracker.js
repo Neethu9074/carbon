@@ -43,6 +43,7 @@ import {
   APPLICATION_CLICK_SOURCE_OR_DESTINATION,
   APPLICATION_CLICK_SUBMIT,
   APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS,
+  SERVICE_FLOW_MAP_CLICK,
   APPLICATION_TIME_SHIFT_SELECT,
   track
 } from 'in-services/tracking/tracking';
@@ -93,6 +94,9 @@ export const downloadTraceClickedTracker = e => track(ANALYZE_TRACE_VIEW_DOWNLOA
 export const downloadCallDetailsClickedTracker = e => track(ANALYZE_TRACE_VIEW_DOWNLOAD_CALL_DETAILS, e);
 
 export const traceViewTrackIfLargeTrace = e => track(ANALYZE_TRACE_VIEW_TRACK_IF_LARGE_TRACE, e);
+
+export const serviceFlowMapClickedTracker = e => track(SERVICE_FLOW_MAP_CLICK, e);
+
 export const traceViewTracker = {
   traceViewNavigateBackToUa,
   traceViewClosedTracker,
