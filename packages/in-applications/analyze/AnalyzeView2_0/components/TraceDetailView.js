@@ -22,6 +22,7 @@ import {
   traceViewTrackIfLargeTrace
 } from 'in-applications/tracker';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
+import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -299,13 +300,11 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
 
 function renderContext({ getHrefToUngroupedView, tracker }) {
   return (
-    <Link
-      className={locals.analyticsLink}
+    <DashboardHeaderContext
       href={getHrefToUngroupedView()}
       onClick={() => tracker.traceViewNavigateBackToUa()}
-    >
-      {t('in-applications:labelAnalytic')}
-    </Link>
+      label={t('in-applications:labelAnalytic')}
+    />
   );
 }
 
