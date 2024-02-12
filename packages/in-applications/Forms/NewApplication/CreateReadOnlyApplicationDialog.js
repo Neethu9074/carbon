@@ -9,8 +9,11 @@ import { Card, Message } from '@instana/components';
 
 import { hasPermissionToAddBuiltInSmartAlerts } from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
 import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/ConfigTabBuiltInSmartAlertsSelectionList';
+import { createUserRestrictedApplication } from 'in-applications/Forms/NewApplication/CreateApplicationDialog';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
+import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -46,18 +49,31 @@ export default connectTo(
                 content: (
                   <Fragment>
                     <DescriptionText>
-                      <Trans
-                        i18nKey="in-applications:forms.newApplication.descriptionTags"
-                        components={{
-                          pillDatabase: <Pill color={getColor('DATABASE')} kind="light" />,
-                          pillMessage: <Pill color={getColor('MESSAGING')} kind="light" />
-                        }}
-                      />
+                      {appConfig.data && appConfig.data.contributionFilter ? (
+                        <Trans i18nKey="in-applications:creation.advanced.defineUsingTagsContributionFilterDescription" />
+                      ) : (
+                        <Trans
+                          i18nKey="in-applications:forms.newApplication.descriptionTags"
+                          components={{
+                            pillDatabase: <Pill color={getColor('DATABASE')} kind="light" />,
+                            pillMessage: <Pill color={getColor('MESSAGING')} kind="light" />
+                          }}
+                        />
+                      )}
                       <br />
                       <br />
                       <strong>{t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}</strong>
                     </DescriptionText>
                     <div className={locals.queryBuilder}>
+                      {applicationContributionFilterEnabled && appConfig.data && appConfig.data.contributionFilter && (
+                        <div className={locals.contributionFilter}>
+                          <ContributionFilterDropdown
+                            userRestrictedApplications={createUserRestrictedApplication(appConfig.data)}
+                            className={locals.contributionFilterDropdownItem}
+                            readonly
+                          />
+                        </div>
+                      )}
                       <CreateApplicationQueryBuilder value={appConfig.data?.tagFilterExpression || []} readOnly />
                     </div>
                   </Fragment>
