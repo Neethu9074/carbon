@@ -66,6 +66,9 @@
   "permissionCanConfigureGlobalInfraSmartAlertsLabel": "Configuration of global Smart Alerts for Infrastructure",
   "permissionCanConfigureGlobalInfraSmartAlertsDescription": "Permits creation and configuration of global Smart Alerts for Infrastructure.",
   "permissionCanConfigureGlobalInfraSmartAlertsCategory": "Events",
+  "permissionCanConfigureGlobalLogSmartAlertsLabel": "Configuration of global Smart Alerts for Logs",
+  "permissionCanConfigureGlobalLogSmartAlertsDescription": "Permits creation and configuration of global Smart Alerts for Logs.",
+  "permissionCanConfigureGlobalLogSmartAlertsCategory": "Events",
   "permissionCanConfigureAutomationActionsLabel": "Configuration of automation actions",
   "permissionCanConfigureAutomationActionsDescription": "Permits creation and configuration of automation actions.",
   "permissionCanConfigureAutomationActionsCategory": "Automation",
@@ -321,10 +324,8 @@
     "viewGroupingsCfSpace": "Cloud Foundry Space",
     "viewGroupingsMarathon": "Marathon application ID",
     "viewGroupingsNomad": "Nomad task name",
-
     "viewGroupingsInfraZone": "Zone",
     "viewGroupingsInstanceType": "Instance type",
-
     "viewGroupingsCpuCount": "CPU count",
     "viewGroupingsCpuModel": "CPU model",
     "viewGroupingsOsArc": "OS architecture",

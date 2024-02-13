@@ -15,7 +15,12 @@ import {
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import { automationPoliciesEnabled, infraSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
+import {
+  automationPoliciesEnabled,
+  infraSmartAlertsEnabled,
+  logSmartAlertsEnabled,
+  syntheticRbacEnabled
+} from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -144,6 +149,7 @@ export const eventCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS,
   Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
   ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : []),
+  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : []),
   Capability.CAN_CONFIGURE_INTEGRATIONS,
   Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
 ];

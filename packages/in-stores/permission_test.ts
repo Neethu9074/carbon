@@ -194,6 +194,16 @@ describe('in-stores/permission.ts', () => {
         productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS]
       );
     });
+
+    it('Checks that Log SA permission is not available when logSmartAlertsEnabled feature flag is not set', () => {
+      const featureFlags = jest.requireMock('in-services/featureFlags');
+      featureFlags.logSmartAlertsEnabled = false;
+      const productPermissions = getProductPermissions();
+
+      expect(productPermissions).not.toContain(
+        productPermissionsObject[Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]
+      );
+    });
   });
 
   describe('getInfrastructurePermissions', () => {
