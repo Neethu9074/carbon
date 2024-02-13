@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { getFilterGroupExpression, groupExpressionProps } from 'in-events/components/EventContent/InfraEventContent';
 import { fromBackendModel, removeSurroundingBrackets } from 'in-components/QueryBuilder/transformation/formModel';
+import { GroupingTag, getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { deepCopy } from 'in-services/util/object';
@@ -17,14 +17,14 @@ export function InfraGrouping({
   groupingTags
 }: {
   AlertQueryBuilder: QueryBuilderComponent<{}>;
-  groupingTags: groupExpressionProps[];
+  groupingTags: GroupingTag[];
 }) {
   const groupingKeys = Object.keys(groupingTags);
   if (!groupingKeys.length) {
     return null;
   }
 
-  const groupByExpression = getFilterGroupExpression(deepCopy(EMPTY_EXPRESSION), groupingTags);
+  const groupByExpression = getExpressionWithGroupingTags(deepCopy(EMPTY_EXPRESSION), groupingTags);
   const groupByExpressionModel = removeSurroundingBrackets(fromBackendModel(groupByExpression));
   return <AlertQueryBuilder value={groupByExpressionModel} readOnly />;
 }
