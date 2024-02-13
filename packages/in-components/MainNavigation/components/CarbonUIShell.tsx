@@ -67,6 +67,7 @@ import {
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 //@ts-expect-error missing declaration file
 import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
+import { click as internalToggleClick } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 // @ts-expect-error no declaration file
@@ -563,7 +564,7 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
   const titleDetail = useUIShellTitleDetail();
 
   return (
-    <UIShell titleDetail={titleDetail} headerContent={<HeaderContent />}>
+    <UIShell onSideNavClick={internalToggleClick} titleDetail={titleDetail} headerContent={<HeaderContent />}>
       <HomeLink />
       <WebsiteMobileAppView />
       <BizOps />

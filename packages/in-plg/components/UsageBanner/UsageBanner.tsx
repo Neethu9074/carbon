@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
@@ -39,8 +40,8 @@ export function UsageBanner({ message }: UsageBannerProps) {
     message.activeLicense == 'quota' ||
     message.activeLicense == 'free_not_for_resale';
   const queuedUpLicense = queuedLicenseDetails.data?.items[0]?.license.name;
-  const isPaidLicenseUsage = message.activeLicense == 'paidPerUse' || message.activeLicense == 'hostBasedPaid';
-  const noQueuedLicense = queuedUpLicense != 'paidPerUse' || queuedUpLicense != 'hostBasedPaid';
+  const isPaidLicenseUsage = message.activeLicense == 'hostBasedPaid';
+  const noQueuedLicense = queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
 
   return (
     <Stack align="center" direction="horizontal" gap="small">
@@ -112,7 +113,11 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.requestQuoteBtn')}
             </LicenseBannerButton>
           )}
-          <div className={locals.verticalLine} />
+          <div
+            className={classNames({
+              [locals.verticalLine]: tryOfferLicenseType
+            })}
+          />
           <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
         </>
       )}
@@ -141,7 +146,7 @@ const IconForRemainingDays = ({ remainingDays = -1 }: { remainingDays: number | 
   /**
    * Days remaining for the free trial to end are converted into hours.
    */
-  if (remainingDays >= 6 && remainingDays <= 14) {
+  if (remainingDays >= 6) {
     return <SvgIcon type="lib_uncheck" color="var(--ids-color-option-green-500)" />;
   } else if (remainingDays >= 4 && remainingDays <= 5) {
     return <SvgIcon type="lib_help_error_warning" color="var(--ids-color-option-yellow-500)" />;

@@ -6,6 +6,7 @@
 import { Observable, create } from '@instana/observables';
 import { ApiGroup, Result } from '@instana/types';
 
+import { syntheticViewCapabilities } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -227,7 +228,7 @@ function createPermissionSet() {
   return {
     id: null,
     name: 'system_permission_set',
-    permissions: ['CAN_VIEW_TRACE_DETAILS', 'CAN_VIEW_LOGS'],
+    permissions: ['CAN_VIEW_TRACE_DETAILS', 'CAN_VIEW_LOGS', ...syntheticViewCapabilities],
     applicationIds: [],
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],

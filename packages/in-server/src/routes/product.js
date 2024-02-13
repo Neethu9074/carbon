@@ -175,9 +175,10 @@ router.get('/', async (req, res) => {
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const isTrialUser =
-      JSON.parse(getLicenseInfo)?.type === 'selfService' || JSON.parse(getLicenseInfo)?.type === 'quota';
-    res.set('Content-Security-Policy', getCsp(nonce, isTrialUser));
+    const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
+    const trialOrNotForResaleLicenses = ['selfService', 'quota', 'free_not_for_resale'];
+    const isTrialOrNotForResaleUser = trialOrNotForResaleLicenses.includes(activeLicenseInfo);
+    res.set('Content-Security-Policy', getCsp(nonce, isTrialOrNotForResaleUser));
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -205,7 +206,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        licenceType: isTrialUser
+        isTrialOrNotForResaleUser
       })
     );
   } catch (err) {
