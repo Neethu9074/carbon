@@ -6,6 +6,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import {
+  AdjustedTimeframe,
   Grouping,
   LabeledMetricResult,
   Result,
@@ -557,6 +558,7 @@ export function toAxisConfiguration(
     calculateStackDifferences: axis.calculateStackDifferences,
     metrics: [],
     companionMetrics: [],
-    timeShifts: axis.metrics.map(({ timeShift }) => translateOffsetToTimeShiftConfig(timeShift, timeConfig))
+    timeShifts: axis.metrics.map(({ timeShift }) => translateOffsetToTimeShiftConfig(timeShift, timeConfig)),
+    adjustedTimeframes: resultDataAsList.map(({ adjustedTimeframe }) => adjustedTimeframe as AdjustedTimeframe)
   };
 }

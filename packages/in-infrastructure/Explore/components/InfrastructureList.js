@@ -21,6 +21,7 @@ import {
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
@@ -361,6 +362,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const series = item.metrics[seriesKey];
             const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
             const metricValue = getMetricValue(kpi, formatter);
+            const customValueTooltip = lastValue && getLastValueTooltipLabel(item.adjustedTimeframe);
 
             return (
               <SparkChart
@@ -372,6 +374,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 timeConfig={timeConfig}
                 rollup={granularity}
                 label={renderedLabel}
+                customValueTooltip={customValueTooltip}
               />
             );
           },

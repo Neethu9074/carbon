@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { chain, get } from 'lodash';
+import { chain, get, map, pick } from 'lodash';
 import classNames from 'classnames';
 import React from 'react';
 
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import Row from 'in-components/TopListCard/Row';
 
 import locals from './List.mless';
@@ -33,6 +35,7 @@ export default function TopListPresenter(props) {
 
   const items = getItemsFromResult(result);
   const maxValue = chain(items).map(getMetricValueFromItem.bind(null, selectedMetric)).max();
+  const usingLastValue = pick(props.config.metricConfiguration, ['lastValue'])?.lastValue;
 
   return (
     <div
@@ -58,6 +61,15 @@ export default function TopListPresenter(props) {
             formattedMetricValue
           };
           const MetricRenderer = () => (Metric ? <Metric {...renderProps} /> : <span>{formattedMetricValue}</span>);
+          const MetricRenderedWithTooltip = () => (
+            <Tooltip
+              content={getLastValueTooltipLabel({
+                windowSize: map(items, ({ adjustedTimeframe }) => adjustedTimeframe?.windowSize).pop()
+              })}
+            >
+              <span>{formattedMetricValue}</span>
+            </Tooltip>
+          );
 
           let CompanionMetricRenderer;
           if (selectedCompanionMetric) {
@@ -73,7 +85,7 @@ export default function TopListPresenter(props) {
           return (
             <Row
               key={i}
-              Metric={MetricRenderer}
+              Metric={usingLastValue ? MetricRenderedWithTooltip : MetricRenderer}
               metricValue={metricValue}
               CompanionMetric={CompanionMetricRenderer}
               maxValue={maxValue}

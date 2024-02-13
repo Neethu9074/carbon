@@ -4,11 +4,19 @@
  */
 
 import React, { ReactNode } from 'react';
-import { find } from 'lodash';
+import { find, map } from 'lodash';
 
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+import {
+  AdjustedTimeframe,
+  MetricResult,
+  Result,
+  TagFilter,
+  TimeConfig,
+  UnifiedMetricConfiguration
+} from '@instana/types';
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -138,6 +146,10 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
     value = dataPoint.values[0][1];
   }
 
+  const lastValueTooltipContent =
+    config.metricConfiguration.lastValue &&
+    getLastValueTooltipLabel(map(result.data, ({ adjustedTimeframe }) => adjustedTimeframe).pop() as AdjustedTimeframe);
+
   // We are using the [0] selector as in this aspect we assume multiple results have the same value
   // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
   const resultPrecisions = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
@@ -171,6 +183,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
       iconAction={iconAction}
       resultPrecision={resultPrecisions}
       raw={raw}
+      tooltipContent={lastValueTooltipContent}
     />
   );
 }

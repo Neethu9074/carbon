@@ -52,6 +52,7 @@ export interface KpiCardProps {
   iconAction?: IconAction;
   resultPrecision?: ResultPrecision;
   isInModal?: boolean;
+  tooltipContent?: React.ReactNode;
 }
 
 export default function KpiCard({
@@ -70,7 +71,8 @@ export default function KpiCard({
   color,
   useMaxAvailableHeight = true,
   iconAction,
-  resultPrecision
+  resultPrecision,
+  tooltipContent
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -167,7 +169,13 @@ export default function KpiCard({
         )}
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
-      {content}
+      {tooltipContent ? (
+        <Tooltip content={tooltipContent} align="rightBottom">
+          <span className={locals.titleText}>{content}</span>
+        </Tooltip>
+      ) : (
+        <span className={locals.titleText}>{content}</span>
+      )}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
     </div>
   );

@@ -822,6 +822,9 @@
         "endedOn": "Ended On",
         "duration": "Duration"
       }
+    },
+    "time": {
+      "lastValueTooltipLabel": "Last {{duration}}"
     }
   },
   "duplicateDashboardDialog": {
