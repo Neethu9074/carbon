@@ -127,10 +127,23 @@ export const applicationAdditionalCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_TRACE_DETAILS,
   Capability.CAN_CONFIGURE_SERVICE_MAPPING
 ];
+
+export const syntheticViewCapabilities: Array<CapabilityType> = [
+  Capability.CAN_VIEW_SYNTHETIC_TESTS,
+  Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+  Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
+];
+
 export const syntheticOtherCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
   Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
   Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+];
+
+//Need to remove default and additional Synthetic view permissions when access scope is NO_ACCESS
+export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
+  ...syntheticViewCapabilities,
+  ...syntheticOtherCapabilities
 ];
 
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
@@ -281,7 +294,8 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
     permission: AreaPermission.ACCESS_SYNTHETICS,
-    capabilities: syntheticMonitoringCapabilities
+    capabilities: syntheticMonitoringCapabilities,
+    additionalCapabilities: syntheticAdditionalDefaultCapabilities
   },
   [ProductArea.ANALYTICS]: { capabilities: analyticsCapabilities },
   [ProductArea.EVENT]: { capabilities: eventCapabilities },

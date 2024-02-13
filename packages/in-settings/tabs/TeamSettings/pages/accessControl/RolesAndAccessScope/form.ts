@@ -16,7 +16,8 @@ import {
   ProductArea,
   ProductAreaPermissionMap,
   ScopedPermissionItem,
-  ScopedPermissionType
+  ScopedPermissionType,
+  syntheticViewCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -188,13 +189,12 @@ function addPermissionsByRoleForProductArea(
   if (role === AreaRole.OWNER) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     newPermissions.push(...capabilities);
-  } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {
-    const syntheticViewPermissions = [
-      Capability.CAN_VIEW_SYNTHETIC_TESTS,
-      Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
-      Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
-    ];
-    newPermissions.push(...syntheticViewPermissions);
+  } else if (
+    role === AreaRole.VIEWER &&
+    productArea == ProductArea.SYNTHETICS &&
+    !newPermissions.includes(Capability.CAN_VIEW_SYNTHETIC_TESTS)
+  ) {
+    newPermissions.push(...syntheticViewCapabilities);
   }
 
   return newPermissions;

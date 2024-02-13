@@ -212,7 +212,7 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = n
   }
 
   permissionSet = removeAdditionalPermissionsForNoaccess(
-    [ProductArea.APPLICATION, ProductArea.INFRASTRUCTURE],
+    [ProductArea.APPLICATION, ProductArea.INFRASTRUCTURE, ProductArea.SYNTHETICS],
     permissionSet
   );
 
