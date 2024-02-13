@@ -714,7 +714,7 @@ interface RunTurboActionParams {
   actionId: string;
   timeout: string;
   policyId: string;
-  createdAt: number;
+  createdDate: number;
   actionInstanceId: string;
 }
 
@@ -725,7 +725,7 @@ export function runTurboAction({
   actionName,
   actionId,
   timeout,
-  createdAt,
+  createdDate,
   actionInstanceId,
   policyId
 }: RunTurboActionParams) {
@@ -733,7 +733,7 @@ export function runTurboAction({
     action: 'turbonomic.executeAction',
     target: volatileId,
     args: {
-      createdAt,
+      createdDate,
       actionInstanceId,
       async: 'true',
       event: JSON.stringify(event),

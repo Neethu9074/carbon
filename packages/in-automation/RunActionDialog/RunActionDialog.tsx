@@ -413,7 +413,7 @@ function onSave({
     runTurboAction({
       volatileId: volatileId ?? {},
       event,
-      createdAt: createdTime,
+      createdDate: createdTime,
       actionName: action?.description ?? '',
       timeout,
       actionId,
