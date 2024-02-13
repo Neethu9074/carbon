@@ -67,25 +67,29 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
   const validTagFilterExpressionResult: Result<boolean> =
     useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
 
-  let isValidTagFilterExpression = true;
+  let isValidContributionFilter = true;
+  const [isValidContributionFilterName, setValidContributionFilterName] = useState(true);
 
-  const isValidContributionFilter = () => {
+  const validateContributionFilter = () => {
     const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
     const role = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, permissionSet);
+
     if (role === AreaRoleWithContributor.CONTRIBUTOR) {
-      let isFilterNameValid = isBlank((form.get('label') as Field<string>).value);
-      if (tagFilterExpression?.length === 0 || isFilterNameValid) {
-        isValidTagFilterExpression = false;
+      if (tagFilterExpression?.length === 0 || !isValidContributionFilterName) {
+        isValidContributionFilter = false;
       } else {
-        isValidTagFilterExpression = validTagFilterExpressionResult?.data as boolean;
+        // Both tag filter expression and filter name need to be valid
+        isValidContributionFilter = (validTagFilterExpressionResult?.data as boolean) && isValidContributionFilterName;
       }
     } else {
-      isValidTagFilterExpression = true;
+      isValidContributionFilter = true;
     }
   };
+
   if (applicationContributionFilterEnabled) {
-    isValidContributionFilter();
+    validateContributionFilter();
   }
+
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
     setForm
@@ -202,6 +206,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           extractName={({ name }) => name}
           {...formControlProps}
           {...slideControlProps}
+          setValid={setValidContributionFilterName}
         />
       )
     },
@@ -348,7 +353,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
       disabledSaveButton={
-        !form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value) || !isValidTagFilterExpression
+        !form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value) || !isValidContributionFilter
       }
       noHeader
       noDivider

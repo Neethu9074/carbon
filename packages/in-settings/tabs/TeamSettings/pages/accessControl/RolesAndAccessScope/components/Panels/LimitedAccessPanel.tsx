@@ -71,6 +71,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   extractName: ExtractNameFunction<I>;
   onChangeRole: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: LimitableProductArea;
+  setValid?: (isValid: boolean) => void;
 }
 
 export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -87,7 +88,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   extractName,
   onChangeRole,
   setShowSubSlide,
-  setSubSlideConfig
+  setSubSlideConfig,
+  setValid
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
@@ -225,7 +227,12 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
             {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
             <RoleSelectionSection />
             {isContributor && (
-              <ContributionFilterWrapper form={form} setForm={setForm} isContributorRole={isContributor} />
+              <ContributionFilterWrapper
+                form={form}
+                setForm={setForm}
+                isContributorRole={isContributor}
+                setValid={setValid}
+              />
             )}
             {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
               <SyntheticCommonSection form={form} setForm={setForm} />

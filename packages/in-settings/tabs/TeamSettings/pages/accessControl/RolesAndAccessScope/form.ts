@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
 
 import { PermissionSet } from '@instana/types';
 
@@ -23,11 +23,35 @@ import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessContro
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { Capability, PermissionsUnion } from 'in-stores/permission';
+import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
   // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
   const item = Array.isArray(path) ? form.getIn(path) : form.get(path);
   return item as Field<T> | undefined;
+}
+
+export function contributionFilterNameValidator(name: string | null | undefined): ValidationResult {
+  if (isBlank(name)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.contributionFilter_name_mayNotBeBlank')
+      }
+    ];
+  }
+
+  if (name!.length > 128) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.contributionFilter_name_mustNotBeLargerThan128Characters')
+      }
+    ];
+  }
+
+  return null;
 }
 
 export function updateFormField<T>(
@@ -225,7 +249,8 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
     .put(
       'label',
       createField({
-        value: label
+        value: label,
+        validator: contributionFilterNameValidator
       })
     )
     .put(
