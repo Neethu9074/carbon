@@ -313,7 +313,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
     instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'largeTracesV2Enabled',
