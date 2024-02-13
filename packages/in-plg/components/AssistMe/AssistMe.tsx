@@ -8,13 +8,13 @@ import React from 'react';
 
 import { LicenseBannerButton } from '@instana/components';
 
-import { carbonShellEnabled } from 'in-services/featureFlags';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import IconButton from 'in-components/IconButton/IconButton';
 import { t } from 'in-i18n';
 
 export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) {
   if (tryOfferLicenseType) {
-    if (carbonShellEnabled) {
+    if (isCarbonShellEnabled()) {
       return (
         <div data-search-context="getting started">
           <LicenseBannerButton
