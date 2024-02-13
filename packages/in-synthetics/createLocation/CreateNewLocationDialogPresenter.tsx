@@ -18,9 +18,9 @@ import getSyntheticDatacenterDeployment from 'in-synthetics/subscriptions/getSyn
 import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocationType';
 import ConfirmationDialog from 'in-synthetics/createLocation/steps/ConfirmationDialog';
 import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
+import ConfigurationStep from 'in-synthetics/createLocation/steps/ConfigurationStep';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import Configuration from 'in-synthetics/createLocation/steps/Configuration';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getDatacenterLicense } from 'in-synthetics/api';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -105,7 +105,6 @@ const CreateNewLocationDialogPresenter = ({
             simpleModeStep={simpleModeStep}
             setSimpleModeStep={setSimpleModeStep}
             stepConfigs={stepConfigs}
-            onStepChanged={() => {}}
             renderStep={(step: number) => {
               switch (step) {
                 case 0:
@@ -118,7 +117,9 @@ const CreateNewLocationDialogPresenter = ({
                     />
                   );
                 case 1:
-                  return <Configuration selectedBlueprint={selectedBlueprint} form={form} updateForm={updateForm} />;
+                  return (
+                    <ConfigurationStep selectedBlueprint={selectedBlueprint} form={form} updateForm={updateForm} />
+                  );
                 default:
                   return null;
               }

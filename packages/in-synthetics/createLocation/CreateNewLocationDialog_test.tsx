@@ -7,9 +7,8 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-// import getSyntheticDatacenterDeployment from 'in-synthetics/subscriptions/getSyntheticDatacenterDeployment';
-import createNewLocationForm from 'in-synthetics/createLocation/createLocationForm';
 import CreateNewLocationDialogPresenter from 'in-synthetics/createLocation/CreateNewLocationDialogPresenter';
+import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 import DeployTabSelection from 'in-synthetics/createLocation/steps/DeployTabSelection';
 import ManagedLocation from 'in-synthetics/createLocation/steps/ManagedLocation';
 

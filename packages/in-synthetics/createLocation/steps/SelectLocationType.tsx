@@ -14,7 +14,7 @@ import { t } from '@instana/i18n-react';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { LocationsBluePrint, getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import createNewLocationForm from 'in-synthetics/createLocation/createLocationForm';
+import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import Menu from 'in-components/Menu';
 
