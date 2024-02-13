@@ -35,7 +35,7 @@ export default function TopListPresenter(props) {
 
   const items = getItemsFromResult(result);
   const maxValue = chain(items).map(getMetricValueFromItem.bind(null, selectedMetric)).max();
-  const usingLastValue = pick(props.config.metricConfiguration, ['lastValue'])?.lastValue;
+  const usingLastValue = pick(props.config?.metricConfiguration, ['lastValue'])?.lastValue;
 
   return (
     <div
