@@ -79,7 +79,7 @@ export default function ActionsLanePresenter({
                 </time>
                 <div key={i} className={locals.name}>{`${actionName}`}</div>
                 <div key={`status${i}`} className={locals.name}>
-                  {getStatus(status)}
+                  {status ? getStatus(status) : t('in-automation:actionHistory.unknown')}
                 </div>
               </div>
             ))}

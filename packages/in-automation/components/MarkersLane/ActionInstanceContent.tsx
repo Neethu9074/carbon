@@ -25,7 +25,7 @@ export default function ActionInstanceContent({
       <div className={locals.headline}>{actionInstance.actionName}</div>
 
       <div className={locals.detailsTable}>
-        <DetailTab id={actionInstance.actionInstanceId} properties={actionInstance} inActionLane />
+        <DetailTab id={actionInstance.actionInstanceId ?? ''} properties={actionInstance} inActionLane />
       </div>
 
       <div className={locals.controls}>

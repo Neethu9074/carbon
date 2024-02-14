@@ -45,7 +45,7 @@ export default function DetailTab({
   properties,
   inActionLane = false
 }: {
-  id: string;
+  id?: string;
   properties: ActionInstance;
   inActionLane?: boolean;
 }) {
@@ -97,7 +97,7 @@ export default function DetailTab({
 
   const timeConfig = useTimeConfig();
 
-  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id, 'actionInstanceId');
+  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id ?? '', 'actionInstanceId');
   const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   const snapshot = useObservable(
@@ -105,7 +105,11 @@ export default function DetailTab({
     [hostSnapshotId]
   );
   const tableData = [
-    { label: t('in-automation:actionHistory.status'), value: getStatus(status), actionLane: inActionLane },
+    {
+      label: t('in-automation:actionHistory.status'),
+      value: status ? getStatus(status) : t('in-automation:actionHistory.unknown'),
+      actionLane: inActionLane
+    },
     {
       label: t('in-automation:actionHistory.startTime'),
       value: startDate ? formatDateTime(startDate) : formatDateTime(null),
