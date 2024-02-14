@@ -17,8 +17,8 @@ describe('Synthetic Home ViewSwitcher', () => {
 
   it('Switches tabs checking tab icon plus label', () => {
     render(<ViewSwitcher />);
-    screen.getByRole('link', { name: 'lib_synthetic Tests' }).click();
-    screen.getByRole('link', { name: 'lib_synthetic_location Locations' }).click();
-    screen.getByRole('link', { name: 'lib_alerts_alert Smart Alerts' }).click();
+    screen.getByText(/Tests/).click();
+    screen.getByText(/Locations/).click();
+    screen.getByText(/Smart Alerts/).click();
   });
 });

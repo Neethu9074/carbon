@@ -111,6 +111,7 @@ function HomeLink() {
   const path = '/home';
   return (
     <MenuItem
+      id="main-nav-system-overview"
       isActive={matchLocation(getRootPathPredicate(path))}
       icon="lib_home"
       href={createHrefToPath(path)}
@@ -137,6 +138,7 @@ function WebsiteMobileAppView() {
   if (showWebNavigationItem && showMobileAppNavigationItem) {
     return (
       <MenuItem
+        id="main-nav-websites"
         label={t('in-components:mainNavigation.viewSwitcherLabelWebsitesAndMobileApps')}
         icon="lib_website_mobile_app_inverted"
         href={createHrefToPath(websiteMonitoringPath)}
@@ -149,6 +151,7 @@ function WebsiteMobileAppView() {
   if (showWebNavigationItem) {
     return (
       <MenuItem
+        id="main-nav-websites"
         label={t('in-components:mainNavigation.viewSwitcherLabelWebsites')}
         icon="lib_website_inverted"
         href={createHrefToPath(websiteMonitoringPath)}
@@ -161,6 +164,7 @@ function WebsiteMobileAppView() {
   if (showMobileAppNavigationItem) {
     return (
       <MenuItem
+        id="main-nav-mobile-apps"
         label={t('in-components:mainNavigation.viewSwitcherLabelMobileApps')}
         icon="lib_mobile_app_inverted"
         href={createHrefToPath(mobileAppMonitoringPath)}
@@ -184,6 +188,7 @@ function BizOps() {
   }
   return (
     <MenuItem
+      id="main-nav-bizops"
       label={t('in-bizops:navigation.businessMonitoring')}
       icon="lib_bizops"
       isActive={matchLocation(isBizOpsView)}
@@ -201,6 +206,7 @@ function Applications() {
 
   return (
     <MenuItem
+      id="main-nav-application"
       label={t('in-components:mainNavigation.viewSwitcherLabelApplications')}
       icon="lib_application_invert"
       isActive={matchLocation(isApplicationsView)}
@@ -230,6 +236,7 @@ function Platforms() {
       {/* Keep the list of platforms sorted alphabetically */}
       {hasPCFAccess && (
         <MenuItem
+          id="main-nav-cloudfoundry"
           label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
           href={createHrefToPath(cloudfoundryApplicationList)}
           isActive={matchLocation(cloudfoundry)}
@@ -237,6 +244,7 @@ function Platforms() {
       )}
       {hasOpenStackAccess && !playwithEnabled && (
         <MenuItem
+          id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
           href={createHrefToPath(regionListFullyQualified)}
           isActive={matchLocation(openstack)}
@@ -244,6 +252,7 @@ function Platforms() {
       )}
       {hasPHMCAccess && !playwithEnabled && (
         <MenuItem
+          id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
           href={createHrefToPath(phmcListFullyQualified)}
           isActive={matchLocation(ibmp)}
@@ -251,6 +260,7 @@ function Platforms() {
       )}
       {hasPowerVcAccess && !playwithEnabled && (
         <MenuItem
+          id="main-nav-powervc"
           label={t('in-components:mainNavigation.viewSwitcherLabelPowervc')}
           href={createHrefToPath(powervcRegionListFullyQualified)}
           isActive={matchLocation(powervc)}
@@ -258,6 +268,7 @@ function Platforms() {
       )}
       {hasZHMCAccess && !playwithEnabled && (
         <MenuItem
+          id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
           href={createHrefToPath(zhmcListFullyQualified)}
           isActive={matchLocation(ibmz)}
@@ -265,6 +276,7 @@ function Platforms() {
       )}
       {hasKubernetesAccess && (
         <MenuItem
+          id="main-nav-kubernetes"
           label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
           href={createHrefToPath(kubernetesClusterList)}
           isActive={matchLocation(kubernetes)}
@@ -272,6 +284,7 @@ function Platforms() {
       )}
       {hasSAPAccess && !playwithEnabled && (
         <MenuItem
+          id="main-nav-sap"
           label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
           href={createHrefToPath(sapSystemList)}
           isActive={matchLocation(sap)}
@@ -279,6 +292,7 @@ function Platforms() {
       )}
       {hasVSphereAccess && !playwithEnabled && (
         <MenuItem
+          id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
           href={createHrefToPath(datacenterListFullyQualified)}
           isActive={matchLocation(vsphere)}
@@ -300,6 +314,7 @@ function Infrastructure() {
 
   return (
     <MenuItem
+      id="main-nav-infrastructure"
       label={t('in-components:mainNavigation.viewSwitcherlabelInfrastructure')}
       icon="lib_infrastructure_inverted"
       isActive={isActive || false}
@@ -331,6 +346,7 @@ function Analyze() {
 
   return (
     <MenuItem
+      id="main-nav-analyze"
       label={t('in-components:mainNavigation.viewSwitcherLabelAnalytics')}
       icon="lib_analyze_inverted"
       isActive={isActive || false}
@@ -376,6 +392,7 @@ function Incidents() {
 
   return (
     <MenuItem
+      id="main-nav-events"
       label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
       icon="lib_events_inverted"
       badgeCount={numIncidents}
@@ -398,6 +415,7 @@ function AutomationMenu() {
 
   return (
     <MenuItem
+      id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
       isBeta
@@ -419,6 +437,7 @@ function SloDashboard() {
 
   return (
     <MenuItem
+      id="main-nav-slo-dashboard"
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
       isBeta
@@ -439,6 +458,7 @@ function Synthetics() {
   }
   return (
     <MenuItem
+      id="main-nav-synthetics"
       label={t('in-synthetics:navigation.synthetics')}
       icon="lib_synthetic"
       isActive={matchLocation(isSyntheticMonitoringView)}
@@ -458,6 +478,7 @@ function InternalView() {
 
   return (
     <MenuItem
+      id="main-nav-internal"
       label={t('in-components:mainNavigation.viewSwitcherLabelInternal')}
       icon="lib_actions_lock"
       isActive={matchLocation('/internal')}
@@ -484,6 +505,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
   return (
     <>
       <MenuItem
+        id="main-nav-settings"
         label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
         icon="lib_actions_settings_inverted"
         isActive={matchLocation(settingsPath)}
@@ -493,6 +515,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
       <MenuItem icon="lib_menu_additional_resources" label={t('in-components:mainNavigation.viewSwitcherLabelMore')}>
         {tenantSwitcherEnabled && (
           <MenuItem
+            id="main-nav-tenants"
             label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
             openInNewTab
             href={tenantSwitcherLink}
@@ -500,6 +523,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
         )}
         {role?.canConfigureAgents && (
           <MenuItem
+            id="main-nav-agents"
             label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
             href={createHrefToPath(agentsPath)}
             isActive={matchLocation(agentsPath)}
@@ -507,6 +531,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
         )}
         {releaseNotesEnabled && (
           <MenuItem
+            id="main-nav-release-notes"
             onClick={e => {
               showReleaseNotes();
               onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
@@ -515,16 +540,19 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
           />
         )}
         <MenuItem
+          id="main-nav-documentation"
           label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
           openInNewTab
           href="https://www.ibm.com/docs/en/obi/current"
         />
         <MenuItem
+          id="main-nav-support"
           label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
           openInNewTab
           href="https://www.ibm.com/mysupport/s/?language=en_US"
         />
         <MenuItem
+          id="main-nav-about"
           onClick={e => {
             addActiveDialog(<AboutInstanaDialog />);
             onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
