@@ -87,6 +87,7 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
+  triggerReload?: (n: number) => void;
 }
 
 export default function RunActionDialog({
@@ -96,7 +97,8 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  triggerReload
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
@@ -160,7 +162,8 @@ export default function RunActionDialog({
                   event,
                   policy,
                   handleSave,
-                  executePolicy
+                  executePolicy,
+                  triggerReload
                 })
               }
             />
@@ -181,7 +184,9 @@ const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitlePar
   const actionDescription = action?.description;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
-  if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
+  if (isExternal(action.type) && actionInstanceId)
+    return t('in-automation:hasBeenInitiated', { actionName: actionDescription });
+  if (!isExternal(action.type) && actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
   if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
   if (isExternal(action.type)) return t('in-automation:chosenToRun', { actionName: actionDescription });
@@ -276,6 +281,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   policy?: NewPolicy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
   executePolicy?: Policy;
+  triggerReload?: (n: number) => void;
 }
 
 function onSave({
@@ -289,7 +295,8 @@ function onSave({
   event,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  triggerReload
 }: OnSaveParams) {
   if (!form?.hierarchyValid && !isExternal(action.type)) {
     setForm(form?.setTouched(true, { recurse: true }));
@@ -370,6 +377,9 @@ function onSave({
       setActionInstanceId(response?.data?.actionInstanceId);
     } else {
       setActionInstanceId(response.data.actionInstanceId);
+      if (triggerReload && isExternal(action.type)) {
+        triggerReload(Math.random());
+      }
     }
   };
 
@@ -408,10 +418,9 @@ function onSave({
   } else if (isExternal(action.type)) {
     const volatileId = agentSnapShots?.data?.online[0]?.volatileId;
     const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
-
     const createdTime = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceCreatedDate : 0;
     runTurboAction({
-      volatileId: volatileId ?? {},
+      volatileId: selectedVolatileId ?? volatileId ?? {},
       event,
       createdDate: createdTime,
       actionName: action?.description ?? '',

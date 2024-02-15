@@ -126,7 +126,16 @@ export default function RecommendationActionForPoliciesTable({
               <Button
                 kind="action"
                 icon={'lib_actions_play'}
-                onClick={() => addActiveDialog(<RunActionDialog action={item} volatileId={volatileId} event={event} />)}
+                onClick={() =>
+                  addActiveDialog(
+                    <RunActionDialog
+                      action={item}
+                      volatileId={volatileId}
+                      event={event}
+                      triggerReload={triggerReload}
+                    />
+                  )
+                }
                 noAutoMargin
               >
                 {t('in-automation:ActionCatalog.run')}

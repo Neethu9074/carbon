@@ -149,7 +149,7 @@ export default function RunActionDialogContent({
     return <ManualActionContent action={action} />;
   }
   if (isExternal(action.type)) {
-    return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} />;
+    return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} form={form} setForm={setForm} />;
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
@@ -212,6 +212,48 @@ export default function RunActionDialogContent({
   );
 }
 
+function TurboAgentSelection({
+  form,
+  setForm,
+  agentSnapShots
+}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots'>) {
+  const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
+
+  const options = agentSnapShots?.data?.online?.map(agent => {
+    const hostname = agent.label ?? '';
+    return {
+      label: hostname,
+      value: agent.volatileId?.host_id ?? ''
+    };
+  });
+
+  return (
+    <>
+      {targetAgent?.map(field => (
+        <FormGroup>
+          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
+            {t('in-automation:targetAgent')}
+          </Label>
+          <ComboBox
+            options={options ?? []}
+            id="target-agent"
+            value={field.value}
+            isClearable={false}
+            onChange={o => {
+              const updatedForm = form?.updateIn(['targetAgent'], field =>
+                (field as Field<string>).setValue((o as Option).value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
+        </FormGroup>
+      ))}
+    </>
+  );
+}
+
 function AgentSelection({
   form,
   setForm,
@@ -253,6 +295,7 @@ function AgentSelection({
       label: t('in-automation:policies.triggeringAgent')
     });
   }
+
   return (
     <>
       {targetAgent?.map(field => (
@@ -454,8 +497,11 @@ function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
 
 function ExternalActionContent({
   action,
-  agentSnapShots
-}: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots'>) {
+  agentSnapShots,
+  form,
+  setForm
+}: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots' | 'form' | 'setForm'>) {
+  const noOfTurboAgents = agentSnapShots?.data?.online.length ?? 1;
   const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
   return (
     <DescriptionList>
@@ -465,12 +511,16 @@ function ExternalActionContent({
       >
         {action.description}
       </DescriptionItem>
-      <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-automation:targetAgent')}
-      >
-        {targetAgentForTurbo}
-      </DescriptionItem>
+      {noOfTurboAgents > 1 ? (
+        <TurboAgentSelection form={form} setForm={setForm} agentSnapShots={agentSnapShots} />
+      ) : (
+        <DescriptionItem
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:targetAgent')}
+        >
+          {targetAgentForTurbo}
+        </DescriptionItem>
+      )}
     </DescriptionList>
   );
 }

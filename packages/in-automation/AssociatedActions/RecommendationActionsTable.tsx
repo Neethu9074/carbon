@@ -139,7 +139,14 @@ export default function RecommendationActionsTable({
                   kind="action"
                   icon={'lib_actions_play'}
                   onClick={() =>
-                    addActiveDialog(<RunActionDialog action={item} volatileId={volatileId} event={event} />)
+                    addActiveDialog(
+                      <RunActionDialog
+                        action={item}
+                        volatileId={volatileId}
+                        event={event}
+                        triggerReload={triggerReload}
+                      />
+                    )
                   }
                   noAutoMargin
                 >
