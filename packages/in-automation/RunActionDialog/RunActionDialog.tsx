@@ -179,17 +179,12 @@ interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 
   error: string;
 }
 const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitleParams) => {
-  const actionName = action.name;
-
-  const actionDescription = action?.description;
+  const actionName = isExternal(action.type) ? action?.description : action.name;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
-  if (isExternal(action.type) && actionInstanceId)
-    return t('in-automation:hasBeenInitiated', { actionName: actionDescription });
-  if (!isExternal(action.type) && actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
+  if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
   if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
-  if (isExternal(action.type)) return t('in-automation:chosenToRun', { actionName: actionDescription });
   return t('in-automation:chosenToRun', { actionName });
 };
 
