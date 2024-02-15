@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { chain, get, map, pick } from 'lodash';
+import { chain, get, map } from 'lodash';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -35,7 +35,7 @@ export default function TopListPresenter(props) {
 
   const items = getItemsFromResult(result);
   const maxValue = chain(items).map(getMetricValueFromItem.bind(null, selectedMetric)).max();
-  const usingLastValue = pick(props.config?.metricConfiguration, ['lastValue'])?.lastValue;
+  const usingLastValue = props.config?.metricConfiguration?.lastValue;
 
   return (
     <div
