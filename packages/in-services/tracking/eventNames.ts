@@ -80,7 +80,6 @@ export const ANALYZE_TRACE_VIEW_TRACK_IF_LARGE_TRACE = 'analyze.trace.view.if.la
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
-export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
 export const APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS = 'application.click.latency.jumpToUA';
 export const APPLICATION_TIME_SHIFT_SELECT = 'application.timeShift.select';
 
@@ -460,4 +459,8 @@ export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
 
 // Service Flow Map Tracking
 export const SERVICE_FLOW_MAP_CLICK = 'service.flowmap.click';
-export const SERVICE_FLOW_MAP_EXPAND_LEVEL = 'service.flowmap.level.expand';
+export const SERVICE_FLOW_MAP_CLICK_CALLS = 'service.flowmap.click.calls';
+export const SERVICE_FLOW_MAP_CLICK_LATENCY = 'service.flowmap.click.latency';
+export const SERVICE_FLOW_MAP_CLICK_ERROR = 'service.flowmap.click.error';
+export const SERVICE_FLOW_MAP_CLICK_SIMULATION = 'service.flowmap.click.simulation';
+export const SERVICE_FLOW_MAP_CLICK_EXPAND_LEVEL = 'service.flowmap.click.level.expand';

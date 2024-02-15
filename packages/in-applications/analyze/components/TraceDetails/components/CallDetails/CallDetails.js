@@ -19,7 +19,7 @@ import Header from 'in-applications/analyze/components/TraceDetails/components/C
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
+import { downloadCallDetailsClickedTracker } from 'in-applications/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
