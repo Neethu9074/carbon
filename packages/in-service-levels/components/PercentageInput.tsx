@@ -13,13 +13,22 @@ interface PercentageInputProps {
   onChange: (value: number | undefined) => void;
   hasError?: boolean;
   decimalPrecision?: number;
+  className?: string;
 }
 
-export default function PercentageInput({ id, value, onChange, decimalPrecision = 4, hasError }: PercentageInputProps) {
+export default function PercentageInput({
+  id,
+  value,
+  onChange,
+  decimalPrecision = 4,
+  hasError,
+  className
+}: PercentageInputProps) {
   const displayValue = formatNumber(value, decimalPrecision);
 
   return (
     <Input
+      className={className}
       id={id}
       value={displayValue}
       type="number"
