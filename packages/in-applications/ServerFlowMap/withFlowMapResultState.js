@@ -173,11 +173,10 @@ export default () => ComposedComponent => {
       if (!this.containsSubscription(subscriptionId, direction)) {
         const servicePath = this.flowMapState.pathFinder.find(nodeId, direction).map(node => node.__originalId);
 
-        // servicePath.length > 1 --> tracking of the initial node expansion on page load is unnecessary.
-        // !endpointId --> prevent tracking child expansion (expansion of services on the same level, if there are more than 10).
-        if (servicePath.length > 1 && !endpointId) {
+        // servicePath.length is only 1 on the initial expansion which happens on page laod
+        if (servicePath.length > 1) {
           flowMapLevelExpandedTracker({
-            entity: this.props.rootNodeData.endpoint != null ? 'endpoint' : 'service',
+            entity: endpointId != null ? 'endpoint' : 'service',
             direction,
             targetedLevel: servicePath.length
           });
