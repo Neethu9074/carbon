@@ -35,14 +35,14 @@ import {
   APPLICATION_CLICK_CREATE,
   APPLICATION_CLICK_SUBMIT,
   APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS,
-  SERVICE_FLOW_MAP_CLICK,
+  FLOW_MAP_CLICK,
   APPLICATION_TIME_SHIFT_SELECT,
   track,
-  SERVICE_FLOW_MAP_CLICK_EXPAND_LEVEL,
-  SERVICE_FLOW_MAP_CLICK_CALLS,
-  SERVICE_FLOW_MAP_CLICK_LATENCY,
-  SERVICE_FLOW_MAP_CLICK_ERROR,
-  SERVICE_FLOW_MAP_CLICK_SIMULATION
+  FLOW_MAP_CLICK_EXPAND_LEVEL,
+  FLOW_MAP_CLICK_CALLS,
+  FLOW_MAP_CLICK_LATENCY,
+  FLOW_MAP_CLICK_ERROR,
+  FLOW_MAP_CLICK_SIMULATION
 } from 'in-services/tracking/tracking';
 
 export type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
@@ -96,15 +96,12 @@ export const downloadCallDetailsClickedTracker = (e: Record<string, unknown>) =>
 export const traceViewTrackIfLargeTrace = (e: Record<string, unknown>) =>
   track(ANALYZE_TRACE_VIEW_TRACK_IF_LARGE_TRACE, e);
 
-export const serviceFlowMapClickedTracker = (e: Record<string, unknown>) => track(SERVICE_FLOW_MAP_CLICK, e);
-export const serviceFlowMapCallsClickedTracker = (e: Record<string, unknown>) => track(SERVICE_FLOW_MAP_CLICK_CALLS, e);
-export const serviceFlowMapLatencyClickedTracker = (e: Record<string, unknown>) =>
-  track(SERVICE_FLOW_MAP_CLICK_LATENCY, e);
-export const serviceFlowMapErrorClickedTracker = (e: Record<string, unknown>) => track(SERVICE_FLOW_MAP_CLICK_ERROR, e);
-export const serviceFlowMapSimulationClickedTracker = (e: Record<string, unknown>) =>
-  track(SERVICE_FLOW_MAP_CLICK_SIMULATION, e);
-export const serviceFlowMapLevelExpandedTracker = (e: Record<string, unknown>) =>
-  track(SERVICE_FLOW_MAP_CLICK_EXPAND_LEVEL, e);
+export const flowMapClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK, e);
+export const flowMapCallsClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_CALLS, e);
+export const flowMapLatencyClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_LATENCY, e);
+export const flowMapErrorClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_ERROR, e);
+export const flowMapSimulationClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_SIMULATION, e);
+export const flowMapLevelExpandedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_EXPAND_LEVEL, e);
 
 export const traceViewTracker: Record<string, (e: Record<string, unknown>) => void> = {
   traceViewNavigateBackToUa,

@@ -10,17 +10,16 @@ import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  serviceFlowMapCallsClickedTracker,
-  serviceFlowMapErrorClickedTracker,
-  serviceFlowMapLatencyClickedTracker,
-  serviceFlowMapSimulationClickedTracker
+  flowMapCallsClickedTracker,
+  flowMapErrorClickedTracker,
+  flowMapLatencyClickedTracker,
+  flowMapSimulationClickedTracker
 } from 'in-applications/tracker';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
-import { emptyObject } from 'in-services/fixedObjects';
 import Button from 'in-components/MapControls/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
 import Tooltip from 'in-components/Tooltip';
@@ -40,9 +39,10 @@ const SIGNAL_VALUES = {
 interface Props {
   serviceLocatorUid: string;
   resultPrecisionDetails: ResultPrecisionDetails;
+  entity: 'endpoint' | 'service';
 }
 
-export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: Props) {
+export default function Controls({ serviceLocatorUid, resultPrecisionDetails, entity }: Props) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
   const hasApproximateData = resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
@@ -55,7 +55,7 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: 
     <Fragment>
       <HorizontalControlsPresenter position="topLeft">
         <MapButtonGroup>
-          <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
+          <HeatmapButtons serviceLocatorUid={serviceLocatorUid} entity={entity} />
           {hasApproximateData && (
             <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
           )}
@@ -77,7 +77,7 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: 
 
   function toggleParticles() {
     eventBusServiceLocator.on(SIGNALS.PARTICLES).once((_signal: string) => {
-      serviceFlowMapSimulationClickedTracker({ toggle: !_signal });
+      flowMapSimulationClickedTracker({ entity, toggle: !_signal });
       eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal);
     });
   }
@@ -110,9 +110,10 @@ function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
 
 interface HeatmapButtonsProps {
   serviceLocatorUid: string;
+  entity: 'endpoint' | 'service';
 }
 
-function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
+function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
   const currentSignal = useObservable(
     getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.HEATMAP),
     []
@@ -136,7 +137,7 @@ function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
           text: t('in-applications:labelCalls'),
           key: SIGNAL_VALUES.HEATMAP_CALLS,
           onClick: () => {
-            serviceFlowMapCallsClickedTracker(emptyObject);
+            flowMapCallsClickedTracker({ entity });
             toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS);
           }
         },
@@ -144,7 +145,7 @@ function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
           text: t('in-applications:labelLatency'),
           key: SIGNAL_VALUES.HEATMAP_LATENCY,
           onClick: () => {
-            serviceFlowMapLatencyClickedTracker(emptyObject);
+            flowMapLatencyClickedTracker({ entity });
             toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY);
           }
         },
@@ -152,7 +153,7 @@ function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
           text: t('in-applications:labelErrors'),
           key: SIGNAL_VALUES.HEATMAP_ERROR_RATE,
           onClick: () => {
-            serviceFlowMapErrorClickedTracker(emptyObject);
+            flowMapErrorClickedTracker({ entity });
             toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE);
           }
         }

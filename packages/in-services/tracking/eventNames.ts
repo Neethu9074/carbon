@@ -457,10 +457,10 @@ export const JOURNAL_FAKE_DOOR_NOT_INTERESTED = 'journal.fake.door.notInterested
 export const JOURNAL_FAKE_DOOR_INTERESTED = 'journal.fake.door.interested';
 export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
 
-// Service Flow Map Tracking
-export const SERVICE_FLOW_MAP_CLICK = 'service.flowmap.click';
-export const SERVICE_FLOW_MAP_CLICK_CALLS = 'service.flowmap.click.calls';
-export const SERVICE_FLOW_MAP_CLICK_LATENCY = 'service.flowmap.click.latency';
-export const SERVICE_FLOW_MAP_CLICK_ERROR = 'service.flowmap.click.error';
-export const SERVICE_FLOW_MAP_CLICK_SIMULATION = 'service.flowmap.click.simulation';
-export const SERVICE_FLOW_MAP_CLICK_EXPAND_LEVEL = 'service.flowmap.click.level.expand';
+// Flow Map Tracking (services and endpoints)
+export const FLOW_MAP_CLICK = 'flowmap.click';
+export const FLOW_MAP_CLICK_CALLS = 'flowmap.click.calls';
+export const FLOW_MAP_CLICK_LATENCY = 'flowmap.click.latency';
+export const FLOW_MAP_CLICK_ERROR = 'flowmap.click.error';
+export const FLOW_MAP_CLICK_SIMULATION = 'flowmap.click.simulation';
+export const FLOW_MAP_CLICK_EXPAND_LEVEL = 'flowmap.click.level.expand';
