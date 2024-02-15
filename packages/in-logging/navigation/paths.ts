@@ -11,7 +11,9 @@ import { setTimeConfig } from 'in-stores/time/config';
 
 export const logsPath = '/logs';
 export const alertsPath = '/alerts';
+export const alertsDetailsPath = '/details';
 export const alertsFullyQualifiedPath = `${logsPath}${alertsPath}`;
+export const alertDetailsFullyQualifiedPath = `${alertsFullyQualifiedPath}${alertsDetailsPath}`;
 
 interface QueryBuilderTag {
   type: string;

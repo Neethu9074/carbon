@@ -11,6 +11,7 @@ interface baseUrlProps {
 export const baseUrl: baseUrlProps = {
   MOBILEAPP: 'api/events/settings/mobile-app-alert-configs',
   INFRA: '/api/events/settings/infra-alert-configs',
+  LOG: '/api/events/settings/global-alert-configs/logs',
   SYNTHETICS: '/api/events/settings/global-alert-configs/synthetics',
   WEBSITE: 'api/events/settings/website-alert-configs',
   APPLICATION: 'api/events/settings/application-alert-configs',

@@ -1284,6 +1284,11 @@
       "previewFor": "Preview for: ",
       "selectEntityType": "Please select an entity type",
       "regexNotValid": "Regex is not valid"
+    },
+    "logging": {
+      "alertDetails": {
+        "alertConfiguration": "Alert Configuration"
+      }
     }
   }
 }
