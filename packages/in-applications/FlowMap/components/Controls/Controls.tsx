@@ -9,11 +9,18 @@ import { ResultPrecisionDetails } from '@instana/types';
 import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  serviceFlowMapCallsClickedTracker,
+  serviceFlowMapErrorClickedTracker,
+  serviceFlowMapLatencyClickedTracker,
+  serviceFlowMapSimulationClickedTracker
+} from 'in-applications/tracker';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
+import { emptyObject } from 'in-services/fixedObjects';
 import Button from 'in-components/MapControls/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
 import Tooltip from 'in-components/Tooltip';
@@ -69,9 +76,10 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: 
   );
 
   function toggleParticles() {
-    eventBusServiceLocator
-      .on(SIGNALS.PARTICLES)
-      .once((_signal: string) => eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal));
+    eventBusServiceLocator.on(SIGNALS.PARTICLES).once((_signal: string) => {
+      serviceFlowMapSimulationClickedTracker({ toggle: !_signal });
+      eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal);
+    });
   }
 
   function zoomIn(serviceLocatorUid: string) {
@@ -127,17 +135,26 @@ function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
         {
           text: t('in-applications:labelCalls'),
           key: SIGNAL_VALUES.HEATMAP_CALLS,
-          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)
+          onClick: () => {
+            serviceFlowMapCallsClickedTracker(emptyObject);
+            toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS);
+          }
         },
         {
           text: t('in-applications:labelLatency'),
           key: SIGNAL_VALUES.HEATMAP_LATENCY,
-          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)
+          onClick: () => {
+            serviceFlowMapLatencyClickedTracker(emptyObject);
+            toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY);
+          }
         },
         {
           text: t('in-applications:labelErrors'),
           key: SIGNAL_VALUES.HEATMAP_ERROR_RATE,
-          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE)
+          onClick: () => {
+            serviceFlowMapErrorClickedTracker(emptyObject);
+            toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE);
+          }
         }
       ]}
       activeKey={currentSignal}
