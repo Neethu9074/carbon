@@ -136,6 +136,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "No Smart Alert configurations found for a given search",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
+    "smartAlertsTitle": "Smart Alerts",
     "applications": {
       "alertConfiguration": "Alert Configuration",
       "advanced": {

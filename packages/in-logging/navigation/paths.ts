@@ -3,12 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+// eslint-disable-next-line import/no-deprecated
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { TagFilterExpression, TimeConfig } from 'in-types';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const logsPath = '/logs';
+export const alertsPath = '/alerts';
+export const alertsFullyQualifiedPath = `${logsPath}${alertsPath}`;
 
 interface QueryBuilderTag {
   type: string;
@@ -20,6 +23,7 @@ interface GetLinkToAnalyzeRequest {
 }
 
 export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToAnalyzeRequest) {
+  // eslint-disable-next-line import/no-deprecated
   return getModifiedUrlStream(location => {
     location.pathname = logsPath;
 
