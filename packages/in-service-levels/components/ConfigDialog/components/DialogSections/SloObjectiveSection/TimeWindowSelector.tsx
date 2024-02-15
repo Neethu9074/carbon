@@ -60,7 +60,7 @@ export default function TimeWindowSelector() {
       >
         <Stack direction="horizontal" gap="medium">
           <Input
-            className={locals.timeWindow}
+            className={locals.objectiveInput}
             type="number"
             id="time-window-size"
             value={windowDurationField.value}

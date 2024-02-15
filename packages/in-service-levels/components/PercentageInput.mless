@@ -1,5 +1,0 @@
-:local {
-  .input {
-    max-width: 3.8rem;
-  }
-}
