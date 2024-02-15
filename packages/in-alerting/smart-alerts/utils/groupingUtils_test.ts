@@ -6,7 +6,7 @@
 
 import { TagCatalog } from '@instana/types';
 
-import { moveOthersChildrenOnTop } from 'in-alerting/smart-alerts/infrastructure/data/moveOthersChildrenOnTop';
+import { moveOthersChildrenOnTop } from 'in-alerting/smart-alerts/utils/groupingUtils';
 
 describe('moveOthersChildrenOnTop', () => {
   it('should move the "Others" category to the top of the tag tree', () => {

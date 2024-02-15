@@ -12,7 +12,7 @@ import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/back
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { deepCopy } from 'in-services/util/object';
 
-export function InfraGrouping({
+export function ScopeGroupingTags({
   AlertQueryBuilder,
   groupingTags
 }: {

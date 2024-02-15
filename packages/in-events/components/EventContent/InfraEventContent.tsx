@@ -16,11 +16,11 @@ import InfraAlertChartWrapper, {
   useGetMetricLabel
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
-import { InfraGrouping } from 'in-alerting/smart-alerts/infrastructure/components/InfraGrouping';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
+import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeGroupingTags';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -146,7 +146,7 @@ export default function InfraEventContent({ event }: Props) {
                 scopePath={
                   <>
                     <InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />
-                    <InfraGrouping AlertQueryBuilder={AlertQueryBuilder} groupingTags={groupingTags} />
+                    <ScopeGroupingTags AlertQueryBuilder={AlertQueryBuilder} groupingTags={groupingTags} />
                   </>
                 }
               />
