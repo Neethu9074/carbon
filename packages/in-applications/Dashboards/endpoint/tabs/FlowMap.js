@@ -13,9 +13,9 @@ import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix'
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
 import getService from 'in-applications/subscriptions/getService';
+import { flowMapClickedTracker } from 'in-applications/tracker';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
-import { flowMapClickedTracker } from '../../../tracker';
 import useUrlState from 'in-hooks/useUrlState';
 
 const urlStateDefinition = {
