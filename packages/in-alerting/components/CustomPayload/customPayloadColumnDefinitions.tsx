@@ -3,13 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
+import { Field, Item, MapForm, createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
+import { DynamicFieldValue } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import {
+  ViewModel,
   toFormModel,
   toViewModel
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
@@ -20,6 +22,7 @@ import {
   validatorForType,
   staticType
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { AdditionalContentPropsType } from 'in-alerting/components/CustomPayload/CustomPayloadTable';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -35,7 +38,10 @@ export const deleteItemColumnDefinition = {
   id: 'deleteRow',
   width: '5',
   sortable: false,
-  getContent(itemForm, { deleteRow, enabled }) {
+  getContent(
+    itemForm: MapForm<any>,
+    { deleteRow, enabled }: { deleteRow: (itemForm: MapForm<any>) => void; enabled: boolean }
+  ) {
     return (
       <div className={locals.controls}>
         <Tooltip content={t('in-alerting:components.customPayload.deleteRow')} delay={500}>
@@ -53,6 +59,10 @@ export const deleteItemColumnDefinition = {
   }
 };
 
+type ColumnDefinitionProps = Omit<AdditionalContentPropsType, 'TagBasedPayloadConfigurator'> & {
+  TagBasedPayloadConfigurator: React.FunctionComponent<any>;
+};
+
 export const valueColumnDefinition = {
   id: 'value',
   width: '50',
@@ -60,10 +70,10 @@ export const valueColumnDefinition = {
   sortable: false,
   label: t('in-alerting:components.customPayload.value'),
   getContent(
-    itemForm,
-    { getRowIndex, updateIn, enabled, trackChange, TagBasedPayloadConfigurator, suggestionsAlignedLeft }
+    itemForm: MapForm<any>,
+    { getRowIndex, updateIn, enabled, TagBasedPayloadConfigurator, suggestionsAlignedLeft }: ColumnDefinitionProps
   ) {
-    function onChange(paths, f) {
+    function onChange(paths: string[], f: (item: Item) => Item) {
       updateIn([getRowIndex(itemForm), ...paths], f);
     }
 
@@ -81,7 +91,7 @@ export const valueColumnDefinition = {
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
-                onChange(['value'], f => f.setValue(target.value).setTouched(true));
+                onChange(['value'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
               }}
               maxLength={512}
             />
@@ -94,12 +104,11 @@ export const valueColumnDefinition = {
     if (type === dynamicType) {
       return (
         <FormGroup withoutBottomMargin className={locals.colValue}>
-          {valueField.map(field => {
+          {valueField.map((field: Field<DynamicFieldValue>) => {
             const value = field?.value;
-            const storeIntoFormModel = payloadItem => {
+            const storeIntoFormModel = (payloadItem: ViewModel) => {
               const formModel = toFormModel(payloadItem);
-              onChange(['value'], f => f.setValue(formModel).setTouched(true));
-              trackChange({ dynamicValue: formModel.tagName });
+              onChange(['value'], (f: Item) => (f as Field<DynamicFieldValue>).setValue(formModel).setTouched(true));
             };
             return (
               <>
@@ -127,8 +136,8 @@ export const keyColumnDefinition = {
   width: '20',
   sortable: false,
   label: t('in-alerting:components.customPayload.key'),
-  getContent(item, { getRowIndex, updateIn, enabled }) {
-    function onChange(paths, f) {
+  getContent(item: MapForm<any>, { getRowIndex, updateIn, enabled }: AdditionalContentPropsType) {
+    function onChange(paths: string[], f: (form: Item) => Item) {
       updateIn([getRowIndex(item), ...paths], f);
     }
 
@@ -150,7 +159,7 @@ export const keyColumnDefinition = {
               value={value}
               hasError={!valueField?.valid && valueField?.touched}
               onChange={({ target }) => {
-                onChange(['key'], f => f.setValue(target.value).setTouched(true));
+                onChange(['key'], (f: Item) => (f as Field<string>).setValue(target.value).setTouched(true));
               }}
               maxLength={128}
               autoFocus={Boolean(item.get('id').value)}
@@ -166,19 +175,22 @@ export const keyColumnDefinition = {
 const staticLabel = t('in-alerting:components.customPayload.static');
 const dynamicLabel = t('in-alerting:components.customPayload.dynamic');
 
+type TypeColumnDefinitionProps = Omit<AdditionalContentPropsType, 'updateIn'> & {
+  updateIn: (path: (string | number)[], updater: (form: MapForm<any>) => Item) => void;
+};
+
 export const typeColumnDefinition = {
   id: 'type',
   width: '20',
-
   sortable: false,
   label: t('in-alerting:components.customPayload.valueType'),
-  getContent(item, { getRowIndex, updateIn, enabled, trackChange }) {
-    const onChangeType = newType => {
+  getContent(item: MapForm<any>, { getRowIndex, updateIn, enabled }: TypeColumnDefinitionProps) {
+    const onChangeType = (newType: string) => {
       const newValue = defaultValueForType(newType);
       const newValidator = validatorForType[newType];
       updateIn([getRowIndex(item)], formFields => {
         return formFields
-          .updateIn(['type'], f => f.setValue(newType).setTouched(true))
+          .updateIn(['type'], (f: Item) => (f as Field<string>).setValue(newType).setTouched(true))
           .updateIn(['value'], () =>
             createField({
               value: newValue,
@@ -190,7 +202,7 @@ export const typeColumnDefinition = {
 
     return (
       <FormGroup withoutBottomMargin>
-        {item.get('type').map(field => {
+        {item.get('type').map((field: Field<string>) => {
           return (
             <Tooltip content={field.value === staticType ? staticLabel : dynamicLabel} delay={500}>
               <Select
@@ -201,7 +213,6 @@ export const typeColumnDefinition = {
                 hasError={!field?.valid && field?.touched}
                 onChange={({ target }) => {
                   onChangeType(target.value);
-                  trackChange({ type: target.value, oldType: field.value });
                 }}
               >
                 {[
