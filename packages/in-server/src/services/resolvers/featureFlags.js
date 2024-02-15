@@ -491,11 +491,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'simplifiedFlowMapEnabled',
-    instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'zoomWidgetEnabled',
     instanaCtlKey: 'feature.zoom.widget.enabled',
     defaultValue: false

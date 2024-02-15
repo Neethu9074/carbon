@@ -223,6 +223,5 @@ export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incide
 export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
-export const simplifiedFlowMapEnabled = isFeatureFlagEnabled('simplifiedFlowMapEnabled', false);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);

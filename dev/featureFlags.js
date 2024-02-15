@@ -105,7 +105,6 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   flowMapEnabled: true,
-  simplifiedFlowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,
