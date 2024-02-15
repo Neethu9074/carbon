@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { isCustomEventBasedSli } from '@instana/types';
 import { Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -18,12 +17,11 @@ interface Props {
 
 export default function SloBlueprintColumnContent({ item }: Props) {
   const { indicator } = item.configuration;
-  const blueprint = isCustomEventBasedSli(indicator) ? 'custom' : indicator.blueprint;
 
   return (
     <Typography variant="body-regular">
       {t('in-service-levels:general.indicator.blueprint', {
-        context: blueprint
+        context: indicator.blueprint
       })}
     </Typography>
   );

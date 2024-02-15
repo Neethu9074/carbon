@@ -6,9 +6,9 @@
 
 import {
   ApplicationSloEntity,
-  CustomEventBasedSli,
-  EventBasedSli,
-  TimeBasedSli,
+  AvailabilityBlueprintIndicator,
+  CustomBlueprintIndicator,
+  LatencyBlueprintIndicator,
   WebsiteSloEntity
 } from '@instana/types';
 
@@ -18,7 +18,7 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 describe('in-service-levels/utils/tagFilter', () => {
   it('returns default TagFilterExpressions for good and bad events when a time-based SLI is provided', () => {
     // Given
-    const indicator: TimeBasedSli = {
+    const indicator: AvailabilityBlueprintIndicator = {
       blueprint: 'availability',
       threshold: 0.9,
       type: 'timeBased',
@@ -41,9 +41,10 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for custom event-based SLIs when badEventsFilter configuration is missing', () => {
     // Given
-    const indicator: CustomEventBasedSli = {
-      threshold: 0.9,
-      type: 'customEventBased',
+    const indicator: CustomBlueprintIndicator = {
+      threshold: 0.0,
+      blueprint: 'custom',
+      type: 'eventBased',
       goodEventsFilter: tagFilter('beacon.http.status', 'EQUALS', 200)
     };
 
@@ -63,9 +64,10 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for custom event-based SLIs when badEventsFilter is configured', () => {
     // Given
-    const indicator: CustomEventBasedSli = {
-      threshold: 0.9,
-      type: 'customEventBased',
+    const indicator: CustomBlueprintIndicator = {
+      threshold: 0.0,
+      blueprint: 'custom',
+      type: 'eventBased',
       goodEventsFilter: tagFilter('beacon.http.status', 'EQUALS', 200),
       badEventsFilter: tagFilter('beacon.http.status', 'GREATER_OR_EQUAL_THAN', 500)
     };
@@ -98,7 +100,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for entity of type application with event-based latency SLIs', () => {
     // Given
-    const indicator: EventBasedSli = {
+    const indicator: LatencyBlueprintIndicator = {
       blueprint: 'latency',
       threshold: 0.9,
       type: 'eventBased'
@@ -132,7 +134,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for entity of type application with event-based availability SLIs', () => {
     // Given
-    const indicator: EventBasedSli = {
+    const indicator: AvailabilityBlueprintIndicator = {
       blueprint: 'availability',
       threshold: 0.9,
       type: 'eventBased'
@@ -166,7 +168,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for entity of type website with event-based latency SLIs', () => {
     // Given
-    const indicator: EventBasedSli = {
+    const indicator: LatencyBlueprintIndicator = {
       blueprint: 'latency',
       threshold: 0.9,
       type: 'eventBased'
@@ -200,7 +202,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for entity of type website with event-based availability SLIs', () => {
     // Given
-    const indicator: EventBasedSli = {
+    const indicator: AvailabilityBlueprintIndicator = {
       blueprint: 'availability',
       threshold: 0.9,
       type: 'eventBased'
@@ -234,7 +236,7 @@ describe('in-service-levels/utils/tagFilter', () => {
 
   it('returns good and bad events filter for entity with time-based SLIs', () => {
     // Given
-    const indicator: TimeBasedSli = {
+    const indicator: AvailabilityBlueprintIndicator = {
       blueprint: 'availability',
       threshold: 0.9,
       aggregation: 'P90',
