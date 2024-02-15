@@ -7,9 +7,9 @@ import React, { Component } from 'react';
 
 import { create } from '@instana/observables';
 
+import { serviceFlowMapLevelExpandedTracker } from 'in-applications/tracker';
 import FlowMapState from 'in-applications/ServerFlowMap/FlowMapState';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
-import { serviceFlowMapLevelExpandedTracker } from '../tracker';
 
 const metrics = {
   callsAgg: {
@@ -102,12 +102,10 @@ export default () => ComposedComponent => {
     };
 
     expandNodeLeft = (nodeId, cursor) => {
-      if (this.props.rootNodeData?.id !== nodeId) serviceFlowMapLevelExpandedTracker({ direction: 'incoming', nodeId });
       this.createFlowNodesSubscription(nodeId, 'incoming', this.getIncomingFlowNodes$, cursor);
     };
 
     expandNodeRight = (nodeId, cursor) => {
-      if (this.props.rootNodeData?.id !== nodeId) serviceFlowMapLevelExpandedTracker({ direction: 'outgoing', nodeId });
       this.createFlowNodesSubscription(nodeId, 'outgoing', this.getOutgoingFlowNodes$, cursor);
     };
 
@@ -174,6 +172,11 @@ export default () => ComposedComponent => {
     setupSubscriptionIfAbsent = (subscriptionId, nodeId, endpointId, direction, fetchData, processResult) => {
       if (!this.containsSubscription(subscriptionId, direction)) {
         const servicePath = this.flowMapState.pathFinder.find(nodeId, direction).map(node => node.__originalId);
+
+        // we don't want to track the initial expansion and neither a child expansion
+        if (nodeId !== this.props.rootNodeData?.id && !endpointId) {
+          serviceFlowMapLevelExpandedTracker({ direction, toLevel: servicePath.length });
+        }
 
         const directionSubscriptions = this.subscriptions.get(subscriptionId) || {};
         directionSubscriptions[direction] = fetchData(servicePath).subscribe(result => {

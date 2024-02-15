@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, Card, Link, Message, Stack } from '@instana/components';
 import { create, just } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
@@ -36,13 +37,13 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { emptyObject } from 'in-services/fixedObjects';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { minutes, seconds } from 'in-services/time';
 import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -57,8 +58,6 @@ export default function Summary({
   setColorCodeMechanism,
   tracker
 }) {
-  const theme = useTheme();
-
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
 
   const [showLargeTrace, setShowLargeTrace] = useState(false);
@@ -137,7 +136,7 @@ export default function Summary({
 
   const onCallClicked = call => {
     setCallId(call.id);
-    tracker.traceViewCallTimelineDetailClickedTracker();
+    tracker.traceViewCallTimelineDetailClickedTracker(emptyObject);
   };
 
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
@@ -195,7 +194,9 @@ export default function Summary({
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.erroneousCalls')}
               color={
-                trace.totalErrorCount > 0 ? theme.ids.color.option.red['500'] : theme.ids.color.option.neutral['900']
+                trace.totalErrorCount > 0
+                  ? themes.default.ids.color.option.red['500']
+                  : themes.default.ids.color.option.neutral['900']
               }
               value={trace.totalErrorCount}
               renderValue={number.compact}
@@ -205,7 +206,9 @@ export default function Summary({
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.errorLogs')}
               color={
-                trace.totalErrorLogCount > 0 ? theme.ids.color.option.red['500'] : theme.ids.color.option.neutral['900']
+                trace.totalErrorLogCount > 0
+                  ? themes.default.ids.color.option.red['500']
+                  : themes.default.ids.color.option.neutral['900']
               }
               value={trace.totalErrorLogCount}
               renderValue={number.compact}
@@ -216,8 +219,8 @@ export default function Summary({
               title={t('in-applications:traceDetail.tabs.summary.warnLogs')}
               color={
                 trace.totalWarnLogCount > 0
-                  ? theme.ids.color.option.yellow['500']
-                  : theme.ids.color.option.neutral['900']
+                  ? themes.default.ids.color.option.yellow['500']
+                  : themes.default.ids.color.option.neutral['900']
               }
               value={trace.totalWarnLogCount}
               renderValue={number.compact}
@@ -320,7 +323,7 @@ export default function Summary({
                       domElement.focus();
                       scrollIntoView(domElement);
                     }
-                    tracker.traceViewCallTreeDetailClickedTracker();
+                    tracker.traceViewCallTreeDetailClickedTracker(emptyObject);
                   }}
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}

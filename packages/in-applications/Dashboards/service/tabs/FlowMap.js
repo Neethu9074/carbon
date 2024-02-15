@@ -15,6 +15,7 @@ import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
+import { emptyObject } from 'in-services/fixedObjects';
 import useUrlState from 'in-hooks/useUrlState';
 
 const urlStateDefinition = {
@@ -33,7 +34,7 @@ const urlStateDefinition = {
 export default function ServiceFlowMap({ data, applicationId, serviceId, endpointId, timeConfig }) {
   useDisabledBodyScroll();
   useEffect(() => {
-    serviceFlowMapClickedTracker();
+    serviceFlowMapClickedTracker(emptyObject);
   }, []);
 
   const [{ hideUpstream, hideDownstream }] = useUrlState(urlStateDefinition);

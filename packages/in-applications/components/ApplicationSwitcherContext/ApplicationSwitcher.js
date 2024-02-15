@@ -14,6 +14,7 @@ import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { emptyObject } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ApplicationSwitcher.mless';
@@ -55,7 +56,7 @@ function ApplicationButtonItem({ item, viewPath }) {
         className={locals.button}
         kind="subtle"
         href={createHref(location)}
-        onClick={() => applicationOpenSubmitFormTracker()}
+        onClick={() => applicationOpenSubmitFormTracker(emptyObject)}
         icon="lib_application"
       >
         {item.application.label}
