@@ -7,6 +7,8 @@ import React from 'react';
 
 import Input from 'in-components/form/Input';
 
+import locals from './PercentageInput.mless';
+
 interface PercentageInputProps {
   id: string;
   value: number | undefined;
@@ -20,6 +22,7 @@ export default function PercentageInput({ id, value, onChange, decimalPrecision 
 
   return (
     <Input
+      className={locals.input}
       id={id}
       value={displayValue}
       type="number"

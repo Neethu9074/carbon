@@ -20,4 +20,8 @@
   .inputSection {
     flex: 1;
   }
+
+  .timeWindow {
+    max-width: 3.5rem;
+  }
 }

@@ -22,6 +22,8 @@ import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Input from 'in-components/form/Input/Input';
 
+import locals from './SloObjectiveSection.mless';
+
 export default function TimeWindowSelector() {
   const { form, onChange } = useContext(SloFormContext);
   const windowTypeField = form.getIn(['objective', 'type']);
@@ -58,6 +60,7 @@ export default function TimeWindowSelector() {
       >
         <Stack direction="horizontal" gap="medium">
           <Input
+            className={locals.timeWindow}
             type="number"
             id="time-window-size"
             value={windowDurationField.value}
@@ -68,7 +71,6 @@ export default function TimeWindowSelector() {
             }}
             min="1"
             max={getMaxTimeWindowDurationValue(windowDurationUnitField.value)}
-            width="3.8rem"
             hasError={!windowDurationField.valid && windowDurationField.touched}
           />
           <Select
