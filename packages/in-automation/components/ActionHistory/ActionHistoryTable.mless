@@ -32,6 +32,12 @@
         color: var(--ids-color-option-red-500);
       }
     }
+
+    &__submitted {
+      &::before {
+        color: var(--ids-color-option-blue-500);
+      }
+    }
   }
 
   .ellipsis {

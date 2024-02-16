@@ -61,7 +61,7 @@ import RunActionContent, {
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution';
+import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -357,13 +357,13 @@ function onSave({
       }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
-  const handleActionResponse = (response: AgentResponse) => {
+  const handleActionResponse = (response: ActionInstance) => {
     setIsSaving(false);
-    if ('error' in response && response.error != null) {
-      setError(response.error);
-      setActionInstanceId(response?.data?.actionInstanceId);
+    if ('errorMessage' in response && response.errorMessage != null) {
+      setError(response.errorMessage);
+      setActionInstanceId(response?.actionInstanceId);
     } else {
-      setActionInstanceId(response.data.actionInstanceId);
+      setActionInstanceId(response.actionInstanceId);
     }
   };
 

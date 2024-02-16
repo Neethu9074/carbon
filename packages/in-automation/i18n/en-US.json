@@ -256,6 +256,7 @@
     "hostsLimit": "Hosts Limit",
     "initiator": "Initiator",
     "submitted": "Submitted",
+    "timeout":"Timeout",
     "issueUrl": "Issue url",
     "taskUrl": "Task url"
   },

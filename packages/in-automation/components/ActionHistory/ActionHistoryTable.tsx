@@ -88,7 +88,7 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.status'),
     id: 'status',
     getContent(row: ActionInstance) {
-      return getStatus(row.status);
+      return row.status ? getStatus(row.status) : t('in-automation:actionHistory.unknown');
     }
   }
 ];
@@ -170,7 +170,7 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       types={types}
       actionStatuses={
         actionStatuses.length === 0
-          ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED']
+          ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
           : actionStatuses
       }
       onRowClick={(row: ActionInstance) => {
@@ -189,21 +189,34 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
 }
 
 export function getStatus(status: string) {
-  if (status === 'SUCCESS' || status === 'FAILED') {
+  if (status === 'SUCCESS' || status === 'FAILED' || status === 'TIMEOUT') {
     return (
       <div
         className={classNames({
           [locals.statusIndicator]: true,
           [locals.statusIndicator__success]: status === 'SUCCESS',
-          [locals.statusIndicator__fail]: status === 'FAILED'
+          [locals.statusIndicator__fail]: status === 'FAILED' || status === 'TIMEOUT'
         })}
       >
-        {status === 'SUCCESS' ? t('in-automation:actionHistory.success') : t('in-automation:actionHistory.failed')}
+        {status === 'SUCCESS'
+          ? t('in-automation:actionHistory.success')
+          : status === 'FAILED'
+          ? t('in-automation:actionHistory.failed')
+          : t('in-automation:actionHistory.timeout')}
       </div>
     );
   }
   if (status === 'SUBMITTED') {
-    return <span>{t('in-automation:actionHistory.submitted')}</span>;
+    return (
+      <div
+        className={classNames({
+          [locals.statusIndicator]: true,
+          [locals.statusIndicator__submitted]: status === 'SUBMITTED'
+        })}
+      >
+        <span>{t('in-automation:actionHistory.submitted')}</span>;
+      </div>
+    );
   }
   if (status === 'IN_PROGRESS') {
     return (
