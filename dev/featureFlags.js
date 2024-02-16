@@ -101,6 +101,7 @@ module.exports = {
   applicationContributionFilterEnabled: true,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
+  syntheticUpdateDeployPoPEnabled: true,
   simplifiedFlowMapEnabled: true,
   fullscreenWidgetEnabled: true,
   agentInstallationV2Enabled: true,
