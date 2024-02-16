@@ -4,10 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import React from 'react';
+import { isEqual } from 'lodash';
 
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import Dialog from 'in-components/Dialog/Dialog';
+import usePrevious from 'in-hooks/usePrevious';
 
 import locals from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog.mless';
 
@@ -20,8 +23,19 @@ const widgetsWithHeight = ['apdex', 'slo'];
 const widgetCustomHeight = 450;
 
 export default function ZoomWidgetDialog({ widget, component: Widget, close }: any) {
+  const location = useLocation();
+  const previousLocation = usePrevious(location);
   const hasMinWidth = !widgetsWithoutMinWidth.includes(widget.type);
   const hasHeight = widgetsWithHeight.includes(widget.type);
+
+  const hasUrlChanged = previousLocation && !isEqual(location, previousLocation);
+
+  // Closes the modal in case the url changes, preventing an issue when a redirection happens and the modal keeps opened.
+  useEffect(() => {
+    if (hasUrlChanged) {
+      close();
+    }
+  }, [close, hasUrlChanged]);
 
   const {
     config,
