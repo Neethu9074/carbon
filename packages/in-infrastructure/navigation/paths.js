@@ -82,6 +82,12 @@ export const dataSourcerMatrixParameter = {
   initialState: 'infrastructure'
 };
 
+export const queryMatrixParameter = {
+  path: infraExplorePath,
+  name: 'query',
+  initialState: ''
+};
+
 export const resetMetricsAndOrderOnTypeChange = {
   bind: [
     {

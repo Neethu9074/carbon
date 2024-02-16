@@ -36,6 +36,7 @@ import {
   orderMatrixParameter,
   typeMatrixParameter,
   chartedMetricsMatrixParameter,
+  queryMatrixParameter,
   useLinkToExplore as useLinkToInfraEntityExplore,
   defaultInfraExploreViewParams
 } from 'in-infrastructure/navigation/paths';
@@ -87,7 +88,8 @@ const urlStateDefinition = {
     metricsMatrixParameter,
     orderMatrixParameter,
     typeMatrixParameter,
-    chartedMetricsMatrixParameter
+    chartedMetricsMatrixParameter,
+    queryMatrixParameter
   ],
   resets: [resetMetricsAndOrderOnTypeChange],
   replaceHistory: false
@@ -112,7 +114,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
       metrics: urlMetrics,
       type: urlType,
       order: urlOrder,
-      chartedMetrics: urlChartedMetrics
+      chartedMetrics: urlChartedMetrics,
+      query: urlQuery
     },
     setUrl
   ] = useUrlState(urlStateDefinition);
@@ -129,6 +132,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
 
   const order = urlOrder ?? getDefaultOrder(backendGroupBy);
+
+  const query = useDebouncedValue(urlQuery ?? '', value => setUrl({ query: value }), 800);
 
   const kpiDefinitions = getKpiDefinitions(type);
   const metrics = fromUrlMetrics({ urlMetrics, kpiDefinitions });
@@ -177,6 +182,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
             metrics={metrics}
             groupBy={groupBy}
             order={order}
+            query={query.value}
+            setQuery={query.onChange}
             tagFilterExpression={tagFilterExpression}
             isInitPage={isInitPage}
             isValid={isValid}
@@ -202,6 +209,8 @@ function Content({
   metrics,
   groupBy,
   order,
+  query,
+  setQuery,
   tagFilterExpression,
   isInitPage,
   isValid,
@@ -326,6 +335,8 @@ function Content({
       groupBy={groupBy}
       backendGroupBy={backendGroupBy}
       order={order}
+      query={query}
+      setQuery={setQuery}
       tagFilterExpression={tagFilterExpression}
       isInitPage={isInitPage}
       timeConfig={timeConfig}
@@ -333,7 +344,6 @@ function Content({
       getInfraExploreState={getInfraExploreState}
       metricCatalog={metricCatalog}
       setOrder={setOrder}
-      setUrl={setUrl}
       metricMetadatas={metricMetadatas}
       backendQueryModel={backendQueryModel}
       setMetrics={setMetrics}
@@ -357,6 +367,8 @@ function List({
   groupBy,
   backendGroupBy,
   order,
+  query,
+  setQuery,
   tagFilterExpression,
   isInitPage,
   timeConfig,
@@ -364,7 +376,6 @@ function List({
   getInfraExploreState,
   metricCatalog,
   setOrder,
-  setUrl,
   metricMetadatas,
   backendQueryModel,
   setMetrics,
@@ -379,10 +390,12 @@ function List({
       <EntityList
         timeConfig={timeConfig}
         setOrder={order => {
-          setUrl({ order });
+          setOrder(order);
           sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
         }}
         order={order}
+        setQuery={setQuery}
+        query={query}
         type={type}
         headerHref$={just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))}
       />
@@ -444,7 +457,6 @@ function List({
       metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
-      setUrl={setUrl}
     />
   );
 }

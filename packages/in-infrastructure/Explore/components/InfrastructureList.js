@@ -68,7 +68,6 @@ export default function InfrastructureList({
   onQueryChange,
   onChartedMetricsChange,
   chartedMetrics,
-  setUrl,
   displayChart = true
 }) {
   const timeConfig = useTimeConfig();
@@ -148,7 +147,6 @@ export default function InfrastructureList({
           onChartedMetricsChange={onChartedMetricsChange}
           tagFilterExpression={backendQueryModel}
           type={type}
-          setUrl={setUrl}
         />
       )}
       {showHeader && (
@@ -315,7 +313,6 @@ InfrastructureList.propTypes = {
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,
   chartedMetrics: rpt.array,
-  setUrl: rpt.func,
   displayChart: rpt.bool
 };
 
