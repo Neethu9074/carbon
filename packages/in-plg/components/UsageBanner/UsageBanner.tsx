@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
@@ -20,6 +22,7 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
+import { isLoading } from 'in-services/util/result';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
@@ -29,19 +32,17 @@ interface UsageBannerProps {
 }
 
 export function UsageBanner({ message }: UsageBannerProps) {
-  let queuedLicenseDetails: any;
-  getQueuedLicensesAsResultObservable(1).subscribe((queuedLicense: any) => {
-    queuedLicenseDetails = queuedLicense;
-  });
-
   const location = useLocation();
+  //@ts-expect-error
+  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
   const tryOfferLicenseType =
     message.activeLicense == 'selfService' ||
     message.activeLicense == 'quota' ||
     message.activeLicense == 'free_not_for_resale';
-  const queuedUpLicense = queuedLicenseDetails.data?.items[0]?.license.name;
+  const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
   const isPaidLicenseUsage = message.activeLicense == 'hostBasedPaid';
-  const noQueuedLicense = queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
+  const noQueuedLicense =
+    !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
 
   return (
     <Stack align="center" direction="horizontal" gap="small">

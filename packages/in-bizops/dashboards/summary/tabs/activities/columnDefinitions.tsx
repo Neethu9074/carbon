@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -43,7 +43,14 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
     defaultOrderDirection: 'ASC',
     label: t('in-bizops:lists.nameLabel'),
     getContent(item: BusinessActivityItem) {
-      const activityName = item.businessActivity?.activityName;
+      let activityName: string;
+      if (item.businessActivity?.activityName) {
+        activityName = item.businessActivity?.activityName;
+      } else if (item.businessActivity?.activityType) {
+        activityName = t('in-bizops:lists.unnamedActivity', { activityType: item.businessActivity?.activityType });
+      } else {
+        activityName = t('in-bizops:lists.unnamedActivity');
+      }
       return ActivityLink(activityName);
     }
   },
