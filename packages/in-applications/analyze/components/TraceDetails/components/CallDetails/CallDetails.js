@@ -8,6 +8,7 @@ import { get } from 'lodash';
 
 import { Card, Link, Stack, SvgIcon } from '@instana/components';
 import { create, just } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
@@ -21,11 +22,9 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './CallDetails.mless';
@@ -123,11 +122,9 @@ function ActionButtons({ call, onClose }) {
     };
   }, [call]);
 
-  const theme = useTheme();
-
   const downloadLabel = t('in-analyze:traceDetail.components.callDetails.downloadRawSpanData');
   const closeLabel = t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails');
-  const svgIconColor = theme.ids.color.option.neutral['500'];
+  const svgIconColor = themes.default.ids.color.option.neutral['500'];
   return (
     <>
       <Link
@@ -166,29 +163,24 @@ function useRetriableObservable({ traceId, callId, retries, traceEndTime }) {
     setRetry(0);
   }
 
-  const timeConfig = useTimeConfig();
-  const retryDelay = traceEndTime + RECENCY_WINDOW - timeConfig.to;
   const callResult = useObservable(getTraceActivityTreeNodeDetailsRetriable, [traceId, callId, retry]) ?? pendingResult;
 
   useEffect(() => {
     const callResultMissing = hasError(callResult) || (!isLoading(callResult) && !callResult.data);
-    const shouldRetry = callResultMissing && isRecent(traceEndTime) && retry < retries;
+    const retryDelay = traceEndTime + RECENCY_WINDOW - Date.now();
+    const shouldRetry = callResultMissing && retryDelay > 0 && retry < retries;
     if (shouldRetry) {
       const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
       return () => clearTimeout(timeoutId);
     }
     callResult$.emit(callResult);
-  }, [retry, callResult$, callResult, retries, traceEndTime, retryDelay]);
+  }, [retry, callResult$, callResult, retries, traceEndTime]);
 
   return callResult$;
 }
 
-function isRecent(timestamp) {
-  return !timestamp || timestamp + RECENCY_WINDOW > Date.now();
-}
-
 function getTraceActivityTreeNodeDetailsRetriable([traceId, callId, retry]) {
-  return retry < MAX_RETRIES
+  return retry <= MAX_RETRIES
     ? getTraceActivityTreeNodeDetails({
         traceId,
         nodeId: callId,
