@@ -111,14 +111,14 @@ export default function TimeWindowSelector() {
 
             <Stack direction="horizontal" gap="xsmall" inline align="center">
               <TimeInput
-                id="time"
+                id="time-picker"
                 value={timeField.value}
                 onChange={time => {
                   onChange(['objective', 'startTimestamp', 'time'], () => timeField.setValue(time).setTouched(true));
                 }}
                 hasError={!timeField.valid && timeField.touched}
               />
-              <label htmlFor="time">
+              <label htmlFor="time-picker">
                 <SvgIcon aria-label="time_icon" type="lib_datetime_time" />
               </label>
             </Stack>
