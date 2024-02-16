@@ -22,7 +22,6 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
@@ -152,29 +151,24 @@ function useRetriableObservable({ traceId, callId, retries, traceEndTime }) {
     setRetry(0);
   }
 
-  const timeConfig = useTimeConfig();
-  const retryDelay = traceEndTime + RECENCY_WINDOW - timeConfig.to;
   const callResult = useObservable(getTraceActivityTreeNodeDetailsRetriable, [traceId, callId, retry]) ?? pendingResult;
 
   useEffect(() => {
     const callResultMissing = hasError(callResult) || (!isLoading(callResult) && !callResult.data);
-    const shouldRetry = callResultMissing && isRecent(traceEndTime) && retry < retries;
+    const retryDelay = traceEndTime + RECENCY_WINDOW - Date.now();
+    const shouldRetry = callResultMissing && retryDelay > 0 && retry < retries;
     if (shouldRetry) {
       const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
       return () => clearTimeout(timeoutId);
     }
     callResult$.emit(callResult);
-  }, [retry, callResult$, callResult, retries, traceEndTime, retryDelay]);
+  }, [retry, callResult$, callResult, retries, traceEndTime]);
 
   return callResult$;
 }
 
-function isRecent(timestamp) {
-  return !timestamp || timestamp + RECENCY_WINDOW > Date.now();
-}
-
 function getTraceActivityTreeNodeDetailsRetriable([traceId, callId, retry]) {
-  return retry < MAX_RETRIES
+  return retry <= MAX_RETRIES
     ? getTraceActivityTreeNodeDetails({
         traceId,
         nodeId: callId,
