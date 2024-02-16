@@ -27,6 +27,7 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
@@ -64,7 +65,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
     ) ?? pendingResult;
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
-  const metricValues = metrics.map(metric => metric.values as MetricDataSeries) ?? [];
+  const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
   const metricLabel = isApplicationSloEntity(entity)
     ? applicationMetrics.errorRate.label

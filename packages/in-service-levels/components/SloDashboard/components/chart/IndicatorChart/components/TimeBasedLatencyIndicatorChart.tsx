@@ -38,6 +38,7 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 
 const metricId = 'latency';
 
@@ -64,7 +65,7 @@ export default function TimeBasedLatencyIndicatorChart({
     ) ?? pendingResult;
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
-  const metricValues = metrics.map(metric => metric.values as MetricDataSeries) ?? [];
+  const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
   const metricLabel = isApplicationSloEntity(entity)
     ? applicationMetrics.latency.label
