@@ -5,23 +5,21 @@
  */
 
 import {
-  CustomEventBasedSli,
-  EventBasedSli,
+  CustomBlueprintIndicator,
   isApplicationSloEntity,
-  isCustomEventBasedSli,
   isWebsiteSloEntity,
   ServiceLevelIndicatorUnion,
   SloEntityUnion,
   TagFilter,
   TagFilterExpression,
-  TagFilterExpressionElementUnion,
-  TimeBasedSli
+  TagFilterExpressionElementUnion
 } from '@instana/types';
 
 import { EQUALS, GREATER_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { invert, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { AggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 
 interface CreateGoodBadTagFilterExpressionProps {
@@ -38,7 +36,7 @@ export function createGoodBadTagFilterExpression({
   indicator,
   entity
 }: CreateGoodBadTagFilterExpressionProps): GoodBadTagFilterExpression {
-  if (isCustomEventBasedSli(indicator)) {
+  if (indicator.blueprint === 'custom') {
     return getCustomEventBasedTagFilterExpression({ indicator });
   }
 
@@ -46,7 +44,7 @@ export function createGoodBadTagFilterExpression({
 }
 
 interface GetCustomEventBasedTagFilterExpressionProps {
-  indicator: CustomEventBasedSli;
+  indicator: CustomBlueprintIndicator;
 }
 
 function getCustomEventBasedTagFilterExpression({
@@ -67,32 +65,32 @@ function getCustomEventBasedTagFilterExpression({
   };
 }
 
-const getBadEventsApplicationTagFilter = ({ blueprint, threshold }: EventBasedSli | TimeBasedSli): TagFilter =>
+const getBadEventsApplicationTagFilter = ({ blueprint, threshold }: AggregatedServiceLevelIndicator): TagFilter =>
   ({
     availability: tagFilter('call.erroneous', EQUALS, true),
     latency: tagFilter('call.latency', GREATER_THAN, threshold)
   }[blueprint]);
 
-const getGoodEventsApplicationTagFilter = ({ blueprint, threshold }: EventBasedSli | TimeBasedSli): TagFilter =>
+const getGoodEventsApplicationTagFilter = ({ blueprint, threshold }: AggregatedServiceLevelIndicator): TagFilter =>
   ({
     availability: tagFilter('call.erroneous', EQUALS, false),
     latency: tagFilter('call.latency', LESS_OR_EQUAL_THAN, threshold)
   }[blueprint]);
 
-const getBadEventsWebsiteTagFilter = ({ blueprint, threshold }: EventBasedSli | TimeBasedSli): TagFilter =>
+const getBadEventsWebsiteTagFilter = ({ blueprint, threshold }: AggregatedServiceLevelIndicator): TagFilter =>
   ({
     availability: tagFilter('beacon.erroneous', EQUALS, true),
     latency: tagFilter('beacon.duration', GREATER_THAN, threshold)
   }[blueprint]);
 
-const getGoodEventsWebsiteTagFilter = ({ blueprint, threshold }: EventBasedSli | TimeBasedSli): TagFilter =>
+const getGoodEventsWebsiteTagFilter = ({ blueprint, threshold }: AggregatedServiceLevelIndicator): TagFilter =>
   ({
     availability: tagFilter('beacon.erroneous', EQUALS, false),
     latency: tagFilter('beacon.duration', LESS_OR_EQUAL_THAN, threshold)
   }[blueprint]);
 
 interface GetTagFilterExpressionFromBlueprintProps {
-  indicator: EventBasedSli | TimeBasedSli;
+  indicator: AggregatedServiceLevelIndicator;
   entity: SloEntityUnion;
 }
 

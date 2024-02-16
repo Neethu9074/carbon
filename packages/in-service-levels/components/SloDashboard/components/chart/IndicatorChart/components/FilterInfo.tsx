@@ -8,10 +8,9 @@ import React from 'react';
 
 import {
   ApplicationSloEntity,
-  CustomEventBasedSli,
-  EventBasedSli,
   isApplicationSloEntity,
   isWebsiteSloEntity,
+  ServiceLevelIndicatorUnion,
   WebsiteSloEntity
 } from '@instana/types';
 import { Spacer, Stack, SvgIcon, Typography } from '@instana/components';
@@ -26,7 +25,7 @@ import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFil
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import Tooltip from 'in-components/Tooltip';
 
-type FilterInfoProps = Pick<IndicatorChartProps<EventBasedSli | CustomEventBasedSli>, 'entity' | 'indicator'>;
+type FilterInfoProps = Pick<IndicatorChartProps<ServiceLevelIndicatorUnion>, 'entity' | 'indicator'>;
 export default function FilterInfo({ entity, indicator }: FilterInfoProps) {
   let content = undefined;
   if (isApplicationSloEntity(entity)) {

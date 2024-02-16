@@ -19,7 +19,10 @@ import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import {
+  copyFirstBucketOfSubsequentDataSeries,
+  findMinMetricValue
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import useSloResultAwareChartMetrics from 'in-service-levels/hooks/useSloResultAwareChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
@@ -51,7 +54,7 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
   );
 
   const label = getMetricLabels(entity);
-  const metrics = metricResult?.metrics ?? [];
+  const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
 
   return (
     <ResultAwareChart

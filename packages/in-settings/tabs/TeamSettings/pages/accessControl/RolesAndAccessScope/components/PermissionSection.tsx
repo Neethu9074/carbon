@@ -65,6 +65,7 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
   productArea: LimitableProductArea;
   icon: string;
   entityPermissionKey: EntityPermissionKey;
+  setValid?: (isValid: boolean) => void;
 }
 
 export default function PermissionSection<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -82,7 +83,8 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   form,
   setForm,
   setSubSlideConfig,
-  setShowSubSlide
+  setShowSubSlide,
+  setValid
 }: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
@@ -171,6 +173,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   contributionFilterConfigured={isAppContributionFilterConfigured}
                   form={form}
                   setForm={setForm}
+                  setValid={setValid}
                 />
               </>
             )}
@@ -191,6 +194,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
                 productArea={productArea}
+                setValid={setValid}
               />
             )}
           </TabSelectPanel>

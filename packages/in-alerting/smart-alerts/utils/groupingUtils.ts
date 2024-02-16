@@ -6,6 +6,8 @@
 
 import { TagCatalog, TagTreeLevel } from '@instana/types';
 
+import { EnrichedTagCatalog, enrichTagCatalog } from 'in-services/tags/tagCatalog';
+
 function isParentWithOthersLabel(n: TagTreeLevel) {
   return n.label === 'Others' && n.type === 'LEVEL';
 }
@@ -23,3 +25,17 @@ export const moveOthersChildrenOnTop = (tagCat: TagCatalog) => {
   }
   return tagCat;
 };
+
+export const groupbyTag = (groupBy: string[]) => {
+  return groupBy.map(tag => {
+    return { groupbyTag: tag, tagType: 'STRING' };
+  });
+};
+
+export function getGroupByTagCatalog(tagCatalog: TagCatalog): EnrichedTagCatalog {
+  const tagCatalogWithoutOthers = moveOthersChildrenOnTop(tagCatalog);
+  return enrichTagCatalog({
+    tagTree: tagCatalogWithoutOthers.tagTree as TagTreeLevel[],
+    tags: tagCatalogWithoutOthers.tags
+  });
+}

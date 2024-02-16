@@ -8,9 +8,8 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { TagCatalog } from '@instana/types';
 
-//@ts-expect-error
-import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import { useGroupByCatalog } from 'in-alerting/smart-alerts/infrastructure/hooks/useGroupByLabel';
+import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/utils/groupingUtils';
 
 describe('in-alerting/smart-alerts/infrastructure/hooks/useGroupByLabel', () => {
   it('test if the groupBy labels are generated from the tagCatalog', () => {
@@ -72,19 +71,6 @@ describe('in-alerting/smart-alerts/infrastructure/hooks/useGroupByLabel', () => 
     const { result } = renderHook(() => useGroupByCatalog(tagCatalog));
 
     // THEN
-    expect(result.current).toStrictEqual(getGroupByTagCatalog(tagCatalog));
-  });
-
-  it('test case when tagCatalog is empty', () => {
-    // GIVEN
-    const tagCatalog = undefined;
-
-    // WHEN
-    //@ts-expect-error
-    const { result } = renderHook(() => useGroupByCatalog(tagCatalog));
-
-    // THEN
-
     expect(result.current).toStrictEqual(getGroupByTagCatalog(tagCatalog));
   });
 });

@@ -30,6 +30,7 @@ import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/Me
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
@@ -712,7 +713,7 @@ function generateMetric({
   isFormatterSelected,
   lastValue
 }) {
-  const { metrics } = item;
+  const { metrics, adjustedTimeframe } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
   const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
@@ -720,6 +721,7 @@ function generateMetric({
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
   const series = metrics[seriesKey];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+  const customValueTooltip = lastValue && getLastValueTooltipLabel(adjustedTimeframe);
 
   return (
     <SparkChart
@@ -731,6 +733,7 @@ function generateMetric({
       label={renderedLabel}
       rollup={granularity}
       metrics={series}
+      customValueTooltip={customValueTooltip}
     />
   );
 }

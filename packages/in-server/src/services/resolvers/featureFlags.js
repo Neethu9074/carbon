@@ -313,7 +313,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
     instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'largeTracesV2Enabled',
@@ -489,11 +489,6 @@ module.exports = exports = [
     uiClientKey: 'flowMapEnabled',
     instanaCtlKey: 'feature.application.flowmap.enabled',
     defaultValue: true
-  },
-  {
-    uiClientKey: 'simplifiedFlowMapEnabled',
-    instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
-    defaultValue: false
   },
   {
     uiClientKey: 'zoomWidgetEnabled',

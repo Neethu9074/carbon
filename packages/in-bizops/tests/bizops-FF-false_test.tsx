@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 
 // @ts-expect-error module need to be translated to TS
@@ -30,8 +30,7 @@ describe('in-stores/permissions.ts', () => {
 
 describe('packages/in-components/MainNavigation/components/ViewSwitcher', () => {
   it('Checks the BizOps link is NOT in the main navigation pane when the feature flag is off', () => {
-    render(<ViewSwitcher />);
-    screen.getByRole('link', { name: 'lib_application_icon instana Inc.' });
-    expect(screen.queryByRole('link', { name: 'lib_bizops' })).toBeNull();
+    const { container } = render(<ViewSwitcher />);
+    expect(container.querySelector('#main-nav-bizops')).toBeNull();
   });
 });

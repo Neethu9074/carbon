@@ -22,7 +22,8 @@ import {
   isIbmMqFileTransferIssueEvent,
   isMobileAppSmartAlertEvent,
   isSloSmartAlertEvent,
-  isEntityCountVerificationEvent
+  isEntityCountVerificationEvent,
+  isLogSmartAlertEvent
 } from 'in-events/components/eventUtil';
 import {
   actionAutomationEnabled,
@@ -49,6 +50,7 @@ import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProc
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import LogsEventContent from 'in-events/components/EventContent/LogEventContent';
 import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -140,6 +142,10 @@ const EventContent = connectTo(
 
     if (isSloSmartAlertEvent(event)) {
       return <SloEventContent event={event} />;
+    }
+
+    if (isLogSmartAlertEvent(event)) {
+      return <LogsEventContent event={event} />;
     }
 
     if (isEntityCountVerificationEvent(event)) {

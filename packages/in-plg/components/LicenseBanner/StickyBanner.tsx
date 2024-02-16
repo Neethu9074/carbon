@@ -4,10 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Link, Button, SvgIcon, Typography, Stack } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
+//@ts-expect-error missing typescript migration
+import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 //@ts-expect-error missing typescript migration
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
@@ -18,6 +23,7 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
+import { isLoading } from 'in-services/util/result';
 import Sticky from 'in-components/Sticky';
 import { Trans, t } from 'in-i18n';
 
@@ -29,7 +35,16 @@ interface StickyBannerProps {
 
 export function StickyBanner({ message }: StickyBannerProps) {
   const location = useLocation();
-  const tryOfferLicenseType = message.activeLicense == 'selfService' || message.activeLicense == 'quota';
+  //@ts-expect-error
+  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
+  const tryOfferLicenseType =
+    message.activeLicense == 'selfService' ||
+    message.activeLicense == 'quota' ||
+    message.activeLicense == 'free_not_for_resale';
+  const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
+  const isPaidLicenseUsage = message.activeLicense == 'hostBasedPaid';
+  const noQueuedLicense =
+    !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   return (
     <Sticky
       header={
@@ -41,13 +56,20 @@ export function StickyBanner({ message }: StickyBannerProps) {
             </Typography>
           }
           <Stack align="center" direction="horizontal" gap="small">
-            <span className={locals.description}>{message.content}</span>
-            {tryOfferLicenseType && (
+            {(message.activeLicense == 'selfService' ||
+              message.activeLicense == 'quota' ||
+              (message.activeLicense == 'free_not_for_resale' && message.remainingDays! <= 30) ||
+              (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
               <>
+                <span className={locals.description}>{message.content}</span>
                 <IconForRemainingDays remainingDays={message.remainingDays} />
               </>
             )}
-            <div className={locals.verticalLine} />
+            <div
+              className={classNames({
+                [locals.verticalLine]: tryOfferLicenseType
+              })}
+            />
             {onPremLicenseInformationEnabled && (
               <div className={locals.subText}>
                 <Trans
@@ -89,19 +111,23 @@ export function StickyBanner({ message }: StickyBannerProps) {
                     {t('in-plg:licenseBanner.buyNowBtn')}
                   </Button>
                 )}
-                <Button
-                  className={locals.button}
-                  data-walkme-id="wm-requestaquote"
-                  kind="secondary"
-                  target="_blank"
-                  onClick={e => {
-                    stopPropagationAndPreventDefault(e);
-                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
-                    addActiveDialog(<RequestQuoteDialog />);
-                  }}
-                >
-                  {t('in-plg:licenseBanner.requestQuoteBtn')}
-                </Button>
+                {(message.activeLicense == 'selfService' ||
+                  message.activeLicense == 'quota' ||
+                  (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
+                  <Button
+                    className={locals.button}
+                    data-walkme-id="wm-requestaquote"
+                    kind="secondary"
+                    target="_blank"
+                    onClick={e => {
+                      stopPropagationAndPreventDefault(e);
+                      track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
+                      addActiveDialog(<RequestQuoteDialog />);
+                    }}
+                  >
+                    {t('in-plg:licenseBanner.requestQuoteBtn')}
+                  </Button>
+                )}
                 <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
               </>
             )}
@@ -133,7 +159,7 @@ const IconForRemainingDays = ({ remainingDays = -1 }: { remainingDays: number | 
   /**
    * Days remaining for the free trial to end are converted into hours.
    */
-  if (remainingDays >= 6 && remainingDays <= 14) {
+  if (remainingDays >= 6) {
     return <SvgIcon type="lib_uncheck" color="var(--ids-color-option-green-500)" />;
   } else if (remainingDays >= 4 && remainingDays <= 5) {
     return <SvgIcon type="lib_help_error_warning" color="var(--ids-color-option-yellow-500)" />;

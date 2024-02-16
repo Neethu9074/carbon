@@ -41,6 +41,7 @@ interface AccessAllPanelProps<FORM_TYPE extends MapFormItems> extends FormContro
   onChangeRole?: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: ProductAreaType;
   contributionFilterConfigured?: boolean;
+  setValid?: (isValid: boolean) => void;
 }
 
 export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
@@ -53,7 +54,8 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
   productArea,
   contributionFilterConfigured,
   form,
-  setForm
+  setForm,
+  setValid
 }: AccessAllPanelProps<FORM_TYPE>) {
   const isContributor =
     applicationContributionFilterEnabled &&
@@ -94,7 +96,12 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
             {isContributor && contributionFilterConfigured ? <ContributorFilterWarning /> : null}
             <RoleSelectionSection />
             {isContributor && (
-              <ContributionFilterWrapper form={form} setForm={setForm} isContributorRole={isContributor} />
+              <ContributionFilterWrapper
+                form={form}
+                setForm={setForm}
+                isContributorRole={isContributor}
+                setValid={setValid}
+              />
             )}
           </ConfigurationSummary>
         </StackItem>

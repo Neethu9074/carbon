@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
 
 import { PermissionSet } from '@instana/types';
 
@@ -16,17 +16,43 @@ import {
   ProductArea,
   ProductAreaPermissionMap,
   ScopedPermissionItem,
-  ScopedPermissionType
+  ScopedPermissionType,
+  syntheticOtherCapabilities,
+  syntheticViewCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { Capability, CapabilityType, PermissionsUnion } from 'in-stores/permission';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { Capability, PermissionsUnion } from 'in-stores/permission';
+import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export function getField<T>(form: MapForm<any>, path: string | string[]): Field<T> | undefined {
   // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
   const item = Array.isArray(path) ? form.getIn(path) : form.get(path);
   return item as Field<T> | undefined;
+}
+
+export function contributionFilterNameValidator(name: string | null | undefined): ValidationResult {
+  if (isBlank(name)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.contributionFilter_name_mayNotBeBlank')
+      }
+    ];
+  }
+
+  if (name!.length > 128) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.contributionFilter_name_mustNotBeLargerThan128Characters')
+      }
+    ];
+  }
+
+  return null;
 }
 
 export function updateFormField<T>(
@@ -173,28 +199,18 @@ function addPermissionsByRoleForProductArea(
   role: AreaRoleWithCustomType | undefined,
   permissions: string[]
 ): string[] {
-  //The additional Synthetic permissions set at owner's role should be removed
   let newPermissions = permissions;
-  if (productArea == ProductArea.SYNTHETICS) {
-    newPermissions = permissions.filter(aPermission => {
-      return (
-        aPermission !== Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS &&
-        aPermission !== Capability.CAN_USE_SYNTHETIC_CREDENTIALS &&
-        aPermission !== Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
-      );
-    });
-  }
+
   // as starting with clean permissions for the area
   if (role === AreaRole.OWNER) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
     newPermissions.push(...capabilities);
-  } else if (role === AreaRole.VIEWER && productArea == ProductArea.SYNTHETICS) {
-    const syntheticViewPermissions = [
-      Capability.CAN_VIEW_SYNTHETIC_TESTS,
-      Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
-      Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
-    ];
-    newPermissions.push(...syntheticViewPermissions);
+  } else if (
+    role === AreaRole.VIEWER &&
+    productArea == ProductArea.SYNTHETICS &&
+    !newPermissions.includes(Capability.CAN_VIEW_SYNTHETIC_TESTS)
+  ) {
+    newPermissions.push(...syntheticViewCapabilities);
   }
 
   return newPermissions;
@@ -225,7 +241,8 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
     .put(
       'label',
       createField({
-        value: label
+        value: label,
+        validator: contributionFilterNameValidator
       })
     )
     .put(
@@ -267,13 +284,20 @@ export const removeAdditionalPermissionsForNoaccess = (
   permissionSet: PermissionSet
 ) => {
   let permissions = permissionSet.permissions as PermissionsUnion[];
-
   productAreas.map(productArea => {
     const limitation = getScopeFromProductArea(productArea, permissionSet);
     if (limitation === ScopedPermissionItem.NO_ACCESS) {
       permissions = permissions.filter(
         permission => !ProductAreaPermissionMap[productArea]?.additionalCapabilities?.includes(permission)
       );
+    } else if (productArea === ProductArea.SYNTHETICS) {
+      //The additional Synthetic permissions set at owner's role should be removed
+      const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
+      if (role === AreaRole.VIEWER) {
+        permissions = permissions.filter(
+          permission => !syntheticOtherCapabilities?.includes(permission as CapabilityType)
+        );
+      }
     }
   });
   return { ...permissionSet, permissions };

@@ -6,8 +6,6 @@
 
 import { isEmpty } from 'lodash';
 
-import { moveOthersChildrenOnTop } from 'in-alerting/smart-alerts/infrastructure/data/moveOthersChildrenOnTop';
-import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { emptyObject } from 'in-services/fixedObjects';
 
 export function getMetricPathAndLabel(options, metricName, entityType) {
@@ -27,25 +25,4 @@ export function getMetricPathAndLabel(options, metricName, entityType) {
     }
   }
   return emptyObject;
-}
-
-export const groupbyTag = groupBy => {
-  return groupBy.map(tag => {
-    if (typeof tag === 'string') {
-      return { groupbyTag: tag, tagType: 'STRING' };
-    }
-    return tag;
-  });
-};
-
-export function getGroupByTagCatalog(tagCatalog) {
-  if (!tagCatalog) {
-    return;
-  }
-  const tagCatalogWithoutOthers = moveOthersChildrenOnTop(tagCatalog);
-  const groupByTagCatalog = enrichTagCatalog({
-    tagTree: tagCatalogWithoutOthers.tagTree,
-    tags: tagCatalogWithoutOthers.tags
-  });
-  return groupByTagCatalog;
 }

@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
+import { MobileAppAlertConfigWithMetadata } from '@instana/types';
 import { Message, Spacer } from '@instana/components';
 
 import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/mobileApp/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
@@ -14,14 +14,31 @@ import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+import { BluePrint, MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
-import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t, Trans } from 'in-i18n';
 
+interface MobileAppAlertingChartWithErrorMessageProps {
+  alertConfigWithFormModel: Omit<MobileAppAlertConfigWithMetadata, 'tagFilterExpression'> & {
+    tagFilterExpression: FormModelElement[];
+  };
+  viewConfig: ChartViewConfigItem;
+  blueprintConfig: BluePrint;
+  isAlertDetailView?: boolean;
+  isEventsView?: boolean;
+  setMetricResultPrecision?: Dispatch<SetStateAction<string>>;
+  eventBasedAdaptiveBaseline: [number, number][];
+  canReload?: boolean;
+  alertsPreviewEnabled?: boolean;
+}
+
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
-export default function MobileAppAlertingChartWithErrorMessage(props) {
+export default function MobileAppAlertingChartWithErrorMessage(
+  props: MobileAppAlertingChartWithErrorMessageProps
+): JSX.Element {
   const { alertConfigWithFormModel, isEventsView, isAlertDetailView } = props;
 
   const { threshold } = alertConfigWithFormModel;
@@ -33,7 +50,9 @@ export default function MobileAppAlertingChartWithErrorMessage(props) {
   return <ChartWithErrorMessageAndData {...props} />;
 }
 
-function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
+function AlertingChartWithErrorMessageForAdaptiveBaseline(
+  props: MobileAppAlertingChartWithErrorMessageProps
+): JSX.Element {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
   return (
     <>
@@ -50,12 +69,12 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
   );
 }
 
-function ChartWithErrorMessageAndData(props) {
+function ChartWithErrorMessageAndData(props: MobileAppAlertingChartWithErrorMessageProps): JSX.Element {
   const { alertConfigWithFormModel } = props;
   const { threshold, rule, mobileAppId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const isAlertQueryValid = useMemo(() => {
     const { isQueryValid } = createBoundedAlertQueryBuilder(mobileAppId, beaconType, threshold.type);
@@ -72,31 +91,9 @@ function ChartWithErrorMessageAndData(props) {
   );
 }
 
-function getErrorMessage(isQB2Error) {
+function getErrorMessage(isQB2Error: boolean): string | undefined {
   if (isQB2Error) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
+  return;
 }
-
-MobileAppAlertingChartWithErrorMessage.propTypes = {
-  viewConfig: chartViewConfigPropType.isRequired,
-  alertConfigWithFormModel: PropTypes.shape({
-    eventBasedAdaptiveBaseline: PropTypes.array,
-    id: PropTypes.string.isRequired,
-    created: PropTypes.number,
-    mobileAppId: PropTypes.string.required,
-    rule: PropTypes.shape({
-      alertType: PropTypes.string,
-      metricName: PropTypes.string
-    }),
-    threshold: PropTypes.object,
-    builtIn: PropTypes.bool
-  }).isRequired,
-
-  // enables rendering of a persisted baseline:
-  isEventsView: PropTypes.bool,
-  // enables rendering of a persisted baseline:
-  isAlertDetailView: PropTypes.bool,
-
-  setMetricResultPrecision: PropTypes.func
-};

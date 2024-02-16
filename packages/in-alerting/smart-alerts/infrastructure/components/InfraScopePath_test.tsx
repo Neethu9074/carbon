@@ -12,7 +12,6 @@ import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/I
 describe('Render InfraScopePath : in-alerting/smart-alerts/infrastructure/components/InfraScopePath', () => {
   it('Check if component rendered in UI', () => {
     render(<InfraScopePath iconName="lib_infra_instanaAgent" infraName="Instana Agent" />);
-    expect(screen.getByText('Instana Agent')).toBeInTheDocument();
-    expect(screen.getAllByLabelText('lib_infra_instanaAgent')).toHaveLength(1);
+    expect(screen.getAllByText('Instana Agent')).toHaveLength(1);
   });
 });

@@ -151,6 +151,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
   },
+  "logSmartAlerts": {
+    "logs": "Logs"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Failed Status"
   },

@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 
 import CreateNewLocationDialogPresenter from 'in-synthetics/createLocation/CreateNewLocationDialogPresenter';
-import createNewLocationForm from 'in-synthetics/createLocation/createLocationForm';
+import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 
 interface Props {
   onClose: () => void;

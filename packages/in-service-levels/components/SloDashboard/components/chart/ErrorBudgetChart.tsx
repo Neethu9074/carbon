@@ -6,12 +6,15 @@
 
 import React from 'react';
 
-import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
+import {
+  copyFirstBucketOfSubsequentDataSeries,
+  findMinMetricValue
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import useSloResultAwareChartMetrics from 'in-service-levels/hooks/useSloResultAwareChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -41,11 +44,12 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
     timeWindows
   );
 
-  const formatter = isTimeBasedSli(indicator) ? minutes.fixedCompact : number.compact;
+  const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: lastUpdated
   });
-  const metrics = metricResult?.metrics ?? [];
+
+  const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
 
   return (
     <ResultAwareChart
