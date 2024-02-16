@@ -202,7 +202,7 @@
           "retryFieldOptionOnce": "Retry once",
           "retryFieldOptionTwice": "Retry twice",
           "retryIntervalFieldLabel": "Retry Interval",
-          "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} second.",
+          "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Mark Synthetic Call"
         },
         "loadMore": "Load More",
