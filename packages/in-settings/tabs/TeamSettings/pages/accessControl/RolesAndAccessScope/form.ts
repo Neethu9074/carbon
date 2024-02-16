@@ -17,12 +17,13 @@ import {
   ProductAreaPermissionMap,
   ScopedPermissionItem,
   ScopedPermissionType,
+  syntheticOtherCapabilities,
   syntheticViewCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { Capability, CapabilityType, PermissionsUnion } from 'in-stores/permission';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
-import { Capability, PermissionsUnion } from 'in-stores/permission';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -198,17 +199,8 @@ function addPermissionsByRoleForProductArea(
   role: AreaRoleWithCustomType | undefined,
   permissions: string[]
 ): string[] {
-  //The additional Synthetic permissions set at owner's role should be removed
   let newPermissions = permissions;
-  if (productArea == ProductArea.SYNTHETICS) {
-    newPermissions = permissions.filter(aPermission => {
-      return (
-        aPermission !== Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS &&
-        aPermission !== Capability.CAN_USE_SYNTHETIC_CREDENTIALS &&
-        aPermission !== Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
-      );
-    });
-  }
+
   // as starting with clean permissions for the area
   if (role === AreaRole.OWNER) {
     const { capabilities } = ProductAreaPermissionMap[productArea];
@@ -292,13 +284,20 @@ export const removeAdditionalPermissionsForNoaccess = (
   permissionSet: PermissionSet
 ) => {
   let permissions = permissionSet.permissions as PermissionsUnion[];
-
   productAreas.map(productArea => {
     const limitation = getScopeFromProductArea(productArea, permissionSet);
     if (limitation === ScopedPermissionItem.NO_ACCESS) {
       permissions = permissions.filter(
         permission => !ProductAreaPermissionMap[productArea]?.additionalCapabilities?.includes(permission)
       );
+    } else if (productArea === ProductArea.SYNTHETICS) {
+      //The additional Synthetic permissions set at owner's role should be removed
+      const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
+      if (role === AreaRole.VIEWER) {
+        permissions = permissions.filter(
+          permission => !syntheticOtherCapabilities?.includes(permission as CapabilityType)
+        );
+      }
     }
   });
   return { ...permissionSet, permissions };

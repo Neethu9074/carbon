@@ -11,6 +11,7 @@ import {
   AreaPermissionType,
   Capability,
   CapabilityType,
+  InfrastructureCapability,
   LimitedAccessScope,
   LimitedAccessScopeType,
   PermissionsUnion
@@ -295,7 +296,7 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
     permission: AreaPermission.ACCESS_INFRASTRUCTURE,
     capabilities: noCapabilities,
-    additionalCapabilities: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE] as PermissionsUnion[]
+    additionalCapabilities: Object.values(InfrastructureCapability) as PermissionsUnion[]
   },
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
