@@ -108,14 +108,19 @@ export default function TimeWindowSelector() {
                 );
               }}
             />
-            <TimeInput
-              value={timeField.value}
-              onChange={time => {
-                onChange(['objective', 'startTimestamp', 'time'], () => timeField.setValue(time).setTouched(true));
-              }}
-              hasError={!timeField.valid && timeField.touched}
-            />
-            <SvgIcon type="lib_datetime_time" />
+
+            <label>
+              <Stack direction="horizontal" gap="xsmall" inline align="center">
+                <TimeInput
+                  value={timeField.value}
+                  onChange={time => {
+                    onChange(['objective', 'startTimestamp', 'time'], () => timeField.setValue(time).setTouched(true));
+                  }}
+                  hasError={!timeField.valid && timeField.touched}
+                />
+                <SvgIcon type="lib_datetime_time" />
+              </Stack>
+            </label>
           </Stack>
           {!isDateFieldValid &&
             dateField.messages.map(({ message }, index) => (
