@@ -19,9 +19,9 @@ import Header from 'in-applications/analyze/components/TraceDetails/components/C
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
+import { downloadCallDetailsClickedTracker } from 'in-applications/tracker';
+import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
@@ -119,7 +119,7 @@ function ActionButtons({ traceId, callId, onClose }) {
         href={downloadUrl}
         className={locals.downloadLink}
         target="_blank"
-        onClick={() => downloadCallDetailsClickedTracker({})}
+        onClick={() => downloadCallDetailsClickedTracker(emptyObject)}
       >
         <Tooltip content={downloadLabel}>
           <SvgIcon size="xs" aria-label={downloadLabel} type="lib_actions_download" color={svgIconColor} />

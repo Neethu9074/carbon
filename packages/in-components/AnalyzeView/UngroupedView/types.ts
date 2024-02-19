@@ -50,7 +50,7 @@ interface DetailViewProps extends UngroupedViewProps, CursorPaginationReturn {
   hasErrors: boolean;
   hasItems: boolean;
   ListItemContent?: (props: unknown) => JSX.Element;
-  tracker: Record<string, () => void>;
+  tracker: Record<string, (e: Record<string, unknown>) => void>;
 }
 
 export interface PresenterProps extends UngroupedViewProps, CursorPaginationReturn {

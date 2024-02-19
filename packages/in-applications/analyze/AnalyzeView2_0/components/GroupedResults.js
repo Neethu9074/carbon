@@ -14,6 +14,7 @@ import { ua2ExpandCollapseGroupedListItem } from 'in-applications/tracker';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
+import { emptyObject } from 'in-services/fixedObjects';
 import { collationLanguage } from 'in-i18n';
 
 const getDataPerDataSource = {
@@ -22,7 +23,7 @@ const getDataPerDataSource = {
 };
 
 const tracker = {
-  onToggleContentRow: () => ua2ExpandCollapseGroupedListItem({})
+  onToggleContentRow: () => ua2ExpandCollapseGroupedListItem(emptyObject)
 };
 
 export default function GroupedResults(props) {

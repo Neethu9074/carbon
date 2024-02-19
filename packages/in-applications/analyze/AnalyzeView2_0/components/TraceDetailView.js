@@ -33,6 +33,7 @@ import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { analyzeTagFilterExpression } from './analyzeTagFilter';
@@ -43,7 +44,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getColor } from 'in-applications/endpointTypes';
-import { pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric';
 import { chartColors } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -266,7 +266,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
         'adjustedTimeConfig'
       );
     }
-    analyzeCallsOfTraceClickedTracker({});
+    analyzeCallsOfTraceClickedTracker(emptyObject);
   }
 
   const traceDownloadUrl = isLazyLoadedCallTreeSupported(result?.data)
@@ -282,7 +282,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
         kind="secondary"
         target="_blank"
         href={traceDownloadUrl}
-        onClick={() => downloadTraceClickedTracker({})}
+        onClick={() => downloadTraceClickedTracker(emptyObject)}
       >
         {t('in-applications:linkDownload')}
       </Button>
@@ -302,7 +302,7 @@ function renderContext({ getHrefToUngroupedView, tracker }) {
   return (
     <DashboardHeaderContext
       href={getHrefToUngroupedView()}
-      onClick={() => tracker.traceViewNavigateBackToUa()}
+      onClick={() => tracker.traceViewNavigateBackToUa(emptyObject)}
       label={t('in-applications:labelAnalytic')}
     />
   );
@@ -318,7 +318,7 @@ function MetaInformation({ traceId, result }) {
 
   useEffect(() => {
     if (lazyLoadedCallTree) {
-      traceViewTrackIfLargeTrace({});
+      traceViewTrackIfLargeTrace(emptyObject);
     }
   }, [lazyLoadedCallTree]);
 
