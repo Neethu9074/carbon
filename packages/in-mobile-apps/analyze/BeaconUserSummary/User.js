@@ -29,16 +29,35 @@ export default function User({ beacon, beacons }) {
   const firstBeaconIsMissingUserData =
     first && isBlank(beacon.userId) && isBlank(beacon.userName) && isBlank(beacon.userEmail);
 
+  const redirectToDoc = () => {
+    let url = '';
+
+    // Check if beacon and agentVersion are valid
+    if (beacon?.agentVersion) {
+      const { agentVersion, platform } = beacon;
+
+      if (agentVersion.includes(':f:')) {
+        // Flutter URL
+        url = 'https://ibm.biz/BdvVqy';
+      } else if (agentVersion.includes(':r:')) {
+        // React Native URL
+        url = 'https://ibm.biz/BdvVqf';
+      } else {
+        // Determine URL based on platform
+        url = platform === 'Android' ? 'https://ibm.biz/BdvhWH' : 'https://ibm.biz/ios-identify-users';
+      }
+    } else {
+      // Handle case where beacon or agentVersion is missing
+      url = 'https://ibm.biz/BdvVqS';
+    }
+    return url;
+  };
+
   if (!first) {
     first = (
       <div className={locals.noUserData}>
         {t('in-mobile-apps:beaconUserSum.noUserData')}&nbsp;
-        <Button
-          href={beacon?.platform === 'Android' ? 'https://ibm.biz/BdvhWH' : 'https://ibm.biz/ios-identify-users'}
-          kind="primaryv2"
-          target="_blank"
-          size="compact"
-        >
+        <Button href={redirectToDoc()} kind="primaryv2" target="_blank" size="compact">
           {t('in-mobile-apps:beaconUserSum.noUserDataGuide')}
         </Button>
       </div>
