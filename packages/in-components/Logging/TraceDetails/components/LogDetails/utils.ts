@@ -55,7 +55,7 @@ export const getCardTitle = (logs: LogSpanExcerpt[] | LogItem[]) => {
     });
   } else {
     logs.forEach(log => {
-      const level = log.data.log?.level?.toLowerCase() || (log.errorCount > 0 ? 'error' : 'warn');
+      const level = log.data.log?.level?.toLowerCase() ?? (log.errorCount > 0 ? 'error' : 'warn');
       logLevelCounts[level as 'warn' | 'error']++;
     });
   }
