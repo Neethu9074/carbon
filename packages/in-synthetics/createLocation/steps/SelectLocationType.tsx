@@ -7,9 +7,9 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { LoadingSkeleton, Message } from '@instana/components';
+import { Link, LoadingSkeleton, Message } from '@instana/components';
+import { Trans, t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
-import { t } from '@instana/i18n-react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { LocationsBluePrint, getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
@@ -32,6 +32,7 @@ interface Description {
 }
 
 const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, checkLicense }: Props) => {
+  const popDocsUrl = 'https://ibm.biz/pop_deployment';
   const getWarningMessage = () => {
     if (!checkLicense.progress.loading) {
       if (checkLicense.errors.length !== 0) {
@@ -42,7 +43,15 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
             bold
             className={locals.warningMessage}
             title={t('in-synthetics:dialog.createLocation.licenseCheck.title')}
-            description={t('in-synthetics:dialog.createLocation.licenseCheck.description')}
+            description={
+              <Trans
+                i18nKey="in-synthetics:dialog.createLocation.licenseCheck.description"
+                components={{
+                  // @ts-expect-error property children missing
+                  linkLicenses: <Link className={locals.link} href={popDocsUrl} external />
+                }}
+              />
+            }
           />
         );
       } else {
