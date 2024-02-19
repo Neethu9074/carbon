@@ -33,7 +33,12 @@ export default function User({ beacon, beacons }) {
     first = (
       <div className={locals.noUserData}>
         {t('in-mobile-apps:beaconUserSum.noUserData')}&nbsp;
-        <Button href="https://ibm.biz/ios-identify-users" kind="primaryv2" target="_blank" size="compact">
+        <Button
+          href={beacon?.platform === 'Android' ? 'https://ibm.biz/BdvhWH' : 'https://ibm.biz/ios-identify-users'}
+          kind="primaryv2"
+          target="_blank"
+          size="compact"
+        >
           {t('in-mobile-apps:beaconUserSum.noUserDataGuide')}
         </Button>
       </div>
