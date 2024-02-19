@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import { themes } from '@instana/design-tokens';
-
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -16,7 +14,7 @@ import {
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
   restoreAlertConfigVersion
-} from 'in-alerting/smart-alerts/logs/api/logAlertConfig';
+} from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import {
   alertsDetailsPath as alertsTabSegment,
   alertDetailsFullyQualifiedPath as detailsPath,
@@ -27,31 +25,15 @@ import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import ViewSwitcher from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
-import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
+import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import { LogAlertConfigWithMetadata } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
 
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
   return (
-    <Sticky
-      header={
-        <>
-          <AnalyzeHeader
-            isGrouped={false}
-            liveModeDisabled
-            liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
-            withoutShadow
-          />
-          <ViewSwitcher />
-        </>
-      }
-      backgroundColor={themes.default.ids.color.option.white}
-    >
+    <LogsAlertsTabHeader>
       <LeftRightPadding>
         <Alert
           timeConfig={timeConfig}
@@ -73,13 +55,12 @@ export default function AlertDetails() {
           renderAlertConfiguration={renderAlertConfiguration}
           getAllowedPlaceholders={() => []}
           isGlobalSmartAlert
-          //permission  need to be changed to logging specific in follow PRs, once available in global.d.ts.
-          canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts}
+          canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
           displayEditAction={false}
           displayDuplicateAction={false}
         />
       </LeftRightPadding>
-    </Sticky>
+    </LogsAlertsTabHeader>
   );
 }
 function renderAlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {

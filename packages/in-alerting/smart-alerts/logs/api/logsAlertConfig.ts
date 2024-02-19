@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { ConfigVersion, LogAlertConfigWithMetadata, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -12,12 +13,33 @@ import {
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
-import { ConfigVersion, LogAlertConfigWithMetadata, Result } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
 
-const baseUrl = apiEndpoint.LOG;
+const baseUrl = apiEndpoint.LOGS;
+
+export function getAllAlertConfigsWithResult(): Observable<Result<LogAlertConfigWithMetadata[]>> {
+  const request = http<LogAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl
+  });
+  return createObservable(request);
+}
+
+export function enableAlertConfig(id: string): Observable<void> {
+  return enableAlertConfigApi(id, baseUrl);
+}
+
+export function disableAlertConfig(id: string): Observable<void> {
+  return disableAlertConfigApi(id, baseUrl);
+}
+
+export function deleteAlertConfig(id: string): Observable<void> {
+  return deleteAlertConfigApi(id, baseUrl);
+}
 
 function getRequest(id: string, timestamp: number) {
   return http<LogAlertConfigWithMetadata>({
@@ -34,16 +56,6 @@ function getRequest(id: string, timestamp: number) {
 export function getAllAlertConfigs(id: string, timestamp: number): Observable<LogAlertConfigWithMetadata> {
   const request = getRequest(id, timestamp);
   return request.map(response => response.body);
-}
-
-export function getAllAlertConfigsWithResult(): Observable<Result<LogAlertConfigWithMetadata[]>> {
-  const request = http<LogAlertConfigWithMetadata[]>({
-    method: 'GET',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: baseUrl
-  });
-  return createObservable(request);
 }
 
 export function getAlertConfigByIdAndTimestamp(
@@ -83,18 +95,6 @@ export function getAllVersionsOfAlertConfig(id: string): Observable<Result<Confi
   });
 
   return createObservable(request);
-}
-
-export function enableAlertConfig(id: string): Observable<void> {
-  return enableAlertConfigApi(id, baseUrl);
-}
-
-export function disableAlertConfig(id: string): Observable<void> {
-  return disableAlertConfigApi(id, baseUrl);
-}
-
-export function deleteAlertConfig(id: string): Observable<void> {
-  return deleteAlertConfigApi(id, baseUrl);
 }
 
 export function restoreAlertConfigVersion(id: string, created: number): Observable<LogAlertConfigWithMetadata> {

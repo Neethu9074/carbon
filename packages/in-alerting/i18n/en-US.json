@@ -1285,9 +1285,29 @@
       "selectEntityType": "Please select an entity type",
       "regexNotValid": "Regex is not valid"
     },
-    "logging": {
+    "logs": {
       "alertDetails": {
         "alertConfiguration": "Alert Configuration"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} more filter",
+        "moreFiltersWithCount_plural": "+{{count}} more filters",
+        "moreFiltersWithCount_0": "+{{count}} more filters",
+        "moreFiltersWithCount_1": "+{{count}} more filters",
+        "moreFiltersWithCount_2": "+{{count}} more filters",
+        "filter": "Filter",
+        "filter_plural": "Filters",
+        "filter_0": "Filters",
+        "filter_1": "Filters",
+        "filter_2": "Filters",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "Static Threshold",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
       }
     }
   }

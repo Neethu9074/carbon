@@ -43,6 +43,7 @@ export interface Role {
   canConfigureGlobalApplicationSmartAlerts: boolean;
   canConfigureGlobalSyntheticSmartAlerts: boolean;
   canConfigureGlobalInfraSmartAlerts: boolean;
+  canConfigureGlobalLogSmartAlerts: boolean;
   canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
   canConfigureAgents: boolean;

@@ -16,7 +16,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
   const { name } = alertConfig;
   return (
     <AlertDetailsCard>
-      <ListTitle>{t('in-alerting:smartAlerts.logging.alertDetails.alertConfiguration')}</ListTitle>
+      <ListTitle>{t('in-alerting:smartAlerts.logs.alertDetails.alertConfiguration')}</ListTitle>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.details.header')}
         useMaxAvailableHeight={false}

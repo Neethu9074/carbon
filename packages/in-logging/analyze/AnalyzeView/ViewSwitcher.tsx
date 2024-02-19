@@ -14,22 +14,21 @@ import * as paths from 'in-logging/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function ViewSwitcher() {
-  const { matchLocation, createHrefToPath } = useNavigation();
+  const { location, matchLocation, createHref } = useNavigation();
 
   const isAnalyticsActive = matchLocation(paths.logsPath) && !matchLocation(paths.alertsFullyQualifiedPath);
   const isSmartAlertActive = matchLocation(paths.alertsFullyQualifiedPath);
-
   return (
     <>
       <DashboardHeaderModule theme={themes.light} withTopBorder={false} withBottomBorder>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
-            href={createHrefToPath(`${paths.logsPath};dataSource=logs`)}
+            href={createHref({ ...location, query: {}, pathname: `${paths.logsPath};dataSource=logs` })}
             label={t('in-analyze:components.analyzeHeader.analytics')}
             isActive={isAnalyticsActive}
           />
           <SecondLevelNavigationItem
-            href={createHrefToPath(`${paths.logsPath};dataSource=logs${paths.alertsPath}`)}
+            href={createHref({ ...location, pathname: `${paths.alertsFullyQualifiedPath}` })}
             label={t('in-alerting:smartAlerts.smartAlertsTitle')}
             isActive={isSmartAlertActive}
           />
