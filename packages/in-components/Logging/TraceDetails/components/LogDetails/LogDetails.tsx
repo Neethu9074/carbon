@@ -39,7 +39,8 @@ import locals from 'in-components/Logging/TraceDetails/components/LogDetails/Log
 
 export interface LogSpanExcerpt extends Omit<SpanExcerpt, 'data'> {
   data: {
-    log: LogMessageItem;
+    // Properties on LogMessageItem aren't actually required and can be undefined
+    log: Partial<LogMessageItem>;
   };
 }
 interface LogDetailsSwitchProps {
@@ -90,7 +91,7 @@ function LogDetails(props: LogDetailsSwitchProps) {
 
   const logLevelColor = logLevel === 'ERROR' ? theme.ids.color.option.red['500'] : theme.ids.color.option.yellow['500'];
 
-  const logMessage = useLoggingData ? loggingLog?.message : callLog.data.log?.message;
+  const logMessage = (useLoggingData ? loggingLog?.message : callLog.data.log?.message) ?? '';
 
   const isExpandedLog = isLogItem(selectedLog)
     ? loggingLog?.itemId === selectedLog.itemId
@@ -187,13 +188,14 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
 const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
   const { callLog, processSnapshotId } = props;
 
+  const message = callLog.data?.log?.message ?? '';
   const stackTrace = callLog.stackTrace;
   const hasStackTrace = stackTrace.length > 0;
 
   const content = (
     <>
       <ExpandableGroup title="Message" defaultExpanded>
-        <LogMessage tags={[]} message={callLog.data?.log?.message} />
+        <LogMessage tags={[]} message={message} />
       </ExpandableGroup>
 
       {hasStackTrace && <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />}
