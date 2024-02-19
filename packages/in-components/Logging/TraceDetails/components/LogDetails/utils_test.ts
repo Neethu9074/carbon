@@ -21,7 +21,7 @@ const mockSpanExcerpt: Omit<SpanExcerpt, 'data'> = {
   start: 1000
 };
 
-describe('utils', () => {
+describe('in-components/Logging/TraceDetails/components/LogDetails/utils', () => {
   describe('getCardTitle', () => {
     it('should get card title for LogSpanExcerpt from upper case log levels', () => {
       // GIVEN
