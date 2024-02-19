@@ -6,11 +6,13 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+// @ts-expect-error needs typescript migration
 import ParentOTelDatabase from 'in-forge/plugins/oTelDatabase/ParentOTelDatabase';
+import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
-export default function OpenTelemetryInfo({ snapshot }) {
+export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
