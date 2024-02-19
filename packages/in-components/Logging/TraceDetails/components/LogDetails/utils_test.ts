@@ -1,11 +1,25 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024, 2024
+ * Copyright IBM Corp. 2024
  */
+
+import { SpanExcerpt } from '@instana/types/typeDefinitions';
 
 import { LogSpanExcerpt } from './LogDetails';
 import { getCardTitle } from './utils';
+
+const mockSpanExcerpt: Omit<SpanExcerpt, 'data'> = {
+  duration: 500,
+  errorCount: 0,
+  foreignParentId: '123',
+  id: 'span123',
+  kind: 'UNKNOWN',
+  name: 'testSpan',
+  parentId: '321',
+  stackTrace: [{ file: 'testFile.ts', line: '10', method: 'testFunction' }],
+  start: 1000
+};
 
 describe('utils', () => {
   describe('getCardTitle', () => {
@@ -13,6 +27,7 @@ describe('utils', () => {
       // GIVEN
       const logSpans: LogSpanExcerpt[] = [
         {
+          ...mockSpanExcerpt,
           data: {
             log: {
               level: 'ERROR'
@@ -20,9 +35,10 @@ describe('utils', () => {
           }
         },
         {
+          ...mockSpanExcerpt,
           data: {
             log: {
-              level: 'WARN',
+              level: 'WARN'
             }
           }
         }
@@ -41,12 +57,14 @@ describe('utils', () => {
       // GIVEN
       const logSpans: LogSpanExcerpt[] = [
         {
+          ...mockSpanExcerpt,
           errorCount: 1,
           data: {
-            level: undefined
+            log: {}
           }
         },
         {
+          ...mockSpanExcerpt,
           data: {
             log: {
               level: 'WARN'
@@ -68,7 +86,10 @@ describe('utils', () => {
       // GIVEN
       const logSpans: LogSpanExcerpt[] = [
         {
-          data: {}
+          ...mockSpanExcerpt,
+          data: {
+            log: {}
+          }
         }
       ];
 
