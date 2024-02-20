@@ -17,12 +17,11 @@ import RequestResponseStep from 'in-synthetics/createTests/wizard/RequestRespons
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
+import { GroupPermissionEntity, Error as ScriptError, Result } from 'in-types';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
-import { GroupPermissionEntity, Error as ScriptError } from 'in-types';
 import { Code, Script } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Result } from 'in-types';
 
 import locals from 'in-synthetics/createTests/wizard/WizardModeContainer.mless';
 
@@ -93,7 +92,6 @@ const WizardModeContainer = ({
         onCreate={onCreate}
         updateForm={updateForm}
         setSimpleModeStep={setSimpleModeStep}
-        onStepChanged={() => {}}
         renderStep={(step: number) => {
           switch (step) {
             case 0:

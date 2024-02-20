@@ -193,7 +193,7 @@ export default function RequestResponseStep({
               (field as Field<string>).setValue(testType).setTouched(true)
             )
         );
-      } catch (e) {
+      } catch {
         updateForm(
           form
             .updateIn(['configuration', 'script'], (field: Item) =>
@@ -204,12 +204,12 @@ export default function RequestResponseStep({
             )
         );
       }
-    } catch (e) {
+    } catch (error) {
       setScript({
         name: '',
         text: '',
         errorMessage: t('in-synthetics:dialog.createTest.requestStep.failureToReadFileContent', {
-          error: (e as { message: string }).message ?? 'Unknown error'
+          error: (error as { message: string }).message ?? 'Unknown error'
         }),
         extension: ''
       });
