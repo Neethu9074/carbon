@@ -1,0 +1,109 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import { createField, createMapForm, MapForm } from 'formalistic';
+
+import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { LogAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
+import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
+
+const severityWarning = 5;
+export const defaultAdaptiveBaselineGranularity = 1200000;
+export const fieldNames = Object.freeze({
+  alertChannelIds: 'alertChannelIds',
+  customPayloadFields: 'customPayloadFields',
+  description: 'description',
+  granularity: 'granularity',
+  groupBy: 'groupBy',
+  name: 'name',
+  severity: 'severity',
+  tagFilterExpression: 'tagFilterExpression',
+  threshold: 'threshold',
+  timeThreshold: 'timeThreshold',
+  id: 'id'
+});
+
+export default function alertFormDefinition(
+  alertConfig: LogAlertConfig & VersionedConfig,
+  editMode: boolean
+): MapForm<any> {
+  const {
+    alertChannelIds = [],
+    description = '',
+    granularity = 600000,
+    groupBy = [],
+    name = '',
+    severity = severityWarning,
+    tagFilterExpression,
+    id = ''
+  } = alertConfig;
+
+  const form = createMapForm()
+    .put(
+      fieldNames.alertChannelIds,
+      createField({
+        value: alertChannelIds,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
+      })
+    )
+    .put(
+      fieldNames.description,
+      createField({
+        value: description,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
+      })
+    )
+    .put(
+      'granularity',
+      createField({
+        value: granularity
+      })
+    )
+    .put(
+      'groupBy',
+      createField({
+        value: groupbyTag(groupBy)
+      })
+    )
+    .put(
+      fieldNames.name,
+      createField({
+        value: name,
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+      })
+    )
+    .put(
+      fieldNames.severity,
+      createField({
+        value: severity
+      })
+    )
+    .put(
+      fieldNames.tagFilterExpression,
+      createField({
+        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+      })
+    )
+    .put(
+      fieldNames.id,
+      createField({
+        value: id
+      })
+    )
+    .put(
+      'timeThreshold',
+      createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
+    )
+    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
+
+  return applyEditMode(form, editMode);
+}
