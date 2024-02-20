@@ -13,6 +13,7 @@ import { Link } from '@instana/components';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Gravatar from 'in-components/Gravatar';
 import Tooltip from 'in-components/Tooltip';
+import { redirectURL } from './constants';
 import { t } from 'in-i18n';
 
 import locals from './User.mless';
@@ -30,27 +31,26 @@ export default function User({ beacon, beacons }) {
     first && isBlank(beacon.userId) && isBlank(beacon.userName) && isBlank(beacon.userEmail);
 
   const redirectToDoc = () => {
-    let url = '';
+    let docURL = '';
 
     // Check if beacon and agentVersion are valid
     if (beacon?.agentVersion) {
       const { agentVersion, platform } = beacon;
-
+      //check for flutter
       if (agentVersion.includes(':f:')) {
-        // Flutter URL
-        url = 'https://ibm.biz/BdvVqy';
+        docURL = redirectURL?.flutterDoc;
+        // check for react native
       } else if (agentVersion.includes(':r:')) {
-        // React Native URL
-        url = 'https://ibm.biz/BdvVqf';
+        docURL = redirectURL?.reactNativeDoc;
       } else {
         // Determine URL based on platform
-        url = platform === 'Android' ? 'https://ibm.biz/BdvhWH' : 'https://ibm.biz/ios-identify-users';
+        docURL = platform === 'Android' ? redirectURL?.androidDoc : redirectURL?.iosDoc;
       }
     } else {
       // Handle case where beacon or agentVersion is missing
-      url = 'https://ibm.biz/BdvVqS';
+      docURL = redirectURL?.mobileMonitoringDoc;
     }
-    return url;
+    return docURL;
   };
 
   if (!first) {
