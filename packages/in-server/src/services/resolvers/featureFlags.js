@@ -521,6 +521,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'agentInstallationV2Enabled',
+    instanaCtlKey: 'feature.agent.install.v2.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'logSmartAlertsEnabled',
     instanaCtlKey: 'feature.log.smart.alerts.enabled',
     defaultValue: false
