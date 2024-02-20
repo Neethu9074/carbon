@@ -1287,7 +1287,12 @@
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "Alert Configuration"
+        "alertConfiguration": "Alert Configuration",
+        "metricName": "Logs Count",
+        "alertConfigurationTitleScope": "Scope",
+        "alertConfigurationTitleTimeThreshold": "Time Threshold",
+        "alertConfigurationTitleAlertChannels": "Alert Channels",
+        "alertConfigurationTitleAlertProperties": "Alert Properties"
       },
       "list": {
         "moreFiltersWithCount": "+{{count}} more filter",
