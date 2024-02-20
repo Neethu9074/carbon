@@ -38,13 +38,13 @@ export default function User({ beacon, beacons }) {
       const { agentVersion, platform } = beacon;
       //check for flutter
       if (agentVersion.includes(':f:')) {
-        docURL = redirectURL?.flutterDoc;
+        docURL = redirectURL?.flutterIdentifyingUserDoc;
         // check for react native
       } else if (agentVersion.includes(':r:')) {
-        docURL = redirectURL?.reactNativeDoc;
+        docURL = redirectURL?.reactNativeIdentifyingUserDoc;
       } else {
         // Determine URL based on platform
-        docURL = platform === 'Android' ? redirectURL?.androidDoc : redirectURL?.iosDoc;
+        docURL = platform === 'Android' ? redirectURL?.androidIdentifyingUserDoc : redirectURL?.iosIdentifyingUserDoc;
       }
     } else {
       // Handle case where beacon or agentVersion is missing
