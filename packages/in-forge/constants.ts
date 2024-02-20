@@ -91,7 +91,7 @@ export const nonServicePlugins = {
   db2ZDatabase: 'db2ZDatabase',
   docker: 'docker',
   domino: 'domino',
-  drbdReactor: 'drbd',
+  drbdReactor: 'drbdReactor',
   drbdResource: 'drbdResource',
   drbdDevice: 'drbdDevice',
   drbdConnection: 'drbdConnection',

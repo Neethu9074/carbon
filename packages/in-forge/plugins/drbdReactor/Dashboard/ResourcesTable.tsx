@@ -12,16 +12,16 @@ import { Result } from '@instana/types';
 
 // import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
+//import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdResourcesForReactor from '../subscriptions/getDrbdResourcesForReactor';
 import { pendingResult } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const deviceLinkCol = {
-  title: t('in-forge:plugins.drbdResource.name'),
+  title: t('in-forge:plugins.drbdResource.resourceName'),
   type: 'snapshotLink',
   typeArgs: {
     getSnapshotId(row: any) {
@@ -29,12 +29,47 @@ const deviceLinkCol = {
     }
   }
 };
-////				"resourceSuspended": 0,
+
+// {
+//   title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
+//   type: 'snapshotLink',
+//   typeArgs: {
+//     getSnapshotId(row) {
+//       return row.key;
+//     }
+//   }
+// },
+// {
+//   title: t('in-forge:plugins.ibmMqQueueManager.dashboard.status'),
+//   type: 'string',
+//   typeArgs: {
+//     getValue(row) {
+//       return row.snapshot.getIn(['data', 'channelStatus']);
+//     }
+//   }
+// },
+//				"resourceSuspended": 0,
 //				"resourceMaypromote": 0,
 //				"resourceForceiofailures": 10102,
 //				"resourcePromotionscore": 0,
 //				"resourceRole": "Secondary",
 
+const deviceDataCol = [
+  {
+    title: t('in-forge:plugins.drbdResource.dashboard.drbdHost'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.snapshot.getIn(['data', 'drbdHost']);
+      }
+    }
+  }
+];
+
+//instana.dev.storeStates["snapshot/selectedSnapshot"].getIn(['data', 'resourceRole'])
+
+{
+  /*
 const deviceDataCol = [
   {
     title: t('in-forge:plugins.drbdResource.dashboard.resourceRole'),
@@ -90,7 +125,7 @@ const deviceMetricsCol = [
       getMetricName() {
         return 'resourceForceiofailures';
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -106,13 +141,15 @@ const deviceMetricsCol = [
       getMetricName() {
         return 'resourcePromotionscore';
       },
-      getContent: number.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   }
 ];
+*/
+}
 
 export default function ResourcesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -137,10 +174,12 @@ export default function ResourcesTable({ snapshot }: { snapshot: SnapshotData })
     drbdResources.data.map(drbdResource => ({
       key: drbdResource.get('id'),
       snapshot: drbdResources,
+      snapshotId: drbdResource.get('id'),
       timeConfig
     })) || [];
 
-  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
+  const cols = [deviceLinkCol, deviceDataCol];
+  //  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
   return (
     <Table
       withoutPadding

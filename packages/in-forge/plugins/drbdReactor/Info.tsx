@@ -13,7 +13,7 @@ export default function Info({ snapshot }: { snapshot: any }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.drbd.drbdName')}>{data.get('drbdName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdReactor.drbdReactor')}>{data.get('drbdReactor')}</DescriptionItem>
     </DescriptionList>
   );
 }

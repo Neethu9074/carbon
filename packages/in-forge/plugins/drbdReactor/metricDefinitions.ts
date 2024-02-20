@@ -10,9 +10,9 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: ['resourcesNumber', 'resourceSuspendedCount'],
-    labels: [t('in-forge:plugins.drbd.resourcesNumber'), t('in-forge:plugins.drbd.resourceSuspendedCount')],
+    labels: [t('in-forge:plugins.drbReactor.resourcesNumber'), t('in-forge:plugins.drbReactor.resourceSuspendedCount')],
     min: 0,
-    category: [t('in-forge:plugins.drbd.resourcesNumber')],
+    category: [t('in-forge:plugins.drbReactor.resourcesNumber')],
     formatter: zeroDecimalPlaces
   }
 ];

@@ -7,14 +7,14 @@
 import React, { Fragment } from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from 'in-forge/plugins/drbd/Info';
+import Info from 'in-forge/plugins/drbdReactor/Info';
 import { t } from 'in-i18n';
 
 export default function DrbdSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.drbd.drbd')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.drbdReactor.drbdReactor')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

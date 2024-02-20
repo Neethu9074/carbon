@@ -6,8 +6,8 @@
 
 // @ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from 'in-forge/plugins/drbd/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/drbd/kpiDefinitions';
+import metricDefinitions from 'in-forge/plugins/drbdReactor/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/drbdReactor/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({

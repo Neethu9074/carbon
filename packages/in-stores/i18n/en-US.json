@@ -204,7 +204,7 @@
     "fieldsEntityAzureServiceSqlelasticpool": "Azure SQL Elastic Pool",
     "fieldsEntityAzureServiceSqlserver": "Azure SQL Server",
     "fieldsEntityAzureServiceStorage": "Azure Storage",
-    "fieldsEntityDrbd": "DRBD",
+    "fieldsEntityDrbdReactor": "DRBD Reactor",
     "fieldsEntityDrbdResource": "DRBD Resource",
     "fieldsEntityDrbdDevice": "DRBD Devicer",
     "fieldsEntityDrbdConnection": "DRBD Connection",

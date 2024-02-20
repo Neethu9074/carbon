@@ -6680,30 +6680,41 @@
       "metricsIncludeRegexDoesNotMatchAnyMetric": "Regex: {{metrics_include}} from the configuration file does not match any metric",
       "missingDominoStatsFile": "Metrics file could not be found on the host"
     },
-    "drbd": {
+    "drbdReactor": {
       "dashboard": {
         "resourcesNumber": "Number of Resources",
         "resourceSuspendedCount": "Messages Count"
       },
-      "drbdName": "DRBD Name",
+      "drbdReactor": "DRBD Name",
       "resourcesNumber": "Number of Resources",
       "resourceSuspendedCount": "Number of Suspended Resources",
-      "kmodVersion": "Alternated At",
-      "UtilsVersion": "Number of Messages"
+      "kmodVersion": "Kmod Version",
+      "UtilsVersion": "Utils Version",
+      "remoteMonitoring": "remote Monitoring",
+      "drbdHost": "DRBD Host",
+      "resourcesWithCount": "resources ({{len}})"
     },
     "drbdResource": {
       "dashboard": {
+        "name": "DRBD Resource Name",
+        "resourceName": "DRBD Resource Name",
+        "resourceRole": "Resource Role",
         "resourceSuspended": "Resource Suspended",
         "resourceMaypromote": "Resource Promoted to Primary",
         "resourceForceiofailures": "Resource Configured to Force IO Failures",
         "resourcePromotionscore": "Resource Promotion Score"
       },
       "name": "DRBD Resource Name",
+      "resourceName": "DRBD Resource Name",
       "resourceSuspended": "Resource Suspended",
       "resourceMaypromote": "Resource Promoted to Primary",
       "resourceForceiofailures": "Resource Configured to Force IO Failures",
       "resourcePromotionscore": "Resource Promotion Score",
-      "resourceRole": "Resource Role"
+      "resourceRole": "Resource Role",
+      "resourcesWithCount": "resources ({{len}})",
+      "devicesWithCount": "Devices ({{len}})",
+      "connectionsWithCount": "Connections ({{len}})",
+      "peersWithCount": "Peers ({{len}})"
     },
     "drbdDevice": {
       "dashboard": {
