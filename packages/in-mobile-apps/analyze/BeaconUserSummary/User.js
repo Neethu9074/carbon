@@ -12,8 +12,8 @@ import { Link } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Gravatar from 'in-components/Gravatar';
+import { redirectURL } from '../../constants';
 import Tooltip from 'in-components/Tooltip';
-import { redirectURL } from './constants';
 import { t } from 'in-i18n';
 
 import locals from './User.mless';
