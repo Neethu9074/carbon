@@ -39,6 +39,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
     message.activeLicense == 'selfService' ||
     message.activeLicense == 'quota' ||
     message.activeLicense == 'free_not_for_resale';
+  const verticalLine = message.activeLicense == 'selfService' || message.activeLicense == 'quota';
   const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
   const isPaidLicenseUsage = message.activeLicense == 'hostBasedPaid';
   const noQueuedLicense =
@@ -116,7 +117,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
           )}
           <div
             className={classNames({
-              [locals.verticalLine]: tryOfferLicenseType
+              [locals.verticalLine]: verticalLine
             })}
           />
           <AssistMe tryOfferLicenseType={tryOfferLicenseType} />

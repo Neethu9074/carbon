@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import { Link, Button, SvgIcon, Typography, Stack } from '@instana/components';
@@ -63,13 +62,10 @@ export function StickyBanner({ message }: StickyBannerProps) {
               <>
                 <span className={locals.description}>{message.content}</span>
                 <IconForRemainingDays remainingDays={message.remainingDays} />
+                <div className={locals.verticalLine} />
               </>
             )}
-            <div
-              className={classNames({
-                [locals.verticalLine]: tryOfferLicenseType
-              })}
-            />
+
             {onPremLicenseInformationEnabled && (
               <div className={locals.subText}>
                 <Trans
