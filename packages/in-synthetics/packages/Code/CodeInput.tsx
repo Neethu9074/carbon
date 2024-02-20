@@ -18,7 +18,7 @@ import {
   jsMode
 } from 'in-synthetics/packages/CodeMirror';
 
-import locals from './Code.mless';
+import locals from './CodeInput.mless';
 
 const { isF, isQuestionMarkOrMinus } = keyCodes;
 

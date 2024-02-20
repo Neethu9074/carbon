@@ -34,8 +34,8 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
+import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Progress, Error as ScriptError } from 'in-types';
-import Code from 'in-synthetics/packages/Code';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/wizard/RequestResponseStep.mless';
@@ -274,7 +274,7 @@ export default function RequestResponseStep({
             <div className={locals.scriptUpload}>
               {script.extension === 'js' ? (
                 <>
-                  <Code
+                  <CodeInput
                     value={script.text}
                     onChange={updateCode}
                     maxHeight="39vh"

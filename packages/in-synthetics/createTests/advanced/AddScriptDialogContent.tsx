@@ -27,7 +27,7 @@ import SaveError from 'in-components/form/SaveError/SaveError';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import Code from 'in-synthetics/packages/Code/Code';
+import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import Input from 'in-components/form/Input/Input';
 import Label from 'in-components/form/Label/Label';
 import { Error } from 'in-types';
@@ -195,7 +195,7 @@ export default function AddScriptDialogContent({
                   <DescriptionText>
                     {t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptDescription')}
                   </DescriptionText>
-                  <Code value={script.text} onChange={onEditScript} height="30vh" />
+                  <CodeInput value={script.text} onChange={onEditScript} height="30vh" />
                   {scriptErrors && scriptErrors.length !== 0 && (
                     <ErrorList className={locals.errorList} errors={scriptErrors} />
                   )}

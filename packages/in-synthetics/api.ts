@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable } from '@instana/observables';
-import { create } from '@instana/observables';
+import { Observable, create } from '@instana/observables';
 
 import {
   Result,
