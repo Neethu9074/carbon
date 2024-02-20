@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Toggle } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import {
   isTroubleshootingModeEnabled$,

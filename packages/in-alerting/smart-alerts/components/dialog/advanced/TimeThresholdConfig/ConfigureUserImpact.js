@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import {
   putUsersField,

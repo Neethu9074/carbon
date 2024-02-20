@@ -5,7 +5,8 @@
 
 import React, { useEffect } from 'react';
 
-import { Spacer, Stack, Toggle } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import {

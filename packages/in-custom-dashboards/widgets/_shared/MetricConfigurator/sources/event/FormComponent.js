@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { Stack, Spacer, Toggle } from '@instana/components';
+import { Stack, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Toggle } from '@instana/legacy';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { refreshDFQ$ } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';

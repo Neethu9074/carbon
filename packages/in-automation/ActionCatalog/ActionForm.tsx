@@ -7,7 +7,8 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Link, Spacer, Toggle, Typography } from '@instana/components';
+import { Link, Spacer, Typography } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import {
   putApiKeyFields,
