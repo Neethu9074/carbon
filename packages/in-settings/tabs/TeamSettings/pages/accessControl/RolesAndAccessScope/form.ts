@@ -284,7 +284,8 @@ export const removeAdditionalPermissionsForNoaccess = (
   permissionSet: PermissionSet
 ) => {
   let permissions = permissionSet.permissions as PermissionsUnion[];
-  productAreas.map(productArea => {
+
+  productAreas.forEach(productArea => {
     const limitation = getScopeFromProductArea(productArea, permissionSet);
     if (limitation === ScopedPermissionItem.NO_ACCESS) {
       permissions = permissions.filter(
@@ -300,5 +301,6 @@ export const removeAdditionalPermissionsForNoaccess = (
       }
     }
   });
+
   return { ...permissionSet, permissions };
 };

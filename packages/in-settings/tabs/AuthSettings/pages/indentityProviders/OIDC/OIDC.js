@@ -69,7 +69,7 @@ export default function OIDC(props) {
                 </span>
               }
               onSubmit={() => {
-                save(data, file);
+                save({ ...data, file: file });
                 close();
               }}
               confirmButtonKind="create"
@@ -77,7 +77,7 @@ export default function OIDC(props) {
             />
           );
         } else {
-          save(data, file);
+          save({ ...data, file: file });
         }
       }}
       Content={Content}
@@ -356,16 +356,21 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
 
   const cantBeActivated = <h2>{t('in-settings:tabs.cannotConfigureOidcIfAnotherOneIsAlreadyActive')}</h2>;
 
+  const renderIdPContent = () => {
+    if (isAnotherIdpActivated([result.ldapConfig?.base, result.samlConfig?.activated])) {
+      // Another IdP is already activated => show message that IdP cannot be configured
+      return cantBeActivated;
+    } else {
+      return result?.config.activated ? readOnly : editable;
+    }
+  };
+
   return (
     <>
       <Title title={t('in-settings:tabs.configureOpenIDConnect')} />
       <SubViewHeader>{t('in-settings:tabs.oidcConfiguration')}</SubViewHeader>
       <ConfigureIdPInfoMessage />
-      {isAnotherIdpActivated([result.ldapConfig?.base, result.samlConfig?.activated])
-        ? cantBeActivated
-        : result?.config.activated
-        ? readOnly
-        : editable}
+      {renderIdPContent()}
     </>
   );
 }
