@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Typography } from '@instana/components';
 import { BlueprintType } from '@instana/types';
@@ -28,8 +28,18 @@ export default function SloBlueprintsSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
+  const indicatorTypeField = form.getIn(['indicator', 'type']);
 
   const isFormInEditMode = mode === 'EDIT';
+
+  // Temporary workaround to force the indicator type for custom blueprints to always be event-based.
+  // Can be removed once we have time-based indicator support for custom blueprints.
+  useEffect(() => {
+    if (blueprintField.value === 'custom') {
+      onChange(['indicator', 'type'], () => indicatorTypeField.setValue('eventBased'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blueprintField.value]);
 
   return (
     <SloDialogSection title={t('in-service-levels:createSloDialog.selectIndicatorTitle')}>

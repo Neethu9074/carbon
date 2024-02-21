@@ -83,15 +83,13 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
   const blueprintType = form.getIn(['indicator', 'blueprint']).value;
 
   if (blueprintType === 'custom') {
-    if (indicatorType === 'eventBased') {
-      return {
-        goodEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'goodEventsFilter']).value),
-        badEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'badEventsFilter']).value),
-        threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
-        blueprint: 'custom',
-        type: 'eventBased'
-      };
-    }
+    return {
+      goodEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'goodEventsFilter']).value),
+      badEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'badEventsFilter']).value),
+      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
+      blueprint: 'custom',
+      type: 'eventBased'
+    };
   }
 
   if (blueprintType === 'latency' || blueprintType === 'availability') {
