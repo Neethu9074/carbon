@@ -11,8 +11,8 @@ import { LogAlertConfigWithMetadata, TagCatalog } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
-import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transformation/formModel';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import Tooltip from 'in-components/Tooltip';
@@ -26,9 +26,7 @@ export default function ScopeColumn({ config }: { config: LogAlertConfigWithMeta
   const tagCatalog = useTagCatalog('SMART_ALERTS');
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const pages = tagFilterFormModel.filter(isTagFilter);
-
-  const otherTagFiltersCount = tagFilterFormModel.length - pages.length;
+  const otherTagFiltersCount = tagFilterFormModel.length;
   const filterCount = getFiltersCount(tagFilterFormModel);
   const maxFilterToDisplay = 3;
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterFormModel, maxFilterToDisplay);

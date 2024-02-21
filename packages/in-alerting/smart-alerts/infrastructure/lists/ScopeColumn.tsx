@@ -15,7 +15,7 @@ import { SvgIcon } from '@instana/components';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
-import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getPluginName } from 'in-sdk/pluginName';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -32,9 +32,7 @@ export default function ScopeColumn({ config }: { config: InfraAlertConfigWithMe
   const tagCatalog = useTagCatalog({ ownerType: entityType });
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
-  const pages = tagFilterFormModel.filter(isTagFilter);
-
-  const otherTagFiltersCount = tagFilterFormModel.length - pages.length;
+  const otherTagFiltersCount = tagFilterFormModel.length;
   const filterCount = getFiltersCount(tagFilterFormModel);
   const maxFilterToDisplay = 3;
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterFormModel, maxFilterToDisplay);
