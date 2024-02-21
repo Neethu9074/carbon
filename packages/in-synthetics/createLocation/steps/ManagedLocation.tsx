@@ -79,7 +79,7 @@ const getColumnDefinitions = (
   updateForm: (form: MapForm<any>) => void
 ): Array<ColumnDefinition<SyntheticDatacenter>> => {
   const datacentersField = form.get('syntheticDatacenters') as Field<SyntheticDatacenter[]>;
-  const severity: Record<string, number> = { Active: 0, Pending: 5, Failure: 10 };
+  const severity: Record<string, number> = { Active: 0, Pending: 5, Error: 10 };
 
   const onDatacenterSelect = (entity: SyntheticDatacenter) => {
     const selectedDatacenters = datacentersField.value;
