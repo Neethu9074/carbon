@@ -22,6 +22,6 @@
   }
 
   .objectiveInput {
-    max-width: 3.8rem;
+    max-width: 4.5rem;
   }
 }
