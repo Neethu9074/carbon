@@ -24,6 +24,7 @@
 - [ ] User facing change? Release Notes PR created and linked in references
 - [ ] Documentation needs an update? Docs PR created and linked in references
 - [ ] [Pull Request Guidelines](https://github.ibm.com/instana/ui-notion-pages/blob/main/Frontend-Enablement/Process/Pull-Request-Guidelines.md) applied
+- [ ] Ensure [Mixpanel Instrumentation](https://github.ibm.com/instana/ui-notion-pages/blob/main/UI-Community/Product-Analytics/mixpanel-instrumentation.md) is done for Team wise product analytics.
 
 # References
 
