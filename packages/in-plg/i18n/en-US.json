@@ -168,7 +168,6 @@
       "coreClrEnabledProfiling": "Coreclr enable profiling",
       "coreClrProfiler": "Coreclr profiler",
       "coreClrProfilerPath": "Coreclr profiler path",
-      "javaToolOptions": "Java Tool Options",
       "lambdaFunctionName": "Lambda Function Name",
       "referenceToAwsLambdaRubyDocumentation": "AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the <awsLambdaRubyDoc>AWS Lambda Ruby documentation</awsLambdaRubyDoc>.",
       "preferredMethodForEnablingTracing": "The preferred method for enabling tracing in Java-based AWS Lambda functions is by using the Instana Lambda layer with AutoTrace as outlined in the steps below.",
@@ -188,7 +187,6 @@
       "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",
       "autoWrapHandler": "Auto-wrap Handler",
-      "lambdaHandler": "Lambda Handler",
       "runCodeBelow":"Run the agent deployment code below.",
       "prerequisiteLinks": {
         "networkRequirements": "Network Requirements"

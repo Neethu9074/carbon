@@ -16,4 +16,5 @@ export default interface OnboardingProps {
   tenant?: string;
   tenantUnit?: string;
   butlerDomain?: string;
+  serverlessEndpoint?: string;
 }
