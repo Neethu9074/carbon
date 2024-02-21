@@ -34,6 +34,7 @@ import usePolicies, { refresh } from 'in-automation/Policies/usePolicies';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -48,7 +49,6 @@ import useTriggers from './useTriggers';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
-import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 
 const pathSegment = '/policies';
 const matrixPrefix = '';
@@ -235,7 +235,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
 
   {
     id: 'trigger',
-    label: t('in-automation:policies.trigger'),
+    label: t('in-automation:policies.eventTrigger'),
     getContent: item => {
       if (isEventSpecification(item.trigger)) {
         return <EventName hasRowNavigation={false} entity={item.trigger} />;
