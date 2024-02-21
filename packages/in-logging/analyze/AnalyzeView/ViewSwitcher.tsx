@@ -20,7 +20,7 @@ export default function ViewSwitcher() {
   const isSmartAlertActive = matchLocation(paths.alertsFullyQualifiedPath);
   return (
     <>
-      <DashboardHeaderModule theme={themes.light} withTopBorder={false} withBottomBorder>
+      <DashboardHeaderModule theme={themes.light} withBottomBorder>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
             href={createHref({ ...location, query: {}, pathname: `${paths.logsPath};dataSource=logs` })}
