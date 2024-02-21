@@ -50,7 +50,7 @@ function TargetColumn({ data }: ObjectiveSectionProps) {
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.objectiveSection.targetLabel')}
-      value={percentage.compact(target)}
+      value={percentage.detailed(target)}
     />
   );
 }
