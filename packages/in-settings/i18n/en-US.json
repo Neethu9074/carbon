@@ -198,18 +198,18 @@
     "contribution_filter_accessScope": "Limited access scope (Viewer)",
     "contribution_filter_warning": {
       "firstParagraph": "Any change that you save will update all application perspectives that use this contribution filter.",
-      "secondParagraph": "If you change the role, then the contribution filter is deleted. All application perspectives that use the contribution filter can then be edited by any user with Owner access to the Applications section. This cannot be undone."
+      "secondParagraph": "If you change the access type, then the contribution filter is deleted. All application perspectives that use the contribution filter can be edited by any user with owner access on the Applications section."
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "Access for all application perspectives under this unit.",
+        "access_level": "Access all the application perspectives with the selected access type and any additional permissions.",
         "role_permissions_contributor": "Create application perspectives using the contribution filter; view, configure and delete these application perspectives. View other application perspectives, if access is granted."
       },
       "limited_access": {
-        "access_level": "Limited access only for the application dashboards selected below.",
-        "access_level_contributor": "Limited access only for the application dashboards selected below",
+        "access_level": "Access only the listed applications with the selected access type and any additional permissions.",
+        "access_level_contributor": "You can find the applications with contributor access in the access configuration pane on the user or group details. <br /><br />Access the application perspectives with the contribution filter applied as contributor. <br />Access the selected application perspectives as viewer",
         "role_permissions_contributor": "Create application dashboards with the contribution filter applied; view, configure and delete these application dashboards that are created for the contribution filter."
       },
       "role_permissions_owner": "Create, configure, view and delete application perspectives.",
@@ -217,46 +217,46 @@
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "Access to all entity dashboards under this unit, which are related to the access granted to application and platforms."
+        "access_level": "Access all the entity dashboards under this unit, which are related to the access granted to application and platforms."
       },
       "role_permissions_owner": "View entity dashboards.",
       "role_permissions_viewer": "View entity dashboards."
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "Access for all namespaces and clusters under this unit."
+        "access_level": "Access all the namespaces and clusters with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the namespaces and clusters selected below."
+        "access_level": "Access only the listed namespaces and clusters with the selected access type and any additional permissions."
       },
       "role_permissions": "View namespaces and clusters."
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "Access for all mobile apps under this unit."
+        "access_level": "Access all the mobile apps with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the mobile apps selected below."
+        "access_level": "Access only the listed mobile apps with the selected access type and any additional permissions."
       },
       "role_permissions_owner": "Create, configure, view and delete mobile apps.",
       "role_permissions_viewer": "View mobile apps."
     },
     "synthetics": {
       "access_all": {
-        "access_level": "Access for all synthetic tests under this unit."
+        "access_level": "Access all the synthetic tests with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the synthetic tests selected below."
+        "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
     },
     "website": {
       "access_all": {
-        "access_level": "Access for all websites under this unit."
+        "access_level": "Access all the websites with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the websites selected below."
+        "access_level": "Access only the listed websites with the selected access type and any additional permissions."
       },
       "role_permissions_owner": "Create, view and delete websites.",
       "role_permissions_viewer": "View websites."
