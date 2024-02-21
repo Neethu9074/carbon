@@ -5,7 +5,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Button, Card, Link, Message, Stack } from '@instana/components';
+import { Button, Card, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -116,6 +116,7 @@ export default function Summary({
   const totalErrorLogCount = trace.totalErrorLogCount + otelErrorCount;
 
   const showLogsCard = loggingEnabled && logsContextValue.items.length > 0;
+  const areLogsLoading = logsContextValue.progress?.loading === true;
 
   const logsHref = useLinkToLogs({
     tagFilterExpression: [getTraceIdTagFilter(traceId)],
@@ -200,7 +201,9 @@ export default function Summary({
               }
               value={totalErrorLogCount}
               renderValue={number.compact}
-            />
+            >
+              {areLogsLoading && <LoadingSkeleton className={locals.kpiSkeleton} />}
+            </KpiCard>
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
@@ -212,7 +215,9 @@ export default function Summary({
               }
               value={totalWarnLogCount}
               renderValue={number.compact}
-            />
+            >
+              {areLogsLoading && <LoadingSkeleton className={locals.kpiSkeleton} />}
+            </KpiCard>
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
