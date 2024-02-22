@@ -7,6 +7,11 @@
   .input {
     user-select: none;
     pointer-events: none;
+  }
+  .inputSmall {
     min-width: 15rem;
+  }
+  .inputLarge {
+    min-width: 30rem;
   }
 }

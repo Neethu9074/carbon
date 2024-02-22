@@ -32,7 +32,9 @@ export default function AwsFargate({
   downloadKey,
   agentKey,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  instanaDomain,
+  serverlessEndpoint
 }: OnboardingProps): JSX.Element {
   const runtimeOptions: RuntimeOption[] = [
     { key: 'Go', label: t('in-plg:agentDetails.runtime.go') },
@@ -55,7 +57,8 @@ export default function AwsFargate({
               type: 'aws',
               agentKey,
               agentEndpoint,
-              agentEndpointPort
+              agentEndpointPort,
+              serverlessEndpoint
             }}
           />
         );
@@ -67,8 +70,8 @@ export default function AwsFargate({
               downloadKey,
               type: 'aws',
               agentKey,
-              agentEndpoint,
-              agentEndpointPort
+              serverlessEndpoint,
+              instanaDomain
             }}
           />
         );
@@ -80,8 +83,7 @@ export default function AwsFargate({
               downloadKey,
               type: 'aws',
               agentKey,
-              agentEndpoint,
-              agentEndpointPort
+              serverlessEndpoint
             }}
           />
         );
@@ -93,8 +95,7 @@ export default function AwsFargate({
               downloadKey,
               type: 'aws',
               agentKey,
-              agentEndpoint,
-              agentEndpointPort
+              serverlessEndpoint
             }}
           />
         );
@@ -106,8 +107,7 @@ export default function AwsFargate({
               downloadKey,
               type: 'aws',
               agentKey,
-              agentEndpoint,
-              agentEndpointPort
+              serverlessEndpoint
             }}
           />
         );
@@ -119,8 +119,7 @@ export default function AwsFargate({
               downloadKey,
               type: 'aws',
               agentKey,
-              agentEndpoint,
-              agentEndpointPort
+              serverlessEndpoint
             }}
           />
         );
@@ -132,8 +131,8 @@ export default function AwsFargate({
               downloadKey,
               type: 'aws',
               agentKey,
-              agentEndpoint,
-              agentEndpointPort
+              serverlessEndpoint,
+              instanaDomain
             }}
           />
         );
