@@ -340,11 +340,6 @@ function MetaInformation({ traceId, result }) {
           <Pill className={locals.label}>{t('in-applications:traceDetail.tabs.summary.largeTrace')}</Pill>
         </Tooltip>
       )}
-      {lazyLoadedCallTree && (
-        <Pill kind="primary" className={locals.betaPill}>
-          {t('in-applications:traceDetail.beta')}
-        </Pill>
-      )}
     </div>
   );
 }

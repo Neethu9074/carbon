@@ -316,11 +316,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'largeTracesV2Enabled',
-    instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
