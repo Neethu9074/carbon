@@ -76,7 +76,7 @@ export default function ViewSwitcher() {
                 syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
               />
             )}
-          {syntheticUpdateDeployPoPEnabled && <NewLocationButton />}
+          {role?.canConfigureSyntheticLocations && syntheticUpdateDeployPoPEnabled && <NewLocationButton />}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
