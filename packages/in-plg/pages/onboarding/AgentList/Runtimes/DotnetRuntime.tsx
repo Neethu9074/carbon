@@ -116,12 +116,12 @@ export default function DotnetRuntime({ type, agentKey, serverlessEndpoint }: Pr
           </Stack>
           <Stack direction="horizontal">
             <KeyValue
-              label={t('in-plg:agentDetails.aws.coreClrProfiler')}
+              label={'CORECLR_PROFILER'}
               value={<InputWithButton inputValue={'{cf0d821e-299b-5307-a3d8-b283c03916dd}'} type="copy" />}
               withGap
             />
             <KeyValue
-              label={'CORECLR_PROFILER'}
+              label={'CORECLR_PROFILER_PATH'}
               value={
                 <InputWithButton inputValue={`${applicationDirectory}/instana_tracing/CoreProfiler.so`} type="copy" />
               }

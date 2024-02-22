@@ -58,7 +58,8 @@ export default function GoogleCloudRun({
   agentEndpoint,
   agentEndpointPort,
   downloadKey,
-  instanaDomain
+  instanaDomain,
+  serverlessEndpoint
 }: OnboardingProps): JSX.Element {
   const [installationMode, setInstallationMode] = useState<InstallationOption>(installationOptions[0]);
 
@@ -124,6 +125,7 @@ export default function GoogleCloudRun({
             agentKey={agentKey}
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
+            serverlessEndpoint={serverlessEndpoint}
           />
         );
       case 'Java':
@@ -135,6 +137,7 @@ export default function GoogleCloudRun({
             agentKey={agentKey}
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
+            serverlessEndpoint={serverlessEndpoint}
           />
         );
       case 'Dotnet':
@@ -146,6 +149,7 @@ export default function GoogleCloudRun({
             agentKey={agentKey}
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
+            serverlessEndpoint={serverlessEndpoint}
           />
         );
       case 'NodeJs':
@@ -157,6 +161,7 @@ export default function GoogleCloudRun({
             agentKey={agentKey}
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
+            serverlessEndpoint={serverlessEndpoint}
           />
         );
       case 'Python':
@@ -168,6 +173,7 @@ export default function GoogleCloudRun({
             agentKey={agentKey}
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
+            serverlessEndpoint={serverlessEndpoint}
           />
         );
       default:
@@ -179,6 +185,7 @@ export default function GoogleCloudRun({
             agentKey={agentKey}
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
+            serverlessEndpoint={serverlessEndpoint}
           />
         );
     }
