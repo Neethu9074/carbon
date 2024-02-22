@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { LogAlertConfig, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -21,13 +21,13 @@ interface Props {
 export default function AnalyzeLogEventButton({ alertConfig, timeConfig }: Props) {
   const { tagFilterExpression } = alertConfig;
 
-  const linkToUA = getLinkToAnalyze({
+  const logsHref = useLinkToLogs({
     tagFilterExpression: fromBackendModel(tagFilterExpression),
     timeConfig
   });
 
   return (
-    <Button kind="primary" icon="lib_analyze_inverted" href$={linkToUA}>
+    <Button kind="primary" icon="lib_analyze_inverted" href={logsHref}>
       {t('in-analyze:logDetails.analyzeLogsLabel')}
     </Button>
   );

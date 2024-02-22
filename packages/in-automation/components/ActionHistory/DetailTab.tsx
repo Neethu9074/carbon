@@ -28,7 +28,7 @@ import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
@@ -98,7 +98,7 @@ export default function DetailTab({
   const timeConfig = useTimeConfig();
 
   const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id ?? '', 'actionInstanceId');
-  const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
+  const link = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   const snapshot = useObservable(
     () => (hostSnapshotId ? getSnapshot(hostSnapshotId).map(snapshot => snapshot.toJS()) : just({})),
@@ -159,7 +159,7 @@ export default function DetailTab({
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
       actionLane: inActionLane,
-      ObservableLink: link
+      stringLink: link
     },
     {
       label: t('in-automation:titleActionType'),

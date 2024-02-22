@@ -28,7 +28,7 @@ import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } 
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
@@ -71,6 +71,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
 
   const getAnalyzeHref = useGenerateLinkToAnalyze();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const generateLogsHref = useGenerateLinkToLogs();
 
   const linkToProfileAnalyze = useLinkToProfileAnalyze();
   const productAreas = [
@@ -80,7 +81,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
       dataSources: [
         {
           dataSource: 'logs',
-          getHref$: getLinkToLogsAnalyze,
+          getHref: generateLogsHref,
           onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
         }
       ]

@@ -9,10 +9,9 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Typography, Spacer } from '@instana/components';
+import { Typography, Spacer, Link } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import {
   AUTH_TYPES,
@@ -53,7 +52,7 @@ import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -112,10 +111,14 @@ export default function RunActionDialogContent({
     setOrDeleteMatrixKey(path, actionHistoryPath, 'query', id);
     return createHref(path);
   }
+
+  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
+
+  const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
+
+  if (error) return <Typography variant="body-small">{error}</Typography>;
   if (!form) return <LoadingIndicator size="xxl" />;
   if (actionInstanceId) {
-    const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-    const logLink = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     return (
       <Typography variant="body-small">
         {error && (

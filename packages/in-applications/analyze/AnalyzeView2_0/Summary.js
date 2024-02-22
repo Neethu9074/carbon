@@ -32,7 +32,7 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-components/Logging/TraceDetails/components/Logs';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { latency, number } from 'in-services/formatters/number';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
@@ -127,6 +127,11 @@ export default function Summary({
   );
 
   const hasLogs = loggingEnabled && totalNumberOfLogs > 0;
+
+  const logsHref = useLinkToLogs({
+    tagFilterExpression: [getTraceIdTagFilter(traceId)],
+    timeConfig: timeConfigForLogs
+  });
 
   const [selectedLog, setSelectedLog] = useState(null);
   const logsContextValue = useMemo(
@@ -351,10 +356,7 @@ export default function Summary({
                       <Button
                         kind="secondary"
                         icon="lib_analyze"
-                        href$={getLinkToAnalyze({
-                          tagFilterExpression: [getTraceIdTagFilter(traceId)],
-                          timeConfig: timeConfigForLogs
-                        })}
+                        href={logsHref}
                         onClick={() => jumpToLogs({ source: 'analyze logs' })}
                       >
                         {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
