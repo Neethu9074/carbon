@@ -571,3 +571,5 @@ export const retriesObject: { label: string; value: number }[] = [
     value: 2
   }
 ];
+
+export const datacenterProviderMap = new Map([['aws', 'AWS']]);

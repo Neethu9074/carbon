@@ -16,6 +16,7 @@ import { Observable } from '@instana/observables';
 import List, { ColumnDefinition } from 'in-settings/components/List';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { datacenterProviderMap } from 'in-synthetics/utils/constants';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { getDatacenters } from 'in-synthetics/api';
 import { Trans, t } from 'in-i18n';
@@ -126,7 +127,7 @@ const getColumnDefinitions = (
       label: t('in-synthetics:dialog.createLocation.managedLocation.provider'),
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
-        return <span className={locals.label}>{entity.provider}</span>;
+        return <span className={locals.label}>{datacenterProviderMap.get(entity.provider)}</span>;
       }
     },
     {
