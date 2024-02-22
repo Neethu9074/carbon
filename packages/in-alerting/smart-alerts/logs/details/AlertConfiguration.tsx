@@ -4,19 +4,26 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 
+import { create } from '@instana/observables';
 import { Stack } from '@instana/components';
+import { Card } from '@instana/components';
 
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
+import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
 import { AlertGrouping } from 'in-alerting/smart-alerts/logs/details/AlertGrouping';
 import { StaticThresholdConfig, TagCatalog, ThresholdConfigUnion } from 'in-types';
+import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -29,6 +36,10 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
 
+const initialChartConfigIndex = 0;
+export const selectedMetricGroup$ = create().emit(null);
+export type Tags = { [index: string]: any };
+
 export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
   const { timeThreshold, threshold, granularity, groupBy, customPayloadFields, tagFilterExpression, alertChannelIds } =
     alertConfig;
@@ -37,6 +48,12 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
 
   const AlertGroupByQueryBuilder = getGroupByQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
+  const timeConfig = useMemo(() => {
+    return chartTimeConfig;
+  }, []);
+
   return (
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.logs.alertDetails.alertConfiguration')}</ListTitle>
@@ -51,6 +68,34 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
           metricLabel={t('in-alerting:smartAlerts.logs.alertDetails.metricName')}
         />
       </ExpandableLightCard>
+
+      <ChartViewConfigurator
+        chartViewConfigs={chartViewConfigs}
+        onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleTrigger')}
+        doNotSetDefaultHeight
+        framed
+      >
+        {chartViewConfig => (
+          <Card title={t('in-events:titleMetrics')}>
+            <LogMetricChart alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
+            {groupBy && groupBy.length > 0 && (
+              <LogMetricGroup
+                backendQueryModel={tagFilterExpression}
+                backendGroupBy={groupBy}
+                groupBy={groupBy}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
+                tagCatalog={tagCatalog}
+              />
+            )}
+          </Card>
+        )}
+      </ChartViewConfigurator>
 
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleScope')}

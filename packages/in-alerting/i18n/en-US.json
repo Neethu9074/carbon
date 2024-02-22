@@ -84,7 +84,15 @@
       "globalCustomPayloadTitle": "Global Custom Payloads ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve Global Custom Payloads.",
       "noGlobalCustomPayloadConfigured": "No Global Custom Payloads Configured"
-    }
+    },
+    "previewFor": "Preview for: ",
+    "groupedViewHeader": "{{formattedCount}} Results",
+    "groupedViewHeader_plural": "{{formattedCount}} Results",
+    "groupedViewHeader_0": "{{formattedCount}} Results",
+    "groupedViewHeader_1": "{{formattedCount}} Results",
+    "groupedViewHeader_2": "{{formattedCount}} Results",
+    "resultHeaderLoading": "Loading…",
+    "loadMore": "Load More"
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
@@ -1273,15 +1281,7 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noMetricSelected": "No metric selected"
       },
-      "groupedViewHeader": "{{formattedCount}} Results",
-      "groupedViewHeader_plural": "{{formattedCount}} Results",
-      "groupedViewHeader_0": "{{formattedCount}} Results",
-      "groupedViewHeader_1": "{{formattedCount}} Results",
-      "groupedViewHeader_2": "{{formattedCount}} Results",
-      "resultHeaderLoading": "Loading…",
-      "loadMore": "Load More",
       "count": "Count",
-      "previewFor": "Preview for: ",
       "selectEntityType": "Please select an entity type",
       "regexNotValid": "Regex is not valid"
     },
@@ -1292,7 +1292,8 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
-        "alertConfigurationTitleAlertProperties": "Alert Properties"
+        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "alertConfigurationTitleTrigger": "Trigger"
       },
       "list": {
         "moreFiltersWithCount": "+{{count}} more filter",
@@ -1342,7 +1343,8 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
-      }
+      },
+      "logs": "Logs"
     }
   }
 }

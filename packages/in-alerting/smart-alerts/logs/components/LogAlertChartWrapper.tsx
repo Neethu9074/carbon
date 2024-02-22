@@ -13,6 +13,7 @@ import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/
 //@ts-expect-error TS migration
 import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
 import { getChartConfig, getUnifiedMetricConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
+import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
@@ -20,11 +21,13 @@ import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { number } from 'in-services/formatters/number';
+import { TagFilterExpression } from 'in-types';
 import { t } from 'in-i18n';
 
 interface LogAlertChartWrapperProps {
   alertConfig: LogAlertConfigWithMetadata;
   timeConfig: TimeConfig;
+  selectedMetricGroup?: { [index: string]: string };
 }
 
 /**
@@ -35,7 +38,11 @@ interface LogAlertChartWrapperProps {
  */
 const logSumMetricId = 'logs_distribution';
 
-export default function InfraAlertChartWrapper({ alertConfig, timeConfig }: LogAlertChartWrapperProps) {
+export default function LogAlertChartWrapper({
+  alertConfig,
+  timeConfig,
+  selectedMetricGroup
+}: LogAlertChartWrapperProps) {
   const { threshold, granularity, tagFilterExpression } = alertConfig;
   const highlight = undefined;
 
@@ -43,7 +50,12 @@ export default function InfraAlertChartWrapper({ alertConfig, timeConfig }: LogA
 
   const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], false);
 
-  const unifiedMetricConfig = getUnifiedMetricConfig(logSumMetricId, tagFilterExpression, granularity);
+  const enrichedTagFilterExpression = selectedMetricGroup
+    ? //@ts-expect-error type mismatch
+      getExpressionWithGroupingTags(tagFilterExpression as TagFilterExpression, selectedMetricGroup)
+    : tagFilterExpression;
+
+  const unifiedMetricConfig = getUnifiedMetricConfig(logSumMetricId, enrichedTagFilterExpression, granularity);
 
   // chartProps to render the metric values and threshold to the chart
   const chartProps = {

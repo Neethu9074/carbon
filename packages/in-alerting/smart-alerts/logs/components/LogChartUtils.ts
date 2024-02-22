@@ -9,6 +9,8 @@ import { Granularity, LogAlertConfigWithMetadata, TagFilterExpressionElementUnio
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { numberCompact } from 'in-stores/metric/formatters';
 import { line } from 'in-stores/metric/renderer';
+import { minutes } from 'in-services/time';
+import { LogGroupItem } from 'in-types';
 
 export function getUnifiedMetricConfig(
   metricId: string,
@@ -59,4 +61,31 @@ export function getChartConfig(alertConfig: LogAlertConfigWithMetadata, timeConf
       }
     }
   };
+}
+
+export const chartTimeConfig = {
+  autoRefresh: false,
+  to: Date.now(),
+  focusedMoment: Date.now()
+};
+
+export const sparkChartGranularity = minutes.toMillis(30);
+
+export function setDefaultMetrics(
+  items: LogGroupItem[],
+  setSelectedMetricGroup: React.Dispatch<any | undefined>,
+  selectedMetricGroup?: any
+) {
+  if (items?.length === 0) {
+    return;
+  }
+
+  if (selectedMetricGroup) {
+    const metricExistsInItems = items.find(item => item.label === selectedMetricGroup);
+    if (metricExistsInItems) {
+      return;
+    }
+  }
+
+  setSelectedMetricGroup(items[0].label);
 }

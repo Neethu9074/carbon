@@ -12,28 +12,28 @@ import SearchInput from 'in-components/SearchInput/SearchInput';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
-import locals from './InfraMetricGroupTableList.mless';
+import locals from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader.mless';
 
-export interface InfraMetricGroupHeaderProps {
+export interface MetricGroupHeaderProps {
   isLoading?: boolean;
   totalHits?: number;
   setBackendQueryModel: (arg?: string) => void;
 }
 
 /**
- * Infra metric group header.
+ *  metric group header.
  * @param isLoading  is loading boolean value.
  * @param totalHits  totalHits number.
  * @param setBackendQueryModel The setBackendQueryModel.
- * @returns The infra metric group header.
+ * @returns The  metric group header.
  */
-export function InfraMetricGroupHeader({
+export default function MetricGroupHeader({
   isLoading,
   totalHits,
   setBackendQueryModel
-}: InfraMetricGroupHeaderProps): JSX.Element {
+}: MetricGroupHeaderProps): JSX.Element {
   const topText = totalHits
-    ? t('in-alerting:smartAlerts.infrastructure.groupedViewHeader', {
+    ? t('in-alerting:components.groupedViewHeader', {
         count: totalHits,
         formattedCount: number.compact(totalHits)
       })
@@ -44,9 +44,7 @@ export function InfraMetricGroupHeader({
         <SearchInput withoutIcon onChange={handleChangeWithDebounce(setBackendQueryModel)} />
       </HorizontalFlexWrapper>
       <div className={locals.header}>
-        <h3 className={locals.topText}>
-          {!isLoading ? topText : t('in-alerting:smartAlerts.infrastructure.resultHeaderLoading')}
-        </h3>
+        <h3 className={locals.topText}>{!isLoading ? topText : t('in-alerting:components.resultHeaderLoading')}</h3>
       </div>
     </div>
   );

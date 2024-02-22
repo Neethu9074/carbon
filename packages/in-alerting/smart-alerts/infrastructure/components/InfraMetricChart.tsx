@@ -65,7 +65,7 @@ export function InfraMetricChart({
   return (
     <div className={local.minHeight}>
       <div className={local.container}>
-        {t('in-alerting:smartAlerts.infrastructure.previewFor')}
+        {t('in-alerting:components.previewFor')}
         <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>
       </div>
 
