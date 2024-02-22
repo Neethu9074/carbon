@@ -12,6 +12,14 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import {
+  AlertPreview,
+  AlertPreviewHeadline
+} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
@@ -19,6 +27,9 @@ import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import StepsContainer from 'in-components/StepsContainer';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
@@ -26,7 +37,16 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, updateForm, onChange, setTagFilterValid, tagFilterValid, timeConfig } = props;
+  const {
+    form,
+    updateForm,
+    onChange,
+    setTagFilterValid,
+    tagFilterValid,
+    timeConfig,
+    setSliderState,
+    setCustomSlideInHeaderConfig
+  } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
@@ -86,21 +106,63 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.alertChannel.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.alertChannel.title'),
           valid: true,
-          content: <></>
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
+          )
         },
         {
           scrollId: '5',
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.title'),
           valid: true,
-          content: <></>
+          content: (
+            <AlertPropertiesContainer
+              renderAlertProperties={() => (
+                <AlertProperties
+                  form={form}
+                  onChange={onChange}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  renderAlertPropertiesTitleRow={() => (
+                    <AlertPropertiesTitleRow
+                      form={form}
+                      onChange={onChange}
+                      getTitlePlaceholder={getTitlePlaceholder}
+                    />
+                  )}
+                />
+              )}
+              renderAlertPreview={() => (
+                <AlertPreview
+                  form={form}
+                  renderHeadline={() => (
+                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
+                  )}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  entityLabel={t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle')}
+                  entityIconType="lib_application_logging"
+                />
+              )}
+            />
+          )
         },
         {
           scrollId: '6',
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.customPayloads.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.customPayloads.title'),
           valid: isCustomPayloadValidOrUntouched(form),
-          content: <></>
+          content: (
+            <>
+              {/* TODO : Context Need to be replaced with Log specific one, Dynamic custom payload support */}
+              <GlobalCustomPayloadCard context="ALL" />
+              <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
+            </>
+          )
         }
       ]}
     />

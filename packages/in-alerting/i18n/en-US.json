@@ -1288,7 +1288,7 @@
     "logs": {
       "alertDetails": {
         "alertConfiguration": "Alert Configuration",
-        "metricName": "Logs Count",
+        "metricName": "Log Count",
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
@@ -1334,7 +1334,12 @@
         },
         "properties": {
           "label": "Properties",
-          "title": "Additional Alert Properties"
+          "title": "Additional Alert Properties",
+          "preview": {
+            "subtitle": "Log Count"
+          },
+          "alertPropertiesTitlePlaceholder": "Logs Smart alert",
+          "alertPropertiesDescriptionPlaceholder": "Logs count are not as usual."
         },
         "customPayloads": {
           "label": "Payloads",
