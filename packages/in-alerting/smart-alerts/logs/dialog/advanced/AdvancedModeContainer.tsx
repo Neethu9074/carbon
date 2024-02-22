@@ -11,11 +11,15 @@ import {
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form } = props;
+  const { form, updateForm, onChange } = props;
+  const thresholdType = form.get('threshold').get('type').value;
 
   return (
     <StepsContainer
@@ -40,7 +44,18 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.timeThreshold.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.timeThreshold.title'),
           valid: true,
-          content: <></>
+          content: (
+            <>
+              <TimeThreshold
+                form={form}
+                updateForm={updateForm}
+                onChange={onChange}
+                oneMinuteGranularityAllowed={
+                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+                }
+              />
+            </>
+          )
         },
         {
           scrollId: '4',

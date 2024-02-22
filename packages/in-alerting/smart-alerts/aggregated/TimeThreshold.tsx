@@ -12,21 +12,19 @@ import ConfigureAlertingThreshold from 'in-alerting/smart-alerts/components/dial
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold.mless';
+import locals from 'in-alerting/smart-alerts/aggregated/TimeThreshold.mless';
 
-interface InfraTimeThresholdProps {
-  form: MapForm<any>;
-  onChange: (path: string[], updater: (item: Item) => Item) => void;
-  updateForm?: (form: MapForm<any>) => void;
-  oneMinuteGranularityAllowed: boolean;
-}
-
-export default function InfraTimeThreshold({
+export default function TimeThreshold({
   form,
   onChange,
   updateForm,
   oneMinuteGranularityAllowed
-}: InfraTimeThresholdProps) {
+}: {
+  form: MapForm<any>;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
+  updateForm?: (form: MapForm<any>) => void;
+  oneMinuteGranularityAllowed: boolean;
+}) {
   return (
     <BorderedContainer>
       <div className={locals.container}>
