@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ValidationMessage, ValidationResult, createField, createMapForm } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import { generateUniqueShortId } from '@instana/utils';
 
+import { datacentersNotEmptyValidator } from 'in-synthetics/createLocation/validators/datacentersnotEmptyValidator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { arrayValidator } from 'in-services/validators/jsonType';
-import { t } from 'in-i18n';
 
 const createNewLocationForm = (locationType: string) => {
   return createMapForm({ validator: notUndefinedValidator })
@@ -34,16 +34,3 @@ const createNewLocationForm = (locationType: string) => {
 };
 
 export default createNewLocationForm;
-
-function datacentersNotEmptyValidator(arr?: ValidationMessage[]): ValidationResult {
-  if (arr == null || arr.length === 0) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createLocation.validators.theValueMustNotBeEmpty')
-      }
-    ];
-  }
-
-  return null;
-}

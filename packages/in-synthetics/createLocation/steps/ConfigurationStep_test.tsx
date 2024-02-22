@@ -7,12 +7,14 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
+import { Typography } from '@instana/components';
+
 import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import ConfigurationStep from 'in-synthetics/createLocation/steps/ConfigurationStep';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import PrivateLocation from 'in-synthetics/createLocation/steps/PrivateLocation';
-import ManagedLocation from 'in-synthetics/createLocation/steps/ManagedLocation';
+import { t } from 'in-i18n';
 
 describe('Synthetic New Location Configuration Step', () => {
   it('ConfigurationStep renders PrivateLocation component for private location', () => {
@@ -34,7 +36,13 @@ describe('Synthetic New Location Configuration Step', () => {
       <ConfigurationStep selectedBlueprint={getLocationsBluePrintConfig()[1]} form={form} updateForm={updateForm} />
     );
 
-    expect(wrapper.containsMatchingElement(<ManagedLocation form={form} updateForm={updateForm} />)).toBeTruthy();
+    expect(
+      wrapper.containsMatchingElement(
+        <Typography variant="heading-200">
+          {t('in-synthetics:dialog.createLocation.managedLocation.managedDatacentersLabel')}
+        </Typography>
+      )
+    ).toBeTruthy();
   });
 
   it('ConfigurationStep renders NoDataAvailable component for a random location type', () => {

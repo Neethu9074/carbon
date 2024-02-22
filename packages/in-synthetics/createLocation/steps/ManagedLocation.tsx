@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Link, Stack, Typography } from '@instana/components';
-import { Result, SyntheticDatacenter } from '@instana/types';
+import { SyntheticDatacenter } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 // eslint-disable-next-line no-restricted-imports
@@ -18,25 +18,18 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { datacenterProviderMap } from 'in-synthetics/utils/constants';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
-import { getDatacenters } from 'in-synthetics/api';
 import { Trans, t } from 'in-i18n';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
 interface ManagedLocationProps {
   form: MapForm<any>;
+  datacenters: Observable<SyntheticDatacenter[]>;
   updateForm: (form: MapForm<any>) => void;
 }
 
-const ManagedLocation = ({ form, updateForm }: ManagedLocationProps) => {
+const ManagedLocation = ({ form, datacenters, updateForm }: ManagedLocationProps) => {
   const popDocsUrl = 'https://ibm.biz/pop_deployment';
-
-  // passing this id to getDatacenters() so as to memoize response until new form is created
-  const datacenters: Observable<SyntheticDatacenter[]> = getDatacenters(form.get('id').value)
-    .map(result => {
-      return (result as Result<SyntheticDatacenter[]>)?.data;
-    })
-    .map(result => result ?? ([] as SyntheticDatacenter[]));
 
   return (
     <div className={locals.wrapper}>
