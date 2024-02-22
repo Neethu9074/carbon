@@ -68,7 +68,7 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
             butlerDomain={config.butlerDomain}
             agentEndpoint={config.agentEndpoint}
             agentEndpointPort={config.agentEndpointPort}
-            // serverlessEndpoint={config.serverlessEndpoint}
+            serverlessEndpoint={config.serverlessEndpoint}
             instanaDomain={config.agentInstallDomain ?? 'io'}
           />
         )}
