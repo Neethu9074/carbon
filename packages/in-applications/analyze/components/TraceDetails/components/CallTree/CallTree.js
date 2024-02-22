@@ -12,6 +12,7 @@ import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetail
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
 import { isLazyNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import Row from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { isLoading } from 'in-services/util/result';
 import createScale from 'in-services/scale';
@@ -82,13 +83,15 @@ function LoadedCallTree({
   onCallCollapsed,
   traceSummary
 }) {
+  const { items: loggingLogItems } = useLogsInCallsContext();
+
   const [rootNode, onShowHiddenParentNestingLevel, onShowHiddenChildNestingLevel] = useLimitVisibleNestingLevels(
     callTreeResult,
     openedCallId
   );
 
-  const start = getStart(rootNode);
-  const end = getEnd(rootNode);
+  const start = getStart(rootNode, loggingLogItems);
+  const end = getEnd(rootNode, loggingLogItems);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(100);
