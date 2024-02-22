@@ -130,9 +130,7 @@ export default function RecommendationActionsTable({
                     }}
                   />
                 </Tooltip>
-              ) : // <div />
-
-              isExternal(item.type) &&
+              ) : isExternal(item.type) &&
                 item?.metadata?.ai &&
                 item?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' ? (
                 <Button
@@ -170,7 +168,10 @@ const options = [
   { value: 'HTTP', label: t('in-automation:ActionCatalog.http') },
   { value: 'MANUAL', label: t('in-automation:ActionCatalog.manual') },
   { value: 'ANSIBLE', label: t('in-automation:ActionCatalog.ansible') },
-  { value: 'EXTERNAL', label: t('in-automation:actionHistory.external') }
+  { value: 'EXTERNAL', label: t('in-automation:actionHistory.external') },
+  { value: 'GITHUB', label: t('in-automation:ActionCatalog.github') },
+  { value: 'GITLAB', label: t('in-automation:ActionCatalog.gitlab') },
+  { value: 'JIRA', label: t('in-automation:ActionCatalog.jira') }
 ];
 
 function ActionFilters({
@@ -205,7 +206,7 @@ function ActionFilters({
         />
         <ComboBox
           options={actionAIEngines.map(tag => ({ value: tag, label: tag }))}
-          placeholder="Engine"
+          placeholder={t('in-automation:engine')}
           value={aiEngines}
           onChange={newValue => {
             if (!newValue) {

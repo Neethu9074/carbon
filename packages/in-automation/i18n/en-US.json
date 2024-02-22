@@ -14,7 +14,7 @@
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
-  "viewManualAction":"View Manual Action {{actionName}}",
+  "viewManualAction": "View Manual Action {{actionName}}",
   "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",
   "hasBeenInitiated": "{{actionName}} has been initiated.",
@@ -88,9 +88,10 @@
   "searchActions": "Search Actions",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "aiEngine": "AI Engine",
+  "engine": "Engine",
   "eventSimilarity": "Event Similarity",
   "recommendedActionsCount": "Recommended Actions ({{count}})",
-  "close":"Close",
+  "close": "Close",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
     "actions": "Actions",
@@ -207,7 +208,7 @@
     "newFeature": "New Feature",
     "aiScore": "AI Score",
     "view": "View",
-    "content":"Content"
+    "content": "Content"
   },
   "actionHistory": {
     "actionHistory": "Action History",
