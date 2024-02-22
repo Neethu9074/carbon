@@ -94,7 +94,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       onCreate={() => onCreate(simpleMode)}
       isSaving={isSaving}
       editMode={editMode}
-      additionalValidationCheck={() => true}
+      additionalValidationCheck={() => tagFilterValid}
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );

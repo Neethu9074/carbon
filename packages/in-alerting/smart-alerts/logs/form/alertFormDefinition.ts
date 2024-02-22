@@ -71,7 +71,7 @@ export default function alertFormDefinition(
     .put(
       'groupBy',
       createField({
-        value: groupbyTag(groupBy)
+        value: groupbyTag(groupBy)[0]
       })
     )
     .put(

@@ -31,7 +31,7 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
-import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
+import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';

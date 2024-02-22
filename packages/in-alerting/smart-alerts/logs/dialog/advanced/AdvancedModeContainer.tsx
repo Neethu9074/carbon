@@ -6,20 +6,29 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
+import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
+import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
+import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer.mless';
+
 export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const { form, updateForm, onChange } = props;
+  const { form, updateForm, onChange, setTagFilterValid, tagFilterValid, timeConfig } = props;
   const thresholdType = form.get('threshold').get('type').value;
+  const tagCatalog = useTagCatalog('SMART_ALERTS');
 
   return (
     <StepsContainer
@@ -29,8 +38,23 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.scope.title'),
-          valid: true,
-          content: <></>
+          valid: tagFilterValid,
+          content: (
+            <div className={locals.container}>
+              <Stack gap="small">
+                <Sections>
+                  <ScopeFilter
+                    form={form}
+                    updateForm={updateForm}
+                    tagCatalog={tagCatalog}
+                    timeConfig={timeConfig}
+                    setTagFilterValid={setTagFilterValid}
+                  />
+                  <ScopeGroup form={form} updateForm={updateForm} />
+                </Sections>
+              </Stack>
+            </div>
+          )
         },
         {
           scrollId: '2',
