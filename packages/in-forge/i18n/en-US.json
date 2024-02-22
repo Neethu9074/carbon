@@ -7002,6 +7002,7 @@
         "queuedTasks": "Queued Tasks",
         "rejectedTasks": "Rejected Tasks",
         "transport": "Transport",
+        "http": "HTTP",
         "sent": "Sent",
         "received": "Received",
         "deleted": "Deleted",
