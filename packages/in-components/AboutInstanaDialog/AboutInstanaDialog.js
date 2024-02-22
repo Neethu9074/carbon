@@ -5,14 +5,16 @@
 
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li, KeyValue, Stack } from '@instana/components';
+import { ColumnizedContent, Ul, Li, KeyValue, Button, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
+import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';
 import { instanaRegion } from 'in-services/config';
 import Dialog from 'in-components/Dialog/Dialog';
+import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import { build } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
@@ -163,6 +165,16 @@ export default function AboutInstanaDialog() {
             />
           </Li>
         </Ul>
+
+        <Button
+          kind="primaryv2"
+          onClick={() => {
+            goToPath(graphPath);
+            close();
+          }}
+        >
+          {t('in-components:aboutInstanaDialog.buttonGraphShowcase')}
+        </Button>
       </Stack>
     </Dialog>
   );

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 import { just } from '@instana/observables';
@@ -11,6 +11,8 @@ import { just } from '@instana/observables';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog/AboutInstanaDialog';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { close } from 'in-components/DialogPresenter/store';
+import { goToPath } from 'in-stores/navigation';
+import { t } from 'in-i18n';
 
 jest.mock('in-stores/navigation');
 jest.mock('in-components/DialogPresenter/store');
@@ -28,6 +30,15 @@ test('AboutInstanaDialog uiBackendVersion subscription', () => {
   render(<AboutInstanaDialog />);
   screen.getByText(UibackendVersion.imageTag);
   screen.getByText(UibackendVersion.commit.substring(0, 12));
+});
+
+test('AboutInstanaDialog handle showcase button clicked', () => {
+  render(<AboutInstanaDialog />);
+
+  const element = screen.getByText(t('in-components:aboutInstanaDialog.buttonGraphShowcase'));
+  fireEvent.click(element);
+
+  expect(goToPath).toHaveBeenCalled();
 });
 
 test('AboutInstanaDialog handle close clicking', () => {
