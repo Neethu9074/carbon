@@ -163,7 +163,7 @@ export const getDefaultTimestampField = (sloConfig: ServiceLevelObjectiveConfigu
   return {
     date: createField<string>({ value: formatDate(timeStamp)!, validator: dateFieldValidator }),
     time: createField<string>({
-      value: formatDate(timeStamp)!,
+      value: formatTime(timeStamp)!,
       validator: timeFieldValidator
     })
   };
