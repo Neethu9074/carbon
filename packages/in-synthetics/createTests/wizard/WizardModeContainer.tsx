@@ -143,6 +143,7 @@ const WizardModeContainer = ({
         additionalStepCheck={(step: number) => {
           return step !== 0 ? isStepDisabled(step) : true;
         }}
+        onStepChanged={() => {}}
       />
     </div>
   );

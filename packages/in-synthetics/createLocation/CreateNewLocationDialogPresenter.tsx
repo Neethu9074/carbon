@@ -136,6 +136,7 @@ const CreateNewLocationDialogPresenter = ({
                 ? false
                 : true;
             }}
+            onStepChanged={() => {}}
           />
         </div>
       </div>
