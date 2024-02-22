@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Button, Card, Message, Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { Button, Card, Stack, Typography, Pill } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -20,19 +20,17 @@ import {
   helpfulRCASuggestionTracker,
   unhelpfulRCASuggestionTracker
 } from 'in-events/tracker';
-import { default as EmptyStateMagnifyingGlass } from './assets/empty-state-magnifying-glass.svg';
-import EventListPagination from 'in-components/EventListPagination/EventListPagination';
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { pendingResult } from 'in-services/fixedObjects';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
+import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -61,13 +59,12 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
   const [observablesList, setObservablesList] = useState(
     currentRCAEntity ? combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)).throttle(250) : null
   );
-  const [feedbackState, setFeedbackState] = useState({ default: defaultFeedbackState });
 
   // generates a list of event information based on Observables
   const eventsRelatedToEntity =
     useObservable(currentRCAEntity ? observablesList : null, [currentRCAEntity, observablesList])?.sort(
       (a, b) => a.get('start') - b.get('start')
-    ) ?? pendingResult;
+    ) ?? [];
 
   useEffect(() => {
     if (currentRCAEntity) setObservablesList(combineLatest(rcaSnapshotMap.get(currentRCAEntity).map(getEvent)));
@@ -77,136 +74,53 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
     setCurrentRCAEntity(snapshots[pageNum - 1]);
   }, [pageNum, snapshots]);
 
-  useEffect(() => {
-    if (currentRCAEntity && !feedbackState[currentRCAEntity])
-      setFeedbackState({ ...feedbackState, [currentRCAEntity]: defaultFeedbackState });
-  }, [currentRCAEntity, feedbackState]);
-
-  if (!currentRCAEntity) {
-    return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card
-            title={title}
-            leftHeaderContent={
-              <Tooltip align="rightTop" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <div>
-                  <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
-                    {t('in-events:RCA.techPreview')}
-                  </Pill>
-                </div>
-              </Tooltip>
-            }
-            rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
-          >
-            <RCAErrorMessage
-              title={t('in-events:RCA.noEntitiesErrorTitle')}
-              description={t('in-events:RCA.noEntitiesErrorDescription')}
-            />
-            <FeedbackComponent
-              feedbackState={feedbackState}
-              setFeedbackState={setFeedbackState}
-              currentEntity={currentRCAEntity ?? 'default'}
-              incident={incident}
-            />
-          </Card>
-        </Col>
-      </Row>
-    );
-  }
-
-  if (eventsRelatedToEntity?.progress?.loading || !eventsRelatedToEntity)
-    return (
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card
-            title={title}
-            leftHeaderContent={
-              <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
-                  {t('in-events:RCA.techPreview')}
-                </Pill>
-              </Tooltip>
-            }
-            rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
-          >
-            <LoadingIndicator />
-          </Card>
-        </Col>
-      </Row>
-    );
-
   return (
-    <Row withoutSideMargin>
-      <Col xs>
-        <Card
-          title={title}
-          leftHeaderContent={
-            <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-              <Pill kind="primary" color={themes.default.ids.color.option.blue['500']}>
-                {t('in-events:RCA.techPreview')}
-              </Pill>
-            </Tooltip>
-          }
-          rightHeaderContent={<Message className={locals.rcaAIMessage} title={t('in-events:RCA.AIGenBadgeText')} />}
+    <ProbableRootCauseCard title={title} incident={incident} currentRCAEntity={currentRCAEntity}>
+      <Stack direction="vertical" gap="xsmall">
+        <div className={locals.timeline}>
+          <RootCauseEntityDetails
+            selectedSnapshotMetadata={incident
+              .get('metadata')
+              .get('probableRootCauseSnapshotMetadata')
+              .get(currentRCAEntity)}
+            eventsRelatedToEntity={eventsRelatedToEntity}
+            probabilityScore={extractProbabilityScoreForProbableRootCause(incident.get('metadata'), currentRCAEntity)}
+            relatedAPID={
+              incident.get('metadata').has('app20ApplicationId')
+                ? incident.get('metadata').get('app20ApplicationId')
+                : null
+            }
+            numOfSnapshots={rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()).length : null}
+            pageNum={pageNum}
+            setPageNum={setPageNum}
+            incidentTimeWindow={{
+              windowSize:
+                incident.get('end') - incident.get('metadata').get('triggeringTime') + minutes.toMillis(20) ||
+                incident.get('end') - incident.get('start') + minutes.toMillis(20),
+              to: incident.get('end')
+            }}
+          />
+        </div>
+        <ExpandableLightCard
+          title={t('in-events:RCA.relatedEventsLabel', {
+            number_of_events: Array.isArray(eventsRelatedToEntity) ? eventsRelatedToEntity.length : 0
+          })}
         >
-          <Stack direction="vertical" gap="medium">
-            <div className={locals.timeline}>
-              {(eventsRelatedToEntity?.progress?.loading || !eventsRelatedToEntity) && <LoadingIndicator />}
-              {eventsRelatedToEntity &&
-                incident &&
-                incident.get('metadata')?.get('probableRootCauseSnapshotMetadata')?.get(currentRCAEntity) && (
-                  <RootCauseEntityDetails
-                    selectedSnapshotMetadata={incident
-                      .get('metadata')
-                      .get('probableRootCauseSnapshotMetadata')
-                      .get(currentRCAEntity)}
-                    eventsRelatedToEntity={eventsRelatedToEntity}
-                    probabilityScore={extractProbabilityScoreForProbableRootCause(
-                      incident.get('metadata'),
-                      currentRCAEntity
-                    )}
-                    relatedAPID={
-                      incident.get('metadata').has('app20ApplicationId')
-                        ? incident.get('metadata').get('app20ApplicationId')
-                        : null
-                    }
-                  />
-                )}
-
-              {eventsRelatedToEntity?.map(_event => (
-                <div onClick={expandedRCAEventCardTracker}>
-                  <EventListItem
-                    key={_event.get('id')}
-                    triggeringProblemId={eventsRelatedToEntity.length > 0 && eventsRelatedToEntity[0].get('id')}
-                    event={_event}
-                    latestSnapshot={latestSnapshot}
-                    setBackground={themes.default.ids.color.option['deep-purple']['500']}
-                    setIconColor={themes.default.ids.color.option.white}
-                  />
-                </div>
-              ))}
+          {eventsRelatedToEntity?.map(_event => (
+            <div onClick={expandedRCAEventCardTracker}>
+              <EventListItem
+                key={_event.get('id')}
+                triggeringProblemId={eventsRelatedToEntity.length > 0 && eventsRelatedToEntity[0].get('id')}
+                event={_event}
+                latestSnapshot={latestSnapshot}
+                setBackground={themes.default.ids.color.option['deep-purple'][500]}
+                setIconColor={themes.default.ids.color.option.white}
+              />
             </div>
-            <Stack direction="horizontal" distribution="spaceBetween">
-              <FeedbackComponent
-                feedbackState={feedbackState}
-                setFeedbackState={setFeedbackState}
-                incident={incident}
-                snapshotMetadata={
-                  incident.get('metadata')?.get('probableRootCauseSnapshotMetadata')?.get(currentRCAEntity) ?? null
-                }
-                currentEntity={currentRCAEntity ?? 'default'}
-              />
-              <EventListPagination
-                pageNum={pageNum}
-                numPages={rcaSnapshotMap ? Array.from(rcaSnapshotMap.keys()).length : null}
-                setPageNum={setPageNum}
-              />
-            </Stack>
-          </Stack>
-        </Card>
-      </Col>
-    </Row>
+          ))}
+        </ExpandableLightCard>
+      </Stack>
+    </ProbableRootCauseCard>
   );
 }
 
@@ -281,29 +195,6 @@ function FeedbackComponent({ feedbackState, setFeedbackState, incident, snapshot
   );
 }
 
-function RCAErrorMessage({ title, description, tooltipDescription }) {
-  return (
-    <Stack direction="horizontal" gap="small" distribution="center">
-      <img className={locals.errorImg} src={EmptyStateMagnifyingGlass} />
-      <Stack direction="vertical" gap="xxsmall">
-        <Typography variant="heading-200">{title}</Typography>
-        <Stack direction="horizontal" gap="xxsmall">
-          <Typography variant="body-regular">{description}</Typography>
-          {tooltipDescription && (
-            <Tooltip align="rightMiddle" content={tooltipDescription}>
-              <SvgIcon
-                type="lib_help_error_help_outline"
-                size="s"
-                color={themes.default.ids.color.option.neutral['700']}
-              />
-            </Tooltip>
-          )}
-        </Stack>
-      </Stack>
-    </Stack>
-  );
-}
-
 function extractFeedbackMetadataFromIncident(incident, snapshotMetadata) {
   let entityType = '';
 
@@ -355,4 +246,56 @@ function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedS
     if (foundSnapshot && foundSnapshot.get('rcaProbFailure')) return foundSnapshot.get('rcaProbFailure');
   }
   return null;
+}
+
+function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }) {
+  const [feedbackState, setFeedbackState] = useState({ default: defaultFeedbackState });
+
+  useEffect(() => {
+    if (currentRCAEntity && !feedbackState[currentRCAEntity])
+      setFeedbackState({ ...feedbackState, [currentRCAEntity]: defaultFeedbackState });
+  }, [currentRCAEntity, feedbackState]);
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card
+          title={title}
+          leftHeaderContent={
+            <Stack direction="horizontal">
+              <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
+                <Pill
+                  kind="primary"
+                  color={themes.default.ids.color.option.blue['400']}
+                  className={locals.techPreviewPill}
+                >
+                  <Typography variant="body-small" onDark>
+                    {t('in-events:RCA.techPreview')}
+                  </Typography>
+                </Pill>
+              </Tooltip>
+              <Pill color={'#8257D933'} className={locals.rcaAIPill}>
+                <Typography variant="body-small">{t('in-events:RCA.AIGenBadgeText')}</Typography>
+              </Pill>
+            </Stack>
+          }
+          rightHeaderContent={
+            currentRCAEntity &&
+            incident && (
+              <FeedbackComponent
+                feedbackState={feedbackState}
+                setFeedbackState={setFeedbackState}
+                incident={incident}
+                snapshotMetadata={
+                  incident.get('metadata')?.get('probableRootCauseSnapshotMetadata')?.get(currentRCAEntity) ?? null
+                }
+                currentEntity={currentRCAEntity ?? 'default'}
+              />
+            )
+          }
+        >
+          {children}
+        </Card>
+      </Col>
+    </Row>
+  );
 }
