@@ -36,7 +36,7 @@ export function StickyBanner({ message }: StickyBannerProps) {
   const location = useLocation();
   //@ts-expect-error
   const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
-  const tryOfferLicenseType =
+  const isAssistMeEnabled =
     message.activeLicense == 'selfService' ||
     message.activeLicense == 'quota' ||
     message.activeLicense == 'free_not_for_resale';
@@ -124,7 +124,7 @@ export function StickyBanner({ message }: StickyBannerProps) {
                     {t('in-plg:licenseBanner.requestQuoteBtn')}
                   </Button>
                 )}
-                <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
+                <AssistMe isAssistMeEnabled={isAssistMeEnabled} />
               </>
             )}
           </Stack>

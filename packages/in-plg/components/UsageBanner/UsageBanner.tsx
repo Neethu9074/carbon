@@ -35,25 +35,24 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const location = useLocation();
   //@ts-expect-error
   const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
-  const tryOfferLicenseType =
-    message.activeLicense == 'selfService' ||
-    message.activeLicense == 'quota' ||
-    message.activeLicense == 'free_not_for_resale';
-  const verticalLine = message.activeLicense == 'selfService' || message.activeLicense == 'quota';
+  const { activeLicense, remainingDays, content } = message;
+  const isQuota = activeLicense === 'quota';
+  const isSelfService = activeLicense === 'selfService';
+  const isFreeNotForResale = activeLicense === 'free_not_for_resale';
+  const isPaidLicenseUsage = activeLicense === 'hostBasedPaid';
+  const isRemainingDaysLimited = remainingDays! <= 30;
+  const isTrial = isSelfService || isQuota;
+  const isAssistMeEnabled = isTrial || isFreeNotForResale;
   const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
-  const isPaidLicenseUsage = message.activeLicense == 'hostBasedPaid';
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
-
+  const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
   return (
     <Stack align="center" direction="horizontal" gap="small">
-      {(message.activeLicense == 'selfService' ||
-        message.activeLicense == 'quota' ||
-        (message.activeLicense == 'free_not_for_resale' && message.remainingDays! <= 30) ||
-        (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
+      {(isTrial || (isFreeNotForResale && isRemainingDaysLimited) || needToShowReminder) && (
         <>
-          <span className={locals.description}>{message.content}</span>
-          <IconForRemainingDays remainingDays={message.remainingDays} />
+          <span className={locals.description}>{content}</span>
+          <IconForRemainingDays remainingDays={remainingDays} />
         </>
       )}
 
@@ -84,7 +83,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
       )}
       {!onPremLicenseInformationEnabled && (
         <>
-          {message.activeLicense == 'selfService' && (
+          {isSelfService && (
             <LicenseBannerButton
               id="wm-buyonaws"
               kind="primary"
@@ -97,9 +96,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.buyNowBtn')}
             </LicenseBannerButton>
           )}
-          {(message.activeLicense == 'selfService' ||
-            message.activeLicense == 'quota' ||
-            (message.remainingDays! <= 30 && isPaidLicenseUsage && noQueuedLicense)) && (
+          {(isTrial || needToShowReminder) && (
             <LicenseBannerButton
               icon="lib_actions_request_quote"
               iconColor="var(--cds-link-primary)"
@@ -117,10 +114,10 @@ export function UsageBanner({ message }: UsageBannerProps) {
           )}
           <div
             className={classNames({
-              [locals.verticalLine]: verticalLine
+              [locals.verticalLine]: isTrial
             })}
           />
-          <AssistMe tryOfferLicenseType={tryOfferLicenseType} />
+          <AssistMe isAssistMeEnabled={isAssistMeEnabled} />
         </>
       )}
     </Stack>
