@@ -8,7 +8,13 @@ import React from 'react';
 import { Button, Stack, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-export default function EventListPagination({ pageNum, numPages, setPageNum }) {
+interface EventListPaginationProps {
+  pageNum: number;
+  numPages: number;
+  setPageNum: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export default function EventListPagination({ pageNum, numPages, setPageNum }: EventListPaginationProps) {
   return (
     <Stack direction="horizontal" align="center" gap="xsmall">
       <Stack direction="horizontal" align="center" gap="xxsmall">
@@ -18,7 +24,9 @@ export default function EventListPagination({ pageNum, numPages, setPageNum }) {
           kind="subtle"
           onClick={() => pageNum > 1 && setPageNum(pageNum - 1)}
           disabled={pageNum === 1}
-        />
+        >
+          <></>
+        </Button>
       </Stack>
       <Stack direction="horizontal" gap="xsmall" align="center">
         <Typography variant="body-small">{pageNum}</Typography>
@@ -30,7 +38,9 @@ export default function EventListPagination({ pageNum, numPages, setPageNum }) {
         kind="subtle"
         onClick={() => pageNum < numPages && setPageNum(pageNum + 1)}
         disabled={pageNum >= numPages}
-      />
+      >
+        <></>
+      </Button>
     </Stack>
   );
 }

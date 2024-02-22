@@ -7,62 +7,89 @@
 import React, { useEffect, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Link, Stack, SvgIcon, Typography } from '@instana/components';
-import { Endpoint, ServiceLabel, TimeConfig } from '@instana/types';
+import { Link, LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
+import { Application, Endpoint, ServiceLabel, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 //@ts-expect-error
 import { SnapshotData, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
+import { ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
+import EventListPagination from 'in-components/EventListPagination/EventListPagination';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
-import { useTheme } from 'in-themes';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseEntityDetailsParams {
   selectedSnapshotMetadata: Map<string, string>;
-  eventsRelatedToEntity: [string];
   probabilityScore: number | null | undefined;
   relatedAPID: string | null;
+  pageNum: number;
+  setPageNum: React.Dispatch<React.SetStateAction<number>>;
+  numOfSnapshots: number | null;
+  incidentTimeWindow: TimeConfig;
 }
 
-const endpointIDURLParameter = 'endpointId';
-const serviceIDURLParameter = 'serviceId';
-const appIDURLParameter = 'appId';
+interface EntityPathProps {
+  relatedApplicationInformation: Application | null | undefined;
+  entityInformation: SnapshotData;
+  serviceLabelInformation: ServiceLabel | null | undefined;
+  entityType: string;
+}
 
 export default function RootCauseEntityDetails({
   selectedSnapshotMetadata,
-  eventsRelatedToEntity,
   probabilityScore,
-  relatedAPID
+  relatedAPID,
+  pageNum,
+  setPageNum,
+  numOfSnapshots,
+  incidentTimeWindow
 }: RootCauseEntityDetailsParams): JSX.Element {
-  const [query, setQuery] = useState<
+  const [entityQuery, setEntityQuery] = useState<
     Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null | string
   >(null);
-  const theme = useTheme();
+  const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null | string>(null);
   const { location } = useNavigation();
   const entityType = selectedSnapshotMetadata.get('EntityType');
   const originalID = selectedSnapshotMetadata.get('UntransformedEntityID');
 
-  const urlForEntity = useGenerateLinksForEntity(entityType, originalID, location, relatedAPID);
-
+  const relatedApplicationInformation = useObservable(
+    relatedAPID
+      ? getApplication({ id: relatedAPID })
+          .map(data => data.data)
+          .throttle(250)
+      : null,
+    [selectedSnapshotMetadata]
+  );
   // generates a list of event information based on Observables
   //@ts-expect-error
-  const entityInformation = useObservable(query, [query], { resetStateOnObservableChange: true }) ?? null;
+  const entityInformation = useObservable(entityQuery, [entityQuery], { resetStateOnObservableChange: true }) ?? null;
+  //@ts-expect-error
+  const serviceLabelInformation = useObservable(serviceQuery, [serviceQuery]) ?? null;
+
+  const urlForEntity = useGenerateLinksForEntity(
+    entityType,
+    originalID,
+    relatedApplicationInformation,
+    entityInformation,
+    incidentTimeWindow,
+    serviceLabelInformation
+  );
 
   useEffect(() => {
     if (entityType === 'infrastructure' || entityType === 'process') {
       // Need to get snapshot versions first and then retrieve appropriate snapshot
-      setQuery(
+      setEntityQuery(
         getSnapshotVersions(originalID).map((versions: List<string>) => {
           if (List.isList(versions)) {
             const snapVersions = versions.toJS();
@@ -75,23 +102,42 @@ export default function RootCauseEntityDetails({
                 focusedMoment: to
               } as TimeConfig;
               setTimeConfig(location, timeConfigFromSnapVersion);
-              setQuery(getSnapshot(originalID, timeConfigFromSnapVersion));
+              setEntityQuery(getSnapshot(originalID, timeConfigFromSnapVersion));
             }
           }
         })
       );
     } else if (entityType === 'endpoint') {
-      setQuery(getEndpointInfo({ id: originalID }).map(data => data.data));
+      setEntityQuery(
+        getEndpointInfo({ id: originalID })
+          .map(data => data.data)
+          .throttle(250)
+      );
     } else if (entityType === 'service') {
-      setQuery(getServiceLabel({ id: originalID }).map(data => data.data));
+      setEntityQuery(
+        getServiceLabel({ id: originalID })
+          .map(data => data.data)
+          .throttle(250)
+      );
     } else if (entityType === 'application') {
-      setQuery(getApplication({ id: originalID }).map(data => data.data));
+      setEntityQuery(
+        getApplication({ id: originalID })
+          .map(data => data.data)
+          .throttle(250)
+      );
     }
   }, [originalID, entityType, selectedSnapshotMetadata, location]);
 
-  if (entityInformation === null || (entityInformation?.progress && entityInformation.progress?.loading)) {
-    return <LoadingIndicator />;
-  }
+  useEffect(() => {
+    //what about when service query returns null and service id exists?
+    if (!serviceQuery && entityInformation && entityInformation.serviceId) {
+      setServiceQuery(
+        getServiceLabel({ id: entityInformation.serviceId })
+          .map(data => data.data)
+          .throttle(250)
+      );
+    }
+  }, [entityInformation, originalID, serviceQuery]);
 
   return (
     <div className={locals.entityDescription}>
@@ -100,75 +146,104 @@ export default function RootCauseEntityDetails({
           <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
           {entityInformation !== null && (
             <Link href={urlForEntity}>
-              <Stack direction="horizontal" align="center" gap="xxsmall">
-                <SvgIcon type={getIcon(entityType)} color={theme.cds.link.primary} />
-                {Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label}
-              </Stack>
+              <EntityPath
+                relatedApplicationInformation={relatedApplicationInformation}
+                entityInformation={entityInformation}
+                serviceLabelInformation={serviceLabelInformation}
+                entityType={entityType}
+              />
             </Link>
           )}
-          <AIProbabilityBadge probabilityScore={probabilityScore} />
+          {(entityInformation === null || !relatedApplicationInformation) && (
+            <LoadingSkeleton className={locals.loadingEntity} />
+          )}
+          <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityInformation === null} />
         </Stack>
-
-        <Typography variant="body-regular">
-          {t('in-events:RCA.relatedEventsLabel', {
-            number_of_events: Array.isArray(eventsRelatedToEntity) ? eventsRelatedToEntity.length : 0
-          })}
-        </Typography>
+        <EventListPagination pageNum={pageNum} numPages={numOfSnapshots || 1} setPageNum={setPageNum} />
       </Stack>
     </div>
+  );
+}
+
+function EntityPath({
+  relatedApplicationInformation,
+  entityInformation,
+  serviceLabelInformation,
+  entityType
+}: EntityPathProps) {
+  const relatedAPlabel = relatedApplicationInformation?.label;
+  const relatedServiceLabel = serviceLabelInformation?.label;
+  const entityLabel = Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label;
+  return (
+    <Stack direction="horizontal" gap="small" align="center">
+      {relatedAPlabel && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} />
+          {`${relatedAPlabel} >`}
+        </Stack>
+      )}
+      {relatedServiceLabel && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
+          {`${relatedServiceLabel} >`}
+        </Stack>
+      )}
+      {entityLabel && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIcon(entityType)} color={themes.default.cds.link.primary} />
+          {entityLabel}
+        </Stack>
+      )}
+    </Stack>
   );
 }
 
 function useGenerateLinksForEntity(
   entityType: string,
   originalID: string,
-  location: Location,
-  relatedAPID: string | null
+  relatedApplicationInformation: Application | null | undefined,
+  entityInformation: SnapshotData | null,
+  incidentTimeWindow: TimeConfig,
+  serviceLabelInformation: ServiceLabel | null
 ): string | undefined {
-  const { createHref } = useNavigation();
+  const getLinkToApplicationAnalyze = useLinkToAnalyze();
+  if (entityInformation && Map.isMap(entityInformation)) entityInformation = entityInformation.toJS();
 
-  const query = { ...location.query };
-  const matrixParam = {} as MatrixParameters;
-  let pathname = '';
-
-  if (entityType === 'infrastructure' || entityType === 'process') {
-    query[snapshotIdUrlParameter.name] = originalID;
-    pathname = '/physical/dashboard';
-  } else if (entityType === 'endpoint') {
-    pathname = '/endpoint/summary';
-    matrixParam['/endpoint'] = buildMatrixParam(endpointIDURLParameter, originalID, relatedAPID);
-  } else if (entityType === 'service') {
-    pathname = '/service/summary';
-    matrixParam['/service'] = buildMatrixParam(serviceIDURLParameter, originalID, relatedAPID);
-    //query[serviceIDURLParameter] = originalID;
-  } else if (entityType === 'application') {
-    pathname = '/application/summary';
-    matrixParam['/application'] = buildMatrixParam(appIDURLParameter, originalID, null);
-  }
-
-  if (pathname !== '') {
-    return createHref({
-      ...location,
-      pathname,
-      query,
-      matrix: matrixParam
+  if (relatedApplicationInformation && relatedApplicationInformation && entityInformation) {
+    return getLinkToApplicationAnalyze({
+      applicationName: relatedApplicationInformation.label,
+      endpointName: entityType === 'endpoint' ? entityInformation?.label : undefined,
+      serviceName: entityType === 'service' ? entityInformation?.label : undefined,
+      boundaryScope: 'ALL',
+      formModel:
+        entityType !== 'application' && entityType !== 'service'
+          ? generateFormModelForLinkToEntity(entityType, entityInformation, originalID, serviceLabelInformation) ||
+            undefined
+          : undefined,
+      timeConfig: incidentTimeWindow
     });
+  } else if (entityInformation) {
+    if (entityType !== 'application') {
+      return getLinkToApplicationAnalyze({
+        boundaryScope: 'ALL',
+        formModel:
+          generateNonSmartAlertFormModelForLinkToEntity(
+            entityType,
+            entityInformation,
+            originalID,
+            serviceLabelInformation
+          ) || undefined,
+        timeConfig: incidentTimeWindow
+      });
+    } else if (entityType === 'application') {
+      return getLinkToApplicationAnalyze({
+        boundaryScope: 'ALL',
+        applicationName: entityInformation.label,
+        timeConfig: incidentTimeWindow
+      });
+    }
   }
   return undefined;
-}
-
-function buildMatrixParam(
-  entityURLParameterType: string,
-  originalEntityID: string,
-  relatedAPID: string | null
-): Parameters {
-  const builtMatrixParam = { [entityURLParameterType]: originalEntityID };
-
-  if (relatedAPID) {
-    builtMatrixParam[appIDURLParameter] = relatedAPID;
-  }
-
-  return builtMatrixParam;
 }
 
 function getIcon(entityType: string): string {
@@ -184,5 +259,104 @@ function getIcon(entityType: string): string {
     return 'lib_application';
   } else {
     return 'lib_infra_unknownIcon';
+  }
+}
+
+function generateNonSmartAlertFormModelForLinkToEntity(
+  entityType: string,
+  entityInformation: SnapshotData,
+  originalID: string,
+  serviceLabelInformation: ServiceLabel | null
+): FormModelElement[] | null {
+  let initialFormModel = null;
+
+  if (serviceLabelInformation && serviceLabelInformation.label) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
+      'service.name',
+      serviceLabelInformation.label,
+      null
+    );
+  } else if (entityInformation.serviceId) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('service.id', entityInformation.serviceId, null);
+  }
+
+  if (entityType === 'infrastructure' || entityType === 'process') {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('host.snapshotId', originalID, initialFormModel);
+  } else if (entityType === 'endpoint') {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
+      ENDPOINT.name,
+      entityInformation.label,
+      initialFormModel
+    );
+  } else if (entityType === 'service') {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
+      SERVICE.name,
+      entityInformation.label,
+      initialFormModel
+    );
+  }
+
+  return initialFormModel;
+}
+
+function generateFormModelForLinkToEntity(
+  entityType: string,
+  entityInformation: SnapshotData,
+  originalID: string,
+  serviceLabelInformation: ServiceLabel | null
+): FormModelElement[] | null {
+  let initialFormModel = null;
+
+  if (serviceLabelInformation && serviceLabelInformation.label) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
+      'service.name',
+      serviceLabelInformation.label,
+      null
+    );
+  } else if (entityInformation.serviceId) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('service.id', entityInformation.serviceId, null);
+  }
+
+  // Todo: cleanup after rca rework in backend that differentiates between process and infra
+  const isInfrastructureAProcess =
+    entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
+
+  if (entityType === 'infrastructure' && !isInfrastructureAProcess) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('host.snapshotId', originalID, initialFormModel);
+  } else if (entityType === 'process' || isInfrastructureAProcess) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('process.snapshotId', originalID, initialFormModel);
+  }
+  return initialFormModel;
+}
+
+function getTagFilterForSourceOrDestinationAndCombine(
+  name: string,
+  value: string,
+  initialVal: FormModelElement[] | null
+): FormModelElement[] {
+  const filterToJoin = joinExpressions({
+    logicalOperator: 'OR',
+    expressions: [
+      {
+        type: 'TAG_FILTER',
+        name: name,
+        value: value,
+        operator: operators.EQUALS,
+        entity: entityTypes.SOURCE
+      },
+      {
+        type: 'TAG_FILTER',
+        name: name,
+        value: value,
+        operator: operators.EQUALS,
+        entity: entityTypes.DESTINATION
+      }
+    ]
+  });
+
+  if (initialVal) {
+    return joinExpressions({ logicalOperator: 'AND', expressions: [initialVal, filterToJoin] });
+  } else {
+    return filterToJoin;
   }
 }

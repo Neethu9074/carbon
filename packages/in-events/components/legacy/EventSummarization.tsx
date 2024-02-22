@@ -11,8 +11,6 @@ import { themes } from '@instana/design-tokens';
 import { Incident } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-//@ts-expect-error
-import { default as EmptyStateMagnifyingGlass } from 'in-events/components/legacy/assets/empty-state-magnifying-glass.svg';
 import {
   incidentSummarizationFeedbackHelpfulTracker,
   incidentSummarizationFeedbackUnhelpfulTracker
@@ -143,7 +141,6 @@ function EventSummaryErrorMessage({
 }: EventSummaryErrorMessageProps): JSX.Element {
   return (
     <Stack direction="horizontal" gap="small" distribution="center">
-      <img className={locals.errorImg} src={EmptyStateMagnifyingGlass} />
       <Stack direction="vertical" gap="xxsmall">
         <Typography variant="heading-200">{title}</Typography>
         <Stack direction="horizontal" gap="xxsmall">
