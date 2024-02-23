@@ -21,15 +21,15 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
-import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import StepsContainer from 'in-components/StepsContainer';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
@@ -158,8 +158,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           valid: isCustomPayloadValidOrUntouched(form),
           content: (
             <>
-              {/* TODO : Context Need to be replaced with Log specific one, Dynamic custom payload support */}
-              <GlobalCustomPayloadCard context="ALL" />
+              <GlobalCustomPayloadCard context="LOG" />
               <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
             </>
           )

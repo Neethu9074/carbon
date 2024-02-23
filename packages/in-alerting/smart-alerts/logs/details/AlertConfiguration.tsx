@@ -150,8 +150,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
         <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
       </ExpandableLightCard>
 
-      <GlobalCustomPayloadCard context="ALL" />
-      {/* TODO : context - ALL need to be replaced with Logging specific context once available */}
+      <GlobalCustomPayloadCard context="LOG" />
       <CustomPayloadCard
         customPayloadFields={customPayloadFields}
         TagBasedPayloadConfigurator={() => <></>}
