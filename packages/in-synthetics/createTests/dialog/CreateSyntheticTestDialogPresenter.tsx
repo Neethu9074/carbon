@@ -7,13 +7,11 @@
 import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
   Code,
-  ConfigItem,
   SlideInConfig,
   SlideInHeader,
   SliderState,
@@ -24,10 +22,13 @@ import {
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
 import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracker';
+import getDefaultCustomProperties from 'in-synthetics/createTests/utils/getDefaultCustomProperties';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import populateCommonAttributes from 'in-synthetics/createTests/utils/populateCommonAttributes';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeContainer';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
@@ -94,90 +95,12 @@ const CreateSyntheticTestDialogPresenter = ({
   const [selectedBlueprint, setSelectedBlueprint] = useState(
     getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
   );
-
-  const getDefaultHeaders = (): ConfigItem[] => {
-    const headers = form.get('configuration')?.get('headers')
-      ? (form.get('configuration')?.get('headers') as Field<Record<string, string>>)?.value
-      : {};
-    const headersKeys = Object.keys(headers);
-    if (headersKeys.length) {
-      const headersObject: ConfigItem[] = [];
-      headersKeys.forEach(key =>
-        headersObject.push({
-          id: generateUniqueShortId(),
-          key: key,
-          value: headers[key],
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        })
-      );
-      return headersObject;
-    } else {
-      return [
-        {
-          id: generateUniqueShortId(),
-          key: '',
-          value: '',
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        }
-      ];
-    }
-  };
-  const [headers, setHeaders] = useState(getDefaultHeaders());
+  const [headers, setHeaders] = useState(getDefaultHeaders(form));
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });
   const [invalidTimeout, setInvalidTimeout] = useState({ invalid: false, message: '' });
-
-  const getDefaultCustomProperties = (): ConfigItem[] => {
-    const customProperties = (form.get('customProperties') as Field<Record<string, string>>).value;
-    const customPropertyKeys = Object.keys(customProperties);
-    if (customPropertyKeys.length) {
-      const customPropertiesObject: ConfigItem[] = [];
-      customPropertyKeys.forEach(key =>
-        customPropertiesObject.push({
-          id: generateUniqueShortId(),
-          key: key,
-          value: customProperties[key],
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        })
-      );
-      return customPropertiesObject;
-    } else {
-      return [
-        {
-          id: generateUniqueShortId(),
-          key: '',
-          value: '',
-          error: {
-            name: { invalid: false, message: '' },
-            value: { invalid: false, message: '' }
-          }
-        }
-      ];
-    }
-  };
-  const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties());
+  const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
-
-  const populateCommonAttributes = (form: MapForm<any>) => {
-    commonAttributes['syntheticType'] = form.get('configuration').get('syntheticType').value;
-    commonAttributes['url'] = form.get('configuration').get('url')?.value;
-    commonAttributes['testFrequency'] = form.get('testFrequency').value;
-    commonAttributes['locations'] = form.get('locations').value;
-    commonAttributes['label'] = form.get('label').value;
-    commonAttributes['description'] = form.get('description').value;
-    commonAttributes['applicationId'] = form.get('applicationId').value;
-    commonAttributes['script'] = form.get('configuration').get('script')?.value;
-    setCommonAttributes(commonAttributes);
-  };
 
   /**
    * A single form is being rendered in multiple pages in the simple mode
@@ -320,7 +243,7 @@ const CreateSyntheticTestDialogPresenter = ({
                     return { ...prevState, browser: { simple: false, script: true } };
                 });
                 setSimpleMode(!simpleMode);
-                populateCommonAttributes(form);
+                populateCommonAttributes({ form, commonAttributes, setCommonAttributes });
                 updateForm(createForm(!simpleMode, selectedBlueprint, commonAttributes));
                 resetScrollShadow();
                 if (

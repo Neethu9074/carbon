@@ -38,16 +38,6 @@ const browserBlueprint: AdvancedBluePrint = {
   isBeta: syntheticBrowserScriptEnabled
 };
 
-// const internetServicesBlueprint: AdvancedBluePrint = {
-//   type: 'Internet Services',
-//   name: t('in-synthetics:dialog.createTest.advancedMode.advancedBluePrint.internetServicesName'),
-//   label: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.internetServicesTypeLabel'),
-//   description: {
-//     headline: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.internetServicesTypeHeadline'),
-//     text: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.internetServicesTypeText'),
-//   }
-// };
-
 const advancedBluePrintConfig: readonly Readonly<AdvancedBluePrint>[] = Object.freeze([]);
 
 export const getAdvancedBlueprintConfig = (isBrowserEnabled: boolean) => {
