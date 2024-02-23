@@ -15,7 +15,7 @@ import {
   findMinMetricValue
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import useSloResultAwareChartMetrics from 'in-service-levels/hooks/useSloResultAwareChartMetrics';
+import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
@@ -31,15 +31,15 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
 
   const selectedTimeConfig = useTimeConfig();
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
-  const [metricResult, , errors, progress] = useSloResultAwareChartMetrics(
+
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
-    (timeConfig, index) => ({
-      [`timeWindow${index}`]: sloMetrics.remainingBudget.timeSeries({
+    timeConfig =>
+      sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
         timeConfig,
         contextTimeConfig: timeConfig
-      })
-    }),
+      }),
     selectedTimeConfig,
     timeWindows
   );

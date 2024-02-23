@@ -9,8 +9,10 @@ import {
   GetUnifiedMetricsQuery,
   Result,
   ServiceLevelObjectiveConfiguration,
-  TimeConfig
+  TimeConfig,
+  UnifiedMetricConfiguration
 } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
@@ -26,9 +28,9 @@ interface ResultAwareChartMetrics {
   adjustedTimeframe?: AdjustedTimeframe;
 }
 
-export default function useSloResultAwareChartMetrics(
+export default function useTimeWindowAwareSloChartMetrics(
   sloConfig: ServiceLevelObjectiveConfiguration,
-  metricConfigMapper: (timeConfig: TimeConfig, index: number) => GetUnifiedMetricsQuery['metrics'],
+  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfiguration,
   selectedTimeConfig: TimeConfig,
   timeWindows: TimeConfig[],
   granularity?: number
@@ -37,17 +39,14 @@ export default function useSloResultAwareChartMetrics(
   const metricConfigs = timeWindows.reduce(
     (previous, timeConfig, index) => ({
       ...previous,
-      ...metricConfigMapper(timeConfig, index)
+      [`timeWindow${index}`]: getMetricConfigForTimeConfig(timeConfig)
     }),
     {} as GetUnifiedMetricsQuery['metrics']
   );
 
   const result = useObservable(
-    () =>
-      getUnifiedMetrics({
-        metrics: metricConfigs
-      }),
-    [id!, timeWindows]
+    () => getUnifiedMetrics({ metrics: metricConfigs }),
+    [id, generateStableHash(timeWindows)]
   );
 
   if (!result || isLoading(result) || hasError(result)) {
@@ -56,7 +55,6 @@ export default function useSloResultAwareChartMetrics(
   }
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
-
   const mappedData: ResultAwareChartMetrics = {
     metrics: metrics.map(metric => metric.values as MetricDataSeries) ?? [],
     granularity: granularity ?? getMetricGranularity(selectedTimeConfig, metricConfigs, result.data),
