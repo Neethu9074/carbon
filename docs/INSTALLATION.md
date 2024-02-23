@@ -14,6 +14,7 @@ This document lists the technical steps necessary in order to get a local UI dev
 git clone git@github.ibm.com:instana/ui-client.git
 cd ui-client
 ```
+The path to the directory must not contain any spaces. Whitespaces aren't escaped when the nginx configuration is generated and this will cause nginx to not start making the development server inaccessible.
 
 ## Setting up local domains
 
