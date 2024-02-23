@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React from 'react';
+
 import {
   AreaRole,
   AreaRoleWithCustomType,
@@ -13,10 +15,10 @@ import {
   ProductAreaType,
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 interface ConfigurationSummaryMsg {
-  accessLevelMessage: string;
+  accessLevelMessage: string | JSX.Element;
   rolePermissionMessage: string;
   noAccessMessage: string;
 }
@@ -29,7 +31,7 @@ export const getConfigurationSummaryMsg = (
   const areaContext = productArea.toLowerCase();
   const roleContext = role ? role?.toLowerCase() : '';
   let areaScopeContext = areaContext + '.' + scope.toLowerCase();
-  let accessLevelMessage = '';
+  let accessLevelMessage: string | JSX.Element = '';
   let rolePermissionMessage = '';
   let noAccessMessage = '';
 
@@ -52,10 +54,17 @@ export const getConfigurationSummaryMsg = (
 
     // Specific message for Contributor (Application only at the moment)
     if (productArea === ProductArea.APPLICATION && role === AreaRoleWithContributor.CONTRIBUTOR) {
-      // TODO modify when CONTRIBUTOR has been added as type
-      accessLevelMessage = t('in-settings:configurationSummary.' + areaScopeContext + '.access_level', {
-        context: scope === ScopedPermissionItem.LIMITED_ACCESS ? roleContext : ''
-      });
+      // TODO Once our version of react-i18next supports the context property in <Trans> switch to that
+      accessLevelMessage = (
+        <Trans
+          i18nKey={
+            'in-settings:configurationSummary.' +
+            areaScopeContext +
+            '.access_level' +
+            (scope === ScopedPermissionItem.LIMITED_ACCESS ? '_' + roleContext : '')
+          }
+        />
+      );
       rolePermissionMessage = t('in-settings:configurationSummary.' + areaScopeContext + '.role_permissions', {
         context: roleContext
       });
