@@ -96,7 +96,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
     severity: form.get(fieldNames.severity).value,
-    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(),
+    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
     name: form.get(fieldNames.name).value || getTitlePlaceholder(),
     id: form.get(fieldNames.id).value,
     threshold: form.get('threshold').toJS(),

@@ -110,7 +110,6 @@ export default function alertFormDefinition(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 

@@ -17,10 +17,10 @@ import {
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
@@ -142,7 +142,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 <AlertProperties
                   form={form}
                   onChange={onChange}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  getDescriptionPlaceholder={() => getDescriptionPlaceholder(form)}
                   renderAlertPropertiesTitleRow={() => (
                     <AlertPropertiesTitleRow
                       form={form}

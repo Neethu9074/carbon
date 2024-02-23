@@ -1339,7 +1339,12 @@
             "subtitle": "Log Count"
           },
           "alertPropertiesTitlePlaceholder": "Logs Smart alert",
-          "alertPropertiesDescriptionPlaceholder": "Logs count are not as usual."
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "The logs count is higher than {{value}}.",
+            "logsCount_higherEqual": "The logs count is higher or equal to {{value}}.",
+            "logsCount_lowerThan": "The logs count is lower than {{value}}.",
+            "logsCount_lowerEqual": "The logs count is lower or equal to {{value}}."
+          }
         },
         "customPayloads": {
           "label": "Payloads",
