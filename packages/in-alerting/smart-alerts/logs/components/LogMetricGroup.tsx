@@ -27,7 +27,6 @@ const retrievalSize = 5;
 
 interface LogMetricGroupProps {
   backendQueryModel: TagFilterExpressionElementUnion;
-  backendGroupBy: string[];
   timeConfig: TimeConfig;
   groupBy: string[];
   selectedMetricGroup?: { [index: string]: any };
@@ -38,15 +37,15 @@ interface LogMetricGroupProps {
  * Renders the logs metric group table.
  */
 export default function LogMetricGroup(props: LogMetricGroupProps) {
-  const { backendQueryModel, backendGroupBy, timeConfig } = props;
+  const { backendQueryModel, timeConfig, groupBy } = props;
 
   const [filterExpression, setFilterExpression] = useState<any>();
 
-  // shallowEquals checking for `backendGroupBy`, `timeConfig`, and `filterExpression` is false
+  // shallowEquals checking for `groupBy`, `timeConfig`, and `filterExpression` is false
   // because it's in array and object format.
   // resulting in re-rending of the table each time even if there is no change,
   // so passing it as a string value to the dependency array of useCursorPagination
-  const groupByString = backendGroupBy?.toString();
+  const groupByString = groupBy?.toString();
   const chartConfig = JSON.stringify(timeConfig);
   const filterExpressionJSON = JSON.stringify(filterExpression);
 
@@ -59,7 +58,7 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
       return getGroups({
         timeConfig,
         backendQueryModel: filterExpression ?? EMPTY_EXPRESSION,
-        groupBy: backendGroupBy,
+        groupBy: groupBy,
         //@ts-expect-error
         cursor,
         retrievalSize
@@ -73,9 +72,7 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
       retrievalSize={retrievalSize}
       fixedLayout
       totalHits={totalHits}
-      setBackendQueryModel={searchBy =>
-        setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
-      }
+      setBackendQueryModel={searchBy => setBackendQueryModel(groupBy, backendQueryModel, setFilterExpression, searchBy)}
       {...props}
       {...cursorPaginatedProps}
     />
@@ -115,13 +112,13 @@ function getGroups({
  * @param searchBy The table search by value.
  */
 function setBackendQueryModel(
-  backendGroupBy: string[],
+  groupBy: string[],
   backendQueryModel: TagFilterExpressionElementUnion,
   setFilterExpression: any,
   searchBy?: string
 ) {
   if (searchBy) {
-    const searchQuery = backendGroupBy.map((groupBy: string) => {
+    const searchQuery = groupBy.map((groupBy: string) => {
       return tagFilter(groupBy, CONTAINS, searchBy, null, NOT_APPLICABLE);
     });
 

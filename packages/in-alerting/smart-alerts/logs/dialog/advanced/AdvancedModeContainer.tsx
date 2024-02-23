@@ -20,6 +20,7 @@ import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
@@ -45,7 +46,9 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     tagFilterValid,
     timeConfig,
     setSliderState,
-    setCustomSlideInHeaderConfig
+    setCustomSlideInHeaderConfig,
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex
   } = props;
   const thresholdType = form.get('threshold').get('type').value;
   const tagCatalog = useTagCatalog('SMART_ALERTS');
@@ -81,7 +84,16 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.title'),
           valid: true,
-          content: <></>
+          content: (
+            <ThresholdSelectionInteractiveChart
+              form={form}
+              onChartViewConfigChange={onChartViewConfigChange}
+              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+              // @ts-expect-error updateForm is required
+              updateForm={updateForm}
+              tagCatalog={tagCatalog}
+            />
+          )
         },
         {
           scrollId: '3',

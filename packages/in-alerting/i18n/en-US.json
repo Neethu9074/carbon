@@ -1344,7 +1344,8 @@
         "customPayloads": {
           "label": "Payloads",
           "title": "Custom Payload"
-        }
+        },
+        "thresholdValue": "Threshold Value"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"

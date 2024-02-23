@@ -33,7 +33,7 @@ export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps)
 
   return (
     <div className={local.minHeight}>
-      {groupBy && groupBy?.length > 0 && (
+      {groupBy && (
         <div className={local.container}>
           {t('in-alerting:components.previewFor')}
           <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>

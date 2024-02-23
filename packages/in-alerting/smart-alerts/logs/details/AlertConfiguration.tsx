@@ -83,7 +83,6 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
             {groupBy && groupBy.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={tagFilterExpression}
-                backendGroupBy={groupBy}
                 groupBy={groupBy}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,

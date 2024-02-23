@@ -32,8 +32,13 @@ export const fieldNames = Object.freeze({
   id: 'id'
 });
 
+export interface AlertConfigHiddenFields {
+  // an optional, "hidden" from field, will not be part with server communication
+  calculateThresholdOnBackend?: boolean;
+}
+
 export default function alertFormDefinition(
-  alertConfig: LogAlertConfig & VersionedConfig,
+  alertConfig: LogAlertConfig & VersionedConfig & AlertConfigHiddenFields,
   editMode: boolean
 ): MapForm<any> {
   const {
@@ -105,7 +110,18 @@ export default function alertFormDefinition(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
+    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return applyEditMode(form, editMode);
+}
+
+export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+  return createMapForm().put(
+    'calculateThresholdOnBackend',
+    createField({
+      value: calculateThresholdOnBackend
+    })
+  );
 }
