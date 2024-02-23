@@ -170,7 +170,8 @@ export default function ApplicationsAnalyzeView() {
   };
   const dataSourceConfigurations = useMemo(
     () => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }),
-    [hiddenCalls, onChangeHiddenCalls]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [hiddenCalls]
   );
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
