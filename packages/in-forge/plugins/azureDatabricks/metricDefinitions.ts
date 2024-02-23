@@ -18,6 +18,13 @@ export default [
     formatter: zeroDecimalPlaces
   },
   {
+    metrics: ['inputRowsPerSecond'],
+    labels: [t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')],
+    min: 0,
+    category: [t('in-forge:plugins.azureDatabricks.titleServices')],
+    formatter: zeroDecimalPlaces
+  },
+  {
     metric: getDynamicMetricMatch(
       'clusters',
       'maxShuffleBytesWritten',

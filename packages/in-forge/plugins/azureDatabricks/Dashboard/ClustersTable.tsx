@@ -119,10 +119,11 @@ export default function GetDatabricksClusters({ snapshot }: { snapshot: Snapshot
           uniqueKeys.add(prefix);
 
           return {
-            clusterName: snapshot.getIn(['data', prefix, '.clusterName']),
-            clusterId: snapshot.getIn(['data', prefix, '.clusterId']),
-            sparkVersion: snapshot.getIn(['data', prefix, '.sparkVersion']),
-            clusterCore: snapshot.getIn(['data', prefix, '.clusterCore']),
+            key: prefix,
+            clusterName: snapshot.getIn(['data', prefix + '.clusterName']),
+            clusterId: snapshot.getIn(['data', prefix + '.clusterId']),
+            sparkVersion: snapshot.getIn(['data', prefix + '.sparkVersion']),
+            clusterCore: snapshot.getIn(['data', prefix + '.clusterCore']),
             timeConfig,
             snapshotId
           };

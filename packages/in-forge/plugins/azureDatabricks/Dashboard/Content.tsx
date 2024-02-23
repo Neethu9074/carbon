@@ -23,6 +23,9 @@ export default function AzureDatabricksDashboard({ snapshot }: { snapshot: Snaps
         <KpiKeyValue label={t('in-forge:plugins.azureDatabricks.labelTriggerExecutionCount')}>
           <MetricValue snapshotId={snapshotId} metric="triggerExecutionCount" formatter={number.compact} />
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')}>
+          <MetricValue snapshotId={snapshotId} metric="inputRowsPerSecond" formatter={number.compact} />
+        </KpiKeyValue>
       </KpiSection>
 
       <ClustersTable snapshot={snapshot} />

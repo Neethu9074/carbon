@@ -9,13 +9,13 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.azureDatabricks.labelMaxShuffleBytesWritten'),
-    metric: 'maxShuffleBytesWritten',
+    label: t('in-forge:plugins.azureDatabricks.labelTriggerExecutionCount'),
+    metric: 'triggerExecutionCount',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.azureDatabricks.labelSumShuffleClientUsedHeapMemory'),
-    metric: 'sumShuffleClientUsedHeapMemory',
+    label: t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond'),
+    metric: 'inputRowsPerSecond',
     formatter: number.compact
   }
-] as const;
+];
