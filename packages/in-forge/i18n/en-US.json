@@ -11037,6 +11037,7 @@
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka monitoring requires <code>sslTruststoreLocation</code> and <code>sslTruststorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances secured with TLS.",
       "kafkaMonitoringRequiresSslKeyStoreLocation": "Kafka monitoring requires <code>sslKeyStoreLocation</code> and <code>sslKeyStorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring SSL client authentication.",
+      "kafkaMonitoringRequiresJmxAuthentication": "Kafka monitoring requires <code>JMX Authentication</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring JMX Authentication.",
       "underReplicatedPartitions": "Under-replicated Partitions",
       "offlinePartitions": "Offline Partitions",
       "leaderElections": "Leader Elections",
@@ -11720,6 +11721,7 @@
       "customFields": "Custom Fields"
     },
     "jvmRuntimePlatform": {
+      "kafkaMonitoringRequiresJmxAuthentication": "Kafka monitoring requires <code>JMX Authentication</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring JMX Authentication.",
       "getSourceForArbitraryClass": "Get source for arbitrary class",
       "getClassesForArbitraryPackage": "Get classes for arbitrary package",
       "theNumberOfThreadsIsQuiteStaticInMostApps": "The number of threads is quite static in most apps and usually most of them will be in <code>runnable</code>, which means potentially executing code, or in <code>waiting</code> or <code>timed-waiting</code>, which usually is some kind of network read.",
