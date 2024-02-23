@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { ConfigVersion, LogAlertConfigWithMetadata, Result } from '@instana/types';
+import { ConfigVersion, LogAlertConfig, LogAlertConfigWithMetadata, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -103,5 +103,25 @@ export function restoreAlertConfigVersion(id: string, created: number): Observab
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/restore/${created}`
+  }).map(response => response.body);
+}
+
+export function createAlertConfig(data: LogAlertConfig): Observable<LogAlertConfigWithMetadata> {
+  return http<LogAlertConfigWithMetadata>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl,
+    data
+  }).map(response => response.body);
+}
+
+export function updateAlertConfig(data: LogAlertConfig, id: string): Observable<LogAlertConfigWithMetadata> {
+  return http<LogAlertConfigWithMetadata>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    data
   }).map(response => response.body);
 }

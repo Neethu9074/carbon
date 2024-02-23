@@ -21,7 +21,10 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
-import { isCustomPayloadValidOrUntouched } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import {
+  isCustomPayloadValidOrUntouched,
+  fieldTouchedAndInvalid
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
@@ -83,7 +86,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '2',
           label: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.label'),
           title: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.title'),
-          valid: true,
+          valid: isThresholdSectionValid(),
           content: (
             <ThresholdSelectionInteractiveChart
               form={form}
@@ -178,4 +181,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
       ]}
     />
   );
+  function isThresholdSectionValid(): boolean {
+    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+  }
 }

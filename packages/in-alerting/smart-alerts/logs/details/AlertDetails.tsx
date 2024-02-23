@@ -23,10 +23,12 @@ import {
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import AlertConfigDialog from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialog';
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
-import { LogAlertConfigWithMetadata } from 'in-types';
+import { LogAlertConfigWithMetadata, Nullish } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 
@@ -51,13 +53,11 @@ export default function AlertDetails() {
           disableConfig={disableAlertConfig}
           deleteConfig={deleteAlertConfig}
           restoreConfig={restoreAlertConfigVersion}
-          renderSmartAlertDialog={() => <></>}
+          renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
           renderAlertConfiguration={renderAlertConfiguration}
           getAllowedPlaceholders={() => []}
           isGlobalSmartAlert
           canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
-          displayEditAction={false}
-          displayDuplicateAction={false}
         />
       </LeftRightPadding>
     </LogsAlertsTabHeader>
@@ -65,4 +65,25 @@ export default function AlertDetails() {
 }
 function renderAlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
   return <AlertConfiguration alertConfig={alertConfig} />;
+}
+
+interface SmartAlertDialogWrapperProps {
+  close: () => void;
+  alertConfig: LogAlertConfigWithMetadata;
+  setRevision: (arg: string | Nullish) => void;
+  isCopy: boolean;
+}
+
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: SmartAlertDialogWrapperProps) {
+  return (
+    <AlertConfigDialog
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
+      onClose={() => {
+        close();
+        setRevision(null);
+      }}
+      editMode={!isCopy}
+      startWithSimpleMode={false}
+    />
+  );
 }
