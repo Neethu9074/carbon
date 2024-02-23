@@ -17,6 +17,7 @@ We found issues caused by
   //delivery.instana.io/artifactory/api/npm/int-npm-virtual/:_auth..<SECRET>.
   ```
 * Yarn Cache: If most dependencies can be loaded, but only _some latest new_ dependencies cannot, this indicates, that the authentication-key for artifactory is not correct.
+* Spaces in the path to the project directory, these will break the nginx config so be sure that there aren't any
 
 
 
