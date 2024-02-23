@@ -12,10 +12,10 @@ import { Result } from '@instana/types';
 
 // import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
+//import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdPeerDevicesForResource from '../subscriptions/getDrbdPeerDevicesForResource';
 import { pendingResult } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -29,7 +29,8 @@ const peerLinkCol = {
     }
   }
 };
-
+{
+  /*
 const peerDataCol = [
   {
     title: t('in-forge:plugins.drbdPeer.dashboard.connectionName'),
@@ -78,7 +79,8 @@ const peerMetricsCol = [
     }
   }
 ];
-
+*/
+}
 export default function PeersTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id') as string;
@@ -105,11 +107,12 @@ export default function PeersTable({ snapshot }: { snapshot: SnapshotData }) {
       timeConfig
     })) || [];
 
-  const cols = [peerLinkCol, peerDataCol, peerMetricsCol];
+  const cols = [peerLinkCol];
+  // const cols = [peerLinkCol, peerDataCol, peerMetricsCol];
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.drbdPeer.peersWithCount', { len: rows.length })}
+      cardTitle={t('in-forge:plugins.drbdResource.peersWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
     />

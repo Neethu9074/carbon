@@ -12,16 +12,16 @@ import { Result } from '@instana/types';
 
 // import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
+//import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdConnectionsForResource from '../subscriptions/getDrbdConnectionsForResource';
 import { pendingResult } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const connectionLinkCol = {
-  title: t('in-forge:plugins.drbdConnection.connName'),
+  title: t('in-forge:plugins.drbdResource.connName'),
   type: 'snapshotLink',
   typeArgs: {
     getSnapshotId(row: any) {
@@ -29,10 +29,11 @@ const connectionLinkCol = {
     }
   }
 };
-
+{
+  /*
 const connectionDataCol = [
   {
-    title: t('in-forge:plugins.drbdConnection.dashboard.connectionName'),
+    title: t('in-forge:plugins.drbdConnection.connectionName'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -41,7 +42,7 @@ const connectionDataCol = [
     }
   },
   {
-    title: t('in-forge:plugins.drbdConnection.dashboard.connectionState'),
+    title: t('in-forge:plugins.drbdConnection.connectionState'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -50,7 +51,7 @@ const connectionDataCol = [
     }
   },
   {
-    title: t('in-forge:plugins.drbdConnection.dashboard.peerNodeId'),
+    title: t('in-forge:plugins.drbdConnection.peerNodeId'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -110,6 +111,8 @@ const connectionMetricsCol = [
     }
   }
 ];
+*/
+}
 
 export default function ConnectionsTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -137,11 +140,13 @@ export default function ConnectionsTable({ snapshot }: { snapshot: SnapshotData 
       timeConfig
     })) || [];
 
-  const cols = [connectionLinkCol, connectionDataCol, connectionMetricsCol];
+  const cols = [connectionLinkCol];
+  // const cols = [connectionLinkCol, connectionDataCol, connectionMetricsCol];
+
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.drbdConnection.connectionsWithCount', { len: rows.length })}
+      cardTitle={t('in-forge:plugins.drbdResource.connectionsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
     />

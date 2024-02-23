@@ -6685,6 +6685,7 @@
         "resourcesNumber": "Number of Resources",
         "resourceSuspendedCount": "Messages Count"
       },
+      "drbd": "DRBD",
       "drbdReactor": "DRBD Name",
       "resourcesNumber": "Number of Resources",
       "resourceSuspendedCount": "Number of Suspended Resources",
@@ -6692,6 +6693,12 @@
       "UtilsVersion": "Utils Version",
       "remoteMonitoring": "remote Monitoring",
       "drbdHost": "DRBD Host",
+      "resourceName": "DRBD Resource Name",
+      "resourceRole": "Resource Role",
+      "resourceSuspended": "Resource Suspended",
+      "resourceMaypromote": "Resource Promoted to Primary",
+      "resourceForceiofailures": "Resource Configured to Force IO Failures",
+      "resourcePromotionscore": "Resource Promotion Score",
       "resourcesWithCount": "resources ({{len}})"
     },
     "drbdResource": {
@@ -6705,13 +6712,21 @@
         "resourcePromotionscore": "Resource Promotion Score"
       },
       "name": "DRBD Resource Name",
+      "drbdResource": "DRBD Resource Name",
       "resourceName": "DRBD Resource Name",
       "resourceSuspended": "Resource Suspended",
       "resourceMaypromote": "Resource Promoted to Primary",
       "resourceForceiofailures": "Resource Configured to Force IO Failures",
       "resourcePromotionscore": "Resource Promotion Score",
       "resourceRole": "Resource Role",
-      "resourcesWithCount": "resources ({{len}})",
+      "connName": "DRBD Connection Unique Name",
+      "connectionName": "DRBD Connection Name",
+      "peerNodeId": "Peer Node Id",
+      "connectionState": "Connection State",
+      "deviceName": "DRBD Device Name",
+      "volume": "Volume",
+      "minor": "Minor",
+      "resourcesWithCount": "Resources ({{len}})",
       "devicesWithCount": "Devices ({{len}})",
       "connectionsWithCount": "Connections ({{len}})",
       "peersWithCount": "Peers ({{len}})"
@@ -6719,6 +6734,9 @@
     "drbdDevice": {
       "dashboard": {
         "deviceName": "DRBD Device Name",
+        "DeviceIO": "Device IO",
+        "BlockIORequest": "Block IO request",
+        "NumberOfUpdates": "Number Of Updates",
         "drbdDeviceReadBytesTotal": "Device Read Bytes Total",
         "drbdDeviceWrittenBytesTotal": "Device Written Bytes Total",
         "drbdDeviceSizeBytes": "Device Size Bytes",
@@ -6730,6 +6748,9 @@
         "drbdDeviceClient": "Client"
       },
       "deviceName": "DRBD Device Name",
+      "drbdDevice": "DRBD Device Name",
+      "drbdDeviceName": "DRBD Device Name",
+      "drbdDeviceUnintentionaldiskless": "Device Unintentional Diskless",
       "drbdDeviceReadBytesTotal": "Device Read Bytes Total",
       "drbdDeviceWrittenBytesTotal": "Device Written Bytes Total",
       "drbdDeviceSizeBytes": "Device Size Bytes",
@@ -6741,7 +6762,8 @@
       "drbdDeviceClient": "Client",
       "volume": "Volume",
       "minor": "Minor",
-      "deviceState": "Device State"
+      "deviceState": "Device State",
+      "devicesWithCount": "Devices ({{len}})"
     },
     "drbdConnection": {
       "dashboard": {
@@ -6750,6 +6772,8 @@
         "connectionApinflightBytes": "Number of Resync Requests in Flight"
       },
       "connectionName": "DRBD Connection Name",
+      "drbdConnection": "DRBD Connection Name",
+      "connName": "DRBD Connection Unique Name",
       "peerNodeId": "Peer Node Id",
       "connectionState": "Connection State",
       "connectionCongested": "Connection Congested",
@@ -6760,10 +6784,13 @@
       "dashboard": {
         "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number"
       },
+      "drbdPeer": "DRBD Peer Device Name",
+      "peerDeviceName": "DRBD Peer Device Name",
       "connectionName": "DRBD Connection Name",
       "peerNodeId": "Peer Node Id",
       "volume": "Volume",
-      "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number"
+      "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number",
+      "peersWithCount": "Peers ({{len}})"
     },
     "dropwizardApplicationContainer": {
       "dashboard": {

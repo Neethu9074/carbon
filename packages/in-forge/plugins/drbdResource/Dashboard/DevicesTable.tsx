@@ -12,10 +12,10 @@ import { Result } from '@instana/types';
 
 // import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
+//import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdDevicesForResource from '../subscriptions/getDrbdDevicesForResource';
 import { pendingResult } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -30,9 +30,11 @@ const deviceLinkCol = {
   }
 };
 
+{
+  /*
 const deviceDataCol = [
   {
-    title: t('in-forge:plugins.drbdDevice.dashboard.volume'),
+    title: t('in-forge:plugins.drbdDevice.volume'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -41,7 +43,7 @@ const deviceDataCol = [
     }
   },
   {
-    title: t('in-forge:plugins.drbdDevice.dashboard.minor'),
+    title: t('in-forge:plugins.drbdDevice.minor'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -101,6 +103,8 @@ const deviceMetricsCol = [
     }
   }
 ];
+*/
+}
 
 export default function DevicesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -125,10 +129,12 @@ export default function DevicesTable({ snapshot }: { snapshot: SnapshotData }) {
     drbdDevices.data.map(drbdDevice => ({
       key: drbdDevice.get('id'),
       snapshot: drbdDevices,
+      snapshotId: drbdDevice.get('id'),
       timeConfig
     })) || [];
 
-  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
+  const cols = [deviceLinkCol];
+  //  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
   return (
     <Table
       withoutPadding

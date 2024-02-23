@@ -29,6 +29,33 @@ const deviceLinkCol = {
     }
   }
 };
+{
+  /*
+const deviceDataCol = [
+  {
+    title: t('in-forge:plugins.drbdResource.resourceRole'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.snapshot.getIn(['data', 'resourceRole']);
+      }
+    }
+  }
+];
+
+{/*
+const deviceDataCol = [
+  {
+    title: t('in-forge:plugins.drbdResource.resourceRole'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.snapshot.getIn(['data', 'resourceRole']);
+      }
+    }
+  }
+];
+
 
 // {
 //   title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
@@ -53,10 +80,11 @@ const deviceLinkCol = {
 //				"resourceForceiofailures": 10102,
 //				"resourcePromotionscore": 0,
 //				"resourceRole": "Secondary",
+{/*
 
 const deviceDataCol = [
   {
-    title: t('in-forge:plugins.drbdResource.dashboard.drbdHost'),
+    title: t('in-forge:plugins.drbdReactor.drbdHost'),
     type: 'string',
     typeArgs: {
       getValue(row: any) {
@@ -66,10 +94,27 @@ const deviceDataCol = [
   }
 ];
 
-//instana.dev.storeStates["snapshot/selectedSnapshot"].getIn(['data', 'resourceRole'])
+const deviceMetricsCol = [
+  {
+    title: t('in-forge:plugins.drbdReactor.resourcesNumber'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: any) {
+        return row.key;
+      },
+      getMetricName() {
+        return `resourcesNumber`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+]
 
-{
-  /*
+
+
 const deviceDataCol = [
   {
     title: t('in-forge:plugins.drbdResource.dashboard.resourceRole'),
@@ -178,7 +223,7 @@ export default function ResourcesTable({ snapshot }: { snapshot: SnapshotData })
       timeConfig
     })) || [];
 
-  const cols = [deviceLinkCol, deviceDataCol];
+  const cols = [deviceLinkCol];
   //  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
   return (
     <Table
