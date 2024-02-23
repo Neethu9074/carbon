@@ -72,12 +72,14 @@ function getSloTagsInternal() {
 export const getSloTags = memoize<void, Result<string[]>>(getSloTagsInternal, () => '', minutes.toMillis(1));
 
 function getSloConfigurationInternal(id: string) {
-  return http<ServiceLevelObjectiveConfiguration>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/settings/slo/${encodeURIComponent(id)}`,
-    mapToResultObject: true
-  });
+  return refreshSignal.flatMap(() =>
+    http<ServiceLevelObjectiveConfiguration>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/settings/slo/${encodeURIComponent(id)}`,
+      mapToResultObject: true
+    })
+  );
 }
 export const getSloConfiguration = memoize<string, Result<ServiceLevelObjectiveConfiguration>>(
   getSloConfigurationInternal,

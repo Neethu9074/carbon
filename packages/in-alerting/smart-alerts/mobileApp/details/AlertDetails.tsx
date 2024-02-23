@@ -57,7 +57,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       showActionButton
-      canConfigureIndividualAlertConfigs={role?.canConfigureMobileAppSmartAlerts ?? role?.canConfigureCustomAlerts}
+      canConfigureIndividualAlertConfigs={role?.canConfigureMobileAppSmartAlerts}
     />
   );
 }

@@ -7,7 +7,7 @@ import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/CoralogixForm';
 import { teamSettingsLogManagementCoralogix } from 'in-settings/navigation/paths';

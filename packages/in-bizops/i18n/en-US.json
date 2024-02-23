@@ -1,4 +1,3 @@
-
 {
   "labelBizOps": "Processes",
   "labelSmartAlerts": "Smart Alerts",
@@ -15,7 +14,8 @@
     "durationLabel": "Duration",
     "noData": "No data available",
     "healthLabel": "Health",
-    "startLabel": "Started"
+    "startLabel": "Started",
+    "unnamedActivity": "(Unnamed Activity) {{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -31,6 +31,7 @@
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
         "viewAll": "View all activities",
         "processCount": "Count",
+        "processCountTotal": "total",
         "processErrors": "Errors"
       }
     },
@@ -46,7 +47,7 @@
         "minute": "1 minute",
         "hour": "1 hour",
         "day": "1 day",
-        "week" : "1 week"
+        "week": "1 week"
       }
     }
   }

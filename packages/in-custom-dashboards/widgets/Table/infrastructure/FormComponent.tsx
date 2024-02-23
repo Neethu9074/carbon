@@ -52,7 +52,9 @@ export function InfrastructureTableForm({ form, onChange }: Props) {
     backendQueryModel: EMPTY_EXPRESSION,
     timeConfig,
     order: defaultOrder,
-    setOrder: () => null
+    setOrder: () => null,
+    query: '',
+    setQuery: () => null
   });
 
   const entityItems = tableResult?.data?.items;

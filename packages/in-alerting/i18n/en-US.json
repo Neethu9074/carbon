@@ -84,7 +84,15 @@
       "globalCustomPayloadTitle": "Global Custom Payloads ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve Global Custom Payloads.",
       "noGlobalCustomPayloadConfigured": "No Global Custom Payloads Configured"
-    }
+    },
+    "previewFor": "Preview for: ",
+    "groupedViewHeader": "{{formattedCount}} Results",
+    "groupedViewHeader_plural": "{{formattedCount}} Results",
+    "groupedViewHeader_0": "{{formattedCount}} Results",
+    "groupedViewHeader_1": "{{formattedCount}} Results",
+    "groupedViewHeader_2": "{{formattedCount}} Results",
+    "resultHeaderLoading": "Loading…",
+    "loadMore": "Load More"
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
@@ -136,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "No Smart Alert configurations found for a given search",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
+    "smartAlertsTitle": "Smart Alerts",
     "applications": {
       "alertConfiguration": "Alert Configuration",
       "advanced": {
@@ -1272,17 +1281,81 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noMetricSelected": "No metric selected"
       },
-      "groupedViewHeader": "{{formattedCount}} Results",
-      "groupedViewHeader_plural": "{{formattedCount}} Results",
-      "groupedViewHeader_0": "{{formattedCount}} Results",
-      "groupedViewHeader_1": "{{formattedCount}} Results",
-      "groupedViewHeader_2": "{{formattedCount}} Results",
-      "resultHeaderLoading": "Loading…",
-      "loadMore": "Load More",
       "count": "Count",
-      "previewFor": "Preview for: ",
       "selectEntityType": "Please select an entity type",
       "regexNotValid": "Regex is not valid"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "Alert Configuration",
+        "metricName": "Log Count",
+        "alertConfigurationTitleScope": "Scope",
+        "alertConfigurationTitleTimeThreshold": "Time Threshold",
+        "alertConfigurationTitleAlertChannels": "Alert Channels",
+        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "alertConfigurationTitleTrigger": "Trigger"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} more filter",
+        "moreFiltersWithCount_plural": "+{{count}} more filters",
+        "moreFiltersWithCount_0": "+{{count}} more filters",
+        "moreFiltersWithCount_1": "+{{count}} more filters",
+        "moreFiltersWithCount_2": "+{{count}} more filters",
+        "filter": "Filter",
+        "filter_plural": "Filters",
+        "filter_0": "Filters",
+        "filter_1": "Filters",
+        "filter_2": "Filters",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "Static Threshold",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Scope",
+          "title": "Scope: Where is the condition happening?"
+        },
+        "threshold": {
+          "label": "Threshold",
+          "title": "Threshold: When is the condition violated?"
+        },
+        "timeThreshold": {
+          "label": "Time Threshold",
+          "title": "Time Threshold: When do you want to be alerted?"
+        },
+        "alertChannel": {
+          "label": "Alert Channels",
+          "title": "Alert Channels: Who needs to be alerted?"
+        },
+        "properties": {
+          "label": "Properties",
+          "title": "Additional Alert Properties",
+          "preview": {
+            "subtitle": "Log Count"
+          },
+          "alertPropertiesTitlePlaceholder": "Logs Smart alert",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "The logs count is higher than {{value}}.",
+            "logsCount_higherEqual": "The logs count is higher or equal to {{value}}.",
+            "logsCount_lowerThan": "The logs count is lower than {{value}}.",
+            "logsCount_lowerEqual": "The logs count is lower or equal to {{value}}."
+          }
+        },
+        "customPayloads": {
+          "label": "Payloads",
+          "title": "Custom Payload"
+        },
+        "thresholdValue": "Threshold Value"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
+      },
+      "logs": "Logs"
     }
   }
 }

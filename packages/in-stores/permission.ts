@@ -18,7 +18,8 @@ import {
   sloV2Enabled,
   powervcEnabled,
   automationPoliciesEnabled,
-  infraSmartAlertsEnabled
+  infraSmartAlertsEnabled,
+  logSmartAlertsEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -109,7 +110,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS: 'CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS',
-  CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS'
+  CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS',
+  CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -428,6 +430,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsCategory')
   },
+  [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS,
+    keyForApiTokenApi: 'canConfigureGlobalLogSmartAlerts',
+    label: t('in-stores:permissionCanConfigureGlobalLogSmartAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureGlobalLogSmartAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureGlobalLogSmartAlertsCategory')
+  },
   [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
     keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
@@ -745,6 +754,12 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!infraSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS;
+    });
+  }
+
+  if (!logSmartAlertsEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
     });
   }
 

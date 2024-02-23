@@ -8,7 +8,7 @@ import React from 'react';
 import withFlowMapResultState from 'in-applications/ServerFlowMap/withFlowMapResultState';
 import FlowMap3DPresentation from 'in-applications/FlowMap';
 
-export function ServerFlowMap(props) {
+function ServerFlowMap(props) {
   const {
     height,
     rootNodeData,

@@ -16,12 +16,11 @@ import {
   isAdaptiveBaselineConfig
 } from '@instana/types';
 
-//@ts-expect-error TS migration
-import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import {
   chartViewConfig24hours,
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
@@ -126,6 +125,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Mobil
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
               isAlertDetailView
+              eventBasedAdaptiveBaseline={[]}
             />
           </>
         )}

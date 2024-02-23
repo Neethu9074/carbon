@@ -87,16 +87,13 @@ function createForm(alertChannel) {
  * TODO: Move this filtering logic to backend based on permissions.
  */
 function filterAlertConfigBasedOnRoles(alertConfigResponse) {
-  const canConfigureEventsAndAlerts = role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts;
-  const canConfigureApplicationSmartAlerts = role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts;
-  const canConfigureWebsiteSmartAlerts = role.canConfigureWebsiteSmartAlerts ?? role.canConfigureCustomAlerts;
-  const canConfigureMobileAppSmartAlerts = role.canConfigureMobileAppSmartAlerts ?? role.canConfigureCustomAlerts;
-  const canConfigureGlobalApplicationSmartAlerts =
-    role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs;
-  const canConfigureGlobalSyntheticSmartAlerts =
-    role.canConfigureGlobalSyntheticSmartAlerts ?? role.canConfigureGlobalAlertConfigs;
-  const canConfigureGlobalInfraSmartAlerts =
-    role.canConfigureGlobalInfraSmartAlerts ?? role.canConfigureGlobalAlertConfigs;
+  const canConfigureEventsAndAlerts = role.canConfigureEventsAndAlerts;
+  const canConfigureApplicationSmartAlerts = role.canConfigureApplicationSmartAlerts;
+  const canConfigureWebsiteSmartAlerts = role.canConfigureWebsiteSmartAlerts;
+  const canConfigureMobileAppSmartAlerts = role.canConfigureMobileAppSmartAlerts;
+  const canConfigureGlobalApplicationSmartAlerts = role.canConfigureGlobalApplicationSmartAlerts;
+  const canConfigureGlobalSyntheticSmartAlerts = role.canConfigureGlobalSyntheticSmartAlerts;
+  const canConfigureGlobalInfraSmartAlerts = role.canConfigureGlobalInfraSmartAlerts;
 
   return alertConfigResponse.filter(item => {
     const type = item.type;

@@ -10,6 +10,7 @@ const appDataPlugins = ['application', 'service', 'endpoint'];
 const websitePlugins = ['website'];
 const mobileAppPlugins = ['mobileApp'];
 const syntheticPlugins = ['syntheticTest'];
+const logPlugins = ['log'];
 
 export function isAppDataPlugin(plugin: string | Nullish): boolean {
   if (plugin) {
@@ -34,4 +35,8 @@ export function isSyntheticPlugin(plugin: string | Nullish): boolean {
 
 export function isMobileAppPlugin(plugin: string | Nullish): boolean {
   return plugin ? mobileAppPlugins.includes(plugin) : false;
+}
+
+export function isLogPlugin(plugin: string | Nullish): boolean {
+  return plugin ? logPlugins.includes(plugin) : false;
 }

@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Typography } from '@instana/components';
+import { BlueprintType } from '@instana/types';
 
 import SloIndicatorAvailabilityForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorAvailabilityForm';
 import SloIndicatorLatencyForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorLatencyForm';
@@ -20,7 +21,6 @@ import TabSelect, {
 } from 'in-components/TabSelect';
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { defaultBlueprint } from 'in-service-levels/constants';
 import { t } from 'in-i18n';
 
@@ -28,12 +28,22 @@ export default function SloBlueprintsSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
+  const indicatorTypeField = form.getIn(['indicator', 'type']);
 
   const isFormInEditMode = mode === 'EDIT';
 
+  // Temporary workaround to force the indicator type for custom blueprints to always be event-based.
+  // Can be removed once we have time-based indicator support for custom blueprints.
+  useEffect(() => {
+    if (blueprintField.value === 'custom') {
+      onChange(['indicator', 'type'], () => indicatorTypeField.setValue('eventBased'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blueprintField.value]);
+
   return (
     <SloDialogSection title={t('in-service-levels:createSloDialog.selectIndicatorTitle')}>
-      <TabSelect<CustomBlueprintType>
+      <TabSelect<BlueprintType>
         activePanelId={blueprintField.value ?? defaultBlueprint}
         onChange={blueprint => {
           onChange(['indicator', 'blueprint'], () => blueprintField.setValue(blueprint));
@@ -45,24 +55,24 @@ export default function SloBlueprintsSection() {
           </Typography>
         </TabSelectHeader>
         <TabSelectMenu>
-          <TabSelectItem<CustomBlueprintType> forId="latency" disabled={isFormInEditMode} withRadioButton>
+          <TabSelectItem<BlueprintType> forId="latency" disabled={isFormInEditMode} withRadioButton>
             <span>{t('in-service-levels:general.latency')}</span>
           </TabSelectItem>
-          <TabSelectItem<CustomBlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
+          <TabSelectItem<BlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
             <span>{t('in-service-levels:general.availability')}</span>
           </TabSelectItem>
-          <TabSelectItem<CustomBlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
+          <TabSelectItem<BlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
             <span>{t('in-service-levels:general.custom')}</span>
           </TabSelectItem>
         </TabSelectMenu>
         <TabSelectPanels>
-          <TabSelectPanel<CustomBlueprintType> id="latency">
+          <TabSelectPanel<BlueprintType> id="latency">
             <SloIndicatorLatencyForm />
           </TabSelectPanel>
-          <TabSelectPanel<CustomBlueprintType> id="availability">
+          <TabSelectPanel<BlueprintType> id="availability">
             <SloIndicatorAvailabilityForm />
           </TabSelectPanel>
-          <TabSelectPanel<CustomBlueprintType> id="custom">
+          <TabSelectPanel<BlueprintType> id="custom">
             <SloIndicatorCustomForm />
           </TabSelectPanel>
         </TabSelectPanels>

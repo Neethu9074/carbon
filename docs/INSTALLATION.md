@@ -14,6 +14,7 @@ This document lists the technical steps necessary in order to get a local UI dev
 git clone git@github.ibm.com:instana/ui-client.git
 cd ui-client
 ```
+The path to the directory must not contain any spaces. Whitespaces aren't escaped when the nginx configuration is generated and this will cause nginx to not start making the development server inaccessible.
 
 ## Setting up local domains
 
@@ -69,11 +70,11 @@ You will need an account for our [delivery.instana.io](https://delivery.instana.
  - Instana employees should follow the [employee onboarding guide](https://www.notion.so/instana/New-Engineering-Hire-Survival-Guide-5f4be1878333477b8d6f07739a0e259b#e18b6bf976c04bdca3f6d36de6aa209c) to gain access.
  - Others, e.g., contributors from IBM, should request access via a **Instana Slack workspace** channel they have access to. We will not grant access based on private messages.
 
-Please follow either approach and come back here once you have access. 
+Please follow either approach and come back here once you have access.
 Then execute the following snippet on your terminal.
 * You can accept the proposed defaults for the first two questions.
 * Answer the third and fourth question with your Artifactory credentials:
-  * After log-in (use SAML-based sign-in) and 
+  * After log-in (use SAML-based sign-in) and
     opening the Edit-Me page https://delivery.instana.io/ui/user_profile
   * Username has the `@instana.com` suffix
   * password is just use your API token
@@ -118,6 +119,10 @@ newgrp docker
 ## Editor Recommendations
 
 At the time of writing UI engineers are using [VS Code](https://code.visualstudio.com/) or [IntelliJ](https://www.jetbrains.com/idea/). We would recommend that you use either of them. VS Code will bring up a list of suggested extensions when opening the `ui-client` root directory in VS Code. We recommend that you install these as well for a good out of the box development experience.
+In Intellij make sure 
+* [x] Use paths relative to the project is selected. 
+Or it will import using relative paths (with `../../` etc.)
+![IntellijModuleImport.png](screenshots/IntellijModuleImport.png)
 
 ## Note for WSL2 Users
 

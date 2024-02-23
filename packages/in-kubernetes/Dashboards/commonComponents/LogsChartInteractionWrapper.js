@@ -5,14 +5,14 @@
 
 import React, { useState } from 'react';
 
-import { create } from '@instana/observables';
+import { create, just } from '@instana/observables';
 
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeLogsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeLogsButton';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsChart from 'in-kubernetes/Dashboards/commonComponents/LogsChart';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { role } from 'in-stores/user';
@@ -46,7 +46,7 @@ export const kubernetesNamespaceTagEquals = namespaceName => {
 
 export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
   const [isHovered$] = useState(create().emit(false));
-
+  const generateLinkToLogs = useGenerateLinkToLogs();
   if (!loggingEnabled) {
     return <></>;
   }
@@ -65,15 +65,17 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
       icon: 'lib_analyze',
       label: t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze'),
       getHref$: highlightedTime => {
-        return getLinkToAnalyze({
-          tagFilterExpression: tagFilterExpression,
-          timeConfig: {
-            focusedMoment: highlightedTime.focusedMoment,
-            to: highlightedTime.to,
-            windowSize: highlightedTime.windowSize,
-            autoRefresh: false
-          }
-        });
+        return just(
+          generateLinkToLogs({
+            tagFilterExpression: tagFilterExpression,
+            timeConfig: {
+              focusedMoment: highlightedTime.focusedMoment,
+              to: highlightedTime.to,
+              windowSize: highlightedTime.windowSize,
+              autoRefresh: false
+            }
+          })
+        );
       }
     }
   ];

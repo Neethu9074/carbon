@@ -169,14 +169,14 @@ function navigationTreeForRole(role, isAnyIDPActive) {
   }
 
   if (
-    (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) ||
+    role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
     role.canConfigureMaintenanceWindows ||
     role.canConfigureGlobalAlertPayload
   ) {
     const eventsAndAlertsPages = [];
 
-    if (role.canConfigureEventsAndAlerts ?? role.canConfigureCustomAlerts) {
+    if (role.canConfigureEventsAndAlerts) {
       if (alertsHubEnabled) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingHub,
@@ -244,7 +244,7 @@ function navigationTreeForRole(role, isAnyIDPActive) {
       });
     }
 
-    if (role.canConfigureMaintenanceWindows ?? role.canConfigureCustomAlerts) {
+    if (role.canConfigureMaintenanceWindows) {
       if (recurrentMaintenanceWindowEnabled) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingMaintenanceConfigurations,

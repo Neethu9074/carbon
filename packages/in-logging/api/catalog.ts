@@ -28,7 +28,7 @@ function getId({ useCase, forceIncludeInternalTags }: GetTagCatalogParams): stri
   return '' + useCase + forceIncludeInternalTags;
 }
 
-interface CatalogResponse {
+export interface CatalogResponse {
   tags: LogTag[];
 }
 

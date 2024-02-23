@@ -6,28 +6,32 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, Card, Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { Button, Card, Stack, SvgIcon, Typography, Pill, Link } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Incident } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-//@ts-expect-error
-import { default as EmptyStateMagnifyingGlass } from 'in-events/components/legacy/assets/empty-state-magnifying-glass.svg';
 import {
   incidentSummarizationFeedbackHelpfulTracker,
   incidentSummarizationFeedbackUnhelpfulTracker
 } from 'in-events/tracker';
+import { getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+//@ts-expect-error
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import EventSummaryCard from 'in-events/components/legacy/EventSummaryCard';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import List from 'in-settings/components/List';
 
-import locals from 'in-events/components/legacy/EventList.mless';
+import locals from 'in-events/components/legacy/EventSummary.mless';
 
 interface EventSummarizationProps {
   title: string;
   incident: Incident;
 }
 interface BulletPointSummaryListProps {
-  incidentSummary: string[];
+  incidentSummary: IncidentSummaryType;
 }
 
 interface EventSummaryErrorMessageProps {
@@ -36,13 +40,36 @@ interface EventSummaryErrorMessageProps {
   tooltipDescription?: string;
 }
 
+interface IncidentSummaryType {
+  severity?: string;
+  metric?: string;
+}
+
 interface FeedbackState {
   thumbsUp: boolean;
   thumbsDown: boolean;
 }
 
+const columnDefinitionsForAlertChannels = [
+  {
+    id: 'name',
+    label: t('in-settings:tabs.name'),
+    getContent: (entity: any) => (
+      <Link href={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>
+        {entity.name}
+      </Link>
+    )
+  },
+  {
+    id: 'kind',
+    label: t('in-settings:tabs.type'),
+    getContent: (entity: any) => entity.kind
+  }
+];
+
 export default function EventSummarization({ title, incident }: EventSummarizationProps): JSX.Element {
   const incidentSummary = useMemo(() => extractSummaryFromIncident(incident), [incident]);
+  const associatedChannelIds = useMemo(() => extractAlertChannelIdsFromIncident(incident), [incident]);
 
   return (
     <Row withoutSideMargin>
@@ -55,14 +82,37 @@ export default function EventSummarization({ title, incident }: EventSummarizati
             </Pill>
           }
         >
-          <Stack>
-            {incidentSummary.length > 0 && <BulletPointSummaryList incidentSummary={incidentSummary} />}
-            {incidentSummary.length <= 0 && (
-              <EventSummaryErrorMessage
-                title={t('in-events:incidentSummarization.errorTitle')}
-                description={t('in-events:incidentSummarization.errorDescription')}
-              />
-            )}
+          <Stack gap="small">
+            <Stack direction="horizontal">
+              {Object.keys(incidentSummary).length > 0 && <BulletPointSummaryList incidentSummary={incidentSummary} />}
+              {Object.keys(incidentSummary).length <= 0 && (
+                <EventSummaryErrorMessage
+                  title={t('in-events:incidentSummarization.errorTitle')}
+                  description={t('in-events:incidentSummarization.errorDescription')}
+                />
+              )}
+              {associatedChannelIds && Array.isArray(associatedChannelIds) && (
+                <div className={locals.alertChannelsList}>
+                  <List
+                    title={t('in-events:incidentSummarization.alertChannelTableTitle')}
+                    getHeader={() => (
+                      <Typography variant="heading-200">
+                        {t('in-events:incidentSummarization.alertChannelTableTitle')}
+                      </Typography>
+                    )}
+                    columnDefinitions={columnDefinitionsForAlertChannels}
+                    loadEntities={() =>
+                      associatedChannelIds.length > 0
+                        ? getAlertChannelsInfosMutable(associatedChannelIds)
+                        : alwaysEmptyArray
+                    }
+                    initialOrderBy="name"
+                    pageSize={2}
+                    noDataMessage={t('in-events:incidentSummarization.noDataAlertChannels')}
+                  />
+                </div>
+              )}
+            </Stack>
             <FeedbackComponent incident={incident} />
           </Stack>
         </Card>
@@ -73,19 +123,14 @@ export default function EventSummarization({ title, incident }: EventSummarizati
 
 function BulletPointSummaryList({ incidentSummary }: BulletPointSummaryListProps): JSX.Element {
   return (
-    <Stack gap="xxsmall">
-      <Typography variant="body-regular">{t('in-events:incidentSummarization.thisIncident')}</Typography>
-      <ul>
-        {incidentSummary.map(
-          summaryPoint =>
-            summaryPoint && (
-              <li>
-                <Typography variant="body-regular">{summaryPoint}</Typography>
-              </li>
-            )
-        )}
-      </ul>
-    </Stack>
+    <div className={locals.containerForIncidentSummaryBullets}>
+      <Stack gap="small">
+        {Object.keys(incidentSummary).map(summaryType => (
+          //@ts-expect-error
+          <EventSummaryCard content={incidentSummary[summaryType] || ''} summaryType={summaryType} />
+        ))}
+      </Stack>
+    </div>
   );
 }
 
@@ -96,7 +141,6 @@ function EventSummaryErrorMessage({
 }: EventSummaryErrorMessageProps): JSX.Element {
   return (
     <Stack direction="horizontal" gap="small" distribution="center">
-      <img className={locals.errorImg} src={EmptyStateMagnifyingGlass} />
       <Stack direction="vertical" gap="xxsmall">
         <Typography variant="heading-200">{title}</Typography>
         <Stack direction="horizontal" gap="xxsmall">
@@ -116,11 +160,19 @@ function EventSummaryErrorMessage({
   );
 }
 
-function extractSummaryFromIncident(incident: Incident): string[] {
+function extractSummaryFromIncident(incident: Incident): IncidentSummaryType {
   if (incident.metadata && incident.metadata.incidentSummary) {
     return incident.metadata.incidentSummary;
   } else {
-    return [];
+    return {};
+  }
+}
+
+function extractAlertChannelIdsFromIncident(incident: Incident): string[] | null {
+  if (incident.metadata && incident.metadata.alertChannelIds) {
+    return incident.metadata.alertChannelIds;
+  } else {
+    return null;
   }
 }
 

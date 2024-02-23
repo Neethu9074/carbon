@@ -14,7 +14,7 @@ interface SmartAlertsNoDataAvailableProps {
 
 export default function SmartAlertsNoDataAvailable({
   text,
-  type = 'lib_alerts_alert'
+  type = 'lib_alerts_create'
 }: SmartAlertsNoDataAvailableProps) {
   return <NoDataAvailable text={text} type={type} height={100} />;
 }

@@ -18,7 +18,8 @@ function MapOverlay(props, ref) {
     expandChildLeft,
     expandChildRight,
     loadMore,
-    resultPrecisionDetails
+    resultPrecisionDetails,
+    endpointId
   } = props;
   return serviceLocatorUid ? (
     <div ref={ref} className={locals.wrapper}>
@@ -30,7 +31,11 @@ function MapOverlay(props, ref) {
         expandChildRight={expandChildRight}
         loadMore={loadMore}
       />
-      <Controls serviceLocatorUid={serviceLocatorUid} resultPrecisionDetails={resultPrecisionDetails} />
+      <Controls
+        serviceLocatorUid={serviceLocatorUid}
+        resultPrecisionDetails={resultPrecisionDetails}
+        entity={endpointId != null ? 'endpoint' : 'service'}
+      />
     </div>
   ) : (
     <div ref={ref} />

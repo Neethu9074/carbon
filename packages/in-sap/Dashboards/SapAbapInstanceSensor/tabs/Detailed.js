@@ -11,6 +11,7 @@ import DBConnectionProvider from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/D
 import DiskHourDataStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskHourDataStats';
 import DatabaseHitList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DatabaseHitList';
 import TopProcessList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TopProcessList';
+import LockEntryList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LockEntryList';
 import JobDetails from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobDetailsMetric';
 import RequestQueue from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RequestQueue';
 import TotalMemory from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TotalMemory';
@@ -18,7 +19,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DumpStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DumpStats';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, millis, bytes } from 'in-services/formatters/number';
+import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
 
@@ -61,32 +62,26 @@ export default function Detailed({ timeConfig, data: sap }) {
         </DashboardSection>
       </Columize>
       <JobDetails snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DiskHourDataStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalMemory snapshotId={snapshotId} timeConfig={timeConfig} />
-      <Columize>
-        <DashboardSection title={t('in-sap:dashboards.swapMemory')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['swapmemory.swapConf', 'swapmemory.freeSwap', 'swapmemory.swapSize', 'swapmemory.swapMax'],
-              labels: [
-                t('in-sap:dashboards.swapConf'),
-                t('in-sap:dashboards.freeSwap'),
-                t('in-sap:dashboards.swapSize'),
-                t('in-sap:dashboards.swapMax')
-              ],
-              type: 'line',
-              formatter: bytes
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
+      <DashboardSection title={t('in-sap:dashboards.paging')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
+            labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
+            type: 'line',
+            formatter: number
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
       <DBConnectionProvider snapshotId={snapshotId} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <DiskHourDataStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} />
+      <LockEntryList snapshotId={snapshotId} />
     </Fragment>
   );
 }

@@ -11,11 +11,17 @@ import {
   AreaPermissionType,
   Capability,
   CapabilityType,
+  InfrastructureCapability,
   LimitedAccessScope,
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import { automationPoliciesEnabled, infraSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
+import {
+  automationPoliciesEnabled,
+  infraSmartAlertsEnabled,
+  logSmartAlertsEnabled,
+  syntheticRbacEnabled
+} from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -127,10 +133,23 @@ export const applicationAdditionalCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_TRACE_DETAILS,
   Capability.CAN_CONFIGURE_SERVICE_MAPPING
 ];
+
+export const syntheticViewCapabilities: Array<CapabilityType> = [
+  Capability.CAN_VIEW_SYNTHETIC_TESTS,
+  Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+  Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
+];
+
 export const syntheticOtherCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
   Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
   Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+];
+
+//Need to remove default and additional Synthetic view permissions when access scope is NO_ACCESS
+export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
+  ...syntheticViewCapabilities,
+  ...syntheticOtherCapabilities
 ];
 
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
@@ -144,6 +163,7 @@ export const eventCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS,
   Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
   ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : []),
+  ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : []),
   Capability.CAN_CONFIGURE_INTEGRATIONS,
   Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
 ];
@@ -276,12 +296,13 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
     permission: AreaPermission.ACCESS_INFRASTRUCTURE,
     capabilities: noCapabilities,
-    additionalCapabilities: [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE] as PermissionsUnion[]
+    additionalCapabilities: Object.values(InfrastructureCapability) as PermissionsUnion[]
   },
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
     permission: AreaPermission.ACCESS_SYNTHETICS,
-    capabilities: syntheticMonitoringCapabilities
+    capabilities: syntheticMonitoringCapabilities,
+    additionalCapabilities: syntheticAdditionalDefaultCapabilities
   },
   [ProductArea.ANALYTICS]: { capabilities: analyticsCapabilities },
   [ProductArea.EVENT]: { capabilities: eventCapabilities },

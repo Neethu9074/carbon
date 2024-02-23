@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { TagFilterExpression, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -22,17 +22,10 @@ interface KpiCardProps {
 
 export default function AnalyzeLogsButton({ tagFilterExpression, timeConfig, isHovered$ }: KpiCardProps) {
   const isHovered = useObservable(isHovered$, [isHovered$]);
+  const href = useLinkToLogs({ tagFilterExpression, timeConfig });
 
   return (
-    <Button
-      kind="subtle"
-      icon="lib_analyze"
-      href$={getLinkToAnalyze({
-        tagFilterExpression: [tagFilterExpression],
-        timeConfig: timeConfig
-      })}
-      onClick={() => jumpToLogs({ source: 'analyze logs' })}
-    >
+    <Button kind="subtle" icon="lib_analyze" href={href} onClick={() => jumpToLogs({ source: 'analyze logs' })}>
       {isHovered ? t('in-analyze:traceDetail.tabs.summary.analyzeLogs') : ''}
     </Button>
   );

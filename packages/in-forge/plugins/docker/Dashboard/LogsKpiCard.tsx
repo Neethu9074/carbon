@@ -6,20 +6,21 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { LOG_LEVEL, getValueMatchTagFilter, DOCKER_ID } from 'in-logging/queryBuilder';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { isLoading, hasError } from 'in-services/util/result';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import { LogGroupItem, TimeConfig } from 'in-types';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface LogsKpiCardProps {
@@ -36,7 +37,7 @@ interface ValueProps {
 export default function LogsKpiCard(props: LogsKpiCardProps) {
   const { timeConfig, hasLogs, snapshot } = props;
 
-  const tagFilterExpression = [
+  const tagFilterExpression: FormModelElement[] = [
     getValueMatchTagFilter({
       name: DOCKER_ID,
       value: snapshot.get('data')?.get('Id')
@@ -65,6 +66,8 @@ export default function LogsKpiCard(props: LogsKpiCardProps) {
     }
   ];
 
+  const logsHref = useLinkToLogs({ timeConfig, tagFilterExpression });
+
   const title = t('in-forge:plugins.docker.dashboard.logs');
   let value = null;
   if (hasLogs === true) {
@@ -82,7 +85,7 @@ export default function LogsKpiCard(props: LogsKpiCardProps) {
         text: t('in-forge:plugins.docker.dashboard.analyzeLogs'),
         kind: 'subtle',
         icon: 'lib_analyze',
-        href$: getLinkToAnalyze({ timeConfig, tagFilterExpression }),
+        href: logsHref,
         onClick: () =>
           jumpToLogs({
             source: 'analyze logs from infra dashboard',
@@ -101,13 +104,11 @@ function ValueNoData() {
 }
 
 function ValueLoading() {
-  const theme = useTheme();
-  return <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />;
+  return <SvgIcon color={themes.default.ids.color.option.blue['400']} spinning type="lib_actions_loading" />;
 }
 
 function Value({ timeConfig, snapshot }: ValueProps) {
   const title = t('in-forge:plugins.docker.dashboard.logs');
-  const theme = useTheme();
 
   const getLogsTagFilterExpression = getValueMatchTagFilter({
     name: DOCKER_ID,
@@ -131,7 +132,7 @@ function Value({ timeConfig, snapshot }: ValueProps) {
   if (isLoading(logGroupsResult)) {
     return (
       <KpiKeyValue label={title}>
-        <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
+        <SvgIcon color={themes.default.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
       </KpiKeyValue>
     );
   }

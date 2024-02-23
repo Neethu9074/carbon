@@ -2035,11 +2035,12 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.36.0":
-  version "2.36.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.36.0.tgz#eb319a578ab6c9315722c63c39e1c65ee3787527"
-  integrity sha512-b2Ddfrmwti8ynQoJXHe5RKM6Gc83iyarQ5sLxZgJ6gMTw8hyyvt0d4hLGVHVqUCH8/MHUqH07gl2CXA7+UHoPw==
+"@instana/components@2.40.0":
+  version "2.40.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.40.0.tgz#bac19b6862446479036a7e0d4b094353ad3b97c0"
+  integrity sha512-RiXhMfosk7cyfKpHo8X/4pCQiFBQr4Z1mkEq27VwXAx70x017jnaGq0F2yy84JfJNyHSlkRbXt6q+zAld+NS1Q==
   dependencies:
+    "@carbon/colors" "^11.14.0"
     "@carbon/icons-react" "^11.18.0"
     "@carbon/layout" "11.13.0"
     "@carbon/react" "1.27.0"
@@ -2053,7 +2054,7 @@
     "@instana/format-numbers" "^1.5.3"
     "@instana/hooks" "^1.11.3"
     "@instana/i18n-react" "^1.5.3"
-    "@instana/legacy" "^2.3.6"
+    "@instana/legacy" "^3.1.0"
     "@instana/observables" "^1.7.3"
     "@mui/material" "^5.12.1"
     classnames "^2.2.6"
@@ -2139,10 +2140,10 @@
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/legacy@2.3.6", "@instana/legacy@^2.3.6":
-  version "2.3.6"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-2.3.6.tgz#d723dd852a8793aa6f082639a3eed565d773bbe4"
-  integrity sha512-hiNTAQmZwOrwSxhRCODRUCgBstmv7rn/EMOYsTjsLTDzAEWnmD6McYdg68jWDw7MdWqkEXc1B6i5jG5WDisK5A==
+"@instana/legacy@3.1.0", "@instana/legacy@^3.1.0":
+  version "3.1.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.1.0.tgz#2063d06c696a4a4fd5d4a39cfb6f2ab293350e94"
+  integrity sha512-7C4t6yS9hMo9m2NKYqRBEsDdPbL/23n+wQFYI3uszxYGxIGo8HAr76cnU7sTC6nc1Qdq/jp3ARNamZQAQ/XxhA==
   dependencies:
     "@instana/design-tokens" "^1.23.6"
     "@instana/format-date" "^1.6.3"
@@ -2151,6 +2152,7 @@
     "@instana/i18n-react" "^1.5.3"
     "@instana/observables" "^1.7.3"
     classnames "^2.2.6"
+    react-toggle "^4.1.2"
 
 "@instana/logger@^1.3.1", "@instana/logger@^1.3.2":
   version "1.3.2"
@@ -2177,10 +2179,10 @@
     "@instana/logger" "^1.3.2"
     "@instana/observables" "^1.7.3"
 
-"@instana/types@1.267.530":
-  version "1.267.530"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.267.530.tgz#41adf61d07626ff949643713f9a82b309ce5b035"
-  integrity sha512-fxlGOixOt2EDQr2PHYaxuKrzbxHZI6dvMAtoZ9Za0819CjiaQbnt/ju40w4rgE7D0lLXvxXGMT7SWInjiI1ibg==
+"@instana/types@1.269.8":
+  version "1.269.8"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.269.8.tgz#bd130c9b737c170a2778b092858c1035a789a6bf"
+  integrity sha512-A/ta4GA3guxtWEpj01IzllRGlYZdVKmMMNPxiUH9ZjhFzxu+cYEAF97/sMmOpiYVk5jy4XmxF3DbgQ/2kW+a5A==
 
 "@instana/utils@^1.3.1", "@instana/utils@^1.4.3":
   version "1.4.3"
@@ -5028,9 +5030,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   integrity "sha1-k/qteyAWR1TMEwLaxdw236ROJ1g= sha512-5lzq/7B9e3Fj4puD8CnFpS/YleAmLsSvreMF/1KLvi4r71x3fPi4BtbPfDC3yE45sR2jYpTXUCIbphk2SKWrlg=="
 
 caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001517:
-  version "1.0.30001581"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001581.tgz"
-  integrity sha512-whlTkwhqV2tUmP3oYhtNfaWGYHDdS3JYFQBKXxcUR9qqPWsRhFHhoISO2Xnl/g0xyKzht9mI1LZpiNWfMzHixQ==
+  version "1.0.30001588"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001588.tgz"
+  integrity sha512-+hVY9jE44uKLkH0SrUTqxjxqNTOWHsbnQDIKjwkZ3lNTzUUVdBLBGXtj/q5Mp5u98r3droaZAewQuEDzjQdZlQ==
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"

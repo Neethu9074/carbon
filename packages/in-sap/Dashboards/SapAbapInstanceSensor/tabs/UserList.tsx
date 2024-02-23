@@ -49,6 +49,38 @@ const cols = [
         return row.userStats.get('entryID');
       }
     }
+  },
+  {
+    title: t('in-sap:dashboards.responseTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: UserListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: UserListRow) {
+        return `userList.${row.key}.RESPTIME`;
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.cpuTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: UserListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: UserListRow) {
+        return `userList.${row.key}.CPUTIME`;
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -141,8 +173,8 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
       cardTitle={t('in-sap:dashboards.userStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortColumn={2}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

@@ -54,4 +54,13 @@
   .warningMessage {
     margin-right: 1.5rem;
   }
+
+  .fullWidth {
+    width: 100% !important;
+    padding-top: 1rem;
+  }
+
+  .link {
+    font-size: 0.75rem;
+  }
 }

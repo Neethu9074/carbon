@@ -8,7 +8,7 @@ PR’s description gives the reviewer initial context on the task. Include the f
 
 * Add "**Why**" section to explain briefly about your task.
 * Add "**What**" section to explain what exactly you changed to address your task.
-* A link to the ticket (such as `Kanban Card`/`Zendesk Ticket`).
+* A link to the ticket (such as `Kanban Card`/`CSP Case`).
 * Links to related pull requests (for example, related changes in the backend).
 * Screenshots(if applicable) comparing the previous version with the version after your change.
 

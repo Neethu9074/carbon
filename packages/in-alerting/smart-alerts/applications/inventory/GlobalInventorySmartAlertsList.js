@@ -63,8 +63,8 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
 
 function getColumnDefinitions(isGlobalSmartAlertConfig) {
   const showActionButtons = isGlobalSmartAlertConfig
-    ? role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs
-    : role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts;
+    ? role.canConfigureGlobalApplicationSmartAlerts
+    : role.canConfigureApplicationSmartAlerts;
   return [
     linkedListNameColumnDefinition(),
     evaluationInfoColumnDefinition({ isGlobalSmartAlertConfig }),

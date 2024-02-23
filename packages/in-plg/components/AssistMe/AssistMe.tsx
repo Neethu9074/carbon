@@ -8,21 +8,23 @@ import React from 'react';
 
 import { LicenseBannerButton } from '@instana/components';
 
-import { carbonShellEnabled } from 'in-services/featureFlags';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import IconButton from 'in-components/IconButton/IconButton';
+import { t } from 'in-i18n';
 
-export default function AssistMe({ tryOfferLicenseType }: { tryOfferLicenseType: boolean }) {
-  if (tryOfferLicenseType) {
-    if (carbonShellEnabled) {
+export default function AssistMe({ isAssistMeEnabled }: { isAssistMeEnabled: boolean }) {
+  if (isAssistMeEnabled) {
+    if (isCarbonShellEnabled()) {
       return (
         <div data-search-context="getting started">
           <LicenseBannerButton
+            id="wm-getanswers"
             kind="ghost"
             icon="lib_help_error_help_outline"
             iconColor="currentColor"
             onClick={openAssistMe}
           >
-            Get Answers
+            {t('in-plg:licenseBanner.getAnswers')}
           </LicenseBannerButton>
         </div>
       );

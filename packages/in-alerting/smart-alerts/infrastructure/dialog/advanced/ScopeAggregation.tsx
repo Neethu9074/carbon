@@ -7,8 +7,8 @@
 import React, { useEffect, useState } from 'react';
 import { MapForm, Field } from 'formalistic';
 
-import { Toggle } from '@instana/components';
 import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 //@ts-expect-error
 import { getCrossSeriesAggregationTooltip } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';

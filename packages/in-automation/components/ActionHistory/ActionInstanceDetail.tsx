@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
 
-export default function ActionInstanceDetail({ id, title }: { id: string; title: string }) {
+export default function ActionInstanceDetail({ id, title }: { id?: string; title: string }) {
   const timeConfig = useTimeConfig();
   const [hasStaleFeedback, setHasStaleFeedback] = useState(false);
   const [reload, setReload] = useState(0);
@@ -34,7 +34,7 @@ export default function ActionInstanceDetail({ id, title }: { id: string; title:
     useObservable(
       () =>
         getActionInstance({
-          actionInstanceId: id,
+          actionInstanceId: id ?? '',
           timeConfig
         }),
       [id, timeConfig, reload]

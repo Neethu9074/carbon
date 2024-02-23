@@ -12,11 +12,14 @@ import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applicati
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import IconLabel from 'in-alerting/components/IconLabel';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
 
 export default function ListEntityNameColumn({ applications, isGlobalSmartAlertConfig }) {
   return (
-    <div>
+    <div className={locals.ellipsis}>
       {isGlobalSmartAlertConfig ? (
         <GlobalAlertsSelectionLabel applications={applications} />
       ) : (
@@ -32,20 +35,22 @@ function IndividualAlertsSelectionLabel({ applications }) {
   const { label } =
     useObservable(() => getApplication({ id: applicationId }).map(({ data }) => data ?? ''), [applicationId]) ?? {};
 
-  return label ? <IconLabel text={label} type="lib_application" noBottomMargin /> : null;
+  return label ? (
+    <Tooltip themeStyle="light" content={label} align="topMiddle" delay={500}>
+      <IconLabel text={label} type="lib_application" noBottomMargin ellipsis />
+    </Tooltip>
+  ) : null;
 }
 
 function GlobalAlertsSelectionLabel({ applications }) {
   const applicationIds = Object.values(applications);
-
+  const label = t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
+    count: applicationIds.length
+  });
   return (
-    <IconLabel
-      text={t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
-        count: applicationIds.length
-      })}
-      type="lib_application"
-      noBottomMargin
-    />
+    <Tooltip themeStyle="light" content={label} align="topMiddle" delay={500}>
+      <IconLabel text={label} type="lib_application" ellipsis noBottomMargin />
+    </Tooltip>
   );
 }
 

@@ -17,6 +17,7 @@ import {
   NewTypeConfiguration,
   PolicyForm,
   PolicyFormEntity,
+  Triggers,
   isAutomatic,
   isManual,
   isPolicy,
@@ -105,8 +106,10 @@ export function getPolicyFromForm(form: PolicyForm) {
   return policySpecification;
 }
 
-function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[]) {
+function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[], triggers: Triggers) {
   const { actionId, agentId, applyOn, query, inputParameterValues, tags } = parsePolicy(policy);
+  // @ts-expect-error
+  const triggerItem = triggers?.[policy.trigger.type]?.find(trigger => trigger.id === policy.trigger.id);
   const form: PolicyForm = createMapForm({
     items: {
       name: createField({
@@ -211,11 +214,11 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[])
         )
       }),
       triggerType: createField({
-        value: policy.trigger.type,
+        value: triggerItem ? policy.trigger.type : 'builtinEvent',
         validator: notBlankValidator
       }),
       triggerId: createField({
-        value: policy.trigger.id,
+        value: triggerItem ? policy.trigger.id : '',
         validator: notBlankValidator
       }),
 
@@ -245,12 +248,16 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[])
   return form;
 }
 
-export default function usePolicyForm(policy: PolicyFormEntity | undefined, actions: Action[] | undefined) {
+export default function usePolicyForm(
+  policy: PolicyFormEntity | undefined,
+  actions: Action[] | undefined,
+  triggers: Triggers | undefined
+) {
   const [form, setForm] = useState<PolicyForm | null>(null);
   useEffect(() => {
-    if (policy && actions) {
-      setForm(createPolicyFormDefinition(policy, actions));
+    if (policy && actions && triggers && !form) {
+      setForm(createPolicyFormDefinition(policy, actions, triggers));
     }
-  }, [policy, actions]);
+  }, [policy, actions, triggers, form]);
   return [form, setForm] as const;
 }

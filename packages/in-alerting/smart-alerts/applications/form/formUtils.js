@@ -242,7 +242,7 @@ function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
   }
 }
 
-function getHigherOrLowerOperatorContext(operator) {
+export function getHigherOrLowerOperatorContext(operator) {
   switch (operator) {
     case '>':
       // "higher than"

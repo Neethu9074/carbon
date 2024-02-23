@@ -7,7 +7,7 @@ import {
   ua2FacetedSearchFilterAddedTracker,
   ua2FacetedSearchGroupChangedTracker,
   ua2FacetedSearchGroupingRemovedTracker
-} from 'in-applications/tracker';
+} from 'in-components/tracker';
 
 export const uaFacetedTracker = {
   groupClicked: ua2FacetedSearchGroupChangedTracker,

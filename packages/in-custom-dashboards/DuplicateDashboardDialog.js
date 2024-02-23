@@ -6,7 +6,7 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Toggle } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';

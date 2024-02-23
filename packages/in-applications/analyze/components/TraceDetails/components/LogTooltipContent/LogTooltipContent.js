@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 
+import { getLogLevelAndColor } from 'in-components/Logging/TraceDetails/utils';
 import { number } from 'in-services/formatters/number';
 import { role } from 'in-stores/user';
 import Pill from 'in-components/Pill';
@@ -31,13 +32,16 @@ export default function LogTooltipContent({ log }) {
     );
   }
 
+  const levelLocalizationStrings = {
+    warn: t('in-analyze:traceDetail.components.logTooltipContent.warningLog'),
+    error: t('in-analyze:traceDetail.components.logTooltipContent.errorLog')
+  };
+
+  const { level } = getLogLevelAndColor(log);
+
   return (
     <div className={locals.content}>
-      <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>
-        {log.errorCount > 0
-          ? t('in-analyze:traceDetail.components.logTooltipContent.errorLog')
-          : t('in-analyze:traceDetail.components.logTooltipContent.warningLog')}
-      </div>
+      <div className={locals[level]}>{levelLocalizationStrings[level]}</div>
       <span className={locals.headingLabel}>{log.label}</span>
       {log.batchCount > 1 && (
         <div className={locals.batchCount}>

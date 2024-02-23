@@ -22,6 +22,7 @@ import {
   scriptTestType
 } from 'in-synthetics/utils/constants';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
@@ -420,12 +421,7 @@ export default function ScriptsSection({
               <ActionTitle>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
               </ActionTitle>
-              <Description>
-                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalDescription', {
-                  retryCount: retriesField.value === 1 ? 'once' : 'twice',
-                  retryIntervalValue: retryIntervalField.value
-                })}
-              </Description>
+              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
               {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
               <TouchedMessages field={retryIntervalField} />
             </Section>

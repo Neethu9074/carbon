@@ -39,9 +39,8 @@ const awsRegionOptions = [
 
 export default function NodeJs10RuntimeContent({
   agentKey,
-  agentEndpoint,
-  agentEndpointPort,
-  instanaDomain
+  instanaDomain,
+  serverlessEndpoint
 }: OnboardingProps): JSX.Element {
   const [awsRegion, setAwsRegion] = useState(awsRegionOptions[6]);
   const [lambdaHandler, setLambdaHandler] = useState('index.handler');
@@ -131,19 +130,19 @@ export default function NodeJs10RuntimeContent({
             </Typography>
             <Stack direction="horizontal">
               <KeyValue
-                label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
-                value={<InputWithButton type="copy" inputValue={agentEndpoint + ':' + agentEndpointPort} />}
+                label={'INSTANA_ENDPOINT_URL'}
+                value={<InputWithButton type="copy" inputValue={serverlessEndpoint} />}
                 withGap
               />
               <KeyValue
-                label={t('in-plg:agentDetails.common.agentKey')}
+                label={'INSTANA_AGENT_KEY'}
                 value={<InputWithButton type="copy" inputValue={agentKey} />}
                 withGap
               />
             </Stack>
           </Stack>
           <KeyValue
-            label={t('in-plg:agentDetails.aws.lambdaHandler')}
+            label={'LAMBDA_HANDLER'}
             value={<InputWithButton type="copy" inputValue={'index.handler'} />}
             withGap
           />
@@ -172,12 +171,12 @@ export default function NodeJs10RuntimeContent({
               '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
               '# Instead, use this as a template to define your own aws cli command.',
               `aws --region ${awsRegion} lambda update-function-configuration \\`,
-              `--function-name ${functionName} \\`,
-              `--layers ${nodejsLayerArn} \\`,
-              `--handler instana-aws-lambda-auto-wrap.handler`,
-              `--environment "Variables={INSTANA_ENDPOINT_URL=${
-                agentEndpoint + ':' + agentEndpointPort
-              }, INSTANA_AGENT_KEY=${agentKey} }"`
+              `   --function-name ${functionName} \\`,
+              `   --layers ${nodejsLayerArn} \\`,
+              '   --handler instana-aws-lambda-auto-wrap.handler',
+              `   --environment "Variables={${
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANDLER=${lambdaHandler}, `
+              }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />
         </Stack>

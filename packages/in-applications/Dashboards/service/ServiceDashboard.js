@@ -78,7 +78,7 @@ export default function ServiceDashboard({ location }) {
     props.boundaryScope = application?.data?.boundaryScope || boundaryScopes.default;
   }
 
-  const showAlertButton = role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts;
+  const showAlertButton = role.canConfigureApplicationSmartAlerts;
 
   return (
     <>

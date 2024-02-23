@@ -4,31 +4,19 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useContext } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
 
-import {
-  getTraceIdTagFilter,
-  LOG_CALL_ID,
-  LOG_CUSTOM,
-  LOG_EXCEPTION_MESSAGE,
-  LOG_EXCEPTION_STACK_TRACE,
-  LOG_EXCEPTION_TYPE,
-  LOG_LEVEL,
-  LOG_SPAN_ID
-} from 'in-logging/queryBuilder';
-import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
-import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
-import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { getCallIdFromTags } from 'in-components/Logging/TraceDetails/utils';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import getLogs from 'in-logging/subscriptions/getLogs';
+import { LOG_SPAN_ID } from 'in-logging/queryBuilder';
 
 import locals from 'in-components/Logging/TraceDetails/components/Logs.mless';
 
@@ -42,13 +30,9 @@ const columnDefinitions = [
 ];
 
 export default function Logs(props) {
-  const { setSelectedLog } = useContext(LogsInCallsContext);
+  const { setSelectedLog, items, progress, errors } = useLogsInCallsContext();
 
-  const { traceId, totalNumberOfLogs, selectedLogIdPair, timeConfigForLogs, setCallId } = props;
-  const { items, errors, progress } = useLogsCursorPagination(
-    params => getData({ traceId, totalNumberOfLogs, timeConfigForLogs, ...params }),
-    [traceId]
-  );
+  const { selectedLogIdPair, setCallId } = props;
 
   if (progress?.loading) {
     return <LoadingList numSkeletonRows={3} />;
@@ -89,25 +73,6 @@ export default function Logs(props) {
     </Ul>
   );
 }
-function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
-  const cappedRetrievalSize = totalNumberOfLogs < maxRetrievalSize ? totalNumberOfLogs : maxRetrievalSize;
-
-  return getLogs({
-    timeConfig: timeConfigForLogs,
-    retrievalSize: cappedRetrievalSize,
-    tagFilterExpression: getTraceIdTagFilter(traceId),
-    requestedTags: [
-      LOG_SPAN_ID,
-      LOG_LEVEL,
-      LOG_CUSTOM,
-      LOG_EXCEPTION_TYPE,
-      LOG_EXCEPTION_MESSAGE,
-      LOG_EXCEPTION_STACK_TRACE,
-      LOG_CALL_ID
-    ]
-  });
-}
-
 function getSpanIdFromTags(tags) {
   return tags.filter(({ name }) => name === LOG_SPAN_ID)[0]?.stringValue;
 }

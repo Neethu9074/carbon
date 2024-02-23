@@ -42,6 +42,22 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.operationsPerSec'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DiskStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DiskStatsRow) {
+        return `diskSummaryStats.${row.key}.operationsPerSec`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.type'),
     type: 'string',
     typeArgs: {
@@ -129,8 +145,8 @@ export default function DiskSummaryStats({ snapshotId, timeConfig }: DiskSummary
       cardTitle={t('in-sap:dashboards.diskSummaryStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortColumn={1}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

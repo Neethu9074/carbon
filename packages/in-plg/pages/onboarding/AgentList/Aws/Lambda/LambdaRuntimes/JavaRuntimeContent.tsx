@@ -39,9 +39,8 @@ const awsRegionOptions = [
 
 export default function JavaRuntimeContent({
   agentKey,
-  agentEndpoint,
-  agentEndpointPort,
-  instanaDomain
+  instanaDomain,
+  serverlessEndpoint
 }: OnboardingProps): JSX.Element {
   const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
@@ -110,18 +109,18 @@ export default function JavaRuntimeContent({
           </Typography>
           <Stack direction="horizontal">
             <KeyValue
-              label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
-              value={<InputWithButton type="copy" inputValue={agentEndpoint + ':' + agentEndpointPort} />}
+              label={'INSTANA_ENDPOINT_URL'}
+              value={<InputWithButton type="copy" inputValue={serverlessEndpoint} />}
               withGap
             />
             <KeyValue
-              label={t('in-plg:agentDetails.common.agentKey')}
+              label={'INSTANA_AGENT_KEY'}
               value={<InputWithButton type="copy" inputValue={agentKey} />}
               withGap
             />
           </Stack>
           <KeyValue
-            label={t('in-plg:agentDetails.aws.javaToolOptions')}
+            label={'JAVA_TOOL_OPTIONS'}
             value={<InputWithButton type="copy" inputValue={'-javaagent:/opt/instana/standalone-collector.jar'} />}
             withGap
           />
@@ -147,15 +146,13 @@ export default function JavaRuntimeContent({
           <Code
             lang="bash"
             code={[
-              '#!/bin/bash',
-              ' ',
               '# Do not copy and paste this verbatim! It will overwrite any previously defined collection of layers and environment variables.',
               '# Instead, use this as a template to define your own aws cli command.',
               `aws --region ${awsRegion} lambda update-function-configuration \\`,
-              `--function-name ${functionName} \\`,
-              `--layers ${javaLayerArn} \\`,
-              '--environment "Variables={JAVA_TOOL_OPTIONS=-javaagent:/opt/instana/standalone-collector.jar,',
-              `INSTANA_ENDPOINT_URL=${agentEndpoint + ':' + agentEndpointPort}, INSTANA_AGENT_KEY=${agentKey} }"`
+              `   --function-name ${functionName} \\`,
+              `   --layers ${javaLayerArn} \\`,
+              '   --environment "Variables={JAVA_TOOL_OPTIONS=-javaagent:/opt/instana/standalone-collector.jar, ',
+              `INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />
         </Stack>

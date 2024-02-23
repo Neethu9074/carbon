@@ -6,18 +6,27 @@
 
 import { themes } from '@instana/design-tokens';
 
+import { LowercaseLogLevel } from 'in-components/Logging/types';
 import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
-export const maxInitialLogLines = 200;
+export const maxInitialLogLines = 2000;
 export const customChartHeight = 215;
-export const maxRetrievalSize = 200;
-export const logLevelColors: Record<string, string> = {
+export const maxRetrievalSize = 2000;
+export const logLevelColors: Record<LowercaseLogLevel, string> = {
   error: carbonAlert.red60,
   warn: carbonAlert.yellow30,
   info: carbonAlert.blue70,
   debug: themes.default.ids.color.option.black,
-  trace: themes.default.ids.color.option.black
+  trace: themes.default.ids.color.option.black,
+  unknown: themes.default.ids.color.option.black
+};
+
+export const getLogLevelColor = (logLevel?: string) => {
+  if (logLevel) {
+    return logLevelColors[logLevel.toLowerCase() as LowercaseLogLevel] || logLevelColors.unknown;
+  }
+  return logLevelColors.unknown;
 };
 export const logsChartOptions = {
   templates: [],

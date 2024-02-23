@@ -1,0 +1,100 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React, { useEffect, useMemo } from 'react';
+import { MapForm } from 'formalistic';
+
+import { LogAlertConfigWithMetadata } from '@instana/types';
+
+import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import LogThresholdCondition from 'in-alerting/smart-alerts/logs/components/LogThresholdCondition';
+import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
+import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
+import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
+import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
+import BorderedContainer from 'in-alerting/components/BorderedContainer';
+import { CatalogResponse } from 'in-logging/api/catalog';
+import { t } from 'in-i18n';
+
+export interface ThresholdProps {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  onChartViewConfigChange?: (arg: number) => void;
+  selectedChartViewConfigIndex?: number;
+  tagCatalog: CatalogResponse | undefined;
+}
+
+export type Tags = { [index: string]: any };
+
+export default function ThresholdSelectionInteractiveChart({
+  form,
+  updateForm,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex,
+  tagCatalog
+}: ThresholdProps): JSX.Element {
+  const chartViewConfigs = defaultChartViewConfigs;
+  const groupByTag = form.get('groupBy').value;
+
+  const groupBy = useMemo(() => {
+    if (groupByTag) {
+      return [groupByTag.groupbyTag];
+    }
+
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupByTag]);
+
+  useEffect(() => {
+    if (!groupBy) {
+      selectedMetricGroup$.emit(null);
+    }
+  }, [groupBy]);
+
+  const alertConfigModel = alertConfigWithDefaultThresholdAndTfe(form);
+
+  // Since the timeConfig is part of the dependency array for the 'getGroups' API, memoised it to avoid the table refreshing frequently.
+  const timeConfig = useMemo(() => {
+    return chartTimeConfig;
+  }, []);
+
+  return (
+    <BorderedContainer>
+      <LogThresholdCondition form={form} updateForm={updateForm} percentageMetric={false} metricUnitPostfix={''} />
+      <ChartViewConfigurator
+        chartViewConfigs={chartViewConfigs}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        title={t('in-alerting:smartAlerts.logs.alertDetails.alertConfigurationTitleTrigger')}
+        doNotSetDefaultHeight
+        framed
+      >
+        {chartViewConfig => (
+          <>
+            <LogMetricChart
+              alertConfig={alertConfigModel as LogAlertConfigWithMetadata}
+              timeConfig={chartViewConfig.timeConfig}
+            />
+            {groupBy && groupBy?.length > 0 && (
+              <LogMetricGroup
+                backendQueryModel={alertConfigModel.tagFilterExpression}
+                groupBy={groupBy}
+                timeConfig={{
+                  ...chartViewConfig.timeConfig,
+                  to: timeConfig.to,
+                  focusedMoment: timeConfig.focusedMoment
+                }}
+                tagCatalog={tagCatalog}
+              />
+            )}
+          </>
+        )}
+      </ChartViewConfigurator>
+    </BorderedContainer>
+  );
+}

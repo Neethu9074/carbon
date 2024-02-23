@@ -25,9 +25,10 @@ import locals from './ContributionFilterDropdown.mless';
 
 interface ContributionFilterDropdownProps {
   userRestrictedApplications: UserRestrictedApplication[];
-  form: MapForm<any>;
-  updateForm: (form: MapForm<any>) => void;
+  form?: MapForm<any>;
+  updateForm?: (form: MapForm<any>) => void;
   disabled: boolean;
+  readonly?: boolean;
   className?: string;
 }
 interface OptionsProps {
@@ -58,21 +59,25 @@ export default function ContributionFilterDropdown({
   form,
   updateForm,
   disabled = false,
+  readonly = false,
   className
 }: ContributionFilterDropdownProps): JSX.Element {
-  const groupIdField = form.get('groupId');
+  const groupIdField = form?.get('groupId');
+  const groupIdForReadOnly = userRestrictedApplications[0]?.id;
 
   const onGroupIdChange = useCallback(
     (value: string | null) => {
       const groupScope =
         userRestrictedApplications.find(r => r.id === value)?.filter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
-      let updatedForm = form
-        .updateIn(['groupId'], field => field.setValue(value).setTouched(true))
-        .updateIn(['scope'], field => field.setValue(limitScope(field.value, groupScope)).setTouched(true));
+      if (form && updateForm) {
+        let updatedForm = form
+          .updateIn(['groupId'], field => field.setValue(value).setTouched(true))
+          .updateIn(['scope'], field => field.setValue(limitScope(field.value, groupScope)).setTouched(true));
 
-      updatedForm = updateTagFilterExpressionValidator(updatedForm, value);
+        updatedForm = updateTagFilterExpressionValidator(updatedForm, value);
 
-      updateForm(updatedForm);
+        updateForm(updatedForm);
+      }
     },
     [form, updateForm, userRestrictedApplications]
   );
@@ -83,15 +88,17 @@ export default function ContributionFilterDropdown({
   );
 
   useEffect(() => {
-    const shouldSelectDefault = groupIdField.value == null && options.length === 1;
-    if (shouldSelectDefault) {
-      onGroupIdChange(options[0].value);
+    if (!readonly) {
+      const shouldSelectDefault = groupIdField.value == null && options.length === 1;
+      if (shouldSelectDefault) {
+        onGroupIdChange(options[0].value);
+      }
     }
-  }, [groupIdField.value, onGroupIdChange, options, userRestrictedApplications]);
+  }, [readonly, groupIdField?.value, onGroupIdChange, options, userRestrictedApplications]);
 
   return (
     <ComboBoxBehavior
-      value={groupIdField.value}
+      value={readonly ? groupIdForReadOnly : groupIdField.value}
       options={options}
       onChange={onGroupIdChange}
       disableAutomaticOptionSorting
@@ -109,7 +116,7 @@ export default function ContributionFilterDropdown({
           className={locals.dropdownButton}
           spanClassName={locals.span}
         >
-          {renderSelectedOption(options, groupIdField.value, true)}
+          {renderSelectedOption(options, readonly ? groupIdForReadOnly : groupIdField.value, true)}
         </DropdownButton>
       )}
     </ComboBoxBehavior>

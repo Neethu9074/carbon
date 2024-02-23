@@ -9,6 +9,7 @@ import React from 'react';
 import {
   isApplicationSloEntity,
   isWebsiteSloEntity,
+  LatencyBlueprintIndicator,
   Result,
   SloEntityUnion,
   TagFilterExpression,
@@ -30,7 +31,6 @@ import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnif
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { TimeBasedLatencyBlueprintIndicator } from 'in-service-levels/types';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
@@ -38,19 +38,20 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 
 const metricId = 'latency';
 
 export default function TimeBasedLatencyIndicatorChart({
   entity,
   indicator
-}: IndicatorChartProps<TimeBasedLatencyBlueprintIndicator>) {
+}: IndicatorChartProps<LatencyBlueprintIndicator>) {
   const { threshold } = indicator;
 
   const selectedTimeConfig = useTimeConfig();
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
   const granularity = calculateSloGranularity(selectedTimeConfig);
-  const metricConfiguration = useSliMetricConfiguration<TimeBasedLatencyBlueprintIndicator>(
+  const metricConfiguration = useSliMetricConfiguration<LatencyBlueprintIndicator>(
     entity,
     indicator,
     granularity,
@@ -64,7 +65,7 @@ export default function TimeBasedLatencyIndicatorChart({
     ) ?? pendingResult;
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
-  const metricValues = metrics.map(metric => metric.values as MetricDataSeries) ?? [];
+  const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
   const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
   const metricLabel = isApplicationSloEntity(entity)
     ? applicationMetrics.latency.label
@@ -95,7 +96,7 @@ export default function TimeBasedLatencyIndicatorChart({
 function getMetricConfig(
   entity: SloEntityUnion,
   timeConfig: TimeConfig,
-  indicator: TimeBasedLatencyBlueprintIndicator,
+  indicator: LatencyBlueprintIndicator,
   tagFilterExpression: TagFilterExpression,
   granularity: number
 ): UnifiedMetricConfiguration {

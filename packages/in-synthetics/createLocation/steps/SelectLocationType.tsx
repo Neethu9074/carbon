@@ -7,14 +7,14 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { LoadingSkeleton, Message } from '@instana/components';
-import { Result, SyntheticDatacenter } from '@instana/types';
-import { t } from '@instana/i18n-react';
+import { Link, LoadingSkeleton, Message } from '@instana/components';
+import { Trans, t } from '@instana/i18n-react';
+import { Result } from '@instana/types';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { LocationsBluePrint, getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import createNewLocationForm from 'in-synthetics/createLocation/createLocationForm';
+import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import Menu from 'in-components/Menu';
 
@@ -24,21 +24,15 @@ interface Props {
   selectedBlueprint: LocationsBluePrint;
   setSelectedBlueprint: (item: LocationsBluePrint) => void;
   updateForm: (form: MapForm<any>) => void;
-  setSelectedDatacenter: React.Dispatch<React.SetStateAction<string>>;
-  checkLicense: Result<SyntheticDatacenter[]>;
+  checkLicense: Result<string>;
 }
 interface Description {
   headline: string;
   htmlContent: string;
 }
 
-const SelectLocationType = ({
-  selectedBlueprint,
-  setSelectedBlueprint,
-  updateForm,
-  setSelectedDatacenter,
-  checkLicense
-}: Props) => {
+const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, checkLicense }: Props) => {
+  const popDocsUrl = 'https://ibm.biz/pop_deployment';
   const getWarningMessage = () => {
     if (!checkLicense.progress.loading) {
       if (checkLicense.errors.length !== 0) {
@@ -49,7 +43,15 @@ const SelectLocationType = ({
             bold
             className={locals.warningMessage}
             title={t('in-synthetics:dialog.createLocation.licenseCheck.title')}
-            description={t('in-synthetics:dialog.createLocation.licenseCheck.description')}
+            description={
+              <Trans
+                i18nKey="in-synthetics:dialog.createLocation.licenseCheck.description"
+                components={{
+                  // @ts-expect-error property children missing
+                  linkLicenses: <Link className={locals.link} href={popDocsUrl} external />
+                }}
+              />
+            }
           />
         );
       } else {
@@ -68,8 +70,7 @@ const SelectLocationType = ({
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
           setSelectedBlueprint(item);
-          setSelectedDatacenter('');
-          updateForm(createNewLocationForm());
+          updateForm(createNewLocationForm(item.type));
         }}
       />
       <div className={locals.presenterWrapper}>

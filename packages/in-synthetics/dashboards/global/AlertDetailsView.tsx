@@ -64,7 +64,7 @@ export default function AlertDetailsView() {
         </LeftRightPadding>
       )}
       <Footer />
-      {(role?.canConfigureGlobalSyntheticSmartAlerts ?? role?.canConfigureGlobalAlertConfigs) && (
+      {role?.canConfigureGlobalSyntheticSmartAlerts && (
         <FloatingActionButtons>
           <CreateSmartAlert />
         </FloatingActionButtons>
@@ -100,7 +100,7 @@ export default function AlertDetailsView() {
           </LeftRightPadding>
         )}
         <Footer />
-        {(role?.canConfigureGlobalSyntheticSmartAlerts ?? role?.canConfigureGlobalAlertConfigs) && (
+        {role?.canConfigureGlobalSyntheticSmartAlerts && (
           <FloatingActionButtons>
             <CreateSmartAlert testId={testId} />
           </FloatingActionButtons>

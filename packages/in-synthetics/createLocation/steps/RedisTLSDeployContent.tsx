@@ -9,10 +9,9 @@ import React from 'react';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-//import ExpandableGroup from 'in-components/ExpandableGroup/ExpandableGroup';
 import CodeComponent from 'in-components/Code';
 
-import locals from './DeployTabSelection.mless';
+import locals from 'in-synthetics/createLocation/steps/DeployTabSelection.mless';
 
 interface RedisTLSDeployContentProps {
   redisCode: string;

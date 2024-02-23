@@ -72,31 +72,29 @@ export default function PotentialProblemContentControls({
       >
         {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>
-      {(role.canConfigureApplicationSmartAlerts ?? role.canConfigureCustomAlerts) &&
-        applicationId &&
-        applicationLabel && (
-          <Button
-            kind="secondaryDarker"
-            onClick={() => {
-              close();
-              addActiveDialog(
-                renderSmartAlertDialogComponent({
-                  rule,
-                  threshold,
-                  applicationLabel,
-                  boundaryScope,
-                  granularity: defaultGranularity
-                })
-              );
-              trackCreateSmartAlert({
-                metricName: rule.metricName
-              });
-            }}
-            icon="lib_alerts_create"
-          >
-            {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
-          </Button>
-        )}
+      {role.canConfigureApplicationSmartAlerts && applicationId && applicationLabel && (
+        <Button
+          kind="secondaryDarker"
+          onClick={() => {
+            close();
+            addActiveDialog(
+              renderSmartAlertDialogComponent({
+                rule,
+                threshold,
+                applicationLabel,
+                boundaryScope,
+                granularity: defaultGranularity
+              })
+            );
+            trackCreateSmartAlert({
+              metricName: rule.metricName
+            });
+          }}
+          icon="lib_alerts_create"
+        >
+          {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
+        </Button>
+      )}
     </>
   );
 }

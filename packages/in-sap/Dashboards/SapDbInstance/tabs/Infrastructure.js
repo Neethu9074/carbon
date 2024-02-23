@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { fromJS } from 'immutable';
 import React from 'react';
 
-import { percentagePlainZeroDecimalPlaces, kiloBytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { kiloBytesZeroDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import PhysicalDashboardEntityLink from 'in-components/tables/sharedComponents/PhysicalDashboardEntityLink';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -15,9 +15,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import getHostBySAPDbInstance from 'in-sap/subscriptions/getHostBySAPDbInstance';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityLink from 'in-components/EntityLink';
-import { getLabel } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
 
 const pathSegment = '/hosts';
@@ -28,20 +25,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-vsphere:dashboards.name'),
     sortable: false,
-    getContent(item, { timeConfig }) {
-      const snapshot = fromJS(item);
-      return (
-        <EntityLink
-          snapshot={snapshot.id}
-          label={getLabel(snapshot)}
-          href$={getDashboardLink(item.id, {
-            pathname: '/physical/dashboard',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-        />
-      );
-    }
+    getContent: (item, { timeConfig }) => <PhysicalDashboardEntityLink item={item} timeConfig={timeConfig} />
   },
   {
     id: 'cpuUsage',

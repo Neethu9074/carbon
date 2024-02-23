@@ -6,10 +6,9 @@
 
 import { MapForm, Field } from 'formalistic';
 import React, { useContext } from 'react';
-import classNames from 'classnames';
 
+import { Link, Typography } from '@instana/components';
 import { Parameter } from '@instana/types';
-import { Link } from '@instana/components';
 
 import {
   isAnsible as isAnsibleFn,
@@ -20,6 +19,7 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
+import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -89,7 +89,9 @@ const getColumnDefinitions = ({
     getContent(item: MappedParameter) {
       return (
         <Tooltip content={item.value.name} align="topLeft" delay={500}>
-          <span className={classNames(locals.ellipsis, locals.block)}>{item.value.name}</span>
+          <Typography noWrap variant="body-regular">
+            {item.value.name}
+          </Typography>
         </Tooltip>
       );
     }
@@ -99,7 +101,11 @@ const getColumnDefinitions = ({
     sortable: false,
     label: t('in-automation:description'),
     getContent(item: MappedParameter) {
-      return <div className={locals.fourLines}>{item.value.description}</div>;
+      return (
+        <FourLineWrapper>
+          <Typography variant="body-regular">{item.value.description}</Typography>
+        </FourLineWrapper>
+      );
     }
   },
   {

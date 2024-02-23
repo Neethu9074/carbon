@@ -44,7 +44,8 @@ export default function AwsLambda({
   agentKey,
   agentEndpoint,
   agentEndpointPort,
-  instanaDomain
+  instanaDomain,
+  serverlessEndpoint
 }: OnboardingProps): JSX.Element {
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
 
@@ -75,9 +76,8 @@ export default function AwsLambda({
               id,
               downloadKey,
               agentKey,
-              agentEndpoint,
-              agentEndpointPort,
-              instanaDomain
+              instanaDomain,
+              serverlessEndpoint
             }}
           />
         );
@@ -90,7 +90,8 @@ export default function AwsLambda({
               agentKey,
               agentEndpoint,
               agentEndpointPort,
-              instanaDomain
+              instanaDomain,
+              serverlessEndpoint
             }}
           />
         );
@@ -103,7 +104,8 @@ export default function AwsLambda({
               agentKey,
               agentEndpoint,
               agentEndpointPort,
-              instanaDomain
+              instanaDomain,
+              serverlessEndpoint
             }}
           />
         );
@@ -118,7 +120,8 @@ export default function AwsLambda({
               agentKey,
               agentEndpoint,
               agentEndpointPort,
-              instanaDomain
+              instanaDomain,
+              serverlessEndpoint
             }}
           />
         );
@@ -131,7 +134,8 @@ export default function AwsLambda({
               agentKey,
               agentEndpoint,
               agentEndpointPort,
-              instanaDomain
+              instanaDomain,
+              serverlessEndpoint
             }}
           />
         );
@@ -144,7 +148,8 @@ export default function AwsLambda({
               agentKey,
               agentEndpoint,
               agentEndpointPort,
-              instanaDomain
+              instanaDomain,
+              serverlessEndpoint
             }}
           />
         );

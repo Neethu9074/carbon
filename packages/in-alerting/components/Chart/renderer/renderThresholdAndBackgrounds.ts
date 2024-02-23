@@ -6,7 +6,9 @@
 
 import { themes } from '@instana/design-tokens';
 
+import { renderPredictions } from 'in-alerting/components/Chart/renderer/renderPredictions';
 import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';
@@ -166,7 +168,9 @@ export function renderStaticThresholdLineAndBackgrounds(
   colors50: AxisColor[],
   colors100: AxisColor[],
   thresholdValue: number,
-  isGreaterOp: boolean
+  isGreaterOp: boolean,
+  metrics: MetricDataSeries[],
+  displayPredictions?: boolean
 ): void {
   const { backBufferCtx, markerPaneHeight, xScaleBackBuffer } = config;
 
@@ -188,6 +192,13 @@ export function renderStaticThresholdLineAndBackgrounds(
   // Background below line
   backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
   backBufferCtx.fillRect(0, chartHeight - threshold, chartWidth, threshold);
+
+  // if displayPredictions is true, render predictions to the chart along with lowerbound and upperbound
+  if (displayPredictions) {
+    renderPredictions(config, metrics, scale);
+    // SetLineDash to [] to display a regular line for threshold and a line chart for historical data, since we render dotted line for predictions.
+    backBufferCtx.setLineDash([]);
+  }
 
   // static horizontal line
   backBufferCtx.beginPath();

@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Stack, Spacer, Toggle } from '@instana/components';
+import { Stack, Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import {
   addFieldsForPotentialProblems,

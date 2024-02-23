@@ -62,7 +62,7 @@ export default infrastructureRoutes;
 
 function infraSmartAlertFloatingButton() {
   return (
-    (role?.canConfigureGlobalInfraSmartAlerts ?? role?.canConfigureGlobalAlertConfigs) && (
+    role?.canConfigureGlobalInfraSmartAlerts && (
       <FloatingActionButtons>
         <CreateSmartAlert />
       </FloatingActionButtons>

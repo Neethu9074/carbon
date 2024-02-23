@@ -128,18 +128,18 @@ export const getBashCode = ({
       let content = [];
       content.push(
         'helm install instana-agent \\',
-        '--repo https://agents.instana.io/helm \\',
-        '--namespace instana-agent \\',
-        '--create-namespace \\',
-        '--set openshift=true \\',
-        `--set agent.key=${agentKey} \\`,
-        `--set agent.downloadKey=${downloadKey} \\`,
-        `--set agent.endpointHost=${agentEndpoint} \\`,
-        `--set agent.endpointPort=${agentEndpointPort} \\`,
-        `--set cluster.name=${clusterName} \\`
+        '  --repo https://agents.instana.io/helm \\',
+        '  --namespace instana-agent \\',
+        '  --create-namespace \\',
+        '  --set openshift=true \\',
+        `  --set agent.key=${agentKey} \\`,
+        `  --set agent.downloadKey=${downloadKey} \\`,
+        `  --set agent.endpointHost=${agentEndpoint} \\`,
+        `  --set agent.endpointPort=${agentEndpointPort} \\`,
+        `  --set cluster.name='${clusterName}' \\`
       );
-      if (agentZone) content.push(`--set zone.name=${agentZone} \\`);
-      content.push('instana-agent');
+      if (agentZone) content.push(`  --set zone.name='${agentZone}' \\`);
+      content.push('  instana-agent');
       return {
         code: content,
         lang: 'bash',

@@ -6,13 +6,16 @@
 
 import React from 'react';
 
-import { isTimeBasedSli, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
+import {
+  copyFirstBucketOfSubsequentDataSeries,
+  findMinMetricValue
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import useSloResultAwareChartMetrics from 'in-service-levels/hooks/useSloResultAwareChartMetrics';
+import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
@@ -28,24 +31,25 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
 
   const selectedTimeConfig = useTimeConfig();
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
-  const [metricResult, , errors, progress] = useSloResultAwareChartMetrics(
+
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
-    (timeConfig, index) => ({
-      [`timeWindow${index}`]: sloMetrics.remainingBudget.timeSeries({
+    timeConfig =>
+      sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
         timeConfig,
         contextTimeConfig: timeConfig
-      })
-    }),
+      }),
     selectedTimeConfig,
     timeWindows
   );
 
-  const formatter = isTimeBasedSli(indicator) ? minutes.fixedCompact : number.compact;
+  const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: lastUpdated
   });
-  const metrics = metricResult?.metrics ?? [];
+
+  const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
 
   return (
     <ResultAwareChart

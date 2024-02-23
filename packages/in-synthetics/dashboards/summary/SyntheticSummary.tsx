@@ -91,7 +91,7 @@ const SyntheticSummaryDashboard = () => {
         tabChangeTracker={props => trackSyntheticTabChange(props.tab)}
       />
       <Footer />
-      {(role?.canConfigureGlobalSyntheticSmartAlerts ?? role?.canConfigureGlobalAlertConfigs) && (
+      {role?.canConfigureGlobalSyntheticSmartAlerts && (
         <FloatingActionButtons>
           <CreateSmartAlert testId={testId} />
         </FloatingActionButtons>

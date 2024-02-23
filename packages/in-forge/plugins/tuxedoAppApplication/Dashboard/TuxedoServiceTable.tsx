@@ -31,6 +31,16 @@ const tsLinkCol = {
   }
 };
 
+const serverNameCol = {
+  title: t('in-forge:plugins.tuxedoAppTuxedoService.server'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'serverName']);
+    }
+  }
+};
+
 const averageResponseTimeCol = {
   title: t('in-forge:plugins.tuxedoAppTuxedoService.avgResTime'),
   type: 'metric',
@@ -91,7 +101,7 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
       timeConfig
     })) || [];
 
-  const cols = [tsLinkCol, averageResponseTimeCol, throughputCol];
+  const cols = [tsLinkCol, serverNameCol, averageResponseTimeCol, throughputCol];
   return (
     <Table
       withoutPadding

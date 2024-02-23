@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-//@ts-expect-error TS migration
-import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogChart';
 import {
   BluePrint,
   getSimpleModeBlueprintConfig,
@@ -19,6 +17,7 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 //@ts-expect-error TS migration
 import { BlueprintDescription } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
+import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogChart';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import createBlueprintForm from 'in-alerting/smart-alerts/mobileApp/form/blueprintFormCreator';

@@ -14,6 +14,7 @@ import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics'
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
+import { emptyObject } from 'in-services/fixedObjects';
 
 import locals from './ChartsPresenter.mless';
 
@@ -92,7 +93,7 @@ export function ChartsPresenter(props) {
               metric: metricId,
               aggregation: aggregationId
             }),
-          onChartRemoved: ua2ChartRemovedTracker
+          onChartRemoved: ua2ChartRemovedTracker(emptyObject)
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
           if (isLatencyDistributionChart(metricConfig)) {

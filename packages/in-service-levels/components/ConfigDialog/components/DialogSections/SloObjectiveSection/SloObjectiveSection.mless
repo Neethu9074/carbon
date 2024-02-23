@@ -20,4 +20,8 @@
   .inputSection {
     flex: 1;
   }
+
+  .objectiveInput {
+    max-width: 4.5rem;
+  }
 }

@@ -7,7 +7,8 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Link, Spacer, Toggle, Typography } from '@instana/components';
+import { Link, Spacer, Typography } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import {
   putApiKeyFields,
@@ -149,7 +150,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               </FormGroup>
             </>
           )}
-          {(role?.canConfigureEventsAndAlerts ?? role?.canConfigureCustomAlerts) && (
+          {role?.canConfigureEventsAndAlerts && (
             <>
               <SectionHeading>
                 {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
@@ -157,7 +158,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               <EventsSelection form={form} setForm={setForm} />
             </>
           )}
-          {(role?.canConfigureApplicationSmartAlerts ?? role?.canConfigureCustomAlerts) && (
+          {role?.canConfigureApplicationSmartAlerts && (
             <>
               <SectionHeading>
                 {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}

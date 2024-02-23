@@ -11,6 +11,7 @@ module.exports = {
   businessObservabilityEnabled: true,
   bizopsFeatureEnabled: true,
   bizopsActivityDistributionChartsEnabled: true,
+  bizopsGoldenSignalsEnabled: true,
   bizopsImpactedBusinessProcessesTableEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
@@ -43,6 +44,7 @@ module.exports = {
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
   carbonShellEnabled: true,
+  carbonPillEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
@@ -102,10 +104,12 @@ module.exports = {
   applicationContributionFilterEnabled: true,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
+  syntheticUpdateDeployPoPEnabled: true,
   flowMapEnabled: true,
-  simplifiedFlowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,
-  lastValueForNonTimeSeriesWidgetEnabled: true
+  agentInstallationV2Enabled: true,
+  lastValueForNonTimeSeriesWidgetEnabled: true,
+  logSmartAlertsEnabled: true
 };

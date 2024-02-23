@@ -12,6 +12,7 @@ import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';
 import { endpointDashboard } from 'in-applications/navigation/paths';
+import { flowMapEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -21,7 +22,7 @@ export default [
     path: `${endpointDashboard}/summary`,
     component: wrapWithMessage(Summary)
   },
-  {
+  flowMapEnabled && {
     label: t('in-applications:labelFlow'),
     path: `${endpointDashboard}/flowMap`,
     component: FlowMap,

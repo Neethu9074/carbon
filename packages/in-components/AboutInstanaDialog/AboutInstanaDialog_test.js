@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { just } from '@instana/observables';
@@ -31,9 +31,7 @@ test('AboutInstanaDialog uiBackendVersion subscription', () => {
 });
 
 test('AboutInstanaDialog handle close clicking', () => {
-  render(<AboutInstanaDialog />);
-  const element = screen.getByLabelText('lib_openclose_cancel');
-  fireEvent.click(element);
-
+  const { container } = render(<AboutInstanaDialog />);
+  container.querySelector('button.local-css-rightAligned').click();
   expect(close).toHaveBeenCalled();
 });

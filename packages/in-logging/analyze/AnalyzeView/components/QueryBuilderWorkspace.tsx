@@ -25,7 +25,9 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
+import ViewSwitcher from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { logSmartAlertsEnabled } from 'in-services/featureFlags';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Sticky from 'in-components/Sticky';
@@ -70,11 +72,15 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
   return (
     <Sticky
       header={
-        <AnalyzeHeader
-          isGrouped={isGrouped}
-          liveModeDisabled
-          liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
-        />
+        <>
+          <AnalyzeHeader
+            isGrouped={isGrouped}
+            liveModeDisabled
+            liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
+            withoutShadow={logSmartAlertsEnabled}
+          />
+          {logSmartAlertsEnabled && <ViewSwitcher />}
+        </>
       }
       backgroundColor={themes.default.ids.color.option.white}
     >

@@ -19,9 +19,12 @@ import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { findMinMetricValue } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import {
+  copyFirstBucketOfSubsequentDataSeries,
+  findMinMetricValue
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
-import useSloResultAwareChartMetrics from 'in-service-levels/hooks/useSloResultAwareChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
@@ -41,17 +44,15 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
   const selectedTimeConfig = useTimeConfig();
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
-  const [metricResult, , errors, progress] = useSloResultAwareChartMetrics(
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
-    (timeConfig, index) => ({
-      [`timeWindow${index}`]: getMetricConfig(entity, timeConfig, tagFilterExpression)
-    }),
+    timeConfig => getMetricConfig(entity, timeConfig, tagFilterExpression),
     selectedTimeConfig,
     timeWindows
   );
 
   const label = getMetricLabels(entity);
-  const metrics = metricResult?.metrics ?? [];
+  const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
 
   return (
     <ResultAwareChart

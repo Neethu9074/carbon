@@ -20,7 +20,7 @@ export default function SmartAlertsNoDataNotification() {
       explanation={() => (
         <>
           <ArticleContent markdownContent={t('in-alerting:smartAlerts.applications.inventory.noData')} />
-          {!(role.canConfigureGlobalApplicationSmartAlerts ?? role.canConfigureGlobalAlertConfigs) && (
+          {!role.canConfigureGlobalApplicationSmartAlerts && (
             <Message type="warning" small withIcon>
               {t('in-alerting:smartAlerts.applications.inventory.noPersmissionToCreateGlobalSmartAlert')}
             </Message>

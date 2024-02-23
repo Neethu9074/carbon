@@ -60,11 +60,11 @@ const LinuxPackages = ({ agentKey, downloadKey, instanaDomain }: OnboardingProps
 
         <LayoutSection title={t('in-plg:agentDetails.linux.linux_deb_rpm.step1DownloadTheInstallPackage')}>
           <KeyValue
-            // className={locals.keyValueInput}
             label={t('in-plg:agentDetails.linux.linux_deb_rpm.DEBAndRPMPackage')}
             value={
               <InputWithButton
                 type="copy"
+                size="large"
                 inputValue={`https://_:${downloadKey}@packages.instana.${instanaDomain}/agent/download`}
               />
             }

@@ -85,8 +85,7 @@ export default function WebsiteDashboard() {
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
   const showAlertButton =
-    (role.canConfigureWebsiteSmartAlerts ?? role.canConfigureCustomAlerts) &&
-    !location.pathname.includes('/websiteMonitoring/website/configuration');
+    role.canConfigureWebsiteSmartAlerts && !location.pathname.includes('/websiteMonitoring/website/configuration');
 
   return (
     <>

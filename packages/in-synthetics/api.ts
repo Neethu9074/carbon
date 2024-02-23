@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable } from '@instana/observables';
-import { create } from '@instana/observables';
+import { Observable, create } from '@instana/observables';
 
 import {
   Result,
@@ -193,7 +192,7 @@ export const getSyntheticTagCatalog =
     }).map(response => deepFreeze(response));
   };
 
-export const getDatacenters = memoize(getDatacentersInternal, () => '', 5000);
+export const getDatacenters = memoize(getDatacentersInternal, (id: string) => id, 5000);
 
 function getDatacentersInternal(): Observable<unknown> {
   return http({
@@ -204,3 +203,13 @@ function getDatacentersInternal(): Observable<unknown> {
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
+
+export const getDatacenterLicense = (): Observable<any> => {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/synthetics/settings/datacenters/license',
+    mapToResultObject: true
+  }).map(result => deepFreeze(result));
+};

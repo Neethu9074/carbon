@@ -6,9 +6,8 @@
 
 import { TagCatalog } from '@instana/types';
 
-//@ts-expect-error
-import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
+import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { successObservable } from 'in-services/util/result';
 
 /**

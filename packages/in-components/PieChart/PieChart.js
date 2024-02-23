@@ -60,7 +60,8 @@ const PieChartWrapper = forwardRef((props, ref) => {
             hoverColor: props.y1.colors50[i],
             label: props.y1.labels[i],
             aggregation: props.y1.aggregations?.[i],
-            timeShift: props.y1.timeShifts?.[i] || defaultTimeShift
+            timeShift: props.y1.timeShifts?.[i] || defaultTimeShift,
+            lastValueWindowSize: props.y1.adjustedTimeframes?.[i]?.windowSize
           };
         }
       }),

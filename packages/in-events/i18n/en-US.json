@@ -151,6 +151,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
   },
+  "logSmartAlerts": {
+    "logs": "Logs"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Failed Status"
   },
@@ -159,11 +162,9 @@
     "AIGenBadgeText": "AI Generated",
     "suggestionHelpfulText": "Was this suggestion helpful?",
     "thankYouForYourFeedback": "Thank you for your feedback!",
-    "noEntitiesErrorTitle": "No Probable Root Cause Found",
-    "noEntitiesErrorDescription": "This usually occurs when the incident did not have significant service impact",
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
-    "relatedEventsLabel": "Entity events found: {{number_of_events}}",
+    "relatedEventsLabel": "Associated Events ({{number_of_events}})",
     "entitiesNumber": "Entities",
     "techPreview": "TECH PREVIEW",
     "probabilityLevelText": "Probability Level:",
@@ -178,10 +179,11 @@
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
-    "thisIncident": "This incident appears to be:",
     "errorTitle": "No summarization found",
     "errorDescription": "No summarization could be created for this event",
-    "summarizationHelpfulText": "Was this summarization helpful?"
+    "summarizationHelpfulText": "Was this summarization helpful?",
+    "alertChannelTableTitle": "Alert Channels Associated with Incident",
+    "noDataAlertChannels": "No alert channels could be associated with this incident"
   },
   "feedback": {
     "skip": "Skip",

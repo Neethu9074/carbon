@@ -14,8 +14,6 @@ import { Stack } from '@instana/components';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 // @ts-expect-error needs TS migration
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
-// @ts-expect-error needs TS migration
-import { traceViewTracker } from 'in-applications/tracker';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -23,6 +21,7 @@ import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-components/QueryBuilder/components/Header';
 import GroupedViewOnlyIndicator from './GroupedViewOnlyIndicator';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { traceViewTracker } from 'in-applications/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './UngroupedView.mless';

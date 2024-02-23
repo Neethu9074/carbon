@@ -5,15 +5,16 @@
 
 import React, { useEffect } from 'react';
 
-import { Spacer, Stack, Toggle } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
-import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import {
   autoFormatterTimeSeriesEnabled,
   lastValueForNonTimeSeriesWidgetEnabled,
   multiGroupTimeSeriesEnabled
 } from 'in-services/featureFlags';
+import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
 import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
@@ -243,7 +244,7 @@ export default function FormComponent({
                         id="metric-configurator-cross-series-aggregation"
                         checked={isSumCrossSeriesAggregation}
                         disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                        onChange={e => setIsSumCrossSeriesAggregation(e.target.value)}
+                        onChange={e => setIsSumCrossSeriesAggregation(e.target.checked)}
                       />
                     </span>
                   </Tooltip>

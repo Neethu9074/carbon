@@ -17,6 +17,8 @@ import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 
+import locals from './SloObjectiveSection.mless';
+
 export default function TargetSection() {
   const { form, onChange } = useContext(SloFormContext);
   const sloTargetField = form.getIn(['objective', 'target']);
@@ -25,6 +27,7 @@ export default function TargetSection() {
   return (
     <Section title={t('in-service-levels:createSloDialog.sloTarget')} titleWidth={titleWidth}>
       <PercentageInput
+        className={locals.objectiveInput}
         id={'target'}
         value={sloTargetField.value}
         onChange={target => {

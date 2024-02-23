@@ -8,6 +8,7 @@ import { get } from 'lodash';
 
 import { Card, Link, Stack, SvgIcon } from '@instana/components';
 import { create, just } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
@@ -18,14 +19,12 @@ import Header from 'in-applications/analyze/components/TraceDetails/components/C
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-import { downloadCallDetailsClickedTracker } from 'in-applications/tracker.js';
+import { downloadCallDetailsClickedTracker } from 'in-applications/tracker';
+import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './CallDetails.mless';
@@ -98,7 +97,7 @@ export default function CallDetails(props) {
     <aside className={locals.callDetails}>
       <Card
         title={<Header call={call} getColor={getColor} />}
-        rightHeaderContent={<ActionButtons call={call} onClose={onClose} />}
+        rightHeaderContent={<ActionButtons traceId={traceId} callId={callId} onClose={onClose} />}
       >
         {cardContent}
       </Card>
@@ -106,35 +105,21 @@ export default function CallDetails(props) {
   );
 }
 
-function ActionButtons({ call, onClose }) {
-  const downloadLinkRef = useRef();
-
-  useEffect(() => {
-    let url = null;
-    if (call) {
-      const callBlob = new Blob([JSON.stringify(call, null, 2)], { type: 'application/json' });
-      url = URL.createObjectURL(callBlob);
-      downloadLinkRef.current.href = url;
-    }
-    return () => {
-      if (url) {
-        URL.revokeObjectURL(url);
-      }
-    };
-  }, [call]);
-
-  const theme = useTheme();
+function ActionButtons({ traceId, callId, onClose }) {
+  const downloadUrl = `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
+    traceId
+  )}/calls/${encodeURIComponent(callId)}/details?pretty`;
 
   const downloadLabel = t('in-analyze:traceDetail.components.callDetails.downloadRawSpanData');
   const closeLabel = t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails');
-  const svgIconColor = theme.ids.color.option.neutral['500'];
+  const svgIconColor = themes.default.ids.color.option.neutral['500'];
   return (
     <>
       <Link
-        ref={downloadLinkRef}
+        href={downloadUrl}
         className={locals.downloadLink}
         target="_blank"
-        onClick={() => downloadCallDetailsClickedTracker({})}
+        onClick={() => downloadCallDetailsClickedTracker(emptyObject)}
       >
         <Tooltip content={downloadLabel}>
           <SvgIcon size="xs" aria-label={downloadLabel} type="lib_actions_download" color={svgIconColor} />
@@ -166,29 +151,24 @@ function useRetriableObservable({ traceId, callId, retries, traceEndTime }) {
     setRetry(0);
   }
 
-  const timeConfig = useTimeConfig();
-  const retryDelay = traceEndTime + RECENCY_WINDOW - timeConfig.to;
   const callResult = useObservable(getTraceActivityTreeNodeDetailsRetriable, [traceId, callId, retry]) ?? pendingResult;
 
   useEffect(() => {
     const callResultMissing = hasError(callResult) || (!isLoading(callResult) && !callResult.data);
-    const shouldRetry = callResultMissing && isRecent(traceEndTime) && retry < retries;
+    const retryDelay = traceEndTime + RECENCY_WINDOW - Date.now();
+    const shouldRetry = callResultMissing && retryDelay > 0 && retry < retries;
     if (shouldRetry) {
       const timeoutId = setTimeout(() => setRetry(prev => prev + 1), retryDelay);
       return () => clearTimeout(timeoutId);
     }
     callResult$.emit(callResult);
-  }, [retry, callResult$, callResult, retries, traceEndTime, retryDelay]);
+  }, [retry, callResult$, callResult, retries, traceEndTime]);
 
   return callResult$;
 }
 
-function isRecent(timestamp) {
-  return !timestamp || timestamp + RECENCY_WINDOW > Date.now();
-}
-
 function getTraceActivityTreeNodeDetailsRetriable([traceId, callId, retry]) {
-  return retry < MAX_RETRIES
+  return retry <= MAX_RETRIES
     ? getTraceActivityTreeNodeDetails({
         traceId,
         nodeId: callId,
