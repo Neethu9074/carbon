@@ -11813,6 +11813,8 @@
       "databaseSystem": "Database System",
       "version": "Database Version",
       "port": "Port",
+      "childOTelDatabaseWithCount": "Children ({{len}})",
+      "parentOTelDatabase": "Parent", 
       "dashboard": {
         "instance": "Instance",
         "instanceActive": "Active Instance",
