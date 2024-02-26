@@ -10,12 +10,11 @@ import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-// import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
-//import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdPeerDevicesForResource from '../subscriptions/getDrbdPeerDevicesForResource';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -29,58 +28,52 @@ const peerLinkCol = {
     }
   }
 };
-{
-  /*
-const peerDataCol = [
-  {
-    title: t('in-forge:plugins.drbdPeer.dashboard.connectionName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'connectionName']);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdPeer.dashboard.peerNodeId'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'peerNodeId']);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdPeer.dashboard.volume'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'volume']);
-      }
-    }
-  }
-];
 
-const peerMetricsCol = [
-  {
-    title: t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutofsyncBytes'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'peerPeerOutofsyncBytes';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+const peerDataCol1 = {
+  title: t('in-forge:plugins.drbdPeer.connectionName'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'connectionName']);
     }
   }
-];
-*/
-}
+};
+const peerDataCol2 = {
+  title: t('in-forge:plugins.drbdPeer.peerNodeId'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'peerNodeId']);
+    }
+  }
+};
+const peerDataCol3 = {
+  title: t('in-forge:plugins.drbdPeer.volume'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'volume']);
+    }
+  }
+};
+
+const peerMetricsCol = {
+  title: t('in-forge:plugins.drbdPeer.peerDeviceOutofsyncBytes'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'peerDeviceOutofsyncBytes';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+
 export default function PeersTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id') as string;
@@ -103,12 +96,11 @@ export default function PeersTable({ snapshot }: { snapshot: SnapshotData }) {
   const rows =
     drbdPeers.data.map(drbdPeer => ({
       key: drbdPeer.get('id'),
-      snapshot: drbdPeers,
+      snapshot: drbdPeer,
       timeConfig
     })) || [];
 
-  const cols = [peerLinkCol];
-  // const cols = [peerLinkCol, peerDataCol, peerMetricsCol];
+  const cols = [peerLinkCol, peerDataCol1, peerDataCol2, peerDataCol3, peerMetricsCol];
   return (
     <Table
       withoutPadding

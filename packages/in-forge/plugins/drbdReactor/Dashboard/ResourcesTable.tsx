@@ -10,12 +10,11 @@ import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-// import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
-//import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdResourcesForReactor from '../subscriptions/getDrbdResourcesForReactor';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -29,172 +28,66 @@ const deviceLinkCol = {
     }
   }
 };
-{
-  /*
-const deviceDataCol = [
-  {
-    title: t('in-forge:plugins.drbdResource.resourceRole'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'resourceRole']);
-      }
+
+const deviceDataCol = {
+  title: t('in-forge:plugins.drbdResource.resourceRole'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'resourceRole']);
     }
   }
-];
+};
 
-{/*
-const deviceDataCol = [
-  {
-    title: t('in-forge:plugins.drbdResource.resourceRole'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'resourceRole']);
-      }
+const deviceMetricsCol1 = {
+  title: t('in-forge:plugins.drbdResource.resourceSuspended'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return `resourceSuspended`;
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
     }
   }
-];
+};
 
-
-// {
-//   title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
-//   type: 'snapshotLink',
-//   typeArgs: {
-//     getSnapshotId(row) {
-//       return row.key;
-//     }
-//   }
-// },
-// {
-//   title: t('in-forge:plugins.ibmMqQueueManager.dashboard.status'),
-//   type: 'string',
-//   typeArgs: {
-//     getValue(row) {
-//       return row.snapshot.getIn(['data', 'channelStatus']);
-//     }
-//   }
-// },
-//				"resourceSuspended": 0,
-//				"resourceMaypromote": 0,
-//				"resourceForceiofailures": 10102,
-//				"resourcePromotionscore": 0,
-//				"resourceRole": "Secondary",
-{/*
-
-const deviceDataCol = [
-  {
-    title: t('in-forge:plugins.drbdReactor.drbdHost'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'drbdHost']);
-      }
+const deviceMetricsCol2 = {
+  title: t('in-forge:plugins.drbdResource.resourceForceiofailures'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'resourceForceiofailures';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
     }
   }
-];
-
-const deviceMetricsCol = [
-  {
-    title: t('in-forge:plugins.drbdReactor.resourcesNumber'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return `resourcesNumber`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+};
+const deviceMetricsCol3 = {
+  title: t('in-forge:plugins.drbdResource.dashboard.resourcePromotionscore'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'resourcePromotionscore';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
     }
   }
-]
-
-
-
-const deviceDataCol = [
-  {
-    title: t('in-forge:plugins.drbdResource.dashboard.resourceRole'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'resourceRole']);
-      }
-    }
-  }
-];
-
-const deviceMetricsCol = [
-  {
-    title: t('in-forge:plugins.drbdResource.resourceSuspended'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return `resourceSuspended`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdResource.resourceMaypromote'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return `resourceMaypromote`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdResource.resourceForceiofailures'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'resourceForceiofailures';
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdResource.dashboard.resourcePromotionscore'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'resourcePromotionscore';
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  }
-];
-*/
-}
+};
 
 export default function ResourcesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -218,13 +111,12 @@ export default function ResourcesTable({ snapshot }: { snapshot: SnapshotData })
   const rows =
     drbdResources.data.map(drbdResource => ({
       key: drbdResource.get('id'),
-      snapshot: drbdResources,
+      snapshot: drbdResource,
       snapshotId: drbdResource.get('id'),
       timeConfig
     })) || [];
 
-  const cols = [deviceLinkCol];
-  //  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
+  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol1, deviceMetricsCol2, deviceMetricsCol3];
   return (
     <Table
       withoutPadding

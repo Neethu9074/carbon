@@ -13,7 +13,19 @@ export default function Info({ snapshot }: { snapshot: any }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.drbdConnection.connName')}>{data.get('connName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdConnection.connectionName')}>
+        {data.get('connectionName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdConnection.peerNodeId')}>
+        {data.get('peerNodeId')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdConnection.connectionState')}>
+        {data.get('connectionState')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdConnection.resourceName')}>
+        {data.get('resourceName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdConnection.drbdHost')}>{data.get('drbdHost')}</DescriptionItem>
     </DescriptionList>
   );
 }

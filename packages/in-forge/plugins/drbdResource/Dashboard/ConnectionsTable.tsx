@@ -10,12 +10,11 @@ import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-// import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
-//import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdConnectionsForResource from '../subscriptions/getDrbdConnectionsForResource';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -29,90 +28,84 @@ const connectionLinkCol = {
     }
   }
 };
-{
-  /*
-const connectionDataCol = [
-  {
-    title: t('in-forge:plugins.drbdConnection.connectionName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'connectionName']);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdConnection.connectionState'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'connectionState']);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdConnection.peerNodeId'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'peerNodeId']);
-      }
-    }
-  }
-];
 
-const connectionMetricsCol = [
-  {
-    title: t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return `connectionRsinflightBytes`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'connectionApinflightBytes';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdConnection.connectionCongested'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'connectionCongested';
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+const connectionDataCol1 = {
+  title: t('in-forge:plugins.drbdConnection.connectionName'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'connectionName']);
     }
   }
-];
-*/
-}
+};
+const connectionDataCol2 = {
+  title: t('in-forge:plugins.drbdConnection.connectionState'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'connectionState']);
+    }
+  }
+};
+
+const connectionDataCol3 = {
+  title: t('in-forge:plugins.drbdConnection.peerNodeId'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'peerNodeId']);
+    }
+  }
+};
+
+const connectionMetricsCol1 = {
+  title: t('in-forge:plugins.drbdConnection.connectionRsinflightBytes'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return `connectionRsinflightBytes`;
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const connectionMetricsCol2 = {
+  title: t('in-forge:plugins.drbdConnection.connectionApinflightBytes'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'connectionApinflightBytes';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const connectionMetricsCol3 = {
+  title: t('in-forge:plugins.drbdConnection.connectionCongested'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'connectionCongested';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
 
 export default function ConnectionsTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -136,12 +129,19 @@ export default function ConnectionsTable({ snapshot }: { snapshot: SnapshotData 
   const rows =
     drbdConnections.data.map(drbdConnection => ({
       key: drbdConnection.get('id'),
-      snapshot: drbdConnections,
+      snapshot: drbdConnection,
       timeConfig
     })) || [];
 
-  const cols = [connectionLinkCol];
-  // const cols = [connectionLinkCol, connectionDataCol, connectionMetricsCol];
+  const cols = [
+    connectionLinkCol,
+    connectionDataCol1,
+    connectionDataCol2,
+    connectionDataCol3,
+    connectionMetricsCol1,
+    connectionMetricsCol2,
+    connectionMetricsCol3
+  ];
 
   return (
     <Table

@@ -10,12 +10,11 @@ import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-// import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
-//import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import getDrbdDevicesForResource from '../subscriptions/getDrbdDevicesForResource';
+import { getSnapshot, SnapshotData } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -30,81 +29,73 @@ const deviceLinkCol = {
   }
 };
 
-{
-  /*
-const deviceDataCol = [
-  {
-    title: t('in-forge:plugins.drbdDevice.volume'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'volume']);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdDevice.minor'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: any) {
-        return row.snapshot.getIn(['data', 'minor']);
-      }
+const deviceDataCol1 = {
+  title: t('in-forge:plugins.drbdDevice.volume'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'volume']);
     }
   }
-];
+};
+const deviceDataCol2 = {
+  title: t('in-forge:plugins.drbdDevice.minor'),
+  type: 'string',
+  typeArgs: {
+    getValue(row: any) {
+      return row.snapshot.getIn(['data', 'minor']);
+    }
+  }
+};
 
-const deviceMetricsCol = [
-  {
-    title: t('in-forge:plugins.drbdDevice.drbdDeviceWrittenBytesTotal'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return `drbdDeviceWrittenBytesTotal`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdDevice.drbdDeviceReadBytesTotal'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'drbdDeviceReadBytesTotal';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceSizeBytes'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: any) {
-        return row.key;
-      },
-      getMetricName() {
-        return 'drbdDeviceSizeBytes';
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+const deviceMetricsCol1 = {
+  title: t('in-forge:plugins.drbdDevice.drbdDeviceWrittenBytesTotal'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return `drbdDeviceWrittenBytesTotal`;
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
     }
   }
-];
-*/
-}
+};
+const deviceMetricsCol2 = {
+  title: t('in-forge:plugins.drbdDevice.drbdDeviceReadBytesTotal'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'drbdDeviceReadBytesTotal';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const deviceMetricsCol3 = {
+  title: t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceSizeBytes'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row: any) {
+      return row.key;
+    },
+    getMetricName() {
+      return 'drbdDeviceSizeBytes';
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
 
 export default function DevicesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -128,13 +119,13 @@ export default function DevicesTable({ snapshot }: { snapshot: SnapshotData }) {
   const rows =
     drbdDevices.data.map(drbdDevice => ({
       key: drbdDevice.get('id'),
-      snapshot: drbdDevices,
+      snapshot: drbdDevice,
       snapshotId: drbdDevice.get('id'),
       timeConfig
     })) || [];
 
-  const cols = [deviceLinkCol];
-  //  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
+  const cols = [deviceLinkCol, deviceDataCol1, deviceDataCol2, deviceMetricsCol1, deviceMetricsCol2, deviceMetricsCol3];
+
   return (
     <Table
       withoutPadding

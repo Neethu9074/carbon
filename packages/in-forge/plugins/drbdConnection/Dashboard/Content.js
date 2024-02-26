@@ -24,7 +24,7 @@ export default function ConnectionDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.connectionRsinflightBytes')}>
+        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')}>
           <MetricValue snapshotId={snapshotId} metric="connectionRsinflightBytes" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdConnection.connectionApinflightBytes')}>
@@ -32,25 +32,25 @@ export default function ConnectionDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.drbdConnection.connectionRsinflightBytes')}>
+        <DashboardSection title={t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['connectionRsinflightBytes'],
-              labels: [t('in-forge:plugins.drbdConnection.connectionRsinflightBytes')],
+              labels: [t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')],
               type: 'line',
               formatter: number.compact
             }}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.drbdConnection.connectionApinflightBytes')}>
+        <DashboardSection title={t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['connectionApinflightBytes'],
-              labels: [t('in-forge:plugins.drbdConnection.connectionApinflightBytes')],
+              labels: [t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes')],
               type: 'line',
               formatter: number.compact
             }}

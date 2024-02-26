@@ -13,9 +13,14 @@ export default function Info({ snapshot }: { snapshot: any }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.drbdDevice.drbdDeviceName')}>
-        {data.get('drbdDeviceName')}
+      <DescriptionItem title={t('in-forge:plugins.drbdDevice.deviceName')}>{data.get('deviceName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdDevice.volume')}>{data.get('volume')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdDevice.minor')}>{data.get('minor')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdDevice.drbdHost')}>{data.get('drbdHost')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdDevice.resourceName')}>
+        {data.get('resourceName')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdDevice.deviceState')}>{data.get('deviceState')}</DescriptionItem>
     </DescriptionList>
   );
 }
