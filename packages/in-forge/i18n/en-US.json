@@ -294,13 +294,11 @@
   "pluginName_azureFunctions_1": "Azure Functions",
   "pluginName_azureFunctions_2": "Azure Functions",
   "pluginName_azureFunctions": "Azure Function",
-<<<<<<< HEAD
   "pluginName_azureDatabricks_plural": "Azure Databricks",
   "pluginName_azureDatabricks_0": "Azure Databricks",
   "pluginName_azureDatabricks_1": "Azure Databricks",
   "pluginName_azureDatabricks_2": "Azure Databricks",
   "pluginName_azureDatabricks": "Azure Databricks",
-=======
   "pluginName_azureServiceBus_plural": "Azure Service Bus",
   "pluginName_azureServiceBus_0": "Azure Service Bus",
   "pluginName_azureServiceBus_1": "Azure Service Bus",
@@ -316,7 +314,6 @@
   "pluginName_azureServiceBusTopics_1": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics_2": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics": "Azure Service Bus Topic",
->>>>>>> develop
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -6710,7 +6707,7 @@
       "sockSendBufActual": "Actual Send Buffer",
       "sockRecBufReq": "Requested Receive Buffer",
       "sockRecvBufAct": "Actual Receive Buffer",
-      "timeSinceLastRecv": "Time Since Last Receive",
+      "timeSinceLastRecv1": "Time Since Last Receive",
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
       "lockWaitTime": "Lock Wait Time",
@@ -7506,7 +7503,7 @@
       "database": "Database",
       "ldapConnector": "LDAP Connector"
     },
-    "powerVCRegion": {
+    "powerVCRegion":{
       "coresUsage": "Cores Usage",
       "instanceUsage": "Instance Usage",
       "ramUsage": "RAM Usage",
@@ -7517,14 +7514,14 @@
       "availableCapacity": "Available Capacity",
       "volumeCount": "Volume Count"
     },
-    "powerVCHypervisor": {
+    "powerVCHypervisor":{
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage ",
       "storageUsage": "Storage Usage",
       "instanceCount": "Instance Count",
       "currentWorkload": "Current Workload"
     },
-    "powerVCComputeInstance": {
+    "powerVCComputeInstance":{
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
@@ -10141,8 +10138,8 @@
     },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
-      "dashboard": {
-        "tables": {
+      "dashboard":{
+        "tables":{
           "netstatInterfaces": {
             "name": "Netstat Interfaces",
             "internetAddress": "Internet Address",
@@ -13999,10 +13996,6 @@
       "connectionManagerThreadsAllocated": "Connection Manager Threads [allocated]",
       "workerThreadsCreated": "Worker Threads [created]",
       "workerThreadsAllocated": "Worker Threads [allocated]",
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
       "numberWaiting": "Connection Manager Threads waiting on Worker Threads",
       "clientConnecttimeoutPerMinute": "Client Connection Timeouts Per Minute",
       "timesConnecttimeoutLimitHitPerMinute": "Client Connection Timeouts Per Minute (Percentage)",
