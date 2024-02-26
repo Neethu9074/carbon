@@ -7519,7 +7519,7 @@
       "cpuUsage": "CPU Usage ",
       "storageUsage": "Storage Usage",
       "instanceCount": "Instance Count",
-      "currentWorkload": "Current Workload"
+      "currentWorkload":"Current Workload"
     },
     "powerVCComputeInstance":{
       "memoryUsage": "Memory Usage ",
