@@ -35,10 +35,8 @@ const urlStateDefinition = {
 };
 
 export default function OnboardingWidget(props) {
-  const onboardingWidgetV2Enabled =
-    props.activeLicenseType === ('selfService' || 'quota') && agentInstallationV2Enabled;
   const Renderer =
-    props.Renderer || (onboardingWidgetV2Enabled ? OnboardingWidgetPresenterV2 : OnboardingWidgetPresenter);
+    props.Renderer || (agentInstallationV2Enabled ? OnboardingWidgetPresenterV2 : OnboardingWidgetPresenter);
   const trackingService = createTracker(props.trackingIdPrefix);
   const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
   useEffect(() => {

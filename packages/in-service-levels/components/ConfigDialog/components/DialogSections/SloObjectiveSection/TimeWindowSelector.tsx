@@ -22,6 +22,8 @@ import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Input from 'in-components/form/Input/Input';
 
+import locals from './SloObjectiveSection.mless';
+
 export default function TimeWindowSelector() {
   const { form, onChange } = useContext(SloFormContext);
   const windowTypeField = form.getIn(['objective', 'type']);
@@ -58,6 +60,7 @@ export default function TimeWindowSelector() {
       >
         <Stack direction="horizontal" gap="medium">
           <Input
+            className={locals.objectiveInput}
             type="number"
             id="time-window-size"
             value={windowDurationField.value}
@@ -68,7 +71,6 @@ export default function TimeWindowSelector() {
             }}
             min="1"
             max={getMaxTimeWindowDurationValue(windowDurationUnitField.value)}
-            width="3.8rem"
             hasError={!windowDurationField.valid && windowDurationField.touched}
           />
           <Select
@@ -106,14 +108,20 @@ export default function TimeWindowSelector() {
                 );
               }}
             />
-            <TimeInput
-              value={timeField.value}
-              onChange={time => {
-                onChange(['objective', 'startTimestamp', 'time'], () => timeField.setValue(time).setTouched(true));
-              }}
-              hasError={!timeField.valid && timeField.touched}
-            />
-            <SvgIcon type="lib_datetime_time" />
+
+            <Stack direction="horizontal" gap="xsmall" inline align="center">
+              <TimeInput
+                id="slo-objective-time-input"
+                value={timeField.value}
+                onChange={time => {
+                  onChange(['objective', 'startTimestamp', 'time'], () => timeField.setValue(time).setTouched(true));
+                }}
+                hasError={!timeField.valid && timeField.touched}
+              />
+              <label htmlFor="slo-objective-time-input">
+                <SvgIcon aria-label="time_icon" type="lib_datetime_time" />
+              </label>
+            </Stack>
           </Stack>
           {!isDateFieldValid &&
             dateField.messages.map(({ message }, index) => (

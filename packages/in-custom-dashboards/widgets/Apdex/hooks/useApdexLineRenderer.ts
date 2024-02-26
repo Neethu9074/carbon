@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { themes } from '@instana/design-tokens';
+
 import {
   renderMissingDataIndicator,
   timeWindowIncludesFirstCollectionTimestamp
@@ -12,7 +14,6 @@ import { RenderConfig, RenderProps, Renderer as RendererType } from 'in-componen
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { lighten } from 'in-services/formatters/color';
 import { ScaleType } from 'in-services/scale';
-import { useTheme } from 'in-themes';
 
 const backgroundOpacity = 0.15;
 
@@ -22,7 +23,6 @@ export default function useApdexLineRenderer(
   [frustrated, tolerated, satisfied, end]: ApdexAreas,
   firstCollectedMetricTimestamp = 0
 ): RendererType {
-  const theme = useTheme();
   return {
     id: 'apdexLine',
     render: (props: RenderProps): void => {
@@ -31,9 +31,17 @@ export default function useApdexLineRenderer(
       config.backBufferCtx.save();
 
       [
-        { from: frustrated, to: tolerated, color: lighten(theme.ids.color.option.red['500'], backgroundOpacity) },
-        { from: tolerated, to: satisfied, color: lighten(theme.ids.color.option.orange['500'], backgroundOpacity) },
-        { from: satisfied, to: end, color: lighten(theme.ids.color.option.green['500'], backgroundOpacity) }
+        {
+          from: frustrated,
+          to: tolerated,
+          color: lighten(themes.default.ids.color.option.red['500'], backgroundOpacity)
+        },
+        {
+          from: tolerated,
+          to: satisfied,
+          color: lighten(themes.default.ids.color.option.orange['500'], backgroundOpacity)
+        },
+        { from: satisfied, to: end, color: lighten(themes.default.ids.color.option.green['500'], backgroundOpacity) }
       ].forEach(area => drawBackgroundArea(area, scale, config));
 
       config.backBufferCtx.restore();

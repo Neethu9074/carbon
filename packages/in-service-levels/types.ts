@@ -4,25 +4,42 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ServiceLevelIndicatorUnion, TimeBasedSli, isTimeBasedSli } from '@instana/types';
+import {
+  AvailabilityBlueprintIndicator,
+  CustomBlueprintIndicator,
+  LatencyBlueprintIndicator,
+  ServiceLevelIndicatorUnion
+} from '@instana/types';
+
+export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
+
+export function isAggregatedServiceLevelIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is AggregatedServiceLevelIndicator {
+  return indicator.blueprint === 'availability' || indicator.blueprint === 'latency';
+}
+
+export function isLatencyBlueprintIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is LatencyBlueprintIndicator {
+  return indicator.blueprint === 'latency';
+}
+
+export function isAvailabilityBlueprintIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is AvailabilityBlueprintIndicator {
+  return indicator.blueprint === 'availability';
+}
+
+export function isCustomBlueprintIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is CustomBlueprintIndicator {
+  return indicator.blueprint === 'custom';
+}
 
 export interface LabeledEntity {
   label: string;
-}
-
-export type TimeBasedLatencyBlueprintIndicator = TimeBasedSli & { blueprint: 'latency' };
-export type TimeBasedAvailabilityBlueprintIndicator = TimeBasedSli & { blueprint: 'availability' };
-
-export function isTimeBasedLatencyBlueprintIndicator(
-  indicator: ServiceLevelIndicatorUnion
-): indicator is TimeBasedLatencyBlueprintIndicator {
-  return isTimeBasedSli(indicator) && indicator.blueprint === 'latency';
-}
-
-export function isTimeBasedAvailabilityBlueprintIndicator(
-  indicator: ServiceLevelIndicatorUnion
-): indicator is TimeBasedAvailabilityBlueprintIndicator {
-  return isTimeBasedSli(indicator) && indicator.blueprint === 'availability';
+  deleted?: boolean;
 }
 
 export type SloBeaconTypes = 'httpRequest' | 'pageLoad' | 'custom';

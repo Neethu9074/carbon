@@ -100,7 +100,7 @@ function AlertsHubContent({ websites, applications, infrastructure }) {
       buttons: [
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.applications.button0'),
-          icon: 'lib_alerts_alert',
+          icon: 'lib_alerts_create',
           path: alertsList,
           onClick: () => alertHubSmartAlertsClickTracker()
         }

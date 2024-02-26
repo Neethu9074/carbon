@@ -65,6 +65,7 @@
       "availableMetricsLabelAffectedSessions": "Affected Sessions",
       "availableMetricsLabelAffectedUsersSessions": "Affected Users / Sessions",
       "availableMetricsLabelDuration": "Duration",
+      "availableMetricsLabelCustomMetric": "Custom Metric",
       "availableMetricsCategoryNavigationTiming": "Navigation Timing",
       "availableMetricsCategoryPaintTiming": "Paint Timing",
       "availableMetricsCategoryHTTP": "HTTP",

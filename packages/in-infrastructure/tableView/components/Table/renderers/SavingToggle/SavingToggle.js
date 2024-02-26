@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Toggle, Spacer } from '@instana/components';
+import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 

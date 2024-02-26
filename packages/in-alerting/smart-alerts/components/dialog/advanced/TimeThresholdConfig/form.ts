@@ -16,7 +16,8 @@ import {
   ViolationsInSequenceWebsiteTimeThreshold,
   ViolationsInPeriodApplicationTimeThreshold,
   ViolationsInPeriodWebsiteTimeThreshold,
-  ViolationsInSequenceInfraTimeThreshold
+  ViolationsInSequenceInfraTimeThreshold,
+  ViolationsInSequenceLogTimeThreshold
 } from 'in-types';
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -125,7 +126,8 @@ export function createViolationsInSequenceForm(
   timeThresholdConfig?:
     | ViolationsInSequenceApplicationTimeThreshold
     | ViolationsInSequenceWebsiteTimeThreshold
-    | ViolationsInSequenceInfraTimeThreshold,
+    | ViolationsInSequenceInfraTimeThreshold
+    | ViolationsInSequenceLogTimeThreshold,
   thresholdType?: ThresholdType
 ) {
   return createMapBase('violationsInSequence', thresholdType, timeThresholdConfig?.timeWindow);

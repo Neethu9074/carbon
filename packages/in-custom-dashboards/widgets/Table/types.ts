@@ -30,5 +30,6 @@ export interface TableWidgetProps {
   dragHandle?: React.ReactNode;
   actions?: React.ReactNode;
   isPreview: boolean;
+  isInModal?: boolean;
   refreshFixatedTimeConfig: () => void;
 }

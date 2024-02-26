@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "錯誤",
-        "warning": "警告",
-        "showStackTrace": "顯示堆疊追蹤",
-        "expandButtonForContent": "內容的展開按鈕",
-        "logParameters": "記載參數",
-        "logStackTrace": "記載堆疊追蹤",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "此呼叫已批次處理，且代表 {{batchSize}} 項個別的呼叫。",
         "downloadRawSpanData": "下載呼叫詳細資料",
         "correlationMissing": "遺漏相關性",
@@ -283,6 +277,7 @@
     "labelService": "服務",
     "labelEndpoint": "端點",
     "labelAggregatedTime": "聚集的時間",
+    "labelCalls": "呼叫",
     "labelErroneousCalls": "錯誤呼叫",
     "buttonTechnology": "技術",
     "callDetails": {

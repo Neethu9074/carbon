@@ -28,13 +28,13 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import InfraTimeThreshold from 'in-alerting/smart-alerts/infrastructure/components/InfraTimeThreshold';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
-import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced//ScopeSection';
+import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -46,7 +46,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     selectedChartViewConfigIndex,
     updateForm,
     onChange,
-    timeConfig,
     setSliderState,
     setCustomSlideInHeaderConfig,
     setTagFilterValid,
@@ -91,7 +90,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               selectedChartViewConfigIndex={selectedChartViewConfigIndex}
               // @ts-expect-error updateForm is required
               updateForm={updateForm}
-              timeConfig={timeConfig}
               tagCatalog={tagCatalog}
               regex={isRegex}
             />
@@ -104,7 +102,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           valid: true,
           content: (
             <>
-              <InfraTimeThreshold
+              <TimeThreshold
                 form={form}
                 updateForm={updateForm}
                 onChange={onChange}

@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -16,7 +18,6 @@ import MetricValue from 'in-components/MetricValue';
 import DatasourcesTable from './DatasourcesTable';
 import SAFAgentsTable from './SAFAgentsTable';
 import WebAppsTable from './WebAppsTable';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Dashboard({ snapshot, timeConfig }) {
@@ -104,11 +105,11 @@ export default function Dashboard({ snapshot, timeConfig }) {
                 t('in-forge:plugins.webLogicAppContainer.labelEmergency')
               ],
               colors: [
-                theme.lib.colors.pink800,
-                theme.lib.colors.orange800,
-                theme.lib.colors.yellow800,
-                theme.lib.colors.red800,
-                theme.lib.colors.indigo800
+                themes.default.ids.color.option.pink['500'],
+                themes.default.ids.color.option.orange['500'],
+                themes.default.ids.color.option.yellow['500'],
+                themes.default.ids.color.option.red['500'],
+                themes.default.ids.color.option.indigo['500']
               ],
               type: 'line'
             }}

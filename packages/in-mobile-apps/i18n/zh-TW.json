@@ -21,10 +21,6 @@
       "transferSizeLabel": "傳送大小",
       "transferSizeCategory": "資源大小調整"
     },
-    "crash": {
-      "crashAffectedSessionCount": "受損毀影響的階段作業計數",
-      "crashAffectedUserCount": "受損毀影響的使用者計數"
-    },
     "errorRate": {
       "label": "錯誤率",
       "rawDataLabel": "錯誤計數"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "檢視後端追蹤",
       "showID": "ID：{{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "檢視損毀群組詳細資料"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} 個出現項目",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "自訂事件",
@@ -219,9 +218,9 @@
       "crashLabel": "損毀",
       "metaHeader": "Meta",
       "stackTrace": "堆疊追蹤",
-      "stackTraceLastOccurrence": "堆疊追蹤（前次出現）",
-      "stackTraceButtonPrettyStackTrace": "細緻堆疊追蹤",
-      "stackTraceButtonRawStackTrace": "原始堆疊追蹤"
+      "stackTraceLastOccurrence": "堆疊追蹤（最後一個出現項目）",
+      "stackTraceButtonCrashedThreadsStackTrace": "損毀的執行緒",
+      "stackTraceButtonAllThreadsStackTrace": "所有執行緒"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "擷取時間",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "說明",
           "fileUploadConfigurationDialogDescriptionHelp": "上傳配置可協助您更妥善地組織上傳的檔案。",
           "fileUploadConfigurationDialogHeadingOpenAPI": "正在上傳符號檔",
-          "fileUploadConfigurationDialogOpenAPIHelp": "呼叫 Instana 的 Web REST API，以上傳您的符號檔。 這可以整合到您的管線處理程序中，以進行自動化部署。 Web REST API 的說明和用法定義於<documentation>文件</documentation>內。",
+          "fileUploadConfigurationDialogOpenAPIHelp": "呼叫 Instana 的 Web REST API，以上傳您的符號檔。 這可以整合到您的管線處理程序中，以進行自動化部署。 Web REST API 的說明和用法定義在我們的<documentation>文件</documentation>中。",
           "fileUploadUrl": "上傳符號檔 API",
           "stackTraceTranslationLabelConfiguration": "配置",
           "stackTraceTranslationLabelFiles": "檔案",
@@ -438,7 +437,7 @@
     "nameLabel": "名稱",
     "sessionStartsLabel": "階段作業啟動",
     "viewTransitionsLabel": "視圖轉移",
-    "crashFreeSessionRateLabel": "損毀可用階段作業率",
+    "crashAffectedSessionRateTitle": "損毀影響階段作業率",
     "addMobileAppBtn": "新增行動式應用程式",
     "mobileAppsTitle": "行動式應用程式"
   },

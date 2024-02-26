@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "分析で表示",
     "chartLendMetricTimeShifted": "メトリックが {{timeShiftedLabel}} にタイムシフトされました",
     "chartDownloadLabel": "JSON のダウンロード",
+    "chartDownloadCSVLabel": "CSV 形式でダウンロード",
     "chartGlobalHighlightLabel": "すべてのグラフで強調表示",
     "chartZoomInLabel": "時刻範囲にズーム",
     "chartAlertsLanePresenterAlertsLabel": "アラート",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (場所: <codeWithClass>{{path}}</codeWithClass>)"
-  },
-  "graphView": {
-    "graphTitle": "グラフ",
-    "explanationHeader": "ダイナミック・グラフ・ショーケース",
-    "explanationP1": "Instana を駆動するコア・テクノロジーは、ダイナミック・グラフと呼ばれています。 このグラフは、コンポーネントのすべての物理的および論理的な依存関係を理解するアプリケーションのモデルです。 右側に、現在の環境のダイナミック・グラフが表示されています。",
-    "explanationP2": "このグラフには、物理コンポーネントに加えて、トレース、アプリケーション、サービス、クラスター、テーブル・スペースなどの論理コンポーネントも含まれています。 コンポーネントとその依存関係は、Instana エージェントとセンサーによって自動的にディスカバーされます。これにより、グラフは継続的に最新状態に維持されます。 グラフ内のすべてのノードも、メトリック、構成データ、セマンティック知識と機械学習アプローチに基づいて計算された正常性値などの状態情報によって継続的に更新されます。 また、この知識によってグラフ内の依存関係が分析され、サービスやアプリケーションなどの論理的なグループを検出して、そのレベルでの影響を理解し、問題の重要度を導き出します。 グラフ全体が永続的であり、前後の時間に移動して、多くの運用上のユース・ケースにグラフの知識を活用できます。",
-    "explanationLink": "<linkToBlog>ブログにアクセス</linkToBlog>して、詳細をご確認ください。",
-    "closeBtn": "グラフを閉じる"
   },
   "gravatar": {
     "avatarUrlAlt": "gravatar.com からの {{email}} のアバター。",
@@ -240,7 +233,6 @@
     "labelRegion": "リージョン",
     "labelTag": "タグ",
     "labelCommit": "コミット",
-    "buttonGraphShowcase": "グラフ・ショーケース",
     "geo": {
       "title": "ジオデータ",
       "description": "この製品には、<linkToMaxMind>https://www.maxmind.com</linkToMaxMind> で入手可能な MaxMind で作成される GeoLite2 データが含まれています。"
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "N/A",
+    "headerLabel": "ソート基準",
     "buttonAscending": "昇順",
     "buttonDescending": "降順"
   },

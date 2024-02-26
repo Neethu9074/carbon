@@ -57,4 +57,10 @@
       height: auto;
     }
   }
+  .manualContentMarkdown {
+    background: var(--ids-color-option-neutral-50);
+
+    display: flex;
+    justify-content: space-between;
+  }
 }

@@ -36,6 +36,7 @@ export default function TopListCard(props) {
     renderWidgetNotSupportedIndicator = false,
     isScrollbarVisible = false,
     helpInfo,
+    isInModal,
     noDataMessage
   } = props;
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
@@ -100,11 +101,15 @@ export default function TopListCard(props) {
     <Card
       className={classNames({
         [locals.disabledWidget]: renderWidgetNotSupportedIndicator,
+        [locals.modal]: isInModal,
         [locals.scrollbar]: isScrollbarVisible
       })}
       title={title}
-      leftHeaderContent={<LeftHeaderContent />}
-      rightHeaderContent={headerComponent}
+      bodyClassName={classNames({
+        [locals.modal]: isInModal
+      })}
+      leftHeaderContent={isInModal ? undefined : <LeftHeaderContent />}
+      rightHeaderContent={isInModal ? undefined : headerComponent}
       withoutPadding={withoutPadding}
       useMaxAvailableHeight={useMaxAvailableHeight}
     >

@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { cubeColorFalloffValues, strokeColors } from 'in-map/components/infraMapColors';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 import { BufferGeometry } from 'in-map/3DLibProvider';
-import theme from 'in-themes';
 
 export const NUM_POINTS_PER_SLICE = 54;
-const FRONT = theme.map.colors.cubeColorFalloffValues.right;
-const TOP = theme.map.colors.cubeColorFalloffValues.top;
+const FRONT = cubeColorFalloffValues.right;
+const TOP = cubeColorFalloffValues.top;
 const DEFAULT_FALLOFF_COLORS = [
   FRONT.r,
   FRONT.g,
@@ -69,8 +69,8 @@ const DEFAULT_FALLOFF_COLORS = [
 ];
 
 const ALL_COLORS = [];
-for (let i = 0; i < theme.chart.strokeColors.length; i++) {
-  const rgb = hexToRGBNormalized(theme.chart.strokeColors[i]);
+for (let i = 0; i < strokeColors.length; i++) {
+  const rgb = hexToRGBNormalized(strokeColors[i]);
   for (let j = 0; j < DEFAULT_FALLOFF_COLORS.length; j += 3) {
     ALL_COLORS.push(
       DEFAULT_FALLOFF_COLORS[j] * rgb.r,
@@ -181,7 +181,7 @@ function calculateVertices(numSlices) {
 }
 
 export const INDEX_MASK = [];
-for (let i = 0; i < theme.chart.strokeColors.length; i++) {
+for (let i = 0; i < strokeColors.length; i++) {
   INDEX_MASK.push(
     // front
     i,

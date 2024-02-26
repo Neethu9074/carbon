@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import { useScrollToFirstInvalidNavItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import MessageStack, { MessageType } from 'in-components/MessageStack/MessageStack';
@@ -14,7 +15,6 @@ import SideNav, { NavItem } from 'in-components/SideNav';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 
 import locals from './StepsContainer.mless';
 
@@ -26,7 +26,6 @@ interface StepsContainerProps {
 }
 
 export default function StepsContainer({ navItems, noHeader, noDivider, messages = [] }: StepsContainerProps) {
-  const theme = useTheme();
   useScrollToFirstInvalidNavItem(navItems);
 
   return (
@@ -48,8 +47,8 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
                               <Tooltip align="bottomMiddle" content={titleToolTipText}>
                                 <SvgIcon
                                   className={locals.helpicon}
-                                  type="lib_help_error_error_outline"
-                                  color={theme.ids.color.option.neutral['600']}
+                                  type="lib_help_error_info_outline"
+                                  color={themes.default.ids.color.option.neutral['600']}
                                 />
                               </Tooltip>
                             )}

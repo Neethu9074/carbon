@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AdjustedTimeframe, DurationUnitType, TimeConfig } from '@instana/types';
+import { AdjustedTimeframe, DurationUnitType, TimeConfig, TimeWindow } from '@instana/types';
 
 import { days, hours, minutes } from 'in-services/time/time';
 
@@ -17,7 +17,7 @@ export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe
 }
 
 export function calculateSloGranularity(timeConfig: TimeConfig): number {
-  const now = Date.now();
+  const now = new Date().getTime();
   const toOrNow = timeConfig.to ?? now;
   const from = toOrNow - timeConfig.windowSize;
   const oneDay = days.toMillis(1);
@@ -31,10 +31,54 @@ export function calculateSloGranularity(timeConfig: TimeConfig): number {
   return hours.toMillis(1);
 }
 
-export function calculateTimeRemaining(timeConfig: TimeConfig): number {
-  const now = Date.now();
+export function calculateTimeRemaining(
+  sloTimeConfig: TimeConfig,
+  selectedTimeConfig: TimeConfig,
+  timeWindowType: TimeWindow['type'],
+  timeWindows?: TimeConfig[]
+) {
+  if (timeWindowType === 'rolling') return calculateTimeRemainingFromNow(sloTimeConfig);
+
+  // In case the there is no valid result from backend we return 0
+  if (!timeWindows || timeWindows.length < 1) return 0;
+
+  // Calculate remaining time for fixed time windows
+  return calculateTimeRemainingFromWithinTimeWindow(selectedTimeConfig, timeWindows[0]);
+}
+
+export function calculateTimeRemainingFromNow(timeConfig: TimeConfig): number {
+  const now = new Date().getTime();
   const to = timeConfig.to ?? now;
   return to - now;
+}
+
+export function calculateTimeRemainingFromWithinTimeWindow(timeConfig: TimeConfig, timeWindow: TimeConfig): number {
+  const now = new Date().getTime();
+  const selectedTo = timeConfig.to ?? now;
+
+  const windowTo = timeWindow.to ?? now;
+  return windowTo - selectedTo;
+}
+
+export function getEntireTimeWindowConfigFromTimeWindows(timeWindows: TimeConfig[]): TimeConfig {
+  const now = new Date().getTime();
+  const timeWindowEnd = timeWindows.reduce(
+    (prevTo, currTw) => (prevTo > (currTw.to ?? now) ? prevTo : currTw.to ?? now),
+    0
+  );
+  const timeWindowStart = timeWindows.reduce((prevFrom, currTw) => {
+    const currFrom = (currTw.to ?? timeWindowEnd) - currTw.windowSize;
+    return prevFrom < currFrom ? prevFrom : currFrom;
+  }, timeWindowEnd);
+
+  const to = timeWindowEnd;
+  const windowSize = timeWindowEnd - timeWindowStart;
+  return {
+    to,
+    windowSize,
+    focusedMoment: to,
+    autoRefresh: false
+  };
 }
 
 export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {

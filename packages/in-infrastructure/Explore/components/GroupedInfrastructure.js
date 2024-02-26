@@ -18,17 +18,19 @@ import {
 } from '@instana/components';
 import { just } from '@instana/observables';
 
-import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import {
   firstValue,
   getGranularity,
   getMetricKey,
   getMetricValue,
-  getSeriesKey
+  getSeriesKey,
+  lastValueForMetric
 } from 'in-infrastructure/Explore/services/metrics';
+import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
@@ -646,7 +648,15 @@ function getHeaderActions(props) {
 
 export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode }) {
   return metrics.map(
-    ({ metric, aggregation, crossSeriesAggregation, formatterId, isFormatterSelected, label: metricLabel }) => {
+    ({
+      metric,
+      aggregation,
+      crossSeriesAggregation,
+      formatterId,
+      isFormatterSelected,
+      label: metricLabel,
+      lastValue
+    }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
       const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
@@ -658,7 +668,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         label,
         aggregation,
         formatterId,
-        isFormatterSelected
+        isFormatterSelected,
+        lastValue
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
@@ -699,15 +710,18 @@ function generateMetric({
   timeConfig,
   granularity,
   formatterId,
-  isFormatterSelected
+  isFormatterSelected,
+  lastValue
 }) {
-  const { metrics } = item;
+  const { metrics, adjustedTimeframe } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
   const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
-  const kpi = firstValue(metrics[id]);
-  const series = metrics[getSeriesKey(id)];
+  const seriesKey = getSeriesKey(id);
+  const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
+  const series = metrics[seriesKey];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+  const customValueTooltip = lastValue && getLastValueTooltipLabel(adjustedTimeframe);
 
   return (
     <SparkChart
@@ -719,6 +733,7 @@ function generateMetric({
       label={renderedLabel}
       rollup={granularity}
       metrics={series}
+      customValueTooltip={customValueTooltip}
     />
   );
 }

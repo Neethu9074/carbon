@@ -16,6 +16,7 @@ import { t } from 'in-i18n';
 import locals from './Table.mless';
 
 const headerElement = locals.header;
+const footerElement = locals.footer;
 const headerLeftSideElement = locals.headerLeft;
 const headerRightSideElement = locals.headerRight;
 const tableElement = locals.table;
@@ -206,6 +207,23 @@ export default class Table extends React.Component {
           </thead>
           <tbody>{rows}</tbody>
         </table>
+
+        {showHeader ? (
+          <div className={footerElement}>
+            <div className={headerRightSideElement}>
+              {showPagination ? (
+                <div className={locals.paginationWrapper}>
+                  <Pagination
+                    onChange={p => this.store.setPage(p - 1)}
+                    onNextPage={this.store.onNextPage}
+                    currentPage={(data.page || 0) + 1}
+                    numPages={data.pageCount}
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
       </div>
     );
   }

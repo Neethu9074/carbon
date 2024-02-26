@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "在分析中檢視",
     "chartLendMetricTimeShifted": "度量的時間已遷移至：{{timeShiftedLabel}}",
     "chartDownloadLabel": "下載 JSON",
+    "chartDownloadCSVLabel": "下載 CSV",
     "chartGlobalHighlightLabel": "在所有圖表上強調顯示",
     "chartZoomInLabel": "縮放至時間範圍",
     "chartAlertsLanePresenterAlertsLabel": "警示",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}}（位於 <codeWithClass>{{path}}</codeWithClass>）"
-  },
-  "graphView": {
-    "graphTitle": "圖形",
-    "explanationHeader": "動態圖形展示",
-    "explanationP1": "推動 Instana 的核心技術我們稱為「動態圖形」。「圖形」是您應用程式的模型，可瞭解元件的所有實體與邏輯相依關係。在右邊，您會看到現行環境的「動態圖形」！",
-    "explanationP2": "「圖形」具有多個實體元件 - 它還包含邏輯元件，例如：追蹤、應用程式、服務、叢集或表格空間。「Instana 代理程式」和「感應器」會自動探索元件及其相依關係，使「圖形」持續保持最新。此外，也會根據語義知識和機器學習方法，持續以狀態資訊（例如：度量、配置資料和計算出的性能值）來更新「圖形」中的每一個節點。此知識也會分析圖形中的相依關係，來尋找服務和應用程式等之類的邏輯分組，以瞭解對該層次的影響，並衍生問題的嚴重性。整個圖形會持續存在，您可以適時地反覆來回，以便將圖形的知識運用於許多的作業使用案例中。",
-    "explanationLink": "<linkToBlog>請造訪我們的部落格</linkToBlog>，取得詳細資訊。",
-    "closeBtn": "關閉圖形"
   },
   "gravatar": {
     "avatarUrlAlt": "gravatar.com 提供的 {{email}} 頭像。",
@@ -240,7 +233,6 @@
     "labelRegion": "地區",
     "labelTag": "標籤",
     "labelCommit": "確定",
-    "buttonGraphShowcase": "圖形展示",
     "geo": {
       "title": "地理資料",
       "description": "本產品包含透過 MaxMind 建立的 GeoLite2 資料；如需 MaxMind 相關資訊，請造訪 <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>。"
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "N/A",
+    "headerLabel": "排序方式",
     "buttonAscending": "升冪",
     "buttonDescending": "降冪"
   },

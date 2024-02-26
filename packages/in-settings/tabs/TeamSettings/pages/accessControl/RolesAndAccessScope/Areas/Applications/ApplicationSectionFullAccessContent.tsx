@@ -6,14 +6,26 @@
 
 import React, { useContext } from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, Ul } from '@instana/components';
 
+import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
+import {
+  ProductArea,
+  applicationAdditionalCapabilities
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { t } from 'in-i18n';
 
+const sublistContent = (
+  <Ul>
+    <CapabilitySubsection
+      capabilities={applicationAdditionalCapabilities}
+      headerText={t('in-settings:productAreas.additionalPermissions')}
+    />
+  </Ul>
+);
 export const ApplicationSectionFullAccessContent = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { areaColumnHeadline, isDisabled } = getAreaData({ area: ProductArea.APPLICATION, permissionsSet });
@@ -24,6 +36,7 @@ export const ApplicationSectionFullAccessContent = () => {
       firstColumnHeadline={areaColumnHeadline}
       firstColumnLabel={t('in-settings:productAreas.title_applications')}
       disabled={isDisabled}
+      subList={sublistContent}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.allApplications')}</Typography>
     </AreaExpandableListItem>

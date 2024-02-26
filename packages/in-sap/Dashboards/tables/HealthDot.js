@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import SapThresholdTooltip from './SapThresholdTooltip';
 import Tooltip from 'in-components/Tooltip';
 import oldTheme from 'in-themes';
@@ -58,10 +60,10 @@ export function HealthDot({
 }
 
 export const statusToColour = {
-  Grey: oldTheme.lib.colors.success,
-  Green: oldTheme.lib.colors.success,
-  Red: oldTheme.lib.colors.failure,
-  Unknown: oldTheme.lib.colors.N400
+  Grey: themes.default.ids.color.option.green[500],
+  Green: themes.default.ids.color.option.green[500],
+  Red: themes.default.ids.color.option.red[500],
+  Unknown: themes.default.ids.color.option.neutral[400]
 };
 
 HealthDot.propTypes = {

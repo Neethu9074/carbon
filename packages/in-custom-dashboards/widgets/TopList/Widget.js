@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 
 import { default as SyntheticTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/SyntheticTopListCatalog';
@@ -32,12 +33,11 @@ import unwrapLink from 'in-stores/navigation/unwrapLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/TopList/Widget.mless';
 
-export default function ListWidget({ config, title, actions, dragHandle }) {
+export default function ListWidget({ config, title, actions, isInModal, dragHandle }) {
   const timeConfig = useTimeConfig();
   switch (config.metricConfiguration.source) {
     case 'APPLICATION':
@@ -46,6 +46,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -56,6 +57,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -66,6 +68,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -76,6 +79,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -86,6 +90,7 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
           config={config}
           title={title}
           actions={actions}
+          isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
         />
@@ -93,11 +98,9 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
   }
 }
 
-export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
-  const theme = useTheme();
+export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, isInModal, dragHandle }) {
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
-
   return (
     <TopListCardPresenter
       title={title}
@@ -105,7 +108,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       getItemsFromResult={result => result.data}
       getMetricValueFromItem={(_, item) => item.values?.[0]?.[1]}
       selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
-      selectedMetricColor={isErroneous ? theme.ids.color.option.red['500'] : null}
+      selectedMetricColor={isErroneous ? themes.default.ids.color.option.red['500'] : null}
       Label={Label}
       Metric={Metric}
       config={config}
@@ -113,6 +116,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       renderHistoricDataIndicator
       hasApproximateData={hasApproximateData}
       isScrollbarVisible
+      isInModal={isInModal}
       header={
         <>
           {dragHandle}

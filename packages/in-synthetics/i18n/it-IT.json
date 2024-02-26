@@ -26,7 +26,9 @@
         "uploadScriptTitle": "Carica lo script",
         "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}",
         "emptyScriptFileError": "Codice vuoto. Niente da convalidare.",
-        "enterTheScriptMessage": "Immettere lo script qui"
+        "enterTheScriptMessage": "Immettere lo script qui",
+        "privatePoPLabel": "Privato",
+        "managedPoPLabel": "Gestito"
       },
       "basicDetails": {
         "title": "Qual è il nome di questo test di API semplice (azione HTTP)",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "Nome file principale non valido",
           "webpageUrl": "URL pagina web",
           "browserUploadFileDescription": "È possibile caricare un singolo file .js, un file zip di file .js in bundle o uno script .side registrato da SeleniumIDE.",
-          "sideFileUploadedMessage": "Impossibile modificare o convalidare gli script Selenium"
+          "sideFileUploadedMessage": "Impossibile modificare o convalidare gli script Selenium",
+          "bundleFileNotSupportedMessage": "È stato selezionato un file non supportato. I bundle sono supportati solo in modalità avanzata.",
+          "timeoutFieldLabel": "Timeout",
+          "timeUnitsLabel": "Unità di tempo",
+          "timeoutFieldOptionMinutes": "minuti (m)",
+          "timeoutFieldOptionSeconds": "secondi (s)",
+          "timeoutFieldOptionMilliseconds": "millisecondi (ms)",
+          "timeoutValueGreaterthanZero": "Il valore di timeout deve essere maggiore di zero",
+          "invalidTimeoutvalue": "Valore di timeout non valido",
+          "invalidTimeoutUnit": "Unità di timeout non valida",
+          "timeoutFieldDescription": "Questo test avrà esito negativo dopo",
+          "retryFieldLabel": "Strategia per i nuovi tentativi",
+          "retryFieldOptionNone": "Nessuna",
+          "retryFieldOptionOnce": "Riprova una volta",
+          "retryFieldOptionTwice": "Riprova due volte",
+          "retryIntervalFieldLabel": "Intervallo tentativi",
+          "retryIntervalDescription": "Questo test eseguirà un nuovo tentativo {{retryCount}} dopo {{retryIntervalValue}} secondi.",
+          "markSyntheticCall": "Contrassegna chiamata sintetica"
         },
         "loadMore": "Carica altro",
         "selectTests": {
           "addLocations": "Aggiungi {{count}} ubicazioni",
           "addLocation": "Aggiungi ubicazione",
           "cancel": "Annulla",
-          "selectLocation": "Seleziona ubicazione"
+          "selectLocation": "Seleziona ubicazione",
+          "privatePoPLabel": "Privato",
+          "managedPoPLabel": "Gestito"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "Test sintetico aggiornato correttamente",
       "successMessageDelete": "Test sintetico eliminato correttamente",
       "failureTitle": "Non riuscito.",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "Impossibile aggiornare il test sintetico. {{errorMessage}}. Aggiornare la pagina e riprovare.",
+      "failureMessageCreate": "Impossibile creare il test sintetico: {{errorMessage}}",
+      "failureMessageUpdate": "Impossibile aggiornare il test sintetico: {{errorMessage}}",
       "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "Impossibile eliminare l'ubicazione. Riprovare più tardi"
     },
     "updateTest": {
-      "dialogTitle": "Modifica test API",
+      "dialogTitle": "Modifica test {{syntheticType}}",
       "buttonSave": "Salva",
       "scriptSavedMessage": "Script aggiunto",
       "bundleSavedMessage": "Script in bundle aggiunti"
@@ -298,7 +319,7 @@
       "health": "Integrità",
       "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
-      "activeTestLinked": "Sono presenti {{linkedTests}} test attivi associati all'ubicazione <strong>{{label}}</strong> ({{status}}). L'eliminazione di questa ubicazione provocherà la perdita di dati nei grafici di riepilogo del test. Si è sicuri di voler eliminare questa ubicazione?<br/>Per aggiornare l'ubicazione senza eliminarla, consultare la <documentLink>documentazione</documentLink>.",
+      "activeTestLinked": "Sono presenti {{linkedTests}} test attivi associati all'ubicazione <strong>{{label}}</strong> ({{status}}). L'eliminazione di questa ubicazione provocherà la perdita di dati nei grafici di riepilogo del test. Si è sicuri di voler eliminare questa ubicazione?<br/><br/>Per aggiornare l'ubicazione senza eliminarla, consultare la <documentLink>documentazione</documentLink>.",
       "deleteLocation": "Elimina ubicazione",
       "noDataAvailable": {
         "message": "{{component}} non disponibile"
@@ -312,7 +333,8 @@
       "failure": "Non riuscito",
       "popVersion": "Versione",
       "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Le ubicazioni gestite non possono essere eliminate."
+      "deleteRestrictedDescription": "Le ubicazioni gestite non possono essere eliminate.",
+      "deleteLocationBroswerRefreshInfo": "Ci vorrà del tempo prima che l'ubicazione scompaia dall'elenco delle ubicazioni e potrebbe essere necessario un aggiornamento del browser."
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -552,10 +574,20 @@
         "reasonTitle": "Motivo dell'eliminazione",
         "typingValidationTitle": "Immettere {{synthetic}} per continuare",
         "cancelButton": "Annulla",
-        "deleteButton": "Elimina test"
+        "deleteButton": "Elimina test",
+        "deleteTestBrowserRefreshInfo": "Ci vorrà del tempo prima che il test scompaia dall'elenco dei test e potrebbe essere necessario un aggiornamento del browser."
       },
       "configurationEditAction": "Modifica",
-      "configurationDeleteAction": "Elimina"
+      "configurationDeleteAction": "Elimina",
+      "timeoutLabel": "Timeout",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "Strategia per i nuovi tentativi",
+      "retryStrategyNone": "Nessuna",
+      "retryStrategyDescription": "Riprova {{retryStrategy}}",
+      "retryIntervalFieldLabel": "Intervallo tentativi",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} secondo",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} secondi",
+      "markSyntheticCall": "Contrassegna chiamata sintetica"
     }
   }
 }

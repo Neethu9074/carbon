@@ -9,6 +9,12 @@ import { ResultPrecisionDetails } from '@instana/types';
 import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  flowMapCallsClickedTracker,
+  flowMapErrorClickedTracker,
+  flowMapLatencyClickedTracker,
+  flowMapSimulationClickedTracker
+} from 'in-applications/tracker';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
@@ -33,9 +39,10 @@ const SIGNAL_VALUES = {
 interface Props {
   serviceLocatorUid: string;
   resultPrecisionDetails: ResultPrecisionDetails;
+  entity: 'endpoint' | 'service';
 }
 
-export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: Props) {
+export default function Controls({ serviceLocatorUid, resultPrecisionDetails, entity }: Props) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
   const hasApproximateData = resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
@@ -48,7 +55,7 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: 
     <Fragment>
       <HorizontalControlsPresenter position="topLeft">
         <MapButtonGroup>
-          <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
+          <HeatmapButtons serviceLocatorUid={serviceLocatorUid} entity={entity} />
           {hasApproximateData && (
             <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
           )}
@@ -69,9 +76,10 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails }: 
   );
 
   function toggleParticles() {
-    eventBusServiceLocator
-      .on(SIGNALS.PARTICLES)
-      .once((_signal: string) => eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal));
+    eventBusServiceLocator.on(SIGNALS.PARTICLES).once((_signal: string) => {
+      flowMapSimulationClickedTracker({ entity, toggle: !_signal });
+      eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal);
+    });
   }
 
   function zoomIn(serviceLocatorUid: string) {
@@ -102,9 +110,10 @@ function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
 
 interface HeatmapButtonsProps {
   serviceLocatorUid: string;
+  entity: 'endpoint' | 'service';
 }
 
-function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
+function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
   const currentSignal = useObservable(
     getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.HEATMAP),
     []
@@ -127,17 +136,26 @@ function HeatmapButtons({ serviceLocatorUid }: HeatmapButtonsProps) {
         {
           text: t('in-applications:labelCalls'),
           key: SIGNAL_VALUES.HEATMAP_CALLS,
-          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS)
+          onClick: () => {
+            flowMapCallsClickedTracker({ entity });
+            toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS);
+          }
         },
         {
           text: t('in-applications:labelLatency'),
           key: SIGNAL_VALUES.HEATMAP_LATENCY,
-          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY)
+          onClick: () => {
+            flowMapLatencyClickedTracker({ entity });
+            toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY);
+          }
         },
         {
           text: t('in-applications:labelErrors'),
           key: SIGNAL_VALUES.HEATMAP_ERROR_RATE,
-          onClick: () => toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE)
+          onClick: () => {
+            flowMapErrorClickedTracker({ entity });
+            toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE);
+          }
         }
       ]}
       activeKey={currentSignal}

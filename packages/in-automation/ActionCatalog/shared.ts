@@ -121,6 +121,9 @@ export const getJiraAssigneeFromFields = (fields: Field[] | undefined): Field =>
 export const getJiraIssueTypeFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.issue_type ?? { value: `${TASK}`, encoding: 'ascii', name: 'issue_type' };
 
+export const getManualContentFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.content ?? { value: '', encoding: 'base64', name: 'content' };
+
 export const getInterpreterToUse = (action: Action | NewAction) => {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
@@ -315,14 +318,12 @@ export const GL_ISSUE_TYPES = Object.freeze([
 
 export const EPIC = 'Epic';
 export const TASK = 'Task';
-export const SUBTASK = 'Subtask';
 export const BUG = 'Bug';
 export const IMPROVEMENT = 'Improvement';
-export const NEW_FEATURE = 'new_feature';
+export const NEW_FEATURE = 'New Feature';
 export const JIRA_ISSUE_TYPES = Object.freeze([
   { value: EPIC, translation: t('in-automation:ActionCatalog.epic') },
   { value: TASK, translation: t('in-automation:ActionCatalog.task') },
-  { value: SUBTASK, translation: t('in-automation:ActionCatalog.subTask') },
   { value: BUG, translation: t('in-automation:ActionCatalog.bug') },
   { value: IMPROVEMENT, translation: t('in-automation:ActionCatalog.improvement') },
   { value: NEW_FEATURE, translation: t('in-automation:ActionCatalog.newFeature') }

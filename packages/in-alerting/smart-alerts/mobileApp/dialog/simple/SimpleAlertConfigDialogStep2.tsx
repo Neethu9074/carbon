@@ -7,7 +7,6 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-//@ts-expect-error TS migration needed
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/mobileApp/dialog/simple/SimpleAlertConfigDialogChart';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';

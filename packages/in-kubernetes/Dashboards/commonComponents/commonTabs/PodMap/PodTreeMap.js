@@ -8,6 +8,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { just, combineLatest } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -26,11 +27,11 @@ import { createColorPool } from 'in-services/util/ColorGenerator';
 import { settings$ } from 'in-services/settings/settings';
 import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
+import { chartColors } from 'in-themes/chartColors';
 import TreeMap from 'in-components/TreeMap';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const { strokeColors100 } = theme.lib.colors.chart;
+const { strokeColors100 } = chartColors;
 
 export default function PodTreeMap(props) {
   const { timeConfig, showHealth, grouping, sizeMetricConfig, data } = props;
@@ -235,14 +236,14 @@ function getGroupValueLabel(pods, metricValues) {
 function getColorForTreeNode(node, showHealth, colorPool) {
   if (node.health) {
     if (node.health.maxSeverity > 5) {
-      return theme.lib.colors.failure;
+      return themes.default.ids.color.option.red[500];
     }
     if (node.health.maxSeverity > 0) {
-      return theme.lib.colors.warning;
+      return themes.default.ids.color.option.yellow[500];
     }
   }
   if (showHealth) {
-    return lighten(theme.lib.colors.lightBlue800, 0.2);
+    return lighten(themes.default.ids.color.option.blue[400], 0.2);
   }
 
   const minPowerInGroup = node.parent.data.minPower;

@@ -93,7 +93,7 @@ export default connectTo(
               }
             }}
           >
-            <SvgIcon className={`${block}__icon`} type={type} color="#fff" />
+            <SvgIcon className={`${block}__icon`} type={type} />
           </div>
         </Tooltip>
       );

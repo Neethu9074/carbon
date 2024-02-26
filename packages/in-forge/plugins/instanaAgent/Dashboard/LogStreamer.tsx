@@ -7,8 +7,9 @@
 import React, { Fragment } from 'react';
 import DOMPurify from 'dompurify';
 
-import { Toggle, Spacer } from '@instana/components';
 import { replaceHtmlChars } from '@instana/utils';
+import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { ansiToHtml } from 'in-forge/plugins/instanaAgent/Dashboard/ansiLoader';

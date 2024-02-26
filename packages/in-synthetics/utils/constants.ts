@@ -412,6 +412,8 @@ export interface AdvancedModeProps {
   setCustomProperties: React.Dispatch<React.SetStateAction<ConfigItem[]>>;
   invalidCustomProperty: Invalid;
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
+  invalidTimeout: Invalid;
+  setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
 export interface SlideInConfig {
@@ -539,3 +541,35 @@ export interface ViewScreenshotsDialogProps {
   resultId: string;
   startTime: number;
 }
+
+export const timeoutObject: any = Object.freeze({
+  minutes: {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMinutes'),
+    value: 'm'
+  },
+  seconds: {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionSeconds'),
+    value: 's'
+  },
+  milliseconds: {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldOptionMilliseconds'),
+    value: 'ms'
+  }
+});
+
+export const retriesObject: { label: string; value: number }[] = [
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionNone'),
+    value: 0
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionOnce'),
+    value: 1
+  },
+  {
+    label: t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldOptionTwice'),
+    value: 2
+  }
+];
+
+export const datacenterProviderMap = new Map([['aws', 'AWS']]);

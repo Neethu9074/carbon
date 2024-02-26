@@ -4,7 +4,8 @@
  */
 
 :local {
-  .crossSeriesAggregationWrapper {
+  .crossSeriesAggregationWrapper,
+  .lastValueWrapper {
     display: flex;
     align-items: center;
     margin-top: 1rem;

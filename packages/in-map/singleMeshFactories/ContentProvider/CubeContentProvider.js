@@ -3,69 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import theme from 'in-themes';
+import { cubeColorFalloffValues } from 'in-map/components/infraMapColors';
 
 const VERTICES = [
   // front
-  -0.5,
-  0,
-  0.5,
-  0.5,
-  0,
-  0.5,
-  0.5,
-  1,
-  0.5,
-  -0.5,
-  0,
-  0.5,
-  0.5,
-  1,
-  0.5,
-  -0.5,
-  1,
-  0.5,
+  -0.5, 0, 0.5, 0.5, 0, 0.5, 0.5, 1, 0.5, -0.5, 0, 0.5, 0.5, 1, 0.5, -0.5, 1, 0.5,
   // top
-  -0.5,
-  1,
-  0.5,
-  0.5,
-  1,
-  0.5,
-  0.5,
-  1,
-  -0.5,
-  -0.5,
-  1,
-  0.5,
-  0.5,
-  1,
-  -0.5,
-  -0.5,
-  1,
-  -0.5,
+  -0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, -0.5, -0.5, 1, 0.5, 0.5, 1, -0.5, -0.5, 1, -0.5,
   // left
-  -0.5,
-  0,
-  -0.5,
-  -0.5,
-  0,
-  0.5,
-  -0.5,
-  1,
-  -0.5,
-  -0.5,
-  0,
-  0.5,
-  -0.5,
-  1,
-  0.5,
-  -0.5,
-  1,
-  -0.5
+  -0.5, 0, -0.5, -0.5, 0, 0.5, -0.5, 1, -0.5, -0.5, 0, 0.5, -0.5, 1, 0.5, -0.5, 1, -0.5
 ];
 
-const CUBE_COLOR_FALLOFF_VALUES = theme.map.colors.cubeColorFalloffValues;
+const CUBE_COLOR_FALLOFF_VALUES = cubeColorFalloffValues;
 const FRONT = CUBE_COLOR_FALLOFF_VALUES.right;
 const TOP = CUBE_COLOR_FALLOFF_VALUES.top;
 const LEFT = 1;

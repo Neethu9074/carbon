@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import { metricRenderers } from 'in-mobile-apps/analyze/AnalyzeView2_0/metrics';
 import { ua2ChartChangedTracker } from 'in-mobile-apps/tracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
-import theme from 'in-themes';
 
 import locals from './ChartsPresenter.mless';
 
@@ -46,7 +47,7 @@ export function ChartsPresenter(props) {
             return (
               <Chart
                 {...chartProps}
-                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
+                getCustomChartColor={() => !chartProps.isGrouped && [themes.default.ids.color.option.red['500']]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
                 chartedMetrics={[metricConfig]}
               />

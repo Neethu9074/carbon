@@ -14,11 +14,6 @@
       fill: var(--ids-color-option-neutral-700);
     }
   }
-
-  .analyticsLink {
-    color: var(--ids-color-option-neutral-600);
-  }
-
   .traceId {
     font-family: var(--ids-font-family-option-monospace);
     padding-right: 0.5rem;

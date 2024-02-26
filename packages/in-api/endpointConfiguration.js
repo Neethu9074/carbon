@@ -7,7 +7,7 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { deepFreeze } from 'in-services/util/object';
 import http from 'in-services/http';
 
-const basePath = '/api/application-monitoring/settings/http-endpoint';
+const basePath = '/api/application-monitoring/settings/endpoint';
 
 export function getEndpointConfigs() {
   return http({

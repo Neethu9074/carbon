@@ -87,67 +87,77 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     updatePermissionSet({ ...permissionSet, permissions: newPermissions });
   };
 
-  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+  const { accessLevelMessage } = getConfigurationSummaryMsg(
     ProductArea.INFRASTRUCTURE,
     ScopedPermissionItem.LIMITED_ACCESS,
     AreaRole.OWNER
   );
-
+  const InfrastructureFilterSection = () => {
+    return (
+      <>
+        <StackItem>
+          <Typography variant="body-regular" component="div">
+            {t('in-settings:PermissionSection.infrastructureDfqUse')}&nbsp;
+            <Link
+              external
+              href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-filtering-dynamic-focus"
+            >
+              {t('in-settings:PermissionSection.infrastructureDfqMore')}
+            </Link>
+          </Typography>
+        </StackItem>
+        <StackItem>
+          <FormGroup>
+            <Label htmlFor="infra-dfq-filter">{t('in-settings:PermissionSection.infrastructureDfqHeader')}</Label>
+            <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
+          </FormGroup>
+        </StackItem>
+        <StackItem>
+          <Typography variant="heading-200" component="h4">
+            {t('in-settings:productAreas.permissions', { context: area.header })}
+          </Typography>
+          {area.capabilities.map(productPermission => (
+            <CheckboxFancy
+              key={productPermission.key}
+              size="large"
+              className={locales.clickable}
+              checked={permissionSet?.permissions.includes(productPermission.key) || false}
+              onChange={() => updatePermission(productPermission.key)}
+              label={
+                <Stack gap="xsmall" direction="horizontal" align="start">
+                  <span>{productPermission.label}</span>
+                  <Tooltip content={productPermission.description} align="rightMiddle">
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                  </Tooltip>
+                </Stack>
+              }
+            />
+          ))}
+        </StackItem>
+      </>
+    );
+  };
   return (
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
-        <StackItem>
-          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
-        </StackItem>
+        <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
+          <Stack>
+            <InfrastructureFilterSection />
+          </Stack>
+        </ConfigurationSummary>
       ) : (
-        <StackItem>
-          <Typography variant="heading-200" component="div">
-            {t('in-settings:PermissionSection.infrastructureAccessScope')}
-          </Typography>
-          <Typography variant="body-regular" component="div">
-            {description}
-          </Typography>
-        </StackItem>
+        <>
+          <StackItem>
+            <Typography variant="heading-200" component="div">
+              {t('in-settings:PermissionSection.infrastructureAccessScope')}
+            </Typography>
+            <Typography variant="body-regular" component="div">
+              {description}
+            </Typography>
+          </StackItem>
+          <InfrastructureFilterSection />
+        </>
       )}
-      <StackItem>
-        <Typography variant="body-regular" component="div">
-          {t('in-settings:PermissionSection.infrastructureDfqUse')}&nbsp;
-          <Link
-            external
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-filtering-dynamic-focus"
-          >
-            {t('in-settings:PermissionSection.infrastructureDfqMore')}
-          </Link>
-        </Typography>
-      </StackItem>
-      <StackItem>
-        <FormGroup>
-          <Label htmlFor="infra-dfq-filter">{t('in-settings:PermissionSection.infrastructureDfqHeader')}</Label>
-          <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
-        </FormGroup>
-      </StackItem>
-      <StackItem>
-        <Typography variant="heading-200" component="h4">
-          {t('in-settings:productAreas.permissions', { context: area.header })}
-        </Typography>
-        {area.capabilities.map(productPermission => (
-          <CheckboxFancy
-            key={productPermission.key}
-            size="large"
-            className={locales.clickable}
-            checked={permissionSet?.permissions.includes(productPermission.key) || false}
-            onChange={() => updatePermission(productPermission.key)}
-            label={
-              <Stack gap="xsmall" direction="horizontal" align="start">
-                <span>{productPermission.label}</span>
-                <Tooltip content={productPermission.description} align="rightMiddle">
-                  <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                </Tooltip>
-              </Stack>
-            }
-          />
-        ))}
-      </StackItem>
     </Stack>
   );
 }

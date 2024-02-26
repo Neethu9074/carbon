@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
@@ -35,7 +36,6 @@ import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './EventListItem.mless';
@@ -44,20 +44,18 @@ export default function EventListItem({
   triggeringProblemId,
   event,
   latestSnapshot,
-  isRCA,
   expandedFromTimeline,
   setExpandedEventOnClickInTimeline,
-  highlightEventOnHover
+  highlightEventOnHover,
+  setBackground,
+  setIconColor
 }) {
-  const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(expandedFromTimeline || false);
-  const [activeEventBackground, setActiveEventBackground] = useState(
-    isRCA ? theme.ids.color.option['deep-purple'][500] : ''
-  );
+  const [activeEventBackground, setActiveEventBackground] = useState(setBackground ? setBackground : '');
   const background =
     useObservable(
       getColorForEventAtFocusedMomentAsStream(event, {
-        defaultColor: isRCA ? theme.ids.color.option['deep-purple'][500] : theme.cds['background-active']
+        defaultColor: setBackground ? setBackground : themes.default.cds['background-active']
       }),
       [event]
     ) ?? '';
@@ -100,9 +98,9 @@ export default function EventListItem({
       <TimeIndicator event={event} isTriggeringEvent={isTriggeringEvent} />
 
       <div className={classNames({ [locals.right]: true, [locals.highlighted]: highlightEventOnHover })}>
-        <div className={locals.background} style={{ background }} />
+        <div className={locals.background} style={{ background: setBackground ? setBackground : background }} />
 
-        <div className={locals.leftBorder} style={{ background }} />
+        <div className={locals.leftBorder} style={{ background: setBackground ? setBackground : background }} />
 
         <div className={locals.contentWrapper}>
           <DetailsHeader
@@ -115,7 +113,8 @@ export default function EventListItem({
             background={background}
             timeConfig={timeConfigFromEvent}
             onClick={() => setIsExpanded(!isExpanded)}
-            isRCA={isRCA}
+            setBackground={setBackground}
+            setIconColor={setIconColor}
           />
           {isExpanded || expandedFromTimeline ? <div className={locals.border} style={{ background }} /> : null}
           {isExpanded || expandedFromTimeline ? (
@@ -146,19 +145,18 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   );
 }
 
-function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA }) {
-  const theme = useTheme();
-  if (isRCA) background = theme.ids.color.option.purple[500]; //50% opacity of background colour
+function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBackground, setIconColor }) {
+  if (setBackground) background = setBackground; //50% opacity of background colour
   return (
     <div className={locals.heading} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={locals.left}>
-        <div className={locals.iconWrapper} style={{ background }}>
+        <div className={locals.iconWrapper} style={{ background: setBackground ? setBackground : background }}>
           <EventIcon
             event={event}
             tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
-            color={isRCA ? theme.ids.color.option.white : undefined}
+            color={setIconColor ? setIconColor : undefined}
           />
         </div>
 
@@ -172,7 +170,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, isRCA
         </div>
       </div>
 
-      <SvgIcon type={iconType} size="xs" color={theme.ids.color.option.neutral[600]} />
+      <SvgIcon type={iconType} size="xs" color={themes.default.ids.color.option.neutral['600']} />
     </div>
   );
 }

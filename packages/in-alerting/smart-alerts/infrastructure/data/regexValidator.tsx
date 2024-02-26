@@ -28,7 +28,7 @@ export default function regexValidator(datasetForm: any) {
           }
         ];
       }
-      if (!entityType.length) {
+      if (metricName && !entityType.length) {
         return [
           {
             severity: 'error',

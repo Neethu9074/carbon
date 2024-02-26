@@ -13,5 +13,5 @@ export default function BuiltInGlobalSmartAlertsPermissionWrapper({ children }) 
 }
 
 export function hasPermissionToAddBuiltInSmartAlerts() {
-  return role.canConfigureGlobalAlertConfigs && builtInGlobalApplicationSmartAlertsEnabled;
+  return role.canConfigureGlobalApplicationSmartAlerts && builtInGlobalApplicationSmartAlertsEnabled;
 }

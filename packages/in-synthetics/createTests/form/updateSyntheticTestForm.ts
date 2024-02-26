@@ -89,7 +89,7 @@ export function updateForm(savedState: Record<string, any>) {
 }
 
 function createActionConfigurationForm(configuration: Record<string, any>) {
-  return createMapForm()
+  const actionConfig = createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -162,6 +162,20 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
       })
     )
     .put(
+      'timeout',
+      createField({
+        value: configuration?.timeout,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: configuration?.retries,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
       'followRedirect',
       createField({
         value: configuration?.followRedirect,
@@ -174,11 +188,30 @@ function createActionConfigurationForm(configuration: Record<string, any>) {
         value: configuration?.allowInsecure,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: configuration?.markSyntheticCall,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
     );
+
+  if (configuration?.retryInterval) {
+    return actionConfig.put(
+      'retryInterval',
+      createField({
+        value: configuration?.retryInterval,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+      })
+    );
+  } else {
+    return actionConfig;
+  }
 }
 
 function createScriptFileConfigurationForm(configuration: Record<string, any>) {
-  return createMapForm()
+  const actionConfig = createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -192,11 +225,44 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
         value: configuration?.script,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: configuration?.timeout,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: configuration?.retries,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: configuration?.markSyntheticCall,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
     );
+
+  if (configuration?.retryInterval) {
+    return actionConfig.put(
+      'retryInterval',
+      createField({
+        value: configuration?.retryInterval,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+      })
+    );
+  } else {
+    return actionConfig;
+  }
 }
 
 function createScriptsBundleConfigurationForm(configuration: Record<string, any>) {
-  return createMapForm()
+  const actionConfig = createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -207,11 +273,43 @@ function createScriptsBundleConfigurationForm(configuration: Record<string, any>
     .put(
       'scripts',
       createZipScriptConfigurationForm(configuration?.scripts?.bundle, configuration?.scripts?.scriptFile!)
+    )
+    .put(
+      'timeout',
+      createField({
+        value: configuration?.timeout,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: configuration?.retries,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: configuration?.markSyntheticCall,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
     );
+  if (configuration?.retryInterval) {
+    return actionConfig.put(
+      'retryInterval',
+      createField({
+        value: configuration?.retryInterval,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+      })
+    );
+  } else {
+    return actionConfig;
+  }
 }
 
 function createAdvancedBrowserActionConfigurationForm(configuration: Record<string, any>) {
-  return createMapForm()
+  const actionConfig = createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -232,10 +330,36 @@ function createAdvancedBrowserActionConfigurationForm(configuration: Record<stri
       })
     )
     .put(
+      'timeout',
+      createField({
+        value: configuration?.timeout,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: configuration?.retries,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
       'markSyntheticCall',
       createField({
         value: configuration?.markSyntheticCall,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
     );
+
+  if (configuration?.retryInterval) {
+    return actionConfig.put(
+      'retryInterval',
+      createField({
+        value: configuration?.retryInterval,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+      })
+    );
+  } else {
+    return actionConfig;
+  }
 }

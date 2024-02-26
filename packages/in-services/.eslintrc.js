@@ -29,7 +29,8 @@ module.exports = {
         // FIXME This is a circular import.
         'in-components',
         // FIXME This is a circular import.
-        'in-stores'
+        'in-stores',
+        'in-themes'
       ]
     })
   }

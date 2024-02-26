@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
+import { Pill } from '@instana/components';
 
 import { createApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -18,7 +19,6 @@ import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/components/LogMessagesList.mless';

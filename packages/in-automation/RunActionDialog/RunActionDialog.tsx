@@ -35,7 +35,8 @@ import {
   isGitlab,
   getGitlabOpenTicketFields,
   getJiraFields,
-  getJiraOpenTicketFields
+  getJiraOpenTicketFields,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
 import {
   ResolvedDynamicParamValue,
@@ -60,7 +61,7 @@ import RunActionContent, {
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution';
+import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -114,7 +115,7 @@ export default function RunActionDialog({
   return (
     <Dialog
       className={locals.dialog}
-      titleIconType={'lib_help_error_error_circle'}
+      titleIconType={isManual(action.type) ? undefined : 'lib_help_error_error_circle'}
       title={getTitle({ action, error, actionInstanceId, test, policy })}
       onClose={close}
       withoutBodyPadding
@@ -135,29 +136,33 @@ export default function RunActionDialog({
           />
         </div>
         <FormFooter>
-          <RunActionFooter
-            policy={policy}
-            error={error}
-            test={test}
-            actionInstanceId={actionInstanceId}
-            isSaving={isSaving}
-            form={form}
-            onSave={() =>
-              onSave({
-                form,
-                setForm,
-                setIsSaving,
-                action,
-                agentSnapShots,
-                setError,
-                setActionInstanceId,
-                event,
-                policy,
-                handleSave,
-                executePolicy
-              })
-            }
-          />
+          {isManual(action.type) ? (
+            <CancelButton onClick={close}>{t('in-automation:close')}</CancelButton>
+          ) : (
+            <RunActionFooter
+              policy={policy}
+              error={error}
+              test={test}
+              actionInstanceId={actionInstanceId}
+              isSaving={isSaving}
+              form={form}
+              onSave={() =>
+                onSave({
+                  form,
+                  setForm,
+                  setIsSaving,
+                  action,
+                  agentSnapShots,
+                  setError,
+                  setActionInstanceId,
+                  event,
+                  policy,
+                  handleSave,
+                  executePolicy
+                })
+              }
+            />
+          )}
         </FormFooter>
       </>
     </Dialog>
@@ -174,6 +179,7 @@ const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitlePar
   if (error) return t('in-automation:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
+  if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
   return t('in-automation:chosenToRun', { actionName });
 };
 
@@ -351,13 +357,13 @@ function onSave({
       }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
-  const handleActionResponse = (response: AgentResponse) => {
+  const handleActionResponse = (response: ActionInstance) => {
     setIsSaving(false);
-    if ('error' in response && response.error != null) {
-      setError(response.error);
-      setActionInstanceId(response?.data?.actionInstanceId);
+    if ('errorMessage' in response && response.errorMessage != null) {
+      setError(response.errorMessage);
+      setActionInstanceId(response?.actionInstanceId);
     } else {
-      setActionInstanceId(response.data.actionInstanceId);
+      setActionInstanceId(response.actionInstanceId);
     }
   };
 

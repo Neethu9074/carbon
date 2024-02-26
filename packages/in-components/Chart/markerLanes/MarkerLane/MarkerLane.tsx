@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { HorizontalIndicator, Button, SvgIcon } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -16,7 +17,6 @@ import { ChartContentPostition } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './MarkerLane.mless';
@@ -266,7 +266,6 @@ interface MarkerLaneErrorMessageProps {
 }
 
 function MarkerLaneErrorMessage({ errorMessage, onRetry }: MarkerLaneErrorMessageProps) {
-  const theme = useTheme();
   return (
     <div className={locals.laneError}>
       <div className={locals.laneErrorIconText}>
@@ -274,7 +273,7 @@ function MarkerLaneErrorMessage({ errorMessage, onRetry }: MarkerLaneErrorMessag
           <HorizontalFlexWrapper className={locals.laneErrorIconTextWrapper}>
             <SvgIcon
               className={locals.laneErrorIcon}
-              color={theme.ids.color.option.neutral['600']}
+              color={themes.default.ids.color.option.neutral['600']}
               type="lib_help_error_warning_outline"
               size="xs"
             />

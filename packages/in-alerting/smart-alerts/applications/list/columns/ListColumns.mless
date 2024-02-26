@@ -42,7 +42,7 @@
   }
 
   .space {
-    margin-right: 1rem;
+    margin-right: 0.2rem;
   }
 
   .bigSpace {
@@ -70,5 +70,14 @@
   .filters {
     display: flex;
     color: var(--ids-color-option-neutral-700);
+  }
+  .ellipsis {
+    .ellipsis();
+  }
+  .maxWidth70 {
+    max-width: 70%;
+  }
+  .maxWidth100 {
+    max-width: 100%;
   }
 }

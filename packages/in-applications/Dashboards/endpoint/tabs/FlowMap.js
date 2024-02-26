@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -13,6 +13,7 @@ import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix'
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
 import getService from 'in-applications/subscriptions/getService';
+import { flowMapClickedTracker } from 'in-applications/tracker';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
 import useUrlState from 'in-hooks/useUrlState';
@@ -32,6 +33,9 @@ const urlStateDefinition = {
 
 export default function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeConfig }) {
   useDisabledBodyScroll();
+  useEffect(() => {
+    flowMapClickedTracker({ entity: 'endpoint' });
+  }, []);
 
   const [{ hideUpstream, hideDownstream }] = useUrlState(urlStateDefinition);
   const service = useObservable(getServiceObservable, [serviceId, timeConfig]);

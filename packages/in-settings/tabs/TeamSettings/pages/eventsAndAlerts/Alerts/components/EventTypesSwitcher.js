@@ -6,7 +6,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { Toggle, Spacer } from '@instana/components';
+import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';

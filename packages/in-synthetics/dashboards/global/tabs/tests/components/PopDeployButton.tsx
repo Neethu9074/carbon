@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import DeployTabSelection from 'in-synthetics/dashboards/global/tabs/tests/components/DeployTabSelection';
+import DeployTabSelection from 'in-synthetics/createLocation/steps/DeployTabSelection';
 import { PoPProperties } from 'in-synthetics/utils/constants';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 

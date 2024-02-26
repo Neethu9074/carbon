@@ -37,6 +37,7 @@ interface ApdexWidgetProps {
   nonInteractive?: boolean;
   automaticallySize?: boolean;
   height?: number;
+  isInModal?: boolean;
   showPreviewDataNotice?: boolean;
 }
 
@@ -55,6 +56,7 @@ export default function ApdexWidget({
   timeConfig,
   nonInteractive,
   automaticallySize,
+  isInModal,
   height,
   showPreviewDataNotice
 }: ApdexWidgetProps) {
@@ -72,6 +74,7 @@ export default function ApdexWidget({
       dragHandle={dragHandle}
       actions={actions}
       progress={progress}
+      isInModal={isInModal}
       header={
         <WidgetHeader
           apdexConfig={apdexConfig}

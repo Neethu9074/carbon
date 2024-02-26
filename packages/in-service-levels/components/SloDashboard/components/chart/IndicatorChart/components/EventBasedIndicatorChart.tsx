@@ -7,11 +7,10 @@
 import React from 'react';
 
 import {
-  CustomEventBasedSli,
-  EventBasedSli,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
+  ServiceLevelIndicatorUnion,
   SloEntityUnion,
   TagFilterExpressionElementUnion,
   TimeConfig,
@@ -24,30 +23,36 @@ import { t } from '@instana/i18n-react';
 
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
+import { calculateSloGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
-import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
 export default function EventBasedIndicatorChart({
   entity,
-  indicator,
-  timeConfig
-}: IndicatorChartProps<EventBasedSli | CustomEventBasedSli>) {
+  indicator
+}: IndicatorChartProps<ServiceLevelIndicatorUnion>) {
+  const selectedTimeConfig = useTimeConfig();
   const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
-  const granularity = calculateSloReferenceChartGranularity(timeConfig, true);
+  const { timeWindows, selectedTimeWindowType } = useSloTimeWindowContext();
+  const timeConfig =
+    selectedTimeWindowType === 'SLO_TIME_WINDOW'
+      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
+      : selectedTimeConfig;
+  const granularity = calculateSloGranularity(timeConfig);
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
       () =>
@@ -57,7 +62,7 @@ export default function EventBasedIndicatorChart({
             [badEventsMetricId]: getMetricConfiguration(entity, badFilterExpression, granularity, timeConfig)
           }
         }),
-      [generateStableHash({ goodFilterExpression, badFilterExpression }), entity, granularity, timeConfig]
+      [generateStableHash({ goodFilterExpression, badFilterExpression, timeConfig }), entity, granularity]
     ) ?? pendingResult;
 
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);
@@ -80,10 +85,7 @@ export default function EventBasedIndicatorChart({
           formatter: number.compact,
           renderer: Renderer.bar
         },
-        timeConfig: extendTimeConfigForBarRenderer(
-          applyAdjustedTimeframe(timeConfig, goodEventsMetricResult?.adjustedTimeframe),
-          granularity
-        ),
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}
       result={result}
@@ -93,7 +95,7 @@ export default function EventBasedIndicatorChart({
 
 function useTagFilterExpressions(
   entity: SloEntityUnion,
-  indicator: EventBasedSli | CustomEventBasedSli
+  indicator: ServiceLevelIndicatorUnion
 ): [TagFilterExpressionElementUnion, TagFilterExpressionElementUnion] {
   const baseTagFilterExpression = useBasicTagFilterExpression({ entity });
   const { good, bad } = createGoodBadTagFilterExpression({ entity, indicator });

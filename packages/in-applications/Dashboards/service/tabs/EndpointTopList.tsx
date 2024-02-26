@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { AggregationType, ApplicationBoundaryScope, BoundaryScope, TimeConfig } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { EndpointItem } from '@instana/types';
 import { Link } from '@instana/components';
 
@@ -16,7 +17,6 @@ import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applic
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { percentage, meanLatencyLargeInSeconds, number } from 'in-services/formatters/number';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './EndpointTopList.mless';
@@ -29,10 +29,10 @@ const labels = [
 ];
 const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [meanLatencyLargeInSeconds.compact, number.compact, percentage.detailed];
-const companionMetrics = [null, null, 'erroneousCalls'];
-const companionAggregations = [null, null, 'SUM'];
-const companionFormatters = [null, null, number.compact];
-const colors = [null, null, theme.lib.colors.failure];
+const companionMetrics = [null, 'calls', 'erroneousCalls'];
+const companionAggregations = [null, 'PER_SECOND', 'SUM'];
+const companionFormatters = [null, number.perSecond.compact, number.compact];
+const colors = [null, null, themes.default.ids.color.option.red['500']];
 
 interface EndpointTopListProps {
   applicationId: string;
@@ -96,6 +96,7 @@ interface GetListProps {
   selectedMetricAggregation: AggregationType;
   selectedCompanionMetric: string;
   selectedCompanionMetricAggregation: AggregationType;
+  selectedCompanionMetricAlias: string;
 }
 
 function getList({
@@ -106,7 +107,8 @@ function getList({
   selectedMetric,
   selectedMetricAggregation,
   selectedCompanionMetric,
-  selectedCompanionMetricAggregation
+  selectedCompanionMetricAggregation,
+  selectedCompanionMetricAlias
 }: GetListProps) {
   const metrics = {
     [selectedMetric]: {
@@ -115,10 +117,17 @@ function getList({
     }
   };
   if (selectedCompanionMetric) {
-    metrics[selectedCompanionMetric] = {
-      metric: selectedCompanionMetric,
-      aggregation: selectedCompanionMetricAggregation
-    };
+    if (selectedCompanionMetric === selectedMetric) {
+      metrics[selectedCompanionMetricAlias] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    } else {
+      metrics[selectedCompanionMetric] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    }
   }
   return getEndpoints({
     pagination: {

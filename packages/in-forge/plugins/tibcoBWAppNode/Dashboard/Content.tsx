@@ -13,7 +13,7 @@ import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import AppInstsTable from 'in-forge/plugins/tibcoBWAppNode/Dashboard/AppInstsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { percentagePlain, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, percentagePlain, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -59,7 +59,7 @@ export default function TibcoBWAppNodeDashboard({ snapshot, timeConfig }: { snap
                       t('in-forge:plugins.tibcoBWAppNode.free'),
                     ],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: bytes.detailedWithRaw
           }}
         />
       </DashboardSection>

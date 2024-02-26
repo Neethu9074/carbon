@@ -81,6 +81,7 @@
     "focusOnThisGroup": "Focalizar este grupo",
     "theQueryConfigurationIsInvalid": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
     "allInfrastructure": "Todas las infraestructuras",
+    "emptyInfrastructure": "Seleccionar tipo de entidad",
     "name": "Nombre",
     "search": "Buscar un tipo",
     "explore": "Explorar",

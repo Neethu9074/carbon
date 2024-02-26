@@ -147,7 +147,8 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         metricLabel: '',
         metricPath: [],
         metric: '',
-        regex: newIsRegex
+        regex: newIsRegex,
+        clearGroupFilter: true
       });
     } else if (toRegex) {
       const escapedRegex = escapeRegExp(metric);

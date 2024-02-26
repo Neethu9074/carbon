@@ -31,6 +31,7 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { InfraAlertConfigWithMetadata, Nullish } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { role } from 'in-stores/user';
 
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
@@ -57,6 +58,8 @@ export default function AlertDetails() {
           <AlertConfiguration alertConfig={alertConfig} />
         )}
         getAllowedPlaceholders={() => []}
+        isGlobalSmartAlert
+        canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts}
       />
     </LeftRightPadding>
   );

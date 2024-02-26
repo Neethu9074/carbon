@@ -8,7 +8,9 @@ import classNames from 'classnames';
 
 import NewUiClientVersionAvailable from 'in-components/MainNavigation/components/NewUiClientVersionAvailable';
 import { click } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import ViewSwitcher from 'in-components/MainNavigation/components/ViewSwitcher';
+import CarbonUIShell from './components/CarbonUIShell';
 import { scrollToTop } from 'in-services/util/dom';
 
 import locals from './MainNavigation.mless';
@@ -85,6 +87,10 @@ export default class MainNavigation extends React.Component {
 
   render() {
     const { isExpanded, expandedSubMenu } = this.state;
+
+    if (isCarbonShellEnabled()) {
+      return <CarbonUIShell onViewSwitched={this.onViewSwitched} />;
+    }
 
     return (
       <Fragment>

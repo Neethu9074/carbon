@@ -35,7 +35,7 @@ import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
 
 export default function Alerts() {
-  const handlers = role?.canConfigureCustomAlerts ? actionHandlers : {};
+  const handlers = role?.canConfigureGlobalInfraSmartAlerts ? actionHandlers : {};
 
   function getColumnDefinitions() {
     return [

@@ -13,17 +13,18 @@ import { tags as t } from '@lezer/highlight';
 import classNames from 'classnames';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { regex } from 'in-components/RegexInput/lang-regex';
-import { useTheme } from 'in-themes';
 
 import locals from 'in-components/RegexInput/RegexInput.mless';
 
 interface Props {
   value: string;
   onChange: (value: string) => void;
-  autoFocus?: boolean,
-  className?: string,
-  placeholder?: string,
+  autoFocus?: boolean;
+  className?: string;
+  placeholder?: string;
   onEnter?: () => void;
 }
 
@@ -37,13 +38,11 @@ function toCommand(handler?: () => void): Command {
   return () => {
     handler?.();
     return true;
-  }
+  };
 }
 
 export default function RegexInput({ value, onChange, className, placeholder, onEnter, autoFocus }: Props) {
-  const theme = useTheme();
-
-  const option = theme.ids.color.option;
+  const option = themes.default.ids.color.option;
 
   const highlightingStyle = HighlightStyle.define([
     { tag: t.string, color: option.green[500] },
@@ -51,7 +50,7 @@ export default function RegexInput({ value, onChange, className, placeholder, on
     { tag: t.number, color: option.black[500] },
     { tag: t.variableName, color: option.neutral[500] },
     { tag: t.character, color: option.orange[500] },
-    { tag: t.escape, color: option.indigo[500] },
+    { tag: t.escape, color: option.indigo[500] }
   ]);
 
   return (
@@ -66,10 +65,12 @@ export default function RegexInput({ value, onChange, className, placeholder, on
           regex(),
           syntaxHighlighting(highlightingStyle),
           singleLine(),
-          keymap.of([{
-            key: 'Enter',
-            run: toCommand(onEnter)
-          }]),
+          keymap.of([
+            {
+              key: 'Enter',
+              run: toCommand(onEnter)
+            }
+          ]),
           bracketMatching(),
           closeBrackets()
         ]}
@@ -81,5 +82,5 @@ export default function RegexInput({ value, onChange, className, placeholder, on
 }
 
 function singleLine() {
-  return EditorState.transactionFilter.of(tr => tr.newDoc.lines > 1 ? [] : tr);
+  return EditorState.transactionFilter.of(tr => (tr.newDoc.lines > 1 ? [] : tr));
 }

@@ -8,8 +8,6 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
-//@ts-expect-error
-import { groupbyTag } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
@@ -17,6 +15,7 @@ import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldL
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
 import { InfraAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
+import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 
 const severityWarning = 5;
@@ -132,7 +131,7 @@ export default function alertFormDefinition(
   return applyEditMode(form, editMode);
 }
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',

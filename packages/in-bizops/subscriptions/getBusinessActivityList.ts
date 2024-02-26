@@ -59,7 +59,7 @@ export function getBusinessActivityListWithDefaults({
     metrics: {
       count: {
         aggregation: 'DISTINCT_COUNT',
-        metric: 'activities_count'
+        metric: 'activitiesCount'
       }
     },
     timeConfig,

@@ -7,13 +7,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon, Link } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import { useLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function GoToAlertDetailsColumn({ id, name, created }) {
-  const theme = useTheme();
   const getLinkToAlertDetails = useLinkToAlertDetails();
 
   return (
@@ -25,7 +24,7 @@ export default function GoToAlertDetailsColumn({ id, name, created }) {
       external
     >
       <SvgIcon
-        color={theme.ids.color.option.neutral['800']}
+        color={themes.default.ids.color.option.neutral['800']}
         type="lib_views_external_link"
         aria-hidden="true"
         focusable="false"

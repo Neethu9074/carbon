@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+// @ts-expect-error needs typescript migration
+import ParentOTelDatabase from 'in-forge/plugins/oTelDatabase/ParentOTelDatabase';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
@@ -37,6 +39,7 @@ export default function OpenTelemetryInfo({ snapshot }: { snapshot: SnapshotData
         {data.get('resource.server.port')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oTelDatabase.kind')}>{data.get('kind')}</DescriptionItem>
+      <ParentOTelDatabase snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );
 }

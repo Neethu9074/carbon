@@ -14,6 +14,7 @@ import {
   PolicyFormEntity,
   TriggerSpecification,
   Triggers,
+  getTriggerType,
   isEventSpecification,
   isPolicy,
   scopeAll,
@@ -28,15 +29,18 @@ import TabSelect, {
 } from 'in-components/TabSelect';
 // @ts-expect-error
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { descriptionColumn, nameColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
+import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/columns/EvaluationTypeColumn';
+import { Action, ApplicationAlertConfigWithMetadata, EventSpecificationInfo, TriggerType } from 'in-types';
+import { EntityType, EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import ComboBox, { Option, hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
@@ -44,6 +48,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
 import { usePagination } from 'in-automation/Policies/usePagination';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -61,7 +66,6 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Dialog from 'in-components/Dialog/Dialog';
-import { Action, Policy } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -102,9 +106,9 @@ export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: Po
           ? t('in-automation:policies.createANewPolicy')
           : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
       </SubViewHeader>
-      {!isNew && (
-        <HorizontalFlexWrapper>{isPolicy(policy) && <CopyPolicyLink policy={policy} />}</HorizontalFlexWrapper>
-      )}
+      <HorizontalFlexWrapper>
+        <CopyPolicyLink isNew={isNew} policy={policy} />
+      </HorizontalFlexWrapper>
     </HorizontalFlexWrapper>
   );
 }
@@ -320,8 +324,11 @@ function SourceSection({
   );
 }
 
-function CopyPolicyLink({ policy }: { policy: Policy }) {
+function CopyPolicyLink({ isNew, policy }: { isNew: boolean; policy: PolicyFormEntity }) {
   const navigateToPolicyDetails = useNavigateToPolicyDetails();
+
+  if (isNew || !isPolicy(policy)) return null;
+
   return (
     <Tooltip content={t('in-automation:duplicate')} delay={500}>
       <Link ellipsis onClick={() => navigateToPolicyDetails(policy, true)}>
@@ -330,6 +337,43 @@ function CopyPolicyLink({ policy }: { policy: Policy }) {
     </Tooltip>
   );
 }
+
+const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
+  id: 'name',
+  label: t('in-automation:name'),
+  getContent: item => {
+    if (isEventSpecification(item)) {
+      return <EventName hasRowNavigation={false} entity={item} />;
+    }
+    return <SimpleListNameColumn config={item} />;
+  },
+  width: 23
+};
+
+const triggerDescriptionColumn: ColumnDefinition<TriggerSpecification> = {
+  id: 'description',
+  label: t('in-automation:description'),
+  getContent: item => (
+    <FourLineWrapper>
+      <Typography variant="body-regular">{item.description}</Typography>
+    </FourLineWrapper>
+  ),
+  width: 23
+};
+
+const evalutationTypeColumn: ColumnDefinition<ApplicationAlertConfigWithMetadata> = {
+  id: 'properties',
+  label: t('in-automation:policies.properties'),
+  getContent: item => <EvaluationTypeColumn config={item} isGlobalSmartAlertConfig={false} />,
+  width: 23
+};
+
+const entityTypeColumn: ColumnDefinition<EventSpecificationInfo> = {
+  id: 'entityType',
+  label: t('in-automation:policies.entityType'),
+  getContent: item => <EntityType entity={item} />,
+  width: 23
+};
 
 function SelectTrigger({
   triggers,
@@ -346,6 +390,12 @@ function SelectTrigger({
   // @ts-expect-error
   const selectedTrigger = triggers[triggerType.value].find(trigger => trigger.id === triggerId.value);
 
+  const columnDefinitions: ColumnDefinition<TriggerSpecification>[] = [
+    triggerNameColumn,
+    triggerDescriptionColumn,
+    triggerType.value === 'applicationSmartAlert' ? evalutationTypeColumn : entityTypeColumn
+  ];
+
   return triggerId.map(field => (
     <FormGroup>
       <ServerTablePresenter
@@ -355,27 +405,7 @@ function SelectTrigger({
         orderBy="id"
         noDataMessage={t('in-automation:policies.noTriggerConfigured')}
         orderDirection="ASC"
-        columnDefinitions={[
-          {
-            id: 'name',
-            label: t('in-automation:name'),
-            getContent: (item: TriggerSpecification) => {
-              if (isEventSpecification(item)) {
-                return <EventName hasRowNavigation={false} entity={item} />;
-              }
-              return <SimpleListNameColumn config={item} />;
-            },
-            width: 23
-          },
-          {
-            id: 'description',
-            label: t('in-automation:description'),
-            getContent: (item: TriggerSpecification) => (
-              <Typography variant="body-regular">{item.description}</Typography>
-            ),
-            width: 23
-          }
-        ]}
+        columnDefinitions={columnDefinitions}
         result={listSuccess(selectedTrigger ? [selectedTrigger] : [])}
         leftHeader={
           <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.trigger')}</Label>
@@ -389,6 +419,7 @@ function SelectTrigger({
             {t('in-automation:policies.addTrigger')}
           </Button>
         }
+        fixedLayout
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
     </FormGroup>
@@ -408,95 +439,90 @@ function SelectTriggerDialog({
   const selectedTriggerType = form.get('triggerType').value;
   const [selectedId, setSelectedId] = useState(selectedTriggerId);
   const [selectedType, setSelectedType] = useState(selectedTriggerType);
+
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = usePagination();
+  const { selectedTab, eventType, setEventType, setSelectedTab, filteredTriggers } = useTriggerFilters({
+    triggers,
+    selectedTriggerType,
+    setServerTableState
+  });
   const result = usePaginatedResult<TriggerSpecification>(
-    success(triggers[selectedType]),
+    success(filteredTriggers),
     { page, pageSize, orderBy, orderDirection, query },
-    ['name', 'description']
+    ['name', 'description'],
+    [
+      entity => selectedId !== entity.id,
+      entity => {
+        const value = entity[orderBy as keyof TriggerSpecification];
+        return typeof value === 'string' ? value.trim().toLowerCase() : value;
+      }
+    ]
   );
+
   function handleSubmit() {
     setForm(form =>
       form!
-        .updateIn(['triggerId'], item => item.setValue(selectedId!).setTouched(true))
+        .updateIn(['triggerId'], item => item.setValue(selectedId).setTouched(true))
         .updateIn(['triggerType'], item => item.setValue(selectedType).setTouched(true))
     );
     close();
   }
+
+  function onChange(item: TriggerSpecification) {
+    setSelectedId(item.id);
+    setSelectedType(getTriggerType(item));
+    setServerTableState({ page: 1, query: '' });
+  }
+
+  const columnDefinitions: ColumnDefinition<TriggerSpecification>[] = [
+    {
+      id: 'select',
+      label: '',
+      width: 5,
+      getContent: item => (
+        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
+      )
+    },
+    triggerNameColumn,
+    triggerDescriptionColumn,
+    selectedTab === 'applicationSmartAlert' ? evalutationTypeColumn : entityTypeColumn
+  ];
+
   const table = (
-    <ServerTablePresenter
+    <ServerTablePresenter<TriggerSpecification, ServerTablePresenterProps<TriggerSpecification>>
       searchPlaceholder={t('in-automation:policies.searchTriggers')}
       onChange={setServerTableState}
+      onRowClick={onChange}
       page={page}
       pageSize={pageSize}
       result={result}
       query={query}
-      columnDefinitions={[
-        {
-          id: 'select',
-          label: '',
-          width: 5,
-          getContent: (item: TriggerSpecification) => (
-            <CheckboxFancy
-              label=""
-              asRadioButton
-              checked={item.id === selectedId}
-              onChange={() => setSelectedId(item.id)}
-            />
-          )
-        },
-        {
-          id: 'name',
-          label: t('in-automation:name'),
-          getContent: (item: TriggerSpecification) => {
-            if (isEventSpecification(item)) {
-              return <EventName hasRowNavigation={false} entity={item} />;
-            }
-            return <SimpleListNameColumn config={item} />;
-          },
-          width: 23
-        },
-        {
-          id: 'description',
-          label: t('in-automation:description'),
-          getContent: (item: TriggerSpecification) => (
-            <Typography variant="body-regular">{item.description}</Typography>
-          ),
-          width: 23
-        }
-      ]}
+      rightHeader={selectedTab === 'event' && <TriggerFilters eventType={eventType} setEventType={setEventType} />}
+      columnDefinitions={columnDefinitions}
       orderBy={orderBy}
       orderDirection={orderDirection}
+      fixedLayout
     />
   );
   return (
     <Dialog className={locals.select} title={t('in-automation:policies.addTrigger')} onClose={close} withoutBodyPadding>
       <div className={locals.selectDialog}>
-        <TabSelect
-          activePanelId={selectedType}
-          onChange={id => {
-            setSelectedType(id);
-            setServerTableState({ page: 1, query: '' });
-          }}
-        >
+        <TabSelect activePanelId={selectedTab} onChange={setSelectedTab}>
           <TabSelectHeader>
             <Typography variant="heading-200" noWrap>
               {t('in-automation:policies.selectTrigger')}
             </Typography>
           </TabSelectHeader>
           <TabSelectMenu>
-            <TabSelectItem forId="builtinEvent" withRadioButton>
-              {t('in-automation:policies.builtInEvent')}
-            </TabSelectItem>
-            <TabSelectItem forId="customEvent" withRadioButton>
-              {t('in-automation:policies.customEvent')}
+            <TabSelectItem forId="event" withRadioButton>
+              {t('in-automation:policies.event')}
             </TabSelectItem>
             <TabSelectItem forId="applicationSmartAlert" withRadioButton>
               {t('in-automation:policies.applicationSmartAlert')}
             </TabSelectItem>
           </TabSelectMenu>
           <TabSelectPanels>
-            <TabSelectPanel id="builtinEvent">{table}</TabSelectPanel>
-            <TabSelectPanel id="customEvent">{table}</TabSelectPanel>
+            <TabSelectPanel id="event">{table}</TabSelectPanel>
             <TabSelectPanel id="applicationSmartAlert">{table}</TabSelectPanel>
           </TabSelectPanels>
         </TabSelect>
@@ -512,6 +538,40 @@ function SelectTriggerDialog({
   );
 }
 
+const typeOptions = [
+  { value: 'builtinEvent', label: t('in-automation:policies.builtIn') },
+  { value: 'customEvent', label: t('in-automation:policies.custom') }
+] as const;
+
+function TriggerFilters({
+  eventType,
+  setEventType
+}: {
+  eventType: EventType;
+  setEventType: React.Dispatch<React.SetStateAction<EventType>>;
+}) {
+  return (
+    <>
+      <Stack direction="horizontal">
+        <ComboBox
+          options={typeOptions}
+          placeholder={t('in-automation:type')}
+          value={eventType}
+          onChange={newValue => {
+            if (!newValue) {
+              setEventType(null);
+            } else {
+              // @ts-expect-error
+              setEventType(newValue.value);
+            }
+          }}
+        />
+      </Stack>
+      <Spacer horizontal="small" />
+    </>
+  );
+}
+
 function SelectAction({
   actions,
   form,
@@ -523,8 +583,11 @@ function SelectAction({
 }) {
   const action = form.get('action');
   const actionId = action.get('actionId');
-  const selectedAction = actions.find(action => action.id === actionId.value);
 
+  const selectedAction = actions.find(action => action.id === actionId.value);
+  const result = listSuccess(selectedAction ? [selectedAction] : []);
+
+  const columnDefinitions: ColumnDefinition<Action>[] = [nameColumn(false), descriptionColumn, typeColumn, tagsColumn];
   const executableAction =
     isScript(selectedAction?.type) ||
     isWebhook(selectedAction?.type) ||
@@ -532,6 +595,39 @@ function SelectAction({
     isGithub(selectedAction?.type) ||
     isGitlab(selectedAction?.type) ||
     isJira(selectedAction?.type);
+  if (executableAction) {
+    columnDefinitions.push({
+      id: 'configure',
+      label: '',
+      width: 8,
+      getContent: item => (
+        <Tooltip content={t('in-automation:policies.configure')} delay={500}>
+          <IconButton
+            onClick={() =>
+              addActiveDialog(
+                <RunActionDialog
+                  handleSave={(params, volatileId) => {
+                    setForm(form =>
+                      form!
+                        .updateIn(['action', 'parameters'], item => item.setValue(params).setTouched(true))
+                        .updateIn(['action', 'agentId'], item => item.setValue(volatileId.host_id!).setTouched(true))
+                    );
+                    close();
+                  }}
+                  policy={getPolicyFromForm(form)}
+                  action={item}
+                  volatileId={{}}
+                />
+              )
+            }
+            buttonType="button"
+            kind="primaryv2"
+            type="lib_actions_edit"
+          />
+        </Tooltip>
+      )
+    });
+  }
 
   return (
     <FormGroup>
@@ -543,50 +639,8 @@ function SelectAction({
         noDataMessage={t('in-automation:policies.noActionConfigured')}
         orderBy="id"
         orderDirection="ASC"
-        columnDefinitions={[
-          nameColumn(false),
-          descriptionColumn,
-          typeColumn,
-          tagsColumn,
-          ...(executableAction
-            ? [
-                {
-                  id: 'configure',
-                  label: '',
-                  width: 5,
-                  getContent: (item: Action) => (
-                    <Tooltip content={t('in-automation:policies.configure')} delay={500}>
-                      <IconButton
-                        onClick={() =>
-                          addActiveDialog(
-                            <RunActionDialog
-                              handleSave={(params, volatileId) => {
-                                setForm(form =>
-                                  form!
-                                    .updateIn(['action', 'parameters'], item => item.setValue(params).setTouched(true))
-                                    .updateIn(['action', 'agentId'], item =>
-                                      item.setValue(volatileId.host_id!).setTouched(true)
-                                    )
-                                );
-                                close();
-                              }}
-                              policy={getPolicyFromForm(form)}
-                              action={item}
-                              volatileId={{}}
-                            />
-                          )
-                        }
-                        buttonType="button"
-                        kind="primaryv2"
-                        type="lib_actions_edit"
-                      />
-                    </Tooltip>
-                  )
-                }
-              ]
-            : [])
-        ]}
-        result={listSuccess(selectedAction ? [selectedAction] : [])}
+        columnDefinitions={columnDefinitions}
+        result={result}
         rightHeader={
           <Button
             kind="action"
@@ -596,6 +650,7 @@ function SelectAction({
             {t('in-automation:policies.addAction')}
           </Button>
         }
+        fixedLayout
       />
       {action.touched && <TouchedMessages field={action} className={locals.subErrorTextFormField} />}
     </FormGroup>
@@ -612,54 +667,67 @@ function SelectActionDialog({
   setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
 }) {
   const selectedActionId = form.getIn(['action', 'actionId']).value;
+  const [selectedId, setSelectedId] = useState(selectedActionId);
+
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = usePagination();
   const actionTags = [...new Set(actions.flatMap(action => action.tags ?? []))];
-  const { filteredActions, types, setTypes, tags, setTags } = useFilters(actions, setServerTableState);
-  const result = usePaginatedResult(success(filteredActions), { page, pageSize, orderBy, orderDirection, query }, [
-    'name',
-    'description',
-    'type',
-    action => action?.tags?.toString() ?? ''
-  ]);
-  const [selectedId, setSelectedId] = useState(selectedActionId);
+  const { filteredActions, types, setTypes, tags, setTags } = useActionFilters({ actions, setServerTableState });
+  const result = usePaginatedResult(
+    success(filteredActions),
+    { page, pageSize, orderBy, orderDirection, query },
+    ['name', 'description', 'type', action => action?.tags?.toString() ?? ''],
+    [
+      entity => selectedId !== entity.id,
+      entity => {
+        const value = entity[orderBy as keyof Action];
+        return typeof value === 'string' ? value.trim().toLowerCase() : value;
+      }
+    ]
+  );
+
   function handleSubmit() {
     setForm(form => form!.updateIn(['action', 'actionId'], item => item.setValue(selectedId).setTouched(true)));
     close();
   }
+
+  function onChange(item: Action) {
+    setSelectedId(item.id);
+    setServerTableState({ page: 1, query: '' });
+  }
+
+  const columnDefinitions: ColumnDefinition<Action>[] = [
+    {
+      id: 'select',
+      label: '',
+      width: 5,
+      getContent: item => (
+        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
+      )
+    },
+    nameColumn(false),
+    descriptionColumn,
+    typeColumn,
+    tagsColumn
+  ];
+
   return (
     <Dialog className={locals.select} title={t('in-automation:policies.addAction')} onClose={close} withoutBodyPadding>
       <div className={locals.selectDialog}>
-        <ServerTablePresenter
+        <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
           searchPlaceholder={t('in-automation:searchActions')}
           onChange={setServerTableState}
           page={page}
+          onRowClick={onChange}
           pageSize={pageSize}
           result={result}
           query={query}
           rightHeader={
             <ActionFilters types={types} actionTags={actionTags} setTypes={setTypes} tags={tags} setTags={setTags} />
           }
-          columnDefinitions={[
-            {
-              id: 'select',
-              label: '',
-              width: 5,
-              getContent: (item: Action) => (
-                <CheckboxFancy
-                  label=""
-                  asRadioButton
-                  checked={item.id === selectedId}
-                  onChange={() => setSelectedId(item.id)}
-                />
-              )
-            },
-            nameColumn(false),
-            descriptionColumn,
-            typeColumn,
-            tagsColumn
-          ]}
+          columnDefinitions={columnDefinitions}
           orderBy={orderBy}
           orderDirection={orderDirection}
+          fixedLayout
         />
       </div>
       <Spacer vertical="small" />
@@ -731,10 +799,13 @@ function ActionFilters({
   );
 }
 
-function useFilters(
-  actions: Action[],
-  setServerTableState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void
-) {
+function useActionFilters({
+  actions,
+  setServerTableState
+}: {
+  actions: Action[];
+  setServerTableState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
+}) {
   const [types, setTypes] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
 
@@ -772,5 +843,45 @@ function useFilters(
       setTags(tags);
       setServerTableState({ page: 1, query: '' });
     }
+  };
+}
+
+type TriggerTab = 'event' | 'applicationSmartAlert';
+type EventType = 'customEvent' | 'builtinEvent' | null;
+
+function useTriggerFilters({
+  triggers,
+  selectedTriggerType,
+  setServerTableState
+}: {
+  triggers: Triggers;
+  selectedTriggerType: TriggerType;
+  setServerTableState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
+}) {
+  const [selectedTab, setSelectedTab] = useState<TriggerTab>(
+    selectedTriggerType === 'builtinEvent' || selectedTriggerType === 'customEvent' ? 'event' : 'applicationSmartAlert'
+  );
+  const [eventType, setEventType] = useState<EventType>(null);
+  const filteredTriggers =
+    selectedTab === 'applicationSmartAlert'
+      ? triggers['applicationSmartAlert']
+      : eventType === null
+      ? [...triggers.builtinEvent, ...triggers.customEvent]
+      : eventType === 'builtinEvent'
+      ? triggers.builtinEvent
+      : triggers.customEvent;
+
+  return {
+    selectedTab,
+    eventType,
+    setEventType: (eventType: React.SetStateAction<EventType>) => {
+      setEventType(eventType);
+      setServerTableState({ page: 1, query: '' });
+    },
+    setSelectedTab: (tab: React.SetStateAction<TriggerTab>) => {
+      setSelectedTab(tab);
+      setServerTableState({ page: 1, query: '' });
+    },
+    filteredTriggers
   };
 }

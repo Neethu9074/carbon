@@ -72,7 +72,7 @@ export default function PotentialProblemContentControls({
       >
         {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>
-      {role.canConfigureCustomAlerts && applicationId && applicationLabel && (
+      {role.canConfigureApplicationSmartAlerts && applicationId && applicationLabel && (
         <Button
           kind="secondaryDarker"
           onClick={() => {

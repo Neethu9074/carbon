@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
@@ -16,13 +18,13 @@ import {
   generateBaselineForMetric,
   getHardCodedRandomValue
 } from 'in-test/util/generateMetrics';
+import { chartColors, carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { hexToRGBA } from 'in-services/formatters/color';
 import { lighten } from 'in-services/formatters/color';
 import { minutes } from 'in-services/time';
-import { useTheme } from 'in-themes';
-import oldTheme from 'in-themes';
 import { t } from 'in-i18n';
 
 const oneSecond = 1000;
@@ -57,7 +59,7 @@ const historicThreshold = {
 };
 
 // see PotentialProblemsChart
-const highlightColor = oldTheme.lib.colors.chart.strokeColors100[3];
+const highlightColor = chartColors.strokeColors100[3];
 const highlight = {
   area: {
     key: 'some highlight',
@@ -93,7 +95,6 @@ export function BaselinesWithGaps() {
 }
 
 function Chart({ renderer }) {
-  const theme = useTheme();
   return (
     <ResultAwareChart
       result={{
@@ -109,14 +110,14 @@ function Chart({ renderer }) {
           metricIds: ['latency', 'threshold'],
           excludedLabelsFromTooltip: ['Violations'],
           icons: {
-            types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-            colors: [oldTheme.lib.colors.lightBlue800, oldTheme.lib.colors.red800, '#ffe2e2']
+            types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+            colors: [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50]
           },
           getMax: metricsMaxValue => metricsMaxValue * 1.4,
           colors: [
-            theme.ids.color.option.blue['400'],
-            theme.ids.color.option.red['500'],
-            theme.ids.color.option.orange['500']
+            themes.default.ids.color.option.blue['400'],
+            themes.default.ids.color.option.red['500'],
+            themes.default.ids.color.option.orange['500']
           ],
           renderer,
           metrics: metricsBarWithBaseline,
@@ -195,23 +196,23 @@ function ChartPrediction({ renderer, isMetricOverlap }) {
             metricIds: ['cpu.used', 'threshold', 'violations', 'predictions', 'lowerBound', 'upperBound'],
             excludedLabelsFromTooltip: ['Violations'],
             icons: {
-              types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_line_chart'],
+              types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_legend_line_chart'],
               colors: [
-                oldTheme.lib.carbonCategorical.cyan50,
-                oldTheme.lib.carbonAlert.red60,
-                lighten(oldTheme.lib.carbonAlert.red60, 0.4),
-                oldTheme.lib.colors.deepPurple800
+                carbonCategorical.cyan50,
+                carbonAlert.red60,
+                getColorWithTransparency(carbonAlert.red60).c50,
+                themes.default.ids.color.option['deep-purple'][500]
               ]
             },
             excludedLabelsFromLegend: ['Lower Bound', 'Upper Bound'],
             getMax: metricsMaxValue => metricsMaxValue * 1.4,
             colors: [
-              oldTheme.lib.carbonCategorical.cyan50,
-              oldTheme.lib.carbonAlert.red60,
-              lighten(oldTheme.lib.carbonAlert.red60, 0.4),
-              oldTheme.lib.colors.deepPurple800,
-              lighten(oldTheme.lib.carbonAlert.purple50, 0.3),
-              lighten(oldTheme.lib.carbonAlert.purple50, 0.3)
+              carbonCategorical.cyan50,
+              carbonAlert.red60,
+              lighten(carbonAlert.red60, 0.4),
+              themes.default.ids.color.option['deep-purple'][500],
+              lighten(carbonAlert.purple50, 0.3),
+              lighten(carbonAlert.purple50, 0.3)
             ],
             renderer,
             metrics: [metrics, [], [], predictions, lowerBound, upperBound],

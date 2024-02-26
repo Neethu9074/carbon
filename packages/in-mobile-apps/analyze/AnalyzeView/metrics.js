@@ -82,6 +82,14 @@ const errorRate = {
   tag: 'mobileBeacon.error.count'
 };
 
+const customMetric = {
+  metric: 'customMetric',
+  label: t('in-mobile-apps:analyzeView.customMetric.label'),
+  formatter: number,
+  supportedAggregations: ['SUM', 'MEAN', 'MAX', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99'],
+  preferredRenderer: Renderer.stackedBar
+};
+
 export const availableMetrics = {
   sessionStart: [
     newNumberMetric({
@@ -244,7 +252,8 @@ export const availableMetrics = {
         tag: 'mobileBeacon.duration'
       }
     ),
-    uniqueUsersOrSessions
+    uniqueUsersOrSessions,
+    customMetric
   ],
   crash: [
     newNumberMetric({

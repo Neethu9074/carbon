@@ -81,6 +81,7 @@
     "focusOnThisGroup": "Foco neste grupo",
     "theQueryConfigurationIsInvalid": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "allInfrastructure": "Todas as infraestruturas",
+    "emptyInfrastructure": "Selecionar o tipo de entidade",
     "name": "Nome",
     "search": "Procurar um tipo",
     "explore": "Explorar",

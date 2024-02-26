@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { themes } from '@instana/design-tokens';
+
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
-import oldTheme from 'in-themes';
 
 function buildMapper(fromHex, toHex) {
   const fromRgb = hexToRGB(fromHex);
@@ -19,6 +20,9 @@ function buildMapper(fromHex, toHex) {
   };
 }
 
-export const cpuColorMapper = buildMapper(oldTheme.lib.colors.yellow800, oldTheme.lib.colors.red800);
+export const cpuColorMapper = buildMapper(
+  themes.default.ids.color.option.yellow['500'],
+  themes.default.ids.color.option.red['500']
+);
 export const memColorMapper = buildMapper('#e0d7ff', '#835cff');
 export const timeColorMapper = buildMapper('#b9dcfe', '#2a8cea');

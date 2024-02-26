@@ -19,7 +19,12 @@ import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
-export default function Docker({ agentKey }: OnboardingProps): JSX.Element {
+export default function Docker({
+  agentKey,
+  downloadKey,
+  agentEndpoint,
+  agentEndpointPort
+}: OnboardingProps): JSX.Element {
   const [agentZone, setAgentZone] = useState<string>('');
   const sideCardData = [
     {
@@ -28,15 +33,15 @@ export default function Docker({ agentKey }: OnboardingProps): JSX.Element {
         <Stack direction="vertical" gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.docker.pullTheAgentContainerImage')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-docker#pulling-the-instana-agent-container-image"
+            href="https://ibm.biz/inst-agent-dockerpull"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.docker.runTheInstanaAgentContainerImage')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-docker#running-the-instana-agent-container-image"
+            href="https://ibm.biz/inst-agent-dockerrun"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.docker.upgradeTheInstanaAgentContainerImage')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-docker#upgrading-the-instana-agent-container-image"
+            href="https://ibm.biz/inst-agent-dockerupg"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.aws.prerequisiteLinks.networkRequirements')}
@@ -52,11 +57,11 @@ export default function Docker({ agentKey }: OnboardingProps): JSX.Element {
         <Stack direction="vertical" gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.docker.installAgentOnDocker')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-docker#installation"
+            href="https://ibm.biz/inst-agent-docker"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.docker.configurationOptions')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-docker#agent-configuration"
+            href="https://ibm.biz/inst-agent-dockercfg"
           />
         </Stack>
       ),
@@ -70,27 +75,30 @@ export default function Docker({ agentKey }: OnboardingProps): JSX.Element {
   ];
 
   const createDockerScript = useMemo(() => {
-    let zoneEnv = agentZone.length === 0 ? '' : `--env="INSTANA_AGENT_ZONE=${agentZone}" \\ \n`;
+    let zoneEnv = agentZone.length === 0 ? null : `  --env="INSTANA_AGENT_ZONE=${agentZone}" \\`;
 
-    return [
+    const script = [
       'sudo docker run \\',
-      '--detach \\',
-      '--name instana-agent \\ ',
-      '--volume /var/run:/var/run \\',
-      '--volume /dev:/dev:ro \\',
-      '--volume /sys:/sys:ro \\',
-      '--volume /var/log:/var/log:ro \\',
-      '--privileged \\',
-      '--net=host \\',
-      '--pid=host \\',
-      '--env="INSTANA_AGENT_ENDPOINT=ingress-blue-saas.instana.io" \\',
-      '--env="INSTANA_AGENT_ENDPOINT_PORT=443" \\',
-      '--env="INSTANA_AGENT_KEY=dummy" \\',
-      '--env="INSTANA_DOWNLOAD_KEY=dummy" \\',
-      zoneEnv,
-      'icr.io/instana/agent'
+      '  --detach \\',
+      '  --name instana-agent \\',
+      '  --volume /var/run:/var/run \\',
+      '  --volume /dev:/dev:ro \\',
+      '  --volume /sys:/sys:ro \\',
+      '  --volume /var/log:/var/log:ro \\',
+      '  --privileged \\',
+      '  --net=host \\',
+      '  --pid=host \\',
+      `  --env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
+      `  --env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
+      `  --env="INSTANA_AGENT_KEY=${agentKey}" \\`,
+      `  --env="INSTANA_DOWNLOAD_KEY=${downloadKey}" \\`
     ];
-  }, [agentZone]);
+    if (zoneEnv) {
+      script.push(zoneEnv);
+    }
+    script.push('  icr.io/instana/agent');
+    return script;
+  }, [agentZone, agentKey, downloadKey, agentEndpoint, agentEndpointPort]);
 
   return (
     <Container>

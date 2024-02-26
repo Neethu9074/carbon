@@ -166,7 +166,9 @@
         "crossSeriesAggregation": "Use SUM for cross-series aggregation",
         "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
         "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}",
-        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric"
+        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric",
+        "lastValue": "Use last value",
+        "lastValueHelp": "Display the value at the end of the timeframe"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",
@@ -180,6 +182,14 @@
         "inputPlaceholder": "Metric pattern (e.g. metric_.*)",
         "done": "Done",
         "help": "## Quick Tips\nApache Lucene flavored regex is supported with the following operators.\n### .\nMatches any character. For example:\n\n    ab.     # matches 'aba', 'abb', 'abz', etc.\n### ? + *\nRepeat the preceding character a certain number of times. For example:\n\n    abc?     # repeat 'c' one or zero times. matches 'ab' and 'abc'\n    ab+      # repeat 'b' one or more times. matches 'ab', 'abb', 'abbb', etc.\n    ab*      # repeat 'b' zero or more times. matches 'a', 'ab', 'abb', 'abbb', etc.\n### |\nOR operator. The match will succeed if the longest pattern on either the left side OR the right side matches. For example:\n\n    abc|xyz  # matches 'abc' and 'xyz'\n### ( … )\nForms a group. You can use a group to treat part of the expression as a single character. For example:\n\n    abc(def)?  # matches 'abc' and 'abcdef' but not 'abcd'\n### [ … ]\nMatch one of the characters in the brackets. For example:\n\n    [abc]   # matches 'a', 'b', 'c'\nInside the brackets, `-` indicates a range unless `-` is the first character or escaped. For example:\n\n    [a-c]   # matches 'a', 'b', or 'c'\n    [-abc]  # '-' is first character. Matches '-', 'a', 'b', or 'c'\n    [abc\\-] # Escapes '-'. Matches 'a', 'b', 'c', or '-'\nA `^` before a character in the brackets negates the character or range. For example:\n\n    [^abc]      # matches any character except 'a', 'b', or 'c'\n    [^a-c]      # matches any character except 'a', 'b', or 'c'\n    [^-abc]     # matches any character except '-', 'a', 'b', or 'c'\n    [^abc\\-]    # matches any character except 'a', 'b', 'c', or '-'\n\nNote that PCRE character classes like `\\w` or `\\S` are not currently supported. Also note that anchor operators like `^` or `$` are not supported. The expression must match the entire string.\n## Further reading\nFor the complete syntax, please see our [documentation]({{documentationLink}})."
+      },
+      "regexMetricsList": {
+        "noRegex": "Type a regex query",
+        "loading": "Loading...",
+        "error": "There was a problem loading these metrics.",
+        "noResults": "There are no metrics matching that regex expression",
+        "matches": "Matches {{number}} metrics",
+        "more": "{{number}} more"
       },
       "metricSelectionCategoryOverlay": {
         "list": "List",
@@ -812,6 +822,9 @@
         "endedOn": "Ended On",
         "duration": "Duration"
       }
+    },
+    "time": {
+      "lastValueTooltipLabel": "Last {{duration}}"
     }
   },
   "duplicateDashboardDialog": {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
 import {
@@ -42,6 +42,8 @@ interface AlertConfigDialogWithThresholdProps {
   onCreate: (simpleMode: boolean) => void;
   isSaving: boolean;
   messages: EnrichedError[];
+  setToInitialStep: React.Dispatch<React.SetStateAction<boolean>>;
+  toInitialStep: boolean;
 }
 
 export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogWithThresholdProps) {
@@ -51,7 +53,19 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
 const FORM_ID = 'smart-alert-editor';
 
 function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDialogWithThresholdProps) {
-  const { form, updateForm, startWithSimpleMode, editMode, isSaving, onCreate, onClose, messages, onChange } = props;
+  const {
+    form,
+    updateForm,
+    startWithSimpleMode,
+    editMode,
+    isSaving,
+    onCreate,
+    onClose,
+    messages,
+    onChange,
+    setToInitialStep,
+    toInitialStep
+  } = props;
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
   const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
@@ -74,6 +88,17 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
     onClose,
     onStepChanged: () => {}
   });
+
+  useEffect(() => {
+    // a confirmation dialog is shown when creating an alert without selecting any synthetic tests
+    // If the user clicks the cancel button in simple mode on the confirmation dialog,
+    // they are returned to the initial step
+    if (toInitialStep) {
+      backOrCancel(1);
+      setToInitialStep(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toInitialStep]);
 
   const footer = simpleMode ? (
     <SimpleDialogFooter

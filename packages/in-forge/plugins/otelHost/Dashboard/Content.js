@@ -29,6 +29,7 @@ import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function OtelHostDashboard({ snapshot, timeConfig }) {
+  const metricIds = snapshot.get('metricIds');
   return (
     <div>
       <KpiSection>
@@ -152,52 +153,53 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
 
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title={t('in-forge:plugins.otelHost.dashboard.tcpActivity')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          customHeight={300}
-          y1={{
-            type: 'line',
-            metrics: [
-              'tcp.listen',
-              'tcp.established',
-              'tcp.syn_sent',
-              'tcp.syn_recv',
-              'tcp.fin_wait_1',
-              'tcp.fin_wait_2'
-            ],
-            labels: [
-              t('in-forge:plugins.otelHost.dashboard.listen'),
-              t('in-forge:plugins.otelHost.dashboard.established'),
-              t('in-forge:plugins.otelHost.dashboard.syn_sent'),
-              t('in-forge:plugins.otelHost.dashboard.syn_recv'),
-              t('in-forge:plugins.otelHost.dashboard.fin_wait_1'),
-              t('in-forge:plugins.otelHost.dashboard.fin_wait_2')
-            ],
-            min: 0,
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces
-          }}
-          y2={{
-            type: 'line',
-            metrics: ['tcp.last_ack', 'tcp.time_wait', 'tcp.close', 'tcp.close_wait', 'tcp.closing', 'tcp.delete'],
-            labels: [
-              t('in-forge:plugins.otelHost.dashboard.last_ack'),
-              t('in-forge:plugins.otelHost.dashboard.time_wait'),
-              t('in-forge:plugins.otelHost.dashboard.close'),
-              t('in-forge:plugins.otelHost.dashboard.close_wait'),
-              t('in-forge:plugins.otelHost.dashboard.closing'),
-              t('in-forge:plugins.otelHost.dashboard.delete')
-            ],
-            min: 0,
-            formatter: zeroDecimalPlaces,
-            tooltipFormatter: twoDecimalPlaces
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-
+      {metricIds.includes('tcp.listen') === true && (
+        <DashboardSection title={t('in-forge:plugins.otelHost.dashboard.tcpActivity')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            customHeight={300}
+            y1={{
+              type: 'line',
+              metrics: [
+                'tcp.listen',
+                'tcp.established',
+                'tcp.syn_sent',
+                'tcp.syn_recv',
+                'tcp.fin_wait_1',
+                'tcp.fin_wait_2'
+              ],
+              labels: [
+                t('in-forge:plugins.otelHost.dashboard.listen'),
+                t('in-forge:plugins.otelHost.dashboard.established'),
+                t('in-forge:plugins.otelHost.dashboard.syn_sent'),
+                t('in-forge:plugins.otelHost.dashboard.syn_recv'),
+                t('in-forge:plugins.otelHost.dashboard.fin_wait_1'),
+                t('in-forge:plugins.otelHost.dashboard.fin_wait_2')
+              ],
+              min: 0,
+              formatter: zeroDecimalPlaces,
+              tooltipFormatter: twoDecimalPlaces
+            }}
+            y2={{
+              type: 'line',
+              metrics: ['tcp.last_ack', 'tcp.time_wait', 'tcp.close', 'tcp.close_wait', 'tcp.closing', 'tcp.delete'],
+              labels: [
+                t('in-forge:plugins.otelHost.dashboard.last_ack'),
+                t('in-forge:plugins.otelHost.dashboard.time_wait'),
+                t('in-forge:plugins.otelHost.dashboard.close'),
+                t('in-forge:plugins.otelHost.dashboard.close_wait'),
+                t('in-forge:plugins.otelHost.dashboard.closing'),
+                t('in-forge:plugins.otelHost.dashboard.delete')
+              ],
+              min: 0,
+              formatter: zeroDecimalPlaces,
+              tooltipFormatter: twoDecimalPlaces
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 
       <Footer smallMargin />

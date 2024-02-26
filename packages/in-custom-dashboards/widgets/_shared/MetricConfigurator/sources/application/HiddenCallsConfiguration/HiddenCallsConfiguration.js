@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle, Spacer } from '@instana/components';
+import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';

@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, Spacer, Toggle } from '@instana/components';
+import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import { ApiTestResponse } from 'in-internal/thisUnit/WsApiTester/ApiResponseList';

@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "사용자 정의 필터(선택사항)",
     "title": "SLO(Service Level Objective) 생성",
-    "selectIndicator": "표시기 선택",
+    "selectIndicator": "블루프린트 선택",
     "selectEntityNavItem": "엔티티 선택",
     "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
     "selectScopeNavItem": "범위 선택",
     "selectScopeTitle": "범위 선택",
+    "selectIndicatorTitle": "SLI 표시기",
+    "selectIndicatorNavItem": "표시기 설정",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 요청",
       "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "이 SLO 구성을 작성하는 중에 예기치 않은 오류가 발생했습니다. 나중에 다시 시도하십시오."
     },
     "indicatorSection": {
-      "description_custom": "이는 디자인에서 누락되었으므로 나중에 업데이트해야 합니다.",
+      "description_custom": "사용자 정의 필터를 사용하여 양호 및/또는 불량 이벤트 수를 측정합니다.",
       "description_latency": "서비스가 설정된 임계값을 초과하여 응답하는 속도를 측정합니다. 예를 들어, 체크아웃 서비스가 100ms보다 빠르게 응답하는 속도의 측정값입니다.",
       "description_availability": "서비스가 적절히 응답하는 빈도를 측정합니다. 예를 들어, HTTP 호출에 오류가 발생하는 빈도입니다.",
       "timeTypeExplanation": "양호한 호출과 불량한 호출이 그룹화됨(분 단위로 집계됨)",

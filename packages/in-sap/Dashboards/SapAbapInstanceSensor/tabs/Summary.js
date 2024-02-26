@@ -121,14 +121,30 @@ export default function Summary({ timeConfig, data: sap }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.paging')}>
+        <DashboardSection title={t('in-sap:dashboards.processMaxRequestTime')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
-              labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
+              metrics: [
+                'queueStats.nowpWait',
+                'queueStats.dialogWait',
+                'queueStats.updateWait',
+                'queueStats.enqueueWait',
+                'queueStats.btcWait',
+                'queueStats.spoolWait',
+                'queueStats.update2Wait'
+              ],
+              labels: [
+                t('in-sap:dashboards.nowpWait'),
+                t('in-sap:dashboards.dialogWait'),
+                t('in-sap:dashboards.updateWait'),
+                t('in-sap:dashboards.enqueueWait'),
+                t('in-sap:dashboards.btcWait'),
+                t('in-sap:dashboards.spoolWait'),
+                t('in-sap:dashboards.update2Wait')
+              ],
               type: 'line',
               formatter: number
             }}
@@ -161,7 +177,7 @@ export default function Summary({ timeConfig, data: sap }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.workProcessStats')}>
+        <DashboardSection title={t('in-sap:dashboards.workProcessType')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -171,13 +187,17 @@ export default function Summary({ timeConfig, data: sap }) {
                 'workloadcounts.numberOfDialogProcess',
                 'workloadcounts.numberOfSpoolProcess',
                 'workloadcounts.numberOfBatchProcess',
-                'workloadcounts.numberOfEnqueueProcess'
+                'workloadcounts.numberOfEnqueueProcess',
+                'workloadcounts.numberOfUpdateProcess',
+                'workloadcounts.numberOfUpdate2Process'
               ],
               labels: [
                 t('in-sap:dashboards.numberOfDialogProcess'),
                 t('in-sap:dashboards.numberOfSpoolProcess'),
                 t('in-sap:dashboards.numberOfBatchProcess'),
-                t('in-sap:dashboards.numberOfEnqueueProcess')
+                t('in-sap:dashboards.numberOfEnqueueProcess'),
+                t('in-sap:dashboards.numberOfUpdateProcess'),
+                t('in-sap:dashboards.numberOfUpdate2Process')
               ],
               type: 'stackedBar',
               formatter: number
@@ -201,20 +221,6 @@ export default function Summary({ timeConfig, data: sap }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.updateWorkProcess')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['workloadcounts.numberOfUpdateProcess', 'workloadcounts.numberOfUpdate2Process'],
-              labels: [t('in-sap:dashboards.numberOfUpdateProcess'), t('in-sap:dashboards.numberOfUpdate2Process')],
-              type: 'line',
-              formatter: number
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
         <DashboardSection title={t('in-sap:abapsensor.metrics.backgroundJobCounts')}>
           <Chart
             snapshotId={snapshotId}
@@ -230,36 +236,27 @@ export default function Summary({ timeConfig, data: sap }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title={t('in-sap:dashboards.processMaxRequestTime')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: [
-              'queueStats.nowpWait',
-              'queueStats.dialogWait',
-              'queueStats.updateWait',
-              'queueStats.enqueueWait',
-              'queueStats.btcWait',
-              'queueStats.spoolWait',
-              'queueStats.update2Wait'
-            ],
-            labels: [
-              t('in-sap:dashboards.nowpWait'),
-              t('in-sap:dashboards.dialogWait'),
-              t('in-sap:dashboards.updateWait'),
-              t('in-sap:dashboards.enqueueWait'),
-              t('in-sap:dashboards.btcWait'),
-              t('in-sap:dashboards.spoolWait'),
-              t('in-sap:dashboards.update2Wait')
-            ],
-            type: 'line',
-            formatter: number
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <Columize>
+        <DashboardSection title={t('in-sap:dashboards.memoryStats')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['swapmemory.swapConf', 'swapmemory.freeSwap', 'swapmemory.swapSize', 'swapmemory.swapMax'],
+              labels: [
+                t('in-sap:dashboards.swapConf'),
+                t('in-sap:dashboards.freeSwap'),
+                t('in-sap:dashboards.swapSize'),
+                t('in-sap:dashboards.swapMax')
+              ],
+              type: 'line',
+              formatter: bytes
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
       <CombinedMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <AbapShortDumps snapshotId={snapshotId} timeConfig={timeConfig} />

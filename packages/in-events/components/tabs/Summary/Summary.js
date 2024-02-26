@@ -22,7 +22,8 @@ import {
   isIbmMqFileTransferIssueEvent,
   isMobileAppSmartAlertEvent,
   isSloSmartAlertEvent,
-  isEntityCountVerificationEvent
+  isEntityCountVerificationEvent,
+  isLogSmartAlertEvent
 } from 'in-events/components/eventUtil';
 import {
   actionAutomationEnabled,
@@ -45,22 +46,24 @@ import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCal
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import LogsEventContent from 'in-events/components/EventContent/LogEventContent';
 import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventSummarization from 'in-events/components/legacy/EventSummarization';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
+import { getEventType, EVENT_TYPES, getServiceIds } from 'in-stores/events';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
@@ -141,6 +144,10 @@ const EventContent = connectTo(
       return <SloEventContent event={event} />;
     }
 
+    if (isLogSmartAlertEvent(event)) {
+      return <LogsEventContent event={event} />;
+    }
+
     if (isEntityCountVerificationEvent(event)) {
       return <EntityCountVerificationEventContent event={event} snapshot={snapshot} />;
     }
@@ -149,6 +156,7 @@ const EventContent = connectTo(
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
     const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
     const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
+    const serviceIds = getServiceIds(event);
 
     return (
       <>
@@ -158,7 +166,6 @@ const EventContent = connectTo(
             pageRootName: pageNames.event
           }}
         />
-
         <Row withoutSideMargin>
           <Col xs>
             <Card title={t('in-events:titleDescription')}>
@@ -232,7 +239,7 @@ const EventContent = connectTo(
           role?.canConfigureAutomationPolicies &&
           actionAutomationEnabled &&
           role.canConfigureAutomationActions &&
-          role.canConfigureCustomAlerts &&
+          role.canConfigureEventsAndAlerts &&
           isIssue &&
           hasEventSpec && (
             <AssociatedAndRecommendedPolicies
@@ -243,7 +250,7 @@ const EventContent = connectTo(
         {!automationPoliciesEnabled &&
           actionAutomationEnabled &&
           role.canConfigureAutomationActions &&
-          role.canConfigureCustomAlerts &&
+          role.canConfigureEventsAndAlerts &&
           isIssue &&
           hasEventSpec && (
             <AssociatedAndRecommendedActions
@@ -251,6 +258,7 @@ const EventContent = connectTo(
               event={event?.toJS()}
             />
           )}
+        <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
       </>
     );
   }

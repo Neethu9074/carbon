@@ -19,6 +19,9 @@
   "totalCpu": "Total de CPU",
   "totalMemory": "Total de memória",
   "totalStorage": "Armazenamento total",
+  "totalCapacity": "Capacidade Total",
+  "availableCapacity": "Capacidade disponível",
+  "volumeCount": "Contagem de volumes",
   "cpuArch": "Arquitetura de CPU",
   "cpuModel": "Modelo de CPU",
   "cpuVendor": "Fornecedor de CPU",
@@ -26,6 +29,7 @@
   "status": "Status",
   "state": "State",
   "hostIP": "IP do host",
+  "ip": "IP",
   "hypervisorType": "Tipo de hypervisor",
   "hypervisorVersion": "Versão do hypervisor",
   "instanceCount": "Contagem de instâncias",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "Uso de grupos de servidores",
   "floatingIpsUsage": "Uso de IPs flutuantes",
   "securityGroupsUsage": "Uso de grupos de segurança",
+  "project": "Projeto",
+  "hostName": "Nome do host",
+  "cpuUtilization": "Utilização da CPU",
+  "health": "Funcionamento",
   "dashboards": {
-    "regions": "Regiões",
     "powervcRegions": "Regiões PowerVC",
     "hypervisors": "Hypervisors",
     "computeInstances": "Instâncias de cálculo",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "Total de grupos de servidores usados",
     "totalFloatingIpsUsed": "Total de IPs flutuantes usados",
     "totalSecurityGroupsUsed": "Total de grupos de segurança usados",
-    "memoryUsageAll": "Uso de memória por todas as máquinas virtuais",
-    "cpuUsageAll": "Uso de CPU por todas as máquinas virtuais",
-    "storageUsageAll": "Uso de armazenamento por todas as máquinas virtuais",
     "noDataAvailable": {
       "hypervisorTitle": "Não há nenhum hypervisor PowerVC disponível",
-      "hypervisorDescription": "Não houve nenhum Hypervisor PowerVC recuperado no intervalo de tempo selecionado."
+      "hypervisorDescription": "Não houve nenhum Hypervisor PowerVC recuperado no intervalo de tempo selecionado.",
+      "instanceTitle": "Nenhuma instância do PowerVC disponível",
+      "instanceDescription": "Não houve nenhuma instância do PowerVC recuperada para o intervalo de tempo selecionado."
     }
   }
 }

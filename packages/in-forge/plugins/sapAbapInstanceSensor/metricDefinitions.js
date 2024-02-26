@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { number, bytes, millis, seconds } from 'in-services/formatters/number';
+import { number, bytes, millis, seconds, kiloBytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
 export default [
@@ -362,6 +363,7 @@ export default [
   },
   {
     metrics: [
+      getDynamicMetricMatch('workprocessList', 'wpIndex', t('in-sap:dashboards.workProcessNumber')),
       getDynamicMetricMatch('workprocessList', 'wpIStatus', t('in-sap:dashboards.workProcessStatus')),
       getDynamicMetricMatch('workprocessList', 'wpDumps', t('in-sap:dashboards.workProcessDumps')),
       getDynamicMetricMatch('workprocessList', 'wpIType', t('in-sap:dashboards.workProcessType')),
@@ -369,6 +371,7 @@ export default [
       getDynamicMetricMatch('workprocessList', 'wpMutex', t('in-sap:dashboards.workProcessMutex'))
     ],
     labels: [
+      t('in-sap:dashboards.workProcessNumber'),
       t('in-sap:dashboards.workProcessStatus'),
       t('in-sap:dashboards.workProcessDumps'),
       t('in-sap:dashboards.workProcessType'),
@@ -378,6 +381,20 @@ export default [
     category: [t('in-sap:dashboards.workprocessList')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('jobDetails', 'PRDHOURS', t('in-sap:dashboards.prdHours'))],
+    labels: [t('in-sap:dashboards.prdHours')],
+    category: [t('in-sap:dashboards.jobsInformation')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('jobDetails', 'PRDMINS', t('in-sap:dashboards.prdMins'))],
+    labels: [t('in-sap:dashboards.prdMins')],
+    category: [t('in-sap:dashboards.jobsInformation')],
+    min: 0,
+    formatter: minutes.detailed
   },
   {
     metrics: [
@@ -396,7 +413,6 @@ export default [
     min: 0,
     formatter: bytes.compact
   },
-
   {
     metrics: [
       getDynamicMetricMatch('databaseStats', 'dbRequestTime', t('in-sap:dashboards.dbRequestTime')),
@@ -504,5 +520,19 @@ export default [
     category: [t('in-sap:dashboards.httpMetricsStats')],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('topProcessMetricStats', 'cpuTime', t('in-sap:dashboards.cpuTime'))],
+    labels: [t('in-sap:dashboards.cpuTime')],
+    category: [t('in-sap:dashboards.TopProcessList')],
+    min: 0,
+    formatter: seconds.detailed
+  },
+  {
+    metrics: [getDynamicMetricMatch('topProcessMetricStats', 'resSize', t('in-sap:dashboards.resSize'))],
+    labels: [t('in-sap:dashboards.resSize')],
+    category: [t('in-sap:dashboards.TopProcessList')],
+    min: 0,
+    formatter: kiloBytes.compact
   }
 ];

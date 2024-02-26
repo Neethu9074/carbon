@@ -81,6 +81,7 @@
     "focusOnThisGroup": "이 그룹에 초점 지정",
     "theQueryConfigurationIsInvalid": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
     "allInfrastructure": "모든 인프라",
+    "emptyInfrastructure": "엔티티 유형 선택",
     "name": "이름",
     "search": "유형 검색",
     "explore": "탐색",

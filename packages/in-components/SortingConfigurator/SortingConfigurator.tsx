@@ -5,7 +5,7 @@
 
 import React, { useRef } from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Li } from '@instana/components';
 import { Ul } from '@instana/components';
 
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
@@ -90,6 +90,7 @@ export default function SortingConfigurator({ options, orderBy, onChange }: Prop
 function Options({ options, onChange, orderBy, close }: OptionsProps) {
   return (
     <Ul framed={false} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
+      <OverlayOptionTitle title={t('in-components:sortingConfigurator.headerLabel')} size="compact" />
       {options.map((option, i) => (
         <OverlayOption
           onChange={onChange}
@@ -103,5 +104,13 @@ function Options({ options, onChange, orderBy, close }: OptionsProps) {
         </OverlayOption>
       ))}
     </Ul>
+  );
+}
+
+function OverlayOptionTitle({ title, size }: { title: string; size?: 'normal' | 'compact' }) {
+  return (
+    <Li className={locals.header} size={size}>
+      {title}
+    </Li>
   );
 }

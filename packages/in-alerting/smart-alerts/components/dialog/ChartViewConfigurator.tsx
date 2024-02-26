@@ -28,7 +28,7 @@ export interface ChartViewConfiguratorProps {
   title?: string;
   headerTransparent?: boolean;
   framed?: boolean;
-  onChartViewConfigChange: (index: number) => void;
+  onChartViewConfigChange?: (index: number) => void;
 }
 
 export default function ChartViewConfigurator({
@@ -61,7 +61,7 @@ export default function ChartViewConfigurator({
                 buttonPropsList={chartViewConfigs.map((chartConfig, index) => ({
                   text: chartConfig.label,
                   key: chartConfig.label,
-                  onClick: () => onChartViewConfigChange(index)
+                  onClick: () => (onChartViewConfigChange ? onChartViewConfigChange(index) : undefined)
                 }))}
                 activeKey={selectedChartViewConfig.label}
               />

@@ -45,7 +45,8 @@ module.exports = {
         'in-themes',
         'in-websites',
         'in-infrastructure',
-        'in-custom-dashboards'
+        'in-custom-dashboards',
+        'in-logging'
       ]
     })
   }

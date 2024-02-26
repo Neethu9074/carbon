@@ -13,18 +13,25 @@
     padding: 0.5rem;
   }
 
-  .severityLabelFailure {
+  .info {
     font-size: 0.75rem;
     font-weight: 600;
     margin: 0 0.5rem 0.5rem 0;
-    color: var(--ids-color-option-red-500);
+    color: var(--cds-support-info);
   }
 
-  .severityLabelWarning {
+  .error {
     font-size: 0.75rem;
     font-weight: 600;
     margin: 0 0.5rem 0.5rem 0;
-    color: var(--ids-color-option-yellow-500);
+    color: var(--cds-support-error);
+  }
+
+  .warn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 0.5rem 0.5rem 0;
+    color: var(--cds-support-warning);
   }
 
   .headingLabel {

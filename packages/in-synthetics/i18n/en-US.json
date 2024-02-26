@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Add Synthetic Test",
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
       "noApplicationsFound": "No applications found",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "Browser Synthetic Tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
           "browserSimpleTitle": "Browser Simple Test",
-          "browserScriptTitle": "Browser Script Test",
-          "internetServicesTypeLabel": "Internet Services",
-          "internetServicesTypeHeadline": "Internet Services Tests",
-          "internetServicesTypeText": "Internet services synthetic testing involves simulating user interactions with web services to monitor and test their performance, helping identify and prevent downtime issues."
+          "browserScriptTitle": "Browser Script Test"
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -171,7 +169,7 @@
           "addscriptAction": "Add Script",
           "editscriptAction": "Edit Script",
           "scriptFileName": "File Name",
-          "scriptNotAdded" : "No script added.",
+          "scriptNotAdded": "No script added.",
           "buttonAdd": "Add",
           "buttonBack": "Back",
           "buttonSave": "Save",
@@ -186,7 +184,23 @@
           "webpageUrl": "Webpage URL",
           "browserUploadFileDescription": "You can upload either a single .js file, a zip file of bundled .js files or a .side script recorded by SeleniumIDE.",
           "sideFileUploadedMessage": "Selenium scripts cannot be modified or validated",
-          "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in Advanced Mode."
+          "bundleFileNotSupportedMessage": "Unsupported file is selected. Bundles are only supported in Advanced Mode.",
+          "timeoutFieldLabel": "Timeout",
+          "timeUnitsLabel": "Time Units",
+          "timeoutFieldOptionMinutes": "minutes (m)",
+          "timeoutFieldOptionSeconds": "seconds (s)",
+          "timeoutFieldOptionMilliseconds": "milliseconds (ms)",
+          "timeoutValueGreaterthanZero": "Timeout value should be greater than zero",
+          "invalidTimeoutvalue": "Invalid timeout value",
+          "invalidTimeoutUnit": "Invalid timeout unit",
+          "timeoutFieldDescription": "This test will fail after",
+          "retryFieldLabel": "Retry Strategy",
+          "retryFieldOptionNone": "None",
+          "retryFieldOptionOnce": "Retry once",
+          "retryFieldOptionTwice": "Retry twice",
+          "retryIntervalFieldLabel": "Retry Interval",
+          "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
+          "markSyntheticCall": "Mark Synthetic Call"
         },
         "loadMore": "Load More",
         "selectTests": {
@@ -199,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser",
-          "internetServicesName": "Internet Services"
+          "browserName": "Browser"
         },
         "customProperties": {
           "property": "Property",
@@ -230,15 +243,67 @@
       "successMessageDelete": "Successfully deleted the location",
       "failureMesssageDelete": "Failed to delete the location. Please try again later"
     },
-    "updateTest":{
+    "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
       "buttonSave": "Save",
       "scriptSavedMessage": "Script added",
       "bundleSavedMessage": "Bundled scripts added"
+    },
+    "createLocation": {
+      "newLocation": "New Location",
+      "activate": "Activate",
+      "done": "Done",
+      "stepConfigs": {
+        "selectType": "Step 1: Select type",
+        "configuration": "Step 2: Configuration"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "What type of location would you like to use?"
+      },
+      "privateLocation": {
+        "name": "Private",
+        "headline": "Private Location",
+        "description": {
+          "headline": "When to use",
+          "htmlContent": "When you want to monitor internal facing applications or endpoints that are only accessible in your private network. These locations are set up, hosted, and managed by you."
+        }
+      },
+      "managedLocation": {
+        "name": "Managed",
+        "headline": "Managed Location",
+        "description": {
+          "headline": "When to use",
+          "htmlContent": "When you want to monitor publicly accessible websites and applications. These locations are hosted and managed by Instana at datacenters around the world."
+        },
+        "managedDatacentersLabel": "Instana Managed Datacenters",
+        "datacenterCode": "Datacenter Code",
+        "datacenterName": "Datacenter Name",
+        "provider": "Provider",
+        "status": "Status",
+        "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Heads up!",
+          "message": "We are setting up your new location(s) at the following datacenter(s). Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations table. <strong>This may take up to 10 minutes.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Datacenter Code",
+              "datacenterName": "Datacenter Name",
+              "datacenterStatus": "Status"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
+      },
+      "licenseCheck": {
+        "title": "You need a license.",
+        "description": "To use Instana managed locations, an <linkLicenses>additional license</linkLicenses> is required. Please contact your Instana administrator for help."
+      },
+      "status": {
+        "pending": "Pending"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Add Synthetic Test"
   },
   "createSmartAlert": {
     "buttonLabel": "Add Synthetic Smart Alert"
@@ -490,7 +555,7 @@
           }
         }
       },
-      "viewScreenshots":  {
+      "viewScreenshots": {
         "screenshotsDialogLabel": "Screeenshot(s)",
         "allScreenshots": "All Screenshots",
         "allImagesButton": "All Images",
@@ -538,7 +603,7 @@
       "locationsTitle": "Location(s)",
       "scheduleTitle": "Schedule",
       "frequencyTitle": "Frequency",
-      "simultaneousValue":"Simultaneous",
+      "simultaneousValue": "Simultaneous",
       "frequencyPluralValue": "{{minutes}} minutes",
       "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",
@@ -562,7 +627,16 @@
         "deleteTestBrowserRefreshInfo": "It will take some time for the test to disappear from the list of tests and may require a browser refresh."
       },
       "configurationEditAction": "Edit",
-      "configurationDeleteAction": "Delete"
+      "configurationDeleteAction": "Delete",
+      "timeoutLabel": "Timeout",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "Retry Strategy",
+      "retryStrategyNone": "None",
+      "retryStrategyDescription": "Retry {{retryStrategy}}",
+      "retryIntervalFieldLabel": "Retry Interval",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} second",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} seconds",
+      "markSyntheticCall": "Mark Synthetic Call"
     }
   }
 }

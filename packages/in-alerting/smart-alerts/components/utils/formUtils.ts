@@ -52,7 +52,7 @@ export function alertConfigWithDefaultThreshold(form: MapForm<any>) {
   };
 }
 
-export function infraAlertConfigWithDefaultThreshold(form: MapForm<any>) {
+export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
   const threshold: MapForm<any> = form.get('threshold') as MapForm<any>;
   const thresholdValue: Field<any> | undefined = threshold.get('value') as Field<any> | undefined;
   const tagFilterExpression = form.get('tagFilterExpression').value;

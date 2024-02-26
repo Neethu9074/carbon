@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import locals from './Name.mless';
 
-export default function NameReadOnly({ tagCatalog, element: { name }, showFullPath = true, isBold = true }) {
+export default function NameReadOnly({ tagCatalog, element: { name }, showFullPath = true, rawStyle }) {
   const tagTreeNode = tagCatalog.tagsByName[name];
   const path = tagTreeNode?.path;
 
@@ -21,7 +21,7 @@ export default function NameReadOnly({ tagCatalog, element: { name }, showFullPa
   return (
     <div
       className={classNames({
-        [locals.name_disablehover]: isBold
+        [locals.name_disablehover]: !rawStyle
       })}
     >
       {path

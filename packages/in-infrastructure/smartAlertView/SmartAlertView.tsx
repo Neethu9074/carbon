@@ -11,7 +11,9 @@ import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeade
 //@ts-expect-error
 import useOldBackgroundColor from 'in-infrastructure/hooks/useOldBackgroundColor';
 import Alerts from 'in-alerting/smart-alerts/infrastructure/Alerts';
+import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
@@ -21,8 +23,8 @@ export default function SmartAlertView() {
     <InfraPageHeaderWithTabs>
       <ViewTrackingMeta
         data={{
-          productArea: 'Infrastructure',
-          pageRootName: 'Infra Smart Alerts'
+          productArea: productAreas.infrastructure,
+          pageRootName: pageNames.infra_smart_alerts
         }}
       />
 

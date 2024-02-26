@@ -9,6 +9,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
+import { contributionFilterNameValidator } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { t } from 'in-i18n';
 
 const mockFormData = {
@@ -93,7 +94,8 @@ export const createFilterForm = () => {
     .put(
       'label',
       createField({
-        value: label
+        value: label,
+        validator: contributionFilterNameValidator
       })
     )
     .put(
@@ -121,6 +123,7 @@ export const createFilterForm = () => {
       })
     );
 };
+
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper', () => {
   test('should render ContributionFilterWrapper', () => {
     render(<ContributionFilterWrapper form={createFilterForm()} setForm={jest.fn()} />);

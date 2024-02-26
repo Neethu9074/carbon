@@ -16,7 +16,7 @@ import { potentialProblemsEnabled } from 'in-services/featureFlags';
 import { defaultFormatter } from 'in-stores/metric/formatters';
 import { t } from 'in-i18n';
 
-export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
+export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey, withLastValue = false }) {
   const hasY2 = form.get('y2').get('metrics').size > 0;
   const axisForm = form.get('y1');
   const formatterSelected = axisForm?.get('formatterSelected')?.value;
@@ -79,6 +79,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         axisName="y1"
         startNumber={0}
         getShortMetricKey={getShortMetricKey}
+        withLastValue={withLastValue}
       />
       <DataSeriesForAxis
         form={form}
@@ -86,6 +87,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         axisName="y2"
         startNumber={form.get('y1').get('metrics').size}
         getShortMetricKey={getShortMetricKey}
+        withLastValue={withLastValue}
       />
       <Li noAlternatingBg>
         <Stack direction="horizontal" align="center" distribution="start">
@@ -115,7 +117,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
   );
 }
 
-function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetricKey }) {
+function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetricKey, withLastValue }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
   const type = form.get('type')?.value;
@@ -139,6 +141,7 @@ function DataSeriesForAxis({ form, axisName, onChange, startNumber, getShortMetr
             type={type}
             getShortMetricKey={getShortMetricKey}
             displayDFQ={eventIndex > 1 ? false : true}
+            withLastValue={withLastValue}
           />
         );
       })}

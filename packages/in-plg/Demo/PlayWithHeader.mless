@@ -37,9 +37,18 @@
       margin-right: 12px;
       font-weight: bold;
     }
-
     .buttonDemo {
       margin-right: 24px;
+    }
+  }
+  .newPlayWithInstana {
+    align-items: center;
+    display: flex;
+    :global .cds--btn > svg.svg-icon {
+      margin-left: 0.75rem;
+    }
+    .message {
+      padding-right: 1rem;
     }
   }
 }

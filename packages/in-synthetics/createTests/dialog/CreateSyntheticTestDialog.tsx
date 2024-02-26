@@ -31,7 +31,7 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
   const [scriptDetails, setScriptDetails] = useState<Code>({ modified: false, name: '' });
   const [simpleMode, setSimpleMode] = useState(true);
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
-  const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
+  const [slideConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: { simple: false, script: false },
     browser: { simple: false, script: false }
@@ -41,7 +41,7 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
-      setSlideInConfig(slideInConfig);
+      setSlideConfig(slideInConfig);
     }
     setSlideInViewVisible(isVisible);
   };
@@ -71,7 +71,7 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
       isSaving={isSaving}
       slideInViewVisible={slideInViewVisible}
       setSlideInViewVisible={setSlideInViewVisible}
-      slideInConfig={slideInConfig}
+      slideInConfig={slideConfig}
       setSliderState={setSliderState}
       testTypeSelected={testTypeSelected}
       setTestTypeSelected={setTestTypeSelected}

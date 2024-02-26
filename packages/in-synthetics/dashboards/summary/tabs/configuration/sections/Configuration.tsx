@@ -6,12 +6,18 @@
 
 import React from 'react';
 
-import { SyntheticTest, HttpActionConfiguration, HttpScriptConfiguration } from '@instana/types';
+import {
+  SyntheticTest,
+  HttpActionConfiguration,
+  HttpScriptConfiguration,
+  SyntheticTypeConfigurationUnion
+} from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CodeComponent from 'in-components/Code';
@@ -41,19 +47,80 @@ const renderHeaders = (headers: any) => {
   return content;
 };
 
-const showAdditionalOptions = (configuration: HttpActionConfiguration) => {
-  const content = [];
-  if (configuration.allowInsecure)
-    content.push(
-      <Row key={'allowInsecure'} className={locals.additionalOptionsRow}>
-        {t('in-synthetics:dashboard.configuration.followRedirect')}
+const showTimeoutAndRetryOptions = (configuration: SyntheticTypeConfigurationUnion) => {
+  const timeoutUnit: Record<string, string> = { m: 'minutes', s: 'seconds', ms: 'milliseconds' };
+  const content = [
+    configuration.timeout && (
+      <Row key={'timeout'} className={locals.configRow}>
+        <Col xs={3}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.timeoutLabel')}
+            value={t('in-synthetics:dashboard.configuration.timeoutDescription', {
+              timeoutValue: configuration.timeout.replace(/[^0-9]/g, ''),
+              timeoutUnit: timeoutUnit[configuration.timeout.replace(/[0-9]/g, '')]
+            })}
+          />
+        </Col>
       </Row>
-    );
+    ),
+    configuration.retries! >= 0 && (
+      <Row key={'retryStrategy'} className={locals.configRow}>
+        <Col xs={3}>
+          <KeyValue
+            label={t('in-synthetics:dashboard.configuration.retryStrategyLabel')}
+            value={
+              configuration.retries === 0
+                ? t('in-synthetics:dashboard.configuration.retryStrategyNone')
+                : t('in-synthetics:dashboard.configuration.retryStrategyDescription', {
+                    retryStrategy: configuration.retries === 1 ? 'once' : 'twice'
+                  })
+            }
+          />
+        </Col>
+        {configuration.retryInterval && configuration.retries! >= 1 && (
+          <Col xs={3}>
+            <KeyValue
+              label={t('in-synthetics:dashboard.configuration.retryIntervalFieldLabel')}
+              value={
+                configuration.retryInterval > 1
+                  ? t('in-synthetics:dashboard.configuration.retryIntervalSecondsDescription', {
+                      retryIntervalValue: configuration.retryInterval
+                    })
+                  : t('in-synthetics:dashboard.configuration.retryIntervalSecondDescription', {
+                      retryIntervalValue: configuration.retryInterval
+                    })
+              }
+            />
+          </Col>
+        )}
+      </Row>
+    )
+  ];
+  return content;
+};
 
-  if (configuration.followRedirect)
+const showAdditionalOptions = (configuration: SyntheticTypeConfigurationUnion) => {
+  const content = [];
+  if (configuration.syntheticType === 'HTTPAction') {
+    if (configuration.allowInsecure)
+      content.push(
+        <Row key={'allowInsecure'} className={locals.additionalOptionsRow}>
+          {t('in-synthetics:dashboard.configuration.followRedirect')}
+        </Row>
+      );
+
+    if (configuration.followRedirect)
+      content.push(
+        <Row key={'followRedirect'} className={locals.additionalOptionsRow}>
+          {t('in-synthetics:dashboard.configuration.allowInsecure')}
+        </Row>
+      );
+  }
+
+  if (configuration.markSyntheticCall)
     content.push(
-      <Row key={'followRedirect'} className={locals.additionalOptionsRow}>
-        {t('in-synthetics:dashboard.configuration.allowInsecure')}
+      <Row key={'markSyntheticCall'} className={locals.additionalOptionsRow}>
+        {t('in-synthetics:dashboard.configuration.markSyntheticCall')}
       </Row>
     );
 
@@ -132,6 +199,7 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
         </Col>
       </Row>
     ),
+    showTimeoutAndRetryOptions(configuration),
     <Row key={'additionalOptions'}>
       <LightCard
         className={locals.lastConfigRow}
@@ -148,43 +216,61 @@ const renderSimpleTestTypeContent = (configuration: HttpActionConfiguration) => 
 
 const renderScriptTestTypeContent = (configuration: HttpScriptConfiguration) => {
   return (
-    <Row key={'configScript'}>
-      <LightCard
-        className={locals.lastConfigRow}
-        title={t('in-synthetics:dashboard.configuration.configScriptTitle')}
-        darkFrame
-        framed
-      >
-        {configuration.script != undefined ? (
-          <CodeComponent
-            wrapperClassName={locals.code}
-            code={JSON.stringify(configuration.script, undefined, 2)}
-            lang="json"
-            showLineNumbers={false}
-            withoutCopyButton
-            withExpandButton
-            softWrap
-          />
-        ) : configuration.scripts ? (
-          <KeyValue
-            label={t('in-synthetics:dashboard.configuration.configScriptFileName')}
-            value={configuration.scripts.scriptFile}
-          />
-        ) : (
-          t('in-synthetics:dashboard.configuration.noScriptFileFound')
-        )}
-      </LightCard>
-    </Row>
+    <>
+      <Row key={'configScript'}>
+        <LightCard
+          className={locals.lastConfigRow}
+          title={t('in-synthetics:dashboard.configuration.configScriptTitle')}
+          darkFrame
+          framed
+        >
+          {configuration.script != undefined ? (
+            <CodeInput value={configuration.script} height="30vh" readOnly />
+          ) : configuration.scripts ? (
+            <KeyValue
+              label={t('in-synthetics:dashboard.configuration.configScriptFileName')}
+              value={configuration.scripts.scriptFile}
+            />
+          ) : (
+            t('in-synthetics:dashboard.configuration.noScriptFileFound')
+          )}
+        </LightCard>
+      </Row>
+      {showTimeoutAndRetryOptions(configuration)}
+      <Row key={'additionalOptions'}>
+        <LightCard
+          className={locals.lastConfigRow}
+          title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
+          darkFrame
+          useMaxAvailableHeight
+        >
+          {showAdditionalOptions(configuration)}
+        </LightCard>
+      </Row>
+    </>
   );
 };
 
 const renderWebpageActionTestTypeContent = (configuration: HttpActionConfiguration) => {
   return (
-    <Row key={'webpageActionURL'}>
-      <Col xs={3}>
-        <KeyValue label={t('in-synthetics:dashboard.configuration.webpageActionUrl')} value={configuration.url} />
-      </Col>
-    </Row>
+    <>
+      <Row key={'webpageActionURL'}>
+        <Col xs={3}>
+          <KeyValue label={t('in-synthetics:dashboard.configuration.webpageActionUrl')} value={configuration.url} />
+        </Col>
+      </Row>
+      {showTimeoutAndRetryOptions(configuration)}
+      <Row key={'additionalOptions'}>
+        <LightCard
+          className={locals.lastConfigRow}
+          title={t('in-synthetics:dashboard.configuration.additionalOptionsTitle')}
+          darkFrame
+          useMaxAvailableHeight
+        >
+          {showAdditionalOptions(configuration)}
+        </LightCard>
+      </Row>
+    </>
   );
 };
 

@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { Button, getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle } from '@instana/components';
+import { Button, getThemeOverride, Link, setThemeOverride, Spacer, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Toggle } from '@instana/legacy';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -32,7 +33,8 @@ export default function UiConfigGeneralPage() {
     return null;
   }
 
-  const currentTheme = getThemeOverride() ?? 'g10';
+  const currentShell = localStorage.getItem('ids-override-shell') || 'default';
+  const currentTheme = getThemeOverride() ?? 'default';
   // eslint-disable-next-line no-console
   console.log('currentTheme', currentTheme);
 
@@ -230,6 +232,61 @@ export default function UiConfigGeneralPage() {
                   {t('in-settings:tabs.theme', { context: theme })}
                 </option>
               ))}
+          </Select>
+        </HorizontalFormGroup>
+      )}
+      {userSettingsThemeEnabled && (
+        <HorizontalFormGroup
+          // Temporary feature behind a feature flag.
+          // It does not need translation as it is only available internally.
+          helpText={
+            <>
+              <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
+              <br />
+              This will set the shell for the local browser. It will not affect other users or browser windows.
+              <br />
+              <br />
+              This setting will be kept until it is reset again.
+            </>
+          }
+          isWarning
+        >
+          <Heading
+            text={
+              <Stack direction="horizontal" align="center">
+                {/* no need for translation */}
+                <span>UI Shell</span>
+                <Spacer horizontal="normal" />
+              </Stack>
+            }
+            htmlFor="shell-option"
+          />
+          <Select
+            id="shell-option"
+            name="shell"
+            value={currentShell}
+            onChange={event => {
+              const selectedShell = event.target?.value;
+              if (currentShell !== selectedShell) {
+                if (selectedShell === 'default') {
+                  localStorage.removeItem('ids-override-shell');
+                } else {
+                  localStorage.setItem('ids-override-shell', selectedShell);
+                }
+                window.location.reload();
+              }
+            }}
+          >
+            {/* no need for translation */}
+            <option key="default" value="default">
+              Default
+            </option>
+            <option key="instana" value="instana">
+              Instana
+            </option>
+            <option key="carbon" value="carbon">
+              Carbon
+            </option>
           </Select>
         </HorizontalFormGroup>
       )}

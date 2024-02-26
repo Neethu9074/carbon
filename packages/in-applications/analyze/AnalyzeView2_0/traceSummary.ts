@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { largeTracesV2Enabled } from 'in-services/featureFlags';
 import { TraceSummary } from 'in-types';
 
 export const LARGE_TRACE_THRESHOLD = 1000;
@@ -21,7 +20,7 @@ export function isLargeTrace(traceSummaryData?: TraceSummary): boolean {
 }
 
 export function isLazyLoadedCallTreeSupported(traceSummaryData?: TraceSummary): boolean {
-  return Boolean(largeTracesV2Enabled && traceSummaryData?.allowLazyLoading);
+  return Boolean(traceSummaryData?.allowLazyLoading);
 }
 
 export function shouldUseLazyLoadedCallTree(traceSummaryData?: TraceSummary): boolean {

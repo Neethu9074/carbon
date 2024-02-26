@@ -20,8 +20,8 @@ export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
 export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
-export const CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_START = 'custom.dashboard.fullscreen.widget.start';
-export const CUSTOM_DASHBOARD_FULLSCREEN_WIDGET_FINISH = 'custom.dashboard.fullscreen.widget.finish';
+export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
+export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
@@ -80,7 +80,6 @@ export const ANALYZE_TRACE_VIEW_TRACK_IF_LARGE_TRACE = 'analyze.trace.view.if.la
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
-export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
 export const APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS = 'application.click.latency.jumpToUA';
 export const APPLICATION_TIME_SHIFT_SELECT = 'application.timeShift.select';
 
@@ -384,6 +383,8 @@ export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.histor
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
 export const CREATE_AUTOMATION_POLICY = 'automation.policy.create';
 export const EDIT_AUTOMATION_POLICY = 'automation.policy.edit';
+export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
+export const EXECUTE_TURBO_ACTION = 'execute.turbo.action';
 
 // Smart Alert Tracking
 
@@ -455,3 +456,11 @@ export const JOURNAL_FAKE_DOOR_START_CLICK = 'journal.fake.door.start.click';
 export const JOURNAL_FAKE_DOOR_NOT_INTERESTED = 'journal.fake.door.notInterested';
 export const JOURNAL_FAKE_DOOR_INTERESTED = 'journal.fake.door.interested';
 export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
+
+// Flow Map Tracking (services and endpoints)
+export const FLOW_MAP_CLICK = 'flowmap.click';
+export const FLOW_MAP_CLICK_CALLS = 'flowmap.click.calls';
+export const FLOW_MAP_CLICK_LATENCY = 'flowmap.click.latency';
+export const FLOW_MAP_CLICK_ERROR = 'flowmap.click.error';
+export const FLOW_MAP_CLICK_SIMULATION = 'flowmap.click.simulation';
+export const FLOW_MAP_CLICK_EXPAND_LEVEL = 'flowmap.click.level.expand';

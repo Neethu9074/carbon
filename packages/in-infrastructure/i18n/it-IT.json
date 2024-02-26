@@ -81,6 +81,7 @@
     "focusOnThisGroup": "Concentrati su questo gruppo",
     "theQueryConfigurationIsInvalid": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
     "allInfrastructure": "Tutte le infrastrutture",
+    "emptyInfrastructure": "Seleziona tipo di entità",
     "name": "Nome",
     "search": "Ricerca un tipo",
     "explore": "Esplora",

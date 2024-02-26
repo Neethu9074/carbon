@@ -6,6 +6,7 @@
 import React, { useMemo, useState } from 'react';
 import { get } from 'lodash';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
@@ -19,7 +20,6 @@ import { Nullish, TagTreeNodeUnion, TagType } from 'in-types';
 import { emptyArray } from 'in-services/fixedObjects';
 import { settings$ } from 'in-services/settings';
 import Pill from 'in-components/Pill';
-import { useTheme } from 'in-themes';
 
 import locals from './TagSelectorOverlay.mless';
 
@@ -158,11 +158,10 @@ interface BadgeProps {
 }
 
 function Badge({ tagTreeNode, tagCatalog }: BadgeProps): JSX.Element | null {
-  const theme = useTheme();
   // only show for leaves
   if ('children' in tagTreeNode && tagTreeNode.children?.length > 0) return null;
 
   const tag = 'tagName' in tagTreeNode ? tagCatalog.tagsByName[tagTreeNode.tagName] : undefined;
   const type = typeToLabelMapping[tag?.type];
-  return type && <Pill color={theme.ids.color.option.neutral['600']}>{type}</Pill>;
+  return type && <Pill color={themes.default.ids.color.option.neutral['600']}>{type}</Pill>;
 }

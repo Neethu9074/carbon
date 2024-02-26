@@ -16,6 +16,7 @@ import {
   BEARER_TOKEN,
   getAuthenFromFields,
   getDocLinkFromFields,
+  getManualContentFromFields,
   getInterpreterFromFields,
   getScriptFromFields,
   getTimeoutFromFields,
@@ -29,6 +30,7 @@ import {
   isGithub,
   isGitlab,
   isJira,
+  isManual,
   OPEN,
   CLOSE,
   ADD_COMMENT,
@@ -169,6 +171,7 @@ export function createActionFormDefinition(action: ActionFormEntity) {
   else if (isGithub(action.type)) form = putGithubFields(form, action);
   else if (isGitlab(action.type)) form = putGitlabFields(form, action);
   else if (isJira(action.type)) form = putJiraFields(form, action);
+  else if (isManual(action.type)) form = putManualField(form, action);
   return form;
 }
 
@@ -185,8 +188,27 @@ export function putDocLinkField(form: MapForm<any>, action: ActionFormEntity): M
   );
 }
 
+export function putManualField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {
+  const content = getManualContentFromFields(action.fields);
+  let contentText = content.value;
+  if (content.encoding === 'base64') {
+    contentText = atob(contentText);
+  }
+  return form.put(
+    'manualContent',
+    createField({
+      value: contentText,
+      validator: notBlankValidator
+    })
+  );
+}
+
 export function removeDocLinkField(form: MapForm<any>) {
   return form.remove('docLink');
+}
+
+export function removeManualContentField(form: MapForm<any>) {
+  return form.remove('manualContent');
 }
 
 export function putScriptField(form: MapForm<any>, action: ActionFormEntity): MapForm<any> {

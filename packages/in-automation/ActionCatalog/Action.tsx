@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router';
 import React, { createContext } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -17,6 +18,7 @@ import {
   TicketTypes,
   createDocLinkField,
   createScriptFields,
+  createManualField,
   createWebhookFields,
   NewAction,
   saveAction,
@@ -44,7 +46,8 @@ import {
   NO_AUTH,
   OPEN,
   CLOSE,
-  ADD_COMMENT
+  ADD_COMMENT,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
@@ -70,7 +73,6 @@ import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
@@ -108,7 +110,6 @@ export const isNotEditableContext = createContext(false);
 export type ActionFormEntity = (NewAction | Action) & AssociatedResources;
 const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
-  const theme = useTheme();
   const { goToPath } = useNavigation();
 
   const id = props.match.params.id;
@@ -139,7 +140,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   } else if (errorLoading) {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-automation:ActionCatalog.unknownAction')}
         </SubViewHeader>
         <SectionLine />
@@ -269,6 +270,9 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   if (isDocLink(type)) {
     const docLink = (form.get('docLink') as FormField<string>).value;
     fields.push(createDocLinkField(docLink));
+  } else if (isManual(type)) {
+    const content = (form.get('manualContent') as FormField<string>).value;
+    fields.push(createManualField(content));
   } else if (isScript(type)) {
     const value = (form.get('script') as FormField<string>).value;
     const subtype = (form.get('subtype') as FormField<string>).value;

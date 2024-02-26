@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleTimeThreshold": "时间阈值",
         "alertConfigurationTitleAlertProperties": "警报属性",
-        "viewDetail": "查看详细信息"
+        "predictiveTrigger": {
+          "title": "提前预测触发警报"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "静态阈值，{{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "静态阈值",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "预测触发器"
+            }
           }
         },
         "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "作用域",
-          "title": "作用域：这种情况在哪里发生？"
+          "title": "作用域：这种情况在哪里发生？",
+          "metric": {
+            "metric": "指标",
+            "selectMetric": "选择度量"
+          },
+          "aggregation": {
+            "aggregation": "汇总"
+          }
         },
         "threshold": {
           "label": "阈值",
@@ -1233,19 +1246,44 @@
           "label": "时间阈值",
           "title": "时间阈值：您希望何时收到警报？"
         },
+        "predictiveTrigger": {
+          "title": "预测触发器",
+          "timeToFailure": "失败时间"
+        },
         "alertChannel": {
           "label": "警报通道",
           "title": "警报通道：需要向谁发出警报？"
         },
         "properties": {
+          "preview": {
+            "subtitle": "度量-名称"
+          },
           "label": "属性",
-          "title": "其他警报属性"
+          "title": "其他警报属性",
+          "alertPropertiesTitlePlaceholder": "基础架构智能警报",
+          "alertPropertiesDescriptionPlaceholder": "您的基础架构出现了一些问题。"
         },
         "customPayloads": {
           "label": "有效内容",
           "title": "定制有效内容"
-        }
-      }
+        },
+        "thresholdValue": "阈值"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
+        "noMetricSelected": "未选择度量"
+      },
+      "groupedViewHeader": "{{formattedCount}} 个结果",
+      "groupedViewHeader_plural": "{{formattedCount}} 个结果",
+      "groupedViewHeader_0": "{{formattedCount}} 个结果",
+      "groupedViewHeader_1": "{{formattedCount}} 个结果",
+      "groupedViewHeader_2": "{{formattedCount}} 个结果",
+      "resultHeaderLoading": "正在加载…",
+      "loadMore": "加载更多",
+      "count": "计数",
+      "previewFor": "预览： ",
+      "selectEntityType": "请选择实体类型",
+      "regexNotValid": "正则表达式无效"
     }
   }
 }

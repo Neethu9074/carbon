@@ -8,19 +8,28 @@
     width: 100%;
     padding: 0.2rem 0;
   }
-  .rcaAIMessage {
+
+  .probabilityPill {
+    width: fit-content;
+    height: 1.365rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .techPreviewPill {
+    height: fit-content;
+    background-color: var(--ids-color-option-blue-400);
+  }
+  .rcaAIPill {
+    height: fit-content;
+    background-color: #8257d933;
+  }
+  .rcaAIPill > span {
     color: var(--ids-color-option-deep-purple-500);
-    background-color: #e6ddf7; //Above colour tinted to 20% opactiy
-    padding: 0 0.25rem;
   }
   .rcaRegenerate {
     height: fit-content;
   }
   .errorMessageContainer {
     width: 28rem;
-  }
-  .errorImg {
-    width: 3rem;
   }
   .entityDescription {
     background: var(--ids-color-option-neutral-50);
@@ -29,5 +38,38 @@
     margin-bottom: 1rem;
     border-radius: 0.25rem;
     width: 99.4%;
+  }
+  .confidencePilled {
+    margin-left: auto;
+  }
+
+  .highProbabilityText {
+    color: var(--ids-color-option-green-500);
+  }
+  .moderateProbabilityText {
+    color: var(--ids-color-option-yellow-500);
+  }
+  .lowProbabilityText {
+    color: var(--ids-color-option-red-500);
+  }
+  .naProbabilityText {
+    color: var(--ids-color-option-neutral-800);
+  }
+  .highProbabilityText,
+  .moderateProbabilityText,
+  .lowProbabilityText,
+  .naProbabilityText {
+    line-height: 0.875rem;
+  }
+  .loadingEntity {
+    width: 2.8rem;
+    height: 1rem;
+  }
+  .alertChannelsList {
+    width: 100%;
+    margin-top: -2rem;
+  }
+  .containerForIncidentSummaryBullets {
+    width: 100%;
   }
 }

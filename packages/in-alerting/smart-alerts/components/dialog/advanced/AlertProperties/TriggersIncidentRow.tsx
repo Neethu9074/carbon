@@ -7,7 +7,7 @@ import { Item, MapForm, Field } from 'formalistic';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';

@@ -12,6 +12,7 @@ import { Link } from '@instana/components';
 
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { Action, ApplicationAlertConfigWithMetadata, Policy, Result } from 'in-types';
@@ -20,7 +21,6 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { usePagination } from 'in-automation/Policies/usePagination';
-import { associateActionsTracker } from 'in-automation/tracker';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { isLoading, hasError } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -202,17 +202,17 @@ function associateAction({
   setSelectedType,
   isApplicationSmartAlert
 }: AssociateActionProps) {
-  associateActionsTracker({
-    eventName: event.name,
-    actionNames: [action.name]
-  });
-
   const policy = getPolicySpecification(action, event, isCustomEvent, isApplicationSmartAlert);
 
   const onSave = (response: Result<Policy>) => {
     if (hasError(response)) {
       onCreateFailed();
     } else {
+      associateActionsTracker({
+        eventName: event.name,
+        actionNames: [action.name]
+      });
+
       triggerReload();
       setSelectedType('associatedPolicies');
       oncreateSuccess(policy.name);
@@ -356,6 +356,14 @@ const scoreColumn = {
   }
 };
 
+const handleTracking = (name: string) => {
+  executeTurboActionTracker({
+    actionName: name,
+    actionType: 'Turbonomic',
+    page: 'Recommended actions'
+  });
+};
+
 const nameColumn = {
   label: t('in-automation:name'),
   id: 'name',
@@ -366,7 +374,7 @@ const nameColumn = {
     return (
       <Tooltip content={row.name} delay={500}>
         {isExternal(row.type) ? (
-          <Link ellipsis href={row.name} external>
+          <Link ellipsis href={row.name} external onClick={() => handleTracking(row.name)}>
             <span
               className={classNames({
                 [locals.block]: true,

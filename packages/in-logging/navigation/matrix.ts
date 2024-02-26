@@ -37,3 +37,5 @@ export const logIdMatrixParameter = {
   path: logsPath,
   name: 'logId'
 };
+export const alertId = 'alertId';
+export const alertCreated = 'alertCreated';

@@ -71,6 +71,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
             updateForm(form.updateIn(path, fn));
           }}
           getShortMetricKey={getShortMetricKey}
+          withLastValue
         />
       </Stack>
 

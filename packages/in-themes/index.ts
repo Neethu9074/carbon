@@ -3,40 +3,26 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { getThemeOverride } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
-// @ts-expect-error temporary ignores TS missing
-import oldTheme from 'in-themes/theme.js';
-
-interface UseThemeParams {
-  overridingTheme?: 'g10' | 'default' | undefined;
-}
+// @ts-expect-error there are no ts typedefinitions
+import oldTheme from 'in-themes/theme';
 
 /**
- * Returns the design tokens depending on the current theme:
+ * This was a workaround to make migration easier.
  *
- * if carbon theme is activated then it returns
- *  {@link themes.g10}
- * else
- *  {@link themes.default}
- *
- * Internally it uses {@link getThemeOverride()} to get current theme from the
- * browser's localStorage.
- *
- * -> This will be improved by using React Context in the future.
- * Currently not needed, and
+ * @deprecated this shall not be used and will soon be removed! Replace with directly importing tokens via
+ * import { themes } from '@instana/design-tokens';
+ * Find more details on https://pages.github.ibm.com/instana/ui-foundation/?path=/docs/design-tokens-general-usage--docs
  */
-export function useTheme(params?: UseThemeParams) {
-  const currentTheme = params?.overridingTheme ?? getThemeOverride();
-
-  // same behaviour as in other places: use g10 if not specified as default
-  if (currentTheme === 'default') {
-    return themes.default;
-  }
-  return themes.g10;
+export function useTheme() {
+  return themes.default;
 }
 /**
- * For getting tokens depending on current theme (with ...cds...), please use the hook {@link useTheme()}
+ * For getting tokens depending on current theme (with ...cds...),
+ *
+ * @deprecated this shall not be used and will soon be removed! Replace with directly importing tokens via
+ * import { themes } from '@instana/design-tokens';
+ * Find more details on https://pages.github.ibm.com/instana/ui-foundation/?path=/docs/design-tokens-general-usage--docs
  */
 export default oldTheme;

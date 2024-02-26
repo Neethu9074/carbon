@@ -12,12 +12,12 @@ import { useObservable } from '@instana/hooks';
 import getBizOpsEventsCount from 'in-bizops/subscriptions/getBizOpsEventsCount';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
+import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface InfraProps {
@@ -97,10 +97,10 @@ export default function InfrastructureIssuesAndChanges({ businessProcessId, busi
         labels: ['Infra Issues', 'Offline', 'Online', 'Changes'],
         metricIds: ['issues', 'offline', 'online', 'change'],
         colors: [
-          theme.lib.colors.chart.threeColorPalette[0],
-          theme.lib.carbonAlert.gray60,
-          theme.lib.colors.chart.threeColorPalette[1],
-          theme.lib.colors.chart.threeColorPalette[2]
+          chartColors.threeColorPalette[0],
+          carbonAlert.gray60,
+          chartColors.threeColorPalette[1],
+          chartColors.threeColorPalette[2]
         ],
         metrics: [],
         formatter: getFormatter('number.compact')

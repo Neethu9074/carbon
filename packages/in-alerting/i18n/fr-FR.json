@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
         "alertConfigurationTitleTimeThreshold": "Seuil de temps",
         "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
-        "viewDetail": "Afficher les détails"
+        "predictiveTrigger": {
+          "title": "Déclencher l'alerte de manière prédictive à l'avance"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Seuil statique, {{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "Seuil statique",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Déclencheur prédictif"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Portée",
-          "title": "Porté : où cette condition se produit-elle ?"
+          "title": "Porté : où cette condition se produit-elle ?",
+          "metric": {
+            "metric": "Métrique",
+            "selectMetric": "Sélectionner une métrique"
+          },
+          "aggregation": {
+            "aggregation": "Agrégation"
+          }
         },
         "threshold": {
           "label": "Seuil",
@@ -1233,19 +1246,44 @@
           "label": "Seuil de temps",
           "title": "Seuil de temps : quand voulez-vous être alerté ?"
         },
+        "predictiveTrigger": {
+          "title": "Déclencheur prédictif",
+          "timeToFailure": "Délai jusqu'à l'échec"
+        },
         "alertChannel": {
           "label": "Canaux d'alerte",
           "title": "Canaux d'alerte : qui doit être alerté ?"
         },
         "properties": {
+          "preview": {
+            "subtitle": "Nom de la métrique"
+          },
           "label": "Propriétés",
-          "title": "Propriétés d'alerte supplémentaires"
+          "title": "Propriétés d'alerte supplémentaires",
+          "alertPropertiesTitlePlaceholder": "Alerte intelligente d'infrastructure",
+          "alertPropertiesDescriptionPlaceholder": "Quelque chose n'est pas correct dans votre infrastructure."
         },
         "customPayloads": {
           "label": "Contenus",
           "title": "Contenu personnalisé"
-        }
-      }
+        },
+        "thresholdValue": "Valeur de seuil"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
+        "noMetricSelected": "Aucune métrique sélectionnée"
+      },
+      "groupedViewHeader": "{{formattedCount}} résultat",
+      "groupedViewHeader_plural": "{{formattedCount}} résultat",
+      "groupedViewHeader_0": "{{formattedCount}} résultat",
+      "groupedViewHeader_1": "{{formattedCount}} résultat",
+      "groupedViewHeader_2": "{{formattedCount}} résultat",
+      "resultHeaderLoading": "Chargement en cours...",
+      "loadMore": "Charger plus",
+      "count": "Nombre",
+      "previewFor": "Aperçu pour : ",
+      "selectEntityType": "Sélectionnez un type d'entité.",
+      "regexNotValid": "L'expression régulière n'est pas valide."
     }
   }
 }

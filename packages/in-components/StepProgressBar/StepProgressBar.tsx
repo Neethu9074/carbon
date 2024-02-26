@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import invariant from 'invariant';
 import React from 'react';
 
-import { useTheme } from 'in-themes';
+import { themes } from '@instana/design-tokens';
 
 import locals from './StepProgressBar.mless';
 
@@ -17,11 +17,10 @@ export interface StepProgressBarProps {
 }
 
 export default function StepProgressBar({ stepTitles, step = 0 }: StepProgressBarProps) {
-  const theme = useTheme();
   const colors = [
-    theme.ids.color.option.blue['400'],
-    theme.ids.color.option.teal['400'],
-    theme.ids.color.option.green['500']
+    themes.default.ids.color.option.blue['400'],
+    themes.default.ids.color.option.teal['400'],
+    themes.default.ids.color.option.green['500']
   ];
 
   validateStep(stepTitles, step);

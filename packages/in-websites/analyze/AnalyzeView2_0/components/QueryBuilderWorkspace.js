@@ -27,11 +27,14 @@ import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUt
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { dataSourceTypes, defaultGroupings } from 'in-websites/tags';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
+import config from 'in-services/config';
 
 export default function WebsiteQueryBuilderWorkspace(props) {
   const {
@@ -46,10 +49,25 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     dataSource,
     groupBy,
     onGroupByChange,
-    useLastValidStateWhenErroneous
+    useLastValidStateWhenErroneous,
+    orderBy,
+    chartedMetrics
   } = props;
 
   const { hasError, errors } = validate(formModel);
+  const timeConfig = useTimeConfig();
+  const hasNoGrouping = !groupBy || !Object.keys(groupBy).length;
+  const docLink = `https://instana.github.io/openapi/#operation/getBeaconGroups`;
+  const endpointUrl = `https://${config.butlerDomain}/api/website-monitoring/analyze/beacon-groups`;
+
+  function getMetricsAsApi() {
+    return chartedMetrics.map(obj => {
+      const metric = {};
+      metric.metric = obj.metricId;
+      metric.aggregation = obj.aggregationId;
+      return metric;
+    });
+  }
 
   return (
     <Sticky
@@ -89,6 +107,13 @@ export default function WebsiteQueryBuilderWorkspace(props) {
             <ActionSection
               right={
                 <ApiQueryAction
+                  group={hasNoGrouping ? defaultGroupings[dataSource] : groupBy}
+                  metrics={getMetricsAsApi()}
+                  order={orderBy}
+                  docsLink={docLink}
+                  endpointUrl={endpointUrl}
+                  timeFrame={timeConfig}
+                  type={dataSourceTypes[dataSource]}
                   backendQueryModel={backendQueryModel}
                   backendQueryModelWithFacets={backendQueryModelWithFacets}
                   tracking={{

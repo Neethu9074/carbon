@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   LoadingSkeleton,
@@ -18,17 +18,23 @@ import {
   Tr,
   Typography
 } from '@instana/components';
-import { DeleteLogsHistoryItem } from '@instana/types/typeDefinitions';
+import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
 import { formatDate } from '@instana/format-date';
-import { Error } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 
-import { TableStates } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/types';
+import getDeleteLogsHistory from 'in-logging/subscriptions/getDeleteLogsHistory';
 import { siPrefixCompact } from 'in-stores/metric/formatters';
+import { hasError, isLoading } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './DeletionTable.mless';
 
-export const DeletionTable = ({ data, errors }: { data?: DeleteLogsHistoryItem[]; errors?: Error[] }) => {
+export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
+  const deletionHistoryResult =
+    useObservable<Result<DeleteLogsHistoryResult>, [boolean]>(() => getDeleteLogsHistory(null), [isDeleting]) ??
+    pendingResult;
+
   const localisationStrings = {
     deleteLogs: t('in-settings:tabs.deleteLogs.deleteLogs'),
     deletionDate: t('in-settings:tabs.deleteLogs.deletionDate'),
@@ -45,36 +51,24 @@ export const DeletionTable = ({ data, errors }: { data?: DeleteLogsHistoryItem[]
     failed: t('in-settings:tabs.deleteLogs.failed'),
     inProgress: t('in-settings:tabs.deleteLogs.inProgress')
   };
-
-  const [state, setState] = useState<TableStates>('idle');
-
-  useEffect(() => {
-    const hasErrors = errors?.length !== 0;
-
-    if (hasErrors) {
-      setState('error');
-    } else if (data) {
-      setState('idle');
-    } else {
-      setState('loading');
-    }
-  }, [data, errors]);
-
   const getDataRows = () => {
-    return data?.map((item, i) => (
-      <Tr key={i}>
-        <Td>{timestampToLocaleDate(item.timestamp)}</Td>
-        <Td>{item.reason}</Td>
-        <Td>
-          {item.deletedLineCount !== null ? (
-            siPrefixCompact.formatter(item.deletedLineCount)
-          ) : (
-            <LoadingSkeleton className={locals.skeleton} />
-          )}
-        </Td>
-        <Td>{item.triggeredByUser}</Td>
-      </Tr>
-    ));
+    return deletionHistoryResult.data?.deletions
+      .slice()
+      .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => a.timestamp < b.timestamp)
+      .map((item: DeleteLogsHistoryItem, i: number) => (
+        <Tr key={i}>
+          <Td>{timestampToLocaleDate(item.timestamp)}</Td>
+          <Td>{item.reason}</Td>
+          <Td>
+            {item.deletedLineCount !== null ? (
+              siPrefixCompact.formatter(item.deletedLineCount)
+            ) : (
+              <LoadingSkeleton className={locals.skeleton} />
+            )}
+          </Td>
+          <Td>{item.triggeredByUser}</Td>
+        </Tr>
+      ));
   };
 
   return (
@@ -90,38 +84,34 @@ export const DeletionTable = ({ data, errors }: { data?: DeleteLogsHistoryItem[]
           </Tr>
         </Thead>
         <Tbody>
-          {
-            {
-              loading: <TableLoadingSkeletonRows cols={4} rows={3} />,
-              empty: (
-                <Tr>
-                  <td colSpan={4}>
-                    <section className={locals.stateContainer}>
-                      <div className={locals.emptyState}>
-                        <SvgIcon type={'lib_help_error_info_outline'} size="xxxl" />
-                        <Typography variant={'body-bold'}>{localisationStrings.noData}</Typography>
-                        <Typography variant={'body-regular'}>{localisationStrings.noDataInfo}</Typography>
-                      </div>
-                    </section>
-                  </td>
-                </Tr>
-              ),
-              error: (
-                <Tr>
-                  <td colSpan={4}>
-                    <section className={locals.stateContainer}>
-                      <div className={locals.emptyState}>
-                        <SvgIcon type={'lib_help_error_error_circle'} size="xxxl" />
-                        <Typography variant={'body-bold'}>{localisationStrings.wrong}</Typography>
-                        <Typography variant={'body-regular'}>{localisationStrings.errorInfo}</Typography>
-                      </div>
-                    </section>
-                  </td>
-                </Tr>
-              ),
-              idle: getDataRows()
-            }[state]
-          }
+          {isLoading(deletionHistoryResult) && <TableLoadingSkeletonRows cols={4} rows={3} />}
+          {hasError(deletionHistoryResult) && (
+            <Tr>
+              <td colSpan={4}>
+                <section className={locals.stateContainer}>
+                  <div className={locals.emptyState}>
+                    <SvgIcon type={'lib_help_error_error_circle'} size="xxxl" />
+                    <Typography variant={'body-bold'}>{localisationStrings.wrong}</Typography>
+                    <Typography variant={'body-regular'}>{localisationStrings.errorInfo}</Typography>
+                  </div>
+                </section>
+              </td>
+            </Tr>
+          )}
+          {deletionHistoryResult.data?.deletions.length === 0 && (
+            <Tr>
+              <td colSpan={4}>
+                <section className={locals.stateContainer}>
+                  <div className={locals.emptyState}>
+                    <SvgIcon type={'lib_help_error_info_outline'} size="xxxl" />
+                    <Typography variant={'body-bold'}>{localisationStrings.noData}</Typography>
+                    <Typography variant={'body-regular'}>{localisationStrings.noDataInfo}</Typography>
+                  </div>
+                </section>
+              </td>
+            </Tr>
+          )}
+          {deletionHistoryResult.data && getDataRows()}
         </Tbody>
       </Table>
     </section>

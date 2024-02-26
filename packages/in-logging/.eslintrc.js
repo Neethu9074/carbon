@@ -28,7 +28,8 @@ module.exports = {
         'in-themes',
         'in-websites',
         'in-custom-dashboards',
-        'in-sdk'
+        'in-sdk',
+        'in-alerting'
       ]
     })
   }

@@ -11,6 +11,7 @@ import { AvailablePlugins, GetAvailablePluginsQuery, Result, TagFilterExpression
 import { Button, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import RegexMetricList from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/RegexMetricList';
 // @ts-expect-error needs to be converted
 import { TypeSelector } from 'in-infrastructure/Explore/components/TypeSelector';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
@@ -80,7 +81,13 @@ export default function RegexMetricSelectorOverlay({
           )}
         </Overlay>
       </div>
-      <Button kind="action" disabled={!type} onClick={done}>
+      <RegexMetricList
+          tagFilterExpression={backendQueryModel}
+          type={type}
+          regex={debouncedRegex.debouncedValue}
+          size={100}
+        />
+      <Button className={locals.button} kind="action" disabled={!type} onClick={done}>
         {t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.done')}
       </Button>
     </div>

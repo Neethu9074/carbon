@@ -13,6 +13,8 @@
     "grid": {
       "grid": {
         "edit": "Modifica",
+        "copy": "Copia",
+        "copied": "Widget copiato, utilizzare CTRL-V o CMD-V per incollare su qualsiasi dashboard personalizzato",
         "duplicate": "Duplica",
         "delete": "Elimina",
         "customDashboardWidgetTitle": "Widget personalizzato del dashboard: {{title}}"
@@ -81,6 +83,8 @@
       "editName": "Modifica nome",
       "editAsJson": "Modifica come JSON",
       "viewAsJson": "Visualizza come JSON",
+      "copyAllWidgets": "Copia tutti i widget",
+      "copiedAllWidgets": "Widget copiati, utilizzare CTRL-V o CMD-V per incollare su qualsiasi dashboard personalizzato",
       "duplicate": "Duplica",
       "delete": "Elimina",
       "share": "Condividi",
@@ -174,7 +178,8 @@
       },
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "Modello di metrica (ad es. metric_. *)",
-        "done": "Fine"
+        "done": "Fine",
+        "help": "## Suggerimenti rapidi\nLa regex con flavor di Apache Lucene è supportata con i seguenti operatori.\n### .\nCorrisponde a qualsiasi carattere. Ad esempio:\n\n    ab.     # corrisponde ad 'aba', 'abb', 'abz', ecc.\n###? + *\nRipetere il carattere precedente un certo numero di volte. Ad esempio:\n\n    abc?     # ripetere 'c' una o zero volte. corrisponde ad 'ab' e 'abc'\n    ab+      # ripetere 'b' una o più volte. corrisponde ad 'ab', 'abb', 'abbb', ecc.\n    ab*      # ripetere 'b' zero o più volte. corrisponde ad 'a', 'ab', 'abb', 'abbb', ecc.\n### |\nOperatore OR. La corrispondenza avrà esito positivo se il modello più lungo sul lato sinistro OPPURE sul lato destro corrisponde. Ad esempio:\n\n    abc|xyz  # corrisponde ad 'abc' e 'xyz'\n### ( … )\nForma un gruppo. È possibile utilizzare un gruppo per trattare parte dell'espressione come un singolo carattere. Ad esempio:\n\n    abc(def)?  # corrisponde ad 'abc' e 'abcdef' ma non ad 'abcd'\n### [ … ]\nCorrispondere a uno dei caratteri tra parentesi. Ad esempio:\n\n    [abc]   # corrisponde ad 'a', 'b', 'c'\nAll'interno delle parentesi, `-` indica un intervallo, a meno che `-` non sia il primo carattere o non sia preceduto da un carattere escape Ad esempio:\n\n    [a-c]   # corrisponde ad 'a', 'b' oppure 'c'\n    [-abc]  # '-' è il primo carattere. Corrisponde a '-', 'a', 'b' oppure 'c'\n    [abc\\-] # Precede come carattere escape '-'. Corrisponde ad 'a', 'b', 'c' oppure '-'\nUn carattere `^` prima di un carattere tra parentesi nega il carattere o l'intervallo. Ad esempio:\n\n    [^abc]      # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b' oppure 'c'\n    [^a-c]      # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b' oppure 'c'\n    [^-abc]     # corrisponde a qualsiasi carattere fatta eccezione per '-', 'a', 'b' oppure 'c'\n    [^abc\\-]    # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b', 'c' oppure '-'\n\nSi tenga presente che le classi di caratteri PCRE, quali `\\w` oppure `\\S`, non sono attualmente supportate. Si tenga presente inoltre che gli operatori di ancoraggio, quali ` ^ ` o ` $`, non sono supportati. L'espressione deve corrispondere all'intera stringa.\n## Ulteriori informazioni\nPer la sintassi completa, consultare la pagina [documentation]({{documentationLink}})."
       },
       "metricSelectionCategoryOverlay": {
         "list": "Elenca",
@@ -302,6 +307,10 @@
         "automatic": "Automatico"
       },
       "color": {
+        "magenta": "Magenta",
+        "darkRed": "Rosso Scuro",
+        "blue": "Blu",
+        "yellow": "Giallo",
         "lightBlue": "Azzurro",
         "green": "Verde",
         "red": "Rosso",
@@ -591,7 +600,8 @@
         "thousandCallsFormat": "{{count}} chiamate"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "I dati di anteprima vengono mostrati solo fino a 7 giorni in passato. Il widget finale includerà solo i dati dalla creazione SLI."
+        "previewDataInfo": "I dati di anteprima vengono mostrati solo fino a 7 giorni in passato. Il widget finale includerà solo i dati dalla creazione SLI.",
+        "liveDataInfo": "Non sono disponibili dati in tempo reale per i dati del budget dell'errore"
       },
       "boundaryScopeConfigurator": {
         "all": {

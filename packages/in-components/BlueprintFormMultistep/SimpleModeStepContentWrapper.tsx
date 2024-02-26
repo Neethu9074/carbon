@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 
 import locals from './SimpleModeStepContentWrapper.mless';
 
@@ -23,14 +23,13 @@ export default function SimpleModeStepContentWrapper({
   children,
   titleToolTipText
 }: SimpleModeStepContentWrapperProps) {
-  const theme = useTheme();
   return (
     <div className={locals.container}>
       <h1 className={locals.headline}>
         {headline}
         {titleToolTipText && (
           <Tooltip align="bottomMiddle" content={titleToolTipText}>
-            <SvgIcon type="lib_help_error_help_outline" color={theme.ids.color.option.neutral['600']} />
+            <SvgIcon type="lib_help_error_info_outline" color={themes.default.ids.color.option.neutral['600']} />
           </Tooltip>
         )}
       </h1>

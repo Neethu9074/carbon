@@ -81,6 +81,7 @@
     "focusOnThisGroup": "このグループにフォーカス",
     "theQueryConfigurationIsInvalid": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "allInfrastructure": "すべてのインフラストラクチャー",
+    "emptyInfrastructure": "対象タイプを選択",
     "name": "名前",
     "search": "タイプの検索",
     "explore": "探索",

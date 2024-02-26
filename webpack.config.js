@@ -227,7 +227,12 @@ const lezerGrammarRule = {
   }
 };
 
+const cache = isDevModeBuild && {
+  type: 'filesystem'
+};
+
 module.exports = {
+  cache,
   entry,
   mode: process.env.NODE_ENV,
   context: __dirname,

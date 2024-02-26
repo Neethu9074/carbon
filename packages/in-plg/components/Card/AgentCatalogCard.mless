@@ -12,4 +12,13 @@
   .card:hover {
     background: var(--ids-color-option-neutral-300);
   }
+
+  .cardWrapper {
+    height: 100%;
+    padding: 0 1rem 1rem;
+  }
+
+  .bodyClassName {
+    padding: 0;
+  }
 }

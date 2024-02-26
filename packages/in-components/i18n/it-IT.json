@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "Visualizza in Analisi",
     "chartLendMetricTimeShifted": "L'orario della metrica è spostato alle: {{timeShiftedLabel}}",
     "chartDownloadLabel": "Scarica JSON",
+    "chartDownloadCSVLabel": "Scarica CSV",
     "chartGlobalHighlightLabel": "Evidenzia su tutti i grafici",
     "chartZoomInLabel": "Ingrandisci l'intervallo di tempo",
     "chartAlertsLanePresenterAlertsLabel": "Avvisi",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (in <codeWithClass>{{path}}</codeWithClass>)"
-  },
-  "graphView": {
-    "graphTitle": "Grafico",
-    "explanationHeader": "Showcase dei Grafici Dinamici",
-    "explanationP1": "La tecnologia principale su cui si basa Instana è quella definita Grafici Dinamici. Il Grafico è un modello dell'applicazione che risale a tutte le dipendenze fisiche e logiche dei componenti. Sulla destra si vede il Grafico Dinamico del proprio ambiente attuale!",
-    "explanationP2": "Il Grafico non ha solo i componenti fisici, include infatti anche componenti logici quali tracce, applicazioni, servizi, cluster o spazi tabella. I componenti e le relative dipendenze vengono rilevati in modo automatico dall'agent e dai sensori Instana per da assicurare il costante aggiornamento del Grafico. Ogni nodo del grafico viene inoltre costantemente aggiornato con informazioni di stato quali metriche, dati di configurazione e un valore di integrità calcolato in base alla conoscenza semantica e ad un approccio di apprendimento automatico. Vengono inol tre analizzare le dipendenze presenti nel grafico per trovare raggruppamenti logici quali servizi e applicazioni per determinare l'impatto su tale livello e risalire alla criticità delle problematiche. L'intero grafico è persistente ed è possibile spostarsi avanti e indietro nel tempo per sfruttare i dati del grafico per molti casi di utilizzo operativo.",
-    "explanationLink": "<linkToBlog>Visita il nostro blog</linkToBlog> per ulteriori informazioni.",
-    "closeBtn": "Chiudi Grafico"
   },
   "gravatar": {
     "avatarUrlAlt": "Avatar per {{email}} da gravatar.com.",
@@ -240,7 +233,6 @@
     "labelRegion": "Regione",
     "labelTag": "Tag",
     "labelCommit": "Esegui il commit",
-    "buttonGraphShowcase": "Showcase del grafico",
     "geo": {
       "title": "Dati Geo",
       "description": "Questo prodotto include i dati GeoLite2 creati da MaxMind, disponibili da <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "N/D",
+    "headerLabel": "Ordina per",
     "buttonAscending": "Crescente",
     "buttonDescending": "Decrescente"
   },

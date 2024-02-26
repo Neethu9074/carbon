@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 import { useState } from 'react';
 
 import { Stack, SvgIcon, Typography, Link } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 // @ts-expect-error Module needs to be translated to TS
 import { Listing } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
@@ -20,7 +21,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
 
 import locals from './AgentBasedIntegrationView.mless';
@@ -39,7 +39,6 @@ function Description({ lines }: { lines: string[] }) {
 }
 
 const AgentBasedIntegrationView = () => {
-  const theme = useTheme();
   const architectureOptions = ['AMD 64', 's390x'];
   const [architecture, setArchitecture] = useState(architectureOptions[0]);
   const supportsUrl = 'https://www.ibm.com/docs/en/instana-observability/current?topic=apis-agent-based-integrations';
@@ -72,7 +71,11 @@ const AgentBasedIntegrationView = () => {
                 <Tooltip
                   content={<div className={locals.tooltip}>{t('in-infrastructure:agentView.apmV8ToolKitInfo')}</div>}
                 >
-                  <SvgIcon type="lib_help_error_info_outline" size="s" color={theme.ids.color.option.neutral['600']} />
+                  <SvgIcon
+                    type="lib_help_error_info_outline"
+                    size="s"
+                    color={themes.default.ids.color.option.neutral['600']}
+                  />
                 </Tooltip>
               </Stack>
             ]}

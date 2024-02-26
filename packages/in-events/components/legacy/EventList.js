@@ -14,12 +14,16 @@ import {
   isWebsiteSmartAlertEvent,
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
+import AssociatedAndRecommendedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedPoliciesAlerts';
+import AssociatedAndRecommendedActionsAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedActionsAlerts';
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import { actionAutomationEnabled, rcaUIEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
+import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
@@ -60,7 +64,13 @@ export default function IncidentEventList({
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
   const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
+
   const triggerEvent = events.find(isTriggeringEvent);
+  const isGlobalSmartAlert =
+    isApplicationSmartAlertEvent(triggerEvent) && triggerEvent.getIn(['metadata', 'globalSmartAlert'], false);
+
+  const eventType = getEventType(incident);
+  const serviceIds = getServiceIds(incident);
 
   return (
     <>
@@ -97,7 +107,7 @@ export default function IncidentEventList({
         role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        role.canConfigureCustomAlerts &&
+        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -109,7 +119,7 @@ export default function IncidentEventList({
       {!automationPoliciesEnabled &&
         actionAutomationEnabled &&
         role.canConfigureAutomationActions &&
-        role.canConfigureCustomAlerts &&
+        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -118,6 +128,30 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
+      {automationPoliciesEnabled &&
+        role?.canConfigureAutomationPolicies &&
+        actionAutomationEnabled &&
+        role.canConfigureAutomationActions &&
+        role.canConfigureEventsAndAlerts &&
+        !isGlobalSmartAlert &&
+        isApplicationSmartAlertEvent(triggerEvent) && (
+          <AssociatedAndRecommendedPoliciesAlerts
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={triggerEvent?.toJS()}
+          />
+        )}
+      {!automationPoliciesEnabled &&
+        actionAutomationEnabled &&
+        role.canConfigureAutomationActions &&
+        role.canConfigureEventsAndAlerts &&
+        !isGlobalSmartAlert &&
+        isApplicationSmartAlertEvent(triggerEvent) && (
+          <AssociatedAndRecommendedActionsAlerts
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={triggerEvent?.toJS()}
+          />
+        )}
+      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );
 }

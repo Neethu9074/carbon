@@ -17,6 +17,7 @@ import {
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import SplitScreenSessionContent from 'in-mobile-apps/analyze/SessionView/SplitScreenSessionContent';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
+import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import { useCloseSessionViewLink } from 'in-mobile-apps/navigation/paths';
@@ -146,9 +147,7 @@ function renderSplitScreenContent(props) {
 
 function renderContext({ getHrefToUngroupedView }) {
   return (
-    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
-      {t('in-mobile-apps:sessionView.analyticsLink')}
-    </Link>
+    <DashboardHeaderContext href={getHrefToUngroupedView()} label={t('in-mobile-apps:sessionView.analyticsLink')} />
   );
 }
 

@@ -10,7 +10,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import theme from 'in-themes';
+import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -86,7 +86,7 @@ function getRowDetails(row) {
         metrics: ['health.' + row.key + '_v3'],
         labels: [t('in-forge:plugins.etcd.dashboard.count')],
         type: 'stackedBar',
-        colors: [theme.lib.carbonAlert.green50],
+        colors: [carbonAlert.green50],
         aggregation: 'sum'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

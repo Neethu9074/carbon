@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .loadingBarContainer {
@@ -12,8 +13,16 @@
     height: 100%;
   }
 
-  .bodyNoPadding {
+  .noPadding {
     padding: 0;
+  }
+
+  .modal {
+    .widgetInModal();
+  }
+
+  .noPaddingTitle {
+    .noPaddingWidgetTitle();
   }
 
   .title {
@@ -28,5 +37,9 @@
     padding: 0.5rem 1rem 1.5rem;
     min-height: 12rem;
     height: calc(100% - var(--header-height) - var(--slo-chart-offset));
+
+    &.noPadding {
+      padding: 0;
+    }
   }
 }

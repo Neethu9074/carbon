@@ -119,7 +119,6 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
   "deprecatedCustomEventWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti. In futuro, gli eventi personalizzati per i tre tipi di entità verranno rimossi e non si riceverà più questo {{issueOrIncident}}</strong><br/>Visualizza la configurazione dell'evento personalizzato per la migrazione ad avviso smart. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
-  "associatedActionsForTriggeringEvent": "Azioni associate per l'evento di attivazione",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} eventi personalizzati richiedono un'azione",
     "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. Non sarà possibile creare o aggiornare questi tipi di eventi personalizzati in futuro.",
@@ -158,18 +157,30 @@
     "titlePRCA": "Causa principale probabile",
     "AIGenBadgeText": "AI generata",
     "suggestionHelpfulText": "Questo suggerimento è stato utile?",
+    "thankYouForYourFeedback": "Grazie per il tuo feedback!",
     "noEntitiesErrorTitle": "Non è stata trovata alcuna causa principale probabile",
     "noEntitiesErrorDescription": "Ciò di solito si verifica quando l'incidente non ha un impatto significativo sul servizio",
     "performanceConstantlyEvaluated": "Le prestazioni vengono attivamente valutate e migliorate durante la fase Beta. Lascia un feedback per aiutarci a migliorare la nostra AI",
-    "regenerate": "Rigenera",
     "probableRootCauseLabel": "Entità causa principale probabile: {{entity_name}}",
-    "relatedEventsLabel": "Eventi entità trovati: {{number_of_events}}"
+    "relatedEventsLabel": "Eventi entità trovati: {{number_of_events}}",
+    "entitiesNumber": "Entità",
+    "techPreview": "ANTEPRIMA TECNICA"
+  },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "Riepilogo dell'incidente",
+    "thisIncident": "Questo incidente sembra essere:",
+    "errorTitle": "Nessun riepilogo trovato",
+    "errorDescription": "Non è stato possibile creare alcun riepilogo per questo evento",
+    "summarizationHelpfulText": "Questo riepilogo è stato utile?"
   },
   "feedback": {
     "skip": "Ignora",
     "descriptionUnpleasant": {
       "firstLineApology": "Siamo spiacenti che l'esperienza non sia stata piacevole.",
       "secondLineQuestion": "L'utente può aiutarci a identificare dove si sono verificati dei problemi?"
+    },
+    "rca": {
+      "apology": "Siamo spiacenti che l'esperienza non sia stata piacevole. Aiutaci a scoprire il potenziale della funzione di analisi della causa principale di Instana condividendo i tuoi insight e le tue esperienze"
     },
     "pleaseDescribeWhatWentWrongTextBox": "Immettere una descrizione",
     "contactMeYes": "Sì, per favore contattami",

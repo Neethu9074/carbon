@@ -21,10 +21,6 @@
       "transferSizeLabel": "Übertragungsvolumen",
       "transferSizeCategory": "Ressourcendimensionierung"
     },
-    "crash": {
-      "crashAffectedSessionCount": "Anzahl der vom Absturz betroffenen Sitzungen",
-      "crashAffectedUserCount": "Anzahl der vom Absturz betroffenen Benutzer"
-    },
     "errorRate": {
       "label": "Fehlerrate",
       "rawDataLabel": "Fehleranzahl"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "Back-End-Trace anzeigen",
       "showID": "ID: {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "Absturzgruppendetails anzeigen"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} Vorkommen",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Angepasstes Ereignis",
@@ -219,9 +218,9 @@
       "crashLabel": "Absturz",
       "metaHeader": "Meta",
       "stackTrace": "Stack-Trace",
-      "stackTraceLastOccurrence": "Stack-Trace (letztes Auftreten)",
-      "stackTraceButtonPrettyStackTrace": "Stack-Trace-Quelltextformatierung",
-      "stackTraceButtonRawStackTrace": "Unformatierter Stack-Trace"
+      "stackTraceLastOccurrence": "Stack-Trace (letztes Vorkommen)",
+      "stackTraceButtonCrashedThreadsStackTrace": "Abgestürzte Threads",
+      "stackTraceButtonAllThreadsStackTrace": "Alle Threads"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Abrufzeit",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "Beschreibung",
           "fileUploadConfigurationDialogDescriptionHelp": "Eine Uploadkonfiguration hilft Ihnen, Ihre hochgeladenen Dateien besser zu organisieren.",
           "fileUploadConfigurationDialogHeadingOpenAPI": "Symboldateien werden hochgeladen",
-          "fileUploadConfigurationDialogOpenAPIHelp": "Laden Sie Ihre Symboldateien hoch, indem Sie die Web-REST-API von Instana aufrufen. Dies könnte zur automatisierten Bereitstellung in Ihren Pipelineprozess integriert werden. Die Erläuterung und Verwendung unserer Web-REST-API ist in <documentation>Dokumentation</documentation> definiert.",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Laden Sie Ihre Symboldateien hoch, indem Sie die Web-REST-API von Instana aufrufen. Dies könnte zur automatisierten Bereitstellung in Ihren Pipelineprozess integriert werden. Die Erläuterung und Verwendung unserer Web REST API finden Sie in der <documentation>Dokumentation</documentation>.",
           "fileUploadUrl": "Symboldatei-API hochladen",
           "stackTraceTranslationLabelConfiguration": "Konfiguration",
           "stackTraceTranslationLabelFiles": "Dateien",
@@ -438,7 +437,7 @@
     "nameLabel": "Name",
     "sessionStartsLabel": "Sitzungsstarts",
     "viewTransitionsLabel": "Anzeigewechsel",
-    "crashFreeSessionRateLabel": "Absturzfreie Sitzungsrate",
+    "crashAffectedSessionRateTitle": "Absturzrate betroffener Sitzungen",
     "addMobileAppBtn": "Mobile App hinzufügen",
     "mobileAppsTitle": "Mobile Apps"
   },

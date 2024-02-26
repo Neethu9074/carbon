@@ -9,8 +9,9 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { GroupPermissionEntity, OrderDirection, PermissionSet, Result } from '@instana/types';
-import { Stack, SvgIcon, Typography, useTheme } from '@instana/components';
+import { Stack, SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 
 import {
   getSelectedEntityIds,
@@ -58,7 +59,6 @@ export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
   const selected = useSelectedEntities(observable, orderDirection, selectedIds);
 
   // Column definition
-  const theme = useTheme();
   const columnDefinition: Array<ColumnDefinition<KubernetesEntity>> = [
     {
       id: 'name',
@@ -98,7 +98,7 @@ export default function _KubernetesEntityTable<FORM_TYPE extends MapFormItems>({
             aria-label={t('in-settings:PermissionSection.deleteButton', { name: it.name })}
             onClick={() => removeOneEntity(entityType, form, setForm, permissionSetField!!.value, it.id)}
             type="lib_openclose_remove_circle_outline"
-            color={theme.ids.color.option.teal[500]}
+            color={themes.default.ids.color.option.teal[500]}
           />
         );
       }

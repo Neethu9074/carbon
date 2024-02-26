@@ -11,6 +11,8 @@ import { RawEvent } from 'in-types';
 
 export const EVENT_TYPES;
 
+export const openEventsAtServerTime$: Observable<any>;
+
 type Kind = keyof typeof ButtonKinds;
 
 export function getDesignLibraryColorBySeverity(severity: number, fallback?: string): string;

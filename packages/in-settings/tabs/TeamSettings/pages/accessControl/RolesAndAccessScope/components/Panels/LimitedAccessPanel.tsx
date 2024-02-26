@@ -7,9 +7,10 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button, Stack, StackItem, SvgIcon, Typography, useTheme } from '@instana/components';
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
+import { Button, Stack, StackItem, SvgIcon, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 
 import {
   AreaRole,
@@ -21,8 +22,10 @@ import {
   AreaRoleWithContributorType,
   AreaRoleType,
   ProductArea,
-  ScopeRoles
+  ScopeRoles,
+  applicationAdditionalCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import AdditionalPermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/AdditionalPermissionSection/AdditionalPermissionSection';
 import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import { ContributorFilterWarning } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ContributorFilterWarning/ContributorFilterWarning';
 import {
@@ -68,6 +71,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   extractName: ExtractNameFunction<I>;
   onChangeRole: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: LimitableProductArea;
+  setValid?: (isValid: boolean) => void;
 }
 
 export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -84,10 +88,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   extractName,
   onChangeRole,
   setShowSubSlide,
-  setSubSlideConfig
+  setSubSlideConfig,
+  setValid
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
-  const theme = useTheme();
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
   const isAppWithContributorFeature = applicationContributionFilterEnabled && entityPermissionKey === 'applicationIds';
@@ -172,7 +176,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
             aria-label={t('in-settings:PermissionSection.deleteButton', { name })}
             onClick={() => removeEntitiesFromPermissionSet(id)}
             type="lib_openclose_remove_circle_outline"
-            color={theme.ids.color.option.teal[500]}
+            color={themes.default.ids.color.option.teal[500]}
           />
         );
       }
@@ -191,47 +195,67 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       })
       .map<string>(({ scopeId }) => scopeId!);
   }
-
-  return (
-    <Stack direction="vertical">
-      {applicationContributionFilterEnabled ? (
-        <StackItem>
-          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
-        </StackItem>
-      ) : (
-        <StackItem>
-          <Typography variant="heading-200" component="div">
-            {t('in-settings:permissionScope.selection_limited_access')}
-          </Typography>
-          <Typography variant="body-regular" component="div">
-            {description}
-          </Typography>
-        </StackItem>
-      )}
-      {isContributor && (
-        <StackItem>
-          <Typography variant="heading-200" component="h2">
-            {t('in-settings:permissionScope.role_permissions')}
-          </Typography>
-          {isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
-        </StackItem>
-      )}
-      <StackItem>
+  const RoleSelectionSection = () => {
+    return (
+      <>
         <RoleFormGroup
           htmlFor={`${entityPermissionKey}-role-select`}
           tooltipText={roleTooltipText}
           value={role}
           defaultRole={AreaRole.VIEWER}
+          roleDescription={rolePermissionMessage}
           onChange={onChangeRole}
           {...(entityPermissionKey === 'applicationIds' && applicationContributionFilterEnabled
             ? { options: AreaRolesWithContributor }
             : {})}
         />
-        {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
-          <SyntheticCommonSection form={form} setForm={setForm} />
+        {entityPermissionKey === 'applicationIds' && (
+          <AdditionalPermissionSection form={form} setForm={setForm} capabilities={applicationAdditionalCapabilities} />
         )}
-        {isContributor && <ContributionFilterWrapper form={form} setForm={setForm} />}
-      </StackItem>
+      </>
+    );
+  };
+
+  return (
+    <Stack direction="vertical">
+      {applicationContributionFilterEnabled ? (
+        <StackItem>
+          <ConfigurationSummary
+            accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
+            accessLevelMsg={accessLevelMessage}
+          >
+            {isContributor && isAppContributionFilterConfigured ? <ContributorFilterWarning /> : null}
+            <RoleSelectionSection />
+            {isContributor && (
+              <ContributionFilterWrapper
+                form={form}
+                setForm={setForm}
+                isContributorRole={isContributor}
+                setValid={setValid}
+              />
+            )}
+            {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+              <SyntheticCommonSection form={form} setForm={setForm} />
+            )}
+          </ConfigurationSummary>
+        </StackItem>
+      ) : (
+        <>
+          <StackItem>
+            <Typography variant="heading-200" component="div">
+              {t('in-settings:permissionScope.selection_limited_access')}
+            </Typography>
+            <Typography variant="body-regular" component="div">
+              {description}
+            </Typography>
+          </StackItem>
+          <RoleSelectionSection />
+          {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (
+            <SyntheticCommonSection form={form} setForm={setForm} />
+          )}
+        </>
+      )}
+
       <Divider />
       {isContributor && (
         <StackItem>

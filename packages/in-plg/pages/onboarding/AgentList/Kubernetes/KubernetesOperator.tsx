@@ -42,11 +42,11 @@ const KubernetesOperator = ({
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.common.choosingTheProperInstallationMethod')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#installation-methods"
+            href="https://ibm.biz/insta-agent-k8schoose"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host#network-requirements"
+            href="https://ibm.biz/insta-agent-netreqs"
           />
         </>
       ),
@@ -58,7 +58,7 @@ const KubernetesOperator = ({
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installUsingTheOperator')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#install-by-using-the-operator"
+            href="https://ibm.biz/insta-agent-k8soperator"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installAnAgentOnKubernetes')}
@@ -66,7 +66,7 @@ const KubernetesOperator = ({
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-configuring-host"
+            href="https://ibm.biz/insta-agent-config"
           />
         </>
       ),

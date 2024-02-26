@@ -34,8 +34,8 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
+import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Progress, Error as ScriptError } from 'in-types';
-import Code from 'in-synthetics/packages/Code';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/wizard/RequestResponseStep.mless';
@@ -79,7 +79,6 @@ export default function RequestResponseStep({
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const locationsField = form.get('locations') as Field<string[]>;
-  const scriptField = configForm.get('script') as Field<string>;
   const renderScript: boolean =
     selectedBlueprint.type === apiScriptTest || selectedBlueprint.type === browserScriptTest;
   const isBrowser = selectedBlueprint.type === browserScriptTest ? true : false;
@@ -184,22 +183,33 @@ export default function RequestResponseStep({
       }
 
       setScript({ name: e.target.files[0].name, text, extension });
-
-      updateForm(
-        form
-          .updateIn(['configuration', 'script'], (field: Item) =>
-            (field as Field<string>).setValue(text).setTouched(true)
-          )
-          .updateIn(['configuration', 'syntheticType'], (field: Item) =>
-            (field as Field<string>).setValue(testType).setTouched(true)
-          )
-      );
-    } catch (e) {
+      try {
+        updateForm(
+          form
+            .updateIn(['configuration', 'script'], (field: Item) =>
+              (field as Field<string>).setValue(extension === 'js' ? String(JSON.parse(text)) : text).setTouched(true)
+            )
+            .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+              (field as Field<string>).setValue(testType).setTouched(true)
+            )
+        );
+      } catch {
+        updateForm(
+          form
+            .updateIn(['configuration', 'script'], (field: Item) =>
+              (field as Field<string>).setValue(text).setTouched(true)
+            )
+            .updateIn(['configuration', 'syntheticType'], (field: Item) =>
+              (field as Field<string>).setValue(testType).setTouched(true)
+            )
+        );
+      }
+    } catch (error) {
       setScript({
         name: '',
         text: '',
         errorMessage: t('in-synthetics:dialog.createTest.requestStep.failureToReadFileContent', {
-          error: (e as { message: string }).message ?? 'Unknown error'
+          error: (error as { message: string }).message ?? 'Unknown error'
         }),
         extension: ''
       });
@@ -214,11 +224,19 @@ export default function RequestResponseStep({
       text,
       extension: script.extension
     });
-    updateForm(
-      form.updateIn(['configuration', 'script'], (field: Item) =>
-        (field as Field<string>).setValue(text).setTouched(true)
-      )
-    );
+    try {
+      updateForm(
+        form.updateIn(['configuration', 'script'], (field: Item) =>
+          (field as Field<string>).setValue(String(JSON.parse(text))).setTouched(true)
+        )
+      );
+    } catch (e) {
+      updateForm(
+        form.updateIn(['configuration', 'script'], (field: Item) =>
+          (field as Field<string>).setValue(text).setTouched(true)
+        )
+      );
+    }
     setScriptDetails({ modified: true, name: scriptDetails.modified ? '' : scriptDetails.name });
   }
 
@@ -255,18 +273,16 @@ export default function RequestResponseStep({
           {renderScript && (
             <div className={locals.scriptUpload}>
               {script.extension === 'js' ? (
-                scriptField.map(field => (
-                  <>
-                    <Code
-                      value={field.value}
-                      onChange={updateCode}
-                      maxHeight="39vh"
-                      maxWidth="63vw"
-                      placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
-                    />
-                    {scriptErrors && scriptErrors.length !== 0 && <ErrorList errors={scriptErrors} />}
-                  </>
-                ))
+                <>
+                  <CodeInput
+                    value={script.text}
+                    onChange={updateCode}
+                    maxHeight="39vh"
+                    maxWidth="63vw"
+                    placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
+                  />
+                  {scriptErrors && scriptErrors.length !== 0 && <ErrorList errors={scriptErrors} />}
+                </>
               ) : (
                 <Message
                   className={locals.message}

@@ -8,9 +8,12 @@ import classNames from 'classnames';
 
 import { just } from '@instana/observables';
 
+import { convertToCallLogs } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/utils';
 import LogTooltipContent from 'in-applications/analyze/components/TraceDetails/components/LogTooltipContent';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { filterOtelLogs } from 'in-components/Logging/TraceDetails/utils';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { useTheme } from 'in-themes';
@@ -28,12 +31,18 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
 }
 
 const CallFrame = forwardRef(function CallFrame(props, ref) {
+  const { items: loggingLogItems } = useLogsInCallsContext();
   const { callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened } = props;
   const { label, errorCount, depth, x, dx, totalDuration, traceStart, children } = callFrame;
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
   const theme = useTheme();
+
+  const nonSpanLogs = convertToCallLogs(loggingLogItems.filter(filterOtelLogs(callFrame)));
+  const spanLogs = children?.filter(subCall => subCall.model === 'LOG') ?? [];
+
+  const logs = [...nonSpanLogs, ...spanLogs];
 
   return (
     <div ref={ref}>
@@ -62,19 +71,16 @@ const CallFrame = forwardRef(function CallFrame(props, ref) {
           [locals.unhighlightedLogIndicator]: isUnhighlighted
         })}
       >
-        {children &&
-          children
-            .filter(subCall => subCall.model === 'LOG')
-            .map((subCall, idx) => (
-              <LogIndicators
-                {...props}
-                parentCall={callFrame}
-                key={subCall.id + idx}
-                top={top}
-                log={subCall}
-                x={totalDuration ? (subCall.start - traceStart) / totalDuration : 0}
-              />
-            ))}
+        {logs.map((log, idx) => (
+          <LogIndicators
+            {...props}
+            parentCall={callFrame}
+            key={idx}
+            top={top}
+            log={log}
+            x={totalDuration ? (log.start - traceStart) / totalDuration : 0}
+          />
+        ))}
       </div>
     </div>
   );

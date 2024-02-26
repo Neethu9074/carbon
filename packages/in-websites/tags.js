@@ -48,6 +48,15 @@ export const dataSourceTitles = {
   custom: t('in-websites:tagsDataSourceTitlesCustom')
 };
 
+export const dataSourceTypes = {
+  pageLoad: 'PAGELOAD',
+  pageChange: 'PAGE_CHANGE',
+  resourceLoad: 'RESOURCELOAD',
+  httpRequest: 'HTTPREQUEST',
+  error: 'ERROR',
+  custom: 'CUSTOM'
+};
+
 export const defaultGroupings = {
   none: {},
   pageLoad: {

@@ -5,16 +5,26 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
-
+import { locationWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
+import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
 import locals from './InternalViewWrapper.mless';
 
 export default function InternalViewWrapper({ children }) {
+  const { location, createHref } = useNavigation();
+  const targetLocation = locationWithoutQueryParameter({ ...location, pathname: '/internal' });
+  function renderContext() {
+    return (
+      <DashboardHeaderContext
+        href={createHref(targetLocation)}
+        label={t('in-internal:components.internalViewWrapper.internal')}
+      />
+    );
+  }
   return (
     <Sticky
       header={
@@ -26,13 +36,5 @@ export default function InternalViewWrapper({ children }) {
     >
       <div className={locals.body}>{children}</div>
     </Sticky>
-  );
-}
-
-function renderContext() {
-  return (
-    <Link className={locals.analyticsLink} href={getModifiedUrlStream(p => (p.pathname = '/internal'))}>
-      {t('in-internal:components.internalViewWrapper.internal')}
-    </Link>
   );
 }

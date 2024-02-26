@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { getColorBySeverity } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 
 import locals from './HealthDot.mless';
 
@@ -20,13 +21,12 @@ interface Props {
 }
 
 export default function HealthDot({ severity = 0, explanation, iconSize, className }: Props) {
-  const theme = useTheme();
   const dot = (
     <div
       style={{
         width: iconSize,
         height: iconSize,
-        backgroundColor: getColorBySeverity(severity, { defaultColor: theme.ids.color.option.green['500'] })
+        backgroundColor: getColorBySeverity(severity, { defaultColor: themes.default.ids.color.option.green['500'] })
       }}
       // @ts-expect-error classnames explicitly can handle undefined object keys
       className={classNames({ [locals.dot]: true, [className]: true })}

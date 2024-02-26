@@ -13,4 +13,8 @@
     gap: 1rem;
     flex-direction: column;
   }
+
+  .noPadding {
+    padding: 0;
+  }
 }

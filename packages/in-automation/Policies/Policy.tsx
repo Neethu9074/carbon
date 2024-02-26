@@ -6,14 +6,15 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import { defaultPolicyUrlParameters, detailsPolicyUrlParameters } from 'in-automation/navigation/urlParameters';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PolicyFormBody, PolicyFormFooter, PolicyFormHeader } from 'in-automation/Policies/PolicyForm';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { PolicyForm, Triggers, isAutomatic, isManual } from 'in-automation/Policies/types';
 import usePolicyForm, { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
+import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import { getAllActionsResult, saveNewPolicy, savePolicy } from 'in-automation/api';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
@@ -32,7 +33,6 @@ import { seconds } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { Action, Policy } from 'in-types';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -45,9 +45,13 @@ type SubmitPayload = {
   actions: Action[] | undefined;
 };
 
+function useActions() {
+  return resultToFetchedStateResponse(useObservable(getAllActionsResult, []));
+}
+
 function usePolicyDetailsUrlParams() {
-  const [{ policyId, op }] = useUrlState<{ policyId?: string; op: 'copy' | null }>({
-    bind: [defaultPolicyUrlParameters.policyId, detailsPolicyUrlParameters.op]
+  const [{ policyId, op }] = useUrlState<{ policyId?: string; op?: 'copy' }>({
+    bind: [policyDetailsUrlParameters.policyId, policyDetailsUrlParameters.op]
   });
   const isCopy = op === 'copy';
   const isCreate = !policyId;
@@ -60,8 +64,6 @@ function usePolicyDetailsUrlParams() {
 }
 
 export default function PolicyDetails() {
-  const theme = useTheme();
-
   const { policyId, isNew, isCopy } = usePolicyDetailsUrlParams();
   const [actions, actionsStatus, actionsErrors] = useActions();
   const [triggers, triggersStatus, triggersErrors] = useTriggers();
@@ -70,7 +72,7 @@ export default function PolicyDetails() {
   const status = allStatus(policyStatus, triggersStatus, actionsStatus);
   const errors = [...policyErrors, ...triggersErrors, ...actionsErrors];
 
-  const [form, setForm] = usePolicyForm(policy, actions);
+  const [form, setForm] = usePolicyForm(policy, actions, triggers);
   const navigateToPolicies = useNavigateToPolicies();
 
   const [submitStatus, doSubmit] = useFormSubmission<SubmitPayload, Policy>(({ form, id, isNew }) =>
@@ -81,7 +83,7 @@ export default function PolicyDetails() {
   if (status === 'rejected') {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-automation:policies.unknownPolicy')}
         </SubViewHeader>
         <SectionLine />
@@ -183,8 +185,4 @@ function onSaveFailure(name: string) {
     },
     'policy-save-failure'
   );
-}
-
-function useActions() {
-  return resultToFetchedStateResponse(useObservable(getAllActionsResult, []));
 }

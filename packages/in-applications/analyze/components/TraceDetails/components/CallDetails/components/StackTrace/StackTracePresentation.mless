@@ -3,21 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/mixins.less';
-
 :local {
   .stackTrace {
-    margin: 0 0 1.5rem 0;
-    border-top: 2px solid var(--ids-color-option-neutral-200);
-  }
-
-  .title {
-    width: 10rem;
-    flex-grow: 0;
-    flex-shrink: 0;
-    padding-top: 1rem;
-    font-weight: 500;
-    .ellipsis();
+    display: flex;
+    flex-direction: column;
+    margin-top: -0.75rem;
   }
 
   .list {
@@ -36,18 +26,7 @@
     padding: 0;
   }
 
-  .method {
-    font-weight: bold;
-  }
-
-  .in {
-    color: #aaa;
-    margin: 0 0.1rem;
-  }
-
-  .noCodeLinkMessage {
-    padding: 0.3rem 0.6rem 0;
-    margin: 0;
-    font-weight: 300;
+  .copyButton {
+    align-self: flex-end;
   }
 }

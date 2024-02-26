@@ -197,7 +197,7 @@ function getDetails(row: any) {
           }}
           y2={{
             formatter: timeBySecondsTwoDecimalPlaces,
-            metrics: ['disks.' + row.name + '.io_read', 'disks.' + row.name + '.io_tim_weighted'],
+            metrics: ['disks.' + row.name + '.io_tim', 'disks.' + row.name + '.io_tim_weighted'],
             labels: [
               t('in-forge:plugins.otelHost.dashboard.io_tim'),
               t('in-forge:plugins.otelHost.dashboard.io_tim_weighted')

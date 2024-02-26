@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "Alertkanäle",
         "alertConfigurationTitleTimeThreshold": "Zeitschwellenwert",
         "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
-        "viewDetail": "Details anzeigen"
+        "predictiveTrigger": {
+          "title": "Alert im Voraus vorhersagen"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "Statischer Schwellenwert, {{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "Statischer Schwellenwert",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "Vorhersageauslöser"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} weiterer Filter",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Umfang",
-          "title": "Bereich: Wo geschieht die Bedingung?"
+          "title": "Bereich: Wo geschieht die Bedingung?",
+          "metric": {
+            "metric": "Metrik",
+            "selectMetric": "Metrik auswählen"
+          },
+          "aggregation": {
+            "aggregation": "Aggregation"
+          }
         },
         "threshold": {
           "label": "Schwellenwert",
@@ -1233,19 +1246,44 @@
           "label": "Zeitschwellenwert",
           "title": "Zeitschwellenwert: Wann möchten Sie alarmiert werden?"
         },
+        "predictiveTrigger": {
+          "title": "Vorhersageauslöser",
+          "timeToFailure": "Zeit bis zum Ausfall"
+        },
         "alertChannel": {
           "label": "Alertkanäle",
           "title": "Alertkanäle: Wer muss alarmiert werden?"
         },
         "properties": {
+          "preview": {
+            "subtitle": "Metrik-Name"
+          },
           "label": "Eigenschaften",
-          "title": "Zusätzliche Alerteigenschaften"
+          "title": "Zusätzliche Alerteigenschaften",
+          "alertPropertiesTitlePlaceholder": "Intelligenter Alert für Infrastruktur",
+          "alertPropertiesDescriptionPlaceholder": "In Ihrer Infrastruktur läuft etwas schief."
         },
         "customPayloads": {
           "label": "Nutzdaten",
           "title": "Angepasste Nutzdaten"
-        }
-      }
+        },
+        "thresholdValue": "Schwellenwert"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
+        "noMetricSelected": "Keine Metrik ausgewählt"
+      },
+      "groupedViewHeader": "{{formattedCount}} Ergebnisse",
+      "groupedViewHeader_plural": "{{formattedCount}} Ergebnisse",
+      "groupedViewHeader_0": "{{formattedCount}} Ergebnisse",
+      "groupedViewHeader_1": "{{formattedCount}} Ergebnisse",
+      "groupedViewHeader_2": "{{formattedCount}} Ergebnisse",
+      "resultHeaderLoading": "Wird geladen...",
+      "loadMore": "Mehr laden",
+      "count": "Anzahl",
+      "previewFor": "Vorschau für: ",
+      "selectEntityType": "Wählen Sie einen Entitätstyp aus",
+      "regexNotValid": "Regulärer Ausdruck ist ungültig"
     }
   }
 }

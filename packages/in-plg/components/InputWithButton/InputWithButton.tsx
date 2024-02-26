@@ -20,16 +20,22 @@ interface InputWithButtonProps {
   inputValue?: string;
   icon?: string;
   href?: string;
+  size?: 'small' | 'large';
 }
 
 export default function InputWithButton({
   type = 'copy',
   inputValue = '',
-  displayContent,
+  displayContent = '',
   icon = type === 'copy' ? 'lib_actions_copy' : 'lib_actions_download',
-  href = ''
+  href = '',
+  size = 'small'
 }: InputWithButtonProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const style = size === 'small' ? `${locals.input} ${locals.inputSmall}` : `${locals.input} ${locals.inputLarge}`;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    inputValue = event.target.value;
+  };
 
   const clickHandler = () => {
     if (type === 'copy') {
@@ -56,7 +62,12 @@ export default function InputWithButton({
 
   return (
     <Stack direction="horizontal" gap="xsmall" align="center">
-      <Input ref={inputRef} className={locals.input} value={displayContent ? displayContent : inputValue} />
+      <Input
+        ref={inputRef}
+        className={style}
+        value={displayContent ? displayContent : inputValue}
+        onChange={handleInputChange}
+      />
       <SvgIcon type={icon} size="xs" color={themes.default.ids.color.option.teal[500]} onClick={clickHandler} />
     </Stack>
   );

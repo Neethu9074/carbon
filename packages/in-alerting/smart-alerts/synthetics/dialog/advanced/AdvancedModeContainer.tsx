@@ -71,6 +71,7 @@ export default function AdvancedModeContainer(
           scrollId: '2',
           label: t('in-alerting:smartAlerts.synthetics.advanced.scopeFilterLabel'),
           title: t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline'),
+          titleToolTipText: t('in-alerting:smartAlerts.synthetics.simple.scopeDescription'),
           valid: isTagFilterFormModelValid,
           content: <AlertTagFilterExpressionConfig {...props} headerTransparent={headerTransparent} />
         },

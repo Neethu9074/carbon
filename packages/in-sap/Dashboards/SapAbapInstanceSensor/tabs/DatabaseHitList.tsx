@@ -60,6 +60,22 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.totalDbCalls'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DatabaseHitListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DatabaseHitListRow) {
+        return `databaseStats.${row.key}.totalDbCalls`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.endDate'),
     type: 'string',
     typeArgs: {
@@ -125,8 +141,8 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
       cardTitle={t('in-sap:dashboards.databaseHitList')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortColumn={3}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

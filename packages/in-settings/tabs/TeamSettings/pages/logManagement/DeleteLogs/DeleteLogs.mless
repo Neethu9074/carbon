@@ -15,6 +15,21 @@
     justify-content: space-between;
   }
 
+  .validationMessage {
+    height: 0;
+    margin: -0.125rem 0;
+  }
+
+  .deleteUntilSection {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 1.5rem;
+
+    input {
+      width: 100%;
+    }
+  }
+
   .confirmationDialogContent {
     display: flex;
     flex-direction: column;
@@ -60,5 +75,10 @@
       flex-direction: column;
       gap: 2rem;
     }
+  }
+
+  .toast {
+    display: flex;
+    flex-direction: column;
   }
 }

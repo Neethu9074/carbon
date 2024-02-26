@@ -96,3 +96,29 @@ export function mainFileNameValidator(
   }
   return undefined;
 }
+
+export function timeoutValidator(timeoutValue: string, timeoutUnit: string) {
+  if (+timeoutValue < 0) {
+    return [
+      {
+        invalid: true,
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutValueGreaterthanZero')
+      }
+    ];
+  } else if (isNaN(+timeoutValue)) {
+    return [
+      {
+        invalid: true,
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.invalidTimeoutvalue')
+      }
+    ];
+  } else if (!['m', 's', 'ms'].includes(timeoutUnit)) {
+    return [
+      {
+        invalid: true,
+        message: t('in-synthetics:dialog.createTest.advancedMode.configStep.invalidTimeoutUnit')
+      }
+    ];
+  }
+  return [{ invalid: false, message: '' }];
+}

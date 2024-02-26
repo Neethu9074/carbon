@@ -7,12 +7,12 @@
 import React from 'react';
 
 import { SvgIconSizes, KeyValue } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import { PodMetrics } from 'in-kubernetes/Dashboards/CronJob/JobItem/PodMetrics';
 import { HealthDot } from 'in-kubernetes/Dashboards/CronJob/JobItem/HealthDot';
 import { formatDuration } from 'in-services/formatters/date';
-import { useTheme } from 'in-themes';
 
 export const labelColumnDefinitions = [
   {
@@ -20,12 +20,11 @@ export const labelColumnDefinitions = [
     width: '1.7rem',
     // @ts-expect-error
     getContent: function Content({ item }) {
-      const theme = useTheme();
       const statusToColour = {
-        Completed: theme.ids.color.option.green['500'],
-        Running: theme.ids.color.option.green['500'],
-        Failed: theme.ids.color.option.red['500'],
-        Unknown: theme.ids.color.option.neutral['400']
+        Completed: themes.default.ids.color.option.green['500'],
+        Running: themes.default.ids.color.option.green['500'],
+        Failed: themes.default.ids.color.option.red['500'],
+        Unknown: themes.default.ids.color.option.neutral['400']
       };
       // @ts-expect-error
       return <HealthDot color={statusToColour[item?.status || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />;

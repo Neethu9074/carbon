@@ -17,8 +17,6 @@ describe('packages/in-bizops/components/ViewSwitcher', () => {
 
   it('Switches tabs checking tab icon plus label', () => {
     render(<ViewSwitcher />);
-    screen.getByRole('link', { name: 'lib_bizops Processes' }).click();
-    //screen.getByRole('link', { name: 'lib_application_service Activities' }).click();
-    //screen.getByRole('link', { name: 'lib_alerts_alert Smart Alerts' }).click();
+    screen.getByText(/Processes/).click();
   });
 });

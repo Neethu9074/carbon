@@ -4,25 +4,27 @@
  */
 
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { getIntlDateFormatter } from '@instana/format-date';
-import { useObservable } from '@instana/hooks';
 import { Card, CardProps } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { serverTime$ } from 'in-stores/serverTime';
 
 import locals from './Widget.mless';
 
-interface TimeZone {
+interface PropsTimeZone {
   label: string;
   timeZone: string;
 }
 
 interface TimeZonesWidgetProps extends Pick<CardProps, 'title'> {
   actions: React.ReactNode;
-  config?: Array<TimeZone>;
+  config?: Array<PropsTimeZone>;
   isPreview?: boolean;
+  isInModal?: boolean;
   dragHandle: React.ReactNode;
 }
 
@@ -31,6 +33,7 @@ export default function TimeZonesWidget({
   config: timeZones,
   actions,
   isPreview,
+  isInModal,
   dragHandle
 }: TimeZonesWidgetProps) {
   const serverTime = useObservable(getServerTime, []) ?? Date.now();
@@ -39,6 +42,12 @@ export default function TimeZonesWidget({
     <Card
       title={title}
       useMaxAvailableHeight={!isPreview}
+      className={classNames({
+        [locals.modal]: isInModal
+      })}
+      headerClassName={classNames({
+        [locals.modal]: isInModal
+      })}
       header={
         <>
           {dragHandle}
@@ -66,7 +75,7 @@ TimeZonesWidget.protpTypes = {
   ).isRequired
 };
 
-interface TimeZoneProps extends TimeZone {
+interface TimeZoneProps extends PropsTimeZone {
   serverTime: number;
 }
 

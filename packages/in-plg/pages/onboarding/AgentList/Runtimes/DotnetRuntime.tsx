@@ -17,7 +17,7 @@ import Code from 'in-plg/components/Code/Code';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-export default function DotnetRuntime({ type, agentKey, agentEndpoint, agentEndpointPort }: Props): JSX.Element {
+export default function DotnetRuntime({ type, agentKey, serverlessEndpoint }: Props): JSX.Element {
   const imageOptions = [
     t('in-plg:agentDetails.aws.imageOptions.linuxGlibcBased'),
     t('in-plg:agentDetails.aws.imageOptions.alpineLinuxMuslBased')
@@ -92,36 +92,36 @@ export default function DotnetRuntime({ type, agentKey, agentEndpoint, agentEndp
           </Stack>
           <Stack direction="horizontal">
             <KeyValue
-              label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
-              value={<InputWithButton inputValue={agentEndpoint + ':' + agentEndpointPort} type="copy" />}
+              label={'INSTANA_ENDPOINT_URL'}
+              value={<InputWithButton inputValue={serverlessEndpoint} type="copy" />}
               withGap
             />
             <KeyValue
-              label={t('in-plg:agentDetails.common.agentKey')}
+              label={'INSTANA_AGENT_KEY'}
               value={<InputWithButton inputValue={agentKey} type="copy" />}
               withGap
             />
           </Stack>
           <Stack direction="horizontal">
             <KeyValue
-              label={t('in-plg:agentDetails.aws.dotnetStartupHooks')}
+              label={'DOTNET_STARTUP_HOOKS'}
               value={<InputWithButton inputValue={`${applicationDirectory}/Instana.Tracing.Core.dll`} type="copy" />}
               withGap
             />
             <KeyValue
-              label={t('in-plg:agentDetails.aws.coreClrEnabledProfiling')}
+              label={'CORECLR_ENABLE_PROFILING'}
               value={<InputWithButton inputValue={'1'} type="copy" />}
               withGap
             />
           </Stack>
           <Stack direction="horizontal">
             <KeyValue
-              label={t('in-plg:agentDetails.aws.coreClrProfiler')}
+              label={'CORECLR_PROFILER'}
               value={<InputWithButton inputValue={'{cf0d821e-299b-5307-a3d8-b283c03916dd}'} type="copy" />}
               withGap
             />
             <KeyValue
-              label={t('in-plg:agentDetails.aws.coreClrProfilerPath')}
+              label={'CORECLR_PROFILER_PATH'}
               value={
                 <InputWithButton inputValue={`${applicationDirectory}/instana_tracing/CoreProfiler.so`} type="copy" />
               }

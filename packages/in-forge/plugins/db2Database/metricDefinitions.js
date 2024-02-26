@@ -13,6 +13,7 @@ export default [
       'databases.status',
       'databases.queries',
       'databases.connectionsCount',
+      'databases.uowExecutors',
       'databases.rowsRead',
       'databases.rowsReturned',
       'databases.commits',
@@ -38,6 +39,7 @@ export default [
       t('in-forge:plugins.db2Database.status'),
       t('in-forge:plugins.db2Database.allQueries'),
       t('in-forge:plugins.db2Database.connectionCount'),
+      t('in-forge:plugins.db2Database.uowExecutors'),
       t('in-forge:plugins.db2Database.rowsRead'),
       t('in-forge:plugins.db2Database.rowsReturned'),
       t('in-forge:plugins.db2Database.commits'),
@@ -618,5 +620,29 @@ export default [
     category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
     min: 0,
     formatter: bytes.detailed
+  },
+  {
+    metrics: ['db2membermetrics.db2MemberNumber'],
+    labels: [t('in-forge:plugins.db2Database.db2MemberNumber')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('purescaleMember', 'ALERT', t('in-forge:plugins.db2Database.dashboard.purescaleMem'))
+    ],
+    labels: [t('in-forge:plugins.db2Database.db2MemberAlert')],
+    category: [t('in-forge:plugins.db2Database.dashboard.purescaleMemAlert')],
+    min: 0,
+    max: 1,
+    formatter: number
+  },
+  {
+    metrics: [getDynamicMetricMatch('purescaleCF', 'ALERT', t('in-forge:plugins.db2Database.dashboard.purescaleCf'))],
+    labels: [t('in-forge:plugins.db2Database.db2CfAlert')],
+    category: [t('in-forge:plugins.db2Database.dashboard.purescaleCFAlert')],
+    min: 0,
+    max: 1,
+    formatter: number
   }
 ];

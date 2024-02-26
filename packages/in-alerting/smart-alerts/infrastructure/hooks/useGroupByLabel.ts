@@ -8,8 +8,7 @@ import { useMemo } from 'react';
 
 import { TagCatalog } from '@instana/types';
 
-//@ts-expect-error
-import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/utils/groupingUtils';
 
 export function useGroupByCatalog(tagCatalog: TagCatalog) {
   const groupByTagCatalog = useMemo(() => {
