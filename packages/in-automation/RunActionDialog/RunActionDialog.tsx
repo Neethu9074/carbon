@@ -411,11 +411,12 @@ function onSave({
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isExternal(action.type)) {
-    const volatileId = agentSnapShots?.data?.online[0]?.volatileId;
+    const volatileId =
+      Object.keys(selectedVolatileId).length === 0 ? agentSnapShots?.data?.online[0]?.volatileId : selectedVolatileId;
     const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
     const createdTime = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceCreatedDate : 0;
     runTurboAction({
-      volatileId: selectedVolatileId ?? volatileId ?? {},
+      volatileId: volatileId ?? {},
       event,
       createdDate: createdTime,
       actionName: action?.description ?? '',
