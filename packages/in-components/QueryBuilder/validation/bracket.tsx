@@ -35,7 +35,7 @@ type SuggestionType =
   | typeof MISSING_CLOSING_BRACKET
   | typeof ADD_CONJUNCTION;
 
-interface ValidateCloseBracketProps extends ValidateOpenBracketProps {
+export interface ValidateCloseBracketProps extends ValidateOpenBracketProps {
   addSuggestionToElement: (element: SuggestionElement, suggestion: SuggestionType) => void;
 }
 
