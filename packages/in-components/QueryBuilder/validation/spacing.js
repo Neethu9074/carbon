@@ -4,9 +4,8 @@
  */
 
 import { TAG, CLOSE_BRACKET, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
+import { ADD_CONJUNCTION } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
 import { EXPRESSION } from 'in-components/QueryBuilder/transformation/renderModelElementTypes';
-
-export const ADD_CONJUNCTION = 'ADD_CONJUNCTION';
 
 export default function validate({ element, index, elements, addSuggestionToElement }) {
   const prevElement = elements[index - 1];
