@@ -27,18 +27,18 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { calculateTrafficGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 
 const metricId = 'latency';
 
@@ -50,7 +50,11 @@ export default function TimeBasedLatencyIndicatorChart({
 
   const selectedTimeConfig = useTimeConfig();
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
-  const granularity = calculateSloGranularity(selectedTimeConfig);
+  const timeConfig =
+    selectedTimeWindowType === 'SLO_TIME_WINDOW'
+      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
+      : selectedTimeConfig;
+  const granularity = calculateTrafficGranularity(timeConfig);
   const metricConfiguration = useSliMetricConfiguration<LatencyBlueprintIndicator>(
     entity,
     indicator,
@@ -84,8 +88,7 @@ export default function TimeBasedLatencyIndicatorChart({
           formatter: millis.compact,
           renderer: lineWithThreshold
         },
-        timeConfig:
-          selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows[0] ?? selectedTimeConfig : selectedTimeConfig,
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}
       result={result}

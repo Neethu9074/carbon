@@ -15,6 +15,7 @@ import {
   findMinMetricValue
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { calculateSloGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -31,6 +32,11 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
 
   const selectedTimeConfig = useTimeConfig();
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const timeConfig =
+    selectedTimeWindowType === 'SLO_TIME_WINDOW'
+      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
+      : selectedTimeConfig;
+  const granularity = calculateSloGranularity(timeConfig);
 
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
@@ -41,7 +47,8 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
         contextTimeConfig: timeConfig
       }),
     selectedTimeConfig,
-    timeWindows
+    timeWindows,
+    granularity
   );
 
   const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
@@ -65,9 +72,8 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
           renderer,
           formatter
         },
-        granularity: metricResult?.granularity,
-        timeConfig:
-          selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows[0] ?? selectedTimeConfig : selectedTimeConfig,
+        granularity,
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work

@@ -23,11 +23,11 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMetricValue
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { calculateTrafficGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import lineRenderer from 'in-components/Chart/renderer/line';
@@ -44,11 +44,17 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
   const selectedTimeConfig = useTimeConfig();
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const timeConfig =
+    selectedTimeWindowType === 'SLO_TIME_WINDOW'
+      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
+      : selectedTimeConfig;
+  const granularity = calculateTrafficGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
-    timeConfig => getMetricConfig(entity, timeConfig, tagFilterExpression),
-    selectedTimeConfig,
-    timeWindows
+    timeConfig => getMetricConfig(entity, timeConfig, tagFilterExpression, granularity),
+    timeConfig,
+    timeWindows,
+    granularity
   );
 
   const label = getMetricLabels(entity);
@@ -68,9 +74,8 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
           formatter: number.compact,
           renderer: lineRenderer
         },
-        granularity: metricResult?.granularity,
-        timeConfig:
-          selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows[0] ?? selectedTimeConfig : selectedTimeConfig,
+        granularity,
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work
@@ -85,10 +90,9 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
 function getMetricConfig(
   entity: SloEntityUnion,
   timeConfig: TimeConfig,
-  tagFilterExpression: TagFilterExpression
+  tagFilterExpression: TagFilterExpression,
+  granularity: number
 ): UnifiedMetricConfiguration {
-  const granularity = calculateSloGranularity(timeConfig);
-
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
   }

@@ -16,7 +16,27 @@ export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe
   };
 }
 
-export function calculateSloGranularity(timeConfig: TimeConfig): number {
+export function calculateTrafficGranularity(timeConfig: TimeConfig) {
+  const oneDay = days.toMillis(1);
+  const twoDays = days.toMillis(2);
+  const oneHour = hours.toMillis(1);
+
+  if (timeConfig.windowSize <= oneHour) {
+    return minutes.toMillis(1);
+  }
+
+  if (timeConfig.windowSize <= oneDay) {
+    return minutes.toMillis(5);
+  }
+
+  if (timeConfig.windowSize <= twoDays) {
+    return minutes.toMillis(10);
+  }
+
+  return hours.toMillis(1);
+}
+
+export function calculateSloGranularity(timeConfig: TimeConfig, minGranularity = minutes.toMillis(1)): number {
   const now = new Date().getTime();
   const toOrNow = timeConfig.to ?? now;
   const from = toOrNow - timeConfig.windowSize;
@@ -26,7 +46,7 @@ export function calculateSloGranularity(timeConfig: TimeConfig): number {
     // if timeframe is within the last 24 hours, and window-size less than a day, then request metric in
     // one minute granularity. We do not want to query CH with oneMinute granularity with large windowSize as
     // this would lead to performance problems.
-    return minutes.toMillis(1);
+    return minGranularity;
   }
   return hours.toMillis(1);
 }

@@ -24,7 +24,7 @@ import { t } from '@instana/i18n-react';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
-import { calculateSloGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
+import { calculateTrafficGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
@@ -52,7 +52,7 @@ export default function EventBasedIndicatorChart({
     selectedTimeWindowType === 'SLO_TIME_WINDOW'
       ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
       : selectedTimeConfig;
-  const granularity = calculateSloGranularity(timeConfig);
+  const granularity = calculateTrafficGranularity(timeConfig);
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
       () =>
