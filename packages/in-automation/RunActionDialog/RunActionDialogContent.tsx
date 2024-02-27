@@ -117,7 +117,6 @@ export default function RunActionDialogContent({
 
   const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
-  if (error) return <Typography variant="body-small">{error}</Typography>;
   if (!form) return <LoadingIndicator size="xxl" />;
 
   if (error && !actionInstanceId) {
