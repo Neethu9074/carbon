@@ -104,6 +104,7 @@ export default function RunActionDialog({
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const agentSnapShots = useAgentSnapShots({ action });
+  const noTurboAgents = isExternal(action.type) && agentSnapShots?.data?.online.length === 0;
   const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
     action,
     event
@@ -149,6 +150,7 @@ export default function RunActionDialog({
               test={test}
               actionInstanceId={actionInstanceId}
               isSaving={isSaving}
+              noTurboAgents={noTurboAgents}
               form={form}
               onSave={() =>
                 onSave({
@@ -293,7 +295,7 @@ function onSave({
   executePolicy,
   triggerReload
 }: OnSaveParams) {
-  if (!form?.hierarchyValid && !isExternal(action.type)) {
+  if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
     setForm(form?.setTouched(true, { recurse: true }));
     return;
   }
@@ -579,9 +581,19 @@ interface RunActionFooterProps {
   onSave: () => void;
   test?: boolean;
   policy?: NewPolicy;
+  noTurboAgents?: boolean;
 }
 
-function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test, policy }: RunActionFooterProps) {
+function RunActionFooter({
+  error,
+  actionInstanceId,
+  isSaving,
+  form,
+  onSave,
+  test,
+  policy,
+  noTurboAgents = false
+}: RunActionFooterProps) {
   if (error || actionInstanceId) {
     return (
       <Button kind="primary" onClick={close}>
@@ -592,7 +604,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
-      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
+      <SaveButton kind="primary" form={form} disabled={!form || noTurboAgents} isSaving={isSaving} onClick={onSave}>
         {policy ? 'Save' : test ? t('in-automation:testAction') : t('in-automation:runAction')}
       </SaveButton>
     </>

@@ -11,6 +11,7 @@
   "runAction": "Run action",
   "testAction": "Test action",
   "targetAgent": "Target Agent",
+  "noTargetAgent": "There is no target agent available to run this action.",
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
@@ -257,7 +258,7 @@
     "hostsLimit": "Hosts Limit",
     "initiator": "Initiator",
     "submitted": "Submitted",
-    "timeout":"Timeout",
+    "timeout": "Timeout",
     "issueUrl": "Issue url",
     "taskUrl": "Task url"
   },
