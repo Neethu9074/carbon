@@ -36,6 +36,36 @@ export function calculateTrafficGranularity(timeConfig: TimeConfig) {
   return hours.toMillis(1);
 }
 
+export function calculateEventGraphGranularity(timeConfig: TimeConfig) {
+  const oneHour = hours.toMillis(1);
+  const sixHours = hours.toMillis(6);
+  const oneDay = days.toMillis(1);
+  const twoDays = days.toMillis(2);
+  const oneWeek = days.toMillis(7);
+
+  if (timeConfig.windowSize <= oneHour) {
+    return minutes.toMillis(1);
+  }
+
+  if (timeConfig.windowSize <= sixHours) {
+    return minutes.toMillis(5);
+  }
+
+  if (timeConfig.windowSize < oneDay) {
+    return minutes.toMillis(10);
+  }
+
+  if (timeConfig.windowSize <= twoDays) {
+    return hours.toMillis(1);
+  }
+
+  if (timeConfig.windowSize <= oneWeek) {
+    return hours.toMillis(2);
+  }
+
+  return days.toMillis(1);
+}
+
 export function calculateSloGranularity(timeConfig: TimeConfig, minGranularity = minutes.toMillis(1)): number {
   const now = new Date().getTime();
   const toOrNow = timeConfig.to ?? now;
