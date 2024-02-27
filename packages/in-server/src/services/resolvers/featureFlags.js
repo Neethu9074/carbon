@@ -498,7 +498,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonShellEnabled',
     instanaCtlKey: 'feature.carbon.shell.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'carbonPillEnabled',
