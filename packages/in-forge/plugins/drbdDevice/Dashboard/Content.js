@@ -24,10 +24,10 @@ export default function DeviceDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.drbdDevice.drbdDeviceQuorum')}>
-          <MetricValue snapshotId={snapshotId} metric="drbdDeviceQuorum" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="drbdDeviceQuorum" formatter={Boolean} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdDevice.drbdDeviceUnintentionaldiskless')}>
-          <MetricValue snapshotId={snapshotId} metric="drbdDeviceUnintentionaldiskless" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="drbdDeviceUnintentionaldiskless" formatter={Boolean} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceSizeBytes')}>

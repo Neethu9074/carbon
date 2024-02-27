@@ -27,8 +27,11 @@ export default function ConnectionDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')}>
           <MetricValue snapshotId={snapshotId} metric="connectionRsinflightBytes" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.connectionApinflightBytes')}>
+        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes')}>
           <MetricValue snapshotId={snapshotId} metric="connectionApinflightBytes" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionCongested')}>
+          <MetricValue snapshotId={snapshotId} metric="connectionCongested" formatter={Boolean} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
