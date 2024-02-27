@@ -220,10 +220,6 @@ function renderTimeShiftValue<METRIC_CONFIG extends UnifiedMetricConfiguration>(
     comparisonValue = dataPoint.values[0][1];
   }
 
-  if (dataPoint?.values?.length && dataPoint?.values?.length > 1) {
-    comparisonValue = dataPoint?.values?.reduce((acc, currentValue) => acc + currentValue[1], 0);
-  }
-
   if (comparisonValue == null) {
     return null;
   }
