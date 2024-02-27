@@ -14,6 +14,7 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/logs/dialog
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
+import { toBackendGroupBy } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
@@ -21,7 +22,6 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { Location } from 'in-stores/navigation/types';
 
 interface AlertConfigDialogType {

@@ -9,10 +9,9 @@ import {
   isTag,
   isAndOr,
   isNot,
-  isExpression
+  isExpression,
+  REMOVE_CONJUNCTION
 } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
-
-export const REMOVE_CONJUNCTION = 'REMOVE_CONJUNCTION';
 
 export default function validate({ element, index, elements, addSuggestionToElement }) {
   if (isNot(element)) {

@@ -6,10 +6,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import {
+  ADD_CLOSING_BRACKET,
+  ADD_CONJUNCTION
+} from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
 import { translateSuggestionToNewFormModelElement } from 'in-components/QueryBuilder/components/Spacing/Suggestions';
-import { ADD_CLOSING_BRACKET } from 'in-components/QueryBuilder/validation/bracket';
 import Suggestions from 'in-components/QueryBuilder/components/Spacing/Suggestions';
-import { ADD_CONJUNCTION } from 'in-components/QueryBuilder/validation/spacing';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 

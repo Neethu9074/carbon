@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import React from 'react';
+
 import {
   ProductArea,
   ScopedPermissionItem,
@@ -11,7 +13,7 @@ import {
   AreaRoleWithContributor
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getConfigurationSummaryMsg } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary/getConfigurationSummaryMsg', () => {
   describe('Application', () => {
@@ -29,14 +31,16 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
       if (role === AreaRoleWithContributor.CONTRIBUTOR) {
         expect(configSummaryMsg.accessLevelMessage).toEqual(
-          t(
-            'in-settings:configurationSummary.' +
+          <Trans
+            i18nKey={
+              'in-settings:configurationSummary.' +
               productContext +
               '.' +
               scopeContext +
               '.access_level' +
               (scope === ScopedPermissionItem.LIMITED_ACCESS ? '_' + role.toLowerCase() : '')
-          )
+            }
+          />
         );
 
         expect(configSummaryMsg.rolePermissionMessage).toEqual(

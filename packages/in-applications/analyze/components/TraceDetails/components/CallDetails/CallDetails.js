@@ -17,11 +17,16 @@ import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/
 import IsSynthetic from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/IsSynthetic';
 import Header from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/Header';
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
+import { hasOnlyExitSpan } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { downloadCallDetailsClickedTracker } from 'in-applications/tracker';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { hasError, isLoading } from 'in-services/util/result';
+import { latencyFixed } from 'in-services/formatters/number';
+import { formatDateTime } from 'in-services/formatters/date';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
@@ -85,11 +90,46 @@ export default function CallDetails(props) {
     cardContent = <ErroneousResultPresenter errors={callResult.errors} isRetryError={isRetryError(callResult)} />;
   } else {
     call = callResult.data;
+    const waitingTime = hasOnlyExitSpan(call)
+      ? null
+      : call.duration - (call.minSelfTime || call.selfTime || 0) - (call.networkTime || 0);
+    const values = [
+      {
+        label: t('in-analyze:traceDetail.components.callDetails.started'),
+        duration: call.start,
+        formatter: formatDateTime
+      },
+      {
+        label: t('in-analyze:traceDetail.components.callDetails.latency'),
+        duration: call.duration
+      },
+      {
+        label: t('in-analyze:traceDetail.components.callDetails.selfTime'),
+        duration: call.minSelfTime || call.selfTime,
+        totalDuration: call.duration,
+        showDurationInpercent: true
+      },
+      {
+        label: t('in-analyze:traceDetail.components.callDetails.networkTime'),
+        duration: call.networkTime,
+        totalDuration: call.duration,
+        showDurationInpercent: true
+      },
+      {
+        label: t('in-analyze:traceDetail.components.callDetails.waitingTime'),
+        duration: waitingTime,
+        totalDuration: call.duration,
+        showDurationInpercent: true
+      }
+    ];
     cardContent = (
-      <Stack direction="vertical" gap="normal">
-        <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
-        <IsSynthetic call={call} />
-      </Stack>
+      <>
+        <DisplayTimeData values={values} />
+        <Stack direction="vertical" gap="normal">
+          <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
+          <IsSynthetic call={call} />
+        </Stack>
+      </>
     );
   }
 
@@ -184,4 +224,26 @@ function getTraceActivityTreeNodeDetailsRetriable([traceId, callId, retry]) {
           }
         ]
       });
+}
+
+function DisplayTimeData({ values }) {
+  return (
+    <Dl>
+      {values.map(value => {
+        const { label, duration, totalDuration, showDurationInpercent } = value;
+        const formatter = value.formatter ?? latencyFixed.compact;
+        const durationValue = duration == null ? valueMissingPlaceholder : `${formatter(duration)}`;
+        const durationInPercent =
+          (totalDuration && duration == null) || !showDurationInpercent
+            ? null
+            : '(' + (((duration / totalDuration) * 100) | 0) + '%)';
+
+        return (
+          <Di title={label} key={label}>
+            {durationValue} {durationInPercent !== null ? ` ${durationInPercent}` : ''}
+          </Di>
+        );
+      })}
+    </Dl>
+  );
 }

@@ -27,7 +27,7 @@ export function getColumnDefinition({
   tagCatalog
 }: {
   groupBy: string[];
-  selectedMetricGroup?: any;
+  selectedMetricGroup?: string;
   tagCatalog?: CatalogResponse;
 }) {
   const iconColumn = {
@@ -69,7 +69,7 @@ export function getColumnDefinition({
     };
   });
 
-  const countLabelColumnTable: any = groupBy.map(() => {
+  const countLabelColumnTable = groupBy.map(() => {
     return {
       id: 'numberOfLogs',
       width: '8rem',

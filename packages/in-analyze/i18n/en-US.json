@@ -160,7 +160,12 @@
         "tags": "Tags",
         "loading": "Loading call details.",
         "labelError": "Unexpected error",
-        "retryError": "Call details could not be loaded."
+        "retryError": "Call details could not be loaded.",
+        "started": "Started",
+        "selfTime": "Self Time",
+        "networkTime": "Network Time",
+        "waitingTime": "Waiting Time",
+        "latency": "Latency"
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",

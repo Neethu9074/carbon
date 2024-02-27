@@ -6654,7 +6654,6 @@
       "standbyMember": "Standby Member",
       "heartbeatInterval": "HeartBeat Interval",
       "hadrTimeout": "HADR Timeout",
-      "timeSinceLastRecv": "Time Since Last Recv.",
       "peerWaitLimit": "Peer Wait Limit",
       "primLogFile": "Primary Log",
       "primLogPage": "Primary Log Page",
@@ -11813,6 +11812,8 @@
       "databaseSystem": "Database System",
       "version": "Database Version",
       "port": "Port",
+      "childOTelDatabaseWithCount": "Children ({{len}})",
+      "parentOTelDatabase": "Parent", 
       "dashboard": {
         "instance": "Instance",
         "instanceActive": "Active Instance",

@@ -15,7 +15,7 @@ import locals from './ConfigurationSummary.mless';
 
 export interface ConfigurationSummaryProps {
   accessLevelType?: string;
-  accessLevelMsg?: string;
+  accessLevelMsg?: string | JSX.Element;
   noAccess?: boolean;
   children?: ReactNode;
   noAccessMsg?: string;
