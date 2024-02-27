@@ -62,23 +62,22 @@ export const useLogsPolling = ({ metrics, timeConfig, config }: UseLogsPollingPa
         const now = Date.now();
 
         const updatedMetrics = Object.keys(prevMetrics).reduce((acc, key) => {
-          if (key === 'comparison') {
-            return { ...acc, [key]: prevMetrics[key] }; // Skip "comparison" key
-          }
           const metric = prevMetrics[key];
+          const to = key === 'comparison' ? now + prevMetrics.comparison.timeShift.offset : now;
+
           const updatedMetric = {
             ...metric,
             timeConfig: {
               ...metric.timeConfig,
-              to: now,
-              focusedMoment: now,
+              to,
+              focusedMoment: to,
               autoRefresh: false
             }
           };
           return { ...acc, [key]: updatedMetric };
         }, {});
 
-        return { ...updatedMetrics } as MetricsConfigurations;
+        return updatedMetrics;
       });
     }
 
