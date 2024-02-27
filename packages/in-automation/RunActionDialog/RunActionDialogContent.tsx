@@ -513,8 +513,8 @@ function ExternalActionContent({
   form,
   setForm
 }: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots' | 'form' | 'setForm'>) {
-  const noTurboAgents = agentSnapShots?.data?.online?.length === 0;
-  const noOfTurboAgents = agentSnapShots?.data?.online?.length ?? 1;
+  const noTurboAgents = agentSnapShots?.data?.online?.length === 0; // this sets true when  when agent is unavailable to run turbo action;
+  const numberOfTurboAgents = agentSnapShots?.data?.online?.length ?? 1;
   const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
 
   return (
@@ -525,7 +525,7 @@ function ExternalActionContent({
       >
         {action.description}
       </DescriptionItem>
-      {noOfTurboAgents > 1 ? (
+      {numberOfTurboAgents > 1 ? (
         <TurboAgentSelection form={form} setForm={setForm} agentSnapShots={agentSnapShots} />
       ) : !noTurboAgents ? (
         <DescriptionItem

@@ -104,6 +104,8 @@ export default function RunActionDialog({
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const agentSnapShots = useAgentSnapShots({ action });
+  // we usually see rec actions only when agents available. some times, when agent is stopped, we will have 10 minute window to updates actions.
+  // This flag here sets true which uses to disable the run button when agent is unavailable
   const noTurboAgents = isExternal(action.type) && agentSnapShots?.data?.online.length === 0;
   const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
     action,
