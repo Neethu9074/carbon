@@ -6654,7 +6654,6 @@
       "standbyMember": "Standby Member",
       "heartbeatInterval": "HeartBeat Interval",
       "hadrTimeout": "HADR Timeout",
-      "timeSinceLastRecv": "Time Since Last Recv.",
       "peerWaitLimit": "Peer Wait Limit",
       "primLogFile": "Primary Log",
       "primLogPage": "Primary Log Page",
