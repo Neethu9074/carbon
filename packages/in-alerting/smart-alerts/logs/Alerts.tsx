@@ -21,6 +21,7 @@ import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
+import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -41,6 +42,7 @@ export default function Alerts() {
           alertsTab={alertsPath}
           createRowLinkLocation={createRowLinkLocation}
         />
+        <Footer />
       </div>
     </LogsAlertsTabHeader>
   );
