@@ -297,6 +297,8 @@ function onSave({
   executePolicy,
   triggerReload
 }: OnSaveParams) {
+  // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
+  // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
   if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
     setForm(form?.setTouched(true, { recurse: true }));
     return;
