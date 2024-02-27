@@ -6691,8 +6691,8 @@
         "resourceSuspendedCount": "Messages Count"
       },
       "drbd": "DRBD",
+      "drbdReactor": "DRBD Reactor",
       "drbdName": "DRBD Name",
-      "drbdReactor": "DRBD Name",
       "resourcesNumber": "Number of Resources",
       "resourceSuspendedCount": "Number of Suspended Resources",
       "kmodVersion": "Kmod Version",
@@ -6718,7 +6718,7 @@
         "resourcePromotionscore": "Resource Promotion Score"
       },
       "name": "DRBD Resource Name",
-      "drbdResource": "DRBD Resource Name",
+      "drbdResource": "DRBD Resource",
       "resourceName": "DRBD Resource Name",
       "drbdHost": "DRBD Host",
       "resourceSuspended": "Resource Suspended",
@@ -6755,7 +6755,7 @@
         "drbdDeviceClient": "Client"
       },
       "deviceName": "DRBD Device Name",
-      "drbdDevice": "DRBD Device Name",
+      "drbdDevice": "DRBD Device",
       "drbdDeviceName": "DRBD Device Name",
       "drbdHost": "DRBD Host",
       "resourceName": "DRBD Resource Name",
@@ -6781,7 +6781,7 @@
         "connectionApinflightBytes": "Number of Resync Requests in Flight"
       },
       "connectionName": "Connection Name",
-      "drbdConnection": "DRBD Connection Name",
+      "drbdConnection": "DRBD Connection",
       "connName": "DRBD Connection Name" ,
       "peerNodeId": "Peer Node Id",
       "resourceName": "DRBD Resource Name",
@@ -6795,7 +6795,7 @@
       "dashboard": {
         "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number"
       },
-      "drbdPeer": "DRBD Peer Device Name",
+      "drbdPeer": "DRBD Peer Device",
       "peerDeviceName": "DRBD Peer Device Name",
       "connectionName": "DRBD Connection Name",
       "peerNodeId": "Peer Node Id",

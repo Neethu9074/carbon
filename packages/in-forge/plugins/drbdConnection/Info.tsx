@@ -19,13 +19,13 @@ export default function Info({ snapshot }: { snapshot: any }) {
       <DescriptionItem title={t('in-forge:plugins.drbdConnection.peerNodeId')}>
         {data.get('peerNodeId')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.drbdConnection.connectionState')}>
-        {data.get('connectionState')}
-      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.drbdConnection.resourceName')}>
         {data.get('resourceName')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.drbdConnection.drbdHost')}>{data.get('drbdHost')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.drbdConnection.connectionState')}>
+        {data.get('connectionState')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
