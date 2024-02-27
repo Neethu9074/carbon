@@ -15,14 +15,15 @@ import ResultAwareBigNumberKpiCard, {
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
 import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
+import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
@@ -68,7 +69,7 @@ export default function BigNumberKpiCard({
 
   let logsMetricsConfig: { granularity?: number } = {};
 
-  let metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  let metrics: { [index: string]: UnifiedMetricConfiguration } = useStableObjectInstance({
     [metricKey]: {
       // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
       timeConfig: usedTimeConfig,
@@ -77,7 +78,7 @@ export default function BigNumberKpiCard({
       ...metricDefaults,
       ...logsMetricsConfig
     }
-  };
+  });
 
   //if (hasActiveTimeShift(config.metricConfiguration.timeShift) && config.metricConfiguration.source !== "LOG") {
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
