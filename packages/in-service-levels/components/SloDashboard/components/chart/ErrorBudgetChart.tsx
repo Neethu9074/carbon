@@ -43,8 +43,7 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
     timeConfig =>
       sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
-        timeConfig,
-        contextTimeConfig: timeConfig
+        timeConfig
       }),
     selectedTimeConfig,
     timeWindows,

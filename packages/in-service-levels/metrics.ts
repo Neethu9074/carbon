@@ -20,8 +20,6 @@ import { deepFreeze } from 'in-services/util/object';
 interface SloMetricConfigGeneratorProps {
   configId: string;
   timeConfig: TimeConfig;
-  // Time config specifying the full slo time window. Needed if only a slice of the slo time window is shown
-  contextTimeConfig?: TimeConfig;
 }
 
 type TimeSeriesGenerator<T> = T & { granularity: number };
