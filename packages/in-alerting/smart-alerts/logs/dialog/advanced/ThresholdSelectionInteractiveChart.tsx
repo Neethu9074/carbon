@@ -29,8 +29,6 @@ export interface ThresholdProps {
   tagCatalog: CatalogResponse | undefined;
 }
 
-export type Tags = { [index: string]: any };
-
 export default function ThresholdSelectionInteractiveChart({
   form,
   updateForm,

@@ -28,9 +28,9 @@ export default function TooltipContent({ slice, formatter }) {
       <Spacer horizontal="xxsmall" />
       <strong>{formatter(slice.value)}</strong>
       <span className={locals.percentage}> {`(${percentage.detailed(slice.percentage)})`}</span>
-      {slice.lastValueWindowSize && (
-        <span className={locals.lastValueWindowSize}>{`- ${getLastValueTooltipLabel({
-          windowSize: slice.lastValueWindowSize
+      {slice.lastValue && (
+        <span className={locals.adjustedWindowSize}>{`- ${getLastValueTooltipLabel({
+          windowSize: slice.adjustedWindowSize
         })}`}</span>
       )}
     </div>

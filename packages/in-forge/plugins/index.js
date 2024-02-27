@@ -222,6 +222,7 @@ import './tuxedoDomain';
 import './tuxedoServer';
 import './abapInstance';
 import './oTelDatabase';
+import './oTelLLM';
 import './syntheticPoP';
 import './processGroup';
 import './websiteHttpd';

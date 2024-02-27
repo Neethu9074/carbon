@@ -3,8 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { CLOSE_BRACKET, ADD_CLOSING_BRACKET } from 'in-components/QueryBuilder/validation/bracket';
-export const MISSING_CLOSING_BRACKET = 'MISSING_CLOSING_BRACKET';
+import {
+  CLOSE_BRACKET,
+  ADD_CLOSING_BRACKET,
+  MISSING_CLOSING_BRACKET
+} from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
 
 export default function validate({ element, addSuggestionToElement }) {
   const lastElement = element.elements[element.elements.length - 1];

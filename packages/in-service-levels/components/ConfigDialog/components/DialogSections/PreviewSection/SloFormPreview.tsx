@@ -35,7 +35,7 @@ export default function SloFormPreview({ updateForm }: SloFormPreviewProps) {
         </Typography>
         {shouldShowPreview && (
           <Typography variant="body-regular" component="p" noMargin>
-            {t('in-custom-dashboards:widgets.slo.widgetLeftHeader.previewDataInfo')}
+            {t('in-service-levels:createSloDialog.previewSection.dataInfo')}
           </Typography>
         )}
         {shouldShowPreview ? <SloConfigPreview /> : <SloFormMissingDataPreview updateForm={updateForm} />}

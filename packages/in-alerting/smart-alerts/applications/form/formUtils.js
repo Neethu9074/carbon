@@ -14,6 +14,7 @@ import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
+import { getHigherOrLowerOperatorContext } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -239,25 +240,6 @@ function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
       statusCodeStart: statusCodeStart ?? '?',
       statusCodeEnd: statusCodeEnd ?? '?'
     });
-  }
-}
-
-function getHigherOrLowerOperatorContext(operator) {
-  switch (operator) {
-    case '>':
-      // "higher than"
-      return 'higherThan';
-    case '>=':
-      // "higher or equal to"
-      return 'higherEqual';
-    case '<':
-      // "lower than"
-      return 'lowerThan';
-    case '<=':
-      // "lower or equal to"
-      return 'lowerEqual';
-    default:
-      throw Error('Unsupported operator: ' + operator);
   }
 }
 

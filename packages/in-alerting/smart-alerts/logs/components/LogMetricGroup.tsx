@@ -114,7 +114,7 @@ function getGroups({
 function setBackendQueryModel(
   groupBy: string[],
   backendQueryModel: TagFilterExpressionElementUnion,
-  setFilterExpression: any,
+  setFilterExpression: React.Dispatch<{ [index: string]: any }>,
   searchBy?: string
 ) {
   if (searchBy) {

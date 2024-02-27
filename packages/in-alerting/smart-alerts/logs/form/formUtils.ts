@@ -4,14 +4,21 @@
  * Copyright IBM Corp. 2024
  */
 
-import { t } from 'in-i18n';
+import { MapForm } from 'formalistic';
 
-//TODO : Below function needs to be updated once threshold is implemented.
+import { getHigherOrLowerOperatorContext } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { t } from 'in-i18n';
 
 export function getTitlePlaceholder() {
   return t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.alertPropertiesTitlePlaceholder');
 }
 
-export function getDescriptionPlaceholder() {
-  return t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.alertPropertiesDescriptionPlaceholder');
+export function getDescriptionPlaceholder(form: MapForm<any>) {
+  const thresholdForm = form.get('threshold');
+  const thresholdOperator = thresholdForm.get('operator').value;
+  const thresholdValue = thresholdForm.get('value').value;
+  return t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.descriptionPlaceholder.logsCount', {
+    context: getHigherOrLowerOperatorContext(thresholdOperator),
+    value: thresholdValue
+  });
 }

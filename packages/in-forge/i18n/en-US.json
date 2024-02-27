@@ -1174,6 +1174,11 @@
   "pluginName_oTelDatabase_1": "OTEL Databases",
   "pluginName_oTelDatabase_2": "OTEL Databases",
   "pluginName_oTelDatabase": "OTEL Database",
+  "pluginName_oTelLLM_plural": "OTEL LLMonitors",
+  "pluginName_oTelLLM_0": "OTEL LLMonitors",
+  "pluginName_oTelLLM_1": "OTEL LLMonitors",
+  "pluginName_oTelLLM_2": "OTEL LLMonitors",
+  "pluginName_oTelLLM": "OTEL LLMonitor",
   "pluginName_otelHost_plural": "OTEL Hosts",
   "pluginName_otelHost_0": "OTEL Hosts",
   "pluginName_otelHost_1": "OTEL Hosts",
@@ -6649,7 +6654,6 @@
       "standbyMember": "Standby Member",
       "heartbeatInterval": "HeartBeat Interval",
       "hadrTimeout": "HADR Timeout",
-      "timeSinceLastRecv": "Time Since Last Recv.",
       "peerWaitLimit": "Peer Wait Limit",
       "primLogFile": "Primary Log",
       "primLogPage": "Primary Log Page",
@@ -11810,6 +11814,8 @@
       "databaseSystem": "Database System",
       "version": "Database Version",
       "port": "Port",
+      "childOTelDatabaseWithCount": "Children ({{len}})",
+      "parentOTelDatabase": "Parent", 
       "dashboard": {
         "instance": "Instance",
         "instanceActive": "Active Instance",
@@ -11858,6 +11864,31 @@
         "diskPath": "Disk Path",
         "diskUsage": "Disk Usage",
         "diskUtilization": "Disk Utilization"
+      }
+    },
+    "oTelLLM": {
+      "platform": "Platform",
+      "oTelLLM": "OTEL LLM",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "dashboard": {
+        "token": "Tokens",
+        "cost": "Cost",
+        "duration": "Model Latencies",
+        "analytics": "Tracing",
+        "llmonitor_agent":"LLMonitor Platform",
+        "details":"Details",
+        "count": "Request Counts",
+        "totalToken": "Total Tokens",
+        "totalCost": "Total Cost",
+        "totalCount": "Total Request Counts",
+        "totalTokenByModel": "Total Tokens by Model",
+        "totalCostByModel": "Total Cost by Model",
+        "totalCountByModel": "Total Request Counts by Model"
       }
     },
     "otelHost": {

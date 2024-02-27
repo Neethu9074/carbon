@@ -4,21 +4,25 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
-import { TimeConfig } from '@instana/types';
+import { TagCatalog, TimeConfig } from '@instana/types';
 
 import {
   StepConfig,
   useSimpleModePageNavigation
 } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
+import { getQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import { days } from 'in-services/time';
 
 /**
@@ -72,10 +76,28 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
 
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
   const [tagFilterValid, setTagFilterValid] = useState(true);
+
   useEffect(() => {
     setIsSimpleMode(simpleMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [simpleMode]);
+
+  const alertConfigWithFormModel = form.toJS();
+  const { tagFilterExpression } = alertConfigWithFormModel;
+
+  const tagCatalog = useTagCatalog();
+
+  const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  const { getTagCatalog } = useMemo(() => getQueryBuilder(tagCatalog as TagCatalog), [tagCatalog]);
+
+  useRemoveInvalidTagsFromFilterExpression(
+    getTagCatalog,
+    tagFilterExpression as FormModelElement[],
+    updateTagFilterExpression
+  );
 
   const { step, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
@@ -124,7 +146,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       thresholdResult={null}
       timeConfig={timeConfig}
-      isTagFilterFormModelValid
+      isTagFilterFormModelValid={tagFilterValid}
       setTagFilterValid={setTagFilterValid}
       tagFilterValid={tagFilterValid}
     />

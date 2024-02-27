@@ -4,15 +4,25 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Item, MapForm } from 'formalistic';
+import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { LogAlertConfig, VersionedConfig } from '@instana/types';
 
+import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigDialogWithThreshold';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
-import alertFormDefinition from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
+import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
+import { toBackendGroupBy } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
+import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { alertCreated, alertId } from 'in-logging/navigation/matrix';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { Location } from 'in-stores/navigation/types';
 
 interface AlertConfigDialogType {
   onClose: () => void;
@@ -32,7 +42,11 @@ export default function AlertConfigDialog({
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
 
-  const [, setIsSimpleMode] = useState(startWithSimpleMode);
+  const duplicateFrom = alertConfig?.duplicateFrom;
+  const [isSaving, setIsSaving] = useState(false);
+  const [messages, setMessages] = useState<EnrichedError[]>([]);
+  const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
+  const getLinkToAlertConfig = useGetAlertConfigLink();
 
   return (
     <AlertConfigDialogWithThreshold
@@ -42,14 +56,27 @@ export default function AlertConfigDialog({
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
-      onCreate={() => {}}
+      onCreate={() => {
+        createOrSaveAlert({
+          form,
+          setForm,
+          getLinkToAlertConfig,
+          onClose,
+          editMode,
+          setIsSaving,
+          setMessages,
+          toAlertConfig,
+          isSimpleMode,
+          duplicateFrom
+        });
+      }}
       onClose={() => {
         onClose();
       }}
       editMode={editMode}
       startWithSimpleMode={startWithSimpleMode}
-      isSaving={false}
-      messages={[]}
+      isSaving={isSaving}
+      messages={messages}
       setIsSimpleMode={setIsSimpleMode}
     />
   );
@@ -60,4 +87,38 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
     // @ts-expect-error ts can't determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
+}
+
+function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
+  const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+
+  return Object.freeze({
+    tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
+    alertChannelIds: form.get(fieldNames.alertChannelIds).value,
+    severity: form.get(fieldNames.severity).value,
+    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(form),
+    name: form.get(fieldNames.name).value || getTitlePlaceholder(),
+    id: form.get(fieldNames.id).value,
+    threshold: form.get('threshold').toJS(),
+    timeThreshold: form.get('timeThreshold').toJS(),
+    granularity: form.get(fieldNames.granularity).value,
+    groupBy: toBackendGroupBy([form.get(fieldNames.groupBy).value]),
+    customPayloadFields: form.get('customPayloadFields').toJS()
+  });
+}
+
+export const useGetAlertConfigLink = () => {
+  const { createHref, location } = useNavigation();
+
+  return (alertConfigId: string, alertConfigVersion?: number): string => {
+    fillAlertTabSpecificValues(location, alertConfigId, alertConfigVersion);
+    return createHref(location);
+  };
+};
+
+function fillAlertTabSpecificValues(location: Location, alertConfigId: string, alertConfigVersion?: number) {
+  location.pathname = alertDetailsFullyQualifiedPath;
+
+  setOrDeleteMatrixKey(location, alertsDetailsPath, alertId, alertConfigId);
+  setOrDeleteMatrixKey(location, alertsDetailsPath, alertCreated, alertConfigVersion);
 }

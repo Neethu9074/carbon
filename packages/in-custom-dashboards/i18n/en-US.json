@@ -168,7 +168,7 @@
         "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}",
         "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric",
         "lastValue": "Use last value",
-        "lastValueHelp": "Display the value at the end of the timeframe"
+        "lastValueHelp": "With this toggle enabled, we'll display the aggregation for the last bucket in the time range."
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",

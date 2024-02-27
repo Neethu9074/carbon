@@ -418,7 +418,7 @@ function AutomationMenu() {
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      isBeta
+      infoTag={t('in-components:featureFeedback.labelBETA')}
       isActive={matchLocation(isAutomationView)}
       href={createHrefToPath(actionCatalogPath)}
     />
@@ -440,7 +440,7 @@ function SloDashboard() {
       id="main-nav-slo-dashboard"
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
-      isBeta
+      infoTag={t('in-components:featureFeedback.labelBETA')}
       isActive={matchLocation(isSloView)}
       href={createHrefToPath(serviceLevelsOverview)}
     />
