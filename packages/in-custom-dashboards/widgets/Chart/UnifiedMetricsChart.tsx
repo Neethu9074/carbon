@@ -559,6 +559,7 @@ export function toAxisConfiguration(
     metrics: [],
     companionMetrics: [],
     timeShifts: axis.metrics.map(({ timeShift }) => translateOffsetToTimeShiftConfig(timeShift, timeConfig)),
-    adjustedTimeframes: resultDataAsList.map(({ adjustedTimeframe }) => adjustedTimeframe as AdjustedTimeframe)
+    adjustedTimeframes: resultDataAsList.map(({ adjustedTimeframe }) => adjustedTimeframe as AdjustedTimeframe),
+    lastValue: axis.metrics.some(({ lastValue }) => lastValue === true)
   };
 }
