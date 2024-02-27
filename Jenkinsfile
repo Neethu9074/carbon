@@ -312,6 +312,7 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+    notifyGeneralBuildFailure(branchName)
     throw e
   }
 }
@@ -353,6 +354,7 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed \n\n${currentBuild.description}")
+    notifyGeneralBuildFailure(branchName)
     throw e
   }
 }
@@ -384,4 +386,11 @@ def notifyDeliveryBuildFailure(branchName, gitCommitID, gitCommitMessage) {
   message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>")
 
   notifyFailure('tech-ui-dev', message.toString())
+  notifyGeneralBuildFailure(branchName)
+}
+
+def notifyGeneralBuildFailure(branchName) {
+  if (branchName.startsWith('release-')) {
+    notifyFailure('tech-dev', "<${env.BUILD_URL}|:alert2: ${env.JOB_NAME} #${env.BUILD_NUMBER}> failed! :cry:")
+  }
 }

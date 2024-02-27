@@ -6,8 +6,7 @@
 
 import React, { useRef } from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { Button, Stack } from '@instana/components';
 
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import Input from 'in-components/form/Input';
@@ -60,15 +59,30 @@ export default function InputWithButton({
     }
   };
 
+  function renderButton() {
+    if (href !== '') {
+      return (
+        <Button icon={icon} kind="action" iconSize="s" size="normal" href={href}>
+          {''}
+        </Button>
+      );
+    }
+    return (
+      <Button icon={icon} kind="action" iconSize="s" size="normal" onClick={clickHandler}>
+        {''}
+      </Button>
+    );
+  }
+
   return (
-    <Stack direction="horizontal" gap="xsmall" align="center">
+    <Stack direction="horizontal" gap="disabled" align="center">
       <Input
         ref={inputRef}
         className={style}
         value={displayContent ? displayContent : inputValue}
         onChange={handleInputChange}
       />
-      <SvgIcon type={icon} size="xs" color={themes.default.ids.color.option.teal[500]} onClick={clickHandler} />
+      {renderButton()}
     </Stack>
   );
 }

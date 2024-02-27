@@ -19,15 +19,18 @@ import {
   EXPRESSION
 } from 'in-components/QueryBuilder/transformation/renderModel';
 import {
+  ADD_CLOSING_BRACKET,
+  REMOVE_BRACKET,
+  ADD_CONJUNCTION,
+  REMOVE_CONJUNCTION,
+  MISSING_CLOSING_BRACKET
+} from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
+import {
   TAG as FM_TAG,
   CONJUNCTION as FM_CONJUNCTION,
   OPEN_BRACKET as FM_OPEN_BRACKET,
   CLOSE_BRACKET as FM_CLOSE_BRACKET
 } from 'in-components/QueryBuilder/transformation/formModel';
-import { ADD_CLOSING_BRACKET, REMOVE_BRACKET } from 'in-components/QueryBuilder/validation/bracket';
-import { MISSING_CLOSING_BRACKET } from 'in-components/QueryBuilder/validation/expression';
-import { REMOVE_CONJUNCTION } from 'in-components/QueryBuilder/validation/conjunction';
-import { ADD_CONJUNCTION } from 'in-components/QueryBuilder/validation/spacing';
 
 describe('in-components/QueryBuilder/transformation/renderModel', () => {
   describe('#addSpacingsAndIncides', () => {
