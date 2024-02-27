@@ -53,7 +53,7 @@ export default function TestActionButton({ action, form, setForm }: TestActionBu
         <Tooltip content={t('in-automation:ActionCatalog.test')} delay={500}>
           <Link
             className={locals.testDocLink}
-            target="_blank"
+            external
             onClick={() => {
               if (form && setForm && !form!.hierarchyValid) {
                 setForm(form.setTouched(true, { recurse: true }));
