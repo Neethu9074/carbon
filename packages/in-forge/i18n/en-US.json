@@ -5463,10 +5463,7 @@
       "labelInputRowPerSecond": "Input Row Per Second",
       "titleServices": "Services",
       "titleClusters": "Clusters",
-      "titleExecutors": "Executors",
-      "services": "services",
-      "clusters": "clusters",
-      "executors": "executors"
+      "titleExecutors": "Executors"
     },
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
@@ -6691,7 +6688,6 @@
       "standbyMember": "Standby Member",
       "heartbeatInterval": "HeartBeat Interval",
       "hadrTimeout": "HADR Timeout",
-      "timeSinceLastRecv": "Time Since Last Recv.",
       "peerWaitLimit": "Peer Wait Limit",
       "primLogFile": "Primary Log",
       "primLogPage": "Primary Log Page",
@@ -6707,7 +6703,7 @@
       "sockSendBufActual": "Actual Send Buffer",
       "sockRecBufReq": "Requested Receive Buffer",
       "sockRecvBufAct": "Actual Receive Buffer",
-      "timeSinceLastRecv1": "Time Since Last Receive",
+      "timeSinceLastRecv": "Time Since Last Receive",
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
       "lockWaitTime": "Lock Wait Time",
