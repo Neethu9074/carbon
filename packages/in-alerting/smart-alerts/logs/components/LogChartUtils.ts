@@ -74,7 +74,7 @@ export const sparkChartGranularity = minutes.toMillis(30);
 export function setDefaultMetrics(
   items: LogGroupItem[],
   setSelectedMetricGroup: React.Dispatch<any | undefined>,
-  selectedMetricGroup?: any
+  selectedMetricGroup?: string
 ) {
   if (items?.length === 0) {
     return;

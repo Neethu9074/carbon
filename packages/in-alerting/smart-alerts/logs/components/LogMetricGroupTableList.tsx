@@ -17,6 +17,7 @@ import { getColumnDefinition } from 'in-alerting/smart-alerts/logs/data/getColum
 import { setDefaultMetrics } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import TableLoading from 'in-alerting/smart-alerts/aggregated/components/TableLoading';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { CatalogResponse } from 'in-logging/api/catalog';
 import { State } from 'in-hooks/useCursorPagination';
 import { LogGroupItem } from 'in-types';
 import { t } from 'in-i18n';
@@ -29,7 +30,7 @@ interface LogMetricGroupTableListProps extends State<any, any> {
   totalHits?: number;
   fixedLayout?: boolean;
   loadMore: () => void;
-  tagCatalog?: any;
+  tagCatalog?: CatalogResponse;
   canLoadMore: boolean;
   setBackendQueryModel: (arg?: string) => void;
 }
