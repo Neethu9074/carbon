@@ -55,7 +55,7 @@ export default function Summary() {
               businessProcessId={businessProcessId}
               businessProcessName={businessProcessName}
               businessActivityName={businessActivityName}
-              metric={'activitiesCount'}
+              metric={'activities_count'}
               label={businessActivityName}
               dataSource={'BUSINESS_ACTIVITIES'}
             />
@@ -98,7 +98,7 @@ export default function Summary() {
               businessProcessId={businessProcessId}
               businessProcessName={businessProcessName}
               businessActivityName={businessActivityName}
-              metric={'activitiesCount'}
+              metric={'activities_count'}
               label={businessActivityName}
               dataSource={'BUSINESS_ACTIVITIES'}
             />

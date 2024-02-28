@@ -62,7 +62,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
 
 function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
   const started_processes: BizOpsMetricConfiguration = {
-    metric: 'startedProcessesCount',
+    metric: 'started_processes',
     granularity: getChartGranularity(timeConfig),
     aggregation: 'DISTINCT_COUNT'
   };
@@ -122,7 +122,7 @@ const columnDefinitions: ColumnizedDefinition[] = [
     getContent({ item }: { item: BusinessProcessItem }) {
       return (
         <KeyValue
-          value={item?.businessProcess?.activitiesCount}
+          value={item?.metrics?.activities_count[0][1]}
           label={t('in-cockpit:component.bizopsTopList.activities')}
           accentuated
         />
@@ -147,7 +147,7 @@ const columnDefinitions: ColumnizedDefinition[] = [
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
           metrics={item?.metrics?.started_processes}
-          metric={item?.businessProcess?.startedInstancesCount}
+          metric={item?.metrics?.started_processes[0][1]}
           label={t('in-cockpit:component.bizopsTopList.count')}
           tooltipFormatter={number.compact}
         />
