@@ -261,11 +261,6 @@
         "metrics": {
           "count": "Count"
         },
-        "aggregations": {
-          "sum": "Sum",
-          "perSecond": "Per second"
-        },
-        "pleaseSelectMetric": "Please select metric",
         "metric": "Metric",
         "aggregation": "Aggregation",
         "pleaseSelect": "Please select"
