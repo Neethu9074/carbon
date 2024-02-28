@@ -112,5 +112,6 @@ module.exports = {
   enableCarbonIcons: true,
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
-  logSmartAlertsEnabled: true
+  logSmartAlertsEnabled: true,
+  welcomePageV2Enabled: false
 };

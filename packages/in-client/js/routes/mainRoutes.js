@@ -37,6 +37,7 @@ import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
+import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import configurationRoutes from 'in-settings/navigation/routes';
 import automationRoutes from 'in-automation/navigation/routes';
 import syntheticsRoutes from 'in-synthetics/navigation/routes';
@@ -49,6 +50,7 @@ import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
 import powervcRoutes from 'in-powervc/navigation/routes';
+import welcomePageRoutes from 'in-plg/navigation/routes';
 import bizopsRoutes from 'in-bizops/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
@@ -62,10 +64,14 @@ export default (
     {hasInfrastructureAccess && infrastructureRoutes}
     {configurationRoutes}
     {role.canConfigureAgents && (
-      <Route path={agentsPath} children={renderAsyncRouteChildren(AgentView)} windowTitle="Instana Agents" />
+      <Route path={agentsPath} windowTitle="Instana Agents">
+        {renderAsyncRouteChildren(AgentView)}
+      </Route>
     )}
     {(isInstanaEmail || internalMonitoringUnit) && (
-      <Route path="/internal" children={renderAsyncRouteChildren(InternalViews)} windowTitle="Internal" />
+      <Route path="/internal" windowTitle="Internal">
+        {renderAsyncRouteChildren(InternalViews)}
+      </Route>
     )}
 
     {hasEventsAccess && eventRoutes}
@@ -86,7 +92,8 @@ export default (
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
     {customDashboardsRoutes}
-    {cockpitRoutes}
+    {welcomePageV2Enabled && welcomePageRoutes}
+    {!welcomePageV2Enabled && cockpitRoutes}
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}

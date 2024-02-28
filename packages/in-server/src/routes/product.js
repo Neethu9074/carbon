@@ -176,9 +176,10 @@ router.get('/', async (req, res) => {
     clientConfig.walkmeUuid = loggedUser;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
-    const trialOrNotForResaleLicenses = ['selfService', 'quota', 'free_not_for_resale'];
-    const isTrialOrNotForResaleUser = trialOrNotForResaleLicenses.includes(activeLicenseInfo);
-    res.set('Content-Security-Policy', getCsp(nonce, isTrialOrNotForResaleUser));
+    const isTrialOrNotForResaleUser = ['selfService', 'quota', 'free_not_for_resale'];
+    const isAssistMeEnabled =
+      isTrialOrNotForResaleUser.includes(activeLicenseInfo) || clientConfig.featureFlags?.welcomePageV2Enabled;
+    res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled));
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -206,7 +207,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        isTrialOrNotForResaleUser
+        isAssistMeEnabled
       })
     );
   } catch (err) {

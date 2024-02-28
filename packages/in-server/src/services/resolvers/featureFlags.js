@@ -529,5 +529,10 @@ module.exports = exports = [
     uiClientKey: 'logSmartAlertsEnabled',
     instanaCtlKey: 'feature.log.smart.alerts.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'welcomePageV2Enabled',
+    instanaCtlKey: 'feature.welcomepage.v2.enabled',
+    defaultValue: false
   }
 ];
