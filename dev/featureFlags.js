@@ -10,7 +10,6 @@ module.exports = {
   agentMonitoringIssuesEnabled: true,
   businessObservabilityEnabled: true,
   bizopsGoldenSignalsEnabled: true,
-  bizopsImpactedBusinessProcessesTableEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,

@@ -301,11 +301,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
-    instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
