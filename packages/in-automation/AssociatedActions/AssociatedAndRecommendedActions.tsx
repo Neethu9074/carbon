@@ -55,6 +55,7 @@ export default function AssociatedAndRecommendedActions({
                   <RecommendedActionsCard
                     event={event}
                     reload={reload}
+                    volatileId={volatileId}
                     setReload={setReload}
                     setSelectedType={setSelectedType}
                   />

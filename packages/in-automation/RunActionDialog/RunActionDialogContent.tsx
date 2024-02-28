@@ -25,6 +25,7 @@ import {
   isAnsible,
   isScript,
   isManual,
+  isExternal,
   isWebhook,
   isGithub,
   isGitlab,
@@ -52,10 +53,10 @@ import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
 import IconButton from 'in-components/IconButton/IconButton';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -116,8 +117,16 @@ export default function RunActionDialogContent({
 
   const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
-  if (error) return <Typography variant="body-small">{error}</Typography>;
   if (!form) return <LoadingIndicator size="xxl" />;
+
+  if (error && !actionInstanceId) {
+    return (
+      <>
+        <Typography variant="body-small">{error}</Typography>
+        <Spacer horizontal="xsmall" />
+      </>
+    );
+  }
   if (actionInstanceId) {
     return (
       <Typography variant="body-small">
@@ -149,6 +158,9 @@ export default function RunActionDialogContent({
   }
   if (isManual(action.type)) {
     return <ManualActionContent action={action} />;
+  }
+  if (isExternal(action.type)) {
+    return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} form={form} setForm={setForm} />;
   }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
@@ -211,6 +223,48 @@ export default function RunActionDialogContent({
   );
 }
 
+function TurboAgentSelection({
+  form,
+  setForm,
+  agentSnapShots
+}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots'>) {
+  const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
+
+  const options = agentSnapShots?.data?.online?.map(agent => {
+    const hostname = agent.label ?? '';
+    return {
+      label: hostname,
+      value: agent.volatileId?.host_id ?? ''
+    };
+  });
+
+  return (
+    <>
+      {targetAgent?.map(field => (
+        <FormGroup>
+          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
+            {t('in-automation:targetAgent')}
+          </Label>
+          <ComboBox
+            options={options ?? []}
+            id="target-agent"
+            value={field.value}
+            isClearable={false}
+            onChange={o => {
+              const updatedForm = form?.updateIn(['targetAgent'], field =>
+                (field as Field<string>).setValue((o as Option).value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
+        </FormGroup>
+      ))}
+    </>
+  );
+}
+
 function AgentSelection({
   form,
   setForm,
@@ -252,6 +306,7 @@ function AgentSelection({
       label: t('in-automation:policies.triggeringAgent')
     });
   }
+
   return (
     <>
       {targetAgent?.map(field => (
@@ -447,6 +502,45 @@ function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
           </CopyToClipboard>
         </div>
       </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function ExternalActionContent({
+  action,
+  agentSnapShots,
+  form,
+  setForm
+}: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots' | 'form' | 'setForm'>) {
+  const noTurboAgents = agentSnapShots?.data?.online?.length === 0; // this sets true when  when agent is unavailable to run turbo action;
+  const numberOfTurboAgents = agentSnapShots?.data?.online?.length ?? 1;
+  const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
+
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:name')}
+      >
+        {action.description}
+      </DescriptionItem>
+      {numberOfTurboAgents > 1 ? (
+        <TurboAgentSelection form={form} setForm={setForm} agentSnapShots={agentSnapShots} />
+      ) : !noTurboAgents ? (
+        <DescriptionItem
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:targetAgent')}
+        >
+          {targetAgentForTurbo}
+        </DescriptionItem>
+      ) : (
+        <DescriptionItem
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:targetAgent')}
+        >
+          {t('in-automation:noTargetAgent')}
+        </DescriptionItem>
+      )}
     </DescriptionList>
   );
 }
