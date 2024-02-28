@@ -288,7 +288,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloV2Enabled',
     instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'businessObservabilityEnabled',
