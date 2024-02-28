@@ -354,6 +354,16 @@ export const availableMetrics = {
       {
         tag: 'beacon.cumulativeLayoutShift'
       }
+    ),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'interactionNextPaint',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelInteractionNextPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
+      }),
+      {
+        tag: 'beacon.timing.interactionNextPaint'
+      }
     )
   ],
   pageChange: [
