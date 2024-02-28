@@ -5459,7 +5459,7 @@
       "shuffleClientUsedDirectMemory": "Shuffle Client Used Direct Memory",
       "shuffleClientUsedHeapMemory": "Shuffle Client Used Heap Memory",
       "labelJvmCpuTime": "JVM CPU Time",
-      "labelTriggerExecutionCount": "Trigger Execution Count",
+      "labelExecutionDuration": "Execution Duration",
       "labelInputRowPerSecond": "Input Row Per Second",
       "titleServices": "Services",
       "titleClusters": "Clusters",

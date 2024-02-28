@@ -4,34 +4,41 @@
  * Copyright IBM Corp. 2024
  */
 
-// @ts-expect-error Module needs to be translated to TS
+// @ts-expect-error
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['triggerExecutionCount'],
-    labels: [t('in-forge:plugins.azureDatabricks.labelTriggerExecutionCount')],
+    metric: getDynamicMetricMatch(
+      'clusters',
+      'executionDuration',
+      t('in-forge:plugins.azureDatabricks.labelClusterName')
+    ),
+    label: t('in-forge:plugins.azureDatabricks.labelExecutionDuration'),
     min: 0,
-    category: [t('in-forge:plugins.azureDatabricks.titleServices')],
+    category: [t('in-forge:plugins.azureDatabricks.titleClusters')],
     formatter: zeroDecimalPlaces
   },
   {
-    metrics: ['inputRowsPerSecond'],
-    labels: [t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')],
+    metric: getDynamicMetricMatch(
+      'clusters',
+      'inputRowsPerSecond',
+      t('in-forge:plugins.azureDatabricks.labelClusterName')
+    ),
+    label: t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond'),
     min: 0,
-    category: [t('in-forge:plugins.azureDatabricks.titleServices')],
+    category: [t('in-forge:plugins.azureDatabricks.titleClusters')],
     formatter: zeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch(
       'clusters',
       'maxShuffleBytesWritten',
-      t('in-forge:plugins.azureDatabricks.labelClusterName'),
-      'any'
+      t('in-forge:plugins.azureDatabricks.labelClusterName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.labelMaxShuffleBytesWritten')],
+    label: t('in-forge:plugins.azureDatabricks.labelMaxShuffleBytesWritten'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleClusters')],
     formatter: zeroDecimalPlaces
@@ -42,7 +49,7 @@ export default [
       'sumShuffleClientUsedHeapMemory',
       t('in-forge:plugins.azureDatabricks.labelClusterName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.labelSumShuffleClientUsedHeapMemory')],
+    label: t('in-forge:plugins.azureDatabricks.labelSumShuffleClientUsedHeapMemory'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleClusters')],
     formatter: zeroDecimalPlaces
@@ -53,7 +60,7 @@ export default [
       'deSerializationCpuTime',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime')],
+    label: t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: percentage
@@ -64,7 +71,7 @@ export default [
       'serializationCpuTime',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime')],
+    label: t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: percentage
@@ -75,7 +82,7 @@ export default [
       'executorCpuTime',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')],
+    label: t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: percentage
@@ -86,7 +93,7 @@ export default [
       'shuffleClientUsedDirectMemory',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.shuffleClientUsedDirectMemory')],
+    label: t('in-forge:plugins.azureDatabricks.shuffleClientUsedDirectMemory'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: zeroDecimalPlaces
@@ -97,14 +104,14 @@ export default [
       'shuffleClientUsedHeapMemory',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    labels: [t('in-forge:plugins.azureDatabricks.shuffleClientUsedHeapMemory')],
+    label: t('in-forge:plugins.azureDatabricks.shuffleClientUsedHeapMemory'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: zeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('executors', 'jvmCpuTime', t('in-forge:plugins.azureDatabricks.labelExecutorName')),
-    labels: [t('in-forge:plugins.azureDatabricks.labelJvmCpuTime')],
+    label: t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: percentage

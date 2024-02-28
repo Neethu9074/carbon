@@ -34,40 +34,6 @@ const clusterNameCol = {
   }
 };
 
-const deSerializationCpuTimeCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return row.key + '.deSerializationCpuTime';
-    },
-    getContent: percentagePlainTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const serializationCpuTimeCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return row.key + '.serializationCpuTime';
-    },
-    getContent: percentagePlainTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
 const executorCpuTimeCol = {
   title: t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime'),
   type: 'metric',
@@ -170,12 +136,10 @@ export default function GetDatabricksExecutors({ snapshot }: { snapshot: Snapsho
   const cols = [
     executorNameCol,
     clusterNameCol,
-    deSerializationCpuTimeCol,
-    serializationCpuTimeCol,
+    jvmCpuTimeCol,
     executorCpuTimeCol,
     shuffleClientUsedDirectMemoryCol,
-    shuffleClientUsedHeapMemoryCol,
-    jvmCpuTimeCol
+    shuffleClientUsedHeapMemoryCol
   ];
   return (
     <Table
@@ -202,12 +166,12 @@ function getRowDetails(row: any) {
         timeConfig={timeConfig}
         y1={{
           metrics: [
-            'executors.' + row.executorName + '.deSerializationCpuTime',
-            'executors.' + row.executorName + '.serializationCpuTime'
+            'executors.' + row.executorName + '.jvmCpuTime',
+            'executors.' + row.executorName + '.executorCpuTime'
           ],
           labels: [
-            t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
-            t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime')
+            t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
+            t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')
           ],
           type: 'line',
           formatter: percentagePlainTwoDecimalPlaces
@@ -234,12 +198,12 @@ function getRowDetails(row: any) {
         timeConfig={timeConfig}
         y1={{
           metrics: [
-            'executors.' + row.executorName + '.jvmCpuTime',
-            'executors.' + row.executorName + '.executorCpuTime'
+            'executors.' + row.executorName + '.deSerializationCpuTime',
+            'executors.' + row.executorName + '.serializationCpuTime'
           ],
           labels: [
-            t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
-            t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')
+            t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
+            t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime')
           ],
           type: 'line',
           formatter: percentagePlainTwoDecimalPlaces

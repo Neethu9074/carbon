@@ -217,6 +217,26 @@ function getRowDetails(row: any) {
           formatter: number.compact
         }}
       />
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          metrics: ['clusters.' + row.clusterName + '.executionDuration'],
+          labels: [t('in-forge:plugins.azureDatabricks.labelExecutionDuration')],
+          type: 'line',
+          formatter: number.compact
+        }}
+      />
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          metrics: ['clusters.' + row.clusterName + '.inputRowsPerSecond'],
+          labels: [t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')],
+          type: 'line',
+          formatter: number.compact
+        }}
+      />
     </div>
   );
 }
