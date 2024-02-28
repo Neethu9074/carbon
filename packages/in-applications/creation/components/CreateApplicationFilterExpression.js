@@ -13,6 +13,7 @@ import ContributionFilterDropdown, {
 } from 'in-applications/creation/components/ContributionFilterDropdown';
 import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterExpressionConfigurationWrapper';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
+import { findByRestrictingApplicationId } from 'in-applications/creation/contributionFilters';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import QuickFilterBar from 'in-applications/creation/components/QuickFilterBar';
@@ -36,8 +37,9 @@ export default function CreateApplicationFilterExpression({
   ).children;
 
   const tagFilterExpressionField = form.get('tagFilterExpression');
-  const groupId = form.get('groupId').value;
-  const contributionFilter = userRestrictedApplications?.find(r => r.id === groupId)?.filter?.tagFilterExpression;
+  const restrictingApplicationId = form.get('restrictingApplicationId').value;
+  const contributionFilter = findByRestrictingApplicationId(userRestrictedApplications, restrictingApplicationId)
+    ?.filter?.tagFilterExpression;
 
   return (
     <TagFilterExpressionConfigurationWrapper

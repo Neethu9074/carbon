@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TagFilterExpressionElementUnion } from '@instana/types';
+import { TagFilterExpressionElementUnion, UserGroupRestrictions } from '@instana/types';
 
 import {
   OPERATOR_AND,
@@ -23,4 +23,11 @@ export function limitWithContributionFilter(
     return contributionFilter;
   }
   return createTagFilterExpression(OPERATOR_AND, [tagFilterExpression!, contributionFilter!]);
+}
+
+export function findByRestrictingApplicationId(
+  userRestrictedApplications: UserGroupRestrictions[],
+  restrictingApplicationId: string
+): UserGroupRestrictions | undefined {
+  return userRestrictedApplications?.find(r => r.filter?.restrictingApplicationId === restrictingApplicationId);
 }
