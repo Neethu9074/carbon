@@ -296,11 +296,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsFeatureEnabled',
-    instanaCtlKey: 'feature.bizops.feature.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'bizopsActivityDistributionChartsEnabled',
     instanaCtlKey: 'feature.bizops.activity.distribution.charts.enabled',
     defaultValue: true
