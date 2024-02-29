@@ -18,7 +18,8 @@ export default function UsageCharts({
   windowSize,
   tenantUnit,
   showPurchasedMetric = true,
-  showAggregatedMetrics = false
+  showAggregatedMetrics = false,
+  hasSyntheticAddons = false
 }) {
   return (
     <>
@@ -67,7 +68,7 @@ export default function UsageCharts({
         </Col>
       </Row>
       <br />
-      {showAggregatedMetrics && (
+      {showAggregatedMetrics && hasSyntheticAddons && (
         <>
           <SectionLine />
           <SubViewHeader>{t('in-amp:components.usageCharts.addons')}</SubViewHeader>
