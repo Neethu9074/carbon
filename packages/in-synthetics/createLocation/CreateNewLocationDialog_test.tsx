@@ -52,12 +52,13 @@ describe('Synthetic New Location Dialog', () => {
   it('Renders ManagedLocation component correctly', () => {
     const { container } = render(<ManagedLocation form={createNewLocationForm('managed')} updateForm={updateForm} />);
 
-    expect(screen.getByText('Instana Managed Datacenters')).toBeInTheDocument();
+    expect(screen.getByText('Datacenters')).toBeInTheDocument();
 
-    expect(container.getElementsByTagName('th').length).toBe(4);
+    expect(container.getElementsByTagName('th').length).toBe(5);
     expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
     expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Provider');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Status');
+    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location Display Name');
+    expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Status');
   });
 });

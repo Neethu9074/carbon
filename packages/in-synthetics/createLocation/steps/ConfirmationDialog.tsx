@@ -68,17 +68,22 @@ const ConfirmationDialog = ({
               {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterName')}
             </Th>
             <Th>
+              {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.locationName')}
+            </Th>
+            <Th>
               {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterStatus')}
             </Th>
           </Tr>
         </Thead>
         <Tbody>
           {form.get('syntheticDatacenters').value.map((datacenter: SyntheticDatacenter) => {
-            const { code, label } = datacenter;
+            // @ts-expect-error property not yet in type but present
+            const { code, label, locationDisplayLabel } = datacenter;
             return (
               <Tr key={generateUniqueShortId()} size="compact">
                 <Td>{code}</Td>
                 <Td>{label}</Td>
+                <Td>{locationDisplayLabel}</Td>
                 <Td>
                   {
                     <div className={locals.entityWrapper}>
