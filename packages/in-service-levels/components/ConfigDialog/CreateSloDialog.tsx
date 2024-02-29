@@ -103,16 +103,16 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
     },
     {
       content: <SloObjectiveSection />,
-      label: t('in-service-levels:createSloDialog.selectObjectiveNavItem'),
+      label: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       scrollId: '3-select-objective',
-      title: t('in-service-levels:createSloDialog.selectObjectiveNavItem'),
+      title: t('in-service-levels:createSloDialog.selectObjectiveTitle'),
       valid: isTargetFieldValid && isDateFieldValid && isTimeFieldValid
     },
     {
       content: <SloNameAndTagsSection />,
-      label: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
+      label: t('in-service-levels:createSloDialog.nameAndTagsTitle'),
       scrollId: '4-name-and-tags',
-      title: t('in-service-levels:createSloDialog.nameAndTagsNavItem'),
+      title: t('in-service-levels:createSloDialog.nameAndTagsTitle'),
       valid: isNameValid
     },
     {
