@@ -301,24 +301,9 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsFeatureEnabled',
-    instanaCtlKey: 'feature.bizops.feature.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'bizopsActivityDistributionChartsEnabled',
-    instanaCtlKey: 'feature.bizops.activity.distribution.charts.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsGoldenSignalsEnabled',
     instanaCtlKey: 'feature.bizops.golden.signals.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
-    instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',

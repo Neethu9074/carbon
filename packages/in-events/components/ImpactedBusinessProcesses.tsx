@@ -13,7 +13,6 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
-import { bizopsImpactedBusinessProcessesTableEnabled } from 'in-services/featureFlags';
 import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -35,7 +34,7 @@ export default function ImpactedBusinessProcesses({ eventType, serviceIds }: Imp
 
   // Don't display the table at all if there are no services impacted since there will not be any impacted
   // business processes
-  if (serviceIds.length === 0 || !bizopsImpactedBusinessProcessesTableEnabled) {
+  if (serviceIds.length === 0) {
     return null;
   }
 
