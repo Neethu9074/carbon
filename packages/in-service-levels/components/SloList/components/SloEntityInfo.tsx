@@ -45,17 +45,10 @@ export default function SloEntityInfo({ entity, entityType, service }: Props) {
 }
 
 function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity): EntityDisplayData {
-  switch (entityType) {
-    case 'application':
-      return {
-        iconType: entity.deleted ? 'lib_infra_unknownIcon' : 'lib_application',
-        toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip.applications')
-      };
-
-    case 'website':
-      return {
-        iconType: entity.deleted ? 'lib_infra_unknownIcon' : 'lib_website',
-        toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip.websites')
-      };
-  }
+  return {
+    iconType: entity.deleted ? 'lib_infra_unknownIcon' : `lib_${entityType}`,
+    toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip', {
+      context: entityType
+    })
+  };
 }
