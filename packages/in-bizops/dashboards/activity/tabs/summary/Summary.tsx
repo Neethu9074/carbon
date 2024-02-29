@@ -8,13 +8,13 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
-import { bizopsActivityDistributionChartsEnabled, bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
 import ActivityMetricKpiCard from './components/ActivityMetricKpiCard';
 import BizOpsErrorsChart from 'in-bizops/components/BizOpsErrorsChart';
+import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -79,11 +79,9 @@ export default function Summary() {
           <Col lg>
             <BizOpsLatencyChart />
           </Col>
-          {bizopsActivityDistributionChartsEnabled && (
-            <Col lg>
-              <DurationAndDistribution />
-            </Col>
-          )}
+          <Col lg>
+            <DurationAndDistribution />
+          </Col>
         </Row>
       </Fragment>
     );
@@ -103,11 +101,9 @@ export default function Summary() {
               dataSource={'BUSINESS_ACTIVITIES'}
             />
           </Col>
-          {bizopsActivityDistributionChartsEnabled && (
-            <Col lg>
-              <DurationAndDistribution />
-            </Col>
-          )}
+          <Col lg>
+            <DurationAndDistribution />
+          </Col>
           <Col lg>
             <InfrastructureIssuesAndChanges
               businessProcessId={businessProcessId}
