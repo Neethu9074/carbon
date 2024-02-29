@@ -151,7 +151,7 @@
     "errorTimeWindowMin": "The time window must be at least one day long",
     "errorInvalidExpression": "The filters entered are not valid",
     "errorBlankEntity": "Please select an entity from the list",
-    "nameAndTagsTitle": "Provide Details",
+    "nameAndTagsTitle": "Set Details",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",
     "sloNameCopyTemplate": "Copy of {{name}}",
