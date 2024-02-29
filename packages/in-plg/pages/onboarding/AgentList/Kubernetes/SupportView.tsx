@@ -152,13 +152,13 @@ export const getBashCode = ({
     case 'azure_aks':
     case 'k8_eks': {
       let content = instanaAgentYaml
-        .replace('${agentKey}', window.btoa(agentKey))
-        .replace('${downloadKey}', window.btoa(downloadKey))
-        .replace('${agentEndpoint}', agentEndpoint)
-        .replace('${agentEndpointPort}', agentEndpointPort)
-        .replace('${clusterName}', clusterName)
-        .replace('${zoneName}', agentZone)
-        .replace('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
+        .replaceAll('${agentKey}', window.btoa(agentKey))
+        .replaceAll('${downloadKey}', window.btoa(downloadKey))
+        .replaceAll('${agentEndpoint}', agentEndpoint)
+        .replaceAll('${agentEndpointPort}', agentEndpointPort)
+        .replaceAll('${clusterName}', clusterName)
+        .replaceAll('${zoneName}', agentZone)
+        .replaceAll('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
       content = content.split('\n');
 
       return {

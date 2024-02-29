@@ -178,8 +178,7 @@ export default function LinuxAutomatic({
                   agentMode === 'dynamic' ? 'dynamic' : 'static'
                 } -e ${agentEndpoint}:${agentEndpointPort} ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'} ${
                   installMode === installModeOptions[0] ? '' : '-y'
-                } ${isService ? '-s' : ''}
-                `
+                } ${isService ? '-s' : ''}`
               ]}
             />
           </Stack>
