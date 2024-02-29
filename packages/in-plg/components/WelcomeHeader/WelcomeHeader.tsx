@@ -28,18 +28,21 @@ export default function WelcomeHeader() {
 
   const tileData = [
     {
+      key: 'consumeData',
       title: t('in-plg:welcomepage.consumeData.title'),
       description: t('in-plg:welcomepage.consumeData.description'),
       buttonName: t('in-plg:welcomepage.consumeData.buttonName'),
       buttonType: t('in-plg:welcomepage.consumeData.buttonType')
     },
     {
+      key: 'inviteTeammates',
       title: t('in-plg:welcomepage.inviteTeammates.title'),
       description: t('in-plg:welcomepage.inviteTeammates.description'),
       buttonName: t('in-plg:welcomepage.inviteTeammates.buttonName'),
       buttonType: t('in-plg:welcomepage.inviteTeammates.buttonType')
     },
     {
+      key: 'nextSteps',
       title: t('in-plg:welcomepage.nextSteps.title'),
       description: t('in-plg:welcomepage.nextSteps.description'),
       buttonName: t('in-plg:welcomepage.nextSteps.buttonName'),
@@ -96,8 +99,8 @@ export default function WelcomeHeader() {
           description={tile.description}
           buttonName={tile.buttonName}
           buttonType={tile.buttonType == 'primary' ? 'primary' : 'ghost'}
-          href={tile.title == 'nextSteps' ? undefined : createRedirectHref(tile.title)}
-          onClick={tile.title == 'nextSteps' ? () => openAssistMe() : undefined}
+          href={tile.key == 'nextSteps' ? undefined : createRedirectHref(tile.key)}
+          onClick={tile.key == 'nextSteps' ? () => openAssistMe() : undefined}
         />
       ))}
     </HeaderTile>
