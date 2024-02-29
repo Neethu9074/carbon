@@ -17,7 +17,7 @@
   "type": "Type",
   "totalCpu": "Total CPU",
   "totalMemory": "Total Memory",
-  "totalStorage": "Total Storage",
+  "totalStorage": "Total Storage (GB)",
   "cpuArch": "CPU Architecture",
   "cpuModel": "CPU Model",
   "cpuVendor": "CPU Vendor",

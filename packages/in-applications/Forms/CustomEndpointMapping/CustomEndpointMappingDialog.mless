@@ -21,4 +21,17 @@
       padding-left: 0;
     }
   }
+  .endpointCaseContainer {
+    padding-left: 35px;
+  }
+  .explanation {
+    font-size: 12px;
+  }
+  .wrapperClassName {
+    margin: 12px 0px;
+  }
+  .radioButton {
+    position: relative;
+    top: 12px;
+  }
 }

@@ -14,10 +14,11 @@ export interface CopyToClipboardProps {
   getText?: () => string;
   targetId?: string;
   children: (ref: React.ForwardedRef<HTMLButtonElement>) => JSX.Element;
+  successText?: string;
 }
 
 export default forwardRef<HTMLButtonElement, CopyToClipboardProps>(function CopyToClipboard(
-  { getText, targetId, children }: CopyToClipboardProps,
+  { getText, targetId, children, successText }: CopyToClipboardProps,
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
   const [button, setButton] = useState<string | HTMLButtonElement | NodeListOf<HTMLButtonElement>>('');
@@ -36,7 +37,7 @@ export default forwardRef<HTMLButtonElement, CopyToClipboardProps>(function Copy
 
     if (clipboard.current) {
       clipboard.current.on('success', e => {
-        addCopiedToClipboardMessage();
+        addCopiedToClipboardMessage(successText);
         e.clearSelection();
       });
 
@@ -57,7 +58,7 @@ export default forwardRef<HTMLButtonElement, CopyToClipboardProps>(function Copy
         clipboard.current.destroy();
       }
     };
-  }, [targetId, getText, button, clipboard]);
+  }, [targetId, getText, button, clipboard, successText]);
 
   return children(compositeRef(setButton, ref));
 });

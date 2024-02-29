@@ -41,6 +41,7 @@ import BusinessMonitoringTopList from 'in-cockpit/Cockpit/components/BusinessMon
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
+import { playwithEnabled, bizopsCockpitWidgetEnabled } from 'in-services/featureFlags';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
 import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -54,7 +55,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { playwithEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
@@ -137,13 +137,15 @@ if (hasEventsAccess) {
 
 // adds the business monitoring section
 if (hasBizOpsAccess) {
-  itemIds.push({ id: '6' });
-  LUT['6'] = BusinessMonitoringTopList;
-  configEnrichmentLookUpTable['6'] = {
-    label: t('in-cockpit:cockpit.bizops'),
-    icon: 'lib_bizops',
-    cardIcon: 'lib_bizops'
-  };
+  if (bizopsCockpitWidgetEnabled) {
+    itemIds.push({ id: '6' });
+    LUT['6'] = BusinessMonitoringTopList;
+    configEnrichmentLookUpTable['6'] = {
+      label: t('in-cockpit:cockpit.bizops'),
+      icon: 'lib_bizops',
+      cardIcon: 'lib_bizops'
+    };
+  }
 }
 
 export default connectTo(

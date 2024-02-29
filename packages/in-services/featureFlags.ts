@@ -105,6 +105,9 @@ export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCu
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
 
+// Synthetic Instana Deploy PoP feature flag
+export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUpdateDeployPoPEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
@@ -117,7 +120,7 @@ export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('cus
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
 export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredictiveDetectionEnabled');
-export const infraSmartAlertsDialogEnabled = isFeatureFlagEnabled('infraSmartAlertsDialogEnabled');
+export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
 
 export const alertsHubEnabled = isFeatureFlagEnabled('alertsHubEnabled');
 
@@ -147,6 +150,7 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
+export const bizopsCockpitWidgetEnabled = isFeatureFlagEnabled('bizopsCockpitWidgetEnabled');
 
 // ########################################################################################
 // Chart gap hiding

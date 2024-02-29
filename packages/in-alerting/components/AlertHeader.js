@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message, Spacer } from '@instana/components';
+import { Message, Spacer, Pill } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -21,7 +21,6 @@ import IconButton from 'in-components/IconButton/IconButton';
 import { playwithEnabled } from 'in-services/featureFlags';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { useTheme } from 'in-themes';
 import { Trans, t } from 'in-i18n';
 

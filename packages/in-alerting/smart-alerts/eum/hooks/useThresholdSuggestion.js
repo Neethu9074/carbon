@@ -9,29 +9,15 @@ import { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export default function useThresholdSuggestion(form, updateForm, setThresholdResult, createThresholdForm, config) {
-  const {
-    isValid,
-    simpleMode,
-    alertConfigWithFormModel,
-    blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
-  } = config;
+  const { isValid, simpleMode, alertConfigWithFormModel, blueprintConfig } = config;
   const thresholdResult = useObservable(
-    ([simpleMode, isValid]) =>
-      resolveThresholdRequest(
-        alertConfigWithFormModel,
-        blueprintConfig,
-        enrichedTagFilterFormModel,
-        numeratorTagFilterFormModel,
-        simpleMode,
-        isValid
-      ),
+    ([simpleMode, isValid]) => resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, simpleMode, isValid),
     [simpleMode, isValid, form]
   );
 
@@ -49,14 +35,7 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 }
 
-function resolveThresholdRequest(
-  alertConfigWithFormModel,
-  blueprintConfig,
-  enrichedTagFilterFormModel,
-  numeratorTagFilterFormModel,
-  isSimpleMode,
-  isValid
-) {
+function resolveThresholdRequest(alertConfigWithFormModel, blueprintConfig, isSimpleMode, isValid) {
   const {
     rule: { metricName },
     rule,
@@ -68,6 +47,11 @@ function resolveThresholdRequest(
   if (!isValid || !calculateThresholdOnBackend) {
     return empty;
   }
+
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
+    alertConfigWithFormModel,
+    blueprintConfig
+  );
 
   const getSeasonality = () => {
     if (!blueprintConfig.baselineEnabled) {

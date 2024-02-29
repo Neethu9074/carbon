@@ -15,8 +15,8 @@ import {
   createEndpointTechnologiesUrlParameter
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import { useLinkToEndpointDashboard, useLinkToEndpointConfiguration } from 'in-applications/navigation/paths';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
-import { configureEndpointsView, useLinkToEndpointDashboard } from 'in-applications/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -28,7 +28,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -231,18 +230,17 @@ export default function Endpoints(props) {
   const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
   const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
-
-  const { location, createHref } = useNavigation();
-
+  const getLinkToEndpointConfig = useLinkToEndpointConfiguration();
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
+
   const rightHeader = ({ query }) => (
     <>
-      {hasHttpType && role.canConfigureServiceMapping && (
+      {role.canConfigureServiceMapping && (
         <Button
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
-          href={createHref({ ...location, pathname: configureEndpointsView })}
+          href={getLinkToEndpointConfig(hasHttpType)}
         >
           {t('in-applications:buttonConfigureEndpoints')}
         </Button>

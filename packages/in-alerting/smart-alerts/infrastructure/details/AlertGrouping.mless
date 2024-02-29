@@ -8,5 +8,8 @@
   .wrapper {
     display: flex;
     flex-wrap: wrap;
+    :first-letter {
+      text-transform: capitalize;
+    }
   }
 }

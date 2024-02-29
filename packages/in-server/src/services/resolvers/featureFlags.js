@@ -301,6 +301,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsCockpitWidgetEnabled',
+    instanaCtlKey: 'feature.bizops.cockpit.widget.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: true
@@ -378,6 +383,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticInstanaHostedPoPEnabled',
     instanaCtlKey: 'feature.synthetic.instana.hosted.pop.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticUpdateDeployPoPEnabled',
+    instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
     defaultValue: false
   },
   {
@@ -463,11 +473,6 @@ module.exports = exports = [
   {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'infraSmartAlertsDialogEnabled',
-    instanaCtlKey: 'feature.infra.smart.alerts.dialog.enabled',
     defaultValue: false
   },
   {

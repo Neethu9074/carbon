@@ -7,11 +7,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { InfraAlertConfigWithMetadata, Order } from '@instana/types';
+import { InfraAlertConfigWithMetadata, Order, TagCatalog } from '@instana/types';
 import { create } from '@instana/observables';
 
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import InfraThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition';
+import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { infraAlertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
@@ -30,6 +31,8 @@ export interface ThresholdProps {
   updateForm: (form: MapForm<any>) => void;
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
+  tagCatalog: TagCatalog | undefined;
+  regex: boolean;
 }
 
 export type Tags = { [index: string]: any };
@@ -38,7 +41,9 @@ export default function ThresholdSelectionInteractiveChart({
   form,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  tagCatalog,
+  regex
 }: ThresholdProps): JSX.Element {
   const chartViewConfigs = defaultChartViewConfigs;
 
@@ -48,14 +53,14 @@ export default function ThresholdSelectionInteractiveChart({
   const entityType = ruleForm.get('entityType').value;
   const metricName = ruleForm.get('metricName').value;
   const aggregation = ruleForm.get('aggregation').value;
-  const regex = false;
 
   const crossSeriesAggregation = ruleForm.get('crossSeriesAggregation').value;
-  const metricLabel = form.get('hiddenFields').get('metricLabel').value;
 
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
+
+  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
   const backendGroupBy = groupBy?.map((groups: any) => groups?.groupbyTag) ?? [];
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
@@ -119,6 +124,7 @@ export default function ThresholdSelectionInteractiveChart({
                   focusedMoment: timeConfig.focusedMoment
                 }}
                 metricMetadatas={metricMetadatas}
+                tagCatalog={tagCatalog}
               />
             )}
           </>

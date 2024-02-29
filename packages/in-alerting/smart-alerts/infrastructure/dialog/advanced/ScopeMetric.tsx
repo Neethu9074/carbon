@@ -5,16 +5,22 @@
  */
 
 import { MapForm, Field, Item } from 'formalistic';
-import React, { useMemo } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, escapeRegExp } from 'lodash';
+import React, { useMemo, useRef } from 'react';
 
 //@ts-expect-error
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
+import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
+import {
+  getLabelForRegex,
+  getPathForRegex
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
 //@ts-expect-error
 import { toOptions } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
-import MetricSelectionCategoryOverlay from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/MetricSelectionCategoryOverlay';
-//@ts-expect-error
+import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
+//@ts-expect-error import
 import { getMetricPathAndLabel } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import ValidationMessages from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
@@ -29,6 +35,7 @@ interface ScopeMetricProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
+  isRegex: boolean;
 }
 interface Node {
   metric: string;
@@ -37,24 +44,29 @@ interface Node {
   parentLabels: string[];
 }
 
-export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricProps) {
+export default function ScopeMetric({ form, updateForm, onChange, isRegex }: ScopeMetricProps) {
   const metricField = form.get('rule').get('metricName');
   const entityTypeField = form.get('rule').get('entityType');
   const metricLabelField = form.get('hiddenFields').get('metricLabel');
   const metricPathField = form.get('hiddenFields').get('metricPath');
-  const isRegex = form.get('rule').get('regex')?.value;
-  const metric = !isRegex ? metricField.value || undefined : undefined;
+  const metric = metricField?.value;
   const entityType = entityTypeField?.value;
   let metricLabel = metricLabelField?.value;
   let metricPath = metricPathField?.value;
   const backendQueryModel = EMPTY_EXPRESSION;
   const catalogQuery = useDebouncedValue('', noop, 800);
+  const initialRegex = useRef('');
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type: undefined,
     query: catalogQuery.debouncedValue
   });
+
+  if (isRegex && (metricLabel == null || metricPath == null)) {
+    metricLabel = getLabelForRegex(metric);
+    metricPath = getPathForRegex(metric);
+  }
 
   const options = useMemo(
     () => (metric && !metricPath && metricCatalog?.data?.tree ? toOptions(metricCatalog?.data?.tree, []) : emptyArray),
@@ -70,15 +82,13 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
     metricLabel = metricPathAndLabel.label;
     metricPath = metricPathAndLabel.path;
     if (updateForm) {
-      updateForm(
-        form
-          .updateIn(['hiddenFields', 'metricLabel'], field =>
-            (field as Field<string>).setValue(metricLabel).setTouched(true)
-          )
-          .updateIn(['hiddenFields', 'metricPath'], field =>
-            (field as Field<string>).setValue(metricPath).setTouched(true)
-          )
-      );
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: metricLabel,
+        metricPath: metricPath,
+        clearGroupFilter: false
+      });
     }
   }
 
@@ -96,25 +106,76 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
     updateForm: ((form: MapForm<any>) => void) | undefined
   ) => {
     if (metric !== metricObj.metric && updateForm) {
-      updateForm(
-        form
-          .updateIn(['hiddenFields', 'metricLabel'], field =>
-            (field as Field<string>).setValue(metricObj.label).setTouched(true)
-          )
-          .updateIn(['hiddenFields', 'metricPath'], field =>
-            //@ts-expect-error
-            (field as Field<string>).setValue(metricObj.parentLabels).setTouched(true)
-          )
-          .updateIn(['rule', 'entityType'], field =>
-            (field as Field<string>).setValue(metricObj.parentType).setTouched(true)
-          )
-          .updateIn(['rule', 'metricName'], f => (f as Field<string>).setValue(metricObj.metric).setTouched(true))
-          //@ts-expect-error
-          .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-          .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true))
-      );
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: metricObj.label,
+        metricPath: metricObj.parentLabels,
+        metric: metricObj.metric,
+        entityType: metricObj.parentType,
+        clearGroupFilter: entityType == metricObj.parentType ? false : true
+      });
     }
   };
+
+  const onRegexChange = (regex: string) => {
+    if (!isRegex || !updateForm) {
+      return;
+    }
+
+    updateFormField({
+      updateForm,
+      form,
+      metricLabel: getLabelForRegex(regex),
+      metricPath: getPathForRegex(regex),
+      metric: regex,
+      clearGroupFilter: initialRegex.current && initialRegex.current !== regex ? true : false
+    });
+  };
+
+  const setIsRegex = (newIsRegex: boolean) => {
+    if (!updateForm) {
+      return;
+    }
+
+    const toPlain = !newIsRegex && isRegex;
+    const toRegex = newIsRegex && !isRegex;
+    if (toPlain) {
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: '',
+        metricPath: [],
+        metric: '',
+        regex: newIsRegex,
+        clearGroupFilter: true
+      });
+    } else if (toRegex) {
+      const escapedRegex = escapeRegExp(metric);
+      initialRegex.current = escapedRegex;
+      updateFormField({
+        updateForm,
+        form,
+        metricLabel: getLabelForRegex(escapedRegex),
+        metricPath: getPathForRegex(escapedRegex),
+        metric: escapedRegex,
+        regex: newIsRegex
+      });
+    }
+  };
+
+  const onTypeChange = (type: string) => {
+    if (!updateForm) {
+      return;
+    }
+    updateFormField({
+      updateForm,
+      form,
+      entityType: type,
+      clearGroupFilter: true
+    });
+  };
+
   return (
     <>
       <TypeAndMetricConfigurator
@@ -126,12 +187,75 @@ export default function ScopeMetric({ form, updateForm, onChange }: ScopeMetricP
         query={catalogQuery.value}
         onQueryChange={catalogQuery.onChange}
         selectMetric={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.selectMetric')}
+        isRegex={isRegex}
+        regex={metric || ''}
+        setIsRegex={setIsRegex}
+        onRegexChange={onRegexChange}
         onChange={onChange}
         backendQueryModel={backendQueryModel}
         SelectorOverlay={MetricSelectionCategoryOverlay}
-        type={entityTypeField}
+        type={entityTypeField?.value}
+        onTypeChange={onTypeChange}
       />
       <TouchedMessages field={metricField} />
+      <ValidationMessages form={form} category={regexValidationError} />
     </>
   );
+}
+
+interface UpdateFormFieldProp {
+  form: MapForm<any>;
+  updateForm: (form: MapForm<any>) => void;
+  metricLabel?: string;
+  metricPath?: string[];
+  entityType?: string;
+  metric?: string;
+  regex?: boolean;
+  clearGroupFilter?: boolean;
+}
+
+function updateFormField({
+  updateForm,
+  form,
+  metricLabel,
+  metricPath,
+  entityType,
+  metric,
+  regex,
+  clearGroupFilter
+}: UpdateFormFieldProp) {
+  let updatedForm = form;
+  if (typeof metricLabel !== 'undefined') {
+    updatedForm = updatedForm.updateIn(['hiddenFields', 'metricLabel'], field =>
+      (field as Field<string>).setValue(metricLabel).setTouched(true)
+    );
+  }
+  if (metricPath) {
+    updatedForm = updatedForm.updateIn(['hiddenFields', 'metricPath'], field =>
+      (field as Field<string[]>).setValue(metricPath).setTouched(true)
+    );
+  }
+  if (entityType) {
+    updatedForm = updatedForm.updateIn(['rule', 'entityType'], field =>
+      (field as Field<string>).setValue(entityType).setTouched(true)
+    );
+  }
+
+  if (typeof metric !== 'undefined') {
+    updatedForm = updatedForm.updateIn(['rule', 'metricName'], field =>
+      (field as Field<string>).setValue(metric).setTouched(true)
+    );
+  }
+  if (typeof regex !== 'undefined') {
+    updatedForm = updatedForm.updateIn(['rule', 'regex'], field =>
+      (field as Field<boolean>).setValue(regex).setTouched(true)
+    );
+  }
+  if (clearGroupFilter) {
+    updatedForm = updatedForm
+      .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
+      .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true));
+  }
+
+  updateForm(updatedForm);
 }

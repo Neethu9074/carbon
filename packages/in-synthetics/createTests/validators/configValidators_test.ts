@@ -10,7 +10,8 @@ import {
   regExpValidator,
   requestHeaderNameValidator,
   requestHeaderValueValidator,
-  statusCodeValidator
+  statusCodeValidator,
+  timeoutValidator
 } from 'in-synthetics/createTests/validators/configValidators';
 import { t } from 'in-i18n';
 
@@ -226,5 +227,36 @@ describe('mainFileNameValidator', () => {
     ]);
     expect(mainFileNameValidator(zipFile, 'lib/request1.js')).toStrictEqual(undefined);
     expect(mainFileNameValidator(zipFile, 'index.js')).toStrictEqual(undefined);
+  });
+});
+
+describe('timeoutValidator', () => {
+  test('validates an Expect Match, and return an error message if Expect Match is invalid', () => {
+    expect(timeoutValidator('1', 's')).toStrictEqual([{ invalid: false, message: '' }]);
+    expect(timeoutValidator('1.5', 'm')).toStrictEqual([{ invalid: false, message: '' }]);
+    expect(timeoutValidator('1', 'b')).toStrictEqual([
+      {
+        invalid: true,
+        message: 'Invalid timeout unit'
+      }
+    ]);
+    expect(timeoutValidator('-1', 'ms')).toStrictEqual([
+      {
+        invalid: true,
+        message: 'Timeout value should be greater than zero'
+      }
+    ]);
+    expect(timeoutValidator('1p', 'ms')).toStrictEqual([
+      {
+        invalid: true,
+        message: 'Invalid timeout value'
+      }
+    ]);
+    expect(timeoutValidator('1/', 'ms')).toStrictEqual([
+      {
+        invalid: true,
+        message: 'Invalid timeout value'
+      }
+    ]);
   });
 });

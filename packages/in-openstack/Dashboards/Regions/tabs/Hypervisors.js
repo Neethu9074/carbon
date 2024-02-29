@@ -142,7 +142,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="storageResources"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={megaBytes.detailed}
+          formatter={number.detailed}
         />
       );
     }

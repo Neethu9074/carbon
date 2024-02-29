@@ -223,7 +223,10 @@ function SecondaryButtonLine({
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
           </MoreMenuButton>
         )}
-        <CopyToClipboard getText={() => onCopyAllWidgets()}>
+        <CopyToClipboard
+          getText={() => onCopyAllWidgets()}
+          successText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.copiedAllWidgets')}
+        >
           {copyToClipboardRef => (
             <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
               {t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}

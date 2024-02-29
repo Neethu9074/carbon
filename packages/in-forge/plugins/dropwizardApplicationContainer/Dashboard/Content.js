@@ -15,14 +15,14 @@ const DashboardExtensions = createAsyncComponentWithLoadingIndicatorPlaceholder(
 
 export default function DropwizardDashboard({ snapshot, timeConfig }) {
   return (
-    <div>
+    <>
       {internalMonitoringUnit && <DashboardExtensions snapshot={snapshot} timeConfig={timeConfig} />}
       <CustomMetricsV2
         snapshot={snapshot}
         timeConfig={timeConfig}
         postProcessRow={internalMonitoringUnit && postProcessRow}
       />
-    </div>
+    </>
   );
 }
 

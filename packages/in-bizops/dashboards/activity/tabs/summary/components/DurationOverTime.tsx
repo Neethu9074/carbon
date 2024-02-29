@@ -18,8 +18,8 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { latencyFixed } from 'in-services/formatters/number';
 import { AxisColor } from 'in-components/Chart/types';
 import { integral } from 'in-stores/metric/renderer';
+import { chartColors } from 'in-themes/chartColors';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 type DurationOverTimeProps = {
@@ -83,38 +83,38 @@ export default function DurationOverTime({ rightHeaderContent }: DurationOverTim
       ...defaultMetricConfig,
       aggregation: 'P50',
       label: t('in-mobile-apps:dashboard.tabs.50thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[0]
+      color: chartColors.strokeColors25[0]
     },
     {
       ...defaultMetricConfig,
       aggregation: 'P90',
       label: t('in-mobile-apps:dashboard.tabs.90thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[1]
+      color: chartColors.strokeColors25[1]
     },
     {
       ...defaultMetricConfig,
       aggregation: 'P95',
       label: t('in-mobile-apps:dashboard.tabs.95thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[2]
+      color: chartColors.strokeColors25[2]
     },
     {
       ...defaultMetricConfig,
       aggregation: 'P99',
       label: t('in-mobile-apps:dashboard.tabs.99thLabel'),
-      color: theme.lib.colors.chart.strokeColors25[3]
+      color: chartColors.strokeColors25[3]
     },
     {
       ...defaultMetricConfig,
       aggregation: 'MAX',
       label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
-      color: theme.lib.colors.chart.strokeColors25[4],
+      color: chartColors.strokeColors25[4],
       defaultDisabled: !timeShiftConfig.offset
     },
     {
       ...defaultMetricConfig,
       aggregation: 'MEAN',
       label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-      color: theme.lib.colors.chart.strokeColors25[5],
+      color: chartColors.strokeColors25[5],
       defaultDisabled: !timeShiftConfig.offset
     }
   ];

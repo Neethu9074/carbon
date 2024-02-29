@@ -6,6 +6,8 @@
 
 import { TagCatalog } from '@instana/types';
 
+//@ts-expect-error
+import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { successObservable } from 'in-services/util/result';
 
@@ -24,5 +26,16 @@ export function CreateBoundedAlertQueryBuilder(tagCatalog: TagCatalog): CreateQu
  * It can be used for accessing the tagCatalog and do a query validation.
  */
 export function getQueryBuilder(tagCatalog: TagCatalog): CreateQueryBuilderResponse {
+  return CreateBoundedAlertQueryBuilder(tagCatalog);
+}
+
+/**
+ * It can be used for accessing the tagCatalog for groupBy and do a query validation.
+ */
+export function getGroupByQueryBuilder(tagCatalog: TagCatalog): CreateQueryBuilderResponse {
+  if (tagCatalog) {
+    const groupByTagCatalog = getGroupByTagCatalog(tagCatalog);
+    return CreateBoundedAlertQueryBuilder(groupByTagCatalog);
+  }
   return CreateBoundedAlertQueryBuilder(tagCatalog);
 }

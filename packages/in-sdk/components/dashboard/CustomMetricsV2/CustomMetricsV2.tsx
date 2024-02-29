@@ -10,7 +10,11 @@ import { Map } from 'immutable';
 import { Result, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
-import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import {
+  timeByMillisTwoDecimalPlaces,
+  withSiMultiplyPrefixThreeDecimalPlaces,
+  withSiMultiplyPrefixZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
@@ -29,6 +33,8 @@ const rateFormatter = (d: number) => withSiMultiplyPrefixThreeDecimalPlaces(d) +
 const beeInstanaMinimumRollupMillis = 10000;
 
 interface CustomMetricProps {
+  // ES lint thinks this field is not used except it is used in getDefaultRows
+  // eslint-disable-next-line react/no-unused-prop-types
   specs: MetricsSpec[];
   timeConfig: TimeConfig;
   snapshot: Map<string, any>;
@@ -155,15 +161,16 @@ const cols = [
       getContent(value: number, row: Row) {
         return (row.metrics[row.tableMetric] || row.metrics[0]).formatter(value);
       },
-      getTimeWindowAggregation() {
-        return 'mean';
+      getTimeWindowAggregation(row: Row) {
+        return row.type == 'counter' ? 'sum' : 'mean';
       },
       getTimeConfig(row: Row) {
         return row.timeConfig;
       },
       getRollup(row: Row) {
         return row.rollup;
-      }
+      },
+      forceTimeWindowAggregation: true
     }
   }
 ];
@@ -256,7 +263,8 @@ function getDetails(row: Row) {
     formatter: y1DataSeries[0].formatter,
     metrics: y1DataSeries.map(m => m.name),
     labels: y1DataSeries.map(m => m.label),
-    type: 'line'
+    type: charTypeFromMetricType(row.type),
+    aggregation: aggregationFromMetricType(row.type)
   };
 
   let y2 = undefined;
@@ -265,7 +273,8 @@ function getDetails(row: Row) {
       formatter: y2DataSeries[0].formatter,
       metrics: y2DataSeries.map(m => m.name),
       labels: y2DataSeries.map(m => m.label),
-      type: 'line'
+      type: charTypeFromMetricType(row.type),
+      aggregation: aggregationFromMetricType(row.type)
     };
   }
 
@@ -278,6 +287,14 @@ function getDetails(row: Row) {
       y2={y2}
     />
   );
+}
+
+function charTypeFromMetricType(type: string) {
+  return type == 'counter' ? 'bar' : 'line';
+}
+
+function aggregationFromMetricType(type: string) {
+  return type == 'counter' ? 'SUM' : 'MEAN';
 }
 
 export function getDefaultRows({
@@ -348,7 +365,6 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
   };
 }
 
-
 /*
  * Adjusts the metric rollup if necessary
  * to enable the retrieval of histogram metrics
@@ -356,16 +372,12 @@ function expandMetric(id: string, specs: MetricsSpec[]) {
  * undefined if the rollup does not need to
  * be changed.
  */
-function adjustMetricRollup(
-  metricType: string,
-  metricName: string,
-  defaultRollup: number): number | undefined {
-
-    if (beeinstanaHistogramsEnabled && defaultRollup < beeInstanaMinimumRollupMillis) {
-      if (metricType === "histogram" && nativeBeeInstanaHistogram(metricName)) {
-        return beeInstanaMinimumRollupMillis;
-      }
+function adjustMetricRollup(metricType: string, metricName: string, defaultRollup: number): number | undefined {
+  if (beeinstanaHistogramsEnabled && defaultRollup < beeInstanaMinimumRollupMillis) {
+    if (metricType === 'histogram' && nativeBeeInstanaHistogram(metricName)) {
+      return beeInstanaMinimumRollupMillis;
     }
+  }
   return;
 }
 
@@ -376,12 +388,11 @@ function adjustMetricRollup(
  * part of the metric name.
  */
 function nativeBeeInstanaHistogram(metricName: string): boolean {
-  const nonNativeMetrics = ["_bucket","_count","_sum","_mean","_gcount","_gsum"];
-  const metricSplit = metricName.split("{");
+  const nonNativeMetrics = ['_bucket', '_count', '_sum', '_mean', '_gcount', '_gsum'];
+  const metricSplit = metricName.split('{');
   if (metricSplit.length > 0) {
-    let index = metricSplit[0].lastIndexOf("_");
-    if (index === -1 ||
-      !nonNativeMetrics.includes(metricSplit[0].substr(index))) {
+    let index = metricSplit[0].lastIndexOf('_');
+    if (index === -1 || !nonNativeMetrics.includes(metricSplit[0].substr(index))) {
       return true;
     }
   }
@@ -396,7 +407,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
-        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+        formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
     ]
   },

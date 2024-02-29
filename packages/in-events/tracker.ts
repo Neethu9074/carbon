@@ -24,7 +24,11 @@ import {
   INCIDENT_SUMMARIZATION_SUBMIT,
   INCIDENT_SUMMARIZATION_CLOSED_MANUALLY,
   INCIDENT_SUMMARIZATION_NEXT,
-  INCIDENT_SUMMARIZATION_SKIP
+  INCIDENT_SUMMARIZATION_SKIP,
+  JOURNAL_FAKE_DOOR_START_CLICK,
+  JOURNAL_FAKE_DOOR_NOT_INTERESTED,
+  JOURNAL_FAKE_DOOR_INTERESTED,
+  JOURNAL_FAKE_DOOR_CLOSE
 } from 'in-services/tracking/tracking';
 
 export const helpfulRCASuggestionTracker = (e: Object) => track(EVENT_RCA_SUGGESTION_HELPFUL, e);
@@ -49,3 +53,8 @@ export const incidentSummarizationFeedbackClosedManuallyTracker = (e: Object) =>
   track(INCIDENT_SUMMARIZATION_CLOSED_MANUALLY, e);
 export const incidentSummarizationFeedbackNextTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_NEXT, e);
 export const incidentSummarizationFeedbackSkipTracker = (e: Object) => track(INCIDENT_SUMMARIZATION_SKIP, e);
+
+export const journalStartFakeDoorClickTracker = (e: Object) => track(JOURNAL_FAKE_DOOR_START_CLICK, e);
+export const journalFakeDoorNotInterestedTracker = (e: Object) => track(JOURNAL_FAKE_DOOR_NOT_INTERESTED, e);
+export const journalFakeDoorInterestedTracker = (e: Object) => track(JOURNAL_FAKE_DOOR_INTERESTED, e);
+export const journalFakeDoorCloseTracker = (e: Object) => track(JOURNAL_FAKE_DOOR_CLOSE, e);

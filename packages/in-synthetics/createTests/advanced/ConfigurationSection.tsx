@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, ValidationResult } from 'formalistic';
+import { Field, Item, MapForm, ValidationResult, createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
@@ -14,22 +14,37 @@ import { generateUniqueShortId } from '@instana/utils';
 import {
   onlyUniqueKeyNames,
   requestHeaderNameValidator,
-  requestHeaderValueValidator
+  requestHeaderValueValidator,
+  timeoutValidator
 } from 'in-synthetics/createTests/validators/configValidators';
+import {
+  Invalid,
+  Validation,
+  expectJson,
+  expectMatch,
+  expectStatus,
+  retriesObject,
+  timeoutObject
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
-import { Invalid, Validation, expectJson, expectMatch, expectStatus } from 'in-synthetics/utils/constants';
+import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
+import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import ValidationSection from 'in-synthetics/createTests/advanced/ValidationSection';
 import { HTTPMethods } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
+import { numberValidator } from 'in-services/validators/jsonType';
+import { minValidator } from 'in-services/validators/number';
 import { ConfigItem } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
-import FormGroup from 'in-components/form/FormGroup';
 import { isNotBlank } from 'in-services/util/string';
+import FormGroup from 'in-components/form/FormGroup';
+import { Col, Row } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -46,6 +61,8 @@ interface Props {
   setInvalidHeader: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidJSON: Invalid;
   setInvalidJSON: React.Dispatch<React.SetStateAction<Invalid>>;
+  invalidTimeout: Invalid;
+  setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
 export default function ConfigurationSection({
@@ -57,7 +74,9 @@ export default function ConfigurationSection({
   invalidHeader,
   setInvalidHeader,
   invalidJSON,
-  setInvalidJSON
+  setInvalidJSON,
+  invalidTimeout,
+  setInvalidTimeout
 }: Props) {
   const configForm = form.get('configuration') as MapForm<any>;
   const methodField = configForm.get('operation') as Field<string>;
@@ -69,6 +88,16 @@ export default function ConfigurationSection({
   const expectStatusField = configForm.get('expectStatus') as Field<string>;
   const expectJsonField = configForm.get('expectJson') as Field<Record<string, string>>;
   const expectMatchField = configForm.get('expectMatch') as Field<string>;
+  const timeoutField = configForm.get('timeout') as Field<string>;
+  const retriesField = configForm.get('retries') as Field<number>;
+  const retryIntervalField = configForm.get('retryInterval') as Field<number>;
+  const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
+  const [timeout, setTimeout] = useState({
+    value: timeoutField.value.replace(/[^0-9]/g, ''),
+    unit: timeoutField.value.replace(/[0-9]/g, '')
+  });
+  const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
+
   const getDefaultExpectValues = (): Validation[] => {
     const expectedObject: Validation[] = [];
     if (isNotBlank(expectStatusField.value)) {
@@ -351,6 +380,121 @@ export default function ConfigurationSection({
         />
       </div>
       <div className={locals.configContainer}>
+        <FormGroup className={locals.descriptionInput}>
+          <Label className={locals.timeoutLabel}>
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldLabel')}
+          </Label>
+          <div className={locals.subText}>
+            {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeUnitsLabel')}
+          </div>
+          <Row className={locals.row}>
+            {Object.keys(timeoutObject).map(unit => (
+              <Col lg={4} key={unit}>
+                <CheckboxFancy
+                  key={unit}
+                  label={timeoutObject[unit].label}
+                  checked={timeoutObject[unit].value === timeout.unit}
+                  onChange={() => {
+                    setTimeout({ value: '0', unit: timeoutObject[unit].value });
+                    updateForm(
+                      form.updateIn(['configuration', 'timeout'], (field: Item) =>
+                        (field as Field<string>).setValue('0' + timeoutObject[unit].value).setTouched(true)
+                      )
+                    );
+                  }}
+                  asRadioButton
+                />
+              </Col>
+            ))}
+          </Row>
+          <Stack direction="horizontal">
+            <div className={locals.alignText}>
+              {t('in-synthetics:dialog.createTest.advancedMode.configStep.timeoutFieldDescription')}
+            </div>
+            <Input
+              name="timeout"
+              hasError={invalidTimeout.invalid && timeoutField.touched}
+              value={timeout.value}
+              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                setTimeout({ value: target?.value, unit: timeout.unit });
+                const timeoutInvalid = timeoutValidator(target?.value, timeout.unit);
+                setInvalidTimeout({ invalid: timeoutInvalid[0].invalid, message: timeoutInvalid[0].message });
+                updateForm(
+                  form.updateIn(['configuration', 'timeout'], (field: Item) =>
+                    (field as Field<string>).setValue(Number(target?.value).toString() + timeout.unit).setTouched(true)
+                  )
+                );
+              }}
+            />
+            <div className={locals.alignText}>{timeoutObject[selectedUnit]?.label}</div>
+          </Stack>
+          {invalidTimeout.invalid && <ValidationBlock>{invalidTimeout.message}</ValidationBlock>}
+        </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
+        <FormGroup className={locals.descriptionInput}>
+          <Label>{t('in-synthetics:dialog.createTest.advancedMode.configStep.retryFieldLabel')}</Label>
+          <Row className={locals.row}>
+            {retriesObject.map(retry => (
+              <Col lg={4} key={retry.value}>
+                <CheckboxFancy
+                  key={retry.value}
+                  label={retry.label}
+                  checked={retry.value === retriesField.value}
+                  onChange={() => {
+                    if (retry.value === 0) {
+                      updateForm(
+                        form
+                          .updateIn(['configuration', 'retries'], (field: Item) =>
+                            (field as Field<number>).setValue(retry.value).setTouched(true)
+                          )
+                          .updateIn(['configuration', 'retryInterval'], (field: Item) =>
+                            (field as Field<number>).setValue(1).setTouched(true)
+                          )
+                      );
+                    } else {
+                      updateForm(
+                        form
+                          .put(
+                            'configuration',
+                            form.get('configuration').put(
+                              'retryInterval',
+                              createField({
+                                value: 1,
+                                validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
+                              })
+                            )
+                          )
+                          .updateIn(['configuration', 'retries'], (field: Item) =>
+                            (field as Field<number>).setValue(retry.value).setTouched(true)
+                          )
+                      );
+                    }
+                  }}
+                  asRadioButton
+                />
+              </Col>
+            ))}
+          </Row>
+
+          {(retriesField.value === 1 || retriesField.value === 2) && (
+            <Section>
+              <ActionTitle>
+                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
+              </ActionTitle>
+              <Description>
+                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalDescription', {
+                  retryCount: retriesField.value === 1 ? 'once' : 'twice',
+                  retryIntervalValue: retryIntervalField.value
+                })}
+              </Description>
+              {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
+              <TouchedMessages field={retryIntervalField} />
+            </Section>
+          )}
+        </FormGroup>
+      </div>
+      <div className={locals.configContainer}>
         <Stack direction="horizontal">
           <CheckboxFancy
             wrapperClassName={locals.configCheckbox}
@@ -378,6 +522,20 @@ export default function ConfigurationSection({
             checked={allowInsecure.value}
             size="larger"
             label={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
+            disabled={false}
+          />
+          <CheckboxFancy
+            wrapperClassName={locals.configCheckbox}
+            onChange={({ target }) => {
+              updateForm(
+                form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
+                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
+                )
+              );
+            }}
+            checked={markSyntheticCall.value}
+            size="larger"
+            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
             disabled={false}
           />
         </Stack>
