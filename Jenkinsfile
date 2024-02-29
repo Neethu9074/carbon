@@ -265,7 +265,7 @@ def buildAndPublishImage(gitCommitId, componentName, branchName, instanaUiClient
       credentialsId: 'codebuild',
       projectName: 'build-ui-client-images',
       region: 'us-west-2',
-      imageOverride: 'aws/codebuild/standard:6.0',
+      imageOverride: 'aws/codebuild/standard:7.0',
       sourceControlType: 'project',
       sourceVersion: gitCommitId,
       envVariables: "[ {CONTAINER_IMAGE_NAME, ${componentName}}, {ARTIFACT_VERSION, ${instanaUiClientVersion}}, {IMAGE_VERSION, ${instanaImageVersion}}, {BRANCH_NAME, ${branchName}} ]"
