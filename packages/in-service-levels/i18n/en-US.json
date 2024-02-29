@@ -182,6 +182,9 @@
       "thresholdLabel_availability": "Error Rate (%)",
       "setGoodCall": "Set the good calls to a service",
       "setBadCall": "Set the bad calls to a service (Optional)"
+    },
+    "previewSection": {
+      "dataInfo": "Preview data is shown only up to 7 days in the past. The SLO will only include data from the time it was created"
     }
   },
   "sloChart": {
@@ -214,10 +217,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Service: {{label}}",
-        "tooltip": {
-          "applications": "Application SLO",
-          "websites": "Website SLO"
-        }
+        "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
         "placeholder": "Entity Type"

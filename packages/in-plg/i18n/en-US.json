@@ -412,5 +412,26 @@
       "selectAgentPackagingMode": "Step 1: Select  agent packaging mode.",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
     }
+  },
+  "welcomepage": {
+    "heading": "Welcome",
+    "consumeData": {
+      "title": "Consume Data",
+      "description": "Get started and deploy your first agent.",
+      "buttonName": "Deploy agent",
+      "buttonType": "primary"
+    },
+    "inviteTeammates": {
+      "title": "Invite teammates",
+      "description": "Collaborate with your colleagues.",
+      "buttonName": "Send invitation",
+      "buttonType": "ghost"
+    },
+    "nextSteps": {
+      "title": "Next steps",
+      "description": "Find more setup setup steps by clicking the ? symbol in the top right corner.",
+      "buttonName": "Get answers",
+      "buttonType": "ghost"
+    }
   }
 }

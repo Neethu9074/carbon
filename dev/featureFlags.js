@@ -105,11 +105,13 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticUpdateDeployPoPEnabled: true,
+  syntheticDeactivateDatacentersEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
-  logSmartAlertsEnabled: true
+  logSmartAlertsEnabled: true,
+  welcomePageV2Enabled: false
 };

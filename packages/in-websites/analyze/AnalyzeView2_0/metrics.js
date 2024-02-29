@@ -46,7 +46,8 @@ export const metricRenderers = {
     firstContentfulPaintTime: 'stackedArea',
     largestContentfulPaintTime: 'stackedArea',
     firstInputDelay: 'stackedArea',
-    cumulativeLayoutShift: 'stackedBar'
+    cumulativeLayoutShift: 'stackedBar',
+    interactionNextPaint: 'stackedBar'
   },
   pageChange: {
     beaconCount: 'stackedBar',

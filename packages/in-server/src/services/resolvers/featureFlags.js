@@ -288,7 +288,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloV2Enabled',
     instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'businessObservabilityEnabled',
@@ -396,6 +396,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticDeactivateDatacentersEnabled',
+    instanaCtlKey: 'feature.synthetic.deactivate.datacenters.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -498,7 +503,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonShellEnabled',
     instanaCtlKey: 'feature.carbon.shell.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonPillEnabled',
@@ -523,6 +528,11 @@ module.exports = exports = [
   {
     uiClientKey: 'logSmartAlertsEnabled',
     instanaCtlKey: 'feature.log.smart.alerts.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'welcomePageV2Enabled',
+    instanaCtlKey: 'feature.welcomepage.v2.enabled',
     defaultValue: false
   }
 ];

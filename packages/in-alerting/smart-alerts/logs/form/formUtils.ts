@@ -6,8 +6,7 @@
 
 import { MapForm } from 'formalistic';
 
-//@ts-expect-error
-import { getHigherOrLowerOperatorContext } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { getHigherOrLowerOperatorContext } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { t } from 'in-i18n';
 
 export function getTitlePlaceholder() {

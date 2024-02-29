@@ -51,8 +51,6 @@ export interface UserResult {
   readonly tfaEnabled: boolean | null | undefined;
 }
 
-export type UserRestrictedApplication = UserGroupRestrictions;
-
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
 function getUsersAsResultObservableInternal() {
   return refreshSignalUsers.flatMap(() => createObservable(getUsersInternal()));
@@ -159,7 +157,7 @@ export function revokeInvitation(email: string) {
 
 export function getUserRestrictedApplications() {
   return createObservable(
-    http<UserRestrictedApplication[]>({
+    http<UserGroupRestrictions[]>({
       method: 'GET',
       maxRetries: 3,
       url: `api/settings/rbac/user/restrictions`

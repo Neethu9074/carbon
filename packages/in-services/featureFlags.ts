@@ -69,7 +69,7 @@ export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
-export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
+export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 
@@ -108,6 +108,9 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 
 // Synthetic Instana Deploy PoP feature flag
 export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUpdateDeployPoPEnabled');
+
+// Synthetic Deactivate Datacenters feature flag
+export const syntheticDeactivateDatacentersEnabled = isFeatureFlagEnabled('syntheticDeactivateDatacentersEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -223,5 +226,7 @@ export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applic
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
+
+export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);

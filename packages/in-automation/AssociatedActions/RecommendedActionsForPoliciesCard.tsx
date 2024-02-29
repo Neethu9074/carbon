@@ -12,23 +12,25 @@ import RecommendationActionForPoliciesTable from 'in-automation/AssociatedAction
 import { getEventSpecificationId, getIsCustomEvent, useEventSpecificationData } from './sharedPolicies';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { Event, Policy, Result, VolatileId } from 'in-types';
 import { getPoliciesForTrigger } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
-import { Event, Policy, Result } from 'in-types';
 
 interface SuggestedActionsCardProps {
   event: Event;
   reload: number;
   setReload: (r: number) => void;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
 }
 
 export default function RecommendedActionsForPoliciesCard({
   event,
   reload,
   setReload,
-  setSelectedType
+  setSelectedType,
+  volatileId
 }: SuggestedActionsCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
@@ -101,6 +103,8 @@ export default function RecommendedActionsForPoliciesCard({
         triggerReload={triggerReload}
         isCustomEvent={isCustomEvent}
         setSelectedType={setSelectedType}
+        volatileId={volatileId}
+        event={event}
       />
     </>
   );

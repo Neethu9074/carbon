@@ -207,6 +207,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           {...formControlProps}
           {...slideControlProps}
           setValid={setValidContributionFilterName}
+          editMode={editMode}
         />
       )
     },

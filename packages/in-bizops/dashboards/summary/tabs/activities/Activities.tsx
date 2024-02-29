@@ -101,11 +101,11 @@ function getBusinessProcessActivityList({
     dataType: 'ACTIVITY',
     metrics: {
       count: {
-        metric: 'activitiesCount',
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT'
       },
       timeseries_counts: {
-        metric: 'activitiesCount',
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT',
         granularity: getChartGranularity(timeConfig)
       }

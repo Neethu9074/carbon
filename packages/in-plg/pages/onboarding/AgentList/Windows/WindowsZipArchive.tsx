@@ -124,7 +124,7 @@ const WindowsZipArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDo
                 tenantUnit,
                 agentKey,
                 downloadKey,
-                agentMode === agentModeOptions[1] ? 'win64' : 'win64offline',
+                agentMode === agentModeOptions[0] ? 'win64' : 'win64offline',
                 butlerDomain
               )}
               inputValue="Windows Zip (64bit)"

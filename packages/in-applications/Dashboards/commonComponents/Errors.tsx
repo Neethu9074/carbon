@@ -5,18 +5,44 @@
 
 import React from 'react';
 
-// eslint-disable-next-line import/no-deprecated
-import { filterByEndpointType } from './includeEndpointTypes';
+import { AggregationType, EndpointType, Granularity, Group, TagFilter, TimeConfig } from '@instana/types';
+
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { carbonAlert, timeShift } from 'in-themes/chartColors';
+import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
 import { t } from 'in-i18n';
+
+interface ErrorsProps {
+  applicationId: string;
+  boundaryScope: string;
+  cardTitle: string;
+  endpointId: string;
+  endpointTypes: EndpointType[];
+  groupBy: Group;
+  renderPostChartContent: (a: any) => JSX.Element;
+  serviceId: string;
+  tagFilters: TagFilter;
+  timeConfig: TimeConfig;
+}
+
+interface ErrorRateProps {
+  aggregation: AggregationType;
+  color: string;
+  granularity: Granularity;
+  label: string;
+  metric: string;
+  source: string;
+  tagFilters: TagFilter;
+  timeConfig: TimeConfig;
+  timeShift: number;
+}
 
 export default function Errors({
   timeConfig,
@@ -29,13 +55,12 @@ export default function Errors({
   endpointTypes,
   groupBy,
   renderPostChartContent
-}) {
-  const granularity = getChartGranularity(timeConfig);
+}: ErrorsProps): React.ReactElement {
+  const granularity = getChartGranularity(timeConfig) as Granularity;
   const errorsBlueprintConfig = getBlueprintConfig('errors');
   const timeShiftConfig = useTimeShiftConfig();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
-  const errorRate = {
+  const errorRate: ErrorRateProps = {
     metric: 'errors',
     label: t('in-applications:titleErroneousCallRate'),
     aggregation: 'MEAN',
@@ -91,8 +116,8 @@ export default function Errors({
       }
       title={cardTitle}
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset}
-      reverseTooltipOrder={timeShiftConfig.offset}
+      reverseLegendOrder={timeShiftConfig.offset !== 0}
+      reverseTooltipOrder={timeShiftConfig.offset !== 0}
       config={{
         y1: {
           metrics: metrics,

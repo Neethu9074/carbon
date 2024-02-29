@@ -42,3 +42,10 @@ export function isAndOr(element) {
 export function isNot(element) {
   return element.type === CONJUNCTION_TYPE && element.logicalOperator === OPERATOR_NOT;
 }
+
+export const ADD_CLOSING_BRACKET = 'ADD_CLOSING_BRACKET';
+export const REMOVE_BRACKET = 'REMOVE_BRACKET';
+export const CLOSE_BRACKET = 'CLOSE_BRACKET';
+export const REMOVE_CONJUNCTION = 'REMOVE_CONJUNCTION';
+export const MISSING_CLOSING_BRACKET = 'MISSING_CLOSING_BRACKET';
+export const ADD_CONJUNCTION = 'ADD_CONJUNCTION';

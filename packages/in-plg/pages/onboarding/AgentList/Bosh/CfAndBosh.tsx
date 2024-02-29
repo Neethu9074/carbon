@@ -292,11 +292,11 @@ export default function CfAndBosh({
                         `uaac target <uaa-api-endpoint>`,
                         `uaac token client get -s <clients.admin-secret>`,
                         `uaac client add '${clientId}' \\`,
-                        `--name 'Instana Cloud Foundry Client' \\`,
-                        `--autoapprove true \\`,
-                        `--authorized_grant_types client_credentials \\`,
-                        `--authorities 'cloud_controller.admin_read_only' \\`,
-                        `--secret '${clientSecret}' \\`
+                        `  --name 'Instana Cloud Foundry Client' \\`,
+                        `  --autoapprove true \\`,
+                        `  --authorized_grant_types client_credentials \\`,
+                        `  --authorities 'cloud_controller.admin_read_only' \\`,
+                        `  --secret '${clientSecret}' \\`
                       ]}
                     />
                   </Stack>

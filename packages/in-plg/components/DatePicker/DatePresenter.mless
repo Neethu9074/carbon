@@ -1,0 +1,29 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .datePicker {
+    margin-right: -1px;
+    border-radius: var(--ids-border-radius-option-small) 0 0 var(--ids-border-radius-option-small);
+    height: 2.5rem;
+    &:hover,
+    &:active,
+    &:focus {
+      z-index: 1;
+      .carbonTimeSetting,
+      .carbonTimeSettingTop {
+        color: var(--ids-color-option-white);
+      }
+    }
+  }
+  .carbonTimeSettingTop {
+    color: #0f62fe;
+  }
+
+  .carbonTimeSetting {
+    color: #0f62fe;
+  }
+}

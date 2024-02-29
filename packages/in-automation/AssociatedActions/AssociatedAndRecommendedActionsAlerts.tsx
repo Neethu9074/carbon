@@ -63,6 +63,7 @@ export default function AssociatedAndRecommendedActionsAlerts({
                   <RecommendedActionsCardAlerts
                     event={event}
                     reload={reload}
+                    volatileId={volatileId}
                     setReload={setReload}
                     setSelectedType={setSelectedType}
                     alertConfig={alertConfig ?? alertConfigiguration}

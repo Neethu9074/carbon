@@ -19,11 +19,15 @@ export function findMinMetricValue(metrics: MetricDataSeries): number {
   }, 0);
 }
 
-export function calculateSloReferenceChartGranularity(timeConfig: TimeConfig, needsExtraSpace = false): number {
+export function calculateSloReferenceChartGranularity(
+  timeConfig: TimeConfig,
+  needsExtraSpace = false,
+  minGranularity?: number
+): number {
   return getChartGranularity(
     timeConfig,
     defaultNumberOfSuggestedDatapoints * (needsExtraSpace ? 0.5 : 1),
-    calculateSloGranularity(timeConfig)
+    calculateSloGranularity(timeConfig, minGranularity)
   );
 }
 
