@@ -13,7 +13,7 @@ import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import Props from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { t } from 'in-i18n';
 
-export function GoPythonRuntimeContent({ type, agentEndpoint, agentKey, agentEndpointPort }: Props): JSX.Element {
+export function GoPythonRuntimeContent({ type, agentKey, serverlessEndpoint }: Props): JSX.Element {
   return (
     <LayoutSection
       title={
@@ -24,15 +24,11 @@ export function GoPythonRuntimeContent({ type, agentEndpoint, agentKey, agentEnd
     >
       <Stack direction="horizontal">
         <KeyValue
-          label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
-          value={<InputWithButton type="copy" inputValue={agentEndpoint + ':' + agentEndpointPort} />}
+          label={'INSTANA_ENDPOINT_URL'}
+          value={<InputWithButton type="copy" inputValue={serverlessEndpoint} />}
           withGap
         />
-        <KeyValue
-          label={t('in-plg:agentDetails.common.agentKey')}
-          value={<InputWithButton type="copy" inputValue={agentKey} />}
-          withGap
-        />
+        <KeyValue label={'INSTANA_AGENT_KEY'} value={<InputWithButton type="copy" inputValue={agentKey} />} withGap />
       </Stack>
     </LayoutSection>
   );

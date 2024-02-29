@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Observable, create } from '@instana/observables';
 import { UserGroupRestrictions } from '@instana/types';
-import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -34,6 +34,14 @@ export interface Invitation {
   readonly groupId: string;
 }
 
+export interface PendingInvitation {
+  readonly email: string;
+  readonly groupId: string;
+  readonly groupName: string;
+  readonly expireAt: number;
+  readonly invitedBy: string;
+}
+
 export interface UserResult {
   readonly id: string;
   readonly email: string;
@@ -42,8 +50,6 @@ export interface UserResult {
   readonly groupCount: number | null | undefined;
   readonly tfaEnabled: boolean | null | undefined;
 }
-
-export type UserRestrictedApplication = UserGroupRestrictions;
 
 export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
 function getUsersAsResultObservableInternal() {
@@ -99,6 +105,17 @@ function getInvitationsInternal() {
   );
 }
 
+export const getPendingInvitations = memoize(getPendingInvitationsInternal, () => '', 60000);
+function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
+  return refreshSignalInvitations.flatMap(() =>
+    http<PendingInvitation[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/settings/invitations`
+    }).map(response => response.body)
+  );
+}
+
 export function sendInvitations(invitations: Invitation[]) {
   return http<InvitationResponse>({
     method: 'POST',
@@ -140,7 +157,7 @@ export function revokeInvitation(email: string) {
 
 export function getUserRestrictedApplications() {
   return createObservable(
-    http<UserRestrictedApplication[]>({
+    http<UserGroupRestrictions[]>({
       method: 'GET',
       maxRetries: 3,
       url: `api/settings/rbac/user/restrictions`

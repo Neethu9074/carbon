@@ -10,6 +10,7 @@ import { Spacer } from '@instana/components';
 import CreateApplicationFilterExpression from 'in-applications/creation/components/CreateApplicationFilterExpression';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
+import { findByRestrictingApplicationId } from 'in-applications/creation/contributionFilters';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -28,7 +29,7 @@ export default function SimpleCreateStep2({
   isValidTagFilterExpression,
   userRestrictedApplicationsResult
 }) {
-  const groupIdField = form.get('groupId');
+  const restrictingApplicationIdField = form.get('restrictingApplicationId');
 
   if (isLoading(userRestrictedApplicationsResult) || hasError(userRestrictedApplicationsResult)) {
     // keep showing a loading indicator even on error, until we a proper design for error handling
@@ -42,7 +43,10 @@ export default function SimpleCreateStep2({
   }
 
   const userRestrictedApplications = userRestrictedApplicationsResult.data;
-  const selectedUserGroupRestrictions = userRestrictedApplications.find(r => r.id === groupIdField.value);
+  const selectedUserGroupRestrictions = findByRestrictingApplicationId(
+    userRestrictedApplications,
+    restrictingApplicationIdField.value
+  );
 
   return (
     <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step2.headline')}>

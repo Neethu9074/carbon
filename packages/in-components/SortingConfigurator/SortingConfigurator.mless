@@ -9,6 +9,14 @@
     justify-content: space-between;
   }
 
+  .header {
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    justify-content: center;
+    background-color: var(--ids-color-option-neutral-100);
+  }
+
   .select {
     &:hover,
     &:active,

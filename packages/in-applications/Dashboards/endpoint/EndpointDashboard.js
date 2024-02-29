@@ -99,7 +99,7 @@ export default function EndpointDashboard({ location }) {
       ? tab => tab.label === t('in-applications:labelSummary')
       : () => true;
 
-  const showAlertButton = role.canConfigureCustomAlerts;
+  const showAlertButton = role.canConfigureApplicationSmartAlerts;
 
   return (
     <>

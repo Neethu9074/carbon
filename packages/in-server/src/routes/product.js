@@ -172,14 +172,14 @@ router.get('/', async (req, res) => {
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
     const nonce = uuidv4();
-    //Adding play-with-user
-    const customerEmail = { email: req.cookies['customer-email'] };
-    const loggedUser = clientConfig.featureFlags.playwithEnabled ? customerEmail : getParsedUser(userStr);
+    const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const isTrialUser =
-      JSON.parse(getLicenseInfo)?.type === 'selfService' || JSON.parse(getLicenseInfo)?.type === 'quota';
-    res.set('Content-Security-Policy', getCsp(nonce, isTrialUser));
+    const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
+    const isTrialOrNotForResaleUser = ['selfService', 'quota', 'free_not_for_resale'];
+    const isAssistMeEnabled =
+      isTrialOrNotForResaleUser.includes(activeLicenseInfo) || clientConfig.featureFlags?.welcomePageV2Enabled;
+    res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled));
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -207,7 +207,7 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        licenceType: isTrialUser
+        isAssistMeEnabled
       })
     );
   } catch (err) {

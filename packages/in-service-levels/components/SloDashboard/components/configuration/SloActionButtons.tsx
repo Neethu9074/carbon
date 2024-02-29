@@ -16,14 +16,17 @@ import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import IconButton from 'in-components/IconButton/IconButton';
+import { noop } from 'in-services/fixedObjects';
 
 interface SloActionButtonsProps {
   configuration: ServiceLevelObjectiveConfiguration;
+  editDisabled: boolean | undefined;
 }
 
-export default function SloActionButtons({ configuration }: SloActionButtonsProps) {
+export default function SloActionButtons({ configuration, editDisabled }: SloActionButtonsProps) {
   const { goToPath } = useNavigation();
   const doDelete = useDoDeleteSloConfiguration(configuration, success => success && goToPath(serviceLevelsOverview));
+
   const openCloneDialog = () => {
     addActiveDialog(
       <CreateSloDialog
@@ -44,7 +47,13 @@ export default function SloActionButtons({ configuration }: SloActionButtonsProp
 
   return (
     <Stack align="end" direction="horizontal" gap="disabled">
-      <IconButton type="lib_actions_edit" buttonType="button" kind="primary" onClick={openEditDialog} />
+      <IconButton
+        type="lib_actions_edit"
+        buttonType="button"
+        kind="primary"
+        onClick={editDisabled ? noop : openEditDialog}
+        disabled={editDisabled}
+      />
       <IconButton type="lib_actions_copy" buttonType="button" kind="primary" onClick={openCloneDialog} />
       <IconButton type="lib_actions_delete" buttonType="button" kind="primary" onClick={doDelete} />
     </Stack>

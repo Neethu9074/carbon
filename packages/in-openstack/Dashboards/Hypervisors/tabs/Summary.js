@@ -22,7 +22,7 @@ export default function Summary({ timeConfig, data: hypervisor }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-openstack:id')} value={hypervisor.itemId} raw borderless />
+        <KpiCard title={t('in-openstack:id')} value={hypervisor.openstackItem.id} raw borderless />
         <KpiCard title={t('in-openstack:cpuArch')} value={hypervisor.openstackItem.architecture} raw borderless />
         <KpiCard title={t('in-openstack:cpuModel')} value={hypervisor.openstackItem.model} raw borderless />
         <KpiCard title={t('in-openstack:cpuVendor')} value={hypervisor.openstackItem.vendor} raw borderless />

@@ -21,10 +21,6 @@
       "transferSizeLabel": "Tamanho da transferência",
       "transferSizeCategory": "Dimensionamento de recurso"
     },
-    "crash": {
-      "crashAffectedSessionCount": "Contagem de sessões afetadas por travamento",
-      "crashAffectedUserCount": "Contagem de usuários afetados por travamento"
-    },
     "errorRate": {
       "label": "Taxa de erro",
       "rawDataLabel": "Contagem de erros"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "Visualizar rastreio de back-end",
       "showID": "ID: {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "Visualizar detalhes do grupo de travamento"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} ocorrências",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Evento customizado",
@@ -220,8 +219,8 @@
       "metaHeader": "Meta",
       "stackTrace": "Rastreio de pilha",
       "stackTraceLastOccurrence": "Rastreio de pilha (última ocorrência)",
-      "stackTraceButtonPrettyStackTrace": "Rastreio de pilha considerável",
-      "stackTraceButtonRawStackTrace": "Rastreio de pilha bruto"
+      "stackTraceButtonCrashedThreadsStackTrace": "Encadeamentos travados",
+      "stackTraceButtonAllThreadsStackTrace": "Todos os encadeamentos"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Tempo de recuperação",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "Descrição",
           "fileUploadConfigurationDialogDescriptionHelp": "Uma configuração de upload irá ajudá-lo a organizar melhor seus arquivos transferidos por upload.",
           "fileUploadConfigurationDialogHeadingOpenAPI": "Fazendo upload de arquivos de símbolo",
-          "fileUploadConfigurationDialogOpenAPIHelp": "Faça upload de seus arquivos de símbolo chamando a API de REST da web do Instana. Isso poderia ser integrado ao seu processo de pipeline para implementação automatizada. A explicação e o uso de nossa API de REST da Web estão definidos dentro da nossa <documentation>documentação</documentation>.",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Faça upload de seus arquivos de símbolo chamando a API de REST da web do Instana. Isso poderia ser integrado ao seu processo de pipeline para implementação automatizada. A explicação e o uso de nossa API de REST da Web estão definidos em nossa <documentation>documentação</documentation>.",
           "fileUploadUrl": "Fazer upload da API do arquivo de símbolo",
           "stackTraceTranslationLabelConfiguration": "Configuração",
           "stackTraceTranslationLabelFiles": "Arquivos",
@@ -438,7 +437,7 @@
     "nameLabel": "Nome",
     "sessionStartsLabel": "Inícios de sessão",
     "viewTransitionsLabel": "Transições de visualização",
-    "crashFreeSessionRateLabel": "Taxa de sessões livres de travamento",
+    "crashAffectedSessionRateTitle": "Taxa de sessões afetadas por travamento",
     "addMobileAppBtn": "Incluir aplicativo móvel",
     "mobileAppsTitle": "Aplicativos móveis"
   },

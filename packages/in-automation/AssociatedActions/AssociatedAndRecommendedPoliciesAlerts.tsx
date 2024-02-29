@@ -6,11 +6,12 @@
 
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
-//import AssociatedActionsAlerts from './AssociatedActionsAlerts';
-import AssociatedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedPoliciesAlerts';
 import RecommendedActionsAlertsForPolicies from 'in-automation/AssociatedActions/RecommendedActionsAlertsForPoliciesCard';
+import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import AssociatedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedPoliciesAlerts';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import PoliciesButtonGroup from 'in-automation/AssociatedActions/PoliciesButtonGroup';
 import { ApplicationAlertConfigWithMetadata, Event, VolatileId } from 'in-types';
@@ -31,6 +32,11 @@ export default function AssociatedAndRecommendedPoliciesAlerts({
   const [reload, setReload] = useState(0);
   const [selectedType, setSelectedType] = useState('associatedPolicies');
   const eventId = event?.id;
+  const alertConfigiguration = useObservable(() => {
+    const configId = event?.metadata?.eventSpecificationId;
+    const configTimestamp = event?.metadata?.alertConfigCreated;
+    return getAlertConfigByIdAndTimestamp(configId, configTimestamp, { asObservable: false });
+  }, [event]);
   return (
     <>
       <Row withoutSideMargin>
@@ -45,7 +51,7 @@ export default function AssociatedAndRecommendedPoliciesAlerts({
                     event={event}
                     reload={reload}
                     setReload={setReload}
-                    alertConfig={alertConfig}
+                    alertConfig={alertConfig ?? alertConfigiguration}
                   />
                 </Col>
               </Row>
@@ -57,8 +63,9 @@ export default function AssociatedAndRecommendedPoliciesAlerts({
                     event={event}
                     reload={reload}
                     setReload={setReload}
+                    volatileId={volatileId}
                     setSelectedType={setSelectedType}
-                    alertConfig={alertConfig}
+                    alertConfig={alertConfig ?? alertConfigiguration}
                   />
                 </Col>
               </Row>

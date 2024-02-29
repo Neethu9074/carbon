@@ -24,7 +24,8 @@
     .ellipsis();
   }
 
-  .timeShift {
+  .timeShift,
+  .adjustedWindowSize {
     color: var(--ids-color-option-neutral-600);
     text-transform: lowercase;
     margin-left: 0.25rem;

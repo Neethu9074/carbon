@@ -7,9 +7,8 @@ import React, { ReactElement } from 'react';
 import invariant from 'invariant';
 import rpt from 'prop-types';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-
-import { useTheme } from 'in-themes';
 
 import locals from './Collapsible.mless';
 
@@ -73,7 +72,6 @@ class Collapsible extends React.PureComponent<CollapsibleProps> {
 export default Collapsible;
 
 function Header({ isOpen, toggle, style, children }: HeaderProps) {
-  const theme = useTheme();
   return (
     <div onClick={toggle} className={locals.header} style={style}>
       <span>{children}</span>
@@ -81,7 +79,7 @@ function Header({ isOpen, toggle, style, children }: HeaderProps) {
       <SvgIcon
         type={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
         className={locals.toggle}
-        color={theme.ids.color.option.neutral['700']}
+        color={themes.default.ids.color.option.neutral['700']}
       />
     </div>
   );

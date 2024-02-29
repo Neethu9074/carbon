@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .indicatorBar {
     margin-bottom: 1rem;
@@ -12,5 +14,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+  }
+
+  .modal {
+    .widgetInModal();
   }
 }

@@ -7,9 +7,7 @@ import React, { forwardRef, useMemo, useState } from 'react';
 import rpt from 'prop-types';
 
 // @ts-expect-error needs TS migration
-import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
-import { isBrowserInFullScreen } from 'in-custom-dashboards/utils';
 import TooltipContent from 'in-components/PieChart/TooltipContent';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
@@ -41,7 +39,6 @@ const PieChartWrapper = forwardRef((props, ref) => {
   } = props;
   const [hiddenMetrics, setHiddenMetrics] = useState([]);
   const sliceGap = donutRadius && metrics.length > 1 ? 0.002 : 0;
-  const isInFullScreen = isBrowserInFullScreen();
 
   const sum = useMemo(
     () => metrics.filter((_, i) => !hiddenMetrics.includes(i)).reduce((acc, m2) => acc + (m2[0]?.[1] || 0), 0),
@@ -63,7 +60,9 @@ const PieChartWrapper = forwardRef((props, ref) => {
             hoverColor: props.y1.colors50[i],
             label: props.y1.labels[i],
             aggregation: props.y1.aggregations?.[i],
-            timeShift: props.y1.timeShifts?.[i] || defaultTimeShift
+            timeShift: props.y1.timeShifts?.[i] || defaultTimeShift,
+            lastValue: props.y1.lastValue ?? false,
+            adjustedWindowSize: props.y1.adjustedTimeframes?.[i]?.windowSize
           };
         }
       }),
@@ -94,7 +93,6 @@ const PieChartWrapper = forwardRef((props, ref) => {
   return (
     <div className={locals.chartContainer} ref={ref}>
       <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
-      {isInFullScreen && <TooltipPresenter />}
       <div className={locals.chart} style={customStyle}>
         <svg className={locals.svg} viewBox="-1 -1 2 2">
           {slices.map((slice, i) => {

@@ -6,7 +6,8 @@
 import React, { forwardRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { Toggle, Spacer, SvgIcon } from '@instana/components';
+import { Spacer, SvgIcon } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import locals from './Rule.mless';
 

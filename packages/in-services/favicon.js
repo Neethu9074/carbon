@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import Favico from 'favico.js';
+
+import { createLogger } from '@instana/logger';
 
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { getColorBySeverity } from 'in-stores/events';
@@ -29,7 +30,7 @@ export function init() {
       if (numberOfIncidents > 0) {
         const maxSeverity = events.get('maxIncidentSeverity');
         return {
-          count: numberOfIncidents,
+          count: numberOfIncidents > 99 ? '99+' : numberOfIncidents,
           color: maxSeverity > 0 ? getColorBySeverity(maxSeverity) : getColorBySeverity(0),
           textColor: maxSeverity > 6 ? '#ffffff' : '#000000'
         };

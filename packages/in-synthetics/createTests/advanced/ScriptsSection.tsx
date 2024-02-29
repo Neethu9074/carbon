@@ -22,6 +22,7 @@ import {
   scriptTestType
 } from 'in-synthetics/utils/constants';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 // eslint-disable-next-line no-restricted-imports
 import List from 'in-settings/components/List';
@@ -183,6 +184,17 @@ export default function ScriptsSection({
                           ? scriptTestType(scriptContent.extension, syntheticType)
                           : syntheticType;
                         if (scriptContent.extension !== 'zip') {
+                          let scriptFile = '';
+                          // If we upload or enter a script that isn't a JSON string, JSON.parse() will throw an exception
+                          // In those cases, control enters the catch block and we assign the original script value to scriptFile.
+                          try {
+                            scriptFile =
+                              scriptContent.extension !== 'side'
+                                ? String(JSON.parse(scriptContent.text))
+                                : scriptContent.text;
+                          } catch (e) {
+                            scriptFile = scriptContent.text;
+                          }
                           if (!form.get('configuration').get('script')) {
                             updatedForm = form.put(
                               'configuration',
@@ -191,7 +203,7 @@ export default function ScriptsSection({
                                 .put(
                                   'script',
                                   createField({
-                                    value: scriptContent.text,
+                                    value: scriptFile,
                                     validator: composeAndShortCircuitOnError(
                                       notUndefinedValidator,
                                       stringValidator,
@@ -210,7 +222,7 @@ export default function ScriptsSection({
                               form
                                 .get('configuration')
                                 .updateIn(['script'], (field: Item) =>
-                                  (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                                  (field as Field<string>).setValue(scriptFile).setTouched(true)
                                 )
                                 .updateIn(['syntheticType'], (field: Item) =>
                                   (field as Field<string>).setValue(testType).setTouched(true)
@@ -409,12 +421,7 @@ export default function ScriptsSection({
               <ActionTitle>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
               </ActionTitle>
-              <Description>
-                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalDescription', {
-                  retryCount: retriesField.value === 1 ? 'once' : 'twice',
-                  retryIntervalValue: retryIntervalField.value
-                })}
-              </Description>
+              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
               {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
               <TouchedMessages field={retryIntervalField} />
             </Section>

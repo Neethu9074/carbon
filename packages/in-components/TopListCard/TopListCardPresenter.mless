@@ -42,4 +42,8 @@
   .scrollbar {
     .visibleScrollbar();
   }
+
+  .modal {
+    .widgetInModal();
+  }
 }

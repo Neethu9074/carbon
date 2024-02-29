@@ -44,6 +44,7 @@ export default function AssociatedAndRecommendedPolicies({ volatileId, event }: 
                   <RecommendedActionsForPoliciesCard
                     event={event}
                     reload={reload}
+                    volatileId={volatileId}
                     setReload={setReload}
                     setSelectedType={setSelectedType}
                   />

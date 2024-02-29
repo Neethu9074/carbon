@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { themes } from '@instana/design-tokens';
+
 import { cpuColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
 import { serializeLine } from 'in-components/StackTrace/serializer';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
-import oldTheme from 'in-themes';
 
 export default function mapData(profile, width, query, selfTimeHighlighted) {
   const nodeHeight = 16;
@@ -77,7 +78,7 @@ export default function mapData(profile, width, query, selfTimeHighlighted) {
     if (query) {
       if (containsIgnoreCase(node.name, query)) {
         node.highlighted = true;
-        return oldTheme.lib.colors.primary1;
+        return themes.default.ids.color.option.teal['500'];
       } else {
         hex += '40';
       }

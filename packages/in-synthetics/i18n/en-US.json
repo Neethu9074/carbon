@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Add Synthetic Test",
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
       "noApplicationsFound": "No applications found",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "Browser Synthetic Tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
           "browserSimpleTitle": "Browser Simple Test",
-          "browserScriptTitle": "Browser Script Test",
-          "internetServicesTypeLabel": "Internet Services",
-          "internetServicesTypeHeadline": "Internet Services Tests",
-          "internetServicesTypeText": "Internet services synthetic testing involves simulating user interactions with web services to monitor and test their performance, helping identify and prevent downtime issues."
+          "browserScriptTitle": "Browser Script Test"
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -171,7 +169,7 @@
           "addscriptAction": "Add Script",
           "editscriptAction": "Edit Script",
           "scriptFileName": "File Name",
-          "scriptNotAdded" : "No script added.",
+          "scriptNotAdded": "No script added.",
           "buttonAdd": "Add",
           "buttonBack": "Back",
           "buttonSave": "Save",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "Retry once",
           "retryFieldOptionTwice": "Retry twice",
           "retryIntervalFieldLabel": "Retry Interval",
-          "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} second.",
+          "retryIntervalDescription": "This test will retry {{retryCount}} after {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Mark Synthetic Call"
         },
         "loadMore": "Load More",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser",
-          "internetServicesName": "Internet Services"
+          "browserName": "Browser"
         },
         "customProperties": {
           "property": "Property",
@@ -246,15 +243,67 @@
       "successMessageDelete": "Successfully deleted the location",
       "failureMesssageDelete": "Failed to delete the location. Please try again later"
     },
-    "updateTest":{
+    "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
       "buttonSave": "Save",
       "scriptSavedMessage": "Script added",
       "bundleSavedMessage": "Bundled scripts added"
+    },
+    "createLocation": {
+      "newLocation": "New Location",
+      "activate": "Activate",
+      "done": "Done",
+      "stepConfigs": {
+        "selectType": "Step 1: Select type",
+        "configuration": "Step 2: Configuration"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "What type of location would you like to use?"
+      },
+      "privateLocation": {
+        "name": "Private",
+        "headline": "Private Location",
+        "description": {
+          "headline": "When to use",
+          "htmlContent": "When you want to monitor internal facing applications or endpoints that are only accessible in your private network. These locations are set up, hosted, and managed by you."
+        }
+      },
+      "managedLocation": {
+        "name": "Managed",
+        "headline": "Managed Location",
+        "description": {
+          "headline": "When to use",
+          "htmlContent": "When you want to monitor publicly accessible websites and applications. These locations are hosted and managed by Instana at datacenters around the world."
+        },
+        "managedDatacentersLabel": "Instana Managed Datacenters",
+        "datacenterCode": "Datacenter Code",
+        "datacenterName": "Datacenter Name",
+        "provider": "Provider",
+        "status": "Status",
+        "datacentersSubtitle": "Activate a datacenter to add your new location at that Instana managed datacenter. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Locations are being deployed",
+          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations table. <strong>This can take up to 10 minutes.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Datacenter Code",
+              "datacenterName": "Datacenter Name",
+              "datacenterStatus": "Status"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"
+      },
+      "licenseCheck": {
+        "title": "You need a license.",
+        "description": "To use Instana managed locations, an <linkLicenses>additional license</linkLicenses> is required. Please contact your Instana administrator for help."
+      },
+      "status": {
+        "pending": "Pending"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Add Synthetic Test"
   },
   "createSmartAlert": {
     "buttonLabel": "Add Synthetic Smart Alert"
@@ -506,7 +555,7 @@
           }
         }
       },
-      "viewScreenshots":  {
+      "viewScreenshots": {
         "screenshotsDialogLabel": "Screeenshot(s)",
         "allScreenshots": "All Screenshots",
         "allImagesButton": "All Images",
@@ -554,7 +603,7 @@
       "locationsTitle": "Location(s)",
       "scheduleTitle": "Schedule",
       "frequencyTitle": "Frequency",
-      "simultaneousValue":"Simultaneous",
+      "simultaneousValue": "Simultaneous",
       "frequencyPluralValue": "{{minutes}} minutes",
       "frequencySingleValue": "{{minutes}} minute",
       "identifyTitle": "Identify",

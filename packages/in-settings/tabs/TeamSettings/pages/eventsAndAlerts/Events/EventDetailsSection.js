@@ -7,7 +7,8 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
-import { Spacer, Toggle } from '@instana/components';
+import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import {
   severityOptions,

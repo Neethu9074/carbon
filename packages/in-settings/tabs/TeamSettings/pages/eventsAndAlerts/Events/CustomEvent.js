@@ -6,6 +6,7 @@
 import React, { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
@@ -68,11 +69,9 @@ import { getPluginName } from 'in-sdk/pluginName';
 import { getAllActions } from 'in-automation/api';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
-  const theme = useTheme();
   const entityId = props.match.params.id;
   function mergeResultData() {
     const eventDetails$ = getCustomEventSpecificationMutable(entityId);
@@ -112,7 +111,7 @@ export default function CustomEvent(props) {
   } else if (errorLoading) {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownEvent')}
         </SubViewHeader>
         <SectionLine />
@@ -126,7 +125,8 @@ export default function CustomEvent(props) {
   } else {
     const entityType = getPluginName(entity.entityType, 1) ?? '';
     const isLegacyAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
-    const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
+    const hasPermissionsToEditSmartAlerts =
+      role.canConfigureApplicationSmartAlerts && role.canConfigureGlobalApplicationSmartAlerts;
     const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
     const isMigratable =

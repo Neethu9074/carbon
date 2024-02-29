@@ -8,11 +8,8 @@ import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matri
 import { policies, policiesDetails } from 'in-automation/navigation/paths';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 
-export const defaultPolicyUrlParameters = {
-  policyId: createPolicyUrlParameter(policies)
-};
-
-export const detailsPolicyUrlParameters = {
+export const policyDetailsUrlParameters = {
+  policyId: createPolicyUrlParameter(policies),
   op: createPolicyOpParameter(policiesDetails)
 };
 

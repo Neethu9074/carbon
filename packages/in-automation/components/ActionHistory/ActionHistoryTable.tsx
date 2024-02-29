@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Typography } from '@instana/components';
 
 import {
   CurrentState,
@@ -31,6 +31,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import FourLineWrapper from '../FourLineWrapper/FourLineWrapper';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -44,7 +45,11 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.name'),
     id: 'actionName',
     getContent(row: ActionInstance) {
-      return <div className={locals.fourLines}>{row.actionName}</div>;
+      return (
+        <FourLineWrapper>
+          <Typography variant="body-regular">{row.actionName}</Typography>
+        </FourLineWrapper>
+      );
     }
   },
   {
@@ -72,14 +77,18 @@ const columnDefinitions = [
     label: t('in-automation:actionHistory.eventName'),
     id: 'problemText',
     getContent(row: ActionInstance) {
-      return <div className={locals.fourLines}>{row.problemText}</div>;
+      return (
+        <FourLineWrapper>
+          <Typography variant="body-regular">{row.problemText}</Typography>
+        </FourLineWrapper>
+      );
     }
   },
   {
     label: t('in-automation:actionHistory.status'),
     id: 'status',
     getContent(row: ActionInstance) {
-      return getStatus(row.status);
+      return row.status ? getStatus(row.status) : t('in-automation:actionHistory.unknown');
     }
   }
 ];
@@ -161,7 +170,7 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       types={types}
       actionStatuses={
         actionStatuses.length === 0
-          ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED']
+          ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
           : actionStatuses
       }
       onRowClick={(row: ActionInstance) => {
@@ -180,21 +189,34 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
 }
 
 export function getStatus(status: string) {
-  if (status === 'SUCCESS' || status === 'FAILED') {
+  if (status === 'SUCCESS' || status === 'FAILED' || status === 'TIMEOUT') {
     return (
       <div
         className={classNames({
           [locals.statusIndicator]: true,
           [locals.statusIndicator__success]: status === 'SUCCESS',
-          [locals.statusIndicator__fail]: status === 'FAILED'
+          [locals.statusIndicator__fail]: status === 'FAILED' || status === 'TIMEOUT'
         })}
       >
-        {status === 'SUCCESS' ? t('in-automation:actionHistory.success') : t('in-automation:actionHistory.failed')}
+        {status === 'SUCCESS'
+          ? t('in-automation:actionHistory.success')
+          : status === 'FAILED'
+          ? t('in-automation:actionHistory.failed')
+          : t('in-automation:actionHistory.timeout')}
       </div>
     );
   }
   if (status === 'SUBMITTED') {
-    return <span>{t('in-automation:actionHistory.submitted')}</span>;
+    return (
+      <div
+        className={classNames({
+          [locals.statusIndicator]: true,
+          [locals.statusIndicator__submitted]: status === 'SUBMITTED'
+        })}
+      >
+        <span>{t('in-automation:actionHistory.submitted')}</span>;
+      </div>
+    );
   }
   if (status === 'IN_PROGRESS') {
     return (

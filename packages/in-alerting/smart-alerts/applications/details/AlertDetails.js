@@ -82,6 +82,8 @@ function GlobalAlertDetails(props) {
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
       getAllowedPlaceholders={evaluationType => placeholdersByEvaluationType[evaluationType]}
+      canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
+      canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
       isGlobalSmartAlert
     />
   );
@@ -137,6 +139,8 @@ function IndividualAlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
+      canConfigureGlobalAlertConfigs={role.canConfigureGlobalApplicationSmartAlerts}
+      canConfigureIndividualAlertConfigs={role.canConfigureApplicationSmartAlerts}
     />
   );
 }

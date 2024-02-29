@@ -6,13 +6,13 @@
 import React from 'react';
 
 import { formatDateTime } from '@instana/format-date';
+import { themes } from '@instana/design-tokens';
 
 import SliCreationMarkerLaneItem from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes/SliCreationMarkerLaneItem';
 import MarkersLane, { MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import { ChartContentPostition } from 'in-components/Chart/types';
-import { useTheme } from 'in-themes';
 
 interface SliCreationMarkerLaneProps extends Partial<PresentedLaneProps> {
   chartContentPosition?: ChartContentPostition;
@@ -26,7 +26,6 @@ export default function SliCreationMarkerLane({
   tooltipContent,
   ...restProps
 }: SliCreationMarkerLaneProps) {
-  const theme = useTheme();
   return (
     <MarkersLane
       {...restProps}
@@ -39,7 +38,7 @@ export default function SliCreationMarkerLane({
       TooltipContent={({ timestamp }) => (
         <SliCreationMarkerTooltipContent timestamp={timestamp}>{tooltipContent}</SliCreationMarkerTooltipContent>
       )}
-      color={theme.ids.color.option.neutral['700']}
+      color={themes.default.ids.color.option.neutral['700']}
     />
   );
 }

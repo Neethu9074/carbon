@@ -19,8 +19,10 @@ export interface HistogramWidgetCardProps {
   title: string;
   useMaxAvailableHeight?: boolean;
   config: HistogramConfig;
+  isInModal?: boolean;
   actions?: ReactNode;
   dragHandle?: ReactNode;
+  height?: number;
 }
 
 export default function HistogramWidgetCard({
@@ -28,6 +30,8 @@ export default function HistogramWidgetCard({
   config,
   actions,
   dragHandle,
+  isInModal,
+  height,
   useMaxAvailableHeight
 }: HistogramWidgetCardProps) {
   const result = useResultData({ config });
@@ -40,11 +44,22 @@ export default function HistogramWidgetCard({
     <Card
       title={title}
       useMaxAvailableHeight={useMaxAvailableHeight}
+      className={classNames({
+        [locals.modal]: isInModal
+      })}
+      bodyClassName={classNames({
+        [locals.modal]: isInModal
+      })}
+      headerClassName={classNames({
+        [locals.modal]: isInModal
+      })}
       rightHeaderContent={
-        <>
-          {dragHandle}
-          {actions}
-        </>
+        isInModal ? undefined : (
+          <>
+            {dragHandle}
+            {actions}
+          </>
+        )
       }
     >
       <div
@@ -52,7 +67,7 @@ export default function HistogramWidgetCard({
           [locals.container]: !hasNoData && hasNoErrors && !isLoading
         })}
       >
-        <HistogramChart result={result} config={config} />
+        <HistogramChart result={result} config={config} height={height} />
       </div>
     </Card>
   );

@@ -32,3 +32,13 @@ export const KindPrimary = () => (
     confirmButtonKind="primary"
   />
 );
+
+export const AutoFocusConfirmButton = () => (
+  <ConfirmationDialog
+    header="My Prompt Title"
+    headerIcon="lib_views_grid"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    onSubmit={action('onSubmit')}
+    confirmButtonAutoFocus
+  />
+);

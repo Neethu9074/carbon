@@ -23,10 +23,10 @@ export interface Props {
 }
 
 /**
- * This is used to render marks in the freequesncy scheduler
+ * This is used to render marks in the frequency scheduler
  * It allowes users to select any whole number between 1 and 120 inclusive.
  */
-const marks: Shape[] = [1, 15, 30, 45, 60, 75, 90, 105, 120].map(min => ({
+const marksToRender: Shape[] = [1, 15, 30, 45, 60, 75, 90, 105, 120].map(min => ({
   value: min,
   label: getDisplayLabel(min),
   millis: minutes.toMillis(min)
@@ -40,7 +40,7 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
       <Section headingText={t('in-synthetics:dialog.createTest.scheduling.title')}>
         <FormGroup>
           <SubTitle>{t('in-synthetics:dialog.createTest.basicDetails.labelFrequency')}</SubTitle>
-          {displaySlider(frequencyField, marks, form, updateForm)}
+          {displaySlider(frequencyField, marksToRender, form, updateForm)}
         </FormGroup>
       </Section>
     );
@@ -57,7 +57,7 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
           <Description>
             {t('in-synthetics:dialog.createTest.advancedMode.frequency', { frequencyValue: frequencyField.value })}
           </Description>
-          {displaySlider(frequencyField, marks, form, updateForm)}
+          {displaySlider(frequencyField, marksToRender, form, updateForm)}
         </FormGroup>
       </Section>
     );
@@ -75,7 +75,7 @@ function getDisplayLabel(value: number) {
 }
 
 function displaySlider(
-  frequencyField: Field<Number>,
+  frequencyField: Field<number>,
   marks: Shape[],
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void

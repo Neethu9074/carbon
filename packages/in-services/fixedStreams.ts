@@ -18,12 +18,12 @@ export const alwaysEmptyImmutableList = just(emptyList);
 
 export const always = just;
 
-export function any() {
+export function any(..._a: any[]) {
   const args = Array.from(arguments);
   return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a || b, false)));
 }
 
-export function all() {
+export function all(..._a: any[]) {
   const args = Array.from(arguments);
   // the observable should return true, if any of the given streams returns true
   return combineLatest(args).map(values => Boolean(values.reduce((a, b) => a && b, true)));

@@ -9,7 +9,6 @@ import React from 'react';
 import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import SloDashboardMetaInfo from 'in-service-levels/components/SloDashboard/components/SloDashboardMetaInfo';
 import AnalyzeSloEventsButtons from 'in-service-levels/components/AnalyzeSloEventsButtons';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -17,10 +16,11 @@ import { Nullish } from 'in-types';
 
 interface SloDashboardHeaderProps {
   result: Result<SloTabData> | Nullish;
+  data?: SloTabData;
 }
 
-export default function SloDashboardHeader({ result }: SloDashboardHeaderProps) {
-  const { configuration, entity } = result?.data ?? {};
+export default function SloDashboardHeader({ result, data }: SloDashboardHeaderProps) {
+  const { configuration } = data ?? {};
   const { name } = configuration ?? {};
 
   return (
@@ -29,9 +29,6 @@ export default function SloDashboardHeader({ result }: SloDashboardHeaderProps) 
       label={name ?? ''}
       icon="lib_service_level"
       result={result}
-      renderMetaInformation={() =>
-        configuration && <SloDashboardMetaInfo configuration={configuration} entity={entity} />
-      }
       renderButtonLine={() => configuration && <AnalyzeSloEventsButtons configuration={configuration} />}
     />
   );

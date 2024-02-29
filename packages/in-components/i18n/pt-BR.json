@@ -19,6 +19,7 @@
     "viewInAnalyticsBtnLabel": "Visualizar na análise",
     "chartLendMetricTimeShifted": "A métrica é o tempo deslocado para: {{timeShiftedLabel}}",
     "chartDownloadLabel": "Fazer download do JSON",
+    "chartDownloadCSVLabel": "Fazer download do CSV",
     "chartGlobalHighlightLabel": "Destacar em todos os gráficos",
     "chartZoomInLabel": "Zoom para intervalo de tempo",
     "chartAlertsLanePresenterAlertsLabel": "Alertas",
@@ -62,14 +63,6 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (em <codeWithClass>{{path}}</codeWithClass>)"
-  },
-  "graphView": {
-    "graphTitle": "Gráfico",
-    "explanationHeader": "Showcase de gráfico dinâmico",
-    "explanationP1": "A principal tecnologia de desenvolvimento da Instana consiste nos gráficos dinâmicos. Eles representam um modelo do seu aplicativo que compreende todas as dependências físicas e lógicas de componentes. À direita, você vê o gráfico dinâmico do seu ambiente atual.",
-    "explanationP2": "O gráfico tem mais do que componentes físicos, contendo também componentes lógicos, como rastreios, aplicativos, serviços, clusters ou espaços de tabela. Os componentes e suas dependências são descobertos automaticamente pelo agente e pelos sensores da Instana, de modo que o gráfico esteja sempre atualizado. Cada nó no gráfico também é atualizado continuamente com informações de estado, tais como métricas, dados de configuração e um valor de funcionamento calculado com base em conhecimento semântico e em uma abordagem de aprendizado de máquina. Esse conhecimento também analisa as dependências no gráfico para localizar agrupamentos lógicos, como serviços e aplicativos, para entender o impacto nesse nível e derivar a criticalidade dos problemas. Além de o gráfico inteiro ser persistente, é possível avançar e voltar no tempo para usar o conhecimento do gráfico em muitos casos de uso operacional.",
-    "explanationLink": "<linkToBlog>Visite nosso blog</linkToBlog> para obter mais informações.",
-    "closeBtn": "Fechar Gráfico"
   },
   "gravatar": {
     "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
@@ -240,7 +233,6 @@
     "labelRegion": "Região",
     "labelTag": "Tag",
     "labelCommit": "Confirmar",
-    "buttonGraphShowcase": "Showcase do gráfico",
     "geo": {
       "title": "Dados da região",
       "description": "Este produto inclui dados GeoLite2 criados por MaxMind, disponíveis por meio de <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -466,6 +458,7 @@
   },
   "sortingConfigurator": {
     "labelNA": "N/A",
+    "headerLabel": "Classificar por",
     "buttonAscending": "Crescente",
     "buttonDescending": "Decrescente"
   },

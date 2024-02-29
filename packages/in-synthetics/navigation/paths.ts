@@ -108,13 +108,13 @@ export const useGetAlertConfigLink = () => {
 function fillAlertTabSpecificValues(
   params: Location,
   alertConfigId: string,
-  alertsTab: string,
+  alertsPath: string,
   alertConfigVersion?: number,
   testId?: string
 ) {
   setOrDeleteMatrixKey(params, syntheticsDashboard, testIdMatrixParam, testId);
-  setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
-  setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
+  setOrDeleteMatrixKey(params, alertsPath, alertIdMatrixParam, alertConfigId);
+  setOrDeleteMatrixKey(params, alertsPath, alertCreatedMatrixParam, alertConfigVersion);
 }
 
 export function useLinkToGlobalAlertConfigWithoutDashboard() {
@@ -125,7 +125,7 @@ export function useLinkToGlobalAlertConfigWithoutDashboard() {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = alertsTabDetailsFullyQualified;
-      fillAlertTabSpecificValues(clonedLocation, alertConfigId, syntheticSmartAlertsPath, undefined, undefined);
+      fillAlertTabSpecificValues(clonedLocation, alertConfigId, syntheticSmartAlertsPath);
 
       return createHref(clonedLocation);
     },

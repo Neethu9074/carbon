@@ -7,6 +7,7 @@ import React, { Fragment, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { Spacer, Message } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
@@ -60,7 +61,6 @@ import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Events.mless';
@@ -250,8 +250,7 @@ function combineAndSortByLabel(array1, array2) {
 
 export function EventName({ entity, hasRowNavigation }) {
   const { name } = entity;
-  const theme = useTheme();
-  const icon = getIcon(entity, theme);
+  const icon = getIcon(entity, themes);
 
   const tooltipContent = needsMigrationAction(entity) ? (
     <>
@@ -291,13 +290,12 @@ export function EventName({ entity, hasRowNavigation }) {
 }
 
 export function EntityType({ entity }) {
-  const theme = useTheme();
   if (entity.entityType === 'any') {
     return '';
   }
   return (
     <Tooltip content={getPluginName(entity.entityType, 1)} align="topLeft" delay={500}>
-      <WithIcon plugin={entity.entityType} iconColor={theme.ids.color.option.neutral['700']}>
+      <WithIcon plugin={entity.entityType} iconColor={themes.default.ids.color.option.neutral['700']}>
         {getPluginName(entity.entityType, 1)}
       </WithIcon>
     </Tooltip>
@@ -376,19 +374,19 @@ function getEntityName(entity) {
   return `event ${entity.name}`;
 }
 
-function getIcon(entity, theme) {
+function getIcon(entity, themes) {
   if (entity.enabled === false) {
-    return { icon: 'lib_actions_pause', color: theme.ids.color.option.neutral['400'] };
+    return { icon: 'lib_actions_pause', color: themes.default.ids.color.option.neutral['400'] };
   }
 
   let icon = 'lib_events_change';
-  let color = theme.ids.color.option.neutral['400'];
+  let color = themes.default.ids.color.option.neutral['400'];
   if (entity.severity >= 1 && entity.severity <= 5) {
     icon = 'lib_events_warning';
-    color = theme.ids.color.option.yellow['500'];
+    color = themes.default.ids.color.option.yellow['500'];
   } else if (entity.severity > 5) {
     icon = 'lib_events_critical';
-    color = theme.ids.color.option.red['500'];
+    color = themes.default.ids.color.option.red['500'];
   }
   if (entity.triggering) {
     icon = 'lib_events_incident';

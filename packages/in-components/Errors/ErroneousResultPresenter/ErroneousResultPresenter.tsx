@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { uniq } from 'lodash';
 import React from 'react';
 
-import { Message } from '@instana/components';
+import { Message, MessageTypes } from '@instana/components';
 
 import { isTechnicalError } from 'in-services/util/error';
 import { Error } from 'in-types';
@@ -19,11 +19,22 @@ export interface Props {
   errors?: Error[];
   className?: string;
   addBottomMargin?: boolean;
+  isRetryError?: boolean;
 }
 
-export default function ErroneousResultPresenter({ errors, className, addBottomMargin = false }: Props) {
+export default function ErroneousResultPresenter({
+  errors,
+  className,
+  addBottomMargin = false,
+  isRetryError = false
+}: Props) {
   if (errors == null || errors.length === 0) {
     return null;
+  }
+
+  let messageType: MessageTypes = MessageTypes.error;
+  if (isRetryError) {
+    messageType = MessageTypes.warning;
   }
 
   return (
@@ -35,7 +46,7 @@ export default function ErroneousResultPresenter({ errors, className, addBottomM
     >
       {getUniqueErrors(errors).map((error, i) => (
         <li key={i} className={locals.item}>
-          <Message type="error" small>
+          <Message type={messageType} small>
             {error}
           </Message>
         </li>

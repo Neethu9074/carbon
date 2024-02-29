@@ -55,6 +55,14 @@ export const dataSourceTitles = mobileAppCrashBeaconEnabled
       custom: t('in-mobile-apps:tags.custom')
     };
 
+export const dataSourceTypes = {
+  sessionStart: 'SESSION_START',
+  viewChange: 'VIEW_CHANGE',
+  httpRequest: 'HTTP_REQUEST',
+  custom: 'CUSTOM',
+  crash: 'CRASH'
+};
+
 export const defaultGroupings = {
   sessionStart: {
     groupbyTag: 'mobileBeacon.view.name'

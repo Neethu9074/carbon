@@ -5,22 +5,21 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import { getIcon, getColorForEventAtFocusedMomentAsStream, getEventType } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import { useTheme } from 'in-themes';
 
 export default connectTo(
   props => {
-    const theme = useTheme();
     if (props.disableColorCalculation) {
       return {};
     }
     return {
       color: getColorForEventAtFocusedMomentAsStream(props.event, {
-        defaultColor: theme.ids.color.option.neutral['700']
+        defaultColor: themes.default.ids.color.option.neutral['700']
       })
     };
   },

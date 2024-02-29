@@ -288,7 +288,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloV2Enabled',
     instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'businessObservabilityEnabled',
@@ -301,13 +301,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsCockpitWidgetEnabled',
-    instanaCtlKey: 'feature.bizops.cockpit.widget.enabled',
+    uiClientKey: 'bizopsActivityDistributionChartsEnabled',
+    instanaCtlKey: 'feature.bizops.activity.distribution.charts.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'bizopsGoldenSignalsEnabled',
+    instanaCtlKey: 'feature.bizops.golden.signals.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'largeTracesV2Enabled',
-    instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
+    uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
+    instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
     defaultValue: true
   },
   {
@@ -388,6 +393,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticUpdateDeployPoPEnabled',
     instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticDeactivateDatacentersEnabled',
+    instanaCtlKey: 'feature.synthetic.deactivate.datacenters.enabled',
     defaultValue: false
   },
   {
@@ -476,8 +486,38 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'simplifiedFlowMapEnabled',
-    instanaCtlKey: 'feature.application.flowmap.simplified.enabled',
+    uiClientKey: 'flowMapEnabled',
+    instanaCtlKey: 'feature.application.flowmap.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'zoomWidgetEnabled',
+    instanaCtlKey: 'feature.zoom.widget.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'enableCarbonIcons',
+    instanaCtlKey: 'feature.carbon.icons.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'carbonShellEnabled',
+    instanaCtlKey: 'feature.carbon.shell.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'carbonPillEnabled',
+    instanaCtlKey: 'feature.carbon.pill.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'allowDownloadMetricsFromCharts',
+    instanaCtlKey: 'feature.chart.download.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
+    instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false
   },
   {
@@ -486,13 +526,13 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'fullscreenWidgetEnabled',
-    instanaCtlKey: 'feature.fullscreen.widget.enabled',
+    uiClientKey: 'logSmartAlertsEnabled',
+    instanaCtlKey: 'feature.log.smart.alerts.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'enableCarbonIcons',
-    instanaCtlKey: 'feature.carbon.icons.enabled',
+    uiClientKey: 'welcomePageV2Enabled',
+    instanaCtlKey: 'feature.welcomepage.v2.enabled',
     defaultValue: false
   }
 ];

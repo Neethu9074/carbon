@@ -35,7 +35,7 @@ export function NameColumnCell<AlertConfig extends AlertConfigType>({
           [locals.alertIconSeverityLow]: severity <= 5,
           [locals.alertIconSeverityHigh]: severity > 5
         })}
-        type={enabled ? 'lib_alerts_alert' : 'lib_actions_pause'}
+        type={enabled ? 'lib_alerts_create' : 'lib_actions_pause'}
       />
       <div className={classNames(locals.column)}>
         <div className={classNames(locals.name)}>

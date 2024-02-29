@@ -17,9 +17,9 @@ import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import CodeInput from 'in-synthetics/packages/Code/CodeInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Code from 'in-synthetics/packages/Code/Code';
 import CodeComponent from 'in-components/Code';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -225,7 +225,7 @@ const renderScriptTestTypeContent = (configuration: HttpScriptConfiguration) => 
           framed
         >
           {configuration.script != undefined ? (
-            <Code value={configuration.script} height="30vh" readOnly />
+            <CodeInput value={configuration.script} height="30vh" readOnly />
           ) : configuration.scripts ? (
             <KeyValue
               label={t('in-synthetics:dashboard.configuration.configScriptFileName')}

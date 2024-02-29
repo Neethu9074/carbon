@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { SvgIconSizes } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { Card } from '@instana/components';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -18,7 +19,6 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
@@ -43,13 +43,12 @@ const cols = [
         return row.selfMonitoringMetric.get('rating');
       },
       getContent: function Content(arg, row) {
-        const theme = useTheme();
         const statusToColour = {
-          Yellow: theme.ids.color.option.yellow['500'],
-          Grey: theme.ids.color.option.green['500'],
-          Green: theme.ids.color.option.green['500'],
-          Red: theme.ids.color.option.red['500'],
-          Unknown: theme.ids.color.option.neutral['400']
+          Yellow: themes.default.ids.color.option.yellow['500'],
+          Grey: themes.default.ids.color.option.green['500'],
+          Green: themes.default.ids.color.option.green['500'],
+          Red: themes.default.ids.color.option.red['500'],
+          Unknown: themes.default.ids.color.option.neutral['400']
         };
         return (
           <div className={locals.center}>
@@ -60,7 +59,7 @@ const cols = [
               redToYellow={row.selfMonitoringMetric.get('redToYellow')}
               yellowToRed={row.selfMonitoringMetric.get('yellowToRed')}
               unit={row.selfMonitoringMetric.get('unit')}
-              explanation={theme.ids.color.option.green['500']}
+              explanation={themes.default.ids.color.option.green['500']}
               color={statusToColour[arg || statusToColour.Unknown]}
               iconSize={SvgIconSizes.xxs}
             />
@@ -102,7 +101,6 @@ export default connectTo(
     };
   },
   function SelfMonitoringMetrics({ data, configurationName }) {
-    const theme = useTheme();
     const { snapshotId, timeConfig } = snapshotMap;
     if (snapshotMap.techEventName === 'MISSING_METRICS') {
       return <DashboardNotification type="info">{snapshotMap.eventNames}</DashboardNotification>;
@@ -151,9 +149,9 @@ export default connectTo(
                 t('in-sap:dashboards.redvalue')
               ],
               colors: [
-                theme.ids.color.option.green['500'],
-                theme.ids.color.option.yellow['500'],
-                theme.ids.color.option.red['500']
+                themes.default.ids.color.option.green['500'],
+                themes.default.ids.color.option.yellow['500'],
+                themes.default.ids.color.option.red['500']
               ],
               type: 'stackedBar',
               formatter: getSAPUnitFormatter(row.selfMonitoringMetric.get('unit'))

@@ -119,7 +119,7 @@ export default function AwsEc2Windows({
                 butlerDomain
               )}"`,
               `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet"`,
-              `<powershell>`
+              `</powershell>`
             ]}
           />
         </LayoutSection>

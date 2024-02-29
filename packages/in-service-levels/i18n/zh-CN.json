@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "定制过滤器（可选）",
     "title": "创建服务级别目标 (SLO)",
-    "selectIndicator": "选择指示符",
+    "selectIndicator": "选择蓝图",
     "selectEntityNavItem": "选择实体",
     "selectEntityTitle": "选择要向其添加 SLO 的实体：",
     "selectScopeNavItem": "选择作用域",
     "selectScopeTitle": "选择作用域",
+    "selectIndicatorTitle": "SLI 指示符",
+    "selectIndicatorNavItem": "设置指示符",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 请求",
       "beaconLabel_pageLoad": "Web 站点页面加载次数",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "创建此 SLO 配置时发生意外错误，请稍后重试。"
     },
     "indicatorSection": {
-      "description_custom": "由于设计中缺少此信息，因此应稍后更新此信息",
+      "description_custom": "通过使用用户定义的过滤器来度量好事件和/或坏事件的计数。",
       "description_latency": "度量服务响应速度高于设置的阈值的速度。 例如，检出服务响应速度超过 100ms 的度量。",
       "description_availability": "度量服务适当响应的频率。 例如，HTTP 调用出错的频率。",
       "timeTypeExplanation": "按分钟分组的正确调用数与错误调用数",

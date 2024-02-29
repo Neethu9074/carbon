@@ -51,7 +51,7 @@ export function supportViewData(agentKey?: string) {
 }
 
 export function getPlatformArchitectures(agentMode: string) {
-  if (agentMode === 'Dynamic') {
+  if (agentMode === 'dynamic') {
     return [
       {
         key: 'sparc64',

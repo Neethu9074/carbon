@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
-import { defaultPolicyUrlParameters, detailsPolicyUrlParameters } from 'in-automation/navigation/urlParameters';
+import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Policy } from 'in-types';
 
-const policyIdParameter = defaultPolicyUrlParameters.policyId;
-const opParameter = detailsPolicyUrlParameters.op;
+const policyIdParameter = policyDetailsUrlParameters.policyId;
+const opParameter = policyDetailsUrlParameters.op;
 
 export default function useNavigateToPolicyDetails() {
   const { location, navigate } = useNavigation();

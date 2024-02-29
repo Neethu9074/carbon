@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 
@@ -26,7 +27,9 @@ import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/e
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { updateApplicationAlertActionAssociations } from 'in-automation/api';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApplicationAlertActionAssociations } from 'in-automation/api';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { associateActionsTracker } from 'in-automation/tracker';
 import { role } from 'in-stores/user';
@@ -89,6 +92,36 @@ export default function AlertConfigDialog({
   const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
 
   const withTrackCreate = simpleMode => {
+    if (isEmpty(form.get('applications').value)) {
+      addActiveDialog(
+        <ConfirmationDialog
+          header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+          description={t('in-alerting:components.alertConfirmationDialogDescription', {
+            entityPlaceholder: t('in-alerting:smartAlerts.components.alertsHub.applications.title')
+          })}
+          confirmButtonLabel={t('in-alerting:components.labelConfirm')}
+          confirmButtonKind="danger"
+          onSubmit={() => {
+            close();
+            createOrSaveAlert({
+              form,
+              setForm,
+              onClose,
+              editMode,
+              migrationMode,
+              isGlobalSmartAlert,
+              setIsSaving,
+              setMessages,
+              getLinkToGlobalAlertConfigWithoutAPDashboard,
+              getLinkToAlertConfig,
+              simpleMode,
+              duplicateFrom
+            });
+          }}
+        />
+      );
+      return;
+    }
     createOrSaveAlert({
       form,
       setForm,

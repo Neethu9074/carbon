@@ -65,6 +65,13 @@ export function firstValue(metrics?: Number[][]) {
   return metrics[0][1];
 }
 
+export function lastValueForMetric(metrics?: Number[][]) {
+  if (!metrics) {
+    return metrics;
+  }
+  return metrics[metrics.length - 1][1];
+}
+
 export function getMetricValue(kpi: number, formatter: FormatterFn) {
   if (kpi !== undefined && kpi !== null) {
     //checking if kpi is falsy, valid kpi can be 0 as well

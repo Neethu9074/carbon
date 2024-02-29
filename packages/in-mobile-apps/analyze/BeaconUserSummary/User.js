@@ -12,6 +12,7 @@ import { Link } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Gravatar from 'in-components/Gravatar';
+import { redirectURL } from '../../constants';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -29,11 +30,34 @@ export default function User({ beacon, beacons }) {
   const firstBeaconIsMissingUserData =
     first && isBlank(beacon.userId) && isBlank(beacon.userName) && isBlank(beacon.userEmail);
 
+  const redirectToDoc = () => {
+    let docURL = '';
+
+    // Check if beacon and agentVersion are valid
+    if (beacon?.agentVersion) {
+      const { agentVersion, platform } = beacon;
+      //check for flutter
+      if (agentVersion.includes(':f:')) {
+        docURL = redirectURL?.flutterIdentifyingUserDoc;
+        // check for react native
+      } else if (agentVersion.includes(':r:')) {
+        docURL = redirectURL?.reactNativeIdentifyingUserDoc;
+      } else {
+        // Determine URL based on platform
+        docURL = platform === 'Android' ? redirectURL?.androidIdentifyingUserDoc : redirectURL?.iosIdentifyingUserDoc;
+      }
+    } else {
+      // Handle case where beacon or agentVersion is missing
+      docURL = redirectURL?.mobileMonitoringDoc;
+    }
+    return docURL;
+  };
+
   if (!first) {
     first = (
       <div className={locals.noUserData}>
         {t('in-mobile-apps:beaconUserSum.noUserData')}&nbsp;
-        <Button href="https://ibm.biz/ios-identify-users" kind="primaryv2" target="_blank" size="compact">
+        <Button href={redirectToDoc()} kind="primaryv2" target="_blank" size="compact">
           {t('in-mobile-apps:beaconUserSum.noUserDataGuide')}
         </Button>
       </div>

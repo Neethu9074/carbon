@@ -8,7 +8,8 @@ import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Toggle, Stack, Spacer } from '@instana/components';
+import { Stack, Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput

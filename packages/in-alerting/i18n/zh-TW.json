@@ -1201,12 +1201,18 @@
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleTimeThreshold": "時間臨界值",
         "alertConfigurationTitleAlertProperties": "警示內容",
-        "viewDetail": "檢視詳細資料"
+        "predictiveTrigger": {
+          "title": "提前預測觸發警示"
+        }
       },
       "list": {
         "columns": {
           "name": {
-            "subtitleForStaticThreshold": "靜態臨界值，{{metricName}} {{operator}} {{value}}"
+            "subtitle": {
+              "staticThresholdType": "靜態臨界值",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
+              "predictiveTrigger": "預測觸發"
+            }
           }
         },
         "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
@@ -1223,7 +1229,14 @@
       "advancedModeContainer": {
         "scope": {
           "label": "範圍",
-          "title": "範圍：該狀況發生在何處？"
+          "title": "範圍：該狀況發生在何處？",
+          "metric": {
+            "metric": "度量",
+            "selectMetric": "選取度量"
+          },
+          "aggregation": {
+            "aggregation": "聚集"
+          }
         },
         "threshold": {
           "label": "臨界值",
@@ -1233,19 +1246,44 @@
           "label": "時間臨界值",
           "title": "時間臨界值：您希望何時收到警示？"
         },
+        "predictiveTrigger": {
+          "title": "預測觸發",
+          "timeToFailure": "失敗時間"
+        },
         "alertChannel": {
           "label": "警示通道",
           "title": "警示通道：誰需要收到警示？"
         },
         "properties": {
+          "preview": {
+            "subtitle": "計量 - 名稱"
+          },
           "label": "內容",
-          "title": "其他警示內容"
+          "title": "其他警示內容",
+          "alertPropertiesTitlePlaceholder": "基礎架構智慧型警示",
+          "alertPropertiesDescriptionPlaceholder": "您的基礎架構發生問題。"
         },
         "customPayloads": {
           "label": "有效負載",
           "title": "自訂有效負載"
-        }
-      }
+        },
+        "thresholdValue": "臨界值"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
+        "noMetricSelected": "未選取度量值"
+      },
+      "groupedViewHeader": "{{formattedCount}} 個結果",
+      "groupedViewHeader_plural": "{{formattedCount}} 個結果",
+      "groupedViewHeader_0": "{{formattedCount}} 個結果",
+      "groupedViewHeader_1": "{{formattedCount}} 個結果",
+      "groupedViewHeader_2": "{{formattedCount}} 個結果",
+      "resultHeaderLoading": "載入中...",
+      "loadMore": "載入更多",
+      "count": "計數",
+      "previewFor": "預覽： ",
+      "selectEntityType": "請選取實體類型",
+      "regexNotValid": "正規表示式無效"
     }
   }
 }

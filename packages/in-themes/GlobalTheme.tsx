@@ -12,7 +12,7 @@ interface Props {
 }
 
 // In the future the default value depends on end-user configuration. This is
-// a prepartion for this.
+// a preparation for this.
 export default function GlobalTheme({ children }: Props) {
   return <ThemeContext.Provider value={light}>{children}</ThemeContext.Provider>;
 }

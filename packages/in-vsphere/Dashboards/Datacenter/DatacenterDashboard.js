@@ -6,6 +6,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { themes } from '@instana/design-tokens';
+
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -24,7 +26,6 @@ import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function DatacenterDashboard({ location }) {
@@ -85,7 +86,6 @@ function Header(props) {
 }
 
 function RenderMetaInformation({ result }) {
-  const theme = useTheme();
   const version = get(result, ['data', 'version']);
-  return <>{version && <BadgeList type={version} getColor={() => theme.ids.color.option.neutral['700']} />}</>;
+  return <>{version && <BadgeList type={version} getColor={() => themes.default.ids.color.option.neutral['700']} />}</>;
 }

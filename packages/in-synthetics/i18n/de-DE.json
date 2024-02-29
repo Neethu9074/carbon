@@ -26,7 +26,9 @@
         "uploadScriptTitle": "Script hochladen",
         "failureToReadFileContent": "Dateiinhalt konnte nicht gelesen werden: {{error}}",
         "emptyScriptFileError": "Leerer Code. Nichts zu validieren.",
-        "enterTheScriptMessage": "Script hier eingeben"
+        "enterTheScriptMessage": "Script hier eingeben",
+        "privatePoPLabel": "Private",
+        "managedPoPLabel": "Verwaltete -Instanz"
       },
       "basicDetails": {
         "title": "Wie lautet der Name dieses einfachen API-Tests (HTTP-Aktionstest)?",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "Hauptdateiname nicht gültig",
           "webpageUrl": "URL der Webseite",
           "browserUploadFileDescription": "Sie können entweder eine einzelne .js-Datei, eine ZIP-Datei mit gebündelten .js-Dateien oder ein von SeleniumIDE aufgezeichnetes .side-Script hochladen.",
-          "sideFileUploadedMessage": "Selenium-Scripts können nicht geändert oder validiert werden."
+          "sideFileUploadedMessage": "Selenium-Scripts können nicht geändert oder validiert werden.",
+          "bundleFileNotSupportedMessage": "Nicht unterstützte Datei ausgewählt. Bundles werden nur im erweiterten Modus unterstützt.",
+          "timeoutFieldLabel": "Zeitlimit",
+          "timeUnitsLabel": "Zeiteinheiten",
+          "timeoutFieldOptionMinutes": "Minuten (m)",
+          "timeoutFieldOptionSeconds": "Sekunden (s)",
+          "timeoutFieldOptionMilliseconds": "Millisekunden (ms)",
+          "timeoutValueGreaterthanZero": "Zeitlimitwert muss größer als null sein",
+          "invalidTimeoutvalue": "Ungültiger Zeitlimitwert",
+          "invalidTimeoutUnit": "Ungültige Zeitlimiteinheit",
+          "timeoutFieldDescription": "Dieser Test schlägt fehl nach",
+          "retryFieldLabel": "Wiederholungsstrategie",
+          "retryFieldOptionNone": "Keine",
+          "retryFieldOptionOnce": "Einmal wiederholen",
+          "retryFieldOptionTwice": "Zweimal wiederholen",
+          "retryIntervalFieldLabel": "Wiederholungsintervall",
+          "retryIntervalDescription": "Dieser Test wiederholt {{retryCount}} nach {{retryIntervalValue}} Sekunde.",
+          "markSyntheticCall": "Synthetischen Aufruf markieren"
         },
         "loadMore": "Mehr laden",
         "selectTests": {
           "addLocations": "{{count}} Positionen hinzufügen",
           "addLocation": "Position hinzufügen",
           "cancel": "Abbrechen",
-          "selectLocation": "Position auswählen"
+          "selectLocation": "Position auswählen",
+          "privatePoPLabel": "Private",
+          "managedPoPLabel": "Verwaltete -Instanz"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "Synthetischer Test erfolgreich aktualisiert",
       "successMessageDelete": "Synthetischer Test erfolgreich gelöscht",
       "failureTitle": "Fehlgeschlagen!",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "Der synthetische Test konnte nicht aktualisiert werden. {{errorMessage}}. Aktualisieren Sie die Seite und wiederholen Sie den Versuch.",
+      "failureMessageCreate": "Erstellen des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
+      "failureMessageUpdate": "Aktualisieren des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
       "failuteMesssageDelete": "Der synthetische Test konnte nicht gelöscht werden. Versuchen Sie es später erneut."
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "Löschen der Position fehlgeschlagen. Wiederholen Sie den Versuch zu einem späteren Zeitpunkt"
     },
     "updateTest": {
-      "dialogTitle": "API-Test bearbeiten",
+      "dialogTitle": "Test {{syntheticType}} bearbeiten",
       "buttonSave": "Speichern",
       "scriptSavedMessage": "Script hinzugefügt",
       "bundleSavedMessage": "Gebündelte Scripts hinzugefügt"
@@ -298,7 +319,7 @@
       "health": "Status",
       "noHealthInfo": "Nicht verfügbar",
       "labelConfirmRemoveLocation": "Möchten Sie die Position von <strong>{{label}}</strong> ({{status}}) wirklich entfernen?",
-      "activeTestLinked": "Der Position <strong>{{label}}</strong> sind {{linkedTests}} aktive Tests zugeordnet ({{status}}). Das Löschen dieser Position hat einen Datenverlust in Testzusammenfassungsdiagrammen zur Folge. Möchten Sie diesen Standort wirklich löschen?<br/>Wenn Sie für die Position ein Upgrade ohne Löschvorgang durchführen möchten, finden Sie entsprechende Informationen in der <documentLink>Dokumentation</documentLink>.",
+      "activeTestLinked": "Der Position <strong>{{label}}</strong> sind {{linkedTests}} aktive Tests zugeordnet ({{status}}). Das Löschen dieser Position hat einen Datenverlust in Testzusammenfassungsdiagrammen zur Folge. Möchten Sie diesen Standort wirklich löschen?<br/><br/>Informationen zum Upgrade der Position ohne Löschen finden Sie in der <documentLink>Dokumentation</documentLink>.",
       "deleteLocation": "Position löschen",
       "noDataAvailable": {
         "message": "{{component}} nicht verfügbar"
@@ -312,7 +333,8 @@
       "failure": "Fehlgeschlagen",
       "popVersion": "Version",
       "noActionsAllowed": "Nicht verfügbar",
-      "deleteRestrictedDescription": "Verwaltete Standorte können nicht gelöscht werden."
+      "deleteRestrictedDescription": "Verwaltete Standorte können nicht gelöscht werden.",
+      "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist."
     },
     "summary": {
       "successRate": "Erfolgsquote",
@@ -552,10 +574,20 @@
         "reasonTitle": "Grund für den Löschvorgang",
         "typingValidationTitle": "Geben Sie zum Fortfahren {{synthetic}} ein",
         "cancelButton": "Abbrechen",
-        "deleteButton": "Test löschen"
+        "deleteButton": "Test löschen",
+        "deleteTestBrowserRefreshInfo": "Es wird einige Zeit dauern, bis der Test aus der Liste der Tests verschwindet und möglicherweise eine Browseraktualisierung erforderlich ist."
       },
       "configurationEditAction": "Bearbeiten",
-      "configurationDeleteAction": "Löschen"
+      "configurationDeleteAction": "Löschen",
+      "timeoutLabel": "Zeitlimit",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "Wiederholungsstrategie",
+      "retryStrategyNone": "Keine",
+      "retryStrategyDescription": "Wiederholung {{retryStrategy}}",
+      "retryIntervalFieldLabel": "Wiederholungsintervall",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} Sekunde",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} Sekunden",
+      "markSyntheticCall": "Synthetischen Aufruf markieren"
     }
   }
 }

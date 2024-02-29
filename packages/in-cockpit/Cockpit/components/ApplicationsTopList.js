@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
@@ -39,7 +40,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-cockpit/starredItems';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function ApplicationsTopList({ applicationId, config }) {
@@ -159,13 +159,12 @@ function getItem(id, timeConfig) {
 }
 
 function BoundaryScopeColumn({ item }) {
-  const theme = useTheme();
   if (item.application.boundaryScope) {
     return (
       <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
         <SvgIcon
           type={boundaryScopes.info[item.application.boundaryScope].icon}
-          color={theme.ids.color.option.blue['500']}
+          color={themes.default.ids.color.option.blue['500']}
         />
       </Tooltip>
     );

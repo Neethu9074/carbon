@@ -22,7 +22,7 @@ import { t } from 'in-i18n';
 interface AssociatedActionsCardProps {
   event: Event;
   volatileId: VolatileId;
-  alertConfig?: ApplicationAlertConfigWithMetadata;
+  alertConfig?: ApplicationAlertConfigWithMetadata | null;
   reload?: number;
   setReload?: (r: number) => void;
 }
@@ -37,7 +37,6 @@ export default function AssociatedPoliciesAlerts({
   const eventSpecificationId = getEventSpecificationId(event);
 
   const [reload, triggerReload] = useDualReload(externalReload, setExternalReload);
-
   if (!alertConfig) {
     return <LoadingIndicator size="xl" />;
   }

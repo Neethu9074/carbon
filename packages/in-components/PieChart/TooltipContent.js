@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Spacer } from '@instana/components';
 
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { percentage } from 'in-services/formatters/number';
@@ -27,6 +28,11 @@ export default function TooltipContent({ slice, formatter }) {
       <Spacer horizontal="xxsmall" />
       <strong>{formatter(slice.value)}</strong>
       <span className={locals.percentage}> {`(${percentage.detailed(slice.percentage)})`}</span>
+      {slice.lastValue && (
+        <span className={locals.adjustedWindowSize}>{`- ${getLastValueTooltipLabel({
+          windowSize: slice.adjustedWindowSize
+        })}`}</span>
+      )}
     </div>
   );
 }

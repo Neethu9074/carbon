@@ -6,10 +6,9 @@
 
 import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
-import classNames from 'classnames';
 
+import { Button, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -21,11 +20,15 @@ import {
   isAnsible,
   isGithub,
   isJira,
-  isGitlab
+  isGitlab,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
+import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
+import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { actionCatalogPath } from 'in-automation/navigation/paths';
 import { getAllActions, ScoredAction } from 'in-automation/api';
@@ -33,7 +36,6 @@ import { getEntityIdView } from 'in-settings/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Tag from 'in-automation/ActionCatalog/Tag';
 import TestActionButton from './TestActionButton';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
@@ -45,7 +47,11 @@ export const descriptionColumn = {
   label: t('in-automation:description'),
   id: 'description',
   getContent(row: Action) {
-    return <div className={locals.fourLines}>{row.description}</div>;
+    return (
+      <FourLineWrapper>
+        <Typography variant="body-regular">{row.description}</Typography>
+      </FourLineWrapper>
+    );
   }
 };
 export const typeColumn = {
@@ -60,13 +66,7 @@ export const tagsColumn = {
   id: 'tags',
   getContent(row: Action) {
     const { tags = [] } = row;
-    return (
-      <>
-        {tags.map((tag, idx) => (
-          <Tag key={tag + idx} tag={tag} />
-        ))}
-      </>
-    );
+    return <DynamicTagList tags={tags} />;
   }
 };
 
@@ -105,6 +105,23 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           noAutoMargin
         >
           {t('in-automation:ActionCatalog.launch')}
+        </Button>
+      );
+    } else if (isManual(type)) {
+      return (
+        <Button
+          kind="action"
+          icon={'lib_views_show'}
+          onClick={() => {
+            addActiveDialog(<RunActionDialog action={row} volatileId={volatileId} event={event} />);
+            runActionTracker({
+              actionType: row.type,
+              actionName: row.name
+            });
+          }}
+          noAutoMargin
+        >
+          {t('in-automation:ActionCatalog.view')}
         </Button>
       );
     } else if (
@@ -152,7 +169,11 @@ export const nameColumn = (showActionLink: boolean) => ({
             {row.name}
           </Link>
         ) : (
-          <span className={classNames(locals.ellipsis, locals.block)}>{row.name}</span>
+          <HorizontalFlexWrapper>
+            <Typography noWrap variant="body-regular">
+              {row.name}
+            </Typography>
+          </HorizontalFlexWrapper>
         )}
       </Tooltip>
     );

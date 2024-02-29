@@ -62,6 +62,13 @@ export function createForm(form, savedState) {
       })
     )
     .put(
+      'lastValue',
+      createField({
+        value: savedState?.lastValue || false,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator)
+      })
+    )
+    .put(
       'metricPath',
       createField({
         value: savedState?.metricPath || [],

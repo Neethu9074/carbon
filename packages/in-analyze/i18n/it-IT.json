@@ -124,12 +124,6 @@
     },
     "components": {
       "callDetails": {
-        "error": "Errore",
-        "warning": "Avvertenza",
-        "showStackTrace": "Mostra traccia di stack",
-        "expandButtonForContent": "Pulsante Espandi per il contenuto",
-        "logParameters": "Parametri di log",
-        "logStackTrace": "Traccia di stack log",
         "thisCallIsBatchedAndRepresentsIndividualCalls": "Questa chiamata è stata eseguita in batch e rappresenta {{batchSize}} singole chiamate.",
         "downloadRawSpanData": "Scarica dettagli della chiamata",
         "correlationMissing": "Correlazione mancante",
@@ -283,6 +277,7 @@
     "labelService": "Servizio",
     "labelEndpoint": "Endpoint",
     "labelAggregatedTime": "Tempo aggregato",
+    "labelCalls": "Chiamate",
     "labelErroneousCalls": "Chiamate errate",
     "buttonTechnology": "Tecnologia",
     "callDetails": {

@@ -9,9 +9,9 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getTraceParticipants from 'in-applications/subscriptions/getTraceParticipants';
 import { latencyFixed } from 'in-services/formatters/number';
-import ServerTable from 'in-components/tables/ServerTable';
 import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointList.mless';
@@ -73,7 +73,6 @@ export default function ServiceEndpointList({
     {
       id: 'endpointLabel',
       label: t('in-analyze:traceDetails.labelEndpoint'),
-      ellipsis: '1vw',
       getContent(item) {
         return <EndpointLabelContent item={item} onClickTracker={onClickTracker} />;
       }
@@ -102,16 +101,19 @@ export default function ServiceEndpointList({
       }
     }
   ];
-
+  const ServiceEndpointListTable = createServerTableWithUrlState({
+    columnDefinitions,
+    pathSegment: '/analyze',
+    defaultPageSize: 5,
+    defaultOrderBy: 'aggregatedTime',
+    defaultOrderDirection: 'DESC',
+    isSearchable: false,
+    matrixPrefix: 'analyze'
+  });
   return (
-    <ServerTable
-      isSearchable={false}
+    <ServiceEndpointListTable
       get={getTableData}
-      defaultPageSize={5}
-      columnDefinitions={columnDefinitions}
       paginationResettingProps={[traceId]}
-      defaultOrderBy="aggregatedTime"
-      defaultOrderDirection="DESC"
       size="compact"
       traceId={traceId}
       onRowMouseEnter={onListItemMouseEnter}

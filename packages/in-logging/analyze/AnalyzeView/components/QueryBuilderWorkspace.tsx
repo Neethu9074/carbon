@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { TagFilter } from '@instana/types';
 
 import {
@@ -24,12 +25,13 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
+import ViewSwitcher from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { logSmartAlertsEnabled } from 'in-services/featureFlags';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
@@ -67,17 +69,20 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
       })
   };
 
-  const theme = useTheme();
   return (
     <Sticky
       header={
-        <AnalyzeHeader
-          isGrouped={isGrouped}
-          liveModeDisabled
-          liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
-        />
+        <>
+          <AnalyzeHeader
+            isGrouped={isGrouped}
+            liveModeDisabled
+            liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
+            withoutShadow={logSmartAlertsEnabled}
+          />
+          {logSmartAlertsEnabled && <ViewSwitcher />}
+        </>
       }
-      backgroundColor={theme.ids.color.option.white}
+      backgroundColor={themes.default.ids.color.option.white}
     >
       <LeftRightPadding>
         <Stack gap="gutter">

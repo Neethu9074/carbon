@@ -5,26 +5,26 @@
 
 import React, { useState } from 'react';
 
-import { create } from '@instana/observables';
+import { create, just } from '@instana/observables';
 
 import {
   bytesTwoDecimalPlaces,
-  timeByNanoTwoDecimalPlaces,
+  percentageTwoDecimalPlaces,
   percentageZeroDecimalPlaces,
-  percentageTwoDecimalPlaces
+  timeByNanoTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import AnalyzeLogsButton from 'in-forge/plugins/docker/Dashboard/AnalyzeLogsButton';
-import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
+import { hasMemoryMetrics, hasNetworkMetrics } from 'in-forge/plugins/docker/util';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getValueMatchTagFilter, DOCKER_ID } from 'in-logging/queryBuilder';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import MetricValue from 'in-components/MetricValue';
 import { useHasLogs } from 'in-logging/hooks';
@@ -38,21 +38,25 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
   const tagFilterExpression = getValueMatchTagFilter({ name: DOCKER_ID, value: snapshot.get('data')?.get('Id') });
   const hasLogs = useHasLogs({ tagFilterExpression, timeConfig });
 
+  const generateLogsLink = useGenerateLinkToLogs();
+
   const additionalContextMenuButtons = [
     {
       name: 'analyze',
       icon: 'lib_analyze',
       label: t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze'),
       getHref$: highlightedTime => {
-        return getLinkToAnalyze({
-          tagFilterExpression: [tagFilterExpression],
-          timeConfig: {
-            focusedMoment: highlightedTime.focusedMoment,
-            to: highlightedTime.to,
-            windowSize: highlightedTime.windowSize,
-            autoRefresh: false
-          }
-        });
+        return just(
+          generateLogsLink({
+            tagFilterExpression: tagFilterExpression,
+            timeConfig: {
+              focusedMoment: highlightedTime.focusedMoment,
+              to: highlightedTime.to,
+              windowSize: highlightedTime.windowSize,
+              autoRefresh: false
+            }
+          })
+        );
       }
     }
   ];

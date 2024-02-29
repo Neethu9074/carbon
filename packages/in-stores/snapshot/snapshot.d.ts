@@ -15,6 +15,8 @@ export function getSnapshot(snapshotId: string, timeConfig?: TimeConfig): Observ
 
 export function isEntityOnline(snapshotId: string): Observable<boolean>;
 
+export function getEc2Tags(snapshotId: string): Observable<string>;
+
 export function getPhysicalHierarchy(opts: {
   snapshotId: string;
   timeConfig: TimeConfig;

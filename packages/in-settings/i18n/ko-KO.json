@@ -61,7 +61,7 @@
     "dialogTitle": "새 그룹 작성",
     "dialogTitle_edit": "액세스 범위 편집",
     "editButton": "편집",
-    "productArea": "{{tenantUnit}}에 대한 액세스 구성"
+    "productArea": "{{tenantUnit}}에 대한 액세스 구성-{{tenant}}"
   },
   "productAreas": {
     "allApplications": "모든 애플리케이션",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "선택한 역할로 모든 합성 테스트에 액세스할 수 있습니다.",
     "descriptionLimitedAccess_synthetics": "역할을 선택하고 아래 합성 테스트를 추가하여 액세스 권한을 부여하십시오.",
     "contribution_filter": "컨트리뷰션 필터",
-    "contributionFilter_description": "새 애플리케이션 구성 작성을 위해 필터가 상속됩니다. 애플리케이션 퍼스펙티브 구성에서 {{logicalOperator}} 연산자 다음에 추가 필터 태그를 사용하여 세분화할 수 있습니다.",
+    "contributionFilter_description": "컨트리뷰션 필터는 새 애플리케이션 구성을 작성할 때 적용됩니다. 애플리케이션 구성에서 {{logicalOperator}} 연산자 다음에 필터 태그를 사용하여 컨트리뷰션 필터를 세분화할 수 있습니다.",
     "contributionFilter_downstreamCalls": "애플리케이션 퍼스펙티브에 포함될 수 있는 추가 정보의 최대 레벨을 판별하십시오.",
     "contributionFilter_name": "이름"
   },
@@ -173,7 +173,12 @@
     "selection_owner_access": "소유자 액세스",
     "selection_contributor_access": "컨트리뷰터 액세스",
     "description_no_access": "이 영역은 전혀 사용할 수 없음",
+    "description_no_access_website": "액세스 없음: 웹 사이트에 대한 액세스가 거부되었습니다.",
+    "description_no_access_mobile_app": "액세스 없음: 모바일 앱에 대한 액세스가 거부되었습니다.",
+    "description_no_access_application": "액세스 없음: 애플리케이션에 대한 액세스가 거부되었습니다.",
     "description_no_access_kubernetes": "네임스페이스 및 클러스터에 대한 액세스 권한이 없습니다.",
+    "description_no_access_infrastructure": "액세스 없음: 인프라에 대한 액세스가 거부되었습니다.",
+    "description_no_access_synthetics": "액세스 없음: 합성 모니터링에 대한 액세스가 거부되었습니다.",
     "description_access_all": "제한 없이 모두 액세스",
     "description_access_all_except_contributor": "모두 액세스-컨트리뷰터로 액세스되는 항목을 제외하고 모두 액세스",
     "role": "역할 선택",
@@ -189,8 +194,8 @@
     "roleTooltip_synthetics": "뷰어: 합성 테스트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). <br /> 소유자: 새 합성 테스트를 작성하고, 합성 테스트를 보고, 구성 및 삭제하고, 합성 위치를 보고 삭제할 수 있습니다.",
     "contribution_filter_accessScope": "제한된 액세스 범위 (뷰어)",
     "contribution_filter_warning": {
-      "firstParagraph": "저장할 수정사항은 이 컨트리뷰션 필터를 사용하여 모든 애플리케이션 퍼스펙티브를 업데이트합니다.",
-      "secondParagraph": "역할을 변경하면 컨트리뷰션 필터가 삭제되고 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브를 편집할 수 있습니다. 이는 실행 취소할 수 없습니다."
+      "firstParagraph": "저장하는 변경사항은 이 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브를 업데이트합니다.",
+      "secondParagraph": "역할을 변경하면 컨트리뷰션 필터가 삭제됩니다. 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브는 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 편집할 수 있습니다. 이는 실행 취소할 수 없습니다."
     }
   },
   "configurationSummary": {
@@ -200,9 +205,9 @@
         "role_permissions_contributor": "이 단위 아래의 모든 애플리케이션 대시보드를 보십시오. 컨트리뷰션 필터를 사용하여 애플리케이션 대시보드를 작성, 구성 및 삭제하십시오."
       },
       "limited_access": {
-        "access_level": "아래에서 선택한 애플리케이션에 대한 제한된 액세스.",
-        "access_level_contributor": "아래에서 선택한 애플리케이션 대시보드 보기",
-        "role_permissions_contributor": "컨트리뷰션 필터를 사용하여 애플리케이션 대시보드를 작성, 구성 및 삭제하십시오. (컨트리뷰터가 작성한 애플리케이션 대시보드는 그룹 개요 및 애플리케이션 목록 섹션에 표시됩니다.)"
+        "access_level": "아래 선택된 애플리케이션 대시보드에 대해서만 제한된 액세스 권한을 가집니다.",
+        "access_level_contributor": "아래 선택된 애플리케이션 대시보드에 대해서만 제한된 액세스 권한을 가집니다",
+        "role_permissions_contributor": "컨트리뷰션 필터가 적용된 애플리케이션 대시보드를 작성하십시오. 컨트리뷰션 필터에 대해 작성된 이러한 애플리케이션 대시보드를 보고, 구성하고, 삭제하십시오."
       },
       "role_permissions_owner": "애플리케이션 대시보드를 작성, 구성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "애플리케이션 퍼스펙티브 대시보드 및 해당 구성을 봅니다."
@@ -219,7 +224,7 @@
         "access_level": "이 단위 아래의 모든 네임스페이스 및 클러스터에 대한 액세스."
       },
       "limited_access": {
-        "access_level": "아래에서 선택한 네임스페이스 및 클러스터에 대한 제한된 액세스."
+        "access_level": "아래에서 선택한 네임스페이스 및 클러스터에 대해서만 제한된 액세스 권한을 가집니다."
       },
       "role_permissions": "네임스페이스 및 클러스터를 봅니다."
     },
@@ -228,7 +233,7 @@
         "access_level": "이 단위 아래의 모든 모바일 앱에 대한 액세스입니다."
       },
       "limited_access": {
-        "access_level": "아래에서 선택한 모바일 앱에 대한 제한된 액세스."
+        "access_level": "아래 선택된 모바일 앱에 대해서만 제한된 액세스 권한을 가집니다."
       },
       "role_permissions_owner": "모바일 앱을 작성, 구성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "모바일 앱 및 해당 구성을 봅니다."
@@ -238,7 +243,7 @@
         "access_level": "이 장치의 모든 합성 테스트에 대한 액세스."
       },
       "limited_access": {
-        "access_level": "아래 선택된 합성 테스트에 대한 제한된 액세스."
+        "access_level": "아래 선택된 합성 테스트에 대해서만 제한된 액세스 권한을 가집니다."
       },
       "role_permissions_owner": "합성 테스트를 작성, 구성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "합성 테스트 및 해당 구성을 봅니다."
@@ -248,7 +253,7 @@
         "access_level": "본 유닛에 속하는 모든 웹 사이트에 대한 액세스."
       },
       "limited_access": {
-        "access_level": "아래 선택된 웹 사이트에 대한 제한된 액세스."
+        "access_level": "아래 선택된 웹 사이트에 대해서만 제한된 액세스 권한을 가집니다."
       },
       "role_permissions_owner": "웹 사이트를 작성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "웹 사이트 및 해당 구성을 봅니다."
@@ -285,6 +290,7 @@
     "backToParentViewName": "{{parentViewName}}(으)로 돌아가기",
     "search": "검색...",
     "confirmRemoveItem": "<strong>{{itemName}}</strong>을(를) 제거하시겠습니까?",
+    "confirmSaveGroup": "이러한 업데이트를 저장하면 {{numberOfContributorAPs}} 애플리케이션 퍼스펙티브에서 컨트리뷰션 필터가 제거되고 사용 안함으로 설정됩니다.",
     "enable": "사용",
     "disable": "사용 안함",
     "deleteEntity": "{{entity}} 삭제.",
@@ -395,10 +401,12 @@
     "apiTokenDescription": "이 단위 특정 API 토큰은 API 토큰 구성에 대한 권한이 있는 모든 사용자 또는 모든 API 토큰에 의해 보기/수정될 수 있습니다.",
     "noApiToken": "API 토큰 없음",
     "newApiToken": "새 API 토큰",
+    "apiTokenUnits": "<strong>{{tenantUnit}}-{{tenant}}</strong>에 API 토큰을 사용할 수 있음",
     "noPersonalApiTokens": "개인 API 토큰 없음",
     "newPersonalApiToken": "새 개인 API 토큰",
     "apiTokenEntityName": "API 토큰 {{entityName}}",
     "personalApiTokenEntityName": "개인 API 토큰 {{entityName}}",
+    "personalApiTokenUnits": "<strong>{{tenantUnit}}-{{tenant}}</strong>에 대해 개인 API 토큰을 사용할 수 있음",
     "addUser": "사용자 추가",
     "permitsAccessToLabelMonitoringFunctionality": "{{label}} 모니터링 기능에 대한 액세스를 허용합니다.",
     "failedToSaveGroup": "그룹을 저장하는 데 실패함: {{err}}",
@@ -411,7 +419,9 @@
     "inviteGroupDescription": "단위별 그룹의 역할 및 액세스 범위를 설정하여 액세스를 제어할 수 있습니다.",
     "failedToSendInvitation": "초대를 발송하는 데 실패함: {{err}}",
     "pleaseInviteAtLeastOneUser": "한 명 이상의 사용자를 초대하십시오.",
-    "thisUserAlreadyExists": "이 사용자가 이미 존재합니다. '사용자' 메뉴에서 편집할 수 있습니다.",
+    "thisUserAlreadyExists": "이 사용자는 이미 존재하며 사용자 목록에서 찾을 수 있습니다.",
+    "thisInviteAlreadyExists": "이 초대는 이미 존재하며 보류 중인 초대 목록에서 찾을 수 있습니다.",
+    "emailFormatNotValid": "이메일 필드의 형식이 올바르지 않습니다.",
     "someEmailsHaveFailedToSend": "일부 이메일을 발송하는 데 실패함",
     "inviteUserToTenant": "{{tenant}}에 사용자 초대",
     "anotherUser": "다른 사용자",
@@ -434,6 +444,7 @@
     "userDoesNotExist": "사용자가 없음",
     "apiCall": "API",
     "userCall": "사용자",
+    "policyCall": "정책",
     "testChannel": "채널 테스트",
     "pleaseDefineAtLeastOneEmail": "하나 이상의 이메일을 정의하십시오.",
     "remove": "제거",
@@ -547,7 +558,6 @@
     "instanaAgentCountDetection": "Instana 에이전트 수",
     "pleaseSelectASeverity": "심각도를 선택하십시오.",
     "pleaseEnterAValidMetric": "올바른 메트릭을 입력하십시오.",
-    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "동일한 메트릭에 둘 이상의 임계값을 정의할 수 없습니다.",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "패턴별로 여러 메트릭을 정의하는 경우 하나의 규칙만 'is'와 다른 일치 연산자를 사용할 수 있습니다.",
     "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "절대 또는 상대 차이 집계가 사용되는 경우 1초의 시간 창은 허용되지 않습니다.",
     "thisEntityTypeHasBeenDeprecated": "이 엔티티 유형은 더 이상 사용되지 않습니다. 다른 유형을 선택하십시오.",
@@ -621,11 +631,7 @@
     "activationAdoption": "활성화 및 채택",
     "technologiesReporting": "기술 보고",
     "accountSettings": "계정 설정",
-    "configureGoogleSso": "Google SSO 구성",
-    "googleSsoConfiguration": "Google SSO 구성",
     "configureAllowedEmailDomains": "허용된 이메일 도메인 구성",
-    "onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant": "다음 도메인의 이메일 주소를 가진 사용자만 Instana 테넌트에 로그인할 수 있습니다.",
-    "separateMultipleDomainsWithAComma": "쉼표로 여러 도메인을 구분합니다.",
     "savingConfig": "구성 저장",
     "configSuccessfullySaved": "구성이 저장되었습니다.",
     "configureLdap": "LDAP 구성",
@@ -733,7 +739,6 @@
     "failedToSaveTwoFactorToken": "2단계 토큰을 저장하는 데 실패함: ",
     "pleaseSpecifyAValidToken": "올바른 토큰을 지정하십시오.",
     "identityProviders": "ID 제공자",
-    "googleSso": "Google SSO",
     "saml": "SAML",
     "oidc": "OpenID Connect",
     "ldap": "LDAP",
@@ -785,6 +790,8 @@
     "groups": "그룹",
     "groupDeleteTooltip_Default": "기본 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
     "groupDeleteTooltip_Owner": "소유자 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
+    "deleteGroupMessage": "이 테넌트의 모든 단위에서 <strong>{{groupName}}</strong>을(를) 제거하시겠습니까?",
+    "thisWillRemoveContributionFilterMessage": "이렇게 하면 <strong>{{apCount}}</strong> 애플리케이션 퍼스펙티브에서 컨트리뷰션 필터가 제거되고 사용 안함으로 설정됩니다.",
     "addGroup": "새 그룹",
     "pendingInvitations": "보류 중인 초대",
     "revoke": "취소",
@@ -1039,6 +1046,14 @@
     "humio": "Humio",
     "mezmo": "Mezmo",
     "audit": "감사",
+    "googleSSO": {
+      "allowedDomains": "허용되는 도메인",
+      "configure": "Google SSO 구성",
+      "domainOnlyMessage": "다음 도메인에 이메일 주소가 있는 사용자만 새 Instana 사용자로 로그인할 수 있습니다.",
+      "domainExistingUsersMessage": "이 구성을 통해 액세스를 수신한 사용자는 나중에 허용된 도메인을 변경하거나 제거하는 경우에도 Instana 테넌트에서 제거되지 않는 한 Instana에 액세스할 수 있습니다.",
+      "hint": "여러 도메인을 쉼표로 구분하십시오 (예: @example.com, @example.io).",
+      "idpTitle": "Google SSO"
+    },
     "advancedUserInterfaceSettings": "고급 사용자 인터페이스 설정",
     "3DMaps": "3D 맵",
     "invertScrollDirection": "스크롤 방향 반전",

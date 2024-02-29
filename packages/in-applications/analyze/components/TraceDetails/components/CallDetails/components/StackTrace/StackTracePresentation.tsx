@@ -3,25 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { StackTraceItem } from '@instana/types';
+import { Button } from '@instana/components';
 
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
 import { SnapshotData } from 'in-stores/snapshot';
+import { determineCombineMethod } from './utils';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './StackTracePresentation.mless';
 
-const STRIP_QUOTES_REGEX = /`|'/g;
-
 export interface StackTracePresentationProps {
   noPadding: boolean;
   snapshot?: SnapshotData | null;
   isOnline: boolean;
-  stackTrace: StackTraceItem[] | null;
+  stackTrace: StackTraceItem[];
 }
 
 export default function StackTracePresentation({
@@ -58,50 +58,43 @@ export default function StackTracePresentation({
   );
 }
 
-function combine(file: string, line?: string) {
-  if (line != null) {
-    return `${file}:${line}`;
-  }
-  return file;
-}
-
-// Some trace agents will record quotes in method names. We don't want to present these
-// as it looks ugly.
-// Ruby example: `<main>'
-function stripQuotes(s: string) {
-  return s.replace(STRIP_QUOTES_REGEX, '');
-}
-
 function ListContent({ stackTrace, isOnline, snapshot, noPadding }: StackTracePresentationProps) {
+  const [isCopied, setIsCopied] = useState(false);
+  const combineLanguage = determineCombineMethod(stackTrace);
+
+  function copyToClipboard(stackTrace: StackTraceItem[]) {
+    const formattedStackTrace = stackTrace.map(combineLanguage);
+    navigator.clipboard
+      .writeText(formattedStackTrace.join('\n'))
+      .then(() => setIsCopied(true))
+      .then(() => setTimeout(() => setIsCopied(false), 2000));
+  }
+
   return (
-    <ol
-      className={classNames({
-        [locals.list]: true,
-        [locals.noPadding]: noPadding
-      })}
-    >
-      {stackTrace?.map((st, i) => {
-        const { file, line, method } = st;
+    <div className={locals.stackTrace}>
+      <Button kind="action" onClick={() => copyToClipboard(stackTrace)} className={locals.copyButton} noAutoMargin>
+        {isCopied ? t('in-components:copyToClipboardCopied', 'Copied!') : t('in-automation:copy', 'Copy')}
+      </Button>
+      <ol className={classNames({ [locals.list]: true, [locals.noPadding]: noPadding })}>
+        {stackTrace.map((stackTraceItem, i) => {
+          const { file, line } = stackTraceItem;
+          const canShowCodeView = isOnline && snapshot && file && line;
 
-        const fileLine = file && combine(file, line);
-        const canShowCodeView = isOnline && snapshot && file && line && fileLine;
-
-        return (
-          <li key={i}>
-            {method && <span className={locals.method}>{stripQuotes(method)} </span>}
-            <span className={locals.in}>{t('in-analyze:traceDetail.components.callDetails.in')}</span>
-            <span>
-              {canShowCodeView ? (
-                <ShowCodeButton snapshot={snapshot} file={file} line={line}>
-                  {fileLine}
-                </ShowCodeButton>
-              ) : (
-                fileLine
-              )}
-            </span>
-          </li>
-        );
-      })}
-    </ol>
+          return (
+            <li key={i}>
+              <span>
+                {canShowCodeView ? (
+                  <ShowCodeButton snapshot={snapshot} file={file} line={line}>
+                    {combineLanguage(stackTraceItem)}
+                  </ShowCodeButton>
+                ) : (
+                  combineLanguage(stackTraceItem)
+                )}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 }

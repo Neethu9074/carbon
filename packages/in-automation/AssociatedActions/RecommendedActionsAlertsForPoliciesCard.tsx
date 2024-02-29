@@ -9,8 +9,8 @@ import React, { useMemo } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import RecommendationActionForPoliciesTable from 'in-automation/AssociatedActions/RecommendationActionsForPoliciesTable';
+import { Event, ApplicationAlertConfigWithMetadata, Policy, Result, VolatileId } from 'in-types';
 import { getAllActionsWithAISuggestions, getPoliciesForTrigger } from 'in-automation/api';
-import { Event, ApplicationAlertConfigWithMetadata, Policy, Result } from 'in-types';
 import { getEventSpecificationId, getIsCustomEvent } from './shared';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -20,8 +20,9 @@ interface RecommendedActionsAlertsForPoliciesCardProps {
   event: Event;
   reload: number;
   setReload: (r: number) => void;
-  alertConfig?: ApplicationAlertConfigWithMetadata;
+  alertConfig?: ApplicationAlertConfigWithMetadata | null;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
 }
 
 export default function RecommendedActionsAlertsForPoliciesCard({
@@ -29,7 +30,8 @@ export default function RecommendedActionsAlertsForPoliciesCard({
   reload,
   setReload,
   alertConfig,
-  setSelectedType
+  setSelectedType,
+  volatileId
 }: RecommendedActionsAlertsForPoliciesCardProps) {
   const eventSpecificationId = getEventSpecificationId(event);
   const isCustomEvent = getIsCustomEvent(event);
@@ -94,7 +96,9 @@ export default function RecommendedActionsAlertsForPoliciesCard({
         triggerReload={triggerReload}
         isApplicationSmartAlert
         isCustomEvent={false}
+        volatileId={volatileId}
         setSelectedType={setSelectedType}
+        event={event}
       />
     </>
   );

@@ -23,30 +23,6 @@ describe('scriptDetailsUpdater', () => {
     });
   });
 
-  test('.side script uploaded in advanced mode', () => {
-    configForm = createMapForm()
-      .put('syntheticType', createField({ value: 'BrowserScript' }))
-      .put('script', createField({ value: '{"test": "data"}' }));
-
-    expect(scriptDetailsUpdater(configForm, false, true, { modified: true, name: '' })).toStrictEqual({
-      name: '',
-      text: '{"test": "data"}',
-      extension: 'side'
-    });
-  });
-
-  test('.js script uploaded in advanced mode', () => {
-    configForm = createMapForm()
-      .put('syntheticType', createField({ value: 'BrowserScript' }))
-      .put('script', createField({ value: 'console.log("test data");' }));
-
-    expect(scriptDetailsUpdater(configForm, false, true, { modified: true, name: '' })).toStrictEqual({
-      name: '',
-      text: 'console.log("test data");',
-      extension: 'js'
-    });
-  });
-
   test('.side script uploaded in wizard mode and then switched to advanced mode', () => {
     configForm = createMapForm()
       .put('syntheticType', createField({ value: 'BrowserScript' }))
@@ -77,7 +53,7 @@ describe('scriptDetailsUpdater', () => {
     expect(scriptDetailsUpdater(configForm, false, false, { modified: true, name: '' })).toStrictEqual({
       name: '',
       text: 'console.log("test script");',
-      extension: 'js'
+      extension: ''
     });
   });
 

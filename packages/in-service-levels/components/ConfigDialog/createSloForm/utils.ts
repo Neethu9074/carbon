@@ -8,7 +8,6 @@ import { Field } from 'formalistic';
 
 import {
   ApplicationSloEntity,
-  BlueprintType,
   ServiceLevelIndicatorUnion,
   ServiceLevelObjectiveConfiguration,
   TimeWindow,
@@ -81,31 +80,35 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
 
 export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
   const indicatorType = form.getIn(['indicator', 'type']).value;
+  const blueprintType = form.getIn(['indicator', 'blueprint']).value;
 
-  if (indicatorType === 'customEventBased') {
+  if (blueprintType === 'custom') {
     return {
       goodEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'goodEventsFilter']).value),
       badEventsFilter: toBackendQueryModel(form.getIn(['indicator', 'badEventsFilter']).value),
       threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
-      type: 'customEventBased'
-    };
-  }
-
-  if (indicatorType === 'eventBased') {
-    return {
-      blueprint: form.getIn(['indicator', 'blueprint']).value as BlueprintType,
-      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
+      blueprint: 'custom',
       type: 'eventBased'
     };
   }
 
-  if (indicatorType === 'timeBased') {
-    return {
-      aggregation: form.getIn(['indicator', 'aggregation']).value,
-      blueprint: form.getIn(['indicator', 'blueprint']).value as BlueprintType,
-      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
-      type: 'timeBased'
-    };
+  if (blueprintType === 'latency' || blueprintType === 'availability') {
+    if (indicatorType === 'eventBased') {
+      return {
+        threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
+        blueprint: blueprintType,
+        type: 'eventBased'
+      };
+    }
+
+    if (indicatorType === 'timeBased') {
+      return {
+        aggregation: form.getIn(['indicator', 'aggregation']).value,
+        threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
+        blueprint: blueprintType,
+        type: 'timeBased'
+      };
+    }
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);

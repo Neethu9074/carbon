@@ -11,61 +11,106 @@ import {
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion,
-  TimeConfig
+  TagFilterExpression,
+  TimeConfig,
+  UnifiedMetricConfiguration
 } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
-import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-// eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
-import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import {
+  copyFirstBucketOfSubsequentDataSeries,
+  findMinMetricValue
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { calculateTrafficGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
+import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import lineRenderer from 'in-components/Chart/renderer/line';
+import { number } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 interface TrafficChartProps {
   configuration: ServiceLevelObjectiveConfiguration;
-  timeConfig: TimeConfig;
 }
 
-export default function TrafficChart({ configuration, timeConfig }: TrafficChartProps) {
+export default function TrafficChart({ configuration }: TrafficChartProps) {
   const { entity } = configuration;
-  const granularity = calculateSloReferenceChartGranularity(timeConfig);
-  const metric = useMetricConfiguration(entity, granularity, timeConfig);
+
+  const selectedTimeConfig = useTimeConfig();
+  const tagFilterExpression = useBasicTagFilterExpression({ entity });
+  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const timeConfig =
+    selectedTimeWindowType === 'SLO_TIME_WINDOW'
+      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
+      : selectedTimeConfig;
+  const granularity = calculateTrafficGranularity(timeConfig);
+  const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
+    configuration,
+    timeConfig => getMetricConfig(entity, timeConfig, tagFilterExpression, granularity),
+    timeConfig,
+    timeWindows,
+    granularity
+  );
+
+  const label = getMetricLabels(entity);
+  const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
 
   return (
-    <UnifiedMetricsChart
-      title={t('in-service-levels:sloDashboard.components.trafficChart.title')}
+    <ResultAwareChart
       config={{
+        title: t('in-service-levels:sloDashboard.components.trafficChart.title'),
         y1: {
-          metrics: [metric],
-          formatter: 'number.compact'
+          metrics,
+          metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
+          min: findMinMetricValue(metrics.flat(1)),
+          renderAllTickLabels: true,
+          labels: timeWindows.map(() => label),
+          colors: timeWindowColors,
+          formatter: number.compact,
+          renderer: lineRenderer
         },
         granularity,
-        type: 'TIME_SERIES'
+        timeConfig,
+        renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
+        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
+        // The current values are just measures taken from the default rendering of the chart to make the sizing work
+        customHeight: 250,
+        customChartSkeletonHeight: 308
       }}
-      timeConfig={timeConfig}
-      renderPostChartContent={props => <SloDashboardMarkerLanes entity={entity} {...props} />}
+      result={{ progress, errors }}
     />
   );
 }
 
-function useMetricConfiguration(entity: SloEntityUnion, granularity: number, timeConfig: TimeConfig): Metric {
-  const tagFilterExpression = useBasicTagFilterExpression({ entity });
+function getMetricConfig(
+  entity: SloEntityUnion,
+  timeConfig: TimeConfig,
+  tagFilterExpression: TagFilterExpression,
+  granularity: number
+): UnifiedMetricConfiguration {
   if (isApplicationSloEntity(entity)) {
-    return {
-      label: applicationMetrics.calls.label,
-      ...applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity })
-    };
+    return applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
   }
 
   if (isWebsiteSloEntity(entity)) {
-    return {
-      label: websiteMetrics.beaconCount.label,
-      ...websiteMetrics.beaconCount.timeSeries({ entity, tagFilterExpression, timeConfig, granularity })
-    };
+    return websiteMetrics.beaconCount.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
+  }
+
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+}
+
+function getMetricLabels(entity: SloEntityUnion): string {
+  if (isApplicationSloEntity(entity)) {
+    return applicationMetrics.calls.label;
+  }
+
+  if (isWebsiteSloEntity(entity)) {
+    return websiteMetrics.beaconCount.label;
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);

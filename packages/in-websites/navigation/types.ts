@@ -9,8 +9,8 @@ import { Group } from '@instana/types/typeDefinitions';
 
 import { ChartedMetric, ChartedTemplateMetric } from 'in-applications/navigation/paths';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { MetricField } from 'in-analyze/navigation/paths';
 import { ParameterDefinition } from 'in-stores/navigation/types';
+import { MetricField } from 'in-analyze/navigation/paths';
 
 export interface Fields {
   metricId: string;
@@ -26,7 +26,7 @@ export interface NavigateToWebsiteParams {
 
 export interface UseLinkToAnalyzeParams {
   beaconType: string;
-  groupBy: Group;
+  groupBy: Partial<Group>;
   formModel: FormModelElement[];
   chartedMetrics: Array<ChartedMetric | ChartedTemplateMetric>;
   fields: MetricField[];

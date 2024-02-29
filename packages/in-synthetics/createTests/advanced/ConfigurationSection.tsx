@@ -28,6 +28,7 @@ import {
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import ValidationSection from 'in-synthetics/createTests/advanced/ValidationSection';
@@ -482,12 +483,7 @@ export default function ConfigurationSection({
               <ActionTitle>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
               </ActionTitle>
-              <Description>
-                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalDescription', {
-                  retryCount: retriesField.value === 1 ? 'once' : 'twice',
-                  retryIntervalValue: retryIntervalField.value
-                })}
-              </Description>
+              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
               {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
               <TouchedMessages field={retryIntervalField} />
             </Section>

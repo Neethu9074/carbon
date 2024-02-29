@@ -6,13 +6,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { convertToCallLogs } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/utils';
 import { convertLogEventsToLogs } from 'in-applications/analyze/components/TraceDetails/components/CallTree/logEvents';
 import CallTooltipContent from 'in-applications/analyze/components/TraceDetails/components/CallTooltipContent';
 import { isCallNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import LogTooltipContent from 'in-applications/analyze/components/TraceDetails/components/LogTooltipContent';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
-import { largeTracesV2Enabled } from 'in-services/featureFlags';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { filterOtelLogs } from 'in-components/Logging/TraceDetails/utils';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 
@@ -20,6 +22,12 @@ import locals from './ChildrenDistributionTimeLine.mless';
 
 export default function ChildrenDistributionTimeLine(props) {
   const { call, getColor, scale, onCallClicked, onSubCallClicked } = props;
+  const { items: loggingLogItems } = useLogsInCallsContext();
+
+  const nonSpanLogs = convertToCallLogs(loggingLogItems.filter(filterOtelLogs(call)));
+  const spanLogs = call.children?.filter(isCallNode).filter(subCall => subCall.model === 'LOG') ?? [];
+
+  const logs = [...nonSpanLogs, ...spanLogs];
 
   return (
     <div className={locals.childrenDistributionTimeLine}>
@@ -41,14 +49,10 @@ export default function ChildrenDistributionTimeLine(props) {
           className={locals.subCallIndicator}
         />
       ))}
-      {call.children
-        .filter(isCallNode)
-        .filter(subCall => subCall.model === 'LOG')
-        .map((subCall, i) => (
-          <LogIndicators key={i} {...props} parentCall={call} log={subCall} />
-        ))}
-      {largeTracesV2Enabled &&
-        convertLogEventsToLogs(call.logEvents).map((log, i) => (
+      {logs.map((log, i) => (
+        <LogIndicators key={i} {...props} parentCall={call} log={log} />
+      ))}
+      {convertLogEventsToLogs(call.logEvents).map((log, i) => (
           <LogIndicators key={i} {...props} parentCall={call} log={log} />
         ))}
     </div>

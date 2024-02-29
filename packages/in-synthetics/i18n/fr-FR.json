@@ -26,7 +26,9 @@
         "uploadScriptTitle": "Importer le script",
         "failureToReadFileContent": "Echec de la lecture du contenu du fichier : {{error}}",
         "emptyScriptFileError": "Code vide. Aucun élément à valider.",
-        "enterTheScriptMessage": "Entrez le script ici"
+        "enterTheScriptMessage": "Entrez le script ici",
+        "privatePoPLabel": "Privé",
+        "managedPoPLabel": "Géré"
       },
       "basicDetails": {
         "title": "Nom de ce test d'API simple (action HTTP)",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "Nom de fichier principal non valide",
           "webpageUrl": "URL de la page Web",
           "browserUploadFileDescription": "Vous pouvez télécharger un fichier .js unique, un fichier zip de fichiers .js intégrés ou un script .side enregistré par SeleniumIDE.",
-          "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés"
+          "sideFileUploadedMessage": "Les scripts Selenium ne peuvent pas être modifiés ou validés",
+          "bundleFileNotSupportedMessage": "Un fichier non pris en charge est sélectionné. Les bundles sont uniquement pris en charge en mode avancé.",
+          "timeoutFieldLabel": "Dépassements du délai d'attente",
+          "timeUnitsLabel": "Unités de temps",
+          "timeoutFieldOptionMinutes": "minutes (m)",
+          "timeoutFieldOptionSeconds": "secondes (s)",
+          "timeoutFieldOptionMilliseconds": "millisecondes (ms)",
+          "timeoutValueGreaterthanZero": "La valeur du délai d'attente doit être supérieure à zéro.",
+          "invalidTimeoutvalue": "Valeur de délai d'attente non valide",
+          "invalidTimeoutUnit": "Unité de délai d'attente non valide",
+          "timeoutFieldDescription": "Ce test échouera après",
+          "retryFieldLabel": "Stratégie de relance",
+          "retryFieldOptionNone": "Aucun",
+          "retryFieldOptionOnce": "Réessayer une fois",
+          "retryFieldOptionTwice": "Réessayer deux fois",
+          "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
+          "retryIntervalDescription": "Ce test réessaiera {{retryCount}} après {{retryIntervalValue}} seconde.",
+          "markSyntheticCall": "Marquer l'appel synthétique"
         },
         "loadMore": "Charger plus",
         "selectTests": {
           "addLocations": "Ajouter {{count}} emplacements",
           "addLocation": "Ajouter un emplacement",
           "cancel": "Annuler",
-          "selectLocation": "Sélectionner un emplacement"
+          "selectLocation": "Sélectionner un emplacement",
+          "privatePoPLabel": "Privé",
+          "managedPoPLabel": "Géré"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "Test synthétique mis à jour avec succès",
       "successMessageDelete": "La suppression du test synthétique a abouti",
       "failureTitle": "Echec !",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "Echec de la mise à jour du test synthétique. {{errorMessage}}. Actualisez la page et réessayez.",
+      "failureMessageCreate": "Échec de la création du test synthétique {{errorMessage}}",
+      "failureMessageUpdate": "Échec de la mise à jour du test synthétique {{errorMessage}}",
       "failuteMesssageDelete": "Echec de la suppression du test synthétique. Réessayez plus tard"
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "Echec de la suppression de l'emplacement. Veuillez réessayer ultérieurement."
     },
     "updateTest": {
-      "dialogTitle": "Éditer le test d'API",
+      "dialogTitle": "Éditer le test {{syntheticType}}",
       "buttonSave": "Sauvegarder",
       "scriptSavedMessage": "Script ajouté",
       "bundleSavedMessage": "Scripts intégrés ajoutés"
@@ -298,7 +319,7 @@
       "health": "Intégrité",
       "noHealthInfo": "ND",
       "labelConfirmRemoveLocation": "Voulez-vous vraiment retirer l'emplacement <strong>{{label}}</strong> ({{status}}) ?",
-      "activeTestLinked": "{{linkedTests}} tests actifs sont associés à l'emplacement <strong>{{label}}</strong> ({{status}}). La suppression de cet emplacement entraînera la perte de données dans les graphiques récapitulatifs de test. Voulez-vous vraiment supprimer cet emplacement ?<br/>Pour mettre à niveau l'emplacement sans le supprimer, voir la <documentLink>documentation</documentLink>.",
+      "activeTestLinked": "{{linkedTests}} tests actifs sont associés à l'emplacement <strong>{{label}}</strong> ({{status}}). La suppression de cet emplacement entraînera la perte de données dans les graphiques récapitulatifs de test. Voulez-vous vraiment supprimer cet emplacement ?<br/><br/>Pour mettre à niveau l'emplacement sans le supprimer, voir la <documentLink>documentation</documentLink>.",
       "deleteLocation": "Supprimer l'emplacement",
       "noDataAvailable": {
         "message": "{{component}} non disponible"
@@ -312,7 +333,8 @@
       "failure": "Échec",
       "popVersion": "Version",
       "noActionsAllowed": "ND",
-      "deleteRestrictedDescription": "Les emplacements gérés ne peuvent pas être supprimés."
+      "deleteRestrictedDescription": "Les emplacements gérés ne peuvent pas être supprimés.",
+      "deleteLocationBroswerRefreshInfo": "La disparition de l'emplacement de la liste des emplacements prend un certain temps et peut nécessiter une actualisation du navigateur."
     },
     "summary": {
       "successRate": "Taux de réussite",
@@ -552,10 +574,20 @@
         "reasonTitle": "Motif de la suppression",
         "typingValidationTitle": "Entrez {{synthetic}} pour continuer",
         "cancelButton": "Annuler",
-        "deleteButton": "Supprimer le test"
+        "deleteButton": "Supprimer le test",
+        "deleteTestBrowserRefreshInfo": "Un certain temps sera nécessaire avant que le test disparaisse de la liste des tests, et il peut être nécessaire d'actualiser le navigateur."
       },
       "configurationEditAction": "Editer",
-      "configurationDeleteAction": "Supprimer"
+      "configurationDeleteAction": "Supprimer",
+      "timeoutLabel": "Dépassements du délai d'attente",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "Stratégie de relance",
+      "retryStrategyNone": "Aucun",
+      "retryStrategyDescription": "Réessayez {{retryStrategy}}.",
+      "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} seconde",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} secondes",
+      "markSyntheticCall": "Marquer l'appel synthétique"
     }
   }
 }

@@ -4,11 +4,19 @@
  */
 
 import React, { ReactNode } from 'react';
-import { find } from 'lodash';
+import { find, map } from 'lodash';
 
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+import {
+  AdjustedTimeframe,
+  MetricResult,
+  Result,
+  TagFilter,
+  TimeConfig,
+  UnifiedMetricConfiguration
+} from '@instana/types';
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -53,6 +61,7 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
+  isInModal?: boolean;
   raw?: boolean;
 }
 
@@ -78,6 +87,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   actions,
   dragHandle,
   result,
+  isInModal,
   raw
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
@@ -86,6 +96,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
     <ResultAwareKpiCard
       title={title}
       result={result}
+      isInModal={isInModal}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
         dragHandle || actions ? (
@@ -107,7 +118,8 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           actions,
           dragHandle,
           useMaxAvailableHeight,
-          raw
+          raw,
+          isInModal
         )
       }
     />
@@ -125,13 +137,18 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   actions: ReactNode,
   dragHandle: ReactNode,
   useMaxAvailableHeight: boolean | undefined,
-  raw: boolean | undefined
+  raw: boolean | undefined,
+  isInModal?: boolean
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {
     value = dataPoint.values[0][1];
   }
+
+  const lastValueTooltipContent =
+    config.metricConfiguration.lastValue &&
+    getLastValueTooltipLabel(map(result.data, ({ adjustedTimeframe }) => adjustedTimeframe).pop() as AdjustedTimeframe);
 
   // We are using the [0] selector as in this aspect we assume multiple results have the same value
   // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
@@ -150,6 +167,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
     <KpiCard
       title={title}
       value={value}
+      isInModal={isInModal}
       renderValue={formatter}
       color={config.getColor?.(value)}
       useMaxAvailableHeight={useMaxAvailableHeight}
@@ -165,6 +183,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
       iconAction={iconAction}
       resultPrecision={resultPrecisions}
       raw={raw}
+      tooltipContent={lastValueTooltipContent}
     />
   );
 }

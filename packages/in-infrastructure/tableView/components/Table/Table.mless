@@ -16,6 +16,16 @@
     flex-shrink: 0;
   }
 
+  .footer {
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    background: #40535b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;

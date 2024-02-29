@@ -9,6 +9,7 @@ import React from 'react';
 
 import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -21,7 +22,6 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList.mless';
@@ -53,7 +53,6 @@ export default function SharedList({
   isFramed = true,
   viewOnly
 }) {
-  const theme = useTheme();
   const columnDefinitions = [
     {
       width: '2.5rem',
@@ -97,7 +96,7 @@ export default function SharedList({
                 text={label}
                 type={tooltipSettings.iconType}
                 width="100%"
-                color={isStaleItem ? theme.ids.color.option.neutral['400'] : undefined}
+                color={isStaleItem ? themes.default.ids.color.option.neutral['400'] : undefined}
                 noBottomMargin
                 ellipsis
               />

@@ -25,12 +25,15 @@ import * as groupingConfiguratorsByDataSource from 'in-mobile-apps/groupingConfi
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import * as queryBuildersByDataSource from 'in-mobile-apps/queryBuilder';
+import { dataSourceTypes, defaultGroupings } from 'in-mobile-apps/tags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 export default function MobileAppsQueryBuilderWorkspace(props) {
@@ -46,10 +49,26 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
     dataSource,
     groupBy,
     onGroupByChange,
-    useLastValidStateWhenErroneous
+    useLastValidStateWhenErroneous,
+    orderBy,
+    chartedMetrics
   } = props;
 
   const { hasError, errors } = validate(formModel);
+  const timeConfig = useTimeConfig();
+  const hasNoGrouping = !groupBy || !Object.keys(groupBy).length;
+  const docLink = `https://instana.github.io/openapi/#operation/getMobileAppBeaconGroups`;
+  const endpointUrl = `https://${config.butlerDomain}/api/mobile-app-monitoring/analyze/beacon-groups`;
+
+  function getMetricsAsApi() {
+    return chartedMetrics.map(obj => {
+      const metric = {};
+      metric.metric = obj.metricId;
+      metric.aggregation = obj.aggregationId;
+      return metric;
+    });
+  }
+
   return (
     <Sticky
       header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
@@ -88,6 +107,13 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
             <ActionSection
               right={
                 <ApiQueryAction
+                  group={hasNoGrouping ? defaultGroupings[dataSource] : groupBy}
+                  metrics={getMetricsAsApi()}
+                  order={orderBy}
+                  docsLink={docLink}
+                  endpointUrl={endpointUrl}
+                  timeFrame={timeConfig}
+                  type={dataSourceTypes[dataSource]}
                   backendQueryModel={backendQueryModel}
                   backendQueryModelWithFacets={backendQueryModelWithFacets}
                   tracking={{

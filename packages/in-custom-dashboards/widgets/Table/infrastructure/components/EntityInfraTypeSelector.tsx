@@ -12,9 +12,7 @@ import { t } from '@instana/i18n-react';
 import {
   entityType,
   grouping,
-  metricLabel,
   datasets,
-  metric as metricFieldName,
   tagFilterExpression
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error needs ts migration
@@ -55,17 +53,10 @@ export default function EntityInfraTypeSelector({
   const entityTypeField = form.get(entityType);
   const entityLabel = t('in-custom-dashboards:widgets.table.form.infrastructure.entityType');
 
-  // Update metrics fields and clear values in case entity type has changed
+  // Remove dataset in case entity type has changed
   const onChange = ({ type }: EntityItem, close: () => void) => {
-    if (metricsFormSize > 0) {
-      let updatedForm = updateMetricsFields(form, metricsFormSize, metricFieldName, '');
-      updatedForm = updateMetricsFields(updatedForm, metricsFormSize, metricLabel, '');
-      updatedForm = updateMetricsFields(updatedForm, metricsFormSize, 'type', type);
-      updateEntityInfraType(updatedForm, type, updateForm);
-    } else {
-      updateEntityInfraType(form, type, updateForm);
-    }
-
+    const updatedForm = getFormWithoutDatasets(form, metricsFormSize);
+    updateEntityInfraType(updatedForm, type, updateForm);
     setTagFilterExpression([]);
     close();
   };
@@ -123,22 +114,13 @@ export default function EntityInfraTypeSelector({
   });
 }
 
-export function updateMetricsFields(
-  form: MapForm<any>,
-  metricsFormSize: number,
-  fieldToUpdate: string,
-  newValue: string
-) {
-  let updatedForm = form;
-
+function getFormWithoutDatasets(form: MapForm<any>, metricsFormSize: number) {
   for (let i = 0; i < metricsFormSize; i++) {
     // @ts-expect-error
-    updatedForm = updatedForm.updateIn([datasets, metricsPath, `${i}`, fieldToUpdate], (field: Item) =>
-      (field as Field<string>).setValue(newValue).setTouched(true)
-    );
+    form = form.updateIn([datasets, metricsPath], (field: Item) => field.remove(0));
   }
 
-  return updatedForm;
+  return form;
 }
 
 function updateEntityInfraType(form: MapForm<any>, newEntityValue: string, updateForm: (form: MapForm<any>) => void) {

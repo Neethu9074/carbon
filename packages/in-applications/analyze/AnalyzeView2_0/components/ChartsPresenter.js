@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ua2ChartChangedTracker, ua2ChartRemovedTracker } from 'in-applications/tracker';
@@ -12,7 +14,7 @@ import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics'
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
-import theme from 'in-themes';
+import { emptyObject } from 'in-services/fixedObjects';
 
 import locals from './ChartsPresenter.mless';
 
@@ -91,7 +93,7 @@ export function ChartsPresenter(props) {
               metric: metricId,
               aggregation: aggregationId
             }),
-          onChartRemoved: ua2ChartRemovedTracker
+          onChartRemoved: ua2ChartRemovedTracker(emptyObject)
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
           if (isLatencyDistributionChart(metricConfig)) {
@@ -117,7 +119,7 @@ export function ChartsPresenter(props) {
             return (
               <Chart
                 {...chartProps}
-                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
+                getCustomChartColor={() => !chartProps.isGrouped && [themes.default.ids.color.option.red['500']]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
                 chartedMetrics={[metricConfiguration]}
               />

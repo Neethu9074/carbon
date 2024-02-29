@@ -43,7 +43,7 @@ export default function AppViewSwitcher() {
           />
           <SecondLevelNavigationItem
             href={createHref({ ...location, pathname: alertsList })}
-            icon="lib_events_critical"
+            icon="lib_alerts_alert"
             label={t('in-applications:labelSmartAlerts')}
             isActive={isSmartAlertsViewActive && !isServiceViewActive}
           />

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Item, ListForm } from 'formalistic';
+import { Item, ListForm, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Button, TrProps } from '@instana/components';
@@ -28,14 +28,13 @@ interface ListItem extends Object {
 //TODO refine, use correct type here
 type CustomPayloadItem = ListItem;
 
-interface AdditionalContentPropsType {
-  deleteRow: () => void;
+export interface AdditionalContentPropsType {
+  deleteRow: (payloadField: MapForm<any>) => void;
   getRowIndex: (field: Item) => number;
-  updateIn: () => void;
+  updateIn: (path: (string | number)[], updater: (item: Item) => Item) => void;
   TagBasedPayloadConfigurator: React.ReactNode;
   suggestionsAlignedLeft?: boolean;
   enabled?: boolean;
-  trackChange: () => void;
 }
 
 interface ServerTableCustomPayloadConfig
@@ -63,8 +62,7 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
     customPayloadForm,
     canConfigureAlertPayload = true,
     enabled = true,
-    leftHeader,
-    trackChange = () => {}
+    leftHeader
   } = props;
   return (
     <div>
@@ -90,7 +88,6 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         suggestionsAlignedLeft={suggestionsAlignedLeft}
         enabled={enabled}
-        trackChange={trackChange}
         orderBy={''}
         orderDirection={'ASC'}
         page={0}

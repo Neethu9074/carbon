@@ -3,11 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+// Fixing the styling of any Toggle on the waiting page
+//
+// to be removed, after Toggle was migrated.
+// This loads the styling of react-toggle
+import 'react-toggle/style.css';
 import React from 'react';
 
+// ^ needs to be put here, to be bundled before the overriding styles from legacy package
+import '@instana/legacy/esm/index.css';
 import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
-import '@instana/legacy/esm/index.css';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';

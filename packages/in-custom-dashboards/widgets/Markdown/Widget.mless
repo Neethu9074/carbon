@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
   .markdown {
     p {
@@ -12,5 +14,9 @@
     & > *:last-child {
       margin-bottom: 0;
     }
+  }
+
+  .modal {
+    .widgetInModal();
   }
 }

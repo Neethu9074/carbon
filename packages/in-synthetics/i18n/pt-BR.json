@@ -26,7 +26,9 @@
         "uploadScriptTitle": "Fazer upload do script",
         "failureToReadFileContent": "Falha ao ler o conteúdo do arquivo: {{error}}",
         "emptyScriptFileError": "Código vazio. Nada a validar.",
-        "enterTheScriptMessage": "Inserir o script aqui"
+        "enterTheScriptMessage": "Inserir o script aqui",
+        "privatePoPLabel": "Privado",
+        "managedPoPLabel": "gerenciado"
       },
       "basicDetails": {
         "title": "Qual é o nome deste teste de API Simple (HTTP Action)",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "O nome do arquivo principal não é válido",
           "webpageUrl": "URL da página da web",
           "browserUploadFileDescription": "É possível fazer upload de um único arquivo .js, um arquivo zip de arquivos .js empacotados ou um script .side gravado pelo SeleniumIDE.",
-          "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados"
+          "sideFileUploadedMessage": "Os scripts Selenium não podem ser modificados ou validados",
+          "bundleFileNotSupportedMessage": "O arquivo não suportado é selecionado. Os pacotes configuráveis são suportados apenas no modo avançado.",
+          "timeoutFieldLabel": "Tempo limite",
+          "timeUnitsLabel": "Unidades de tempo",
+          "timeoutFieldOptionMinutes": "minutos (m)",
+          "timeoutFieldOptionSeconds": "segundos (s)",
+          "timeoutFieldOptionMilliseconds": "milissegundos (ms)",
+          "timeoutValueGreaterthanZero": "O valor de tempo limite deve ser maior que zero",
+          "invalidTimeoutvalue": "Valor de tempo limite inválido",
+          "invalidTimeoutUnit": "Unidade de tempo limite inválida",
+          "timeoutFieldDescription": "Este teste falhará após",
+          "retryFieldLabel": "Estratégia de nova tentativa",
+          "retryFieldOptionNone": "Nenhum",
+          "retryFieldOptionOnce": "Tentar novamente uma vez",
+          "retryFieldOptionTwice": "Tentar novamente duas vezes",
+          "retryIntervalFieldLabel": "Intervalo de novas tentativas",
+          "retryIntervalDescription": "Este teste tentará novamente {{retryCount}} após {{retryIntervalValue}} segundo.",
+          "markSyntheticCall": "Marcar chamada sintética"
         },
         "loadMore": "Carregar mais",
         "selectTests": {
           "addLocations": "Incluir {{count}} locais",
           "addLocation": "Incluir local",
           "cancel": "Cancelar",
-          "selectLocation": "Selecionar localização"
+          "selectLocation": "Selecionar localização",
+          "privatePoPLabel": "Privado",
+          "managedPoPLabel": "gerenciado"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "O teste sintético foi atualizado com sucesso",
       "successMessageDelete": "O teste sintético foi eliminado com sucesso",
       "failureTitle": "Falhou!",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "Falha ao atualizar o teste sintético. {{errorMessage}}. Atualize a página e tente novamente.",
+      "failureMessageCreate": "Falha ao criar o teste sintético: {{errorMessage}}",
+      "failureMessageUpdate": "Falha ao atualizar o teste sintético: {{errorMessage}}",
       "failuteMesssageDelete": "Falha ao excluir o teste sintético. Tente novamente mais tarde"
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "Falha ao excluir o local. Tente novamente mais tarde"
     },
     "updateTest": {
-      "dialogTitle": "Editar teste da API",
+      "dialogTitle": "Editar teste de {{syntheticType}}",
       "buttonSave": "Salvar",
       "scriptSavedMessage": "Script incluído",
       "bundleSavedMessage": "Os scripts em pacote configurável foram incluídos"
@@ -298,7 +319,7 @@
       "health": "Funcionamento",
       "noHealthInfo": "NA",
       "labelConfirmRemoveLocation": "Tem certeza de que deseja remover o local <strong>{{label}}</strong> ({{status}})?",
-      "activeTestLinked": "Há {{linkedTests}} testes ativos associados ao local <strong>{{label}}</strong> ({{status}}). A exclusão desse local causará perda de dados nos gráficos de resumo de teste. Tem certeza de que deseja excluir este local?<br/>Para fazer upgrade da localização sem excluir, consulte a <documentLink>documentação</documentLink>.",
+      "activeTestLinked": "Há {{linkedTests}} testes ativos associados ao local <strong>{{label}}</strong> ({{status}}). A exclusão desse local causará perda de dados nos gráficos de resumo de teste. Tem certeza de que deseja excluir este local?<br/><br/>Para fazer upgrade do local sem excluir, consulte a <documentLink>documentação</documentLink>.",
       "deleteLocation": "Excluir local",
       "noDataAvailable": {
         "message": "{{component}} não disponível"
@@ -312,7 +333,8 @@
       "failure": "Com falha",
       "popVersion": "Versão",
       "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Os locais gerenciados não poderão ser excluídos."
+      "deleteRestrictedDescription": "Os locais gerenciados não poderão ser excluídos.",
+      "deleteLocationBroswerRefreshInfo": "Levará algum tempo para que o local desapareça da lista de locais e isso pode requerer uma atualização do navegador."
     },
     "summary": {
       "successRate": "Taxa de sucesso",
@@ -552,10 +574,20 @@
         "reasonTitle": "Razão para exclusão",
         "typingValidationTitle": "Digite {{synthetic}} para continuar",
         "cancelButton": "Cancelar",
-        "deleteButton": "Excluir teste"
+        "deleteButton": "Excluir teste",
+        "deleteTestBrowserRefreshInfo": "Levará algum tempo para que o teste desapareça da lista de testes e isso poderá requerer uma atualização do navegador."
       },
       "configurationEditAction": "Editar",
-      "configurationDeleteAction": "Excluir"
+      "configurationDeleteAction": "Excluir",
+      "timeoutLabel": "Tempo limite",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "Estratégia de nova tentativa",
+      "retryStrategyNone": "Nenhum",
+      "retryStrategyDescription": "Tente novamente {{retryStrategy}}",
+      "retryIntervalFieldLabel": "Intervalo de novas tentativas",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}} segundo",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}} segundos",
+      "markSyntheticCall": "Marcar chamada sintética"
     }
   }
 }

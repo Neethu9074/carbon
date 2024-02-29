@@ -110,11 +110,11 @@ export const getBashCode = ({
   switch (id) {
     case 'openshift_operator': {
       let content = customResourceFile
-        .replace('${agentKey}', window.btoa(agentKey))
-        .replace('${agentEndpoint}', agentEndpoint)
-        .replace('${agentEndpointPort}', agentEndpointPort)
-        .replace('${clusterName}', clusterName)
-        .replace('${zoneName}', agentZone);
+        .replaceAll('${agentKey}', agentKey)
+        .replaceAll('${agentEndpoint}', agentEndpoint)
+        .replaceAll('${agentEndpointPort}', agentEndpointPort)
+        .replaceAll('${clusterName}', clusterName)
+        .replaceAll('${zoneName}', agentZone);
       content = content.split('\n');
       return {
         code: content,
@@ -128,18 +128,18 @@ export const getBashCode = ({
       let content = [];
       content.push(
         'helm install instana-agent \\',
-        '--repo https://agents.instana.io/helm \\',
-        '--namespace instana-agent \\',
-        '--create-namespace \\',
-        '--set openshift=true \\',
-        `--set agent.key=${agentKey} \\`,
-        `--set agent.downloadKey=${downloadKey} \\`,
-        `--set agent.endpointHost=${agentEndpoint} \\`,
-        `--set agent.endpointPort=${agentEndpointPort} \\`,
-        `--set cluster.name=${clusterName} \\`
+        '   --repo https://agents.instana.io/helm \\',
+        '   --namespace instana-agent \\',
+        '   --create-namespace \\',
+        '   --set openshift=true \\',
+        `   --set agent.key=${agentKey} \\`,
+        `   --set agent.downloadKey=${downloadKey} \\`,
+        `   --set agent.endpointHost=${agentEndpoint} \\`,
+        `   --set agent.endpointPort=${agentEndpointPort} \\`,
+        `   --set cluster.name='${clusterName}' \\`
       );
-      if (agentZone) content.push(`--set zone.name=${agentZone} \\`);
-      content.push('instana-agent');
+      if (agentZone) content.push(`   --set zone.name='${agentZone}' \\`);
+      content.push('   instana-agent');
       return {
         code: content,
         lang: 'bash',
@@ -150,13 +150,13 @@ export const getBashCode = ({
     }
     case 'openshift_k8_daemon': {
       let content = instanaAgentOpenShiftYaml
-        .replace('${agentKey}', window.btoa(agentKey))
-        .replace('${downloadKey}', window.btoa(downloadKey))
-        .replace('${agentEndpoint}', agentEndpoint)
-        .replace('${agentEndpointPort}', agentEndpointPort)
-        .replace('${clusterName}', clusterName)
-        .replace('${zoneName}', agentZone)
-        .replace('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
+        .replaceAll('${agentKey}', window.btoa(agentKey))
+        .replaceAll('${downloadKey}', window.btoa(downloadKey))
+        .replaceAll('${agentEndpoint}', agentEndpoint)
+        .replaceAll('${agentEndpointPort}', agentEndpointPort)
+        .replaceAll('${clusterName}', clusterName)
+        .replaceAll('${zoneName}', agentZone)
+        .replaceAll('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
       content = content.split('\n');
 
       return {

@@ -1,0 +1,27 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .backgroundImage {
+    background-image: url('in-plg/components/WelcomeHeader/bottom-right-image.png'),
+      url('in-plg/components/WelcomeHeader/top-left-image.png') !important;
+    background-repeat: no-repeat, no-repeat !important;
+    background-position-x: 95%, 70% !important;
+    background-position-y: 100%, 0% !important;
+  }
+
+  .backgroundImage1[aria-expanded='false'] {
+    height: 6rem !important;
+    background-image: url('in-plg/components/WelcomeHeader/top-left-image.png') !important;
+    background-repeat: no-repeat !important;
+    background-position-x: 70% !important;
+    background-position-y: 0% !important;
+  }
+
+  .urlShortener {
+    width: 2rem;
+  }
+}

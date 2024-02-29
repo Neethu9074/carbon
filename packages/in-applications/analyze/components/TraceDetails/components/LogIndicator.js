@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef } from 'react';
 
-import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { getLogLevelAndColor } from 'in-components/Logging/TraceDetails/utils';
 import { role } from 'in-stores/user';
 import { useTheme } from 'in-themes';
 
@@ -19,7 +20,7 @@ export default forwardRef(function LogIndicator(props, ref) {
 
 const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
   const { onCallClicked } = props;
-  const { setSelectedLog } = useContext(LogsInCallsContext);
+  const { setSelectedLog } = useLogsInCallsContext();
 
   return (
     <div
@@ -37,14 +38,14 @@ const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
   );
 });
 
-function getStyleProps({ left, inTimeline, log, theme }) {
+function getStyleProps({ left, inTimeline, log }) {
+  const { color } = getLogLevelAndColor(log);
+
   return {
     style: {
       left: `calc(${left}% - 10px`,
       top: `calc(${top}px - 7.5px)`,
-      borderColor: `${
-        log.errorCount ? theme.ids.color.option.red['500'] : theme.ids.color.option.yellow['500']
-      } transparent transparent`
+      borderColor: `${color} transparent transparent`
     },
     className: inTimeline ? locals.logIndicatorTimeline : locals.logIndicator
   };

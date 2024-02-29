@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
@@ -20,8 +22,8 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
+import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import { lighten } from 'in-services/formatters/color';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function AlertingChart({
@@ -130,17 +132,13 @@ export function getY1(
   viewConfig,
   displayPredictions = false
 ) {
-  let chartColors = [theme.lib.carbonCategorical.cyan50, theme.lib.carbonAlert.red60];
+  let chartColors = [carbonCategorical.cyan50, carbonAlert.red60];
 
   let metricIds = [metricName, 'threshold'];
 
-  let legendColors = [
-    theme.lib.carbonCategorical.cyan50,
-    theme.lib.carbonAlert.red60,
-    getColorWithTransparency(theme.lib.carbonAlert.red60).c50
-  ];
+  let legendColors = [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50];
 
-  let iconTypes = ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'];
+  let iconTypes = ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'];
 
   let excludedLabelsFromLegend = [];
 
@@ -149,12 +147,12 @@ export function getY1(
     chartColors = [
       ...chartColors,
       '',
-      theme.lib.colors.deepPurple800,
-      lighten(theme.lib.carbonAlert.purple50, 0.4),
-      lighten(theme.lib.carbonAlert.purple50, 0.4)
+      themes.default.ids.color.option['deep-purple'][500],
+      lighten(carbonAlert.purple50, 0.4),
+      lighten(carbonAlert.purple50, 0.4)
     ];
     metricIds = [...metricIds, 'violations', 'predictions', 'lowerBound', 'upperBound'];
-    legendColors = [...legendColors, theme.lib.colors.deepPurple800];
+    legendColors = [...legendColors, themes.default.ids.color.option['deep-purple'][500]];
 
     //We don't need lower and upper bounds displayed in the legends area for predictions, so it's added to excludedLabelsFromLegend and removed from legends.
     excludedLabelsFromLegend = [
@@ -162,9 +160,9 @@ export function getY1(
       t('in-alerting:components.chart.alertingChartLabelUpperBound')
     ];
 
-    // There are only three icons required for smart alerts, the last icon, 'lib_actions_stop,' is added to `iconTypes` for potential problems but is not displayed in alerting charts. However, when predictions are included in smart alerts, we must display 'lib_line_chart' as the fourth icon for legends, so removing the last icon from iconTypes ('lib_actions_stop') and replacing it with the prediction-appropriate icon.
+    // There are only three icons required for smart alerts, the last icon, 'lib_actions_stop,' is added to `iconTypes` for potential problems but is not displayed in alerting charts. However, when predictions are included in smart alerts, we must display 'lib_legend_line_chart' as the fourth icon for legends, so removing the last icon from iconTypes ('lib_actions_stop') and replacing it with the prediction-appropriate icon.
     iconTypes.pop();
-    iconTypes = [...iconTypes, 'lib_line_chart'];
+    iconTypes = [...iconTypes, 'lib_legend_line_chart'];
   }
 
   return {

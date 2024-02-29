@@ -8,28 +8,22 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
-import {
-  LiLoadMore,
-  TableHorizontalIndicatorRow,
-  Table,
-  Tbody,
-  SvgIcon,
-  TableLoadingSkeletonRows
-} from '@instana/components';
-import { InfrastructureGroup, Order, Progress, Result, TagCatalog, TimeConfig } from '@instana/types';
+import { InfrastructureGroup, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
+import { LiLoadMore, SvgIcon } from '@instana/components';
 
 //@ts-expect-error
 import { getGroupTagValue, getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import { InfraMetricGroupHeader } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupHeader';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
+import MetricGroupHeader from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader';
 import { GroupLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel';
 //@ts-expect-error
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import TableLoading from 'in-alerting/smart-alerts/aggregated/components/TableLoading';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { State } from 'in-hooks/useCursorPagination';
@@ -129,11 +123,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
           [locals.tableMinHeight]: items?.length >= 5
         })}
       >
-        <InfraMetricGroupHeader
-          isLoading={isLoading}
-          totalHits={totalHits}
-          setBackendQueryModel={setBackendQueryModel}
-        />
+        <MetricGroupHeader isLoading={isLoading} totalHits={totalHits} setBackendQueryModel={setBackendQueryModel} />
         {!hasErrors && items?.length > 0 && (
           <CursorPaginatedTable
             columnDefinitions={columnDefinitions}
@@ -162,7 +152,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
         )}
         {canLoadMore && (
           <LiLoadMore
-            label={t('in-alerting:smartAlerts.infrastructure.loadMore')}
+            label={t('in-alerting:components.loadMore')}
             //@ts-expect-error TS incompactable
             loadMore={() => {
               defaultCursorPaginationLoadMore();
@@ -170,7 +160,7 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
           />
         )}
         {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-        {progress?.loading && items.length === 0 && <Loading progress={progress} />}
+        {progress?.loading && items.length === 0 && <TableLoading progress={progress} />}
       </div>
     </>
   );
@@ -278,22 +268,6 @@ function getColumnDefinition({
 function getColumnWidth(groupBy: string[], metrics: object[]): string {
   const totalMetrics = 5;
   return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 10 + 'rem';
-}
-
-/**
- * Renders a loading indicator.
- * @param progress The progress.
- * @returns The component.
- */
-function Loading({ progress }: { progress: Progress }): JSX.Element {
-  return (
-    <Table className={locals.fullWidth}>
-      <Tbody>
-        <TableHorizontalIndicatorRow cols={3} progress={progress} />
-        <TableLoadingSkeletonRows cols={3} rows={6} />
-      </Tbody>
-    </Table>
-  );
 }
 
 function setDefaultMetrics(

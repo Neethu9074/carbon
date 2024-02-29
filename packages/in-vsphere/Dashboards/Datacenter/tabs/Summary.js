@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { Card } from '@instana/components';
 
 import {
@@ -20,13 +21,11 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cluster }) {
-  const theme = useTheme();
   const snapshotId = cluster.id;
-  const usage = theme.ids.color.option.blue['400'];
+  const usage = themes.default.ids.color.option.blue['400'];
 
   return (
     <Fragment>

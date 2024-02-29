@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Status",
-      "remainingBudget": "Error Budget Remaining",
+      "remainingBudget": "Remaining",
       "totalBudget": "Error Budget",
       "consumedBudget": "Error Budget Consumed",
       "momentaryBudgetConsumption": "Error Budget Consumption",
@@ -182,6 +182,9 @@
       "thresholdLabel_availability": "Error Rate (%)",
       "setGoodCall": "Set the good calls to a service",
       "setBadCall": "Set the bad calls to a service (Optional)"
+    },
+    "previewSection": {
+      "dataInfo": "Preview data is shown only up to 7 days in the past. The SLO will only include data from the time it was created"
     }
   },
   "sloChart": {
@@ -198,7 +201,12 @@
       "timeWindow": "Time Window",
       "timeWindowType_dynamic": "Dynamic time window",
       "timeWindowType_rolling": "Rolling time window",
-      "timeWindowType_fixed": "Fixed time window"
+      "timeWindowType_fixed": "Fixed time window",
+      "configuredTimeWindow": "Configured SLO Time Window:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "Start Time: {{startDay}} , {{startTime}}",
+      "matchedSLOTimeWindow": "Matching SLO Time Windows: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Preview not available because the configuration is incomplete.",
@@ -208,6 +216,7 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
+        "service": "Service: {{label}}",
         "tooltip": {
           "applications": "Application SLO",
           "websites": "Website SLO"
@@ -256,8 +265,14 @@
       "summaryLabel": "Summary",
       "configurationLabel": "Configuration"
     },
+    "timeWindowSelection": {
+      "timeWindow": "Unknown Selection",
+      "timeWindow_SELECTED_TIME": "Selected Time",
+      "timeWindow_SLO_TIME_WINDOW": "SLO Time Window"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "Error Budget Remaining",
         "totalBudget": "Budget: {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +283,7 @@
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Error Budget",
-        "title_fullWindow": "Error Budget Over Entire Time Window",
-        "optionCompact": "Compact",
-        "optionFull": "Full Consumption"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Error Budget Consumption Over Entire Time Window"
+        "title": "Error Budget"
       },
       "trafficChart": {
         "title": "Traffic"

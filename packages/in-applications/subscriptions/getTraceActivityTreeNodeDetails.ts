@@ -9,6 +9,7 @@ import { Result, TraceActivityTreeNodeDetails } from 'in-types';
 interface createResultSubscriptionFactoryRequest {
   traceId: string;
   nodeId: string;
+  retry?: number;
 }
 
 type createResultSubscriptionFactoryResponse = Result<TraceActivityTreeNodeDetails>;

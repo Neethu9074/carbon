@@ -1,0 +1,187 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import { Stack } from '@instana/components';
+
+import {
+  AlertConfigDialogPresenterProps,
+  MainDialogControl
+} from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import {
+  AlertPreview,
+  AlertPreviewHeadline
+} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
+import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import {
+  isCustomPayloadValidOrUntouched,
+  fieldTouchedAndInvalid
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
+import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
+import useTagCatalog from 'in-logging/hooks/useTagCatalog';
+import StepsContainer from 'in-components/StepsContainer';
+import Sections from 'in-components/workspace/Sections';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/logs/dialog/advanced/AdvancedModeContainer.mless';
+
+export default function AdvancedModeContainer(props: AlertConfigDialogPresenterProps & MainDialogControl) {
+  const {
+    form,
+    updateForm,
+    onChange,
+    setTagFilterValid,
+    tagFilterValid,
+    timeConfig,
+    setSliderState,
+    setCustomSlideInHeaderConfig,
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex
+  } = props;
+  const thresholdType = form.get('threshold').get('type').value;
+  const tagCatalog = useTagCatalog('SMART_ALERTS');
+
+  return (
+    <StepsContainer
+      messages={[]}
+      navItems={[
+        {
+          scrollId: '1',
+          label: t('in-alerting:smartAlerts.logs.advancedModeContainer.scope.label'),
+          title: t('in-alerting:smartAlerts.logs.advancedModeContainer.scope.title'),
+          valid: tagFilterValid,
+          content: (
+            <div className={locals.container}>
+              <Stack gap="small">
+                <Sections>
+                  <ScopeFilter
+                    form={form}
+                    updateForm={updateForm}
+                    tagCatalog={tagCatalog}
+                    timeConfig={timeConfig}
+                    setTagFilterValid={setTagFilterValid}
+                  />
+                  <ScopeGroup form={form} updateForm={updateForm} />
+                </Sections>
+              </Stack>
+            </div>
+          )
+        },
+        {
+          scrollId: '2',
+          label: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.label'),
+          title: t('in-alerting:smartAlerts.logs.advancedModeContainer.threshold.title'),
+          valid: isThresholdSectionValid(),
+          content: (
+            <ThresholdSelectionInteractiveChart
+              form={form}
+              onChartViewConfigChange={onChartViewConfigChange}
+              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+              // @ts-expect-error updateForm is required
+              updateForm={updateForm}
+              tagCatalog={tagCatalog}
+            />
+          )
+        },
+        {
+          scrollId: '3',
+          label: t('in-alerting:smartAlerts.logs.advancedModeContainer.timeThreshold.label'),
+          title: t('in-alerting:smartAlerts.logs.advancedModeContainer.timeThreshold.title'),
+          valid: true,
+          content: (
+            <>
+              <TimeThreshold
+                form={form}
+                updateForm={updateForm}
+                onChange={onChange}
+                oneMinuteGranularityAllowed={
+                  thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+                }
+              />
+            </>
+          )
+        },
+        {
+          scrollId: '4',
+          label: t('in-alerting:smartAlerts.logs.advancedModeContainer.alertChannel.label'),
+          title: t('in-alerting:smartAlerts.logs.advancedModeContainer.alertChannel.title'),
+          valid: true,
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
+          )
+        },
+        {
+          scrollId: '5',
+          label: t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.label'),
+          title: t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.title'),
+          valid: true,
+          content: (
+            <AlertPropertiesContainer
+              renderAlertProperties={() => (
+                <AlertProperties
+                  form={form}
+                  onChange={onChange}
+                  getDescriptionPlaceholder={() => getDescriptionPlaceholder(form)}
+                  renderAlertPropertiesTitleRow={() => (
+                    <AlertPropertiesTitleRow
+                      form={form}
+                      onChange={onChange}
+                      getTitlePlaceholder={getTitlePlaceholder}
+                    />
+                  )}
+                />
+              )}
+              renderAlertPreview={() => (
+                <AlertPreview
+                  form={form}
+                  renderHeadline={() => (
+                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
+                  )}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  entityLabel={t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle')}
+                  entityIconType="lib_application_logging"
+                />
+              )}
+            />
+          )
+        },
+        {
+          scrollId: '6',
+          label: t('in-alerting:smartAlerts.logs.advancedModeContainer.customPayloads.label'),
+          title: t('in-alerting:smartAlerts.logs.advancedModeContainer.customPayloads.title'),
+          valid: isCustomPayloadValidOrUntouched(form),
+          content: (
+            <>
+              <GlobalCustomPayloadCard context="LOG" />
+              <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
+            </>
+          )
+        }
+      ]}
+    />
+  );
+  function isThresholdSectionValid(): boolean {
+    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+  }
+}

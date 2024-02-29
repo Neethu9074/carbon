@@ -80,7 +80,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }: AlertHisto
         {!loading && !items?.length && (
           <SmartAlertsNoDataAvailable
             text={t('in-alerting:smartAlerts.titleNoSmartAlertsCreated')}
-            type="lib_alerts_alert"
+            type="lib_alerts_create"
           />
         )}
       </Ul>

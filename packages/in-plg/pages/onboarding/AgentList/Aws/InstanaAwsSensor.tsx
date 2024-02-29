@@ -20,6 +20,11 @@ import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
+interface Platforms {
+  key: 'ec2' | 'ecs';
+  label: string;
+}
+
 export default function InstanaAwsSensor({
   agentKey,
   downloadKey,
@@ -27,8 +32,11 @@ export default function InstanaAwsSensor({
   agentEndpointPort,
   instanaDomain
 }: OnboardingProps) {
-  const installationPlatforms = [t('in-plg:agentDetails.aws.ec2'), t('in-plg:agentDetails.aws.ecs')];
-  const [platform, setPlatform] = useState(installationPlatforms[0]);
+  const installationPlatforms: Platforms[] = [
+    { key: 'ec2', label: t('in-plg:agentDetails.aws.ec2') },
+    { key: 'ecs', label: t('in-plg:agentDetails.aws.ecs') }
+  ];
+  const [platform, setPlatform] = useState<Platforms>(installationPlatforms[0]);
 
   const supportData = [
     {
@@ -76,86 +84,196 @@ export default function InstanaAwsSensor({
     }
   ];
 
-  const trustRelationships = `
-  {
-    Version: '2012-10-17',
-    Statement: [
+  function getIamPermissions() {
+    if (platform.key === 'ec2') {
+      return `{
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Action": [
+              "elasticbeanstalk:DescribeEnvironments",
+              "elasticbeanstalk:ListTagsForResource",
+              "elasticbeanstalk:DescribeInstancesHealth",
+              "dynamodb:ListTables",
+              "dynamodb:DescribeTable",
+              "dynamodb:ListTagsOfResource",
+              "rds:DescribeDBInstances",
+              "rds:DescribeEvents",
+              "rds:ListTagsForResource",
+              "sqs:ListQueues",
+              "sqs:GetQueueAttributes",
+              "sqs:ListQueueTags",
+              "elasticache:ListTagsForResource",
+              "elasticache:DescribeCacheClusters",
+              "elasticache:DescribeEvents",
+              "elasticloadbalancing:DescribeLoadBalancers",
+              "elasticloadbalancing:DescribeTags",
+              "elasticmapreduce:ListClusters",
+              "elasticmapreduce:DescribeCluster",
+              "es:ListDomainNames",
+              "es:DescribeElasticsearchDomain",
+              "es:ListTags",
+              "ec2:DescribeInstances",
+              "ec2:DescribeTags",
+              "ec2:DescribeVolumes",
+              "kafka:ListClusters",
+              "kafka:ListNodes",
+              "kafka:ListTagsForResource",
+              "kafka:DescribeCluster",
+              "kinesis:ListStreams",
+              "kinesis:DescribeStream",
+              "kinesis:ListTagsForStream",
+              "lambda:ListTags",
+              "lambda:ListFunctions",
+              "lambda:ListVersionsByFunction",
+              "lambda:ListEventSourceMappings",
+              "lambda:GetFunctionConfiguration",
+              "mq:ListBrokers",
+              "mq:DescribeBroker",
+              "s3:GetBucketTagging",
+              "s3:ListAllMyBuckets",
+              "s3:GetBucketLocation",
+              "xray:BatchGetTraces",
+              "xray:GetTraceSummaries",
+              "tag:GetResources"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+          },
+          {
+            "Action": [
+              "cloudwatch:GetMetricStatistics",
+              "cloudwatch:GetMetricData",
+              "cloudwatch:ListMetrics"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+          }
+        ]
+      }`;
+    } else {
+      return `{
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Action": [
+              "elasticbeanstalk:DescribeEnvironments",
+              "elasticbeanstalk:ListTagsForResource",
+              "elasticbeanstalk:DescribeInstancesHealth",
+              "dynamodb:ListTables",
+              "dynamodb:DescribeTable",
+              "dynamodb:ListTagsOfResource",
+              "rds:DescribeDBInstances",
+              "rds:DescribeEvents",
+              "rds:ListTagsForResource",
+              "sqs:ListQueues",
+              "sqs:GetQueueAttributes",
+              "sqs:ListQueueTags",
+              "elasticache:ListTagsForResource",
+              "elasticache:DescribeCacheClusters",
+              "elasticache:DescribeEvents",
+              "elasticloadbalancing:DescribeLoadBalancers",
+              "elasticloadbalancing:DescribeTags",
+              "elasticmapreduce:ListClusters",
+              "elasticmapreduce:DescribeCluster",
+              "es:ListDomainNames",
+              "es:DescribeElasticsearchDomain",
+              "es:ListTags",
+              "ec2:DescribeInstances",
+              "ec2:DescribeTags",
+              "ec2:DescribeVolumes",
+              "kafka:ListClusters",
+              "kafka:ListNodes",
+              "kafka:ListTagsForResource",
+              "kafka:DescribeCluster",
+              "kinesis:ListStreams",
+              "kinesis:DescribeStream",
+              "kinesis:ListTagsForStream",
+              "lambda:ListTags",
+              "lambda:ListFunctions",
+              "lambda:ListVersionsByFunction",
+              "lambda:ListEventSourceMappings",
+              "lambda:GetFunctionConfiguration",
+              "mq:ListBrokers",
+              "mq:DescribeBroker",
+              "s3:GetBucketTagging",
+              "s3:ListAllMyBuckets",
+              "s3:GetBucketLocation",
+              "xray:BatchGetTraces",
+              "xray:GetTraceSummaries",
+              "tag:GetResources"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+          },
+          {
+            "Action": [
+              "cloudwatch:GetMetricStatistics",
+              "cloudwatch:GetMetricData",
+              "cloudwatch:ListMetrics"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+          }
+        ]
+      }`;
+    }
+  }
+
+  const trustRelationships = `{
+    "Version": "2012-10-17",
+    "Statement": [
       {
-        Effect: 'Allow',
-        Principal: {
-          Service: 'ec2.amazonaws.com'
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "ec2.amazonaws.com"
         },
-        Action: 'sts:AssumeRole'
+        "Action": "sts:AssumeRole"
       }
     ]
   }`;
 
-  const iamPermissions = `
+  const taskDefinitions = `
   {
-    Version: '2012-10-17',
-    Statement: [
+    "family": "instana-aws-sensor",
+    "containerDefinitions": [
       {
-        Action: [
-          'elasticbeanstalk:DescribeEnvironments',
-          'elasticbeanstalk:ListTagsForResource',
-          'elasticbeanstalk:DescribeInstancesHealth',
-          'dynamodb:ListTables',
-          'dynamodb:DescribeTable',
-          'dynamodb:ListTagsOfResource',
-          'rds:DescribeDBInstances',
-          'rds:DescribeEvents',
-          'rds:ListTagsForResource',
-          'sqs:ListQueues',
-          'sqs:GetQueueAttributes',
-          'sqs:ListQueueTags',
-          'elasticache:ListTagsForResource',
-          'elasticache:DescribeCacheClusters',
-          'elasticache:DescribeEvents',
-          'elasticloadbalancing:DescribeLoadBalancers',
-          'elasticloadbalancing:DescribeTags',
-          'elasticmapreduce:ListClusters',
-          'elasticmapreduce:DescribeCluster',
-          'es:ListDomainNames',
-          'es:DescribeElasticsearchDomain',
-          'es:ListTags',
-          'ec2:DescribeInstances',
-          'ec2:DescribeTags',
-          'ec2:DescribeVolumes',
-          'kafka:ListClusters',
-          'kafka:ListNodes',
-          'kafka:ListTagsForResource',
-          'kafka:DescribeCluster',
-          'kinesis:ListStreams',
-          'kinesis:DescribeStream',
-          'kinesis:ListTagsForStream',
-          'lambda:ListTags',
-          'lambda:ListFunctions',
-          'lambda:ListVersionsByFunction',
-          'lambda:ListEventSourceMappings',
-          'lambda:GetFunctionConfiguration',
-          'mq:ListBrokers',
-          'mq:DescribeBroker',
-          's3:GetBucketTagging',
-          's3:ListAllMyBuckets',
-          's3:GetBucketLocation',
-          'xray:BatchGetTraces',
-          'xray:GetTraceSummaries',
-          'tag:GetResources'
-        ],
-        Effect: 'Allow',
-        Resource: '*'
-      },
-      {
-        Action: ['cloudwatch:GetMetricStatistics', 'cloudwatch:GetMetricData', 'cloudwatch:ListMetrics'],
-        Effect: 'Allow',
-        Resource: '*'
+        "name": "aws-sensor",
+        "image": "icr.io/instana/agent",
+        "environment": [
+          {
+            "name": "INSTANA_AGENT_ENDPOINT",
+            "value": "${agentEndpoint}"
+          },
+          {
+            "name": "INSTANA_AGENT_ENDPOINT_PORT",
+            "value": ${agentEndpointPort}
+          },
+          {
+            "name": "INSTANA_AGENT_KEY",
+            "value": "${agentKey}"
+          },
+          {
+            "name": "INSTANA_DOWNLOAD_KEY",
+            "value": "${downloadKey}"
+          },
+          {
+            "name": "INSTANA_AGENT_MODE",
+            "value": "AWS"
+          }
+        ]
       }
-    ]
-  }
-  `;
+    ],
+    "cpu": "2048",
+    "memory": "4096",
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "networkMode": "awsvpc"
+  }`;
 
   function renderContent() {
-    if (platform === installationPlatforms[0]) {
+    if (platform.key === installationPlatforms[0].key) {
       return (
         <Wrapper>
           <LayoutSection
@@ -183,7 +301,9 @@ export default function InstanaAwsSensor({
             <Stack direction="horizontal">
               <KeyValue
                 label={t('in-plg:agentDetails.aws.iamPermissions')}
-                value={<InputWithButton type="copy" displayContent="IAM_permission.json" inputValue={iamPermissions} />}
+                value={
+                  <InputWithButton type="copy" displayContent="IAM_permission.json" inputValue={getIamPermissions()} />
+                }
                 withGap
               />
               <KeyValue
@@ -210,7 +330,7 @@ export default function InstanaAwsSensor({
             <Typography variant="body-regular">{t('in-plg:agentDetails.aws.createECSTaskDefinition')}</Typography>
             <KeyValue
               label={t('in-plg:agentDetails.aws.taskDefinition')}
-              value={<InputWithButton type="copy" displayContent="task_definition.json" inputValue={iamPermissions} />}
+              value={<InputWithButton type="copy" displayContent="task_definition.json" inputValue={taskDefinitions} />}
               withGap
             />
             <Typography variant="body-regular">
@@ -218,7 +338,9 @@ export default function InstanaAwsSensor({
             </Typography>
             <KeyValue
               label={t('in-plg:agentDetails.aws.iamPermissions')}
-              value={<InputWithButton type="copy" displayContent="IAMpermissions.json" inputValue={iamPermissions} />}
+              value={
+                <InputWithButton type="copy" displayContent="IAMpermissions.json" inputValue={getIamPermissions()} />
+              }
               withGap
             />
           </Stack>
@@ -242,15 +364,15 @@ export default function InstanaAwsSensor({
             value={
               <Stack direction="horizontal">
                 <CheckboxFancy
-                  label={installationPlatforms[0]}
-                  checked={platform === installationPlatforms[0]}
+                  label={installationPlatforms[0].label}
+                  checked={platform.key === 'ec2'}
                   onChange={() => setPlatform(installationPlatforms[0])}
                   size="default"
                   asRadioButton
                 />
                 <CheckboxFancy
-                  label={installationPlatforms[1]}
-                  checked={platform === installationPlatforms[1]}
+                  label={installationPlatforms[1].label}
+                  checked={platform.key === 'ecs'}
                   onChange={() => setPlatform(installationPlatforms[1])}
                   size="default"
                   asRadioButton

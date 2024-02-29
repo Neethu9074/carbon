@@ -34,6 +34,9 @@ pipeline {
   options {
     ansiColor('xterm')
   }
+  environment {
+    INSTANA_VERSION_PROVIDER_SERVER_URL = 'http://localhost:3000'
+  }
   stages {
     stage ('Setup') {
       steps {
@@ -120,7 +123,7 @@ pipeline {
               if (isDeliveryBranch) {
                 // Mark stable version in Instana's own versioning system only on delivery branches
                 // as this value is only used on further build stages on delivery branches
-                sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
+                sh "ci-shared-tools component-versions mark-stable-version ui-client ${branchName} ${instanaUiClientVersion}"
               }
             }
           }
@@ -140,7 +143,7 @@ pipeline {
             timestamps {
               script {
                 if (isDeliveryBranch) {
-                  instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
+                  instanaImageVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-instana-image-version ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
               }
@@ -272,8 +275,8 @@ def buildAndPublishImage(gitCommitId, componentName, branchName, instanaUiClient
 }
 
 def markStableImageVersions(branchName, instanaImageVersion) {
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image-from-ui-client ${branchName} ${instanaImageVersion}" // so the backend pipeline can lookup the latest version built by the ui-client pipeline
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image ${branchName} ${instanaImageVersion}" // single source of latest stable Instana image version
+  sh "ci-shared-tools component-versions mark-stable-version instana-image-from-ui-client ${branchName} ${instanaImageVersion}" // so the backend pipeline can lookup the latest version built by the ui-client pipeline
+  sh "ci-shared-tools component-versions mark-stable-version instana-image ${branchName} ${instanaImageVersion}" // single source of latest stable Instana image version
 }
 
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
@@ -282,8 +285,8 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
   try {
     waitForStableBackendVersions(branchName)
     def backendStableVersion =
-        sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
-    def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
+        sh(returnStdout: true, script: "ci-shared-tools component-versions get-stable-version backend ${branchName}").trim()
+    def backendStableImageVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-stable-version instana-image-from-backend ${branchName}").trim()
 
     def rebuildBackendComponents = [:]
     backendComponents.each {
@@ -309,6 +312,7 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+    notifyGeneralBuildFailure(branchName)
     throw e
   }
 }
@@ -316,8 +320,8 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
 def waitForStableBackendVersions(branchName) {
   waitUntil {
     try {
-      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}")
-      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}")
+      sh(returnStdout: true, script: "ci-shared-tools component-versions get-stable-version backend ${branchName}")
+      sh(returnStdout: true, script: "ci-shared-tools component-versions get-stable-version instana-image-from-backend ${branchName}")
       true
     } catch(ignored) {
       false
@@ -350,6 +354,7 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed \n\n${currentBuild.description}")
+    notifyGeneralBuildFailure(branchName)
     throw e
   }
 }
@@ -381,4 +386,11 @@ def notifyDeliveryBuildFailure(branchName, gitCommitID, gitCommitMessage) {
   message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>")
 
   notifyFailure('tech-ui-dev', message.toString())
+  notifyGeneralBuildFailure(branchName)
+}
+
+def notifyGeneralBuildFailure(branchName) {
+  if (branchName.startsWith('release-')) {
+    notifyFailure('tech-dev', "<${env.BUILD_URL}|:alert2: ${env.JOB_NAME} #${env.BUILD_NUMBER}> failed! :cry:")
+  }
 }

@@ -46,8 +46,8 @@ export default function AgentCatalogCard({
   };
 
   return (
-    <Card className={locals.card}>
-      <div onClick={() => goToPath(href)}>
+    <Card className={locals.card} onHeaderBackgroundClicked={() => goToPath(href)} bodyClassName={locals.bodyClassName}>
+      <div className={locals.cardWrapper} onClick={() => goToPath(href)}>
         <Stack direction="horizontal">
           <Stack direction="vertical">
             <IconSwitch icon={icon} />

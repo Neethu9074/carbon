@@ -14,6 +14,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -41,22 +42,34 @@ const cols = [
   },
   {
     title: t('in-sap:dashboards.requestsWritten'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: RequestQueueRow) {
-        return row.requestsStats.get('requestsWritten');
+      getSnapshotId(row: RequestQueueRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: RequestQueueRow) {
+        return `requestQueueList.${row.key}.requestsWritten`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   },
   {
     title: t('in-sap:dashboards.requestsRead'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: RequestQueueRow) {
-        return row.requestsStats.get('requestsRead');
+      getSnapshotId(row: RequestQueueRow) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: RequestQueueRow) {
+        return `requestQueueList.${row.key}.requestsRead`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
@@ -83,30 +96,35 @@ export default function RequestQueue({ snapshotId, timeConfig }: RequestQueuePro
   function getDetails(row: RequestQueueRow) {
     return (
       <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`requestQueueList.${row.key}.requestsWaiting`, `requestQueueList.${row.key}.maxRequestsWaiting`],
-            labels: [t('in-sap:dashboards.requestsWaiting'), t('in-sap:dashboards.maxRequestsWaiting')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`requestQueueList.${row.key}.requestsWritten`, `requestQueueList.${row.key}.requestsRead`],
-            labels: [t('in-sap:dashboards.requestsWritten'), t('in-sap:dashboards.requestsRead')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
+        <Columize>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [
+                `requestQueueList.${row.key}.requestsWaiting`,
+                `requestQueueList.${row.key}.maxRequestsWaiting`
+              ],
+              labels: [t('in-sap:dashboards.requestsWaiting'), t('in-sap:dashboards.maxRequestsWaiting')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`requestQueueList.${row.key}.requestsWritten`, `requestQueueList.${row.key}.requestsRead`],
+              labels: [t('in-sap:dashboards.requestsWritten'), t('in-sap:dashboards.requestsRead')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </Columize>
       </div>
     );
   }

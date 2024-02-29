@@ -82,6 +82,12 @@ export const dataSourcerMatrixParameter = {
   initialState: 'infrastructure'
 };
 
+export const queryMatrixParameter = {
+  path: infraExplorePath,
+  name: 'query',
+  initialState: ''
+};
+
 export const resetMetricsAndOrderOnTypeChange = {
   bind: [
     {
@@ -106,7 +112,7 @@ export function useLinkToExplore() {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    ({ tagFilterExpression, group, groupBy, type, metrics, order, timeConfig, chartedMetrics }) => {
+    ({ tagFilterExpression, group, groupBy, type, metrics, order, timeConfig, chartedMetrics, fromEventPage }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = infraExplorePath;
@@ -117,11 +123,13 @@ export function useLinkToExplore() {
         // to a string. This ensures that the URL conversion
         // will properly escape the value (i.e. prefix it with
         // '*').
-        tagFilterExpression.forEach(expression => {
-          if (typeof expression.value === 'number') {
-            expression.value = String(expression.value);
-          }
-        });
+        if (!fromEventPage) {
+          tagFilterExpression.forEach(expression => {
+            if (typeof expression.value === 'number') {
+              expression.value = String(expression.value);
+            }
+          });
+        }
         setMatrixKey(clonedLocation, tagFilterExpressionMatrixParameter, tagFilterExpression);
       }
 

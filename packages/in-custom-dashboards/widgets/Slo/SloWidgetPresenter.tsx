@@ -21,10 +21,18 @@ interface SloWidgetPresenterProps {
   config: SloWidgetConfiguration;
   isPreview?: boolean;
   title: string;
+  isInModal?: boolean;
   dragHandle: React.ReactNode;
 }
 
-export default function SloWidgetPresenter({ actions, config, isPreview, title, dragHandle }: SloWidgetPresenterProps) {
+export default function SloWidgetPresenter({
+  actions,
+  config,
+  isPreview,
+  title,
+  isInModal,
+  dragHandle
+}: SloWidgetPresenterProps) {
   const {
     slo,
     entityId,
@@ -97,6 +105,7 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
       actions={actions}
       dragHandle={dragHandle}
       isPreview={isPreview}
+      isInModal={isInModal}
       disableZooming={isFixed || isRolling}
     />
   );

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { useState, useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -21,14 +21,21 @@ interface Props {
   timeConfig: TimeConfig;
   order: Order;
   setOrder: (order: Order) => void;
+  query: string;
+  setQuery: (query: string) => void;
 }
 
-export default function useInfrastructureEntities({ backendQueryModel, timeConfig, order, setOrder }: Props) {
+export default function useInfrastructureEntities({
+  backendQueryModel,
+  timeConfig,
+  order,
+  setOrder,
+  query,
+  setQuery
+}: Props) {
   const typesResult =
     useObservable(() => getAvailableTypes({ timeConfig, backendQueryModel }), [timeConfig, backendQueryModel]) ??
     pendingResult;
-
-  const [query, setQuery] = useState('');
 
   const tableResult = useMemo(
     () =>
@@ -57,8 +64,7 @@ export default function useInfrastructureEntities({ backendQueryModel, timeConfi
 
   return {
     onChange,
-    tableResult,
-    query
+    tableResult
   };
 }
 

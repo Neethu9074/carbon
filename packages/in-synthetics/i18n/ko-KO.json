@@ -26,7 +26,9 @@
         "uploadScriptTitle": "스크립트 업로드",
         "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
         "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다.",
-        "enterTheScriptMessage": "여기에 스크립트 입력"
+        "enterTheScriptMessage": "여기에 스크립트 입력",
+        "privatePoPLabel": "개인용",
+        "managedPoPLabel": "관리형"
       },
       "basicDetails": {
         "title": "이 API 단순(HTTP 조치) 테스트의 이름",
@@ -183,14 +185,33 @@
           "invalidMainFileName": "기본 파일 이름이 올바르지 않음",
           "webpageUrl": "웹 페이지 URL",
           "browserUploadFileDescription": "단일 .js 파일, 번들된 .js 파일의 zip 파일 또는 SeleniumIDE에서 기록한 .side 스크립트를 업로드할 수 있습니다.",
-          "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다."
+          "sideFileUploadedMessage": "Selenium 스크립트는 수정하거나 유효성 검증할 수 없습니다.",
+          "bundleFileNotSupportedMessage": "지원되지 않는 파일을 선택했습니다. 번들은 고급 모드에서만 지원됩니다.",
+          "timeoutFieldLabel": "제한시간",
+          "timeUnitsLabel": "시간 단위",
+          "timeoutFieldOptionMinutes": "분 (m)",
+          "timeoutFieldOptionSeconds": "초 (s)",
+          "timeoutFieldOptionMilliseconds": "밀리초(ms)",
+          "timeoutValueGreaterthanZero": "제한시간 값은 0보다 커야 합니다.",
+          "invalidTimeoutvalue": "올바르지 않은 제한시간 값",
+          "invalidTimeoutUnit": "올바르지 않은 제한시간 단위",
+          "timeoutFieldDescription": "이 테스트는 다음 이후에 실패합니다.",
+          "retryFieldLabel": "재시도 전략",
+          "retryFieldOptionNone": "없음",
+          "retryFieldOptionOnce": "한 번 재시도",
+          "retryFieldOptionTwice": "두 번 재시도",
+          "retryIntervalFieldLabel": "재시도 간격",
+          "retryIntervalDescription": "이 테스트는 {{retryIntervalValue}}초 후에 {{retryCount}}번 재시도합니다.",
+          "markSyntheticCall": "합성 호출 표시"
         },
         "loadMore": "추가 로드",
         "selectTests": {
           "addLocations": "{{count}}개 위치 추가",
           "addLocation": "위치 추가",
           "cancel": "취소",
-          "selectLocation": "위치 선택"
+          "selectLocation": "위치 선택",
+          "privatePoPLabel": "개인용",
+          "managedPoPLabel": "관리형"
         },
         "advancedBluePrint": {
           "apiName": "API",
@@ -217,8 +238,8 @@
       "successMessageUpdate": "합성 테스트 업데이트 완료",
       "successMessageDelete": "합성 테스트 삭제 완료",
       "failureTitle": "실패함",
-      "failureMessageCreate": "{{errorMessage}}",
-      "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. {{errorMessage}}. 페이지를 새로 고친 후 다시 시도하십시오.",
+      "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. {{errorMessage}}",
+      "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. {{errorMessage}}",
       "failuteMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
     },
     "locationFeedback": {
@@ -226,7 +247,7 @@
       "failureMesssageDelete": "위치를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
     },
     "updateTest": {
-      "dialogTitle": "API 테스트 편집",
+      "dialogTitle": "{{syntheticType}} 테스트 편집",
       "buttonSave": "저장",
       "scriptSavedMessage": "스크립트 추가 완료",
       "bundleSavedMessage": "번들 스크립트 추가"
@@ -298,7 +319,7 @@
       "health": "상태",
       "noHealthInfo": "해당사항 없음",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
-      "activeTestLinked": "위치 <strong>{{label}}</strong>과(와) 연관된 {{linkedTests}} 활성 테스트가 있습니다({{status}}). 이 위치를 삭제하면 테스트 요약 차트에서 데이터가 유실됩니다. 위치를 삭제하시겠습니까?<br/>삭제하지 않고 위치를 업그레이드하려면 <documentLink>문서</documentLink>를 참조하십시오.",
+      "activeTestLinked": "위치 <strong>{{label}}</strong>과(와) 연관된 {{linkedTests}} 활성 테스트가 있습니다({{status}}). 이 위치를 삭제하면 테스트 요약 차트에서 데이터가 유실됩니다. 위치를 삭제하시겠습니까?<br/><br/>삭제하지 않고 위치를 업그레이드하려면 <documentLink>문서</documentLink>를 참조하십시오.",
       "deleteLocation": "위치 삭제",
       "noDataAvailable": {
         "message": "{{component}} 사용 불가"
@@ -312,7 +333,8 @@
       "failure": "실패함",
       "popVersion": "버전",
       "noActionsAllowed": "해당사항 없음",
-      "deleteRestrictedDescription": "관리 위치를 삭제할 수 없습니다."
+      "deleteRestrictedDescription": "관리 위치를 삭제할 수 없습니다.",
+      "deleteLocationBroswerRefreshInfo": "위치가 위치 목록에서 사라지는 데 시간이 다소 소요되며 브라우저 새로 고침이 필요할 수 있습니다."
     },
     "summary": {
       "successRate": "성공률",
@@ -552,10 +574,20 @@
         "reasonTitle": "삭제 이유",
         "typingValidationTitle": "계속하려면 {{synthetic}} 입력",
         "cancelButton": "취소",
-        "deleteButton": "테스트 삭제"
+        "deleteButton": "테스트 삭제",
+        "deleteTestBrowserRefreshInfo": "테스트 목록에서 테스트가 사라지려면 시간이 다소 소요되며 브라우저 새로 고침이 필요할 수 있습니다."
       },
       "configurationEditAction": "편집",
-      "configurationDeleteAction": "삭제"
+      "configurationDeleteAction": "삭제",
+      "timeoutLabel": "제한시간",
+      "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
+      "retryStrategyLabel": "재시도 전략",
+      "retryStrategyNone": "없음",
+      "retryStrategyDescription": "{{retryStrategy}} 재시도",
+      "retryIntervalFieldLabel": "재시도 간격",
+      "retryIntervalSecondDescription": "{{retryIntervalValue}}초",
+      "retryIntervalSecondsDescription": "{{retryIntervalValue}}초",
+      "markSyntheticCall": "합성 호출 표시"
     }
   }
 }

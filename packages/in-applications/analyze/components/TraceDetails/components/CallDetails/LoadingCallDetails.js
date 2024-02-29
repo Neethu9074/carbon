@@ -3,17 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { HorizontalIndicator } from '@instana/components';
+import { HorizontalIndicator, Message } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
-import Header from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/Header';
+import locals from './LoadingCallDetails.mless';
 
-export default function LoadingCallDetails({ onClose, progress }) {
+export default function LoadingCallDetails({ progress }) {
   return (
-    <Fragment>
-      <Header onClose={onClose} />
+    <>
       <HorizontalIndicator progress={progress} />
-    </Fragment>
+      <Message type="neutral" small className={locals.message}>
+        {t('in-analyze:traceDetail.components.callDetails.loading', 'Loading call details.')}
+      </Message>
+    </>
   );
 }

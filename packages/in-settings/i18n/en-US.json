@@ -84,7 +84,7 @@
     "platform_permissions": "Access {{quantityOfAreas}}",
     "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
-    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Synthetic Monitoring, Platforms & Infrastructure",
     "permissions": "Permissions",
     "additionalPermissions": "Additional permissions",
     "permissions_DASHBOARD": "Custom dashboard permissions",
@@ -154,7 +154,10 @@
     "contribution_filter": "Contribution filter",
     "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator",
     "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
-    "contributionFilter_name": "Name"
+    "contributionFilter_name": "Name",
+    "contributionFilter_name_mayNotBeBlank": "The contribution filter name must not be blank.",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "The contribution filter name must not be larger than 128 characters.",
+    "contributionFilter_name_alreadyUsed": "The contribution filter name is already used."
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "Access level",
-    "configuration_summary": "Configuration summary",
+    "permissions": "Permissions",
     "selection": "Not available",
     "selection_access_all": "Access all",
     "selection_limited_access": "Limited access",
@@ -187,7 +190,7 @@
     "role_viewer": "Viewer",
     "role_custom": "Custom",
     "role_contributor": "Contributor",
-    "role_permissions": "Role / Permissions",
+    "access_type": "Access type",
     "roleTooltip_websites": "Viewer: Ability to view website dashboards (configuration can't be viewed). <br /> Owner: Ability to create new websites; view, configure and delete website dashboards.",
     "roleTooltip_mobileApps": "Viewer: Ability to view mobile apps dashboards (configuration can't be viewed). <br /> Owner: Ability to create new mobile apps; view, configure and delete mobile apps dashboards.",
     "roleTooltip_applications": "Viewer: Ability to view applications dashboards (configuration can't be viewed). <br /> Owner: Ability to create new applications; view, configure and delete applications dashboards.",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "Limited access scope (Viewer)",
     "contribution_filter_warning": {
       "firstParagraph": "Any change that you save will update all application perspectives that use this contribution filter.",
-      "secondParagraph": "If you change the role, then the contribution filter is deleted. All application perspectives that use the contribution filter can then be edited by any user with Owner access to the Applications section. This cannot be undone."
+      "secondParagraph": "If you change the access type, then the contribution filter is deleted. All application perspectives that use the contribution filter can be edited by any user with owner access on the Applications section."
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "Access for all application perspectives under this unit.",
-        "role_permissions_contributor": "View all application dashboards under this unit. Create, configure and delete application dashboards using the contribution filter."
+        "access_level": "Access all the application perspectives with the selected access type and any additional permissions.",
+        "role_permissions_contributor": "Create application perspectives using the contribution filter; view, configure and delete these application perspectives. View other application perspectives, if access is granted."
       },
       "limited_access": {
-        "access_level": "Limited access only for the application dashboards selected below.",
-        "access_level_contributor": "Limited access only for the application dashboards selected below",
+        "access_level": "Access only the listed applications with the selected access type and any additional permissions.",
+        "access_level_contributor": "You can find the applications with contributor access in the access configuration pane on the user or group details. <br /><br />Access the application perspectives with the contribution filter applied as contributor. <br />Access the selected application perspectives as viewer",
         "role_permissions_contributor": "Create application dashboards with the contribution filter applied; view, configure and delete these application dashboards that are created for the contribution filter."
       },
-      "role_permissions_owner": "Create, configure, view and delete application dashboards.",
-      "role_permissions_viewer": "View application perspective dashboards and their configuration."
+      "role_permissions_owner": "Create, configure, view and delete application perspectives.",
+      "role_permissions_viewer": "View application perspectives and their configuration."
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "Access to all entity dashboards under this unit, which are related to the access granted to application and platforms."
+        "access_level": "Access all the entity dashboards under this unit, which are related to the access granted to application and platforms."
       },
       "role_permissions_owner": "View entity dashboards.",
       "role_permissions_viewer": "View entity dashboards."
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "Access for all namespaces and clusters under this unit."
+        "access_level": "Access all the namespaces and clusters with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the namespaces and clusters selected below."
+        "access_level": "Access only the listed namespaces and clusters with the selected access type and any additional permissions."
       },
       "role_permissions": "View namespaces and clusters."
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "Access for all mobile apps under this unit."
+        "access_level": "Access all the mobile apps with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the mobile apps selected below."
+        "access_level": "Access only the listed mobile apps with the selected access type and any additional permissions."
       },
       "role_permissions_owner": "Create, configure, view and delete mobile apps.",
-      "role_permissions_viewer": "View mobile apps and their configuration."
+      "role_permissions_viewer": "View mobile apps."
     },
     "synthetics": {
       "access_all": {
-        "access_level": "Access for all synthetic tests under this unit."
+        "access_level": "Access all the synthetic tests with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the synthetic tests selected below."
+        "access_level": "Access only the listed synthetic tests with the selected access type and any additional permissions."
       },
       "role_permissions_owner": "Create, configure, view and delete synthetic tests.",
       "role_permissions_viewer": "View synthetic tests and their configuration."
     },
     "website": {
       "access_all": {
-        "access_level": "Access for all websites under this unit."
+        "access_level": "Access all the websites with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Limited access only for the websites selected below."
+        "access_level": "Access only the listed websites with the selected access type and any additional permissions."
       },
       "role_permissions_owner": "Create, view and delete websites.",
-      "role_permissions_viewer": "View websites and their configuration."
+      "role_permissions_viewer": "View websites."
     }
   },
   "cardTitle_Area": "Area",
@@ -341,7 +344,15 @@
       "wrong": "Something is wrong",
       "errorInfo": "We are unable to retrieve data from the database",
       "failed": "Failure",
-      "inProgress": "In progress"
+      "inProgress": "In progress",
+      "deletionUntilTime": "Deletion until time",
+      "deletionUntilDate": "Deletion until date",
+      "untilDateValidationMessage": "Date must be on or before the current date",
+      "reasonValidationMessage": "Deletion reason cannot be empty",
+      "toastSuccessTitle": "Log deletion successful",
+      "toastSuccessMessage": "Logs for the selected time period are successfully deleted.",
+      "toastErrorTitle": "Log deletion failed",
+      "toastErrorMessage": "Logs could not be deleted. Please try again."
     },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "Permits access to {{label}} monitoring functionality.",
     "failedToSaveGroup": "Failed to save group: {{err}}",
     "limitedAccess": "Limited Access",
-    "filterInvites": "Filter invites",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Are you sure you want to revoke the invitation to join the <strong>{{tenant}}</strong> tenant for <strong>{{email}}</strong>?",
     "inviteUser": "Invite user",
     "sendInvitation": "Send invitation",
@@ -421,7 +431,7 @@
     "pleaseInviteAtLeastOneUser": "Please invite at least one user.",
     "thisUserAlreadyExists": "This user already exists and can be found in the list of users",
     "thisInviteAlreadyExists": "This invite already exists and can be found in the list of pending invitations",
-    "emailFormatNotValid":"The format of the email field is not valid",
+    "emailFormatNotValid": "The format of the email field is not valid",
     "someEmailsHaveFailedToSend": "Some emails have failed to send",
     "inviteUserToTenant": "Invite user to {{tenant}}",
     "anotherUser": "Another user",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "Salesforce Organization URL",
     "alertChannelDocumentationMessage": "For more details on setting up this alert channel, <documentationLink>check out our documentation</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Ensure that the user access to Instana is disabled in your identity provider.",
-    "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP)."
+    "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP).",
+    "revokeInvitationForUserWithEmail": "Revoke the invitation to join the {{tenant}} tenant for {{email}}",
+    "invitationValidUntil": "Invitation valid until",
+    "invitedBy": "Invited by"
   },
   "languageSelection": {
     "language": "Language",

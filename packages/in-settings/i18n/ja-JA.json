@@ -61,7 +61,7 @@
     "dialogTitle": "新規グループの作成",
     "dialogTitle_edit": "アクセス権の範囲の編集",
     "editButton": "編集",
-    "productArea": "{{tenantUnit}}のアクセス権限構成"
+    "productArea": "{{tenantUnit}} のアクセス構成 - {{tenant}}"
   },
   "productAreas": {
     "allApplications": "すべてのアプリケーション",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "選択した役割ですべてのシンセティック・テストにアクセスできます。",
     "descriptionLimitedAccess_synthetics": "役割を選択し、以下のシンセティック・テストを追加してアクセス権限を付与します。",
     "contribution_filter": "コントリビューション・フィルター",
-    "contributionFilter_description": "フィルターは、新規アプリケーション構成の作成のために継承されます。 アプリケーション・パースペクティブ構成では、{{logicalOperator}}オペレーターの後にさらにフィルター・タグを指定することで詳細化できます。",
+    "contributionFilter_description": "コントリビューション・フィルターは、新規アプリケーション構成の作成時に適用されます。 アプリケーション構成では、{{logicalOperator}} オペレーターの後にフィルター・タグを使用してコントリビューション・フィルターを絞り込むことができます",
     "contributionFilter_downstreamCalls": "アプリケーション・パースペクティブに組み込むことができる追加情報の最大レベルを決定します。",
     "contributionFilter_name": "名前"
   },
@@ -173,7 +173,12 @@
     "selection_owner_access": "所有者権限",
     "selection_contributor_access": "コントリビューター権限",
     "description_no_access": "この領域はまったく使用できません",
+    "description_no_access_website": "アクセス不可: Web サイトへのアクセスは拒否されます。",
+    "description_no_access_mobile_app": "アクセスなし: モバイル・アプリへのアクセスは拒否されます。",
+    "description_no_access_application": "アクセスなし: アプリケーションへのアクセスは拒否されます。",
     "description_no_access_kubernetes": "名前空間およびクラスターへのアクセス権限がありません。",
+    "description_no_access_infrastructure": "アクセスなし: インフラストラクチャーへのアクセスは拒否されます。",
+    "description_no_access_synthetics": "アクセスなし: シンセティック・モニターへのアクセスが拒否されます。",
     "description_access_all": "制限なしですべてにアクセス",
     "description_access_all_except_contributor": "すべてにアクセス-コントリビューターとしてアクセスされるものを除く",
     "role": "役割の選択",
@@ -189,8 +194,8 @@
     "roleTooltip_synthetics": "ビューアー: シンセティック・テスト・ダッシュボードを表示する機能 (構成は表示できません)。 <br /> 所有者: 新しいシンセティック・テストの作成、シンセティック・テストの表示、構成、削除、シンセティック・ロケーションの表示と削除を行うことができます。",
     "contribution_filter_accessScope": "制限付きアクセス・スコープ(ビューアー)",
     "contribution_filter_warning": {
-      "firstParagraph": "変更を保存すると、このコントリビューション・フィルターを使用して、すべてのアプリケーション・パースペクティブが更新されます。",
-      "secondParagraph": "ロールを変更すると、コントリビューション・フィルターが削除され、コントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブが、「アプリケーション」セクションに対する所有者権限を持つすべてのユーザーによって編集可能になります。 これは元に戻せません。"
+      "firstParagraph": "変更を保存すると、このコントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブが更新されます。",
+      "secondParagraph": "役割を変更すると、コントリビューション・フィルターが削除されます。 コントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブは、「アプリケーション」セクションに対する所有者権限を持つ任意のユーザーが編集できます。 これは元に戻せません。"
     }
   },
   "configurationSummary": {
@@ -200,9 +205,9 @@
         "role_permissions_contributor": "このユニットの下にあるすべてのアプリケーション・ダッシュボードを表示します。 コントリビューション・フィルターを使用して、アプリケーション・ダッシュボードを作成、構成、削除します。"
       },
       "limited_access": {
-        "access_level": "選択した以下のアプリケーションへのアクセスは制限されています。",
-        "access_level_contributor": "選択した以下のアプリケーション・ダッシュボードを表示",
-        "role_permissions_contributor": "コントリビューション・フィルターを使用して、アプリケーション・ダッシュボードを作成、構成、削除します。 (コントリビューターによって作成されたアプリケーション・ダッシュボードは、グループの概要と「アプリケーション」セクションのリストに表示されます。)"
+        "access_level": "以下で選択したアプリケーション・ダッシュボードに対してのみアクセスが制限されています。",
+        "access_level_contributor": "以下で選択されているアプリケーション・ダッシュボードに対してのみアクセスが制限されています",
+        "role_permissions_contributor": "コントリビューション・フィルターが適用されたアプリケーション・ダッシュボードを作成します。コントリビューション・フィルター用に作成されたこれらのアプリケーション・ダッシュボードを表示、構成、および削除します。"
       },
       "role_permissions_owner": "アプリケーション・ダッシュボードを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "アプリケーション・パースペクティブ・ダッシュボードとその構成を表示します。"
@@ -219,7 +224,7 @@
         "access_level": "このユニットの下のすべての名前空間およびクラスターに対するアクセス権限。"
       },
       "limited_access": {
-        "access_level": "選択した以下の名前空間とクラスターに対するアクセスは制限されています。"
+        "access_level": "以下で選択されている名前空間およびクラスターに対してのみアクセスが制限されています。"
       },
       "role_permissions": "名前空間とクラスターを表示します。"
     },
@@ -228,7 +233,7 @@
         "access_level": "このユニットの下のすべてのモバイル・アプリケーションに対するアクセス権限。"
       },
       "limited_access": {
-        "access_level": "選択した以下のモバイル・アプリへのアクセスは制限されています。"
+        "access_level": "以下で選択されているモバイル・アプリに対してのみアクセスが制限されています。"
       },
       "role_permissions_owner": "モバイル・アプリケーションを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "モバイル・アプリケーションとその構成を表示します。"
@@ -238,7 +243,7 @@
         "access_level": "このユニットでのすべてのシンセティック・テストに対するアクセス権限。"
       },
       "limited_access": {
-        "access_level": "選択した以下のシンセティック・テストへのアクセスは制限されています。"
+        "access_level": "以下で選択されたシンセティック・テストに対してのみアクセスが制限されています。"
       },
       "role_permissions_owner": "シンセティック・テストを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "シンセティック・テストとその構成を表示します。"
@@ -248,7 +253,7 @@
         "access_level": "このユニットの下のすべての Web サイトへのアクセス。"
       },
       "limited_access": {
-        "access_level": "選択した以下のWebサイトへのアクセスは制限されています。"
+        "access_level": "以下で選択した Web サイトに対してのみアクセスが制限されます。"
       },
       "role_permissions_owner": "Webサイトを作成、表示、および削除します。",
       "role_permissions_viewer": "Webサイトとその構成を表示します。"
@@ -285,6 +290,7 @@
     "backToParentViewName": "{{parentViewName}} に戻る",
     "search": "検索...",
     "confirmRemoveItem": "<strong>{{itemName}}</strong> を削除しますか?",
+    "confirmSaveGroup": "これらの更新を保存すると、{{numberOfContributorAPs}} アプリケーション・パースペクティブからコントリビューション・フィルターが削除され、無効になります",
     "enable": "有効にする",
     "disable": "無効化",
     "deleteEntity": "{{entity}} を削除します。",
@@ -395,10 +401,12 @@
     "apiTokenDescription": "このユニット固有の API トークンは、API トークン構成の許可を持つ任意のユーザーまたは任意の API トークンによって表示/変更できます。",
     "noApiToken": "API トークンなし",
     "newApiToken": "新規 API トークン",
+    "apiTokenUnits": "API トークンは、<strong>{{tenantUnit}}-{{tenant}}</strong> に使用できます",
     "noPersonalApiTokens": "個人用 API トークンなし",
     "newPersonalApiToken": "新規個人用 API トークン",
     "apiTokenEntityName": "API トークン {{entityName}}",
     "personalApiTokenEntityName": "個人用 API トークン {{entityName}}",
+    "personalApiTokenUnits": "個人用 API トークンは、<strong>{{tenantUnit}}-{{tenant}}</strong> に使用できます",
     "addUser": "ユーザーの追加",
     "permitsAccessToLabelMonitoringFunctionality": "{{label}} モニター機能へのアクセスを許可します。",
     "failedToSaveGroup": "グループの保存に失敗しました: {{err}}",
@@ -411,7 +419,9 @@
     "inviteGroupDescription": "各ユニットの下にグループの役割とアクセス・スコープを構成することで、アクセスを制御できます。",
     "failedToSendInvitation": "招待の送信に失敗しました: {{err}}",
     "pleaseInviteAtLeastOneUser": "ユーザーを少なくとも 1 人招待してください。",
-    "thisUserAlreadyExists": "このユーザーは既に存在しています。 「ユーザー」メニューで編集できます。",
+    "thisUserAlreadyExists": "このユーザーは既に存在しており、ユーザーのリストにあります",
+    "thisInviteAlreadyExists": "この招待は既に存在し、保留中の招待のリストにあります",
+    "emailFormatNotValid": "E メール・フィールドの形式が無効です",
     "someEmailsHaveFailedToSend": "一部の E メールの送信に失敗しました",
     "inviteUserToTenant": "{{tenant}} にユーザーを招待",
     "anotherUser": "別のユーザー",
@@ -434,6 +444,7 @@
     "userDoesNotExist": "ユーザーが存在しません",
     "apiCall": "API",
     "userCall": "ユーザー",
+    "policyCall": "policy",
     "testChannel": "チャネルのテスト",
     "pleaseDefineAtLeastOneEmail": "E メールを少なくとも 1 つ定義してください",
     "remove": "削除",
@@ -547,7 +558,6 @@
     "instanaAgentCountDetection": "Instana エージェントの数",
     "pleaseSelectASeverity": "重大度を選択してください",
     "pleaseEnterAValidMetric": "有効なメトリックを入力してください。",
-    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "同じメトリックに複数のしきい値を定義することはできません。",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "パターンによって複数のメトリックを定義する場合、「is」とは異なる一致演算子を使用できるのは 1 つのルールのみです。",
     "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "絶対差または相対差の集計が使用されている場合、1 秒の時間枠は許可されません。",
     "thisEntityTypeHasBeenDeprecated": "このエンティティー・タイプは推奨されていません。 別のタイプを選択してください。",
@@ -621,11 +631,7 @@
     "activationAdoption": "アクティブ化 & 導入",
     "technologiesReporting": "テクノロジー・レポート",
     "accountSettings": "アカウント設定",
-    "configureGoogleSso": "Google SSO の構成",
-    "googleSsoConfiguration": "Google SSO 構成",
     "configureAllowedEmailDomains": "許可される E メール・ドメインの構成",
-    "onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant": "次のドメインに E メール・アドレスがあるユーザーのみが Instana テナントにサインインできます:",
-    "separateMultipleDomainsWithAComma": "ドメインが複数ある場合はコンマで区切ってください。",
     "savingConfig": "構成を保存しています",
     "configSuccessfullySaved": "構成が正常に保存されました。",
     "configureLdap": "LDAP の構成",
@@ -733,7 +739,6 @@
     "failedToSaveTwoFactorToken": "2 要素トークンの保存に失敗しました:",
     "pleaseSpecifyAValidToken": "有効なトークンを指定してください。",
     "identityProviders": "ID プロバイダー",
-    "googleSso": "Google SSO",
     "saml": "SAML",
     "oidc": "OpenID Connect",
     "ldap": "LDAP",
@@ -785,6 +790,8 @@
     "groups": "グループ",
     "groupDeleteTooltip_Default": "Default グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "groupDeleteTooltip_Owner": "Owner グループは組み込みグループであり、削除したり名前変更したりすることができません。",
+    "deleteGroupMessage": "このテナントのすべてのユニットから <strong>{{groupName}}</strong> を削除しますか?",
+    "thisWillRemoveContributionFilterMessage": "これにより、<strong>{{apCount}}</strong> 個のアプリケーション・パースペクティブからコントリビューション・フィルターが削除され、無効になります",
     "addGroup": "新規グループ",
     "pendingInvitations": "保留中の招待",
     "revoke": "取り消し",
@@ -1039,6 +1046,14 @@
     "humio": "Humio",
     "mezmo": "Mezmo",
     "audit": "監査",
+    "googleSSO": {
+      "allowedDomains": "使用可能なドメイン",
+      "configure": "Google SSO 構成",
+      "domainOnlyMessage": "新規 Instana ユーザーとしてサインインできるのは、以下のドメインの E メール・アドレスを持つユーザーのみです。",
+      "domainExistingUsersMessage": "この構成を介してアクセス権を受け取ったユーザーは、許可されたドメインを後で変更または削除した場合でも、Instana テナントから削除されない限り、Instana にアクセスできます。",
+      "hint": "複数のドメインはコンマで区切ります。例: @example.com, @example.io",
+      "idpTitle": "Google SSO"
+    },
     "advancedUserInterfaceSettings": "ユーザー・インターフェースの詳細設定",
     "3DMaps": "3D マップ",
     "invertScrollDirection": "スクロール方向を反転",

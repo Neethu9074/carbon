@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -47,7 +47,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
   we don't need the labels prop just yet */
   return (
     <TopListWithUrlState
-      metrics={['activitiesCount']}
+      metrics={['activities_count']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
       //labels={''}
       formatters={[number.compact]}
@@ -115,17 +115,16 @@ function getList({ businessProcessId, timeConfig }: GetListProps) {
     ]
   };
 
-  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessActivities({
     dataType: 'ACTIVITY',
     metrics: {
-      activitiesCount: {
-        metric: 'activitiesCount',
+      activities_count: {
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT'
       }
     },
     order: {
-      by: 'activitiesCount',
+      by: 'activities_count',
       direction: 'DESC'
     },
     pagination: {
@@ -145,7 +144,14 @@ type LabelProps = {
 // item is each element returned from the query made in getList
 function Label({ item }: LabelProps) {
   const { location, createHref } = useNavigation();
-  const activityName = item.businessActivity?.activityName;
+  let activityName: string;
+  if (item.businessActivity?.activityName) {
+    activityName = item.businessActivity?.activityName;
+  } else if (item.businessActivity?.activityType) {
+    activityName = t('in-bizops:lists.unnamedActivity', { activityType: item.businessActivity?.activityType });
+  } else {
+    activityName = t('in-bizops:lists.unnamedActivity');
+  }
 
   const businessProcessId: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
@@ -157,7 +163,7 @@ function Label({ item }: LabelProps) {
   const activityTracking = {
     processId: businessProcessId,
     processName: businessProcessName,
-    activityName: activityName as string
+    activityName: activityName
   };
 
   location.pathname = businessActivitySummaryPath;

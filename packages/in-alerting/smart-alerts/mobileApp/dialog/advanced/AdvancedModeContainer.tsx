@@ -8,11 +8,6 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { HistoricBaselineData, isAdaptiveBaselineConfig, Result } from '@instana/types';
-
-//@ts-expect-error needs TS migration
-import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
-//@ts-expect-error
-import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertConfigDialogPresenterProps,
@@ -22,6 +17,7 @@ import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
   isCustomPayloadValidOrUntouched,
@@ -30,6 +26,7 @@ import {
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/eum/components/ThresholdSelectionInteractiveChart';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/mobileApp/dialog/advanced/BluePrintSelectionSection';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/eum/components/AlertTagFilterExpressionConfig';
+import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
@@ -156,7 +153,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                 AlertTypeSwitch={AlertTypeSwitch}
               />
               {thresholdType === HISTORIC_BASELINE && (
-                <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
+                <HistoricBaselineErrorMessage thresholdResult={thresholdResult as Result<HistoricBaselineData>} />
               )}
             </>
           )

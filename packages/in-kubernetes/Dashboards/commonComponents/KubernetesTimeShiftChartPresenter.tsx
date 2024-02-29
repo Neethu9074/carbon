@@ -12,7 +12,7 @@ import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSele
 import KubernetesChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesChartPresenter';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { AxisColor, Formatter } from 'in-components/Chart/types';
-import theme from 'in-themes';
+import { timeShift } from 'in-themes/chartColors';
 
 interface KubernetesTimeshiftChartPresenterProps {
   metrics: Metric[];
@@ -106,7 +106,7 @@ function Chart({
   const selectedMetric = metrics.find(m => m.metric === selectedMetricValue) ?? metrics[0];
   if (timeShiftConfig?.offset !== 0) {
     metrics = [selectedMetric, { ...selectedMetric, timeShift: 0 }];
-    colors = [theme.lib.colors.timeShift, selectedMetric.color] as AxisColor[];
+    colors = [timeShift, selectedMetric.color] as AxisColor[];
   }
   return (
     <KubernetesChartPresenter

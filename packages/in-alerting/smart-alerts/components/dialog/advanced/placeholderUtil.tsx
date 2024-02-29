@@ -7,10 +7,10 @@
 import { each, map, flatMap, values } from 'lodash';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { Chunk, PARAMETER, toChunks } from 'in-services/util/stringToChunks';
-// @ts-expect-error
-import theme from 'in-themes/theme';
 
 export type HighlightedPlaceholders = (string | JSX.Element)[];
 
@@ -58,7 +58,7 @@ export function replacePlaceholdersWithMarkup(
 function highlightPlaceholderReplacer({ template, i }: { template: string; i: number }): HighlightedPlaceholders {
   return [
     '${',
-    <span key={`${i}`} style={{ color: theme.lib.colors.pink800 }}>
+    <span key={`${i}`} style={{ color: themes.default.ids.color.option.pink['500'] }}>
       {removePlaceholderSpecificCharacters(template)}
     </span>,
     '}'

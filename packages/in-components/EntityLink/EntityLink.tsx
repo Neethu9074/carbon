@@ -7,12 +7,12 @@ import React, { ForwardedRef, forwardRef } from 'react';
 
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { Observable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 import { Snapshot } from '@instana/types';
 
 import { noop } from 'in-services/util/function';
 import WithIcon from 'in-components/WithIcon';
-import { useTheme } from 'in-themes';
 
 import locals from './EntityLink.mless';
 
@@ -46,8 +46,7 @@ const EntityLink = forwardRef(function EntityLink(
   }: EntityLinkProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const theme = useTheme();
-  const iconColor = (href$ || href) && theme.ids.color.option.blue['500'];
+  const iconColor = (href$ || href) && themes.default.ids.color.option.blue['500'];
 
   const link = (
     <>

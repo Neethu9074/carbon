@@ -233,12 +233,12 @@ export default function CfAndBosh({
                   <Stack direction="horizontal">
                     <InputWithButton
                       type="download"
-                      href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+                      href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/rel-generic-instana-virtual/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
                       inputValue={"'instana-agent' release"}
                     />
                     <InputWithButton
                       type="download"
-                      href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+                      href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/rel-generic-instana-virtual/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
                       inputValue={"'instana-leadership-election' release"}
                     />
                   </Stack>
@@ -292,11 +292,11 @@ export default function CfAndBosh({
                         `uaac target <uaa-api-endpoint>`,
                         `uaac token client get -s <clients.admin-secret>`,
                         `uaac client add '${clientId}' \\`,
-                        `--name 'Instana Cloud Foundry Client' \\`,
-                        `--autoapprove true \\`,
-                        `--authorized_grant_types client_credentials \\`,
-                        `--authorities 'cloud_controller.admin_read_only' \\`,
-                        `--secret '${clientSecret}' \\`
+                        `  --name 'Instana Cloud Foundry Client' \\`,
+                        `  --autoapprove true \\`,
+                        `  --authorized_grant_types client_credentials \\`,
+                        `  --authorities 'cloud_controller.admin_read_only' \\`,
+                        `  --secret '${clientSecret}' \\`
                       ]}
                     />
                   </Stack>

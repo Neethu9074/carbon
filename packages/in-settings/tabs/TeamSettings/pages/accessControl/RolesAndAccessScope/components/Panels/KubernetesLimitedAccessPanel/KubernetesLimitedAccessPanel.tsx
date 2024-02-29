@@ -55,7 +55,7 @@ export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormI
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   if (!permissionSetField?.value) return null;
 
-  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
+  const { accessLevelMessage } = getConfigurationSummaryMsg(
     ProductArea.KUBERNETES,
     ScopedPermissionItem.LIMITED_ACCESS
   );
@@ -64,7 +64,10 @@ export default function _KubernetesLimitedAccessPanel<FORM_TYPE extends MapFormI
     <Stack direction="vertical">
       {applicationContributionFilterEnabled ? (
         <StackItem>
-          <ConfigurationSummary accessLevelMsg={accessLevelMessage} rolePermissionMsg={rolePermissionMessage} />
+          <ConfigurationSummary
+            accessLevelType={ScopedPermissionItem.LIMITED_ACCESS}
+            accessLevelMsg={accessLevelMessage}
+          />
         </StackItem>
       ) : (
         <StackItem>

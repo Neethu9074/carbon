@@ -26,6 +26,7 @@ import {
   retryCallClickedTracker
 } from 'in-applications/tracker';
 import CallTreeHeader from 'in-applications/analyze/AnalyzeView2_0/components/CallTreeHeader';
+import { emptyObject } from 'in-services/fixedObjects';
 import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -93,14 +94,14 @@ interface LoadButtonOrSkeletonProps {
 
 function trackLoadMore(parent: boolean, retry?: boolean) {
   if (retry) {
-    retryCallClickedTracker({});
+    retryCallClickedTracker(emptyObject);
     return;
   }
 
   if (parent) {
-    loadRootCallClickedTracker({});
+    loadRootCallClickedTracker(emptyObject);
   } else {
-    loadChildCallClickedTracker({});
+    loadChildCallClickedTracker(emptyObject);
   }
 }
 

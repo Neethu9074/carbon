@@ -18,8 +18,4 @@
       fill: var(--ids-color-option-neutral-700);
     }
   }
-
-  .analyticsLink {
-    color: var(--ids-color-option-neutral-600);
-  }
 }

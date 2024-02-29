@@ -41,8 +41,8 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
   const [searchInput, setSearchInput] = useState('');
 
   const filterApplications = useCallback(
-    (applications: Result<GroupPermissionEntity[]> | undefined) => {
-      return applications?.data?.filter((app: GroupPermissionEntity | undefined) =>
+    (apps: Result<GroupPermissionEntity[]> | undefined) => {
+      return apps?.data?.filter((app: GroupPermissionEntity | undefined) =>
         app?.name.toLowerCase().includes(searchInput.toLowerCase())
       );
     },
@@ -87,6 +87,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
             return (
               <div key={app.id} className={locals.item}>
                 <CheckboxFancy
+                  asRadioButton
                   key={app.id}
                   label={app.name}
                   checked={applicationsField?.value === app.id}

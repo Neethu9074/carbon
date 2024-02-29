@@ -22,6 +22,23 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import { t } from 'in-i18n';
 
 const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
+const specialReleases = ['1.237.0', '1.238.0'];
+
+function getAgentBoshReleaseDownloadLink(downloadKey, instanaDomain, agentReleaseVersion) {
+  if (specialReleases.includes(agentReleaseVersion)) {
+    return `https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/rel-generic-instana-virtual/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh=${agentReleaseVersion}.tar.gz`;
+  } else {
+    return `https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/rel-generic-instana-virtual/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`;
+  }
+}
+
+function getAgentBoshReleaseUploadCommand(agentReleaseVersion) {
+  if (specialReleases.includes(agentReleaseVersion)) {
+    return `bosh upload-release agent-bosh=${agentReleaseVersion}.tar.gz`;
+  } else {
+    return `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`;
+  }
+}
 
 function validateAgentReleaseVersion(agentReleaseVersion) {
   if (!agentReleaseVersionRegex.test(agentReleaseVersion)) {
@@ -111,11 +128,11 @@ export default function CfAndBoshContent({ agentKey, downloadKey, agentEndpoint 
               <Description lines={[t('in-waiting-for-deployment:content.downloadTheFollowingBoshReleases')]} />
               <DownloadButton
                 title={t('in-waiting-for-deployment:content.downloadInstanaAgentRelease')}
-                href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+                href={getAgentBoshReleaseDownloadLink(downloadKey, instanaDomain, agentReleaseVersion)}
               />
               <DownloadButton
                 title={t('in-waiting-for-deployment:content.downloadInstanaLeadershipElectionRelease')}
-                href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+                href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/rel-generic-instana-virtual/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
               />
               <Spacer />
               <Description
@@ -123,7 +140,7 @@ export default function CfAndBoshContent({ agentKey, downloadKey, agentEndpoint 
               />
               <Bash
                 lines={[
-                  `bosh upload-release agent-bosh-${agentReleaseVersion}.tar.gz`,
+                  getAgentBoshReleaseUploadCommand(agentReleaseVersion),
                   `bosh upload-release leadership-election-${agentReleaseVersion}.tar.gz`
                 ]}
               />

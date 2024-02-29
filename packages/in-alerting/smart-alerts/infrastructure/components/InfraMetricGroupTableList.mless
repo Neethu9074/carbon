@@ -13,9 +13,6 @@
     justify-content: space-between;
     margin-bottom: 0.5 rem;
   }
-  .fullWidth {
-    width: 100% !important;
-  }
   .displayIcon {
     display: block;
   }

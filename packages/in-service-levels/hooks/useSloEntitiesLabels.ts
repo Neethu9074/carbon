@@ -49,7 +49,8 @@ export default function useSloEntitiesLabels(
     data: results.reduce((acc, [id = '', r]) => {
       const entityNotFound = r.errors.filter(({ code }) => code !== 'NOT_FOUND');
       acc[id] = r.data ?? {
-        label: entityNotFound ? t('in-service-levels:general.entityTypes.label', { context: 'unknown' }) : ''
+        label: entityNotFound ? t('in-service-levels:general.entityTypes.label', { context: 'unknown' }) : '',
+        deleted: !entityNotFound.length
       };
       return acc;
     }, {} as Record<string, LabeledEntity>)

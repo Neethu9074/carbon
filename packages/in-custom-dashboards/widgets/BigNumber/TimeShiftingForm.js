@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Toggle, Spacer } from '@instana/components';
+import { Spacer } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';

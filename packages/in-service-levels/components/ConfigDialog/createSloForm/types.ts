@@ -65,7 +65,7 @@ export type SloScopeFields = {
 export type SloIndicatorFields = {
   aggregation: Field<AggregationType>;
   badEventsFilter: Field<FormModelElement[]>;
-  blueprint: Field<CustomBlueprintType>;
+  blueprint: Field<BlueprintType>;
   goodEventsFilter: Field<FormModelElement[]>;
   threshold: Field<number | undefined>;
   type: Field<ServiceLevelIndicatorType>;

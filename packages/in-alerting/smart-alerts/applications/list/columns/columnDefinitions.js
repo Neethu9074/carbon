@@ -14,6 +14,7 @@ import ListSelectionColumn from 'in-alerting/smart-alerts/applications/list/colu
 import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
@@ -56,7 +57,7 @@ export function simpleListNameColumnDefinition(width = '35%') {
  */
 /* Details column informing about evaluation type and global/local alert type */
 export function evaluationInfoColumnDefinition(params = {}) {
-  const { width = '20%', isGlobalSmartAlertConfig = false } = params;
+  const { width = '15%', isGlobalSmartAlertConfig = false } = params;
   return {
     id: 'evaluationInfo',
     label: t('in-alerting:smartAlerts.sortOptions.type'),
@@ -76,14 +77,23 @@ export function entityNameColumnDefinition(params = {}) {
     width,
     sortable: false,
     getContent({ config }) {
+      const { tagFilterExpression, rule, threshold } = config;
+      const backendModelTagFilterExpression = fromBackendModel(tagFilterExpression);
+      const widthClass = backendModelTagFilterExpression.length > 0 ? locals.maxWidth70 : locals.maxWidth100;
       return (
         <div className={locals.filters}>
-          <span className={classNames(locals.centered, locals.space)}>
+          <span className={classNames(locals.centered, locals.space, widthClass)}>
             <ListEntityNameColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
           </span>
-          <span className={locals.centered}>
-            <ListFilterColumn {...config} />
-          </span>
+          {backendModelTagFilterExpression.length > 0 && (
+            <span className={locals.centered}>
+              <ListFilterColumn
+                tagFilterExpression={backendModelTagFilterExpression}
+                rule={rule}
+                threshold={threshold}
+              />
+            </span>
+          )}
         </div>
       );
     }
@@ -96,7 +106,7 @@ export function entityNameColumnDefinition(params = {}) {
  */
 /* Actions column allowing to edit the alert configuration */
 export function editActionsColumnDefinition(params = {}) {
-  const { width, actionHandlers } = params;
+  const { width = '15%', actionHandlers } = params;
   return {
     id: 'actions',
     sortable: false,

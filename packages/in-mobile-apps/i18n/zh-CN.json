@@ -21,10 +21,6 @@
       "transferSizeLabel": "传输大小",
       "transferSizeCategory": "调整资源大小"
     },
-    "crash": {
-      "crashAffectedSessionCount": "崩溃影响的会话计数",
-      "crashAffectedUserCount": "崩溃影响的用户计数"
-    },
     "errorRate": {
       "label": "错误率",
       "rawDataLabel": "错误计数"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "查看后端跟踪",
       "showID": "标识：{{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "查看崩溃组详细信息"
+    },
     "tabsSumBatchIndicatorTooltip": "出现 {{number}} 次",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "定制事件",
@@ -220,8 +219,8 @@
       "metaHeader": "元",
       "stackTrace": "堆栈跟踪",
       "stackTraceLastOccurrence": "堆栈跟踪（最近一次出现）",
-      "stackTraceButtonPrettyStackTrace": "漂亮的堆栈跟踪",
-      "stackTraceButtonRawStackTrace": "原始堆栈跟踪"
+      "stackTraceButtonCrashedThreadsStackTrace": "崩溃的线程数",
+      "stackTraceButtonAllThreadsStackTrace": "所有线程数"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "检索时间",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "描述",
           "fileUploadConfigurationDialogDescriptionHelp": "上载配置将帮助您更好地组织已上载的文件。",
           "fileUploadConfigurationDialogHeadingOpenAPI": "正在上载符号文件",
-          "fileUploadConfigurationDialogOpenAPIHelp": "通过调用 Instana 的 Web REST API 来上载符号文件。 这可以集成到管道流程中以进行自动化部署。 在我们的<documentation>文档</documentation>中定义了 Web REST API 的说明和用法。",
+          "fileUploadConfigurationDialogOpenAPIHelp": "通过调用 Instana 的 Web REST API 来上载符号文件。 这可以集成到管道流程中以进行自动化部署。 我们的<documentation>文档</documentation>中定义了 Web REST API 的说明和用法。",
           "fileUploadUrl": "上载符号文件 API",
           "stackTraceTranslationLabelConfiguration": "配置",
           "stackTraceTranslationLabelFiles": "文件",
@@ -438,7 +437,7 @@
     "nameLabel": "名称",
     "sessionStartsLabel": "会话启动数",
     "viewTransitionsLabel": "视图转换数",
-    "crashFreeSessionRateLabel": "崩溃可用会话速率",
+    "crashAffectedSessionRateTitle": "崩溃影响的会话速率",
     "addMobileAppBtn": "添加移动应用程序",
     "mobileAppsTitle": "移动应用程序"
   },

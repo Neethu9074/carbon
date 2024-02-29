@@ -7,10 +7,10 @@ import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function EventsChart({ timeConfig, applicationId, serviceId, endpointId, renderPostChartContent }) {
@@ -23,10 +23,10 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
   const labels = [];
   const metricIds = [];
   const colors = [
-    theme.lib.colors.chart.threeColorPalette[0],
-    theme.lib.carbonAlert.gray60,
-    theme.lib.colors.chart.threeColorPalette[1],
-    theme.lib.colors.chart.threeColorPalette[2]
+    chartColors.threeColorPalette[0],
+    carbonAlert.gray60,
+    chartColors.threeColorPalette[1],
+    chartColors.threeColorPalette[2]
   ];
   const metricsConfiguration = {};
 

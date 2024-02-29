@@ -43,4 +43,8 @@
   .icon {
     fill: var(--ids-color-option-neutral-600);
   }
+
+  .button {
+    border-top: 1px solid var(--ids-color-option-neutral-400);
+  }
 }

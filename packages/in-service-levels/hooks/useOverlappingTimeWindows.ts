@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
@@ -21,15 +22,14 @@ export default function useOverlappingTimeWindows({
   sloConfigId,
   timeConfig
 }: UseOverlappingTimeWindowsProps): FetchedState<TimeConfig[]> {
-  const result =
-    useObservable(() => {
-      if (!sloConfigId || !timeConfig) return just(success([], Date.now()));
+  const result = useObservable(() => {
+    if (!sloConfigId || !timeConfig) return just(success([], Date.now()));
 
-      return getSloQueryTimeWindowOverlap({
-        sloConfigId,
-        timeConfig
-      });
-    }, [sloConfigId, timeConfig]) ?? pendingResult;
+    return getSloQueryTimeWindowOverlap({
+      sloConfigId,
+      timeConfig
+    });
+  }, [sloConfigId, generateStableHash(timeConfig)]);
 
-  return resultToFetchedStateResponse(result);
+  return resultToFetchedStateResponse(result ?? pendingResult);
 }

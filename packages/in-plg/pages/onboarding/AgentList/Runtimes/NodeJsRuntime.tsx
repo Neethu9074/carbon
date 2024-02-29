@@ -15,24 +15,35 @@ import { Wrapper } from 'in-plg/pages/onboarding/Layout/Layout';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
-export default function NodeJsRuntime({ type, agentKey, agentEndpoint, agentEndpointPort }: Props): JSX.Element {
+export default function NodeJsRuntime({ type, agentKey, serverlessEndpoint }: Props): JSX.Element {
+  function getDockerScript() {
+    if (type === 'gcp') {
+      return [
+        'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+        '',
+        'COPY --from=icr.io/instana/google-cloud-run-nodejs:latest /instana /instana\n',
+        'RUN /instana/setup.sh',
+        'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/google-cloud-run"',
+        '',
+        '# Other stuff in your Docker image'
+      ];
+    } else {
+      return [
+        'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+        '',
+        'COPY --from=icr.io/instana/aws-fargate-nodejs:latest /instana /instana',
+        'RUN /instana/setup.sh',
+        'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/aws-fargate"',
+        '',
+        '# Other stuff in your Docker image'
+      ];
+    }
+  }
+
   return (
     <Wrapper>
       <LayoutSection title={t('in-plg:agentDetails.aws.insertLinesToDocker')}>
-        <Code
-          lang="bash"
-          code={[
-            '# Dockerfile',
-            ' ',
-            'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
-            ' ',
-            'COPY --from=icr.io/instana/aws-fargate-nodejs:latest /instana /instana',
-            'RUN /instana/setup.sh',
-            'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/aws-fargate"',
-            '',
-            '# Other stuff in your Docker image'
-          ]}
-        />
+        <Code lang="bash" code={getDockerScript()} />
       </LayoutSection>
 
       <LayoutSection
@@ -44,15 +55,11 @@ export default function NodeJsRuntime({ type, agentKey, agentEndpoint, agentEndp
       >
         <Stack direction="horizontal">
           <KeyValue
-            label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
-            value={<InputWithButton type="copy" inputValue={agentEndpoint + ':' + agentEndpointPort} />}
+            label={'INSTANA_ENDPOINT_URL'}
+            value={<InputWithButton type="copy" inputValue={serverlessEndpoint} />}
             withGap
           />
-          <KeyValue
-            label={t('in-plg:agentDetails.common.agentKey')}
-            value={<InputWithButton type="copy" inputValue={agentKey} />}
-            withGap
-          />
+          <KeyValue label={'INSTANA_AGENT_KEY'} value={<InputWithButton type="copy" inputValue={agentKey} />} withGap />
         </Stack>
       </LayoutSection>
     </Wrapper>

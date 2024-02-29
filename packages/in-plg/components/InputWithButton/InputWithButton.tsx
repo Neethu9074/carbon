@@ -6,8 +6,7 @@
 
 import React, { useRef } from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { Button, Stack } from '@instana/components';
 
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import Input from 'in-components/form/Input';
@@ -20,16 +19,22 @@ interface InputWithButtonProps {
   inputValue?: string;
   icon?: string;
   href?: string;
+  size?: 'small' | 'large';
 }
 
 export default function InputWithButton({
   type = 'copy',
   inputValue = '',
-  displayContent,
+  displayContent = '',
   icon = type === 'copy' ? 'lib_actions_copy' : 'lib_actions_download',
-  href = ''
+  href = '',
+  size = 'small'
 }: InputWithButtonProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const style = size === 'small' ? `${locals.input} ${locals.inputSmall}` : `${locals.input} ${locals.inputLarge}`;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    inputValue = event.target.value;
+  };
 
   const clickHandler = () => {
     if (type === 'copy') {
@@ -54,10 +59,30 @@ export default function InputWithButton({
     }
   };
 
+  function renderButton() {
+    if (href !== '') {
+      return (
+        <Button icon={icon} kind="action" iconSize="s" size="normal" href={href}>
+          {''}
+        </Button>
+      );
+    }
+    return (
+      <Button icon={icon} kind="action" iconSize="s" size="normal" onClick={clickHandler}>
+        {''}
+      </Button>
+    );
+  }
+
   return (
-    <Stack direction="horizontal" gap="xsmall" align="center">
-      <Input ref={inputRef} className={locals.input} value={displayContent ? displayContent : inputValue} />
-      <SvgIcon type={icon} size="xs" color={themes.default.ids.color.option.teal[500]} onClick={clickHandler} />
+    <Stack direction="horizontal" gap="disabled" align="center">
+      <Input
+        ref={inputRef}
+        className={style}
+        value={displayContent ? displayContent : inputValue}
+        onChange={handleInputChange}
+      />
+      {renderButton()}
     </Stack>
   );
 }

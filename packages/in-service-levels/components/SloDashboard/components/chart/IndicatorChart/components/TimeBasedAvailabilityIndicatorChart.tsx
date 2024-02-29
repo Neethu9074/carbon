@@ -7,10 +7,12 @@
 import React from 'react';
 
 import {
+  AvailabilityBlueprintIndicator,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
   SloEntityUnion,
+  TagFilterExpression,
   TimeConfig,
   UnifiedMetricConfiguration
 } from '@instana/types';
@@ -25,36 +27,53 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { calculateSloReferenceChartGranularity } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { calculateTrafficGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
-import { TimeBasedAvailabilityBlueprintIndicator } from 'in-service-levels/types';
+import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { applyAdjustedTimeframe } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const metricId = 'availability';
 
 export default function TimeBasedAvailabilityIndicatorChart({
   entity,
-  indicator,
-  timeConfig
-}: IndicatorChartProps<TimeBasedAvailabilityBlueprintIndicator>) {
+  indicator
+}: IndicatorChartProps<AvailabilityBlueprintIndicator>) {
   const { threshold } = indicator;
 
-  const granularity = calculateSloReferenceChartGranularity(timeConfig);
-  const metricConfiguration = useMetricConfiguration(entity, indicator, granularity, timeConfig);
+  const selectedTimeConfig = useTimeConfig();
+  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const timeConfig =
+    selectedTimeWindowType === 'SLO_TIME_WINDOW'
+      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
+      : selectedTimeConfig;
+  const granularity = calculateTrafficGranularity(timeConfig);
+  const metricConfiguration = useSliMetricConfiguration<AvailabilityBlueprintIndicator>(
+    entity,
+    indicator,
+    granularity,
+    timeWindows,
+    getMetricConfig
+  );
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
-      () => getUnifiedMetrics({ metrics: { [metricId]: metricConfiguration } }),
+      () => getUnifiedMetrics({ metrics: metricConfiguration }),
       [generateStableHash(metricConfiguration)]
     ) ?? pendingResult;
 
-  const metric = (result.data?.[0]?.values as MetricDataSeries) ?? [];
+  const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
+  const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));
+  const thresholdMetrics: MetricDataSeries = metricValues.flat(1).map(([timestamp]) => [timestamp, threshold]);
+  const metricLabel = isApplicationSloEntity(entity)
+    ? applicationMetrics.errorRate.label
+    : websiteMetrics.beaconErrorRate.label;
 
   return (
     <ResultAwareChart
@@ -62,17 +81,14 @@ export default function TimeBasedAvailabilityIndicatorChart({
         title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
-          metricIds: [metricId, thresholdMetricId],
-          metrics: [metric, metric.map(([timestamp]) => [timestamp, threshold])],
-          labels: [
-            isApplicationSloEntity(entity) ? applicationMetrics.errorRate.label : websiteMetrics.beaconErrorRate.label,
-            t('in-service-levels:general.metrics.threshold')
-          ],
-          colors: [themes.default.ids.color.option.blue['400'], themes.default.ids.color.option.red['500']],
+          metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
+          metrics: [...metricValues, thresholdMetrics],
+          labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
+          colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
           formatter: percentage.detailed,
           renderer: lineWithThreshold
         },
-        timeConfig: applyAdjustedTimeframe(timeConfig, result.data?.[0]?.adjustedTimeframe),
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}
       result={result}
@@ -80,13 +96,13 @@ export default function TimeBasedAvailabilityIndicatorChart({
   );
 }
 
-function useMetricConfiguration(
+function getMetricConfig(
   entity: SloEntityUnion,
-  indicator: TimeBasedAvailabilityBlueprintIndicator,
-  granularity: number,
-  timeConfig: TimeConfig
+  timeConfig: TimeConfig,
+  indicator: AvailabilityBlueprintIndicator,
+  tagFilterExpression: TagFilterExpression,
+  granularity: number
 ): UnifiedMetricConfiguration {
-  const tagFilterExpression = useBasicTagFilterExpression({ entity });
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.errorRate.timeSeries({
       entity,

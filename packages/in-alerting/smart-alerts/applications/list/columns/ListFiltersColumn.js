@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -15,17 +14,7 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
 
 const maxFilterToDisplay = 3;
-export default function ListFilterColumn({
-  tagFilterExpression: backendModelTagFilterExpression = [],
-  rule,
-  threshold
-}) {
-  const tagFilterExpression = fromBackendModel(backendModelTagFilterExpression);
-
-  if (!tagFilterExpression.length) {
-    return null;
-  }
-
+export default function ListFilterColumn({ tagFilterExpression, rule, threshold }) {
   const { QueryBuilder } = getQueryBuilderForAlertType(rule.alertType, threshold.type);
 
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);

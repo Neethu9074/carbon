@@ -27,13 +27,13 @@ import { t } from 'in-i18n';
 import locals from './Feedback.mless';
 
 interface FeedbackProps {
-  id: string;
+  id?: string;
   feedback: number;
   comment: string;
   setHasStaleFeedback: (v: boolean) => void;
 }
 
-export default function Feedback({ id, feedback, comment, setHasStaleFeedback }: FeedbackProps) {
+export default function Feedback({ id = '', feedback, comment, setHasStaleFeedback }: FeedbackProps) {
   const [form, setForm] = useState<FeedbackForm>(createForm(feedback, comment));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(false);

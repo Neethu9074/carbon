@@ -30,18 +30,18 @@
     &:hover {
       .more,
       .dragHandle,
-      .fullscreen,
+      .zoom,
       & > :last-child {
         opacity: 1;
       }
     }
   }
 
-  .fullscreen {
+  .zoom {
     transition: opacity 0.3s ease-in-out;
     opacity: 0;
     fill: var(--ids-color-option-neutral-500);
-    margin: 0 8px;
+    margin-left: 0.5rem;
 
     &:hover,
     &:active,

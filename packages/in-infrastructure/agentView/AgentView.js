@@ -79,9 +79,8 @@ export default connectTo(
     ) {
       return <LoadingIndicator type="dark" />;
     }
-    const activeLicenseType = accountConfig.activeLicenseType;
     const agentSnapshots = agentSnapshotsResult.getIn(['data']);
-    const agentInstallV2PathAllowed = agentInstallationV2Enabled && activeLicenseType === ('selfService' || 'quota');
+
     return (
       <>
         <ViewTrackingMeta
@@ -94,7 +93,7 @@ export default connectTo(
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
-          {agentInstallV2PathAllowed && (
+          {agentInstallationV2Enabled && (
             <Route
               exact
               path="/agents/installation/:selectedservice"
@@ -103,7 +102,7 @@ export default connectTo(
           )}
 
           <Route path="/agents/installation">
-            {agentInstallV2PathAllowed ? (
+            {agentInstallationV2Enabled ? (
               <AgentInstallationViewV2 />
             ) : (
               <MaxWidthFullscreenContainer>

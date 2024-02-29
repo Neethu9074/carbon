@@ -22,6 +22,7 @@ export interface ResultAwareKpiCardProps<T> {
   renderKpiCard: (result: Result<T>) => ReactElement;
   useMaxAvailableHeight?: boolean;
   actions?: ReactNode;
+  isInModal?: boolean;
 }
 
 export default function ResultAwareKpiCard<T>({
@@ -29,11 +30,12 @@ export default function ResultAwareKpiCard<T>({
   result,
   renderKpiCard,
   useMaxAvailableHeight,
+  isInModal,
   actions
 }: ResultAwareKpiCardProps<T>) {
   if (result.errors.length > 0) {
     return (
-      <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
+      <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions} isInModal={isInModal}>
         <Stack align="center" distribution="center">
           <span title={result.errors[0].message}>
             <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />

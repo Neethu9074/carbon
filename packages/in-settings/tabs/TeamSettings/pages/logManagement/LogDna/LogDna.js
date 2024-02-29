@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated

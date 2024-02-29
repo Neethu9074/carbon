@@ -7,6 +7,7 @@ import React, { ReactElement } from 'react';
 
 import { KeyValue, Li } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 
 // @ts-expect-error
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
@@ -80,7 +81,9 @@ export function ClusterRow({
           <WithIcon icon={`lib_${clusterDistribution}`}>
             <KeyValue
               label={t('in-kubernetes:dashboards.name')}
-              value={<a href={'#/kubernetes/cluster;clusterId=' + snapshotId + '/summary'}>{clusterLabel || label}</a>}
+              value={
+                <Link href={'#/kubernetes/cluster;clusterId=' + snapshotId + '/summary'}>{clusterLabel || label}</Link>
+              }
               accentuated
             />
           </WithIcon>

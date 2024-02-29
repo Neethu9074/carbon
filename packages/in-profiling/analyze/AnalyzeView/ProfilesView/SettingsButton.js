@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Toggle, Spacer, Ul, Li, Button, KeyValue } from '@instana/components';
+import { Spacer, Ul, Li, Button, KeyValue } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { percentage } from 'in-services/formatters/number';

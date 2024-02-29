@@ -5,14 +5,14 @@
 
 import React from 'react';
 
+// eslint-disable-next-line import/no-deprecated
+import { filterByEndpointType } from './includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-// eslint-disable-next-line import/no-deprecated
-import oldTheme from 'in-themes';
-import { filterByEndpointType } from './includeEndpointTypes';
+import { carbonAlert, timeShift } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
@@ -45,7 +45,7 @@ export default function Errors({
     granularity,
     timeShift: 0,
     // eslint-disable-next-line import/no-deprecated
-    color: oldTheme.lib.carbonAlert.red60
+    color: carbonAlert.red60
   };
 
   let metrics;
@@ -61,7 +61,7 @@ export default function Errors({
       errorRate
     ];
     // eslint-disable-next-line import/no-deprecated
-    colors = [oldTheme.lib.colors.timeShift, errorRate.color];
+    colors = [timeShift, errorRate.color];
     renderer = line.id;
   } else {
     metrics = [errorRate];

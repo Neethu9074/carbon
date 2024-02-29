@@ -60,8 +60,21 @@ type NewActionConfiguration = Omit<ActionConfiguration, 'action'> & {
 };
 
 export type TriggerSpecification = EventSpecificationInfo | ApplicationAlertConfigWithMetadata;
-export const isEventSpecification = (item: TriggerSpecification): item is EventSpecificationInfo =>
-  (item as EventSpecificationInfo).type !== undefined;
+export const isEventSpecification = (item?: TriggerSpecification): item is EventSpecificationInfo =>
+  (item as EventSpecificationInfo)?.type !== undefined;
+
+export const isApplicationSmartAlert = (item?: TriggerSpecification): item is ApplicationAlertConfigWithMetadata =>
+  (item as ApplicationAlertConfigWithMetadata)?.applicationId !== undefined;
+
+export const getTriggerType = (item: TriggerSpecification): TriggerType => {
+  if (isApplicationSmartAlert(item)) {
+    return 'applicationSmartAlert';
+  }
+  if (item.type === 'CUSTOM') {
+    return 'customEvent';
+  }
+  return 'builtinEvent';
+};
 
 export const scopeAll = 'all' as const;
 export const scopeDfq = 'dfq' as const;

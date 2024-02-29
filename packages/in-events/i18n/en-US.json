@@ -151,6 +151,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
   },
+  "logSmartAlerts": {
+    "logs": "Logs"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Failed Status"
   },
@@ -159,20 +162,28 @@
     "AIGenBadgeText": "AI Generated",
     "suggestionHelpfulText": "Was this suggestion helpful?",
     "thankYouForYourFeedback": "Thank you for your feedback!",
-    "noEntitiesErrorTitle": "No Probable Root Cause Found",
-    "noEntitiesErrorDescription": "This usually occurs when the incident did not have significant service impact",
     "performanceConstantlyEvaluated": "Performance is being actively evaluated and improved during the Beta. Please leave feedback to help us better improve our AI",
     "probableRootCauseLabel": "Probable root cause entity: {{entity_name}}",
-    "relatedEventsLabel": "Entity events found: {{number_of_events}}",
+    "relatedEventsLabel": "Associated Events ({{number_of_events}})",
     "entitiesNumber": "Entities",
-    "techPreview": "TECH PREVIEW"
+    "techPreview": "TECH PREVIEW",
+    "probabilityLevelText": "Probability Level:",
+    "highProbability": "HIGH",
+    "moderateProbability": "MODERATE",
+    "lowProbability": "LOW",
+    "naProbability": "N/A",
+    "highProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. High probability indicates that this entity is likely problematic based on the evidence provided.",
+    "moderateProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. It is likely that this entity is the root cause however more analysis is needed.",
+    "lowProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Given present information, this component has a low likelihood of being unhealthy, but warrants being further investigated.",
+    "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Incident Summary",
-    "thisIncident": "This incident appears to be:",
     "errorTitle": "No summarization found",
     "errorDescription": "No summarization could be created for this event",
-    "summarizationHelpfulText": "Was this summarization helpful?"
+    "summarizationHelpfulText": "Was this summarization helpful?",
+    "alertChannelTableTitle": "Alert Channels Associated with Incident",
+    "noDataAlertChannels": "No alert channels could be associated with this incident"
   },
   "feedback": {
     "skip": "Skip",
@@ -188,5 +199,9 @@
     "contactMeNo": "No, I prefer not to be contacted.",
     "appreciateResponse": "We appreciate your response!",
     "followUpQuestion": "Would you like us to follow up with you regarding your technical feedback for further clarification or discussion?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Impacted Business Processes",
+    "titleImpactedBusinessProcessesIncident": "Impacted Business Processes for Triggering Event"
   }
 }

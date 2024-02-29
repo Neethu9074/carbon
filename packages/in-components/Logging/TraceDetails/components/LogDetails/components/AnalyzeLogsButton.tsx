@@ -8,9 +8,9 @@ import React, { MutableRefObject } from 'react';
 import { Button, Li, SvgIcon, Ul } from '@instana/components';
 import { LogItem, LogTag } from '@instana/types';
 
-import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE, ReducedTagFilterWithDefaults } from 'in-logging/queryBuilder';
+import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
+import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -22,24 +22,29 @@ interface AnalyzeLogsButtonProps {
 
 export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
   const serviceId = getServiceId(log.tags);
+  const similarLogsHref = useLinkToLogs({
+    tagFilterExpression: [getValueMatchTagFilter({ name: LOG_MESSAGE, value: log.message })]
+  });
+  const generateLinkToLogs = useGenerateLinkToLogs();
 
   return (
     <Overlay
       align="bottomLeft"
       content={() => (
         <Ul>
-          <Li
-            href$={getLinkToTagFilterExpression({ name: LOG_MESSAGE, value: log.message })}
-            onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar logs' })}
-          >
+          <Li href={similarLogsHref} onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar logs' })}>
             {t('in-analyze:logDetails.similarLogs')}
           </Li>
           {serviceId && (
             <Li
-              href$={getLinkToTagFilterExpression({
-                name: LOG_CUSTOM,
-                key: 'service_id',
-                value: serviceId
+              href={generateLinkToLogs({
+                tagFilterExpression: [
+                  getValueMatchTagFilter({
+                    name: LOG_CUSTOM,
+                    key: 'service_id',
+                    value: serviceId
+                  })
+                ]
               })}
               onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar services' })}
             >
@@ -64,13 +69,6 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
     </Overlay>
   );
 }
-
-function getLinkToTagFilterExpression(tagFilterExpression: ReducedTagFilterWithDefaults) {
-  return getLinkToAnalyze({
-    tagFilterExpression: [getValueMatchTagFilter(tagFilterExpression)]
-  });
-}
-
 function getServiceId(tags: LogTag[]) {
   return tags
     .filter(({ name, key }) => name === LOG_CUSTOM && key === 'service_id')

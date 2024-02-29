@@ -10,11 +10,15 @@ import { Li, Typography, Ul } from '@instana/components';
 
 import { SubsectionHeader } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/SubsectionHeader/SubsectionHeader';
 import { ApplicationSubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Applications/ApplicationSubsection';
+import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
+import {
+  ProductArea,
+  applicationAdditionalCapabilities
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { useApplicationsConfigurations } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Applications/hooks';
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { Capability } from 'in-stores/permission';
 import { t } from 'in-i18n';
@@ -80,7 +84,15 @@ export const ApplicationsSectionContent = () => {
       firstColumnHeadline={areaColumnHeadline}
       firstColumnLabel={t('in-settings:productAreas.title_applications')}
       loading={loading}
-      subList={<Ul>{sublistContent}</Ul>}
+      subList={
+        <Ul>
+          {sublistContent}
+          <CapabilitySubsection
+            capabilities={applicationAdditionalCapabilities}
+            headerText={t('in-settings:productAreas.additionalPermissions')}
+          />
+        </Ul>
+      }
       disabled={isDisabled}
     />
   );

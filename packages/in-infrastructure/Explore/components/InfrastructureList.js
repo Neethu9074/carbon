@@ -10,16 +10,18 @@ import rpt from 'prop-types';
 import { SeverityIndicatorCellContentWrapper, Ul } from '@instana/components';
 import { just } from '@instana/observables';
 
-import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
-import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import {
   firstValue,
   getGranularity,
   getMetricKey,
   getMetricValue,
-  getSeriesKey
+  getSeriesKey,
+  lastValueForMetric
 } from 'in-infrastructure/Explore/services/metrics';
+import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
+import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
@@ -66,7 +68,6 @@ export default function InfrastructureList({
   onQueryChange,
   onChartedMetricsChange,
   chartedMetrics,
-  setUrl,
   displayChart = true
 }) {
   const timeConfig = useTimeConfig();
@@ -146,7 +147,6 @@ export default function InfrastructureList({
           onChartedMetricsChange={onChartedMetricsChange}
           tagFilterExpression={backendQueryModel}
           type={type}
-          setUrl={setUrl}
         />
       )}
       {showHeader && (
@@ -313,70 +313,82 @@ InfrastructureList.propTypes = {
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,
   chartedMetrics: rpt.array,
-  setUrl: rpt.func,
   displayChart: rpt.bool
 };
 
 function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity, isWidget }) {
   return metrics
     .filter(m => !m.removeFromTable)
-    .map(({ metric, aggregation, crossSeriesAggregation, formatterId, isFormatterSelected, label: metricLabel }) => {
-      const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-      const metadata = mapData(metricMetadatas, data => data[metric]);
-      const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
-      const isKpi = mapData(metadata, data => data?.isKpi).data || false;
-
-      return {
-        id,
+    .map(
+      ({
         metric,
-        label,
-        aggregation: aggregation,
-        renderLabel: MetricLabel,
-        sortable,
-        width: isWidget ? 'auto' : '15rem',
-        widthInAbsoluteUnit: true,
-        optional: true,
-        defaultDisabled: !isKpi,
-        headCellProps: { className: locals.metricLabel },
-        getContent(item) {
-          const id = getMetricKey(metric, aggregation);
-          const metadata = mapData(metricMetadatas, data => data[metric]);
-          const formatter = isFormatterSelected
-            ? getFormatter(formatterId)
-            : mapData(metadata, data => data?.formatter).data;
+        aggregation,
+        crossSeriesAggregation,
+        formatterId,
+        isFormatterSelected,
+        label: metricLabel,
+        lastValue
+      }) => {
+        const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
+        const isKpi = mapData(metadata, data => data?.isKpi).data || false;
 
-          const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-          const kpi = firstValue(item.metrics[id]);
-          const series = item.metrics[getSeriesKey(id)];
-          const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-          const metricValue = getMetricValue(kpi, formatter);
+        return {
+          id,
+          metric,
+          label,
+          aggregation: aggregation,
+          renderLabel: MetricLabel,
+          sortable,
+          width: isWidget ? 'auto' : '15rem',
+          widthInAbsoluteUnit: true,
+          optional: true,
+          defaultDisabled: !isKpi,
+          headCellProps: { className: locals.metricLabel },
+          getContent(item) {
+            const id = getMetricKey(metric, aggregation);
+            const metadata = mapData(metricMetadatas, data => data[metric]);
+            const formatter = isFormatterSelected
+              ? getFormatter(formatterId)
+              : mapData(metadata, data => data?.formatter).data;
 
-          return (
-            <SparkChart
-              horizontalMetricValue={metricValue}
-              percentageMetric={percentageMetric}
-              metrics={series}
-              tooltipFormatter={formatter}
-              aggregation={aggregation}
-              timeConfig={timeConfig}
-              rollup={granularity}
-              label={renderedLabel}
-            />
-          );
-        },
-        getColumnLabel() {
-          const metadata = mapData(metricMetadatas, data => data[metric]);
-          const label = mapData(metadata, data => data?.label);
-          const formatter = mapData(metadata, data => data?.formatter).data;
-          return formatCsvColumnName(label['data'], aggregation, formatter);
-        },
-        getFormatter() {
-          const metadata = mapData(metricMetadatas, data => data[metric]);
-          const formatter = mapData(metadata, data => data?.formatter).data;
-          return formatter;
-        }
-      };
-    });
+            const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+            const seriesKey = getSeriesKey(id);
+            const kpi = lastValue ? lastValueForMetric(item.metrics[seriesKey]) : firstValue(item.metrics[id]);
+            const series = item.metrics[seriesKey];
+            const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+            const metricValue = getMetricValue(kpi, formatter);
+            const customValueTooltip = lastValue && getLastValueTooltipLabel(item.adjustedTimeframe);
+
+            return (
+              <SparkChart
+                horizontalMetricValue={metricValue}
+                percentageMetric={percentageMetric}
+                metrics={series}
+                tooltipFormatter={formatter}
+                aggregation={aggregation}
+                timeConfig={timeConfig}
+                rollup={granularity}
+                label={renderedLabel}
+                customValueTooltip={customValueTooltip}
+              />
+            );
+          },
+          getColumnLabel() {
+            const metadata = mapData(metricMetadatas, data => data[metric]);
+            const label = mapData(metadata, data => data?.label);
+            const formatter = mapData(metadata, data => data?.formatter).data;
+            return formatCsvColumnName(label['data'], aggregation, formatter);
+          },
+          getFormatter() {
+            const metadata = mapData(metricMetadatas, data => data[metric]);
+            const formatter = mapData(metadata, data => data?.formatter).data;
+            return formatter;
+          }
+        };
+      }
+    );
 }
 
 export function pagesLoaded(offset, itemsPerPage) {

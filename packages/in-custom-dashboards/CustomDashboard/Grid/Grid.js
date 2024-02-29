@@ -20,9 +20,8 @@ import {
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
-import { isBrowserInFullScreen } from 'in-custom-dashboards/utils';
-import { fullscreenWidgetEnabled } from 'in-services/featureFlags';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { zoomWidgetEnabled } from 'in-services/featureFlags';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
@@ -55,8 +54,7 @@ function Grid({
   onEditWidget,
   onCopyWidget,
   onDuplicateWidget,
-  onFullScreenWidget,
-  onExitFullScreenWidget,
+  onZoomWidget,
   onRemoveWidget,
   tvMode,
   scrollAreaDomNode,
@@ -70,26 +68,12 @@ function Grid({
   // browser tick after mounting we re-enable transitions again so that react-grid-layout works
   // as intended.
   const [disabledTransitions, setDisabledTransitions] = useState(true);
-  const [isFullScreen, setFullScreen] = useState(false);
-
-  const handleFullscreen = event => {
-    const isInFullScreen = isBrowserInFullScreen();
-    const widgetId = event.target.id.split('-')[1];
-
-    if (!isInFullScreen) {
-      onExitFullScreenWidget(widgetId);
-    }
-
-    setFullScreen(isInFullScreen);
-  };
 
   useEffect(() => {
     const handle = setTimeout(setDisabledTransitions, 0, false);
-    document.addEventListener('fullscreenchange', handleFullscreen);
 
     return () => {
       clearTimeout(handle);
-      document.removeEventListener('fullscreenchange', handleFullscreen);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -128,11 +112,9 @@ function Grid({
             onEditWidget={onEditWidget}
             onCopyWidget={onCopyWidget}
             onDuplicateWidget={onDuplicateWidget}
-            onFullScreenWidget={onFullScreenWidget}
-            onExitFullScreenWidget={onExitFullScreenWidget}
+            onZoomWidget={onZoomWidget}
             onRemoveWidget={onRemoveWidget}
             isDraggable={isDraggable}
-            isFullScreen={isFullScreen}
             scrollAreaDomNode={scrollAreaDomNode}
           />
         ) : (
@@ -183,11 +165,9 @@ function WidgetContent({
   onEditWidget,
   onCopyWidget,
   onDuplicateWidget,
-  onFullScreenWidget,
-  onExitFullScreenWidget,
+  onZoomWidget,
   onRemoveWidget,
   isDraggable,
-  isFullScreen,
   scrollAreaDomNode
 }) {
   const { Widget, onlyRenderInsideViewport = true, trackViews } = widgets[widget.type];
@@ -198,10 +178,8 @@ function WidgetContent({
       widget={widget}
       onDuplicateWidget={onDuplicateWidget}
       onCopyWidget={onCopyWidget}
-      onFullScreenWidget={onFullScreenWidget}
-      onExitFullScreenWidget={onExitFullScreenWidget}
+      onZoomWidget={onZoomWidget}
       onRemoveWidget={onRemoveWidget}
-      isFullScreen={isFullScreen}
     />
   );
 
@@ -209,7 +187,7 @@ function WidgetContent({
     <Widget
       title={widget.title || '–'}
       actions={actions}
-      dragHandle={isDraggable && !isFullScreen && dragHandle}
+      dragHandle={isDraggable && dragHandle}
       config={widget.config}
       setApDialogOpen={widget.setApDialogOpen}
     />
@@ -236,48 +214,33 @@ function WidgetContent({
   return content;
 }
 
-function WidgetMoreMenu({
-  onEditWidget,
-  widget,
-  onDuplicateWidget,
-  onCopyWidget,
-  onFullScreenWidget,
-  onExitFullScreenWidget,
-  onRemoveWidget,
-  isFullScreen
-}) {
+function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget, onZoomWidget, onRemoveWidget }) {
   return (
     <>
-      {fullscreenWidgetEnabled && (
-        <SvgIcon
-          className={locals.fullscreen}
-          type={isFullScreen ? 'lib_actions_minimize' : 'lib_actions_maximize'}
-          onClick={() => (isFullScreen ? onExitFullScreenWidget(widget.id) : onFullScreenWidget(widget.id))}
-        />
+      {zoomWidgetEnabled && (
+        <SvgIcon size="s" className={locals.zoom} type="lib_actions_maximize" onClick={() => onZoomWidget(widget.id)} />
       )}
-      {!isFullScreen && (
-        <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
-          <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
-            {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
-          </MoreMenuButton>
-          <CopyToClipboard
-            getText={() => onCopyWidget(widget.id)}
-            successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
-          >
-            {copyToClipboardRef => (
-              <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
-                {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
-              </MoreMenuButton>
-            )}
-          </CopyToClipboard>
-          <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
-            {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
-          </MoreMenuButton>
-          <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
-            {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
-          </MoreMenuButton>
-        </MoreMenu>
-      )}
+      <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+        <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
+          {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
+        </MoreMenuButton>
+        <CopyToClipboard
+          getText={() => onCopyWidget(widget.id)}
+          successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
+        >
+          {copyToClipboardRef => (
+            <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+              {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
+            </MoreMenuButton>
+          )}
+        </CopyToClipboard>
+        <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
+          {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
+        </MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
+          {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
+        </MoreMenuButton>
+      </MoreMenu>
     </>
   );
 }

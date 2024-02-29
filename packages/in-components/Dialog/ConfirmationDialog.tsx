@@ -28,6 +28,8 @@ export interface Props {
   field?: Item;
   isSaving?: boolean;
   errors?: Error[];
+  /** if true, adds the autoFocus attribute on the Button element, this should only be used here, while no form input field exists. */
+  confirmButtonAutoFocus?: boolean;
   onClose?: () => void;
 }
 
@@ -41,12 +43,13 @@ export default function ConfirmationDialog({
   field,
   isSaving,
   errors,
+  confirmButtonAutoFocus,
   onClose = close
 }: Props) {
   const customButtons = (
     <>
       <CancelButton onClick={onClose} isSaving={isSaving} />
-      <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
+      <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind} autoFocus={confirmButtonAutoFocus}>
         {confirmButtonLabel}
       </SaveButton>
     </>

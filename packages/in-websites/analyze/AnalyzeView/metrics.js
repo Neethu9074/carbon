@@ -200,6 +200,14 @@ const errorRate = {
   tag: 'beacon.error.count'
 };
 
+const customMetric = {
+  metric: 'customMetric',
+  label: t('in-websites:analyze.analyzeView.availableMetricsLabelCustomMetric'),
+  formatter: number,
+  supportedAggregations: ['SUM', 'MEAN', 'MAX', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99'],
+  preferredRenderer: Renderer.stackedBar
+};
+
 export const availableMetrics = {
   pageLoad: [
     newNumberMetric({
@@ -345,6 +353,16 @@ export const availableMetrics = {
       }),
       {
         tag: 'beacon.cumulativeLayoutShift'
+      }
+    ),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'interactionNextPaint',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelInteractionNextPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
+      }),
+      {
+        tag: 'beacon.timing.interactionNextPaint'
       }
     )
   ],
@@ -549,6 +567,7 @@ export const availableMetrics = {
     ),
     uniqueUsers,
     uniqueSessions,
-    uniqueUsersOrSessions
+    uniqueUsersOrSessions,
+    customMetric
   ]
 };

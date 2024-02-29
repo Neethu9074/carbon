@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { isCustomEventBasedSli, isTimeBasedSli } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -30,15 +29,13 @@ const contentDefinitions: RowDefinition[] = [
   {
     id: 'goodBadEvents',
     columns: [{ getContent: GoodEventsColumn }, { getContent: BadEventsColumn }],
-    shouldRender: ({ configuration: { indicator } }) =>
-      indicator.type === 'eventBased' || indicator.type === 'customEventBased'
+    shouldRender: ({ configuration: { indicator } }) => indicator.type === 'eventBased'
   },
   {
     id: 'aggregation',
     columns: [{ getContent: ThresholdColumn }, { getContent: AggregationColumn }],
     shouldRender: ({ configuration: { indicator } }) =>
-      indicator.type !== 'customEventBased' &&
-      !(indicator.type === 'eventBased' && indicator.blueprint === 'availability')
+      !(indicator.type === 'eventBased' && ['availability', 'custom'].includes(indicator.blueprint))
   }
 ];
 
@@ -54,11 +51,10 @@ export default function IndicatorSection({ data }: IndicatorSectionProps) {
 
 function BlueprintColumn({ data }: IndicatorSectionProps) {
   const { indicator } = data.configuration;
-  const blueprint = isCustomEventBasedSli(indicator) ? 'custom' : indicator.blueprint;
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.indicatorSection.blueprintLabel')}
-      value={t('in-service-levels:general.indicator.blueprint', { context: blueprint })}
+      value={t('in-service-levels:general.indicator.blueprint', { context: indicator.blueprint })}
     />
   );
 }
@@ -74,7 +70,7 @@ function IndicatorTypeColumn({ data }: IndicatorSectionProps) {
 
 function ThresholdColumn({ data }: IndicatorSectionProps) {
   const { indicator } = data.configuration;
-  if (isCustomEventBasedSli(indicator)) return null;
+  if (indicator.blueprint === 'custom' && indicator.type === 'eventBased') return null;
 
   const { threshold, blueprint } = indicator;
 
@@ -87,7 +83,7 @@ function ThresholdColumn({ data }: IndicatorSectionProps) {
 }
 
 function AggregationColumn({ data }: IndicatorSectionProps) {
-  if (!isTimeBasedSli(data.configuration.indicator)) return null;
+  if (data.configuration.indicator.type !== 'timeBased') return null;
 
   return (
     <KeyValue

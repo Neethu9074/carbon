@@ -9,6 +9,7 @@ import React from 'react';
 
 import { Observable, just } from '@instana/observables';
 import { Li, Link, Ul } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
@@ -23,10 +24,11 @@ import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryT
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
@@ -34,7 +36,6 @@ import { eventsPath } from 'in-events/navigation/paths';
 import { ActionInstance, ActorType } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
@@ -44,7 +45,7 @@ export default function DetailTab({
   properties,
   inActionLane = false
 }: {
-  id: string;
+  id?: string;
   properties: ActionInstance;
   inActionLane?: boolean;
 }) {
@@ -65,6 +66,17 @@ export default function DetailTab({
     return createHref(path);
   }
 
+  const handleTracking = (name: string, actionLane: boolean, link: string | undefined) => {
+    if (link) {
+      clickTurboLinkForDetailsTracker({
+        actionName: name,
+        actionLink: link,
+        actionType: 'Turbonomic',
+        view: actionLane ? 'Actions lane' : 'Action history'
+      });
+    }
+  };
+
   const {
     actionName,
     eventId,
@@ -84,17 +96,20 @@ export default function DetailTab({
   } = properties;
 
   const timeConfig = useTimeConfig();
-  const theme = useTheme();
 
-  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id, 'actionInstanceId');
-  const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
+  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', id ?? '', 'actionInstanceId');
+  const link = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   const snapshot = useObservable(
     () => (hostSnapshotId ? getSnapshot(hostSnapshotId).map(snapshot => snapshot.toJS()) : just({})),
     [hostSnapshotId]
   );
   const tableData = [
-    { label: t('in-automation:actionHistory.status'), value: getStatus(status), actionLane: inActionLane },
+    {
+      label: t('in-automation:actionHistory.status'),
+      value: status ? getStatus(status) : t('in-automation:actionHistory.unknown'),
+      actionLane: inActionLane
+    },
     {
       label: t('in-automation:actionHistory.startTime'),
       value: startDate ? formatDateTime(startDate) : formatDateTime(null),
@@ -144,7 +159,7 @@ export default function DetailTab({
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
       actionLane: inActionLane,
-      ObservableLink: link
+      stringLink: link
     },
     {
       label: t('in-automation:titleActionType'),
@@ -158,6 +173,12 @@ export default function DetailTab({
       isObservable: true,
       ObservableLink: type === 'EXTERNAL' ? undefined : getEntityIdView(actionCatalogPath, actionId),
       stringLink: type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined,
+      onClick: () =>
+        handleTracking(
+          actionName,
+          inActionLane,
+          type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined
+        ),
       actionLane: inActionLane
     },
     { label: t('in-automation:actionHistory.actionInstanceId'), value: id }
@@ -223,7 +244,8 @@ export default function DetailTab({
     stringLink?: string | null,
     showCondition?: string | boolean,
     actionLane?: boolean,
-    inActionLane?: boolean
+    inActionLane?: boolean,
+    onClick?: () => void
   ) => {
     if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
 
@@ -232,8 +254,14 @@ export default function DetailTab({
         <td>{label}</td>
         <td>
           {isLink ? (
-            <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-              {value} <SvgIcon size="s" type="lib_views_external_link" color={theme.ids.color.option.blue['500']} />
+            <Link
+              className={locals.detailsLink}
+              target="_blank"
+              onClick={onClick}
+              href={ObservableLink ?? stringLink ?? undefined}
+            >
+              {value}{' '}
+              <SvgIcon size="s" type="lib_views_external_link" color={themes.default.ids.color.option.blue['500']} />
             </Link>
           ) : (
             value
@@ -258,8 +286,18 @@ export default function DetailTab({
       </thead>
       <tbody>
         {tableData.map(
-          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
-            renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
+            renderRow(
+              label,
+              value,
+              isLink,
+              ObservableLink,
+              stringLink,
+              showCondition,
+              actionLane,
+              inActionLane,
+              onClick
+            )
         )}
       </tbody>
     </table>

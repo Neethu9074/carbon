@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
 import {
   getCallIdTagFilter,
+  getSpanIdTagFilter,
   LOG_CUSTOM,
   LOG_EXCEPTION_MESSAGE,
   LOG_EXCEPTION_STACK_TRACE,
@@ -17,10 +18,15 @@ import {
   LOG_LEVEL,
   SPAN_STACK_TRACE
 } from 'in-logging/queryBuilder';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getCardTitle } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
-import LogsInCallsContext from 'in-applications/analyze/AnalyzeView2_0/LogsInCallsContext';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { loggingEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -30,14 +36,14 @@ import { t } from 'in-i18n';
 
 const LogsCard = ({ call, processSnapshotId }) => {
   const { logs } = call;
-  const { selectedLog, timeConfigForLogs, setSelectedLog } = useContext(LogsInCallsContext);
+  const { selectedLog, timeConfigForLogs, setSelectedLog } = useLogsInCallsContext();
   const logsResult = useObservable(getData({ callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
   const hasLoggingLogs = logsResult.data?.items?.length > 0;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setSelectedLog(null), []);
 
-  if (logs.length === 0) return null;
+  if (logs.length === 0 && !hasLoggingLogs) return null;
 
   const cardTitle = `${t('in-analyze:traceDetail.tabs.summary.logs')} (${getCardTitle(
     hasLoggingLogs ? logsResult.data?.items : logs
@@ -72,7 +78,21 @@ function getData({ callId, timeConfig }) {
   return getLogs({
     timeConfig,
     retrievalSize: maxRetrievalSize,
-    tagFilterExpression: getCallIdTagFilter(callId),
+    tagFilterExpression: toBackendQueryModel(
+      joinExpressions({
+        logicalOperator: and,
+        expressions: [
+          joinExpressions({
+            logicalOperator: or,
+            expressions: [getCallIdTagFilter(callId), getSpanIdTagFilter(callId)]
+          }),
+          joinExpressions({
+            logicalOperator: or,
+            expressions: [tagFilter(LOG_LEVEL, EQUALS, 'WARN'), tagFilter(LOG_LEVEL, EQUALS, 'ERROR')]
+          })
+        ]
+      })
+    ),
     requestedTags: [
       LOG_LEVEL,
       LOG_CUSTOM,

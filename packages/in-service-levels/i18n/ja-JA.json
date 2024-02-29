@@ -126,11 +126,13 @@
   "createSloDialog": {
     "customFilter": "カスタム・フィルター (オプション)",
     "title": "サービス・レベル目標 (SLO) の作成",
-    "selectIndicator": "指標の選択",
+    "selectIndicator": "ブループリントの選択",
     "selectEntityNavItem": "エンティティーの選択",
     "selectEntityTitle": "SLO を追加するエンティティーの選択:",
     "selectScopeNavItem": "スコープの選択",
     "selectScopeTitle": "スコープの選択",
+    "selectIndicatorTitle": "SLI インディケーター",
+    "selectIndicatorNavItem": "インジケーターの設定",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "Web サイト・ページのロード",
@@ -168,7 +170,7 @@
       "creationFailedUnexpectedContent": "この SLO 構成の作成中に予期しないエラーが発生しました。後で再試行してください。"
     },
     "indicatorSection": {
-      "description_custom": "これは設計で欠落しているため、後で更新する必要があります",
+      "description_custom": "ユーザー定義のフィルターを使用して、良好または不良 (あるいはその両方) のイベントのカウントを測定します。",
       "description_latency": "設定されたしきい値を超えてサービスが応答した速度を測定します。 例えば、ご使用のチェックアウト・サービスが 100ms よりも速く応答する速度の指標。",
       "description_availability": "サービスが適切に対応する頻度を測定します。 例えば、HTTP 呼び出しがエラーになる頻度などです。",
       "timeTypeExplanation": "分単位でグループ化された良好呼び出しと不良呼び出し",

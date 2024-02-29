@@ -26,7 +26,7 @@ const CreateSyntheticTest = ({ onClose }: CreateSyntheticTestProps) => {
 
   return (
     <Button onClick={handleClick} icon="lib_openclose_add_box" kind="primaryv2">
-      {t('in-synthetics:createTest.buttonLabel')}
+      {t('in-synthetics:dialog.createTest.buttonLabel')}
     </Button>
   );
 };

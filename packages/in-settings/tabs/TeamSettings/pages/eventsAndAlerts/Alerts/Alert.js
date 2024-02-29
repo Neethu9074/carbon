@@ -7,6 +7,8 @@ import { createMapForm, createField } from 'formalistic';
 import React, { useState, useCallback } from 'react';
 import { fromJS, List } from 'immutable';
 
+import { themes } from '@instana/design-tokens';
+
 import {
   modeEventTypes,
   modeSelectedEvents,
@@ -34,7 +36,6 @@ import Notification from 'in-components/form/Notification';
 import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import entityForm from 'in-hoc/entityForm';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 export const limitForConnectedEvents = 1000;
@@ -57,7 +58,6 @@ export default function Alert(props) {
 }
 
 const Form = entityForm(function DetailsForm(props) {
-  const theme = useTheme();
   const { entity, form, message, error, loading, isCreate } = props;
   const [eventTypes, setEventTypes] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState(null);
@@ -95,7 +95,7 @@ const Form = entityForm(function DetailsForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownAlert')}
         </SubViewHeader>
         <SectionLine />

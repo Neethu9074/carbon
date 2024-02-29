@@ -18,9 +18,10 @@ export interface BigNumberProps {
   actions?: ReactNode;
   dragHandle?: ReactNode;
   isPreview?: boolean;
+  isInModal?: boolean;
 }
 
-export default function BigNumber({ config, title, actions, dragHandle, isPreview }: BigNumberProps) {
+export default function BigNumber({ config, title, actions, dragHandle, isInModal, isPreview }: BigNumberProps) {
   return (
     <BigNumberKpiCard
       config={config}
@@ -28,6 +29,7 @@ export default function BigNumber({ config, title, actions, dragHandle, isPrevie
       actions={actions}
       dragHandle={dragHandle}
       useMaxAvailableHeight={!isPreview}
+      isInModal={isInModal}
       formatter={getFormatter(config.formatter)}
     />
   );

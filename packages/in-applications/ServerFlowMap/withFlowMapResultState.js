@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import React, { Component } from 'react';
 
+import { create } from '@instana/observables';
+
+import { flowMapLevelExpandedTracker } from 'in-applications/tracker';
 import FlowMapState from 'in-applications/ServerFlowMap/FlowMapState';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 
@@ -170,6 +172,15 @@ export default () => ComposedComponent => {
     setupSubscriptionIfAbsent = (subscriptionId, nodeId, endpointId, direction, fetchData, processResult) => {
       if (!this.containsSubscription(subscriptionId, direction)) {
         const servicePath = this.flowMapState.pathFinder.find(nodeId, direction).map(node => node.__originalId);
+
+        // servicePath.length is only 1 on the initial expansion which happens on page laod
+        if (servicePath.length > 1) {
+          flowMapLevelExpandedTracker({
+            entity: endpointId != null ? 'endpoint' : 'service',
+            direction,
+            targetedLevel: servicePath.length
+          });
+        }
 
         const directionSubscriptions = this.subscriptions.get(subscriptionId) || {};
         directionSubscriptions[direction] = fetchData(servicePath).subscribe(result => {

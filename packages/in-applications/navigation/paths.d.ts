@@ -8,6 +8,7 @@ import { TagFilter } from '@instana/types/typeDefinitions';
 import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, BoundaryScope } from 'in-types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
+export declare const applicationsList: string;
 export declare const alertsList: string;
 export declare const alertsTab: string;
 export declare const alertsTabDetailsFullyQualified: string;
@@ -108,6 +109,8 @@ interface EndpointDashboardProps extends UseDashboardProps {
   endpointId: string;
   serviceId?: string;
 }
+
+export function isApplicationsView(path: string): boolean;
 
 export function useLinkToApplicationDashboard(): (applicationDashboardProps: ApplicationDashboardProps) => string;
 

@@ -8,7 +8,7 @@ import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
+import { millis, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -120,7 +120,7 @@ function getRowDetails(row: Row) {
             t('in-forge:plugins.tibcoBWProcess.maxActExec'),
           ],
           type: 'line',
-          formatter: number.short
+          formatter: millis.fixedCompact
         }}
         y2={{
           metrics: [
@@ -134,7 +134,7 @@ function getRowDetails(row: Row) {
             t('in-forge:plugins.tibcoBWProcess.maxActElap'),
           ],
           type: 'line',
-          formatter: number.short
+          formatter: millis.fixedCompact
         }}
       />
     </div>

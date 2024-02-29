@@ -73,7 +73,12 @@ export default function SloEntityTable({
             key={entityData.id}
           >
             <Stack direction="horizontal">
-              <CheckboxFancy asRadioButton checked={entityData.id === entityId.value} disabled={disabled} />
+              <CheckboxFancy
+                asRadioButton
+                checked={entityData.id === entityId.value}
+                disabled={disabled}
+                onChange={disabled ? noop : () => onChange(entityData)}
+              />
               <div className={locals.checkBoxItem}>{entityData.label}</div>
             </Stack>
           </Li>

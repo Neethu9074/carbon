@@ -6,6 +6,7 @@
 import React, { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
@@ -41,7 +42,6 @@ import Label from 'in-components/form/Label';
 import entityForm from 'in-hoc/entityForm';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './BuiltInEvent.mless';
@@ -107,7 +107,6 @@ export default function BuiltinEvent(props) {
 }
 
 const Form = entityForm(function DetailsForm(props) {
-  const theme = useTheme();
   const { entity, form, setForm, isCreate, saveEnabled, message, error, loading } = props;
 
   if (!entity || !form) {
@@ -117,7 +116,7 @@ const Form = entityForm(function DetailsForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownEvent')}
         </SubViewHeader>
         <SectionLine />
@@ -153,7 +152,11 @@ const Form = entityForm(function DetailsForm(props) {
       <FormGroup>
         <Label>{t('in-settings:tabs.entityType')}</Label>
         <div className={locals.flexWrapper}>
-          <PluginIcon className={locals.entityIcon} color={theme.ids.color.option.neutral['600']} plugin={entityType} />
+          <PluginIcon
+            className={locals.entityIcon}
+            color={themes.default.ids.color.option.neutral['600']}
+            plugin={entityType}
+          />
           {getPluginName(entityType, 1)}
         </div>
       </FormGroup>

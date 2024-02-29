@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,7 +15,6 @@ import { formatTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function TraefikDashboard({ snapshot, timeConfig }) {
@@ -51,7 +52,7 @@ export default function TraefikDashboard({ snapshot, timeConfig }) {
           y1={{
             metrics: ['config_reloads_total'],
             labels: [t('in-forge:plugins.traefik.dashboard.configReloadsTotal')],
-            colors: [theme.lib.colors.lightBlue800, theme.lib.colors.red800],
+            colors: [themes.default.ids.color.option.blue['400'], themes.default.ids.color.option.red['500']],
             type: 'stackedBar',
             aggregation: 'sum',
             formatter: number.compact
@@ -74,11 +75,11 @@ export default function TraefikDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.labelRequests.5xx')
             ],
             colors: [
-              theme.lib.colors.lightBlue800,
-              theme.lib.colors.green800,
-              theme.lib.colors.yellow800,
-              theme.lib.colors.orange800,
-              theme.lib.colors.red800
+              themes.default.ids.color.option.blue['400'],
+              themes.default.ids.color.option.green['500'],
+              themes.default.ids.color.option.yellow['500'],
+              themes.default.ids.color.option.orange['500'],
+              themes.default.ids.color.option.red['500']
             ],
             type: 'stackedBar',
             aggregation: 'sum',
@@ -114,11 +115,11 @@ export default function TraefikDashboard({ snapshot, timeConfig }) {
                   t('in-forge:plugins.labelRequests.5xx')
                 ],
                 colors: [
-                  theme.lib.colors.lightBlue800,
-                  theme.lib.colors.green800,
-                  theme.lib.colors.yellow800,
-                  theme.lib.colors.orange800,
-                  theme.lib.colors.red800
+                  themes.default.ids.color.option.blue['400'],
+                  themes.default.ids.color.option.green['500'],
+                  themes.default.ids.color.option.yellow['500'],
+                  themes.default.ids.color.option.orange['500'],
+                  themes.default.ids.color.option.red['500']
                 ],
                 type: 'stackedBar',
                 aggregation: 'sum',

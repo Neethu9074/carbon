@@ -25,6 +25,9 @@
       "label": "Error Rate",
       "rawDataLabel": "Error Count"
     },
+    "customMetric": {
+      "label": "Custom Metric"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "Session Starts",
       "viewChangeBeaconCountLabel": "View Transitions",

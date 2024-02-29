@@ -21,10 +21,6 @@
       "transferSizeLabel": "Tamaño de transferencia",
       "transferSizeCategory": "Dimensiones de recursos"
     },
-    "crash": {
-      "crashAffectedSessionCount": "Recuento de sesiones afectadas por bloqueo",
-      "crashAffectedUserCount": "Recuento de usuarios afectados por bloqueo"
-    },
     "errorRate": {
       "label": "Tasa de errores",
       "rawDataLabel": "Número de errores"
@@ -201,6 +197,9 @@
       "viewTraceBtn": "Ver rastreo de programa de fondo",
       "showID": "ID: {{id}}"
     },
+    "tabsSumCrashGroupButton": {
+      "viewCrashGrpBtn": "Ver detalles de grupo de detención anómala"
+    },
     "tabsSumBatchIndicatorTooltip": "{{number}} apariciones",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Suceso personalizado",
@@ -220,8 +219,8 @@
       "metaHeader": "Meta",
       "stackTrace": "Rastreo de pila",
       "stackTraceLastOccurrence": "Seguimiento de pila (última aparición)",
-      "stackTraceButtonPrettyStackTrace": "Rastreo de pila \"pretty\"",
-      "stackTraceButtonRawStackTrace": "Rastreo de pila sin formato"
+      "stackTraceButtonCrashedThreadsStackTrace": "Hebras detenidas de forma anómala",
+      "stackTraceButtonAllThreadsStackTrace": "Todas las hebras"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Hora de recuperación",
@@ -360,7 +359,7 @@
           "fileUploadConfigurationDialogHeadingDescription": "Descripción",
           "fileUploadConfigurationDialogDescriptionHelp": "Una configuración de carga le ayudará a organizar mejor los archivos cargados.",
           "fileUploadConfigurationDialogHeadingOpenAPI": "Cargando archivos de símbolos",
-          "fileUploadConfigurationDialogOpenAPIHelp": "Para cargar los archivos de símbolos, llame a la API REST web de Instana. Esto se podría integrar en el proceso de interconexión para el despliegue automatizado. La explicación y el uso de la API REST web se ha definido en la <documentation>documentación</documentation>.",
+          "fileUploadConfigurationDialogOpenAPIHelp": "Para cargar los archivos de símbolos, llame a la API REST web de Instana. Esto se podría integrar en el proceso de interconexión para el despliegue automatizado. La explicación y el uso de nuestra API REST web se define en nuestra <documentation>documentación</documentation>.",
           "fileUploadUrl": "API Cargar archivo de símbolos",
           "stackTraceTranslationLabelConfiguration": "Configuración",
           "stackTraceTranslationLabelFiles": "Archivos",
@@ -438,7 +437,7 @@
     "nameLabel": "Nombre",
     "sessionStartsLabel": "Inicios de sesión",
     "viewTransitionsLabel": "Ver transiciones",
-    "crashFreeSessionRateLabel": "Tasa de sesiones sin caída",
+    "crashAffectedSessionRateTitle": "Tasa de sesiones afectadas por caída",
     "addMobileAppBtn": "Añadir aplicación móvil",
     "mobileAppsTitle": "Aplicaciones móviles"
   },

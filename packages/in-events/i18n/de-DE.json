@@ -119,7 +119,6 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
   "deprecatedCustomEventWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet. Zukünftig werden benutzerdefinierte Ereignisse für diese drei Entitätstypen entfernt und Sie erhalten diese {{issueOrIncident}}</strong><br/>Konfiguration benutzerdefinierter Ereignisse für die Migration auf Smart Alert nicht mehr. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
-  "associatedActionsForTriggeringEvent": "Zugeordnete Aktionen zum Auslösen eines Ereignisses",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Angepasste Ereignisse erfordern eine Aktion",
     "message": "Angepasste Ereignisse für Anwendung, Service und Endpunkt sind veraltet. Sie können diese Typen von angepassten Ereignissen zukünftig nicht mehr erstellen oder aktualisieren.",
@@ -158,18 +157,30 @@
     "titlePRCA": "Wahrscheinliche Fehlerursache",
     "AIGenBadgeText": "KI-generiert",
     "suggestionHelpfulText": "War dieser Vorschlag hilfreich?",
+    "thankYouForYourFeedback": "Danke für Ihr Feedback!",
     "noEntitiesErrorTitle": "Keine wahrscheinliche Fehlerursache gefunden",
     "noEntitiesErrorDescription": "Dies tritt normalerweise auf, wenn der Vorfall keine signifikanten Auswirkungen auf den Service hatte",
     "performanceConstantlyEvaluated": "Die Leistung wird während der Betaphase aktiv bewertet und verbessert. Bitte geben Sie uns Feedback, damit wir unsere KI weiter verbessern können",
-    "regenerate": "Neu generieren",
     "probableRootCauseLabel": "Wahrscheinliche Fehlerursache für Entität: {{entity_name}}",
-    "relatedEventsLabel": "Gefundene Entitätsereignisse: {{number_of_events}}"
+    "relatedEventsLabel": "Gefundene Entitätsereignisse: {{number_of_events}}",
+    "entitiesNumber": "Entitäten",
+    "techPreview": "TECHNOLOGIEVORSCHAU"
+  },
+  "incidentSummarization": {
+    "incidentSummaryTitle": "Zusammenfassung des Vorfalls",
+    "thisIncident": "Dieser Vorfall scheint Folgendes zu sein:",
+    "errorTitle": "Keine Zusammenfassung gefunden",
+    "errorDescription": "Für dieses Ereignis konnte keine Zusammenfassung erstellt werden",
+    "summarizationHelpfulText": "War diese Zusammenfassung hilfreich?"
   },
   "feedback": {
     "skip": "Überspringen",
     "descriptionUnpleasant": {
       "firstLineApology": "Es tut uns leid, dass Sie keine angenehme Erfahrung hatten.",
       "secondLineQuestion": "Können Sie uns helfen, herauszufinden, wo etwas schiefgelaufen ist?"
+    },
+    "rca": {
+      "apology": "Es tut uns leid, dass Sie keine angenehme Erfahrung hatten. Helfen Sie uns, das Potenzial der Instana-Funktion für die Ursachenanalyse aufzudecken, indem Sie Ihre Erkenntnisse und Erfahrungen teilen"
     },
     "pleaseDescribeWhatWentWrongTextBox": "Bitte geben Sie Beschreibungen an",
     "contactMeYes": "Ja, bitte nehmen Sie Kontakt mit mir auf",

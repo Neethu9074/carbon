@@ -29,7 +29,7 @@ function getDisplayLabel(value: number) {
 }
 
 export function displayRetryIntervalSlider(
-  retryIntervalField: Field<Number>,
+  retryIntervalField: Field<number>,
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void
 ) {

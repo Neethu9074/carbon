@@ -12,6 +12,7 @@ import { applyLayout } from 'in-applications/analyze/components/TraceDetails/com
 import CallTimeAxis from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis/CallTimeAxis';
 import CallTooltipContent from 'in-applications/analyze/components/TraceDetails/components/CallTooltipContent';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
+import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
 
@@ -21,8 +22,9 @@ const tooltipAlignment = 'topMiddle';
 
 export default function IcicleChart(props) {
   const { rootCall, getColor = () => '#1479ff' } = props;
+  const { items: loggingLogItems } = useLogsInCallsContext();
 
-  const callFrames = applyLayout(rootCall);
+  const callFrames = applyLayout(rootCall, loggingLogItems);
 
   const maxDepth = callFrames.reduce((max, callFrame) => Math.max(max, callFrame.depth), 0);
   const chartHeight = (maxDepth + 1) * FRAME_HEIGHT;

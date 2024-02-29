@@ -19,6 +19,7 @@ import {
   getWebhookFields,
   isAnsible,
   isScript,
+  isExternal,
   isWebhook,
   isJira,
   parseDynamicParameter,
@@ -35,12 +36,14 @@ import {
   isGitlab,
   getGitlabOpenTicketFields,
   getJiraFields,
-  getJiraOpenTicketFields
+  getJiraOpenTicketFields,
+  isManual
 } from 'in-automation/ActionCatalog/shared';
 import {
   ResolvedDynamicParamValue,
   resolveDynamicParameters,
   runScriptAction,
+  runTurboAction,
   runWebhookAction,
   runAnsibleAction,
   runGithubCloseAction,
@@ -60,7 +63,7 @@ import RunActionContent, {
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import { AgentResponse } from 'in-automation/subscriptions/submitActionExecution';
+import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -84,6 +87,7 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
+  triggerReload?: (n: number) => void;
 }
 
 export default function RunActionDialog({
@@ -93,12 +97,16 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  triggerReload
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const agentSnapShots = useAgentSnapShots({ action });
+  // we usually see rec actions only when agents available. some times, when agent is stopped, we will have 10 minute window to updates actions.
+  // This flag here sets true which uses to disable the run button when agent is unavailable
+  const noTurboAgents = isExternal(action.type) && agentSnapShots?.data?.online.length === 0;
   const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
     action,
     event
@@ -114,7 +122,7 @@ export default function RunActionDialog({
   return (
     <Dialog
       className={locals.dialog}
-      titleIconType={'lib_help_error_error_circle'}
+      titleIconType={isManual(action.type) ? undefined : 'lib_help_error_error_circle'}
       title={getTitle({ action, error, actionInstanceId, test, policy })}
       onClose={close}
       withoutBodyPadding
@@ -135,29 +143,35 @@ export default function RunActionDialog({
           />
         </div>
         <FormFooter>
-          <RunActionFooter
-            policy={policy}
-            error={error}
-            test={test}
-            actionInstanceId={actionInstanceId}
-            isSaving={isSaving}
-            form={form}
-            onSave={() =>
-              onSave({
-                form,
-                setForm,
-                setIsSaving,
-                action,
-                agentSnapShots,
-                setError,
-                setActionInstanceId,
-                event,
-                policy,
-                handleSave,
-                executePolicy
-              })
-            }
-          />
+          {isManual(action.type) ? (
+            <CancelButton onClick={close}>{t('in-automation:close')}</CancelButton>
+          ) : (
+            <RunActionFooter
+              policy={policy}
+              error={error}
+              test={test}
+              actionInstanceId={actionInstanceId}
+              isSaving={isSaving}
+              noTurboAgents={noTurboAgents}
+              form={form}
+              onSave={() =>
+                onSave({
+                  form,
+                  setForm,
+                  setIsSaving,
+                  action,
+                  agentSnapShots,
+                  setError,
+                  setActionInstanceId,
+                  event,
+                  policy,
+                  handleSave,
+                  executePolicy,
+                  triggerReload
+                })
+              }
+            />
+          )}
         </FormFooter>
       </>
     </Dialog>
@@ -169,11 +183,12 @@ interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 
   error: string;
 }
 const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitleParams) => {
-  const actionName = action.name;
+  const actionName = isExternal(action.type) ? action?.description : action.name;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
+  if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
   return t('in-automation:chosenToRun', { actionName });
 };
 
@@ -186,6 +201,7 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
   else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
   else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
+  else if (isExternal(action.type)) query = 'entity.agent.capability:turbonomic-action';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   return agentSnapShots;
 }
@@ -264,6 +280,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   policy?: NewPolicy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
   executePolicy?: Policy;
+  triggerReload?: (n: number) => void;
 }
 
 function onSave({
@@ -277,9 +294,12 @@ function onSave({
   event,
   policy,
   handleSave,
-  executePolicy
+  executePolicy,
+  triggerReload
 }: OnSaveParams) {
-  if (!form?.hierarchyValid) {
+  // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
+  // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
+  if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
     setForm(form?.setTouched(true, { recurse: true }));
     return;
   }
@@ -351,13 +371,16 @@ function onSave({
       }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
-  const handleActionResponse = (response: AgentResponse) => {
+  const handleActionResponse = (response: ActionInstance) => {
     setIsSaving(false);
-    if ('error' in response && response.error != null) {
-      setError(response.error);
-      setActionInstanceId(response?.data?.actionInstanceId);
+    if ('errorMessage' in response && response.errorMessage != null) {
+      setError(response.errorMessage);
+      setActionInstanceId(response?.actionInstanceId);
     } else {
-      setActionInstanceId(response.data.actionInstanceId);
+      setActionInstanceId(response.actionInstanceId);
+      if (triggerReload && isExternal(action.type)) {
+        triggerReload(Math.random());
+      }
     }
   };
 
@@ -379,7 +402,6 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
-
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterToUse(action);
@@ -393,6 +415,21 @@ function onSave({
       interpreter,
       policyId: executePolicyId,
       inputParameters: allInputParameters
+    }).once(handleActionResponse);
+  } else if (isExternal(action.type)) {
+    const volatileId =
+      Object.keys(selectedVolatileId).length === 0 ? agentSnapShots?.data?.online[0]?.volatileId : selectedVolatileId;
+    const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
+    const createdTime = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceCreatedDate : 0;
+    runTurboAction({
+      volatileId: volatileId ?? {},
+      event,
+      createdDate: createdTime,
+      actionName: action?.description ?? '',
+      timeout,
+      actionId,
+      actionInstanceId: actionInstanceId,
+      policyId: executePolicyId
     }).once(handleActionResponse);
   } else if (isGithub(action.type)) {
     const { owner, repo, ticketType } = getGithubFields(action);
@@ -548,9 +585,19 @@ interface RunActionFooterProps {
   onSave: () => void;
   test?: boolean;
   policy?: NewPolicy;
+  noTurboAgents?: boolean;
 }
 
-function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test, policy }: RunActionFooterProps) {
+function RunActionFooter({
+  error,
+  actionInstanceId,
+  isSaving,
+  form,
+  onSave,
+  test,
+  policy,
+  noTurboAgents = false
+}: RunActionFooterProps) {
   if (error || actionInstanceId) {
     return (
       <Button kind="primary" onClick={close}>
@@ -561,7 +608,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
-      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
+      <SaveButton kind="primary" form={form} disabled={!form || noTurboAgents} isSaving={isSaving} onClick={onSave}>
         {policy ? 'Save' : test ? t('in-automation:testAction') : t('in-automation:runAction')}
       </SaveButton>
     </>

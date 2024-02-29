@@ -16,7 +16,7 @@ import { StackTraceItem } from 'in-types';
 import { t } from 'in-i18n';
 
 interface StackTraceProps {
-  stackTrace?: StackTraceItem[] | null;
+  stackTrace: StackTraceItem[];
   processSnapshotId?: string;
 }
 export default function LogStackTraceGroup({ stackTrace, processSnapshotId }: StackTraceProps) {
@@ -35,7 +35,7 @@ export default function LogStackTraceGroup({ stackTrace, processSnapshotId }: St
 
   return (
     <ExpandableGroup title={t('in-analyze:traceDetail.components.callDetails.stackTrace')} defaultExpanded>
-      <StackTracePresentation stackTrace={stackTrace!} isOnline={isSnapshotOnline} snapshot={snapshot} noPadding />
+      <StackTracePresentation stackTrace={stackTrace} isOnline={isSnapshotOnline} snapshot={snapshot} noPadding />
     </ExpandableGroup>
   );
 }

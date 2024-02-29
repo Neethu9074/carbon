@@ -15,11 +15,7 @@ import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { Wrapper } from 'in-plg/pages/onboarding/Layout/Layout';
 import { Trans, t } from 'in-i18n';
 
-export default function RubyRuntimeContent({
-  agentEndpoint,
-  agentKey,
-  agentEndpointPort
-}: OnboardingProps): JSX.Element {
+export default function RubyRuntimeContent({ agentKey, serverlessEndpoint }: OnboardingProps): JSX.Element {
   return (
     <Wrapper>
       <LayoutSection
@@ -86,15 +82,11 @@ export default function RubyRuntimeContent({
       >
         <Stack direction="horizontal">
           <KeyValue
-            label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
-            value={<InputWithButton type="copy" inputValue={agentEndpoint + ':' + agentEndpointPort} />}
+            label={'INSTANA_ENDPOINT_URL'}
+            value={<InputWithButton type="copy" inputValue={serverlessEndpoint} />}
             withGap
           />
-          <KeyValue
-            label={t('in-plg:agentDetails.common.agentKey')}
-            value={<InputWithButton type="copy" inputValue={agentKey} />}
-            withGap
-          />
+          <KeyValue label={'INSTANA_AGENT_KEY'} value={<InputWithButton type="copy" inputValue={agentKey} />} withGap />
         </Stack>
       </LayoutSection>
     </Wrapper>

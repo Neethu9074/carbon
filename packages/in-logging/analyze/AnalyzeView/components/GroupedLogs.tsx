@@ -13,7 +13,7 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { number, percentage, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -91,7 +91,7 @@ export default function GroupedLogs(props: GroupedLogsProps) {
 function getLogGroupColor(item: LogGroupItem, index: number, groupBy: Group) {
   if (groupBy?.groupbyTag === LOG_LEVEL) {
     const logLevel = item.label.toLowerCase();
-    return logLevelColors[logLevel];
+    return getLogLevelColor(logLevel);
   }
   return GROUP_COLORS[index];
 }

@@ -87,8 +87,8 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
           //@ts-ignore
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.startedProcessesCount}
-          metric={item.businessProcess.startedInstancesCount}
+          metrics={item.metrics.started_processes}
+          metric={item.metrics.started_processes[0][1]}
           tooltipFormatter={number.compact}
         />
       );
@@ -102,7 +102,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     getContent(item: BusinessProcessItem) {
       return (
         <div>
-          <h4 className={locals.label}>{item.businessProcess.activitiesCount}</h4>
+          <h4 className={locals.label}>{item.metrics.activities_count[0][1]}</h4>
         </div>
       );
     }

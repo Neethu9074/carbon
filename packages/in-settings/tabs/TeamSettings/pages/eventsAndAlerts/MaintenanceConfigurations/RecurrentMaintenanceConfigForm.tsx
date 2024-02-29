@@ -18,6 +18,7 @@ import {
 } from '@instana/types';
 import { DateFormatterInput } from '@instana/format-date';
 import { Observable } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { Button } from '@instana/components';
 
 import {
@@ -65,7 +66,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import { getSingle } from 'in-services/settings/settings';
 import Section from 'in-settings/components/Section';
-import { useTheme } from 'in-themes';
 import { Nullish } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
@@ -81,7 +81,6 @@ interface RMConfigProps {
 }
 
 export default function RecurrentMaintenanceConfigForm(props: RouteComponentProps<MatchParams> & RMConfigProps) {
-  const theme = useTheme();
   const id = props.existingID || props.match.params.id || '';
   const entityId = id === 'new' ? null : id;
   const { location, goToPath, createHrefToPath } = useNavigation();
@@ -143,7 +142,7 @@ export default function RecurrentMaintenanceConfigForm(props: RouteComponentProp
   if (!entity && error) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownMaintenanceWindowConfiguration')}
         </SubViewHeader>
         <SectionLine />

@@ -12,6 +12,7 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import Space from 'in-forge/plugins/ibmApiConnectCatalog/Dashboard/SpaceTables';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 //@ts-expect-error
 import MetricValue from 'in-components/MetricValue';
@@ -40,6 +41,16 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
           <MetricValue snapshotId={snapshotId} metric="maxResponseTime" formatter={millis.detailed} />
         </KpiKeyValue>
       </KpiSection>
+
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.ibmApiConnect.avgApiResponse')}>
+          <MetricValue snapshotId={snapshotId} metric="avgResponseTime" formatter={millis.detailed} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmApiConnect.minApiResponse')}>
+          <MetricValue snapshotId={snapshotId} metric="minResponseTime" formatter={millis.detailed} />
+        </KpiKeyValue>
+      </KpiSection>
+
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmApiConnectCatalog.2xxstatus')}>
           <Chart
@@ -131,6 +142,8 @@ const IbmApiConnectCatalogDashboard = ({ snapshot, timeConfig }: IbmApiConnectCa
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <Space snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 };

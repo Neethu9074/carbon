@@ -7,8 +7,8 @@ import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Card, SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Card, Link, SvgIcon } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import {
   getEntityIdView,
@@ -46,7 +46,6 @@ import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannel.mless';
@@ -81,9 +80,46 @@ function createForm(alertChannel) {
   return getConfig(alertChannel).createForm(alertChannel);
 }
 
+/**
+ * Role based filtering should ideally happen in backend API /api/events/settings/alert-configs/infos
+ * But for now I'm placing this logic in UI as RBAC is not applied in above API yet.
+ *
+ * TODO: Move this filtering logic to backend based on permissions.
+ */
+function filterAlertConfigBasedOnRoles(alertConfigResponse) {
+  const canConfigureEventsAndAlerts = role.canConfigureEventsAndAlerts;
+  const canConfigureApplicationSmartAlerts = role.canConfigureApplicationSmartAlerts;
+  const canConfigureWebsiteSmartAlerts = role.canConfigureWebsiteSmartAlerts;
+  const canConfigureMobileAppSmartAlerts = role.canConfigureMobileAppSmartAlerts;
+  const canConfigureGlobalApplicationSmartAlerts = role.canConfigureGlobalApplicationSmartAlerts;
+  const canConfigureGlobalSyntheticSmartAlerts = role.canConfigureGlobalSyntheticSmartAlerts;
+  const canConfigureGlobalInfraSmartAlerts = role.canConfigureGlobalInfraSmartAlerts;
+
+  return alertConfigResponse.filter(item => {
+    const type = item.type;
+
+    if (type === 'WebsiteSmartAlert') {
+      return canConfigureWebsiteSmartAlerts;
+    } else if (type === 'MobileSmartAlert') {
+      return canConfigureMobileAppSmartAlerts;
+    } else if (type === 'ApplicationSmartAlert') {
+      return canConfigureApplicationSmartAlerts;
+    } else if (type === 'GlobalApplicationSmartAlert') {
+      return canConfigureGlobalApplicationSmartAlerts;
+    } else if (type === 'SyntheticSmartAlert') {
+      return canConfigureGlobalSyntheticSmartAlerts;
+    } else if (type === 'InfraSmartAlert') {
+      return canConfigureGlobalInfraSmartAlerts;
+    } else if (type === 'Alert') {
+      return canConfigureEventsAndAlerts;
+    }
+
+    return false;
+  });
+}
+
 const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   const { entity, form, entityId, message, error, loading } = props;
-  const theme = useTheme();
   if (!entity || !form) {
     return <LoadingIndicator />;
   }
@@ -91,7 +127,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   if (entity && entity.get('errors')) {
     return (
       <SettingsDetailPage>
-        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.ids.color.option.yellow['500']}>
+        <SubViewHeader iconType="lib_help_error_error_circle" iconColor={themes.default.ids.color.option.yellow['500']}>
           {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />
@@ -154,18 +190,16 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
           </Card>
         </Col>
         <Col lg={7}>
-          {role.canConfigureCustomAlerts && (
-            <List
-              cardTitle={t('in-settings:tabs.alerts')}
-              getHeader={getHeader}
-              tableInCard
-              getEntityName={getEntityName}
-              columnDefinitions={columnDefinitions}
-              loadEntities={() => getAlertsForAlertChannelId(entityId)}
-              initialOrderBy="label"
-              searchAttributes={['label']}
-            />
-          )}
+          <List
+            cardTitle={t('in-settings:tabs.alerts')}
+            getHeader={getHeader}
+            tableInCard
+            getEntityName={getEntityName}
+            columnDefinitions={columnDefinitions}
+            loadEntities={() => getAlertsForAlertChannelId(entityId).map(resp => filterAlertConfigBasedOnRoles(resp))}
+            initialOrderBy="label"
+            searchAttributes={['label']}
+          />
         </Col>
       </Row>
     </SettingsDetailPage>

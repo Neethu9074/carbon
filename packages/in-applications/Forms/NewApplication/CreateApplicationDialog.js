@@ -267,10 +267,9 @@ function getMaxScope(appConfig) {
   return appConfig.contributionFilter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
 }
 
-function createUserRestrictedApplication(appConfig) {
+export function createUserRestrictedApplication(appConfig) {
   return [
     {
-      id: appConfig.groupId,
       filter: appConfig.contributionFilter,
       restrictedApplications: [appConfig.id]
     }
@@ -278,7 +277,7 @@ function createUserRestrictedApplication(appConfig) {
 }
 
 function getInitialForm(application) {
-  const optionalTagFilterExpression = application.groupId != null;
+  const optionalTagFilterExpression = application.restrictingApplicationId != null;
   const form = createMapForm()
     .put(
       'id',
@@ -294,9 +293,9 @@ function getInitialForm(application) {
       })
     )
     .put(
-      'groupId',
+      'restrictingApplicationId',
       createField({
-        value: application.groupId
+        value: application.restrictingApplicationId
       })
     )
     .put(

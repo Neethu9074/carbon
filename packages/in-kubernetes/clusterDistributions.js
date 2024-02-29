@@ -9,6 +9,10 @@ export function isOpenshift(clusterDistribution) {
   return clusterDistribution === 'openshift';
 }
 
+export function isEks(clusterDistribution) {
+  return clusterDistribution === 'eks';
+}
+
 export function clusterBadgeName(clusterDistribution) {
   switch (clusterDistribution) {
     case 'openshift':

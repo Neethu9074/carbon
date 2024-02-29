@@ -6,8 +6,8 @@
 import { Field, ListForm, MapForm } from 'formalistic';
 
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { AggregationType, ThresholdOperator } from 'in-types';
 import { Option } from 'in-components/ComboBox/ComboBox';
-import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export function getAggregationText(aggregation: AggregationType): string {
@@ -52,7 +52,7 @@ export function alertConfigWithDefaultThreshold(form: MapForm<any>) {
   };
 }
 
-export function infraAlertConfigWithDefaultThreshold(form: MapForm<any>) {
+export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
   const threshold: MapForm<any> = form.get('threshold') as MapForm<any>;
   const thresholdValue: Field<any> | undefined = threshold.get('value') as Field<any> | undefined;
   const tagFilterExpression = form.get('tagFilterExpression').value;
@@ -104,4 +104,23 @@ export function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
 
   // check all custom payload entries:
   return !items.find(payloadItemInvalid);
+}
+
+export function getHigherOrLowerOperatorContext(operator: ThresholdOperator) {
+  switch (operator) {
+    case '>':
+      // "higher than"
+      return 'higherThan';
+    case '>=':
+      // "higher or equal to"
+      return 'higherEqual';
+    case '<':
+      // "lower than"
+      return 'lowerThan';
+    case '<=':
+      // "lower or equal to"
+      return 'lowerEqual';
+    default:
+      throw Error('Unsupported operator: ' + operator);
+  }
 }

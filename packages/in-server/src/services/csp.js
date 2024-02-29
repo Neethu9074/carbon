@@ -25,11 +25,11 @@ if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
 }
 
-const allowedScriptOriginsForTrialUsers = [...allowedScriptOrigins, 'https://www.ibm.com'];
+const allowedScriptOriginsForTrialOrNotForResaleUser = [...allowedScriptOrigins, 'https://www.ibm.com'];
 
-exports.getCsp = (nonce, isTrialUser) => {
-  if (isTrialUser) {
-    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsForTrialUsers.join(' ')}`;
+exports.getCsp = (nonce, isAssistMeEnabled) => {
+  if (isAssistMeEnabled) {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsForTrialOrNotForResaleUser.join(' ')}`;
   } else {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
   }

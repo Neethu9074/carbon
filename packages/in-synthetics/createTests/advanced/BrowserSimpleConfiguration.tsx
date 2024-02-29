@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 
 import { Stack } from '@instana/components';
 
+import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
@@ -171,12 +172,7 @@ export default function BrowserSimpleConfiguration({ form, updateForm, invalidTi
               <ActionTitle>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
               </ActionTitle>
-              <Description>
-                {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalDescription', {
-                  retryCount: retriesField.value === 1 ? 'once' : 'twice',
-                  retryIntervalValue: retryIntervalField.value
-                })}
-              </Description>
+              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
               {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
               <TouchedMessages field={retryIntervalField} />
             </Section>

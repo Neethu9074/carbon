@@ -61,7 +61,7 @@
     "dialogTitle": "建立新的群組",
     "dialogTitle_edit": "編輯存取範圍",
     "editButton": "編輯",
-    "productArea": "{{tenantUnit}} 的存取配置"
+    "productArea": "{{tenantUnit}} 的存取配置 -{{tenant}}"
   },
   "productAreas": {
     "allApplications": "所有應用程式",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "可以使用選取的角色來存取所有虛構測試。",
     "descriptionLimitedAccess_synthetics": "選取角色並在下面新增虛構測試以授與存取權。",
     "contribution_filter": "貢獻度過濾器",
-    "contributionFilter_description": "將繼承過濾器以建立新的應用程式配置。 在應用程式視景配置上，可以使用 {{logicalOperator}} 運算子後面的進一步過濾標籤來精簡它",
+    "contributionFilter_description": "建立新的應用程式配置時，會套用貢獻度過濾器。 在應用程式配置上，可以使用 {{logicalOperator}} 運算子之後的過濾器標籤來精簡貢獻度過濾器",
     "contributionFilter_downstreamCalls": "決定可包含在應用程式視景中的其他資訊層次上限",
     "contributionFilter_name": "名稱"
   },
@@ -173,7 +173,12 @@
     "selection_owner_access": "擁有者存取權",
     "selection_contributor_access": "貢獻者存取權",
     "description_no_access": "根本無法使用此區域",
+    "description_no_access_website": "無存取權：拒絕存取網站。",
+    "description_no_access_mobile_app": "無存取權：拒絕存取行動式應用程式。",
+    "description_no_access_application": "無存取權：拒絕存取應用程式。",
     "description_no_access_kubernetes": "無法存取名稱空間及叢集。",
+    "description_no_access_infrastructure": "無存取權：拒絕存取基礎架構。",
+    "description_no_access_synthetics": "無存取權：拒絕存取虛構監視。",
     "description_access_all": "不受限制地存取全部",
     "description_access_all_except_contributor": "全部存取 - 除了以貢獻者身分存取的項目之外",
     "role": "選取角色",
@@ -189,8 +194,8 @@
     "roleTooltip_synthetics": "檢視器：能夠檢視虛構測試儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的「虛構測試」；檢視、配置及刪除「虛構測試」，以及檢視及刪除「虛構位置」。",
     "contribution_filter_accessScope": "受限存取權範圍（檢視器）",
     "contribution_filter_warning": {
-      "firstParagraph": "您將儲存的任何修改都將使用此貢獻度過濾器來更新所有應用程式視景。",
-      "secondParagraph": "如果您變更角色，則會刪除貢獻度過濾器，且具有「應用程式」區段的「擁有者」存取權的任何使用者都會變成可編輯所有使用貢獻度過濾器的應用程式視景。 無法復原。"
+      "firstParagraph": "您儲存的任何變更都會更新使用此貢獻度過濾器的所有應用程式視景。",
+      "secondParagraph": "如果您變更角色，則會刪除貢獻度過濾器。 然後，任何具有「應用程式」區段「擁有者」存取權的使用者都可以編輯所有使用貢獻度過濾器的應用程式視景。 無法復原。"
     }
   },
   "configurationSummary": {
@@ -200,9 +205,9 @@
         "role_permissions_contributor": "檢視此裝置下的所有應用程式儀表板。 使用貢獻度過濾器來建立、配置及刪除應用程式儀表板。"
       },
       "limited_access": {
-        "access_level": "下面選取應用程式的受限存取權。",
-        "access_level_contributor": "檢視下面選取的應用程式儀表板",
-        "role_permissions_contributor": "使用貢獻度過濾器來建立、配置及刪除應用程式儀表板。 （貢獻者所建立的應用程式儀表板將會顯示在群組概觀及「應用程式」區段的清單中。）"
+        "access_level": "僅對下列所選應用程式儀表板進行受限存取。",
+        "access_level_contributor": "僅對下列所選應用程式儀表板進行受限存取",
+        "role_permissions_contributor": "建立已套用貢獻度過濾器的應用程式儀表板；檢視、配置及刪除這些針對貢獻度過濾器建立的應用程式儀表板。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除應用程式儀表板。",
       "role_permissions_viewer": "檢視應用程式視景儀表板及其配置。"
@@ -219,7 +224,7 @@
         "access_level": "此裝置下所有名稱空間及叢集的存取權。"
       },
       "limited_access": {
-        "access_level": "下面選取名稱空間及叢集的受限存取權。"
+        "access_level": "僅對下列選取的名稱空間及叢集進行受限存取。"
       },
       "role_permissions": "檢視名稱空間及叢集。"
     },
@@ -228,7 +233,7 @@
         "access_level": "此裝置下所有行動式應用程式的存取權。"
       },
       "limited_access": {
-        "access_level": "下列所選行動式應用程式的受限存取權。"
+        "access_level": "僅對下列所選取行動式應用程式進行受限存取。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除行動式應用程式。",
       "role_permissions_viewer": "檢視行動式應用程式及其配置。"
@@ -238,7 +243,7 @@
         "access_level": "此裝置下所有綜合測試的存取權。"
       },
       "limited_access": {
-        "access_level": "下面選取綜合測試的受限存取權。"
+        "access_level": "僅對下列所選虛構測試進行受限存取。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除綜合測試。",
       "role_permissions_viewer": "檢視綜合測試及其配置。"
@@ -248,7 +253,7 @@
         "access_level": "存取此裝置下的所有網站。"
       },
       "limited_access": {
-        "access_level": "下面選取網站的受限存取權。"
+        "access_level": "僅對下列所選網站進行受限存取。"
       },
       "role_permissions_owner": "建立、檢視及刪除網站。",
       "role_permissions_viewer": "檢視網站及其配置。"
@@ -285,6 +290,7 @@
     "backToParentViewName": "回到 {{parentViewName}}",
     "search": "搜尋...",
     "confirmRemoveItem": "您確定要移除 <strong>{{itemName}}</strong> 嗎？",
+    "confirmSaveGroup": "儲存這些更新項目將從 {{numberOfContributorAPs}} 應用程式視景中移除貢獻度過濾器，並變成已停用",
     "enable": "啟用",
     "disable": "停用",
     "deleteEntity": "刪除 {{entity}}.",
@@ -395,10 +401,12 @@
     "apiTokenDescription": "任何人或任何具有 API 記號配置許可權的 API 記號都可以看到/修改此單元特定的 API 記號。",
     "noApiToken": "無 API 記號",
     "newApiToken": "新建 API 記號",
+    "apiTokenUnits": "API 記號可用於 <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "noPersonalApiTokens": "無個人 API 記號",
     "newPersonalApiToken": "新建個人 API 記號",
     "apiTokenEntityName": "API 記號 {{entityName}}",
     "personalApiTokenEntityName": "個人 API 記號 {{entityName}}",
+    "personalApiTokenUnits": "個人 API 記號可用於 <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "addUser": "新增使用者",
     "permitsAccessToLabelMonitoringFunctionality": "允許存取 {{label}} 監視功能。",
     "failedToSaveGroup": "無法儲存群組：{{err}}",
@@ -411,7 +419,9 @@
     "inviteGroupDescription": "您可以透過在每個裝置下配置群組的角色及存取範圍來控制存取權。",
     "failedToSendInvitation": "無法傳送邀請：{{err}}",
     "pleaseInviteAtLeastOneUser": "請至少邀請一個使用者。",
-    "thisUserAlreadyExists": "此使用者已存在。 您可以在「使用者」功能表上編輯它。",
+    "thisUserAlreadyExists": "此使用者已存在，且可在使用者清單中找到",
+    "thisInviteAlreadyExists": "此邀請已存在，且可在擱置邀請清單中找到",
+    "emailFormatNotValid": "電子郵件欄位的格式無效",
     "someEmailsHaveFailedToSend": "部分電子郵件無法傳送",
     "inviteUserToTenant": "邀請使用者加入 {{tenant}}",
     "anotherUser": "其他使用者",
@@ -434,6 +444,7 @@
     "userDoesNotExist": "使用者不存在",
     "apiCall": "API",
     "userCall": "使用者",
+    "policyCall": "原則",
     "testChannel": "測試通道",
     "pleaseDefineAtLeastOneEmail": "請定義至少一封電子郵件",
     "remove": "移除",
@@ -547,7 +558,6 @@
     "instanaAgentCountDetection": "Instana 代理程式計數",
     "pleaseSelectASeverity": "請選取嚴重性",
     "pleaseEnterAValidMetric": "請輸入有效的度量。",
-    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "在相同度量上最多只能定義一個臨界值。",
     "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "依型樣定義多個度量時，只容許一個規則使用與 'is' 不同的相符運算子。",
     "oneSecondWindowIsNotAllowedWhenDiffAggregationIsUsed": "使用絕對或相對差異聚集時，不容許時間範圍為 1 秒。",
     "thisEntityTypeHasBeenDeprecated": "此實體類型已淘汰。請選擇不同的類型。",
@@ -621,11 +631,7 @@
     "activationAdoption": "啟動與採用",
     "technologiesReporting": "技術報告",
     "accountSettings": "帳戶設定",
-    "configureGoogleSso": "配置 Google SSO",
-    "googleSsoConfiguration": "Google SSO 配置",
     "configureAllowedEmailDomains": "配置容許的電子郵件網域",
-    "onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant": "只有具有位於下列網域之電子郵件位址的使用者，才容許登入您的 Instana 租戶：",
-    "separateMultipleDomainsWithAComma": "多個網域之間請以逗點區隔。",
     "savingConfig": "正在儲存配置",
     "configSuccessfullySaved": "已順利儲存配置。",
     "configureLdap": "配置 LDAP",
@@ -733,7 +739,6 @@
     "failedToSaveTwoFactorToken": "無法儲存雙因素記號：",
     "pleaseSpecifyAValidToken": "請指定有效的記號。",
     "identityProviders": "身分提供者",
-    "googleSso": "Google SSO",
     "saml": "SAML",
     "oidc": "OpenID Connect",
     "ldap": "LDAP",
@@ -785,6 +790,8 @@
     "groups": "群組",
     "groupDeleteTooltip_Default": "預設群組是內建群組，無法刪除或重新命名。",
     "groupDeleteTooltip_Owner": "擁有者群組是內建群組，無法刪除或重新命名。",
+    "deleteGroupMessage": "您確定要從此租戶上的所有單元移除 <strong>{{groupName}}</strong> 嗎？",
+    "thisWillRemoveContributionFilterMessage": "這會從 <strong>{{apCount}}</strong> 應用程式視景中移除貢獻度過濾器，並變成已停用",
     "addGroup": "新建群組",
     "pendingInvitations": "擱置邀請",
     "revoke": "撤銷",
@@ -1039,6 +1046,14 @@
     "humio": "Humio",
     "mezmo": "Mezmo",
     "audit": "審核",
+    "googleSSO": {
+      "allowedDomains": "容許的網域",
+      "configure": "Google SSO 配置",
+      "domainOnlyMessage": "僅容許電子郵件位址位於下列網域中的使用者以新的 Instana 使用者身分登入。",
+      "domainExistingUsersMessage": "透過此配置接收存取權的使用者可以存取 Instana，即使您稍後變更或移除容許的網域也一樣，除非他們已從 Instana 租戶中移除。",
+      "hint": "以逗點區隔多個網域，例如：@example.com, @example.io",
+      "idpTitle": "Google SSO"
+    },
     "advancedUserInterfaceSettings": "進階使用者介面設定",
     "3DMaps": "3D 地圖",
     "invertScrollDirection": "顛倒捲動方向",

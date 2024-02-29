@@ -15,7 +15,7 @@ import {
   updateApplicationAlertActionAssociations
 } from 'in-automation/api';
 import RecommendationActionsTable from 'in-automation/AssociatedActions/RecommendationActionsTable';
-import { Event, Action, ApplicationAlertConfigWithMetadata, Result } from 'in-types';
+import { Event, Action, ApplicationAlertConfigWithMetadata, Result, VolatileId } from 'in-types';
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getEventSpecificationId, getIsCustomEvent } from './shared';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -28,6 +28,7 @@ interface RecommendedActionsCardAlertsProps {
   setReload: (r: number) => void;
   alertConfig: ApplicationAlertConfigWithMetadata;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
 }
 
 export default function RecommendedActionsCardAlerts({
@@ -35,7 +36,8 @@ export default function RecommendedActionsCardAlerts({
   reload,
   setReload,
   alertConfig,
-  setSelectedType
+  setSelectedType,
+  volatileId
 }: RecommendedActionsCardAlertsProps) {
   const [error, setError] = useState(false);
 
@@ -94,6 +96,9 @@ export default function RecommendedActionsCardAlerts({
           setError={setError}
           isCustomEvent={isCustomEvent}
           setSelectedType={setSelectedType}
+          isApplicationSmartAlert
+          volatileId={volatileId}
+          event={event}
         />
       )}
     </>

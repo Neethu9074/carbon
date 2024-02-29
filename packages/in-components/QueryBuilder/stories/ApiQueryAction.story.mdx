@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { Meta, Story, Preview } from '@storybook/addon-docs';
 
 import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 import ApiQueryOverlay from "../workspace/ApiQueryAction/ApiQueryOverlay";
@@ -79,6 +79,40 @@ import ApiQueryOverlay from "../workspace/ApiQueryAction/ApiQueryOverlay";
             "tagType": "STRING"
           }
         ]}
+        docsLink="https://instana.github.io/openapi/#operation/getEntityGroups"
+      />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name="WithHiddenCallsAndGroupingAndCurl">
+    <PermanentlyVisibleOverlay>
+      <ApiQueryOverlay
+        backendQueryModel={{
+          "type": "TAG_FILTER",
+          "name": "application.name",
+          "operator": "CONTAINS",
+          "entity": "DESTINATION",
+          "value": "e"
+        }}
+        backendQueryModelWithFacets={{
+          "type": "TAG_FILTER",
+          "name": "application.name",
+          "operator": "CONTAINS",
+          "entity": "DESTINATION",
+          "value": "eFacets"
+        }}
+        groupBy={[
+          {
+            "groupbyTag": "trace.endpoint.name",
+            "tagType": "STRING"
+          }
+        ]}
+        hiddenCalls={{
+          "includeSynthetics": "false",
+          "includeInternal" : "true"
+        }}
         docsLink="https://instana.github.io/openapi/#operation/getEntityGroups"
       />
     </PermanentlyVisibleOverlay>

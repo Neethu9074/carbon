@@ -8,14 +8,13 @@ import React from 'react';
 
 import Troubleshooting from 'in-applications/Dashboards/service/tabs/troubleshooting/Troubleshooting';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
-import FlowMapSimplified from 'in-applications/Dashboards/service/tabs/FlowMapSimplified';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import LogMessagesTab from 'in-components/Logging/Dashboards/components/LogMessages';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';
 import { serviceDashboard } from 'in-applications/navigation/paths';
-import { simplifiedFlowMapEnabled } from 'in-services/featureFlags';
+import { flowMapEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -25,18 +24,10 @@ export default [
     path: `${serviceDashboard}/summary`,
     component: wrapWithMessage(Summary)
   },
-  {
+  flowMapEnabled && {
     label: t('in-applications:labelFlow'),
     path: `${serviceDashboard}/flowMap`,
     component: FlowMap,
-    stickToHeader: true,
-    stickToBottom: true,
-    isFullWidth: true
-  },
-  simplifiedFlowMapEnabled && {
-    label: t('in-applications:labelDependencies'),
-    path: `${serviceDashboard}/map`,
-    component: FlowMapSimplified,
     stickToHeader: true,
     stickToBottom: true,
     isFullWidth: true

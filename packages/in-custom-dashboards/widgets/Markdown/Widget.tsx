@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import DOMPurify from 'dompurify';
 import React from 'react';
 
@@ -17,6 +18,7 @@ interface MarkdownWidgetProps extends Pick<CardProps, 'title'> {
   actions: React.ReactNode;
   config?: string;
   isPreview?: boolean;
+  isInModal?: boolean;
   dragHandle: React.ReactNode;
 }
 
@@ -25,18 +27,30 @@ export default function MarkdownWidget({
   actions,
   isPreview,
   dragHandle,
+  isInModal,
   config: markdown
 }: MarkdownWidgetProps) {
   return (
     <Card
       title={title}
-      header={
-        <>
-          {dragHandle}
-          {actions}
-        </>
+      rightHeaderContent={
+        isInModal ? undefined : (
+          <>
+            {dragHandle}
+            {actions}
+          </>
+        )
       }
       useMaxAvailableHeight={!isPreview}
+      className={classNames({
+        [locals.modal]: isInModal
+      })}
+      bodyClassName={classNames({
+        [locals.modal]: isInModal
+      })}
+      headerClassName={classNames({
+        [locals.modal]: isInModal
+      })}
       isScrollable
     >
       <DangerousHtmlPresenter className={locals.markdown} html={DOMPurify.sanitize(toHtml(markdown || ''))} />

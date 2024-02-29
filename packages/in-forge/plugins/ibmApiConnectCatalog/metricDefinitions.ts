@@ -15,8 +15,12 @@ export default [
     formatter: number.compact
   },
   {
-    metrics: ['maxResponseTime'],
-    labels: [t('in-forge:plugins.ibmApiConnect.maxApiResponse')],
+    metrics: ['maxResponseTime', 'minResponseTime', 'avgResponseTime'],
+    labels: [
+      t('in-forge:plugins.ibmApiConnect.maxApiResponse'),
+      t('in-forge:plugins.ibmApiConnect.minApiResponse'),
+      t('in-forge:plugins.ibmApiConnect.avgApiResponse')
+    ],
     min: 0,
     formatter: millis.compact
   },

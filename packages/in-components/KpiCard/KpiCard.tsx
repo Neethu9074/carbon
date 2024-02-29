@@ -51,6 +51,8 @@ export interface KpiCardProps {
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   resultPrecision?: ResultPrecision;
+  isInModal?: boolean;
+  tooltipContent?: React.ReactNode;
 }
 
 export default function KpiCard({
@@ -65,10 +67,12 @@ export default function KpiCard({
   borderless = false,
   shadowless = false,
   centerLabels = false,
+  isInModal,
   color,
   useMaxAvailableHeight = true,
   iconAction,
-  resultPrecision
+  resultPrecision,
+  tooltipContent
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -117,14 +121,16 @@ export default function KpiCard({
       className={classNames({
         [locals.wrapper]: true,
         [locals.borderless]: borderless,
-        [locals.shadowless]: shadowless,
+        [locals.shadowless]: shadowless || isInModal,
         [locals.centerValue]: centerLabels,
+        [locals.modal]: isInModal,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
       <div
         className={classNames({
           [locals.title]: true,
+          [locals.hidden]: isInModal,
           [locals.centerTitle]: centerLabels
         })}
         ref={ref}
@@ -163,7 +169,13 @@ export default function KpiCard({
         )}
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
-      {content}
+      {tooltipContent ? (
+        <Tooltip content={tooltipContent} align="rightBottom">
+          <span className={locals.titleText}>{content}</span>
+        </Tooltip>
+      ) : (
+        <span className={locals.titleText}>{content}</span>
+      )}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
     </div>
   );

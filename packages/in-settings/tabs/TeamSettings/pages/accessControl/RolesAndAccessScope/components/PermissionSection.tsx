@@ -28,7 +28,6 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import ContributionFilterWrapper from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ContributionFilterWrapper';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -66,6 +65,8 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
   productArea: LimitableProductArea;
   icon: string;
   entityPermissionKey: EntityPermissionKey;
+  setValid?: (isValid: boolean) => void;
+  editMode?: boolean;
 }
 
 export default function PermissionSection<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -83,7 +84,9 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   form,
   setForm,
   setSubSlideConfig,
-  setShowSubSlide
+  setShowSubSlide,
+  setValid,
+  editMode
 }: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
@@ -97,10 +100,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     scope: getField<string>(form, 'scope')?.value,
     tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value
   });
-  const isContributorRole =
-    applicationContributionFilterEnabled &&
-    productArea === ProductArea.APPLICATION &&
-    role === AreaRoleWithContributor.CONTRIBUTOR;
+
   const isAppContributionFilterConfigured =
     applicationContributionFilterEnabled &&
     permissionSet?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
@@ -119,7 +119,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     );
     if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
       if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation !== ScopedPermissionItem.NO_ACCESS) {
-        label = initialApplicationConfig.label;
+        label = editMode ? initialApplicationConfig.label : defaultApplicationConfig.label;
         tagFilterExpression = initialApplicationConfig.tagFilterExpression;
         scope = initialApplicationConfig.scope;
       } else {
@@ -173,10 +173,11 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   description={accessAllDescription}
                   productArea={productArea}
                   contributionFilterConfigured={isAppContributionFilterConfigured}
+                  form={form}
+                  setForm={setForm}
+                  setValid={setValid}
+                  editMode={editMode}
                 />
-                {isContributorRole && (
-                  <ContributionFilterWrapper form={form} setForm={setForm} isContributorRole={isContributorRole} />
-                )}
               </>
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
@@ -196,6 +197,8 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}
                 productArea={productArea}
+                setValid={setValid}
+                editMode={editMode}
               />
             )}
           </TabSelectPanel>

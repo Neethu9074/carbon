@@ -10,7 +10,7 @@ window.instana = {
       {
         tenantKey: 'instana',
         role: {
-          canConfigureCustomAlerts: true
+          canConfigureEventsAndAlerts: true
         }
       }
     ]

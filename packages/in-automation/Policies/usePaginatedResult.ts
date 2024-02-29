@@ -10,12 +10,19 @@ import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useS
 import { Nullish, PaginatedResult, Result } from 'in-types';
 import { listSuccess } from 'in-services/util/result';
 
+type SortFunction<T> = (entity: T) => any;
+
 export default function usePaginatedResult<T>(
   result: Result<T[]> | Nullish,
   serverTableUrlState: Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>,
-  searchAttributes: (keyof T | ((entity: T) => string))[]
+  searchAttributes: (keyof T | ((entity: T) => string))[],
+  sort: SortFunction<T> | SortFunction<T>[] | keyof T = entity => {
+    const { orderBy } = serverTableUrlState;
+    const value = entity[orderBy as keyof T];
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  }
 ): Result<PaginatedResult<T>> {
-  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
+  const { page, pageSize, orderDirection, query } = serverTableUrlState;
 
   if (result?.data) {
     let entities = result.data;
@@ -29,12 +36,7 @@ export default function usePaginatedResult<T>(
       }
       return true;
     });
-    const caseInsensitiveSortIteratee = (entity: T) => {
-      const value = entity[orderBy as keyof T];
-      return typeof value === 'string' ? value.trim().toLowerCase() : value;
-    };
-
-    entities = sortBy(entities, caseInsensitiveSortIteratee);
+    entities = sortBy(entities, sort);
     if (orderDirection === 'DESC') {
       entities = entities.reverse();
     }

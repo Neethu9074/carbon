@@ -28,7 +28,11 @@ export interface Role {
   canSeeExtendedInternalMonitoring: boolean;
   // pre-evaluated permissions from backend
   canConfigureServiceLevelIndicators: boolean;
-  canConfigureCustomAlerts: boolean;
+  canConfigureEventsAndAlerts: boolean;
+  canConfigureMaintenanceWindows: boolean;
+  canConfigureApplicationSmartAlerts: boolean;
+  canConfigureWebsiteSmartAlerts: boolean;
+  canConfigureMobileAppSmartAlerts: boolean;
   canConfigureAutomationActions: boolean;
   canRunAutomationActions: boolean;
   canConfigureAutomationPolicies: boolean;
@@ -36,9 +40,13 @@ export interface Role {
   canViewLogs: boolean;
   canConfigureSyntheticLocations: boolean;
   canConfigureSyntheticTests: boolean;
-  canConfigureGlobalAlertConfigs: boolean;
+  canConfigureGlobalApplicationSmartAlerts: boolean;
+  canConfigureGlobalSyntheticSmartAlerts: boolean;
+  canConfigureGlobalInfraSmartAlerts: boolean;
+  canConfigureGlobalLogSmartAlerts: boolean;
   canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
+  canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
   canConfigureIntegrations: boolean;

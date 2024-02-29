@@ -29,6 +29,7 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-w
 //@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
 
 const endpointConfig = { asObservable: true };
@@ -61,6 +62,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
+      canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
     />
   );
 }

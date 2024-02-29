@@ -76,11 +76,11 @@ export function getKubernetesYamlConfig(
   yamlConfig
 ) {
   return yamlConfig
-    .replace('${agentKey}', btoa(agentKey))
-    .replace('${downloadKey}', btoa(downloadKey))
-    .replace('${agentEndpoint}', agentEndpoint)
-    .replace('${agentEndpointPort}', agentEndpointPort)
-    .replace('${clusterName}', clusterName)
-    .replace('${zoneName}', zoneName)
-    .replace('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
+    .replaceAll('${agentKey}', btoa(agentKey))
+    .replaceAll('${downloadKey}', btoa(downloadKey))
+    .replaceAll('${agentEndpoint}', agentEndpoint)
+    .replaceAll('${agentEndpointPort}', agentEndpointPort)
+    .replaceAll('${clusterName}', clusterName)
+    .replaceAll('${zoneName}', zoneName)
+    .replaceAll('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
 }

@@ -7,23 +7,26 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, Stack } from '@instana/components';
+import { Spacer, Stack, Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
   updateCustomEventActionAssociations,
   updateBuiltinEventActionAssociations,
-  ScoredAction
+  ScoredAction,
+  updateApplicationAlertActionAssociations
 } from 'in-automation/api';
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { Action, ApplicationAlertConfigWithMetadata, VolatileId, Event } from 'in-types';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
-import { Action, ApplicationAlertConfigWithMetadata } from 'in-types';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { usePagination } from 'in-automation/Policies/usePagination';
-import { associateActionsTracker } from 'in-automation/tracker';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import IconButton from 'in-components/IconButton/IconButton';
 import { EventSpecification } from 'in-automation/api';
@@ -42,6 +45,9 @@ interface RecommendedActionsCardAlertsProps {
   isCustomEvent: boolean;
   setError: (e: boolean) => void;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
+  isApplicationSmartAlert?: boolean;
+  event: Event;
 }
 
 export default function RecommendationActionsTable({
@@ -51,7 +57,10 @@ export default function RecommendationActionsTable({
   triggerReload,
   setError,
   isCustomEvent,
-  setSelectedType
+  setSelectedType,
+  isApplicationSmartAlert = false,
+  volatileId,
+  event
 }: RecommendedActionsCardAlertsProps) {
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = usePagination('score', 'DESC');
   const { filteredActions, types, setTypes, aiEngines, setAiEngines } = useFilters(
@@ -115,11 +124,32 @@ export default function RecommendationActionsTable({
                         triggerReload,
                         setError,
                         isCustomEvent,
-                        setSelectedType
+                        setSelectedType,
+                        isApplicationSmartAlert
                       });
                     }}
                   />
                 </Tooltip>
+              ) : isExternal(item.type) &&
+                item?.metadata?.ai &&
+                item?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' ? (
+                <Button
+                  kind="action"
+                  icon={'lib_actions_play'}
+                  onClick={() =>
+                    addActiveDialog(
+                      <RunActionDialog
+                        action={item}
+                        volatileId={volatileId}
+                        event={event}
+                        triggerReload={triggerReload}
+                      />
+                    )
+                  }
+                  noAutoMargin
+                >
+                  {t('in-automation:ActionCatalog.run')}
+                </Button>
               ) : (
                 <div />
               )
@@ -138,7 +168,10 @@ const options = [
   { value: 'HTTP', label: t('in-automation:ActionCatalog.http') },
   { value: 'MANUAL', label: t('in-automation:ActionCatalog.manual') },
   { value: 'ANSIBLE', label: t('in-automation:ActionCatalog.ansible') },
-  { value: 'EXTERNAL', label: t('in-automation:actionHistory.external') }
+  { value: 'EXTERNAL', label: t('in-automation:actionHistory.external') },
+  { value: 'GITHUB', label: t('in-automation:ActionCatalog.github') },
+  { value: 'GITLAB', label: t('in-automation:ActionCatalog.gitlab') },
+  { value: 'JIRA', label: t('in-automation:ActionCatalog.jira') }
 ];
 
 function ActionFilters({
@@ -173,7 +206,7 @@ function ActionFilters({
         />
         <ComboBox
           options={actionAIEngines.map(tag => ({ value: tag, label: tag }))}
-          placeholder="Engine"
+          placeholder={t('in-automation:engine')}
           value={aiEngines}
           onChange={newValue => {
             if (!newValue) {
@@ -199,6 +232,7 @@ interface AssociateActionProps {
   setError: (e: boolean) => void;
   isCustomEvent: boolean;
   setSelectedType: (str: string) => void;
+  isApplicationSmartAlert: boolean;
 }
 
 function associateAction({
@@ -208,21 +242,23 @@ function associateAction({
   setError,
   isCustomEvent,
   existingActions,
-  setSelectedType
+  setSelectedType,
+  isApplicationSmartAlert
 }: AssociateActionProps) {
-  associateActionsTracker({
-    eventName: event.name,
-    actionNames: [action.name]
-  });
-
   const onSave = () => {
+    associateActionsTracker({
+      eventName: event.name,
+      actionNames: [action.name]
+    });
     triggerReload();
     setSelectedType('associatedActions');
   };
   const handleErrors = () => setError(true);
   const updatedActions = [...existingActions, action];
 
-  const updateActionAssociations = isCustomEvent
+  const updateActionAssociations = isApplicationSmartAlert
+    ? updateApplicationAlertActionAssociations
+    : isCustomEvent
     ? updateCustomEventActionAssociations
     : updateBuiltinEventActionAssociations;
 
@@ -298,6 +334,14 @@ const scoreColumn = {
   }
 };
 
+const handleTracking = (name: string) => {
+  executeTurboActionTracker({
+    actionName: name,
+    actionType: 'Turbonomic',
+    page: 'Recommended actions'
+  });
+};
+
 const nameColumn = {
   label: t('in-automation:name'),
   id: 'name',
@@ -305,10 +349,11 @@ const nameColumn = {
   ellipsis: true,
   getContent(row: Action) {
     const description = row?.description ?? row.name;
+
     return (
       <Tooltip content={row.name} delay={500}>
         {isExternal(row.type) ? (
-          <Link ellipsis href={row.name} external>
+          <Link ellipsis href={row.name} external onClick={() => handleTracking(row.name)}>
             <span
               className={classNames({
                 [locals.block]: true,
