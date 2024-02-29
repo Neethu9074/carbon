@@ -217,10 +217,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Service: {{label}}",
-        "tooltip": {
-          "applications": "Application SLO",
-          "websites": "Website SLO"
-        }
+        "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
         "placeholder": "Entity Type"

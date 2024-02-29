@@ -24,7 +24,7 @@ type EntityDisplayData = {
 };
 
 export default function SloEntityInfo({ entity, entityType, service }: Props) {
-  const { iconType, toolTipText } = getEntityDisplayData(entityType);
+  const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
   const showServiceInfo = entityType === 'application' && service?.label;
 
   return (
@@ -44,18 +44,11 @@ export default function SloEntityInfo({ entity, entityType, service }: Props) {
   );
 }
 
-function getEntityDisplayData(entityType: SloEntityType): EntityDisplayData {
-  switch (entityType) {
-    case 'application':
-      return {
-        iconType: 'lib_application',
-        toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip.applications')
-      };
-
-    case 'website':
-      return {
-        iconType: 'lib_website',
-        toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip.websites')
-      };
-  }
+function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity): EntityDisplayData {
+  return {
+    iconType: entity.deleted ? 'lib_infra_unknownIcon' : `lib_${entityType}`,
+    toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip', {
+      context: entityType
+    })
+  };
 }
