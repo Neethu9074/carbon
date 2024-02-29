@@ -55,6 +55,10 @@ export default connectTo(
           {data.get('transport')}
         </DescriptionItem>
 
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.http')}>
+          {data.get('http.address')}
+        </DescriptionItem>
+
         <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.logDirectory')}>
           {data.get('log.dir')}
         </DescriptionItem>

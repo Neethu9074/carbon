@@ -7040,6 +7040,7 @@
       "master": "Master",
       "masterEligible": "Master Eligible",
       "transport": "Transport",
+      "http": "HTTP",
       "logDirectory": "Log Directory",
       "indices": "Indices",
       "activeShards": "Active Shards",
