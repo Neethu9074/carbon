@@ -13,10 +13,8 @@ const mockSpanExcerpt: Omit<SpanExcerpt, 'data'> = {
   duration: 500,
   errorCount: 0,
   foreignParentId: '123',
-  id: 'span123',
   kind: 'UNKNOWN',
   name: 'testSpan',
-  parentId: '321',
   stackTrace: [{ file: 'testFile.ts', line: '10', method: 'testFunction' }],
   start: 1000
 };
