@@ -59,6 +59,7 @@ module.exports = {
   syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesTeamEnabled: true,
+  kubernetesPrometheusMetricsEnabled: true,
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   apdexWidgetEnabled: true,

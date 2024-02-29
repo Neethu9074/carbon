@@ -166,6 +166,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesPrometheusMetricsEnabled',
+    instanaCtlKey: 'feature.kubernetes.prometheus.metrics.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true

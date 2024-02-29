@@ -64,6 +64,7 @@ export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpo
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
+export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);

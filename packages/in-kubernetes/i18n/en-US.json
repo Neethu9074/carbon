@@ -45,6 +45,8 @@
     "pods": "Pods",
     "persistentVolumes": "Persistent Volumes",
     "persistentVolumeClaims": "Persistent Volume Claims",
+    "prometheusMetrics": "Prometheus Metrics",
+    "prometheusEndpoints": "Prometheus Endpoints",
     "infrastructure": "Infrastructure",
     "name": "Name",
     "cpuUsage": "CPU Usage",
