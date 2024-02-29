@@ -401,8 +401,8 @@ function onSave({
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isGithub(action.type)) {
-    const { owner, repo, ticketType } = getGithubFields(action);
-    if (ticketType.value === OPEN) {
+    const { owner, repo, ticketActionType } = getGithubFields(action);
+    if (ticketActionType.value === OPEN) {
       const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
       runGithubOpenAction({
         volatileId: selectedVolatileId,
@@ -412,7 +412,7 @@ function onSave({
         actionId,
         owner,
         repo,
-        ticketType,
+        ticketActionType,
         title,
         body,
         labels,
@@ -422,7 +422,7 @@ function onSave({
       }).once(handleActionResponse);
     }
 
-    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
       const { comment } = getCloseAndCommentFields(action);
       runGithubCloseAction({
         volatileId: selectedVolatileId,
@@ -432,16 +432,16 @@ function onSave({
         actionId,
         owner,
         repo,
-        ticketType,
+        ticketActionType,
         comment,
         inputParameters: allInputParameters,
         policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isGitlab(action.type)) {
-    const { projectId, ticketType } = getGitlabFields(action);
-    if (ticketType.value === OPEN) {
-      const { title, gitlab_description, labels, issue_type } = getGitlabOpenTicketFields(action);
+    const { projectId, ticketActionType } = getGitlabFields(action);
+    if (ticketActionType.value === OPEN) {
+      const { title, body, labels, issue_type } = getGitlabOpenTicketFields(action);
       runGitlabOpenAction({
         volatileId: selectedVolatileId,
         event,
@@ -449,9 +449,9 @@ function onSave({
         timeout,
         actionId,
         projectId,
-        ticketType,
+        ticketActionType,
         title,
-        body: gitlab_description,
+        body: body,
         labels,
         issue_type,
         inputParameters: allInputParameters,
@@ -459,7 +459,7 @@ function onSave({
       }).once(handleActionResponse);
     }
 
-    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
       const { comment } = getCloseAndCommentFields(action);
       runGitlabCloseAction({
         volatileId: selectedVolatileId,
@@ -468,16 +468,16 @@ function onSave({
         timeout,
         actionId,
         projectId,
-        ticketType,
+        ticketActionType,
         comment,
         inputParameters: allInputParameters,
         policyId: executePolicyId
       }).once(handleActionResponse);
     }
   } else if (isJira(action.type)) {
-    const { project, ticketType } = getJiraFields(action);
-    if (ticketType.value === OPEN) {
-      const { summary, jira_description, assignee, labels, issue_type } = getJiraOpenTicketFields(action);
+    const { project, ticketActionType } = getJiraFields(action);
+    if (ticketActionType.value === OPEN) {
+      const { summary, body, assignee, labels, issue_type } = getJiraOpenTicketFields(action);
       runJiraOpenAction({
         volatileId: selectedVolatileId,
         event,
@@ -485,9 +485,9 @@ function onSave({
         timeout,
         actionId,
         project,
-        ticketType,
+        ticketActionType,
         summary,
-        body: jira_description,
+        body: body,
         assignee,
         labels,
         issue_type,
@@ -496,7 +496,7 @@ function onSave({
       }).once(handleActionResponse);
     }
 
-    if (ticketType.value === CLOSE || ticketType.value === ADD_COMMENT) {
+    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
       const { comment } = getCloseAndCommentFields(action);
       runJiraCloseAction({
         volatileId: selectedVolatileId,
@@ -505,7 +505,7 @@ function onSave({
         timeout,
         actionId,
         project,
-        ticketType,
+        ticketActionType,
         comment,
         inputParameters: allInputParameters,
         policyId: executePolicyId

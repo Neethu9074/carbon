@@ -89,7 +89,7 @@ export const getGithubOwnerFromFields = (fields: Field[] | undefined): Field =>
 export const getGithubRepoFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.repo ?? { value: '', encoding: 'ascii', name: 'repo' };
 export const getGithubTicketTypeFromFields = (fields: Field[] | undefined): Field =>
-  getFieldsByNames(fields)?.ticketType ?? { value: `${OPEN}`, encoding: 'ascii', name: 'ticketType' };
+  getFieldsByNames(fields)?.ticketActionType ?? { value: `${OPEN}`, encoding: 'ascii', name: 'ticketActionType' };
 
 export const getGithubTitleFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.title ?? { value: '', encoding: 'ascii', name: 'title' };
@@ -106,7 +106,7 @@ export const getGithubCommentFromFields = (fields: Field[] | undefined): Field =
 export const getGitlabProjectIdFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.projectId ?? { value: '', encoding: 'ascii', name: 'projectId' };
 export const getGitlabDescriptionFromFields = (fields: Field[] | undefined): Field =>
-  getFieldsByNames(fields)?.gitlab_description ?? { value: '', encoding: 'ascii', name: 'gitlab_description' };
+  getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
 export const getGitlabIssueTypeFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.issue_type ?? { value: `${ISSUE}`, encoding: 'ascii', name: 'issue_type' };
 
@@ -115,7 +115,7 @@ export const getJiraProjectFromFields = (fields: Field[] | undefined): Field =>
 export const getJiraSummaryFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.summary ?? { value: '', encoding: 'ascii', name: 'summary' };
 export const getJiraDescriptionFromFields = (fields: Field[] | undefined): Field =>
-  getFieldsByNames(fields)?.jira_description ?? { value: '', encoding: 'ascii', name: 'jira_description' };
+  getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
 export const getJiraAssigneeFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.assignee ?? { value: '', encoding: 'ascii', name: 'assignee' };
 export const getJiraIssueTypeFromFields = (fields: Field[] | undefined): Field =>
@@ -188,7 +188,7 @@ interface GithubOpenFields {
 interface GithubFields {
   owner: Field;
   repo: Field;
-  ticketType: Field;
+  ticketActionType: Field;
 }
 
 interface GithubCloseFields {
@@ -198,9 +198,9 @@ interface GithubCloseFields {
 export function getGithubFields(action: Action | NewAction): GithubFields {
   const owner = getGithubOwnerFromFields(action.fields);
   const repo = getGithubRepoFromFields(action.fields);
-  const ticketType = getGithubTicketTypeFromFields(action.fields);
+  const ticketActionType = getGithubTicketTypeFromFields(action.fields);
 
-  return { owner, repo, ticketType };
+  return { owner, repo, ticketActionType };
 }
 export function getGithubOpenTicketFields(action: Action | NewAction): GithubOpenFields {
   const title = getGithubTitleFromFields(action.fields);
@@ -217,33 +217,33 @@ export function getCloseAndCommentFields(action: Action | NewAction): GithubClos
 
 interface GitlabFields {
   projectId: Field;
-  ticketType: Field;
+  ticketActionType: Field;
 }
 
 export function getGitlabFields(action: Action | NewAction): GitlabFields {
   const projectId = getGitlabProjectIdFromFields(action.fields);
-  const ticketType = getGithubTicketTypeFromFields(action.fields);
+  const ticketActionType = getGithubTicketTypeFromFields(action.fields);
 
-  return { projectId, ticketType };
+  return { projectId, ticketActionType };
 }
 interface GitlabOpenFields {
   title: Field;
-  gitlab_description: Field;
+  body: Field;
   labels: Field;
   issue_type: Field;
 }
 
 export function getGitlabOpenTicketFields(action: Action | NewAction): GitlabOpenFields {
   const title = getGithubTitleFromFields(action.fields);
-  const gitlab_description = getGitlabDescriptionFromFields(action.fields);
+  const body = getGitlabDescriptionFromFields(action.fields);
   const labels = getGithubLabelsFromFields(action.fields);
   const issue_type = getGitlabIssueTypeFromFields(action.fields);
-  return { title, gitlab_description, labels, issue_type };
+  return { title, body, labels, issue_type };
 }
 
 interface JiraOpenFields {
   summary: Field;
-  jira_description: Field;
+  body: Field;
   labels: Field;
   assignee: Field;
   issue_type: Field;
@@ -251,23 +251,23 @@ interface JiraOpenFields {
 
 interface JiraFields {
   project: Field;
-  ticketType: Field;
+  ticketActionType: Field;
 }
 
 export function getJiraFields(action: Action | NewAction): JiraFields {
   const project = getJiraProjectFromFields(action.fields);
-  const ticketType = getGithubTicketTypeFromFields(action.fields);
+  const ticketActionType = getGithubTicketTypeFromFields(action.fields);
 
-  return { project, ticketType };
+  return { project, ticketActionType };
 }
 
 export function getJiraOpenTicketFields(action: Action | NewAction): JiraOpenFields {
   const summary = getJiraSummaryFromFields(action.fields);
-  const jira_description = getJiraDescriptionFromFields(action.fields);
+  const body = getJiraDescriptionFromFields(action.fields);
   const labels = getGithubLabelsFromFields(action.fields);
   const assignee = getJiraAssigneeFromFields(action.fields);
   const issue_type = getJiraIssueTypeFromFields(action.fields);
-  return { summary, jira_description, labels, assignee, issue_type };
+  return { summary, body, labels, assignee, issue_type };
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;

@@ -359,8 +359,8 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
 }
 
 function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const { owner, repo, ticketType } = getGithubFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  const { owner, repo, ticketActionType } = getGithubFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -384,8 +384,8 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
 }
 
 function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const { projectId, ticketType } = getGitlabFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketType.value)?.translation;
+  const { projectId, ticketActionType } = getGitlabFields(action);
+  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -408,8 +408,8 @@ function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
 }
 
 function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const { project, ticketType } = getJiraFields(action);
-  const ticketTypeTranslated = JIRA_OPERATIONS.find(a => a.value === ticketType.value)?.translation;
+  const { project, ticketActionType } = getJiraFields(action);
+  const ticketTypeTranslated = JIRA_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem

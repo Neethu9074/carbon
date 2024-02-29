@@ -72,7 +72,7 @@
   "issue": "Issue",
   "incident": "Incident",
   "testcase": "Testcase",
-  "assignee": "Assignee",
+  "assignee": "Assignee (optional)",
   "projectInfo": "Project: {{project}}",
   "ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted": "If you followed a link to get here, it has most likely been deleted.",
   "name": "Name",
@@ -256,7 +256,7 @@
     "hostsLimit": "Hosts Limit",
     "initiator": "Initiator",
     "submitted": "Submitted",
-    "timeout":"Timeout",
+    "timeout": "Timeout",
     "issueUrl": "Issue url",
     "taskUrl": "Task url"
   },

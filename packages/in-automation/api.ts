@@ -325,9 +325,9 @@ export const createWebhookFields = ({
   { ...createTimeoutField(timeout) }
 ];
 
-export const createGithubFields = ({ owner, repo, ticketType }: GithubFields): Field[] => {
-  // Extract ticketType properties.
-  const { type, ...githubSpecificFields } = ticketType as TicketTypes;
+export const createGithubFields = ({ owner, repo, ticketActionType }: GithubFields): Field[] => {
+  // Extract ticketActionType properties.
+  const { type, ...githubSpecificFields } = ticketActionType as TicketTypes;
 
   // Combine the fields.
   const mainFields: Field[] = [
@@ -347,7 +347,7 @@ export const createGithubFields = ({ owner, repo, ticketType }: GithubFields): F
       value: type,
       description: 'github issue type',
       encoding: 'ascii',
-      name: 'ticketType'
+      name: 'ticketActionType'
     }
   ];
 
@@ -400,19 +400,19 @@ export const createGithubCloseAndCommentFields = ({ comment }: GithubCloseAndCom
 
 interface GitlabFields {
   projectId: string;
-  ticketType: TicketTypes | null;
+  ticketActionType: TicketTypes | null;
 }
 
 interface GitlabOpenFields {
   title: string;
-  gitlab_description: string;
+  body: string;
   labels: string;
   issue_type: string;
 }
 
-export const createGitlabFields = ({ projectId, ticketType }: GitlabFields): Field[] => {
-  // Extract ticketType properties.
-  const { type, ...githubSpecificFields } = ticketType as TicketTypes;
+export const createGitlabFields = ({ projectId, ticketActionType }: GitlabFields): Field[] => {
+  // Extract ticketActionType properties.
+  const { type, ...githubSpecificFields } = ticketActionType as TicketTypes;
 
   // Combine the fields.
   const mainFields: Field[] = [
@@ -426,7 +426,7 @@ export const createGitlabFields = ({ projectId, ticketType }: GitlabFields): Fie
       value: type,
       description: 'gitlab ticket type',
       encoding: 'ascii',
-      name: 'ticketType'
+      name: 'ticketActionType'
     }
   ];
 
@@ -441,12 +441,7 @@ export const createGitlabFields = ({ projectId, ticketType }: GitlabFields): Fie
   return mainFields;
 };
 
-export const createGitlabOpenFields = ({
-  title,
-  gitlab_description,
-  labels,
-  issue_type
-}: GitlabOpenFields): Field[] => [
+export const createGitlabOpenFields = ({ title, body, labels, issue_type }: GitlabOpenFields): Field[] => [
   {
     value: title,
     description: 'gitlab issue title',
@@ -454,10 +449,10 @@ export const createGitlabOpenFields = ({
     name: 'title'
   },
   {
-    value: gitlab_description,
+    value: body,
     description: 'gitlab issue description',
     encoding: 'ascii',
-    name: 'gitlab_description'
+    name: 'body'
   },
   {
     value: labels,
@@ -475,20 +470,20 @@ export const createGitlabOpenFields = ({
 
 interface JiraFields {
   project: string;
-  ticketType: TicketTypes | null;
+  ticketActionType: TicketTypes | null;
 }
 
 interface JiraOpenFields {
   summary: string;
   assignee: string;
-  jira_description: string;
+  body: string;
   labels: string;
   issue_type: string;
 }
 
-export const createJiraFields = ({ project, ticketType }: JiraFields): Field[] => {
-  // Extract ticketType properties.
-  const { type, ...githubSpecificFields } = ticketType as TicketTypes;
+export const createJiraFields = ({ project, ticketActionType }: JiraFields): Field[] => {
+  // Extract ticketActionType properties.
+  const { type, ...githubSpecificFields } = ticketActionType as TicketTypes;
 
   // Combine the fields.
   const mainFields: Field[] = [
@@ -502,7 +497,7 @@ export const createJiraFields = ({ project, ticketType }: JiraFields): Field[] =
       value: type,
       description: 'jira ticket type',
       encoding: 'ascii',
-      name: 'ticketType'
+      name: 'ticketActionType'
     }
   ];
 
@@ -517,13 +512,7 @@ export const createJiraFields = ({ project, ticketType }: JiraFields): Field[] =
   return mainFields;
 };
 
-export const createJiraOpenFields = ({
-  summary,
-  jira_description,
-  assignee,
-  labels,
-  issue_type
-}: JiraOpenFields): Field[] => [
+export const createJiraOpenFields = ({ summary, body, assignee, labels, issue_type }: JiraOpenFields): Field[] => [
   {
     value: summary,
     description: 'jira issue summary',
@@ -531,10 +520,10 @@ export const createJiraOpenFields = ({
     name: 'summary'
   },
   {
-    value: jira_description,
+    value: body,
     description: 'jira issue description',
     encoding: 'ascii',
-    name: 'jira_description'
+    name: 'body'
   },
   {
     value: assignee,
@@ -559,7 +548,7 @@ export const createJiraOpenFields = ({
 interface GithubFields {
   owner: string;
   repo: string;
-  ticketType: TicketTypes | null;
+  ticketActionType: TicketTypes | null;
 }
 
 interface GithubOpenFields {
@@ -583,7 +572,7 @@ export interface OpenProps {
 export interface OpenGLProps {
   type: 'open';
   title: string;
-  gitlab_description: string;
+  body: string;
   labels: string;
   issue_type: string;
 }
@@ -591,7 +580,7 @@ export interface OpenGLProps {
 export interface OpenJiraProps {
   type: 'open';
   summary: string;
-  jira_description: string;
+  body: string;
   assignee: string;
   labels: string;
   issue_type: string;
@@ -807,7 +796,7 @@ interface RunWebhookActionParams extends RunActionBaseParams {
 interface RunGithubOpenActionParams extends RunActionBaseParams {
   owner: Field;
   repo: Field;
-  ticketType: Field;
+  ticketActionType: Field;
   title: Field;
   body: Field;
   labels: Field;
@@ -823,7 +812,7 @@ export function runGithubOpenAction({
   timeout,
   owner,
   repo,
-  ticketType,
+  ticketActionType,
   title,
   body,
   labels,
@@ -853,8 +842,8 @@ export function runGithubOpenAction({
 
       {
         name: 'ticketActionType',
-        value: ticketType.value,
-        encoding: ticketType.encoding
+        value: ticketActionType.value,
+        encoding: ticketActionType.encoding
       },
       {
         name: 'title',
@@ -883,7 +872,7 @@ export function runGithubOpenAction({
 interface RunGithubCloseActionParams extends RunActionBaseParams {
   owner: Field;
   repo: Field;
-  ticketType: Field;
+  ticketActionType: Field;
   comment: Field;
 }
 
@@ -897,7 +886,7 @@ export function runGithubCloseAction({
   policyId,
   owner,
   repo,
-  ticketType,
+  ticketActionType,
   comment
 }: RunGithubCloseActionParams) {
   return runAction({
@@ -923,8 +912,8 @@ export function runGithubCloseAction({
       },
       {
         name: 'ticketActionType',
-        value: ticketType.value,
-        encoding: ticketType.encoding
+        value: ticketActionType.value,
+        encoding: ticketActionType.encoding
       },
       {
         name: 'comment',
@@ -936,7 +925,7 @@ export function runGithubCloseAction({
 }
 
 interface RunGitlabOpenActionParams extends RunActionBaseParams {
-  ticketType: Field;
+  ticketActionType: Field;
   projectId: Field;
   title: Field;
   body: Field;
@@ -953,7 +942,7 @@ export function runGitlabOpenAction({
   policyId,
   timeout,
   projectId,
-  ticketType,
+  ticketActionType,
   title,
   body,
   labels,
@@ -977,8 +966,8 @@ export function runGitlabOpenAction({
 
       {
         name: 'ticketActionType',
-        value: ticketType.value,
-        encoding: ticketType.encoding
+        value: ticketActionType.value,
+        encoding: ticketActionType.encoding
       },
       {
         name: 'title',
@@ -1006,7 +995,7 @@ export function runGitlabOpenAction({
 
 interface RunGitlabCloseActionParams extends RunActionBaseParams {
   projectId: Field;
-  ticketType: Field;
+  ticketActionType: Field;
   comment: Field;
 }
 
@@ -1019,7 +1008,7 @@ export function runGitlabCloseAction({
   timeout,
   policyId,
   projectId,
-  ticketType,
+  ticketActionType,
   comment
 }: RunGitlabCloseActionParams) {
   return runAction({
@@ -1039,8 +1028,8 @@ export function runGitlabCloseAction({
       },
       {
         name: 'ticketActionType',
-        value: ticketType.value,
-        encoding: ticketType.encoding
+        value: ticketActionType.value,
+        encoding: ticketActionType.encoding
       },
       {
         name: 'comment',
@@ -1052,7 +1041,7 @@ export function runGitlabCloseAction({
 }
 
 interface RunJiraOpenActionParams extends RunActionBaseParams {
-  ticketType: Field;
+  ticketActionType: Field;
   project: Field;
   summary: Field;
   assignee: Field;
@@ -1070,7 +1059,7 @@ export function runJiraOpenAction({
   timeout,
   policyId,
   project,
-  ticketType,
+  ticketActionType,
   summary,
   assignee,
   body,
@@ -1095,8 +1084,8 @@ export function runJiraOpenAction({
 
       {
         name: 'ticketActionType',
-        value: ticketType.value,
-        encoding: ticketType.encoding
+        value: ticketActionType.value,
+        encoding: ticketActionType.encoding
       },
       {
         name: 'summary',
@@ -1129,7 +1118,7 @@ export function runJiraOpenAction({
 
 interface RunJiraCloseActionParams extends RunActionBaseParams {
   project: Field;
-  ticketType: Field;
+  ticketActionType: Field;
   comment: Field;
 }
 
@@ -1142,7 +1131,7 @@ export function runJiraCloseAction({
   timeout,
   policyId,
   project,
-  ticketType,
+  ticketActionType,
   comment
 }: RunJiraCloseActionParams) {
   return runAction({
@@ -1162,8 +1151,8 @@ export function runJiraCloseAction({
       },
       {
         name: 'ticketActionType',
-        value: ticketType.value,
-        encoding: ticketType.encoding
+        value: ticketActionType.value,
+        encoding: ticketActionType.encoding
       },
       {
         name: 'comment',
