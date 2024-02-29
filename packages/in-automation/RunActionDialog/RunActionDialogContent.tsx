@@ -52,10 +52,10 @@ import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { ResolvedDynamicParamValue } from 'in-automation/api';
 import IconButton from 'in-components/IconButton/IconButton';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -116,8 +116,15 @@ export default function RunActionDialogContent({
 
   const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
-  if (error) return <Typography variant="body-small">{error}</Typography>;
   if (!form) return <LoadingIndicator size="xxl" />;
+  if (error && !actionInstanceId) {
+    return (
+      <>
+        <Typography variant="body-small">{error}</Typography>
+        <Spacer horizontal="xsmall" />
+      </>
+    );
+  }
   if (actionInstanceId) {
     return (
       <Typography variant="body-small">
