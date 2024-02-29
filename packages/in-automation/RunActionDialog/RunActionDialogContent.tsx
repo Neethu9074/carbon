@@ -118,7 +118,6 @@ export default function RunActionDialogContent({
   const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
 
   if (!form) return <LoadingIndicator size="xxl" />;
-
   if (error && !actionInstanceId) {
     return (
       <>
