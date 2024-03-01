@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { LogItem, LogTag } from '@instana/types';
@@ -55,7 +55,7 @@ export const getCardTitle = (logs: LogSpanExcerpt[] | LogItem[]) => {
     });
   } else {
     logs.forEach(log => {
-      const level = log.data.log?.level.toLowerCase() || (log.errorCount > 0 ? 'error' : 'warn');
+      const level = log.data.log?.level?.toLowerCase() ?? (log.errorCount > 0 ? 'error' : 'warn');
       logLevelCounts[level as 'warn' | 'error']++;
     });
   }
