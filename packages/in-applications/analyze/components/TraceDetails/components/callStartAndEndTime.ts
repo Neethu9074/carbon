@@ -6,7 +6,6 @@
 import { LogItem, TraceActivityTreeNode } from '@instana/types';
 
 import { CallNode, isLazyNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
-import { getCallIdFromTags, getSpanIdFromTags } from 'in-components/Logging/TraceDetails/utils';
 
 export function getStart(call: CallNode | TraceActivityTreeNode, logs?: LogItem[]) {
   let earliestStart = isLazyNode(call) ? Number.MAX_VALUE : call.start;
@@ -20,7 +19,7 @@ export function getStart(call: CallNode | TraceActivityTreeNode, logs?: LogItem[
     }
   }
   if (logs) {
-    const callLogTimestamps = getLogsTimestampsForCall(call, logs);
+    const callLogTimestamps = logs.map(log => log.timestamp);
     earliestStart = Math.min(earliestStart, Math.min(...callLogTimestamps));
   }
   return earliestStart;
@@ -38,13 +37,8 @@ export function getEnd(call: CallNode | TraceActivityTreeNode, logs?: LogItem[])
     }
   }
   if (logs) {
-    const callLogTimestamps = getLogsTimestampsForCall(call, logs);
+    const callLogTimestamps = logs.map(log => log.timestamp);
     latestEnd = Math.max(latestEnd, Math.max(...callLogTimestamps));
   }
   return latestEnd;
 }
-
-const getLogsTimestampsForCall = (call: CallNode | TraceActivityTreeNode, logs: LogItem[]) =>
-  logs.flatMap(({ timestamp, tags }) =>
-    getSpanIdFromTags(tags) === call.id || getCallIdFromTags(tags) === call.id ? [timestamp] : []
-  );
