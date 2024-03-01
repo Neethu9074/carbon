@@ -15,6 +15,7 @@ import { t } from 'in-i18n';
 export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePrefix }) {
   const snapshotId = snapshot.get('id');
   const metricIdsResult = useMetricIds({ snapshotId, timeConfig });
+
   if (metricIdsResult.progress?.loading) {
     return <LoadingIndicator />;
   }

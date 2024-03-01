@@ -12,6 +12,7 @@ import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetail
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
 import { isLazyNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import Row from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row';
+import { getCallIdFromTags, getSpanIdFromTags } from 'in-components/Logging/TraceDetails/utils';
 import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { isLoading } from 'in-services/util/result';
@@ -90,8 +91,10 @@ function LoadedCallTree({
     openedCallId
   );
 
-  const start = getStart(rootNode, loggingLogItems);
-  const end = getEnd(rootNode, loggingLogItems);
+  const logsInVisibleCalls = getLogsInVisibleCalls(rootNode, loggingLogItems);
+
+  const start = getStart(rootNode, logsInVisibleCalls);
+  const end = getEnd(rootNode, logsInVisibleCalls);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(100);
@@ -124,4 +127,25 @@ function LoadedCallTree({
       />
     </div>
   );
+}
+
+export function getLogsInVisibleCalls(call, logs) {
+  if (!call || !logs || !Array.isArray(logs)) return [];
+
+  let ids = [];
+  function getCallIds(call) {
+    if (call.id) {
+      ids.push(call.id);
+    }
+
+    if (call.children && call.children.length > 0) {
+      call.children.forEach(child => {
+        getCallIds(child);
+      });
+    }
+  }
+
+  getCallIds(call);
+
+  return logs.filter(log => ids.includes(getSpanIdFromTags(log.tags) || getCallIdFromTags(log.tags)));
 }

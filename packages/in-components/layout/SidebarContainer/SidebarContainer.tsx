@@ -11,7 +11,7 @@ import locals from 'in-components/layout/SidebarContainer/SidebarContainer.mless
 
 export interface SidebarContainerProps {
   sidebar: React.ReactChild;
-  children: React.ReactChildren;
+  children: React.ReactChildren | React.ReactNode;
   sidebarWidth?: number;
 }
 
