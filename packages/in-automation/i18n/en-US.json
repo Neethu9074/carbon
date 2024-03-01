@@ -72,7 +72,6 @@
   "commentTask": "Add comment",
   "issue": "Issue",
   "incident": "Incident",
-  "testcase": "Testcase",
   "assignee": "Assignee (optional)",
   "projectInfo": "Project: {{project}}",
   "ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted": "If you followed a link to get here, it has most likely been deleted.",
