@@ -73,7 +73,7 @@ const deviceMetricsCol2 = {
   }
 };
 const deviceMetricsCol3 = {
-  title: t('in-forge:plugins.drbdResource.dashboard.resourcePromotionscore'),
+  title: t('in-forge:plugins.drbdResource.resourcePromotionscore'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {

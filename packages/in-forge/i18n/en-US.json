@@ -6889,38 +6889,14 @@
       "missingDominoStatsFile": "Metrics file could not be found on the host"
     },
     "drbdReactor": {
-      "dashboard": {
-        "resourcesNumber": "Number of Resources",
-        "resourceSuspendedCount": "Messages Count"
-      },
-      "drbd": "DRBD",
       "drbdReactor": "DRBD Reactor",
-      "drbdName": "DRBD Name",
       "resourcesNumber": "Number of Resources",
       "resourceSuspendedCount": "Number of Suspended Resources",
       "kmodVersion": "Kmod Version",
       "UtilsVersion": "Utils Version",
-      "remoteMonitoring": "remote Monitoring",
-      "drbdHost": "DRBD Host",
-      "resourceName": "DRBD Resource Name",
-      "resourceRole": "Resource Role",
-      "resourceSuspended": "Resource Suspended",
-      "resourceMaypromote": "Resource Promoted to Primary",
-      "resourceForceiofailures": "Resource Configured to Force IO Failures",
-      "resourcePromotionscore": "Resource Promotion Score",
-      "resourcesWithCount": "resources ({{len}})"
+      "drbdHost": "DRBD Host"
     },
     "drbdResource": {
-      "dashboard": {
-        "name": "DRBD Resource Name",
-        "resourceName": "DRBD Resource Name",
-        "resourceRole": "Resource Role",
-        "resourceSuspended": "Resource Suspended",
-        "resourceMaypromote": "Resource Promoted to Primary",
-        "resourceForceiofailures": "Resource Configured to Force IO Failures",
-        "resourcePromotionscore": "Resource Promotion Score"
-      },
-      "name": "DRBD Resource Name",
       "drbdResource": "DRBD Resource",
       "resourceName": "DRBD Resource Name",
       "drbdHost": "DRBD Host",
@@ -6930,20 +6906,12 @@
       "resourcePromotionscore": "Resource Promotion Score",
       "resourceRole": "Resource Role",
       "connName": "DRBD Connection Unique Name",
-      "connectionName": "DRBD Connection Name",
-      "peerNodeId": "Peer Node Id",
-      "connectionState": "Connection State",
-      "deviceName": "DRBD Device Name",
-      "volume": "Volume",
-      "minor": "Minor",
       "resourcesWithCount": "Resources ({{len}})",
-      "devicesWithCount": "Devices ({{len}})",
       "connectionsWithCount": "Connections ({{len}})",
       "peersWithCount": "Peers ({{len}})"
     },
     "drbdDevice": {
       "dashboard": {
-        "deviceName": "DRBD Device Name",
         "DeviceIO": "Device IO",
         "BlockIORequest": "Block IO request",
         "NumberOfUpdates": "Number Of Updates",
@@ -6953,13 +6921,10 @@
         "drbdDeviceUpperpending": "Block I/O Requests Number not Answered",
         "drbdDeviceLowerpending": "Open Requests Number Issued",
         "drbdDeviceAlsuspended": "Activity-Log is Suspended",
-        "drbdDeviceAlwritesTotal": "Updates Number Of The Activity-Log",
-        "drbdDeviceQuorum": "Quorum",
-        "drbdDeviceClient": "Client"
+        "drbdDeviceAlwritesTotal": "Updates Number Of The Activity-Log"
       },
       "deviceName": "DRBD Device Name",
       "drbdDevice": "DRBD Device",
-      "drbdDeviceName": "DRBD Device Name",
       "drbdHost": "DRBD Host",
       "resourceName": "DRBD Resource Name",
       "drbdDeviceUnintentionaldiskless": "Device Unintentional Diskless",
@@ -6985,7 +6950,6 @@
       },
       "connectionName": "Connection Name",
       "drbdConnection": "DRBD Connection",
-      "connName": "DRBD Connection Name" ,
       "peerNodeId": "Peer Node Id",
       "resourceName": "DRBD Resource Name",
       "drbdHost": "DRBD Host",
@@ -7005,8 +6969,7 @@
       "volume": "Volume",
       "resourceName": "DRBD Resource Name",
       "drbdHost": "DRBD Host",
-      "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number",
-      "peersWithCount": "Peers ({{len}})"
+      "peerDeviceOutofsyncBytes": "Out of Sync Bytes Number"
     },
     "dropwizardApplicationContainer": {
       "dashboard": {
@@ -11964,7 +11927,7 @@
       "version": "Database Version",
       "port": "Port",
       "childOTelDatabaseWithCount": "Children ({{len}})",
-      "parentOTelDatabase": "Parent", 
+      "parentOTelDatabase": "Parent",
       "dashboard": {
         "instance": "Instance",
         "instanceActive": "Active Instance",
