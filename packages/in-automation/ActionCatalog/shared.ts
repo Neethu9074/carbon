@@ -309,11 +309,9 @@ export const JIRA_OPERATIONS = Object.freeze([
 
 export const ISSUE = 'issue';
 export const INCIDENT = 'incident';
-export const TEST_CASE = 'test_case';
 export const GL_ISSUE_TYPES = Object.freeze([
   { value: ISSUE, translation: t('in-automation:issue') },
-  { value: INCIDENT, translation: t('in-automation:incident') },
-  { value: TEST_CASE, translation: t('in-automation:testcase') }
+  { value: INCIDENT, translation: t('in-automation:incident') }
 ]);
 
 export const EPIC = 'Epic';
