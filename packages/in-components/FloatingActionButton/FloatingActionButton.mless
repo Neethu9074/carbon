@@ -23,6 +23,12 @@
       background-color: #148cc8;
     }
   }
+  :global(.g10) .primaryv2 {
+    background-color: var(--cds-button-secondary);
+    &:hover {
+      background-color: var(--cds-button-secondary-hover);
+    }
+  }
 
   .action {
     background-color: var(--ids-color-option-neutral-800);
