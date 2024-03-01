@@ -9,8 +9,9 @@ import React, { Fragment } from 'react';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/drbdConnection/Info';
 import { t } from 'in-i18n';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
-export default function DrbdConnectionSidebar({ snapshot }) {
+export default function DrbdConnectionSidebar({ snapshot }: { snapshot: SnapshotData }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
