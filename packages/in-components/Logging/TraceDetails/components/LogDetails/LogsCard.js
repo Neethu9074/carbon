@@ -7,6 +7,7 @@
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   getCallIdTagFilter,
@@ -26,10 +27,10 @@ import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsIn
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { loggingEnabled } from 'in-services/featureFlags';
-import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import { t } from 'in-i18n';
@@ -38,7 +39,7 @@ const LogsCard = ({ call, processSnapshotId }) => {
   const { logs } = call;
   const { selectedLog, timeConfigForLogs, setSelectedLog } = useLogsInCallsContext();
   const logsResult = useObservable(getData({ callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
-  const hasLoggingLogs = logsResult.data?.items?.length > 0;
+  const hasLoggingLogs = logsResult?.data?.items?.length > 0;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setSelectedLog(null), []);
@@ -75,6 +76,14 @@ const LogsCard = ({ call, processSnapshotId }) => {
 };
 
 function getData({ callId, timeConfig }) {
+  if (!loggingEnabled) {
+    return just({
+      errors: [],
+      progress: finishedProgress,
+      data: []
+    });
+  }
+
   return getLogs({
     timeConfig,
     retrievalSize: maxRetrievalSize,
