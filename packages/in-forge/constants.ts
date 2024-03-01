@@ -465,6 +465,11 @@ export const fullyQualifiedPlugins = {
   defaultEntity20: 'defaultEntity20',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
   domino: 'com.instana.forge.infrastructure.custom.domino.Domino',
+  drbdReactor: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.drbd.DrbdReactor',
+  drbdResource: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.resource.DrbdResource',
+  drbdDevice: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.device.DrbdDevice',
+  drbdConnection: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.connection.DrbdConnection',
+  drbdPeer: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.peer.DrbdPeer',
   dropwizardApplicationContainer:
     'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
