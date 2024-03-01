@@ -33,7 +33,7 @@ export default function SloScopeApplicationSection() {
   const isFormInEditMode = mode === 'EDIT';
 
   return (
-    <SloDialogSection title={t('in-service-levels:createSloDialog.selectScopeTitle')}>
+    <SloDialogSection title={t('in-service-levels:createSloDialog.selectScopeNavItem')}>
       <Stack gap="small">
         <Sections>
           <Section title={t('in-service-levels:general.boundary')} titleWidth={titleWidth}>
