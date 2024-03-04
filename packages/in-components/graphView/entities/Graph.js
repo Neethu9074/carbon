@@ -3,12 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import { isEqual } from 'lodash';
+
 /* eslint-disable no-console */
 import { markAsFinished } from 'in-components/graphView/graphViewStore';
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import Springy from 'in-components/graphView/layout/springy3d';
 import Edge from 'in-components/graphView/entities/Edge';
 import Node from 'in-components/graphView/entities/Node';
-import { timeConfig$ } from 'in-stores/time/config';
+import { getTimeConfig } from 'in-stores/time/config';
 import getGraph from 'in-subscription/graph';
 
 export default class Graph {
@@ -22,10 +25,10 @@ export default class Graph {
     // maps edge id => edge instance
     this.edges = {};
 
-    this.graphSubscription = timeConfig$
-      .flatMap(timeConfig => {
-        return getGraph(timeConfig).throttle(60000);
-      })
+    this.graphSubscription = navigationParameters$
+      .map(location => ({ timeConfig: getTimeConfig(location), snapshotId: location.query.snapshotId }))
+      .distinct((prev, next) => !isEqual(prev, next))
+      .flatMap(params => getGraph(params).throttle(60000))
       .once(this.processEdgeModifications.bind(this));
   }
 
@@ -34,7 +37,7 @@ export default class Graph {
     // used to remove unused nodes from the graph
     const modifiedNodes = {};
 
-    edges.forEach(edgeModification => {
+    edges.slice(0, 5000).forEach(edgeModification => {
       const edgeId = edgeModification.id;
       const fromNode = this.getOrCreateNode(edgeModification.from, idsToPlugins[edgeModification.from]);
       modifiedNodes[fromNode.snapshotId] = fromNode;
