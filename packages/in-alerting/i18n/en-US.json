@@ -1290,6 +1290,7 @@
         "alertConfiguration": "Alert Configuration",
         "metricName": "Log Count",
         "alertConfigurationTitleScope": "Scope",
+        "noScopeSelected": "No scope filters or groups configured.",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleAlertProperties": "Alert Properties",

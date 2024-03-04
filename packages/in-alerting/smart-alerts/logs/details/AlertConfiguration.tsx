@@ -7,6 +7,7 @@
 import React, { useState, useMemo } from 'react';
 
 import { create } from '@instana/observables';
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
 
@@ -125,6 +126,10 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
             />
 
             <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupBy ?? []} />
+
+            {!tagFilterFormModel?.length && !groupBy?.length && (
+              <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
+            )}
           </Stack>
         </div>
       </ExpandableLightCard>
