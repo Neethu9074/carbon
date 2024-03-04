@@ -3,19 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
 // features available on customer units
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
-import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 import SyntheticsHealthProcessor from 'in-internal/monitoringUnit/synthetics/SyntheticsHealthProcessor';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
 import AppDataHealthAggregator from 'in-internal/monitoringUnit/Appdata/AppDataHealthAggregator';
+import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
@@ -34,11 +34,11 @@ import BatchingInsights from 'in-internal/monitoringUnit/Appdata/BatchingInsight
 import { RenderWithRouteProps } from 'in-components/routing/createAsyncComponent';
 import ProfilesCassandra from 'in-internal/monitoringUnit/sre/ProfilesCassandra';
 import InternalEvents from 'in-internal/thisUnit/InternalEvents/InternalEvents';
+import OTLPAcceptor from 'in-internal/monitoringUnit/otlpAcceptor/OtlpAcceptor';
 import MetricsCassandra from 'in-internal/monitoringUnit/sre/MetricsCassandra';
 import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
-import LogHousekeeping from 'in-internal/monitoringUnit/log/LogHousekeeping';
 import EumComponentMetrics from 'in-internal/thisUnit/EumComponentMetrics';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
@@ -47,7 +47,6 @@ import ClickhouseLogs from 'in-internal/monitoringUnit/sre/ClickhouseLogs';
 import { WsApiTester } from 'in-internal/thisUnit/WsApiTester/WsApiTester';
 import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
-import LogProcessor from 'in-internal/monitoringUnit/log/LogProcessor';
 import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
@@ -57,8 +56,6 @@ import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
 import AgentsAcrossUnits from 'in-internal/monitoringUnit/Agents';
-import LogWriter from 'in-internal/monitoringUnit/log/LogWriter';
-import LogReader from 'in-internal/monitoringUnit/log/LogReader';
 import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
@@ -69,7 +66,6 @@ import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
 import Landing from 'in-internal/components/Landing';
 import Agents from 'in-internal/thisUnit/Agents';
-import OTLPAcceptor from 'in-internal/monitoringUnit/otlpAcceptor/OtlpAcceptor';
 
 export default function Internal() {
   const internalRoutes = internalMonitoringUnit
@@ -254,26 +250,6 @@ export default function Internal() {
       ]
     : [];
   internalRoutes.push(
-    <Route
-      key="internalLogProcessor"
-      path="/internal/monitoringUnit/log/LogProcessor"
-      children={wrapInInternalView(LogProcessor)}
-    />,
-    <Route
-      key="internalLogWriter"
-      path="/internal/monitoringUnit/log/LogWriter"
-      children={wrapInInternalView(LogWriter)}
-    />,
-    <Route
-      key="internalLogReader"
-      path="/internal/monitoringUnit/log/LogReader"
-      children={wrapInInternalView(LogReader)}
-    />,
-    <Route
-      key="internalLogHousekeeping"
-      path="/internal/monitoringUnit/log/LogHousekeeping"
-      children={wrapInInternalView(LogHousekeeping)}
-    />,
 
     <Route
       key="internalSyntheticAcceptor"
@@ -324,7 +300,10 @@ export default function Internal() {
       children={wrapInInternalView(AdaptiveBaselineModel)}
     />,
     <Route key="internalEumComponentMetrics" path="/internal/thisUnit/eum" component={EumComponentMetrics} />,
-    <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />
+    <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />,
+    <Route key='internalRedirect' path="*">
+      <Redirect to="/internal" />
+    </Route>
   );
   return internalRoutes;
 }
