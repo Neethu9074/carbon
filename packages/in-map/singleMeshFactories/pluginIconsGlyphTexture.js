@@ -7,6 +7,7 @@ import { getSvgIcon, getSvgIconNames } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import { Texture, LinearFilter } from 'in-map/3DLibProvider';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
 
 const allIcons = getSvgIconNames()
   .filter(name => name.indexOf('lib_infra_') === 0)
@@ -59,7 +60,7 @@ export function init() {
     context.fill(p);
 
     // update Look Up Table
-    config.LUT[icon.id] = { x, y };
+    config.LUT[fullyQualifiedPlugins[icon.id]] = { x, y };
 
     column++;
     if (column >= config.numElementsPerColumn) {
