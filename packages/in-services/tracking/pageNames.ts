@@ -7,6 +7,7 @@
 // no need for translation, it is only used within tracking
 export const pageNames = Object.freeze({
   home: 'Home',
+  agent_catalog: 'Agent Catalog',
   applications: 'Applications',
   application_summary: 'Application > Summary',
   service_summary: 'Service > Summary',

@@ -12,13 +12,19 @@ import { score, filter } from 'in-plg/pages/onboarding/content/ContentUtils';
 import { getEntriesForFreeTrial } from 'in-plg/pages/onboarding/content';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { productAreas } from 'in-services/tracking/productAreas';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import createTracker from 'in-waiting-for-deployment/tracker';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { pageNames } from 'in-services/tracking/pageNames';
 import CardGrid from 'in-plg/components/Card/CardGrid';
 import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './AgentCatalog.mless';
+
+const trackingService = createTracker('agent.installation');
 
 export default function AgentCatalog() {
   const entities = getEntriesForFreeTrial();
@@ -41,13 +47,30 @@ export default function AgentCatalog() {
   ];
   return (
     <Stack direction="vertical">
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.agents,
+          pageRootName: pageNames.agent_catalog
+        }}
+      />
       <Stack>
         <BreadcrumbHeader />
         <Breadcrumbs items={breadCrumbs} />
       </Stack>
       <LeftRightPadding className={locals.catalog}>
         <Stack direction="vertical">
-          <SearchInput width="100%" onChange={onQueryChange} query={query} autoFocus hasError={false} />
+          <SearchInput
+            width="100%"
+            onChange={onQueryChange}
+            query={query}
+            autoFocus
+            onBlur={() => {
+              if (query) {
+                trackingService.catalogPageSearchUsed({ query });
+              }
+            }}
+            hasError={false}
+          />
           <Spacer vertical="xxsmall" />
           <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentCatalog')} (${
             filteredEntities.length
