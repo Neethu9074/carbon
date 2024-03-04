@@ -4,12 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Result, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import ConfigDialogTimeConfigContextModification from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ConfigDialogTimeConfigContextModification';
+import {
+  SLO_CONFIG_DIALOG_CLOSE,
+  SLO_CONFIG_DIALOG_ERROR,
+  SLO_CONFIG_DIALOG_FINISH,
+  SLO_CONFIG_DIALOG_OPEN
+} from 'in-services/tracking/eventNames';
 import SloNameAndTagsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloNameAndTagsSection/SloNameAndTagsSection';
 import SloBlueprintsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloBlueprintsSection';
 import SloObjectiveSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/SloObjectiveSection';
@@ -24,6 +30,7 @@ import { SloForm, createSloForm } from 'in-service-levels/components/ConfigDialo
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import useSloFormSideEffects from 'in-service-levels/hooks/useSloFormSideEffects';
 import { close as closeDialog } from 'in-components/DialogPresenter/store';
+import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
@@ -62,6 +69,10 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   const [form, setForm] = useState(createSloForm({ entityType: 'application', sloConfig: configuration }));
   const updateForm = useSloFormSideEffects(form, setForm);
   const [submitStatus, doSubmit] = useFormSubmission(getFormSubmitAction(mode));
+
+  useEffect(() => {
+    trackSloEvent(SLO_CONFIG_DIALOG_OPEN, undefined);
+  }, []);
 
   const entityIdField = form.getIn(['entity', 'entityId']);
   const tagFilterField = form.getIn(['scope', 'tagFilterExpression']);
@@ -132,7 +143,10 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
         <ConfigDialog
           title={t('in-service-levels:createSloDialog.title')}
           navItems={navItems}
-          onClose={closeDialog}
+          onClose={() => {
+            trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, undefined);
+            closeDialog();
+          }}
           noHeader
           noDivider
           isSaving={submitStatus === 'pending'}
@@ -143,8 +157,8 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
 
             doSubmit({
               payload: formToSloConfiguration(form, configuration?.id),
-              onSuccess,
-              onError
+              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) => onSuccess(mode, result),
+              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) => onError(mode, result)
             });
           }}
         />
@@ -153,10 +167,10 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   );
 }
 
-function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
+function onSuccess(mode: CreateSloDialogMode, { data }: Result<ServiceLevelObjectiveConfiguration>) {
   if (!data) throw Error(ServiceLevelErrors.UNEXPECTED_SLO_CREATION_ERROR);
 
-  const { name } = data;
+  const { name, id, entity, indicator, timeWindow } = data;
 
   addMessage({
     type: 'info',
@@ -167,6 +181,15 @@ function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
     })
   });
 
+  trackSloEvent(SLO_CONFIG_DIALOG_FINISH, {
+    id,
+    mode,
+    blueprint: indicator.blueprint,
+    indicatorType: indicator.type,
+    entityType: entity.type,
+    timeWindowType: timeWindow.type
+  });
+
   closeDialog();
 }
 
@@ -175,8 +198,10 @@ const errorMessageHeader = {
   title: t('in-service-levels:createSloDialog.messages.creationFailedTitle')
 } as const;
 
-function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
+function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiveConfiguration>) {
   if (result && result.errors.length !== 0) {
+    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'API_ERROR' });
+
     return result.errors.forEach(error =>
       addMessage({
         ...errorMessageHeader,
@@ -187,6 +212,8 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
   }
 
   if (!result?.data) {
+    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'UNEXPECTED_ERROR' });
+
     return addMessage({
       ...errorMessageHeader,
       timeout: seconds.toMillis(6),
@@ -195,6 +222,8 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
   }
 
   const { name } = result.data;
+
+  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'INVALID_SLO_CONFIG' });
 
   return addMessage({
     ...errorMessageHeader,

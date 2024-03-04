@@ -343,6 +343,18 @@ export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
 export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
 export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
+// Service Levels
+export const SLO_LIST_VIEW = 'slo.list.view';
+export const SLO_SUMMARY_VIEW = 'slo.summary.view';
+export const SLO_CONFIG_VIEW = 'slo.config.view';
+export const SLO_CONFIG_DIALOG_OPEN = 'slo.config.dialog.open';
+export const SLO_CONFIG_DIALOG_CLOSE = 'slo.config.dialog.close';
+export const SLO_CONFIG_DIALOG_ERROR = 'slo.config.dialog.error';
+export const SLO_CONFIG_DIALOG_FINISH = 'slo.config.dialog.finish';
+export const SLO_CONFIG_DELETE_START = 'slo.config.delete.start';
+export const SLO_CONFIG_DELETE_ERROR = 'slo.config.delete.error';
+export const SLO_CONFIG_DELETE_FINISH = 'slo.config.delete.finish';
+
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
 export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';

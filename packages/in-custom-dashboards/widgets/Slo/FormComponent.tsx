@@ -6,16 +6,13 @@
 
 import React from 'react';
 
-import {
-  defaultTrackers,
-  SloWidgetTrackerProvider
-} from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import SloFormComponent, { FormComponentProps } from 'in-custom-dashboards/widgets/Slo/components/SloFormComponent';
+import { SloTrackerProvider, sliWidgetTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 
 export default function FormComponent(props: FormComponentProps) {
   return (
-    <SloWidgetTrackerProvider value={defaultTrackers}>
+    <SloTrackerProvider value={sliWidgetTrackers}>
       <SloFormComponent {...props} />
-    </SloWidgetTrackerProvider>
+    </SloTrackerProvider>
   );
 }
