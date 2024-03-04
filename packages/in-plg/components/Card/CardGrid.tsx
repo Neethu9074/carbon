@@ -26,7 +26,7 @@ export default function CardGrid({ data, fromOnboarding = false }: CardGridProps
           icon={item.icon}
           iconColor={item.iconColor}
           content={item.subTechnology?.label ?? ''}
-          href={`${fromOnboarding ? '/onboarding' : ''}/agents/installation/${item?.id}`}
+          href={`/agents${fromOnboarding ? '/onboarding' : ''}/installation/${item?.id}`}
         />
       ))}
     </div>

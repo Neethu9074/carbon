@@ -31,7 +31,7 @@ export default function AgentCatalog(props) {
     SetFilteredEntities(filteredEntities);
   };
   const breadCrumbs = [
-    <Breadcrumb href={`#${props?.fromOnboarding ? '/onboarding' : ''}/agents/installation`}>
+    <Breadcrumb href={`#/agents${props?.fromOnboarding ? '/onboarding' : ''}/installation`}>
       <Stack direction="horizontal" align="center">
         <SvgIcon type="lib_infrastructure" />
         <Typography variant="body-bold">{t('in-plg:agentDetails.common.agentCatalog')}</Typography>

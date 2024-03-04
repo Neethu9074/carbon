@@ -17,11 +17,11 @@ const Portal = () => {
       <Switch>
         <Route
           exact
-          path="/onboarding/agents/installation/:selectedservice"
+          path="/agents/onboarding/installation/:selectedservice"
           render={({ match }) => <AgentViewRouter selectedService={match.params.selectedservice} fromOnboarding />}
         />
 
-        <Route path="/onboarding/agents/installation" render={() => <AgentCatalog fromOnboarding />} />
+        <Route path="/agents/onboarding/installation" render={() => <AgentCatalog fromOnboarding />} />
 
         <Route path="/" render={() => <AgentCatalog fromOnboarding />} />
       </Switch>

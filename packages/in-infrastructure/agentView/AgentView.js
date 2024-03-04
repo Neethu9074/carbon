@@ -111,9 +111,9 @@ export default connectTo(
             )}
           </Route>
 
-          <Route path="onboarding/agents/installation/:selectedservice" render={() => <Redirect to="/home" />} />
+          <Route path="/agents/onboarding/installation/:selectedservice" render={() => <Redirect to="/home" />} />
 
-          <Route path="onboarding/agents/installation" render={() => <Redirect to="/home" />} />
+          <Route path="/agents/onboarding/installation" render={() => <Redirect to="/home" />} />
 
           <Route path="/agents">
             <Sticky

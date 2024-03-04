@@ -49,7 +49,7 @@ export default function AgentViewRouter({ selectedService, fromOnboarding = fals
       {
         icon: 'lib_infrastructure',
         title: t('in-plg:agentDetails.common.agentCatalog'),
-        href: `#${fromOnboarding ? '/onboarding' : ''}/agents/installation`
+        href: `#/agents${fromOnboarding ? '/onboarding' : ''}/installation`
       },
       {
         icon: selectedEntity?.icon,
