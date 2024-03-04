@@ -20,7 +20,7 @@ import { t } from 'in-i18n';
 
 import locals from './AgentCatalog.mless';
 
-export default function AgentCatalog() {
+export default function AgentCatalog(props) {
   const entities = getEntriesForFreeTrial();
 
   let [query, setQuery] = useState('');
@@ -30,9 +30,8 @@ export default function AgentCatalog() {
     filteredEntities = newQuery === '' ? entities : filter(score(entities, newQuery));
     SetFilteredEntities(filteredEntities);
   };
-
   const breadCrumbs = [
-    <Breadcrumb href={'#/agents/installation'}>
+    <Breadcrumb href={`#${props?.fromOnboarding ? '/onboarding' : ''}/agents/installation`}>
       <Stack direction="horizontal" align="center">
         <SvgIcon type="lib_infrastructure" />
         <Typography variant="body-bold">{t('in-plg:agentDetails.common.agentCatalog')}</Typography>
@@ -52,7 +51,7 @@ export default function AgentCatalog() {
           <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentCatalog')} (${
             filteredEntities.length
           })`}</Typography>
-          <CardGrid data={filteredEntities} />
+          <CardGrid data={filteredEntities} {...props} />
         </Stack>
       </LeftRightPadding>
     </Stack>

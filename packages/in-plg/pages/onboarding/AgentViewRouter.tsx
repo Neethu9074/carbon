@@ -29,7 +29,12 @@ interface BreadCrumbItem {
   iconColor?: string;
 }
 
-export default function AgentViewRouter({ selectedService }: { selectedService: string }) {
+interface AgentViewRouterProps {
+  selectedService: string;
+  fromOnboarding?: boolean;
+}
+
+export default function AgentViewRouter({ selectedService, fromOnboarding = false }: AgentViewRouterProps) {
   const unitKeysResp: UnitKeys = useObservable<UnitKeys, []>(getUnitKeys(), []) ?? {
     agentKey: 'agentKey',
     downloadKey: 'downloadKey'
@@ -44,7 +49,7 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
       {
         icon: 'lib_infrastructure',
         title: t('in-plg:agentDetails.common.agentCatalog'),
-        href: '#/agents/installation'
+        href: `#${fromOnboarding ? '/onboarding' : ''}/agents/installation`
       },
       {
         icon: selectedEntity?.icon,
