@@ -85,7 +85,7 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
   const alertConfigWithFormModel = form.toJS();
   const { tagFilterExpression } = alertConfigWithFormModel;
 
-  const tagCatalog = useTagCatalog();
+  const tagCatalog = useTagCatalog('SMART_ALERTS');
 
   const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {
     updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));

@@ -43,10 +43,12 @@ export type Tags = { [index: string]: any };
 export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
   const { timeThreshold, threshold, granularity, groupBy, customPayloadFields, tagFilterExpression, alertChannelIds } =
     alertConfig;
-  const tagCatalog = useTagCatalog();
+  const tagCatalog = useTagCatalog('SMART_ALERTS');
+  //@ts-expect-error TODO : remove expect error once typedefinition updated with this usecase.
+  const groupByTagCatalog = useTagCatalog('SMART_ALERTS_GROUPING');
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
 
-  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(groupByTagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -89,7 +91,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
                   to: timeConfig.to,
                   focusedMoment: timeConfig.focusedMoment
                 }}
-                tagCatalog={tagCatalog}
+                tagCatalog={groupByTagCatalog}
               />
             )}
           </Card>
