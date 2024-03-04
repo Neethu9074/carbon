@@ -27,6 +27,7 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
+import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -81,11 +82,19 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
       >
         {chartViewConfig => (
           <Card title={t('in-events:titleMetrics')}>
-            <LogMetricChart alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
+            <LogMetricChart
+              alertConfig={alertConfig}
+              timeConfig={{
+                ...chartViewConfig.timeConfig,
+                to: timeConfig.to,
+                focusedMoment: timeConfig.focusedMoment
+              }}
+            />
             {groupBy && groupBy.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={tagFilterExpression}
-                groupBy={groupBy}
+                backendGroupBy={groupBy}
+                groupBy={groupbyTag(groupBy)[0]}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,
                   to: timeConfig.to,

@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { TimeConfig } from '@instana/types';
+import { Group, TimeConfig } from '@instana/types';
 
 import {
   EMPTY_EXPRESSION,
@@ -28,7 +28,8 @@ const retrievalSize = 5;
 interface LogMetricGroupProps {
   backendQueryModel: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
-  groupBy: string[];
+  backendGroupBy: string[];
+  groupBy: Group;
   selectedMetricGroup?: { [index: string]: any };
   setSelectedMetricGroup?: React.Dispatch<{ [index: string]: any }>;
   tagCatalog?: CatalogResponse;
@@ -37,7 +38,7 @@ interface LogMetricGroupProps {
  * Renders the logs metric group table.
  */
 export default function LogMetricGroup(props: LogMetricGroupProps) {
-  const { backendQueryModel, timeConfig, groupBy } = props;
+  const { backendQueryModel, timeConfig, groupBy, backendGroupBy } = props;
 
   const [filterExpression, setFilterExpression] = useState<any>();
 
@@ -45,7 +46,7 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
   // because it's in array and object format.
   // resulting in re-rending of the table each time even if there is no change,
   // so passing it as a string value to the dependency array of useCursorPagination
-  const groupByString = groupBy?.toString();
+  const groupByString = JSON.stringify(groupBy);
   const chartConfig = JSON.stringify(timeConfig);
   const filterExpressionJSON = JSON.stringify(filterExpression);
 
@@ -72,8 +73,11 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
       retrievalSize={retrievalSize}
       fixedLayout
       totalHits={totalHits}
-      setBackendQueryModel={searchBy => setBackendQueryModel(groupBy, backendQueryModel, setFilterExpression, searchBy)}
+      setBackendQueryModel={searchBy =>
+        setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
+      }
       {...props}
+      groupBy={backendGroupBy}
       {...cursorPaginatedProps}
     />
   );
@@ -91,13 +95,13 @@ function getGroups({
 }: {
   timeConfig: TimeConfig;
   backendQueryModel: TagFilterExpression;
-  groupBy: string[];
+  groupBy: Group;
   cursor: IngestionOffsetCursor;
   retrievalSize: number;
 }) {
   return getLogGroups({
     timeConfig,
-    group: { groupbyTag: groupBy[0], groupbyTagEntity: 'NOT_APPLICABLE' },
+    group: groupBy,
     tagFilterExpression: backendQueryModel,
     pagination: {
       retrievalSize,

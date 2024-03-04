@@ -1353,7 +1353,8 @@
         "thresholdValue": "Threshold Value"
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "noMetricSelected": "No metric selected"
       },
       "logs": "Logs"
     }
