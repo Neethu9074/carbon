@@ -10,6 +10,17 @@ import classNames from 'classnames';
 import { Spacer, Stack } from '@instana/components';
 import { Link } from '@instana/components';
 
+import {
+  ANSIBlE_TYPE,
+  EXTERNAL_TYPE,
+  SCRIPT_TYPE,
+  WEBHOOK_TYPE,
+  GITHUB_TYPE,
+  GITLAB_TYPE,
+  JIRA_TYPE,
+  DOC_LINK_TYPE,
+  MANUAL_TYPE
+} from 'in-automation/ActionCatalog/shared';
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
@@ -127,12 +138,15 @@ export default function RecommendationActionForPoliciesTable({
 }
 
 const options = [
-  { value: 'doc_link', label: t('in-automation:ActionCatalog.docLink') },
-  { value: 'SCRIPT', label: t('in-automation:ActionCatalog.script') },
-  { value: 'HTTP', label: t('in-automation:ActionCatalog.http') },
-  { value: 'MANUAL', label: t('in-automation:ActionCatalog.manual') },
-  { value: 'ANSIBLE', label: t('in-automation:ActionCatalog.ansible') },
-  { value: 'EXTERNAL', label: t('in-automation:actionHistory.external') }
+  { value: DOC_LINK_TYPE, label: t('in-automation:ActionCatalog.docLink') },
+  { value: SCRIPT_TYPE, label: t('in-automation:ActionCatalog.script') },
+  { value: WEBHOOK_TYPE, label: t('in-automation:ActionCatalog.http') },
+  { value: MANUAL_TYPE, label: t('in-automation:ActionCatalog.manual') },
+  { value: ANSIBlE_TYPE, label: t('in-automation:ActionCatalog.ansible') },
+  { value: EXTERNAL_TYPE, label: t('in-automation:actionHistory.external') },
+  { value: GITHUB_TYPE, label: t('in-automation:ActionCatalog.github') },
+  { value: GITLAB_TYPE, label: t('in-automation:ActionCatalog.gitlab') },
+  { value: JIRA_TYPE, label: t('in-automation:ActionCatalog.jira') }
 ];
 
 function ActionFilters({
