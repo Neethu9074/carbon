@@ -8,7 +8,6 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import HelpText from 'in-components/form/HelpText';
@@ -18,14 +17,15 @@ import locals from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping
 
 interface AlertGroupingProps {
   AlertQueryBuilder: QueryBuilderComponent;
-  groupBy: string[];
+  //TODO : need to update type of groupBy once type definition gets updated.
+  groupBy: any;
 }
 
 export function AlertGrouping({ AlertQueryBuilder, groupBy }: AlertGroupingProps) {
   if (!groupBy.length) {
     return null;
   }
-  const groupingFE = toUIGrouping(groupBy);
+  const groupingFE = toLogUIGrouping(groupBy);
 
   return (
     <Stack gap="xsmall">
@@ -42,4 +42,21 @@ export function AlertGrouping({ AlertQueryBuilder, groupBy }: AlertGroupingProps
       </>
     </Stack>
   );
+}
+
+//TODO : need to update type of groupBy once type definition gets updated.
+function toLogUIGrouping(groupBy: any) {
+  if (!groupBy.length) {
+    return [];
+  }
+  const groupingFE: TagFilter[] = groupBy.map((tag: any) => {
+    return {
+      value: '',
+      operator: '',
+      name: tag.tagName,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    };
+  });
+  return groupingFE;
 }
