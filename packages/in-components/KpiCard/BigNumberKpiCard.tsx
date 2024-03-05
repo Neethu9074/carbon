@@ -6,6 +6,7 @@
 import React, { ReactNode } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import ResultAwareBigNumberKpiCard, {
   Config,
@@ -59,6 +60,9 @@ export default function BigNumberKpiCard({
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
 
+  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
+  const isLogsPolling = isLoggingWidget && timeConfig.autoRefresh;
+
   const metricDefaults = {
     timeShift: {
       offset: 0
@@ -93,21 +97,20 @@ export default function BigNumberKpiCard({
     };
   }
 
-  if (config.metricConfiguration.source === 'LOG') {
+  if (isLoggingWidget) {
     metrics = getLogMetricsConfig(metrics);
   }
 
-  let result: Result<MetricResult[]> =
-    useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
-    pendingResult;
+  const metricsResult: Result<MetricResult[]> =
+    useObservable(!isLogsPolling ? () => getUnifiedMetrics({ metrics }) : just(null), [
+      config,
+      timeConfig,
+      config.metricConfiguration.timeShift
+    ]) ?? pendingResult;
 
-  const logsResult = useLogsPolling({ metrics: metrics, timeConfig: timeConfig, config: config }) ?? pendingResult;
+  const logsPollingResult = useLogsPolling({ metrics, timeConfig, config }) ?? pendingResult;
 
-  const isLogsPolling = config.metricConfiguration.source === 'LOG' && timeConfig.autoRefresh;
-
-  if (isLogsPolling) {
-    result = logsResult;
-  }
+  let result = isLogsPolling ? logsPollingResult : metricsResult;
 
   return (
     <ResultAwareBigNumberKpiCard

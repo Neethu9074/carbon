@@ -8,10 +8,11 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { uniqBy } from 'lodash';
 
 import { just } from '@instana/observables';
+import { Result } from '@instana/types';
 
+import realGetUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { baseConfig, baseResult, baseTimeConfig, metricsBase } from './utils_test';
 import { LIVE_MODE_REFRESH_INTERVAL, useLogsPolling } from './useLogsPolling';
-import realGetUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 
 jest.mock('in-subscription/getUnifiedMetrics');
 
@@ -56,7 +57,12 @@ describe('useLogsPolling', () => {
 
     //Mocked getUnifiedMetrics is synchronous, so we get the 2 extra results
     expect(uniqueResults).toHaveLength(NUMBER_OF_INTERVALS + 2);
-    expect(isPropertyAscending<any>(uniqueResults, 'time'));
+    expect(
+      isPropertyAscending<Result<UnifiedMetricsResult>>(
+        uniqueResults as unknown as Result<UnifiedMetricsResult>[],
+        'time'
+      )
+    );
   });
 });
 

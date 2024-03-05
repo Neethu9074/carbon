@@ -142,8 +142,9 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   isInModal?: boolean
 ) {
   let value = null;
+  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
 
-  if (config.metricConfiguration.source === 'LOG') {
+  if (isLoggingWidget) {
     result = transformLogsResult(result, config, timeConfig);
   }
 

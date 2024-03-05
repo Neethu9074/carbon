@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import { cloneDeep } from 'lodash';
+
 import { MetricResult, Result, TimeConfig } from '@instana/types';
 
 import {
@@ -13,7 +15,6 @@ import {
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { Mutable, UnifiedMetricConfiguration } from 'in-types';
 import { deepCopy } from 'in-services/util/object';
-import { cloneDeep } from 'lodash';
 
 /** Transform the result to patch in data needed to make the existing component work with logging data **/
 export function transformLogsResult(
@@ -26,7 +27,7 @@ export function transformLogsResult(
 ): Result<MetricResult[]> {
   let newResult = deepCopy(result);
 
-  if (result.data?.[0]?.values?.length && result.data?.[0]?.values?.length > 1) {
+  if ((result.data?.[0]?.values?.length ?? 0) > 1) {
     newResult = reduceResultValues(newResult);
   }
 
@@ -42,7 +43,7 @@ function reduceResultValues(result: Result<MetricResult[]>): Result<MetricResult
     return {
       ...result,
       data: result.data.map(item => {
-        if (item.values) {
+        if (item.values?.length && item.values.length > 0) {
           return {
             ...item,
             values: [
@@ -110,4 +111,3 @@ export function getLogMetricsConfig(metrics: UnifiedMetricConfigurations) {
 
   return newMetrics;
 }
-

@@ -4,18 +4,21 @@
  * Copyright IBM Corp. 2024
  */
 
-import { getLogMetricsConfig, transformLogsResult, UnifiedMetricConfigurations } from 'in-components/KpiCard/utils';
 import { Result, TimeConfig } from '@instana/types';
-import { minutes } from 'in-services/time';
-import { pendingResult } from 'in-services/fixedObjects';
+
+import { getLogMetricsConfig, transformLogsResult, UnifiedMetricConfigurations } from 'in-components/KpiCard/utils';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { UnifiedMetricConfiguration } from 'in-types';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { pendingResult } from 'in-services/fixedObjects';
+import { UnifiedMetricConfiguration } from 'in-types';
+import { minutes } from 'in-services/time';
 
 const windowSizeMillis = minutes.toMillis(60);
+const timestamp = Date.UTC(2022, 3, 1, 12, 31, 5);
+const oneHourInMillis = 1000 * 60 * 60;
 
 export const baseTimeConfig: TimeConfig = {
-  to: Date.now(),
+  to: timestamp,
   autoRefresh: false,
   windowSize: windowSizeMillis
 };
@@ -40,7 +43,7 @@ const singeValueResult: Result<UnifiedMetricsResult[]> = {
     }
   ],
   errors: [],
-  time: Date.now(),
+  time: timestamp,
   progress: {
     loading: false
   }
@@ -57,7 +60,7 @@ export const baseResult: Result<UnifiedMetricsResult[]> = {
     }
   ],
   errors: [],
-  time: Date.now(),
+  time: timestamp,
   progress: {
     loading: false
   }
@@ -69,8 +72,8 @@ export const metricConfigurationBase: UnifiedMetricConfiguration = {
   aggregation: 'SUM',
   source: 'LOG',
   resultType: 'SINGLE_NUMBER',
-  timeShift: {offset: 0}
-}
+  timeShift: { offset: 0 }
+};
 
 export const metricsBase: UnifiedMetricConfigurations = {
   bigNumber: {
@@ -128,7 +131,10 @@ describe('transformLogsResult', () => {
   });
 
   it('should transform to per-second averages with PER_SECOND aggregation', () => {
-    const config: Config<UnifiedMetricConfiguration> = { ...baseConfig, metricConfiguration: { ...baseConfig.metricConfiguration, aggregation: 'PER_SECOND' } };
+    const config: Config<UnifiedMetricConfiguration> = {
+      ...baseConfig,
+      metricConfiguration: { ...baseConfig.metricConfiguration, aggregation: 'PER_SECOND' }
+    };
 
     const transformedResult = transformLogsResult(baseResult, config, baseTimeConfig);
 
@@ -137,9 +143,7 @@ describe('transformLogsResult', () => {
       data: [
         {
           id: baseResult.data?.[0].id,
-          values: [
-            [ 1708880400000, 626172 / windowSizeMillis * 1000 ]
-          ]
+          values: [[1708880400000, (626172 / windowSizeMillis) * 1000]]
         }
       ]
     };
@@ -147,36 +151,33 @@ describe('transformLogsResult', () => {
   });
 });
 
-const oneHourInMillis = 1000 * 60 * 60;
 describe('getLogMetricsConfig', () => {
-  const now = Date.now();
-
-  it('initializes and applies basic transformations without time shift', () => {
+  it('initializes and applies basic transformations without timestamp shift', () => {
     const inputMetrics: UnifiedMetricConfigurations = {
       metric1: {
         ...metricConfigurationBase,
-        timeConfig: { ...baseTimeConfig, windowSize: 300 },
-      },
+        timeConfig: { ...baseTimeConfig, windowSize: 300 }
+      }
     };
     const expected = {
       metric1: {
         ...metricConfigurationBase,
         granularity: 300,
-        timeConfig: { ...baseTimeConfig, windowSize: 300 },
-      },
+        timeConfig: { ...baseTimeConfig, windowSize: 300 }
+      }
     };
     expect(getLogMetricsConfig(inputMetrics)).toEqual(expected);
   });
 
-  it('applies time shift correctly to the comparison metric', () => {
+  it('applies timestamp shift correctly to the comparison metric', () => {
     const inputMetrics = {
       comparison: {
         ...metricConfigurationBase,
-        timeConfig: { to: now, windowSize: windowSizeMillis, autoRefresh: false, focusedMoment: now },
+        timeConfig: { to: timestamp, windowSize: windowSizeMillis, autoRefresh: false, focusedMoment: timestamp },
         timeShift: { offset: oneHourInMillis } //1 hour,
-      },
+      }
     };
-    const expectedToWithOffset = now + oneHourInMillis;
+    const expectedToWithOffset = timestamp + oneHourInMillis;
     const result = getLogMetricsConfig(inputMetrics);
     expect(result.comparison.timeConfig.to).toBe(expectedToWithOffset);
     expect(result.comparison.timeConfig.focusedMoment).toBe(expectedToWithOffset);
@@ -186,21 +187,21 @@ describe('getLogMetricsConfig', () => {
     const inputMetrics = {
       metricAutoRefresh: {
         ...metricConfigurationBase,
-        timeConfig: { autoRefresh: true, windowSize: 300, to: null, focusedMoment:null },
-      },
+        timeConfig: { autoRefresh: true, windowSize: 300, to: null, focusedMoment: null }
+      }
     };
     const result = getLogMetricsConfig(inputMetrics);
     expect(result.metricAutoRefresh.timeConfig.to).toBeNull();
     expect(result.metricAutoRefresh.timeConfig.focusedMoment).toBeNull();
   });
 
-  it('handles null to value and time shift', () => {
+  it('handles null to value and timestamp shift', () => {
     const inputMetrics = {
       comparison: {
         ...metricConfigurationBase,
         timeConfig: { to: null, focusedMoment: null, windowSize: windowSizeMillis, autoRefresh: false },
-        timeShift: { offset: oneHourInMillis }, // 1 hour
-      },
+        timeShift: { offset: oneHourInMillis } // 1 hour
+      }
     };
     const result = getLogMetricsConfig(inputMetrics);
     expect(result.comparison.timeConfig.to).not.toBeNull();
@@ -217,23 +218,22 @@ describe('getLogMetricsConfig', () => {
     const inputMetrics = {
       metric1: {
         ...metricConfigurationBase,
-        timeConfig: { ...baseTimeConfig, windowSize: windowSizeMillis },
+        timeConfig: { ...baseTimeConfig, windowSize: windowSizeMillis }
       },
       comparison: {
         ...metricConfigurationBase,
-        timeConfig: { ...baseTimeConfig, to: now, windowSize: windowSizeMillis },
-        timeShift: { offset: oneHourInMillis },
+        timeConfig: { ...baseTimeConfig, to: timestamp, windowSize: windowSizeMillis },
+        timeShift: { offset: oneHourInMillis }
       },
       metricAutoRefresh: {
         ...metricConfigurationBase,
-        timeConfig: { ...baseTimeConfig, autoRefresh: true, windowSize: windowSizeMillis },
-      },
+        timeConfig: { ...baseTimeConfig, autoRefresh: true, windowSize: windowSizeMillis }
+      }
     };
     const result = getLogMetricsConfig(inputMetrics);
 
     expect(result.metric1.granularity).toBe(windowSizeMillis);
-    expect(result.comparison.timeConfig.to).toBe(now + oneHourInMillis);
+    expect(result.comparison.timeConfig.to).toBe(timestamp + oneHourInMillis);
     expect(result.metricAutoRefresh.timeConfig.to).toBeNull();
   });
 });
-
