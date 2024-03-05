@@ -26,18 +26,18 @@ export default function ResourceDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutofsyncBytes')}>
-          <MetricValue snapshotId={snapshotId} metric="peerDeviceOutofsyncBytes" formatter={number.compact} />
+        <KpiKeyValue label={t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutOfSyncBytes')}>
+          <MetricValue snapshotId={snapshotId} metric="peerDeviceOutOfSyncBytes" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutofsyncBytes')}>
+        <DashboardSection title={t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutOfSyncBytes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['peerDeviceOutofsyncBytes'],
-              labels: [t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutofsyncBytes')],
+              metrics: ['peerDeviceOutOfSyncBytes'],
+              labels: [t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutOfSyncBytes')],
               type: 'line',
               formatter: number.compact
             }}

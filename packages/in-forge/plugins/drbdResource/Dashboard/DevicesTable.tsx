@@ -49,14 +49,14 @@ const deviceDataCol2 = {
 };
 
 const deviceMetricsCol1 = {
-  title: t('in-forge:plugins.drbdDevice.drbdDeviceWrittenBytesTotal'),
+  title: t('in-forge:plugins.drbdDevice.deviceWrittenBytesTotal'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return `drbdDeviceWrittenBytesTotal`;
+      return `deviceWrittenBytesTotal`;
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -65,14 +65,14 @@ const deviceMetricsCol1 = {
   }
 };
 const deviceMetricsCol2 = {
-  title: t('in-forge:plugins.drbdDevice.drbdDeviceReadBytesTotal'),
+  title: t('in-forge:plugins.drbdDevice.deviceReadBytesTotal'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return 'drbdDeviceReadBytesTotal';
+      return 'deviceReadBytesTotal';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -81,14 +81,14 @@ const deviceMetricsCol2 = {
   }
 };
 const deviceMetricsCol3 = {
-  title: t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceSizeBytes'),
+  title: t('in-forge:plugins.drbdDevice.dashboard.deviceSizeBytes'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return 'drbdDeviceSizeBytes';
+      return 'deviceSizeBytes';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {

@@ -27,36 +27,36 @@ export default function ConnectionDashboard({ snapshot, timeConfig }: { snapshot
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')}>
-          <MetricValue snapshotId={snapshotId} metric="connectionRsinflightBytes" formatter={number.compact} />
+        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionRsInFlightBytes')}>
+          <MetricValue snapshotId={snapshotId} metric="connectionRsInFlightBytes" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes')}>
-          <MetricValue snapshotId={snapshotId} metric="connectionApinflightBytes" formatter={number.compact} />
+        <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionApInFlightBytes')}>
+          <MetricValue snapshotId={snapshotId} metric="connectionApInFlightBytes" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionCongested')}>
           <MetricValue snapshotId={snapshotId} metric="connectionCongested" formatter={Boolean} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')}>
+        <DashboardSection title={t('in-forge:plugins.drbdConnection.dashboard.connectionRsInFlightBytes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['connectionRsinflightBytes'],
-              labels: [t('in-forge:plugins.drbdConnection.dashboard.connectionRsinflightBytes')],
+              metrics: ['connectionRsInFlightBytes'],
+              labels: [t('in-forge:plugins.drbdConnection.dashboard.connectionRsInFlightBytes')],
               type: 'line',
               formatter: number.compact
             }}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes')}>
+        <DashboardSection title={t('in-forge:plugins.drbdConnection.dashboard.connectionApInFlightBytes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['connectionApinflightBytes'],
-              labels: [t('in-forge:plugins.drbdConnection.dashboard.connectionApinflightBytes')],
+              metrics: ['connectionApInFlightBytes'],
+              labels: [t('in-forge:plugins.drbdConnection.dashboard.connectionApInFlightBytes')],
               type: 'line',
               formatter: number.compact
             }}

@@ -30,32 +30,23 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceSuspended')}>
-          <MetricValue snapshotId={snapshotId} metric="resourceSuspended" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="resourceSuspended" formatter={Boolean} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceMaypromote')}>
-          <MetricValue snapshotId={snapshotId} metric="resourceMaypromote" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="resourceMaypromote" formatter={Boolean} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceForceIOFailures')}>
+          <MetricValue snapshotId={snapshotId} metric="resourceForceIOFailures" formatter={Boolean} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.drbdResource.resourceForceiofailures')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              metrics: ['resourceForceiofailures'],
-              labels: [t('in-forge:plugins.drbdResource.resourceForceiofailures')],
-              type: 'line',
-              formatter: number.compact
-            }}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.drbdResource.resourcePromotionscore')}>
+        <DashboardSection title={t('in-forge:plugins.drbdResource.resourcePromotionScore')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['resourcePromotionscore'],
-              labels: [t('in-forge:plugins.drbdResource.resourcePromotionscore')],
+              labels: [t('in-forge:plugins.drbdResource.resourcePromotionScore')],
               type: 'line',
               formatter: number.compact
             }}

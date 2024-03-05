@@ -9,10 +9,10 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['connectionRsinflightBytes', 'connectionApinflightBytes', 'connectionCongested'],
+    metrics: ['connectionRsInFlightBytes', 'connectionApInFlightBytes', 'connectionCongested'],
     labels: [
-      t('in-forge:plugins.drbdConnection.connectionRsinflightBytes'),
-      t('in-forge:plugins.drbdConnection.connectionApinflightBytes'),
+      t('in-forge:plugins.drbdConnection.connectionRsInFlightBytes'),
+      t('in-forge:plugins.drbdConnection.connectionApInFlightBytes'),
       t('in-forge:plugins.drbdConnection.connectionCongested')
     ],
     min: 0,

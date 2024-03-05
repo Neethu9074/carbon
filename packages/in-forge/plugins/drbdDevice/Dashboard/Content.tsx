@@ -25,20 +25,32 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.drbdDevice.drbdDeviceQuorum')}>
-          <MetricValue snapshotId={snapshotId} metric="drbdDeviceQuorum" formatter={Boolean} />
+        <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceQuorum')}>
+          <MetricValue snapshotId={snapshotId} metric="deviceQuorum" formatter={Boolean} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.drbdDevice.drbdDeviceUnintentionaldiskless')}>
-          <MetricValue snapshotId={snapshotId} metric="drbdDeviceUnintentionaldiskless" formatter={Boolean} />
+        <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceUnintentionalDiskless')}>
+          <MetricValue snapshotId={snapshotId} metric="deviceUnintentionalDiskless" formatter={Boolean} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceSizeBytes')}>
+      <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.deviceSizeBytes')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['drbdDeviceSizeBytes'],
-            labels: [t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceSizeBytes')],
+            metrics: ['deviceSizeBytes'],
+            labels: [t('in-forge:plugins.drbdDevice.dashboard.deviceSizeBytes')],
+            type: 'line',
+            formatter: number.compact
+          }}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.deviceBmWritesTotal')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['deviceBmWritesTotal'],
+            labels: [t('in-forge:plugins.drbdDevice.dashboard.deviceBmWritesTotal')],
             type: 'line',
             formatter: number.compact
           }}
@@ -51,10 +63,10 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           y1={{
             formatter: number.compact,
             tooltipFormatter: number.compact,
-            metrics: [`drbdDeviceReadBytesTotal`, `drbdDeviceWrittenBytesTotal`],
+            metrics: [`deviceReadBytesTotal`, `deviceWrittenBytesTotal`],
             labels: [
-              t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceReadBytesTotal'),
-              t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceWrittenBytesTotal')
+              t('in-forge:plugins.drbdDevice.dashboard.deviceReadBytesTotal'),
+              t('in-forge:plugins.drbdDevice.dashboard.deviceWrittenBytesTotal')
             ],
             type: 'line'
           }}
@@ -67,10 +79,10 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           y1={{
             formatter: number.compact,
             tooltipFormatter: number.compact,
-            metrics: [`drbdDeviceUpperpending`, `drbdDeviceLowerpending`],
+            metrics: [`deviceUpperPending`, `deviceLowerPending`],
             labels: [
-              t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceUpperpending'),
-              t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceLowerpending')
+              t('in-forge:plugins.drbdDevice.dashboard.deviceUpperPending'),
+              t('in-forge:plugins.drbdDevice.dashboard.deviceLowerPending')
             ],
             type: 'line'
           }}
@@ -83,10 +95,10 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           y1={{
             formatter: number.compact,
             tooltipFormatter: number.compact,
-            metrics: [`drbdDeviceAlsuspended`, `drbdDeviceAlwritesTotal`],
+            metrics: [`deviceAlSuspended`, `deviceAlWritesTotal`],
             labels: [
-              t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceAlsuspended'),
-              t('in-forge:plugins.drbdDevice.dashboard.drbdDeviceAlwritesTotal')
+              t('in-forge:plugins.drbdDevice.dashboard.deviceAlSuspended'),
+              t('in-forge:plugins.drbdDevice.dashboard.deviceAlWritesTotal')
             ],
             type: 'line'
           }}

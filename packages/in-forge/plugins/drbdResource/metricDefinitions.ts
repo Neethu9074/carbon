@@ -9,12 +9,12 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['resourceSuspended', 'resourceMaypromote', 'resourceForceiofailures', 'resourcePromotionscore'],
+    metrics: ['resourceSuspended', 'resourceMayPromote', 'resourceForceIOFailures', 'resourcePromotionScore'],
     labels: [
       t('in-forge:plugins.drbdResource.resourceSuspended'),
-      t('in-forge:plugins.drbdResource.resourceMaypromote'),
-      t('in-forge:plugins.drbdResource.resourceForceiofailures'),
-      t('in-forge:plugins.drbdResource.resourcePromotionscore')
+      t('in-forge:plugins.drbdResource.resourceMayPromote'),
+      t('in-forge:plugins.drbdResource.resourceForceIOFailures'),
+      t('in-forge:plugins.drbdResource.resourcePromotionScore')
     ],
     min: 0,
     category: [t('in-forge:plugins.drbdResource.drbdResource')],

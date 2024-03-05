@@ -59,14 +59,14 @@ const connectionDataCol3 = {
 };
 
 const connectionMetricsCol1 = {
-  title: t('in-forge:plugins.drbdConnection.connectionRsinflightBytes'),
+  title: t('in-forge:plugins.drbdConnection.connectionRsInFlightBytes'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return `connectionRsinflightBytes`;
+      return `connectionRsInFlightBytes`;
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -75,14 +75,14 @@ const connectionMetricsCol1 = {
   }
 };
 const connectionMetricsCol2 = {
-  title: t('in-forge:plugins.drbdConnection.connectionApinflightBytes'),
+  title: t('in-forge:plugins.drbdConnection.connectionApInFlightBytes'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return 'connectionApinflightBytes';
+      return 'connectionApInFlightBytes';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {

@@ -58,14 +58,14 @@ const peerDataCol3 = {
 };
 
 const peerMetricsCol = {
-  title: t('in-forge:plugins.drbdPeer.peerDeviceOutofsyncBytes'),
+  title: t('in-forge:plugins.drbdPeer.peerDeviceOutOfSyncBytes'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return 'peerDeviceOutofsyncBytes';
+      return 'peerDeviceOutOfSyncBytes';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {

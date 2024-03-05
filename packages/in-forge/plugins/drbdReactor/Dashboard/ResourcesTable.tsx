@@ -57,14 +57,14 @@ const deviceMetricsCol1 = {
 };
 
 const deviceMetricsCol2 = {
-  title: t('in-forge:plugins.drbdResource.resourceForceiofailures'),
+  title: t('in-forge:plugins.drbdResource.resourceForceIOFailures'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return 'resourceForceiofailures';
+      return 'resourceForceIOFailures';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -73,14 +73,14 @@ const deviceMetricsCol2 = {
   }
 };
 const deviceMetricsCol3 = {
-  title: t('in-forge:plugins.drbdResource.resourcePromotionscore'),
+  title: t('in-forge:plugins.drbdResource.resourcePromotionScore'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {
       return row.key;
     },
     getMetricName() {
-      return 'resourcePromotionscore';
+      return 'resourcePromotionScore';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {

@@ -14,8 +14,13 @@ export default [
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdResource.resourceMaypromote'),
-    metric: 'resourceMaypromote',
+    label: t('in-forge:plugins.drbdResource.resourceForceIOFailures'),
+    metric: 'resourceForceIOFailures',
+    formatter: number.compact
+  },
+  {
+    label: t('in-forge:plugins.drbdResource.resourceMayPromote'),
+    metric: 'resourceMayPromote',
     formatter: number.compact
   }
 ];

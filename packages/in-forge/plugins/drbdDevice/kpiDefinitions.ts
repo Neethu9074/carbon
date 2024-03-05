@@ -9,33 +9,43 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.drbdDevice.drbdDeviceReadBytesTotal'),
-    metric: 'drbdDeviceReadBytesTotal',
+    label: t('in-forge:plugins.drbdDevice.deviceReadBytesTotal'),
+    metric: 'deviceReadBytesTotal',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdDevice.drbdDeviceWrittenBytesTotal'),
-    metric: 'drbdDeviceWrittenBytesTotal',
+    label: t('in-forge:plugins.drbdDevice.deviceWrittenBytesTotal'),
+    metric: 'deviceWrittenBytesTotal',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdDevice.drbdDeviceSizeBytes'),
-    metric: 'drbdDeviceSizeBytes',
+    label: t('in-forge:plugins.drbdDevice.deviceSizeBytes'),
+    metric: 'deviceSizeBytes',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdDevice.drbdDeviceUnintentionaldiskless'),
-    metric: 'drbdDeviceUnintentionaldiskless',
+    label: t('in-forge:plugins.drbdDevice.deviceUnintentionalDiskless'),
+    metric: 'deviceUnintentionalDiskless',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdDevice.drbdDeviceQuorum'),
-    metric: 'drbdDeviceQuorum',
+    label: t('in-forge:plugins.drbdDevice.deviceBmWritesTotal'),
+    metric: 'deviceBmWritesTotal',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdDevice.drbdDeviceClient'),
-    metric: 'drbdDeviceClient',
+    label: t('in-forge:plugins.drbdDevice.deviceAlWritesTotal'),
+    metric: 'deviceAlWritesTotal',
+    formatter: number.compact
+  },
+  {
+    label: t('in-forge:plugins.drbdDevice.deviceQuorum'),
+    metric: 'deviceQuorum',
+    formatter: number.compact
+  },
+  {
+    label: t('in-forge:plugins.drbdDevice.deviceClient'),
+    metric: 'deviceClient',
     formatter: number.compact
   }
 ];

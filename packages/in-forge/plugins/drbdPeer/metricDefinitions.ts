@@ -9,8 +9,8 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['peerDeviceOutofsyncBytes'],
-    labels: [t('in-forge:plugins.drbdPeer.peerDeviceOutofsyncBytes')],
+    metrics: ['peerDeviceOutOfSyncBytes'],
+    labels: [t('in-forge:plugins.drbdPeer.peerDeviceOutOfSyncBytes')],
     min: 0,
     formatter: zeroDecimalPlaces
   }

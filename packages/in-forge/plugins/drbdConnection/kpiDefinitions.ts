@@ -9,13 +9,13 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.drbdConnection.connectionRsinflightBytes'),
-    metric: 'connectionRsinflightBytes',
+    label: t('in-forge:plugins.drbdConnection.connectionRsInFlightBytes'),
+    metric: 'connectionRsInFlightBytes',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.drbdConnection.connectionApinflightBytes'),
-    metric: 'connectionApinflightBytes',
+    label: t('in-forge:plugins.drbdConnection.connectionApInFlightBytes'),
+    metric: 'connectionApInFlightBytes',
     formatter: number.compact
   }
 ];

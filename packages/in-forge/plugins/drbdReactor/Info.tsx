@@ -15,8 +15,8 @@ export default function Info({ snapshot }: { snapshot: any }) {
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.drbdReactor.drbdReactor')}>{data.get('drbdReactor')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.drbdReactor.drbdHost')}>{data.get('drbdHost')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.drbdReactor.UtilsVersion')}>
-        {data.get('UtilsVersion')}
+      <DescriptionItem title={t('in-forge:plugins.drbdReactor.utilsVersion')}>
+        {data.get('utilsVersion')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.drbdReactor.kmodVersion')}>{data.get('kmodVersion')}</DescriptionItem>
     </DescriptionList>
