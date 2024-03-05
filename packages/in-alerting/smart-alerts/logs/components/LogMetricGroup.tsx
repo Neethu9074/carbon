@@ -8,17 +8,10 @@ import React, { useEffect, useState } from 'react';
 
 import { Group, TimeConfig } from '@instana/types';
 
-import {
-  EMPTY_EXPRESSION,
-  OPERATOR_OR,
-  addTagFilters,
-  createTagFilterExpression
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LogMetricGroupTableList from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList';
 import { IngestionOffsetCursor, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { setBackendQueryModel } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { CatalogResponse } from 'in-logging/api/catalog';
@@ -109,32 +102,4 @@ function getGroups({
       cursor
     }
   });
-}
-
-/**
- * Sets the backend query model filter expression.
- * @param searchBy The table search by value.
- */
-function setBackendQueryModel(
-  groupBy: string[],
-  backendQueryModel: TagFilterExpressionElementUnion,
-  setFilterExpression: React.Dispatch<{ [index: string]: any }>,
-  searchBy?: string
-) {
-  if (searchBy) {
-    const searchQuery = groupBy.map((groupBy: string) => {
-      return tagFilter(groupBy, CONTAINS, searchBy, null, NOT_APPLICABLE);
-    });
-
-    if (backendQueryModel?.type === 'TAG_FILTER' || backendQueryModel?.elements?.length > 0) {
-      const searchQueryModel = addTagFilters(createTagFilterExpression(OPERATOR_OR, searchQuery), [backendQueryModel]);
-      setFilterExpression(searchQueryModel);
-      return;
-    } else {
-      setFilterExpression(createTagFilterExpression(OPERATOR_OR, searchQuery));
-      return;
-    }
-  }
-
-  setFilterExpression(backendQueryModel);
 }

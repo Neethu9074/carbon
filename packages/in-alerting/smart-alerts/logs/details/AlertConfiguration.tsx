@@ -18,11 +18,11 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/Ch
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
-import { AlertGrouping } from 'in-alerting/smart-alerts/logs/details/AlertGrouping';
 import { StaticThresholdConfig, TagCatalog, ThresholdConfigUnion } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';

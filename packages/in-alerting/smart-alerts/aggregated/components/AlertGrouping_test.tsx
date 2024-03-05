@@ -7,11 +7,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { TagCatalog, TagFilter } from '@instana/types';
+import { TagCatalog } from '@instana/types';
 
-import { AlertGrouping, getGroupingFE } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 
 describe('in-alerting/smart-alerts/infrastructure/details/AlertGrouping.tsx', () => {
   const tagCatalog = {
@@ -61,47 +60,6 @@ describe('in-alerting/smart-alerts/infrastructure/details/AlertGrouping.tsx', ()
 
       // THEN
       expect(wrapper.find(AlertQueryBuilder).exists()).toBeTruthy();
-    });
-  });
-
-  describe('getGroupingFE', () => {
-    it('Test groupBy is empty', () => {
-      // GIVEN
-      const groupBy: string[] = [];
-      const expectedResult: TagFilter[] = [];
-
-      // WHEN
-      const result = getGroupingFE(groupBy);
-
-      // THEN
-      expect(result).toEqual(expectedResult);
-    });
-
-    it('Test groupBy is not empty', () => {
-      // GIVEN
-      const groupBy = ['group1', 'group2'];
-      const expectedResult = [
-        {
-          value: '',
-          operator: '',
-          name: 'group1',
-          entity: NOT_APPLICABLE,
-          type: 'TAG_FILTER'
-        },
-        {
-          value: '',
-          operator: '',
-          name: 'group2',
-          entity: NOT_APPLICABLE,
-          type: 'TAG_FILTER'
-        }
-      ];
-
-      // WHEN
-      const result = getGroupingFE(groupBy);
-
-      // THEN
-      expect(result).toEqual(expectedResult);
     });
   });
 });

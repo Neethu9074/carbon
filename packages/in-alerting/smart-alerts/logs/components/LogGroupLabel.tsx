@@ -12,7 +12,7 @@ import { TagFilter } from '@instana/types';
 import { toRenderModel } from 'in-components/QueryBuilder/transformation/renderModel';
 //@ts-expect-error
 import NameReadOnly from 'in-components/QueryBuilder/components/Tag/NameReadOnly';
-import { getGroupingFE } from 'in-alerting/smart-alerts/logs/details/AlertGrouping';
+import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import { getGroupByTagCatalog } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { CatalogResponse } from 'in-logging/api/catalog';
 import { TagCatalog } from 'in-types';
@@ -23,7 +23,7 @@ export function LogGroupLabel({ groupKey, tagCatalog }: { groupKey: string; tagC
   if (!tagCatalog) {
     return <></>;
   }
-  const groupingFE = getGroupingFE([groupKey]);
+  const groupingFE = toUIGrouping([groupKey]);
 
   const renderModel = toRenderModel(groupingFE).filter((model: TagFilter) => model.type === 'TAG_FILTER' && model.name);
 
