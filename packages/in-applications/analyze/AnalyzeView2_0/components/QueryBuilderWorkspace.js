@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import {
   ua2ApiQueryPressedTracker,
@@ -37,7 +38,6 @@ import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import config from 'in-services/config';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const queryBuilderPerDataSource = {
@@ -79,7 +79,6 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     }
   };
 
-  const theme = useTheme();
   const timeConfig = useTimeConfig();
   const docCallOrTrace = dataSource === 'calls' ? 'getCallGroup' : 'getTraceGroups';
   const getEndpointCallOrTrace = () => {
@@ -116,7 +115,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
           liveModeDisabledTooltip={renderLiveModeDisableTooltip()}
         />
       }
-      backgroundColor={theme.ids.color.option.white}
+      backgroundColor={themes.default.ids.color.option.white}
     >
       <LeftRightPadding>
         <Stack gap="gutter">
