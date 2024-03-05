@@ -6,6 +6,7 @@
 
 import { Group } from '@instana/types';
 
+// TODO can be removed later
 export function toBackendGroupBy(groupBy?: Group[]) {
   if (!groupBy) {
     return [];
@@ -15,4 +16,8 @@ export function toBackendGroupBy(groupBy?: Group[]) {
 
 export function toGroupTag(group: Group) {
   return group?.groupbyTagSecondLevelKey ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey : group.groupbyTag;
+}
+
+export function toGroupByTag(groupBy: Group[]) {
+  return groupBy.map(group => ({ tagname: group.groupbyTag, key: group?.groupbyTagSecondLevelKey ?? null }));
 }
