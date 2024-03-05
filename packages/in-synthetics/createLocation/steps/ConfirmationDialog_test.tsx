@@ -31,7 +31,6 @@ describe('Confirmation Dialog', () => {
             latitude: 50.11,
             longitude: 8.68,
             provider: 'aws',
-            locationDisplayLabel: 'us-west-1(NCalifornia)',
             status: 'Inactive'
           }
         ]
@@ -51,16 +50,14 @@ describe('Confirmation Dialog', () => {
     );
     expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
     expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
-    expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Location Display Name');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Status');
+    expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Status');
 
     const confirmationColumns = container.getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].children;
 
-    expect(confirmationColumns.length).toBe(4);
+    expect(confirmationColumns.length).toBe(3);
     expect(confirmationColumns[0].textContent).toBe('us-west-1');
     expect(confirmationColumns[1].textContent).toBe('us-west-1(NCalifornia)');
-    expect(confirmationColumns[2].textContent).toBe('us-west-1(NCalifornia)');
-    expect(confirmationColumns[3].textContent).toBe('Pending');
+    expect(confirmationColumns[2].textContent).toBe('Pending');
 
     expect(
       screen.getByRole('button', {

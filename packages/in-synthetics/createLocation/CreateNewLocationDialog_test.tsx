@@ -62,7 +62,7 @@ describe('Synthetic New Location Dialog', () => {
     expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
     expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Provider');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location Display Name');
+    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location Name');
     expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Status');
   });
 });
