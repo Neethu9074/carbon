@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Group } from '@instana/types';
+import { Group, GroupByTag } from '@instana/types';
 
 // TODO can be removed later
 export function toBackendGroupBy(groupBy?: Group[]) {
@@ -22,9 +22,8 @@ export function toGroupByTag(groupBy: Group[]) {
   return groupBy.map(group => ({ tagname: group.groupbyTag, key: group?.groupbyTagSecondLevelKey ?? null }));
 }
 
-//TODO update the type of groupBy when type definition gets updates.
-export const logsGroupbyTag = (groupBy: any): Group[] => {
-  return groupBy.map((tag: any) => {
+export const logsGroupbyTag = (groupBy: GroupByTag[]): Group[] => {
+  return groupBy.map((tag: GroupByTag) => {
     return {
       groupbyTag: tag.tagName,
       groupbyTagEntity: 'NOT_APPLICABLE',
