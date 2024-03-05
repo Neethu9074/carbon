@@ -149,6 +149,8 @@ void main() {
     pointSize = 0.0;
   }
 
-  gl_PointSize = pointSize;
+  float nodeFactor = 5.0;
+
+  gl_PointSize = pointSize * nodeFactor;
   gl_Position = projectionMatrix * mvPosition;
 }
