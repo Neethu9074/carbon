@@ -39,14 +39,3 @@ export function getGroupByTagCatalog(tagCatalog: TagCatalog): EnrichedTagCatalog
     tags: tagCatalogWithoutOthers.tags
   });
 }
-
-//TODO update the type of groupBy when type definition gets updates.
-export const logsGroupbyTag = (groupBy: any): Group[] => {
-  return groupBy.map((tag: any) => {
-    return {
-      groupbyTag: tag.tagName,
-      groupbyTagEntity: 'NOT_APPLICABLE',
-      groupbyTagSecondLevelKey: tag.key
-    };
-  });
-};

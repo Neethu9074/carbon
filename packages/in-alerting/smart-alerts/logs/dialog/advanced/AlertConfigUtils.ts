@@ -21,3 +21,14 @@ export function toGroupTag(group: Group) {
 export function toGroupByTag(groupBy: Group[]) {
   return groupBy.map(group => ({ tagname: group.groupbyTag, key: group?.groupbyTagSecondLevelKey ?? null }));
 }
+
+//TODO update the type of groupBy when type definition gets updates.
+export const logsGroupbyTag = (groupBy: any): Group[] => {
+  return groupBy.map((tag: any) => {
+    return {
+      groupbyTag: tag.tagName,
+      groupbyTagEntity: 'NOT_APPLICABLE',
+      groupbyTagSecondLevelKey: tag.key
+    };
+  });
+};
