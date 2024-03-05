@@ -18,7 +18,8 @@ import locals from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping
 
 interface AlertGroupingProps {
   AlertQueryBuilder: QueryBuilderComponent;
-  groupBy: string[];
+  //TODO : need to update type of groupBy once type definition gets updated.
+  groupBy: any;
 }
 
 export function AlertGrouping({ AlertQueryBuilder, groupBy }: AlertGroupingProps) {

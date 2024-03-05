@@ -16,20 +16,19 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagFilterExpressionElementUnion } from 'in-types';
 
-export function toUIGrouping(groupBy: string[]) {
+//TODO : need to update type of groupBy once type definition gets updated.
+export function toUIGrouping(groupBy: any) {
   if (!groupBy.length) {
     return [];
   }
-  const groupingFE: TagFilter[] = [];
-  groupBy.forEach((groupName: string) => {
-    groupingFE.push({
+  const groupingFE: TagFilter[] = groupBy.map((tag: any) => {
+    return {
       value: '',
-      //@ts-expect-error groupby doesnot have operator
       operator: '',
-      name: groupName,
+      name: tag?.tagName ?? tag,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
-    });
+    };
   });
   return groupingFE;
 }
