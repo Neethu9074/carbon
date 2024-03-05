@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+/* eslint-disable no-console */
 import { init as initGlyphTexture, glyphTexture, config } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
 import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
@@ -55,6 +56,7 @@ export default class NodesGeometry extends BaseGeometry {
         // use right bottom UV coords to show nothing but emptiness
         uvCoords.push(0);
         uvCoords.push(0);
+        //console.debug('unable to find icon for %s', node.plugin);
       } else {
         uvCoords.push(xy.x / textureWidth);
         uvCoords.push(xy.y / textureWidth);
