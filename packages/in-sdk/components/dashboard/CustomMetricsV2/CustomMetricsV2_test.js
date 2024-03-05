@@ -38,7 +38,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[0]).to.nested.include({
         key: 'metrics.counters.one',
         name: 'one',
-        color: '#00CC66',
+        color: '#39BF7C',
         type: 'counter',
         'metrics[0].name': 'metrics.counters.one',
         'metrics[0].label': 'Count'
@@ -46,7 +46,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[1]).to.nested.include({
         key: 'metrics.gauges.two',
         name: 'two',
-        color: '#D90368',
+        color: '#E62E8A',
         type: 'gauge',
         'metrics[0].name': 'metrics.gauges.two',
         'metrics[0].label': 'Value'
@@ -54,7 +54,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[2]).to.nested.include({
         key: 'metrics.histograms.three',
         name: 'three',
-        color: '#F1C40F',
+        color: '#FFC600',
         type: 'histogram',
         'metrics[0].name': 'metrics.histograms.three.mean',
         'metrics[0].label': 'Mean',
@@ -66,7 +66,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[3]).to.nested.include({
         key: 'metrics.meters.four',
         name: 'four',
-        color: '#2274A5',
+        color: '#2483B3',
         type: 'meter',
         'metrics[0].name': 'metrics.meters.four',
         'metrics[0].label': 'Rate'
@@ -74,7 +74,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[4]).to.nested.include({
         key: 'metrics.timers.five',
         name: 'five',
-        color: '#F75C03',
+        color: '#FF8C19',
         type: 'timer',
         tableMetric: 1,
         'metrics[0].name': 'metrics.timers.five.rate',
@@ -89,7 +89,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[5]).to.nested.include({
         key: 'metrics.summaries.six',
         name: 'six',
-        color: '#f75c03',
+        color: '#FF8C19',
         type: 'summary',
         'metrics[0].name': 'metrics.summaries.six',
         'metrics[0].label': 'Value'
@@ -109,7 +109,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[0]).to.nested.include({
         key: 'metrics.counters.one',
         name: 'one',
-        color: '#00CC66',
+        color: '#39BF7C',
         type: 'counter',
         'metrics[0].name': 'metrics.counters.one',
         'metrics[0].label': 'Count'
@@ -117,7 +117,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[1]).to.nested.include({
         key: 'metrics.gauges.two',
         name: 'two',
-        color: '#D90368',
+        color: '#E62E8A',
         type: 'gauge',
         'metrics[0].name': 'metrics.gauges.two',
         'metrics[0].label': 'Value'
@@ -125,7 +125,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[2]).to.nested.include({
         key: 'metrics.histograms.three',
         name: 'three',
-        color: '#F1C40F',
+        color: '#FFC600',
         type: 'histogram',
         'metrics[0].name': 'metrics.histograms.three',
         'metrics[0].label': 'Value'
@@ -133,7 +133,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[3]).to.nested.include({
         key: 'metrics.summaries.four',
         name: 'four',
-        color: '#f75c03',
+        color: '#FF8C19',
         type: 'summary',
         'metrics[0].name': 'metrics.summaries.four',
         'metrics[0].label': 'Value'
@@ -157,7 +157,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[0]).to.nested.include({
         key: 'micrometer.metrics.gauge.one',
         name: 'one',
-        color: '#D90368',
+        color: '#E62E8A',
         type: 'gauge',
         'metrics[0].name': 'micrometer.metrics.gauge.one',
         'metrics[0].label': 'Value'
@@ -165,7 +165,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[1]).to.nested.include({
         key: 'micrometer.metrics.timeGauge.two',
         name: 'two',
-        color: '#D90368',
+        color: '#E62E8A',
         type: 'time gauge',
         'metrics[0].name': 'micrometer.metrics.timeGauge.two',
         'metrics[0].label': 'Value'
@@ -173,7 +173,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[2]).to.nested.include({
         key: 'micrometer.metrics.counter.three',
         name: 'three',
-        color: '#00CC66',
+        color: '#39BF7C',
         type: 'counter',
         'metrics[0].name': 'micrometer.metrics.counter.three',
         'metrics[0].label': 'Count'
@@ -181,7 +181,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[3]).to.nested.include({
         key: 'micrometer.metrics.functionCounter.four',
         name: 'four',
-        color: '#00CC66',
+        color: '#39BF7C',
         type: 'function counter',
         'metrics[0].name': 'micrometer.metrics.functionCounter.four',
         'metrics[0].label': 'Count'
@@ -189,7 +189,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[4]).to.nested.include({
         key: 'micrometer.metrics.timer.five',
         name: 'five',
-        color: '#F75C03',
+        color: '#FF8C19',
         type: 'timer',
         'metrics[0].name': 'micrometer.metrics.timer.five',
         'metrics[0].label': 'Value'
@@ -197,7 +197,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[5]).to.nested.include({
         key: 'micrometer.metrics.functionTimer.six',
         name: 'six',
-        color: '#F75C03',
+        color: '#FF8C19',
         type: 'function timer',
         'metrics[0].name': 'micrometer.metrics.functionTimer.six',
         'metrics[0].label': 'Value'
@@ -205,7 +205,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[6]).to.nested.include({
         key: 'micrometer.metrics.longTaskTimer.seven',
         name: 'seven',
-        color: '#F75C03',
+        color: '#FF8C19',
         type: 'long task timer',
         'metrics[0].name': 'micrometer.metrics.longTaskTimer.seven',
         'metrics[0].label': 'Value'
@@ -213,7 +213,7 @@ describe('CustomMetricsV2', () => {
       expect(rows[7]).to.nested.include({
         key: 'micrometer.metrics.distributionSummary.eight',
         name: 'eight',
-        color: '#f7b320',
+        color: '#FFC600',
         type: 'distribution',
         'metrics[0].name': 'micrometer.metrics.distributionSummary.eight',
         'metrics[0].label': 'Value'
