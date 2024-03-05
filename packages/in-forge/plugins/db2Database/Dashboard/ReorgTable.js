@@ -83,7 +83,7 @@ const cols = [
       getValue(row) {
         return row.topQuery.get('DURATION');
       },
-      getContent: seconds.detailed
+      getContent: seconds.fixedCompact
     }
   }
 ];
