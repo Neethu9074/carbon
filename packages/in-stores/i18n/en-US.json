@@ -211,6 +211,7 @@
     "fieldsEntityAzureServiceAppservice": "Azure App Service",
     "fieldsEntityAzureServiceCosmosdb": "Azure CosmosDB",
     "fieldsEntityAzureServiceDataFactory": "Azure DataFactory",
+    "fieldsEntityAzureServiceKeyVault": "Azure KeyVault",
     "fieldsEntityAzureServiceMySql": "Azure MySQL",
     "fieldsEntityAzureServiceRediscache": "Azure Redis Cache",
     "fieldsEntityAzureServiceSqldb": "Azure SQL Database",

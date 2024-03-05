@@ -219,6 +219,11 @@
   "pluginName_azure_1": "Azure Instances",
   "pluginName_azure_2": "Azure Instances",
   "pluginName_azure": "Azure Instance",
+  "pluginName_azureKeyVault_plural": "Azure KeyVault",
+  "pluginName_azureKeyVault_0": "Azure KeyVault",
+  "pluginName_azureKeyVault_1": "Azure KeyVault",
+  "pluginName_azureKeyVault_2": "Azure KeyVault",
+  "pluginName_azureKeyVault": "Azure KeyVault",
   "pluginName_azureApiManagement_plural": "Azure API Management Services",
   "pluginName_azureApiManagement_0": "Azure API Management Services",
   "pluginName_azureApiManagement_1": "Azure API Management Services",
@@ -4723,6 +4728,35 @@
       "performance": "Performance",
       "traffic": "Traffic",
       "runtime": "Runtime"
+    },
+    "azureKeyVault": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoProvisioningState": "Provisioning State",
+      "infoTier": "Tier",
+      "infoType":"Type",
+      "labelAvailability": "Availability",
+      "labelServiceApiLatency": "Service Api Latency",
+      "labelServiceApiHit": "Service Api Hit",
+      "labelServiceApiResult": "Service Api Result",
+      "labelSaturationShoeBox": "SaturationShoeBox",
+      "infoKeyVault": "Azure KeyVault",
+      "vaultCategory": "Vaults",
+      "serviceApiCategory": "Service Api",
+      "dashboard": {
+        "labelAvailability": "Availability",
+        "labelSaturationShoeBox": "SaturationShoeBox",
+        "labelResult": "Result",
+        "labelServiceAPI": "Service Api",
+        "labelLatency": "Latency",
+        "labelHit": "Hit"
+      },
+      "kpi": {
+        "labelServiceApiLatency": "Service Api Latency",
+        "labelAvailability": "Availability"
+
+      }
     },
     "azureCosmosDB": {
       "infoName": "Name",
@@ -11814,7 +11848,7 @@
       "version": "Database Version",
       "port": "Port",
       "childOTelDatabaseWithCount": "Children ({{len}})",
-      "parentOTelDatabase": "Parent", 
+      "parentOTelDatabase": "Parent",
       "dashboard": {
         "instance": "Instance",
         "instanceActive": "Active Instance",
