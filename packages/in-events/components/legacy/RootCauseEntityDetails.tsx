@@ -9,14 +9,14 @@ import { List, Map } from 'immutable';
 
 import { Link, LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
 import { Application, Endpoint, ServiceLabel, TimeConfig } from '@instana/types';
-import { Observable } from '@instana/observables';
+import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 //@ts-expect-error
-import { SnapshotData, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
+import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
 import EventListPagination from 'in-components/EventListPagination/EventListPagination';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
@@ -25,6 +25,7 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
+import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { setTimeConfig } from 'in-stores/time/config';
 
 import locals from 'in-events/components/legacy/EventList.mless';
@@ -46,6 +47,14 @@ interface EntityPathProps {
   entityType: string;
 }
 
+interface NonAppDataEntityPathProps {
+  relatedApplicationInformation: Application | null | undefined;
+  entityInformation: SnapshotData | null;
+  hierarchySnapshots: SnapshotData[] | null | undefined;
+  serviceLabelInformation: ServiceLabel | null | undefined;
+  entityType: string;
+}
+
 export default function RootCauseEntityDetails({
   selectedSnapshotMetadata,
   probabilityScore,
@@ -58,6 +67,8 @@ export default function RootCauseEntityDetails({
   const [entityQuery, setEntityQuery] = useState<
     Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null | string
   >(null);
+  const [hierarchyQuery, setHierarchyQuery] = useState<Observable<List<string>> | null>(null);
+  const [timeWindow, setTimeWindow] = useState(incidentTimeWindow);
   const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null | string>(null);
   const { location } = useNavigation();
   const entityType = selectedSnapshotMetadata.get('EntityType');
@@ -71,6 +82,21 @@ export default function RootCauseEntityDetails({
       : null,
     [selectedSnapshotMetadata]
   );
+
+  const hierarchySnapshots = useObservable(() => {
+    if (hierarchyQuery) {
+      return hierarchyQuery.flatMap(item =>
+        combineLatest(
+          item
+            .toArray()
+            .filter(id => id !== originalID) //filter out selected entity to avoid duplication for hosts
+            .map(id => getSnapshot(id, timeWindow))
+        )
+      );
+    } else {
+      return null;
+    }
+  }, [timeWindow, hierarchyQuery]);
   // generates a list of event information based on Observables
   //@ts-expect-error
   const entityInformation = useObservable(entityQuery, [entityQuery], { resetStateOnObservableChange: true }) ?? null;
@@ -102,6 +128,10 @@ export default function RootCauseEntityDetails({
                 focusedMoment: to
               } as TimeConfig;
               setTimeConfig(location, timeConfigFromSnapVersion);
+              setTimeWindow(timeConfigFromSnapVersion);
+              setHierarchyQuery(
+                getPhysicalHierarchy({ snapshotId: originalID, timeConfig: timeConfigFromSnapVersion })
+              );
               setEntityQuery(getSnapshot(originalID, timeConfigFromSnapVersion));
             }
           }
@@ -130,21 +160,32 @@ export default function RootCauseEntityDetails({
 
   useEffect(() => {
     //what about when service query returns null and service id exists?
-    if (!serviceQuery && entityInformation && entityInformation.serviceId) {
+    if (
+      !serviceQuery &&
+      entityType !== 'infrastructure' &&
+      entityType !== 'process' &&
+      entityInformation &&
+      entityInformation.serviceId
+    ) {
       setServiceQuery(
         getServiceLabel({ id: entityInformation.serviceId })
           .map(data => data.data)
           .throttle(250)
       );
     }
-  }, [entityInformation, originalID, serviceQuery]);
+  }, [entityInformation, originalID, serviceQuery, entityType]);
+
+  useEffect(() => {
+    if (serviceLabelInformation && entityInformation && entityInformation.serviceId !== serviceLabelInformation?.id)
+      setServiceQuery(null);
+  }, [entityInformation, serviceLabelInformation, selectedSnapshotMetadata]);
 
   return (
     <div className={locals.entityDescription}>
       <Stack gap="small">
         <Stack direction="horizontal" gap="small" align="center">
           <Typography variant="body-bold">{t('in-events:RCA.probableRootCauseLabel')}</Typography>
-          {entityInformation !== null && (
+          {entityInformation !== null && entityType !== 'infrastructure' && entityType !== 'process' && (
             <Link href={urlForEntity}>
               <EntityPath
                 relatedApplicationInformation={relatedApplicationInformation}
@@ -154,9 +195,20 @@ export default function RootCauseEntityDetails({
               />
             </Link>
           )}
-          {(entityInformation === null || !relatedApplicationInformation) && (
-            <LoadingSkeleton className={locals.loadingEntity} />
-          )}
+          {entityInformation !== null &&
+            hierarchySnapshots &&
+            (entityType === 'infrastructure' || entityType === 'process') && (
+              <Link href={urlForEntity}>
+                <NonAppDataEntityPath
+                  relatedApplicationInformation={relatedApplicationInformation}
+                  hierarchySnapshots={hierarchySnapshots}
+                  entityInformation={entityInformation}
+                  serviceLabelInformation={serviceLabelInformation}
+                  entityType={entityType}
+                />
+              </Link>
+            )}
+          {entityInformation === null && <LoadingSkeleton className={locals.loadingEntity} />}
           <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityInformation === null} />
         </Stack>
         <EventListPagination pageNum={pageNum} numPages={numOfSnapshots || 1} setPageNum={setPageNum} />
@@ -182,10 +234,57 @@ function EntityPath({
           {`${relatedAPlabel} >`}
         </Stack>
       )}
-      {relatedServiceLabel && (
+      {relatedServiceLabel && isServiceLabelValid(relatedServiceLabel) && (
         <Stack direction="horizontal" gap="xsmall" align="center">
           <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
           {`${relatedServiceLabel} >`}
+        </Stack>
+      )}
+      {entityLabel && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIcon(entityType)} color={themes.default.cds.link.primary} />
+          {entityLabel}
+        </Stack>
+      )}
+    </Stack>
+  );
+}
+
+function NonAppDataEntityPath({
+  relatedApplicationInformation,
+  hierarchySnapshots,
+  entityInformation,
+  serviceLabelInformation,
+  entityType
+}: NonAppDataEntityPathProps) {
+  const hostLabel = hierarchySnapshots
+    ?.map(
+      snapshot =>
+        snapshot.get('plugin') === 'host' && { label: snapshot.get('label'), pluginType: snapshot.get('plugin') }
+    )
+    .pop();
+  const relatedServiceLabel = serviceLabelInformation?.label;
+  const relatedAPlabel = relatedApplicationInformation?.label;
+  const entityLabel = Map.isMap(entityInformation) ? entityInformation?.get('label') : entityInformation?.label;
+
+  return (
+    <Stack direction="horizontal" gap="small" align="center">
+      {relatedAPlabel && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIcon('application')} color={themes.default.cds.link.primary} />
+          {`${relatedAPlabel} >`}
+        </Stack>
+      )}
+      {relatedServiceLabel && isServiceLabelValid(relatedServiceLabel) && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIcon('service')} color={themes.default.cds.link.primary} />
+          {`${relatedServiceLabel} >`}
+        </Stack>
+      )}
+      {hostLabel && (
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <PluginIcon plugin={hostLabel.pluginType} color={themes.default.cds.link.primary} />
+          {`${hostLabel.label} >`}
         </Stack>
       )}
       {entityLabel && (
@@ -207,6 +306,8 @@ function useGenerateLinksForEntity(
   serviceLabelInformation: ServiceLabel | null
 ): string | undefined {
   const getLinkToApplicationAnalyze = useLinkToAnalyze();
+
+  //Convert entity information to json if it comes in as a map in case of getSnapshot
   if (entityInformation && Map.isMap(entityInformation)) entityInformation = entityInformation.toJS();
 
   if (relatedApplicationInformation && relatedApplicationInformation && entityInformation) {
@@ -270,18 +371,20 @@ function generateNonSmartAlertFormModelForLinkToEntity(
 ): FormModelElement[] | null {
   let initialFormModel = null;
 
-  if (serviceLabelInformation && serviceLabelInformation.label) {
+  if (serviceLabelInformation && serviceLabelInformation.label && isServiceLabelValid(serviceLabelInformation.label)) {
     initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
       'service.name',
       serviceLabelInformation.label,
       null
     );
-  } else if (entityInformation.serviceId) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('service.id', entityInformation.serviceId, null);
   }
+  const isInfrastructureAProcess =
+    entityInformation && entityInformation.plugin && entityInformation.plugin === 'process';
 
-  if (entityType === 'infrastructure' || entityType === 'process') {
+  if (entityType === 'infrastructure' && !isInfrastructureAProcess) {
     initialFormModel = getTagFilterForSourceOrDestinationAndCombine('host.snapshotId', originalID, initialFormModel);
+  } else if (entityType === 'process' || isInfrastructureAProcess) {
+    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('process.snapshotId', originalID, initialFormModel);
   } else if (entityType === 'endpoint') {
     initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
       ENDPOINT.name,
@@ -306,15 +409,12 @@ function generateFormModelForLinkToEntity(
   serviceLabelInformation: ServiceLabel | null
 ): FormModelElement[] | null {
   let initialFormModel = null;
-
-  if (serviceLabelInformation && serviceLabelInformation.label) {
+  if (serviceLabelInformation && serviceLabelInformation.label && isServiceLabelValid(serviceLabelInformation.label)) {
     initialFormModel = getTagFilterForSourceOrDestinationAndCombine(
       'service.name',
       serviceLabelInformation.label,
       null
     );
-  } else if (entityInformation.serviceId) {
-    initialFormModel = getTagFilterForSourceOrDestinationAndCombine('service.id', entityInformation.serviceId, null);
   }
 
   // Todo: cleanup after rca rework in backend that differentiates between process and infra
@@ -359,4 +459,8 @@ function getTagFilterForSourceOrDestinationAndCombine(
   } else {
     return filterToJoin;
   }
+}
+
+function isServiceLabelValid(label: string) {
+  return label !== 'UNKNOWN' && label !== 'Unspecified';
 }

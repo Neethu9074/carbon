@@ -34,7 +34,12 @@ interface BreadCrumbItem {
 
 const trackingService: CreateTrackerProps = createTracker('agent.installation');
 
-export default function AgentViewRouter({ selectedService }: { selectedService: string }) {
+interface AgentViewRouterProps {
+  selectedService: string;
+  fromOnboarding?: boolean;
+}
+
+export default function AgentViewRouter({ selectedService, fromOnboarding = false }: AgentViewRouterProps) {
   const unitKeysResp: UnitKeys = useObservable<UnitKeys, []>(getUnitKeys(), []) ?? {
     agentKey: 'agentKey',
     downloadKey: 'downloadKey'
@@ -49,7 +54,7 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
       {
         icon: 'lib_infrastructure',
         title: t('in-plg:agentDetails.common.agentCatalog'),
-        href: '#/agents/installation'
+        href: `#/agents${fromOnboarding ? '/onboarding' : ''}/installation`
       },
       {
         icon: selectedEntity?.icon,

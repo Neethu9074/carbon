@@ -97,7 +97,10 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
               windowSize:
                 incident.get('end') - incident.get('metadata').get('triggeringTime') + minutes.toMillis(20) ||
                 incident.get('end') - incident.get('start') + minutes.toMillis(20),
-              to: incident.get('end')
+              to: incident.get('end'),
+              focusedMoment:
+                incident.get('end') - incident.get('metadata').get('triggeringTime') + minutes.toMillis(20) ||
+                incident.get('end') - incident.get('start') + minutes.toMillis(20)
             }}
           />
         </div>
