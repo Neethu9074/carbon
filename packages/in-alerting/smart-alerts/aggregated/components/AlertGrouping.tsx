@@ -7,8 +7,10 @@
 import React from 'react';
 
 import { Stack } from '@instana/components';
+import { TagFilter } from '@instana/types';
 
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
