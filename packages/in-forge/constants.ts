@@ -71,6 +71,7 @@ export const nonServicePlugins = {
   azureServiceBusQueues: 'azureServiceBusQueues',
   azureServiceBusTopics: 'azureServiceBusTopics',
   azureKeyVault: 'azureKeyVault',
+  azureManagedHSM: 'azureManagedHSM',
   beeInstanaNode: 'beeInstanaNode',
   bizTalk: 'bizTalk',
   camunda: 'camunda',
@@ -435,6 +436,7 @@ export const fullyQualifiedPlugins = {
   azureServiceBusTopics:
     'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.topics.AzureServiceBusTopics',
   azureKeyVault: 'com.instana.forge.hardware.virtual.azure.keyvault.AzureKeyVault',
+  azureManagedHSM: 'com.instana.forge.hardware.virtual.azure.managedhsm.AzureManagedHSM',
   beeInstanaNode: 'com.instana.forge.infrastructure.database.beeinstana.BeeInstanaNode',
   bizTalk: 'com.instana.forge.infrastructure.messaging.biztalk.BizTalk',
   camunda: 'camunda',

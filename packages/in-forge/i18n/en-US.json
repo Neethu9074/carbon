@@ -314,6 +314,11 @@
   "pluginName_azureServiceBusTopics_1": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics_2": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics": "Azure Service Bus Topic",
+  "pluginName_azureManagedHSM_plural": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_0": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_1": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_2": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM": "Azure Key Vault Managed HSM",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -4689,6 +4694,28 @@
       "latency": "Latency",
       "eventHubEvents": "Event Hub Events",
       "sizeOfEventHubEvents": "Size of Event Hub Events"
+    },
+    "azureManagedHSM": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoProvisioningState": "Provisioning State",
+      "infoTier": "Tier",
+      "infoType":"Type",
+      "labelAvailability": "Availability",
+      "labelServiceApiLatency": "Service Api Latency",
+      "labelServiceApiHit": "Service Api Hit",
+      "infoMangedHSM": "Azure KeyVault Managed HSM",
+      "dashboard": {
+        "labelAvailability": "Availability",
+        "labelServiceAPI": "Service Api",
+        "labelLatency": "Latency",
+        "labelHit": "Hit"
+      },
+      "kpi": {
+        "labelServiceApiLatency": "Service Api Latency",
+        "labelAvailability": "Availability"
+      }
     },
     "azureAppService": {
       "infoName": "Name",

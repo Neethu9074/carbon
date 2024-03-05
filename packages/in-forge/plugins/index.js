@@ -130,6 +130,7 @@ import './ibmMqMftTransfer';
 import './sapWebDispatcher';
 import './azureDataFactory';
 import './azureServiceBus';
+import './azureManagedHSM';
 import './ibmMqMftMonitor';
 import './activeMQArtemis';
 import './awsEcsContainer';
