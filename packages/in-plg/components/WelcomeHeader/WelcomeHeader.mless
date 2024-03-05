@@ -20,8 +20,4 @@
     background-position-x: 70% !important;
     background-position-y: 0% !important;
   }
-
-  .urlShortener {
-    width: 2rem;
-  }
 }

@@ -64,7 +64,6 @@ export default function WelcomeHeader() {
       <Overlay props={props} content={UrlShortenerOverlay} withoutWrapper withoutArrow>
         {({ toggle, refSetter }) => (
           <DashboardButton
-            className={locals.urlShortener}
             id="url-shortener-button"
             icon="lib_actions_interface_link"
             kind="tertiary"

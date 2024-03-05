@@ -415,6 +415,7 @@
   },
   "welcomepage": {
     "heading": "Welcome",
+    "viewAll": "View all",
     "consumeData": {
       "title": "Consume Data",
       "description": "Get started and deploy your first agent.",
@@ -432,6 +433,107 @@
       "description": "Find more setup setup steps by clicking the ? symbol in the top right corner.",
       "buttonName": "Get answers",
       "buttonType": "ghost"
+    },
+    "component":{
+      "applicationWidget": {
+        "label": "Applications",
+        "name": "Name",
+        "calls": "Calls",
+        "latency": "Latency",
+        "erroneousCallRate": "Erroneous call rate",
+        "openCreationDialog": "Open Creation Dialog"
+      },
+      "eventWidget": {
+        "label": "Events",
+        "incidents": "Incidents",
+        "critical": "Critical",
+        "warning": "Warning",
+        "viewEvents": "View Events"
+      },
+      "platformWidget": {
+        "platforms": "Platforms",
+        "cloudFoundry": "Cloud Foundry",
+        "vsphere": "vSphere",
+        "openstack": "OpenStack",
+        "ibmp": "IBM Power HMC",
+        "powervcRegion":"PowerVC Region",
+        "sap": "SAP",
+        "ibmz": "IBM Z HMC",
+        "kubernetes": "Kubernetes",
+        "name": "Name",
+        "nodes": "Nodes",
+        "namespaces": "Namespaces",
+        "pods": "Pods"
+      },
+      "bizopsWidget": {
+        "label": "Business Monitoring",
+        "name": "Name",
+        "activities": "Activities",
+        "count": "Count"
+      },
+      "incidentsWidget": {
+        "label": "Incidents",
+        "active": "active",
+        "title": "Title",
+        "on": "On",
+        "started": "Started",
+        "end": "End"
+      },
+      "websitesWidget": {
+        "label": "Websites",
+        "name": "Name",
+        "pageViews": "Page views",
+        "onLoadTimes": "OnLoad times"
+      },
+      "mobileAppsWidget": {
+        "label": "Mobile Apps",
+        "name": "Name",
+        "sessions": "Sessions",
+        "views": "Views"
+      },
+      "infrastructureWidget": {
+        "label": "Infrastructure",
+        "mean": "mean",
+        "name": "Name",
+        "os": "OS",
+        "cpuNum": "Number of CPUs",
+        "cpuUsage": "CPU Usage",
+        "created": "Created",
+        "started": "Started"
+      }
+    },
+    "noData": {
+      "applicationWidget": {
+        "header": "No applications",
+        "description": "Create your own perspective on the services you want to observe.",
+        "buttonName": "Create application perspective"
+      },
+      "incidentsWidget": {
+        "header": "No incidents",
+        "description": "Incidents help you detect, understand, and investigate quality of service issues of your applications."
+      },
+      "websitesWidget": {
+        "header": "No websites",
+        "description": "Add websites and start to collect data",
+        "buttonName": "Add website"
+      },
+      "mobileListWidget": {
+        "header": "No mobiles apps",
+        "description": "Add mobile applications and start to collect data.",
+        "buttonName": "Add mobile applications"
+      },
+      "infrastructureWidget": {
+        "header": "No hosts, containers or processes",
+        "description": "Find the result of the deployed agent here."
+      },
+      "platformsWidget": {
+        "header": "No platforms",
+        "description": "Find all installed platforms here."
+      },
+      "businessMonitoringWidget": {
+        "header": "No business processes",
+        "description": "Enable the IBM Business Automation Workflow or configure Instana to capture and store business data from business processes."
+      }
     }
   }
 }
