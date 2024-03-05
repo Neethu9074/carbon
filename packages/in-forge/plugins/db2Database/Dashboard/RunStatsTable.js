@@ -7,7 +7,7 @@ import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { millis } from 'in-services/formatters/number';
+import { seconds } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
@@ -71,7 +71,7 @@ const cols = [
       getValue(row) {
         return row.topQuery.get('DURATION_SEC');
       },
-      getContent: millis.detailed
+      getContent: seconds.detailed
     }
   }
 ];

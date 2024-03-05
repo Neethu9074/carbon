@@ -19,10 +19,12 @@ import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTabl
 import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
 import TableSpaceUtil from 'in-forge/plugins/db2Database/Dashboard/TableSpaceUtil';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Db2CfLockTable from 'in-forge/plugins/db2Database/Dashboard/Db2CfLockTable';
 import HadrDashboard from 'in-forge/plugins/db2Database/Dashboard/HadrDashboard';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import RunStatsTable from 'in-forge/plugins/db2Database/Dashboard/RunStatsTable';
 import DbConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbConfigTable';
+import Db2CfScaTable from 'in-forge/plugins/db2Database/Dashboard/Db2CfScaTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SysCatTable from 'in-forge/plugins/db2Database/Dashboard/SysCatTable';
 import SysCatIndex from 'in-forge/plugins/db2Database/Dashboard/SysCatIndex';
@@ -68,7 +70,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
 
   const backupFormatter = days =>
     days >= 0 ? `${number.compact(days)} ${t('in-forge:plugins.db2Database.daysAgo')}` : undefined;
-
   return (
     <div>
       <KpiSection>
@@ -106,6 +107,8 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <PurescaleGeneral snapshotId={snapshotId} />
       <Db2Member snapshotId={snapshotId} />
       <Db2Cf snapshotId={snapshotId} />
+      <Db2CfLockTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <Db2CfScaTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <BackupDetailsTable snapshotId={snapshotId} />
       <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
