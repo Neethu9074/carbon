@@ -51,7 +51,7 @@ export const centerAlignedLinkColumn = {
   width: '2.5rem',
   getContent({ itemId, time, initialLogLines, groupKey }: LinkButtonProps) {
     return (
-      <div className={locals.centeredCopyButtonWrapper}>
+      <div id="log-link-button" className={locals.centeredCopyButtonWrapper}>
         <LinkButton itemId={itemId} time={time} initialLogLines={initialLogLines} groupKey={groupKey} />
       </div>
     );
@@ -63,7 +63,7 @@ export const copyColumn = {
   width: '2.5rem',
   getContent({ message }: CopyColumnProps) {
     return (
-      <div className={locals.copyButtonWrapper}>
+      <div id="log-copy-button" className={locals.copyButtonWrapper}>
         <CopyButton message={message} />
       </div>
     );
@@ -75,7 +75,7 @@ export const centerAlignedCopyColumn = {
   width: '2.5rem',
   getContent({ message }: CopyColumnProps) {
     return (
-      <div className={locals.centeredCopyButtonWrapper}>
+      <div id="log-copy-button" className={locals.centeredCopyButtonWrapper}>
         <CopyButton message={message} />
       </div>
     );
