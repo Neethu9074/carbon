@@ -32,8 +32,8 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceSuspended')}>
           <MetricValue snapshotId={snapshotId} metric="resourceSuspended" formatter={Boolean} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceMaypromote')}>
-          <MetricValue snapshotId={snapshotId} metric="resourceMaypromote" formatter={Boolean} />
+        <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceMayPromote')}>
+          <MetricValue snapshotId={snapshotId} metric="resourceMayPromote" formatter={Boolean} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceForceIOFailures')}>
           <MetricValue snapshotId={snapshotId} metric="resourceForceIOFailures" formatter={Boolean} />

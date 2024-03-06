@@ -6899,6 +6899,8 @@
     "drbdResource": {
       "drbdResource": "DRBD Resource",
       "resourceName": "DRBD Resource Name",
+      "resourcesNumber": "Number of Resources",
+      "resourceSuspendedCount": "Number of Suspended Resources",
       "drbdHost": "DRBD Host",
       "resourceSuspended": "Resource Suspended",
       "resourceMayPromote": "Resource Promoted to Primary",
