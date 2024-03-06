@@ -105,7 +105,7 @@ export default function InfrastructureList({
   useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
 
   const columnDefinitions = [
-    getLabelColumn(tracking?.onNavigateToEntity, isPreview),
+    getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
     ...getMetricColumns({
       metrics,
       sortable: showHeader || sortableMetrics,
@@ -255,18 +255,19 @@ function getTableData({
   });
 }
 
-function getLabelColumn(onNavigateToEntity, isPreview) {
+function getLabelColumn(onNavigateToEntity, isPreview, timeConfig) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
     getContent(item) {
+      const time = item.time < timeConfig.to ? item.time : undefined;
       return (
         <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
           <div className={locals.entityLink}>
             <EntityLink
               label={item.label}
               plugin={item.plugin}
-              href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' })}
+              href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard', to: time, focusedMoment: time })}
               onClick={
                 isPreview
                   ? noop
