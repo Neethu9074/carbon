@@ -19,7 +19,7 @@ import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateAppli
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
 //@ts-ignore doesn't contain type file
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
-import { GetContentFunction, ApplicationProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
@@ -115,12 +115,7 @@ export default connectTo(() => ({
     return null;
   }
 
-  interface columnDefinitionItem {
-    key: string;
-    getContent: GetContentFunction;
-  }
-
-  const columnDefinitions: columnDefinitionItem[] = [
+  const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {

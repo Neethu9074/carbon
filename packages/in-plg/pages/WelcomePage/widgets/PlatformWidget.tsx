@@ -30,9 +30,9 @@ import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getO
 import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPowerVCRegions';
 //@ts-ignore doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-ignore doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
-import { GetContentFunction, WidgetProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-ignore doesn't contain type file
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 //@ts-ignore doesn't contain type file
@@ -164,12 +164,7 @@ export default connectTo(() => ({
     )(getId(item));
   }
 
-  interface columnDefinitionItem {
-    key: string;
-    getContent: GetContentFunction;
-  }
-
-  const columnDefinitions: columnDefinitionItem[] = [
+  const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {

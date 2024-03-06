@@ -10,7 +10,7 @@ import { Link, Stack, Typography } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import { GetContentFunction, WidgetProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-ignore doesn't contain type file
 import getRawEvents from 'in-subscription/getRawEvents';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
@@ -92,11 +92,6 @@ export default connectTo(() => ({
     return start !== end ? formatDisplayDateTime(end) : valueMissingPlaceholder;
   }
 
-  interface columnDefinitionItem {
-    key: string;
-    getContent: GetContentFunction;
-  }
-
   const { location, createHref } = useNavigation();
   const eventsPath = '/events';
 
@@ -106,7 +101,7 @@ export default connectTo(() => ({
     return createHref(eventsListLocation);
   }
 
-  const columnDefinitions: columnDefinitionItem[] = [
+  const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'title',
       getContent({ item }) {
