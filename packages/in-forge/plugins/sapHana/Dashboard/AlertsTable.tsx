@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -11,12 +12,18 @@ import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
+interface AlertsRow {
+  key: string;
+  snapshotId: string;
+  alert: Map<string, object>;
+}
+
 const cols = [
   {
     title: t('in-forge:plugins.sapHana.dashboard.name'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: AlertsRow) {
         return row.alert.get('name');
       }
     }
@@ -25,7 +32,7 @@ const cols = [
     title: t('in-forge:plugins.sapHana.dashboard.timestamp'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: AlertsRow) {
         return row.alert.get('timestamp');
       },
       getContent: formatDateTime
@@ -35,7 +42,7 @@ const cols = [
     title: t('in-forge:plugins.sapHana.dashboard.priority'),
     type: 'number',
     typeArgs: {
-      getValue(row) {
+      getValue(row: AlertsRow) {
         return row.alert.get('rating');
       },
       getContent: mapRating
@@ -43,13 +50,13 @@ const cols = [
   }
 ];
 
-export default function AlertsTable({ snapshot }) {
+export default function AlertsTable({ snapshot }: any) {
   const rows = snapshot
     .getIn(['data', 'alerts'], emptyList)
     .toArray()
-    .map((alert, i) => {
+    .map((alert: string, i: string) => {
       return {
-        key: i,
+        key: String(i),
         alert
       };
     });
@@ -73,10 +80,12 @@ export default function AlertsTable({ snapshot }) {
   );
 }
 
-function getRowDetails(row) {
+function getRowDetails(row: AlertsRow) {
   return (
     <DescriptionList>
-      <DescriptionItem>{row.alert.get('details')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.dashboard.details')}>
+        {row.alert.get('details')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.sapHana.dashboard.userAction')}>
         {row.alert.get('userAction')}
       </DescriptionItem>
@@ -84,7 +93,7 @@ function getRowDetails(row) {
   );
 }
 
-function mapRating(rating) {
+function mapRating(rating: number) {
   if (rating === 1) {
     return t('in-forge:plugins.sapHana.dashboard.ratingInformation');
   }

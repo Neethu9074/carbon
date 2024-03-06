@@ -1,19 +1,31 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error Module needs to be translated to TS
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import AlertsTable from './AlertsTable.js';
+import ExpensiveStatementStatsList from './ExpensiveStatementStats';
+import GarbageCollectionStatsList from './GarbageCollectionStats';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import AlertsTable from './AlertsTable';
 import { t } from 'in-i18n';
 
-export default function Dashboard({ snapshot, timeConfig }) {
+interface DashboardProps {
+  snapshot: SnapshotData;
+  timeConfig: TimeConfig;
+}
+
+export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -54,7 +66,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             metrics: ['stats.diskUsageData', 'stats.diskUsageLog', 'stats.diskUsageTrace'],
@@ -72,7 +83,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -98,7 +108,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.sessionsDatabaseUsers', 'stats.sessionsApplications', 'stats.sessionsApplicationUsers'],
@@ -116,7 +125,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['stats.threadsTotalCount', 'stats.threadsActiveCount', 'stats.threadsBlockedCount'],
@@ -134,7 +142,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -156,7 +163,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -178,7 +184,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -204,7 +209,6 @@ export default function Dashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: [
@@ -222,6 +226,24 @@ export default function Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.sapHana.dashboard.connections')}>
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: zeroDecimalPlaces,
+            metrics: ['stats.idleCount', 'stats.runningCount'],
+            labels: [
+              t('in-forge:plugins.sapHana.dashboard.idleCount'),
+              t('in-forge:plugins.sapHana.dashboard.runningCount')
+            ],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
