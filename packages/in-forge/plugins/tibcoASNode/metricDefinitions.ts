@@ -1,0 +1,17 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
+
+export default [
+  {
+    metrics: ['completedOpsCount', 'failedOpsCount'],
+    labels: [t('in-forge:plugins.tibcoASNode.completedOpsCount'), t('in-forge:plugins.tibcoASNode.failedOpsCount')],
+    min: 0,
+    formatter: number.compact
+  }
+];

@@ -228,6 +228,7 @@ import './oTelLLM';
 import './syntheticPoP';
 import './processGroup';
 import './websiteHttpd';
+import './tibcoASNode';
 import './aliCloudOss';
 import './zhmcConsole';
 import './phmcConsole';

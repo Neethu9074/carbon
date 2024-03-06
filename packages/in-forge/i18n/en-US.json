@@ -1447,6 +1447,8 @@
   "pluginName_tanzuFoundationMember_1": "Tanzu Foundations Members",
   "pluginName_tanzuFoundationMember_2": "Tanzu Foundations Members",
   "pluginName_tanzuFoundationMember": "Tanzu Foundation Member",
+  "pluginName_tibcoASNode": "Tibco AS Node",
+  "pluginName_tibcoASNode_plural": "Tibco AS Nodes",
   "pluginName_tibcoBWAppNode": "Tibco BW AppNode",
   "pluginName_tibcoBWAppNode_plural": "Tibco BW AppNodes",
   "pluginName_tibcoBWAppInst": "Tibco BW App Instance",
@@ -6531,7 +6533,6 @@
         "purescaleMemAlert": "Member Node Alert",
         "purescaleCFAlert": "CF Node Alert",
         "purescaleCf": "CF ID"
-
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -12089,6 +12090,17 @@
       "labelDatabaseDiskWrites": "Database Disk Writes",
       "labelDatabaseBytesReceived": "Database Bytes Received",
       "labelDatabaseBytesSent": "Database Bytes Sent"
+    },
+    "tibcoASNode": {
+      "connectErrorIssueDescription": "Agent could not connect to FTL realm service. Connection failed with error: <code>{{error}}</code>",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "tibcoASNode": "Tibco AS Node",
+      "pid": "Process ID",
+      "nodeName": "Node Name",
+      "liveDataSize": "Live Data Size",
+      "completedOpsCount": "Completed Operations",
+      "failedOpsCount": "Failed Operations",
+      "completedOrFailedOperationsRate": "Completed/Failed Operations Rate"
     },
     "tibcoBWAppNode": {
       "tibcoBWAppNode": "Tibco BW AppNode",
