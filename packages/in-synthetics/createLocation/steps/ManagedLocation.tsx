@@ -77,8 +77,19 @@ const getColumnDefinitions = (
 
   const onDatacenterSelect = (entity: SyntheticDatacenter) => {
     const selectedDatacenters = datacentersField.value;
-    // @ts-expect-error property not yet in type but present
-    const { code, label, provider, countryName, cityName, latitude, longitude, status, locationDisplayLabel } = entity;
+    const {
+      code,
+      label,
+      provider,
+      countryName,
+      cityName,
+      latitude,
+      longitude,
+      status,
+      // @ts-expect-error property not yet in type but present
+      locationDisplayLabel,
+      datacenterId
+    } = entity;
     const index = selectedDatacenters.findIndex(datacenter => datacenter?.code === code);
     if (index !== -1) {
       selectedDatacenters.splice(index, 1);
@@ -93,7 +104,8 @@ const getColumnDefinitions = (
         longitude,
         status,
         // @ts-expect-error property not yet in type but present
-        locationDisplayLabel
+        locationDisplayLabel,
+        datacenterId
       });
     }
     updateForm(
@@ -140,7 +152,8 @@ const getColumnDefinitions = (
       label: t('in-synthetics:dialog.createLocation.managedLocation.locationName'),
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
-        return <span className={locals.label}>{entity?.locationLabel}</span>;
+        const locationName: string = entity?.locationLabel ?? '';
+        return <span className={locals.label}>{locationName}</span>;
       }
     },
     {

@@ -289,9 +289,12 @@
             "heads": {
               "datacenterCode": "Datacenter Code",
               "datacenterName": "Datacenter Name",
+              "locationName":"Location Name",
               "datacenterStatus": "Activation Status"
             }
-          }
+          },
+          "activateLocationLoadingMessage": "Activating Datacenters",
+          "activationRejectedMessage": "Activation request for {{rejectedDatacentersList}} cannot be processed as it has already been activated"
         }
       },
       "validators": {
