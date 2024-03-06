@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { TimeConfig } from '@instana/types';
@@ -20,7 +21,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 interface Row {
@@ -117,21 +117,23 @@ const cols = [
 export default function GetTibcoBWProcesses({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id');
-  const theme = useTheme();
 
-  const processes = useObservable(
-    getTibcoBWProcesses({ snapshotId, timeConfig }).flatMap(result =>
-      result.data
-        ? combineLatest(result.data.map(process => getSnapshot(process, timeConfig))).map(processes => success(processes))
-        : just(pendingResult)
-    ),
-    [snapshotId, timeConfig]
-  ) ?? pendingResult;
+  const processes =
+    useObservable(
+      getTibcoBWProcesses({ snapshotId, timeConfig }).flatMap(result =>
+        result.data
+          ? combineLatest(result.data.map(process => getSnapshot(process, timeConfig))).map(processes =>
+              success(processes)
+            )
+          : just(pendingResult)
+      ),
+      [snapshotId, timeConfig]
+    ) ?? pendingResult;
 
   if (isLoading(processes)) {
     return (
       <DashboardSection title={t('in-forge:plugins.tibcoBWProcess.processesWithCount', { len: 0 })}>
-        <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
+        <SvgIcon color={themes.default.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
       </DashboardSection>
     );
   }
