@@ -206,10 +206,12 @@ export const nonServicePlugins = {
   kubernetesJob: 'kubernetesJob',
   kubernetesDaemonSet: 'kubernetesDaemonSet',
   kubernetesDeployment: 'kubernetesDeployment',
+  kubernetesEndpoints: 'kubernetesEndpoints',
   kubernetesNamespace: 'kubernetesNamespace',
   kubernetesNode: 'kubernetesNode',
   kubernetesPod: 'kubernetesPod',
   kubernetesReplicaSet: 'kubernetesReplicaSet',
+  kubernetesReplicationController: 'kubernetesReplicationController',
   kubernetesService: 'kubernetesService',
   kubernetesStatefulSet: 'kubernetesStatefulSet',
   kubernetesPersistentVolume: 'kubernetesPersistentVolume',
@@ -589,6 +591,7 @@ export const fullyQualifiedPlugins = {
   kubernetesDaemonSet: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.daemonset.KubernetesDaemonSet',
   kubernetesDeployment:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment',
+  kubernetesEndpoints: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.endpoints.KubernetesEndpoints',
   kubernetesJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.batch.KubernetesJob',
   kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.node.KubernetesNode',
@@ -599,6 +602,8 @@ export const fullyQualifiedPlugins = {
   kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod',
   kubernetesReplicaSet:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.replicaset.KubernetesReplicaSet',
+  kubernetesReplicationController:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.replicationcontroller.KubernetesReplicationController',
   kubernetesService: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.service.KubernetesService',
   kubernetesStatefulSet:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.statefulset.KubernetesStatefulSet',
