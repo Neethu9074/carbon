@@ -25,23 +25,23 @@ import {
   lineWithThreshold,
   thresholdMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
+import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
-import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
+import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
-import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 
 const metricId = 'availability';
 
@@ -79,6 +79,11 @@ export default function TimeBasedAvailabilityIndicatorChart({
     <ResultAwareChart
       config={{
         title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        renderHistoricDataIndicator: true,
+        hasApproximateData: true,
+        approximateTooltipText: t(
+          'in-service-levels:sloDashboard.components.indicatorChart.components.approximateTooltip'
+        ),
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
