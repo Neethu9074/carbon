@@ -287,7 +287,8 @@
           "filterInfo": {
             "goodEventFilters": "Good event filters:",
             "badEventFilters": "Bad event filters:"
-          }
+          },
+          "approximateTooltip": "Data is aggregated. View a shorter time window to see more details"
         }
       },
       "entitySection": {
