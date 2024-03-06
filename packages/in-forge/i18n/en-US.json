@@ -6532,7 +6532,15 @@
         "purescaleMem": "Member ID",
         "purescaleMemAlert": "Member Node Alert",
         "purescaleCFAlert": "CF Node Alert",
-        "purescaleCf": "CF ID"
+        "purescaleCf": "CF ID",
+        "currentCfLockSize": "Current CF Lock Size",
+        "configuredCfLockSize": "Configured CF Lock Size",
+        "targetedCfLockSize": "Targeted CF Lock Size",
+        "currentCfScaSize": "Current CF SCA Size",
+        "configuredCfScaSize": "Configured CF SCA Size",
+        "targetedCfScaSize": "Targeted CF SCA Size",
+        "purescaleLockTable": "Purescale Lock Memory Table",
+        "purescaleScaTable": "Purescale SCA Memory Table"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6774,7 +6782,17 @@
       "pgHostName": "Host Name",
       "pgState": "State",
       "instanceStopped": "Instance Stopped",
-      "pgAlert": "Alert"
+      "pgAlert": "Alert",
+      "lockHostId": "Host Id",
+      "lockHostName": "Host Name",
+      "currentCfLockSize": "Current CF Lock Size",
+      "configuredCfLockSize": "Configured CF Lock Size",
+      "targetedCfLockSize": "Targeted CF Lock Size",
+      "scaHostId": "Host Id",
+      "scaHostName": "Host Name",
+      "currentCfScaSize": "Current CF SCA Size",
+      "configuredCfScaSize": "Configured CF SCA Size",
+      "targetedCfScaSize": "Targeted CF SCA Size"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",

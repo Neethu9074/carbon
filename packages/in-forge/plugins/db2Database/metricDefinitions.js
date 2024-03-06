@@ -644,5 +644,59 @@ export default [
     min: 0,
     max: 1,
     formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'db2cflock',
+        'currentCfLockSize',
+        t('in-forge:plugins.db2Database.dashboard.currentCfLockSize')
+      ),
+      getDynamicMetricMatch(
+        'db2cflock',
+        'configuredCfLockSize',
+        t('in-forge:plugins.db2Database.dashboard.configuredCfLockSize')
+      ),
+      getDynamicMetricMatch(
+        'db2cflock',
+        'TargetedCfLockSize',
+        t('in-forge:plugins.db2Database.dashboard.targetedCfLockSize')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.currentCfLockSize'),
+      t('in-forge:plugins.db2Database.configuredCfLockSize'),
+      t('in-forge:plugins.db2Database.targetedCfLockSize')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.purescaleLockTable')],
+    min: 0,
+    formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'db2cfsca',
+        'currentCfScaSize',
+        t('in-forge:plugins.db2Database.dashboard.currentCfScaSize')
+      ),
+      getDynamicMetricMatch(
+        'db2cfsca',
+        'configuredCfScaSize',
+        t('in-forge:plugins.db2Database.dashboard.configuredCfScaSize')
+      ),
+      getDynamicMetricMatch(
+        'db2cfsca',
+        'TargetedCfScaSize',
+        t('in-forge:plugins.db2Database.dashboard.targetedCfScaSize')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.currentCfScaSize'),
+      t('in-forge:plugins.db2Database.configuredCfScaSize'),
+      t('in-forge:plugins.db2Database.targetedCfScaSize')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.purescaleScaTable')],
+    min: 0,
+    formatter: kiloBytes
   }
 ];
