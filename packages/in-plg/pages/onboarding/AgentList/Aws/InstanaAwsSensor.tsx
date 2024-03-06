@@ -30,7 +30,8 @@ export default function InstanaAwsSensor({
   downloadKey,
   agentEndpoint,
   agentEndpointPort,
-  instanaDomain
+  instanaDomain,
+  fromOnboarding
 }: OnboardingProps) {
   const installationPlatforms: Platforms[] = [
     { key: 'ec2', label: t('in-plg:agentDetails.aws.ec2') },
@@ -383,7 +384,7 @@ export default function InstanaAwsSensor({
           />
         </LayoutSection>
         {renderContent()}
-        <GetDeployedAgents agent="aws" />
+        <GetDeployedAgents agent="aws" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <Typography variant="body-bold">Support</Typography>

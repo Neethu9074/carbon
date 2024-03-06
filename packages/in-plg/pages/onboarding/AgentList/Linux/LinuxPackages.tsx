@@ -18,7 +18,7 @@ import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { t } from 'in-i18n';
 
-const LinuxPackages = ({ agentKey, downloadKey, instanaDomain }: OnboardingProps) => {
+const LinuxPackages = ({ agentKey, downloadKey, instanaDomain, fromOnboarding }: OnboardingProps) => {
   const sideCardData = [
     {
       title: t('in-plg:agentDetails.common.prerequisitesTitle'),
@@ -72,7 +72,7 @@ const LinuxPackages = ({ agentKey, downloadKey, instanaDomain }: OnboardingProps
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="linux" />
+        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

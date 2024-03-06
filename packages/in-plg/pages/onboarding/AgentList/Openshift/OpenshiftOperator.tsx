@@ -30,7 +30,8 @@ export default function OpenshiftOperator({
   agentKey,
   downloadKey,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const [clusterName, setClusterName] = useState<string>('');
   const [agentZone, setAgentZone] = useState<string>('');
@@ -163,7 +164,7 @@ export default function OpenshiftOperator({
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="openshift" />
+        <GetDeployedAgents agent="openshift" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />
