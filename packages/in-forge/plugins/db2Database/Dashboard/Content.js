@@ -107,7 +107,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <PurescaleGeneral snapshotId={snapshotId} />
       <Db2Member snapshotId={snapshotId} />
       <Db2Cf snapshotId={snapshotId} />
-      <Db2CfLockTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <Db2CfLockTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <Db2CfScaTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <BackupDetailsTable snapshotId={snapshotId} />
       <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
