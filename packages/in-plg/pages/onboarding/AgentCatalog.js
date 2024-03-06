@@ -24,9 +24,8 @@ import { t } from 'in-i18n';
 
 import locals from './AgentCatalog.mless';
 
-const trackingService = createTracker('agent.installation');
-
 export default function AgentCatalog(props) {
+  const trackingService = !props.fromOnboarding ? createTracker('agent.installation') : createTracker('onboarding');
   const entities = getEntriesForFreeTrial();
 
   let [query, setQuery] = useState('');
@@ -44,6 +43,7 @@ export default function AgentCatalog(props) {
       </Stack>
     </Breadcrumb>
   ];
+
   return (
     <Stack direction="vertical">
       <ViewTrackingMeta

@@ -32,8 +32,6 @@ interface BreadCrumbItem {
   iconColor?: string;
 }
 
-const trackingService: CreateTrackerProps = createTracker('agent.installation');
-
 interface AgentViewRouterProps {
   selectedService: string;
   fromOnboarding?: boolean;
@@ -63,6 +61,10 @@ export default function AgentViewRouter({ selectedService, fromOnboarding = fals
       }
     ];
   };
+
+  const trackingService: CreateTrackerProps = !fromOnboarding
+    ? createTracker('agent.installation')
+    : createTracker('onboarding');
 
   useEffect(() => {
     trackingService.agentDetailsPageOpened();
