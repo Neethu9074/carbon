@@ -59,7 +59,8 @@ export default function GoogleCloudRun({
   agentEndpointPort,
   downloadKey,
   instanaDomain,
-  serverlessEndpoint
+  serverlessEndpoint,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const [installationMode, setInstallationMode] = useState<InstallationOption>(installationOptions[0]);
 
@@ -258,7 +259,7 @@ export default function GoogleCloudRun({
           </>
         )}
 
-        <GetDeployedAgents agent="entity.type%3Agcp.cloudrun" />
+        <GetDeployedAgents agent="entity.type%3Agcp.cloudrun" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />

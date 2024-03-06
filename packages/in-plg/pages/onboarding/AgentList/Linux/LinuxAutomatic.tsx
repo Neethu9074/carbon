@@ -26,7 +26,8 @@ export default function LinuxAutomatic({
   agentEndpoint,
   agentEndpointPort,
   instanaDomain,
-  azulDisabled = false
+  azulDisabled = false,
+  fromOnboarding
 }: OnboardingProps) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
@@ -183,7 +184,7 @@ export default function LinuxAutomatic({
             />
           </Stack>
         </LayoutSection>
-        <GetDeployedAgents agent="linux" />
+        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

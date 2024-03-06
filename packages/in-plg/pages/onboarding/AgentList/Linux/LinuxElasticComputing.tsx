@@ -80,7 +80,8 @@ export default function LinuxElasticComputing({
   agentEndpoint,
   agentEndpointPort,
   instanaDomain,
-  azulDisabled = false
+  azulDisabled = false,
+  fromOnboarding
 }: OnboardingProps) {
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[azulDisabled ? 1 : 0]);
@@ -159,7 +160,7 @@ export default function LinuxElasticComputing({
             ]}
           />
         </LayoutSection>
-        <GetDeployedAgents agent="linux" />
+        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

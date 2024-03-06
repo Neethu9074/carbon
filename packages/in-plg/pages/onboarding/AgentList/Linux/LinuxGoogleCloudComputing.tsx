@@ -25,7 +25,8 @@ export default function LinuxGoogleCloudComputing({
   agentEndpoint,
   agentEndpointPort,
   instanaDomain,
-  azulDisabled = false
+  azulDisabled = false,
+  fromOnboarding
 }: OnboardingProps) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
@@ -138,7 +139,7 @@ export default function LinuxGoogleCloudComputing({
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="gce%20AND%20linux" />
+        <GetDeployedAgents agent="gce%20AND%20linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

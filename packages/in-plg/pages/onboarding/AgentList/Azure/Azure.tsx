@@ -24,7 +24,14 @@ import Code from 'in-plg/components/Code/Code';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
-const Azure = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndpointPort }: OnboardingProps) => {
+const Azure = ({
+  agentKey,
+  downloadKey,
+  instanaDomain,
+  agentEndpoint,
+  agentEndpointPort,
+  fromOnboarding
+}: OnboardingProps) => {
   const [clusterName, setClusterName] = useState('');
   const [agentZone, setAgentZone] = useState('');
 
@@ -143,7 +150,7 @@ const Azure = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndpo
           <Code {...getBashCode()} />
         </LayoutSection>
 
-        <GetDeployedAgents agent="azure" />
+        <GetDeployedAgents agent="azure" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />

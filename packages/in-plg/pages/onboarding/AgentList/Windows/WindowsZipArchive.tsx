@@ -20,7 +20,14 @@ import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
-const WindowsZipArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain }: OnboardingProps) => {
+const WindowsZipArchive = ({
+  tenant,
+  tenantUnit,
+  agentKey,
+  downloadKey,
+  butlerDomain,
+  fromOnboarding
+}: OnboardingProps) => {
   const agentModeOptions = ['dynamic', 'static'];
 
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
@@ -132,7 +139,7 @@ const WindowsZipArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDo
           </Stack>
         </LayoutSection>
 
-        <GetDeployedAgents agent="windows" />
+        <GetDeployedAgents agent="windows" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />
