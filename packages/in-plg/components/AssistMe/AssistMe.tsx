@@ -53,7 +53,7 @@ function init() {
   // @ts-expect-error defined in AssistMe controller.js
   assistMeController = window.initAssistMeController(assistMeProperties);
 }
-function openAssistMe() {
+export function openAssistMe() {
   if (!assistMeController) {
     init();
   }

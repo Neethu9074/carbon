@@ -13,6 +13,7 @@ import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import LogThresholdCondition from 'in-alerting/smart-alerts/logs/components/LogThresholdCondition';
+import { toBackendGroupBy } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
@@ -40,16 +41,12 @@ export default function ThresholdSelectionInteractiveChart({
   const groupByTag = form.get('groupBy').value;
 
   const groupBy = useMemo(() => {
-    if (groupByTag) {
-      return [groupByTag.groupbyTag];
-    }
-
-    return undefined;
+    return toBackendGroupBy([groupByTag]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groupByTag]);
 
   useEffect(() => {
-    if (!groupBy) {
+    if (!groupBy || groupBy.length === 0) {
       selectedMetricGroup$.emit(null);
     }
   }, [groupBy]);
@@ -76,12 +73,17 @@ export default function ThresholdSelectionInteractiveChart({
           <>
             <LogMetricChart
               alertConfig={alertConfigModel as LogAlertConfigWithMetadata}
-              timeConfig={chartViewConfig.timeConfig}
+              timeConfig={{
+                ...chartViewConfig.timeConfig,
+                to: timeConfig.to,
+                focusedMoment: timeConfig.focusedMoment
+              }}
             />
             {groupBy && groupBy?.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={alertConfigModel.tagFilterExpression}
-                groupBy={groupBy}
+                backendGroupBy={groupBy}
+                groupBy={groupByTag}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,
                   to: timeConfig.to,

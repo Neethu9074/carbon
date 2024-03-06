@@ -72,6 +72,7 @@ interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormIte
   onChangeRole: (role: AreaRoleType | AreaRoleWithContributorType) => void;
   productArea: LimitableProductArea;
   setValid?: (isValid: boolean) => void;
+  editMode?: boolean;
 }
 
 export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -89,7 +90,8 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   onChangeRole,
   setShowSubSlide,
   setSubSlideConfig,
-  setValid
+  setValid,
+  editMode
 }: LimitedAccessPanelProps<I, FORM_TYPE>) {
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
@@ -232,6 +234,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
                 setForm={setForm}
                 isContributorRole={isContributor}
                 setValid={setValid}
+                editMode={editMode}
               />
             )}
             {entityPermissionKey === 'syntheticTestIds' && role === AreaRole.OWNER && (

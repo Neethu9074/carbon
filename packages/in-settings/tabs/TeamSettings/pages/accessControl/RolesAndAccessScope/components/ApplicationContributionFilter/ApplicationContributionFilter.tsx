@@ -35,18 +35,22 @@ export interface ApplicationContributionFilterProps<FORM_TYPE extends MapFormIte
   form: MapForm<FORM_TYPE>;
   setForm: (form: MapForm<FORM_TYPE>) => void;
   setValid?: (isValid: boolean) => void;
+  editMode?: boolean;
 }
 
 export default function ApplicationContributionFilter<FORM_TYPE extends MapFormItems>({
   form,
   setForm,
-  setValid = (_isValid: boolean) => {}
+  setValid = (_isValid: boolean) => {},
+  editMode
 }: ApplicationContributionFilterProps<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
   const filterNameField = getField<string>(form, 'label');
-  const [filterName, setFilterName] = useState(filterNameField?.value ?? '');
+  const filterName = filterNameField?.value;
+  const [initialfilterName] = useState(filterNameField?.value);
+
   const [isFilterNameValid, setFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -55,7 +59,9 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
     // Already invalid (blank or larger than 128 characters)
     if (contributionFilterNameValidator(filterName) !== null) {
       setValid(false);
-    } else {
+    } else if (editMode && initialfilterName === filterName) {
+      setValid(true);
+    } else if (filterName) {
       // Check if contribution filter name already exists as application perspective name
       const appsObservable = getApplicationsWithDefaults({
         timeConfig: timeConfig,
@@ -87,7 +93,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
       // Clean up
       appsDisposable?.dispose();
     };
-  }, [filterName, setValid, timeConfig]);
+  }, [filterName, setValid, timeConfig, editMode, initialfilterName]);
 
   const setTagFilterExpression = (
     tagFilterExpression: FormModelElement[],
@@ -112,7 +118,6 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
         <Input
           id="application-contribution-filter-name"
           onChange={e => {
-            setFilterName(e.target.value);
             setForm(updateFormField(form, 'label', e.target.value, true));
           }}
           value={filterNameField?.value ?? ''}

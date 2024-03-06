@@ -42,6 +42,7 @@ interface AccessAllPanelProps<FORM_TYPE extends MapFormItems> extends FormContro
   productArea: ProductAreaType;
   contributionFilterConfigured?: boolean;
   setValid?: (isValid: boolean) => void;
+  editMode?: boolean;
 }
 
 export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
@@ -55,7 +56,8 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
   contributionFilterConfigured,
   form,
   setForm,
-  setValid
+  setValid,
+  editMode
 }: AccessAllPanelProps<FORM_TYPE>) {
   const isContributor =
     applicationContributionFilterEnabled &&
@@ -101,6 +103,7 @@ export default function AccessAllPanel<FORM_TYPE extends MapFormItems>({
                 setForm={setForm}
                 isContributorRole={isContributor}
                 setValid={setValid}
+                editMode={editMode}
               />
             )}
           </ConfigurationSummary>

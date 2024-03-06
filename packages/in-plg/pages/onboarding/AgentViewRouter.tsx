@@ -4,15 +4,18 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
+import createTracker, { CreateTrackerProps } from 'in-waiting-for-deployment/tracker';
 import { getEntriesForFreeTrial } from 'in-plg/pages/onboarding/content';
 import ContentProps from 'in-plg/pages/onboarding/content/ContentProps';
 //@ts-expect-error
 import { getUnitKeys } from 'in-api/unitKeys';
+import { productAreas } from 'in-services/tracking/productAreas';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Header from 'in-plg/components/Header/Header';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
@@ -29,7 +32,14 @@ interface BreadCrumbItem {
   iconColor?: string;
 }
 
-export default function AgentViewRouter({ selectedService }: { selectedService: string }) {
+const trackingService: CreateTrackerProps = createTracker('agent.installation');
+
+interface AgentViewRouterProps {
+  selectedService: string;
+  fromOnboarding?: boolean;
+}
+
+export default function AgentViewRouter({ selectedService, fromOnboarding = false }: AgentViewRouterProps) {
   const unitKeysResp: UnitKeys = useObservable<UnitKeys, []>(getUnitKeys(), []) ?? {
     agentKey: 'agentKey',
     downloadKey: 'downloadKey'
@@ -44,7 +54,7 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
       {
         icon: 'lib_infrastructure',
         title: t('in-plg:agentDetails.common.agentCatalog'),
-        href: '#/agents/installation'
+        href: `#/agents${fromOnboarding ? '/onboarding' : ''}/installation`
       },
       {
         icon: selectedEntity?.icon,
@@ -54,8 +64,19 @@ export default function AgentViewRouter({ selectedService }: { selectedService: 
     ];
   };
 
+  useEffect(() => {
+    trackingService.agentDetailsPageOpened();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Stack>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.agents,
+          pageRootName: selectedEntity?.pageName
+        }}
+      />
       <Header crumbs={createBreadCrumb()} />
       <Stack>
         {technology?.Content && selectedEntity?.id && (

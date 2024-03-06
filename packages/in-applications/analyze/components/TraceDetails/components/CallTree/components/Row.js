@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
@@ -34,7 +35,6 @@ import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Row.mless';
@@ -363,8 +363,6 @@ function getLineWidth(depth, hasChildren) {
 }
 
 function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode, isOrphan }) {
-  const theme = useTheme();
-
   if (depth === 0) {
     return null;
   }
@@ -385,7 +383,11 @@ function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode, isOrphan
       {isOrphan && (
         <Tooltip content={t('in-analyze:traceDetail.components.callTree.orphan')} align={'topMiddle'}>
           <div className={locals.orphan}>
-            <SvgIcon type={'lib_help_error_help_circle'} color={theme.ids.color.option.neutral['600']} size="xs" />
+            <SvgIcon
+              type={'lib_help_error_help_circle'}
+              color={themes.default.ids.color.option.neutral['600']}
+              size="xs"
+            />
           </div>
         </Tooltip>
       )}

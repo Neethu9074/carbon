@@ -42,7 +42,7 @@ export default function SloBlueprintsSection() {
   }, [blueprintField.value]);
 
   return (
-    <SloDialogSection title={t('in-service-levels:createSloDialog.selectIndicatorTitle')}>
+    <SloDialogSection title={t('in-service-levels:createSloDialog.selectIndicatorNavItem')}>
       <TabSelect<BlueprintType>
         activePanelId={blueprintField.value ?? defaultBlueprint}
         onChange={blueprint => {

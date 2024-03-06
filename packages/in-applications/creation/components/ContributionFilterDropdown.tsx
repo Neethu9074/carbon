@@ -8,7 +8,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { ApiApplicationScope, TagFilterExpressionElementUnion } from '@instana/types';
+import { ApiApplicationScope, TagFilterExpressionElementUnion, UserGroupRestrictions } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error
@@ -19,12 +19,11 @@ import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { UserRestrictedApplication } from 'in-api/users';
 
 import locals from './ContributionFilterDropdown.mless';
 
 interface ContributionFilterDropdownProps {
-  userRestrictedApplications: UserRestrictedApplication[];
+  userRestrictedApplications: UserGroupRestrictions[];
   form?: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
   disabled: boolean;
@@ -62,16 +61,19 @@ export default function ContributionFilterDropdown({
   readonly = false,
   className
 }: ContributionFilterDropdownProps): JSX.Element {
-  const groupIdField = form?.get('groupId');
-  const groupIdForReadOnly = userRestrictedApplications[0]?.id;
+  const restrictingApplicationIdField = form?.get('restrictingApplicationId');
+  const currentRestrictingApplicationId = readonly
+    ? userRestrictedApplications[0]?.filter?.restrictingApplicationId
+    : restrictingApplicationIdField?.value;
 
   const onGroupIdChange = useCallback(
     (value: string | null) => {
       const groupScope =
-        userRestrictedApplications.find(r => r.id === value)?.filter?.scope ?? 'INCLUDE_ALL_DOWNSTREAM';
+        userRestrictedApplications.find(r => r.filter?.restrictingApplicationId === value)?.filter?.scope ??
+        'INCLUDE_ALL_DOWNSTREAM';
       if (form && updateForm) {
         let updatedForm = form
-          .updateIn(['groupId'], field => field.setValue(value).setTouched(true))
+          .updateIn(['restrictingApplicationId'], field => field.setValue(value).setTouched(true))
           .updateIn(['scope'], field => field.setValue(limitScope(field.value, groupScope)).setTouched(true));
 
         updatedForm = updateTagFilterExpressionValidator(updatedForm, value);
@@ -89,16 +91,16 @@ export default function ContributionFilterDropdown({
 
   useEffect(() => {
     if (!readonly) {
-      const shouldSelectDefault = groupIdField.value == null && options.length === 1;
+      const shouldSelectDefault = restrictingApplicationIdField.value == null && options.length === 1;
       if (shouldSelectDefault) {
         onGroupIdChange(options[0].value);
       }
     }
-  }, [readonly, groupIdField?.value, onGroupIdChange, options, userRestrictedApplications]);
+  }, [readonly, restrictingApplicationIdField?.value, onGroupIdChange, options, userRestrictedApplications]);
 
   return (
     <ComboBoxBehavior
-      value={readonly ? groupIdForReadOnly : groupIdField.value}
+      value={currentRestrictingApplicationId}
       options={options}
       onChange={onGroupIdChange}
       disableAutomaticOptionSorting
@@ -116,7 +118,7 @@ export default function ContributionFilterDropdown({
           className={locals.dropdownButton}
           spanClassName={locals.span}
         >
-          {renderSelectedOption(options, readonly ? groupIdForReadOnly : groupIdField.value, true)}
+          {renderSelectedOption(options, currentRestrictingApplicationId, true)}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
@@ -140,13 +142,13 @@ function renderSelectedOption(options: OptionsProps[], value: string, truncateTe
   );
 }
 
-function createOptions(userRestrictedApplications: UserRestrictedApplication[]): OptionsProps[] {
+function createOptions(userRestrictedApplications: UserGroupRestrictions[]): OptionsProps[] {
   let options = userRestrictedApplications
     .filter(r => r.filter != null)
     .map(r => {
       const tagFilterData = fromBackendModel(r.filter?.tagFilterExpression);
       return {
-        value: r.id,
+        value: r.filter!.restrictingApplicationId,
         label: <AdvancedModeDropdownItem query={tagFilterData} labelTxt={r.filter!.label} isOpen={false} />,
         scope: r.filter!.scope,
         labelTxt: r.filter!.label,
@@ -161,11 +163,11 @@ function createOptions(userRestrictedApplications: UserRestrictedApplication[]):
   return options;
 }
 
-function hasNoRestrictions(userRestrictedApplications: UserRestrictedApplication[]): boolean {
-  return userRestrictedApplications.some(r => r.filter == null && (r as any).canConfigureApplications);
+function hasNoRestrictions(userRestrictedApplications: UserGroupRestrictions[]): boolean {
+  return userRestrictedApplications.some(r => r.filter == null && r.canConfigureApplications);
 }
 
-export function showContributionFilterDropdown(userRestrictedApplications: UserRestrictedApplication[]) {
+export function showContributionFilterDropdown(userRestrictedApplications: UserGroupRestrictions[]) {
   return applicationContributionFilterEnabled && userRestrictedApplications.some(r => r.filter);
 }
 

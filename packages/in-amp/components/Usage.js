@@ -29,7 +29,7 @@ export default function UsageWithAccountInfo() {
   );
 }
 
-function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics }) {
+function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedMetrics, hasSyntheticAddons }) {
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
     aggregatedState;
@@ -53,7 +53,12 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
         setTenantUnit={setTenantUnit}
       />
 
-      <UsageCharts windowSize={windowSize} tenantUnit={tenantUnit} showAggregatedMetrics={showAggregatedMetrics} />
+      <UsageCharts
+        windowSize={windowSize}
+        tenantUnit={tenantUnit}
+        showAggregatedMetrics={showAggregatedMetrics}
+        hasSyntheticAddons={hasSyntheticAddons}
+      />
 
       <Row>
         <Col xs={12}>

@@ -4,6 +4,7 @@
  */
 
 import { ApiTag, TagFilterOperator } from '@instana/types';
+
 import {
   EQUALS,
   CONTAINS,
@@ -68,23 +69,23 @@ export const KEY_VALUE_PAIR = [
   IS_BLANK
 ];
 
-const ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE: { [source: string]: { [type: string]: TagFilterOperator[]}} = {
-  'infrastructure': {
-    'STRING': [NOT_BLANK, IS_BLANK],
-    'STRING_SET': [NOT_BLANK, IS_BLANK],
-    'STRING_LIST': [NOT_BLANK, IS_BLANK]
+const ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE: { [source: string]: { [type: string]: TagFilterOperator[] } } = {
+  infrastructure: {
+    STRING: [NOT_BLANK, IS_BLANK],
+    STRING_SET: [NOT_BLANK, IS_BLANK],
+    STRING_LIST: [NOT_BLANK, IS_BLANK]
   }
-}
+};
 
 export function getAllowedOperators(tagDefinition: ApiTag, source?: string): Readonly<string[]> {
   return [...getDefaultOperators(tagDefinition), ...getAdditionalAllowedOperatorsBySource(tagDefinition, source)];
 }
 
-export function getAdditionalAllowedOperatorsBySource({ type }: { type: string; }, source?: string): Readonly<string[]> {
+export function getAdditionalAllowedOperatorsBySource({ type }: { type: string }, source?: string): Readonly<string[]> {
   if (!source) {
     return [];
   }
-  return ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE[source]?.[type] ?? []
+  return ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE[source]?.[type] ?? [];
 }
 
 export function getDefaultOperators({ type, idTag = false }: { type: string; idTag?: boolean }): Readonly<string[]> {
@@ -102,6 +103,9 @@ export function getDefaultOperators({ type, idTag = false }: { type: string; idT
   }
   if (type === 'KEY_VALUE_PAIR') {
     return KEY_VALUE_PAIR;
+  }
+  if (type === 'KEY_NUMBER_PAIR') {
+    return NUMBER;
   }
   return emptyArray;
 }

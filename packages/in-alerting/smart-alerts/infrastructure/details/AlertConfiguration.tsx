@@ -38,7 +38,7 @@ import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
-import { AlertGrouping } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
+import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';

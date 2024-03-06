@@ -64,12 +64,13 @@ export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpo
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
+export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
-export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
+export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 
@@ -157,12 +158,8 @@ export const hiddenSearchFieldValues = {
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
-export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
-export const bizopsActivityDistributionChartsEnabled = isFeatureFlagEnabled('bizopsActivityDistributionChartsEnabled');
 export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
-export const bizopsImpactedBusinessProcessesTableEnabled = isFeatureFlagEnabled(
-  'bizopsImpactedBusinessProcessesTableEnabled'
-);
+export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -226,5 +223,7 @@ export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applic
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
+
+export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);

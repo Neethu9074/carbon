@@ -42,9 +42,9 @@ export function createApplicationPerspectiveForm(application: any): MapForm<any>
       })
     )
     .put(
-      'groupId',
+      'restrictingApplicationId',
       createField({
-        value: application.groupId
+        value: application.restrictingApplicationId
       })
     )
     .put(

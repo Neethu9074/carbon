@@ -60,7 +60,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type: undefined,
-    query: catalogQuery.debouncedValue
+    query: metric && !metricPath ? metric : catalogQuery.debouncedValue
   });
 
   if (isRegex && (metricLabel == null || metricPath == null)) {

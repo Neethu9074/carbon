@@ -1,0 +1,159 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import { Link, Stack, Typography } from '@instana/components';
+import { TimeConfig } from '@instana/types';
+import { t } from '@instana/i18n-react';
+
+import { GetContentFunction, WidgetProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-ignore doesn't contain type file
+import getRawEvents from 'in-subscription/getRawEvents';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+//@ts-ignore doesn't contain type file
+import connectTo from 'in-hoc/connectTo';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import { formatDateTime } from 'in-services/formatters/date';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import { openEventsAtServerTime$ } from 'in-stores/events';
+import { timeConfig$ } from 'in-stores/time/config';
+
+export default connectTo(() => ({
+  timeConfig: timeConfig$,
+  openEventsAtServerTime: openEventsAtServerTime$
+}))(function IncidentsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+  const getHeaders = () => {
+    return [
+      {
+        header: t('in-plg:welcomepage.component.incidentsWidget.title'),
+        key: 'title'
+      },
+      {
+        header: t('in-plg:welcomepage.component.incidentsWidget.on'),
+        key: 'on'
+      },
+      {
+        header: t('in-plg:welcomepage.component.incidentsWidget.started'),
+        key: 'started'
+      },
+      {
+        header: t('in-plg:welcomepage.component.incidentsWidget.end'),
+        key: 'end'
+      }
+    ];
+  };
+
+  function getIncidentData({ query, timeConfig }: { query: string; timeConfig: TimeConfig }) {
+    return getRawEvents({
+      timeConfig: timeConfig,
+      query: query,
+      pagination: {
+        cursor: null,
+        retrievalSize: 30
+      },
+      order: {
+        by: 'start',
+        direction: 'DESC'
+      }
+    });
+  }
+
+  function getLinkToEventsList(timeConfig: TimeConfig) {
+    return getEventsViewFilteredBy({
+      eventTypeFilter: 'incident',
+      timeConfig
+    });
+  }
+
+  function formatDisplayDateTime(timestamp: number) {
+    return formatDateTime(timestamp);
+  }
+
+  function getEndValue(item: any) {
+    const eventType = getEventType(item);
+    const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
+    const end = item.end || Date.now();
+    const start = item.start;
+
+    if (item.state === 'open') {
+      return t('in-plg:welcomepage.component.incidentsWidget.active');
+    }
+    if (isChangeEvent) {
+      return formatDisplayDateTime(end);
+    }
+    return start !== end ? formatDisplayDateTime(end) : valueMissingPlaceholder;
+  }
+
+  interface columnDefinitionItem {
+    key: string;
+    getContent: GetContentFunction;
+  }
+
+  const { location, createHref } = useNavigation();
+  const eventsPath = '/events';
+
+  function onItemClicked(eventId: string) {
+    const eventsListLocation = { ...location, pathname: eventsPath };
+    setOrDeleteMatrixKey(eventsListLocation, eventsPath, 'eventId', eventId);
+    return createHref(eventsListLocation);
+  }
+
+  const columnDefinitions: columnDefinitionItem[] = [
+    {
+      key: 'title',
+      getContent({ item }) {
+        return (
+          <Stack direction="horizontal" align="center">
+            <HealthDot severity={item.severity} iconSize={10} />
+            {/* <Link>{item.title}</Link> */}
+            <Link href={onItemClicked(item.id)}>{item.title}</Link>
+          </Stack>
+        );
+      }
+    },
+    {
+      key: 'on',
+      getContent({ item }) {
+        return <Typography variant="body-regular">{item.entityLabel}</Typography>;
+      }
+    },
+    {
+      key: 'started',
+      getContent({ item }) {
+        return <Typography variant="body-regular">{formatDisplayDateTime(item.start)}</Typography>;
+      }
+    },
+    {
+      key: 'end',
+      getContent({ item }) {
+        return <Typography variant="body-regular">{getEndValue(item)}</Typography>;
+      }
+    }
+  ];
+
+  const generalProps = {
+    ...config,
+    timeConfig,
+    columnDefinitions,
+    headers: getHeaders()
+  };
+
+  return (
+    <DatatableWrapper
+      {...generalProps}
+      getItems={getIncidentData}
+      viewAll
+      href={getLinkToEventsList(timeConfig)}
+      label={widgetLabel}
+      dashboardTileProps={dashboardTileProps}
+    />
+  );
+});

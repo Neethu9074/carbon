@@ -10,7 +10,6 @@ import { useObservable } from '@instana/hooks';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import checkIfUserCanPass from 'in-init/steps/checkUserPass';
@@ -23,7 +22,6 @@ import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
 
 export default function InstanaOnboardingComponent({ onDialogSkip }) {
-  const { goToPath } = useNavigation();
   useDisabledBodyScroll();
 
   const accountConfig = useObservable(getUsageInfo(), []);
@@ -58,10 +56,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
             activeLicenseType={accountConfig.activeLicenseType}
             getRedirectButtonProperties={() => ({
               children: 'Go to Instana!',
-              onClick: () => {
-                onDialogSkip();
-                goToPath('/'); // Clears the URL after selecting the agent details widget.
-              }
+              onClick: () => onDialogSkip()
             })}
             agentEndpoint={config.agentEndpoint}
             agentEndpointPort={config.agentEndpointPort}

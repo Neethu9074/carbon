@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Pill, Stack, Typography, useTheme } from '@instana/components';
+import { Pill, Stack, Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 interface TimeWindowPillProps {
   children: string;
@@ -14,9 +15,8 @@ interface TimeWindowPillProps {
   withDark?: boolean;
 }
 export default function TimeWindowPill({ color, children, withDark }: TimeWindowPillProps) {
-  const theme = useTheme();
   return (
-    <Pill color={color ?? theme.ids.color.option.neutral[400]}>
+    <Pill color={color ?? themes.default.ids.color.option.neutral[400]}>
       <Stack gap="xxsmall" direction="horizontal">
         <Typography onDark={withDark} variant="body-small">
           {children}

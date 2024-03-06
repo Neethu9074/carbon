@@ -8,9 +8,10 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { internalMonitoringUnit, pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
-import { internalMonitoringUnit, pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -25,7 +26,6 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Landing.mless';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 
 export default connectTo(
   { timeConfig: timeConfig$, isInternalVisible: isInternalVisible$ },
@@ -257,42 +257,6 @@ export default connectTo(
                               href$={getModifiedUrlStream(
                                 params => (params.pathname = '/internal/monitoringUnit/resilientMapping')
                               )}
-                            />
-                          </LinkList>
-                        </LinkListItem>
-
-                        <LinkListItem
-                          label={t('in-internal:components.landing.logMonitor')}
-                          description={t('in-internal:components.landing.logMonitorDesc')}
-                        >
-                          <LinkList>
-                            <LinkListItem
-                              label={t('in-internal:components.landing.logMonitorProcessing')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/log/LogProcessor')
-                              )}
-                              description={t('in-internal:components.landing.logMonitorProcessingDesc')}
-                            />
-                            <LinkListItem
-                              label={t('in-internal:components.landing.logMonitorWriter')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/log/LogWriter')
-                              )}
-                              description={t('in-internal:components.landing.logMonitorWriterDesc')}
-                            />
-                            <LinkListItem
-                              label={t('in-internal:components.landing.logMonitorReader')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/log/LogReader')
-                              )}
-                              description={t('in-internal:components.landing.logMonitorReaderDesc')}
-                            />
-                            <LinkListItem
-                              label={t('in-internal:components.landing.logMonitorHousekeeping')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/log/LogHousekeeping')
-                              )}
-                              description={t('in-internal:components.landing.logMonitorHousekeepingDesc')}
                             />
                           </LinkList>
                         </LinkListItem>

@@ -25,3 +25,6 @@ export const STRING_SET_IS_EMPTY = false;
 
 export const STRING_LIST_NOT_EMPTY = false;
 export const STRING_LIST_IS_EMPTY = false;
+
+export const KEY_NUMBER_PAIR_NOT_EMPTY = false;
+export const KEY_NUMBER_PAIR_IS_EMPTY = false;

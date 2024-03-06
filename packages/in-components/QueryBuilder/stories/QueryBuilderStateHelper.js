@@ -106,6 +106,18 @@ export function QueryBuilderStateHelper({ children: Component }) {
     },
     {
       type: 'CLOSE_BRACKET'
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'TAG_FILTER',
+      name: 'call.metric',
+      operator: 'GREATER_THAN',
+      key: 'metricName',
+      value: 5,
+      entity: 'NOT_APPLICABLE'
     }
   ]);
   return (

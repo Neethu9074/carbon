@@ -19,10 +19,16 @@ import { Trans } from 'in-i18n';
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn((o, d) => o(d))
 }));
+
+jest.mock('in-service-levels/hooks/SloTrackerProvider', () => ({
+  useSloTrackers: jest.fn(() => () => {})
+}));
+
 jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => ({
   deleteSliConfiguration: jest.fn(),
   getSliConfigurationsByEntity: jest.fn()
 }));
+
 jest.mock('in-stores/user', () => ({
   role: { canConfigureServiceLevelIndicators: true }
 }));
@@ -146,10 +152,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     const wrapper = shallow(listWrapper.find(SliList).prop('rightHeader'));
 
     // When
-    wrapper
-      .first()
-      .props()
-      .onClick();
+    wrapper.first().props().onClick();
 
     // Then
     expect(onShowCreateForm).toHaveBeenCalled();
@@ -164,10 +167,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     const wrapper = shallow(staticContent);
 
     // When
-    wrapper
-      .find(SliList)
-      .props()
-      .selectSli(sliConfig);
+    wrapper.find(SliList).props().selectSli(sliConfig);
 
     // Then
     expect(onChange).toHaveBeenLastCalledWith(sliConfig);

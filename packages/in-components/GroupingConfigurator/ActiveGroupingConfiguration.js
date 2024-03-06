@@ -75,7 +75,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
         {path[path.length - 1].label}
       </span>
 
-      {tagTreeNode.type === 'KEY_VALUE_PAIR' && (
+      {(tagTreeNode.type === 'KEY_VALUE_PAIR' || tagTreeNode.type === 'KEY_NUMBER_PAIR') && (
         <div className={locals.key}>
           <SimpleValueSelector
             onChange={result.onChange}

@@ -21,6 +21,7 @@ import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/compone
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
@@ -62,7 +63,7 @@ export default function ThresholdSelectionInteractiveChart({
 
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
 
-  const backendGroupBy = groupBy?.map((groups: any) => groups?.groupbyTag) ?? [];
+  const backendGroupBy = toBackendGroupBy(groupBy) ?? [];
   const order = { by: backendGroupBy?.[0], direction: 'DESC' };
   const metrics = getMetrics(metricName, aggregation, crossSeriesAggregation, regex, metricLabel);
 

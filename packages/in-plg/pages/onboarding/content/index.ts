@@ -38,6 +38,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'k8_helm',
       title: 'Kubernetes - Helm Chart',
+      pageName: 'Kubernetes > Helm Chart', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
       iconColor: '#3F6EDE',
@@ -51,6 +52,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'k8_operator',
       title: 'Kubernetes - Operator',
+      pageName: 'Kubernetes > Operator', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
       iconColor: '#3F6EDE',
@@ -64,6 +66,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'k8_deamon',
       title: 'Kubernetes - Yaml',
+      pageName: 'Kubernetes > Yaml', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
       iconColor: '#3F6EDE',
@@ -77,6 +80,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'k8_aks',
       title: 'Kubernetes - Azure Kubernetes Service (AKS)',
+      pageName: 'Kubernetes > Azure Kubernetes Service (AKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
       iconColor: '#3F6EDE',
@@ -90,6 +94,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'k8_eks',
       title: 'Kubernetes - AWS Elastic Kubernetes Service (EKS)',
+      pageName: 'Kubernetes > AWS Elastic Kubernetes Service (EKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
       iconColor: '#3F6EDE',
@@ -103,6 +108,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'openshift_operator',
       title: 'Openshift - Operator',
+      pageName: 'Openshift > Operator', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
       iconColor: '#DA2430',
@@ -116,6 +122,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'openshift_helm',
       title: 'Openshift - Helm Chart',
+      pageName: 'Openshift > Helm Chart', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
       iconColor: '#DA2430',
@@ -129,6 +136,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'openshift_k8_daemon',
       title: 'Openshift - YAML',
+      pageName: 'Openshift > YAML', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
       iconColor: '#DA2430',
@@ -142,6 +150,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'docker',
       title: 'Docker',
+      pageName: 'Docker', // tracking data
       label: t('in-waiting-for-deployment:content.docker'),
       icon: 'lib_container_docker',
       iconColor: '#2D6DD0',
@@ -153,6 +162,7 @@ export function getEntriesForFreeTrial() {
       id: 'linux_auto',
       label: t('in-waiting-for-deployment:content.linux'),
       title: 'Linux - Automatic Installation (One-liner)',
+      pageName: 'Linux > Automatic Installation (One-liner)', // tracking data
       icon: 'lib_linux',
       category: t('in-waiting-for-deployment:content.os'),
       subTechnology: {
@@ -164,6 +174,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'linux_deb_rpm',
       title: 'Linux - Packages(DEB, RPM)',
+      pageName: 'Linux > Packages(DEB, RPM)', // tracking data
       label: t('in-waiting-for-deployment:content.linux'),
       icon: 'lib_linux',
       category: t('in-waiting-for-deployment:content.os'),
@@ -176,6 +187,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'linux_archive_tar',
       title: 'Linux - Archive (tar.gz)',
+      pageName: 'Linux > Archive (tar.gz)', // tracking data
       label: t('in-waiting-for-deployment:content.linux'),
       icon: 'lib_linux',
       category: t('in-waiting-for-deployment:content.os'),
@@ -188,6 +200,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'linux_ec2',
       title: 'Linux - AWS Elastic Computing (EC2)',
+      pageName: 'Linux > AWS Elastic Computing (EC2)', // tracking data
       label: t('in-waiting-for-deployment:content.linux'),
       icon: 'lib_linux',
       category: t('in-waiting-for-deployment:content.os'),
@@ -200,6 +213,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'linux_gce',
       title: 'Linux - Google Computer Engine (GCE)',
+      pageName: 'Linux > Google Computer Engine (GCE)', // tracking data
       label: t('in-waiting-for-deployment:content.linux'),
       icon: 'lib_linux',
       category: t('in-waiting-for-deployment:content.os'),
@@ -212,6 +226,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'unix',
       title: 'Unix',
+      pageName: 'Unix', // tracking data
       label: t('in-waiting-for-deployment:content.unix'),
       category: t('in-waiting-for-deployment:content.os'),
       keyWords: 'unixtarball',
@@ -221,6 +236,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'aws_sensor',
       title: 'Amazon Web Services - Instana AWS Sensor',
+      pageName: 'Amazon Web Services > Instana AWS Sensor', // tracking data
       label: t('in-waiting-for-deployment:content.aws'),
       icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
@@ -234,6 +250,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'aws_ec2_linux',
       title: 'Amazon Web Services - Elastic Computing (EC2) - Linux',
+      pageName: 'Amazon Web Services > Elastic Computing (EC2) - Linux', // tracking data
       label: t('in-waiting-for-deployment:content.aws'),
       icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
@@ -247,6 +264,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'aws_ec2_windows',
       title: 'Amazon Web Services - Elastic Computing (EC2) - Windows 64 bit',
+      pageName: 'Amazon Web Services > Elastic Computing (EC2) - Windows 64 bit', // tracking data
       label: t('in-waiting-for-deployment:content.aws'),
       icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
@@ -260,6 +278,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'aws_eks',
       title: 'Amazon Web Services - Elastic Container Service for Kubernetes (EKS)',
+      pageName: 'Amazon Web Services > Elastic Container Service for Kubernetes (EKS)', // tracking data
       label: t('in-waiting-for-deployment:content.aws'),
       icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
@@ -273,6 +292,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'aws_fargate',
       title: 'Amazon Web Services - AWS Fargate',
+      pageName: 'Amazon Web Services > AWS Fargate', // tracking data
       label: t('in-waiting-for-deployment:content.aws'),
       icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
@@ -286,6 +306,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'aws_lambda',
       title: 'Amazon Web Services - AWS Lambda',
+      pageName: 'Amazon Web Services > AWS Lambda', // tracking data
       label: t('in-waiting-for-deployment:content.aws'),
       icon: 'aws_icon',
       fullLabel: t('in-waiting-for-deployment:content.amazonWebServices'),
@@ -299,6 +320,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'azure_aks',
       title: 'Microsoft Azure - Azure Kubernetes Service (AKS)',
+      pageName: 'Microsoft Azure > Azure Kubernetes Service (AKS)', // tracking data
       label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
       iconColor: '#3178CD',
@@ -313,6 +335,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'gcp_gce',
       title: 'Google CLoud Platform - Google Cloud Engine (GCE) - Linux',
+      pageName: 'Google CLoud Platform > Google Cloud Engine (GCE) - Linux', // tracking data
       label: t('in-waiting-for-deployment:content.googleCloud'),
       icon: 'google_cloud_icon',
       fullLabel: t('in-waiting-for-deployment:content.googleCloudPlatform'),
@@ -326,6 +349,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'gcp_gcr',
       title: 'Google CLoud Platform - Google Cloud Run',
+      pageName: 'Google CLoud Platform > Google Cloud Run', // tracking data
       label: t('in-waiting-for-deployment:content.googleCloud'),
       icon: 'google_cloud_icon',
       fullLabel: t('in-waiting-for-deployment:content.googleCloudPlatform'),
@@ -339,6 +363,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'cf_bosh',
       title: 'Cloud Foundry and other BOSH based deployments',
+      pageName: 'Cloud Foundry and other BOSH based deployments', // tracking data
       label: t('in-waiting-for-deployment:content.cloudFoundryAndBosh'),
       fullLabel: t('in-waiting-for-deployment:content.cloudFoundryAndOtherBoshBasedDeployments'),
       icon: 'cloud_foundry_icon',
@@ -349,6 +374,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'vmware_tanzu',
       title: 'VMware Tanzu',
+      pageName: 'VMware Tanzu', // tracking data
       label: t('in-waiting-for-deployment:content.vMwareTanzu'),
       icon: 'lib_vmware_tanzu',
       fullLabel: t('in-waiting-for-deployment:content.vMwareTanzuFormerlyKnownAsPivotalCloudFoundry'),
@@ -359,6 +385,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'macos_universal',
       title: 'macOs',
+      pageName: 'macOs', // tracking data
       label: t('in-waiting-for-deployment:content.macOs'),
       category: t('in-waiting-for-deployment:content.os'),
       keyWords: 'macosx',
@@ -372,6 +399,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'windows_64_bit',
       title: 'Windows - Windows Installer 64Bit',
+      pageName: 'Windows > Windows Installer 64Bit', // tracking data
       label: t('in-waiting-for-deployment:content.windows'),
       icon: 'lib_windows',
       category: t('in-waiting-for-deployment:content.os'),
@@ -384,6 +412,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'windows_64_bit_unattended',
       title: 'Windows - Windows Installer 64Bit (Unattended)',
+      pageName: 'Windows > Windows Installer 64Bit (Unattended)', // tracking data
       label: t('in-waiting-for-deployment:content.windows'),
       icon: 'lib_windows',
       category: t('in-waiting-for-deployment:content.os'),
@@ -396,6 +425,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'windows_zip',
       title: 'Windows - Zip Archives',
+      pageName: 'Windows > Zip Archives', // tracking data
       label: t('in-waiting-for-deployment:content.windows'),
       icon: 'lib_windows',
       category: t('in-waiting-for-deployment:content.os'),
@@ -408,6 +438,7 @@ export function getEntriesForFreeTrial() {
     {
       id: 'windows_ec2_64',
       title: 'Windows - Elastic Computing (EC2) - Windows 64 bit',
+      pageName: 'Windows > Elastic Computing (EC2) - Windows 64 bit', // tracking data
       label: t('in-waiting-for-deployment:content.windows'),
       icon: 'lib_windows',
       category: t('in-waiting-for-deployment:content.os'),

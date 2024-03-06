@@ -7,20 +7,22 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
+import { getKubernetesPrometheusMetricsWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesPrometheusMetrics';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
+import { cronJobId as matrixCronJobId, podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
+import { kubernetesTimeShiftSelectTracker, podTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
-import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -33,8 +35,8 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { pendingResult } from 'in-services/fixedObjects';
 import { getTimeConfig } from 'in-stores/time/config';
-import { podTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -47,6 +49,13 @@ export default function PodDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
+  const { podId, timeConfig } = props;
+
+  const prometheusEndpoints =
+    useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
+
+  const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
+
   return (
     <>
       <ViewTrackingMeta
@@ -56,8 +65,8 @@ export default function PodDashboard({ location }) {
         }}
       />
       <KubernetesIdsForBreadcrumb
-        timeConfig={props.timeConfig}
-        podId={props.podId}
+        timeConfig={timeConfig}
+        podId={podId}
         renderBreadcrumbs={(clusterId, namespaceId, workloadControllerId, workloadControllerType) => (
           <Breadcrumbs
             items={PodBreadcrumbs({
@@ -72,20 +81,20 @@ export default function PodDashboard({ location }) {
       />
       <TabView
         result$={getKubernetesPod({
-          id: props.podId,
-          timeConfig: props.timeConfig
+          id: podId,
+          timeConfig: timeConfig
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={tabs}
+        tabs={hasPrometheusEndpoints ? tabs : tabs.slice(0, -1)}
         tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
             <EntityVersionList
               plugin={plugins.kubernetesPod}
-              snapshotId={props.podId}
-              timeConfig={props.timeConfig}
+              snapshotId={podId}
+              timeConfig={timeConfig}
               errors={errors}
             />
           </CenterAlignmentColumn>

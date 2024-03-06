@@ -15,19 +15,20 @@ import {
   toApdexConfigurationInput
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
-import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
+// eslint-disable-next-line import/no-deprecated
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
-import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
+import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 import locals from './CreateApdexForm.mless';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 
 export interface CreateApdexFormComponentProps
   extends Omit<CreateApdexFormProps, 'entityType' | 'onClose' | 'onSave' | 'entityId' | 'apdexConfig'> {
@@ -61,12 +62,13 @@ export default function CreateApdexForm({
   const [form, setForm] = useCreateApdexForm(apdexConfig, entityType, entityId);
   const [submitStatus, doSubmit] = useFormSubmission(createApdexConfiguration);
 
-  const track = useApdexWidgetTrackers();
+  const track = useSloTrackers();
 
   const isEditing = Boolean(apdexConfig.id);
 
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
 
+  // eslint-disable-next-line import/no-deprecated
   const apdexName = getField<string>(form, [apdexNameKey])?.value ?? '';
 
   const onSubmit = (submittedForm: Item) => {

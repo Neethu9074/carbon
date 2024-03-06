@@ -23,16 +23,17 @@ describe('ManagedLocation', () => {
       <ManagedLocation form={createNewLocationForm('managed')} datacenters={just([])} updateForm={updateForm} />
     );
 
-    expect(screen.getByText('Instana Managed Datacenters')).toBeInTheDocument();
+    expect(screen.getByText('Datacenters')).toBeInTheDocument();
 
     const linkElement = screen.getByText('Synthetic PoP Deployment');
     expect(linkElement.getAttribute('href')).toBe('https://ibm.biz/pop_deployment');
 
-    expect(container.getElementsByTagName('th').length).toBe(4);
+    expect(container.getElementsByTagName('th').length).toBe(5);
     expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
     expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Datacenter Name');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Provider');
-    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Status');
+    expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Location Name');
+    expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Status');
   });
 
   test('renders NoDataAvailable component if no datacenters are present', () => {
@@ -66,7 +67,7 @@ describe('ManagedLocation', () => {
             longitude: 8.68,
             status: 'Active',
             datacenterId: 'aws-us-west-1-NCalifornia',
-            locationDisplayLabel: 'us-west-1(NCalifornia)',
+            locationLabel: 'tu-us-west-1(NCalifornia)',
             customProperties: 'typeFlag=INSTANA_HOSTED_SYNTHETIC_POP;datacenterFlag=aws-us-west-1-NCalifornia',
             modifiedAt: 1708491964280
           }
@@ -83,6 +84,7 @@ describe('ManagedLocation', () => {
     expect(trElements[0]).toHaveTextContent('us-west-1');
     expect(trElements[0]).toHaveTextContent('us-west-1(NCalifornia)');
     expect(trElements[0]).toHaveTextContent('AWS');
+    expect(trElements[0]).toHaveTextContent('tu-us-west-1(NCalifornia)');
     expect(trElements[0]).toHaveTextContent('Active');
   });
 
@@ -101,7 +103,7 @@ describe('ManagedLocation', () => {
             longitude: 8.68,
             status: 'Inactive',
             datacenterId: 'aws-us-west-1-NCalifornia',
-            locationDisplayLabel: 'us-west-1(NCalifornia)',
+            locationLabel: 'tu-us-west-1(NCalifornia)',
             customProperties: 'typeFlag=INSTANA_HOSTED_SYNTHETIC_POP;datacenterFlag=aws-us-west-1-NCalifornia',
             modifiedAt: 1708491964280
           }
@@ -132,7 +134,7 @@ describe('ManagedLocation', () => {
             longitude: 8.68,
             status: 'Active',
             datacenterId: 'aws-us-west-1-NCalifornia',
-            locationDisplayLabel: 'us-west-1(NCalifornia)',
+            locationLabel: 'tu-us-west-1(NCalifornia)',
             customProperties: 'typeFlag=INSTANA_HOSTED_SYNTHETIC_POP;datacenterFlag=aws-us-west-1-NCalifornia',
             modifiedAt: 1708491964280
           }

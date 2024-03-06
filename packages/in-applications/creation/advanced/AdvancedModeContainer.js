@@ -16,6 +16,7 @@ import ContributionFilterDropdown, {
 import DialogBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/DialogBuiltInSmartAlertsSelectionList';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
+import { findByRestrictingApplicationId } from 'in-applications/creation/contributionFilters';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -33,7 +34,7 @@ import locals from './AdvancedModeContainer.mless';
 
 export default function AdvancedModeContainer({ form, updateForm, errorMessage, userRestrictedApplicationsResult }) {
   const labelField = form.get('label');
-  const groupIdField = form.get('groupId');
+  const restrictingApplicationIdField = form.get('restrictingApplicationId');
   const tagFilterExpressionField = form.get('tagFilterExpression');
 
   if (isLoading(userRestrictedApplicationsResult) || hasError(userRestrictedApplicationsResult)) {
@@ -46,7 +47,10 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage, 
   }
 
   const userRestrictedApplications = userRestrictedApplicationsResult.data;
-  const selectedUserGroupRestrictions = userRestrictedApplications.find(r => r.id === groupIdField.value);
+  const selectedUserGroupRestrictions = findByRestrictingApplicationId(
+    userRestrictedApplications,
+    restrictingApplicationIdField.value
+  );
   const contributionFilter = selectedUserGroupRestrictions?.filter?.tagFilterExpression;
 
   return (

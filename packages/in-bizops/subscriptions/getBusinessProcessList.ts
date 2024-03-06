@@ -58,8 +58,8 @@ export function getBusinessProcessListWithDefaults({
     //Having the metrics block in the payload mainly for passing the granularity (unit is in seconds)
     //to the backend to get the data for the response time spark chart.
     metrics: {
-      startedProcessesCount: {
-        metric: 'startedProcessesCount',
+      started_processes: {
+        metric: 'started_processes',
         granularity: 60,
         aggregation: 'DISTINCT_COUNT'
       }

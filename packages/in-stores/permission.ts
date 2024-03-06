@@ -97,10 +97,6 @@ export const Capability = Object.freeze({
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
   CAN_VIEW_SYNTHETIC_LOCATIONS: 'CAN_VIEW_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS',
-  CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
-  CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
-  CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
-  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS',
   CAN_USE_SYNTHETIC_CREDENTIALS: 'CAN_USE_SYNTHETIC_CREDENTIALS',
   CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS',
   CAN_CONFIGURE_EVENTS_AND_ALERTS: 'CAN_CONFIGURE_EVENTS_AND_ALERTS',
@@ -656,39 +652,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanConfigureSyntheticCredentialsLabel'),
     description: t('in-stores:permissionCanConfigureSyntheticCredentialsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
-  },
-  /* BizOps */
-  [Capability.CAN_VIEW_BUSINESS_PROCESSES]: {
-    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESSES,
-    keyForApiTokenApi: 'canViewBusinessProcesses',
-    label: t('in-stores:permissionCanViewBusinessProcessesLabel'),
-    description: t('in-stores:permissionCanViewBusinessProcessesDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]: {
-    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
-    keyForApiTokenApi: 'canViewBusinessProcessDetails',
-    label: t('in-stores:permissionCanViewBusinessProcessDetailsLabel'),
-    description: t('in-stores:permissionCanViewBusinessProcessDetailsDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_VIEW_BUSINESS_ACTIVITIES]: {
-    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
-    keyForApiTokenApi: 'canViewBusinessActivities',
-    label: t('in-stores:permissionCanViewBusinessActivitiesLabel'),
-    description: t('in-stores:permissionCanViewBusinessActivitiesDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_VIEW_BIZOPS_ALERTS]: {
-    keyForGroupApi: Capability.CAN_VIEW_BIZOPS_ALERTS,
-    keyForApiTokenApi: 'canViewBizAlerts',
-    label: t('in-stores:permissionCanViewBusinessSmartAlertsLabel'),
-    description: t('in-stores:permissionCanViewBusinessSmartAlertsDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
   }
 };
 
@@ -735,19 +698,6 @@ export function getProductPermissions(): Array<ProductPermission> {
   } else if (!automationPoliciesEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_AUTOMATION_POLICIES;
-    });
-  }
-
-  if (!businessObservabilityEnabled) {
-    const bizopsCapabilities: Set<CapabilityType> = new Set([
-      Capability.CAN_VIEW_BUSINESS_PROCESSES,
-      Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
-      Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
-      Capability.CAN_VIEW_BIZOPS_ALERTS
-    ]);
-
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return !bizopsCapabilities.has(keyForGroupApi);
     });
   }
 

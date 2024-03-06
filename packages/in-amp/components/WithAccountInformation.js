@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -29,14 +30,27 @@ export default function WithAccountInformationResultWrapper({ children }) {
 function WithAccountInformation({ children, environments }) {
   const canShowAggregatedMetrics = containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
+  const hasSyntheticAddons = syntheticAddons(environments);
 
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
-    canShowAggregatedMetrics
+    canShowAggregatedMetrics,
+    hasSyntheticAddons
   });
 }
 
+function syntheticAddons(licenses) {
+  for (const license of licenses) {
+    const active = license.activeLicenses?.some(lic => lic.licenseSpecs?.addons?.SYNTHETICS?.jobs > 0);
+    const expired = license.expiredLicenses?.some(lic => lic.licenseSpecs?.addons?.SYNTHETICS?.jobs > 0);
+    const queued = license.queuedLicense?.some(lic => lic.licenseSpecs?.addons?.SYNTHETICS?.jobs > 0);
+    if (active || expired || queued) {
+      return true;
+    }
+  }
+  return false;
+}
 function getCurrentTenantOption(unitSelectorOptions) {
   return (
     unitSelectorOptions.find(({ value }) => value.tenant === config.tenant && value.unit === config.tenantUnit) ??
