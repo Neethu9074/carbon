@@ -12,9 +12,9 @@ export const TAG_CALL_HTTP_STATUS = 'call.http.status';
 
 // includedRanges - array of single digit numbers representing the whole range which starts with that digit,
 // e.g. [2] includes all 2xx HTTP status codes
-export default function formModelFromHttpStatusRange(includedRanges: number[]) {
+export default function formModelFromHttpStatusRange(includedRanges: (number | undefined)[]) {
   let rangesExpression: any = [];
-  while (includedRanges.length > 0 && includedRanges.length < 5) {
+  while (includedRanges && includedRanges.length > 0 && includedRanges.length < 5) {
     const start: number | undefined = includedRanges.shift();
     let end: number | undefined;
     if (start) {

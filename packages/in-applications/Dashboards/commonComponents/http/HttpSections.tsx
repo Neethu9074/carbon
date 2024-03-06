@@ -5,6 +5,16 @@
 
 import React from 'react';
 
+import {
+  AggregationType,
+  EndpointType,
+  Group,
+  TagFilter,
+  TagFilterOperator,
+  TimeConfig,
+  TimeShift
+} from '@instana/types';
+
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
@@ -17,12 +27,41 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
+import { ChartedMetricsConfig } from 'in-components/Chart/types';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { timeShift, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { line, stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
+
+interface HttpSectionsProps {
+  applicationId: string;
+  boundaryScope: string;
+  cardTitle: string;
+  endpointId: string;
+  endpointTypes: EndpointType[];
+  groupBy: Group;
+  hasHttpAndOtherEndpoints: boolean;
+  renderPostChartContentHttpStatus: (lanesProps: any) => JSX.Element;
+  rightHeaderContent: React.ReactElement;
+  serviceId: string;
+  tagFilters: (TagFilter | { name: string; operator: TagFilterOperator })[];
+  timeConfig: TimeConfig;
+  timeShiftConfig: TimeShift;
+  timeShiftMetric: string;
+}
+
+interface MetricConfigProps {
+  aggregation: AggregationType;
+  granularity: number;
+  label: string;
+  metric: string;
+  source: string;
+  tagFilters: (TagFilter | { name: string; operator: TagFilterOperator })[];
+  timeConfig: TimeConfig;
+  timeShift: number;
+}
 
 export default function HttpSections({
   timeConfig,
@@ -39,15 +78,14 @@ export default function HttpSections({
   cardTitle,
   rightHeaderContent,
   endpointTypes
-}) {
+}: HttpSectionsProps) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorsBlueprintConfig = getBlueprintConfig('errors');
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
   const defaultMetricConfig = {
     granularity,
-    aggregation: 'SUM',
+    aggregation: 'SUM' as AggregationType,
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
@@ -56,7 +94,7 @@ export default function HttpSections({
 
   const otherCallsMetricConfig = {
     granularity,
-    aggregation: 'SUM',
+    aggregation: 'SUM' as AggregationType,
     source: 'APPLICATION',
     tagFilters: [{ name: 'call.http.status', operator: IS_EMPTY }, ...tagFilters],
     timeConfig: timeConfig,
@@ -150,7 +188,7 @@ export default function HttpSections({
     });
   }
 
-  let metricConfigs;
+  let metricConfigs: MetricConfigProps[];
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {
@@ -181,7 +219,6 @@ export default function HttpSections({
     colors = chartMetrics.map(m => m.color);
     renderer = stackedBar.id;
   }
-
   return (
     <UnifiedMetricsChart
       title={cardTitle}
@@ -197,16 +234,16 @@ export default function HttpSections({
             throughputHigh: {
               rule: {
                 alertType: throughputBlueprintConfig.type,
-                aggregation: throughputBlueprintConfig.getAggregation(),
-                metricName: throughputBlueprintConfig.getMetricName()
+                aggregation: throughputBlueprintConfig.getAggregation({ alertType: 'throughput', metricName: 'calls' }),
+                metricName: throughputBlueprintConfig.getMetricName({ alertType: 'throughput', metricName: 'calls' })
               },
               seasonality: DAILY
             },
             throughputLow: {
               rule: {
                 alertType: throughputBlueprintConfig.type,
-                aggregation: throughputBlueprintConfig.getAggregation(),
-                metricName: throughputBlueprintConfig.getMetricName()
+                aggregation: throughputBlueprintConfig.getAggregation({ alertType: 'throughput', metricName: 'calls' }),
+                metricName: throughputBlueprintConfig.getMetricName({ alertType: 'throughput', metricName: 'calls' })
               },
               seasonality: DAILY,
               operator: '<='
@@ -223,8 +260,8 @@ export default function HttpSections({
       }
       timeConfig={timeConfig}
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset}
-      reverseTooltipOrder={timeShiftConfig.offset}
+      reverseLegendOrder={timeShiftConfig.offset !== 0}
+      reverseTooltipOrder={timeShiftConfig.offset !== 0}
       config={{
         y1: {
           metrics: metricConfigs,
@@ -245,8 +282,8 @@ export default function HttpSections({
             name: 'analyze',
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
-            getHref$: (highlightedTime, metricsToAdd) =>
-              getJumpToAnalyzeHref$(
+            getHref$: (highlightedTime: TimeConfig, metricsToAdd: ChartedMetricsConfig | undefined) => {
+              return getJumpToAnalyzeHref$(
                 {
                   applicationId,
                   serviceId,
@@ -257,7 +294,11 @@ export default function HttpSections({
                   dataSource: 'calls',
                   formModel: joinExpressions({
                     expressions: [
-                      selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
+                      selectedMetricsToFormModel(
+                        metricsToAdd ? metricsToAdd.renderedMetrics : [],
+                        metricConfigs,
+                        timeShiftConfig
+                      ),
                       filterByEndpointType(endpointTypes)
                     ]
                   }),
@@ -266,7 +307,8 @@ export default function HttpSections({
                   chartedMetrics: [createChartedMetric('calls', 'SUM')]
                 },
                 getLinkToApplicationAnalyze
-              )
+              );
+            }
           }
         ]
       }}
@@ -275,7 +317,11 @@ export default function HttpSections({
   );
 }
 
-function selectedMetricsToFormModel(renderedMetrics, metricConfigs, timeShiftConfig) {
+function selectedMetricsToFormModel(
+  renderedMetrics: string[],
+  metricConfigs: MetricConfigProps[],
+  timeShiftConfig: TimeShift
+) {
   if (timeShiftConfig.offset) {
     if (metricConfigs[0].metric === 'calls') {
       return [tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY)];
@@ -283,11 +329,11 @@ function selectedMetricsToFormModel(renderedMetrics, metricConfigs, timeShiftCon
     return formModelFromHttpStatusRange([getFirstStatusCodeDigit(metricConfigs[0].metric)]);
   }
 
-  const activeMetrics = renderedMetrics.map(metricId => metricConfigs[parseMetricId(metricId).index].metric);
-  const activeNonHttp = activeMetrics.some(metric => metric === 'calls');
+  const activeMetrics = renderedMetrics.map((metricId: string) => metricConfigs[parseMetricId(metricId).index].metric);
+  const activeNonHttp = activeMetrics.some((metric: string) => metric === 'calls');
   const includedHttpStatueRanges = activeMetrics
-    .filter(metric => metric != 'calls')
-    .map(metric => getFirstStatusCodeDigit(metric));
+    .filter((metric: string) => metric != 'calls')
+    .map((metric: string) => getFirstStatusCodeDigit(metric));
   if (includedHttpStatueRanges.length === 0) {
     // no http status ranges selected
     return activeNonHttp ? [tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY)] : [];
@@ -305,7 +351,7 @@ function selectedMetricsToFormModel(renderedMetrics, metricConfigs, timeShiftCon
   });
 }
 
-function getFirstStatusCodeDigit(metric) {
+function getFirstStatusCodeDigit(metric: string) {
   switch (metric) {
     case 'http.1xx':
       return 1;
@@ -317,5 +363,7 @@ function getFirstStatusCodeDigit(metric) {
       return 4;
     case 'http.5xx':
       return 5;
+    default:
+      return -1;
   }
 }
