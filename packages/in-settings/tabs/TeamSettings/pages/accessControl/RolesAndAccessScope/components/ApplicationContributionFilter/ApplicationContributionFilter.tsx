@@ -20,7 +20,7 @@ import {
 //@ts-expect-error not migrated to typescript yet
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
+import { contributionFilterNameExists } from 'in-settings/tabs/TeamSettings/api/groups';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -50,7 +50,6 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   const filterNameField = getField<string>(form, 'label');
   const filterName = filterNameField?.value;
   const [initialfilterName] = useState(filterNameField?.value);
-
   const [isFilterNameValid, setFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -59,33 +58,21 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
     // Already invalid (blank or larger than 128 characters)
     if (contributionFilterNameValidator(filterName) !== null) {
       setValid(false);
+      setErrorMessage('');
     } else if (editMode && initialfilterName === filterName) {
+      // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
       setValid(true);
+      setErrorMessage('');
     } else if (filterName) {
-      // Check if contribution filter name already exists as application perspective name
-      const appsObservable = getApplicationsWithDefaults({
-        timeConfig: timeConfig,
-        query: filterName,
-        page: 1,
-        pageSize: 200,
-        orderBy: 'callsAgg',
-        orderDirection: 'DESC',
-        contextScope: 'NONE'
-      });
-
+      const appsObservable = contributionFilterNameExists(filterName);
       appsDisposable = appsObservable.subscribe(result => {
-        if (result?.data) {
-          // Name is valid if no application perspectives with the same name are found
-          const isNameValid = !result?.data?.items?.some((app: any) => {
-            return filterName === app?.application?.label;
-          });
+        // Name is valid if no application perspective with the same name is found
+        const isNameValid = result?.exists === false;
+        setFilterNameValid(isNameValid);
+        setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
 
-          setFilterNameValid(isNameValid);
-          setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
-
-          // Report valid
-          setValid(isNameValid);
-        }
+        // Report valid
+        setValid(isNameValid);
       });
     }
 
