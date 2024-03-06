@@ -101,7 +101,7 @@ export default function DatatableWrapper({
   ];
 
   return (
-    <DashboardTile {...dashboardTileProps}>
+    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}>
       <DashboardTable
         headers={headers}
         rows={processedItems}
@@ -116,6 +116,8 @@ export default function DatatableWrapper({
         header={getNoDataHeader(label)}
         description={getNoDataDescription(label)}
         buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
+        searchLabel={t('in-plg:welcomepage.ariaLabel.searchButton')}
+        addLabel={t('in-plg:welcomepage.ariaLabel.addButton')}
         onSearch={(searchQuery: string) => {
           setQuery(searchQuery);
         }}

@@ -572,6 +572,12 @@
         "description": "Create your own custom dashboard.",
         "buttonName": "Create custom dashboard"
       }
+    },
+    "ariaLabel": {
+      "shareButton": "Share button",
+      "searchButton": "Search button",
+      "addButton": "Add button",
+      "handleButton": "Handle button"
     }
   }
 }

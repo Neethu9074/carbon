@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import { DashboardButton, HeaderItemTile, HeaderTile, Stack } from '@instana/components';
@@ -18,8 +17,6 @@ import Overlay from 'in-components/overlays/Overlay';
 import { openAssistMe } from '../AssistMe/AssistMe';
 import DatePicker from '../DatePicker/DatePicker';
 import { user } from 'in-stores/user';
-
-import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
 
 export default function WelcomeHeader() {
   // @ts-expect-error The User type needs to be updated.
@@ -65,6 +62,7 @@ export default function WelcomeHeader() {
         {({ toggle, refSetter }) => (
           <DashboardButton
             id="url-shortener-button"
+            ariaLabel={t('in-plg:welcomepage.ariaLabel.shareButton')}
             icon="lib_actions_interface_link"
             kind="tertiary"
             onClick={() => {
@@ -87,11 +85,7 @@ export default function WelcomeHeader() {
   }
 
   return (
-    <HeaderTile
-      headerTitle={headerTitle}
-      datepicker={datepicker}
-      className={classNames(locals.backgroundImage, locals.backgroundImage1)}
-    >
+    <HeaderTile headerTitle={headerTitle} datepicker={datepicker}>
       {tileData.map(tile => (
         <HeaderItemTile
           title={tile.title}

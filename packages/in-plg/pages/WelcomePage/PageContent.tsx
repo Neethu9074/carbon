@@ -331,6 +331,7 @@ function RenderEvents({ dashboardTileProps }: { dashboardTileProps: dashboardTil
   return (
     <DashboardTile
       {...dashboardTileProps}
+      handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
       rightHeaderContent={
         EventsfullListViewHref && <Link href={EventsfullListViewHref}>{t('in-plg:welcomepage.viewAll')}</Link>
       }
