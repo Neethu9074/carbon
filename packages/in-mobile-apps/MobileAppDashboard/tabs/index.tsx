@@ -1,11 +1,16 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
+// @ts-expect-error Could not find a declaration file for module
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
+// @ts-expect-error Could not find a declaration file for module
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
+// @ts-expect-error Could not find a declaration file for module
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
+// @ts-expect-error Could not find a declaration file for module
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
@@ -13,10 +18,15 @@ import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import Crashes from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes';
 import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export const mobileAppTabs = [
+interface MobileAppTab extends Tab<{}, {}> {
+  mobileAppOnly?: boolean;
+}
+
+export const mobileAppTabs: Array<MobileAppTab> = [
   {
     label: t('in-mobile-apps:dashboard.tabs.summaryLabel'),
     path: `${mobileAppPathFullyQualified}/summary`,
@@ -54,12 +64,12 @@ export const mobileAppTabs = [
     path: `${mobileAppPathFullyQualified}/alerts`,
     component: Alerts
   },
-  role.canConfigureMobileAppMonitoring && {
+  role?.canConfigureMobileAppMonitoring && {
     label: t('in-mobile-apps:dashboard.tabs.configurationLabel'),
     path: `${mobileAppPathFullyQualified}/configuration`,
     component: Configuration,
     mobileAppOnly: true
   }
-].filter(Boolean);
+].filter(Boolean) as Array<MobileAppTab>;
 
 export const viewTabs = mobileAppTabs.filter(tab => !tab.mobileAppOnly);
