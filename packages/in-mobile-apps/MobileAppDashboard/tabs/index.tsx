@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 // @ts-expect-error Could not find a declaration file for module
@@ -11,10 +12,9 @@ import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geograph
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 // @ts-expect-error Could not find a declaration file for module
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
-// @ts-expect-error Could not find a declaration file for module
+import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
 import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
-import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Crashes from 'in-mobile-apps/MobileAppDashboard/tabs/Crashes';
 import Alerts from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts';
 import Views from 'in-mobile-apps/MobileAppDashboard/tabs/Views';
