@@ -71,7 +71,7 @@ const cols = [
       getValue(row) {
         return row.topQuery.get('DURATION_SEC');
       },
-      getContent: seconds.detailed
+      getContent: seconds.fixedCompact
     }
   }
 ];
