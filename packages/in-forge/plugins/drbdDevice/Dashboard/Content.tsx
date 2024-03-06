@@ -11,6 +11,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
+// @ts-expect-error Module needs to be translated to TS
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 import { TimeConfig } from '@instana/types';
@@ -62,7 +63,6 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
-            tooltipFormatter: number.compact,
             metrics: [`deviceReadBytesTotal`, `deviceWrittenBytesTotal`],
             labels: [
               t('in-forge:plugins.drbdDevice.dashboard.deviceReadBytesTotal'),
@@ -78,7 +78,6 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
-            tooltipFormatter: number.compact,
             metrics: [`deviceUpperPending`, `deviceLowerPending`],
             labels: [
               t('in-forge:plugins.drbdDevice.dashboard.deviceUpperPending'),
@@ -94,7 +93,6 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
-            tooltipFormatter: number.compact,
             metrics: [`deviceAlSuspended`, `deviceAlWritesTotal`],
             labels: [
               t('in-forge:plugins.drbdDevice.dashboard.deviceAlSuspended'),
@@ -107,3 +105,5 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
     </div>
   );
 }
+
+

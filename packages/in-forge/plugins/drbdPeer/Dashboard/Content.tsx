@@ -12,12 +12,13 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
+// @ts-expect-error Module needs to be translated to TS
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 import { TimeConfig } from '@instana/types';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
-export default function ResourceDashboard({ snapshot, timeConfig }) {
+export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;

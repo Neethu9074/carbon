@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import ConnectionsTable from 'in-forge/plugins/drbdResource/Dashboard/ConnectionsTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -15,10 +17,10 @@ import PeersTable from 'in-forge/plugins/drbdResource/Dashboard/PeersTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
+// @ts-expect-error Module needs to be translated to TS
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
-import { TimeConfig } from '@instana/types';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { SnapshotData } from 'in-stores/snapshot';
 
 export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -53,9 +55,9 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
           />
         </DashboardSection>
       </Columize>
-      <DevicesTable snapshot={snapshot} timeConfig={timeConfig} snapshotId={snapshotId} />
-      <ConnectionsTable snapshot={snapshot} timeConfig={timeConfig} snapshotId={snapshotId} />
-      <PeersTable snapshot={snapshot} timeConfig={timeConfig} snapshotId={snapshotId} />
+      <DevicesTable snapshot={snapshot}/>
+      <ConnectionsTable snapshot={snapshot} />
+      <PeersTable snapshot={snapshot} />
     </div>
   );
 }

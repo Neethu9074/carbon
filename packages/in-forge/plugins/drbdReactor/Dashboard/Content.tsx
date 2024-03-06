@@ -13,6 +13,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
+// @ts-expect-error Module needs to be translated to TS
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 import { TimeConfig } from '@instana/types';
@@ -60,7 +61,7 @@ export default function DrbdDashboard({ snapshot, timeConfig }: { snapshot: Snap
           />
         </DashboardSection>
       </Columize>
-      <ResourcesTable snapshot={snapshot} timeConfig={timeConfig} snapshotId={snapshotId} />
+      <ResourcesTable snapshot={snapshot} />
     </div>
   );
 }
