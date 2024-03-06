@@ -21,14 +21,15 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+// @ts-expect-error needs migration
+import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import FilterInfo from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/FilterInfo';
-import { calculateEventGraphGranularity, getEntireTimeWindowConfigFromTimeWindows } from 'in-service-levels/utils/time';
+import { calculateEventGraphGranularity } from 'in-service-levels/utils/time';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
-import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -37,7 +38,8 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
@@ -45,13 +47,9 @@ export default function EventBasedIndicatorChart({
   entity,
   indicator
 }: IndicatorChartProps<ServiceLevelIndicatorUnion>) {
-  const selectedTimeConfig = useTimeConfig();
+  const sloZoomInAction = useSloZoomInAction();
   const [goodFilterExpression, badFilterExpression] = useTagFilterExpressions(entity, indicator);
-  const { timeWindows, selectedTimeWindowType } = useSloTimeWindowContext();
-  const timeConfig =
-    selectedTimeWindowType === 'SLO_TIME_WINDOW'
-      ? getEntireTimeWindowConfigFromTimeWindows(timeWindows)
-      : selectedTimeConfig;
+  const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateEventGraphGranularity(timeConfig);
   const result: Result<UnifiedMetricsResult[]> =
     useObservable(
@@ -73,6 +71,9 @@ export default function EventBasedIndicatorChart({
       config={{
         title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
         rightHeaderContent: <FilterInfo entity={entity} indicator={indicator} />,
+        primaryContextMenuAction: sloZoomInAction.name,
+        additionalContextMenuButtons: [sloZoomInAction],
+        excludedContextMenuActions: [zoomInAction.name],
         granularity: goodEventsMetricResult?.granularity ?? granularity,
         y1: {
           metricIds: [badEventsMetricId, goodEventsMetricId],

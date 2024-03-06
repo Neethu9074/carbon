@@ -10,6 +10,7 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
+import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
 export { refreshSignalUsers } from 'in-api/usersRefreshSignal';
@@ -65,6 +66,17 @@ function getUsersInternal() {
     method: 'GET',
     maxRetries: 3,
     url: `/api/settings/users`
+  });
+}
+export function getUser(userId: string): Observable<UserResult> {
+  return getUserInternal(userId).map(response => response.body);
+}
+
+function getUserInternal(userId: string): Observable<Response<UserResult>> {
+  return http<UserResult>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/users/${encodeURIComponent(userId)}`
   });
 }
 

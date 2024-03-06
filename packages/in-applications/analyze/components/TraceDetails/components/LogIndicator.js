@@ -8,14 +8,11 @@ import React, { forwardRef } from 'react';
 import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import { getLogLevelAndColor } from 'in-components/Logging/TraceDetails/utils';
 import { role } from 'in-stores/user';
-import { useTheme } from 'in-themes';
 
 import locals from './LogIndicator.mless';
 
 export default forwardRef(function LogIndicator(props, ref) {
-  const theme = useTheme();
-  const indicatorProps = { theme, ...props };
-  return <LogV2Indicator {...indicatorProps} ref={ref} />;
+  return <LogV2Indicator {...props} ref={ref} />;
 });
 
 const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {

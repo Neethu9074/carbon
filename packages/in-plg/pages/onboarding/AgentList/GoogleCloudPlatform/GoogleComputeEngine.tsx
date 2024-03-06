@@ -29,7 +29,8 @@ export default function GoogleComputeEngine({
   agentKey,
   downloadKey,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const packagingOptions: Option[] = [
     { key: 'Dynamic', label: t('in-plg:agentDetails.agentMode.dynamic') },
@@ -141,7 +142,7 @@ export default function GoogleComputeEngine({
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="gce" />
+        <GetDeployedAgents agent="gce" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />

@@ -30,11 +30,13 @@ import {
 // @ts-expect-error file needs to be converted
 import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
 import WebsitesAndMobileListWidget from 'in-plg/pages/WelcomePage/widgets/WebsitesAndMobileListWidget';
+import SyntheticMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/SyntheticMonitoringWidget';
 import BusinessMonitoringWidget from 'in-plg/pages/WelcomePage/widgets/BusinessMonitoringWidget';
 import InfrastructureWidget from 'in-plg/pages/WelcomePage/widgets/InfrastructureWidget';
 import ApplicationWidget from 'in-plg/pages/WelcomePage/widgets/ApplicationWidget';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import IncidentsWidget from 'in-plg/pages/WelcomePage/widgets/IncidentsWidget';
+import DashboardWidget from 'in-plg/pages/WelcomePage/widgets/DashboardWidget';
 import PlatformWidget from 'in-plg/pages/WelcomePage/widgets/PlatformWidget';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import { setSingle, settings$ } from 'in-services/settings/settings';
@@ -128,6 +130,14 @@ const infrastructureArray = [
 
 const infrastructureToogleArray: string[] = infrastructureArray.map(ele => ele.label);
 
+const syntheticArray = [
+  { value: 'test', label: 'Tests' },
+  { value: 'location', label: 'Locations' },
+  { value: 'smartalerts', label: 'Smart alerts' }
+];
+
+const syntheticToogleArray: string[] = syntheticArray.map(ele => ele.label);
+
 const widgetData = [
   {
     key: 'applicationWidget',
@@ -179,6 +189,20 @@ const widgetData = [
     infraType: 'host',
     widget: InfrastructureWidget,
     type: 'infrastructure'
+  },
+  {
+    key: 'syntheticWidget',
+    label: t('in-plg:welcomepage.component.syntheticWidget.label'),
+    toogles: syntheticToogleArray,
+    syntheticType: 'test',
+    widget: SyntheticMonitoringWidget,
+    type: 'synthetic'
+  },
+  {
+    key: 'dashboardWidget',
+    label: t('in-plg:welcomepage.component.dashboardWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: DashboardWidget
   }
 ];
 
@@ -192,7 +216,9 @@ const tableEntryArray: tableEntry[] = widgetData
       ele.key === 'incidentsWidget' ||
       (ele.key === 'websitesWidget' && hasWebsitesAccess) ||
       (ele.key === 'mobileListWidget' && hasMobileAppsAccess) ||
-      (ele.key === 'infrastructureWidget' && hasInfrastructureAccess)
+      (ele.key === 'infrastructureWidget' && hasInfrastructureAccess) ||
+      ele.key === 'syntheticWidget' ||
+      ele.key === 'dashboardWidget'
   )
   .map((ele, index) => {
     itemIds.push({ id: index.toString() });

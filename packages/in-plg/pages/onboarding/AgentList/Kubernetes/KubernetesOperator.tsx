@@ -30,7 +30,8 @@ const KubernetesOperator = ({
   agentKey,
   downloadKey,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element => {
   const [clusterName, setClusterName] = useState('');
   const [agentZone, setAgentZone] = useState('');
@@ -196,7 +197,7 @@ const KubernetesOperator = ({
           <Code code={CODE_3} lang="bash" />
         </LayoutSection>
 
-        <GetDeployedAgents agent="kubernetes" />
+        <GetDeployedAgents agent="kubernetes" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

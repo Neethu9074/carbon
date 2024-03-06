@@ -23,7 +23,8 @@ export default function Docker({
   agentKey,
   downloadKey,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const [agentZone, setAgentZone] = useState<string>('');
   const sideCardData = [
@@ -126,7 +127,7 @@ export default function Docker({
           <Code lang="bash" code={createDockerScript} />
         </LayoutSection>
 
-        <GetDeployedAgents agent="docker" />
+        <GetDeployedAgents agent="docker" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

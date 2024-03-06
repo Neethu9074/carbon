@@ -19,7 +19,7 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import { LogGroupItem } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList.mless';
+import locals from 'in-alerting/smart-alerts/aggregated/components/GroupTableList.mless';
 
 export function getColumnDefinition({
   groupBy,

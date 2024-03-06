@@ -38,9 +38,17 @@ export interface WidgetProps {
 
 export interface InfraProps {
   config: any;
-  timeConfig: any;
+  timeConfig: TimeConfig;
   infraType: string;
   widgetLabel: string;
+  dashboardTileProps: dashboardTileParamProps;
+}
+
+export interface SyntheticProps {
+  config: any;
+  timeConfig: TimeConfig;
+  widgetLabel: string;
+  syntheticType: string;
   dashboardTileProps: dashboardTileParamProps;
 }
 
@@ -59,4 +67,13 @@ export interface DatatableWidgetProps {
   syntheticType?: string;
   dashboardTileProps: dashboardTileParamProps;
   isDashboardWidget?: boolean;
+}
+
+export interface ColumnDefinitionItem {
+  key: string;
+  getContent: GetContentFunction;
+}
+
+export interface SyntheticInfraColumn {
+  [key: string]: ColumnDefinitionItem[];
 }

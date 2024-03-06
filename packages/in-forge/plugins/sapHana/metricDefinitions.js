@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, bytes, percentage } from 'in-services/formatters/number';
+import { number, bytes, percentage, millis } from 'in-services/formatters/number';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
 export default [
@@ -122,5 +123,65 @@ export default [
       t('in-forge:plugins.sapHana.pendingRequests')
     ],
     min: 0
+  },
+  {
+    formatter: number,
+    metrics: ['stats.runningCount', 'stats.idleCount'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.runningCount'), t('in-forge:plugins.sapHana.dashboard.idleCount')],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: ['stats.runningCount', 'stats.idleCount'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.runningCount'), t('in-forge:plugins.sapHana.dashboard.idleCount')],
+    min: 0
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'garbageCollectionStats',
+        'historyCount',
+        t('in-forge:plugins.sapHana.dashboard.historyCount')
+      ),
+      getDynamicMetricMatch(
+        'garbageCollectionStats',
+        'waiterCount',
+        t('in-forge:plugins.sapHana.dashboard.waiterCount')
+      ),
+      getDynamicMetricMatch(
+        'garbageCollectionStats',
+        'startedJobs',
+        t('in-forge:plugins.sapHana.dashboard.startedJobs')
+      ),
+      getDynamicMetricMatch(
+        'garbageCollectionStats',
+        'processedJobs',
+        t('in-forge:plugins.sapHana.dashboard.processedJobs')
+      ),
+      getDynamicMetricMatch('garbageCollectionStats', 'queueLoads', t('in-forge:plugins.sapHana.dashboard.queueLoads'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.historyCount'),
+      t('in-forge:plugins.sapHana.dashboard.waiterCount'),
+      t('in-forge:plugins.sapHana.dashboard.startedJobs'),
+      t('in-forge:plugins.sapHana.dashboard.processedJobs'),
+      t('in-forge:plugins.sapHana.dashboard.queueLoads')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.garbageCollectionStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'expensiveStatementStats',
+        'executionTime',
+        t('in-forge:plugins.sapHana.dashboard.executionTime')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.executionTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.executionTime')],
+    min: 0,
+    formatter: millis.detailed
   }
 ];

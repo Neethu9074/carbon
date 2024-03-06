@@ -279,7 +279,7 @@
         "datacenterCode": "Datacenter Code",
         "datacenterName": "Datacenter Name",
         "provider": "Provider",
-        "locationName": "Location Display Name",
+        "locationName": "Location Name",
         "status": "Activation Status",
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
         "confirmationDialog": {
@@ -289,7 +289,6 @@
             "heads": {
               "datacenterCode": "Datacenter Code",
               "datacenterName": "Datacenter Name",
-              "locationName": "Location Display Name",
               "datacenterStatus": "Activation Status"
             }
           }

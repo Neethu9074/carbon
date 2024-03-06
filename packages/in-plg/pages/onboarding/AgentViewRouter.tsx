@@ -91,6 +91,7 @@ export default function AgentViewRouter({ selectedService, fromOnboarding = fals
             agentEndpointPort={config.agentEndpointPort}
             serverlessEndpoint={config.serverlessEndpoint}
             instanaDomain={config.agentInstallDomain ?? 'io'}
+            fromOnboarding={fromOnboarding}
           />
         )}
       </Stack>

@@ -27,7 +27,8 @@ const Kubernetes = ({
   downloadKey,
   instanaDomain,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element => {
   const [clusterName, setClusterName] = useState<string>('');
   const [agentZone, setAgentZone] = useState<string>('');
@@ -120,7 +121,7 @@ const Kubernetes = ({
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent={infraMapFilter()} />
+        <GetDeployedAgents agent={infraMapFilter()} fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

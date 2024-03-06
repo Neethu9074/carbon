@@ -17,7 +17,7 @@ import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/Wi
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-ignore doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import { InfraProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { InfraProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-ignore doesn't contain type file
 import { getMetric } from 'in-stores/metric';
 //@ts-ignore doesn't contain type file
@@ -194,11 +194,11 @@ export default connectTo(() => ({
     }
   );
 
-  const columnDefinitions = {
+  const columnDefinitions: SyntheticInfraColumn = {
     host: [
       {
         key: 'name',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <Stack direction="horizontal">
               <WithInfrastructureHealthIndicationBehaviour
@@ -221,19 +221,19 @@ export default connectTo(() => ({
       },
       {
         key: 'os',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return <Typography variant="body-regular">{item.snapshot.get('data').get('os.name')}</Typography>;
         }
       },
       {
         key: 'cpuNum',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return <Typography variant="body-regular">{item.snapshot.getIn(['data', 'cpu.count'])}</Typography>;
         }
       },
       {
         key: 'cpuUsage',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <SparkChartWithMetricValue
               snapshotId={item.snapshot.get('id')}
@@ -248,7 +248,7 @@ export default connectTo(() => ({
     docker: [
       {
         key: 'name',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <Stack direction="horizontal">
               <WithInfrastructureHealthIndicationBehaviour
@@ -271,7 +271,7 @@ export default connectTo(() => ({
       },
       {
         key: 'created',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <Typography variant="body-regular">{formatDateTime(item.snapshot.get('data').get('Created'))}</Typography>
           );
@@ -279,7 +279,7 @@ export default connectTo(() => ({
       },
       {
         key: 'started',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <Typography variant="body-regular">
               {formatDateTime(item.snapshot.getIn(['data', 'Started'], undefined))}
@@ -289,7 +289,7 @@ export default connectTo(() => ({
       },
       {
         key: 'cpuUsage',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <SparkChartWithMetricValue
               snapshotId={item.snapshot.get('id')}
@@ -304,7 +304,7 @@ export default connectTo(() => ({
     process: [
       {
         key: 'name',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <Stack direction="horizontal">
               <WithInfrastructureHealthIndicationBehaviour
@@ -327,7 +327,7 @@ export default connectTo(() => ({
       },
       {
         key: 'cpuUsage',
-        getContent({ item }: any) {
+        getContent({ item }) {
           return (
             <SparkChartWithMetricValue
               snapshotId={item.snapshot.get('id')}
@@ -344,7 +344,6 @@ export default connectTo(() => ({
   const generalProps = {
     ...config,
     timeConfig,
-    //@ts-expect-error
     columnDefinitions: columnDefinitions[infraTypeValue],
     headers: getHeaders()
   };

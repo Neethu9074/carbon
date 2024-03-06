@@ -13,7 +13,7 @@ import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { GetContentFunction, WidgetProps } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
 import { getBusinessProcessListData } from 'in-bizops/lists/businessProcess/BusinessProcessList';
 //@ts-ignore doesn't contain type file
@@ -63,12 +63,7 @@ export default connectTo(() => ({
     return createHref(location);
   }
 
-  interface columnDefinitionItem {
-    key: string;
-    getContent: GetContentFunction;
-  }
-
-  const columnDefinitions: columnDefinitionItem[] = [
+  const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {

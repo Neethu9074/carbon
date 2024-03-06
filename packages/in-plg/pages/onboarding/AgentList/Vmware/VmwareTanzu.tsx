@@ -22,7 +22,8 @@ export default function VmwareTanzu({
   agentKey,
   agentEndpoint,
   agentEndpointPort,
-  downloadKey
+  downloadKey,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const sideCardData = [
     {
@@ -145,7 +146,7 @@ export default function VmwareTanzu({
           </Typography>
         </LayoutSection>
 
-        <GetDeployedAgents agent="pcf" />
+        <GetDeployedAgents agent="pcf" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

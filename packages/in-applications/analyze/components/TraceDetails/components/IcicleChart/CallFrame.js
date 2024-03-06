@@ -6,6 +6,7 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { themes } from '@instana/design-tokens';
 import { just } from '@instana/observables';
 
 import { convertToCallLogs } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/utils';
@@ -16,7 +17,6 @@ import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsIn
 import { filterOtelLogs } from 'in-components/Logging/TraceDetails/utils';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import { useTheme } from 'in-themes';
 
 import locals from './CallFrame.mless';
 
@@ -37,7 +37,6 @@ const CallFrame = forwardRef(function CallFrame(props, ref) {
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
   const width = xScale.getRange(x + dx) - left;
-  const theme = useTheme();
 
   const nonSpanLogs = convertToCallLogs(loggingLogItems.filter(filterOtelLogs(callFrame)));
   const spanLogs = children?.filter(subCall => subCall.model === 'LOG') ?? [];
@@ -58,7 +57,7 @@ const CallFrame = forwardRef(function CallFrame(props, ref) {
           left: `${left}%`,
           width: `${width}%`,
           height: `${FRAME_HEIGHT}px`,
-          background: isFakeRoot ? theme.ids.color.option.neutral['400'] : getColor(callFrame)
+          background: isFakeRoot ? themes.default.ids.color.option.neutral['400'] : getColor(callFrame)
         }}
         onClick={isFakeRoot ? null : () => onCallClicked(callFrame)}
       >

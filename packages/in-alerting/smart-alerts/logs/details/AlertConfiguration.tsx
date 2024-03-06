@@ -17,18 +17,18 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
+import { logsGroupbyTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
-import { AlertGrouping } from 'in-alerting/smart-alerts/logs/details/AlertGrouping';
 import { StaticThresholdConfig, TagCatalog, ThresholdConfigUnion } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
-import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -94,8 +94,9 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
             {groupBy && groupBy.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={tagFilterExpression}
+                //@ts-expect-error TODO change related to new typedef.
                 backendGroupBy={groupBy}
-                groupBy={groupbyTag(groupBy)[0]}
+                groupBy={logsGroupbyTag(groupBy)[0]}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,
                   to: timeConfig.to,

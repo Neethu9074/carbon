@@ -10,14 +10,15 @@ import { DashboardTable, DashboardTile } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  GetContentFunction,
-  DatatableWidgetProps
-} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import {
   getNoDataButton,
   getNoDataDescription,
   getNoDataHeader
 } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+import {
+  GetContentFunction,
+  DatatableWidgetProps
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import { t } from 'in-i18n';
 
 interface ProcessedItem {
@@ -70,6 +71,15 @@ export default function DatatableWrapper({
         setItemCount(result.data.totalHits);
       }
 
+      // For smart Alerts the search is being done in front-end
+      if (query !== '' && syntheticType === 'smartalerts') {
+        const extraSearchAttributes: [] = [];
+        //@ts-expect-error
+        const searchData = getResultsToDisplay(result.data, query, extraSearchAttributes);
+        setItemCount(searchData.length);
+        resultItems = searchData.slice(0, 5);
+      }
+
       const processedItemsArray: ProcessedItem[] = resultItems.map((item: {}, index: number) => {
         const processedItem: ProcessedItem = { id: index };
         columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
@@ -80,7 +90,7 @@ export default function DatatableWrapper({
       });
       setProcessedItems(processedItemsArray);
     }
-  }, [result, columnDefinitions, timeConfig, isDashboardWidget]);
+  }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType]);
 
   const exclusionArray = [
     'infrastructure',

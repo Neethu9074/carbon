@@ -212,6 +212,7 @@
     "fieldsEntityAzureServiceCosmosdb": "Azure CosmosDB",
     "fieldsEntityAzureServiceDataFactory": "Azure DataFactory",
     "fieldsEntityAzureServiceKeyVault": "Azure KeyVault",
+    "fieldsEntityAzureKeyVaultManagedHSM": "Azure Key Vault Managed HSM",
     "fieldsEntityAzureServiceMySql": "Azure MySQL",
     "fieldsEntityAzureServiceRediscache": "Azure Redis Cache",
     "fieldsEntityAzureServiceSqldb": "Azure SQL Database",

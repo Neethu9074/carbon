@@ -7,11 +7,11 @@
 import React, { useEffect, useState } from 'react';
 
 import { LoadingSkeleton, Stack, SvgIcon, Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Pill from 'in-components/Pill/Pill';
-import { useTheme } from 'in-themes';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -26,7 +26,6 @@ const NA = 'N/A';
 
 export default function AIProbabilityBadge({ probabilityScore, loading }: AIProbabilityBadgeProps) {
   const [probabilityThreshold, setProbabilityThreshold] = useState(HIGH);
-  const theme = useTheme();
 
   useEffect(() => {
     if (probabilityScore === null || probabilityScore === undefined) {
@@ -50,12 +49,12 @@ export default function AIProbabilityBadge({ probabilityScore, loading }: AIProb
             <Pill
               color={
                 probabilityThreshold === HIGH
-                  ? theme.ids.color.option.green[100]
+                  ? themes.default.ids.color.option.green[100]
                   : probabilityThreshold === MODERATE
-                  ? theme.ids.color.option.yellow[100]
+                  ? themes.default.ids.color.option.yellow[100]
                   : probabilityThreshold === LOW
-                  ? theme.ids.color.option.red[100]
-                  : theme.ids.color.option.neutral[400]
+                  ? themes.default.ids.color.option.red[100]
+                  : themes.default.ids.color.option.neutral[400]
               }
               className={locals.probabilityPill}
             >

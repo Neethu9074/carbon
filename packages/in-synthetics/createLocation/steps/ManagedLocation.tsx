@@ -140,10 +140,7 @@ const getColumnDefinitions = (
       label: t('in-synthetics:dialog.createLocation.managedLocation.locationName'),
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
-        const locationName: string =
-          // @ts-expect-error property not yet in type but present;
-          entity?.status === 'Active' || entity?.status === 'Pending' ? entity?.locationDisplayLabel : '';
-        return <span className={locals.label}>{locationName}</span>;
+        return <span className={locals.label}>{entity?.locationLabel}</span>;
       }
     },
     {

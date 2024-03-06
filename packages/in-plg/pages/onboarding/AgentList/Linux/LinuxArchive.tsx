@@ -105,7 +105,7 @@ function PlatformArchitecture({
   );
 }
 
-const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain }: OnboardingProps) => {
+const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, fromOnboarding }: OnboardingProps) => {
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const [option, setOption] = useState(agentOptions[0].key);
   const sideCardData = [
@@ -180,7 +180,7 @@ const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain 
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="linux" />
+        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />
