@@ -28,7 +28,7 @@ export default connectTo(
   function SapViewSwitcher({ isSapAbapSystemViewActive, isSapAbapInstanceViewActive, isSapDbInstanceViewActive }) {
     return (
       <>
-        <DashboardHeader icon="lib_sap" label={t('in-sap:SAPHeader')} title={t('in-sap:SAPHeader')} />
+        <DashboardHeader icon="lib_sap" label={t('in-sap:SAPHeader')} title={t('in-sap:SAPHeader')} isBeta />
         <DashboardHeaderModule theme={themes.light}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem

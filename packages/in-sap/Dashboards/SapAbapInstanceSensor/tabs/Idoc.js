@@ -6,17 +6,15 @@
 
 import React, { Fragment } from 'react';
 
-import IdocControlRecord from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/IdocControlRecord.js';
-import IdocStatusRecord from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/IdocStatusRecord.js';
-import IdocDataRecord from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/IdocDataRecord.js';
+import IdocOutboundMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/IdocOutboundList.tsx';
+import IdocInboundMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/IdocInboundList.tsx';
 
-export default function Idoc({ data: sap }) {
+export default function Idoc({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
-      <IdocControlRecord snapshotId={snapshotId} />
-      <IdocDataRecord snapshotId={snapshotId} />
-      <IdocStatusRecord snapshotId={snapshotId} />
+      <IdocInboundMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
+      <IdocOutboundMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );
 }

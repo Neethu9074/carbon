@@ -80,7 +80,7 @@ export default function Detailed({ timeConfig, data: sap }) {
       <DBConnectionProvider snapshotId={snapshotId} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <DiskHourDataStats snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DumpStats snapshotId={snapshotId} />
+      <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <LockEntryList snapshotId={snapshotId} />
     </Fragment>
   );

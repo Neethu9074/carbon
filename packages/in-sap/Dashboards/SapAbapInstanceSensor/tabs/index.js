@@ -10,6 +10,7 @@ import { sapAbapInstanceSensorDashboardFullyQualified } from 'in-sap/navigation/
 import Detailed from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Detailed';
 import Networks from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Networks';
 import Summary from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Summary';
+import Fiori from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Fiori';
 import Idoc from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Idoc';
 import { t } from 'in-i18n';
 
@@ -33,6 +34,11 @@ export default [
     label: t('in-sap:dashboards.sapNetworks'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/sapNetworks`,
     component: Networks
+  },
+  {
+    label: t('in-sap:dashboards.sapFiori'),
+    path: `${sapAbapInstanceSensorDashboardFullyQualified}/sapFiori`,
+    component: Fiori
   },
   {
     label: t('in-sap:dashboards.sapIdoc'),

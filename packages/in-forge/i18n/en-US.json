@@ -14491,7 +14491,22 @@
       "enqueueWait": "Enqueue Process",
       "btcWait": "BTC",
       "spoolWait": "Spool",
-      "update2Wait": "Update2"
+      "update2Wait": "Update2",
+      "severity": "Severity",
+      "abapdumpstats": "ABAP Dump Statistics",
+      "errorCount": "Error Count",
+      "success": "Success",
+      "readyToProcess": "Ready to Process",
+      "error": "Error",
+      "inBoundIdoc": "Inbound IDocs",
+      "outBoundIdoc": "Outbound IDocs",
+      "gatewayBackendEndErrorLogs": "Gateway Backend Error Logs",
+      "callTime": "Call Time",
+      "executionTime": "Execution Time",
+      "dataSend": "Data Send",
+      "dataReceived": "Data Received",
+      "callMetrics": "Call Metrics",
+      "pageFrequency": "Page Frequency"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",
@@ -15499,5 +15514,8 @@
       "operation": "Operation",
       "tags": "Tags"
     }
+  },
+  "abapSystemsensor": {
+    "activeABAPInstances": "Active ABAP Instances"
   }
 }
