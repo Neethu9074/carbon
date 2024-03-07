@@ -112,14 +112,16 @@ const CreateNewLocationDialogPresenter = ({
                 ? t('in-synthetics:dialog.createLocation.activate')
                 : t('in-synthetics:dialog.createLocation.done')
             }
-            additionalStepCheck={() => {
-              return selectedBlueprint.type === 'managed' &&
+            additionalStepCheck={(step: number) => {
+              return step === 0 &&
+                selectedBlueprint.type === 'managed' &&
                 !checkLicense.progress.loading &&
                 checkLicense.errors.length !== 0
                 ? false
                 : true;
             }}
             onStepChanged={() => {}}
+            noStepCheckOnFirstStep
           />
         </div>
       </div>
