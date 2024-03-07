@@ -21,13 +21,13 @@ jest.mock('in-applications/creation/components/CreateApplicationQueryBuilder', (
   };
 });
 
-jest.mock('in-applications/subscriptions/getApplications', () => {
+jest.mock('in-settings/tabs/TeamSettings/api/groups', () => {
   const { success } = jest.requireActual('in-services/util/result');
   const { just } = jest.requireActual('@instana/observables');
   return {
     __esModule: true,
-    getApplicationsWithDefaults: jest.fn(() =>
-      just(success({ items: [{ application: { label: 'test_group_filter_already_exists' } }] }))
+    contributionFilterNameExists: jest.fn(name =>
+      just(success({ exists: name === 'test_group_filter_already_exists' }))
     )
   };
 });

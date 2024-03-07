@@ -67,7 +67,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
       const appsObservable = contributionFilterNameExists(filterName);
       appsDisposable = appsObservable.subscribe(result => {
         // Name is valid if no application perspective with the same name is found
-        const isNameValid = result?.exists === false;
+        const isNameValid = result?.data?.exists === false;
         setFilterNameValid(isNameValid);
         setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
 

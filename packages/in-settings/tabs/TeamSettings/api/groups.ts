@@ -243,7 +243,6 @@ export function contributionFilterNameExists(name: string): Observable<any> {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/application-monitoring/settings/application/names/exists?name=${name}`,
-    treat400AsError: true
-  }).map(response => response.body);
+    url: `/api/application-monitoring/settings/application/names/exists?name=${name}`
+  });
 }
