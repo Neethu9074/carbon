@@ -5,29 +5,44 @@
 
 import React from 'react';
 
+import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
-import {
-  mobileAppIdUrlParameter,
-  tagFiltersInDashboardUrlParameter,
-  viewIdUrlParameter
-} from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
+import { mobileAppIdUrlParameter, tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+// @ts-expect-error Could not find a declaration file for module
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
+// @ts-expect-error Could not find a declaration file for module
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+// @ts-expect-error Could not find a declaration file for module
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+// @ts-expect-error Could not find a declaration file for module
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+// @ts-expect-error Could not find a declaration file for module
+import { viewIdUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
+import changeExplanation from 'in-mobile-apps/emptyListExplanation';
+// @ts-expect-error Could not find a declaration file for module
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { useLinkToAnalyze, useLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
-import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ms, number, percentage } from 'in-services/formatters/number';
-import changeExplanation from 'in-mobile-apps/emptyListExplanation';
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-function OriginLabel({ item, mobileAppId, viewId }) {
+interface OriginLabelProp {
+  item: MobileAppPaginatedBeaconGroupsItem;
+  mobileAppId: string;
+  viewId?: string;
+}
+
+function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
   const getLinkToMobileAppHttpRequest = useLinkToHttpRequest();
   let label = item.name;
   try {
@@ -48,7 +63,14 @@ function OriginLabel({ item, mobileAppId, viewId }) {
   );
 }
 
-const columnDefinitions = [
+interface HttpRequestListProp extends ServerTablePresenterProps<MobileAppPaginatedBeaconGroupsItem> {
+  mobileAppId: string;
+  result: any;
+  timeConfig: TimeConfig;
+  viewId?: string;
+}
+
+const columnDefinitions: Array<ColumnDefinition<MobileAppPaginatedBeaconGroupsItem, HttpRequestListProp>> = [
   {
     id: 'name',
     label: t('in-mobile-apps:dashboard.tabs.originLabel'),
@@ -131,7 +153,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: '/httpRequests'
 });
 
-export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }) {
+export interface HttpRequestsProp {
+  timeConfig: TimeConfig;
+  tagFilters: TagFilter[];
+  mobileAppId: string;
+  mobileAppLabel: string;
+}
+
+export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }: HttpRequestsProp) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
 
@@ -156,7 +185,13 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
     </Button>
   );
 
-  tagFilters = tagFilters.concat({ name: 'mobileBeacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
+  tagFilters = tagFilters.concat({
+    name: 'mobileBeacon.type',
+    operator: 'EQUALS',
+    stringValue: 'httpRequest',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
 
   return (
     <>
@@ -172,6 +207,16 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
   );
 }
 
+interface GetTableDataProp {
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: string;
+  timeConfig: TimeConfig;
+  tagFilters: TagFilter[];
+}
+
 function getTableData({
   query = '',
   page = 1,
@@ -180,9 +225,17 @@ function getTableData({
   orderDirection = 'DESC',
   timeConfig,
   tagFilters
-}) {
+}: GetTableDataProp) {
   if (isNotBlank(query)) {
-    tagFilters = tagFilters.concat([{ name: 'mobileBeacon.http.origin', stringValue: query, operator: 'CONTAINS' }]);
+    tagFilters = tagFilters.concat([
+      {
+        name: 'mobileBeacon.http.origin',
+        stringValue: query,
+        operator: 'CONTAINS',
+        type: 'TAG_FILTER',
+        entity: 'NOT_APPLICABLE'
+      }
+    ]);
   }
 
   return getMobileAppPaginatedBeaconGroups({
