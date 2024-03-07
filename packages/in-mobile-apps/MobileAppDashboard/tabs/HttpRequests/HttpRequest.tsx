@@ -5,40 +5,48 @@
 
 import React, { Fragment } from 'react';
 
+import { TimeConfig, TagFilter } from '@instana/types';
 import { Button } from '@instana/components';
 import { just } from '@instana/observables';
 
-import {
-  httpRequestsTabFullyQualified,
-  detailsPath,
-  useGetLinkToMobileApp,
-  useLinkToAnalyze
-} from 'in-mobile-apps/navigation/paths';
+// @ts-expect-error Could not find a declaration file for module
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
+// @ts-expect-error Could not find a declaration file for module
+import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
+// @ts-expect-error Could not find a declaration file for module
+import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
+// @ts-expect-error Could not find a declaration file for module
+import { httpRequestsTabFullyQualified } from 'in-mobile-apps/navigation/paths';
+// @ts-expect-error Could not find a declaration file for module
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+// @ts-expect-error Could not find a declaration file for module
+import RedirectWithHash from 'in-components/RedirectWithHash';
+// @ts-expect-error Could not find a declaration file for module
+import connectTo from 'in-hoc/connectTo';
+import { detailsPath, useGetLinkToMobileApp, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import ErrorTypesTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ErrorTypesTopList';
 import LocationsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/LocationsTopList';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
-import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
-import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { chartColors, carbonAlert } from 'in-themes/chartColors';
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import BackButton from 'in-components/BackButton';
-import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 import locals from './HttpRequest.mless';
 
-export default connectTo(({ location }) => {
-  const observables = {};
+interface HttpRequestProp {
+  location: any;
+}
+
+export default connectTo(({ location }: HttpRequestProp) => {
+  const observables: Record<string, any> = {};
 
   const httpRequestId = getMatrixParameter(location, '/details', httpRequestIdMatrixParameter);
   observables.httpRequestId = just(httpRequestId);
@@ -46,7 +54,23 @@ export default connectTo(({ location }) => {
   return observables;
 })(HttpRequestTab);
 
-function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeConfig, httpRequestId }) {
+interface HttpRequestTabProp {
+  httpRequestId: string;
+  mobileAppId: string;
+  mobileAppLabel: string;
+  viewId: string;
+  tagFilters: TagFilter[];
+  timeConfig: TimeConfig;
+}
+
+function HttpRequestTab({
+  mobileAppId,
+  mobileAppLabel,
+  viewId,
+  tagFilters,
+  timeConfig,
+  httpRequestId
+}: HttpRequestTabProp) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   const linkToMobileAppHref = useGetLinkToMobileApp(mobileAppId, {
     tabPath: '/httpRequests',
@@ -59,8 +83,20 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
   }
 
   const tagFiltersForRequests = tagFilters.slice();
-  tagFiltersForRequests.push({ name: 'mobileBeacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
-  tagFiltersForRequests.push({ name: 'mobileBeacon.http.origin', stringValue: httpRequestId, operator: 'EQUALS' });
+  tagFiltersForRequests.push({
+    name: 'mobileBeacon.type',
+    operator: 'EQUALS',
+    stringValue: 'httpRequest',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
+  tagFiltersForRequests.push({
+    name: 'mobileBeacon.http.origin',
+    stringValue: httpRequestId,
+    operator: 'EQUALS',
+    type: 'TAG_FILTER',
+    entity: 'NOT_APPLICABLE'
+  });
   const granularity = getChartGranularity(timeConfig);
   const viewInAnalytics = {
     mobileAppLabel,
@@ -334,7 +370,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               mobileAppLabel={mobileAppLabel}
               tagFilters={tagFiltersForRequests}
               timeConfig={timeConfig}
-              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'viewsTab' }}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'viewsTab', paramMetric: 'beaconCount' }}
               renderHistoricDataIndicator
             />
           </Col>
@@ -345,8 +381,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             mobileAppLabel={mobileAppLabel}
             tagFilters={tagFiltersForRequests}
             timeConfig={timeConfig}
-            viewId={viewId}
-            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
+            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab', paramMetric: 'beaconCount' }}
             renderHistoricDataIndicator
           />
         </Col>
@@ -356,7 +391,6 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             mobileAppLabel={mobileAppLabel}
             tagFilters={tagFiltersForRequests}
             timeConfig={timeConfig}
-            viewId={viewId}
             renderHistoricDataIndicator
           />
         </Col>
@@ -384,7 +418,13 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               formModel: translateDemocratisationTagFiltersToFormModel({
                 mobileAppLabel,
                 tagFilters: tagFilters.concat([
-                  { name: 'mobileBeacon.http.origin', stringValue: httpRequestId, operator: 'EQUALS' }
+                  {
+                    name: 'mobileBeacon.http.origin',
+                    stringValue: httpRequestId,
+                    operator: 'EQUALS',
+                    type: 'TAG_FILTER',
+                    entity: 'NOT_APPLICABLE'
+                  }
                 ]),
                 tagCatalog: tagCatalogHttpRequest
               }),
