@@ -20,6 +20,10 @@ function isApiGroup(group: ApiGroup | ApiCreateGroup): group is ApiGroup {
   return (group as ApiGroup).id !== undefined;
 }
 
+type ApplicationNameExists = {
+  exists: boolean;
+};
+
 const refreshSignalTeams = create().emit(true);
 export function refresh() {
   refreshSignalTeams.emit(true);
@@ -237,4 +241,14 @@ function createPermissionSet() {
     syntheticTestIds: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };
+}
+
+export function contributionFilterNameExists(name: string): Observable<Result<ApplicationNameExists>> {
+  return createObservable(
+    http({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/application-monitoring/settings/application/names/exists?name=${name}`
+    })
+  );
 }
