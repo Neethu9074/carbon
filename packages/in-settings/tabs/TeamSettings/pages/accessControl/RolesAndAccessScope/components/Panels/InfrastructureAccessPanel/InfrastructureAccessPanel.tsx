@@ -5,29 +5,31 @@
  */
 
 import { MapFormItems } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
+import { SvgIcon, Stack, StackItem, Typography, Spacer } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 import { Link } from '@instana/components';
+import { Toggle } from '@instana/legacy';
 
-import {
-  AreaRole,
-  AreaRoleWithCustomType,
-  ScopedPermissionItem,
-  ProductArea
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   ConfigurationSummary,
   getConfigurationSummaryMsg
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ConfigurationSummary';
+import {
+  AreaRole,
+  ScopedPermissionItem,
+  ProductArea,
+  ScopedPermissionType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   getField,
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 //@ts-ignore
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -37,22 +39,19 @@ import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locales from './InfrastructureAccessPanel.mless';
+import locals from './InfrastructureAccessPanel.mless';
 
 interface InfrastructureAccessPanelProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
-  role?: AreaRoleWithCustomType;
-  description: string;
+  scopedPermissionItem: ScopedPermissionType;
 }
 
 export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems>({
-  role,
   form,
-  description,
-  setForm
+  setForm,
+  scopedPermissionItem
 }: InfrastructureAccessPanelProps<FORM_TYPE>) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
-
   const area = {
     header: productArea,
     capabilities: getInfrastructurePermissions()
@@ -60,8 +59,8 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const infraDfqFilter = permissionSetField?.value[entityPermissionKey]?.scopeId ?? '';
-  // workaround as role is for now unused
-  role = role ? role : AreaRole.VIEWER;
+
+  const [isDfqVisible, setIsDfqVisible] = useState(infraDfqFilter ? true : false);
 
   const updatePermissionSet = (permissionSet: PermissionSet) => {
     setForm(updateFormField(form, 'permissionSet', permissionSet, true));
@@ -69,10 +68,12 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
 
   const updateInfraDfq = (infraDfq: string) => {
     if (!permissionSet) return;
-
-    const limitation = !infraDfq ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.LIMITED_ACCESS;
-    const restPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, limitation);
-    const infraScope = { scopeId: infraDfq ? infraDfq : '', scopeRoleId: '-1' };
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
+      permissionSet,
+      productArea,
+      scopedPermissionItem
+    );
+    const infraScope = { scopeId: infraDfq ? infraDfq : undefined, scopeRoleId: '-1' };
     updatePermissionSet({ ...restPermissionSet, [entityPermissionKey]: infraScope });
   };
 
@@ -87,11 +88,34 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     updatePermissionSet({ ...permissionSet, permissions: newPermissions });
   };
 
-  const { accessLevelMessage } = getConfigurationSummaryMsg(
+  const { accessLevelMessage, rolePermissionMessage } = getConfigurationSummaryMsg(
     ProductArea.INFRASTRUCTURE,
-    ScopedPermissionItem.LIMITED_ACCESS,
-    AreaRole.OWNER
+    scopedPermissionItem,
+    AreaRole.VIEWER
   );
+  const InfrastructurePermissionsSection = () => {
+    return (
+      <StackItem>
+        {area.capabilities.map(productPermission => (
+          <CheckboxFancy
+            key={productPermission.key}
+            size="large"
+            className={locals.clickable}
+            checked={permissionSet?.permissions.includes(productPermission.key) || false}
+            onChange={() => updatePermission(productPermission.key)}
+            label={
+              <Stack gap="xsmall" direction="horizontal" align="start">
+                <span>{productPermission.label}</span>
+                <Tooltip content={productPermission.description} align="rightMiddle">
+                  <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                </Tooltip>
+              </Stack>
+            }
+          />
+        ))}
+      </StackItem>
+    );
+  };
   const InfrastructureFilterSection = () => {
     return (
       <>
@@ -106,58 +130,45 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
             </Link>
           </Typography>
         </StackItem>
-        <StackItem>
-          <FormGroup>
-            <Label htmlFor="infra-dfq-filter">{t('in-settings:PermissionSection.infrastructureDfqHeader')}</Label>
-            <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
-          </FormGroup>
-        </StackItem>
-        <StackItem>
-          <Typography variant="heading-200" component="h4">
-            {t('in-settings:productAreas.permissions', { context: area.header })}
-          </Typography>
-          {area.capabilities.map(productPermission => (
-            <CheckboxFancy
-              key={productPermission.key}
-              size="large"
-              className={locales.clickable}
-              checked={permissionSet?.permissions.includes(productPermission.key) || false}
-              onChange={() => updatePermission(productPermission.key)}
-              label={
-                <Stack gap="xsmall" direction="horizontal" align="start">
-                  <span>{productPermission.label}</span>
-                  <Tooltip content={productPermission.description} align="rightMiddle">
-                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                  </Tooltip>
-                </Stack>
-              }
-            />
-          ))}
-        </StackItem>
+        <HorizontalFlexWrapper>
+          <Toggle
+            checked={isDfqVisible}
+            onChange={e => {
+              setIsDfqVisible(e.target.checked);
+              const infraScope = { scopeId: e.target.checked ? undefined : '', scopeRoleId: '-1' };
+              updatePermissionSet({ ...(permissionSet as PermissionSet), [entityPermissionKey]: infraScope });
+            }}
+          />
+          <Spacer horizontal="xxsmall" />
+          <Label className={locals.dfqToggleLabel}>
+            {t('in-settings:PermissionSection.infrastructureDfqToggleLabel')}
+          </Label>
+        </HorizontalFlexWrapper>
+        {isDfqVisible && (
+          <StackItem>
+            <FormGroup>
+              <Label htmlFor="infra-dfq-filter">{t('in-settings:PermissionSection.infrastructureDfqHeader')}</Label>
+              <InfraDfq infraDfqFilter={infraDfqFilter} update={updateInfraDfq} />
+              <TouchedMessages field={permissionSetField} />
+            </FormGroup>
+          </StackItem>
+        )}
       </>
     );
   };
   return (
     <Stack direction="vertical">
-      {applicationContributionFilterEnabled ? (
-        <ConfigurationSummary accessLevelType={ScopedPermissionItem.LIMITED_ACCESS} accessLevelMsg={accessLevelMessage}>
-          <Stack>
-            <InfrastructureFilterSection />
-          </Stack>
-        </ConfigurationSummary>
-      ) : (
-        <>
+      <ConfigurationSummary accessLevelType={scopedPermissionItem} accessLevelMsg={accessLevelMessage}>
+        <Stack>
           <StackItem>
-            <Typography variant="heading-200" component="div">
-              {t('in-settings:PermissionSection.infrastructureAccessScope')}
-            </Typography>
             <Typography variant="body-regular" component="div">
-              {description}
+              {rolePermissionMessage}
             </Typography>
           </StackItem>
-          <InfrastructureFilterSection />
-        </>
-      )}
+          <InfrastructurePermissionsSection />
+        </Stack>
+      </ConfigurationSummary>
+      {scopedPermissionItem === ScopedPermissionItem.LIMITED_ACCESS && <InfrastructureFilterSection />}
     </Stack>
   );
 }

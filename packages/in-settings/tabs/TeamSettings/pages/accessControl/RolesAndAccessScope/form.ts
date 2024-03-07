@@ -5,6 +5,7 @@
  */
 
 import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
+import { isUndefined } from 'lodash';
 
 import { PermissionSet } from '@instana/types';
 
@@ -55,6 +56,18 @@ export function contributionFilterNameValidator(name: string | null | undefined)
   return null;
 }
 
+export function dfqFilterValidator(permissionSet: PermissionSet | undefined): ValidationResult {
+  if (isUndefined(permissionSet?.infraDfqFilter.scopeId)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.infrastructureDfq_mayNotBeBlank')
+      }
+    ];
+  }
+  return null;
+}
+
 export function updateFormField<T>(
   form: MapForm<any>,
   path: string | Array<string>,
@@ -98,7 +111,8 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
       .put(
         'permissionSet',
         createField({
-          value: permissionSet
+          value: permissionSet,
+          validator: dfqFilterValidator
         })
       );
   } else {
@@ -254,7 +268,8 @@ function createFilterForm(form = createMapForm(), apiResult?: GroupApiResult) {
     .put(
       'permissionSet',
       createField({
-        value: permissionSet
+        value: permissionSet,
+        validator: dfqFilterValidator
       })
     )
     .put(

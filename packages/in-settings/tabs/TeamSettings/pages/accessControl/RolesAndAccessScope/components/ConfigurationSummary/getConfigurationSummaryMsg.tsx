@@ -34,12 +34,6 @@ export const getConfigurationSummaryMsg = (
   let accessLevelMessage: string | JSX.Element = '';
   let rolePermissionMessage = '';
   let noAccessMessage = '';
-
-  // Infrastructure does not have access all => show message for limited access
-  if (productArea === ProductArea.INFRASTRUCTURE && scope === ScopedPermissionItem.ACCESS_ALL) {
-    areaScopeContext = areaContext + '.' + ScopedPermissionItem.LIMITED_ACCESS.toLowerCase();
-  }
-
   if (
     (scope === ScopedPermissionItem.ACCESS_ALL || scope === ScopedPermissionItem.LIMITED_ACCESS) &&
     role !== 'CUSTOM'

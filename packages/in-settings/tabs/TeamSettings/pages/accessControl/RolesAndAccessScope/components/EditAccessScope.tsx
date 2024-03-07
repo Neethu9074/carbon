@@ -69,6 +69,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
 
   let isValidContributionFilter = true;
   const [isValidContributionFilterName, setValidContributionFilterName] = useState(true);
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
 
   const validateContributionFilter = () => {
     const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
@@ -226,7 +227,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       content: (
         <PermissionSectionInfrastructure
           title={t('in-settings:productAreas.title_infrastructure')}
-          viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
           icon="lib_infrastructure"
           {...formControlProps}
           {...slideControlProps}
@@ -354,7 +354,10 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
       disabledSaveButton={
-        !form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value) || !isValidContributionFilter
+        !form.hierarchyTouched ||
+        !permissionSetField?.hierarchyValid ||
+        isBlank((form.get('name') as Field<string>).value) ||
+        !isValidContributionFilter
       }
       noHeader
       noDivider

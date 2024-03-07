@@ -70,7 +70,6 @@
     "kubernetes": "Kubernetes",
     "allSynthetics": "All Synthetic tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
-    "role": "Custom",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
     "role_permissions": "Unknown - Access {{quantityOfAreas}}",
@@ -84,6 +83,7 @@
     "platform_permissions": "Access {{quantityOfAreas}}",
     "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
+    "infrastructureAccessAllMessage":"All entities",
     "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Synthetic Monitoring, Platforms & Infrastructure",
     "permissions": "Permissions",
     "additionalPermissions": "Additional permissions",
@@ -136,11 +136,11 @@
     "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
     "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
     "deleteButton": "Remove {{name}} from list",
-    "infrastructureAccessScope": "Access scope",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
     "infrastructureDfqUse": "In addition, you can use the dynamic focus query below to grant access to infrastructure.",
     "infrastructureDfqMore": "Learn more.",
-    "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms.",
+    "infrastructureDfqToggleLabel": "Additional access using dynamic focus query(DFQ)",
+    "infrastructureDfq_mayNotBeBlank": "The value must not be blank.",
     "descriptionAccessAll_kubernetes": "All namespaces and clusters can be viewed.",
     "descriptionAccessNo_kubernetes": "No access to namespaces and clusters.",
     "descriptionAccessLimited_kubernetes": "Select the namespaces and clusters below to grant access.",
@@ -216,10 +216,12 @@
       "role_permissions_viewer": "View application perspectives and their configuration."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "Access all the entity dashboards under this unit, which are related to the access granted to application and platforms."
+      "access_all": {
+        "access_level": "Access all entity dashboards with the selected permissions."
       },
-      "role_permissions_owner": "View entity dashboards.",
+      "limited_access": {
+        "access_level": "Access only the entities that can be viewed though the access granted on the other Instana sections."
+      },
       "role_permissions_viewer": "View entity dashboards."
     },
     "kubernetes": {
