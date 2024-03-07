@@ -5447,6 +5447,7 @@
       "labelClusterId": "Cluster Id",
       "labelSparkVersion": "Spark Version",
       "labelClusterCore": "Cluster Core",
+      "labelClusterSource": "Cluster Source",
       "labelExecutorCount": "Executor Count",
       "labelMaxShuffleBytesWritten": "Max shuffle bytes written",
       "labelSumShuffleClientUsedHeapMemory": "Sum Shuffle Client Used Heap Memory",
@@ -5461,6 +5462,9 @@
       "labelJvmCpuTime": "JVM CPU Time",
       "labelExecutionDuration": "Execution Duration",
       "labelInputRowPerSecond": "Input Row Per Second",
+      "labelTotalExecutorCount": "Executors",
+      "labelTotalJobCount": "Jobs Running",
+      "labelTotalMemoryMb": "Memories",
       "titleServices": "Services",
       "titleClusters": "Clusters",
       "titleExecutors": "Executors"

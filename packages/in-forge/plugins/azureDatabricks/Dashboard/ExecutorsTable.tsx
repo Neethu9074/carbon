@@ -102,8 +102,19 @@ const jvmCpuTimeCol = {
   }
 };
 
-export default function GetDatabricksExecutors({ snapshot }: { snapshot: SnapshotData }) {
+export default function ExecutorsTable({
+  snapshot,
+  configuredLogAnalytics
+}: {
+  snapshot: SnapshotData;
+  configuredLogAnalytics: string;
+}) {
   const timeConfig = useTimeConfig();
+
+  if (configuredLogAnalytics != 'OK') {
+    return null;
+  }
+
   const snapshotId = snapshot.get('id') as string;
   const uniqueKeys = new Set();
 

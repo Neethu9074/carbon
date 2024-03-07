@@ -11,6 +11,16 @@ import { t } from 'in-i18n';
 
 export default [
   {
+    metrics: ['totalExecutorCount', 'totalJobCount', 'totalMemoryMb'],
+    labels: [
+      t('in-forge:plugins.azureDatabricks.labelTotalExecutorCount'),
+      t('in-forge:plugins.azureDatabricks.labelTotalJobCount'),
+      t('in-forge:plugins.azureDatabricks.labelTotalMemoryMb')
+    ],
+    category: [t('in-forge:plugins.azureDatabricks.titleServices')],
+    formatter: zeroDecimalPlaces
+  },
+  {
     metric: getDynamicMetricMatch(
       'clusters',
       'executionDuration',
