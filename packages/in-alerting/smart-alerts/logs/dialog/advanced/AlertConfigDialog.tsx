@@ -89,8 +89,7 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-// TODO remove `& { groupBy: any }` once typedef is available
-function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig & { groupBy: any }> {
+function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({

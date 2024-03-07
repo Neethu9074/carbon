@@ -10,7 +10,7 @@ import { Group, TimeConfig } from '@instana/types';
 
 import LogMetricGroupTableList from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList';
 import { IngestionOffsetCursor, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
-import { setBackendQueryModel } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
+import { setBackendQueryModel } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -21,8 +21,7 @@ const retrievalSize = 5;
 interface LogMetricGroupProps {
   backendQueryModel: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
-  backendGroupBy: string[];
-  groupBy: Group;
+  groupBy: Group[];
   selectedMetricGroup?: { [index: string]: any };
   setSelectedMetricGroup?: React.Dispatch<{ [index: string]: any }>;
   tagCatalog?: CatalogResponse;
@@ -31,7 +30,7 @@ interface LogMetricGroupProps {
  * Renders the logs metric group table.
  */
 export default function LogMetricGroup(props: LogMetricGroupProps) {
-  const { backendQueryModel, timeConfig, groupBy, backendGroupBy } = props;
+  const { backendQueryModel, timeConfig, groupBy } = props;
 
   const [filterExpression, setFilterExpression] = useState<any>();
 
@@ -66,11 +65,9 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
       retrievalSize={retrievalSize}
       fixedLayout
       totalHits={totalHits}
-      setBackendQueryModel={searchBy =>
-        setBackendQueryModel(backendGroupBy, backendQueryModel, setFilterExpression, searchBy)
-      }
+      setBackendQueryModel={searchBy => setBackendQueryModel(groupBy, backendQueryModel, setFilterExpression, searchBy)}
       {...props}
-      groupBy={backendGroupBy}
+      groupBy={groupBy}
       {...cursorPaginatedProps}
     />
   );
@@ -88,13 +85,13 @@ function getGroups({
 }: {
   timeConfig: TimeConfig;
   backendQueryModel: TagFilterExpression;
-  groupBy: Group;
+  groupBy: Group[];
   cursor: IngestionOffsetCursor;
   retrievalSize: number;
 }) {
   return getLogGroups({
     timeConfig,
-    group: groupBy,
+    group: groupBy[0],
     tagFilterExpression: backendQueryModel,
     pagination: {
       retrievalSize,

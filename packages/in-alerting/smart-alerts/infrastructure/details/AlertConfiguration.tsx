@@ -15,6 +15,7 @@ import {
   Order,
   StaticThresholdConfig,
   TagCatalog,
+  TagFilter,
   ThresholdConfigUnion
 } from 'in-types';
 // eslint-disable-next-line no-restricted-imports
@@ -37,6 +38,7 @@ import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/compone
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
+import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -106,6 +108,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
   const timeConfig = useMemo(() => {
     return chartTimeConfig;
   }, []);
+
+  const groupingFilter = groupBy && toUIGrouping(groupBy);
 
   return (
     <AlertDetailsCard>
@@ -179,7 +183,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
               scopePath={<InfraScopePath infraName={entityLabel} iconName={getInfraIconType(entityType as string)} />}
             />
 
-            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupBy} />
+            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
           </Stack>
         </div>
       </ExpandableLightCard>
