@@ -13839,7 +13839,6 @@
       "sqlId": "SQL ID",
       "userName": "User Name",
       "totalWaitTime": "Total Wait Time (Milliseconds)",
-      "sqlText": "SQL Text",
       "seconds": "Seconds",
       "activeSessionHistory": "Active Session History (Last 1 Hr)",
       "sessionCount": "Session Count",

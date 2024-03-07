@@ -7,7 +7,9 @@ import React from 'react';
 
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import connectTo from 'in-hoc/connectTo';
+import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 const instCols = [
@@ -157,11 +159,7 @@ export default connectTo(
 );
 
 function getDetails(row) {
-  return (
-    <div>
-      <label>{t('in-forge:plugins.oracleDB.sqlText')}</label>
-      <p />
-      <label>{row.sqlText}</label>
-    </div>
-  );
+  if (row.sqlText) {
+    return <Code code={formatSql(row.sqlText)} lang="sql" softWrap />;
+  }
 }
