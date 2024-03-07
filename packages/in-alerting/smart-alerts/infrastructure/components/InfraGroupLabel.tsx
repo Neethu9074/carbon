@@ -13,12 +13,12 @@ import { toRenderModel } from 'in-components/QueryBuilder/transformation/renderM
 //@ts-expect-error
 import NameReadOnly from 'in-components/QueryBuilder/components/Tag/NameReadOnly';
 import { useGroupByCatalog } from 'in-alerting/smart-alerts/infrastructure/hooks/useGroupByLabel';
-import { getGroupingFE } from 'in-alerting/smart-alerts/infrastructure/details/AlertGrouping';
+import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel.mless';
 
 export function GroupLabel({ groupKey, tagCatalog }: { groupKey: string; tagCatalog: TagCatalog }) {
-  const groupingFE = getGroupingFE([groupKey]);
+  const groupingFE = toUIGrouping([groupKey]);
 
   const renderModel = toRenderModel(groupingFE).filter((model: TagFilter) => model.type === 'TAG_FILTER' && model.name);
 

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Card, Ul } from '@instana/components';
 
@@ -14,6 +14,8 @@ import IndicatorSection from 'in-service-levels/components/SloDashboard/componen
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
 import TagList from 'in-components/TagsList/TagList';
 import { Nullish } from 'in-types';
 
@@ -35,6 +37,19 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
   const { configuration, entity } = data;
+
+  const track = useSloTrackers();
+  useEffect(() => {
+    const { indicator, timeWindow, entity } = configuration;
+
+    track(SLO_CONFIG_VIEW, {
+      id: configuration.id,
+      blueprint: indicator.blueprint,
+      indicatorType: indicator.type,
+      timeWindowType: timeWindow.type,
+      entityType: entity.type
+    });
+  }, [track, configuration]);
 
   return (
     <Card

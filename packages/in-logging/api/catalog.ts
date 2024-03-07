@@ -15,6 +15,8 @@ import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
 
 const basePath = '/api/logging/catalog';
+const DEFAULT_USE_CASE = 'FILTERING';
+
 interface GetTagCatalogParams {
   useCase?: CatalogUseCase;
   forceIncludeInternalTags?: boolean;
@@ -32,9 +34,10 @@ export interface CatalogResponse {
   tags: LogTag[];
 }
 
-function getTagCatalogInternal({ useCase, forceIncludeInternalTags }: GetTagCatalogParams = emptyObject): Observable<
-  Result<CatalogResponse>
-> {
+function getTagCatalogInternal({
+  useCase = DEFAULT_USE_CASE,
+  forceIncludeInternalTags
+}: GetTagCatalogParams = emptyObject): Observable<Result<CatalogResponse>> {
   return isInternalVisible$.flatMap((includeInternalTags: boolean) =>
     createObservable(
       http({
@@ -42,7 +45,7 @@ function getTagCatalogInternal({ useCase, forceIncludeInternalTags }: GetTagCata
         maxRetries: 3,
         url: basePath,
         queryParams: {
-          useCase,
+          useCase: useCase ?? DEFAULT_USE_CASE,
           includeInternalTags: forceIncludeInternalTags || includeInternalTags
         }
       })

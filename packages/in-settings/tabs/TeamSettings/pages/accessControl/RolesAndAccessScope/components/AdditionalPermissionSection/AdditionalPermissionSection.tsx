@@ -8,6 +8,7 @@ import { MapFormItems } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon, Stack, StackItem, Typography } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { PermissionSet } from '@instana/types';
 
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
@@ -15,7 +16,6 @@ import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/a
 import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import Tooltip from 'in-components/Tooltip';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AdditionalPermissionSection.mless';
@@ -29,8 +29,6 @@ export default function AdditionalPermissionSection<FORM_TYPE extends MapFormIte
   setForm,
   capabilities
 }: AdditionalPermissionSectionProps<FORM_TYPE>) {
-  const theme = useTheme();
-
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
@@ -67,7 +65,11 @@ export default function AdditionalPermissionSection<FORM_TYPE extends MapFormIte
               <Stack gap="xsmall" direction="horizontal" align="start">
                 <span>{productPermission.label}</span>
                 <Tooltip content={productPermission.description} align="rightMiddle">
-                  <SvgIcon type="lib_help_error_info_outline" size="s" color={theme.ids.color.option.neutral['800']} />
+                  <SvgIcon
+                    type="lib_help_error_info_outline"
+                    size="s"
+                    color={themes.default.ids.color.option.neutral['800']}
+                  />
                 </Tooltip>
               </Stack>
             }

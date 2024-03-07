@@ -40,6 +40,14 @@
     }
   }
 
+  :global(.g10) .tab {
+    &.interactive {
+      &.active {
+        border-bottom-color: var(--cds-interactive);
+      }
+    }
+  }
+
   .withoutBottomBorder {
     border-bottom: 0;
   }

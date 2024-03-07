@@ -455,7 +455,7 @@ const GithubSection = ({
 }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
   const owner = form.get('owner') as Field<string>;
   const repo = form.get('repo') as Field<string>;
-  const ticketType = form.get('ticketType') as Field<string>;
+  const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
@@ -501,7 +501,7 @@ const GithubSection = ({
           ))}
         </Col>
         <Col lg={2}>
-          {ticketType.map(field => (
+          {ticketActionType.map(field => (
             <FormGroup>
               <Label htmlFor="github-ticket-type" hasError={!field.valid && field.touched}>
                 {t('in-automation:operation')}
@@ -511,8 +511,8 @@ const GithubSection = ({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('ticketType', e.target.value, updatedForm => {
-                    const type = (updatedForm.get('ticketType') as Field<string>).value;
+                  onChange('ticketActionType', e.target.value, updatedForm => {
+                    const type = (updatedForm.get('ticketActionType') as Field<string>).value;
                     if (type == OPEN) {
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGithubOpenTicketFields(updatedForm, action);
@@ -550,9 +550,9 @@ const GithubSection = ({
           ))}
         </Col>
       </Row>
-      {ticketType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
-      {ticketType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketActionType.value === OPEN && <GithubOpenSection form={form} onChange={onChange} setForm={setForm} />}
+      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
+      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
 };
@@ -674,7 +674,7 @@ const GitlabSection = ({
   entity: action
 }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
   const projectId = form.get('projectId') as Field<string>;
-  const ticketType = form.get('ticketType') as Field<string>;
+  const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
@@ -701,7 +701,7 @@ const GitlabSection = ({
           ))}
         </Col>
         <Col lg={4}>
-          {ticketType.map(field => (
+          {ticketActionType.map(field => (
             <FormGroup>
               <Label htmlFor="github-ticket-type" hasError={!field.valid && field.touched}>
                 {t('in-automation:operation')}
@@ -711,8 +711,8 @@ const GitlabSection = ({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('ticketType', e.target.value, updatedForm => {
-                    const type = (updatedForm.get('ticketType') as Field<string>).value;
+                  onChange('ticketActionType', e.target.value, updatedForm => {
+                    const type = (updatedForm.get('ticketActionType') as Field<string>).value;
                     if (type == OPEN) {
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putGitlabOpenTicketFields(updatedForm, action);
@@ -750,16 +750,16 @@ const GitlabSection = ({
           ))}
         </Col>
       </Row>
-      {ticketType.value === OPEN && <GitlabOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
-      {ticketType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketActionType.value === OPEN && <GitlabOpenSection form={form} onChange={onChange} setForm={setForm} />}
+      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
+      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
 };
 
 const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
   const title = form.get('title') as Field<string>;
-  const gitlab_description = form.get('gitlab_description') as Field<string>;
+  const body = form.get('body') as Field<string>;
   const issue_type = form.get('issue_type') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -791,7 +791,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
       </Row>
       <Row>
         <Col lg={12}>
-          {gitlab_description.map(field => (
+          {body.map(field => (
             <FormGroup>
               <Label htmlFor="gitlab-description" hasError={!field.valid && field.touched}>
                 {t('in-automation:description')}
@@ -801,7 +801,7 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'f
                 value={field.value}
                 rows={15}
                 disabled={isNotEditable}
-                onChange={e => onChange('gitlab_description', (e.target as HTMLTextAreaElement).value)}
+                onChange={e => onChange('body', (e.target as HTMLTextAreaElement).value)}
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -858,7 +858,7 @@ const JiraSection = ({
   entity: action
 }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
   const project = form.get('project') as Field<string>;
-  const ticketType = form.get('ticketType') as Field<string>;
+  const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   let parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
@@ -885,7 +885,7 @@ const JiraSection = ({
           ))}
         </Col>
         <Col lg={4}>
-          {ticketType.map(field => (
+          {ticketActionType.map(field => (
             <FormGroup>
               <Label htmlFor="jira-ticket-type" hasError={!field.valid && field.touched}>
                 {t('in-automation:operation')}
@@ -895,8 +895,8 @@ const JiraSection = ({
                 value={field.value}
                 disabled={isNotEditable}
                 onChange={e =>
-                  onChange('ticketType', e.target.value, updatedForm => {
-                    const type = (updatedForm.get('ticketType') as Field<string>).value;
+                  onChange('ticketActionType', e.target.value, updatedForm => {
+                    const type = (updatedForm.get('ticketActionType') as Field<string>).value;
                     if (type == OPEN) {
                       updatedForm = removeCloseAndCommentTicketFields(updatedForm);
                       updatedForm = putJiraOpenTicketFields(updatedForm, action);
@@ -934,16 +934,16 @@ const JiraSection = ({
           ))}
         </Col>
       </Row>
-      {ticketType.value === OPEN && <JiraOpenSection form={form} onChange={onChange} setForm={setForm} />}
-      {ticketType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
-      {ticketType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
+      {ticketActionType.value === OPEN && <JiraOpenSection form={form} onChange={onChange} setForm={setForm} />}
+      {ticketActionType.value === CLOSE && <TicketCloseAndCommentSection form={form} onChange={onChange} close />}
+      {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
 };
 
 const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
   const summary = form.get('summary') as Field<string>;
-  const jira_description = form.get('jira_description') as Field<string>;
+  const body = form.get('body') as Field<string>;
   const assignee = form.get('assignee') as Field<string>;
   const issue_type = form.get('issue_type') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -976,7 +976,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
       </Row>
       <Row>
         <Col lg={12}>
-          {jira_description.map(field => (
+          {body.map(field => (
             <FormGroup>
               <Label htmlFor="jira-description" hasError={!field.valid && field.touched}>
                 {t('in-automation:description')}
@@ -986,7 +986,7 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'for
                 value={field.value}
                 rows={15}
                 disabled={isNotEditable}
-                onChange={e => onChange('jira_description', (e.target as HTMLTextAreaElement).value)}
+                onChange={e => onChange('body', (e.target as HTMLTextAreaElement).value)}
                 hasError={!field.valid && field.touched}
               />
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />

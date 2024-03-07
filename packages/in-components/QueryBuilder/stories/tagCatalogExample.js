@@ -66,6 +66,12 @@ export default {
       type: 'KEY_VALUE_PAIR',
       canApplyToSource: true,
       canApplyToDestination: true
+    },
+    {
+      name: 'call.metric',
+      type: 'KEY_NUMBER_PAIR',
+      canApplyToSource: false,
+      canApplyToDestination: false
     }
   ],
 
@@ -198,6 +204,11 @@ export default {
               label: 'HTTP Headers',
               description: 'HTTP headers in HTTP request',
               tagName: 'call.http.header'
+            },
+            {
+              type: 'TAG',
+              label: 'Custom call metrics',
+              tagName: 'call.metric'
             }
           ]
         },

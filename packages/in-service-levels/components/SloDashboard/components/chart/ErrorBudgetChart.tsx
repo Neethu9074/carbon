@@ -14,13 +14,17 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMetricValue
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+// @ts-expect-error needs migration
+import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 
 interface ErrorBudgetChartProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -29,19 +33,21 @@ interface ErrorBudgetChartProps {
 export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProps) {
   const { indicator, entity, lastUpdated } = configuration;
 
-  const selectedTimeConfig = useTimeConfig();
-  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const sloZoomInAction = useSloZoomInAction();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const timeConfig = useContextAwareSloTimeWindowConfig();
+  const granularity = calculateSloGranularity(timeConfig);
 
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
     timeConfig =>
       sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
-        timeConfig,
-        contextTimeConfig: timeConfig
+        timeConfig
       }),
-    selectedTimeConfig,
-    timeWindows
+    timeConfig,
+    timeWindows,
+    granularity
   );
 
   const formatter = indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact;
@@ -55,6 +61,9 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
     <ResultAwareChart
       config={{
         title: t('in-service-levels:sloDashboard.components.errorBudgetChart.title'),
+        primaryContextMenuAction: sloZoomInAction.name,
+        additionalContextMenuButtons: [sloZoomInAction],
+        excludedContextMenuActions: [zoomInAction.name],
         y1: {
           metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
           metrics,
@@ -65,9 +74,8 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
           renderer,
           formatter
         },
-        granularity: metricResult?.granularity,
-        timeConfig:
-          selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows[0] ?? selectedTimeConfig : selectedTimeConfig,
+        granularity,
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work

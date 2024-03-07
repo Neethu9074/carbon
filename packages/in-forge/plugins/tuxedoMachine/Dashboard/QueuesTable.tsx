@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { combineLatest, just } from '@instana/observables';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Result } from '@instana/types';
@@ -21,7 +22,6 @@ import { number, percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 const queueIdCol = {
@@ -111,7 +111,6 @@ const usageCol = {
 export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id');
-  const theme = useTheme();
 
   const ipcQueues =
     useObservable(
@@ -128,7 +127,7 @@ export default function QueuesTable({ snapshot }: { snapshot: SnapshotData }) {
   if (isLoading(ipcQueues)) {
     return (
       <DashboardSection title={t('in-forge:plugins.tuxedoIpcQueue.queueWithCount', { len: 0 })}>
-        <SvgIcon color={theme.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
+        <SvgIcon color={themes.default.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
       </DashboardSection>
     );
   }

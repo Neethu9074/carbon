@@ -47,7 +47,8 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     renderWidgetNotSupportedIndicator = false,
     granularity,
     extendBar = false,
-    disableChartInLive
+    disableChartInLive,
+    approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention')
   } = config;
   let content;
 
@@ -101,9 +102,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   const LeftHeaderContent = () => {
     return (
       <>
-        {renderHistoricDataIndicator && hasApproximateData && (
-          <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-        )}
+        {renderHistoricDataIndicator && hasApproximateData && <MultiLineToolTipIcon lines={[approximateTooltipText]} />}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
             <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />

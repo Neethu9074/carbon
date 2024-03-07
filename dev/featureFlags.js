@@ -9,10 +9,8 @@
 module.exports = {
   agentMonitoringIssuesEnabled: true,
   businessObservabilityEnabled: true,
-  bizopsFeatureEnabled: true,
-  bizopsActivityDistributionChartsEnabled: true,
   bizopsGoldenSignalsEnabled: true,
-  bizopsImpactedBusinessProcessesTableEnabled: true,
+  bizopsRbacEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -59,6 +57,7 @@ module.exports = {
   syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesTeamEnabled: true,
+  kubernetesPrometheusMetricsEnabled: true,
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   apdexWidgetEnabled: true,
@@ -105,11 +104,13 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticUpdateDeployPoPEnabled: true,
+  syntheticDeactivateDatacentersEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
   enableCarbonIcons: true,
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
-  logSmartAlertsEnabled: true
+  logSmartAlertsEnabled: true,
+  welcomePageV2Enabled: false
 };

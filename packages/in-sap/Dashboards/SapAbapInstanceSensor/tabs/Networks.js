@@ -6,8 +6,6 @@
 
 import React, { Fragment } from 'react';
 
-import GatewayConnections from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/GatewayConnections';
-import FrontEndErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FrontEndErrorLogs';
 import ICMServicesList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServicesList';
 import ICMServiceList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMServiceList';
 import ICMThreadList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ICMThreadList';
@@ -23,8 +21,6 @@ export default function Networks({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
-      <GatewayConnections snapshotId={snapshotId} />
-      <FrontEndErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
       <LanInterface snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.icmInfo')}>

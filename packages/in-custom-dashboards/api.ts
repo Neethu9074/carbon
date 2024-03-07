@@ -5,9 +5,9 @@
 
 import { create, Observable } from '@instana/observables';
 
+import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { CustomDashboard, CustomDashboardPreview, Result, UserResult } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import http from 'in-services/http';
 
@@ -24,6 +24,22 @@ function getCustomDashboardsInternal() {
       method: 'GET',
       maxRetries: 3,
       url: `/api/custom-dashboard`,
+      mapToResultObject: true
+    })
+  );
+}
+
+export const searchCustomDashboards: ObservableCreator<string, Result<CustomDashboardPreview[]>> = memoize<
+  string,
+  Result<CustomDashboardPreview[]>
+>(searchCustomDashboardInternal, query => query, 60000);
+
+function searchCustomDashboardInternal(query: string): Observable<Result<CustomDashboardPreview[]>> {
+  return refreshSignal.flatMap(() =>
+    http<CustomDashboardPreview[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: `/api/custom-dashboard?query=${query}`,
       mapToResultObject: true
     })
   );

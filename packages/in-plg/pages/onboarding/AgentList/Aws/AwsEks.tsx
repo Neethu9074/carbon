@@ -10,7 +10,7 @@ import { KeyValue, Stack, SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 //@ts-expect-error
-import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/OnboardingWidget/content/instana-agent-openshift.yaml';
+import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/content/instana-agent.yaml';
 import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -23,7 +23,14 @@ import Code from 'in-plg/components/Code/Code';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
-const AwsEks = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndpointPort }: OnboardingProps) => {
+const AwsEks = ({
+  agentKey,
+  downloadKey,
+  instanaDomain,
+  agentEndpoint,
+  agentEndpointPort,
+  fromOnboarding
+}: OnboardingProps) => {
   const [clusterName, setClusterName] = useState<string>('');
   const [agentZone, setAgentZone] = useState<string>('');
 
@@ -58,14 +65,14 @@ const AwsEks = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndp
   ];
 
   const getBashCode = () => {
-    let content = instanaAgentOpenShiftYaml
-      .replace('${agentKey}', window.btoa(agentKey))
-      .replace('${downloadKey}', window.btoa(downloadKey))
-      .replace('${agentEndpoint}', agentEndpoint)
-      .replace('${agentEndpointPort}', agentEndpointPort)
-      .replace('${clusterName}', clusterName)
-      .replace('${zoneName}', agentZone)
-      .replace('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
+    let content = instanaAgentYaml
+      .replaceAll('${agentKey}', window.btoa(agentKey))
+      .replaceAll('${downloadKey}', window.btoa(downloadKey))
+      .replaceAll('${agentEndpoint}', agentEndpoint)
+      .replaceAll('${agentEndpointPort}', agentEndpointPort)
+      .replaceAll('${clusterName}', clusterName)
+      .replaceAll('${zoneName}', agentZone)
+      .replaceAll('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
     content = content.split('\n');
     return content;
   };
@@ -119,7 +126,7 @@ const AwsEks = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndp
           <Code lang="yaml" code={getBashCode()} withDownload withExpandButton linesToShow={15} />
         </LayoutSection>
 
-        <GetDeployedAgents agent="eks%20AND%20aws" />
+        <GetDeployedAgents agent="eks%20AND%20aws" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <Typography variant="heading-200">{t('in-plg:agentDetails.kubernetes.kubernetes.support')}</Typography>

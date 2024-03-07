@@ -26,19 +26,22 @@ import {
   thresholdMetricId
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+// @ts-expect-error needs migration
+import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const metricId = 'availability';
 
@@ -48,9 +51,10 @@ export default function TimeBasedAvailabilityIndicatorChart({
 }: IndicatorChartProps<AvailabilityBlueprintIndicator>) {
   const { threshold } = indicator;
 
-  const selectedTimeConfig = useTimeConfig();
-  const granularity = calculateSloGranularity(selectedTimeConfig);
-  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const sloZoomInAction = useSloZoomInAction();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const timeConfig = useContextAwareSloTimeWindowConfig();
+  const granularity = calculateTrafficGranularity(timeConfig);
   const metricConfiguration = useSliMetricConfiguration<AvailabilityBlueprintIndicator>(
     entity,
     indicator,
@@ -75,6 +79,14 @@ export default function TimeBasedAvailabilityIndicatorChart({
     <ResultAwareChart
       config={{
         title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        renderHistoricDataIndicator: true,
+        hasApproximateData: true,
+        approximateTooltipText: t(
+          'in-service-levels:sloDashboard.components.indicatorChart.components.approximateTooltip'
+        ),
+        primaryContextMenuAction: sloZoomInAction.name,
+        additionalContextMenuButtons: [sloZoomInAction],
+        excludedContextMenuActions: [zoomInAction.name],
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
           metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
@@ -84,8 +96,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
           formatter: percentage.detailed,
           renderer: lineWithThreshold
         },
-        timeConfig:
-          selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows[0] ?? selectedTimeConfig : selectedTimeConfig,
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}
       result={result}

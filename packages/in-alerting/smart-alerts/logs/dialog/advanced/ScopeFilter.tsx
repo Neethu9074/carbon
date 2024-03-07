@@ -10,9 +10,9 @@ import React from 'react';
 import { Result, TagCatalog, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import LogsFilterQueryBuilder from 'in-alerting/smart-alerts/logs/components/LogsFilterQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { isQueryValid } from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
-import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { CatalogResponse } from 'in-logging/api/catalog';
 
@@ -41,7 +41,7 @@ export default function ScopeFilter({ form, updateForm, tagCatalog, timeConfig, 
   return (
     <QueryBuilderSection
       value={tagFilterExpression}
-      QueryBuilder={LogsQueryBuilder}
+      QueryBuilder={LogsFilterQueryBuilder}
       tagCatalog={tagCatalog as TagCatalog}
       onChange={tfe => handleChangeTagFilterExpressionChange(tfe, form, updateForm)}
       hasError={isInvalid}

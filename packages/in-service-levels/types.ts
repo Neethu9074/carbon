@@ -10,6 +10,7 @@ import {
   LatencyBlueprintIndicator,
   ServiceLevelIndicatorUnion
 } from '@instana/types';
+import { SloTimeWindowTypes } from 'in-service-levels/constants';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 
@@ -36,6 +37,14 @@ export function isCustomBlueprintIndicator(
 ): indicator is CustomBlueprintIndicator {
   return indicator.blueprint === 'custom';
 }
+
+export function isAvailableTimeWindowType(
+  timeWindowType: any
+): timeWindowType is AvailableTimeWindowTypes {
+  return timeWindowType && Object.values(SloTimeWindowTypes).includes(timeWindowType);
+}
+
+export type AvailableTimeWindowTypes = keyof typeof SloTimeWindowTypes;
 
 export interface LabeledEntity {
   label: string;

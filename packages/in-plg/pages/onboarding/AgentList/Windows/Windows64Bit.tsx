@@ -27,7 +27,8 @@ const Windows64Bit = ({
   downloadKey,
   agentEndpoint,
   agentEndpointPort,
-  butlerDomain
+  butlerDomain,
+  fromOnboarding
 }: OnboardingProps) => {
   const agentModeOptions = ['dynamic', 'static'];
   const jvmVendorOptions = ['azul', 'eclipse'];
@@ -194,7 +195,7 @@ const Windows64Bit = ({
           </Stack>
         </LayoutSection>
 
-        <GetDeployedAgents agent="windows" />
+        <GetDeployedAgents agent="windows" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

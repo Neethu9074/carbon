@@ -14,7 +14,7 @@ import { getEventSpecificationId, getIsCustomEvent, useAssociatedActionsData } f
 import NotificationComponent from 'in-components/form/Notification/Notification';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { Event } from 'in-types';
+import { Event, VolatileId } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SuggestedActionsCardProps {
@@ -22,13 +22,15 @@ interface SuggestedActionsCardProps {
   reload: number;
   setReload: (r: number) => void;
   setSelectedType: (str: string) => void;
+  volatileId: VolatileId;
 }
 
 export default function RecommendedActionsCard({
   event,
   reload,
   setReload,
-  setSelectedType
+  setSelectedType,
+  volatileId
 }: SuggestedActionsCardProps) {
   const [error, setError] = useState(false);
   const eventSpecificationId = getEventSpecificationId(event);
@@ -93,8 +95,10 @@ export default function RecommendedActionsCard({
           triggerReload={triggerReload}
           setError={setError}
           isCustomEvent={isCustomEvent}
+          volatileId={volatileId}
           setSelectedType={setSelectedType}
           isApplicationSmartAlert={false}
+          event={event}
         />
       )}
     </>

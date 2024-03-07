@@ -12,7 +12,7 @@ import locals from 'in-plg/pages/onboarding/Layout/LayoutSection.mless';
 
 interface LayoutSectionProps {
   title: string;
-  children: JSX.Element;
+  children: JSX.Element | null;
 }
 
 const LayoutSection: React.FC<LayoutSectionProps> = ({ title, children }) => {

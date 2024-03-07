@@ -112,6 +112,11 @@ export const Body = ({ beacon }) => {
       <Di key={4} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleTimeToFirstByte')}>
         {millis.fixedCompact(beacon.backendTime)}
       </Di>
+    ),
+    beacon.interactionNextPaint >= 0 && (
+      <Di key={5} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleInteractionNextPaint')}>
+        {millis.fixedCompact(beacon.interactionNextPaint)}
+      </Di>
     )
   ].filter(Boolean);
 

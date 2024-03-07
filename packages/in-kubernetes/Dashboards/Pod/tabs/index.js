@@ -3,8 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  beeInstanaInfraMetricsEnabled,
+  persistentVolumeSupportEnabled,
+  kubernetesPrometheusMetricsEnabled
+} from 'in-services/featureFlags';
 import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
+import PrometheusMetrics from 'in-kubernetes/Dashboards/Pod/tabs/Prometheus/PrometheusMetrics';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -47,5 +52,10 @@ export default [
     path: `${podDashboardFullyQualified}/persistentvolumeclaims`,
     component: PersistentVolumeClaims,
     stickToBottom: true
+  },
+  kubernetesPrometheusMetricsEnabled && {
+    label: t('in-kubernetes:dashboards.prometheusMetrics'),
+    path: `${podDashboardFullyQualified}/prometheus`,
+    component: PrometheusMetrics
   }
 ].filter(Boolean);

@@ -63,4 +63,12 @@
   .link {
     font-size: 0.75rem;
   }
+
+  .messageWrapper {
+    margin: 2rem 0;
+  }
+
+  .descriptionWrapper {
+    margin: 0 0 1rem 0;
+  }
 }

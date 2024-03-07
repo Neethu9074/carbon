@@ -24,19 +24,26 @@ import Code from 'in-plg/components/Code/Code';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
-const Azure = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndpointPort }: OnboardingProps) => {
+const Azure = ({
+  agentKey,
+  downloadKey,
+  instanaDomain,
+  agentEndpoint,
+  agentEndpointPort,
+  fromOnboarding
+}: OnboardingProps) => {
   const [clusterName, setClusterName] = useState('');
   const [agentZone, setAgentZone] = useState('');
 
   const getBashCode = (): CodeProps => {
     let content = instanaAgentYaml
-      .replace('${agentKey}', window.btoa(agentKey))
-      .replace('${downloadKey}', window.btoa(downloadKey))
-      .replace('${agentEndpoint}', agentEndpoint)
-      .replace('${agentEndpointPort}', agentEndpointPort)
-      .replace('${clusterName}', clusterName)
-      .replace('${zoneName}', agentZone)
-      .replace('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
+      .replaceAll('${agentKey}', window.btoa(agentKey))
+      .replaceAll('${downloadKey}', window.btoa(downloadKey))
+      .replaceAll('${agentEndpoint}', agentEndpoint)
+      .replaceAll('${agentEndpointPort}', agentEndpointPort)
+      .replaceAll('${clusterName}', clusterName)
+      .replaceAll('${zoneName}', agentZone)
+      .replaceAll('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
     content = content.split('\n');
 
     return {
@@ -143,7 +150,7 @@ const Azure = ({ agentKey, downloadKey, instanaDomain, agentEndpoint, agentEndpo
           <Code {...getBashCode()} />
         </LayoutSection>
 
-        <GetDeployedAgents agent="azure" />
+        <GetDeployedAgents agent="azure" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />

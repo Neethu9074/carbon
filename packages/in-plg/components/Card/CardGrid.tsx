@@ -13,9 +13,10 @@ import locals from 'in-plg/components/Card/CardGrid.mless';
 
 interface CardGridProps {
   data: ContentProps[];
+  fromOnboarding?: boolean;
 }
 
-export default function CardGrid({ data }: CardGridProps) {
+export default function CardGrid({ data, fromOnboarding = false }: CardGridProps) {
   return (
     <div className={locals.cardGrid}>
       {data.map((item, index) => (
@@ -25,7 +26,7 @@ export default function CardGrid({ data }: CardGridProps) {
           icon={item.icon}
           iconColor={item.iconColor}
           content={item.subTechnology?.label ?? ''}
-          href={`/agents/installation/${item?.id}`}
+          href={`/agents${fromOnboarding ? '/onboarding' : ''}/installation/${item?.id}`}
         />
       ))}
     </div>

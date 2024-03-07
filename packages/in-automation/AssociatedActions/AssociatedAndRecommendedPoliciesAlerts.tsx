@@ -63,6 +63,7 @@ export default function AssociatedAndRecommendedPoliciesAlerts({
                     event={event}
                     reload={reload}
                     setReload={setReload}
+                    volatileId={volatileId}
                     setSelectedType={setSelectedType}
                     alertConfig={alertConfig ?? alertConfigiguration}
                   />

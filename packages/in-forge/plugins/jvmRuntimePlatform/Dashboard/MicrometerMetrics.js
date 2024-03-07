@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import {
   withSiPrefixThreeDecimalPlaces,
   timeByMillisTwoDecimalPlaces,
@@ -21,7 +23,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.gauge.',
     type: 'gauge',
-    color: '#D90368',
+    color: themes.default.ids.color.option.pink['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
@@ -32,7 +34,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.timeGauge.',
     type: 'time gauge',
-    color: '#D90368',
+    color: themes.default.ids.color.option.pink['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
@@ -43,7 +45,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.counter.',
     type: 'counter',
-    color: '#00CC66',
+    color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.count'),
@@ -54,7 +56,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.functionCounter.',
     type: 'function counter',
-    color: '#00CC66',
+    color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.count'),
@@ -65,7 +67,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.timer.',
     type: 'timer',
-    color: '#F75C03',
+    color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
@@ -76,7 +78,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.functionTimer.',
     type: 'function timer',
-    color: '#F75C03',
+    color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
@@ -87,7 +89,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.longTaskTimer.',
     type: 'long task timer',
-    color: '#F75C03',
+    color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
@@ -98,7 +100,7 @@ export const SPECS = [
   {
     prefix: 'micrometer.metrics.distributionSummary.',
     type: 'distribution',
-    color: '#f7b320',
+    color: themes.default.ids.color.option.yellow['500'],
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),

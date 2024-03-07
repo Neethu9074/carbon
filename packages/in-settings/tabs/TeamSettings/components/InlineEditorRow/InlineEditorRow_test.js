@@ -71,7 +71,7 @@ describe('in-settings/tabs/TeamSettings/components/InlineEditorRow', () => {
       />
     );
 
-    fireEvent.click(getByRole('button'));
+    fireEvent.click(getByRole('button', { hidden: true }));
 
     const labelElement = container.querySelector('.local-css-readonlyLabel');
     const extraElement = container.querySelector('.local-css-readonlyExtra');
@@ -138,7 +138,7 @@ describe('in-settings/tabs/TeamSettings/components/InlineEditorRow', () => {
       />
     );
 
-    fireEvent.click(getByRole('button'));
+    fireEvent.click(getByRole('button', { hidden: true }));
     fireEvent.click(container.querySelector('.local-css-saveButton'));
 
     expect(onClickSave).toHaveBeenCalledTimes(1);
@@ -160,7 +160,7 @@ describe('in-settings/tabs/TeamSettings/components/InlineEditorRow', () => {
       />
     );
 
-    fireEvent.click(getByRole('button'));
+    fireEvent.click(getByRole('button', { hidden: true }));
     fireEvent.click(container.querySelector('.local-css-cancelButton'));
 
     expect(onClickCancel).toHaveBeenCalledTimes(1);
@@ -182,7 +182,7 @@ describe('in-settings/tabs/TeamSettings/components/InlineEditorRow', () => {
       />
     );
 
-    fireEvent.click(getByRole('button'));
+    fireEvent.click(getByRole('button', { hidden: true }));
     fireEvent.change(container.querySelector('.local-css-inputField'), { target: { value: 'foo' } });
 
     expect(onInputChange).toHaveBeenCalledTimes(1);

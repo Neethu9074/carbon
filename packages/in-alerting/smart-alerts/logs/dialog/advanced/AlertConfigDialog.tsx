@@ -14,10 +14,10 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/logs/dialog
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
-import { toBackendGroupBy } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
+import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
@@ -89,7 +89,8 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
+// TODO remove `& { groupBy: any }` once typedef is available
+function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig & { groupBy: any }> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({
@@ -102,7 +103,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,
-    groupBy: toBackendGroupBy([form.get(fieldNames.groupBy).value]),
+    groupBy: toGroupByTag([form.get(fieldNames.groupBy).value]),
     customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }

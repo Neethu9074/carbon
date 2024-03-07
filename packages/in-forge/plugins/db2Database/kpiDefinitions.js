@@ -16,10 +16,5 @@ export default [
     label: t('in-forge:plugins.db2Database.queries'),
     metric: 'databases.queries',
     formatter: number.compact
-  },
-  {
-    labels: t('in-forge:plugins.db2Database.db2MemberNumber'),
-    metrics: 'db2membermetrics.db2MemberNumber',
-    formatter: number.compact
   }
 ];

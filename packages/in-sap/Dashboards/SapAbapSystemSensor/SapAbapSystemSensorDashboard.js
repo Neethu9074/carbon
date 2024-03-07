@@ -15,6 +15,7 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import { sapAbapSystemSensorDashboard } from 'in-sap/navigation/paths';
 import tabs from 'in-sap/Dashboards/SapAbapSystemSensor/tabs/index';
 import { SapAbapSystemSensorBreadcrumbs } from 'in-sap/breadcrumbs';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -83,9 +84,9 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title={t('in-sap:dashboards.AbapInstance')}
-      icon="lib_sap_instances"
-      label={get(props.result, ['data', 'serviceName'])}
+      title={t('in-sap:dashboards.AbapSystem')}
+      icon="lib_sap_sapAbapSystemSensor"
+      label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
     />
@@ -95,11 +96,14 @@ function Header(props) {
 function renderButtonLine(props) {
   const { hostId, timeConfig } = props;
   return (
-    <EntityHealthIndicator
-      IndicatorPresenter={HealthIndicatorButtonPresenter}
-      snapshotId={hostId}
-      timeConfig={timeConfig}
-    />
+    <>
+      <EntityHealthIndicator
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        snapshotId={hostId}
+        timeConfig={timeConfig}
+      />
+      <ContextGuide id={props.hostId} timeConfig={props.timeConfig} plugin={plugins.sapAbapSystemSensor} />
+    </>
   );
 }
 

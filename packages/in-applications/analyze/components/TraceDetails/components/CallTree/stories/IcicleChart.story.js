@@ -5,21 +5,21 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import TraceExamples from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/TraceExamplesComponent';
 import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
 import { getColor } from 'in-applications/endpointTypes';
 import { always } from 'in-services/fixedStreams';
-import { useTheme } from 'in-themes';
 
 export default {
   component: IcicleChart
 };
 
 export function Default() {
-  const theme = useTheme();
   const getColorByEndpointType = ({ endpoint }) =>
-    !endpoint || !endpoint.type ? theme.ids.color.option.neutral['500'] : getColor(endpoint.type);
+    !endpoint || !endpoint.type ? themes.default.ids.color.option.neutral['500'] : getColor(endpoint.type);
 
   return (
     <TraceExamples

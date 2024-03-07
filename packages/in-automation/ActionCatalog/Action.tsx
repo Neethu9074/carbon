@@ -280,9 +280,9 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
   } else if (isGithub(type)) {
     const owner = (form.get('owner') as FormField<string>).value;
     const repo = (form.get('repo') as FormField<string>).value;
-    const ticketType = (form.get('ticketType') as FormField<string>).value;
+    const ticketActionType = (form.get('ticketActionType') as FormField<string>).value;
     let type: TicketTypes | null = null;
-    if (ticketType === OPEN) {
+    if (ticketActionType === OPEN) {
       const title = (form.get('title') as FormField<string>).value;
       const body = (form.get('body') as FormField<string>).value;
       const labels = (form.get('labels') as FormField<any>).value;
@@ -296,58 +296,58 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
         labels: labelsString,
         assignees: assigneesString
       };
-    } else if (ticketType === CLOSE) {
+    } else if (ticketActionType === CLOSE) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'close',
         comment
       };
-    } else if (ticketType === ADD_COMMENT) {
+    } else if (ticketActionType === ADD_COMMENT) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'add_comment',
         comment
       };
     }
-    fields.push(...createGithubFields({ owner: owner, repo: repo, ticketType: type }));
+    fields.push(...createGithubFields({ owner: owner, repo: repo, ticketActionType: type }));
   } else if (isGitlab(type)) {
     const projectId = (form.get('projectId') as FormField<string>).value;
-    const ticketType = (form.get('ticketType') as FormField<string>).value;
+    const ticketActionType = (form.get('ticketActionType') as FormField<string>).value;
     let type: TicketTypes | null = null;
-    if (ticketType === OPEN) {
+    if (ticketActionType === OPEN) {
       const title = (form.get('title') as FormField<string>).value;
-      const gitlab_description = (form.get('gitlab_description') as FormField<string>).value;
+      const body = (form.get('body') as FormField<string>).value;
       const labels = (form.get('labels') as FormField<any>).value;
       const issue_type = (form.get('issue_type') as FormField<any>).value;
       const labelsString = labels.map((tag: Tag) => tag.value).join(',');
       type = {
         type: 'open',
         title,
-        gitlab_description,
+        body,
         labels: labelsString,
         issue_type
       };
-    } else if (ticketType === CLOSE) {
+    } else if (ticketActionType === CLOSE) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'close',
         comment
       };
-    } else if (ticketType === ADD_COMMENT) {
+    } else if (ticketActionType === ADD_COMMENT) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'add_comment',
         comment
       };
     }
-    fields.push(...createGitlabFields({ projectId: projectId, ticketType: type }));
+    fields.push(...createGitlabFields({ projectId: projectId, ticketActionType: type }));
   } else if (isJira(type)) {
     const project = (form.get('project') as FormField<string>).value;
-    const ticketType = (form.get('ticketType') as FormField<string>).value;
+    const ticketActionType = (form.get('ticketActionType') as FormField<string>).value;
     let type: TicketTypes | null = null;
-    if (ticketType === OPEN) {
+    if (ticketActionType === OPEN) {
       const summary = (form.get('summary') as FormField<string>).value;
-      const jira_description = (form.get('jira_description') as FormField<string>).value;
+      const body = (form.get('body') as FormField<string>).value;
       const labels = (form.get('labels') as FormField<any>).value;
       const assignee = (form.get('assignee') as FormField<string>).value;
       const issue_type = (form.get('issue_type') as FormField<any>).value;
@@ -355,25 +355,25 @@ function getActionSpecification(form: MapForm<any>, entity: ActionFormEntity | n
       type = {
         type: 'open',
         summary,
-        jira_description,
+        body,
         labels: labelsString,
         assignee,
         issue_type
       };
-    } else if (ticketType === CLOSE) {
+    } else if (ticketActionType === CLOSE) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'close',
         comment
       };
-    } else if (ticketType === ADD_COMMENT) {
+    } else if (ticketActionType === ADD_COMMENT) {
       const comment = (form.get('comment') as FormField<string>).value;
       type = {
         type: 'add_comment',
         comment
       };
     }
-    fields.push(...createJiraFields({ project: project, ticketType: type }));
+    fields.push(...createJiraFields({ project: project, ticketActionType: type }));
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;

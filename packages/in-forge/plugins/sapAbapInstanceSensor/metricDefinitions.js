@@ -534,5 +534,91 @@ export default [
     category: [t('in-sap:dashboards.TopProcessList')],
     min: 0,
     formatter: kiloBytes.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('abapdumpstats', 'E2E_SEVERITY', t('in-forge:plugins.sapAbapInstanceSensor.severity'))
+    ],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.severity')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.abapdumpstats')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('gatewayBackendErrorLogs', 'error', t('in-forge:plugins.sapAbapInstanceSensor.errorCount'))
+    ],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.errorCount')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.gatewayBackendEndErrorLogs')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('inboundDetails', 'successCount', t('in-forge:plugins.sapAbapInstanceSensor.success')),
+      getDynamicMetricMatch(
+        'inboundDetails',
+        'readyToProcessCount',
+        t('in-forge:plugins.sapAbapInstanceSensor.readyToProcess')
+      ),
+      getDynamicMetricMatch('inboundDetails', 'errorCount', t('in-forge:plugins.sapAbapInstanceSensor.error'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.success'),
+      t('in-forge:plugins.sapAbapInstanceSensor.readyToProcess'),
+      t('in-forge:plugins.sapAbapInstanceSensor.error')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.inBoundIdoc')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('outboundDetails', 'successCount', t('in-forge:plugins.sapAbapInstanceSensor.success')),
+      getDynamicMetricMatch(
+        'outboundDetails',
+        'readyToProcessCount',
+        t('in-forge:plugins.sapAbapInstanceSensor.readyToProcess')
+      ),
+      getDynamicMetricMatch('outboundDetails', 'errorCount', t('in-forge:plugins.sapAbapInstanceSensor.error'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.success'),
+      t('in-forge:plugins.sapAbapInstanceSensor.readyToProcess'),
+      t('in-forge:plugins.sapAbapInstanceSensor.error')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.outBoundIdoc')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('fioriCallMetrics', 'callTime', t('in-forge:plugins.sapAbapInstanceSensor.callTime')),
+      getDynamicMetricMatch(
+        'fioriCallMetrics',
+        'executionTime',
+        t('in-forge:plugins.sapAbapInstanceSensor.executionTime')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.callTime'),
+      t('in-forge:plugins.sapAbapInstanceSensor.executionTime')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.callMetrics')],
+    min: 0,
+    formatter: millis.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('fioriCallMetrics', 'dataSend', t('in-forge:plugins.sapAbapInstanceSensor.dataSend')),
+      getDynamicMetricMatch('fioriCallMetrics', 'dataReceive', t('in-forge:plugins.sapAbapInstanceSensor.dataReceived'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.dataSend'),
+      t('in-forge:plugins.sapAbapInstanceSensor.dataReceived')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.pageFrequency')],
+    min: 0,
+    formatter: bytes.compact
   }
 ];

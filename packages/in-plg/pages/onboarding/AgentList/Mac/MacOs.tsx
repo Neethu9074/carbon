@@ -25,7 +25,14 @@ const agentOptions = [
   { key: 'macStatic', label: t('in-waiting-for-deployment:content.macOs64BitUniversalStatic') }
 ];
 
-export default function MacOs({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain }: OnboardingProps) {
+export default function MacOs({
+  tenant,
+  tenantUnit,
+  agentKey,
+  downloadKey,
+  butlerDomain,
+  fromOnboarding
+}: OnboardingProps) {
   const agentModeOptions = ['Dynamic', 'Static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
@@ -117,7 +124,7 @@ export default function MacOs({ tenant, tenantUnit, agentKey, downloadKey, butle
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="mac" />
+        <GetDeployedAgents agent="mac" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

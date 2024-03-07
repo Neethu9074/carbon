@@ -31,13 +31,15 @@ import locals from './ApplicationContributionFilter.mless';
 export interface ContributionFilterWrapperProps<FORM_TYPE extends MapFormItems> extends FormControlProps<FORM_TYPE> {
   isContributorRole?: boolean;
   setValid?: (isValid: boolean) => void;
+  editMode?: boolean;
 }
 
 export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems>({
   form,
   setForm,
   isContributorRole,
-  setValid
+  setValid,
+  editMode
 }: ContributionFilterWrapperProps<FORM_TYPE>) {
   const timeConfig = useTimeConfig();
   const tagFilterExpressionField = getField<FormModelElement[]>(form, 'tagFilterExpression');
@@ -68,7 +70,7 @@ export default function ContributionFilterWrapper<FORM_TYPE extends MapFormItems
 
   return (
     <div className={locals.contributionFilter_wrapper}>
-      <ApplicationContributionFilter form={form} setForm={setForm} setValid={setValid} />
+      <ApplicationContributionFilter form={form} setForm={setForm} setValid={setValid} editMode={editMode} />
       <div className={locals.contributionFilter_wrapper_servicesLiveList}>
         <ServiceLiveList
           servicesLiveList={servicesLiveList}

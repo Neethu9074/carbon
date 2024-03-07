@@ -7,6 +7,7 @@
 import React, { useState, useMemo } from 'react';
 
 import { create } from '@instana/observables';
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
 
@@ -16,12 +17,13 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
+import { logsGroupbyTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
-import { AlertGrouping } from 'in-alerting/smart-alerts/logs/details/AlertGrouping';
 import { StaticThresholdConfig, TagCatalog, ThresholdConfigUnion } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -43,10 +45,12 @@ export type Tags = { [index: string]: any };
 export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
   const { timeThreshold, threshold, granularity, groupBy, customPayloadFields, tagFilterExpression, alertChannelIds } =
     alertConfig;
-  const tagCatalog = useTagCatalog();
+  const tagCatalog = useTagCatalog('SMART_ALERTS');
+  //@ts-expect-error TODO : remove expect error once typedefinition updated with this usecase.
+  const groupByTagCatalog = useTagCatalog('SMART_ALERTS_GROUPING');
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
 
-  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(groupByTagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -79,17 +83,26 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
       >
         {chartViewConfig => (
           <Card title={t('in-events:titleMetrics')}>
-            <LogMetricChart alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
+            <LogMetricChart
+              alertConfig={alertConfig}
+              timeConfig={{
+                ...chartViewConfig.timeConfig,
+                to: timeConfig.to,
+                focusedMoment: timeConfig.focusedMoment
+              }}
+            />
             {groupBy && groupBy.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={tagFilterExpression}
-                groupBy={groupBy}
+                //@ts-expect-error TODO change related to new typedef.
+                backendGroupBy={groupBy}
+                groupBy={logsGroupbyTag(groupBy)[0]}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,
                   to: timeConfig.to,
                   focusedMoment: timeConfig.focusedMoment
                 }}
-                tagCatalog={tagCatalog}
+                tagCatalog={groupByTagCatalog}
               />
             )}
           </Card>
@@ -114,6 +127,10 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
             />
 
             <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupBy ?? []} />
+
+            {!tagFilterFormModel?.length && !groupBy?.length && (
+              <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
+            )}
           </Stack>
         </div>
       </ExpandableLightCard>

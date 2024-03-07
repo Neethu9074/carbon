@@ -219,6 +219,11 @@
   "pluginName_azure_1": "Azure Instances",
   "pluginName_azure_2": "Azure Instances",
   "pluginName_azure": "Azure Instance",
+  "pluginName_azureKeyVault_plural": "Azure KeyVault",
+  "pluginName_azureKeyVault_0": "Azure KeyVault",
+  "pluginName_azureKeyVault_1": "Azure KeyVault",
+  "pluginName_azureKeyVault_2": "Azure KeyVault",
+  "pluginName_azureKeyVault": "Azure KeyVault",
   "pluginName_azureApiManagement_plural": "Azure API Management Services",
   "pluginName_azureApiManagement_0": "Azure API Management Services",
   "pluginName_azureApiManagement_1": "Azure API Management Services",
@@ -309,6 +314,11 @@
   "pluginName_azureServiceBusTopics_1": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics_2": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics": "Azure Service Bus Topic",
+  "pluginName_azureManagedHSM_plural": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_0": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_1": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_2": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM": "Azure Key Vault Managed HSM",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -1028,6 +1038,11 @@
   "pluginName_kubernetesDeployment_1": "Kubernetes Deployments",
   "pluginName_kubernetesDeployment_2": "Kubernetes Deployments",
   "pluginName_kubernetesDeployment": "Kubernetes Deployment",
+  "pluginName_kubernetesEndpoints_plural": "Kubernetes Endpoints",
+  "pluginName_kubernetesEndpoints_0": "Kubernetes Endpoint",
+  "pluginName_kubernetesEndpoints_1": "Kubernetes Endpoint",
+  "pluginName_kubernetesEndpoints_2": "Kubernetes Endpoint",
+  "pluginName_kubernetesEndpoints": "Kubernetes Endpoint",
   "pluginName_kubernetesNamespace_plural": "Kubernetes Namespaces",
   "pluginName_kubernetesNamespace_0": "Kubernetes Namespaces",
   "pluginName_kubernetesNamespace_1": "Kubernetes Namespaces",
@@ -1058,6 +1073,11 @@
   "pluginName_kubernetesReplicaSet_1": "Kubernetes Replica Sets",
   "pluginName_kubernetesReplicaSet_2": "Kubernetes Replica Sets",
   "pluginName_kubernetesReplicaSet": "Kubernetes Replica Set",
+  "pluginName_kubernetesReplicationController_plural": "Kubernetes Replication Controllers",
+  "pluginName_kubernetesReplicationController_0": "Kubernetes Replication Controller",
+  "pluginName_kubernetesReplicationController_1": "Kubernetes Replication Controller",
+  "pluginName_kubernetesReplicationController_2": "Kubernetes Replication Controller",
+  "pluginName_kubernetesReplicationController": "Kubernetes Replication Controller",
   "pluginName_kubernetesService_plural": "Kubernetes Services",
   "pluginName_kubernetesService_0": "Kubernetes Services",
   "pluginName_kubernetesService_1": "Kubernetes Services",
@@ -1437,6 +1457,8 @@
   "pluginName_tanzuFoundationMember_1": "Tanzu Foundations Members",
   "pluginName_tanzuFoundationMember_2": "Tanzu Foundations Members",
   "pluginName_tanzuFoundationMember": "Tanzu Foundation Member",
+  "pluginName_tibcoASNode": "Tibco AS Node",
+  "pluginName_tibcoASNode_plural": "Tibco AS Nodes",
   "pluginName_tibcoBWAppNode": "Tibco BW AppNode",
   "pluginName_tibcoBWAppNode_plural": "Tibco BW AppNodes",
   "pluginName_tibcoBWAppInst": "Tibco BW App Instance",
@@ -4685,6 +4707,28 @@
       "eventHubEvents": "Event Hub Events",
       "sizeOfEventHubEvents": "Size of Event Hub Events"
     },
+    "azureManagedHSM": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoProvisioningState": "Provisioning State",
+      "infoTier": "Tier",
+      "infoType":"Type",
+      "labelAvailability": "Availability",
+      "labelServiceApiLatency": "Service Api Latency",
+      "labelServiceApiHit": "Service Api Hit",
+      "infoMangedHSM": "Azure KeyVault Managed HSM",
+      "dashboard": {
+        "labelAvailability": "Availability",
+        "labelServiceAPI": "Service Api",
+        "labelLatency": "Latency",
+        "labelHit": "Hit"
+      },
+      "kpi": {
+        "labelServiceApiLatency": "Service Api Latency",
+        "labelAvailability": "Availability"
+      }
+    },
     "azureAppService": {
       "infoName": "Name",
       "infoResourceGroup": "Resource Group",
@@ -4723,6 +4767,35 @@
       "performance": "Performance",
       "traffic": "Traffic",
       "runtime": "Runtime"
+    },
+    "azureKeyVault": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoProvisioningState": "Provisioning State",
+      "infoTier": "Tier",
+      "infoType":"Type",
+      "labelAvailability": "Availability",
+      "labelServiceApiLatency": "Service Api Latency",
+      "labelServiceApiHit": "Service Api Hit",
+      "labelServiceApiResult": "Service Api Result",
+      "labelSaturationShoeBox": "SaturationShoeBox",
+      "infoKeyVault": "Azure KeyVault",
+      "vaultCategory": "Vaults",
+      "serviceApiCategory": "Service Api",
+      "dashboard": {
+        "labelAvailability": "Availability",
+        "labelSaturationShoeBox": "SaturationShoeBox",
+        "labelResult": "Result",
+        "labelServiceAPI": "Service Api",
+        "labelLatency": "Latency",
+        "labelHit": "Hit"
+      },
+      "kpi": {
+        "labelServiceApiLatency": "Service Api Latency",
+        "labelAvailability": "Availability"
+
+      }
     },
     "azureCosmosDB": {
       "infoName": "Name",
@@ -6469,8 +6542,15 @@
         "purescaleMem": "Member ID",
         "purescaleMemAlert": "Member Node Alert",
         "purescaleCFAlert": "CF Node Alert",
-        "purescaleCf": "CF ID"
-
+        "purescaleCf": "CF ID",
+        "currentCfLockSize": "Current CF Lock Size",
+        "configuredCfLockSize": "Configured CF Lock Size",
+        "targetedCfLockSize": "Targeted CF Lock Size",
+        "currentCfScaSize": "Current CF SCA Size",
+        "configuredCfScaSize": "Configured CF SCA Size",
+        "targetedCfScaSize": "Targeted CF SCA Size",
+        "purescaleLockTable": "Purescale Lock Memory Table",
+        "purescaleScaTable": "Purescale SCA Memory Table"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6712,7 +6792,17 @@
       "pgHostName": "Host Name",
       "pgState": "State",
       "instanceStopped": "Instance Stopped",
-      "pgAlert": "Alert"
+      "pgAlert": "Alert",
+      "lockHostId": "Host Id",
+      "lockHostName": "Host Name",
+      "currentCfLockSize": "Current CF Lock Size",
+      "configuredCfLockSize": "Configured CF Lock Size",
+      "targetedCfLockSize": "Targeted CF Lock Size",
+      "scaHostId": "Host Id",
+      "scaHostName": "Host Name",
+      "currentCfScaSize": "Current CF SCA Size",
+      "configuredCfScaSize": "Configured CF SCA Size",
+      "targetedCfScaSize": "Targeted CF SCA Size"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -7040,6 +7130,7 @@
       "master": "Master",
       "masterEligible": "Master Eligible",
       "transport": "Transport",
+      "http": "HTTP",
       "logDirectory": "Log Directory",
       "indices": "Indices",
       "activeShards": "Active Shards",
@@ -8181,7 +8272,26 @@
         "requests": "Requests",
         "finishedRequests": "Finished Requests",
         "activeRequests": "Active Requests",
-        "pendingRequests": "Pending Requests"
+        "pendingRequests": "Pending Requests",
+        "connections":"Connections",
+        "runningCount":"Running Connection Count",
+        "idleCount":"Idle Connection Count",
+        "garbageCollectionStats": "Garbage Collection Statistics",
+        "host":"Host",
+        "port":"Port",
+        "volumeId":"Volume ID",
+        "storeType": "Store Type",
+        "historyCount":"History Count",
+        "waiterCount":"Waiter Count",
+        "startedJobs":"Started Jobs",
+        "processedJobs":"Processed Jobs",
+        "queueLoads":"Queue Loads",
+        "expensiveStatementStats":"Expensive Statements",
+        "dbUser":"DB User",
+        "startDateAndTime":"Start Time and Date",
+        "executionTime":"Statement Execution Time",
+        "errorMessage":"Could not extract the query from DB",
+        "details" : "Details"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -11815,7 +11925,7 @@
       "version": "Database Version",
       "port": "Port",
       "childOTelDatabaseWithCount": "Children ({{len}})",
-      "parentOTelDatabase": "Parent", 
+      "parentOTelDatabase": "Parent",
       "dashboard": {
         "instance": "Instance",
         "instanceActive": "Active Instance",
@@ -12029,6 +12139,17 @@
       "labelDatabaseDiskWrites": "Database Disk Writes",
       "labelDatabaseBytesReceived": "Database Bytes Received",
       "labelDatabaseBytesSent": "Database Bytes Sent"
+    },
+    "tibcoASNode": {
+      "connectErrorIssueDescription": "Agent could not connect to FTL realm service. Connection failed with error: <code>{{error}}</code>",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "tibcoASNode": "Tibco AS Node",
+      "pid": "Process ID",
+      "nodeName": "Node Name",
+      "liveDataSize": "Live Data Size",
+      "completedOpsCount": "Completed Operations",
+      "failedOpsCount": "Failed Operations",
+      "completedOrFailedOperationsRate": "Completed/Failed Operations Rate"
     },
     "tibcoBWAppNode": {
       "tibcoBWAppNode": "Tibco BW AppNode",
@@ -13720,7 +13841,6 @@
       "sqlId": "SQL ID",
       "userName": "User Name",
       "totalWaitTime": "Total Wait Time (Milliseconds)",
-      "sqlText": "SQL Text",
       "seconds": "Seconds",
       "activeSessionHistory": "Active Session History (Last 1 Hr)",
       "sessionCount": "Session Count",
@@ -14373,7 +14493,22 @@
       "enqueueWait": "Enqueue Process",
       "btcWait": "BTC",
       "spoolWait": "Spool",
-      "update2Wait": "Update2"
+      "update2Wait": "Update2",
+      "severity": "Severity",
+      "abapdumpstats": "ABAP Dump Statistics",
+      "errorCount": "Error Count",
+      "success": "Success",
+      "readyToProcess": "Ready to Process",
+      "error": "Error",
+      "inBoundIdoc": "Inbound IDocs",
+      "outBoundIdoc": "Outbound IDocs",
+      "gatewayBackendEndErrorLogs": "Gateway Backend Error Logs",
+      "callTime": "Call Time",
+      "executionTime": "Execution Time",
+      "dataSend": "Data Send",
+      "dataReceived": "Data Received",
+      "callMetrics": "Call Metrics",
+      "pageFrequency": "Page Frequency"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",
@@ -15381,5 +15516,8 @@
       "operation": "Operation",
       "tags": "Tags"
     }
+  },
+  "abapSystemsensor": {
+    "activeABAPInstances": "Active ABAP Instances"
   }
 }

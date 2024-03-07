@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Dispatch, ReactNode, SetStateAction, createContext, useMemo, useState } from 'react';
+import React, { ReactNode, createContext, useMemo } from 'react';
 import _ from 'lodash';
 
 import { TimeConfig, TimeWindow } from '@instana/types';
@@ -12,9 +12,14 @@ import { themes } from '@instana/design-tokens';
 
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
-import { SloTimeWindowTypes } from 'in-service-levels/constants';
+import { ServiceLevelErrors, SloTimeWindowTypes } from 'in-service-levels/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours } from 'in-services/time/time';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { defaultServiceLevelObjectiveUrlParameters, setTimeWindowTypeUrlParameter } from 'in-service-levels/navigation/urlParameters';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { Location } from 'in-stores/navigation/types';
+import { AvailableTimeWindowTypes, isAvailableTimeWindowType } from 'in-service-levels/types';
 
 const TIME_WINDOW_COLOR_TOKEN_PATHS = [
   'default.ids.color.option.blue.400',
@@ -27,13 +32,11 @@ const TIME_WINDOW_COLOR_TOKEN_PATHS = [
   'default.ids.color.option.indigo.500'
 ];
 
-type AvailableTimeWindowTypes = keyof typeof SloTimeWindowTypes;
-
 export interface TimeWindowContext {
   timeWindows: TimeConfig[];
   timeWindowColors: string[];
   selectedTimeWindowType: AvailableTimeWindowTypes;
-  updateSelectedTimeWindowType: Dispatch<SetStateAction<AvailableTimeWindowTypes>>;
+  updateSelectedTimeWindowType: (timeWindowType: AvailableTimeWindowTypes) => void;
 }
 
 const defaultTimeWindowType = SloTimeWindowTypes.SELECTED_TIME;
@@ -53,6 +56,8 @@ export default function SloTimeWindowProvider({ sloTimeWindow, children, sloConf
   return <SloTimeWindowContext.Provider value={newTimeConfigContext}>{children}</SloTimeWindowContext.Provider>;
 }
 
+const timeWindowTypeParameter = defaultServiceLevelObjectiveUrlParameters.timeWindowType;
+
 interface UseSelectedTimeWindowContextProps {
   selectedTimeConfig: TimeConfig;
   sloTimeWindow?: TimeWindow;
@@ -64,8 +69,13 @@ function useSelectedTimeWindowContext({
   sloTimeWindow,
   sloConfigId
 }: UseSelectedTimeWindowContextProps): TimeWindowContext {
-  const [selectedTimeWindowType, updateSelectedTimeWindowType] =
-    useState<AvailableTimeWindowTypes>(defaultTimeWindowType);
+  const { location, navigate } = useNavigation();
+  const selectedTimeWindowType = getTimeWindowTypeParameter(location);
+  const updateSelectedTimeWindowType = (timeWindowType: AvailableTimeWindowTypes) => {
+    setTimeWindowTypeUrlParameter(location, timeWindowType);
+    navigate(location);
+  };
+
   const timeConfig = useMemo(
     () => getTimeConfigBySelectedType(selectedTimeWindowType, selectedTimeConfig, sloTimeWindow),
     [selectedTimeWindowType, selectedTimeConfig, sloTimeWindow]
@@ -99,4 +109,11 @@ function getColorByTimeWindowIndex(index: number, theme: object): string {
       ? TIME_WINDOW_COLOR_TOKEN_PATHS[index]
       : TIME_WINDOW_COLOR_TOKEN_PATHS[index % TIME_WINDOW_COLOR_TOKEN_PATHS.length];
   return _.get(theme, tokenPath);
+}
+
+function getTimeWindowTypeParameter(location: Location): AvailableTimeWindowTypes {
+  const timeWindowType = getMatrixParameter(location, timeWindowTypeParameter.path ?? '', timeWindowTypeParameter.name) ?? defaultTimeWindowType;
+  if (isAvailableTimeWindowType(timeWindowType)) return timeWindowType;
+
+  throw new Error(ServiceLevelErrors.UNSUPPORTED_TIME_WINDOW_TYPE);
 }

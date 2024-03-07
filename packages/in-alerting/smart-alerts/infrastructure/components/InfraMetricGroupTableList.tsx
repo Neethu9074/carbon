@@ -5,37 +5,19 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import { isEqual } from 'lodash';
 
-import { InfrastructureGroup, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
-import { LiLoadMore, SvgIcon } from '@instana/components';
+import { Order, Result, TagCatalog, TimeConfig } from '@instana/types';
 
-//@ts-expect-error
-import { getGroupTagValue, getMetricsColumn } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+//@ts-expect-error TS migration needed
+import { setDefaultMetrics } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-//@ts-expect-error
-import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-import MetricGroupHeader from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader';
-import { GroupLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel';
-//@ts-expect-error
-import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import TableLoading from 'in-alerting/smart-alerts/aggregated/components/TableLoading';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { getColumnDefinition } from 'in-alerting/smart-alerts/infrastructure/data/getColumnDefinition';
+import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { State } from 'in-hooks/useCursorPagination';
-import { getPluginName } from 'in-sdk/pluginName';
-import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList.mless';
-
-interface OrderByProps {
-  orderBy: string;
-  orderDirection: 'ASC' | 'DESC';
-}
 
 interface InfraMetricGroupTableListProps extends State<any, any> {
   groupBy: string[];
@@ -69,17 +51,11 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
     isTableMode,
     items,
     metrics,
-    order,
     retrievalSize,
-    totalHits,
-    fixedLayout,
     type,
     metricMetadatas,
     timeConfig,
-    loadMore: defaultCursorPaginationLoadMore,
-    canLoadMore,
-    setBackendQueryModel,
-    onOrderByChange,
+    loadMore,
     tagCatalog
   } = props;
 
@@ -117,174 +93,14 @@ export default function InfraMetricGroupTableList(props: InfraMetricGroupTableLi
   });
 
   return (
-    <>
-      <div
-        className={classNames({
-          [locals.tableMinHeight]: items?.length >= 5
-        })}
-      >
-        <MetricGroupHeader isLoading={isLoading} totalHits={totalHits} setBackendQueryModel={setBackendQueryModel} />
-        {!hasErrors && items?.length > 0 && (
-          <CursorPaginatedTable
-            columnDefinitions={columnDefinitions}
-            numSkeletonRows={3}
-            totalHits={totalHits}
-            onChange={({ orderBy, orderDirection }: OrderByProps) =>
-              onOrderByChange({
-                by: orderBy,
-                direction: orderDirection
-              })
-            }
-            progress={progress}
-            canLoadMore={canLoadMore}
-            items={items}
-            orderBy={order.by}
-            orderDirection={order.direction}
-            isSearchable={false}
-            defaultPageSize={retrievalSize}
-            defaultOrderDirection={order.direction}
-            onRowClick={(item: InfrastructureGroup) => {
-              setSelectedMetricGroup(item?.tags);
-            }}
-            fixedLayout={fixedLayout}
-            size="compact"
-          />
-        )}
-        {canLoadMore && (
-          <LiLoadMore
-            label={t('in-alerting:components.loadMore')}
-            //@ts-expect-error TS incompactable
-            loadMore={() => {
-              defaultCursorPaginationLoadMore();
-            }}
-          />
-        )}
-        {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-        {progress?.loading && items.length === 0 && <TableLoading progress={progress} />}
-      </div>
-    </>
+    <GroupTableList
+      {...props}
+      isLoading={isLoading}
+      hasErrors={hasErrors}
+      columnDefinitions={columnDefinitions}
+      retrievalSize={retrievalSize}
+      setSelectedMetricGroup={setSelectedMetricGroup}
+      loadMore={loadMore}
+    />
   );
-}
-
-interface ColumnDefinitionProps {
-  groupBy: string[];
-  isTableMode: boolean;
-  metrics: object[];
-  type: string;
-  metricMetadatas: Result<Metadatas>;
-  timeConfig: TimeConfig;
-  granularity: number;
-  selectedMetricGroup?: Tags;
-  tagCatalog?: TagCatalog;
-}
-
-/**
- * Returns the column definition for the infrastructure table.
- * @param groupBy The group by fields.
- * @param isTableMode Whether the table mode is enabled.
- * @param metrics The metrics.
- * @param type The type of the snapshot.
- * @param metricMetadatas The metric metadata.
- * @param timeConfig The time configuration.
- * @param granularity The granularity.
- * @param selectedGroup The selected group.
- * @returns The column definition.
- */
-function getColumnDefinition({
-  groupBy,
-  isTableMode,
-  metrics,
-  type,
-  metricMetadatas,
-  timeConfig,
-  granularity,
-  selectedMetricGroup,
-  tagCatalog
-}: ColumnDefinitionProps) {
-  const snapshotDefinition = getOptionalSnapshotDefinition(type);
-  const countLabel = snapshotDefinition ? getPluginName(type, 2) : t('in-alerting:smartAlerts.infrastructure.count');
-
-  const iconColumn = {
-    width: '2rem',
-    id: 'icon',
-    getId: () => 'icon',
-    widthInAbsoluteUnit: true,
-    sortable: false,
-    verticallyCenter: true,
-    getContent(item: InfrastructureGroup) {
-      const displayIcon = isEqual(item.tags, selectedMetricGroup);
-      return (
-        <SvgIcon
-          type="lib_check"
-          className={classNames({
-            [locals.hideIcon]: !displayIcon
-          })}
-        />
-      );
-    }
-  };
-
-  const groupsColumn = groupBy.map((groupKey: string) => {
-    return {
-      width: getColumnWidth(groupBy, metrics),
-      getId: () => groupKey,
-      id: groupKey,
-      cellClassName: locals.wordBreak,
-      headCellProps: {
-        className: locals.wordBreak
-      },
-      ...{
-        sortable: true,
-        label: groupKey && tagCatalog ? <GroupLabel groupKey={groupKey} tagCatalog={tagCatalog} /> : null,
-        getContent(item: InfrastructureGroup) {
-          return getGroupTagValue(item, groupKey);
-        }
-      }
-    };
-  });
-
-  const countLabelColumnTable = {
-    width: '4rem',
-    id: countLabel,
-    getId: () => countLabel,
-    label: countLabel,
-    sortable: false,
-    getContent(item: InfrastructureGroup) {
-      return item?.count;
-    }
-  };
-
-  const metricsColumn = getMetricsColumn({ metrics, metricMetadatas, timeConfig, granularity, isTableMode });
-
-  return [iconColumn, ...groupsColumn, countLabelColumnTable, ...metricsColumn];
-}
-
-/**
- * Returns the column width for the infrastructure table.
- * @param groupBy The group by fields.
- * @param metrics The metrics.
- * @returns The column width.
- */
-function getColumnWidth(groupBy: string[], metrics: object[]): string {
-  const totalMetrics = 5;
-  return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 10 + 'rem';
-}
-
-function setDefaultMetrics(
-  items: InfrastructureGroup[],
-  setSelectedMetricGroup: React.Dispatch<Tags | undefined>,
-  selectedMetricGroup?: Tags
-) {
-  if (items?.length === 0) {
-    return;
-  }
-
-  if (selectedMetricGroup) {
-    const metricExistsInItems = items.find(item => item.tags === selectedMetricGroup);
-    if (metricExistsInItems) {
-      return;
-    }
-  }
-
-  setSelectedMetricGroup(items[0].tags);
 }
