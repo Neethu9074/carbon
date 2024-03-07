@@ -154,8 +154,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export interface HttpRequestsProp {
-  timeConfig: TimeConfig;
-  tagFilters: TagFilter[];
+  timeConfig?: TimeConfig;
+  tagFilters?: TagFilter[];
   mobileAppId: string;
   mobileAppLabel: string;
 }
@@ -185,7 +185,7 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
     </Button>
   );
 
-  tagFilters = tagFilters.concat({
+  tagFilters = tagFilters?.concat({
     name: 'mobileBeacon.type',
     operator: 'EQUALS',
     stringValue: 'httpRequest',

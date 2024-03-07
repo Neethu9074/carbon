@@ -9,7 +9,12 @@ import React from 'react';
 import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/HttpRequests';
 import HttpRequest from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/HttpRequest';
 
-export default function HttpRequestsIndex(props) {
+export interface HttpRequestIndexProp {
+  mobileAppId: string;
+  mobileAppLabel: string;
+}
+
+export default function HttpRequestsIndex(props: HttpRequestIndexProp) {
   return (
     <Switch>
       <Route path="*/details">
