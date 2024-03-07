@@ -36,7 +36,7 @@ export default function SelectedAlertTypeInfo({
         {badges.length > 0 && (
           <div className={locals.badgeWrapper}>
             {badges.map((badge, index) => (
-              <Pill key={index} className={locals.badge} kind="lighter">
+              <Pill key={index} className={locals.badge} type="gray">
                 {badge.toUpperCase()}
               </Pill>
             ))}
