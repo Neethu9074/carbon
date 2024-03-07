@@ -51,18 +51,18 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   const filterName = filterNameField?.value;
   const [initialfilterName] = useState(filterNameField?.value);
   const [isFilterNameValid, setFilterNameValid] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>('');
 
   useEffect(() => {
     let appsDisposable: Disposable;
     // Already invalid (blank or larger than 128 characters)
     if (contributionFilterNameValidator(filterName) !== null) {
       setValid(false);
-      setErrorMessage('');
+      setErrorMessage(null);
     } else if (editMode && initialfilterName === filterName) {
       // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
       setValid(true);
-      setErrorMessage('');
+      setErrorMessage(null);
     } else if (filterName) {
       const appsObservable = contributionFilterNameExists(filterName);
       appsDisposable = appsObservable.subscribe(result => {
