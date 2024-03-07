@@ -26,6 +26,8 @@ import { default as MetricLabel } from 'in-infrastructure/Explore/components/Met
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLabel';
+import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
@@ -50,7 +52,9 @@ export default function InfrastructureList({
   backendQueryModel,
   showHeader = false,
   setMetrics,
+  setTags,
   sortableMetrics = false,
+  sortableTags = false,
   setOrder = noop,
   getTotalItems,
   isLoadMoreEnabled = true,
@@ -58,12 +62,14 @@ export default function InfrastructureList({
   isWidget = false,
   fixedLayout = true,
   isSearchable = false,
+  tags = [],
   type,
   metrics,
   metricMetadatas,
   order,
   tracking,
   metricCatalog,
+  tagCatalog,
   query,
   onQueryChange,
   onChartedMetricsChange,
@@ -94,7 +100,7 @@ export default function InfrastructureList({
     ...tableProps
   } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
+      getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, tags, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, ...dependencies]
   );
 
@@ -104,8 +110,30 @@ export default function InfrastructureList({
   // Send totalHits
   useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
 
+  // Keep only tags relevant to current type according to its catalog
+  useEffect(() => {
+    if (tagCatalog?.tagsByName) {
+      const tagsForEntityType = tags.filter(tag => tagCatalog.tagsByName[tag]);
+      if (tagsForEntityType.length !== tags.length) {
+        setTags(tagsForEntityType);
+      }
+    }
+  }, [tagCatalog, tags, setTags]);
+
   const columnDefinitions = [
     getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
+    ...tags.map(tag => {
+      const path = (tagCatalog.tagsByName && tagCatalog.tagsByName[tag]?.path?.map(node => node.label)) || [];
+      return {
+        id: tag,
+        label: { data: path },
+        renderLabel: TagLabel,
+        width: '12rem',
+        widthInAbsoluteUnit: true,
+        sortable: showHeader || sortableTags,
+        getContent: item => <TagValue value={item.tags[tag]} />
+      };
+    }),
     ...getMetricColumns({
       metrics,
       sortable: showHeader || sortableMetrics,
@@ -152,11 +180,13 @@ export default function InfrastructureList({
       {showHeader && (
         <Header
           setMetrics={setMetrics}
+          setTags={setTags}
           totalRepresentedItemCount={totalRepresentedItemCount}
           totalRetainedItemCount={totalRetainedItemCount}
           totalHits={totalHits}
           hasErrors={hasErrors}
           isLoading={isLoading}
+          tags={tags}
           metrics={metrics}
           metricMetadatas={metricMetadatas}
           tracking={tracking}
@@ -164,6 +194,7 @@ export default function InfrastructureList({
           type={type}
           backendQueryModel={backendQueryModel}
           metricCatalog={metricCatalog}
+          tagCatalog={tagCatalog}
           query={query}
           onQueryChange={onQueryChange}
           items={items}
@@ -218,6 +249,7 @@ function getTableData({
   granularity,
   retrievalSize,
   backendQueryModel,
+  tags,
   type,
   order,
   metrics,
@@ -239,6 +271,7 @@ function getTableData({
       cursor,
       fullData: fullData
     },
+    tags,
     type,
     metrics: Object.fromEntries(
       metrics
@@ -251,7 +284,8 @@ function getTableData({
             [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation }]
           ];
         })
-    )
+    ),
+    missingPlaceholder: 'tag_not_present_group'
   });
 }
 
@@ -289,10 +323,13 @@ InfrastructureList.propTypes = {
   backendQueryModel: rpt.object,
   showHeader: rpt.bool,
   sortableMetrics: rpt.bool,
+  sortableTags: rpt.bool,
   setMetrics: rpt.func,
+  setTags: rpt.func,
   fixedLayout: rpt.bool,
   onChartedMetricsChange: rpt.func,
   setOrder: rpt.func,
+  tags: rpt.array,
   metrics: rpt.array,
   metricMetadatas: rpt.object,
   order: rpt.shape({
@@ -313,6 +350,7 @@ InfrastructureList.propTypes = {
   query: rpt.string,
   onQueryChange: rpt.func,
   metricCatalog: rpt.object,
+  tagCatalog: rpt.object,
   chartedMetrics: rpt.array,
   displayChart: rpt.bool
 };
@@ -431,6 +469,7 @@ function getHeaderActions(props) {
   const order = props.order;
   const type = props.type;
   const metrics = props.metrics;
+  const tags = props.tags;
   const cursor = props.cursor;
   const columns = props.columns;
   const granularity = props.granularity;
@@ -442,6 +481,7 @@ function getHeaderActions(props) {
       granularity,
       retrievalSize: 10000,
       backendQueryModel,
+      tags,
       type,
       order,
       metrics: metrics.filter(m => !m.removeFromTable),

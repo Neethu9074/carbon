@@ -6,8 +6,13 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import MetricCatalogConfigurator from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import TagCatalogConfigurator from 'in-infrastructure/components/TagCatalogConfigurator/TagCatalogConfigurator';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
+import { infrastructureExploreTagColumnsEnabled } from 'in-services/featureFlags';
 
 import locals from './MetricCatalogAndSortingConfigurator.mless';
 
@@ -17,16 +22,33 @@ export default function MetricCatalogAndSortingConfigurator({
   setOrder,
   metrics,
   setMetrics,
+  tags,
+  setTags,
   tracking,
   MetricConfiguratorHint,
   query,
   onQueryChange,
   metricCatalog,
+  tagCatalog,
   type,
-  metricMetadatas
+  metricMetadatas,
+  showTagCatalog: showTagCatalogExternal = true
 }) {
+  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+  const showTagCatalog = showTagCatalogExternal && (infrastructureExploreTagColumnsEnabled || isInternalVisible);
   return (
     <div className={locals.wrapper}>
+      {showTagCatalog && (
+        <TagCatalogConfigurator
+          values={tags}
+          onChange={setTags}
+          tracking={tracking}
+          query={query}
+          onQueryChange={onQueryChange}
+          tagCatalog={tagCatalog}
+          type={type}
+        />
+      )}
       <MetricCatalogConfigurator
         values={metrics}
         onChange={setMetrics}

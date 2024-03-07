@@ -31,6 +31,7 @@ import {
   tagFilterExpressionMatrixParameter,
   resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
+  tagsMatrixParameter,
   groupMatrixParameter,
   groupByMatrixParameter,
   orderMatrixParameter,
@@ -86,6 +87,7 @@ const urlStateDefinition = {
     groupMatrixParameter,
     groupByMatrixParameter,
     metricsMatrixParameter,
+    tagsMatrixParameter,
     orderMatrixParameter,
     typeMatrixParameter,
     chartedMetricsMatrixParameter,
@@ -112,6 +114,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
       group,
       groupBy: urlGroupBy,
       metrics: urlMetrics,
+      tags,
       type: urlType,
       order: urlOrder,
       chartedMetrics: urlChartedMetrics,
@@ -140,8 +143,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const chartedMetrics = fromUrlMetrics({ urlMetrics: urlChartedMetrics, kpiDefinitions: kpiDefinitions.slice(0, 1) });
 
   const getInfraExploreState = useCallback(() => {
-    return { type, tagFilterExpression, group, metrics, order };
-  }, [type, tagFilterExpression, group, metrics, order]);
+    return { type, tagFilterExpression, group, metrics, tags, order };
+  }, [type, tagFilterExpression, group, metrics, tags, order]);
 
   const infrastructureListTrackingConfig = {
     onNavigateToEntity: navigateToEntityTracker(getInfraExploreState),
@@ -180,6 +183,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             setUrl={setUrl}
             type={type}
             metrics={metrics}
+            tags={tags}
             groupBy={groupBy}
             order={order}
             query={query.value}
@@ -207,6 +211,7 @@ function Content({
   setUrl,
   type,
   metrics,
+  tags,
   groupBy,
   order,
   query,
@@ -227,6 +232,7 @@ function Content({
     metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }),
     [setUrl, order, backendGroupBy]
   );
+  const setTags = useCallback(tags => setUrl({ tags }), [setUrl]);
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
@@ -332,6 +338,7 @@ function Content({
     <List
       type={type}
       metrics={uniqueMetrics}
+      tags={tags}
       groupBy={groupBy}
       backendGroupBy={backendGroupBy}
       order={order}
@@ -343,10 +350,12 @@ function Content({
       infrastructureListTrackingConfig={infrastructureListTrackingConfig}
       getInfraExploreState={getInfraExploreState}
       metricCatalog={metricCatalog}
+      tagCatalog={tagCatalog}
       setOrder={setOrder}
       metricMetadatas={metricMetadatas}
       backendQueryModel={backendQueryModel}
       setMetrics={setMetrics}
+      setTags={setTags}
       catalogQuery={catalogQuery}
       onChartedMetricsChange={onChartedMetricsChange}
       chartedMetrics={chartedMetrics}
@@ -364,6 +373,7 @@ function Content({
 function List({
   type,
   metrics,
+  tags,
   groupBy,
   backendGroupBy,
   order,
@@ -375,10 +385,12 @@ function List({
   infrastructureListTrackingConfig,
   getInfraExploreState,
   metricCatalog,
+  tagCatalog,
   setOrder,
   metricMetadatas,
   backendQueryModel,
   setMetrics,
+  setTags,
   catalogQuery,
   onChartedMetricsChange,
   chartedMetrics
@@ -439,12 +451,14 @@ function List({
       backendQueryModel={backendQueryModel}
       timeConfig={timeConfig}
       setMetrics={setMetrics}
+      setTags={setTags}
       setOrder={order => {
         setOrder(order);
         sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
       }}
       type={type}
       metrics={metrics}
+      tags={tags}
       metricMetadatas={metricMetadatas}
       order={order}
       onChartedMetricsChange={onChartedMetricsChange}
@@ -455,6 +469,7 @@ function List({
         ...infrastructureListTrackingConfig
       }}
       metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+      tagCatalog={(catalogQuery.value === catalogQuery.debouncedValue && tagCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
     />

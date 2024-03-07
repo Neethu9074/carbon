@@ -112,5 +112,6 @@ module.exports = {
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
-  welcomePageV2Enabled: false
+  welcomePageV2Enabled: false,
+  infrastructureExploreTagColumnsEnabled: true
 };

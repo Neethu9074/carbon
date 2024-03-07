@@ -111,6 +111,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'infrastructureExploreTagColumnsEnabled',
+    instanaCtlKey: 'feature.infrastructure.explore.tag.columns.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'beeInstanaInfraMetricsEnabled',
     instanaCtlKey: 'feature.beeinstana.infra.metrics.enabled',
     defaultValue: false

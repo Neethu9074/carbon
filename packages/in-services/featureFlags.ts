@@ -25,6 +25,7 @@ export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitorin
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
+export const infrastructureExploreTagColumnsEnabled = isFeatureFlagEnabled('infrastructureExploreTagColumnsEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
 export const beeinstanaHistogramsEnabled = isFeatureFlagEnabled('beeinstanaHistogramsEnabled');
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
