@@ -6,14 +6,14 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, Button } from '@instana/components';
 
-import { DownloadButton, DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
+import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
@@ -82,10 +82,14 @@ function PlatformArchitecture({
   butlerDomain
 }: PlatformArchitectureProps) {
   return (
-    <Stack direction="horizontal">
+    <Stack direction="horizontal" gap="disabled">
       <DropDown value={option} options={agentOptions} onChange={setOption} />
-      <DownloadButton
-        fileName={option}
+      <Button
+        target="_blank"
+        icon="lib_actions_download"
+        iconSize="xs"
+        kind="subtle"
+        noAutoMargin
         href={getAgentDownloadURL(
           tenant,
           tenantUnit,
@@ -94,15 +98,16 @@ function PlatformArchitecture({
           agentMode === 'dynamic' ? option : `${option}Static`,
           butlerDomain
         )}
-      />
+      >
+        {''}
+      </Button>
     </Stack>
   );
 }
 
-const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain }: OnboardingProps) => {
+const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, fromOnboarding }: OnboardingProps) => {
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const [option, setOption] = useState(agentOptions[0].key);
-
   const sideCardData = [
     {
       title: t('in-plg:agentDetails.common.prerequisitesTitle'),
@@ -175,7 +180,7 @@ const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain 
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="linux" />
+        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

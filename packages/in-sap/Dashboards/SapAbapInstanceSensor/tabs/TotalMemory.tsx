@@ -41,13 +41,13 @@ const cols = [
   },
   {
     title: t('in-sap:dashboards.totalMemory'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row: TotalMemoryRow) {
         return row.snapshotId;
       },
-      getValue(row: TotalMemoryRow) {
-        return row.memoryStats.get('memSum');
+      getMetricName(row: TotalMemoryRow) {
+        return `memoryStats.${row.key}.memSum`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {
@@ -57,13 +57,13 @@ const cols = [
   },
   {
     title: t('in-sap:dashboards.heapMemory'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row: TotalMemoryRow) {
         return row.snapshotId;
       },
-      getValue(row: TotalMemoryRow) {
-        return row.memoryStats.get('privsum');
+      getMetricName(row: TotalMemoryRow) {
+        return `memoryStats.${row.key}.privsum`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {
@@ -73,13 +73,13 @@ const cols = [
   },
   {
     title: t('in-sap:dashboards.extendedUsedBytes'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row: TotalMemoryRow) {
         return row.snapshotId;
       },
-      getValue(row: TotalMemoryRow) {
-        return row.memoryStats.get('usedBytes');
+      getMetricName(row: TotalMemoryRow) {
+        return `memoryStats.${row.key}.usedBytes`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {
@@ -89,13 +89,13 @@ const cols = [
   },
   {
     title: t('in-sap:dashboards.maxBytes'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row: TotalMemoryRow) {
         return row.snapshotId;
       },
-      getValue(row: TotalMemoryRow) {
-        return row.memoryStats.get('maxBytes');
+      getMetricName(row: TotalMemoryRow) {
+        return `memoryStats.${row.key}.maxBytes`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {

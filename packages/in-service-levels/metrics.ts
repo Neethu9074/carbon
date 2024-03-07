@@ -20,8 +20,6 @@ import { deepFreeze } from 'in-services/util/object';
 interface SloMetricConfigGeneratorProps {
   configId: string;
   timeConfig: TimeConfig;
-  // Time config specifying the full slo time window. Needed if only a slice of the slo time window is shown
-  contextTimeConfig?: TimeConfig;
 }
 
 type TimeSeriesGenerator<T> = T & { granularity: number };
@@ -72,7 +70,7 @@ export const sloMetrics = deepFreeze({
         metric: 'ERROR_BUDGET_REMAINING',
         timeConfig
       } as const),
-    timeSeries: ({ configId, timeConfig, contextTimeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -81,8 +79,7 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BUDGET_REMAINING_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig),
-        context: contextTimeConfig ? { timeConfig: contextTimeConfig } : undefined
+        granularity: calculateSloGranularity(timeConfig)
       } as const),
     timeSeriesCompact: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
       ({
@@ -113,7 +110,7 @@ export const sloMetrics = deepFreeze({
 
   consumedBudget: {
     label: t('in-service-levels:general.metrics.consumedBudget'),
-    timeSeries: ({ configId, timeConfig, contextTimeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -122,8 +119,7 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'CONSUMED_ERROR_BUDGET_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig),
-        context: contextTimeConfig ? { timeConfig: contextTimeConfig } : undefined
+        granularity: calculateSloGranularity(timeConfig)
       } as const)
   },
 

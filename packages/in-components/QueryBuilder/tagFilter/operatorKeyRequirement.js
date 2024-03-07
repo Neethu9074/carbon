@@ -17,3 +17,12 @@ export const KEY_VALUE_PAIR_IS_BLANK = true;
 export const KEY_VALUE_PAIR_NOT_BLANK = true;
 export const KEY_VALUE_PAIR_STARTS_WITH = true;
 export const KEY_VALUE_PAIR_ENDS_WITH = true;
+
+export const KEY_NUMBER_PAIR_EQUALS = true;
+export const KEY_NUMBER_PAIR_NOT_EQUAL = true;
+export const KEY_NUMBER_PAIR_LESS_THAN = true;
+export const KEY_NUMBER_PAIR_GREATER_THAN = true;
+export const KEY_NUMBER_PAIR_NOT_EMPTY = true;
+export const KEY_NUMBER_PAIR_IS_EMPTY = true;
+export const KEY_NUMBER_PAIR_LESS_OR_EQUAL_THAN = true;
+export const KEY_NUMBER_PAIR_GREATER_OR_EQUAL_THAN = true;

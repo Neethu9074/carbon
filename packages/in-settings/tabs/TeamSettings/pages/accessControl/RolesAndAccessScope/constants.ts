@@ -11,7 +11,6 @@ import {
   AreaPermissionType,
   Capability,
   CapabilityType,
-  InfrastructureCapability,
   LimitedAccessScope,
   LimitedAccessScopeType,
   PermissionsUnion
@@ -150,6 +149,16 @@ export const syntheticOtherCapabilities: Array<CapabilityType> = [
 export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
   ...syntheticViewCapabilities,
   ...syntheticOtherCapabilities
+];
+
+export const infrastructureOtherCapabilities: Array<CapabilityType> = [
+  Capability.CAN_CREATE_HEAP_DUMP,
+  Capability.CAN_CREATE_THREAD_DUMP
+];
+
+export const infrastructureAdditionalCapabilities: Array<CapabilityType> = [
+  ...infrastructureOtherCapabilities,
+  ...[AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE as CapabilityType]
 ];
 
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
@@ -296,7 +305,7 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
     permission: AreaPermission.ACCESS_INFRASTRUCTURE,
     capabilities: noCapabilities,
-    additionalCapabilities: Object.values(InfrastructureCapability) as PermissionsUnion[]
+    additionalCapabilities: infrastructureAdditionalCapabilities
   },
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,

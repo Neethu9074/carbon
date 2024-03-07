@@ -4,10 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { LogAlertConfigWithMetadata, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
@@ -30,6 +32,14 @@ export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps)
     Object.entries(selectedMetricGroup).map(([, value]) => {
       return value;
     });
+
+  if (!selectedMetricGroup && !isEmpty(groupBy)) {
+    return (
+      <div className={local.minHeight}>
+        <Message withIcon>{t('in-alerting:smartAlerts.logs.form.noMetricSelected')}</Message>
+      </div>
+    );
+  }
 
   return (
     <div className={local.minHeight}>

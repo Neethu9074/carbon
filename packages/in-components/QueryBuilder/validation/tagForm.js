@@ -148,7 +148,8 @@ export function changeName(tagCatalog, formalisticTagForm, newName) {
   const previousTagDefinition = tagCatalog.tagsByName[previousName];
   const tagDefinition = tagCatalog.tagsByName[newName];
   if (tagDefinition) {
-    const supportsConfiguredOperator = getAllowedOperators(tagDefinition, tagCatalog.source).indexOf(tagForm.operator) >= 0;
+    const supportsConfiguredOperator =
+      getAllowedOperators(tagDefinition, tagCatalog.source).indexOf(tagForm.operator) >= 0;
     if (!supportsConfiguredOperator) {
       tagForm.operator = undefined;
     }
@@ -221,7 +222,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   result.requiresKey = operatorKeyRequirement[combination] ?? false;
   result.requiresValue = operatorValueRequirement[combination] ?? true;
 
-  if (tagDefinition.type === NUMBER) {
+  if (tagDefinition.type === NUMBER || tagDefinition.type === 'KEY_NUMBER_PAIR') {
     result.valueValidators = [notUndefinedValidator, numberValidator];
     result.valueType = Number;
   } else if (tagDefinition.type === BOOLEAN) {

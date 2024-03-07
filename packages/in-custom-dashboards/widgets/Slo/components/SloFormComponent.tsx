@@ -21,12 +21,8 @@ import {
   timeWindowType,
   TimeWindowType
 } from 'in-custom-dashboards/widgets/Slo/form';
-import {
-  defaultTrackers,
-  SloWidgetTrackerProvider,
-  useSloWidgetTrackers
-} from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { sliWidgetTrackers, SloTrackerProvider, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
@@ -70,10 +66,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     originalOnChange([], () => updatedForm as MapForm<any>);
   });
 
-  const track = useSloWidgetTrackers();
+  const track = useSloTrackers();
 
   useEffect(() => {
-    track(SLO_WIDGET_EDIT_START);
+    track(SLO_WIDGET_EDIT_START, undefined);
   }, [track]);
 
   const entityIdField = form.get(entityId) as Field<string>;
@@ -120,7 +116,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       },
       getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
         return (
-          <SloWidgetTrackerProvider value={defaultTrackers}>
+          <SloTrackerProvider value={sliWidgetTrackers}>
             <SliManageList
               entityType={entityTypeValue}
               entityId={entityIdValue}
@@ -138,7 +134,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               onShowCreateForm={isEditing => setShowCreateFormState(isEditing ? 'EDIT' : 'CREATE')}
               onCloseCreateForm={() => setShowCreateFormState(undefined)}
             />
-          </SloWidgetTrackerProvider>
+          </SloTrackerProvider>
         );
       }
     });

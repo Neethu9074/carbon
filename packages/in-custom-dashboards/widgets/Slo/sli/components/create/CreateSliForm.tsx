@@ -12,12 +12,12 @@ import { Message, Stack, Spacer } from '@instana/components';
 import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 // eslint-disable-next-line import/no-deprecated
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
-import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -57,7 +57,7 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
     setFooter
   });
 
-  const track = useSloWidgetTrackers();
+  const track = useSloTrackers();
 
   // eslint-disable-next-line import/no-deprecated
   const sliName = getField(form, [sliSliNameKey])?.value ?? '';

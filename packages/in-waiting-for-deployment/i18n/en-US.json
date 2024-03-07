@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "We advise to run the Instana AWS sensor on a dedicated EC2, \"Current Generation General Purpose\" Linux Virtual Machine. The m4.large instances, for example, are perfectly suited to the task. Use the following as \"User Data\" when spinning up the dedicated EC2 Virtual Machine.",
+    "description": "We advise to run the Instana AWS sensor on a dedicated EC2, \"Current Generation General Purpose\" Linux Virtual Machine. The m5.large instances, for example, are perfectly suited to the task. Use the following as \"User Data\" when spinning up the dedicated EC2 Virtual Machine.",
     "help": {
       "title": "User Data in AWS EC2",
       "text": "For more information on how to use the script above with User Data in AWS EC2, refer to the <go>\"Running Commands on Your Linux Instance at Launch\" page</go>."

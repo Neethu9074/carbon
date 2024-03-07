@@ -59,7 +59,8 @@ export default function GoogleCloudRun({
   agentEndpointPort,
   downloadKey,
   instanaDomain,
-  serverlessEndpoint
+  serverlessEndpoint,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const [installationMode, setInstallationMode] = useState<InstallationOption>(installationOptions[0]);
 
@@ -138,6 +139,7 @@ export default function GoogleCloudRun({
             agentEndpoint={agentEndpoint}
             agentEndpointPort={agentEndpointPort}
             serverlessEndpoint={serverlessEndpoint}
+            instanaDomain={instanaDomain}
           />
         );
       case 'Dotnet':
@@ -243,12 +245,12 @@ export default function GoogleCloudRun({
             >
               <Stack direction="horizontal">
                 <KeyValue
-                  label={t('in-plg:agentDetails.aws.instanaEndpointUrl')}
+                  label={'INSTANA_ENDPOINT_URL'}
                   value={<InputWithButton type="copy" inputValue={agentEndpoint + ':' + agentEndpointPort} />}
                   withGap
                 />
                 <KeyValue
-                  label={t('in-plg:agentDetails.common.agentKey')}
+                  label={'INSTANA_AGENT_KEY'}
                   value={<InputWithButton type="copy" inputValue={agentKey} />}
                   withGap
                 />
@@ -257,7 +259,7 @@ export default function GoogleCloudRun({
           </>
         )}
 
-        <GetDeployedAgents agent="entity.type%3Agcp.cloudrun" />
+        <GetDeployedAgents agent="entity.type%3Agcp.cloudrun" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />

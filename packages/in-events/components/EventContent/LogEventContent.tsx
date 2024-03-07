@@ -23,6 +23,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import AnalyzeLogEventButton from 'in-events/components/AnalyzeLogEventButton';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import LogAlertConfigButton from 'in-events/components/LogAlertConfigButton';
 import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
 import { TagFilterExpression, TimeConfig, TagCatalog } from 'in-types';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
@@ -79,6 +80,7 @@ export default function LogEventContent({ event }: Props) {
             <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
 
             <DescriptionButtons>
+              <LogAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeLogEventButton
                 alertConfig={alertConfigWithGroupingExpression}
                 timeConfig={getAnalyzeTimeConfig(event as EventOrMap)}

@@ -11,7 +11,7 @@ import { Group } from '@instana/types';
 
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
-import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
+import LogsGroupingConfigurator from 'in-alerting/smart-alerts/logs/components/LogsGroupingConfigurator';
 
 interface ScopeGroupProps {
   form: MapForm<any>;

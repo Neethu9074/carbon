@@ -66,6 +66,7 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
   icon: string;
   entityPermissionKey: EntityPermissionKey;
   setValid?: (isValid: boolean) => void;
+  editMode?: boolean;
 }
 
 export default function PermissionSection<I extends Object, FORM_TYPE extends MapFormItems>({
@@ -84,7 +85,8 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   setForm,
   setSubSlideConfig,
   setShowSubSlide,
-  setValid
+  setValid,
+  editMode
 }: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
@@ -117,7 +119,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     );
     if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
       if (selected === AreaRoleWithContributor.CONTRIBUTOR && limitation !== ScopedPermissionItem.NO_ACCESS) {
-        label = initialApplicationConfig.label;
+        label = editMode ? initialApplicationConfig.label : defaultApplicationConfig.label;
         tagFilterExpression = initialApplicationConfig.tagFilterExpression;
         scope = initialApplicationConfig.scope;
       } else {
@@ -174,6 +176,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                   form={form}
                   setForm={setForm}
                   setValid={setValid}
+                  editMode={editMode}
                 />
               </>
             )}
@@ -195,6 +198,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 setSubSlideConfig={setSubSlideConfig}
                 productArea={productArea}
                 setValid={setValid}
+                editMode={editMode}
               />
             )}
           </TabSelectPanel>

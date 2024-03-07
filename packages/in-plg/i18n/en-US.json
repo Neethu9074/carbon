@@ -412,5 +412,172 @@
       "selectAgentPackagingMode": "Step 1: Select  agent packaging mode.",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
     }
+  },
+  "welcomepage": {
+    "heading": "Welcome",
+    "viewAll": "View all",
+    "consumeData": {
+      "title": "Consume Data",
+      "description": "Get started and deploy your first agent.",
+      "buttonName": "Deploy agent",
+      "buttonType": "primary"
+    },
+    "inviteTeammates": {
+      "title": "Invite teammates",
+      "description": "Collaborate with your colleagues.",
+      "buttonName": "Send invitation",
+      "buttonType": "ghost"
+    },
+    "nextSteps": {
+      "title": "Next steps",
+      "description": "Find more setup setup steps by clicking the ? symbol in the top right corner.",
+      "buttonName": "Get answers",
+      "buttonType": "ghost"
+    },
+    "component":{
+      "applicationWidget": {
+        "label": "Applications",
+        "name": "Name",
+        "calls": "Calls",
+        "latency": "Latency",
+        "erroneousCallRate": "Erroneous call rate",
+        "openCreationDialog": "Open Creation Dialog"
+      },
+      "eventWidget": {
+        "label": "Events",
+        "incidents": "Incidents",
+        "critical": "Critical",
+        "warning": "Warning",
+        "viewEvents": "View Events"
+      },
+      "platformWidget": {
+        "platforms": "Platforms",
+        "cloudFoundry": "Cloud Foundry",
+        "vsphere": "vSphere",
+        "openstack": "OpenStack",
+        "ibmp": "IBM Power HMC",
+        "powervcRegion":"PowerVC Region",
+        "sap": "SAP",
+        "ibmz": "IBM Z HMC",
+        "kubernetes": "Kubernetes",
+        "name": "Name",
+        "nodes": "Nodes",
+        "namespaces": "Namespaces",
+        "pods": "Pods"
+      },
+      "bizopsWidget": {
+        "label": "Business Monitoring",
+        "name": "Name",
+        "activities": "Activities",
+        "count": "Count"
+      },
+      "incidentsWidget": {
+        "label": "Incidents",
+        "active": "active",
+        "title": "Title",
+        "on": "On",
+        "started": "Started",
+        "end": "End"
+      },
+      "websitesWidget": {
+        "label": "Websites",
+        "name": "Name",
+        "pageViews": "Page views",
+        "onLoadTimes": "OnLoad times"
+      },
+      "mobileAppsWidget": {
+        "label": "Mobile Apps",
+        "name": "Name",
+        "sessions": "Sessions",
+        "views": "Views"
+      },
+      "infrastructureWidget": {
+        "label": "Infrastructure",
+        "mean": "mean",
+        "name": "Name",
+        "os": "OS",
+        "cpuNum": "Number of CPUs",
+        "cpuUsage": "CPU Usage",
+        "created": "Created",
+        "started": "Started"
+      },
+      "syntheticWidget": {
+        "label": "Synthetic Monitoring",
+        "na": "N/A",
+        "name": "Name",
+        "type": "Type",
+        "successRate": "Success Rate",
+        "latency": "Latency",
+        "lastTestRunOn": "Last test run on",
+        "version": "Version",
+        "timeThreshold": "Time threshold",
+        "testsApplied": "Tests applied"
+      },
+      "dashboardWidget": {
+        "label": "Dashboards",
+        "name": "Name",
+        "owner": "Owner"
+      }
+    },
+    "noData": {
+      "applicationWidget": {
+        "header": "No applications",
+        "description": "Create your own perspective on the services you want to observe.",
+        "buttonName": "Create application perspective"
+      },
+      "incidentsWidget": {
+        "header": "No incidents",
+        "description": "Incidents help you detect, understand, and investigate quality of service issues of your applications."
+      },
+      "websitesWidget": {
+        "header": "No websites",
+        "description": "Add websites and start to collect data",
+        "buttonName": "Add website"
+      },
+      "mobileListWidget": {
+        "header": "No mobiles apps",
+        "description": "Add mobile applications and start to collect data.",
+        "buttonName": "Add mobile applications"
+      },
+      "infrastructureWidget": {
+        "header": "No hosts, containers or processes",
+        "description": "Find the result of the deployed agent here."
+      },
+      "platformsWidget": {
+        "header": "No platforms",
+        "description": "Find all installed platforms here."
+      },
+      "businessMonitoringWidget": {
+        "header": "No business processes",
+        "description": "Enable the IBM Business Automation Workflow or configure Instana to capture and store business data from business processes."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "No Synthetic tests",
+          "description": "Configure Synthetic tests to run at specific continuous intervals.",
+          "buttonName": "Add Synthetic test"
+        },
+        "location": {
+          "header": "No Synthetic location",
+          "description": "Configure Synthetic location to run at specific continuous intervals."
+        },
+        "smartalerts": {
+          "header": "No Synthetic smartalerts",
+          "description": "Configure Synthetic smartalerts to run at specific continuous intervals.",
+          "buttonName": "Add Synthetic smartalerts"
+        }
+      },
+      "dashboardWidget": {
+        "header": "No custom dashboards",
+        "description": "Create your own custom dashboard.",
+        "buttonName": "Create custom dashboard"
+      }
+    },
+    "ariaLabel": {
+      "shareButton": "Share button",
+      "searchButton": "Search button",
+      "addButton": "Add button",
+      "handleButton": "Handle button"
+    }
   }
 }

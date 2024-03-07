@@ -45,7 +45,8 @@ export default function AwsLambda({
   agentEndpoint,
   agentEndpointPort,
   instanaDomain,
-  serverlessEndpoint
+  serverlessEndpoint,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
 
@@ -180,7 +181,7 @@ export default function AwsLambda({
 
         <RenderRuntimeView />
 
-        <GetDeployedAgents agent="entity.type%3Alambda" />
+        <GetDeployedAgents agent="entity.type%3Alambda" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData} />

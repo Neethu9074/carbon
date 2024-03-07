@@ -19,7 +19,7 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import { LogGroupItem } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList.mless';
+import locals from 'in-alerting/smart-alerts/aggregated/components/GroupTableList.mless';
 
 export function getColumnDefinition({
   groupBy,
@@ -27,7 +27,7 @@ export function getColumnDefinition({
   tagCatalog
 }: {
   groupBy: string[];
-  selectedMetricGroup?: any;
+  selectedMetricGroup?: string;
   tagCatalog?: CatalogResponse;
 }) {
   const iconColumn = {
@@ -69,7 +69,7 @@ export function getColumnDefinition({
     };
   });
 
-  const countLabelColumnTable: any = groupBy.map(() => {
+  const countLabelColumnTable = groupBy.map(() => {
     return {
       id: 'numberOfLogs',
       width: '8rem',

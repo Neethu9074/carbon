@@ -23,16 +23,19 @@ import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMetricValue
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
+// @ts-expect-error needs migration
+import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
+import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import lineRenderer from 'in-components/Chart/renderer/line';
 import { number } from 'in-services/formatters/number';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
 interface TrafficChartProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -41,14 +44,17 @@ interface TrafficChartProps {
 export default function TrafficChart({ configuration }: TrafficChartProps) {
   const { entity } = configuration;
 
-  const selectedTimeConfig = useTimeConfig();
+  const sloZoomInAction = useSloZoomInAction();
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
-  const { timeWindows, timeWindowColors, selectedTimeWindowType } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const timeConfig = useContextAwareSloTimeWindowConfig();
+  const granularity = calculateTrafficGranularity(timeConfig);
   const [metricResult, , errors, progress] = useTimeWindowAwareSloChartMetrics(
     configuration,
-    timeConfig => getMetricConfig(entity, timeConfig, tagFilterExpression),
-    selectedTimeConfig,
-    timeWindows
+    timeConfig => getMetricConfig(entity, timeConfig, tagFilterExpression, granularity),
+    timeConfig,
+    timeWindows,
+    granularity
   );
 
   const label = getMetricLabels(entity);
@@ -58,6 +64,11 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
     <ResultAwareChart
       config={{
         title: t('in-service-levels:sloDashboard.components.trafficChart.title'),
+        renderHistoricDataIndicator: true,
+        hasApproximateData: true,
+        primaryContextMenuAction: sloZoomInAction.name,
+        additionalContextMenuButtons: [sloZoomInAction],
+        excludedContextMenuActions: [zoomInAction.name],
         y1: {
           metrics,
           metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
@@ -68,9 +79,8 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
           formatter: number.compact,
           renderer: lineRenderer
         },
-        granularity: metricResult?.granularity,
-        timeConfig:
-          selectedTimeWindowType === 'SLO_TIME_WINDOW' ? timeWindows[0] ?? selectedTimeConfig : selectedTimeConfig,
+        granularity,
+        timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
         // The current values are just measures taken from the default rendering of the chart to make the sizing work
@@ -85,10 +95,9 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
 function getMetricConfig(
   entity: SloEntityUnion,
   timeConfig: TimeConfig,
-  tagFilterExpression: TagFilterExpression
+  tagFilterExpression: TagFilterExpression,
+  granularity: number
 ): UnifiedMetricConfiguration {
-  const granularity = calculateSloGranularity(timeConfig);
-
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.calls.timeSeries({ entity, tagFilterExpression, timeConfig, granularity });
   }

@@ -60,6 +60,38 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.cpuTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: TopProcessStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: TopProcessStatsRow) {
+        return `topProcessMetricStats.${row.key}.cpuTime`;
+      },
+      getContent: seconds.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.resSize'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: TopProcessStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: TopProcessStatsRow) {
+        return `topProcessMetricStats.${row.key}.resSize`;
+      },
+      getContent: kiloBytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.priority'),
     type: 'string',
     typeArgs: {
@@ -132,8 +164,8 @@ export default function TopProcessList({ snapshotId, timeConfig }: TopProcessSta
       cardTitle={t('in-sap:dashboards.TopProcessList')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortColumn={3}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

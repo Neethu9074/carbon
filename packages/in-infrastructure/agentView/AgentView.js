@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -110,6 +110,10 @@ export default connectTo(
               </MaxWidthFullscreenContainer>
             )}
           </Route>
+
+          <Route path="/agents/onboarding/installation/:selectedservice" render={() => <Redirect to="/home" />} />
+
+          <Route path="/agents/onboarding/installation" render={() => <Redirect to="/home" />} />
 
           <Route path="/agents">
             <Sticky

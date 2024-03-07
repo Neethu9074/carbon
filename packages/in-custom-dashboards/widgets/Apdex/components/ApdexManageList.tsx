@@ -15,13 +15,13 @@ import {
   APDEX_MANAGEMENT_EDIT_START
 } from 'in-services/tracking/eventNames';
 import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
-import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ApdexList from 'in-custom-dashboards/widgets/Apdex/components/ApdexList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
@@ -52,7 +52,7 @@ export default function ApdexManageList({
   const transitionDelay = 500;
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
 
-  const track = useApdexWidgetTrackers();
+  const track = useSloTrackers();
 
   const onShowSlideInContentChange = () => onChange(undefined);
 

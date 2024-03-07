@@ -14,6 +14,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { sapAbapInstanceSensorDashboard } from 'in-sap/navigation/paths';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import tabs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/index';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -94,11 +95,14 @@ function Header(props) {
 
 function renderButtonLine(props) {
   return (
-    <EntityHealthIndicator
-      IndicatorPresenter={HealthIndicatorButtonPresenter}
-      snapshotId={props.hostId}
-      timeConfig={props.timeConfig}
-    />
+    <>
+      <EntityHealthIndicator
+        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        snapshotId={props.hostId}
+        timeConfig={props.timeConfig}
+      />
+      <ContextGuide id={props.hostId} timeConfig={props.timeConfig} plugin={plugins.sapAbapInstanceSensor} />
+    </>
   );
 }
 

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
@@ -15,6 +15,8 @@ import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
 
@@ -34,6 +36,9 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
+
+  const track = useSloTrackers();
+  useEffect(() => track(SLO_LIST_VIEW, undefined), [track]);
 
   return (
     <>

@@ -27,7 +27,8 @@ export default function AwsEc2Windows({
   agentEndpointPort,
   tenant,
   tenantUnit,
-  butlerDomain
+  butlerDomain,
+  fromOnboarding
 }: OnboardingProps) {
   const agentModeOptions = [t('in-plg:agentDetails.agentMode.dynamic'), t('in-plg:agentDetails.agentMode.static')];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
@@ -119,11 +120,11 @@ export default function AwsEc2Windows({
                 butlerDomain
               )}"`,
               `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet"`,
-              `<powershell>`
+              `</powershell>`
             ]}
           />
         </LayoutSection>
-        <GetDeployedAgents agent="ec2%20AND%20windows" />
+        <GetDeployedAgents agent="ec2%20AND%20windows" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <Typography variant="body-bold">Support</Typography>

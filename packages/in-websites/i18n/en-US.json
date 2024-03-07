@@ -44,6 +44,7 @@
       "availableMetricsLabelLargestContentfulPaint": "Largest-Contentful Paint",
       "availableMetricsLabelFirstInputDelay": "First Input Delay",
       "availableMetricsLabelCumulativeLayoutShift": "Cumulative Layout Shift",
+      "availableMetricsLabelInteractionNextPaint": "Interaction to Next Paint",
       "availableMetricsLabelPageTransitions": "Page Transitions",
       "availableMetricsLabelResourceLoads": "Resource Loads",
       "availableMetricsLabelRetrievalTime": "Retrieval Time",
@@ -215,6 +216,7 @@
         "pageLoadBeaconTitleFirstInputDelay": "First Input Delay",
         "pageLoadBeaconTitleCumulativeLayoutShift": "Cumulative Layout Shift",
         "pageLoadBeaconTitleTimeToFirstByte": "Time to First Byte",
+        "pageLoadBeaconTitleInteractionNextPaint": "Interaction to Next Paint",
         "pageLoadBeaconTitleWindowLocation": "Window Location",
         "pageLoadBeaconTitleFirstPaint": "First Paint",
         "pageLoadBeaconTotalDurationNameRetrievalTime": "onLoad time",
@@ -762,6 +764,7 @@
       "speedCardTitlePaintTiming": "Paint Timing",
       "speedCardTitleFirstInputDelay": "First Input Delay",
       "speedCardTitleCumulativeLayoutShift": "Cumulative Layout Shift",
+      "speedCardTitleInteractionNextPaint": "Interaction to Next Paint",
       "speedLabelPageLoads": "Page Loads",
       "speedLabelOnLoadTime": "onLoad Time",
       "speedLabel50th": "50th",
@@ -785,7 +788,8 @@
       "speedLabelFirstContentfulPaint": "First-Contentful Paint",
       "speedLabelLargestContentfulPaint": "Largest-Contentful Paint",
       "speedLabelFirstInputDelay": "First Input Delay",
-      "speedLabelCumulativeLayoutShift": "Cumulative Layout Shift"
+      "speedLabelCumulativeLayoutShift": "Cumulative Layout Shift",
+      "speedLabelInteractionNextPaint": "Interaction to Next Paint"
     },
     "websiteDashboardTitleWebsitePage": "Website Page",
     "websiteDashboardTitleWebsite": "Website",

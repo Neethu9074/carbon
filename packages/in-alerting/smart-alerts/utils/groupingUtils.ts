@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { TagCatalog, TagTreeLevel } from '@instana/types';
+import { Group, TagCatalog, TagTreeLevel } from '@instana/types';
 
 import { EnrichedTagCatalog, enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
@@ -26,9 +26,9 @@ export const moveOthersChildrenOnTop = (tagCat: TagCatalog) => {
   return tagCat;
 };
 
-export const groupbyTag = (groupBy: string[]) => {
+export const groupbyTag = (groupBy: string[]): Group[] => {
   return groupBy.map(tag => {
-    return { groupbyTag: tag, tagType: 'STRING' };
+    return { groupbyTag: tag, tagType: 'STRING', groupbyTagEntity: 'NOT_APPLICABLE' };
   });
 };
 

@@ -17,21 +17,33 @@ import { t } from 'in-i18n';
 
 export default function JavaRuntimeContent({ type, agentKey, downloadKey, instanaDomain, serverlessEndpoint }: Props) {
   const username = '_';
+
+  function getDockerFileContent() {
+    if (type === 'gcp') {
+      return [
+        'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+        '',
+        `COPY --from=containers.instana.${instanaDomain}/instana/release/google/cloud-run/jvm /instana /instana`,
+        'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-standalone-collector.jar"',
+        '',
+        '# Other stuff in your Docker image'
+      ];
+    } else {
+      return [
+        'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
+        '',
+        `COPY --from=containers.instana.${instanaDomain}/instana/release/aws/fargate/jvm /instana /instana`,
+        'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-fargate-collector.jar"',
+        '',
+        '# Other stuff in your Docker image'
+      ];
+    }
+  }
+
   return (
     <Wrapper>
       <LayoutSection title={t('in-plg:agentDetails.aws.insertLinesToDocker')}>
-        <Code
-          lang="bash"
-          withCopy
-          code={[
-            'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
-            '',
-            `COPY --from=containers.instana.${instanaDomain}/instana/release/aws/fargate/jvm /instana /instana`,
-            'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-fargate-collector.jar"',
-            '',
-            '# Other stuff in your Docker image'
-          ]}
-        />
+        <Code lang="bash" withCopy code={getDockerFileContent()} />
       </LayoutSection>
 
       <LayoutSection title={t('in-plg:agentDetails.aws.initiateDockerBuildProcess')}>

@@ -92,34 +92,33 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
   });
 
   describe('Infrastructure', () => {
-    test.each([
-      [ProductArea.INFRASTRUCTURE, AreaRole.VIEWER],
-      [ProductArea.INFRASTRUCTURE, AreaRole.OWNER]
-    ])('%s: shows correct messages for limited access with role %s', (productArea, role) => {
-      let configSummaryMsg = getConfigurationSummaryMsg(productArea, ScopedPermissionItem.LIMITED_ACCESS, role);
-      const productContext = productArea.toLowerCase();
+    test.each([[ProductArea.INFRASTRUCTURE, AreaRole.VIEWER]])(
+      '%s: shows correct messages for limited access with role %s',
+      (productArea, role) => {
+        let configSummaryMsg = getConfigurationSummaryMsg(productArea, ScopedPermissionItem.LIMITED_ACCESS, role);
+        const productContext = productArea.toLowerCase();
 
-      expect(configSummaryMsg.accessLevelMessage).toEqual(
-        t('in-settings:configurationSummary.' + productContext + '.limited_access.access_level')
-      );
-      expect(configSummaryMsg.rolePermissionMessage).toEqual(
-        t('in-settings:configurationSummary.' + productContext + '.role_permissions_' + role.toLowerCase())
-      );
-    });
+        expect(configSummaryMsg.accessLevelMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.limited_access.access_level')
+        );
+        expect(configSummaryMsg.rolePermissionMessage).toEqual(
+          t('in-settings:configurationSummary.' + productContext + '.role_permissions_' + role.toLowerCase())
+        );
+      }
+    );
 
     test('shows correct messages for access all', () => {
       let configSummaryMsg = getConfigurationSummaryMsg(
         ProductArea.INFRASTRUCTURE,
         ScopedPermissionItem.ACCESS_ALL,
-        AreaRole.OWNER
+        AreaRole.VIEWER
       );
 
-      // There is no access all for Infrastructure so message for limited access should be returned
       expect(configSummaryMsg.accessLevelMessage).toEqual(
-        t('in-settings:configurationSummary.infrastructure.limited_access.access_level')
+        t('in-settings:configurationSummary.infrastructure.access_all.access_level')
       );
       expect(configSummaryMsg.rolePermissionMessage).toEqual(
-        t('in-settings:configurationSummary.infrastructure.role_permissions_owner')
+        t('in-settings:configurationSummary.infrastructure.role_permissions_viewer')
       );
     });
   });

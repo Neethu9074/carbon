@@ -90,7 +90,8 @@ export default function CfAndBosh({
   agentKey,
   agentEndpoint,
   downloadKey,
-  instanaDomain
+  instanaDomain,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
@@ -292,11 +293,11 @@ export default function CfAndBosh({
                         `uaac target <uaa-api-endpoint>`,
                         `uaac token client get -s <clients.admin-secret>`,
                         `uaac client add '${clientId}' \\`,
-                        `--name 'Instana Cloud Foundry Client' \\`,
-                        `--autoapprove true \\`,
-                        `--authorized_grant_types client_credentials \\`,
-                        `--authorities 'cloud_controller.admin_read_only' \\`,
-                        `--secret '${clientSecret}' \\`
+                        `  --name 'Instana Cloud Foundry Client' \\`,
+                        `  --autoapprove true \\`,
+                        `  --authorized_grant_types client_credentials \\`,
+                        `  --authorities 'cloud_controller.admin_read_only' \\`,
+                        `  --secret '${clientSecret}' \\`
                       ]}
                     />
                   </Stack>
@@ -334,7 +335,7 @@ export default function CfAndBosh({
                   </Stack>
                 </LayoutSection>
 
-                <GetDeployedAgents agent="bosh" />
+                <GetDeployedAgents agent="bosh" fromOnboarding={fromOnboarding} />
               </MainBody>
               <SidePanel>
                 <SupportViewSection items={supportViewData} />

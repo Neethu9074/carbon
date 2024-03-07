@@ -23,7 +23,8 @@ export default function Docker({
   agentKey,
   downloadKey,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const [agentZone, setAgentZone] = useState<string>('');
   const sideCardData = [
@@ -75,28 +76,29 @@ export default function Docker({
   ];
 
   const createDockerScript = useMemo(() => {
-    let zoneEnv = agentZone.length === 0 ? null : `  --env="INSTANA_AGENT_ZONE=${agentZone}" \\`;
+    let zoneEnv = agentZone.length === 0 ? null : `   --env="INSTANA_AGENT_ZONE=${agentZone}" \\`;
 
     const script = [
       'sudo docker run \\',
-      '  --detach \\',
-      '  --name instana-agent \\',
-      '  --volume /var/run:/var/run \\',
-      '  --volume /dev:/dev:ro \\',
-      '  --volume /sys:/sys:ro \\',
-      '  --volume /var/log:/var/log:ro \\',
-      '  --privileged \\',
-      '  --net=host \\',
-      '  --pid=host \\',
-      `  --env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
-      `  --env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
-      `  --env="INSTANA_AGENT_KEY=${agentKey}" \\`,
-      `  --env="INSTANA_DOWNLOAD_KEY=${downloadKey}" \\`
+      '   --detach \\',
+      '   --name instana-agent \\',
+      '   --volume /var/run:/var/run \\',
+      '   --volume /run:/run \\',
+      '   --volume /dev:/dev:ro \\',
+      '   --volume /sys:/sys:ro \\',
+      '   --volume /var/log:/var/log:ro \\',
+      '   --privileged \\',
+      '   --net=host \\',
+      '   --pid=host \\',
+      `   --env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
+      `   --env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
+      `   --env="INSTANA_AGENT_KEY=${agentKey}" \\`,
+      `   --env="INSTANA_DOWNLOAD_KEY=${downloadKey}" \\`
     ];
     if (zoneEnv) {
       script.push(zoneEnv);
     }
-    script.push('  icr.io/instana/agent');
+    script.push('   icr.io/instana/agent');
     return script;
   }, [agentZone, agentKey, downloadKey, agentEndpoint, agentEndpointPort]);
 
@@ -125,7 +127,7 @@ export default function Docker({
           <Code lang="bash" code={createDockerScript} />
         </LayoutSection>
 
-        <GetDeployedAgents agent="docker" />
+        <GetDeployedAgents agent="docker" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

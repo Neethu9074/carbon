@@ -19,7 +19,12 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
-export default function AwsEc2Linux({ agentKey, downloadKey, azulDisabled = false }: OnboardingProps): JSX.Element {
+export default function AwsEc2Linux({
+  agentKey,
+  downloadKey,
+  azulDisabled = false,
+  fromOnboarding
+}: OnboardingProps): JSX.Element {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
@@ -138,7 +143,7 @@ export default function AwsEc2Linux({ agentKey, downloadKey, azulDisabled = fals
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="ec2%20AND%20linux" />
+        <GetDeployedAgents agent="ec2%20AND%20linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <Typography variant="body-bold">Support</Typography>

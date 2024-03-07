@@ -6,18 +6,15 @@
 
 import React from 'react';
 
-import {
-  ApdexWidgetTrackerProvider,
-  defaultTrackers
-} from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import ApdexWidgetFormComponent, {
   FormComponentProps
 } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetFormComponent';
+import { SloTrackerProvider, apdexWidgetTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 
 export default function FormComponent(props: FormComponentProps) {
   return (
-    <ApdexWidgetTrackerProvider value={defaultTrackers}>
+    <SloTrackerProvider value={apdexWidgetTrackers}>
       <ApdexWidgetFormComponent {...props} />
-    </ApdexWidgetTrackerProvider>
+    </SloTrackerProvider>
   );
 }

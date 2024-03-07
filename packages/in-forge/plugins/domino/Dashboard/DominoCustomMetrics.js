@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { number } from 'in-services/formatters/number';
@@ -30,7 +32,7 @@ export default function DominoCustomMetrics({ snapshot, timeConfig, titlePrefix 
 export const SPECS = [
   {
     prefix: 'metrics.',
-    color: '#00CC66',
+    color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),

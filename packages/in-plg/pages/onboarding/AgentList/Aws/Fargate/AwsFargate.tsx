@@ -34,7 +34,8 @@ export default function AwsFargate({
   agentEndpoint,
   agentEndpointPort,
   instanaDomain,
-  serverlessEndpoint
+  serverlessEndpoint,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const runtimeOptions: RuntimeOption[] = [
     { key: 'Go', label: t('in-plg:agentDetails.runtime.go') },
@@ -181,7 +182,7 @@ export default function AwsFargate({
 
         {renderRuntimeView()}
 
-        <GetDeployedAgents agent="fargate" />
+        <GetDeployedAgents agent="fargate" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <Typography variant="body-bold">Support</Typography>

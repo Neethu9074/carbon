@@ -8,7 +8,8 @@ import React, { Fragment, useCallback } from 'react';
 import { Map } from 'immutable';
 
 import { Result, TimeConfig } from '@instana/types';
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import {
   timeByMillisTwoDecimalPlaces,
@@ -24,7 +25,6 @@ import { getInfraGranularity } from 'in-stores/metric/metric';
 import Table from 'in-sdk/components/dashboard/Table';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './CustomMetricsV2.mless';
@@ -127,7 +127,7 @@ const cols = [
   {
     title: t('in-sdk:dashboard.customMetricsV2.customMetricsTitleType'),
     type: 'string',
-    width: 90,
+    width: 96,
     typeArgs: {
       getValue(row: Row) {
         return row.type;
@@ -385,7 +385,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   COUNTER_CUMULATIVE: {
     prefix: 'metrics.counters.',
     type: 'counter',
-    color: '#00CC66',
+    color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
@@ -397,7 +397,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   COUNTER_DISCRETE: {
     prefix: 'metrics.counters.',
     type: 'counter',
-    color: '#00CC66',
+    color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
@@ -409,7 +409,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   GAUGE: {
     prefix: 'metrics.gauges.',
     type: 'gauge',
-    color: '#D90368',
+    color: themes.default.ids.color.option.pink['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -421,7 +421,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   HISTOGRAM: {
     prefix: 'metrics.histograms.',
     type: 'histogram',
-    color: '#F1C40F',
+    color: themes.default.ids.color.option.yellow['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -433,7 +433,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   EXPANDED_HISTOGRAM: {
     prefix: 'metrics.histograms.',
     type: 'histogram',
-    color: '#F1C40F',
+    color: themes.default.ids.color.option.yellow['500'],
     metrics: [
       {
         suffix: '.mean',
@@ -456,7 +456,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   METER: {
     prefix: 'metrics.meters.',
     type: 'meter',
-    color: '#2274A5',
+    color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
@@ -468,7 +468,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   TIMER: {
     prefix: 'metrics.timers.',
     type: 'timer',
-    color: '#F75C03',
+    color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -480,7 +480,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   EXPANDED_TIMER: {
     prefix: 'metrics.timers.',
     type: 'timer',
-    color: '#F75C03',
+    color: themes.default.ids.color.option.orange['500'],
     tableMetric: 1,
     metrics: [
       {
@@ -509,7 +509,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   SUMMARY: {
     prefix: 'metrics.summaries.',
     type: 'summary',
-    color: '#f75c03',
+    color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -521,7 +521,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   GENERIC: {
     prefix: '',
     type: 'generic',
-    color: '#2274A5',
+    color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -533,7 +533,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
   SUM: {
     prefix: 'metrics.sums.',
     type: 'sum',
-    color: '#2274A5',
+    color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
         label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),

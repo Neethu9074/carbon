@@ -126,20 +126,17 @@
   "createSloDialog": {
     "customFilter": "Custom Filter (optional)",
     "title": "Create Service Level Objective (SLO)",
-    "selectIndicator": "Select Blueprints",
-    "selectEntityNavItem": "Select Entity",
+    "selectIndicator": "Select Blueprint",
+    "selectEntityNavItem": "Set Entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
-    "selectScopeNavItem": "Select Scope",
-    "selectScopeTitle": "Select Scope",
-    "selectIndicatorTitle": "SLI Indicator",
+    "selectScopeNavItem": "Set Scope",
     "selectIndicatorNavItem": "Set Indicator",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
       "beaconLabel_custom": "Website Custom Events"
     },
-    "selectObjectiveNavItem": "Select Objective",
-    "selectObjectiveTitle": "Set the Objective",
+    "selectObjectiveTitle": "Set Objective",
     "sloTarget": "SLO Target",
     "timeWindow": "Time Window",
     "length": "Length",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "The time window must be at least one day long",
     "errorInvalidExpression": "The filters entered are not valid",
     "errorBlankEntity": "Please select an entity from the list",
-    "nameAndTagsTitle": "Name and Tags",
-    "nameAndTagsNavItem": "Name & Tags",
+    "nameAndTagsTitle": "Set Details",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",
     "sloNameCopyTemplate": "Copy of {{name}}",
@@ -217,10 +213,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Service: {{label}}",
-        "tooltip": {
-          "applications": "Application SLO",
-          "websites": "Website SLO"
-        }
+        "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
         "placeholder": "Entity Type"
@@ -294,7 +287,8 @@
           "filterInfo": {
             "goodEventFilters": "Good event filters:",
             "badEventFilters": "Bad event filters:"
-          }
+          },
+          "approximateTooltip": "Data is aggregated. View a shorter time window to see more details"
         }
       },
       "entitySection": {

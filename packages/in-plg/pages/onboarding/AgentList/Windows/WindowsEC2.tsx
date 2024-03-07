@@ -27,7 +27,8 @@ const WindowsEC2 = ({
   agentEndpoint,
   agentEndpointPort,
   downloadKey,
-  butlerDomain
+  butlerDomain,
+  fromOnboarding
 }: OnboardingProps) => {
   const agentModeOptions = ['dynamic', 'static'];
 
@@ -132,7 +133,7 @@ const WindowsEC2 = ({
           </Stack>
         </LayoutSection>
 
-        <GetDeployedAgents agent="ec2%20AND%20windows" />
+        <GetDeployedAgents agent="ec2%20AND%20windows" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

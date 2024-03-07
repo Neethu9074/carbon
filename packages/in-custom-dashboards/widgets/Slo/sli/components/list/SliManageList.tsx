@@ -15,12 +15,12 @@ import {
 } from 'in-services/tracking/eventNames';
 import useFilteredAndSortedSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useFilteredAndSortedSliConfigurations';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
-import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
@@ -106,7 +106,7 @@ function SliManageListContent<S extends SliType>({
   const [orderBy, setOrderBy] = useState<string>('name');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const sliResult = useFilteredAndSortedSliConfigurations(entityType, entityId, nameQuery, orderBy, orderDirection);
-  const track = useSloWidgetTrackers();
+  const track = useSloTrackers();
 
   const onCreateConfig = () => {
     track(SLI_MANAGEMENT_CREATE_START, { entityType });

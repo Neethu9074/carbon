@@ -4,18 +4,29 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { ButtonKinds, Table, Tbody, Td, Th, Thead, Tr } from '@instana/components';
-import { generateUniqueShortId } from '@instana/utils';
+import { ButtonKinds, Message } from '@instana/components';
 import { SyntheticDatacenter } from '@instana/types';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
+import {
+  categorizeActivationRequestedDatacenters,
+  formatRejectedDatacenters
+} from 'in-synthetics/utils/datacenterHelperFunctions';
+import getSyntheticDatacenterDeployment from 'in-synthetics/subscriptions/getSyntheticDatacenterDeployment';
+// eslint-disable-next-line no-restricted-imports
+import List from 'in-settings/components/List';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import BaseDialog from 'in-components/Dialog/BaseDialog';
+import { pendingResult } from 'in-services/fixedObjects';
 import SaveButton from 'in-components/form/SaveButton';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
@@ -31,6 +42,42 @@ interface Props {
   form: MapForm<any>;
 }
 
+export const columnDefinitions = [
+  {
+    id: 'datacenter_code',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterCode'),
+    getContent(entity: SyntheticDatacenter) {
+      return <span>{entity.code}</span>;
+    }
+  },
+  {
+    id: 'datacenter_name',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterName'),
+    getContent(entity: SyntheticDatacenter) {
+      return <span>{entity.label}</span>;
+    }
+  },
+  {
+    id: 'location_name',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.locationName'),
+    getContent(entity: SyntheticDatacenter) {
+      return <span>{entity.locationLabel}</span>;
+    }
+  },
+  {
+    id: 'datacenter_status',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterStatus'),
+    getContent() {
+      return (
+        <span className={locals.entityWrapper}>
+          <HealthDot className={classNames({ [locals.dot]: true })} severity={5} iconSize={8} />
+          <span>{t('in-synthetics:dialog.createLocation.status.pending')}</span>
+        </span>
+      );
+    }
+  }
+];
+
 const ConfirmationDialog = ({
   header,
   headerIcon,
@@ -41,6 +88,24 @@ const ConfirmationDialog = ({
   onClose,
   form
 }: Props) => {
+  const [rejectedDatacenters, setRejectedDatacenters] = useState<SyntheticDatacenter[]>([]);
+  const [acceptedDatacenters, setAcceptedDatacenters] = useState<SyntheticDatacenter[]>([]);
+  const result =
+    useObservable(
+      getSyntheticDatacenterDeployment({
+        deploymentAction: 'activate',
+        syntheticDatacenters: form.get('syntheticDatacenters').value
+      }).filter((result: any) => {
+        if (result && result.data) {
+          const { rejectedArray, acceptedArray } = categorizeActivationRequestedDatacenters(result.data);
+          setRejectedDatacenters(rejectedArray);
+          setAcceptedDatacenters(acceptedArray);
+          return result;
+        }
+      }),
+      []
+    ) ?? pendingResult;
+
   const button = (
     <SaveButton isSaving={isSaving} kind={buttonKind}>
       {buttonLabel}
@@ -49,7 +114,7 @@ const ConfirmationDialog = ({
 
   return (
     <BaseDialog title={header} headerIcon={headerIcon} onClose={onClose} onSubmit={onSubmit} customButtons={button}>
-      <div>
+      <div className={locals.descriptionWrapper}>
         <div className={locals.descriptionHeadline}>
           {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.headline')}
         </div>
@@ -58,40 +123,47 @@ const ConfirmationDialog = ({
           html={t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.message')}
         />
       </div>
-      <Table className={locals.fullWidth}>
-        <Thead>
-          <Tr size="compact">
-            <Th>
-              {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterCode')}
-            </Th>
-            <Th>
-              {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterName')}
-            </Th>
-            <Th>
-              {t('in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.table.heads.datacenterStatus')}
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {form.get('syntheticDatacenters').value.map((datacenter: SyntheticDatacenter) => {
-            const { code, label } = datacenter;
-            return (
-              <Tr key={generateUniqueShortId()} size="compact">
-                <Td>{code}</Td>
-                <Td>{label}</Td>
-                <Td>
+      {result?.progress.loading ? (
+        <LoadingIndicator
+          text={t(
+            'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activateLocationLoadingMessage'
+          )}
+          className={locals.messageWrapper}
+        />
+      ) : (
+        <>
+          {rejectedDatacenters.length > 0 && (
+            <div className={locals.messageWrapper}>
+              <Message
+                type="warning"
+                withIcon
+                className={locals.bottomSpace}
+                title={t(
+                  'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessage',
                   {
-                    <div className={locals.entityWrapper}>
-                      <HealthDot className={classNames({ [locals.dot]: true })} severity={5} iconSize={8} />
-                      <span>{t('in-synthetics:dialog.createLocation.status.pending')}</span>
-                    </div>
+                    rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
                   }
-                </Td>
-              </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
+                )}
+              />
+            </div>
+          )}
+          <List<SyntheticDatacenter>
+            getHeader={() => null}
+            columnDefinitions={columnDefinitions}
+            loadEntities={() => just(acceptedDatacenters)}
+            renderNoDataAvailable={() => (
+              <NoDataAvailable
+                type="lib_synthetic"
+                height={160}
+                text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Datacenters' })}
+              />
+            )}
+            isSearchable={false}
+            pageSize={20}
+            initialOrderBy="datacenter_code"
+          />
+        </>
+      )}
     </BaseDialog>
   );
 };

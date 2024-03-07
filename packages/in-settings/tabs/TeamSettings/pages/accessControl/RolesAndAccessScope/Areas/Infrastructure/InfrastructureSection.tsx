@@ -9,54 +9,61 @@ import React, { useContext } from 'react';
 import { Li, Typography, Ul } from '@instana/components';
 
 import {
-  getAreaRoleFromPermissionSet,
-  getScopeFromProductArea
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import {
+  infrastructureOtherCapabilities,
   ProductArea,
   ScopedPermissionItem
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
+import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { AreaPermission } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export const InfrastructureSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
 
   const scopeId = permissionsSet.infraDfqFilter?.scopeId;
-  const role = getAreaRoleFromPermissionSet(ProductArea.INFRASTRUCTURE, permissionsSet);
   const areaAccessScope = getScopeFromProductArea(ProductArea.INFRASTRUCTURE, permissionsSet);
   const hasNoAccess = areaAccessScope === ScopedPermissionItem.NO_ACCESS;
+  const hasLimitedAccess = areaAccessScope === ScopedPermissionItem.LIMITED_ACCESS;
+  const hasFullAreaAccess = areaAccessScope === ScopedPermissionItem.ACCESS_ALL;
 
-  const getColumnHeadline = () => {
-    if (hasNoAccess) {
-      return t('in-settings:productAreas.no_access');
+  const getColumnContentMessage = () => {
+    if (hasLimitedAccess) {
+      return t('in-settings:productAreas.infrastructureContentMessage');
+    } else if (hasFullAreaAccess) {
+      return t('in-settings:productAreas.infrastructureAccessAllMessage');
     }
-
-    return t('in-settings:productAreas.role', {
-      context: role?.toLowerCase()
-    });
+    return null;
   };
 
   const subListContent = (
     <Ul>
-      <Li>
-        <Typography variant="body-regular">{scopeId}</Typography>
-      </Li>
+      {scopeId && (
+        <Li>
+          <Typography variant="body-regular">{scopeId}</Typography>
+        </Li>
+      )}
+      <CapabilitySubsection
+        capabilities={infrastructureOtherCapabilities}
+        areaPermissions={[AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE]}
+        headerText={t('in-settings:productAreas.additionalPermissions')}
+      />
     </Ul>
   );
 
   return (
     <AreaExpandableListItem
       iconType="lib_infrastructure_inverted"
-      firstColumnHeadline={getColumnHeadline()}
+      firstColumnHeadline={t('in-settings:permissionScope.selection', {
+        context: areaAccessScope.toLocaleLowerCase()
+      })}
       firstColumnLabel={t('in-settings:productAreas.title_infrastructure')}
-      subList={scopeId ? subListContent : null}
+      subList={subListContent}
       disabled={hasNoAccess}
     >
-      {!hasNoAccess ? (
-        <Typography variant="body-small">{t('in-settings:productAreas.infrastructureContentMessage')}</Typography>
-      ) : null}
+      <Typography variant="body-small">{getColumnContentMessage()}</Typography>
     </AreaExpandableListItem>
   );
 };

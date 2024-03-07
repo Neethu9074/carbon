@@ -10,11 +10,6 @@ import React, { useEffect } from 'react';
 import { Stack, StackItem } from '@instana/components';
 
 import {
-  ApdexWidgetTrackerProvider,
-  defaultTrackers,
-  useApdexWidgetTrackers
-} from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
-import {
   apdexConfigIdKey,
   defaultEntityType,
   entityIdKey,
@@ -22,6 +17,9 @@ import {
   setFieldValue
 } from 'in-custom-dashboards/widgets/Apdex/form';
 import { APDEX_MANAGEMENT_EXIT, APDEX_MANAGEMENT_VIEW, APDEX_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
+import { SloTrackerProvider, apdexWidgetTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+// eslint-disable-next-line import/no-deprecated
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import ConfigurationSelector from 'in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector';
 import { ApdexEntityTypes, AvailableEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import useApdexFormSideEffects from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexFormSideEffects';
@@ -31,7 +29,6 @@ import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/App
 import ApdexManageList from 'in-custom-dashboards/widgets/Apdex/components/ApdexManageList';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import Sections from 'in-components/workspace/Sections/Sections';
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Section from 'in-components/workspace/Section/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
@@ -46,7 +43,7 @@ interface GetSlideInViewConfigProps {
   entityType: ApdexEntityTypes;
   entityId: string;
   onChange: (value: string) => void;
-  track: ReturnType<typeof useApdexWidgetTrackers>;
+  track: ReturnType<typeof useSloTrackers>;
 }
 
 export default function ApdexWidgetFormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
@@ -57,13 +54,16 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
     updateFormWithSideEffects(form.updateIn(path as any, f => setFieldValue<T>(f, value, true)));
   }
 
-  const track = useApdexWidgetTrackers();
+  const track = useSloTrackers();
   useEffect(() => {
-    track(APDEX_WIDGET_EDIT_START);
+    track(APDEX_WIDGET_EDIT_START, undefined);
   }, [track]);
 
+  // eslint-disable-next-line import/no-deprecated
   const entityType = getField<ApdexEntityTypes>(form, [entityTypeKey])?.value ?? defaultEntityType;
+  // eslint-disable-next-line import/no-deprecated
   const entityIdField = getField<string>(form, [entityIdKey]);
+  // eslint-disable-next-line import/no-deprecated
   const configIdField = getField<string>(form, [apdexConfigIdKey]);
   const entityId = entityIdField?.value || '';
   const showEntityTypeSelector = AvailableEntityTypes.length > 1;
@@ -138,7 +138,7 @@ function getSlideInViewConfig({
     },
     getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
       return (
-        <ApdexWidgetTrackerProvider value={defaultTrackers}>
+        <SloTrackerProvider value={apdexWidgetTrackers}>
           <ApdexManageList
             entityId={entityId}
             entityType={entityType}
@@ -152,7 +152,7 @@ function getSlideInViewConfig({
             onShowCreateForm={isEditing => setShowCreateFormState(isEditing ? 'EDIT' : 'CREATE')}
             onCloseCreateForm={() => setShowCreateFormState(undefined)}
           />
-        </ApdexWidgetTrackerProvider>
+        </SloTrackerProvider>
       );
     }
   };

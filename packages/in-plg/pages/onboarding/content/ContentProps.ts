@@ -7,6 +7,7 @@
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 
 export default interface ContentProps {
+  pageName: string;
   id: string;
   title: string;
   label: string;

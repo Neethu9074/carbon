@@ -9,21 +9,14 @@ import React, { useEffect, useState } from 'react';
 import { Cursor, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
-import {
-  OPERATOR_OR,
-  addTagFilters,
-  createTagFilterExpression
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraMetricGroupTableList from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList';
 import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 //@ts-expect-error
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
+import { setBackendQueryModel } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import { getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { TagFilterExpressionElementUnion } from 'in-types';
@@ -192,28 +185,3 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
  * Sets the backend query model.
  * @param searchBy The table search by value.
  */
-function setBackendQueryModel(
-  backendGroupBy: string[],
-  backendQueryModel: TagFilterExpressionElementUnion,
-  setFilterExpression: any,
-  searchBy?: string
-) {
-  if (searchBy) {
-    const searchQuery = backendGroupBy.map((groupBy: string) => {
-      groupBy = groupBy === 'dfq.type' ? 'dfq.selftype' : groupBy;
-      return tagFilter(groupBy, CONTAINS, searchBy, null, NOT_APPLICABLE);
-    });
-
-    if (backendQueryModel?.type === 'TAG_FILTER' || backendQueryModel?.elements?.length > 0) {
-      const searchQueryModel = addTagFilters(createTagFilterExpression(OPERATOR_OR, searchQuery), [backendQueryModel]);
-
-      setFilterExpression(searchQueryModel);
-      return;
-    } else {
-      setFilterExpression(createTagFilterExpression(OPERATOR_OR, searchQuery));
-      return;
-    }
-  }
-
-  setFilterExpression(backendQueryModel);
-}

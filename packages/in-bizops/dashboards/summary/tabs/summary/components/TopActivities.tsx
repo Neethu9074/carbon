@@ -47,7 +47,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
   we don't need the labels prop just yet */
   return (
     <TopListWithUrlState
-      metrics={['activitiesCount']}
+      metrics={['activities_count']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
       //labels={''}
       formatters={[number.compact]}
@@ -115,17 +115,16 @@ function getList({ businessProcessId, timeConfig }: GetListProps) {
     ]
   };
 
-  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessActivities({
     dataType: 'ACTIVITY',
     metrics: {
-      activitiesCount: {
-        metric: 'activitiesCount',
+      activities_count: {
+        metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT'
       }
     },
     order: {
-      by: 'activitiesCount',
+      by: 'activities_count',
       direction: 'DESC'
     },
     pagination: {

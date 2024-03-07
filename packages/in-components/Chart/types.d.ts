@@ -61,6 +61,7 @@ interface ResultAwareChartConfig {
   renderWidgetNotSupportedIndicator?: boolean;
   hasApproximateData?: boolean;
   disableChartInLive?: boolean;
+  approximateTooltipText?: string;
 }
 
 interface CardConfig {
@@ -187,6 +188,7 @@ export interface AxisConfiguration {
   companionMetricConfigs?: CompanionMetricConfig[];
 
   adjustedTimeframes?: AdjustedTimeframe[];
+  lastValue?: boolean;
 }
 
 export type ChartContentPostition = 'pre' | 'post';

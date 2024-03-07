@@ -7,9 +7,12 @@ import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import {
+  findByRestrictingApplicationId,
+  limitWithContributionFilter
+} from 'in-applications/creation/contributionFilters';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { limitWithContributionFilter } from 'in-applications/creation/contributionFilters';
 import getApplicationLiveView from 'in-applications/subscriptions/getApplicationLiveView';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
@@ -54,11 +57,12 @@ export default function SimpleModeContainer({
 
   const downstreamScope = form.get('scope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
-  const groupId = form.get('groupId').value;
+  const restrictingApplicationId = form.get('restrictingApplicationId').value;
   const contributionFilter =
-    groupId == null
+    restrictingApplicationId == null
       ? null
-      : userRestrictedApplicationsResult.data?.find(r => r.id === groupId)?.filter?.tagFilterExpression;
+      : findByRestrictingApplicationId(userRestrictedApplicationsResult.data, restrictingApplicationId)?.filter
+          ?.tagFilterExpression;
 
   const servicesLiveList = useObservable(getServicesLiveList, [
     downstreamScope,
