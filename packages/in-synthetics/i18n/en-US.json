@@ -294,7 +294,7 @@
             }
           },
           "activateLocationLoadingMessage": "Activating Datacenters",
-          "activationRejectedMessage": "Activation request for {{rejectedDatacentersList}} cannot be processed as it has already been activated"
+          "activationRejectedMessage": "Activation request for {{rejectedDatacentersList}} cannot be processed as {{additionalText}} already been activated"
         }
       },
       "validators": {

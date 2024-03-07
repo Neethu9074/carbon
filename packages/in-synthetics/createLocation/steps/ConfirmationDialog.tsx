@@ -141,7 +141,8 @@ const ConfirmationDialog = ({
                 title={t(
                   'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessage',
                   {
-                    rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
+                    rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters),
+                    additionalText: rejectedDatacenters.length > 1 ? 'they have' : 'it has'
                   }
                 )}
               />
