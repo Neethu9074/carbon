@@ -226,6 +226,7 @@ packages/in-service-levels                                                      
 packages/in-services                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics                                                              @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
+packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
 packages/in-settings/tabs/TeamSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
