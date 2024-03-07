@@ -29,6 +29,7 @@ import Remove from 'in-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-components/QueryBuilder/components/Tag/Name';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 import styleDefs from './Tag.mless';
@@ -117,7 +118,7 @@ export default function Tag(props) {
       <SuspendDraggable draggableElement={draggableElement}>
         <KeyInput
           form={form}
-          onChange={onChange}
+          onChange={(propName, value) => onChangeInFormModel({ ...form.toJS(), [propName]: value }, true)}
           getSuggestions={getSuggestions}
           getSuggestionsProps={getSuggestionsProps}
           formModel={formModel}
@@ -340,7 +341,7 @@ function ValueInput({
   const inputProps = {
     placeholder: t('in-components:queryBuilder.components.tagPlaceholderValue'),
     onChange: onValueChange,
-    valid: field.valid,
+    valid: isBlank(key) || field.valid, // only validate value field after key is filled
     fieldsToWatch: [name, entity, timeConfig, field.value, key, formModel, formModelIndex, getSuggestionsProps],
     tagName: name,
     getSuggestions: () =>
