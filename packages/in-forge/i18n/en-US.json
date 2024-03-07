@@ -6914,13 +6914,11 @@
       "dashboard": {
         "DeviceIO": "Device IO",
         "BlockIORequest": "Block IO request",
-        "NumberOfUpdates": "Number Of Updates",
         "deviceReadBytesTotal": "Device Read Bytes Total",
         "deviceWrittenBytesTotal": "Device Written Bytes Total",
         "deviceSizeBytes": "Device Size Bytes",
         "deviceUpperPending": "Block I/O Requests Number not Answered",
         "deviceLowerPending": "Open Requests Number Issued",
-        "deviceAlSuspended": "Activity-Log is Suspended",
         "deviceAlWritesTotal": "Updates Number Of The Activity-Log",
         "deviceBmWritesTotal": "Updates Number Of The Bitmap Area"
       },

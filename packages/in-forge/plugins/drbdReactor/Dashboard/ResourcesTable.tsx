@@ -39,40 +39,7 @@ const deviceDataCol = {
   }
 };
 
-const deviceMetricsCol1 = {
-  title: t('in-forge:plugins.drbdResource.resourceSuspended'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.key;
-    },
-    getMetricName() {
-      return `resourceSuspended`;
-    },
-    getContent: number.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const deviceMetricsCol2 = {
-  title: t('in-forge:plugins.drbdResource.resourceForceIOFailures'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.key;
-    },
-    getMetricName() {
-      return 'resourceForceIOFailures';
-    },
-    getContent: number.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-const deviceMetricsCol3 = {
+const deviceMetricsCol = {
   title: t('in-forge:plugins.drbdResource.resourcePromotionScore'),
   type: 'metric',
   typeArgs: {
@@ -116,7 +83,7 @@ export default function ResourcesTable({ snapshot }: { snapshot: SnapshotData })
       timeConfig
     })) || [];
 
-  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol1, deviceMetricsCol2, deviceMetricsCol3];
+  const cols = [deviceLinkCol, deviceDataCol, deviceMetricsCol];
   return (
     <Table
       withoutPadding

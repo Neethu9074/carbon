@@ -47,7 +47,7 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['resourcePromotionscore'],
+              metrics: ['resourcePromotionScore'],
               labels: [t('in-forge:plugins.drbdResource.resourcePromotionScore')],
               type: 'line',
               formatter: number.compact

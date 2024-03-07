@@ -32,6 +32,9 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
         <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceUnintentionalDiskless')}>
           <MetricValue snapshotId={snapshotId} metric="deviceUnintentionalDiskless" formatter={Boolean} />
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceAlSuspended')}>
+          <MetricValue snapshotId={snapshotId} metric="deviceAlSuspended" formatter={Boolean} />
+        </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.deviceSizeBytes')}>
         <Chart
@@ -87,17 +90,14 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
           }}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.NumberOfUpdates')}>
+      <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.deviceAlWritesTotal')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
-            metrics: [`deviceAlSuspended`, `deviceAlWritesTotal`],
-            labels: [
-              t('in-forge:plugins.drbdDevice.dashboard.deviceAlSuspended'),
-              t('in-forge:plugins.drbdDevice.dashboard.deviceAlWritesTotal')
-            ],
+            metrics: [`deviceAlWritesTotal`],
+            labels: [t('in-forge:plugins.drbdDevice.dashboard.deviceAlWritesTotal')],
             type: 'line'
           }}
         />
@@ -105,5 +105,3 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
     </div>
   );
 }
-
-
