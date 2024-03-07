@@ -21,7 +21,8 @@ import {
   isJira,
   getDocLinkFromFields,
   isAnsible,
-  getType
+  getType,
+  isManual as isManualAction
 } from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
@@ -324,14 +325,39 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          onClick={() =>
+          onClick={() => {
             addActiveDialog(
               <RunActionDialog action={action} executePolicy={item} volatileId={volatileId} event={event} />
-            )
-          }
+            );
+            runActionTracker({
+              actionType: action.type,
+              actionName: action.name,
+              policyId: item.id,
+              policyName: item.name
+            });
+          }}
           noAutoMargin
         >
           {t('in-automation:ActionCatalog.run')}
+        </Button>
+      );
+    } else if (isManual(item) && isManualAction(type)) {
+      return (
+        <Button
+          kind="action"
+          icon={'lib_views_show'}
+          onClick={() => {
+            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+            runActionTracker({
+              actionType: action.type,
+              actionName: action.name,
+              policyId: item.id,
+              policyName: item.name
+            });
+          }}
+          noAutoMargin
+        >
+          {t('in-automation:ActionCatalog.view')}
         </Button>
       );
     } else {
