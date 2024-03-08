@@ -54,7 +54,10 @@ const GetDeployedAgents = ({ agent, fromOnboarding = false }: GetDeployedAgentsP
   return (
     <LayoutSection title={t('in-plg:agentDetails.common.openAgentDashboardOptional')}>
       {!fromOnboarding ? (
-        <Button href={`/#/physical?q=${agent}&timeline.to&timeline.fm&timeline.ar=true`}>
+        <Button
+          disabled={!deployedAgentsCount}
+          href={`/#/physical?q=${agent}&timeline.to&timeline.fm&timeline.ar=true`}
+        >
           {t('in-plg:agentDetails.common.viewDeployedAgents')}
         </Button>
       ) : null}
