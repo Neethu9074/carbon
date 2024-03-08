@@ -19,14 +19,15 @@ interface SloDashboardMetaInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;
   entity?: LabeledEntity;
   service?: LabeledEntity;
+  endpoint?: LabeledEntity;
 }
 
-export default function SloDashboardMetaInfo({ configuration, entity, service }: SloDashboardMetaInfoProps) {
+export default function SloDashboardMetaInfo({ configuration, entity, service, endpoint }: SloDashboardMetaInfoProps) {
   const { tags, entity: sloEntity } = configuration;
   return (
     <div className={locals.metaInfo}>
       <Stack direction="horizontal" align="center" distribution="start">
-        {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} service={service} />}
+        {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} service={service} endpoint={endpoint} />}
         <TagList tags={tags} />
       </Stack>
     </div>

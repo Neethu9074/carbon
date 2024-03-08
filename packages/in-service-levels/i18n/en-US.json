@@ -213,6 +213,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Service: {{label}}",
+        "endpoint": "Endpoint: {{label}}",
         "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
