@@ -135,7 +135,14 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       role === AreaRoleWithContributor.CONTRIBUTOR
         ? ScopeRoles.Viewer
         : '-1'; // TODO change "-1" to ScopeRoles.Owner once feature is fully integrated
-    const newScopes = entityIds.map(id => ({ scopeId: id, scopeRoleId: newScopeRoleId }));
+    let newScopes;
+    if (newScopeRoleId === ScopeRoles.Viewer) {
+      const scopeBindingIds = scopeBindings.map(({ scopeId }) => scopeId);
+      const filteredEntityIds = entityIds.filter(id => !scopeBindingIds.includes(id));
+      newScopes = filteredEntityIds.map(id => ({ scopeId: id, scopeRoleId: newScopeRoleId }));
+    } else {
+      newScopes = entityIds.map(id => ({ scopeId: id, scopeRoleId: newScopeRoleId }));
+    }
 
     updatePermissionSet({
       ...permissionSet,
