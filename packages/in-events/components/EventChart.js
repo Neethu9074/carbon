@@ -21,7 +21,6 @@ import EventMetricChartDownloadView from 'in-components/DownloadButton/component
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { always, alwaysNull } from 'in-services/fixedStreams';
@@ -101,19 +100,17 @@ const ChartWrapper = connectTo(
     return (
       <div className={locals.chart}>
         <div className={locals.buttonPanel}>
-          {allowDownloadMetricsFromCharts && (
-            <DownloadButton className={locals.downloadButton}>
-              <EventMetricChartDownloadView
-                metric={metric}
-                entityType={entityType}
-                event={event}
-                rollup={rollup.rollup}
-                plugin={plugin}
-                timeConfig={timeConfig}
-                metricAccessId={metricAccessId}
-              />
-            </DownloadButton>
-          )}
+          <DownloadButton className={locals.downloadButton}>
+            <EventMetricChartDownloadView
+              metric={metric}
+              entityType={entityType}
+              event={event}
+              rollup={rollup.rollup}
+              plugin={plugin}
+              timeConfig={timeConfig}
+              metricAccessId={metricAccessId}
+            />
+          </DownloadButton>
         </div>
         <Chart
           snapshotId={metricAccessId}

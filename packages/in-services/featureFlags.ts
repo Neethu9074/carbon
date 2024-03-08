@@ -172,9 +172,6 @@ export const allowedMillisGapsInOneSecondResolution = 20000;
 // rollup = 5s
 export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
-//Flag which exposes the download button - enables the download of metrics from event view
-export const allowDownloadMetricsFromCharts = isFeatureFlagEnabled('allowDownloadMetricsFromCharts', false);
-
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);

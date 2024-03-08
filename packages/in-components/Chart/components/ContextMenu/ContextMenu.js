@@ -14,7 +14,6 @@ import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actio
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -44,11 +43,11 @@ export default class extends React.Component {
         ...zoomInAction,
         getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
       },
-      allowDownloadMetricsFromCharts && {
+      {
         ...downloadJSONAction,
         onClick: () => downloadJSONAction.onClick(this.props.metrics, highlightedTimeframe)
       },
-      allowDownloadMetricsFromCharts && {
+      {
         ...downloadCSVAction,
         onClick: () => downloadCSVAction.onClick(this.props.metrics, highlightedTimeframe)
       }
