@@ -12,7 +12,7 @@ import ArticleContent from 'in-components/ArticleContent';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default function SmartAlertsNoDataNotification() {
+export default function SmartAlertsNoDataNotification(): JSX.Element {
   return (
     <EntityPageMainNotification
       icon="lib_events_critical"
@@ -20,7 +20,7 @@ export default function SmartAlertsNoDataNotification() {
       explanation={() => (
         <>
           <ArticleContent markdownContent={t('in-alerting:smartAlerts.applications.inventory.noData')} />
-          {!role.canConfigureGlobalApplicationSmartAlerts && (
+          {!role?.canConfigureGlobalApplicationSmartAlerts && (
             <Message type="warning" small withIcon>
               {t('in-alerting:smartAlerts.applications.inventory.noPersmissionToCreateGlobalSmartAlert')}
             </Message>
