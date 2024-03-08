@@ -18,13 +18,13 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/logs/dialog/advanced/ThresholdSelectionInteractiveChart';
-import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
-import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
@@ -33,6 +33,7 @@ import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilt
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import Sections from 'in-components/workspace/Sections';
@@ -68,6 +69,14 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           content: (
             <div className={locals.container}>
               <Stack gap="small">
+                <SelectInSection
+                  label={t('in-alerting:smartAlerts.logs.advancedModeContainer.scope.metric')}
+                  id="metric-selector"
+                  useAlternateBg
+                  disabled
+                >
+                  <option key="metric-log-count">{t('in-alerting:smartAlerts.logs.alertDetails.metricName')}</option>
+                </SelectInSection>
                 <Sections>
                   <ScopeFilter
                     form={form}
