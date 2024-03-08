@@ -1323,7 +1323,8 @@
         },
         "threshold": {
           "label": "Threshold",
-          "title": "Threshold: When is the condition violated?"
+          "title": "Threshold: When is the condition violated?",
+          "tooltipText": "The threshold value defined here will be evaluated based on the time granularity specified below."
         },
         "timeThreshold": {
           "label": "Time Threshold",
@@ -1341,10 +1342,10 @@
           },
           "alertPropertiesTitlePlaceholder": "Logs Smart alert",
           "descriptionPlaceholder": {
-            "logsCount_higherThan": "The logs count is higher than {{value}}.",
-            "logsCount_higherEqual": "The logs count is higher or equal to {{value}}.",
-            "logsCount_lowerThan": "The logs count is lower than {{value}}.",
-            "logsCount_lowerEqual": "The logs count is lower or equal to {{value}}."
+            "logsCount_higherThan": "The log count is higher than {{value}}.",
+            "logsCount_higherEqual": "The log count is higher or equal to {{value}}.",
+            "logsCount_lowerThan": "The log count is lower than {{value}}.",
+            "logsCount_lowerEqual": "The log count is lower or equal to {{value}}."
           }
         },
         "customPayloads": {
@@ -1357,7 +1358,7 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noMetricSelected": "No metric selected"
       },
-      "logs": "Logs"
+      "logCount": "Log count"
     }
   }
 }

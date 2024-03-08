@@ -63,7 +63,7 @@ export default function LogAlertChartWrapper({
     y1: getY1(
       logSumMetricId,
       highlight,
-      t('in-events:logSmartAlerts.logs'),
+      t('in-alerting:smartAlerts.logs.logCount'),
       number.forcedCompact,
       renderer,
       granularity,

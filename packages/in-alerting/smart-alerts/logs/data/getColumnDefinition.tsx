@@ -73,7 +73,7 @@ export function getColumnDefinition({
     return {
       id: 'numberOfLogs',
       width: '8rem',
-      label: t('in-alerting:smartAlerts.logs.logs'),
+      label: t('in-alerting:smartAlerts.logs.logCount'),
       widthInAbsoluteUnit: true,
       sortable: false,
       getContent(item: LogGroupItem) {
