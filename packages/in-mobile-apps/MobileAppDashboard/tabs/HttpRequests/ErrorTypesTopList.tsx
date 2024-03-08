@@ -5,37 +5,47 @@
 
 import React from 'react';
 
+import { AggregationType } from '@instana/types';
 import { Link } from '@instana/components';
 
+// @ts-expect-error Could not find a declaration file for module
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+// @ts-expect-error Could not find a declaration file for module
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
+// @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+// @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+// @ts-expect-error Could not find a declaration file for module
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
-import { ms, number } from 'in-services/formatters/number';
+import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { number } from 'in-services/formatters/number';
+import { TagFilter, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorCount'];
-const labels = [
-  t('in-mobile-apps:dashboard.tabs.callsLabel'),
-  t('in-mobile-apps:dashboard.tabs.latencyLabel'),
-  t('in-mobile-apps:dashboard.tabs.errorsLabel')
-];
-const aggregations = ['SUM', 'MEAN', 'SUM'];
-const formatters = [number.compact, ms.compact, number.compact];
+const metrics = ['beaconCount'];
+const labels = ['Calls'];
+const aggregations = ['SUM'];
+const formatters = [number.compact];
 
-export default function LocationsTopList({
+export interface ErrorTypesTopListProp {
+  mobileAppId: string;
+  mobileAppLabel: string;
+  timeConfig: TimeConfig;
+  tagFilters: Array<TagFilter>;
+  renderHistoricDataIndicator: boolean;
+}
+
+export default function ErrorTypesTopList({
   mobileAppId,
   mobileAppLabel,
   timeConfig,
   tagFilters,
-  urlMatrixParamConfig,
   renderHistoricDataIndicator
-}) {
+}: ErrorTypesTopListProp) {
   return (
     <TopListWithUrlState
-      title={t('in-mobile-apps:dashboard.tabs.pathsTitle')}
+      title={t('in-mobile-apps:dashboard.tabs.errorTypesTitle')}
       metrics={metrics}
       labels={labels}
       aggregations={aggregations}
@@ -49,13 +59,19 @@ export default function LocationsTopList({
       mobileAppLabel={mobileAppLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
-      urlMatrixParamConfig={urlMatrixParamConfig}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }
 
-function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }) {
+interface GetListProps {
+  tagFilters: Array<TagFilter>;
+  timeConfig: TimeConfig;
+  selectedMetric: string;
+  selectedMetricAggregation: AggregationType;
+}
+
+function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggregation }: GetListProps) {
   return getMobileAppPaginatedBeaconGroups({
     tagFilters,
     timeConfig,
@@ -68,7 +84,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
       direction: 'DESC'
     },
     group: {
-      groupbyTag: 'mobileBeacon.http.path'
+      groupbyTag: 'mobileBeacon.error.type'
     },
     metrics: {
       [selectedMetric]: {
@@ -79,7 +95,13 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, mobileAppLabel, className }) {
+interface ViewAllProps {
+  mobileAppLabel: string;
+  tagFilters: Array<TagFilter>;
+  className: string;
+}
+
+function ViewAll({ tagFilters, mobileAppLabel, className }: ViewAllProps) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
 
@@ -96,17 +118,26 @@ function ViewAll({ tagFilters, mobileAppLabel, className }) {
           }),
           beaconType: 'httpRequest',
           groupBy: {
-            groupbyTag: 'mobileBeacon.http.path'
+            groupbyTag: 'mobileBeacon.error.type'
           }
         })
       }
     >
-      {t('in-mobile-apps:dashboard.tabs.viewAllPathsLink')}
+      {t('in-mobile-apps:dashboard.tabs.viewAllErrorTypesLink')}
     </Link>
   );
 }
 
-function Label({ item, mobileAppLabel, tagFilters }) {
+interface ItemWithName {
+  name: string;
+}
+interface LabelProps {
+  item: ItemWithName;
+  mobileAppLabel: string;
+  tagFilters: Array<TagFilter>;
+}
+
+function Label({ item, mobileAppLabel, tagFilters }: LabelProps) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
 
@@ -124,7 +155,13 @@ function Label({ item, mobileAppLabel, tagFilters }) {
         getLinkToMobileAppAnalyze({
           formModel: translateDemocratisationTagFiltersToFormModel({
             mobileAppLabel,
-            tagFilters: tagFilters.concat({ name: 'mobileBeacon.http.path', stringValue: label, operator: 'EQUALS' }),
+            tagFilters: tagFilters.concat({
+              name: 'mobileBeacon.error.type',
+              stringValue: label,
+              operator: 'EQUALS',
+              type: 'TAG_FILTER',
+              entity: 'NOT_APPLICABLE'
+            }),
             tagCatalog: tagCatalogHttpRequest
           }),
           beaconType: 'httpRequest',
@@ -137,6 +174,10 @@ function Label({ item, mobileAppLabel, tagFilters }) {
   );
 }
 
-function Metric({ formattedMetricValue }) {
+interface MetricProps {
+  formattedMetricValue: any;
+}
+
+function Metric({ formattedMetricValue }: MetricProps) {
   return formattedMetricValue;
 }
