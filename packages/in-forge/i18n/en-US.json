@@ -5538,7 +5538,6 @@
       "labelTotalExecutorCount": "Executors",
       "labelTotalJobCount": "Jobs Running",
       "labelTotalMemoryMb": "Memories",
-      "titleServices": "Services",
       "titleClusters": "Clusters",
       "titleExecutors": "Executors"
     },

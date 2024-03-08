@@ -11,13 +11,21 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['totalExecutorCount', 'totalJobCount', 'totalMemoryMb'],
-    labels: [
-      t('in-forge:plugins.azureDatabricks.labelTotalExecutorCount'),
-      t('in-forge:plugins.azureDatabricks.labelTotalJobCount'),
-      t('in-forge:plugins.azureDatabricks.labelTotalMemoryMb')
-    ],
-    category: [t('in-forge:plugins.azureDatabricks.titleServices')],
+    metrics: ['totalExecutorCount'],
+    labels: [t('in-forge:plugins.azureDatabricks.labelTotalExecutorCount')],
+    category: [t('in-forge:plugins.azureDatabricks.labelTotalExecutorCount')],
+    formatter: zeroDecimalPlaces
+  },
+  {
+    metrics: ['totalJobCount'],
+    labels: [t('in-forge:plugins.azureDatabricks.labelTotalJobCount')],
+    category: [t('in-forge:plugins.azureDatabricks.labelTotalJobCount')],
+    formatter: zeroDecimalPlaces
+  },
+  {
+    metrics: ['totalMemoryMb'],
+    labels: [t('in-forge:plugins.azureDatabricks.labelTotalMemoryMb')],
+    category: [t('in-forge:plugins.azureDatabricks.labelTotalMemoryMb')],
     formatter: zeroDecimalPlaces
   },
   {
