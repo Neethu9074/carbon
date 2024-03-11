@@ -50,7 +50,7 @@ export default function LogMetricGroupTableList(props: LogMetricGroupTableListPr
     }
 
     if (selectedMetricGroup) {
-      selectedMetricGroup$.emit({ [groupBy[0].groupbyTag]: selectedMetricGroup });
+      selectedMetricGroup$.emit({ ...groupBy[0], groupbyValue: selectedMetricGroup });
     }
   }, [selectedMetricGroup, items, isLoading, groupBy]);
 

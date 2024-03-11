@@ -22,7 +22,7 @@ interface AlertGroupingProps {
 }
 
 export function AlertGrouping({ AlertQueryBuilder, groupBy }: AlertGroupingProps) {
-  if (!groupBy) {
+  if (!groupBy?.length) {
     return null;
   }
 

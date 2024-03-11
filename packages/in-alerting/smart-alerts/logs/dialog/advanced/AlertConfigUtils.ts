@@ -15,7 +15,10 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 
-export function toGroupByTag(groupBy: Group[]): GroupByTag[] {
+export function toGroupByTag(groupBy: Group[]): GroupByTag[] | undefined {
+  if (!groupBy.length) {
+    return undefined;
+  }
   return groupBy.map(group => ({ tagName: group.groupbyTag, key: group?.groupbyTagSecondLevelKey ?? undefined }));
 }
 

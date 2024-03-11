@@ -13,8 +13,7 @@ import { Message } from '@instana/components';
 
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
-import { Tags } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
-import { Nullish } from 'in-types';
+import { SelectedMetric } from 'in-events/components/EventContent/tagFilterUtils';
 import { t } from 'in-i18n';
 
 import local from 'in-alerting/smart-alerts/logs/components/LogMetricChart.mless';
@@ -26,12 +25,8 @@ interface LogMetricChartProps {
 
 export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps) {
   const { groupBy } = alertConfig;
-  const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as Tags | Nullish;
-  let chartPreviewName =
-    selectedMetricGroup &&
-    Object.entries(selectedMetricGroup).map(([, value]) => {
-      return value;
-    });
+  const selectedMetricGroup = useObservable(selectedMetricGroup$, []) as SelectedMetric;
+  const chartPreviewName = selectedMetricGroup?.groupbyValue ?? '';
 
   if (!selectedMetricGroup && !isEmpty(groupBy)) {
     return (
@@ -46,7 +41,7 @@ export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps)
       {groupBy && (
         <div className={local.container}>
           {t('in-alerting:components.previewFor')}
-          <h4 className={local.space}> {(chartPreviewName as string[])?.join(', ')}</h4>
+          <h4 className={local.space}> {chartPreviewName}</h4>
         </div>
       )}
 

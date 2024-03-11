@@ -12,13 +12,13 @@ import {
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { TagFilterExpressionElementUnion } from 'in-types';
+import { TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 
-export function toUIGrouping(groupBy: string[]) {
+export function toUIGrouping(groupBy: string[]): TagFilter[] {
   if (!groupBy.length) {
     return [];
   }
-  const groupingFE = groupBy.map((tag: string) => {
+  const groupExpression = groupBy.map((tag: string) => {
     return {
       value: '',
       operator: '',
@@ -27,7 +27,9 @@ export function toUIGrouping(groupBy: string[]) {
       type: 'TAG_FILTER'
     };
   });
-  return groupingFE;
+
+  // @ts-expect-error groupExpression does not have operator
+  return groupExpression;
 }
 
 /**

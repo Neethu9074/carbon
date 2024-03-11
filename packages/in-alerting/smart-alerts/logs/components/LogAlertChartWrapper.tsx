@@ -12,8 +12,8 @@ import { LogAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
 import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 //@ts-expect-error TS migration
 import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
+import { SelectedMetric, getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getChartConfig, getUnifiedMetricConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
-import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
@@ -27,7 +27,7 @@ import { t } from 'in-i18n';
 interface LogAlertChartWrapperProps {
   alertConfig: LogAlertConfigWithMetadata;
   timeConfig: TimeConfig;
-  selectedMetricGroup?: { [index: string]: string };
+  selectedMetricGroup?: SelectedMetric;
 }
 
 /**
@@ -51,8 +51,7 @@ export default function LogAlertChartWrapper({
   const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], false);
 
   const enrichedTagFilterExpression = selectedMetricGroup
-    ? //@ts-expect-error type mismatch
-      getExpressionWithGroupingTags(tagFilterExpression as TagFilterExpression, selectedMetricGroup)
+    ? getExpressionWithLogsGroupingTags(tagFilterExpression as TagFilterExpression, [selectedMetricGroup])
     : tagFilterExpression;
 
   const unifiedMetricConfig = getUnifiedMetricConfig(logSumMetricId, enrichedTagFilterExpression, granularity);
