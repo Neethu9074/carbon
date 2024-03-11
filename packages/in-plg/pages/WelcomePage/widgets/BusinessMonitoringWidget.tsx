@@ -99,7 +99,7 @@ export default connectTo(() => ({
             rollup={getChartGranularity(timeConfig)}
             timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
             metrics={item?.metrics?.started_processes}
-            metric={item?.businessProcess?.startedInstancesCount}
+            metric={item?.metrics?.started_processes?.[0] && item?.metrics?.started_processes[0][1]}
             tooltipFormatter={number.compact}
           />
         );
