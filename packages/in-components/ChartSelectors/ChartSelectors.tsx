@@ -4,7 +4,6 @@
  */
 
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -13,8 +12,30 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 
-import locals from './ChartSelectors.mless';
+interface MetricsProps {
+  id: string;
+  label: string | undefined;
+  value: string;
+  tab: string;
+  tabDefault?: boolean;
+}
 
+interface TabProps {
+  id: string;
+  label: string;
+}
+interface TimeShiftAwareChartSelectorWithUrlStateProps {
+  cardTitle: string;
+  tabs: TabProps[];
+  metrics: MetricsProps[];
+  urlMatrixParamConfig: {
+    path: string;
+    paramTab: string;
+    paramMetric: string;
+  };
+  disabledWidgetInLive?: boolean;
+  children: React.ReactElement;
+}
 // The child components will receive these additional properties.
 // - selectedTab: The ID of the selected tab.
 // - selectedMetric: The ID of the selected metric which should be shown, when time shift is on.
@@ -27,15 +48,15 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   urlMatrixParamConfig: { path, paramTab, paramMetric },
   disabledWidgetInLive,
   children
-}) {
+}: TimeShiftAwareChartSelectorWithUrlStateProps) {
   // find the default metric of the specified tab
-  const findDefaultMetricByTab = tabId =>
-    metrics.find(m => m.tab === tabId && m.tabDefault)?.id ??
+  const findDefaultMetricByTab = (tabId: string) =>
+    metrics.find((m: MetricsProps) => m.tab === tabId && m.tabDefault)?.id ??
     // otherwise, take the default metric of the first tab
-    metrics.find(m => m.tab === tabs[0].id && m.tabDefault)?.id ??
+    metrics.find((m: MetricsProps) => m.tab === tabs[0].id && m.tabDefault)?.id ??
     // otherwise, take the first metric of the first tab
-    metrics.find(m => m.tab === tabs[0].id).id;
-  const findTabByMetric = metricId => metrics.find(m => m.id === metricId)?.tab ?? tabs[0].id;
+    metrics.find((m: MetricsProps) => m.tab === tabs[0].id)?.id;
+  const findTabByMetric = (metricId: string) => metrics.find((m: MetricsProps) => m.id === metricId)?.tab ?? tabs[0].id;
 
   const timeShiftConfig = useTimeShiftConfig();
   const timeShiftEnabled = timeShiftConfig.offset !== 0;
@@ -55,7 +76,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
     resets: [
       {
         bind: [timeShiftUrlParameter],
-        reset: ({ timeShiftOffset }) => {
+        reset: ({ timeShiftOffset }: any): any => {
           if (timeShiftOffset === 0) {
             return { [paramTab]: getActiveTab(), [paramMetric]: null };
           } else {
@@ -68,8 +89,8 @@ export function TimeShiftAwareChartSelectorWithUrlState({
 
   const [{ [paramTab]: activeTab, [paramMetric]: activeMetric }, setUrlState] = useUrlState(urlStateDefinition);
 
-  const setActiveTab = tab => setUrlState({ [paramTab]: tab, [paramMetric]: null });
-  const setActiveMetric = metric => setUrlState({ [paramMetric]: metric, [paramTab]: null });
+  const setActiveTab = (tab: string) => setUrlState({ [paramTab]: tab, [paramMetric]: null });
+  const setActiveMetric = (metric: string | undefined) => setUrlState({ [paramMetric]: metric, [paramTab]: null });
 
   const getActiveTab = () => activeTab ?? findTabByMetric(activeMetric);
   const getActiveMetric = () => activeMetric ?? findDefaultMetricByTab(activeTab);
@@ -86,6 +107,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
         setActiveTab(findTabByMetric(activeMetric));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabs, metrics]);
 
   const selectorComponent = timeShiftEnabled ? (
@@ -104,13 +126,16 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   // pass these additional props to the children
   const additionalProps = {
     selectedTabId: timeShiftEnabled ? findTabByMetric(getActiveMetric()) : getActiveTab(),
-    selectedMetricValue: metrics.find(m => m.id === getActiveMetric())?.value,
+    selectedMetricValue: metrics.find((m: MetricsProps) => m.id === getActiveMetric())?.value,
     timeShiftConfig: timeShiftConfig,
     selectorComponent: selectorComponent,
     cardTitle: cardTitle
   };
 
-  const childrenWithProps = React.Children.map(children, child => {
+  const childrenWithProps = React.Children.map(children, (child: React.ReactElement) => {
+    if (!child) {
+      return null;
+    }
     return (
       <child.type {...child.props} {...additionalProps}>
         {child}
@@ -120,72 +145,53 @@ export function TimeShiftAwareChartSelectorWithUrlState({
 
   return <React.Fragment>{childrenWithProps}</React.Fragment>;
 }
+interface ComboChartMetricSelectorProps {
+  metrics: MetricsProps[];
+  selected: string;
+  onChange: (value: string) => void;
+}
 
-TimeShiftAwareChartSelectorWithUrlState.propTypes = {
-  cardTitle: PropTypes.string.isRequired,
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  metrics: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      tab: PropTypes.string.isRequired,
-      tabDefault: PropTypes.bool
-    })
-  ).isRequired,
-  urlMatrixParamConfig: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    paramTab: PropTypes.string.isRequired,
-    paramMetric: PropTypes.string.isRequired
-  }).isRequired,
-  children: PropTypes.element.isRequired,
-  disabledWidgetInLive: PropTypes.bool
-};
-
-export function ComboChartMetricSelector({ metrics, selected, onChange }) {
+export function ComboChartMetricSelector({
+  metrics,
+  selected,
+  onChange
+}: ComboChartMetricSelectorProps): React.ReactElement {
   return (
     <ComboBoxBehavior
       value={selected}
-      options={metrics.map(o => ({
+      options={metrics.map((o: MetricsProps) => ({
         value: o.id,
-        label: <div className={locals.comboOption}>{o.label}</div>
+        label: `<div className={locals.comboOption}>{o.label}</div>`
       }))}
       onChange={value => onChange(value)}
       disableAutomaticOptionSorting
       overlayAlignment="bottomRight"
     >
-      {({ elementProps, isOpen }) => (
-        <DropdownButton {...elementProps} kind="subtle" size="compact" expanded={isOpen}>
-          {metrics.find(o => o.id === selected)?.label}
-        </DropdownButton>
-      )}
+      {({ elementProps, isOpen }) => {
+        return (
+          // @ts-expect-error the 'ref' property does not match here against HTMLElement:
+          <DropdownButton {...elementProps} kind="subtle" size="compact" expanded={isOpen}>
+            {metrics.find((o: MetricsProps) => o.id === selected)?.label}
+          </DropdownButton>
+        );
+      }}
     </ComboBoxBehavior>
   );
 }
 
-ComboChartMetricSelector.propTypes = {
-  metrics: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  selected: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
-};
+interface TabChartSelectorProps {
+  tabs: TabProps[];
+  selected: string;
+  onChange: (tabId: string) => void;
+  disabledWidgetInLive?: boolean;
+}
 
-export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive }) {
+export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive }: TabChartSelectorProps) {
   return (
     <ButtonGroup
       activeKey={selected}
       disabledWidgetInLive={disabledWidgetInLive}
-      buttonPropsList={tabs.map(tab => ({
+      buttonPropsList={tabs.map((tab: TabProps) => ({
         text: tab.label,
         key: tab.id,
         kind: 'primaryv2',
@@ -196,15 +202,3 @@ export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLiv
     />
   );
 }
-
-TabChartSelector.propTypes = {
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequire
-    })
-  ).isRequired,
-  selected: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  disabledWidgetInLive: PropTypes.bool
-};
