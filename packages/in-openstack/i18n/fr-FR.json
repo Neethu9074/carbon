@@ -17,7 +17,7 @@
   "type": "Type",
   "totalCpu": "Total UC",
   "totalMemory": "Mémoire totale",
-  "totalStorage": "Espace de stockage total",
+  "totalStorage": "Mémoire totale (Go)",
   "cpuArch": "Architecture d'UC",
   "cpuModel": "Modèle d'UC",
   "cpuVendor": "Fournisseur d'UC",
@@ -67,7 +67,6 @@
   "updated": "Mis à jour",
   "imageSize": "Taille de l'image (Mo)",
   "dashboards": {
-    "regions": "Régions",
     "openstackRegions": "Régions OpenStack",
     "name": "Nom",
     "hypervisors": "Hyperviseurs",

@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "您正在查看已删除的警报配置。不能修改。",
     "alertPropertyInfosWarning": "警告",
     "alertPropertyInfosCritical": "严重",
+    "alertConfirmationDialogDescription": "未将任何 {{entityPlaceholder}} 配置为发出警报。 确定要继续吗？",
+    "labelConfirm": "确认",
     "customPayload": {
       "deleteRow": "删除行",
       "key": "密钥",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "全局定制有效内容 ({{count}})",
       "globalCustomPayloadRetrieveFailed": "发生错误。 无法检索全局定制有效内容。",
       "noGlobalCustomPayloadConfigured": "未配置全局定制有效内容"
-    }
+    },
+    "previewFor": "预览： ",
+    "groupedViewHeader": "{{formattedCount}} 个结果",
+    "groupedViewHeader_plural": "{{formattedCount}} 个结果",
+    "groupedViewHeader_0": "{{formattedCount}} 个结果",
+    "groupedViewHeader_1": "{{formattedCount}} 个结果",
+    "groupedViewHeader_2": "{{formattedCount}} 个结果",
+    "resultHeaderLoading": "正在加载…",
+    "loadMore": "加载更多"
   },
   "potentialProblems": {
     "titleErrorRate": "错误调用率高于正常值",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "找不到给定搜索的智能警报配置",
     "titleNoSmartAlertsCreated": "未创建智能警报",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
+    "smartAlertsTitle": "智能警报",
     "applications": {
       "alertConfiguration": "警报配置",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "步骤 1：测试",
-        "simpleAlertConfigDialogStep1Headline": "应该在哪些合成测试上发出警报？",
+        "simpleAlertConfigDialogStep1Headline": "要对哪些合成测试发出警报？",
         "simpleAlertConfigDialogStep1Tooltip": "将针对每个合成测试，每个位置单独发送单独的警报",
         "stepConfigsStep4Title": "步骤 4：警报通道",
         "alertDialogHeadline": "警报中应该显示哪些内容？",
         "stepConfigsStep2Title": "步骤 2：作用域",
-        "scopeHeadline": "您希望在何处触发警报？",
+        "scopeHeadline": "作用域是什么？",
+        "scopeDescription": "选择要应用条件的位置。",
         "stepConfigsStep3Title": "步骤 3：时间阈值",
         "stepConfigsStep5Title": "步骤 5：警报属性",
         "thresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "谁应该接收警报？",
         "scopeFilterLabel": "作用域",
         "alertTestsLabel": "合成测试",
-        "alertTestsTitle": "合成测试：应该在哪些合成测试上发出警报？",
+        "alertTestsTitle": "合成测试：要对哪些合成测试发出警报？",
         "propertiesLabel": "警报属性",
         "propertiesTitle": "警报通知应包含哪些内容？",
         "failureThreshold": "时间阈值",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
         "noMetricSelected": "未选择度量"
       },
-      "groupedViewHeader": "{{formattedCount}} 个结果",
-      "groupedViewHeader_plural": "{{formattedCount}} 个结果",
-      "groupedViewHeader_0": "{{formattedCount}} 个结果",
-      "groupedViewHeader_1": "{{formattedCount}} 个结果",
-      "groupedViewHeader_2": "{{formattedCount}} 个结果",
-      "resultHeaderLoading": "正在加载…",
-      "loadMore": "加载更多",
       "count": "计数",
-      "previewFor": "预览： ",
       "selectEntityType": "请选择实体类型",
       "regexNotValid": "正则表达式无效"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "警报配置",
+        "metricName": "日志计数",
+        "alertConfigurationTitleScope": "作用域",
+        "noScopeSelected": "未配置作用域过滤器或组。",
+        "alertConfigurationTitleTimeThreshold": "时间阈值",
+        "alertConfigurationTitleAlertChannels": "警报通道",
+        "alertConfigurationTitleAlertProperties": "警报属性",
+        "alertConfigurationTitleTrigger": "触发器"
+      },
+      "list": {
+        "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_0": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_1": "+其他 {{count}} 个过滤器",
+        "moreFiltersWithCount_2": "+其他 {{count}} 个过滤器",
+        "filter": "过滤",
+        "filter_plural": "过滤器",
+        "filter_0": "过滤器",
+        "filter_1": "过滤器",
+        "filter_2": "过滤器",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "静态阈值",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "作用域",
+          "title": "作用域：这种情况在哪里发生？"
+        },
+        "threshold": {
+          "label": "阈值",
+          "title": "阈值：何时违反条件？"
+        },
+        "timeThreshold": {
+          "label": "时间阈值",
+          "title": "时间阈值：您希望何时收到警报？"
+        },
+        "alertChannel": {
+          "label": "警报通道",
+          "title": "警报通道：需要向谁发出警报？"
+        },
+        "properties": {
+          "label": "属性",
+          "title": "其他警报属性",
+          "preview": {
+            "subtitle": "日志计数"
+          },
+          "alertPropertiesTitlePlaceholder": "日志智能警报",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "日志计数大于 {{value}}。",
+            "logsCount_higherEqual": "日志计数大于或等于 {{value}}。",
+            "logsCount_lowerThan": "日志计数小于 {{value}}。",
+            "logsCount_lowerEqual": "日志计数小于或等于 {{value}}。"
+          }
+        },
+        "customPayloads": {
+          "label": "有效内容",
+          "title": "定制有效内容"
+        },
+        "thresholdValue": "阈值"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
+        "noMetricSelected": "未选择度量"
+      },
+      "logs": "日志"
     }
   }
 }

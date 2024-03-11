@@ -56,8 +56,7 @@
       "submit": "Übergeben"
     },
     "states": {
-      "saving": "Speichervorgang läuft...",
-      "loading": "Ladevorgang läuft..."
+      "saving": "Speichervorgang läuft..."
     }
   },
   "language_en-US": "Englisch",

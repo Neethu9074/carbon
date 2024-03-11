@@ -14,7 +14,8 @@
     "durationLabel": "期間",
     "noData": "表示可能なデータがありません",
     "healthLabel": "正常性",
-    "startLabel": "開始済み"
+    "startLabel": "開始済み",
+    "unnamedActivity": "(名前なしアクティビティー) {{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "ビジネス・モニタリング"
@@ -28,14 +29,19 @@
       "widgets": {
         "topActivities": "上位のアクティビティー (カウント)",
         "infrastructureIssuesAndChanges": "インフラストラクチャーの問題 & 変更",
-        "viewAll": "すべてのアクティビティーの表示"
+        "viewAll": "すべてのアクティビティーの表示",
+        "processCount": "数",
+        "processCountTotal": "合計",
+        "processErrors": "エラー"
       }
     },
     "activity": {
       "pageTitle": "ビジネス・アクティビティー",
       "summaryTab": "サマリー",
       "widgets": {
-        "duration": "期間"
+        "duration": "期間",
+        "activityCount": "数",
+        "activityErrors": "エラー"
       },
       "timespans": {
         "minute": "1 分",

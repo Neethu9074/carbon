@@ -74,8 +74,6 @@
       "infrastructure": "Infrastruktur",
       "profiles": "Profile",
       "logs": "Protokolle",
-      "eumWebsites": "EUM: Websites",
-      "eumMobileApps": "EUM: Mobile Apps",
       "pageLoads": "Seitenladevorgänge",
       "pageTransitions": "Seitenwechsel",
       "pageTransitions2": "Seitenwechsel",
@@ -159,7 +157,15 @@
         "resourceUri": "Ressourcen-URI",
         "cacheInteraction": "Cache-Interaktion",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana überwacht nicht die Position ({{location}}) dieses Aufrufs",
-        "tags": "Tags"
+        "tags": "Tags",
+        "loading": "Anrufdetails werden geladen.",
+        "labelError": "Unerwarteter Fehler",
+        "retryError": "Anrufdetails konnten nicht geladen werden.",
+        "started": "Gestartet",
+        "selfTime": "Selbstzeit",
+        "networkTime": "Netzübertragungszeit",
+        "waitingTime": "Wartezeit",
+        "latency": "Latenzzeit"
       },
       "callTree": {
         "expandButtonForRow": "Alle untergeordneten Aufrufe einblenden",

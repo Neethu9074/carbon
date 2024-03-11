@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregiert)"
   },
+  "logSmartAlerts": {
+    "logs": "Protokolle"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Status 'Fehlgeschlagen'"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "KI-generiert",
     "suggestionHelpfulText": "War dieser Vorschlag hilfreich?",
     "thankYouForYourFeedback": "Danke für Ihr Feedback!",
-    "noEntitiesErrorTitle": "Keine wahrscheinliche Fehlerursache gefunden",
-    "noEntitiesErrorDescription": "Dies tritt normalerweise auf, wenn der Vorfall keine signifikanten Auswirkungen auf den Service hatte",
     "performanceConstantlyEvaluated": "Die Leistung wird während der Betaphase aktiv bewertet und verbessert. Bitte geben Sie uns Feedback, damit wir unsere KI weiter verbessern können",
     "probableRootCauseLabel": "Wahrscheinliche Fehlerursache für Entität: {{entity_name}}",
-    "relatedEventsLabel": "Gefundene Entitätsereignisse: {{number_of_events}}",
+    "relatedEventsLabel": "Zugehörige Ereignisse ({{number_of_events}})",
     "entitiesNumber": "Entitäten",
-    "techPreview": "TECHNOLOGIEVORSCHAU"
+    "techPreview": "TECHNOLOGIEVORSCHAU",
+    "probabilityLevelText": "Wahrscheinlichkeitsstufe:",
+    "highProbability": "HIGH",
+    "moderateProbability": "MODERATE",
+    "lowProbability": "LOW",
+    "naProbability": "Nicht zutreffend",
+    "highProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Eine hohe Wahrscheinlichkeit gibt an, dass diese Entität aufgrund der bereitgestellten Angaben wahrscheinlich problematisch ist.",
+    "moderateProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Es ist wahrscheinlich, dass diese Entität die eigentliche Ursache ist, aber es ist mehr Analyse erforderlich.",
+    "lowProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Angesichts der vorliegenden Informationen hat diese Komponente eine geringe Wahrscheinlichkeit, ungesund zu sein, aber es wird weiter untersucht.",
+    "naProbabilityBadgeText": "Diese Wahrscheinlichkeitsbewertung basiert auf der Wahrscheinlichkeit, dass die betreffende Entität nicht in einwandfreiem Zustand ist. Leider konnte die Wahrscheinlichkeitsbewertung für diesen Vorfall nicht ermittelt werden."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Zusammenfassung des Vorfalls",
-    "thisIncident": "Dieser Vorfall scheint Folgendes zu sein:",
     "errorTitle": "Keine Zusammenfassung gefunden",
     "errorDescription": "Für dieses Ereignis konnte keine Zusammenfassung erstellt werden",
-    "summarizationHelpfulText": "War diese Zusammenfassung hilfreich?"
+    "summarizationHelpfulText": "War diese Zusammenfassung hilfreich?",
+    "alertChannelTableTitle": "Dem Vorfall zugeordnete Alertkanäle",
+    "noDataAlertChannels": "Diesem Vorfall konnten keine Alertkanäle zugeordnet werden"
   },
   "feedback": {
     "skip": "Überspringen",
@@ -187,5 +198,9 @@
     "contactMeNo": "Nein, ich möchte nicht kontaktiert werden.",
     "appreciateResponse": "Wir schätzen Ihre Antwort!",
     "followUpQuestion": "Möchten Sie, dass wir uns bezüglich Ihres technischen Feedbacks zur weiteren Klärung oder Diskussion mit Ihnen in Verbindung setzen?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Beeinflusste Geschäftsprozesse",
+    "titleImpactedBusinessProcessesIncident": "Betroffene Geschäftsprozesse für auslösendes Ereignis"
   }
 }

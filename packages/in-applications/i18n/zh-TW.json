@@ -569,7 +569,6 @@
     "otel": "OpenTelemetry"
   },
   "traceDetail": {
-    "beta": "測試版",
     "foreignRootCall": "未受 Instana 監視",
     "notYetReceivedRootCall": "尚未收到根呼叫",
     "tabs": {
