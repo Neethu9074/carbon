@@ -84,7 +84,7 @@
     "platform_permissions": "访问 {{quantityOfAreas}}",
     "analyticsContentMessage": "可以在 Web 站点、移动应用程序、应用程序、平台和基础架构中的访问范围定义的分析中查看数据",
     "infrastructureContentMessage": "可以在应用程序、平台和基础结构中查看由访问作用域定义的实体，也可以通过 DFQ 查看（可选）",
-    "eventsAndAlertsContentMessage": "可以根据 Web 站点、移动应用程序、应用程序、平台和基础结构中定义的访问范围来查看事件和警报",
+    "eventsAndAlertsContentMessage": "可以根据 Web 站点、移动应用程序、应用程序、合成监控、平台和基础架构中定义的访问作用域来查看事件和警报",
     "permissions": "许可权",
     "additionalPermissions": "其他许可权",
     "permissions_DASHBOARD": "定制仪表板许可权",
@@ -154,7 +154,10 @@
     "contribution_filter": "添加项过滤器",
     "contributionFilter_description": "创建新的应用程序配置时，将应用添加项过滤器。 在应用程序配置上，可以在 {{logicalOperator}} 运算符之后使用过滤器标记来优化添加项过滤器",
     "contributionFilter_downstreamCalls": "确定可以包含在应用程序透视图中的其他信息的最大级别",
-    "contributionFilter_name": "名称"
+    "contributionFilter_name": "名称",
+    "contributionFilter_name_mayNotBeBlank": "添加项过滤器名称不得为空。",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "添加项过滤器名称的长度不得超过 128 个字符。",
+    "contributionFilter_name_alreadyUsed": "已使用添加项过滤器名称。"
   },
   "selectItemForm": {
     "doneButton": "完成"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "访问级别",
-    "configuration_summary": "配置摘要",
+    "permissions": "许可权",
     "selection": "不可用",
     "selection_access_all": "全部访问",
     "selection_limited_access": "访问受限",
@@ -187,7 +190,7 @@
     "role_viewer": "查看者",
     "role_custom": "定制",
     "role_contributor": "添加者",
-    "role_permissions": "角色/许可权",
+    "access_type": "访问权类型",
     "roleTooltip_websites": "查看者：能够查看 Web 站点仪表板（无法查看配置）。 <br /> 所有者：能够创建新的 Web 站点；查看、配置和删除 Web 站点仪表板。",
     "roleTooltip_mobileApps": "查看者：能够查看移动应用程序仪表板（无法查看配置）。 <br /> 所有者：能够创建新的移动应用程序；查看、配置和删除移动应用程序仪表板。",
     "roleTooltip_applications": "查看者：能够查看应用程序仪表板（无法查看配置）。 <br /> 所有者：能够创建新应用程序；查看、配置和删除应用程序仪表板。",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "受限访问作用域（查看者）",
     "contribution_filter_warning": {
       "firstParagraph": "您保存的任何更改都将更新使用此添加项过滤器的所有应用程序透视图。",
-      "secondParagraph": "如果更改角色，那么将删除添加项过滤器。 然后，具有“应用程序”部分的“所有者”访问权的任何用户都可以编辑使用添加项过滤器的所有应用程序透视图。 此操作无法撤销。"
+      "secondParagraph": "如果更改访问权类型，那么将删除添加项过滤器。 具有“应用程序”部分所有者访问权的任何用户都可以编辑所有使用添加项过滤器的应用程序透视图。"
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "此单元下所有应用程序透视图的访问权。",
-        "role_permissions_contributor": "查看此单元下的所有应用程序仪表板。 使用添加项过滤器创建、配置和删除应用程序仪表板。"
+        "access_level": "使用所选访问权类型和任何其他许可权来访问所有应用程序透视图。",
+        "role_permissions_contributor": "使用添加项过滤器创建应用程序透视图；查看、配置和删除这些应用程序透视图。 查看其他应用程序透视图（如果已授予访问权）。"
       },
       "limited_access": {
-        "access_level": "仅对以下所选应用程序仪表板具有有限访问权。",
-        "access_level_contributor": "仅对以下所选应用程序仪表板具有有限访问权",
+        "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的应用程序。",
+        "access_level_contributor": "您可以在用户或组详细信息上的“访问配置”窗格中找到具有添加者访问权的应用程序。 <br /><br />使用作为添加者应用的添加项过滤器来访问应用程序透视图。 <br />以查看者身份访问所选应用程序透视图",
         "role_permissions_contributor": "创建应用了添加项过滤器的应用程序仪表板；查看、配置和删除为添加项过滤器创建的这些应用程序仪表板。"
       },
-      "role_permissions_owner": "创建、配置、查看和删除应用程序仪表板。",
-      "role_permissions_viewer": "查看应用程序透视图仪表板及其配置。"
+      "role_permissions_owner": "创建、配置、查看和删除应用程序透视图。",
+      "role_permissions_viewer": "查看应用程序透视图及其配置。"
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "此单元下所有实体仪表板的访问权，这些访问权与授予应用程序和平台的访问权相关。"
+        "access_level": "访问此单元下的所有实体仪表板，这些仪表板与授予给应用程序和平台的访问权相关。"
       },
       "role_permissions_owner": "查看实体仪表板。",
       "role_permissions_viewer": "查看实体仪表板。"
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "此单元下所有名称空间和集群的访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来访问所有名称空间和集群。"
       },
       "limited_access": {
-        "access_level": "仅对以下所选名称空间和集群具有有限访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的名称空间和集群。"
       },
       "role_permissions": "查看名称空间和集群。"
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "此单元下所有移动应用程序的访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来访问所有移动应用程序。"
       },
       "limited_access": {
-        "access_level": "仅对以下所选移动应用程序具有有限访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的移动应用程序。"
       },
       "role_permissions_owner": "创建、配置、查看和删除移动应用程序。",
-      "role_permissions_viewer": "查看移动应用程序及其配置。"
+      "role_permissions_viewer": "查看移动应用程序。"
     },
     "synthetics": {
       "access_all": {
-        "access_level": "此单元下所有合成测试的访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来访问所有合成测试。"
       },
       "limited_access": {
-        "access_level": "仅对以下所选合成测试具有有限访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的合成测试。"
       },
       "role_permissions_owner": "创建、配置、查看和删除合成测试。",
       "role_permissions_viewer": "查看合成测试及其配置。"
     },
     "website": {
       "access_all": {
-        "access_level": "此单元下的所有 Web 站点的访问权。"
+        "access_level": "使用所选访问权类型和任何其他许可权来访问所有 Web 站点。"
       },
       "limited_access": {
-        "access_level": "仅对以下所选 Web 站点具有有限访问限。"
+        "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的 Web 站点。"
       },
       "role_permissions_owner": "创建、查看和删除 Web 站点。",
-      "role_permissions_viewer": "查看 Web 站点及其配置。"
+      "role_permissions_viewer": "查看 Web 站点。"
     }
   },
   "cardTitle_Area": "区域",
@@ -341,7 +344,15 @@
       "wrong": "发生错误",
       "errorInfo": "无法从数据库中检索数据",
       "failed": "失败",
-      "inProgress": "进行中"
+      "inProgress": "进行中",
+      "deletionUntilTime": "删除截止时间",
+      "deletionUntilDate": "删除截止日期",
+      "untilDateValidationMessage": "日期必须为当前日期或之前的日期",
+      "reasonValidationMessage": "删除原因不能为空",
+      "toastSuccessTitle": "日志删除成功",
+      "toastSuccessMessage": "已成功删除所选时间段的日志。",
+      "toastErrorTitle": "日志删除失败",
+      "toastErrorMessage": "无法删除日志。 请重试。"
     },
     "failedToSaveConfig": "无法保存配置：{{err}}",
     "IdPMetadataRequired": "IdP 元数据文件是必需的",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "允许访问 {{label}} 监视功能。",
     "failedToSaveGroup": "未能保存组：{{err}}",
     "limitedAccess": "受限访问",
-    "filterInvites": "过滤器邀请",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "是否确定要撤销 <strong>{{email}}</strong> 加入 <strong>{{tenant}}</strong> 租户的邀请？",
     "inviteUser": "邀请用户",
     "sendInvitation": "发送邀请",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "Salesforce Organization URL",
     "alertChannelDocumentationMessage": "有关设置此警报通道的更多详细信息，请<documentationLink>查看我们的文档</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "确保在身份提供者中已禁用用户对 Instana 的访问权。",
-    "createIDPConfirmationDescription": "将删除暂挂邀请。 将从身份提供者 (IdP) 自动供应用户。"
+    "createIDPConfirmationDescription": "将删除暂挂邀请。 将从身份提供者 (IdP) 自动供应用户。",
+    "revokeInvitationForUserWithEmail": "撤销加入 {{email}} 的 {{tenant}} 租户的邀请",
+    "invitationValidUntil": "邀请截止日期",
+    "invitedBy": "邀请者"
   },
   "languageSelection": {
     "language": "语言",

@@ -19,6 +19,9 @@
   "totalCpu": "Totale CPU",
   "totalMemory": "Memoria totale",
   "totalStorage": "Spazio di archiviazione totale",
+  "totalCapacity": "Capacità totale",
+  "availableCapacity": "Capacità disponibile",
+  "volumeCount": "Conteggio volumi",
   "cpuArch": "Architettura CPU",
   "cpuModel": "Modello CPU",
   "cpuVendor": "Fornitore CPU",
@@ -26,6 +29,7 @@
   "status": "Stato",
   "state": "Stato",
   "hostIP": "IP host",
+  "ip": "IP",
   "hypervisorType": "Tipo di hypervisor",
   "hypervisorVersion": "Versione hypervisor",
   "instanceCount": "Conteggio istanze",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "Utilizzo gruppi di server",
   "floatingIpsUsage": "Utilizzo IP mobili",
   "securityGroupsUsage": "Utilizzo gruppi di sicurezza",
+  "project": "Progetto",
+  "hostName": "Nome Host",
+  "cpuUtilization": "Utilizzo della CPU",
+  "health": "Integrità",
   "dashboards": {
-    "regions": "Regioni",
     "powervcRegions": "Regioni PowerVC",
     "hypervisors": "Hypervisor",
     "computeInstances": "Istanze di elaborazione",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "Totale gruppi di server utilizzati",
     "totalFloatingIpsUsed": "Totale IP mobili utilizzati",
     "totalSecurityGroupsUsed": "Totale gruppi di sicurezza utilizzati",
-    "memoryUsageAll": "Utilizzo memoria per tutte le VM",
-    "cpuUsageAll": "Utilizzo CPU per tutte le VM",
-    "storageUsageAll": "Utilizzo storage per tutte le VM",
     "noDataAvailable": {
       "hypervisorTitle": "Nessun hypervisor PowerVC disponibile",
-      "hypervisorDescription": "Nessun hypervisor PowerVC richiamato per l'intervallo di tempo selezionato."
+      "hypervisorDescription": "Nessun hypervisor PowerVC richiamato per l'intervallo di tempo selezionato.",
+      "instanceTitle": "Nessuna istanza PowerVC disponibile",
+      "instanceDescription": "Nessuna istanza PowerVC richiamata per l'intervallo di tempo selezionato."
     }
   }
 }

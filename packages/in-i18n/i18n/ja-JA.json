@@ -56,8 +56,7 @@
       "submit": "実行依頼"
     },
     "states": {
-      "saving": "保存中…",
-      "loading": "ロード中…"
+      "saving": "保存中…"
     }
   },
   "language_en-US": "英語",

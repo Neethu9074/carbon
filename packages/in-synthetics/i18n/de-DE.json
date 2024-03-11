@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Synthetischen Test hinzufügen",
       "dialogTitle": "Synthetischen Test erstellen",
       "noLocationFound": "Entschuldigung. Es wurden keine Standorte gefunden",
       "noApplicationsFound": "Keine Anwendungen gefunden",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "Synthetische Browsertests",
           "browserTypeText": "Synthetische Browsertests sind eine Methode zur Überwachung der Leistung von Webanwendungen durch Simulation von Benutzerinteraktionen mit einer Website über ein Script in einem Web-Browser. Sie bieten wertvolle Einblicke in Probleme, die sich auf die Benutzererfahrung auswirken, und stellen die Funktionalität der Website sicher.",
           "browserSimpleTitle": "Browser-Simple-Test",
-          "browserScriptTitle": "Browser-Script-Test",
-          "internetServicesTypeLabel": "Internetservices",
-          "internetServicesTypeHeadline": "Tests von Internet-Services",
-          "internetServicesTypeText": "Synthetische Internet-Services-Tests beinhalten die Simulation von Benutzerinteraktionen mit Web-Services, um deren Leistung zu überwachen und zu testen und so Ausfallzeiten zu erkennen und zu verhindern."
+          "browserScriptTitle": "Browser-Script-Test"
         },
         "configurationLabel": "Konfiguration",
         "configurationTitle": "Konfiguration: Wie funktioniert dieser Test?",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "Einmal wiederholen",
           "retryFieldOptionTwice": "Zweimal wiederholen",
           "retryIntervalFieldLabel": "Wiederholungsintervall",
-          "retryIntervalDescription": "Dieser Test wiederholt {{retryCount}} nach {{retryIntervalValue}} Sekunde.",
+          "retryIntervalDescription": "Dieser Test wird {{retryCount}} nach {{retryIntervalValue}} {{retryIntervalUnit}} wiederholt.",
           "markSyntheticCall": "Synthetischen Aufruf markieren"
         },
         "loadMore": "Mehr laden",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser",
-          "internetServicesName": "Internetservices"
+          "browserName": "Browser"
         },
         "customProperties": {
           "property": "Eigenschaft",
@@ -251,10 +248,64 @@
       "buttonSave": "Speichern",
       "scriptSavedMessage": "Script hinzugefügt",
       "bundleSavedMessage": "Gebündelte Scripts hinzugefügt"
+    },
+    "createLocation": {
+      "newLocation": "Neuer Standort",
+      "activate": "Aktivieren",
+      "done": "Erledigt",
+      "stepConfigs": {
+        "selectType": "Schritt 1: Typ auswählen",
+        "configuration": "Schritt 2: Konfiguration"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "Welchen Standorttyp möchten Sie verwenden?"
+      },
+      "privateLocation": {
+        "name": "Private",
+        "headline": "Privater Standort",
+        "description": {
+          "headline": "Verwendung von",
+          "htmlContent": "Wenn Sie interne Anwendungen oder Endpunkte überwachen möchten, die nur in Ihrem privaten Netz zugänglich sind. Diese Standorte werden von Ihnen eingerichtet, gehostet und verwaltet."
+        }
+      },
+      "managedLocation": {
+        "name": "Verwaltete -Instanz",
+        "headline": "Verwalteter Standort",
+        "description": {
+          "headline": "Verwendung von",
+          "htmlContent": "Wenn Sie öffentlich zugängliche Websites und Anwendungen überwachen möchten. Diese Standorte werden von Instana in Rechenzentren auf der ganzen Welt gehostet und verwaltet."
+        },
+        "managedDatacentersLabel": "Rechenzentren",
+        "datacenterCode": "Rechenzentrumscode",
+        "datacenterName": "Rechenzentrumsname",
+        "provider": "Provider",
+        "locationName": "Anzeigename des Standorts",
+        "status": "Aktivierungsstatus",
+        "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Standorte werden implementiert",
+          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten dauern.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Rechenzentrumscode",
+              "datacenterName": "Rechenzentrumsname",
+              "locationName": "Anzeigename des Standorts",
+              "datacenterStatus": "Aktivierungsstatus"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "Mindestens ein Rechenzentrum muss ausgewählt werden"
+      },
+      "licenseCheck": {
+        "title": "Sie benötigen eine Lizenz.",
+        "description": "Für die Verwendung von Instana-verwalteten Standorten ist eine <linkLicenses>zusätzliche Lizenz</linkLicenses> erforderlich. Wenden Sie sich an Ihren Instanzeradministrator, um Hilfe zu erhalten."
+      },
+      "status": {
+        "pending": "Anstehend"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Synthetischen Test hinzufügen"
   },
   "createSmartAlert": {
     "buttonLabel": "Synthetischen Smart Alert hinzufügen"

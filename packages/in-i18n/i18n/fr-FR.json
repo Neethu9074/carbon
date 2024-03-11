@@ -56,8 +56,7 @@
       "submit": "Soumettre"
     },
     "states": {
-      "saving": "Enregistrement en cours...",
-      "loading": "Chargement en cours..."
+      "saving": "Enregistrement en cours..."
     }
   },
   "language_en-US": "Anglais",

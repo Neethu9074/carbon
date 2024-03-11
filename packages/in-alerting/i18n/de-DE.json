@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Sie sehen eine gelöschte Alertkonfiguration. Es sind keine Änderungen möglich.",
     "alertPropertyInfosWarning": "Warnung",
     "alertPropertyInfosCritical": "Kritisch",
+    "alertConfirmationDialogDescription": "Es sind keine {{entityPlaceholder}} für Alerts konfiguriert. Möchten Sie wirklich fortfahren?",
+    "labelConfirm": "Bestätigen",
     "customPayload": {
       "deleteRow": "Zeile löschen",
       "key": "Schlüssel",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "Globale angepasste Nutzdaten ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Es ist ein Fehler aufgetreten. Globale angepasste Nutzdaten konnten nicht abgerufen werden.",
       "noGlobalCustomPayloadConfigured": "Keine globalen angepassten Nutzdaten konfiguriert"
-    }
+    },
+    "previewFor": "Vorschau für: ",
+    "groupedViewHeader": "{{formattedCount}} Ergebnisse",
+    "groupedViewHeader_plural": "{{formattedCount}} Ergebnisse",
+    "groupedViewHeader_0": "{{formattedCount}} Ergebnisse",
+    "groupedViewHeader_1": "{{formattedCount}} Ergebnisse",
+    "groupedViewHeader_2": "{{formattedCount}} Ergebnisse",
+    "resultHeaderLoading": "Wird geladen...",
+    "loadMore": "Mehr laden"
   },
   "potentialProblems": {
     "titleErrorRate": "Rate fehlerhafter Aufrufe ist höher als üblich",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "Für eine bestimmte Suche wurden keine Smart-Alert-Konfigurationen gefunden",
     "titleNoSmartAlertsCreated": "Keine Smart Alerts erstellt",
     "titleCopyOf": "(Kopie von) {{smartAlertTitle}}",
+    "smartAlertsTitle": "Smart Alerts",
     "applications": {
       "alertConfiguration": "Alertkonfiguration",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Schritt 1: Tests",
-        "simpleAlertConfigDialogStep1Headline": "Für welche synthetischen Tests sollen Alerts ausgegeben werden?",
+        "simpleAlertConfigDialogStep1Headline": "Über welche synthetischen Tests möchten Sie benachrichtigt werden?",
         "simpleAlertConfigDialogStep1Tooltip": "Für jeden synthetischen Test werden für jede Position einzelne Alerts gesendet",
         "stepConfigsStep4Title": "Schritt 4: Alertkanäle",
         "alertDialogHeadline": "Was soll im Alert angezeigt werden?",
         "stepConfigsStep2Title": "Schritt 2: Bereich",
-        "scopeHeadline": "An welcher Stelle soll der Alert ausgelöst werden?",
+        "scopeHeadline": "Was ist der Geltungsbereich?",
+        "scopeDescription": "Wählen Sie aus, wo die Bedingung angewendet wird.",
         "stepConfigsStep3Title": "Schritt 3: Zeitschwellenwert",
         "stepConfigsStep5Title": "Schritt 5: Alerteigenschaften",
         "thresholdTitle": "Wie viele aufeinanderfolgende Fehler müssen pro Standort auftreten, bevor Alerts ausgegeben werden?",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "Wer sollte die Alerts bekommen?",
         "scopeFilterLabel": "Umfang",
         "alertTestsLabel": "Synthetische Tests",
-        "alertTestsTitle": "Synthetische Tests: Für welche synthetischen Tests sollen Alerts ausgegeben werden?",
+        "alertTestsTitle": "Synthetische Tests: Über welche synthetischen Tests möchten Sie benachrichtigt werden?",
         "propertiesLabel": "Alerteigenschaften",
         "propertiesTitle": "Was sollte die Alert Notification enthalten?",
         "failureThreshold": "Zeitschwellenwert",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
         "noMetricSelected": "Keine Metrik ausgewählt"
       },
-      "groupedViewHeader": "{{formattedCount}} Ergebnisse",
-      "groupedViewHeader_plural": "{{formattedCount}} Ergebnisse",
-      "groupedViewHeader_0": "{{formattedCount}} Ergebnisse",
-      "groupedViewHeader_1": "{{formattedCount}} Ergebnisse",
-      "groupedViewHeader_2": "{{formattedCount}} Ergebnisse",
-      "resultHeaderLoading": "Wird geladen...",
-      "loadMore": "Mehr laden",
       "count": "Anzahl",
-      "previewFor": "Vorschau für: ",
       "selectEntityType": "Wählen Sie einen Entitätstyp aus",
       "regexNotValid": "Regulärer Ausdruck ist ungültig"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "Alertkonfiguration",
+        "metricName": "Anzahl der Protokolle",
+        "alertConfigurationTitleScope": "Umfang",
+        "noScopeSelected": "Keine Bereichsfilter oder Gruppen konfiguriert.",
+        "alertConfigurationTitleTimeThreshold": "Zeitschwellenwert",
+        "alertConfigurationTitleAlertChannels": "Alertkanäle",
+        "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
+        "alertConfigurationTitleTrigger": "Auslöser"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} weiterer Filter",
+        "moreFiltersWithCount_plural": "+{{count}} weitere Filter",
+        "moreFiltersWithCount_0": "+{{count}} weitere Filter",
+        "moreFiltersWithCount_1": "+{{count}} weitere Filter",
+        "moreFiltersWithCount_2": "+{{count}} weitere Filter",
+        "filter": "Filter",
+        "filter_plural": "Filter",
+        "filter_0": "Filter",
+        "filter_1": "Filter",
+        "filter_2": "Filter",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "Statischer Schwellenwert",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Umfang",
+          "title": "Bereich: Wo geschieht die Bedingung?"
+        },
+        "threshold": {
+          "label": "Schwellenwert",
+          "title": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?"
+        },
+        "timeThreshold": {
+          "label": "Zeitschwellenwert",
+          "title": "Zeitschwellenwert: Wann möchten Sie alarmiert werden?"
+        },
+        "alertChannel": {
+          "label": "Alertkanäle",
+          "title": "Alertkanäle: Wer muss alarmiert werden?"
+        },
+        "properties": {
+          "label": "Eigenschaften",
+          "title": "Zusätzliche Alerteigenschaften",
+          "preview": {
+            "subtitle": "Anzahl der Protokolle"
+          },
+          "alertPropertiesTitlePlaceholder": "Intelligente Alerts protokollieren",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "Die Anzahl der Protokolle ist höher als {{value}}.",
+            "logsCount_higherEqual": "Die Anzahl der Protokolle ist größer-gleich {{value}}.",
+            "logsCount_lowerThan": "Die Anzahl der Protokolle ist niedriger als {{value}}.",
+            "logsCount_lowerEqual": "Die Anzahl der Protokolle ist kleiner-gleich {{value}}."
+          }
+        },
+        "customPayloads": {
+          "label": "Nutzdaten",
+          "title": "Angepasste Nutzdaten"
+        },
+        "thresholdValue": "Schwellenwert"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
+        "noMetricSelected": "Keine Metrik ausgewählt"
+      },
+      "logs": "Protokolle"
     }
   }
 }
