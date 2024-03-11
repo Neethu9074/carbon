@@ -138,13 +138,21 @@ const ConfirmationDialog = ({
                 type="warning"
                 withIcon
                 className={locals.bottomSpace}
-                title={t(
-                  'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessage',
-                  {
-                    rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters),
-                    additionalText: rejectedDatacenters.length > 1 ? 'they have' : 'it has'
-                  }
-                )}
+                title={
+                  rejectedDatacenters.length > 1
+                    ? t(
+                        'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessageMultipleDatacenters',
+                        {
+                          rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
+                        }
+                      )
+                    : t(
+                        'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessageSingleDatacenter',
+                        {
+                          rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
+                        }
+                      )
+                }
               />
             </div>
           )}
