@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
-import { LogGroupItem, LogItem, TagFilterExpression, TimeConfig } from '@instana/types';
+import {
+  LogGroupItem,
+  LogItem,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  TimeConfig
+} from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import { logsCallwithFilters } from '../tracker';
@@ -25,7 +31,7 @@ export const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregati
 
 export const handleLogCallsWithFilters = (payload: {
   timeConfig: TimeConfig;
-  tagFilterExpression: TagFilterExpression;
+  tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
 }) => {
   logsCallwithFilters(payload);
 };

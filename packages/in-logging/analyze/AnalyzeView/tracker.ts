@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilterExpression, TimeConfig } from '@instana/types';
+import { TagFilterExpression, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 
 import {
   ANALYZE_LOGGING_JUMP_TO_LOGS,
@@ -29,5 +29,7 @@ export const jumpToLogs = (e: any) => track(ANALYZE_LOGGING_JUMP_TO_LOGS, e);
 export const timeSpent = (e: { millisSpentOnAnalyzeView: number }) => track(ANALYZE_LOGGING_TIME_SPENT, e);
 export const sortingChanged = (e: Record<string, string>) => track(ANALYZE_LOGGING_SORTING_CHANGED, e);
 export const clickedAppPerspectiveLink = () => track(LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK);
-export const logsCallwithFilters = (e: { timeConfig: TimeConfig; tagFilterExpression: TagFilterExpression }) =>
-  track(ANALYZE_LOGGING_LOG_GETLOGS_FILTERS, e);
+export const logsCallwithFilters = (e: {
+  timeConfig: TimeConfig;
+  tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
+}) => track(ANALYZE_LOGGING_LOG_GETLOGS_FILTERS, e);

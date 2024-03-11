@@ -6,7 +6,7 @@
 
 import { useMemo, useState } from 'react';
 
-import { TagFilterExpression, TimeConfig, TraceSummary } from '@instana/types';
+import { TimeConfig, TraceSummary } from '@instana/types';
 
 import {
   getTraceIdTagFilter,
@@ -117,7 +117,7 @@ function getData({ traceId, timeConfig }: GetDataParams) {
   };
   const mixpanelProps = {
     timeConfig: callBody.timeConfig,
-    tagFilterExpression: callBody.tagFilterExpression as TagFilterExpression
+    tagFilterExpression: callBody.tagFilterExpression
   };
   handleLogCallsWithFilters(mixpanelProps);
 
