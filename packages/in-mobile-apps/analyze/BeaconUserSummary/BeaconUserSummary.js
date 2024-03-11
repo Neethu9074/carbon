@@ -13,6 +13,7 @@ import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import User from 'in-mobile-apps/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-components/layout/Grid';
+import { metaRedirectURL } from '../../constants';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
@@ -23,7 +24,28 @@ export default function BeaconUserSummary({ beacon, beacons }) {
   const geoSubsection = [beacon.subdivision, beacon.country, beacon.continent].filter(Boolean);
   const isGeoCoordinatesAvailable = !(beacon.latitude === -1.0 && beacon.longitude === -1.0);
   const noGeoAvailable = !isGeoCoordinatesAvailable && geoSubsection.length === 0;
+  const redirectToMetaDoc = () => {
+    let docURL = '';
 
+    // Check if beacon and agentVersion are valid
+    if (beacon?.agentVersion) {
+      const { agentVersion, platform } = beacon;
+      //check for flutter
+      if (agentVersion.includes(':f:')) {
+        docURL = metaRedirectURL?.flutterMetaApiDoc;
+        // check for react native
+      } else if (agentVersion.includes(':r:')) {
+        docURL = metaRedirectURL?.reactNativeMetaApiDoc;
+      } else {
+        // Determine URL based on platform
+        docURL = platform === 'Android' ? metaRedirectURL?.androidMetaApiDoc : metaRedirectURL?.iosMetaApiDoc;
+      }
+    } else {
+      // Handle case where beacon or agentVersion is missing
+      docURL = metaRedirectURL?.mobileMonitoringDoc;
+    }
+    return docURL;
+  };
   return (
     <Row className={locals.summary} verticallyStretchColumns>
       <Col lg={4}>
@@ -97,7 +119,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           {!hasMeta && (
             <NotDefined
               explanation={t('in-mobile-apps:beaconUserSum.notDefinedExplain')}
-              learnMoreHref="https://ibm.biz/metadata"
+              learnMoreHref={redirectToMetaDoc()}
               learnMoreLabel={t('in-mobile-apps:beaconUserSum.learnMoreLabel')}
             />
           )}
