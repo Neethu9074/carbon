@@ -14,7 +14,8 @@
     "durationLabel": "Duração",
     "noData": "Dados não disponíveis",
     "healthLabel": "Funcionamento",
-    "startLabel": "Iniciado"
+    "startLabel": "Iniciado",
+    "unnamedActivity": "(Atividade não nomeada) {{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "Monitoramento de negócios"
@@ -28,14 +29,19 @@
       "widgets": {
         "topActivities": "Principais atividades (contagem)",
         "infrastructureIssuesAndChanges": "Problemas e mudanças de infraestrutura",
-        "viewAll": "Visualizar todas as atividades"
+        "viewAll": "Visualizar todas as atividades",
+        "processCount": "Contagem",
+        "processCountTotal": "Total",
+        "processErrors": "Erros"
       }
     },
     "activity": {
       "pageTitle": "Atividade de negócios",
       "summaryTab": "Resumo",
       "widgets": {
-        "duration": "Duração"
+        "duration": "Duração",
+        "activityCount": "Contagem",
+        "activityErrors": "Erros"
       },
       "timespans": {
         "minute": "1 minuto",

@@ -166,7 +166,9 @@
         "crossSeriesAggregation": "Utilizza SOMMA per l'aggregazione tra serie",
         "crossSeriesAggregationHelp": "Normalmente l'aggregazione tra serie è uguale all'aggregazione temporale (il metodo utilizzato per combinare i punti di dati in un singolo bucket). Con questa opzione abilitata, i socket verranno sommati in tutte le serie di dati invece di utilizzare l'aggregazione specificata.",
         "crossSeriesAggregationDisabledHelp": "Non applicabile a {{aggregation}}",
-        "crossSeriesAggregationRestrictedHelp": "Non applicabile a questa metrica"
+        "crossSeriesAggregationRestrictedHelp": "Non applicabile a questa metrica",
+        "lastValue": "Utilizza ultimo valore",
+        "lastValueHelp": "Con questa opzione abilitata, verrà visualizzata l'aggregazione per l'ultimo bucket nell'intervallo di tempo."
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastruttura e piattaforme",
@@ -179,7 +181,15 @@
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "Modello di metrica (ad es. metric_. *)",
         "done": "Fine",
-        "help": "## Suggerimenti rapidi\nLa regex con flavor di Apache Lucene è supportata con i seguenti operatori.\n### .\nCorrisponde a qualsiasi carattere. Ad esempio:\n\n    ab.     # corrisponde ad 'aba', 'abb', 'abz', ecc.\n###? + *\nRipetere il carattere precedente un certo numero di volte. Ad esempio:\n\n    abc?     # ripetere 'c' una o zero volte. corrisponde ad 'ab' e 'abc'\n    ab+      # ripetere 'b' una o più volte. corrisponde ad 'ab', 'abb', 'abbb', ecc.\n    ab*      # ripetere 'b' zero o più volte. corrisponde ad 'a', 'ab', 'abb', 'abbb', ecc.\n### |\nOperatore OR. La corrispondenza avrà esito positivo se il modello più lungo sul lato sinistro OPPURE sul lato destro corrisponde. Ad esempio:\n\n    abc|xyz  # corrisponde ad 'abc' e 'xyz'\n### ( … )\nForma un gruppo. È possibile utilizzare un gruppo per trattare parte dell'espressione come un singolo carattere. Ad esempio:\n\n    abc(def)?  # corrisponde ad 'abc' e 'abcdef' ma non ad 'abcd'\n### [ … ]\nCorrispondere a uno dei caratteri tra parentesi. Ad esempio:\n\n    [abc]   # corrisponde ad 'a', 'b', 'c'\nAll'interno delle parentesi, `-` indica un intervallo, a meno che `-` non sia il primo carattere o non sia preceduto da un carattere escape Ad esempio:\n\n    [a-c]   # corrisponde ad 'a', 'b' oppure 'c'\n    [-abc]  # '-' è il primo carattere. Corrisponde a '-', 'a', 'b' oppure 'c'\n    [abc\\-] # Precede come carattere escape '-'. Corrisponde ad 'a', 'b', 'c' oppure '-'\nUn carattere `^` prima di un carattere tra parentesi nega il carattere o l'intervallo. Ad esempio:\n\n    [^abc]      # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b' oppure 'c'\n    [^a-c]      # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b' oppure 'c'\n    [^-abc]     # corrisponde a qualsiasi carattere fatta eccezione per '-', 'a', 'b' oppure 'c'\n    [^abc\\-]    # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b', 'c' oppure '-'\n\nSi tenga presente che le classi di caratteri PCRE, quali `\\w` oppure `\\S`, non sono attualmente supportate. Si tenga presente inoltre che gli operatori di ancoraggio, quali ` ^ ` o ` $`, non sono supportati. L'espressione deve corrispondere all'intera stringa."
+        "help": "## Suggerimenti rapidi\nLa regex con flavor di Apache Lucene è supportata con i seguenti operatori.\n### .\nCorrisponde a qualsiasi carattere. Ad esempio:\n\n    ab.     # corrisponde ad 'aba', 'abb', 'abz', ecc.\n###? + *\nRipetere il carattere precedente un certo numero di volte. Ad esempio:\n\n    abc?     # ripetere 'c' una o zero volte. corrisponde ad 'ab' e 'abc'\n    ab+      # ripetere 'b' una o più volte. corrisponde ad 'ab', 'abb', 'abbb', ecc.\n    ab*      # ripetere 'b' zero o più volte. corrisponde ad 'a', 'ab', 'abb', 'abbb', ecc.\n### |\nOperatore OR. La corrispondenza avrà esito positivo se il modello più lungo sul lato sinistro OPPURE sul lato destro corrisponde. Ad esempio:\n\n    abc|xyz  # corrisponde ad 'abc' e 'xyz'\n### ( … )\nForma un gruppo. È possibile utilizzare un gruppo per trattare parte dell'espressione come un singolo carattere. Ad esempio:\n\n    abc(def)?  # corrisponde ad 'abc' e 'abcdef' ma non ad 'abcd'\n### [ … ]\nCorrispondere a uno dei caratteri tra parentesi. Ad esempio:\n\n    [abc]   # corrisponde ad 'a', 'b', 'c'\nAll'interno delle parentesi, `-` indica un intervallo, a meno che `-` non sia il primo carattere o non sia preceduto da un carattere escape Ad esempio:\n\n    [a-c]   # corrisponde ad 'a', 'b' oppure 'c'\n    [-abc]  # '-' è il primo carattere. Corrisponde a '-', 'a', 'b' oppure 'c'\n    [abc\\-] # Precede come carattere escape '-'. Corrisponde ad 'a', 'b', 'c' oppure '-'\nUn carattere `^` prima di un carattere tra parentesi nega il carattere o l'intervallo. Ad esempio:\n\n    [^abc]      # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b' oppure 'c'\n    [^a-c]      # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b' oppure 'c'\n    [^-abc]     # corrisponde a qualsiasi carattere fatta eccezione per '-', 'a', 'b' oppure 'c'\n    [^abc\\-]    # corrisponde a qualsiasi carattere fatta eccezione per 'a', 'b', 'c' oppure '-'\n\nSi tenga presente che le classi di caratteri PCRE, quali `\\w` oppure `\\S`, non sono attualmente supportate. Si tenga presente inoltre che gli operatori di ancoraggio, quali ` ^ ` o ` $`, non sono supportati. L'espressione deve corrispondere all'intera stringa.\n## Ulteriori informazioni\nPer la sintassi completa, consultare la pagina [documentation]({{documentationLink}})."
+      },
+      "regexMetricsList": {
+        "noRegex": "Immettere una query regex",
+        "loading": "Caricamento...",
+        "error": "Si è verificato un problema durante il caricamento di queste metriche.",
+        "noResults": "Non ci sono metriche corrispondenti a tale espressione regex",
+        "matches": "Corrisponde a {{number}} metriche",
+        "more": "Altri {{number}}"
       },
       "metricSelectionCategoryOverlay": {
         "list": "Elenca",
@@ -812,6 +822,9 @@
         "endedOn": "Terminato il",
         "duration": "Durata"
       }
+    },
+    "time": {
+      "lastValueTooltipLabel": "Ultima {{duration}}"
     }
   },
   "duplicateDashboardDialog": {

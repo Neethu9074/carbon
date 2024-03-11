@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "계속",
     "workspaceAPIQuery": "API 조회",
     "workspaceUseThisExpressionToQueryOurAPI": "이 세션을 사용하여 API 조회",
-    "workspaceIncludeSidebarFilters": "필터 사이드바 항목 포함",
     "workspaceTitleFilter": "필터",
     "workspaceButtonClear": "지우기",
     "errorWithDataYourDefinedQueryIsTooComplex": "정의된 조회가 너무 복잡합니다. 네스팅의 수를 줄이십시오.",

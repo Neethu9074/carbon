@@ -34,6 +34,7 @@
     "controlPlane": "控制平面",
     "events": "事件",
     "nodes": "节点",
+    "fargateNode": "Fargate 节点",
     "namespaces": "名称空间",
     "deployments": "部署",
     "deploymentConfigs": "部署配置",
@@ -44,6 +45,8 @@
     "pods": "Pod",
     "persistentVolumes": "持久卷",
     "persistentVolumeClaims": "持久卷声明",
+    "prometheusMetrics": "Prometheus 度量值",
+    "prometheusEndpoints": "Prometheus 端点",
     "infrastructure": "基础架构",
     "name": "名称",
     "cpuUsage": "CPU 使用率",
@@ -178,6 +181,7 @@
     "externalIp": "外部 IP",
     "unmonitoredHost": "未监视的主机",
     "theHostIsUnmonitoredOnAKubernetesMasterNode": "主机未运行 Instana 主机代理程序。 这通常是由污点、有限容量、超负荷的主机或应调查的其他限制导致的。",
+    "theHostIsUnmonitoredFargateNode": "主机代理程序无法监控该主机，因为它是 Fargate 节点。",
     "host": "主机",
     "podsAllocation": "Pod 分配",
     "kubernetesPod": "Kubernetes Pod",
@@ -286,7 +290,6 @@
   "succeeded": "成功",
   "failed": "失败",
   "unknown": "未知",
-  "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "无可用 Kubernetes 数据。 有关故障诊断信息，请参阅[文档]。\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"

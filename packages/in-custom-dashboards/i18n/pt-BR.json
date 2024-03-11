@@ -166,7 +166,9 @@
         "crossSeriesAggregation": "Usar SUM para agregação de séries cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, a agregação de série cruzada é a mesma da agregação de tempo cruzado (o método usado para combinar pontos de dados em um único depósito). Com essa alternância ativada, vamos somar os depósitos nas séries de dados, em vez de usar a agregação especificada.",
         "crossSeriesAggregationDisabledHelp": "Não aplicável a {{aggregation}}",
-        "crossSeriesAggregationRestrictedHelp": "Não aplicável a esta métrica"
+        "crossSeriesAggregationRestrictedHelp": "Não aplicável a esta métrica",
+        "lastValue": "Usar último valor",
+        "lastValueHelp": "Com essa alternância ativada, exibiremos a agregação do último bucket no intervalo de tempo."
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestrutura e plataformas",
@@ -179,7 +181,15 @@
       "regexMetricSelectorOverlay": {
         "inputPlaceholder": "Padrão de métrica (por exemplo, metric_.*)",
         "done": "Concluído",
-        "help": "## Dicas rápidas\nO regex do tipo Apache Lucene é suportado com os operadores a seguir.\n### .\nCorresponde a qualquer caractere. Por exemplo:\n\n    ab.     # corresponde a 'aba', 'abb', 'abz', etc.\n### ? + *\nRepita o caractere anterior um certo número de vezes. Por exemplo:\n\n    abc?     # Repita 'c' uma ou nenhuma vez. corresponde a 'ab' e 'abc'\n    ab+      # Repita 'b' uma ou mais vezes. corresponde a 'ab', 'abb', 'abbb', etc.\n    ab*      # Repita 'b' zero ou mais vezes. corresponde a 'a', 'ab', 'abb', 'abbb', etc.\n### |\nOperador OR. A correspondência será bem-sucedida se o padrão mais longo no lado esquerdo OU lado direito for correspondente. Por exemplo:\n\n    abc|xyz  # corresponde a 'abc' e 'xyz'\n### ( … )\nForma um grupo. É possível usar um grupo para tratar parte da expressão como um único caractere. Por exemplo:\n\n    abc(def)?  # corresponde a 'abc' e 'abcdef', mas não a 'abcd'\n### [ … ]\nCorresponder a um dos caracteres entre colchetes. Por exemplo:\n\n    [abc]   # corresponde a 'a', 'b', 'c'\nDentro dos colchetes, `-` indica um intervalo, a menos que `-` seja o primeiro caractere ou escapado. Por exemplo:\n\n    [a-c]   # corresponde a 'a', 'b' ou 'c'\n    [-abc]  # '-' é o primeiro caractere. Corresponde a '-', 'a', 'b' ou 'c'\n    [abc\\-] # Escapa '-'. Corresponde a 'a', 'b', 'c' ou '-'\nUm `^` antes de um caractere entre colchetes nega o caractere ou intervalo. Por exemplo:\n\n    [^abc]      # corresponde a qualquer caractere, exceto 'a', 'b' ou 'c'\n    [^a-c]      # corresponde a qualquer caractere, exceto 'a', 'b' ou 'c'\n    [^-abc]     # corresponde a qualquer caractere, exceto '-', 'a', 'b' ou 'c'\n    [^abc\\-]    # corresponde a qualquer caractere, exceto 'a', 'b', 'c' ou '-'\n\nObserve que as classes de caracteres PCRE como `\\w` ou `\\S` não são suportadas atualmente. Observe também que os operadores de âncora como `^` ou `$` não são suportados. A expressão deve corresponder à sequência inteira."
+        "help": "## Dicas rápidas\nO regex do tipo Apache Lucene é suportado com os operadores a seguir.\n### .\nCorresponde a qualquer caractere. Por exemplo:\n\n    ab.     # corresponde a 'aba', 'abb', 'abz', etc.\n### ? + *\nRepita o caractere anterior um certo número de vezes. Por exemplo:\n\n    abc?     # Repita 'c' uma ou nenhuma vez. corresponde a 'ab' e 'abc'\n    ab+      # Repita 'b' uma ou mais vezes. corresponde a 'ab', 'abb', 'abbb', etc.\n    ab*      # Repita 'b' zero ou mais vezes. corresponde a 'a', 'ab', 'abb', 'abbb', etc.\n### |\nOperador OR. A correspondência será bem-sucedida se o padrão mais longo no lado esquerdo OU lado direito for correspondente. Por exemplo:\n\n    abc|xyz  # corresponde a 'abc' e 'xyz'\n### ( … )\nForma um grupo. É possível usar um grupo para tratar parte da expressão como um único caractere. Por exemplo:\n\n    abc(def)?  # corresponde a 'abc' e 'abcdef', mas não a 'abcd'\n### [ … ]\nCorresponder a um dos caracteres entre colchetes. Por exemplo:\n\n    [abc]   # corresponde a 'a', 'b', 'c'\nDentro dos colchetes, `-` indica um intervalo, a menos que `-` seja o primeiro caractere ou escapado. Por exemplo:\n\n    [a-c]   # corresponde a 'a', 'b' ou 'c'\n    [-abc]  # '-' é o primeiro caractere. Corresponde a '-', 'a', 'b' ou 'c'\n    [abc\\-] # Escapa '-'. Corresponde a 'a', 'b', 'c' ou '-'\nUm `^` antes de um caractere entre colchetes nega o caractere ou intervalo. Por exemplo:\n\n    [^abc]      # corresponde a qualquer caractere, exceto 'a', 'b' ou 'c'\n    [^a-c]      # corresponde a qualquer caractere, exceto 'a', 'b' ou 'c'\n    [^-abc]     # corresponde a qualquer caractere, exceto '-', 'a', 'b' ou 'c'\n    [^abc\\-]    # corresponde a qualquer caractere, exceto 'a', 'b', 'c' ou '-'\n\nObserve que as classes de caracteres PCRE como `\\w` ou `\\S` não são suportadas atualmente. Observe também que os operadores de âncora como `^` ou `$` não são suportados. A expressão deve corresponder à sequência inteira.\n## Leitura adicional\n Para obter a sintaxe completa, consulte nossa [documentação]({{documentationLink}})."
+      },
+      "regexMetricsList": {
+        "noRegex": "Digite uma consulta regex",
+        "loading": "Carregando...",
+        "error": "Houve um problema ao carregar essas métricas.",
+        "noResults": "Não há métricas correspondentes a essa expressão regex",
+        "matches": "Corresponde a {{number}} métricas",
+        "more": "Mais {{number}}"
       },
       "metricSelectionCategoryOverlay": {
         "list": "Lista",
@@ -812,6 +822,9 @@
         "endedOn": "Encerrado em",
         "duration": "Duração"
       }
+    },
+    "time": {
+      "lastValueTooltipLabel": "Última {{duration}}"
     }
   },
   "duplicateDashboardDialog": {

@@ -19,6 +19,9 @@
   "totalCpu": "Total CPU",
   "totalMemory": "Memoria total",
   "totalStorage": "Almacenamiento total",
+  "totalCapacity": "Capacidad total",
+  "availableCapacity": "Capacidad disponible",
+  "volumeCount": "Recuento de volúmenes",
   "cpuArch": "Arquitectura de CPU",
   "cpuModel": "Modelo de CPU",
   "cpuVendor": "Proveedor de CPU",
@@ -26,6 +29,7 @@
   "status": "Estado",
   "state": "Estado",
   "hostIP": "IP de host",
+  "ip": "IP",
   "hypervisorType": "Tipo de hipervisor",
   "hypervisorVersion": "Versión del hipervisor",
   "instanceCount": "Recuento de instancias",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "Uso de grupos de servidores",
   "floatingIpsUsage": "Uso de IP flotantes",
   "securityGroupsUsage": "Uso de grupos de seguridad",
+  "project": "Proyecto",
+  "hostName": "Nombre de host",
+  "cpuUtilization": "Uso de CPU",
+  "health": "Estado",
   "dashboards": {
-    "regions": "Regiones",
     "powervcRegions": "Regiones de PowerVC",
     "hypervisors": "Hipervisores",
     "computeInstances": "Instancias de cálculo",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "Total de grupos de servidores utilizados",
     "totalFloatingIpsUsed": "Total de IP flotantes utilizadas",
     "totalSecurityGroupsUsed": "Total de grupos de seguridad utilizados",
-    "memoryUsageAll": "Consumo de memoria de todas las máquinas virtuales",
-    "cpuUsageAll": "Consumo de CPU de todas las máquinas virtuales",
-    "storageUsageAll": "Consumo de almacenamiento de todas las máquinas virtuales",
     "noDataAvailable": {
       "hypervisorTitle": "No hay ningún hipervisor de PowerVC disponible",
-      "hypervisorDescription": "No se ha recuperado ningún hipervisor de PowerVC para el rango temporal seleccionado."
+      "hypervisorDescription": "No se ha recuperado ningún hipervisor de PowerVC para el rango temporal seleccionado.",
+      "instanceTitle": "No hay ninguna instancia de PowerVC disponible",
+      "instanceDescription": "No se ha recuperado ninguna instancia de PowerVC para el rango de tiempo seleccionado."
     }
   }
 }

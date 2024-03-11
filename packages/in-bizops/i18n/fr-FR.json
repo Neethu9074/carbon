@@ -14,7 +14,8 @@
     "durationLabel": "Durée",
     "noData": "Aucune donnée disponible",
     "healthLabel": "Intégrité",
-    "startLabel": "Démarré"
+    "startLabel": "Démarré",
+    "unnamedActivity": "(Activité sans nom) {{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "Surveillance métier"
@@ -28,14 +29,19 @@
       "widgets": {
         "topActivities": "Principales activités (nombre)",
         "infrastructureIssuesAndChanges": "Problèmes et changements d'infrastructure",
-        "viewAll": "Afficher toutes les activités"
+        "viewAll": "Afficher toutes les activités",
+        "processCount": "Nombre",
+        "processCountTotal": "total",
+        "processErrors": "Erreurs"
       }
     },
     "activity": {
       "pageTitle": "Activité métier",
       "summaryTab": "Récapitulatif",
       "widgets": {
-        "duration": "Durée"
+        "duration": "Durée",
+        "activityCount": "Nombre",
+        "activityErrors": "Erreurs"
       },
       "timespans": {
         "minute": "1 minute",

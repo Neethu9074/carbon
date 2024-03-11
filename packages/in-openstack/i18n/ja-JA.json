@@ -17,7 +17,7 @@
   "type": "タイプ",
   "totalCpu": "CPU の合計",
   "totalMemory": "メモリーの合計",
-  "totalStorage": "ストレージの合計",
+  "totalStorage": "合計ストレージ (GB)",
   "cpuArch": "CPU アーキテクチャー",
   "cpuModel": "CPU モデル",
   "cpuVendor": "CPU ベンダー",
@@ -67,7 +67,6 @@
   "updated": "更新日",
   "imageSize": "イメージ・サイズ (MB)",
   "dashboards": {
-    "regions": "リージョン",
     "openstackRegions": "OpenStackリージョン",
     "name": "名前",
     "hypervisors": "ハイパーバイザー",

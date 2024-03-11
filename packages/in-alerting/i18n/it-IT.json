@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Si sta esaminando una configurazione dell'avviso eliminata. Non sono possibili modifiche.",
     "alertPropertyInfosWarning": "Avvertenza",
     "alertPropertyInfosCritical": "Critico",
+    "alertConfirmationDialogDescription": "Nessun {{entityPlaceholder}} configurato su cui ricevere un avviso. Si è certi di voler proseguire?",
+    "labelConfirm": "Conferma",
     "customPayload": {
       "deleteRow": "Elimina riga",
       "key": "Chiave",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "Payload personalizzati globali ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Si è verificato un errore. Impossibile richiamare i payload personalizzati globali.",
       "noGlobalCustomPayloadConfigured": "Nessun payload personalizzato globale configurato"
-    }
+    },
+    "previewFor": "Anteprima per: ",
+    "groupedViewHeader": "{{formattedCount}} risultati",
+    "groupedViewHeader_plural": "{{formattedCount}} risultati",
+    "groupedViewHeader_0": "{{formattedCount}} risultati",
+    "groupedViewHeader_1": "{{formattedCount}} risultati",
+    "groupedViewHeader_2": "{{formattedCount}} risultati",
+    "resultHeaderLoading": "Caricamento…",
+    "loadMore": "Carica altro"
   },
   "potentialProblems": {
     "titleErrorRate": "Il tasso di chiamate con errori è più alto del normale",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "Non sono state rilevate configurazioni dell'avviso smart per una determinata ricerca",
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
+    "smartAlertsTitle": "Avvisi smart",
     "applications": {
       "alertConfiguration": "Configurazione avviso",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Passo 1: Test",
-        "simpleAlertConfigDialogStep1Headline": "Quali test sintetici dovrebbero essere segnalati?",
+        "simpleAlertConfigDialogStep1Headline": "Su quali test sintetici si desidera essere ricevere un avviso?",
         "simpleAlertConfigDialogStep1Tooltip": "I singoli avvisi verranno inviati indipendentemente per ogni test sintetico, per ubicazione",
         "stepConfigsStep4Title": "Passo 4: Canali di avviso",
         "alertDialogHeadline": "Cosa dovrebbe apparire nell'avviso?",
         "stepConfigsStep2Title": "Passo 2: ambito",
-        "scopeHeadline": "Dove si desidera attivare l'avviso?",
+        "scopeHeadline": "Qual è l'ambito?",
+        "scopeDescription": "Scegliere dove si desidera applicare la condizione.",
         "stepConfigsStep3Title": "Passo 3: soglia di durata",
         "stepConfigsStep5Title": "Passo 5: proprietà dei messaggi di avviso",
         "thresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "Chi deve ricevere gli avvisi?",
         "scopeFilterLabel": "Ambito",
         "alertTestsLabel": "Test sintetici",
-        "alertTestsTitle": "Test sintetici: quali test sintetici dovrebbero essere segnalati?",
+        "alertTestsTitle": "Test sintetici: su quali test sintetici si desidera ricevere un avviso?",
         "propertiesLabel": "Proprietà avviso",
         "propertiesTitle": "Cosa deve includere la notifica di avviso?",
         "failureThreshold": "Soglia temporale",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
         "noMetricSelected": "Nessuna metrica selezionata"
       },
-      "groupedViewHeader": "{{formattedCount}} risultati",
-      "groupedViewHeader_plural": "{{formattedCount}} risultati",
-      "groupedViewHeader_0": "{{formattedCount}} risultati",
-      "groupedViewHeader_1": "{{formattedCount}} risultati",
-      "groupedViewHeader_2": "{{formattedCount}} risultati",
-      "resultHeaderLoading": "Caricamento…",
-      "loadMore": "Carica altro",
       "count": "Conteggio",
-      "previewFor": "Anteprima per: ",
       "selectEntityType": "Selezionare un tipo di entità",
       "regexNotValid": "La regex non è valida"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "Configurazione avviso",
+        "metricName": "Conteggio dei log",
+        "alertConfigurationTitleScope": "Ambito",
+        "noScopeSelected": "Nessun filtro di ambito o gruppo configurato.",
+        "alertConfigurationTitleTimeThreshold": "Soglia temporale",
+        "alertConfigurationTitleAlertChannels": "Canali di avviso",
+        "alertConfigurationTitleAlertProperties": "Proprietà avviso",
+        "alertConfigurationTitleTrigger": "Trigger"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} altri filtri",
+        "moreFiltersWithCount_plural": "+{{count}} altri filtri",
+        "moreFiltersWithCount_0": "+{{count}} altri filtri",
+        "moreFiltersWithCount_1": "+{{count}} altri filtri",
+        "moreFiltersWithCount_2": "+{{count}} altri filtri",
+        "filter": "Filtro",
+        "filter_plural": "Filtri",
+        "filter_0": "Filtri",
+        "filter_1": "Filtri",
+        "filter_2": "Filtri",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "Soglia statica",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Ambito",
+          "title": "Ambito: dove si sta verificando la condizione?"
+        },
+        "threshold": {
+          "label": "Soglia",
+          "title": "Soglia: quando viene violata la condizione?"
+        },
+        "timeThreshold": {
+          "label": "Soglia temporale",
+          "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
+        },
+        "alertChannel": {
+          "label": "Canali di avviso",
+          "title": "Canali di avviso: Chi deve ricevere l'avviso?"
+        },
+        "properties": {
+          "label": "Proprietà",
+          "title": "Proprietà aggiuntive degli avvisi",
+          "preview": {
+            "subtitle": "Conteggio dei log"
+          },
+          "alertPropertiesTitlePlaceholder": "Avviso smart dei log",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "Il conteggio dei log è superiore a {{value}}.",
+            "logsCount_higherEqual": "Il conteggio dei log è superiore o uguale a {{value}}.",
+            "logsCount_lowerThan": "Il conteggio dei log è inferiore a {{value}}.",
+            "logsCount_lowerEqual": "Il conteggio dei log è inferiore o uguale a {{value}}."
+          }
+        },
+        "customPayloads": {
+          "label": "Payload",
+          "title": "Payload personalizzato"
+        },
+        "thresholdValue": "Valore soglia"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
+        "noMetricSelected": "Nessuna metrica selezionata"
+      },
+      "logs": "Log"
     }
   }
 }

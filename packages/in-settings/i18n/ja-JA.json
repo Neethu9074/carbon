@@ -84,7 +84,7 @@
     "platform_permissions": "アクセス {{quantityOfAreas}}",
     "analyticsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、プラットフォーム & インフラストラクチャーのアクセス・スコープによって定義された分析でデータを表示できる",
     "infrastructureContentMessage": "アプリケーション、プラットフォーム、インフラストラクチャー、およびオプションで DFQ のアクセス・スコープによって定義されたエンティティーを表示できる",
-    "eventsAndAlertsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、プラットフォーム & インフラストラクチャーで定義されているアクセス・スコープに従ってイベントとアラートを表示できる",
+    "eventsAndAlertsContentMessage": "Web サイト、モバイル・アプリケーション、アプリケーション、合成モニタリング、プラットフォーム & インフラストラクチャーで定義されているアクセス・スコープに従って、イベントおよびアラートを表示できる",
     "permissions": "権限",
     "additionalPermissions": "追加の権限",
     "permissions_DASHBOARD": "カスタム・ダッシュボードの権限",
@@ -154,7 +154,10 @@
     "contribution_filter": "コントリビューション・フィルター",
     "contributionFilter_description": "コントリビューション・フィルターは、新規アプリケーション構成の作成時に適用されます。 アプリケーション構成では、{{logicalOperator}} オペレーターの後にフィルター・タグを使用してコントリビューション・フィルターを絞り込むことができます",
     "contributionFilter_downstreamCalls": "アプリケーション・パースペクティブに組み込むことができる追加情報の最大レベルを決定します。",
-    "contributionFilter_name": "名前"
+    "contributionFilter_name": "名前",
+    "contributionFilter_name_mayNotBeBlank": "コントリビューション・フィルター名をブランクにすることはできません。",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "コントリビューション・フィルター名は 128 文字以下でなければなりません。",
+    "contributionFilter_name_alreadyUsed": "コントリビューション・フィルター名は既に使用されています。"
   },
   "selectItemForm": {
     "doneButton": "完了"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "アクセス・レベル",
-    "configuration_summary": "構成の要約",
+    "permissions": "権限",
     "selection": "使用不可",
     "selection_access_all": "すべてにアクセス",
     "selection_limited_access": "制限付きアクセス",
@@ -187,7 +190,7 @@
     "role_viewer": "ビューア―",
     "role_custom": "カスタム",
     "role_contributor": "コントリビューター",
-    "role_permissions": "ロール/権限",
+    "access_type": "アクセス・タイプ",
     "roleTooltip_websites": "ビューアー: Web サイトのダッシュボードを表示できます (構成は表示できません)。 <br /> 所有者: 新規 Web サイトを作成できます。Web サイトのダッシュボードの表示、構成、および削除が可能です。",
     "roleTooltip_mobileApps": "ビューアー: モバイル・アプリのダッシュボードを表示できます(構成は表示できません)。 <br /> 所有者: 新規モバイル・アプリを作成できます。モバイル・アプリのダッシュボードの表示、構成、および削除が可能です。",
     "roleTooltip_applications": "ビューアー: アプリケーションのダッシュボードを表示できます (構成は表示できません)。 <br /> 所有者: 新規アプリケーションを作成できます。アプリケーションのダッシュボードの表示、構成、および削除が可能です。",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "制限付きアクセス・スコープ(ビューアー)",
     "contribution_filter_warning": {
       "firstParagraph": "変更を保存すると、このコントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブが更新されます。",
-      "secondParagraph": "役割を変更すると、コントリビューション・フィルターが削除されます。 コントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブは、「アプリケーション」セクションに対する所有者権限を持つ任意のユーザーが編集できます。 これは元に戻せません。"
+      "secondParagraph": "アクセス・タイプを変更すると、コントリビューション・フィルターが削除されます。 コントリビューション・フィルターを使用するすべてのアプリケーション・パースペクティブは、「アプリケーション」セクションで所有者権限を持つ任意のユーザーが編集できます。"
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "このユニットの下のすべてのアプリケーション・パースペクティブへのアクセス。",
-        "role_permissions_contributor": "このユニットの下にあるすべてのアプリケーション・ダッシュボードを表示します。 コントリビューション・フィルターを使用して、アプリケーション・ダッシュボードを作成、構成、削除します。"
+        "access_level": "選択したアクセス・タイプと追加の権限を持つすべてのアプリケーション・パースペクティブにアクセスします。",
+        "role_permissions_contributor": "コントリビューション・フィルターを使用してアプリケーション・パースペクティブを作成します。これらのアプリケーション・パースペクティブを表示、構成、および削除します。 アクセス権限が付与されている場合は、他のアプリケーション・パースペクティブを表示します。"
       },
       "limited_access": {
-        "access_level": "以下で選択したアプリケーション・ダッシュボードに対してのみアクセスが制限されています。",
-        "access_level_contributor": "以下で選択されているアプリケーション・ダッシュボードに対してのみアクセスが制限されています",
+        "access_level": "選択したアクセス・タイプおよび追加の権限を持つ、リストされたアプリケーションのみにアクセスします。",
+        "access_level_contributor": "投稿者権限を持つアプリケーションは、ユーザーまたはグループの詳細のアクセス構成ペインにあります。 <br /><br />コントリビューターとして適用されたコントリビューション・フィルターを使用して、アプリケーション・パースペクティブにアクセスします。 <br />選択したアプリケーション・パースペクティブにビューアーとしてアクセスします",
         "role_permissions_contributor": "コントリビューション・フィルターが適用されたアプリケーション・ダッシュボードを作成します。コントリビューション・フィルター用に作成されたこれらのアプリケーション・ダッシュボードを表示、構成、および削除します。"
       },
-      "role_permissions_owner": "アプリケーション・ダッシュボードを作成、構成、表示、および削除します。",
-      "role_permissions_viewer": "アプリケーション・パースペクティブ・ダッシュボードとその構成を表示します。"
+      "role_permissions_owner": "アプリケーション・パースペクティブを作成、構成、表示、および削除します。",
+      "role_permissions_viewer": "アプリケーション・パースペクティブとその構成を表示します。"
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "このユニットの下にあるすべてのエンティティー・ダッシュボードへのアクセス権限。これらは、アプリケーションおよびプラットフォームに付与されたアクセス権限に関連しています。"
+        "access_level": "このユニットの下にあるすべてのエンティティー・ダッシュボード (アプリケーションおよびプラットフォームに付与されたアクセス権に関連するもの) にアクセスします。"
       },
       "role_permissions_owner": "エンティティー・ダッシュボードを表示します。",
       "role_permissions_viewer": "エンティティー・ダッシュボードを表示します。"
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "このユニットの下のすべての名前空間およびクラスターに対するアクセス権限。"
+        "access_level": "選択したアクセス・タイプおよび追加の権限を使用して、すべての名前空間およびクラスターにアクセスします。"
       },
       "limited_access": {
-        "access_level": "以下で選択されている名前空間およびクラスターに対してのみアクセスが制限されています。"
+        "access_level": "選択したアクセス・タイプと追加の権限を持つ、リストされた名前空間とクラスターにのみアクセスします。"
       },
       "role_permissions": "名前空間とクラスターを表示します。"
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "このユニットの下のすべてのモバイル・アプリケーションに対するアクセス権限。"
+        "access_level": "選択したアクセス・タイプと追加の権限を使用して、すべてのモバイル・アプリケーションにアクセスします。"
       },
       "limited_access": {
-        "access_level": "以下で選択されているモバイル・アプリに対してのみアクセスが制限されています。"
+        "access_level": "選択したアクセス・タイプと追加の権限を持つ、リストされたモバイル・アプリケーションのみにアクセスします。"
       },
       "role_permissions_owner": "モバイル・アプリケーションを作成、構成、表示、および削除します。",
-      "role_permissions_viewer": "モバイル・アプリケーションとその構成を表示します。"
+      "role_permissions_viewer": "モバイル・アプリケーションを表示します。"
     },
     "synthetics": {
       "access_all": {
-        "access_level": "このユニットでのすべてのシンセティック・テストに対するアクセス権限。"
+        "access_level": "選択したアクセス・タイプと追加の権限を持つすべてのシンセティック・テストにアクセスします。"
       },
       "limited_access": {
-        "access_level": "以下で選択されたシンセティック・テストに対してのみアクセスが制限されています。"
+        "access_level": "選択したアクセス・タイプおよび追加の権限を持つ、リストされたシンセティック・テストにのみアクセスします。"
       },
       "role_permissions_owner": "シンセティック・テストを作成、構成、表示、および削除します。",
       "role_permissions_viewer": "シンセティック・テストとその構成を表示します。"
     },
     "website": {
       "access_all": {
-        "access_level": "このユニットの下のすべての Web サイトへのアクセス。"
+        "access_level": "選択したアクセス・タイプと追加の権限を持つすべての Web サイトにアクセスします。"
       },
       "limited_access": {
-        "access_level": "以下で選択した Web サイトに対してのみアクセスが制限されます。"
+        "access_level": "選択したアクセス・タイプと追加の権限を持つ、リストされた Web サイトにのみアクセスします。"
       },
       "role_permissions_owner": "Webサイトを作成、表示、および削除します。",
-      "role_permissions_viewer": "Webサイトとその構成を表示します。"
+      "role_permissions_viewer": "Web サイトを表示します。"
     }
   },
   "cardTitle_Area": "領域",
@@ -341,7 +344,15 @@
       "wrong": "何らかの問題が発生しました",
       "errorInfo": "データベースからデータを取得できません",
       "failed": "障害",
-      "inProgress": "進行中"
+      "inProgress": "進行中",
+      "deletionUntilTime": "削除期限時刻",
+      "deletionUntilDate": "削除期限日",
+      "untilDateValidationMessage": "日付は現在の日付以前である必要があります",
+      "reasonValidationMessage": "削除理由を空にすることはできません",
+      "toastSuccessTitle": "ログが正常に削除されました",
+      "toastSuccessMessage": "選択された期間のログは正常に削除されました。",
+      "toastErrorTitle": "ログの削除に失敗しました",
+      "toastErrorMessage": "ログを削除できませんでした。 再試行してください。"
     },
     "failedToSaveConfig": "構成の保存に失敗しました: {{err}}",
     "IdPMetadataRequired": "IdP メタデータ・ファイルが必要です",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "{{label}} モニター機能へのアクセスを許可します。",
     "failedToSaveGroup": "グループの保存に失敗しました: {{err}}",
     "limitedAccess": "限定アクセス",
-    "filterInvites": "招待のフィルタリング",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "<strong>{{email}}</strong> での <strong>{{tenant}}</strong> テナントへの参加の招待を取り消しますか?",
     "inviteUser": "ユーザーの招待",
     "sendInvitation": "招待を送信する",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "Salesforce 組織 URL",
     "alertChannelDocumentationMessage": "このアラート・チャネルのセットアップについて詳しくは、<documentationLink>資料を確認してください</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "IDプロバイダーでInstanaへのユーザー・アクセスが無効になっていることを確認してください。",
-    "createIDPConfirmationDescription": "保留中の招待は削除されます。 ユーザーは、IDプロバイダー(IdP)から自動的にプロビジョンされます。"
+    "createIDPConfirmationDescription": "保留中の招待は削除されます。 ユーザーは、IDプロバイダー(IdP)から自動的にプロビジョンされます。",
+    "revokeInvitationForUserWithEmail": "{{email}} の {{tenant}} テナントへの参加の招待を取り消します",
+    "invitationValidUntil": "招待の有効期限",
+    "invitedBy": "招待者"
   },
   "languageSelection": {
     "language": "言語",
