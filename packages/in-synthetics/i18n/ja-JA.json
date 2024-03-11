@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "シンセティック・テストの追加",
       "dialogTitle": "シンセティック・テストの作成",
       "noLocationFound": "申し訳ありませんアプリケーションが見つかりません",
       "noApplicationsFound": "アプリケーションが見つかりません",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
           "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
           "browserSimpleTitle": "ブラウザー単純テスト",
-          "browserScriptTitle": "ブラウザー・スクリプト・テスト",
-          "internetServicesTypeLabel": "インターネット・サービス",
-          "internetServicesTypeHeadline": "インターネット・サービス・テスト",
-          "internetServicesTypeText": "インターネット・サービスのシンセティック・テストには、Web サービスとのユーザー対話をシミュレートしてパフォーマンスをモニターおよびテストし、ダウンタイムの問題を特定して回避することが含まれます。"
+          "browserScriptTitle": "ブラウザー・スクリプト・テスト"
         },
         "configurationLabel": "構成",
         "configurationTitle": "構成: このテストはどのように機能しますか?",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "1 回再試行",
           "retryFieldOptionTwice": "2 回再試行",
           "retryIntervalFieldLabel": "再試行間隔",
-          "retryIntervalDescription": "このテストは、{{retryIntervalValue}} 秒後に {{retryCount}} を再試行します。",
+          "retryIntervalDescription": "このテストは、{{retryIntervalValue}} {{retryIntervalUnit}}の後に {{retryCount}} を再試行します。",
           "markSyntheticCall": "マーク・シンセティック・コール"
         },
         "loadMore": "さらにロード",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "ブラウザー",
-          "internetServicesName": "インターネット・サービス"
+          "browserName": "ブラウザー"
         },
         "customProperties": {
           "property": "プロパティー",
@@ -251,10 +248,64 @@
       "buttonSave": "保存",
       "scriptSavedMessage": "スクリプトが追加されました",
       "bundleSavedMessage": "バンドルされたスクリプトが追加されました"
+    },
+    "createLocation": {
+      "newLocation": "新規ロケーション",
+      "activate": "アクティブ",
+      "done": "完了",
+      "stepConfigs": {
+        "selectType": "ステップ 1：タイプの選択",
+        "configuration": "ステップ 2: 構成"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "どのタイプのロケーションを使用しますか?"
+      },
+      "privateLocation": {
+        "name": "専用",
+        "headline": "プライベート・ロケーション",
+        "description": {
+          "headline": "使用タイミング",
+          "htmlContent": "プライベート・ネットワーク内でのみアクセス可能な内部向けアプリケーションまたはエンドポイントをモニターする場合。 これらのロケーションは、お客様によってセットアップ、ホスト、および管理されます。"
+        }
+      },
+      "managedLocation": {
+        "name": "管理",
+        "headline": "管理対象ロケーション",
+        "description": {
+          "headline": "使用タイミング",
+          "htmlContent": "一般にアクセス可能な Web サイトおよびアプリケーションをモニターする場合。 これらのロケーションは、世界中のデータ・センターで Instana によってホストおよび管理されています。"
+        },
+        "managedDatacentersLabel": "データ・センター",
+        "datacenterCode": "データ・センター・コード",
+        "datacenterName": "データ・センター名",
+        "provider": "プロバイダー",
+        "locationName": "ロケーション表示名",
+        "status": "アクティブ化ステータス",
+        "datacentersSubtitle": "使用可能なデータ・センターのいずれかで Instana 管理ロケーションをアクティブ化します。 詳しくは、<linkDatacenters>シンセティック PoP デプロイメント</linkDatacenters> を参照してください。",
+        "confirmationDialog": {
+          "headline": "ロケーションをデプロイしています",
+          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>これには最大 10 分かかる場合があります。</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "データ・センター・コード",
+              "datacenterName": "データ・センター名",
+              "locationName": "ロケーション表示名",
+              "datacenterStatus": "アクティブ化ステータス"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "少なくとも 1 つのデータ・センターを選択する必要があります"
+      },
+      "licenseCheck": {
+        "title": "ライセンスが必要です。",
+        "description": "Instana の管理対象ロケーションを使用するには、<linkLicenses>追加のライセンス</linkLicenses> が必要です。 詳しくは、Instana 管理者にお問い合わせください。"
+      },
+      "status": {
+        "pending": "保留中"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "シンセティック・テストの追加"
   },
   "createSmartAlert": {
     "buttonLabel": "合成スマート・アラートの追加"

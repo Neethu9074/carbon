@@ -17,7 +17,7 @@
   "type": "Tipo",
   "totalCpu": "Total CPU",
   "totalMemory": "Memoria total",
-  "totalStorage": "Almacenamiento total",
+  "totalStorage": "Almacenamiento total (GB)",
   "cpuArch": "Arquitectura de CPU",
   "cpuModel": "Modelo de CPU",
   "cpuVendor": "Proveedor de CPU",
@@ -67,7 +67,6 @@
   "updated": "Actualizado",
   "imageSize": "Tamaño de imagen (MB)",
   "dashboards": {
-    "regions": "Regiones",
     "openstackRegions": "Regiones de OpenStack",
     "name": "Nombre",
     "hypervisors": "Hipervisores",

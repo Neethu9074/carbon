@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）"
   },
+  "logSmartAlerts": {
+    "logs": "日誌"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "失敗狀態"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "AI 產生",
     "suggestionHelpfulText": "這個建議有用嗎？",
     "thankYouForYourFeedback": "謝謝您的意見！",
-    "noEntitiesErrorTitle": "找不到可能的主要原因",
-    "noEntitiesErrorDescription": "這通常在發生事件沒有重大服務影響時發生",
     "performanceConstantlyEvaluated": "在測試版期間，正在積極評估及改善效能。 請留下意見，以協助我們更充分地改善我們的 AI",
     "probableRootCauseLabel": "可能的主要原因實體：{{entity_name}}",
-    "relatedEventsLabel": "找到的實體事件：{{number_of_events}}",
+    "relatedEventsLabel": "關聯事件 ({{number_of_events}})",
     "entitiesNumber": "實體",
-    "techPreview": "技術預覽"
+    "techPreview": "技術預覽",
+    "probabilityLevelText": "機率層次：",
+    "highProbability": "高",
+    "moderateProbability": "中等",
+    "lowProbability": "低",
+    "naProbability": "N/A",
+    "highProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 高機率表示根據所提供的證據，該實體可能存在問題。",
+    "moderateProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 此實體可能是主要原因，但需要進行更多分析。",
+    "lowProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 根據目前的資訊，此元件不健全的可能性很低，但仍需要進一步調查。",
+    "naProbabilityBadgeText": "此機率評級是基於相關實體不健全的機率。 遺憾的是，無法確定此事件的機率評級。"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "事件摘要",
-    "thisIncident": "此事件似乎是：",
     "errorTitle": "找不到摘要",
     "errorDescription": "無法建立此事件的摘要",
-    "summarizationHelpfulText": "此摘要是否有用？"
+    "summarizationHelpfulText": "此摘要是否有用？",
+    "alertChannelTableTitle": "與事件相關聯的警示通道",
+    "noDataAlertChannels": "沒有任何警示通道與此事件相關聯"
   },
   "feedback": {
     "skip": "略過",
@@ -187,5 +198,9 @@
     "contactMeNo": "否，我寧可不要聯絡",
     "appreciateResponse": "我們感謝您的回應！",
     "followUpQuestion": "您是否希望我們延續您的技術意見，以進一步釐清或討論？"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "受影響的商業程序",
+    "titleImpactedBusinessProcessesIncident": "觸發事件的受影響商業程序"
   }
 }

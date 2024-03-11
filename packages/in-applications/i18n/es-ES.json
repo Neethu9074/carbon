@@ -569,7 +569,6 @@
     "otel": "OpenTelemetry"
   },
   "traceDetail": {
-    "beta": "BETA",
     "foreignRootCall": "No supervisado por Instana",
     "notYetReceivedRootCall": "Todavía no se ha recibido la llamada raíz",
     "tabs": {

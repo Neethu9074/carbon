@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (agrégé)"
   },
+  "logSmartAlerts": {
+    "logs": "Journaux"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Statut d'échec"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "Généré par l'IA",
     "suggestionHelpfulText": "Cette suggestion a-t-elle été utile ?",
     "thankYouForYourFeedback": "Merci pour vos commentaires !",
-    "noEntitiesErrorTitle": "Aucune cause première probable n'a été trouvée",
-    "noEntitiesErrorDescription": "Cela se produit généralement lorsque l'incident n'a pas eu d'impact significatif sur le service",
     "performanceConstantlyEvaluated": "Les performances sont activement évaluées et améliorées dans la version bêta. Faites-nous part de vos commentaires pour nous aider à améliorer notre IA",
     "probableRootCauseLabel": "Entité de cause première probable : {{entity_name}}",
-    "relatedEventsLabel": "Evénements d'entité trouvés : {{number_of_events}}",
+    "relatedEventsLabel": "Événements associés ({{number_of_events}})",
     "entitiesNumber": "Entités",
-    "techPreview": "APERÇU TECHNIQUE"
+    "techPreview": "APERÇU TECHNIQUE",
+    "probabilityLevelText": "Niveau de probabilité :",
+    "highProbability": "ÉLEVÉ",
+    "moderateProbability": "MODÉRÉ",
+    "lowProbability": "BAS",
+    "naProbability": "Non disponible",
+    "highProbabilityBadgeText": "Cette évaluation de probabilité est basée sur la probabilité que l'entité en question ne soit pas saine. Une probabilité élevée indique que cette entité est probablement problématique sur la base des preuves fournies.",
+    "moderateProbabilityBadgeText": "Cette évaluation de probabilité est basée sur la probabilité que l'entité en question ne soit pas saine. Il est probable que cette entité soit la cause première, mais une analyse plus approfondie est nécessaire.",
+    "lowProbabilityBadgeText": "Cette évaluation de probabilité est basée sur la probabilité que l'entité en question ne soit pas saine. Compte tenu de l'information actuelle, cette composante est peu susceptible d'être malsaine, mais elle mérite d'être examinée plus en détail.",
+    "naProbabilityBadgeText": "Cette évaluation de probabilité est basée sur la probabilité que l'entité en question ne soit pas saine. Malheureusement, l'évaluation de la probabilité de cet incident n'a pas pu être établie."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Récapitulatif des incidents",
-    "thisIncident": "Cet incident semble être :",
     "errorTitle": "Aucun récapitulatif trouvé",
     "errorDescription": "Aucun récapitulatif n'a pu être créé pour cet événement.",
-    "summarizationHelpfulText": "Cette synthèse a-t-elle été utile ?"
+    "summarizationHelpfulText": "Cette synthèse a-t-elle été utile ?",
+    "alertChannelTableTitle": "Canaux d'alerte associés à l'incident",
+    "noDataAlertChannels": "Aucun canal d'alerte n'a pu être associé à cet incident."
   },
   "feedback": {
     "skip": "Sauter",
@@ -187,5 +198,9 @@
     "contactMeNo": "Non, je préfère ne pas être contacté",
     "appreciateResponse": "Merci pour votre réponse !",
     "followUpQuestion": "Voulez-vous que nous vous contactions suite à vos commentaires techniques pour les clarifier ou en discuter ?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Processus métier impactés",
+    "titleImpactedBusinessProcessesIncident": "Processus métier impactés pour l'événement déclencheur"
   }
 }

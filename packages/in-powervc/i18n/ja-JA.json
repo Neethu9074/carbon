@@ -19,6 +19,9 @@
   "totalCpu": "CPU の合計",
   "totalMemory": "メモリーの合計",
   "totalStorage": "ストレージの合計",
+  "totalCapacity": "合計容量",
+  "availableCapacity": "利用可能容量",
+  "volumeCount": "ボリューム・カウント",
   "cpuArch": "CPU アーキテクチャー",
   "cpuModel": "CPU モデル",
   "cpuVendor": "CPU ベンダー",
@@ -26,6 +29,7 @@
   "status": "状況",
   "state": "状態",
   "hostIP": "ホスト IP",
+  "ip": "IP",
   "hypervisorType": "ハイパーバイザー・タイプ",
   "hypervisorVersion": "ハイパーバイザー・バージョン",
   "instanceCount": "インスタンス数",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "サーバー・グループの使用量",
   "floatingIpsUsage": "浮動 IP の使用量",
   "securityGroupsUsage": "セキュリティー・グループの使用量",
+  "project": "プロジェクト",
+  "hostName": "ホスト名",
+  "cpuUtilization": "CPU 使用率",
+  "health": "正常性",
   "dashboards": {
-    "regions": "リージョン",
     "powervcRegions": "PowerVC リージョン (複数可)",
     "hypervisors": "ハイパーバイザー",
     "computeInstances": "コンピュート・インスタンス",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "使用されたサーバー・グループの合計",
     "totalFloatingIpsUsed": "使用された浮動 IP の合計",
     "totalSecurityGroupsUsed": "使用されたセキュリティー・グループの合計",
-    "memoryUsageAll": "すべての VM によるメモリー使用量",
-    "cpuUsageAll": "すべての VM による CPU 使用量",
-    "storageUsageAll": "すべての VM によるストレージ使用量",
     "noDataAvailable": {
       "hypervisorTitle": "使用可能な PowerVC ハイパーバイザーがありません",
-      "hypervisorDescription": "選択された時刻範囲に対して取得された PowerVC ハイパーバイザーはありませんでした。"
+      "hypervisorDescription": "選択された時刻範囲に対して取得された PowerVC ハイパーバイザーはありませんでした。",
+      "instanceTitle": "使用可能な PowerVC インスタンスがありません",
+      "instanceDescription": "選択された時刻範囲で取得された PowerVC インスタンスはありませんでした。"
     }
   }
 }

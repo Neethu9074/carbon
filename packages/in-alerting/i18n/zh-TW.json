@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "您正在查看已刪除的警示配置。不可能修改。",
     "alertPropertyInfosWarning": "警告",
     "alertPropertyInfosCritical": "重大",
+    "alertConfirmationDialogDescription": "未配置任何要發出警示的 {{entityPlaceholder}}。 您確定要繼續嗎？",
+    "labelConfirm": "確認",
     "customPayload": {
       "deleteRow": "刪除列",
       "key": "索引鍵",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "廣域自訂有效負載 ({{count}})",
       "globalCustomPayloadRetrieveFailed": "發生錯誤。 無法擷取廣域自訂有效負載。",
       "noGlobalCustomPayloadConfigured": "未配置廣域自訂有效負載"
-    }
+    },
+    "previewFor": "預覽： ",
+    "groupedViewHeader": "{{formattedCount}} 個結果",
+    "groupedViewHeader_plural": "{{formattedCount}} 個結果",
+    "groupedViewHeader_0": "{{formattedCount}} 個結果",
+    "groupedViewHeader_1": "{{formattedCount}} 個結果",
+    "groupedViewHeader_2": "{{formattedCount}} 個結果",
+    "resultHeaderLoading": "載入中...",
+    "loadMore": "載入更多"
   },
   "potentialProblems": {
     "titleErrorRate": "錯誤呼叫率高於正常",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "找不到給定搜尋的智慧型警示配置",
     "titleNoSmartAlertsCreated": "未建立任何智慧型警示",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
+    "smartAlertsTitle": "智慧型警示",
     "applications": {
       "alertConfiguration": "警示配置",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "步驟 1：測試",
-        "simpleAlertConfigDialogStep1Headline": "應該警示哪些綜合測試？",
+        "simpleAlertConfigDialogStep1Headline": "您想要收到哪些綜合測試的警示？",
         "simpleAlertConfigDialogStep1Tooltip": "針對每一個綜合測試，每個位置將獨立傳送個別警示",
         "stepConfigsStep4Title": "步驟 4：警示通道",
         "alertDialogHeadline": "警示中應該顯示哪些內容？",
         "stepConfigsStep2Title": "步驟 2：範圍",
-        "scopeHeadline": "您希望警示在何處觸發？",
+        "scopeHeadline": "範圍是什麼？",
+        "scopeDescription": "選擇您要套用條件的位置。",
         "stepConfigsStep3Title": "步驟 3：時間臨界值",
         "stepConfigsStep5Title": "步驟 5：警示內容",
         "thresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "誰應該取得警示？",
         "scopeFilterLabel": "範圍",
         "alertTestsLabel": "綜合測試",
-        "alertTestsTitle": "綜合測試：應警示哪些綜合測試？",
+        "alertTestsTitle": "綜合測試：您要對哪些綜合測試發出警示？",
         "propertiesLabel": "警示內容",
         "propertiesTitle": "警示通知應包含哪些內容？",
         "failureThreshold": "時間臨界值",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
         "noMetricSelected": "未選取度量值"
       },
-      "groupedViewHeader": "{{formattedCount}} 個結果",
-      "groupedViewHeader_plural": "{{formattedCount}} 個結果",
-      "groupedViewHeader_0": "{{formattedCount}} 個結果",
-      "groupedViewHeader_1": "{{formattedCount}} 個結果",
-      "groupedViewHeader_2": "{{formattedCount}} 個結果",
-      "resultHeaderLoading": "載入中...",
-      "loadMore": "載入更多",
       "count": "計數",
-      "previewFor": "預覽： ",
       "selectEntityType": "請選取實體類型",
       "regexNotValid": "正規表示式無效"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "警示配置",
+        "metricName": "日誌計數",
+        "alertConfigurationTitleScope": "範圍",
+        "noScopeSelected": "未配置範圍過濾器或群組。",
+        "alertConfigurationTitleTimeThreshold": "時間臨界值",
+        "alertConfigurationTitleAlertChannels": "警示通道",
+        "alertConfigurationTitleAlertProperties": "警示內容",
+        "alertConfigurationTitleTrigger": "觸發"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_0": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_1": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_2": "+{{count}} 個以上的過濾器",
+        "filter": "過濾器",
+        "filter_plural": "過濾器",
+        "filter_0": "過濾器",
+        "filter_1": "過濾器",
+        "filter_2": "過濾器",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "靜態臨界值",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "範圍",
+          "title": "範圍：該狀況發生在何處？"
+        },
+        "threshold": {
+          "label": "臨界值",
+          "title": "臨界值：何時違反條件？"
+        },
+        "timeThreshold": {
+          "label": "時間臨界值",
+          "title": "時間臨界值：您希望何時收到警示？"
+        },
+        "alertChannel": {
+          "label": "警示通道",
+          "title": "警示通道：誰需要收到警示？"
+        },
+        "properties": {
+          "label": "內容",
+          "title": "其他警示內容",
+          "preview": {
+            "subtitle": "日誌計數"
+          },
+          "alertPropertiesTitlePlaceholder": "日誌智慧型警示",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "日誌計數高於 {{value}}。",
+            "logsCount_higherEqual": "日誌計數高於或等於 {{value}}。",
+            "logsCount_lowerThan": "日誌計數低於 {{value}}。",
+            "logsCount_lowerEqual": "日誌計數低於或等於 {{value}}。"
+          }
+        },
+        "customPayloads": {
+          "label": "有效負載",
+          "title": "自訂有效負載"
+        },
+        "thresholdValue": "臨界值"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
+        "noMetricSelected": "未選取度量值"
+      },
+      "logs": "日誌"
     }
   }
 }

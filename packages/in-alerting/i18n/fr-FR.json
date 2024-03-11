@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Vous visualisez une configuration d'alerte supprimée. Les modifications ne sont pas possibles.",
     "alertPropertyInfosWarning": "Avertissement",
     "alertPropertyInfosCritical": "Critique",
+    "alertConfirmationDialogDescription": "Aucun {{entityPlaceholder}} n'est configuré pour être alerté. Voulez-vous vraiment continuer ?",
+    "labelConfirm": "Confirmer",
     "customPayload": {
       "deleteRow": "Supprimer une ligne",
       "key": "Clé",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "Contenus personnalisés mondiaux ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Une erreur s'est produite. Impossible d'extraire les contenus personnalisés mondiaux.",
       "noGlobalCustomPayloadConfigured": "Aucun contenu personnalisé mondial configuré"
-    }
+    },
+    "previewFor": "Aperçu pour : ",
+    "groupedViewHeader": "{{formattedCount}} résultat",
+    "groupedViewHeader_plural": "{{formattedCount}} résultat",
+    "groupedViewHeader_0": "{{formattedCount}} résultat",
+    "groupedViewHeader_1": "{{formattedCount}} résultat",
+    "groupedViewHeader_2": "{{formattedCount}} résultat",
+    "resultHeaderLoading": "Chargement en cours...",
+    "loadMore": "Charger plus"
   },
   "potentialProblems": {
     "titleErrorRate": "Le taux d'appels erronés est supérieur à la normale.",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "Aucune configuration d'alerte intelligente trouvée pour une recherche donnée",
     "titleNoSmartAlertsCreated": "Aucune alerte intelligente créée",
     "titleCopyOf": "(Copie de) {{smartAlertTitle}}",
+    "smartAlertsTitle": "Alertes intelligentes",
     "applications": {
       "alertConfiguration": "Configuration d'alerte",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Etape 1 : Tests",
-        "simpleAlertConfigDialogStep1Headline": "Quels tests synthétiques doivent être signalés par une alerte ?",
+        "simpleAlertConfigDialogStep1Headline": "Sur quels tests synthétiques vous voulez être alerté ?",
         "simpleAlertConfigDialogStep1Tooltip": "Des alertes individuelles seront envoyées indépendamment pour chaque test synthétique, par emplacement",
         "stepConfigsStep4Title": "Etape 4 : Canaux d'alerte",
         "alertDialogHeadline": "Que doit-on voir dans l'alerte ?",
         "stepConfigsStep2Title": "Etape 2 : Portée",
-        "scopeHeadline": "Où voulez-vous que l'alerte se déclenche ?",
+        "scopeHeadline": "Quelle est la portée ?",
+        "scopeDescription": "Choisissez l'emplacement où vous souhaitez que la condition soit appliquée.",
         "stepConfigsStep3Title": "Etape 3 : Seuil de temps",
         "stepConfigsStep5Title": "Etape 5 : Propriétés d'alerte",
         "thresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "Qui doit recevoir les alertes ?",
         "scopeFilterLabel": "Portée",
         "alertTestsLabel": "Tests synthétiques",
-        "alertTestsTitle": "Tests synthétiques : Quels tests synthétiques doivent être signalés par une alerte ?",
+        "alertTestsTitle": "Tests synthétiques : sur quels tests synthétiques vous voulez être alerté ?",
         "propertiesLabel": "Propriétés d'alerte",
         "propertiesTitle": "Que doit inclure la notification d'alerte ?",
         "failureThreshold": "Seuil de temps",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
         "noMetricSelected": "Aucune métrique sélectionnée"
       },
-      "groupedViewHeader": "{{formattedCount}} résultat",
-      "groupedViewHeader_plural": "{{formattedCount}} résultat",
-      "groupedViewHeader_0": "{{formattedCount}} résultat",
-      "groupedViewHeader_1": "{{formattedCount}} résultat",
-      "groupedViewHeader_2": "{{formattedCount}} résultat",
-      "resultHeaderLoading": "Chargement en cours...",
-      "loadMore": "Charger plus",
       "count": "Nombre",
-      "previewFor": "Aperçu pour : ",
       "selectEntityType": "Sélectionnez un type d'entité.",
       "regexNotValid": "L'expression régulière n'est pas valide."
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "Configuration d'alerte",
+        "metricName": "Nombre de journaux",
+        "alertConfigurationTitleScope": "Portée",
+        "noScopeSelected": "Aucun filtre de portée ou groupe configuré.",
+        "alertConfigurationTitleTimeThreshold": "Seuil de temps",
+        "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
+        "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
+        "alertConfigurationTitleTrigger": "Déclencheur"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
+        "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
+        "moreFiltersWithCount_0": "+{{count}} filtres supplémentaires",
+        "moreFiltersWithCount_1": "+{{count}} filtres supplémentaires",
+        "moreFiltersWithCount_2": "+{{count}} filtres supplémentaires",
+        "filter": "Filtrer",
+        "filter_plural": "Filtres",
+        "filter_0": "Filtres",
+        "filter_1": "Filtres",
+        "filter_2": "Filtres",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "Seuil statique",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Portée",
+          "title": "Porté : où cette condition se produit-elle ?"
+        },
+        "threshold": {
+          "label": "Seuil",
+          "title": "Seuil : Quand la condition n'est-elle pas respectée ?"
+        },
+        "timeThreshold": {
+          "label": "Seuil de temps",
+          "title": "Seuil de temps : quand voulez-vous être alerté ?"
+        },
+        "alertChannel": {
+          "label": "Canaux d'alerte",
+          "title": "Canaux d'alerte : qui doit être alerté ?"
+        },
+        "properties": {
+          "label": "Propriétés",
+          "title": "Propriétés d'alerte supplémentaires",
+          "preview": {
+            "subtitle": "Nombre de journaux"
+          },
+          "alertPropertiesTitlePlaceholder": "Consigne la Smart Alert",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "Le nombre de journaux est supérieur à {{value}}.",
+            "logsCount_higherEqual": "Le nombre de journaux est supérieur ou égal à {{value}}.",
+            "logsCount_lowerThan": "Le nombre de journaux est inférieur à {{value}}.",
+            "logsCount_lowerEqual": "Le nombre de journaux est inférieur ou égal à {{value}}."
+          }
+        },
+        "customPayloads": {
+          "label": "Contenus",
+          "title": "Contenu personnalisé"
+        },
+        "thresholdValue": "Valeur de seuil"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
+        "noMetricSelected": "Aucune métrique sélectionnée"
+      },
+      "logs": "Journaux"
     }
   }
 }

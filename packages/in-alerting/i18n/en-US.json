@@ -661,6 +661,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
         "timeThresholdConfigNumberOfViolations": "Number of Metric Violations",
         "timeThresholdConfigEvaluationGranularity": "Evaluation Granularity",
+        "granularityTooltipText": "The time granularity set here will determine the frequency at which the threshold is evaluated.",
         "timeThresholdConfigNumberOfTracesThreshold": "Number of Impacted Traces",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Number of Impacted Users",
         "timeThresholdConfigAtLeast": "At least",
@@ -1288,7 +1289,7 @@
     "logs": {
       "alertDetails": {
         "alertConfiguration": "Alert Configuration",
-        "metricName": "Log Count",
+        "metricName": "Log count",
         "alertConfigurationTitleScope": "Scope",
         "noScopeSelected": "No scope filters or groups configured.",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
@@ -1319,7 +1320,8 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Scope",
-          "title": "Scope: Where is the condition happening?"
+          "title": "Scope: Where is the condition happening?",
+          "metric": "Metric"
         },
         "threshold": {
           "label": "Threshold",

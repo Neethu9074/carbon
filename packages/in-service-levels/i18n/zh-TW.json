@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "狀態",
-      "remainingBudget": "剩餘的錯誤預算",
+      "remainingBudget": "剩餘",
       "totalBudget": "錯誤預算",
       "consumedBudget": "耗用的錯誤預算",
       "momentaryBudgetConsumption": "錯誤預算消耗",
@@ -127,18 +127,15 @@
     "customFilter": "自訂過濾器（選用）",
     "title": "建立服務水準目標 (SLO)",
     "selectIndicator": "選取藍圖",
-    "selectEntityNavItem": "選取實體",
+    "selectEntityNavItem": "設定實體",
     "selectEntityTitle": "選取要新增 SLO 的實體：",
-    "selectScopeNavItem": "選取範圍",
-    "selectScopeTitle": "選取範圍",
-    "selectIndicatorTitle": "SLI 指示器",
+    "selectScopeNavItem": "設定範圍",
     "selectIndicatorNavItem": "設定指示器",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "網站頁面載入",
       "beaconLabel_custom": "網站自訂事件"
     },
-    "selectObjectiveNavItem": "選取目標",
     "selectObjectiveTitle": "設定目標",
     "sloTarget": "SLO 目標",
     "timeWindow": "時間範圍",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "時間範圍必須至少為一天",
     "errorInvalidExpression": "輸入的過濾器無效",
     "errorBlankEntity": "請從清單中選取實體",
-    "nameAndTagsTitle": "名稱和標籤",
-    "nameAndTagsNavItem": "名稱和標籤",
+    "nameAndTagsTitle": "設定明細",
     "sloNameLabel": "SLO 名稱",
     "sloNamePlaceholder": "輸入名稱",
     "sloNameCopyTemplate": "{{name}} 的副本",
@@ -182,6 +178,9 @@
       "thresholdLabel_availability": "錯誤率 (%)",
       "setGoodCall": "將良好呼叫設為服務",
       "setBadCall": "將不正確的呼叫設為服務（選用）"
+    },
+    "previewSection": {
+      "dataInfo": "預覽資料在過去最多只會顯示 7 天。 SLO 將只包含自建立以來的資料"
     }
   },
   "sloChart": {
@@ -198,7 +197,12 @@
       "timeWindow": "時間範圍",
       "timeWindowType_dynamic": "動態時間範圍",
       "timeWindowType_rolling": "輪詢時間範圍",
-      "timeWindowType_fixed": "固定時間範圍"
+      "timeWindowType_fixed": "固定時間範圍",
+      "configuredTimeWindow": "已配置 SLO 時間範圍：",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "開始時間：{{startDay}}，{{startTime}}",
+      "matchedSLOTimeWindow": "比對 SLO 時間範圍： ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "無法使用預覽，因為配置不完整。",
@@ -208,10 +212,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "應用程式 SLO",
-          "websites": "網站 SLO"
-        }
+        "service": "服務：{{label}}",
+        "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
         "placeholder": "實體類型"
@@ -256,8 +258,14 @@
       "summaryLabel": "摘要",
       "configurationLabel": "配置"
     },
+    "timeWindowSelection": {
+      "timeWindow": "不明選項",
+      "timeWindow_SELECTED_TIME": "選取的時間",
+      "timeWindow_SLO_TIME_WINDOW": "SLO 時間範圍"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "剩餘的錯誤預算",
         "totalBudget": "預算：{{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +276,7 @@
         "totalTraffic": "總計：{{value}}"
       },
       "errorBudgetChart": {
-        "title": "錯誤預算",
-        "title_fullWindow": "整個時間範圍的錯誤預算",
-        "optionCompact": "壓縮",
-        "optionFull": "完全耗用"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "整個時間範圍的錯誤預算耗用量"
+        "title": "錯誤預算"
       },
       "trafficChart": {
         "title": "資料流量"

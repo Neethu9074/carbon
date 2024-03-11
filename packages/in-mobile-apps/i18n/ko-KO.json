@@ -25,6 +25,9 @@
       "label": "오류 비율",
       "rawDataLabel": "오류 개수"
     },
+    "customMetric": {
+      "label": "사용자 정의 메트릭"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "세션 시작",
       "viewChangeBeaconCountLabel": "보기 전환",

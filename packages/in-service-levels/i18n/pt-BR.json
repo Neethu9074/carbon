@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Status",
-      "remainingBudget": "Erro de orçamento restante",
+      "remainingBudget": "Restante",
       "totalBudget": "Orçamento errado",
       "consumedBudget": "Orçamento errado consumido",
       "momentaryBudgetConsumption": "Consumo do orçamento de erro",
@@ -126,20 +126,17 @@
   "createSloDialog": {
     "customFilter": "Filtro personalizado (opcional)",
     "title": "Criar Objetivo de nível de serviço (SLO)",
-    "selectIndicator": "Selecionar blueprints",
-    "selectEntityNavItem": "Selecionar entidade",
+    "selectIndicator": "Selecionar blueprint",
+    "selectEntityNavItem": "Configurar entidade",
     "selectEntityTitle": "Selecione uma entidade na qual incluir o SLO:",
-    "selectScopeNavItem": "Selecionar o escopo",
-    "selectScopeTitle": "Selecionar o escopo",
-    "selectIndicatorTitle": "Indicador de SLI",
+    "selectScopeNavItem": "Configurar escopo",
     "selectIndicatorNavItem": "Configurar indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitações HTTP",
       "beaconLabel_pageLoad": "Carregamentos de páginas do website",
       "beaconLabel_custom": "Eventos customizados do website"
     },
-    "selectObjectiveNavItem": "Selecionar objetivo",
-    "selectObjectiveTitle": "Definir o objetivo",
+    "selectObjectiveTitle": "Configurar objetivo",
     "sloTarget": "SLO de destino",
     "timeWindow": "Espaço de tempo",
     "length": "Length",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "O espaço de tempo deve ter pelo menos um dia de duração",
     "errorInvalidExpression": "Os filtros inseridos não são válidos",
     "errorBlankEntity": "Selecione uma entidade na lista",
-    "nameAndTagsTitle": "Nome e tags",
-    "nameAndTagsNavItem": "Nome & tags",
+    "nameAndTagsTitle": "Configurar detalhes",
     "sloNameLabel": "Nome do SLO",
     "sloNamePlaceholder": "Insira o nome",
     "sloNameCopyTemplate": "Cópia de {{name}}",
@@ -182,6 +178,9 @@
       "thresholdLabel_availability": "Taxa de erros (%)",
       "setGoodCall": "Configure as chamadas válidas para um serviço",
       "setBadCall": "Configure as chamadas inválidas para um serviço (opcional)"
+    },
+    "previewSection": {
+      "dataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O SLO incluirá dados apenas a partir do momento em que foi criado"
     }
   },
   "sloChart": {
@@ -198,7 +197,12 @@
       "timeWindow": "Espaço de tempo",
       "timeWindowType_dynamic": "Espaço de tempo dinâmico",
       "timeWindowType_rolling": "Espaço de tempo contínuo",
-      "timeWindowType_fixed": "Espaço de tempo fixo"
+      "timeWindowType_fixed": "Espaço de tempo fixo",
+      "configuredTimeWindow": "Espaço de tempo de SLO configurado:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "Horário de início: {{startDay}}, {{startTime}}",
+      "matchedSLOTimeWindow": "Espaços de tempo de SLO correspondentes: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Visualização não disponível porque a configuração está incompleta.",
@@ -208,10 +212,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "Aplicativo do SLO",
-          "websites": "Website do SLO"
-        }
+        "service": "Serviço: {{label}}",
+        "tooltip": "SLO {{context}}"
       },
       "entityTypeFilter": {
         "placeholder": "Tipo de entidade"
@@ -256,8 +258,14 @@
       "summaryLabel": "Resumo",
       "configurationLabel": "Configuração"
     },
+    "timeWindowSelection": {
+      "timeWindow": "Seleção desconhecida",
+      "timeWindow_SELECTED_TIME": "Horário selecionado",
+      "timeWindow_SLO_TIME_WINDOW": "Espaço de tempo de SLO"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "Erro de orçamento restante",
         "totalBudget": "Orçamento: {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +276,7 @@
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Orçamento errado",
-        "title_fullWindow": "Orçamento errado durante todo o espaço de tempo",
-        "optionCompact": "Compactar",
-        "optionFull": "Consumo integral"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Erro de consumo do orçamento em todo o espaço de tempo"
+        "title": "Orçamento errado"
       },
       "trafficChart": {
         "title": "Tráfego"

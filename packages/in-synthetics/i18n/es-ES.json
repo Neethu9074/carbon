@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Añadir prueba sintética",
       "dialogTitle": "Crear prueba sintética",
       "noLocationFound": "Lo sentimos. No se han encontrado ubicaciones",
       "noApplicationsFound": "No se han encontrado aplicaciones",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "Pruebas sintéticas de navegador",
           "browserTypeText": "La prueba sintética del navegador es un método para supervisar el rendimiento de las aplicaciones web simulando las interacciones del usuario con un sitio web a través de un script en un navegador web, proporcionando información valiosa sobre los problemas que afectan a la experiencia del usuario y garantizando la funcionalidad del sitio web.",
           "browserSimpleTitle": "Prueba simple de navegador",
-          "browserScriptTitle": "Prueba de script de navegador",
-          "internetServicesTypeLabel": "Servicios de Internet",
-          "internetServicesTypeHeadline": "Pruebas de servicios de Internet",
-          "internetServicesTypeText": "Las pruebas sintéticas de servicios de Internet implican simular las interacciones de los usuarios con los servicios web para supervisar y probar su rendimiento, lo que ayuda a identificar y evitar problemas de tiempo de inactividad."
+          "browserScriptTitle": "Prueba de script de navegador"
         },
         "configurationLabel": "Configuración",
         "configurationTitle": "Configuración: ¿Cómo funcionará esta prueba?",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "Reintentar una vez",
           "retryFieldOptionTwice": "Reintentar dos veces",
           "retryIntervalFieldLabel": "Intervalo de reintentos",
-          "retryIntervalDescription": "Esta prueba se volverá a intentar {{retryCount}} después de {{retryIntervalValue}} segundo.",
+          "retryIntervalDescription": "Esta prueba reintentará {{retryCount}} después de {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Marcar llamada sintética"
         },
         "loadMore": "Cargar más",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navegador",
-          "internetServicesName": "Servicios de Internet"
+          "browserName": "Navegador"
         },
         "customProperties": {
           "property": "Propiedad",
@@ -251,10 +248,64 @@
       "buttonSave": "Guardar",
       "scriptSavedMessage": "Script añadido",
       "bundleSavedMessage": "Scripts empaquetados añadidos"
+    },
+    "createLocation": {
+      "newLocation": "Ubicación nueva",
+      "activate": "Activar",
+      "done": "Hecho",
+      "stepConfigs": {
+        "selectType": "Paso 1: Seleccionar tipo",
+        "configuration": "Paso 2: Configuración"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "¿Qué tipo de ubicación desea utilizar?"
+      },
+      "privateLocation": {
+        "name": "Privada",
+        "headline": "Ubicación privada",
+        "description": {
+          "headline": "Cuándo se va a utilizar",
+          "htmlContent": "Cuando desee supervisar puntos finales o aplicaciones orientadas al interior que sólo son accesibles en su red privada. Estas ubicaciones están configuradas, alojadas y gestionadas por el usuario."
+        }
+      },
+      "managedLocation": {
+        "name": "gestionado",
+        "headline": "Ubicación gestionada",
+        "description": {
+          "headline": "Cuándo se va a utilizar",
+          "htmlContent": "Cuando desee supervisar sitios web y aplicaciones de acceso público. Estas ubicaciones están alojadas y gestionadas por Instana en centros de datos de todo el mundo."
+        },
+        "managedDatacentersLabel": "Centros de datos",
+        "datacenterCode": "Código de centro de datos",
+        "datacenterName": "Nombre del centro de datos",
+        "provider": "Proveedor",
+        "locationName": "Nombre de visualización de la ubicación",
+        "status": "Estado de activación",
+        "datacentersSubtitle": "Active una ubicación gestionada por Instana en uno de los centros de datos disponibles. Para obtener más información, consulte <linkDatacenters>Despliegue de PoP sintético</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Las ubicaciones se están desplegando",
+          "message": "Estamos configurando sus nuevas ubicaciones en los siguientes centros de datos. Tenga paciencia mientras se realiza el despliegue automáticamente. Cuando haya terminado, podrá encontrar las nuevas ubicaciones en la pestaña de ubicaciones. <strong>Esto puede tardar hasta 10 minutos.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Código de centro de datos",
+              "datacenterName": "Nombre del centro de datos",
+              "locationName": "Nombre de visualización de la ubicación",
+              "datacenterStatus": "Estado de activación"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "Es necesario seleccionar al menos un centro de datos"
+      },
+      "licenseCheck": {
+        "title": "Necesita una licencia.",
+        "description": "Para utilizar ubicaciones gestionadas por Instana, se necesita una <linkLicenses>licencia adicional</linkLicenses>. Póngase en contacto con el administrador de Instana para obtener ayuda."
+      },
+      "status": {
+        "pending": "Pendiente"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Añadir prueba sintética"
   },
   "createSmartAlert": {
     "buttonLabel": "Añadir alerta inteligente sintética"

@@ -74,8 +74,6 @@
       "infrastructure": "基礎架構",
       "profiles": "設定檔",
       "logs": "日誌",
-      "eumWebsites": "EUM：網站",
-      "eumMobileApps": "EUM：行動式應用程式",
       "pageLoads": "頁面載入",
       "pageTransitions": "頁面轉移",
       "pageTransitions2": "頁面轉移",
@@ -159,7 +157,15 @@
         "resourceUri": "資源 URI",
         "cacheInteraction": "快取互動",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 未監視此呼叫的 {{location}}",
-        "tags": "標籤"
+        "tags": "標籤",
+        "loading": "正在載入呼叫詳細資料。",
+        "labelError": "非預期的錯誤",
+        "retryError": "無法載入呼叫詳細資料。",
+        "started": "已開始",
+        "selfTime": "自我時間",
+        "networkTime": "網路時間",
+        "waitingTime": "等待時間",
+        "latency": "延遲"
       },
       "callTree": {
         "expandButtonForRow": "展開所有子呼叫",

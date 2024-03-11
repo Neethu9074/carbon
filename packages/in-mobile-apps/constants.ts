@@ -19,3 +19,20 @@ export const redirectURL = {
   // Mobile monitoring landing page URL - https://www.ibm.com/docs/en/instana-observability/current?topic=instana-monitoring-mobile-applications
   mobileMonitoringDoc: 'https://ibm.biz/BdvVqS'
 };
+
+export const metaRedirectURL = {
+  // Flutter Doc URL - https://www.ibm.com/docs/en/instana-observability/current?topic=applications-flutter-monitoring-api#metadata
+  flutterMetaApiDoc: 'https://ibm.biz/Bdvkit',
+
+  // React Native Doc URL - https://www.ibm.com/docs/en/instana-observability/current?topic=applications-react-native-api#metadata
+  reactNativeMetaApiDoc: 'https://ibm.biz/BdvkZB',
+
+  // Android Doc URL - https://www.ibm.com/docs/en/instana-observability/current?topic=applications-android-api#meta-data
+  androidMetaApiDoc: 'https://ibm.biz/BdvkZD',
+
+  // ios Doc URL - https://www.ibm.com/docs/en/instana-observability/current?topic=applications-ios-api#metadata
+  iosMetaApiDoc: 'https://ibm.biz/BdvkZ4',
+
+  // Mobile monitoring landing page URL - https://www.ibm.com/docs/en/instana-observability/current?topic=instana-monitoring-mobile-applications
+  mobileMonitoringDoc: 'https://ibm.biz/BdvVqS'
+};

@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}}(집계됨)"
   },
+  "logSmartAlerts": {
+    "logs": "로그"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "실패 상태"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "AI 생성됨",
     "suggestionHelpfulText": "이 제안이 도움이 되었습니까?",
     "thankYouForYourFeedback": "의견을 주셔서 감사합니다!",
-    "noEntitiesErrorTitle": "가능한 근본 원인을 찾을 수 없음",
-    "noEntitiesErrorDescription": "이는 일반적으로 인시던트에 중요한 서비스 영향이 없는 경우에 발생합니다.",
     "performanceConstantlyEvaluated": "베타 기간 동안 성능이 적극적으로 평가되고 개선됩니다. AI를 개선하는 데 도움이 되도록 피드백을 남겨주십시오.",
     "probableRootCauseLabel": "가능한 근본 원인 엔티티: {{entity_name}}",
-    "relatedEventsLabel": "찾은 엔티티 이벤트: {{number_of_events}}",
+    "relatedEventsLabel": "연관된 이벤트({{number_of_events}})",
     "entitiesNumber": "엔티티",
-    "techPreview": "기술 미리보기"
+    "techPreview": "기술 미리보기",
+    "probabilityLevelText": "확률 레벨:",
+    "highProbability": "HIGH",
+    "moderateProbability": "MODERATE",
+    "lowProbability": "LOW",
+    "naProbability": "해당사항 없음",
+    "highProbabilityBadgeText": "이 확률 등급은 문제의 엔티티가 양호하지 않을 가능성을 기준으로 합니다. 높은 확률은 이 엔티티가 제공된 증거를 기반으로 문제가 있을 가능성이 높음을 표시합니다.",
+    "moderateProbabilityBadgeText": "이 확률 등급은 문제의 엔티티가 양호하지 않을 가능성을 기준으로 합니다. 이 엔티티가 근본 원인일 수 있지만 더 많은 분석이 필요합니다.",
+    "lowProbabilityBadgeText": "이 확률 등급은 문제의 엔티티가 양호하지 않을 가능성을 기준으로 합니다. 현재 정보가 제공되는 경우, 이 구성요소는 상태가 양호하지 않을 가능성이 낮지만 추가로 조사될 것을 보증합니다.",
+    "naProbabilityBadgeText": "이 확률 등급은 문제의 엔티티가 양호하지 않을 가능성을 기준으로 합니다. 안타깝게도 이 인시던트에 대한 확률 등급을 확인할 수 없었습니다."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "인시던트 요약",
-    "thisIncident": "이 인시던트는 다음과 같습니다.",
     "errorTitle": "요약을 찾을 수 없음",
     "errorDescription": "이 이벤트에 대한 요약을 작성할 수 없습니다.",
-    "summarizationHelpfulText": "이 요약이 도움이 되었습니까?"
+    "summarizationHelpfulText": "이 요약이 도움이 되었습니까?",
+    "alertChannelTableTitle": "인시던트와 연관된 경보 채널",
+    "noDataAlertChannels": "이 인시던트와 연관될 수 있는 경보 채널이 없습니다."
   },
   "feedback": {
     "skip": "건너뛰기",
@@ -187,5 +198,9 @@
     "contactMeNo": "아니요, 연락을 받지 않는 것이 좋습니다.",
     "appreciateResponse": "응답해 주셔서 감사합니다!",
     "followUpQuestion": "추가 설명 또는 토론을 위해 귀하의 기술적 피드백과 관련하여 귀하와 함께 후속 조치를 수행하시겠습니까?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "영향을 받는 비즈니스 프로세스",
+    "titleImpactedBusinessProcessesIncident": "트리거링 이벤트의 영향을 받는 비즈니스 프로세스"
   }
 }
