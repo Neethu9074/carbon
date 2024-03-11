@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && node --max-old-space-size=4096 node_modules/.bin/gulp build",
-    "try-build": "export BUILD_DEV='false' && gulp try-build",
+    "try-build": "export BUILD_DEV='false' && cd target && yarn && cd .. && gulp try-build",
     "test": "yarn run test:unit && yarn run test:typecheck && yarn run test:lint",
     "test:typecheck": "tsc --pretty --project tsconfig.json",
     "test:lint": "eslint --ext '.js,.jsx,.ts,.tsx' gulpfile.js packages",
