@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilterExpression, TimeConfig } from '@instana/types';
+
 import {
   ANALYZE_LOGGING_JUMP_TO_LOGS,
   ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED,
@@ -13,7 +15,7 @@ import {
   ANALYZE_LOGGING_SORTING_CHANGED,
   ANALYZE_LOGGING_TIME_SPENT,
   LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK,
-  ANALYZE_LOGGING_LOG_CALL_WITH_FILTERS,
+  ANALYZE_LOGGING_LOG_GETLOGS_FILTERS,
   track
 } from 'in-services/tracking/tracking';
 
@@ -27,4 +29,5 @@ export const jumpToLogs = (e: any) => track(ANALYZE_LOGGING_JUMP_TO_LOGS, e);
 export const timeSpent = (e: { millisSpentOnAnalyzeView: number }) => track(ANALYZE_LOGGING_TIME_SPENT, e);
 export const sortingChanged = (e: Record<string, string>) => track(ANALYZE_LOGGING_SORTING_CHANGED, e);
 export const clickedAppPerspectiveLink = () => track(LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK);
-export const logsCallwithFilters = (e: { [key: string]: any }) => track(ANALYZE_LOGGING_LOG_CALL_WITH_FILTERS, e);
+export const logsCallwithFilters = (e: { timeConfig: TimeConfig; tagFilterExpression: TagFilterExpression }) =>
+  track(ANALYZE_LOGGING_LOG_GETLOGS_FILTERS, e);

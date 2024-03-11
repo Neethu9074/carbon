@@ -25,14 +25,16 @@ import {
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { HeaderActionProps, LogsProps, SortDirection } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
+// eslint-disable-next-line no-restricted-imports
+import { handleLogCallsWithFilters } from '../../utils';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
-import { logsCallwithFilters, sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -193,10 +195,6 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
     </Button>
   );
 }
-
-const handleLogCallsWithFilters = (payload: { [key: string]: any }) => {
-  logsCallwithFilters(payload);
-};
 
 function getTableData(props: GetDataParams) {
   const { timeConfig, afterKey, backendQueryModel, retrievalSize = pageSize, orderBy, contextSubjectLogId } = props;

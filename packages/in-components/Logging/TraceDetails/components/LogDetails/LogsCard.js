@@ -26,8 +26,8 @@ import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Char
 import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils/index';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { logsCallwithFilters } from 'in-logging/analyze/AnalyzeView/tracker';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ExpandableGroup from 'in-components/ExpandableGroup';
@@ -76,10 +76,6 @@ const LogsCard = ({ call, processSnapshotId }) => {
   );
 };
 
-const handleLogCallsWithFilters = payload => {
-  logsCallwithFilters(payload);
-};
-
 function getData({ callId, timeConfig }) {
   if (!loggingEnabled) {
     return just({
@@ -117,9 +113,10 @@ function getData({ callId, timeConfig }) {
   };
 
   const mixpanelProps = {
-    timeConfig: callBody.tagFilterExpression,
+    timeConfig: callBody.timeConfig,
     tagFilterExpression: callBody.tagFilterExpression
   };
+
   handleLogCallsWithFilters(mixpanelProps);
 
   return getLogs(callBody);

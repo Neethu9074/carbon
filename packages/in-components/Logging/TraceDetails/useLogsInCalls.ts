@@ -6,7 +6,7 @@
 
 import { useMemo, useState } from 'react';
 
-import { TimeConfig, TraceSummary } from '@instana/types';
+import { TagFilterExpression, TimeConfig, TraceSummary } from '@instana/types';
 
 import {
   getTraceIdTagFilter,
@@ -24,8 +24,8 @@ import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/s
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { logsCallwithFilters } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -88,10 +88,6 @@ function useLogsInCallsWithoutLogging({ trace }: UseLogsInCallsParams) {
   return { logsContextValue };
 }
 
-const handleLogCallsWithFilters = (payload: { [key: string]: any }) => {
-  logsCallwithFilters(payload);
-};
-
 function getData({ traceId, timeConfig }: GetDataParams) {
   const callBody = {
     timeConfig,
@@ -121,7 +117,7 @@ function getData({ traceId, timeConfig }: GetDataParams) {
   };
   const mixpanelProps = {
     timeConfig: callBody.timeConfig,
-    tagFilterExpression: callBody.tagFilterExpression
+    tagFilterExpression: callBody.tagFilterExpression as TagFilterExpression
   };
   handleLogCallsWithFilters(mixpanelProps);
 
