@@ -25,6 +25,9 @@
       "label": "Taux d'erreurs",
       "rawDataLabel": "Nombre d'erreurs"
     },
+    "customMetric": {
+      "label": "Métrique personnalisée"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "Démarrages de session",
       "viewChangeBeaconCountLabel": "Transitions de vue",

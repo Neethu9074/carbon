@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "Mehr",
     "workspaceAPIQuery": "API-Abfrage",
     "workspaceUseThisExpressionToQueryOurAPI": "Verwenden Sie diesen Ausdruck, um unsere API abzufragen",
-    "workspaceIncludeSidebarFilters": "Filterseitenleistenelemente einschließen",
     "workspaceTitleFilter": "Filter",
     "workspaceButtonClear": "Löschen",
     "errorWithDataYourDefinedQueryIsTooComplex": "Ihre definierte Abfrage ist zu komplex; reduzieren Sie die Verschachtelungstiefe.",

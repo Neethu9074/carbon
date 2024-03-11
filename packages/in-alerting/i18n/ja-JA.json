@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "削除されたアラート構成を表示しています。 変更はできません。",
     "alertPropertyInfosWarning": "警告",
     "alertPropertyInfosCritical": "クリティカル",
+    "alertConfirmationDialogDescription": "アラートの対象として構成されている {{entityPlaceholder}} はありません。 続行してよろしいですか?",
+    "labelConfirm": "確認",
     "customPayload": {
       "deleteRow": "行の削除",
       "key": "キー",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "グローバル・カスタム・ペイロード ({{count}})",
       "globalCustomPayloadRetrieveFailed": "何らかの問題が発生しました。 グローバル・カスタム・ペイロードを取得できませんでした。",
       "noGlobalCustomPayloadConfigured": "グローバル・カスタム・ペイロードが構成されていません"
-    }
+    },
+    "previewFor": "プレビュー: ",
+    "groupedViewHeader": "{{formattedCount}} 件の結果",
+    "groupedViewHeader_plural": "{{formattedCount}} 件の結果",
+    "groupedViewHeader_0": "{{formattedCount}} 件の結果",
+    "groupedViewHeader_1": "{{formattedCount}} 件の結果",
+    "groupedViewHeader_2": "{{formattedCount}} 件の結果",
+    "resultHeaderLoading": "ロード中です…",
+    "loadMore": "さらにロード"
   },
   "potentialProblems": {
     "titleErrorRate": "エラーのある呼び出し率が通常より高い",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "所定の検索のスマート・アラート構成が見つかりません",
     "titleNoSmartAlertsCreated": "スマート・アラートが作成されていません",
     "titleCopyOf": "{{smartAlertTitle}} (のコピー)",
+    "smartAlertsTitle": "スマート・アラート",
     "applications": {
       "alertConfiguration": "アラートの構成",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "ステップ1: テスト",
-        "simpleAlertConfigDialogStep1Headline": "アラートを出す必要があるのはどのシンセティック・テストですか?",
+        "simpleAlertConfigDialogStep1Headline": "どのシンセティック・テストでアラートを受け取りたいですか?",
         "simpleAlertConfigDialogStep1Tooltip": "個々のアラートは、ロケーションごと、シンセティック・テストごとに個別に送信されます",
         "stepConfigsStep4Title": "ステップ4: アラート・チャネル",
         "alertDialogHeadline": "アラートには何が表示されますか?",
         "stepConfigsStep2Title": "ステップ2: 範囲",
-        "scopeHeadline": "どこでアラートをトリガーしますか?",
+        "scopeHeadline": "スコープは何ですか?",
+        "scopeDescription": "条件を適用する場所を選択します。",
         "stepConfigsStep3Title": "ステップ 3: 時間しきい値",
         "stepConfigsStep5Title": "ステップ5: アラート・プロパティー",
         "thresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "だれがアラートを受け取りますか?",
         "scopeFilterLabel": "範囲",
         "alertTestsLabel": "シンセティック・テスト",
-        "alertTestsTitle": "シンセティック・テスト: アラートを出す必要があるのはどのシンセティック・テストですか?",
+        "alertTestsTitle": "シンセティック・テスト: どのシンセティック・テストでアラートを受け取りたいですか?",
         "propertiesLabel": "アラートのプロパティー",
         "propertiesTitle": "アラート通知には何を含める必要がありますか?",
         "failureThreshold": "時間しきい値",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
         "noMetricSelected": "メトリックが選択されていない"
       },
-      "groupedViewHeader": "{{formattedCount}} 件の結果",
-      "groupedViewHeader_plural": "{{formattedCount}} 件の結果",
-      "groupedViewHeader_0": "{{formattedCount}} 件の結果",
-      "groupedViewHeader_1": "{{formattedCount}} 件の結果",
-      "groupedViewHeader_2": "{{formattedCount}} 件の結果",
-      "resultHeaderLoading": "ロード中です…",
-      "loadMore": "さらにロード",
       "count": "数",
-      "previewFor": "プレビュー: ",
       "selectEntityType": "エンティティー・タイプを選択してください",
       "regexNotValid": "正規表現が無効です"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "アラートの構成",
+        "metricName": "ログ・カウント",
+        "alertConfigurationTitleScope": "範囲",
+        "noScopeSelected": "スコープ・フィルターまたはグループが構成されていません。",
+        "alertConfigurationTitleTimeThreshold": "時間しきい値",
+        "alertConfigurationTitleAlertChannels": "アラート・チャネル",
+        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleTrigger": "トリガー"
+      },
+      "list": {
+        "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_0": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_1": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_2": "さらに {{count}} 個のフィルター",
+        "filter": "フィルター",
+        "filter_plural": "フィルター",
+        "filter_0": "フィルター",
+        "filter_1": "フィルター",
+        "filter_2": "フィルター",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "静的しきい値",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "範囲",
+          "title": "スコープ: 状況が発生している場所"
+        },
+        "threshold": {
+          "label": "しきい値",
+          "title": "しきい値: どのような場合に条件に違反するか"
+        },
+        "timeThreshold": {
+          "label": "時間しきい値",
+          "title": "時間しきい値: アラートを出すタイミング"
+        },
+        "alertChannel": {
+          "label": "アラート・チャネル",
+          "title": "アラート・チャネル: アラートを受け取るユーザー"
+        },
+        "properties": {
+          "label": "プロパティー",
+          "title": "追加のアラートのプロパティー",
+          "preview": {
+            "subtitle": "ログ・カウント"
+          },
+          "alertPropertiesTitlePlaceholder": "スマート・アラートをログに記録",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "ログ・カウントが {{value}} を超えています。",
+            "logsCount_higherEqual": "ログ・カウントが {{value}} 以上になっています。",
+            "logsCount_lowerThan": "ログ・カウントが {{value}} を下回っています。",
+            "logsCount_lowerEqual": "ログ・カウントが {{value}} 以下になっています。"
+          }
+        },
+        "customPayloads": {
+          "label": "積載量",
+          "title": "カスタム・ペイロード"
+        },
+        "thresholdValue": "しきい値"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
+        "noMetricSelected": "メトリックが選択されていない"
+      },
+      "logs": "Logs"
     }
   }
 }

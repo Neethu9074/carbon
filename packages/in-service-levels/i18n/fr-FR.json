@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Statut",
-      "remainingBudget": "Erreur budget restant",
+      "remainingBudget": "Restant",
       "totalBudget": "Budget d'erreur",
       "consumedBudget": "Budget d'erreur utilisé",
       "momentaryBudgetConsumption": "Erreur de consommation du budget",
@@ -126,19 +126,16 @@
   "createSloDialog": {
     "customFilter": "Filtre personnalisé (facultatif)",
     "title": "Créer un objectif de niveau de service (SLO)",
-    "selectIndicator": "Sélectionner des plans directeurs",
-    "selectEntityNavItem": "Sélectionner une entité",
+    "selectIndicator": "Sélectionner le plan directeur",
+    "selectEntityNavItem": "Définir l'entité",
     "selectEntityTitle": "Sélectionnez une entité à laquelle ajouter le SLO :",
-    "selectScopeNavItem": "Sélectionner une portée",
-    "selectScopeTitle": "Sélectionner une portée",
-    "selectIndicatorTitle": "Indicateur SLI",
+    "selectScopeNavItem": "Définissez la portée",
     "selectIndicatorNavItem": "Définir l'indicateur",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Demandes HTTP",
       "beaconLabel_pageLoad": "Chargements de page de site Web",
       "beaconLabel_custom": "Evénements personnalisés de site Web"
     },
-    "selectObjectiveNavItem": "Sélectionner un objectif",
     "selectObjectiveTitle": "Définir l'objectif",
     "sloTarget": "Cible SLO",
     "timeWindow": "Fenêtre de temps",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "La fenêtre de temps doit durer au moins un jour",
     "errorInvalidExpression": "Les filtres entrés ne sont pas valides",
     "errorBlankEntity": "Sélectionnez une entité dans la liste",
-    "nameAndTagsTitle": "Nom et étiquettes",
-    "nameAndTagsNavItem": "Nom & balises",
+    "nameAndTagsTitle": "Définir les détails",
     "sloNameLabel": "Nom d'objectif du niveau de service",
     "sloNamePlaceholder": "Entrez un nom",
     "sloNameCopyTemplate": "Copie de {{name}}",
@@ -182,6 +178,9 @@
       "thresholdLabel_availability": "Taux d'erreur (%)",
       "setGoodCall": "Définir les appels corrects à un service",
       "setBadCall": "Définir les appels incorrects à un service (facultatif)"
+    },
+    "previewSection": {
+      "dataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. L'objectif de niveau de service inclut uniquement les données à partir de la date de création."
     }
   },
   "sloChart": {
@@ -198,7 +197,12 @@
       "timeWindow": "Fenêtre de temps",
       "timeWindowType_dynamic": "Fenêtre de temps dynamique",
       "timeWindowType_rolling": "Fenêtre de temps glissante",
-      "timeWindowType_fixed": "Fenêtre de temps fixe"
+      "timeWindowType_fixed": "Fenêtre de temps fixe",
+      "configuredTimeWindow": "Fenêtre de temps d'objectif de niveau configurée :",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "Heure de début: {{startDay}}, {{startTime}}",
+      "matchedSLOTimeWindow": "Fenêtres de temps d'objectif de niveau de service correspondantes : ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "L'aperçu n'est pas disponible car la configuration est incomplète.",
@@ -208,10 +212,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "SLO de l'application",
-          "websites": "SLO du site Web"
-        }
+        "service": "Service : {{label}}",
+        "tooltip": "Objectif de niveau de service {{context}}"
       },
       "entityTypeFilter": {
         "placeholder": "Type d'entité"
@@ -256,8 +258,14 @@
       "summaryLabel": "Récapitulatif",
       "configurationLabel": "Configuration"
     },
+    "timeWindowSelection": {
+      "timeWindow": "Sélection inconnue",
+      "timeWindow_SELECTED_TIME": "Heure sélectionnée",
+      "timeWindow_SLO_TIME_WINDOW": "Fenêtre de temps d'objectif de niveau"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "Erreur budget restant",
         "totalBudget": "Budget : {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +276,7 @@
         "totalTraffic": "Total : {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Budget d'erreur",
-        "title_fullWindow": "Erreur de budget sur l'ensemble de la fenêtre de temps",
-        "optionCompact": "Compact",
-        "optionFull": "Consommation totale"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Erreur de consommation du budget sur l'ensemble de la fenêtre de temps"
+        "title": "Budget d'erreur"
       },
       "trafficChart": {
         "title": "Trafic"

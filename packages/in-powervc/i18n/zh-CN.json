@@ -19,6 +19,9 @@
   "totalCpu": "总 CPU",
   "totalMemory": "总内存",
   "totalStorage": "总存储容量",
+  "totalCapacity": "总容量",
+  "availableCapacity": "可用容量",
+  "volumeCount": "卷计数",
   "cpuArch": "CPU 体系结构",
   "cpuModel": "CPU 型号",
   "cpuVendor": "CPU 供应商",
@@ -26,6 +29,7 @@
   "status": "状态",
   "state": "状态",
   "hostIP": "主机 IP",
+  "ip": "IP",
   "hypervisorType": "系统管理程序类型",
   "hypervisorVersion": "系统管理程序版本",
   "instanceCount": "实例计数",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "服务器组使用情况",
   "floatingIpsUsage": "浮动 IP 使用情况",
   "securityGroupsUsage": "安全组使用情况",
+  "project": "项目",
+  "hostName": "主机名",
+  "cpuUtilization": "CPU 使用率",
+  "health": "运行状况",
   "dashboards": {
-    "regions": "区域",
     "powervcRegions": "PowerVC 区域",
     "hypervisors": "系统管理程序",
     "computeInstances": "计算实例",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "已使用的服务器组总数",
     "totalFloatingIpsUsed": "已使用的浮动 IP 总数",
     "totalSecurityGroupsUsed": "已使用的安全组总数",
-    "memoryUsageAll": "所有 VM 的内存使用情况",
-    "cpuUsageAll": "所有 VM 的 CPU 使用情况",
-    "storageUsageAll": "所有 VM 的存储器使用情况",
     "noDataAvailable": {
       "hypervisorTitle": "没有可用的 PowerVC 管理程序",
-      "hypervisorDescription": "在所选时间范围内未检索到任何 PowerVC Hypervisor。"
+      "hypervisorDescription": "在所选时间范围内未检索到任何 PowerVC Hypervisor。",
+      "instanceTitle": "没有可用 PowerVC 实例",
+      "instanceDescription": "没有针对所选时间范围检索到 PowerVC 实例。"
     }
   }
 }

@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Ajouter un test synthétique",
       "dialogTitle": "Créer un test synthétique",
       "noLocationFound": "Désolé ! Aucun emplacement trouvé.",
       "noApplicationsFound": "Aucune application trouvée",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "Tests synthétiques de navigateur",
           "browserTypeText": "Les tests synthétiques de navigateur sont une méthode pour surveiller les performances des applications Web en simulant des interactions utilisateur avec un site Web à l'aide d'un script dans un navigateur Web, pour fournir des informations utiles sur les problèmes qui affectent l'expérience utilisateur et pour garantir le bon fonctionnement du site Web.",
           "browserSimpleTitle": "Test simple du navigateur",
-          "browserScriptTitle": "Test de script de navigateur",
-          "internetServicesTypeLabel": "Services Internet",
-          "internetServicesTypeHeadline": "Tests de services Internet",
-          "internetServicesTypeText": "Les tests synthétiques de services Internet impliquent la simulation d'interactions utilisateurs avec les services Web pour surveiller et tester leurs performances, afin d'identifier et d'éviter les problèmes d'indisponibilité."
+          "browserScriptTitle": "Test de script de navigateur"
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration : Comment ce test fonctionnera-t-il ?",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "Réessayer une fois",
           "retryFieldOptionTwice": "Réessayer deux fois",
           "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
-          "retryIntervalDescription": "Ce test réessaiera {{retryCount}} après {{retryIntervalValue}} seconde.",
+          "retryIntervalDescription": "Ce test réessaiera {{retryCount}} après {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Marquer l'appel synthétique"
         },
         "loadMore": "Charger plus",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navigateur",
-          "internetServicesName": "Services Internet"
+          "browserName": "Navigateur"
         },
         "customProperties": {
           "property": "Propriété",
@@ -251,10 +248,64 @@
       "buttonSave": "Sauvegarder",
       "scriptSavedMessage": "Script ajouté",
       "bundleSavedMessage": "Scripts intégrés ajoutés"
+    },
+    "createLocation": {
+      "newLocation": "Nouvel emplacement",
+      "activate": "Activer",
+      "done": "Terminé",
+      "stepConfigs": {
+        "selectType": "Etape 1 : Sélectionner un type",
+        "configuration": "Étape 2: Configuration"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "Quel type d'emplacement souhaitez-vous utiliser ?"
+      },
+      "privateLocation": {
+        "name": "Privé",
+        "headline": "Emplacement privé",
+        "description": {
+          "headline": "Utilisation",
+          "htmlContent": "Lorsque vous souhaitez surveiller des applications ou des nœuds finaux internes accessibles uniquement dans votre réseau privé. Ces emplacements sont configurés, hébergés et gérés par vous."
+        }
+      },
+      "managedLocation": {
+        "name": "Géré",
+        "headline": "Emplacement géré",
+        "description": {
+          "headline": "Utilisation",
+          "htmlContent": "Lorsque vous souhaitez surveiller des sites Web et des applications accessibles au public. Ces emplacements sont hébergés et gérés par Instana dans des centres de données du monde entier."
+        },
+        "managedDatacentersLabel": "Centres de données",
+        "datacenterCode": "Code du centre de données",
+        "datacenterName": "Nom du centre de données",
+        "provider": "Fournisseur",
+        "locationName": "Nom d'affichage de la localisation",
+        "status": "Statut d'activation",
+        "datacentersSubtitle": "Activez un emplacement géré Instana dans l'un des centres de données disponibles. Pour plus d'informations, voir <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Des emplacements sont en cours de déploiement",
+          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Cette opération peut prendre jusqu'à 10 minutes.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Code du centre de données",
+              "datacenterName": "Nom du centre de données",
+              "locationName": "Nom d'affichage de la localisation",
+              "datacenterStatus": "Statut d'activation"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "Au moins un centre de données doit être sélectionné."
+      },
+      "licenseCheck": {
+        "title": "Vous avez besoin d'une licence.",
+        "description": "Pour utiliser des emplacements gérés par Instana, une <linkLicenses>licence supplémentaire</linkLicenses> est requise. Contactez votre administrateur Instana pour obtenir de l'aide."
+      },
+      "status": {
+        "pending": "En attente"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Ajouter un test synthétique"
   },
   "createSmartAlert": {
     "buttonLabel": "Ajouter une Smart Alert synthétique"

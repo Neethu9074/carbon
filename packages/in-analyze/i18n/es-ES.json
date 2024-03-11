@@ -74,8 +74,6 @@
       "infrastructure": "Infraestructura",
       "profiles": "Perfiles",
       "logs": "Registros",
-      "eumWebsites": "EUM: Sitios web",
-      "eumMobileApps": "EUM: Aplicaciones móviles",
       "pageLoads": "Cargas de páginas",
       "pageTransitions": "Transiciones de página",
       "pageTransitions2": "Transiciones de página",
@@ -159,7 +157,15 @@
         "resourceUri": "URI de recurso",
         "cacheInteraction": "Interacción de memoria caché",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada",
-        "tags": "Códigos"
+        "tags": "Códigos",
+        "loading": "Cargando detalles de llamada.",
+        "labelError": "Error inesperado",
+        "retryError": "No se han podido cargar los detalles de la llamada.",
+        "started": "Iniciado",
+        "selfTime": "Tiempo personal",
+        "networkTime": "Tiempo de red",
+        "waitingTime": "Tiempo en espera",
+        "latency": "Latencia"
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas las subllamadas",

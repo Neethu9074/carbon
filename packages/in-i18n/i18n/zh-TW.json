@@ -56,8 +56,7 @@
       "submit": "提交"
     },
     "states": {
-      "saving": "儲存中...",
-      "loading": "載入中..."
+      "saving": "儲存中..."
     }
   },
   "language_en-US": "英文",

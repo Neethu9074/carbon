@@ -14,7 +14,8 @@
     "durationLabel": "持續時間",
     "noData": "沒有可用的資料",
     "healthLabel": "性能",
-    "startLabel": "已開始"
+    "startLabel": "已開始",
+    "unnamedActivity": "（未命名活動）{{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "商業監視"
@@ -28,14 +29,19 @@
       "widgets": {
         "topActivities": "前幾個活動（計數）",
         "infrastructureIssuesAndChanges": "基礎架構問題與變更",
-        "viewAll": "檢視所有活動"
+        "viewAll": "檢視所有活動",
+        "processCount": "計數",
+        "processCountTotal": "總計",
+        "processErrors": "錯誤"
       }
     },
     "activity": {
       "pageTitle": "商業活動",
       "summaryTab": "摘要",
       "widgets": {
-        "duration": "持續時間"
+        "duration": "持續時間",
+        "activityCount": "計數",
+        "activityErrors": "錯誤"
       },
       "timespans": {
         "minute": "1 分鐘",

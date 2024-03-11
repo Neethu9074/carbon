@@ -17,7 +17,7 @@
   "type": "類型",
   "totalCpu": "CPU 總計",
   "totalMemory": "總記憶體",
-  "totalStorage": "儲存體總計",
+  "totalStorage": "總儲存體 (GB)",
   "cpuArch": "CPU 架構",
   "cpuModel": "CPU 型號",
   "cpuVendor": "CPU 供應商",
@@ -67,7 +67,6 @@
   "updated": "已更新",
   "imageSize": "映像檔大小 (MB)",
   "dashboards": {
-    "regions": "區域",
     "openstackRegions": "OpenStack 區域",
     "name": "名稱",
     "hypervisors": "Hypervisor",

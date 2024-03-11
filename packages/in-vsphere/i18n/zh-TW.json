@@ -29,7 +29,6 @@
     "wait": "等待",
     "system": "系統",
     "name": "名稱",
-    "vSphereEsXiHost": "vSphere ESXi 主機",
     "esXiHost": "ESXi 主機",
     "device": "裝置",
     "url": "Url",
@@ -55,10 +54,10 @@
     "shared": "共用",
     "vmemctl": "Vmemctl",
     "host": {
-      "bytesReceived": "已接收的位元組數",
+      "bytesReceived": "接收的位元組數",
       "bytesTransmitted": "已傳輸的位元組數",
       "bytesTotal": "位元組總數",
-      "packetsReceived": "已接收的封包數",
+      "packetsReceived": "接收的封包數",
       "packetsTransmitted": "已傳輸的封包數",
       "packetsTotal": "封包數總計"
     },
@@ -67,7 +66,7 @@
     "state": "狀態",
     "ready": "備妥",
     "readiness": "就緒",
-    "latency": "延遲時間",
+    "latency": "延遲",
     "swapped": "已交換",
     "granted": "已授與",
     "vm": {

@@ -25,6 +25,9 @@
       "label": "Taxa de erro",
       "rawDataLabel": "Contagem de erros"
     },
+    "customMetric": {
+      "label": "Métrica customizada"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "Inícios de sessão",
       "viewChangeBeaconCountLabel": "Transições de visualização",

@@ -19,6 +19,9 @@
   "totalCpu": "CPU 總計",
   "totalMemory": "總記憶體",
   "totalStorage": "儲存體總計",
+  "totalCapacity": "總容量",
+  "availableCapacity": "可用的容量",
+  "volumeCount": "磁區計數",
   "cpuArch": "CPU 架構",
   "cpuModel": "CPU 型號",
   "cpuVendor": "CPU 供應商",
@@ -26,6 +29,7 @@
   "status": "狀態",
   "state": "狀態",
   "hostIP": "主機 IP",
+  "ip": "IP",
   "hypervisorType": "Hypervisor 類型",
   "hypervisorVersion": "Hypervisor 版本",
   "instanceCount": "實例計數",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "伺服器群組使用情形",
   "floatingIpsUsage": "浮動 IP 使用情形",
   "securityGroupsUsage": "安全群組使用情形",
+  "project": "專案",
+  "hostName": "主機名稱",
+  "cpuUtilization": "CPU 使用率",
+  "health": "性能",
   "dashboards": {
-    "regions": "區域",
     "powervcRegions": "PowerVC 區域",
     "hypervisors": "Hypervisor",
     "computeInstances": "計算實例",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "使用的伺服器群組總數",
     "totalFloatingIpsUsed": "已使用的浮動 IP 總數",
     "totalSecurityGroupsUsed": "使用的安全群組總數",
-    "memoryUsageAll": "所有 VM 的記憶體用量",
-    "cpuUsageAll": "所有 VM 的 CPU 使用率",
-    "storageUsageAll": "所有 VM 的儲存體用量",
     "noDataAvailable": {
       "hypervisorTitle": "沒有可用的 PowerVC Hypervisor",
-      "hypervisorDescription": "在選取的時間範圍內未擷取任何 PowerVC Hypervisor。"
+      "hypervisorDescription": "在選取的時間範圍內未擷取任何 PowerVC Hypervisor。",
+      "instanceTitle": "沒有可用的 PowerVC 實例",
+      "instanceDescription": "在選取的時間範圍內未擷取任何 PowerVC 實例。"
     }
   }
 }

@@ -25,6 +25,9 @@
       "label": "エラー率",
       "rawDataLabel": "エラー件数"
     },
+    "customMetric": {
+      "label": "カスタム・メトリック"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "セッション開始",
       "viewChangeBeaconCountLabel": "遷移の表示",

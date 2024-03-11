@@ -25,6 +25,9 @@
       "label": "錯誤率",
       "rawDataLabel": "錯誤計數"
     },
+    "customMetric": {
+      "label": "自訂指標"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "階段作業啟動",
       "viewChangeBeaconCountLabel": "視圖轉移",
