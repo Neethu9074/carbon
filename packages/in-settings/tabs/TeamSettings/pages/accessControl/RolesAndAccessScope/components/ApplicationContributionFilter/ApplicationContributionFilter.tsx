@@ -52,6 +52,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   const [initialfilterName] = useState(filterNameField?.value);
   const [isFilterNameValid, setFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>('');
+  const [validateWithApi, setValidateWithApi] = useState(true);
 
   useEffect(() => {
     let appsDisposable: Disposable;
@@ -63,16 +64,19 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
       // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
       setValid(true);
       setErrorMessage(null);
-    } else if (filterName) {
+    } else if (filterName && validateWithApi) {
       const appsObservable = contributionFilterNameExists(filterName);
       appsDisposable = appsObservable.subscribe(result => {
-        // Name is valid if no application perspective with the same name is found
-        const isNameValid = result?.data?.exists === false;
-        setFilterNameValid(isNameValid);
-        setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
+        if (result?.data) {
+          // Name is valid if no application perspective with the same name is found
+          const isNameValid = result?.data?.exists === false;
+          setFilterNameValid(isNameValid);
+          setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
 
-        // Report valid
-        setValid(isNameValid);
+          // Report valid
+          setValid(isNameValid);
+          setValidateWithApi(false);
+        }
       });
     }
 
@@ -80,7 +84,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
       // Clean up
       appsDisposable?.dispose();
     };
-  }, [filterName, setValid, timeConfig, editMode, initialfilterName]);
+  }, [filterName, setValid, timeConfig, editMode, initialfilterName, validateWithApi]);
 
   const setTagFilterExpression = (
     tagFilterExpression: FormModelElement[],
@@ -106,6 +110,10 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
           id="application-contribution-filter-name"
           onChange={e => {
             setForm(updateFormField(form, 'label', e.target.value, true));
+          }}
+          onBlur={() => {
+            // Validate contribution filter name when focus is lost to minimize API calls
+            setValidateWithApi(true);
           }}
           value={filterNameField?.value ?? ''}
           hasError={!filterNameField?.valid || !isFilterNameValid}
