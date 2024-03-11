@@ -25,6 +25,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { logsCallwithFilters } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -87,8 +88,12 @@ function useLogsInCallsWithoutLogging({ trace }: UseLogsInCallsParams) {
   return { logsContextValue };
 }
 
+const handleLogCallsWithFilters = (payload: { [key: string]: any }) => {
+  logsCallwithFilters(payload);
+};
+
 function getData({ traceId, timeConfig }: GetDataParams) {
-  return getLogs({
+  const callBody = {
     timeConfig,
     retrievalSize: maxRetrievalSize,
     tagFilterExpression: toBackendQueryModel(
@@ -113,7 +118,14 @@ function getData({ traceId, timeConfig }: GetDataParams) {
       LOG_CALL_ID,
       LOG_STREAM_NAME
     ]
-  });
+  };
+  const mixpanelProps = {
+    timeConfig: callBody.timeConfig,
+    tagFilterExpression: callBody.tagFilterExpression
+  };
+  handleLogCallsWithFilters(mixpanelProps);
+
+  return getLogs(callBody);
 }
 
 export default useLogsInCalls;

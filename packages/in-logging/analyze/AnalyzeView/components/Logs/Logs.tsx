@@ -28,12 +28,12 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
+import { logsCallwithFilters, sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -194,8 +194,17 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
   );
 }
 
+const handleLogCallsWithFilters = (payload: { [key: string]: any }) => {
+  logsCallwithFilters(payload);
+};
+
 function getTableData(props: GetDataParams) {
   const { timeConfig, afterKey, backendQueryModel, retrievalSize = pageSize, orderBy, contextSubjectLogId } = props;
+  const mixpanelProps = {
+    timeConfig: timeConfig,
+    tagFilterExpression: backendQueryModel
+  };
+  handleLogCallsWithFilters(mixpanelProps);
 
   return getLogs({
     timeConfig,

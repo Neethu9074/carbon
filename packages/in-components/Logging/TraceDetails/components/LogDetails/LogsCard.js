@@ -27,6 +27,7 @@ import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsIn
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { logsCallwithFilters } from 'in-logging/analyze/AnalyzeView/tracker';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ExpandableGroup from 'in-components/ExpandableGroup';
@@ -75,6 +76,10 @@ const LogsCard = ({ call, processSnapshotId }) => {
   );
 };
 
+const handleLogCallsWithFilters = payload => {
+  logsCallwithFilters(payload);
+};
+
 function getData({ callId, timeConfig }) {
   if (!loggingEnabled) {
     return just({
@@ -83,8 +88,7 @@ function getData({ callId, timeConfig }) {
       data: []
     });
   }
-
-  return getLogs({
+  const callBody = {
     timeConfig,
     retrievalSize: maxRetrievalSize,
     tagFilterExpression: toBackendQueryModel(
@@ -110,7 +114,15 @@ function getData({ callId, timeConfig }) {
       LOG_EXCEPTION_STACK_TRACE,
       SPAN_STACK_TRACE
     ]
-  });
+  };
+
+  const mixpanelProps = {
+    timeConfig: callBody.tagFilterExpression,
+    tagFilterExpression: callBody.tagFilterExpression
+  };
+  handleLogCallsWithFilters(mixpanelProps);
+
+  return getLogs(callBody);
 }
 
 export default LogsCard;
