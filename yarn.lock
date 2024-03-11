@@ -2035,7 +2035,7 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.45.0":
+"@instana/components@2.45.0", "@instana/components@^2.45.0":
   version "2.45.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.45.0.tgz#571698efe9c591dd9e9a0f8a4ea1f015d9133fc7"
   integrity sha512-HjTAMdT7pFK8NTwW6LwFdd/zNhJmVudKcIqa5Ma9Z0QP4J6vlxuP6aVW4jBEE1acSX6JOwqfFfoU+Y3QaOxl/A==
@@ -2139,11 +2139,12 @@
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/legacy@3.1.0":
-  version "3.1.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.1.0.tgz#2063d06c696a4a4fd5d4a39cfb6f2ab293350e94"
-  integrity sha512-7C4t6yS9hMo9m2NKYqRBEsDdPbL/23n+wQFYI3uszxYGxIGo8HAr76cnU7sTC6nc1Qdq/jp3ARNamZQAQ/XxhA==
+"@instana/legacy@3.2.1":
+  version "3.2.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.2.1.tgz#a9cb5fd35de53ed8c676f7bf3612399498e36d2a"
+  integrity sha512-VYvS9DvXXg0VJZU2qnEi5yglCQSAjnw4SE+Qc9I8sCZsEL9L4s8lMeiTXoJg4EKFltIc4QZGKAW4zKFOiM9BCg==
   dependencies:
+    "@instana/components" "^2.45.0"
     "@instana/design-tokens" "^1.23.6"
     "@instana/format-date" "^1.6.3"
     "@instana/format-numbers" "^1.5.3"
