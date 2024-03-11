@@ -43,20 +43,5 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/insta-incompagent`
-  },
-  invalid_jmx_credentials: {
-    issueDescription: {
-      Component: function invalidJmxCredentials() {
-        return (
-          <span>
-            <p>
-              <Trans i18nKey="in-forge:plugins.kafka.kafkaMonitoringRequiresJmxAuthentication" />
-            </p>
-          </span>
-        );
-      }
-    },
-    explanationLinkLabel: t('in-forge:plugins.kafka.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/kafka-ssl-client-auth-not-config`
   }
 };
