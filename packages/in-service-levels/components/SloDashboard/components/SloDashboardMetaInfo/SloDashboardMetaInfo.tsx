@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
@@ -23,12 +24,14 @@ interface SloDashboardMetaInfoProps {
 }
 
 export default function SloDashboardMetaInfo({ configuration, entity, service, endpoint }: SloDashboardMetaInfoProps) {
+  const showTag = useMediaQuery('(min-width: 1200px)');
+
   const { tags, entity: sloEntity } = configuration;
   return (
     <div className={locals.metaInfo}>
       <Stack direction="horizontal" align="center" distribution="start">
         {entity && <SloEntityInfo entity={entity} entityType={sloEntity.type} service={service} endpoint={endpoint} />}
-        <TagList tags={tags} />
+        {showTag && <TagList tags={tags} />}
       </Stack>
     </div>
   );

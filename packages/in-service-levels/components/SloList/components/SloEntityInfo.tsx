@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { Stack, SvgIcon, Typography } from '@instana/components';
@@ -26,7 +27,9 @@ type EntityDisplayData = {
 
 export default function SloEntityInfo({ entity, entityType, service, endpoint }: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
-  const showServiceEndpointInfo = entityType === 'application';
+  const compact = useMediaQuery('(min-width: 600px)');
+  const serviceEndpointInfo = entityType === 'application';
+  const showServiceEndpointInfo = serviceEndpointInfo && compact;
 
   return (
     <Stack direction="horizontal" align="center">
