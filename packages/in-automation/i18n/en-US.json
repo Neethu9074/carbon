@@ -262,6 +262,7 @@
   "policies": {
     "policies": "Policies",
     "newPolicy": "New Policy",
+    "selectEventTrigger": "Select Event trigger",
     "actionName": "Action Name",
     "eventTrigger": "Event Trigger",
     "unknownPolicy": "Unknown Policy",
