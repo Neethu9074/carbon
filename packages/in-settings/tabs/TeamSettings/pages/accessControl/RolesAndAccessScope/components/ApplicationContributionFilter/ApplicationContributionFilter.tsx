@@ -72,7 +72,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
         }
       });
     }
-  }, 1000);
+  }, 500);
 
   useEffect(() => {
     // Already invalid (blank or larger than 128 characters)

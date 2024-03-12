@@ -9,7 +9,7 @@ import { act } from '@testing-library/react-hooks/dom';
 
 import useDebounce from 'in-settings/hooks/useDebounce';
 
-const DEBOUNCE_DELAY = 1000;
+const DEBOUNCE_DELAY = 500;
 
 describe('in-settings/hooks/useDebounce', () => {
   // Mock timers (for debounce)

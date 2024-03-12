@@ -33,7 +33,7 @@ jest.mock('in-settings/tabs/TeamSettings/api/groups', () => {
   };
 });
 
-const DEBOUNCE_DELAY = 1000;
+const DEBOUNCE_DELAY = 500;
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/ApplicationContributionFilter/ApplicationContributionFilter', () => {
   // Mock timers (for debounce)
