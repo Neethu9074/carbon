@@ -39,10 +39,9 @@ export default function OnboardingWidget(props) {
     props.Renderer || (agentInstallationV2Enabled ? OnboardingWidgetPresenterV2 : OnboardingWidgetPresenter);
   const trackingService = createTracker(props.trackingIdPrefix);
   const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
+
   useEffect(() => {
-    if (agentInstallationV2Enabled) {
-      trackingService.catalogPageOpened();
-    } else {
+    if (!agentInstallationV2Enabled) {
       trackingService.dialogOpened();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
