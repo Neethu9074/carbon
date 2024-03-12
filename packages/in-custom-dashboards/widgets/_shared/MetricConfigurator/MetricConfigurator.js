@@ -7,8 +7,8 @@ import React, { useEffect } from 'react';
 
 import { keyCodes, Stack } from '@instana/components';
 
+import sources, { isBetaSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
-import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -171,12 +171,4 @@ export default function MetricConfigurator({
   }
 
   return <Sections>{dataSourceSection}</Sections>;
-}
-
-function isBetaSource(source) {
-  const betaSource = ['LOG'];
-
-  if (!source) return false;
-
-  return betaSource.includes(source);
 }

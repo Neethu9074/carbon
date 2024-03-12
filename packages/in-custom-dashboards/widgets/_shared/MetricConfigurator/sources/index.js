@@ -8,9 +8,9 @@ import * as infrastructure from 'in-custom-dashboards/widgets/_shared/MetricConf
 import * as application from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
 import * as mobileApp from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp';
 import * as website from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website';
+import * as logging from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import * as sli from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
-import * as logging from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import { syntheticCustomDashboardEnabled } from 'in-services/featureFlags';
 
 let all = {
@@ -29,3 +29,11 @@ if (syntheticCustomDashboardEnabled) {
 export default all;
 
 export const enabledDataSources = Object.fromEntries(Object.entries(all).filter(entry => entry[1].enabled));
+
+export function isBetaSource(source) {
+  const betaSource = ['LOG'];
+
+  if (!source) return false;
+
+  return betaSource.includes(source);
+}

@@ -65,7 +65,7 @@ function reduceResultValues(result: Result<MetricResult[]>): Result<MetricResult
 }
 
 function transformToPerSecondAverage(result: Result<MetricResult[]>, timeConfig: TimeConfig): Result<MetricResult[]> {
-  if (result.data && result.data[0].values) {
+  if (result.data && result.data[0]?.values) {
     result.data?.forEach(item => {
       item.values?.forEach(value => {
         value[1] = (value[1] / timeConfig.windowSize) * 1000;
