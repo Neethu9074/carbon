@@ -81,8 +81,6 @@ import {
   getHelpTextType,
   JIRA_OPERATIONS
 } from 'in-automation/ActionCatalog/shared';
-import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
-import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
 import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -103,7 +101,6 @@ import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -114,8 +111,6 @@ interface ActionFormProps {
   entity: ActionFormEntity;
   setForm: SetFormFunction;
   isCreate: boolean;
-  // eslint-disable-next-line react/no-unused-prop-types
-  close?: boolean;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
@@ -148,22 +143,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               <FormGroup>
                 <ParametersTable form={form} setForm={setForm} onChange={onChange} />
               </FormGroup>
-            </>
-          )}
-          {role?.canConfigureEventsAndAlerts && (
-            <>
-              <SectionHeading>
-                {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
-              </SectionHeading>
-              <EventsSelection form={form} setForm={setForm} />
-            </>
-          )}
-          {role?.canConfigureApplicationSmartAlerts && (
-            <>
-              <SectionHeading>
-                {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}
-              </SectionHeading>
-              <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
             </>
           )}
         </Col>
@@ -642,7 +621,7 @@ const TicketCloseAndCommentSection = ({
   form,
   onChange,
   close = false
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'close'>) => {
+}: Pick<ActionFormProps, 'form' | 'onChange'> & { close?: boolean }) => {
   const comment = form.get('comment') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 

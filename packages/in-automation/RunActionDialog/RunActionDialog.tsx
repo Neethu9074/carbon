@@ -622,7 +622,7 @@ interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'ac
 
 function getAgent(volatileId: VolatileId, agentSnapShots: OUT, executeOrNewPolicy: NewPolicy | Policy | undefined) {
   if (executeOrNewPolicy) {
-    return executeOrNewPolicy.typeConfigurations[0].runnable.runConfiguration.actions[0].agentId;
+    return executeOrNewPolicy.typeConfigurations[0]?.runnable?.runConfiguration?.actions[0]?.agentId ?? '';
   }
   return (
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId

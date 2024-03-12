@@ -5,13 +5,10 @@
 
 import React, { useEffect } from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
-import { updateBuiltinEventActionAssociations, getBuiltinEventActionAssociations } from 'in-automation/api';
-import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecificationsHelpers';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -19,21 +16,16 @@ import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
-import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { associateActionsTracker } from 'in-automation/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import FormGroup from 'in-settings/components/FormGroup';
 import { viewEventTracker } from 'in-settings/tracker';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
 import { getPlainMetricList } from 'in-sdk/metrics';
-import { getAllActions } from 'in-automation/api';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -41,7 +33,6 @@ import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import entityForm from 'in-hoc/entityForm';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './BuiltInEvent.mless';
@@ -55,43 +46,13 @@ const paramCols = [
 export default function BuiltinEvent(props) {
   const { goToPath } = useNavigation();
   const entityId = props.match.params.id;
-  const entityData = useObservable(mergeResultData(), []);
+  const entityData = useObservable(() => getBuiltInEventSpecification(entityId), []);
 
   useEffect(() => {
     if (entityData && entityData?.get('shortPluginId'))
       viewEventTracker({ id: entityId, entityType: entityData.get('shortPluginId'), type: 'BUILT_IN' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityData]);
-  const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
-  function mergeResultData() {
-    const eventDetails$ = getBuiltInEventSpecification(entityId);
-    const actionDetails$ = getBuiltinEventActionAssociations(entityId);
-    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
-      eventResponse.set(
-        'actionIds',
-        actionResponse.map(action => action.id)
-      )
-    );
-  }
-  const actions = useObservable(getAllActions, []) ?? [];
-
-  function save(event, form) {
-    const actionIds = form.get('actionIds')?.value ?? [];
-    if (hasAutomationActions) {
-      const actionNames = actions.reduce(
-        (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
-        []
-      );
-
-      associateActionsTracker({
-        eventName: event.get('name').value,
-        actionNames: actionNames,
-        type: 'Builtin event'
-      });
-    }
-
-    return updateBuiltinEventActionAssociations(actionIds, entityId);
-  }
 
   return (
     <Form
@@ -99,15 +60,14 @@ export default function BuiltinEvent(props) {
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createBuiltinEventFormDefinition(event)}
-      getEntityFromApi={hasAutomationActions ? mergeResultData : getBuiltInEventSpecification}
+      getEntityFromApi={getBuiltInEventSpecification}
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
-      saveEntity={(entity, form) => save(entity, form)}
     />
   );
 }
 
 const Form = entityForm(function DetailsForm(props) {
-  const { entity, form, setForm, isCreate, saveEnabled, message, error, loading } = props;
+  const { entity, form, message, error, loading } = props;
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -198,28 +158,13 @@ const Form = entityForm(function DetailsForm(props) {
           </Notification>
         </Section>
       ) : null}
-      {role.canConfigureAutomationActions && actionAutomationEnabled && (
-        <>
-          <div className={locals.titleWithBetatag}>
-            <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
-            <BetaBadge />
-          </div>
-          <ActionsSelection
-            form={form}
-            setForm={setForm}
-            name={entity.get('name')}
-            description={entity.get('description')}
-          />
-        </>
-      )}
       <SaveCancel
-        form={form}
-        message={message}
-        loading={!entity}
-        hasSaveButton={saveEnabled && role.canConfigureAutomationActions && actionAutomationEnabled}
-        isCreate={isCreate}
+        message=""
+        loading={!event}
+        isCreate={false}
         listPath={teamSettingsAlertingEvents}
         cancelButtonLabel={t('in-settings:tabs.back')}
+        hasSaveButton={false}
       />
     </SettingsDetailPage>
   );

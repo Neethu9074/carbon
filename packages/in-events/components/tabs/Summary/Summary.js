@@ -28,15 +28,13 @@ import {
 import {
   actionAutomationEnabled,
   incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled,
-  automationPoliciesEnabled
+  incidentSummarizationTimelineEnabled
 } from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
-import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -235,29 +233,12 @@ const EventContent = connectTo(
           </Row>
         )}
 
-        {automationPoliciesEnabled &&
-          role?.canConfigureAutomationPolicies &&
-          actionAutomationEnabled &&
-          role.canConfigureAutomationActions &&
-          role.canConfigureEventsAndAlerts &&
-          isIssue &&
-          hasEventSpec && (
-            <AssociatedAndRecommendedPolicies
-              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-              event={event?.toJS()}
-            />
-          )}
-        {!automationPoliciesEnabled &&
-          actionAutomationEnabled &&
-          role.canConfigureAutomationActions &&
-          role.canConfigureEventsAndAlerts &&
-          isIssue &&
-          hasEventSpec && (
-            <AssociatedAndRecommendedActions
-              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-              event={event?.toJS()}
-            />
-          )}
+        {role?.canConfigureAutomationPolicies && actionAutomationEnabled && isIssue && hasEventSpec && (
+          <AssociatedAndRecommendedPolicies
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={event?.toJS()}
+          />
+        )}
         <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
       </>
     );

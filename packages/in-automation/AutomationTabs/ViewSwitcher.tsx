@@ -11,7 +11,6 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { actionHistoryTracker } from 'in-automation/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
@@ -53,7 +52,7 @@ export default function ViewSwitcher() {
               }}
             />
           )}
-          {automationPoliciesEnabled && role?.canConfigureAutomationPolicies && (
+          {role?.canConfigureAutomationPolicies && (
             <SecondLevelNavigationItem
               href={createHrefToPath(policiesFullyQualified)}
               label={t('in-automation:policies.policies')}

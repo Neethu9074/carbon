@@ -15,12 +15,7 @@ import {
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import {
-  automationPoliciesEnabled,
-  infraSmartAlertsEnabled,
-  logSmartAlertsEnabled,
-  syntheticRbacEnabled
-} from 'in-services/featureFlags';
+import { infraSmartAlertsEnabled, logSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -222,7 +217,7 @@ export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS,
   Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-  ...(automationPoliciesEnabled ? [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES] : [])
+  Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [
