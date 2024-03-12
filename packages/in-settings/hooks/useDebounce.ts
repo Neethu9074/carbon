@@ -10,7 +10,7 @@ import { debounce } from 'lodash';
 /**
  * React hook that delays the exution of the provided function.
  *
- * @param func Function that to be debounced.
+ * @param func Function to be invoked after specified delay.
  * @param delay Time in ms until the function is invoked.
  *
  * @returns Debounced version of the function that has been provided.
