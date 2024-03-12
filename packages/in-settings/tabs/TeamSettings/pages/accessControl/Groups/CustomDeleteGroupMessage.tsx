@@ -39,12 +39,12 @@ const CustomDeleteGroupMessage = ({
       setTenantsWithUnits(currentTenantWithUnits);
     });
   }, []);
-
+  const haveMuItipleUnits = Array.isArray(currentTenantWithUnits) && currentTenantWithUnits.length > 1;
   if (loading) return <Trans i18nKey={'in-settings:tabs.loading'} />;
   return (
     <>
       <div>
-        {Array.isArray(currentTenantWithUnits) && currentTenantWithUnits.length > 1 ? (
+        {haveMuItipleUnits ? (
           <Trans i18nKey="in-settings:tabs.deleteGroupMessage" values={{ groupName: group?.name }} />
         ) : (
           <Trans i18nKey="in-settings:components.confirmRemoveItem" values={{ itemName: group?.name }} />
@@ -52,11 +52,10 @@ const CustomDeleteGroupMessage = ({
       </div>
       {isContributorApplicationIdPresent && (
         <div>
-          <Trans i18nKey="in-settings:tabs.thisWillRemoveContributionFilterMessage" values={{ apCount }} />
-          {Array.isArray(currentTenantWithUnits) && currentTenantWithUnits.length > 1 && (
-            <>
-              &nbsp; <Trans i18nKey="in-settings:tabs.thisWillRemoveContributionFilterFromOtherUnits" />
-            </>
+          {haveMuItipleUnits ? (
+            <Trans i18nKey="in-settings:tabs.thisWillRemoveContributionFilterMessage" values={{ apCount }} />
+          ) : (
+            <Trans i18nKey="in-settings:tabs.thisWillRemoveContributionFilterFromOtherUnits" values={{ apCount }} />
           )}
         </div>
       )}

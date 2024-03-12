@@ -520,6 +520,8 @@
       "stepTitleApplicationScope": "Application scope.",
       "stepTitleApplicationUsesBoundaryScope": "This Application Perspective uses <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "You are viewing this application perspective configuration in read-only mode.",
+      "readOnlyRestrictingApplicationConfiguration": "This application perspective is a contribution filter and can not be changed or removed from here.",
+      "readOnlyRestrictingApConfigWithGroupPermission": "This application perspective is a contribution filter and can be updated or removed from <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig>.",
       "stepTitleBuiltInSmartAlertsScope": "Built–In Smart Alerts scope.",
       "noBuiltInSmartAlertsActive": "No built-in Smart Alerts active for this application perspective.",
       "optionNoDownstreamServices": "No downstream services",
