@@ -24,9 +24,9 @@ import { contributionFilterNameExists } from 'in-settings/tabs/TeamSettings/api/
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import useDebounce from 'in-settings/hooks/useDebounce';
 import Input from 'in-components/form/Input/Input';
 import Label from 'in-components/form/Label/Label';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationContributionFilter.mless';
@@ -44,7 +44,6 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   setValid = (_isValid: boolean) => {},
   editMode
 }: ApplicationContributionFilterProps<FORM_TYPE>) {
-  const timeConfig = useTimeConfig();
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
   const filterNameField = getField<string>(form, 'label');
@@ -52,20 +51,15 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   const [initialfilterName] = useState(filterNameField?.value);
   const [isFilterNameValid, setFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>('');
-  const [validateWithApi, setValidateWithApi] = useState(true);
+  let appsDisposable: Disposable;
 
-  useEffect(() => {
-    let appsDisposable: Disposable;
-    // Already invalid (blank or larger than 128 characters)
-    if (contributionFilterNameValidator(filterName) !== null) {
-      setValid(false);
-      setErrorMessage(null);
-    } else if (editMode && initialfilterName === filterName) {
-      // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
-      setValid(true);
-      setErrorMessage(null);
-    } else if (filterName && validateWithApi) {
+  const debouncedValidation = useDebounce(() => {
+    if (filterName) {
       const appsObservable = contributionFilterNameExists(filterName);
+      if (appsDisposable) {
+        // Clean up
+        appsDisposable?.dispose();
+      }
       appsDisposable = appsObservable.subscribe(result => {
         if (result?.data) {
           // Name is valid if no application perspective with the same name is found
@@ -75,16 +69,25 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
 
           // Report valid
           setValid(isNameValid);
-          setValidateWithApi(false);
         }
       });
     }
+  }, 1000);
 
-    return () => {
-      // Clean up
-      appsDisposable?.dispose();
-    };
-  }, [filterName, setValid, timeConfig, editMode, initialfilterName, validateWithApi]);
+  useEffect(() => {
+    // Already invalid (blank or larger than 128 characters)
+    if (contributionFilterNameValidator(filterName) !== null) {
+      setValid(false);
+      setErrorMessage(null);
+    } else if (editMode && initialfilterName === filterName) {
+      // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
+      setValid(true);
+      setErrorMessage(null);
+    } else if (filterName) {
+      // Validate against API
+      debouncedValidation();
+    }
+  }, [filterName, setValid, editMode, initialfilterName, debouncedValidation]);
 
   const setTagFilterExpression = (
     tagFilterExpression: FormModelElement[],
@@ -110,10 +113,6 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
           id="application-contribution-filter-name"
           onChange={e => {
             setForm(updateFormField(form, 'label', e.target.value, true));
-          }}
-          onBlur={() => {
-            // Validate contribution filter name when focus is lost to minimize API calls
-            setValidateWithApi(true);
           }}
           value={filterNameField?.value ?? ''}
           hasError={!filterNameField?.valid || !isFilterNameValid}
