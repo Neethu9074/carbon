@@ -1,33 +1,48 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
+import { Button, Link } from '@instana/components';
 
-import {
-  mobileAppIdUrlParameter,
-  tagFiltersInDashboardUrlParameter,
-  viewIdUrlParameter
-} from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
+import { mobileAppIdUrlParameter, tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+// @ts-expect-error Could not find a declaration file for module
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
+// @ts-expect-error Could not find a declaration file for module
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+// @ts-expect-error Could not find a declaration file for module
+import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+// @ts-expect-error Could not find a declaration file for module
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+// @ts-expect-error Could not find a declaration file for module
+import { viewIdUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
+import changeExplanation from 'in-mobile-apps/emptyListExplanation';
+// @ts-expect-error Could not find a declaration file for module
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { useLinkToAnalyze, useLinkToCustomEvent } from 'in-mobile-apps/navigation/paths';
-import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import changeExplanation from 'in-mobile-apps/emptyListExplanation';
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-function CustomEventLabel({ item, mobileAppId, viewId }) {
+interface CustomEventLabelProp {
+  item: MobileAppPaginatedBeaconGroupsItem;
+  mobileAppId: string;
+  viewId?: string;
+}
+
+function CustomEventLabel({ item, mobileAppId, viewId }: CustomEventLabelProp) {
   const getLinkToMobileAppCustomEvent = useLinkToCustomEvent();
   let label = item.name;
   try {
@@ -48,7 +63,14 @@ function CustomEventLabel({ item, mobileAppId, viewId }) {
   );
 }
 
-const columnDefinitions = [
+interface CustomEventListProp extends ServerTablePresenterProps<MobileAppPaginatedBeaconGroupsItem> {
+  mobileAppId: string;
+  result: any;
+  timeConfig: TimeConfig;
+  viewId?: string;
+}
+
+const columnDefinitions: Array<ColumnDefinition<MobileAppPaginatedBeaconGroupsItem, CustomEventListProp>> = [
   {
     id: 'name',
     label: t('in-mobile-apps:dashboard.tabs.customEvents.customEventsLabelEventName'),
@@ -113,7 +135,14 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: '/customEvents'
 });
 
-export default function CustomEvents({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }) {
+export interface CustomEventsProp {
+  timeConfig?: TimeConfig;
+  tagFilters?: TagFilter[];
+  mobileAppId: string;
+  mobileAppLabel: string;
+}
+
+export default function CustomEvents({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }: CustomEventsProp) {
   const tagCatalogCustom = useTagCatalog('custom');
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
 
@@ -152,6 +181,16 @@ export default function CustomEvents({ timeConfig, tagFilters, mobileAppId, mobi
   );
 }
 
+interface GetTableDataProp {
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: string;
+  timeConfig: TimeConfig;
+  tagFilters: TagFilter[];
+}
+
 function getTableData({
   query = '',
   page = 1,
@@ -160,11 +199,25 @@ function getTableData({
   orderDirection = 'DESC',
   timeConfig,
   tagFilters
-}) {
-  tagFilters = tagFilters.concat([{ name: 'mobileBeacon.type', stringValue: 'custom', operator: 'EQUALS' }]);
+}: GetTableDataProp) {
+  tagFilters = tagFilters.concat([
+    {
+      name: 'mobileBeacon.type',
+      stringValue: 'custom',
+      operator: 'EQUALS',
+      type: 'TAG_FILTER',
+      entity: 'NOT_APPLICABLE'
+    }
+  ]);
   if (isNotBlank(query)) {
     tagFilters = tagFilters.concat([
-      { name: 'mobileBeacon.customEvent.name', stringValue: query, operator: 'CONTAINS' }
+      {
+        name: 'mobileBeacon.customEvent.name',
+        stringValue: query,
+        operator: 'CONTAINS',
+        type: 'TAG_FILTER',
+        entity: 'NOT_APPLICABLE'
+      }
     ]);
   }
 
