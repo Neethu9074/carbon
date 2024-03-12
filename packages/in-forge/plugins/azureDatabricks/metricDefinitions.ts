@@ -111,7 +111,7 @@ export default [
       'shuffleClientUsedDirectMemory',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    label: t('in-forge:plugins.azureDatabricks.shuffleClientUsedDirectMemory'),
+    label: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: zeroDecimalPlaces
@@ -122,7 +122,7 @@ export default [
       'shuffleClientUsedHeapMemory',
       t('in-forge:plugins.azureDatabricks.labelExecutorName')
     ),
-    label: t('in-forge:plugins.azureDatabricks.shuffleClientUsedHeapMemory'),
+    label: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedHeapMemory'),
     min: 0,
     category: [t('in-forge:plugins.azureDatabricks.titleExecutors')],
     formatter: zeroDecimalPlaces

@@ -8,7 +8,7 @@ import { List } from 'immutable';
 import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { megaBytes, number } from 'in-services/formatters/number';
+import { megaBytes, number, bytes, seconds } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -20,7 +20,7 @@ const clusterNameCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.clusterName;
+      return row.key;
     }
   }
 };
@@ -30,7 +30,7 @@ const clusterIdCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.clusterId;
+      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterId']);
     }
   }
 };
@@ -40,7 +40,7 @@ const sparkVersionCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.sparkVersion;
+      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.sparkVersion']);
     }
   }
 };
@@ -50,7 +50,7 @@ const clusterCoreCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.clusterCore;
+      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterCore']);
     }
   }
 };
@@ -60,7 +60,7 @@ const clusterSourceCol = {
   type: 'string',
   typeArgs: {
     getValue(row: any) {
-      return row.clusterSource;
+      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterSource']);
     }
   }
 };
@@ -73,7 +73,7 @@ const executorCountCol = {
       return row.snapshotId;
     },
     getMetricName(row: any) {
-      return 'clusters.' + row.clusterName + '.executorCount';
+      return 'clusters.' + row.key + '.executorCount';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -90,7 +90,7 @@ const clusterMemoryCol = {
       return row.snapshotId;
     },
     getMetricName(row: any) {
-      return 'clusters.' + row.clusterName + '.clusterMemoryMb';
+      return 'clusters.' + row.key + '.clusterMemoryMb';
     },
     getContent: megaBytes.compact,
     getTimeWindowAggregation() {
@@ -107,7 +107,7 @@ const jobCountCol = {
       return row.snapshotId;
     },
     getMetricName(row: any) {
-      return 'clusters.' + row.clusterName + '.jobCount';
+      return 'clusters.' + row.key + '.jobCount';
     },
     getContent: number.compact,
     getTimeWindowAggregation() {
@@ -125,38 +125,22 @@ export default function ClustersTable({
 }) {
   const timeConfig = useTimeConfig();
   const snapshotId = snapshot.get('id') as string;
-  const uniqueKeys = new Set();
 
-  const rows = snapshot
-    .getIn(['data'], List())
-    .map((_value: string, key: string) => {
-      if (key.startsWith('clusters.')) {
-        const prefix = key.substring(0, key.lastIndexOf('.'));
-        if (!uniqueKeys.has(prefix)) {
-          uniqueKeys.add(prefix);
-
-          return {
-            key: prefix,
-            clusterName: snapshot.getIn(['data', prefix + '.clusterName']),
-            clusterId: snapshot.getIn(['data', prefix + '.clusterId']),
-            sparkVersion: snapshot.getIn(['data', prefix + '.sparkVersion']),
-            clusterCore: snapshot.getIn(['data', prefix + '.clusterCore']),
-            clusterSource: snapshot.getIn(['data', prefix + '.clusterSource']),
-            configuredLogAnalytics: configuredLogAnalytics,
-            timeConfig,
-            snapshotId
-          };
-        }
-      }
-      return null;
-    })
-    .filter(Boolean)
-    .valueSeq()
-    .toArray();
-
-  if (rows.length === 0) {
+  const clusterNames = snapshot.getIn(['data', 'clusterNames'], List());
+  if (clusterNames.length == 0) {
     return null;
   }
+
+  const rows = clusterNames.toArray().map((clusterName: string) => {
+    return {
+      key: clusterName,
+      snapshot: snapshot,
+      configuredLogAnalytics: configuredLogAnalytics,
+      timeConfig,
+      snapshotId
+    };
+  });
+
   const cols = [
     clusterNameCol,
     clusterIdCol,
@@ -185,45 +169,6 @@ function getRowDetails(row: any) {
   const snapshotId = row.snapshotId;
   const timeConfig = row.timeConfig;
 
-  if (row.configuredLogAnalytics != 'OK') {
-    return (
-      <>
-        <Columize>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              metrics: ['clusters.' + row.clusterName + '.executorCount'],
-              labels: [t('in-forge:plugins.azureDatabricks.labelExecutorCount')],
-              type: 'line',
-              formatter: number.compact
-            }}
-          />
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              metrics: ['clusters.' + row.clusterName + '.jobCount'],
-              labels: [t('in-forge:plugins.azureDatabricks.labelJobCount')],
-              type: 'line',
-              formatter: number.compact
-            }}
-          />
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              metrics: ['clusters.' + row.clusterName + '.clusterMemoryMb'],
-              labels: [t('in-forge:plugins.azureDatabricks.labelClusterMemory')],
-              type: 'line',
-              formatter: megaBytes.compact
-            }}
-          />
-        </Columize>
-      </>
-    );
-  }
-
   return (
     <>
       <Columize>
@@ -231,7 +176,7 @@ function getRowDetails(row: any) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['clusters.' + row.clusterName + '.executorCount'],
+            metrics: ['clusters.' + row.key + '.executorCount'],
             labels: [t('in-forge:plugins.azureDatabricks.labelExecutorCount')],
             type: 'line',
             formatter: number.compact
@@ -241,7 +186,7 @@ function getRowDetails(row: any) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['clusters.' + row.clusterName + '.jobCount'],
+            metrics: ['clusters.' + row.key + '.jobCount'],
             labels: [t('in-forge:plugins.azureDatabricks.labelJobCount')],
             type: 'line',
             formatter: number.compact
@@ -251,57 +196,62 @@ function getRowDetails(row: any) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['clusters.' + row.clusterName + '.clusterMemoryMb'],
+            metrics: ['clusters.' + row.key + '.clusterMemoryMb'],
             labels: [t('in-forge:plugins.azureDatabricks.labelClusterMemory')],
             type: 'line',
             formatter: megaBytes.compact
           }}
         />
       </Columize>
-      <Columize>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['clusters.' + row.clusterName + '.maxShuffleBytesWritten'],
-            labels: [t('in-forge:plugins.azureDatabricks.labelMaxShuffleBytesWritten')],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['clusters.' + row.clusterName + '.sumShuffleClientUsedHeapMemory'],
-            labels: [t('in-forge:plugins.azureDatabricks.labelSumShuffleClientUsedHeapMemory')],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </Columize>
-      <Columize>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['clusters.' + row.clusterName + '.executionDuration'],
-            labels: [t('in-forge:plugins.azureDatabricks.labelExecutionDuration')],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['clusters.' + row.clusterName + '.inputRowsPerSecond'],
-            labels: [t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </Columize>
+
+      {row.configuredLogAnalytics == 'OK' && (
+        <>
+          <Columize>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['clusters.' + row.key + '.maxShuffleBytesWritten'],
+                labels: [t('in-forge:plugins.azureDatabricks.labelMaxShuffleBytesWritten')],
+                type: 'line',
+                formatter: bytes.compact
+              }}
+            />
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['clusters.' + row.key + '.sumShuffleClientUsedHeapMemory'],
+                labels: [t('in-forge:plugins.azureDatabricks.labelSumShuffleClientUsedHeapMemory')],
+                type: 'line',
+                formatter: bytes.compact
+              }}
+            />
+          </Columize>
+          <Columize>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['clusters.' + row.key + '.executionDuration'],
+                labels: [t('in-forge:plugins.azureDatabricks.labelExecutionDuration')],
+                type: 'line',
+                formatter: seconds.fixedCompact
+              }}
+            />
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['clusters.' + row.key + '.inputRowsPerSecond'],
+                labels: [t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')],
+                type: 'line',
+                formatter: number.compact
+              }}
+            />
+          </Columize>
+        </>
+      )}
     </>
   );
 }
