@@ -43,6 +43,7 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
   includeInternal: createField({ value: false }),
   includeSynthetic: createField({ value: false }),
   serviceId: createField({ value: '' }),
+  scopeSelection: createField({ value: 'serviceEndpoint' }),
   tagFilterExpression: createField({ value: [], validator: noInvalidTagFilterExpression })
 });
 
