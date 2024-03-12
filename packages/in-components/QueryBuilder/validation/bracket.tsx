@@ -9,14 +9,16 @@ import {
   isTag,
   isAndOr,
   isNot,
-  isExpression,
-  ADD_CLOSING_BRACKET,
-  REMOVE_BRACKET,
-  REMOVE_CONJUNCTION,
-  MISSING_CLOSING_BRACKET,
-  ADD_CONJUNCTION
+  isExpression
 } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
 import { Element } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
+
+export const ADD_CLOSING_BRACKET = 'ADD_CLOSING_BRACKET';
+export const REMOVE_BRACKET = 'REMOVE_BRACKET';
+export const CLOSE_BRACKET = 'CLOSE_BRACKET';
+export const REMOVE_CONJUNCTION = 'REMOVE_CONJUNCTION';
+export const MISSING_CLOSING_BRACKET = 'MISSING_CLOSING_BRACKET';
+export const ADD_CONJUNCTION = 'ADD_CONJUNCTION';
 
 interface SuggestionElement extends Element {
   valid: boolean;

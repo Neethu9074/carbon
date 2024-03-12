@@ -11,41 +11,43 @@ import {
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { OPERATOR_NOT, OPERATOR_AND, OPERATOR_OR } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { EXPRESSION, SPACING } from 'in-components/QueryBuilder/transformation/renderModelElementTypes';
+import { not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { ElementType } from 'in-components/QueryBuilder/transformation/formModel';
+import { LogicalOperator } from 'in-types';
 
-export function isExpression(element) {
+export type FormElementType = ElementType | typeof EXPRESSION | typeof SPACING;
+export interface Element {
+  type: FormElementType;
+  logicalOperator?: LogicalOperator | typeof not;
+}
+
+export function isExpression(element: Element): boolean {
   return element.type === EXPRESSION;
 }
 
-export function isSpacing(element) {
+export function isSpacing(element: Element): boolean {
   return element.type === SPACING;
 }
 
-export function isOpenBracket(element) {
+export function isOpenBracket(element: Element): boolean {
   return element.type === OPEN_BRACKET_TYPE;
 }
 
-export function isCloseBracket(element) {
+export function isCloseBracket(element: Element): boolean {
   return element.type === CLOSE_BRACKET_TYPE;
 }
 
-export function isTag(element) {
+export function isTag(element: Element): boolean {
   return element.type === TAG_TYPE;
 }
 
-export function isAndOr(element) {
+export function isAndOr(element: Element): boolean {
   return (
     element.type === CONJUNCTION_TYPE &&
     (element.logicalOperator === OPERATOR_OR || element.logicalOperator === OPERATOR_AND)
   );
 }
 
-export function isNot(element) {
+export function isNot(element: Element): boolean {
   return element.type === CONJUNCTION_TYPE && element.logicalOperator === OPERATOR_NOT;
 }
-
-export const ADD_CLOSING_BRACKET = 'ADD_CLOSING_BRACKET';
-export const REMOVE_BRACKET = 'REMOVE_BRACKET';
-export const CLOSE_BRACKET = 'CLOSE_BRACKET';
-export const REMOVE_CONJUNCTION = 'REMOVE_CONJUNCTION';
-export const MISSING_CLOSING_BRACKET = 'MISSING_CLOSING_BRACKET';
-export const ADD_CONJUNCTION = 'ADD_CONJUNCTION';

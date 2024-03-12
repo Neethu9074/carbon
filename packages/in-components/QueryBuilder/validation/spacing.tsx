@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ADD_CONJUNCTION, ValidateCloseBracketProps } from 'in-components/QueryBuilder/validation/bracket';
 import { TAG, CLOSE_BRACKET, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
-import { ADD_CONJUNCTION } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
 import { EXPRESSION } from 'in-components/QueryBuilder/transformation/renderModelElementTypes';
-import { ValidateCloseBracketProps } from 'in-components/QueryBuilder/validation/bracket';
 
 export default function validate({ element, index, elements, addSuggestionToElement }: ValidateCloseBracketProps) {
   const prevElement = elements[index - 1];

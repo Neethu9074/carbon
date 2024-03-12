@@ -9,11 +9,12 @@ import {
   isTag,
   isAndOr,
   isNot,
-  isExpression,
-  REMOVE_CONJUNCTION
+  isExpression
 } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
+import { REMOVE_CONJUNCTION, ValidateCloseBracketProps } from 'in-components/QueryBuilder/validation/bracket';
+import { Element } from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
 
-export default function validate({ element, index, elements, addSuggestionToElement }) {
+export default function validate({ element, index, elements, addSuggestionToElement }: ValidateCloseBracketProps) {
   if (isNot(element)) {
     element.valid = Boolean(
       isPreviousNotSiblingValid(elements[index - 2]) && isNextNotSiblingValid(elements[index + 2])
@@ -28,18 +29,18 @@ export default function validate({ element, index, elements, addSuggestionToElem
   }
 }
 
-export function isPreviousAndOrSiblingValid(previous) {
+export function isPreviousAndOrSiblingValid(previous: Element): boolean {
   return previous && (isCloseBracket(previous) || isExpression(previous) || isTag(previous));
 }
 
-export function isNextAndOrSiblingValid(next) {
+export function isNextAndOrSiblingValid(next: Element): boolean {
   return next && (isOpenBracket(next) || isExpression(next) || isTag(next) || isNot(next));
 }
 
-export function isPreviousNotSiblingValid(previous) {
+export function isPreviousNotSiblingValid(previous: Element): boolean {
   return !previous || isAndOr(previous) || isOpenBracket(previous);
 }
 
-export function isNextNotSiblingValid(next) {
+export function isNextNotSiblingValid(next: Element): boolean {
   return next && (isOpenBracket(next) || isExpression(next) || isTag(next));
 }
