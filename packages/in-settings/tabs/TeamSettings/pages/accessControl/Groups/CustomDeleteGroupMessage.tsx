@@ -53,6 +53,11 @@ const CustomDeleteGroupMessage = ({
       {isContributorApplicationIdPresent && (
         <div>
           <Trans i18nKey="in-settings:tabs.thisWillRemoveContributionFilterMessage" values={{ apCount }} />
+          {Array.isArray(currentTenantWithUnits) && currentTenantWithUnits.length > 1 && (
+            <>
+              &nbsp; <Trans i18nKey="in-settings:tabs.thisWillRemoveContributionFilterFromOtherUnits" />
+            </>
+          )}
         </div>
       )}
     </>
