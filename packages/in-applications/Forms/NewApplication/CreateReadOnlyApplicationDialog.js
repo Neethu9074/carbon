@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Card, Message } from '@instana/components';
+import { Card, Message, Link } from '@instana/components';
 
 import { hasPermissionToAddBuiltInSmartAlerts } from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
 import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/ConfigTabBuiltInSmartAlertsSelectionList';
@@ -14,6 +14,7 @@ import CreateApplicationQueryBuilder from 'in-applications/creation/components/C
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
+import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Steps from 'in-applications/Forms/components/Steps';
@@ -22,6 +23,7 @@ import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Pill from 'in-components/Pill';
+import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
@@ -31,10 +33,27 @@ export default connectTo(
     appConfig: getApplicationConfigWithAlerting(props.applicationId)
   }),
   function CreateReadOnlyApplicationDialog({ appConfig }) {
+    const isRestrictingApplication = appConfig.data?.restrictingApplication;
     return (
       <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
         <Message type="neutral" className={locals.readOnlyMessage} withIcon small>
-          {t('in-applications:forms.newApplication.readOnlyApplicationConfiguration')}
+          {appConfig.data &&
+            (!isRestrictingApplication ? (
+              t('in-applications:forms.newApplication.readOnlyApplicationConfiguration')
+            ) : isRestrictingApplication && role.canConfigureTeams ? (
+              <Trans
+                i18nKey="in-applications:forms.newApplication.readOnlyRestrictingApConfigWithGroupPermission"
+                values={{
+                  groupConfigLabel: t('in-settings:tabs.groups')
+                }}
+                components={{
+                  bold: <span className={locals.bold} />,
+                  linkToGroupConfig: <Link href={`#${teamSettingsAccessControlGroups}`} />
+                }}
+              />
+            ) : (
+              t('in-applications:forms.newApplication.readOnlyRestrictingApplicationConfiguration')
+            ))}
         </Message>
         <Card title={t('in-applications:titleApplicationPerspectiveConfiguration')}>
           <HelpText>{t('in-applications:forms.newApplication.helpApplicationPerspectives')}</HelpText>

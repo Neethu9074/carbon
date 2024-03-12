@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { PermissionSet, Result, ScopeBinding } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
-import { PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import {
@@ -16,6 +16,7 @@ import {
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
+  ScopeRoles,
   ScopedPermissionItem,
   ScopedPermissionItems,
   ScopedPermissionType
@@ -109,7 +110,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     let label;
     let tagFilterExpression;
     let scope;
-
+    let existingContributionAPs: ScopeBinding[] = [];
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -122,6 +123,10 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
         label = editMode ? initialApplicationConfig.label : defaultApplicationConfig.label;
         tagFilterExpression = initialApplicationConfig.tagFilterExpression;
         scope = initialApplicationConfig.scope;
+        existingContributionAPs =
+          editMode && limitation === ScopedPermissionItem.ACCESS_ALL
+            ? entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor)
+            : entityIds;
       } else {
         label = defaultApplicationConfig.label;
         tagFilterExpression = undefined;
@@ -136,7 +141,8 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
       ...(applicationContributionFilterEnabled &&
         productArea === ProductArea.APPLICATION && {
-          ['restrictedApplicationFilter']: tagFilterExpression ? defaultApplicationConfig : undefined
+          ['restrictedApplicationFilter']: tagFilterExpression ? defaultApplicationConfig : undefined,
+          [entityPermissionKey]: existingContributionAPs
         })
     };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));

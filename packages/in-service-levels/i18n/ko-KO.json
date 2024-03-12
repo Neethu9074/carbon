@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "상태",
-      "remainingBudget": "남은 예산 오류",
+      "remainingBudget": "기타",
       "totalBudget": "오류 예산",
       "consumedBudget": "소비된 오류 예산",
       "momentaryBudgetConsumption": "오류 예산 소비",
@@ -126,19 +126,16 @@
   "createSloDialog": {
     "customFilter": "사용자 정의 필터(선택사항)",
     "title": "SLO(Service Level Objective) 생성",
-    "selectIndicator": "블루프린트 선택",
-    "selectEntityNavItem": "엔티티 선택",
+    "selectIndicator": "청사진 선택",
+    "selectEntityNavItem": "엔티티 설정",
     "selectEntityTitle": "SLO를 추가할 엔티티 선택:",
-    "selectScopeNavItem": "범위 선택",
-    "selectScopeTitle": "범위 선택",
-    "selectIndicatorTitle": "SLI 표시기",
+    "selectScopeNavItem": "범위 설정",
     "selectIndicatorNavItem": "표시기 설정",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 요청",
       "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
       "beaconLabel_custom": "웹 사이트 사용자 정의 이벤트"
     },
-    "selectObjectiveNavItem": "목표 선택",
     "selectObjectiveTitle": "목표 설정",
     "sloTarget": "SLO 대상",
     "timeWindow": "기간",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "시간 창의 길이는 최소 1일이어야 함",
     "errorInvalidExpression": "입력한 필터가 올바르지 않습니다.",
     "errorBlankEntity": "목록에서 엔티티를 선택하십시오.",
-    "nameAndTagsTitle": "이름 및 태그",
-    "nameAndTagsNavItem": "이름 및 태그",
+    "nameAndTagsTitle": "세부사항 설정",
     "sloNameLabel": "SLO 이름",
     "sloNamePlaceholder": "이름 입력",
     "sloNameCopyTemplate": "{{name}}의 사본",
@@ -182,6 +178,9 @@
       "thresholdLabel_availability": "오류 비율(%)",
       "setGoodCall": "서비스에 대한 양호한 호출 설정",
       "setBadCall": "서비스에 대한 불량한 호출 설정(선택사항)"
+    },
+    "previewSection": {
+      "dataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. SLO에는 작성된 시간의 데이터만 포함됩니다."
     }
   },
   "sloChart": {
@@ -198,7 +197,12 @@
       "timeWindow": "기간",
       "timeWindowType_dynamic": "동적 시간 창",
       "timeWindowType_rolling": "롤링 시간 창",
-      "timeWindowType_fixed": "고정 시간 창"
+      "timeWindowType_fixed": "고정 시간 창",
+      "configuredTimeWindow": "구성된 SLO 시간 창:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "시작 시간: {{startDay}} , {{startTime}}",
+      "matchedSLOTimeWindow": "일치하는 SLO 시간 창: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "구성이 불완전하므로 미리보기를 사용할 수 없습니다.",
@@ -208,10 +212,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "애플리케이션 SLO",
-          "websites": "웹 사이트 SLO"
-        }
+        "service": "서비스: {{label}}",
+        "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
         "placeholder": "엔티티 유형"
@@ -256,8 +258,14 @@
       "summaryLabel": "요약",
       "configurationLabel": "구성"
     },
+    "timeWindowSelection": {
+      "timeWindow": "알 수 없는 선택사항",
+      "timeWindow_SELECTED_TIME": "선택 시간",
+      "timeWindow_SLO_TIME_WINDOW": "SLO 시간 창"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "남은 예산 오류",
         "totalBudget": "예산: {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +276,7 @@
         "totalTraffic": "총계: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "오류 예산",
-        "title_fullWindow": "전체 기간 동안의 오류 예산",
-        "optionCompact": "압축",
-        "optionFull": "전체 소비"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "전체 기간 동안의 오류 예산 소비"
+        "title": "오류 예산"
       },
       "trafficChart": {
         "title": "트래픽"

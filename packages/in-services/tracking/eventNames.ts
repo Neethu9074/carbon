@@ -270,7 +270,7 @@ export const ONBOARDING_SEARCH_QUERY_CHANGED = 'onboardingNewUnit.searchQuery.ch
 export const ONBOARDING_CATALOG_PAGE_OPENED = 'catalog.page.opened';
 export const ONBOARDING_CATALOG_PAGE_SEARCH_USED = 'catalog.page.search.used';
 export const ONBOARDING_AGENT_DETAILS_PAGE_OPENED = 'agent.details.page.opened';
-export const ONBOARDING_DEPLOY_AGENTS_BUTTON_CLICKED = 'deploy.agents.button.clicked';
+export const ONBOARDING_DEPLOY_AGENTS_BUTTON_CLICKED = 'view.deployed.agents.button.clicked';
 
 export const PROFILING_OVERVIEW_OPENED = 'profiling.overview.openend';
 export const PROFILING_CPU_TREEVIEW_OPENEND = 'profiling.cpu.treeView.openend';

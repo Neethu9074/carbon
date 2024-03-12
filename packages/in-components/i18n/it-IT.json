@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "Altro",
     "workspaceAPIQuery": "Query API",
     "workspaceUseThisExpressionToQueryOurAPI": "Utilizzare questa espressione per la query dell'API",
-    "workspaceIncludeSidebarFilters": "Includi elementi della barra laterale del filtro",
     "workspaceTitleFilter": "Filtro",
     "workspaceButtonClear": "Cancella",
     "errorWithDataYourDefinedQueryIsTooComplex": "La query definita è troppo complessa, ridurre il numero di nidificazioni.",

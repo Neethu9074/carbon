@@ -569,7 +569,6 @@
     "otel": "OpenTelemetry"
   },
   "traceDetail": {
-    "beta": "베타",
     "foreignRootCall": "Instana에서 모니터하지 않음",
     "notYetReceivedRootCall": "루트 호출이 아직 수신되지 않았습니다",
     "tabs": {

@@ -34,6 +34,7 @@
     "controlPlane": "Plan de contrôle",
     "events": "Evénements",
     "nodes": "Noeuds",
+    "fargateNode": "Noeud Fargate",
     "namespaces": "Espaces de nom",
     "deployments": "Déploiements",
     "deploymentConfigs": "Configurations de déploiement",
@@ -44,6 +45,8 @@
     "pods": "Pods",
     "persistentVolumes": "Volumes persistants",
     "persistentVolumeClaims": "Réservations de volume persistant",
+    "prometheusMetrics": "Métriques Prometheus",
+    "prometheusEndpoints": "Nœuds finaux Prometheus",
     "infrastructure": "Infrastructure",
     "name": "Nom",
     "cpuUsage": "Utilisation de l'UC",
@@ -178,6 +181,7 @@
     "externalIp": "Adresse IP externe",
     "unmonitoredHost": "Hôte non surveillé",
     "theHostIsUnmonitoredOnAKubernetesMasterNode": "Aucun agent hôte Instana n'est en cours d'exécution pour l'hôte. Cela est généralement dû à une teinte, à une capacité limitée, à un hôte surchargé ou à une autre limitation qui doit être examinée.",
+    "theHostIsUnmonitoredFargateNode": "L'hôte est incontrôlable par un agent hôte, car il s'agit d'un noeud Fargate.",
     "host": "Hôte",
     "podsAllocation": "Allocation des pods",
     "kubernetesPod": "Pod Kubernetes",
@@ -286,7 +290,6 @@
   "succeeded": "Réussite",
   "failed": "Echec",
   "unknown": "Inconnu",
-  "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "Aucune donnée Kubernetes n'est disponible. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"

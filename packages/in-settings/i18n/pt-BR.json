@@ -84,7 +84,7 @@
     "platform_permissions": "Acessar {{quantityOfAreas}}",
     "analyticsContentMessage": "Pode visualizar dados no Analytics definidos pelo escopo de acesso em websites, apps móveis, aplicativos, plataformas e infraestrutura",
     "infrastructureContentMessage": "Pode visualizar entidades definidas pelo escopo de acesso em aplicativos, plataformas, infraestrutura e, opcionalmente, por DFQ",
-    "eventsAndAlertsContentMessage": "Pode visualizar Eventos e Alertas de acordo com o escopo de acesso definidos em websites, apps móveis, aplicativos, plataformas e infraestrutura",
+    "eventsAndAlertsContentMessage": "Pode visualizar Eventos e Alertas de acordo com o escopo de acesso definido em Websites, Aplicativos Móveis, Aplicativos, Monitoramento Sintético, Plataformas e Infraestrutura",
     "permissions": "Permissões",
     "additionalPermissions": "Permissões adicionais",
     "permissions_DASHBOARD": "Permissões do painel customizado",
@@ -154,7 +154,10 @@
     "contribution_filter": "Filtro de contribuição",
     "contributionFilter_description": "O filtro de contribuição é aplicado ao criar novas configurações de aplicativo. Na configuração do aplicativo, o filtro de contribuição pode ser refinado com tags de filtro após um operador {{logicalOperator}}",
     "contributionFilter_downstreamCalls": "Determinar o nível máximo de informações adicionais que podem ser incluídas nas perspectivas de aplicativo",
-    "contributionFilter_name": "Nome"
+    "contributionFilter_name": "Nome",
+    "contributionFilter_name_mayNotBeBlank": "O nome do filtro de contribuição não deve estar em branco.",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "O nome do filtro de contribuição não deve ser maior do que 128 caracteres.",
+    "contributionFilter_name_alreadyUsed": "O nome do filtro de contribuição já está em uso."
   },
   "selectItemForm": {
     "doneButton": "Concluído"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "Nível de acesso",
-    "configuration_summary": "Resumo da configuração",
+    "permissions": "Permissões",
     "selection": "Não disponível",
     "selection_access_all": "Acessar todos",
     "selection_limited_access": "Acesso limitado",
@@ -187,7 +190,7 @@
     "role_viewer": "Visualizador",
     "role_custom": "Customizado",
     "role_contributor": "Contribuidor",
-    "role_permissions": "Função / permissões",
+    "access_type": "Tipo de acesso",
     "roleTooltip_websites": "Visualizador: capacidade de visualizar painéis do website (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos websites; visualizar, configurar e excluir painéis do website.",
     "roleTooltip_mobileApps": "Visualizador: capacidade de visualizar painéis de apps móveis (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos apps móveis; visualizar, configurar e excluir painéis de apps móveis.",
     "roleTooltip_applications": "Visualizador: capacidade de visualizar painéis de aplicativos (a configuração não pode ser visualizada). <br /> Proprietário: capacidade de criar novos aplicativos; visualizar, configurar e excluir painéis de aplicativos.",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "Escopo de acesso limitado (visualizador)",
     "contribution_filter_warning": {
       "firstParagraph": "Qualquer mudança salva atualizará todas as perspectivas de aplicativo que usam esse filtro de contribuição.",
-      "secondParagraph": "Se você alterar a função, então o filtro de contribuição será excluído. Todas as perspectivas de aplicativo que usam o filtro de contribuição podem ser editadas por qualquer usuário com acesso de Proprietário à seção Aplicativos. Isto não pode ser desfeito."
+      "secondParagraph": "Se você mudar o tipo de acesso, o filtro de contribuição será excluído. Todas as perspectivas do aplicativo que usam o filtro de contribuição podem ser editadas por qualquer usuário com acesso de proprietário à seção Aplicativos."
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "Acesso para todas as perspectivas de aplicativo sob esta unidade.",
-        "role_permissions_contributor": "Visualize todos os painéis do aplicativo sob esta unidade. Crie, configure ou exclua painéis de aplicativos usando o filtro de contribuição."
+        "access_level": "Acessar todas as perspectivas de aplicativo com o tipo de acesso selecionado e quaisquer permissões adicionais.",
+        "role_permissions_contributor": "Criar perspectivas de aplicativo usando o filtro de contribuição; visualizar, configurar e excluir essas perspectivas de aplicativo. Visualizar outras perspectivas de aplicativo, se o acesso for concedido."
       },
       "limited_access": {
-        "access_level": "Acesso limitado apenas para os painéis do aplicativo selecionados abaixo.",
-        "access_level_contributor": "Acesso limitado apenas para os painéis do aplicativo selecionados abaixo",
+        "access_level": "Acessar apenas os aplicativos listados com o tipo de acesso selecionado e quaisquer permissões adicionais.",
+        "access_level_contributor": "É possível localizar os aplicativos com acesso de contribuidor na área de janela de configuração de acesso nos detalhes do usuário ou do grupo. <br /><br />Acessar as perspectivas do aplicativo com o filtro de contribuição aplicado como contribuidor. <br />Acessar as perspectivas do aplicativo selecionado como visualizador",
         "role_permissions_contributor": "Crie painéis de aplicativo com o filtro de contribuição aplicado; visualize, configure e exclua esses painéis de aplicativo que são criados para o filtro de contribuição."
       },
-      "role_permissions_owner": "Crie, configure, visualize e exclua os painéis de aplicativos.",
-      "role_permissions_viewer": "Visualize os painéis da perspectiva do aplicativo e sua configuração."
+      "role_permissions_owner": "Criar, configurar, visualizar e excluir perspectivas de aplicativo.",
+      "role_permissions_viewer": "Visualizar as perspectivas do aplicativo e suas configurações."
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "Acesso a todos os painéis de entidade sob esta unidade, que estão relacionados ao acesso concedido a aplicativos e plataformas."
+        "access_level": "Acessar todos os painéis de entidade nessa unidade, que estão relacionados ao acesso concedido a aplicativos e plataformas."
       },
       "role_permissions_owner": "Visualize os painéis de entidade.",
       "role_permissions_viewer": "Visualize os painéis de entidade."
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "Acesso para todos os namespaces e clusters sob esta unidade."
+        "access_level": "Acessar todos os namespaces e clusters com o tipo de acesso selecionado e todas as permissões adicionais."
       },
       "limited_access": {
-        "access_level": "Acesso limitado apenas para os namespaces e clusters selecionados abaixo."
+        "access_level": "Acessar apenas os namespaces e clusters listados com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "role_permissions": "Visualize namespaces e clusters."
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "Acesso para todos os aplicativos móveis sob esta unidade."
+        "access_level": "Acessar todos os aplicativos móveis com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "limited_access": {
-        "access_level": "Acesso limitado apenas para os aplicativos móveis selecionados abaixo."
+        "access_level": "Acessar apenas os aplicativos móveis listados com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "role_permissions_owner": "Crie, configure, visualize e exclua os aplicativos móveis.",
-      "role_permissions_viewer": "Visualize os aplicativos móveis e suas configurações."
+      "role_permissions_viewer": "Visualizar aplicativos móveis."
     },
     "synthetics": {
       "access_all": {
-        "access_level": "Acesso para todos os testes sintéticos nesta unidade."
+        "access_level": "Acessar todos os testes sintéticos com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "limited_access": {
-        "access_level": "Acesso limitado apenas para os testes sintéticos selecionados abaixo."
+        "access_level": "Acessar apenas os testes sintéticos listados com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "role_permissions_owner": "Crie, configure, visualize e exclua os testes sintéticos.",
       "role_permissions_viewer": "Visualize os testes sintéticos e suas configurações."
     },
     "website": {
       "access_all": {
-        "access_level": "Acesso para todos os websites nesta unidade."
+        "access_level": "Acessar todos os websites com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "limited_access": {
-        "access_level": "Acesso limitado apenas para os sites selecionados abaixo."
+        "access_level": "Acessar apenas os websites listados com o tipo de acesso selecionado e quaisquer permissões adicionais."
       },
       "role_permissions_owner": "Crie, visualize e exclua os websites.",
-      "role_permissions_viewer": "Visualize os websites e suas configurações."
+      "role_permissions_viewer": "Visualizar websites."
     }
   },
   "cardTitle_Area": "Área",
@@ -341,7 +344,15 @@
       "wrong": "Algo está errado",
       "errorInfo": "Não é possível recuperar dados a partir do banco de dados",
       "failed": "Falha",
-      "inProgress": "Em andamento"
+      "inProgress": "Em andamento",
+      "deletionUntilTime": "Exclusão até o horário",
+      "deletionUntilDate": "Exclusão até a data",
+      "untilDateValidationMessage": "A data deve ser até a data atual",
+      "reasonValidationMessage": "O motivo da exclusão não pode estar vazio",
+      "toastSuccessTitle": "Exclusão de log bem-sucedida",
+      "toastSuccessMessage": "Os logs para o período selecionado foram excluídos com sucesso.",
+      "toastErrorTitle": "Falha na exclusão do log",
+      "toastErrorMessage": "Os logs não puderam ser excluídos. Tente novamente."
     },
     "failedToSaveConfig": "Falha ao salvar configuração: {{err}}",
     "IdPMetadataRequired": "O arquivo de metadados IDP é necessário",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "Permite acesso à funcionalidade de monitoramento {{label}}.",
     "failedToSaveGroup": "Falha ao salvar grupo: {{err}}",
     "limitedAccess": "Acesso limitado",
-    "filterInvites": "Filtrar convites",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Tem certeza de que deseja revogar o convite de associação do locatário <strong>{{tenant}}</strong> ao <strong>{{email}}</strong>?",
     "inviteUser": "Convidar usuário",
     "sendInvitation": "Enviar convite",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "URL da organização do Salesforce",
     "alertChannelDocumentationMessage": "Para obter mais detalhes sobre como configurar esse canal de alerta, <documentationLink>consulte nossa documentação</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Garanta que o acesso de usuário ao Instana esteja desativado em seu provedor de identidade.",
-    "createIDPConfirmationDescription": "Convites pendentes serão excluídos. Os usuários são provisionados automaticamente de seu provedor de identidade (IdP)."
+    "createIDPConfirmationDescription": "Convites pendentes serão excluídos. Os usuários são provisionados automaticamente de seu provedor de identidade (IdP).",
+    "revokeInvitationForUserWithEmail": "Revogue o convite para associar o locatário {{tenant}} para {{email}}",
+    "invitationValidUntil": "Convite válido até",
+    "invitedBy": "Convidado por"
   },
   "languageSelection": {
     "language": "Idioma",

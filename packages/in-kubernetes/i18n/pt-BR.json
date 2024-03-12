@@ -34,6 +34,7 @@
     "controlPlane": "Plano de controle",
     "events": "Eventos",
     "nodes": "Nós",
+    "fargateNode": "Nó Fargate",
     "namespaces": "Namespaces",
     "deployments": "Implementações",
     "deploymentConfigs": "Configurações de implementação",
@@ -44,6 +45,8 @@
     "pods": "Pods",
     "persistentVolumes": "Volumes persistentes",
     "persistentVolumeClaims": "Solicitações de volume persistente",
+    "prometheusMetrics": "Métricas do Prometheus",
+    "prometheusEndpoints": "Terminais do Prometheus",
     "infrastructure": "Infraestrutura",
     "name": "Nome",
     "cpuUsage": "Uso de CPU",
@@ -178,6 +181,7 @@
     "externalIp": "IP externo",
     "unmonitoredHost": "Host não monitorado",
     "theHostIsUnmonitoredOnAKubernetesMasterNode": "O host não tem um agente do host Instana em execução. Isso geralmente é causado por uma contaminação, capacidade limitada, um host sobrecarregado ou outra limitação que deve ser investigada.",
+    "theHostIsUnmonitoredFargateNode": "O host não é monitorável por um agente de host, porque é um nó Fargate.",
     "host": "Host",
     "podsAllocation": "Alocação de pods",
     "kubernetesPod": "Pod do Kubernetes",
@@ -286,7 +290,6 @@
   "succeeded": "Com sucesso",
   "failed": "Com falha",
   "unknown": "Desconhecido",
-  "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "Nenhum dado do Kubernetes está disponível. Para obter informações de resolução de problemas, consulte [documentação][Docs].\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"

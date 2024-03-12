@@ -1,4 +1,6 @@
 {
+  "welcomeToInstana": "欢迎使用 Instana！",
+  "getStartedAndInstallYourFirstAgent": "开始并安装第一个代理程序。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "您的试用已到期",
     "titleAfterTrialPeriodEnd": "您的试用期已结束",
@@ -9,12 +11,529 @@
     "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "请求报价",
     "buyNowBtn": "在 AWS 上购买",
-    "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。"
+    "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。",
+    "getAnswers": "获取答案",
+    "titleDetail": {
+      "trial": "试用",
+      "sandboxTrial": "Sandbox 试用版"
+    }
   },
   "playwithinstana": {
     "title": "使用 Instana",
     "content": "准备好监视您自己的环境",
     "bookdemo": " 预定演示",
-    "freetrial": " 免费试用"
+    "freetrial": " 免费试用",
+    "taketour": " 观看导览"
+  },
+  "agentDetails": {
+    "agentMode": {
+      "dynamic": "动态",
+      "static": "静态"
+    },
+    "docker": {
+      "pullTheAgentContainerImage": "拉取 Instana 代理程序容器映像",
+      "runTheInstanaAgentContainerImage": "运行 Instana 代理程序容器映像",
+      "upgradeTheInstanaAgentContainerImage": "升级 Instana 代理程序容器映像",
+      "installAgentOnDocker": "在 Docker 上安装代理程序",
+      "configurationOptions": "配置选项"
+    },
+    "jvmVendor": {
+      "azulZulu18": "Azul Zulu 1.8",
+      "eclipseOpenJD11": "Eclipse OpenJ9 11"
+    },
+    "askForHelp": {
+      "email": "电子邮件",
+      "send": "发送",
+      "askForHelpTitle": "请同事帮忙",
+      "thisWillBeAvailableOnceYourInstanceIsReady": "一旦您的实例就绪，这将可用。",
+      "inviteAColeague": "邀请同事",
+      "agentKey": "代理程序密钥"
+    },
+    "common": {
+      "agentCatalog": "代理程序目录",
+      "step1": "步骤 1： ",
+      "step2": "步骤 2： ",
+      "step3": "步骤 3： ",
+      "step4": "步骤 4： ",
+      "step5": "步骤 5： ",
+      "download": "下载",
+      "clusterName": "集群名称",
+      "agentZoneOptional": "代理程序区域（可选）",
+      "networkRequirements": "网络要求",
+      "toInstallAndRunAnAgentCompleteTheFollowingSteps": "要安装和运行代理程序，请完成以下步骤。",
+      "enterANameForAClusterGroupYouWantToAddThisClusterTo": "输入要将此集群添加到其中的集群组<br>的名称。",
+      "agentKey": "Instana 代理程序密钥",
+      "documentationTitle": "文档",
+      "choosingTheProperInstallationMethod": "选择正确的安装方法",
+      "configuringTheAgentAfterInstall": "安装后配置代理程序",
+      "packaging": "打包",
+      "runtime": "运行时",
+      "prerequisitesTitle": "先决条件",
+      "viewDeployedAgents": "查看已部署的代理程序",
+      "openAgentDashboardOptional": "可选：成功部署代理程序后，您可以在基础架构图中查看该代理程序。",
+      "downloadKey": "下载密钥",
+      "support": "支持",
+      "sideCard": {
+        "prerequisites": "先决条件",
+        "documentation": "文档",
+        "askAColleagueForHelp": "请同事帮忙"
+      }
+    },
+    "kubernetes": {
+      "kubernetes": {
+        "enterAClusterNameAndOptionallyTheAgentZone": "步骤 1：输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步骤 2：查看先决条件并运行代理程序部署代码。",
+        "support": "支持"
+      },
+      "operator": {
+        "installUsingTheOperator": "使用操作程序进行安装",
+        "installAnAgentOnKubernetes": "在 Kubernetes 上安装代理程序",
+        "installOperatorsManually": "步骤 1：手动安装操作程序。",
+        "theLatestOperatorWillBeInstalled": "将安装最新的操作程序，但不会升级 1.x CRD：",
+        "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "步骤 2：输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
+        "configureTheCustomResourceYAMLFile": "步骤 3：配置定制资源 YAML 文件。",
+        "followTheInstructionsInTheDocumentation": "遵循<documentation>文档</documentation>中的指示信息。",
+        "runTheFollowingCommandToDeployTheInstanaAgent": "步骤 4：运行以下命令以使用所选配置部署 Instana 代理程序。"
+      },
+      "helmChart": {
+        "installAnAgentOnKubernetes": "在 Kubernetes 上安装代理程序",
+        "configurationParameters": "配置参数"
+      },
+      "k8_deamon": {
+        "installUsingYAML": "使用 YAML 进行安装",
+        "installAnAgentOnKubernetes": "在 Kubernetes 上安装代理程序"
+      },
+      "k8_aks": {
+        "installAnAgentOnAKS": "在 AKS 上安装代理程序"
+      },
+      "k8_eks": {
+        "installAnAgentOnAWSEKS": "在 AWS EKS 上安装代理程序"
+      }
+    },
+    "unix": {
+      "selectThePlatformArchitecture": "选择平台体系结构",
+      "platformArchitecture": "平台体系结构",
+      "previewPrerequisites": "预览先决条件",
+      "installingInstanaAgent": "安装 Instana 代理程序"
+    },
+    "aws": {
+      "step1": "步骤 1： ",
+      "step2": "步骤 2： ",
+      "step3": "步骤 3： ",
+      "step4": "步骤 4： ",
+      "instanaLambdaLayerManualWrapping": "具有手动包装的 Instana Lambda 层",
+      "awsLambdaRubyDocumentation": "AWS Lambda Ruby 文档",
+      "monitoringAwsLambdaDocumentation": "监视 AWS Lambda 文档",
+      "awsLambdaGoDocumentation": "AWS Lambda Go 文档",
+      "taskDefinition": "任务定义",
+      "assignECSTaskDefinitionWithFollowingIAMPermission": "向 ECS 任务定义分配至少具有以下 IAM 许可权的角色：",
+      "createECSTaskDefinition": "使用此模板创建 ECS 任务定义",
+      "ec2": "Elastic Compute Cloud (EC2)",
+      "ecs": "Elastic Container Service (ECS)",
+      "selectLambdaRuntime": "选择 Lambda 运行时。",
+      "lambdaSetEnvironmentVariables": "在 AWS Lambda 配置页面的相应部分中设置以下环境变量",
+      "referenceToAwsLambdaGoDocumentation": "需要手动检测在 Go 中编写的 AWS Lambda 函数，以便收集跟踪数据。 请遵循 <awsLambdaGoDoc>AWS Lambda Go 文档</awsLambdaGoDoc>的指示信息操作。",
+      "reviewPrerequisitesAndConfigureLambda": "查看先决条件并配置 AWS Lambda 函数以进行本机跟踪。",
+      "referDocumentationForSettingUpAwsSensor": "有关设置 Instana AWS 传感器的详细信息，请参阅 <awsSensorDoc> AWS 服务文档< /awsSensorDoc>。",
+      "referenceToAwsLambdaMonitoringDoc": "<awsLambdaMonitoring>监视 AWS Lambda 文档</awsLambdaMonitoring>中详细介绍了用于配置本机 Lambda 跟踪的替代方法。",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "设置在 AWS 区域中运行的 Instana AWS 传感器",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "查看先决条件并运行代理程序部署代码。",
+      "setIAMPermissionsAndEditTrustRelationship": "设置 IAM 许可权并编辑信任关系",
+      "selectWhereToRunAwsAgentOn": "选择要在其中运行 AWS 代理程序的位置",
+      "selectApplicationRunime": "步骤 1：选择应用程序运行时",
+      "applicationRuntime": "应用程序运行时",
+      "reviewPrerequisiteAndSetEnvVariableEcs": "步骤 2：复审先决条件并在 ECS 任务定义中设置环境变量。",
+      "instanaEndpointUrl": "Instana 端点 URL",
+      "instanaEndpointPort": "Instana 端点端口",
+      "insertLinesToDocker": "步骤 2：在 ENTRYPOINT 或最后一个 CMD 命令之前，将以下行插入到 Docker 文件中。",
+      "initiateDockerBuildProcess": "步骤 3：通过使用提供的凭证登录来启动 Docker 构建过程。",
+      "username": "用户名",
+      "password": "密码",
+      "romanStep1": "(i) ",
+      "romanStep2": "(ii) ",
+      "romanStep3": "(iii) ",
+      "selectAwsRegion": "选择 AWS 区域",
+      "awsRegion": "AWS 区域",
+      "awsCommandLineInterfaceValue": "提供值并使用类似于以下命令的命令来使用 AWS 命令行界面",
+      "amazonResourceName": "Amazon 资源名称 (ARN)",
+      "setEnvVariablesInLambdaFunction": "在 Lambda 函数中设置以下环境变量。",
+      "selectInstanaLambdaLayer": "选择具有以下 Amazon 资源名称 (ARN) 的 Instana Lambda 层。",
+      "setEnvVariablesInECSTaskDefinition": "在 ECS 任务定义中设置以下环境变量。",
+      "integrateInstanaInProcessCollectorForAws": "步骤 2：集成 AWS 的 Instana 进程内收集器。",
+      "setEnvironmentVariablesInECSTaskDefinition": "步骤 3：在 ECS 任务定义上设置以下环境变量。",
+      "installationMethod": "安装方法",
+      "applicationDirectory": "应用程序目录",
+      "workDirDirectoryInDocker": "这通常设置为 Dockerfile 中的 WORKDIR 目录。",
+      "lambdaFunctionName": "Lambda 函数名",
+      "referenceToAwsLambdaRubyDocumentation": "需要手动检测在 Go 中编写的 AWS Lambda 函数，以便收集跟踪数据。 请遵循 <awsLambdaRubyDoc>AWS Lambda Ruby 文档</awsLambdaRubyDoc>的指示信息操作。",
+      "preferredMethodForEnablingTracing": "在基于 Java 的 AWS Lambda 函数中启用跟踪的首选方法是将 Instana Lambda 层与 AutoTrace 配合使用，如以下步骤中所述。",
+      "setupAwsLambdaFunctionsForNativeTracing": "查看先决条件，并使用以下步骤设置 AWS Lambda 函数以进行本机跟踪。",
+      "useScriptAsUserDataForEc2Instance": "将此脚本用作 EC2 实例的用户数据",
+      "selectAgentPackagingAndRuntime": "选择代理程序打包方式和运行时",
+      "awsLambdaPythonAutotrace": "基于 Python 配置 AWS Lambda 函数以进行跟踪的首选方法是带有 AutoTrace 的 Instana Lambda 层。",
+      "preferredMethodForNodeJsLambdaConfiguration": "基于 Node.js 8.x 配置 AWS Lambda 函数的首选方法是使用<lambdaManualWrapping>包含手动合并的 Instana Lambda 层</lambdaManualWrapping>",
+      "imageOptions": {
+        "linuxGlibcBased": "Linux（基于 glibc）",
+        "alpineLinuxMuslBased": "Alpine Linux（基于 musl）"
+      },
+      "iamPermissions": "IAM 许可权",
+      "trustRelationships": "信任关系",
+      "enterAClusterNameAndOptionallyTheAgentZone": "输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
+      "awsLambdaNodeJsAutotrace": "基于 Node.js 10.x（或更新版本）配置 AWS Lambda 函数以进行跟踪的首选方法是带有 AutoTrace 的 Instana Lambda 层。",
+      "selectAwsRegionAndLambdaHandler": "选择 AWS 区域并输入当前的 lambda 处理程序",
+      "setInstanaAutoWrapHandlerAsLambdaFunction": "将 Instana 自动打包处理程序设置为 Lambda 函数的处理程序。",
+      "autoWrapHandler": "自动合并处理程序",
+      "runCodeBelow": "运行以下代理程序部署代码。",
+      "prerequisiteLinks": {
+        "networkRequirements": "网络需求"
+      },
+      "documentationLinks": {
+        "installAgentOnAwsEc2": "在 AWS EC2 (Windows) 上安装代理程序",
+        "monitoringGo": "监视执行",
+        "awsLambdaNativeTracingForRuby": "AWS Lambda Native Tracing for Ruby",
+        "awsLambdaNativeTracingForPython": "AWS Lambda Native Tracing for Python",
+        "gcrDocumentation": "Google Cloud Run 文档",
+        "gcBuildpackDocs": "Google Cloud Run buildpack 文档",
+        "setupGcpAgent": "设置 GCP 代理程序",
+        "awsLambdaNativeTracingForNodeJs": "AWS Lambda Native Tracing for Node.js",
+        "instanaLambdaLayerAndManualWrapping": "Instana Lambda 层 & 手动包装",
+        "awsLambdaEnvVariables": "AWS Lambda 环境变量",
+        "monitoringPython": "监视 Python",
+        "runningStartupScript": "运行启动脚本",
+        "uninstallingTheHostAgent": "卸载主机代理程序",
+        "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
+        "awsLambdaFunctions": "AWS lambda 功能",
+        "monitoringAwsFargate": "监视 AWS Fargate",
+        "monitoringAwsFargateJava": "监视 AWS Fargate (Java)",
+        "configureTaskDefinition": "配置任务定义",
+        "monitoringAwsFargateDotnet": "监视 AWS Fargate (.Net Core)",
+        "monitoringAwsFargateNodejs": "监视 AWS Fargate (Node.js)",
+        "monitoringAwsFargatePython": "监视 AWS Fargate (Python)",
+        "monitoredAwsServices": "受监视的 AWS 服务",
+        "monitoringNodejs": "监视节点 js",
+        "installGcrCollectors": "安装 Gogle Cloud Run 进程内收集器",
+        "installAgentOnEc2": "在 AWS EC2 上安装代理程序",
+        "configurationOptions": "配置选项",
+        "installAgentAwsEks": "在 AWS EKS 上安装代理程序",
+        "monitoringGcr": "监视 Google Cloud Run",
+        "monitoringAwsFargateRuby": "监视 AWS Fargate (Ruby)",
+        "awsServiceDocumentation": "AWS 服务文档",
+        "monitoringAwsLambda": "监视 AWS Lambda",
+        "configuringAwsLambdaMonitoring": "配置 AWS Lambda 监视",
+        "awsLambdaNativeTracingForGo": "AWS Lambda Native Tracing for Go"
+      }
+    },
+    "runtime": {
+      "go": "执行",
+      "java": "Java",
+      "dotnet": ".NET Core",
+      "nodejs": "Node.js",
+      "python": "Python",
+      "nodejs8": "Node.js 8.x",
+      "nodejs10Plus": "Node.js 10.x 或更高版本",
+      "python2and3": "Python 2.7 和 3.x",
+      "ruby": "Ruby"
+    },
+    "bosh": {
+      "boshDirectorRuntimeConfig": "BOSH Director 运行时配置",
+      "specifyDesiredBoshReleaseVersion": "指定所需的 Instana BOSH 发行版本。",
+      "downloadBoshReleases": "下载以下 BOSH 发行版",
+      "createInstanaUAAClient": "创建 Instana UAA 客户机",
+      "uploadBOSHReleasesToBOSHDirector": "将 Instana BOSH 发行版上载到 BOSH Director。",
+      "createInstanaUAAClientDesc": "在基础的用户帐户和认证 (UAA) 中，创建具有“cloud_controller.admin_read_only”权限的客户机。 创建必需的 UAA 客户机的最简单方法是使用 <uaacTool>uaac 工具</uaacTool>。",
+      "uaaClientId": "UAA 客户机标识",
+      "configuringTheCloudFoundrySensor": "配置 Cloud Foundry 传感器",
+      "uaaClientSecret": "UAA 客户机私钥",
+      "releaseVersion": "发行版本",
+      "instanaBOSHArtifcatory": "Instana BOSH artifactory",
+      "deployingTheInstanaAgent": "部署 Instana 代理程序",
+      "replaceTheCommandsBelow": "将以下命令中的“<uaa-api-endpoint>”替换为您的 UAA API 端点，将“<clients.admin-secret>”替换为具有“clients.admin”或“clients.write”权限的 UAA 客户机。",
+      "configureBoshAddons": "配置 BOSH 附加组件",
+      "chooseNameForCloudFoundryFoundation": "选择 Cloud Foundry Foundation 的名称",
+      "cloudFoundryFoundationName": "Cloud Foundry Foundation 名称",
+      "applyFollowingRuntimeConfigurations": "将以下内容作为 BOSH 运行时配置应用于 BOSH Director",
+      "cloudFoundryUAACTool": "Cloud Foundry UAAC 工具 ",
+      "placeholderReleaseVersionEG001": "发行版，如“0.0.1”",
+      "placeholderFoundationNameEGProd": "基础名称，如“prod”",
+      "placeholderUaaClientIdEGMyClientId": "UAA 客户机标识，如“my-client-id”",
+      "theUaaClientIdCannotBeBlank": "UAA 客户机标识不能为空白",
+      "placeholderUaaClientSecretEGMyClientSecret": "UAA 客户机密钥，如“my-client-secret”",
+      "theUaaClientSecretCannotBeBlank": "UAA 客户机密钥不能为空白"
+    },
+    "tanzu": {
+      "downloadInstanaMonitoringApplicationMonitoring": "从以下链接下载“Instana Microservices and Application Monitoring”磁贴",
+      "vmwareTanzuNetworkLink": "VMware Tanzu 网络链接",
+      "reviewThePrerequisites": "查看先决条件",
+      "installingTheInstanaAgent": "安装 Instana 代理程序",
+      "vmwareTanzuDocumentation": "VMware Tanzu 文档",
+      "vmwareTanzuNetwork": "VMware Tanzu 网络",
+      "addTileToOpsManagerAndConfigureIt": "将磁贴添加到 Ops Manager 并对其进行配置",
+      "addInstanaApplicationMonitoring": "将“Instana Microservices Application Monitoring”磁贴添加到 Ops Manager，并将以下内容应用于该磁贴的“后端配置”选项卡。",
+      "nameYourVmwareFoundation": "命名 VMware Tanzu Foundation",
+      "assignANameToVMwareTanzuFoundation": "通过访问“代理程序配置”选项卡中的“代理程序区域”设置，为 VMware Tanzu Foundation（例如，“prod-eu”或“dev01”）分配名称。",
+      "applyTileChanges": "应用磁贴更改",
+      "applyTheChangesMadeWithinThisTile": "将此磁贴中所作的更改应用于 Ops Manager 中的所有其他磁贴。 未针对 Ops Manager 中的“应用更改”步骤选择的磁贴将在 Instana 中隐藏。"
+    },
+    "windows": {
+      "common": {
+        "ConfigureTheAgent": "步骤 1：配置代理程序",
+        "packaging": "打包",
+        "runtime": "运行时",
+        "dynamic": "动态",
+        "static": "静态",
+        "previewPrerequisites": "预览先决条件",
+        "supportedOperatingSystemsAndPlatformArchitectures": "受支持的操作系统和平台体系结构"
+      },
+      "windows_64_bit": {
+        "downloadTheLatestWindowsInstaller": "步骤 2：下载最新的 Windows 安装程序（64 位）",
+        "agentInstaller": "代理程序安装程序",
+        "launchTheInstallerAsAnApplicationAndSupplyTheConfigurationBelow": "步骤 3：将安装程序作为应用程序启动，并提供以下配置。",
+        "instanaBackendAddress": "Instana 后端地址",
+        "instanaBackendPort": "Instana 后端端口",
+        "instanaAgentKey": "Instana 代理程序密钥",
+        "downloadkey": "下载密钥",
+        "installTheAgent": "安装代理程序（Windows 安装程序）"
+      },
+      "windows_64_bit_unattended": {
+        "downloadTheWindowsInstaller": "步骤 2：下载 Windows 安装程序，查看先决条件并运行代理程序部署代码。",
+        "theLatestWindowsInstallerIsAvailableAtTheFollowingAddress": "以下地址提供了最新的 Windows 安装程序（64 位）。",
+        "windowsInstaller": "Windows 安装程序（64 位）",
+        "theFollowingCommandLineInstallationWillInstallTheInstanaAgent": "以下命令行安装将安装 Instana 代理程序，而不打开安装程序的用户界面。",
+        "installTheAgent": "安装代理程序（Windows 安装程序）"
+      },
+      "windows_zip": {
+        "selectAgentPackagingMode": "步骤 1：选择代理程序打包方式。",
+        "selectPlatformArchitectureReviewThePrerequisites": "步骤 2：选择平台体系结构，查看先决条件并运行代理程序部署代码。",
+        "installingTheJDK": "安装 JDK",
+        "installTheAgent": "安装代理程序（ZIP 文件）",
+        "hostAgentTypes": "主机代理程序类型"
+      },
+      "windows_ec2_64": {
+        "selectTheAgentPackagingMode": "步骤 1：选择代理程序打包方式。",
+        "useTheScriptAsUserDataForTheEC2Instance": "步骤 2：将脚本用作 EC2 实例的“用户数据”。",
+        "installTheScriptOnTheVirtualMachine": "将脚本作为 Windows 服务安装在虚拟机上，然后自动将其启动。",
+        "installAgentOnAWSEC2Windows": "在 AWS EC2 (Windows) 上安装代理程序",
+        "runCommandsOnAWSEC2": "在 AWS EC2 上运行命令"
+      }
+    },
+    "linux": {
+      "linux_auto": {
+        "installAnAgentOnLinux": "在 Linux 上安装代理程序",
+        "configurationParameters": "配置参数",
+        "troubleshootingInstallation": "对安装进行故障诊断",
+        "runningTheAgent": "运行代理程序"
+      },
+      "linux_deb_rpm": {
+        "step1DownloadTheInstallPackage": "步骤 1. 下载安装包。",
+        "DEBAndRPMPackage": "DEB 和 RPM 软件包",
+        "installUsingAPackage": "使用软件包进行安装"
+      },
+      "linux_ec2": {
+        "selectTheAgentPackagingMode": "步骤 1：选择代理程序打包方式",
+        "Packaging": "打包",
+        "dynamic": "动态",
+        "static": "静态",
+        "runtime": "运行时",
+        "azulZulu": "Azul Zulu 1.8",
+        "eclipseOpenJ9": "Eclipse OpenJ9 11",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步骤 2：查看先决条件并运行代理程序部署代码。",
+        "installagentOnAWSEC2": "在 AWS EC2 上安装代理程序",
+        "RuncommandsonAWSES2": "在 AWS EC2 上运行命令",
+        "configurationParameters": "配置参数"
+      },
+      "archive": {
+        "selectTheAgentPackagingMode": "步骤 1：选择代理程序打包方式",
+        "selecTthePlatformArchitecture": "步骤 2：选择平台体系结构",
+        "platformArchitecture": "平台体系结构",
+        "hostRequirements": "主机要求",
+        "installUsingATarFile": "使用 tar 文件安装",
+        "startingTheAgent": "启动代理程序",
+        "agentOptions": {
+          "linux64Bit": "Linux (64Bit)",
+          "linux32Bit": "Linux (32Bit)",
+          "linux64BitArm": "Linux（64 位 - ARM）",
+          "linux32BitArm": "Linux（32 位 - ARM）",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux（64 位 - PowerPC Little Endian）",
+          "linuxS390X": "Linux (s390x)"
+        }
+      },
+      "linux_gce": {
+        "installAnAgentOnLinux": "在 Linux 上安装代理程序",
+        "configurationParameters": "配置参数"
+      }
+    },
+    "openshift": {
+      "documentLinks": {
+        "installOperatorByUsingOlm": "使用 OLM 安装操作程序",
+        "setUpProject": "设置项目和服务帐户",
+        "installAgentUsingOperator": "使用操作程序安装代理程序",
+        "configuringAgentAfterInstall": "安装后配置代理程序",
+        "installUsingHelm": " 使用 Helm Chart 进行安装",
+        "installUsingYaml": "使用 YAML 进行安装"
+      },
+      "instructions": {
+        "operator": {
+          "installOperatorsManually": "步骤 1：手动安装操作程序。",
+          "installOperatorsManuallySubtext": "将安装最新的操作程序，但不会升级 1.x CRD：",
+          "enterAClusterNameAndOptionallyTheAgentZone": "步骤 2：输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
+          "configureCustomYamlFile": "步骤 3：配置定制资源 YAML 文件。",
+          "configureCustomYamlFileSubtext1": "遵循<installOperatorDoc>文档中的指示信息。</installOperatorDoc>",
+          "configureCustomYamlFileSubtext2": "您可以根据需求进一步配置主机代理程序，如<networkAccess>配置受监视应用程序的网络访问权</networkAccess>中所述。",
+          "runTheFollowingCommand": "步骤 4：运行以下命令以使用所选配置部署 Instana 代理程序。"
+        },
+        "enterAClusterNameAndOptionallyTheAgentZone": "步骤 1：输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
+        "reviewPrerequisiteAndRunCode": "步骤 2：查看先决条件并运行代理程序部署代码。"
+      }
+    },
+    "azure": {
+      "installingAgentOnAks": "在 Aks 上安装代理程序",
+      "configureAfterInstall": "安装后配置代理程序"
+    },
+    "gcp": {
+      "dockerBuild": "Docker 构建",
+      "cloudNativeBuildPack": "云本机构建包",
+      "applicationRuntime": "应用程序运行时",
+      "reviewInfoStep": "步骤 2：查看其他信息并集成 instana 进程内收集器以用于 Google Cloud Run。",
+      "installationMethod": "安装方法",
+      "selectInstallationMethod": "步骤 1：选择安装方法和应用程序运行时。",
+      "selectAgentPackagingMode": "步骤 1：选择代理程序打包方式",
+      "useScript": "步骤 2：将以下脚本用作 GCE 实例的“启动脚本”",
+      "integrateInstanaInProcessCollectorForGoogle": "步骤 2：集成 Instana 进程内收集器以用于 Google Cloud Run。",
+      "setEnvironmentVariablesCloudRunServiceDefinition": "步骤 3：在“Cloud Run Service 定义”上设置以下环境变量。",
+      "setEnvVariablesInCloudRunServiceRevision": "在 Cloud Run Service Revision 中设置以下环境变量。"
+    },
+    "macOs": {
+      "downloadingTheAgent": "下载代理程序",
+      "startingTheAgent": "启动代理程序"
+    },
+    "mac": {
+      "selectAgentPackagingMode": "步骤 1：选择代理程序打包方式。",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步骤 2：查看先决条件并运行代理程序部署代码。"
+    }
+  },
+  "welcomepage": {
+    "heading": "欢迎",
+    "viewAll": "查看所有",
+    "consumeData": {
+      "title": "使用数据",
+      "description": "开始并部署第一个代理程序。",
+      "buttonName": "部署代理程序",
+      "buttonType": "主"
+    },
+    "inviteTeammates": {
+      "title": "邀请队友",
+      "description": "与同事合作。",
+      "buttonName": "发送邀请",
+      "buttonType": "ghost"
+    },
+    "nextSteps": {
+      "title": "后续步骤",
+      "description": "单击右上角的“?”符号， 了解更多设置步骤。",
+      "buttonName": "获取答案",
+      "buttonType": "ghost"
+    },
+    "component": {
+      "applicationWidget": {
+        "label": "应用程序",
+        "name": "名称",
+        "calls": "调用数",
+        "latency": "等待时间",
+        "erroneousCallRate": "错误调用率",
+        "openCreationDialog": "打开创建对话框"
+      },
+      "eventWidget": {
+        "label": "事件",
+        "incidents": "事件",
+        "critical": "严重",
+        "warning": "警告",
+        "viewEvents": "查看事件"
+      },
+      "platformWidget": {
+        "platforms": "平台",
+        "cloudFoundry": "Cloud Foundry",
+        "vsphere": "vSphere",
+        "openstack": "OpenStack",
+        "ibmp": "IBM Power HMC",
+        "powervcRegion": "PowerVC 区域",
+        "sap": "SAP",
+        "ibmz": "IBM Z HMC",
+        "kubernetes": "Kubernetes",
+        "name": "名称",
+        "nodes": "节点数",
+        "namespaces": "名称空间",
+        "pods": "pod"
+      },
+      "bizopsWidget": {
+        "label": "业务监视",
+        "name": "名称",
+        "activities": "活动",
+        "count": "计数"
+      },
+      "incidentsWidget": {
+        "label": "事件",
+        "active": "活动",
+        "title": "标题",
+        "on": "ON",
+        "started": "已启动",
+        "end": "结束"
+      },
+      "websitesWidget": {
+        "label": "Web 站点",
+        "name": "名称",
+        "pageViews": "页面浏览量",
+        "onLoadTimes": "OnLoad 时间"
+      },
+      "mobileAppsWidget": {
+        "label": "移动应用程序",
+        "name": "名称",
+        "sessions": "会话",
+        "views": "视图数"
+      },
+      "infrastructureWidget": {
+        "label": "基础架构",
+        "mean": "平均值",
+        "name": "名称",
+        "os": "操作系统",
+        "cpuNum": "CPU 数",
+        "cpuUsage": "CPU 使用率",
+        "created": "创建时间",
+        "started": "已启动"
+      }
+    },
+    "noData": {
+      "applicationWidget": {
+        "header": "无应用程序",
+        "description": "在要观察的服务上创建您自己的透视图。",
+        "buttonName": "创建应用程序透视图"
+      },
+      "incidentsWidget": {
+        "header": "无事件",
+        "description": "事件可帮助您检测、了解和调查应用程序的服务质量问题。"
+      },
+      "websitesWidget": {
+        "header": "无 Web 站点",
+        "description": "添加 Web 站点并开始收集数据",
+        "buttonName": "添加 Web 站点"
+      },
+      "mobileListWidget": {
+        "header": "无移动应用程序",
+        "description": "添加移动应用程序并开始收集数据。",
+        "buttonName": "添加移动应用程序"
+      },
+      "infrastructureWidget": {
+        "header": "无主机、容器或流程",
+        "description": "在此处查找已部署的代理程序的结果。"
+      },
+      "platformsWidget": {
+        "header": "无平台",
+        "description": "在此处查找所有已安装的平台。"
+      },
+      "businessMonitoringWidget": {
+        "header": "无业务流程",
+        "description": "启用 IBM Business Automation Workflow 或配置 Instana，以从业务流程捕获业务数据并进行存储。"
+      }
+    }
   }
 }

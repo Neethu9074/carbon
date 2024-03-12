@@ -56,8 +56,7 @@
       "submit": "제출"
     },
     "states": {
-      "saving": "저장 중…",
-      "loading": "로드 중…"
+      "saving": "저장 중…"
     }
   },
   "language_en-US": "영어",

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SvgIcon, Stack, Typography, Spacer } from '@instana/components';
 
@@ -43,6 +43,11 @@ export default function AgentCatalog(props) {
       </Stack>
     </Breadcrumb>
   ];
+
+  useEffect(() => {
+    trackingService.catalogPageOpened();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack direction="vertical">

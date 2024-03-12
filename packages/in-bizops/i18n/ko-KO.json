@@ -14,7 +14,8 @@
     "durationLabel": "지속 기간",
     "noData": "사용 가능한 데이터 없음",
     "healthLabel": "상태",
-    "startLabel": "시작됨"
+    "startLabel": "시작됨",
+    "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "비즈니스 모니터링"
@@ -28,14 +29,19 @@
       "widgets": {
         "topActivities": "상위 활동(개수)",
         "infrastructureIssuesAndChanges": "인프라 문제 및 변경사항",
-        "viewAll": "모든 활동 보기"
+        "viewAll": "모든 활동 보기",
+        "processCount": "개수",
+        "processCountTotal": "총계",
+        "processErrors": "오류"
       }
     },
     "activity": {
       "pageTitle": "비즈니스 활동",
       "summaryTab": "요약",
       "widgets": {
-        "duration": "지속 기간"
+        "duration": "지속 기간",
+        "activityCount": "개수",
+        "activityErrors": "오류"
       },
       "timespans": {
         "minute": "1분",

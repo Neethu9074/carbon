@@ -84,7 +84,7 @@
     "platform_permissions": "{{quantityOfAreas}} 액세스",
     "analyticsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 플랫폼 및 인프라에서 액세스 범위로 정의된 분석에서 데이터를 볼 수 있음",
     "infrastructureContentMessage": "애플리케이션, 플랫폼, 인프라에서 액세스 범위 및 선택적으로 DFQ로 정의된 엔티티를 볼 수 있음",
-    "eventsAndAlertsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 플랫폼 및 인프라에 정의된 액세스 범위에 따라 이벤트 및 경보를 볼 수 있음",
+    "eventsAndAlertsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 합성 모니터링, 플랫폼 및 인프라에 정의된 액세스 범위에 따라 이벤트 및 경보를 볼 수 있음",
     "permissions": "권한",
     "additionalPermissions": "추가 권한",
     "permissions_DASHBOARD": "사용자 정의 대시보드 권한",
@@ -154,7 +154,10 @@
     "contribution_filter": "컨트리뷰션 필터",
     "contributionFilter_description": "컨트리뷰션 필터는 새 애플리케이션 구성을 작성할 때 적용됩니다. 애플리케이션 구성에서 {{logicalOperator}} 연산자 다음에 필터 태그를 사용하여 컨트리뷰션 필터를 세분화할 수 있습니다.",
     "contributionFilter_downstreamCalls": "애플리케이션 퍼스펙티브에 포함될 수 있는 추가 정보의 최대 레벨을 판별하십시오.",
-    "contributionFilter_name": "이름"
+    "contributionFilter_name": "이름",
+    "contributionFilter_name_mayNotBeBlank": "컨트리뷰션 필터 이름은 공백이 아니어야 합니다.",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "컨트리뷰션 필터 이름은 128자 이하여야 합니다.",
+    "contributionFilter_name_alreadyUsed": "컨트리뷰션 필터 이름이 이미 사용되었습니다."
   },
   "selectItemForm": {
     "doneButton": "완료"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "액세스 레벨",
-    "configuration_summary": "구성 요약",
+    "permissions": "권한",
     "selection": "사용할 수 없음",
     "selection_access_all": "모두 액세스",
     "selection_limited_access": "제한된 액세스",
@@ -187,7 +190,7 @@
     "role_viewer": "뷰어",
     "role_custom": "사용자 정의",
     "role_contributor": "컨트리뷰터",
-    "role_permissions": "역할/권한",
+    "access_type": "액세스 유형",
     "roleTooltip_websites": "뷰어: 웹 사이트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). <br /> 소유자: 새 웹 사이트를 작성할 수 있으며, 웹 사이트 대시보드를 보고 구성 및 삭제할 수 있습니다.",
     "roleTooltip_mobileApps": "뷰어: 모바일 앱 대시보드를 볼 수 있습니다 (구성은 볼 수 없음). <br /> 소유자: 새 모바일 앱을 작성할 수 있습니다. 모바일 앱 대시보드를 보고 구성하고 삭제할 수 있습니다.",
     "roleTooltip_applications": "뷰어: 애플리케이션 대시보드를 볼 수 있습니다 (구성은 볼 수 없음). <br /> 소유자: 새 애플리케이션을 작성할 수 있습니다. 애플리케이션 대시보드를 보고 구성하고 삭제할 수 있습니다.",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "제한된 액세스 범위 (뷰어)",
     "contribution_filter_warning": {
       "firstParagraph": "저장하는 변경사항은 이 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브를 업데이트합니다.",
-      "secondParagraph": "역할을 변경하면 컨트리뷰션 필터가 삭제됩니다. 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브는 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 편집할 수 있습니다. 이는 실행 취소할 수 없습니다."
+      "secondParagraph": "액세스 유형을 변경하면 컨트리뷰션 필터가 삭제됩니다. 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브는 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 편집할 수 있습니다."
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "이 단위 아래의 모든 애플리케이션 퍼스펙티브에 대한 액세스.",
-        "role_permissions_contributor": "이 단위 아래의 모든 애플리케이션 대시보드를 보십시오. 컨트리뷰션 필터를 사용하여 애플리케이션 대시보드를 작성, 구성 및 삭제하십시오."
+        "access_level": "선택한 액세스 유형 및 추가 권한으로 모든 애플리케이션 퍼스펙티브에 액세스합니다.",
+        "role_permissions_contributor": "컨트리뷰션 필터를 사용하여 애플리케이션 퍼스펙티브를 작성하십시오. 이러한 애플리케이션 퍼스펙티브를 보고, 구성하고, 삭제하십시오. 액세스 권한이 부여된 경우 다른 애플리케이션 퍼스펙티브를 보십시오."
       },
       "limited_access": {
-        "access_level": "아래 선택된 애플리케이션 대시보드에 대해서만 제한된 액세스 권한을 가집니다.",
-        "access_level_contributor": "아래 선택된 애플리케이션 대시보드에 대해서만 제한된 액세스 권한을 가집니다",
+        "access_level": "선택한 액세스 유형 및 추가 권한이 있는 나열된 애플리케이션에만 액세스합니다.",
+        "access_level_contributor": "사용자 또는 그룹 세부사항의 액세스 구성 분할창에서 컨트리뷰터 액세스 권한이 있는 애플리케이션을 찾을 수 있습니다. <br /><br />컨트리뷰터로 적용된 컨트리뷰션 필터를 사용하여 애플리케이션 퍼스펙티브에 액세스합니다. <br />선택한 애플리케이션 퍼스펙티브를 뷰어로 액세스",
         "role_permissions_contributor": "컨트리뷰션 필터가 적용된 애플리케이션 대시보드를 작성하십시오. 컨트리뷰션 필터에 대해 작성된 이러한 애플리케이션 대시보드를 보고, 구성하고, 삭제하십시오."
       },
-      "role_permissions_owner": "애플리케이션 대시보드를 작성, 구성, 보기 및 삭제합니다.",
-      "role_permissions_viewer": "애플리케이션 퍼스펙티브 대시보드 및 해당 구성을 봅니다."
+      "role_permissions_owner": "애플리케이션 퍼스펙티브를 작성, 구성, 보기 및 삭제합니다.",
+      "role_permissions_viewer": "애플리케이션 퍼스펙티브 및 해당 구성을 봅니다."
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "애플리케이션 및 플랫폼에 부여된 액세스와 관련된 이 단위 아래의 모든 엔티티 대시보드에 대한 액세스입니다."
+        "access_level": "애플리케이션 및 플랫폼에 부여된 액세스와 관련된 이 단위 아래의 모든 엔티티 대시보드에 액세스합니다."
       },
       "role_permissions_owner": "엔티티 대시보드를 봅니다.",
       "role_permissions_viewer": "엔티티 대시보드를 봅니다."
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "이 단위 아래의 모든 네임스페이스 및 클러스터에 대한 액세스."
+        "access_level": "선택된 액세스 유형 및 추가 권한으로 모든 네임스페이스 및 클러스터에 액세스합니다."
       },
       "limited_access": {
-        "access_level": "아래에서 선택한 네임스페이스 및 클러스터에 대해서만 제한된 액세스 권한을 가집니다."
+        "access_level": "선택된 액세스 유형 및 추가 권한이 있는 나열된 네임스페이스 및 클러스터에만 액세스합니다."
       },
       "role_permissions": "네임스페이스 및 클러스터를 봅니다."
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "이 단위 아래의 모든 모바일 앱에 대한 액세스입니다."
+        "access_level": "선택한 액세스 유형 및 추가 권한으로 모든 모바일 앱에 액세스합니다."
       },
       "limited_access": {
-        "access_level": "아래 선택된 모바일 앱에 대해서만 제한된 액세스 권한을 가집니다."
+        "access_level": "선택된 액세스 유형 및 추가 권한이 있는 나열된 모바일 앱에만 액세스합니다."
       },
       "role_permissions_owner": "모바일 앱을 작성, 구성, 보기 및 삭제합니다.",
-      "role_permissions_viewer": "모바일 앱 및 해당 구성을 봅니다."
+      "role_permissions_viewer": "모바일 앱을 봅니다."
     },
     "synthetics": {
       "access_all": {
-        "access_level": "이 장치의 모든 합성 테스트에 대한 액세스."
+        "access_level": "선택된 액세스 유형 및 추가 권한으로 모든 합성 테스트에 액세스합니다."
       },
       "limited_access": {
-        "access_level": "아래 선택된 합성 테스트에 대해서만 제한된 액세스 권한을 가집니다."
+        "access_level": "선택된 액세스 유형 및 추가 권한이 있는 나열된 합성 테스트에만 액세스합니다."
       },
       "role_permissions_owner": "합성 테스트를 작성, 구성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "합성 테스트 및 해당 구성을 봅니다."
     },
     "website": {
       "access_all": {
-        "access_level": "본 유닛에 속하는 모든 웹 사이트에 대한 액세스."
+        "access_level": "선택한 액세스 유형 및 추가 권한이 있는 모든 웹 사이트에 액세스합니다."
       },
       "limited_access": {
-        "access_level": "아래 선택된 웹 사이트에 대해서만 제한된 액세스 권한을 가집니다."
+        "access_level": "선택된 액세스 유형 및 추가 권한이 있는 나열된 웹 사이트에만 액세스합니다."
       },
       "role_permissions_owner": "웹 사이트를 작성, 보기 및 삭제합니다.",
-      "role_permissions_viewer": "웹 사이트 및 해당 구성을 봅니다."
+      "role_permissions_viewer": "웹 사이트를 봅니다."
     }
   },
   "cardTitle_Area": "영역",
@@ -341,7 +344,15 @@
       "wrong": "문제점이 발생했습니다.",
       "errorInfo": "데이터베이스에서 데이터를 검색할 수 없음",
       "failed": "실패",
-      "inProgress": "진행 중"
+      "inProgress": "진행 중",
+      "deletionUntilTime": "삭제 종료 시간",
+      "deletionUntilDate": "삭제 종료 날짜",
+      "untilDateValidationMessage": "날짜는 현재 날짜이거나 현재 날짜 이전이어야 함",
+      "reasonValidationMessage": "삭제 이유는 비워둘 수 없음",
+      "toastSuccessTitle": "로그 삭제 성공",
+      "toastSuccessMessage": "선택한 기간에 대한 로그가 삭제되었습니다.",
+      "toastErrorTitle": "로그 삭제 실패",
+      "toastErrorMessage": "로그를 삭제할 수 없습니다. 다시 시도하십시오."
     },
     "failedToSaveConfig": "구성을 저장하는 데 실패함: {{err}}",
     "IdPMetadataRequired": "IdP 메타데이터 파일이 필요합니다.",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "{{label}} 모니터링 기능에 대한 액세스를 허용합니다.",
     "failedToSaveGroup": "그룹을 저장하는 데 실패함: {{err}}",
     "limitedAccess": "제한된 액세스",
-    "filterInvites": "초대 필터링",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "<strong>{{email}}</strong>에 대해 <strong>{{tenant}}</strong> 테넌트에 가입하기 위한 초대를 취소하시겠습니까?",
     "inviteUser": "사용자 초대",
     "sendInvitation": "초대 보내기",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "Salesforce 조직 URL",
     "alertChannelDocumentationMessage": "이 경보 채널 설정에 대한 자세한 정보는 <documentationLink>문서 확인</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "ID 제공자에서 Instana에 대한 사용자 액세스가 사용 안함으로 설정되어 있는지 확인하십시오.",
-    "createIDPConfirmationDescription": "보류 중인 초대가 삭제됩니다. 사용자는 ID 제공자(IdP)에서 자동으로 프로비저닝됩니다."
+    "createIDPConfirmationDescription": "보류 중인 초대가 삭제됩니다. 사용자는 ID 제공자(IdP)에서 자동으로 프로비저닝됩니다.",
+    "revokeInvitationForUserWithEmail": "{{email}}용 {{tenant}} 테넌트에 참여하기 위한 초대 취소",
+    "invitationValidUntil": "초대 유효 기한",
+    "invitedBy": "초대한 사람"
   },
   "languageSelection": {
     "language": "언어",

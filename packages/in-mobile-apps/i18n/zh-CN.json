@@ -25,6 +25,9 @@
       "label": "错误率",
       "rawDataLabel": "错误计数"
     },
+    "customMetric": {
+      "label": "定制度量值"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "会话启动数",
       "viewChangeBeaconCountLabel": "视图转换数",

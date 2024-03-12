@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)"
   },
+  "logSmartAlerts": {
+    "logs": "Registros"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Estado fallido"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "IA generada",
     "suggestionHelpfulText": "¿Fue útil esta sugerencia?",
     "thankYouForYourFeedback": "Gracias por sus comentarios.",
-    "noEntitiesErrorTitle": "No se ha encontrado ninguna causa raíz probable",
-    "noEntitiesErrorDescription": "Esto suele ocurrir cuando la incidencia no ha tenido un impacto significativo en el servicio",
     "performanceConstantlyEvaluated": "El rendimiento se está evaluando activamente y mejorando durante la versión Beta. Deje sus comentarios para ayudarnos a mejorar nuestra inteligencia artificial",
     "probableRootCauseLabel": "Entidad de causa principal probable: {{entity_name}}",
-    "relatedEventsLabel": "Sucesos de entidad encontrados: {{number_of_events}}",
+    "relatedEventsLabel": "Sucesos asociados ({{number_of_events}})",
     "entitiesNumber": "Entidades",
-    "techPreview": "VISTA PREVIA DE TECNOLOGÍA"
+    "techPreview": "VISTA PREVIA DE TECNOLOGÍA",
+    "probabilityLevelText": "Nivel de probabilidad:",
+    "highProbability": "ALTA",
+    "moderateProbability": "MODERADA",
+    "lowProbability": "BAJA",
+    "naProbability": "N/A",
+    "highProbabilityBadgeText": "Esta calificación de probabilidad se basa en la probabilidad de que la entidad en cuestión no esté en buen estado. La alta probabilidad indica que esta entidad es probablemente problemática basándose en las pruebas proporcionadas.",
+    "moderateProbabilityBadgeText": "Esta calificación de probabilidad se basa en la probabilidad de que la entidad en cuestión no esté en buen estado. Es probable que esta entidad sea la causa raíz, pero se necesitan más análisis.",
+    "lowProbabilityBadgeText": "Esta calificación de probabilidad se basa en la probabilidad de que la entidad en cuestión no esté en buen estado. Dada la información actual, este componente tiene una baja probabilidad de ser insalubre, pero merece que se siga investigando.",
+    "naProbabilityBadgeText": "Esta calificación de probabilidad se basa en la probabilidad de que la entidad en cuestión no esté en buen estado. Por desgracia, no se ha podido determinar la calificación de probabilidad de este incidente."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Resumen de la incidencia",
-    "thisIncident": "Esta incidencia parece ser:",
     "errorTitle": "No se ha encontrado ningún resumen",
     "errorDescription": "No se ha podido crear ningún resumen para este suceso",
-    "summarizationHelpfulText": "¿Le ha resultado útil este resumen?"
+    "summarizationHelpfulText": "¿Le ha resultado útil este resumen?",
+    "alertChannelTableTitle": "Canales de alerta asociados con incidencia",
+    "noDataAlertChannels": "No se ha podido asociar ningún canal de alerta con esta incidencia"
   },
   "feedback": {
     "skip": "Omitir",
@@ -187,5 +198,9 @@
     "contactMeNo": "No, prefiero que no me contacten.",
     "appreciateResponse": "¡Agradecemos su respuesta!",
     "followUpQuestion": "¿Desea que nos pongamos en contacto con usted en relación con sus comentarios técnicos para aclararlos o debatirlos?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Procesos empresariales afectados",
+    "titleImpactedBusinessProcessesIncident": "Procesos empresariales afectados para suceso desencadenante"
   }
 }

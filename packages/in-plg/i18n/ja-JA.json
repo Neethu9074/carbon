@@ -1,4 +1,6 @@
 {
+  "welcomeToInstana": "Instana へようこそ。",
+  "getStartedAndInstallYourFirstAgent": "開始して最初のエージェントをインストールします。",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "試用版の有効期限が切れました",
     "titleAfterTrialPeriodEnd": "試用期間が終了しました",
@@ -9,12 +11,529 @@
     "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "見積もり依頼",
     "buyNowBtn": "AWS で購入",
-    "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。"
+    "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。",
+    "getAnswers": "回答を見る",
+    "titleDetail": {
+      "trial": "トライアル",
+      "sandboxTrial": "Sandbox 評価版"
+    }
   },
   "playwithinstana": {
     "title": "Instana で再生",
     "content": "独自の環境をモニターする準備ができました",
     "bookdemo": " デモを予約する",
-    "freetrial": " 無料トライアル"
+    "freetrial": " 無料トライアル",
+    "taketour": " ツアーの実行"
+  },
+  "agentDetails": {
+    "agentMode": {
+      "dynamic": "動的",
+      "static": "静的"
+    },
+    "docker": {
+      "pullTheAgentContainerImage": "Instana エージェント・コンテナー・イメージのプル",
+      "runTheInstanaAgentContainerImage": "Instana エージェント・コンテナー・イメージの実行",
+      "upgradeTheInstanaAgentContainerImage": "Instana エージェント・コンテナー・イメージのアップグレード",
+      "installAgentOnDocker": "Docker へのエージェントのインストール",
+      "configurationOptions": "構成オプション"
+    },
+    "jvmVendor": {
+      "azulZulu18": "Azul Zulu 1.8",
+      "eclipseOpenJD11": "Eclipse Open J9 11"
+    },
+    "askForHelp": {
+      "email": "E メール",
+      "send": "送信",
+      "askForHelpTitle": "同僚に支援を求める",
+      "thisWillBeAvailableOnceYourInstanceIsReady": "これは、インスタンスの準備ができると使用可能になります。",
+      "inviteAColeague": "同僚を招待する",
+      "agentKey": "エージェント・キー"
+    },
+    "common": {
+      "agentCatalog": "エージェント・カタログ",
+      "step1": "ステップ 1: ",
+      "step2": "ステップ 2: ",
+      "step3": "ステップ 3: ",
+      "step4": "ステップ 4: ",
+      "step5": "ステップ 5: ",
+      "download": "ダウンロード",
+      "clusterName": "クラスター名",
+      "agentZoneOptional": "エージェント・ゾーン (オプション)",
+      "networkRequirements": "ネットワーク要件",
+      "toInstallAndRunAnAgentCompleteTheFollowingSteps": "エージェントをインストールして実行するには、以下の手順を実行します。",
+      "enterANameForAClusterGroupYouWantToAddThisClusterTo": "このクラスターを追加するクラスター・グループ<br>の名前を入力します。",
+      "agentKey": "Instana エージェント・キー",
+      "documentationTitle": "資料",
+      "choosingTheProperInstallationMethod": "適切なインストール方式の選択",
+      "configuringTheAgentAfterInstall": "インストール後のエージェントの構成",
+      "packaging": "パッケージ化",
+      "runtime": "Runtime",
+      "prerequisitesTitle": "前提条件",
+      "viewDeployedAgents": "デプロイ済みエージェントの表示",
+      "openAgentDashboardOptional": "オプション: エージェントが正常にデプロイされたら、それをインフラストラクチャー・マップに表示できます。",
+      "downloadKey": "鍵のダウンロード",
+      "support": "サポート",
+      "sideCard": {
+        "prerequisites": "前提条件",
+        "documentation": "資料",
+        "askAColleagueForHelp": "同僚に支援を求める"
+      }
+    },
+    "kubernetes": {
+      "kubernetes": {
+        "enterAClusterNameAndOptionallyTheAgentZone": "ステップ 1: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
+        "support": "サポート"
+      },
+      "operator": {
+        "installUsingTheOperator": "Operator を使用したインストール",
+        "installAnAgentOnKubernetes": "Kubernetes へのエージェントのインストール",
+        "installOperatorsManually": "ステップ 1: オペレーターを手動でインストールします。",
+        "theLatestOperatorWillBeInstalled": "最新の Operator がインストールされ、1.x CRD はアップグレードされません。",
+        "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "ステップ 2: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
+        "configureTheCustomResourceYAMLFile": "ステップ 3: カスタム・リソース YAML ファイルを構成します。",
+        "followTheInstructionsInTheDocumentation": "<documentation>資料</documentation> の指示に従ってください。",
+        "runTheFollowingCommandToDeployTheInstanaAgent": "ステップ 4: 以下のコマンドを実行して、選択した構成で Instana エージェントをデプロイします。"
+      },
+      "helmChart": {
+        "installAnAgentOnKubernetes": "Kubernetes へのエージェントのインストール",
+        "configurationParameters": "構成パラメーター"
+      },
+      "k8_deamon": {
+        "installUsingYAML": "YAML を使用したインストール",
+        "installAnAgentOnKubernetes": "Kubernetes へのエージェントのインストール"
+      },
+      "k8_aks": {
+        "installAnAgentOnAKS": "AKS へのエージェントのインストール"
+      },
+      "k8_eks": {
+        "installAnAgentOnAWSEKS": "AWS EKS へのエージェントのインストール"
+      }
+    },
+    "unix": {
+      "selectThePlatformArchitecture": "プラットフォーム・アーキテクチャーの選択",
+      "platformArchitecture": "プラットフォームのアーキテクチャー",
+      "previewPrerequisites": "前提条件のプレビュー",
+      "installingInstanaAgent": "Instana エージェントのインストール"
+    },
+    "aws": {
+      "step1": "ステップ 1: ",
+      "step2": "ステップ 2: ",
+      "step3": "ステップ 3: ",
+      "step4": "ステップ 4: ",
+      "instanaLambdaLayerManualWrapping": "手動ラップを使用した Instana Lambda レイヤー",
+      "awsLambdaRubyDocumentation": "AWS Lambda Ruby の資料",
+      "monitoringAwsLambdaDocumentation": "Monitoring AWS Lambda の資料",
+      "awsLambdaGoDocumentation": "AWS Lambda Go の資料",
+      "taskDefinition": "タスク定義",
+      "assignECSTaskDefinitionWithFollowingIAMPermission": "この ECS タスク定義に少なくとも次の IAM 権限を持つ役割を割り当てます。",
+      "createECSTaskDefinition": "このテンプレートを使用して ECS タスク定義を作成します",
+      "ec2": "Elastic Compute Cloud (EC2)",
+      "ecs": "Elastic Container Service (ECS)",
+      "selectLambdaRuntime": "Lambda ランタイムを選択します。",
+      "lambdaSetEnvironmentVariables": "AWS Lambda 構成ページの各セクションで、以下の環境変数を設定します",
+      "referenceToAwsLambdaGoDocumentation": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 <awsLambdaGoDoc>AWS Lambda Go の資料</awsLambdaGoDoc>の説明に従ってください。",
+      "reviewPrerequisitesAndConfigureLambda": "前提条件を確認し、ネイティブ・トレース用に AWS Lambda 関数を構成します。",
+      "referDocumentationForSettingUpAwsSensor": "Instana AWS センサーのセットアップについて詳しくは、<awsSensorDoc> AWS Service documentation< /awsSensorDoc> を参照してください。",
+      "referenceToAwsLambdaMonitoringDoc": "ネイティブ Lambda トレースを構成するための代替方法について詳しくは、<awsLambdaMonitoring>Monitoring AWS Lambda の資料</awsLambdaMonitoring>を参照してください。",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "AWS 領域で実行される Instana AWS センサーのセットアップ",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
+      "setIAMPermissionsAndEditTrustRelationship": "IAM 許可の設定と信頼関係の編集",
+      "selectWhereToRunAwsAgentOn": "AWS エージェントを実行する場所を選択します",
+      "selectApplicationRunime": "ステップ 1: アプリケーション・ランタイムの選択",
+      "applicationRuntime": "アプリケーション・ランタイム",
+      "reviewPrerequisiteAndSetEnvVariableEcs": "ステップ 2: 前提条件を確認し、ECS タスク定義に環境変数を設定します。",
+      "instanaEndpointUrl": "Instana エンドポイント URL",
+      "instanaEndpointPort": "Instana エンドポイント・ポート",
+      "insertLinesToDocker": "ステップ 2: ENTRYPOINT または最後の CMD コマンドの前に、以下の行を Docker ファイルに挿入します。",
+      "initiateDockerBuildProcess": "ステップ 3: 指定された資格情報を使用してログインすることにより、 Docker ビルド・プロセスを開始します。",
+      "username": "ユーザー名",
+      "password": "パスワード",
+      "romanStep1": "(i) ",
+      "romanStep2": "(ii) ",
+      "romanStep3": "(iii) ",
+      "selectAwsRegion": "AWS リージョンを選択します",
+      "awsRegion": "AWS リージョン",
+      "awsCommandLineInterfaceValue": "値を指定し、以下のようなコマンドを使用して AWS コマンド・ライン・インターフェースを使用します",
+      "amazonResourceName": "Amazon リソース名 (ARN)",
+      "setEnvVariablesInLambdaFunction": "Lambda 関数で以下の環境変数を設定します。",
+      "selectInstanaLambdaLayer": "以下の Amazon リソース名 (ARN) を持つ Instana Lambda レイヤーを選択します。",
+      "setEnvVariablesInECSTaskDefinition": "ECS タスク定義で以下の環境変数を設定します。",
+      "integrateInstanaInProcessCollectorForAws": "ステップ 2: AWS用の Instana プロセス内コレクターを統合します。",
+      "setEnvironmentVariablesInECSTaskDefinition": "ステップ 3: ECS タスク定義で以下の環境変数を設定します。",
+      "installationMethod": "インストール方法",
+      "applicationDirectory": "アプリケーション・ディレクトリー",
+      "workDirDirectoryInDocker": "これは通常、Dockerfile 内の WORKDIR ディレクトリーとして設定されます。",
+      "lambdaFunctionName": "ラムダ関数名",
+      "referenceToAwsLambdaRubyDocumentation": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 <awsLambdaRubyDoc>AWS Lambda Ruby の資料</awsLambdaRubyDoc>の説明に従ってください。",
+      "preferredMethodForEnablingTracing": "Java ベースの AWS Lambda 関数でトレースを有効にするために推奨される方法は、以下のステップで概説するように、Instana Lambda レイヤーを AutoTrace とともに使用することです。",
+      "setupAwsLambdaFunctionsForNativeTracing": "以下のステップを実行して、前提条件を確認し、ネイティブ・トレース用の AWS Lambda 関数をセットアップします。",
+      "useScriptAsUserDataForEc2Instance": "このスクリプトは、EC2 インスタンスのユーザー・データとして使用します",
+      "selectAgentPackagingAndRuntime": "エージェントのパッケージ化モードとランタイムを選択します",
+      "awsLambdaPythonAutotrace": "Python ベースの AWS Lambda 関数をトレースの対象として構成する方法として推奨されているのは、Instana Lambda レイヤーと AutoTrace です。",
+      "preferredMethodForNodeJsLambdaConfiguration": "Node.js 8.x ベースの AWS Lambda 関数を構成する方法として推奨されているのは、<lambdaManualWrapping>Instana Lambda レイヤーと手動ラッピング</lambdaManualWrapping>を使用することです。",
+      "imageOptions": {
+        "linuxGlibcBased": "Linux (glibc ベース)",
+        "alpineLinuxMuslBased": "Alpine Linux(musl ベース)"
+      },
+      "iamPermissions": "IAM 権限",
+      "trustRelationships": "信頼関係",
+      "enterAClusterNameAndOptionallyTheAgentZone": "クラスター名を入力し、オプションで、クラスターをその一部にするエージェント・ゾーンを入力します。",
+      "awsLambdaNodeJsAutotrace": "Node.js 10.x (以降) ベースの AWS Lambda 関数をトレースの対象として構成する方法として推奨されているのは、Instana Lambda レイヤーと AutoTrace です。",
+      "selectAwsRegionAndLambdaHandler": "AWS 領域を選択し、現在のラムダ・ハンドラーを入力します",
+      "setInstanaAutoWrapHandlerAsLambdaFunction": "Instana 自動ラップ・ハンドラーを Lambda 関数のハンドラーとして設定します。",
+      "autoWrapHandler": "自動折り返しハンドラー",
+      "runCodeBelow": "以下のエージェント・デプロイメント・コードを実行します。",
+      "prerequisiteLinks": {
+        "networkRequirements": "ネットワーク要件"
+      },
+      "documentationLinks": {
+        "installAgentOnAwsEc2": "AWS EC2 へのエージェントのインストール (Windows)",
+        "monitoringGo": "Go のモニタリング",
+        "awsLambdaNativeTracingForRuby": "Ruby 用の AWS Lambda ネイティブ・トレース",
+        "awsLambdaNativeTracingForPython": "Python 用の AWS Lambda ネイティブ・トレース",
+        "gcrDocumentation": "Google Cloud 資料の実行",
+        "gcBuildpackDocs": "Google Cloud Run ビルドパックの資料",
+        "setupGcpAgent": "GCP エージェントのセットアップ",
+        "awsLambdaNativeTracingForNodeJs": "Node.js 用の AWS Lambda ネイティブ・トレース",
+        "instanaLambdaLayerAndManualWrapping": "Instana Lambda レイヤー & 手動ラッピング",
+        "awsLambdaEnvVariables": "AWS Lambda の環境変数",
+        "monitoringPython": "Python のモニター",
+        "runningStartupScript": "始動スクリプトの実行",
+        "uninstallingTheHostAgent": "ホスト・エージェントのアンインストール",
+        "awsLambdaNativeTracingForJava": "Java 用の AWS Lambda ネイティブ・トレース",
+        "awsLambdaFunctions": "AWS Lambda 関数",
+        "monitoringAwsFargate": "AWS Fargate のモニター",
+        "monitoringAwsFargateJava": "AWS Fargate (Java) のモニター",
+        "configureTaskDefinition": "タスク定義の構成",
+        "monitoringAwsFargateDotnet": "AWS Fargate (.Net Core) のモニター",
+        "monitoringAwsFargateNodejs": "AWS Fargate (Node.js) のモニター",
+        "monitoringAwsFargatePython": "AWS Fargate のモニター (Python)",
+        "monitoredAwsServices": "モニター対象の AWS サービス",
+        "monitoringNodejs": "モニター・ノード js",
+        "installGcrCollectors": "Gogle Cloud Run プロセス内コレクターのインストール",
+        "installAgentOnEc2": "AWS EC2 へのエージェントのインストール",
+        "configurationOptions": "構成オプション",
+        "installAgentAwsEks": "AWS EKS へのエージェントのインストール",
+        "monitoringGcr": "Google Cloud Run のモニタリング",
+        "monitoringAwsFargateRuby": "AWS Fargate (Ruby) のモニター",
+        "awsServiceDocumentation": "AWS サービスの資料",
+        "monitoringAwsLambda": "AWS Lambda のモニター",
+        "configuringAwsLambdaMonitoring": "AWS Lambda モニターの構成",
+        "awsLambdaNativeTracingForGo": "Go 用の AWS Lambda ネイティブ・トレース"
+      }
+    },
+    "runtime": {
+      "go": "Go",
+      "java": "Java",
+      "dotnet": ".NET Core",
+      "nodejs": "Node.js",
+      "python": "Python",
+      "nodejs8": "Node.js 8.x",
+      "nodejs10Plus": "Node.js 10.x 以降",
+      "python2and3": "Python 2.7 および 3.x",
+      "ruby": "Ruby"
+    },
+    "bosh": {
+      "boshDirectorRuntimeConfig": "BOSH Director ランタイム構成",
+      "specifyDesiredBoshReleaseVersion": "必要な Instana BOSH リリース・バージョンを指定します。",
+      "downloadBoshReleases": "以下の BOSH リリースをダウンロードします",
+      "createInstanaUAAClient": "Instana UAA クライアントの作成",
+      "uploadBOSHReleasesToBOSHDirector": "Instana BOSH リリースを BOSH Director にアップロードします。",
+      "createInstanaUAAClientDesc": "ファウンデーションのユーザー・アカウントおよび認証 (UAA) 内で、「cloud_controller.admin_read_only」権限を持つクライアントを作成します。 必要な UAA クライアントを作成するには、<uaacTool>uaac ツール</uaacTool>を使用する方法が最も簡単です。",
+      "uaaClientId": "UAA クライアント ID",
+      "configuringTheCloudFoundrySensor": "Cloud Foundry センサーの構成",
+      "uaaClientSecret": "UAA クライアント秘密鍵",
+      "releaseVersion": "リリース・バージョン",
+      "instanaBOSHArtifcatory": "Instana BOSH Artifactory",
+      "deployingTheInstanaAgent": "Instana エージェントのデプロイ",
+      "replaceTheCommandsBelow": "以下のコマンドで、'<uaa-api-endpoint>' を UAA API エンドポイントに置き換え、「<clients.admin-secret>」を「clients.admin」または「clients.write」権限を持つ UAA クライアントに置き換えます。",
+      "configureBoshAddons": "BOSH アドオンの構成",
+      "chooseNameForCloudFoundryFoundation": "Cloud Foundry ファウンデーションの名前を選択します",
+      "cloudFoundryFoundationName": "Cloud Foundry ファウンデーション名",
+      "applyFollowingRuntimeConfigurations": "BOSH ランタイム構成として以下を BOSH Director に適用します",
+      "cloudFoundryUAACTool": "Cloud Foundry UAAC ツール ",
+      "placeholderReleaseVersionEG001": "リリース・バージョン (「0.0.1」など)",
+      "placeholderFoundationNameEGProd": "ファウンデーション名 (「prod」など)",
+      "placeholderUaaClientIdEGMyClientId": "UAA クライアント ID (「my-client-id」など)",
+      "theUaaClientIdCannotBeBlank": "UAA クライアント ID はブランクにできません",
+      "placeholderUaaClientSecretEGMyClientSecret": "UAA クライアント・シークレット (「my-client-secret」など)",
+      "theUaaClientSecretCannotBeBlank": "UAA クライアント・シークレットはブランクにできません"
+    },
+    "tanzu": {
+      "downloadInstanaMonitoringApplicationMonitoring": "「Instana Microservices and Application Monitoring」をダウンロードする 下のリンクからタイル表示",
+      "vmwareTanzuNetworkLink": "VMware Tanzu ネットワーク・リンク",
+      "reviewThePrerequisites": "前提条件の確認",
+      "installingTheInstanaAgent": "Instana エージェントのインストール",
+      "vmwareTanzuDocumentation": "VMware Tanzu の資料",
+      "vmwareTanzuNetwork": "VMware Tanzu ネットワーク",
+      "addTileToOpsManagerAndConfigureIt": "タイルを Ops Manager に追加して構成します",
+      "addInstanaApplicationMonitoring": "「Instana Microservices Application Monitoring」タイルを Ops Manager に追加し、タイルの「バックエンド構成」タブに以下を適用します。",
+      "nameYourVmwareFoundation": "VMware Tanzu ファウンデーションの名前を指定します",
+      "assignANameToVMwareTanzuFoundation": "VMware Tanzu ファウンデーションに名前を割り当てます (例: \"prod-eu\" または \"dev01\")。「エージェント構成」タブの「エージェント・ゾーン」設定にアクセスします。",
+      "applyTileChanges": "タイルの変更を適用します",
+      "applyTheChangesMadeWithinThisTile": "このタイル内で行われた変更を、Ops Manager 内の他のすべてのタイルに適用します。 Ops Manager 内の「変更の適用」ステップで選択されていないタイルは、Instana で非表示になります。"
+    },
+    "windows": {
+      "common": {
+        "ConfigureTheAgent": "ステップ 1: エージェントの構成",
+        "packaging": "パッケージ化",
+        "runtime": "Runtime",
+        "dynamic": "動的",
+        "static": "静的",
+        "previewPrerequisites": "前提条件のプレビュー",
+        "supportedOperatingSystemsAndPlatformArchitectures": "サポートされるオペレーティング・システムおよびプラットフォーム・アーキテクチャー"
+      },
+      "windows_64_bit": {
+        "downloadTheLatestWindowsInstaller": "ステップ 2: 最新の Windows インストーラーのダウンロード (64Bit)",
+        "agentInstaller": "エージェント・インストーラー",
+        "launchTheInstallerAsAnApplicationAndSupplyTheConfigurationBelow": "ステップ 3: インストーラーをアプリケーションとして起動し、以下の構成を指定します。",
+        "instanaBackendAddress": "Instana バックエンド・アドレス",
+        "instanaBackendPort": "Instana バックエンド・ポート",
+        "instanaAgentKey": "Instana エージェント・キー",
+        "downloadkey": "鍵のダウンロード",
+        "installTheAgent": "エージェントのインストール (Windows インストーラー)"
+      },
+      "windows_64_bit_unattended": {
+        "downloadTheWindowsInstaller": "ステップ 2: Windows インストーラーをダウンロードし、前提条件を確認して、エージェント・デプロイメント・コードを実行します。",
+        "theLatestWindowsInstallerIsAvailableAtTheFollowingAddress": "最新の Windows インストーラー (64Bit) は、以下のアドレスから入手できます。",
+        "windowsInstaller": "Windows インストーラー (64 ビット)",
+        "theFollowingCommandLineInstallationWillInstallTheInstanaAgent": "以下のコマンド行インストールでは、インストーラーのユーザー・インターフェースを開かずに Instana エージェントをインストールします。",
+        "installTheAgent": "エージェントのインストール (Windows インストーラー)"
+      },
+      "windows_zip": {
+        "selectAgentPackagingMode": "ステップ 1: エージェントのパッケージ化モードを選択します。",
+        "selectPlatformArchitectureReviewThePrerequisites": "ステップ 2: プラットフォーム・アーキテクチャーを選択し、前提条件を確認して、エージェント・デプロイメント・コードを実行します。",
+        "installingTheJDK": "JDK のインストール",
+        "installTheAgent": "エージェントのインストール (ZIP ファイル)",
+        "hostAgentTypes": "ホスト・エージェントのタイプ"
+      },
+      "windows_ec2_64": {
+        "selectTheAgentPackagingMode": "ステップ 1: エージェントのパッケージ化モードを選択します。",
+        "useTheScriptAsUserDataForTheEC2Instance": "ステップ 2: EC2 インスタンスの「ユーザー・データ」としてスクリプトを使用します。",
+        "installTheScriptOnTheVirtualMachine": "スクリプトを Windows サービスとして仮想マシンにインストールし、自動的に開始します。",
+        "installAgentOnAWSEC2Windows": "AWS EC2 へのエージェントのインストール (Windows)",
+        "runCommandsOnAWSEC2": "AWS EC2 でのコマンドの実行"
+      }
+    },
+    "linux": {
+      "linux_auto": {
+        "installAnAgentOnLinux": "Linux にエージェントのインストール",
+        "configurationParameters": "構成パラメーター",
+        "troubleshootingInstallation": "インストールのトラブルシューティング",
+        "runningTheAgent": "エージェントの実行"
+      },
+      "linux_deb_rpm": {
+        "step1DownloadTheInstallPackage": "ステップ 1. インストール・パッケージをダウンロードします。",
+        "DEBAndRPMPackage": "DEB および RPM パッケージ",
+        "installUsingAPackage": "パッケージを使用したインストール"
+      },
+      "linux_ec2": {
+        "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+        "Packaging": "パッケージ化",
+        "dynamic": "動的",
+        "static": "静的",
+        "runtime": "Runtime",
+        "azulZulu": "Azul Zulu 1.8",
+        "eclipseOpenJ9": "Eclipse Open J9 11",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
+        "installagentOnAWSEC2": "AWS EC2 へのエージェントのインストール",
+        "RuncommandsonAWSES2": "AWS EC2 でのコマンドの実行",
+        "configurationParameters": "構成パラメーター"
+      },
+      "archive": {
+        "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+        "selecTthePlatformArchitecture": "ステップ 2: プラットフォーム・アーキテクチャーの選択",
+        "platformArchitecture": "プラットフォームのアーキテクチャー",
+        "hostRequirements": "ホスト要件",
+        "installUsingATarFile": "tar ファイルを使用したインストール",
+        "startingTheAgent": "エージェントの開始",
+        "agentOptions": {
+          "linux64Bit": "Linux (64Bit)",
+          "linux32Bit": "Linux (32Bit)",
+          "linux64BitArm": "Linux (64 ビット - ARM)",
+          "linux32BitArm": "Linux (32 ビット - ARM)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 ビット - PowerPC リトル・エンディアン)",
+          "linuxS390X": "Linux (s390x)"
+        }
+      },
+      "linux_gce": {
+        "installAnAgentOnLinux": "Linux にエージェントのインストール",
+        "configurationParameters": "構成パラメーター"
+      }
+    },
+    "openshift": {
+      "documentLinks": {
+        "installOperatorByUsingOlm": "OLM を使用した Operator のインストール",
+        "setUpProject": "プロジェクトおよびサービス・アカウントのセットアップ",
+        "installAgentUsingOperator": "Operator を使用したエージェントのインストール",
+        "configuringAgentAfterInstall": "インストール後のエージェントの構成",
+        "installUsingHelm": " Helm チャートを使用したインストール",
+        "installUsingYaml": "YAML を使用したインストール"
+      },
+      "instructions": {
+        "operator": {
+          "installOperatorsManually": "ステップ 1: オペレーターを手動でインストールします。",
+          "installOperatorsManuallySubtext": "最新の Operator がインストールされ、1.x CRD はアップグレードされません。",
+          "enterAClusterNameAndOptionallyTheAgentZone": "ステップ 2: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
+          "configureCustomYamlFile": "ステップ 3: カスタム・リソース YAML ファイルを構成します。",
+          "configureCustomYamlFileSubtext1": "<installOperatorDoc>資料</installOperatorDoc> の指示に従ってください",
+          "configureCustomYamlFileSubtext2": "<networkAccess>モニター対象アプリケーションのネットワーク・アクセスの構成</networkAccess> の説明に従って、要件に合わせてホスト・エージェントをさらに構成することができます。",
+          "runTheFollowingCommand": "ステップ 4: 以下のコマンドを実行して、選択した構成で Instana エージェントをデプロイします。"
+        },
+        "enterAClusterNameAndOptionallyTheAgentZone": "ステップ 1: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
+        "reviewPrerequisiteAndRunCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
+      }
+    },
+    "azure": {
+      "installingAgentOnAks": "Aks へのエージェントのインストール",
+      "configureAfterInstall": "インストール後のエージェントの構成"
+    },
+    "gcp": {
+      "dockerBuild": "Docker ビルド",
+      "cloudNativeBuildPack": "Cloud native buildpack",
+      "applicationRuntime": "アプリケーション・ランタイム",
+      "reviewInfoStep": "ステップ 2: 追加情報を確認し、Google Cloud Run 用の Instana の処理中コレクターを統合します。",
+      "installationMethod": "インストール方法",
+      "selectInstallationMethod": "ステップ 1: インストール方式とアプリケーション・ランタイムを選択します。",
+      "selectAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+      "useScript": "ステップ 2: GCE インスタンスの「始動スクリプト」として以下のスクリプトを使用する",
+      "integrateInstanaInProcessCollectorForGoogle": "ステップ 2: Google Cloud Run 用の Instana プロセス内コレクターを統合します。",
+      "setEnvironmentVariablesCloudRunServiceDefinition": "ステップ 3: クラウド実行サービス定義で以下の環境変数を設定します。",
+      "setEnvVariablesInCloudRunServiceRevision": "「クラウド実行サービスの改訂」で以下の環境変数を設定します。"
+    },
+    "macOs": {
+      "downloadingTheAgent": "エージェントのダウンロード",
+      "startingTheAgent": "エージェントの開始"
+    },
+    "mac": {
+      "selectAgentPackagingMode": "ステップ 1: エージェントのパッケージ化モードを選択します。",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
+    }
+  },
+  "welcomepage": {
+    "heading": "ようこそ",
+    "viewAll": "すべて表示",
+    "consumeData": {
+      "title": "データの取り込み",
+      "description": "開始して最初のエージェントをデプロイします。",
+      "buttonName": "エージェントのデプロイ",
+      "buttonType": "1 次"
+    },
+    "inviteTeammates": {
+      "title": "チームメイトの招待",
+      "description": "同僚とコラボレーションします。",
+      "buttonName": "招待を送信する",
+      "buttonType": "ghost"
+    },
+    "nextSteps": {
+      "title": "次のステップ",
+      "description": "「?」をクリックすると、セットアップ・ステップがさらに表示されます。 右上隅に表示されます。",
+      "buttonName": "回答を見る",
+      "buttonType": "ghost"
+    },
+    "component": {
+      "applicationWidget": {
+        "label": "アプリケーション",
+        "name": "名前",
+        "calls": "呼び出し",
+        "latency": "待ち時間",
+        "erroneousCallRate": "エラーのある呼び出し率",
+        "openCreationDialog": "作成ダイアログを開く"
+      },
+      "eventWidget": {
+        "label": "イベント",
+        "incidents": "インシデント",
+        "critical": "クリティカル",
+        "warning": "警告",
+        "viewEvents": "イベントの表示"
+      },
+      "platformWidget": {
+        "platforms": "プラットフォーム",
+        "cloudFoundry": "Cloud Foundry",
+        "vsphere": "vSphere",
+        "openstack": "OpenStack",
+        "ibmp": "IBM Power HMC",
+        "powervcRegion": "PowerVC リージョン",
+        "sap": "SAP",
+        "ibmz": "IBM Z HMC",
+        "kubernetes": "Kubernetes",
+        "name": "名前",
+        "nodes": "ノード",
+        "namespaces": "名前空間",
+        "pods": "ポッド数"
+      },
+      "bizopsWidget": {
+        "label": "ビジネス・モニタリング",
+        "name": "名前",
+        "activities": "アクティビティー",
+        "count": "数"
+      },
+      "incidentsWidget": {
+        "label": "インシデント",
+        "active": "アクティブ",
+        "title": "役職",
+        "on": "オン",
+        "started": "開始済み",
+        "end": "語末"
+      },
+      "websitesWidget": {
+        "label": "Web サイト",
+        "name": "名前",
+        "pageViews": "ページ・ビュー",
+        "onLoadTimes": "OnLoad 回"
+      },
+      "mobileAppsWidget": {
+        "label": "モバイル・アプリケーション",
+        "name": "名前",
+        "sessions": "セッション数",
+        "views": "ビュー"
+      },
+      "infrastructureWidget": {
+        "label": "インフラストラクチャー",
+        "mean": "平均値",
+        "name": "名前",
+        "os": "OS",
+        "cpuNum": "CPU の数",
+        "cpuUsage": "CPU 使用率",
+        "created": "作成日",
+        "started": "開始済み"
+      }
+    },
+    "noData": {
+      "applicationWidget": {
+        "header": "アプリケーションはありません",
+        "description": "監視するサービスに関する独自の視点を作成します。",
+        "buttonName": "アプリケーション・パースペクティブの作成"
+      },
+      "incidentsWidget": {
+        "header": "インシデントなし",
+        "description": "インシデントは、アプリケーションのサービス品質の問題を検出、理解、および調査するのに役立ちます。"
+      },
+      "websitesWidget": {
+        "header": "Web サイトなし",
+        "description": "Web サイトの追加とデータ収集の開始",
+        "buttonName": "Web サイトの追加"
+      },
+      "mobileListWidget": {
+        "header": "モバイル・アプリがありません",
+        "description": "モバイル・アプリケーションを追加し、データの収集を開始します。",
+        "buttonName": "モバイル・アプリケーションの追加"
+      },
+      "infrastructureWidget": {
+        "header": "ホスト、コンテナー、またはプロセスがありません",
+        "description": "デプロイされたエージェントの結果をここで見つけます。"
+      },
+      "platformsWidget": {
+        "header": "プラットフォームなし",
+        "description": "インストールされているすべてのプラットフォームがここにあります。"
+      },
+      "businessMonitoringWidget": {
+        "header": "ビジネス・プロセスがありません",
+        "description": "IBM Business Automation Workflow を有効にするか、Instana を構成してビジネス・プロセスからビジネス・データを収集して保管します。"
+      }
+    }
   }
 }

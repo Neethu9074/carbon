@@ -84,7 +84,7 @@
     "platform_permissions": "Zugriff auf {{quantityOfAreas}}",
     "analyticsContentMessage": "Kann Daten in Analytics anzeigen, die durch den Zugriffsbereich in Websites, mobilen Apps, Anwendungen, Plattformen und Infrastruktur definiert sind",
     "infrastructureContentMessage": "Kann Entitäten anzeigen, die durch den Zugriffsbereich in Anwendungen, Plattformen, Infrastruktur und optional durch DFQ definiert sind",
-    "eventsAndAlertsContentMessage": "Kann Ereignisse und Alerts entsprechend dem Zugriffsbereich anzeigen, der in Websites, mobilen Apps, Anwendungen, Plattformen und Infrastruktur definiert ist",
+    "eventsAndAlertsContentMessage": "Kann Ereignisse und Alerts entsprechend dem Zugriffsbereich anzeigen, der in Websites, mobilen Apps, Anwendungen, synthetischer Überwachung, Plattformen und Infrastruktur definiert ist",
     "permissions": "Berechtigungen",
     "additionalPermissions": "Zusätzliche Berechtigungen",
     "permissions_DASHBOARD": "Berechtigungen für angepasste Dashboards",
@@ -154,7 +154,10 @@
     "contribution_filter": "Filter für Beiträge",
     "contributionFilter_description": "Der Beitragsfilter wird beim Erstellen neuer Anwendungskonfigurationen angewendet. In der Anwendungskonfiguration kann der Beitragsfilter mit Filtertags nach einem Operator {{logicalOperator}} eingegrenzt werden",
     "contributionFilter_downstreamCalls": "Bestimmen Sie die maximale Ebene zusätzlicher Informationen, die in die Anwendungsperspektiven eingebunden werden können",
-    "contributionFilter_name": "Name"
+    "contributionFilter_name": "Name",
+    "contributionFilter_name_mayNotBeBlank": "Der Name des Beitragsfilters darf nicht leer sein.",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "Der Name des Beitragsfilters darf nicht länger als 128 Zeichen sein.",
+    "contributionFilter_name_alreadyUsed": "Der Beitragsfiltername wird bereits verwendet."
   },
   "selectItemForm": {
     "doneButton": "Erledigt"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "Zugriffsebene",
-    "configuration_summary": "Konfigurationszusammenfassung",
+    "permissions": "Berechtigungen",
     "selection": "Nicht verfügbar",
     "selection_access_all": "Auf alle zugreifen",
     "selection_limited_access": "Eingeschränkter Zugriff",
@@ -187,7 +190,7 @@
     "role_viewer": "Anzeigeberechtigter",
     "role_custom": "Angepasst",
     "role_contributor": "Beitragender",
-    "role_permissions": "Rolle/Berechtigungen",
+    "access_type": "Zugriffstyp",
     "roleTooltip_websites": "Viewer: Berechtigung zum Anzeigen von Website-Dashboards (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Berechtigung zum Erstellen neuer Websites; Website-Dashboards anzeigen, konfigurieren und löschen.",
     "roleTooltip_mobileApps": "Viewer: Berechtigung zum Anzeigen von Dashboards für mobile Apps (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Berechtigung zum Erstellen neuer mobiler Apps; Dashboards für mobile Apps anzeigen, konfigurieren und löschen.",
     "roleTooltip_applications": "Viewer: Berechtigung zum Anzeigen von Anwendungsdashboards (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Berechtigung zum Erstellen neuer Anwendungen; Anwendungsdashboards anzeigen, konfigurieren und löschen.",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "Bereich mit eingeschränktem Zugriff (Anzeigeberechtigter)",
     "contribution_filter_warning": {
       "firstParagraph": "Jede Änderung, die Sie speichern, aktualisiert alle Anwendungsperspektiven, die diesen Beitragsfilter verwenden.",
-      "secondParagraph": "Wenn Sie die Rolle ändern, wird der Beitragsfilter gelöscht. Alle Anwendungsperspektiven, die den Beitragsfilter verwenden, können dann von jedem Benutzer mit Eigentümerzugriff auf den Abschnitt \"Anwendungen\" bearbeitet werden. Dieser Vorgang kann nicht rückgängig gemacht werden."
+      "secondParagraph": "Wenn Sie den Zugriffstyp ändern, wird der Beitragsfilter gelöscht. Alle Anwendungsperspektiven, die den Beitragsfilter verwenden, können von jedem Benutzer mit Eignerzugriff im Abschnitt \"Anwendungen\" bearbeitet werden."
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "Zugriff für alle Anwendungsperspektiven unter dieser Einheit.",
-        "role_permissions_contributor": "Alle Anwendungsdashboards unter dieser Einheit anzeigen. Erstellen, konfigurieren und löschen Sie Anwendungsdashboards mithilfe des Beitragsfilters."
+        "access_level": "Zugriff auf alle Anwendungsperspektiven mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen.",
+        "role_permissions_contributor": "Erstellen Sie Anwendungsperspektiven mithilfe des Beitragsfilters. Sie können diese Anwendungsperspektiven anzeigen, konfigurieren und löschen. Andere Anwendungsperspektiven anzeigen, wenn Zugriff erteilt wird."
       },
       "limited_access": {
-        "access_level": "Eingeschränkter Zugriff nur für die unten ausgewählten Anwendungsdashboards.",
-        "access_level_contributor": "Eingeschränkter Zugriff nur für die unten ausgewählten Anwendungsdashboards",
+        "access_level": "Nur auf die aufgelisteten Anwendungen mit dem ausgewählten Zugriffstyp und alle zusätzlichen Berechtigungen zugreifen.",
+        "access_level_contributor": "Sie finden die Anwendungen mit Entwicklerzugriff im Teilfenster für die Zugriffskonfiguration für die Benutzer-oder Gruppendetails. <br /><br />Greifen Sie auf die Anwendungsperspektiven mit dem Beitragsfilter zu, der als Mitarbeiter angewendet wird. <br />Auf die ausgewählten Anwendungsperspektiven als Viewer zugreifen",
         "role_permissions_contributor": "Erstellen Sie Anwendungsdashboards mit angewendetem Beitragsfilter. Sie können diese Anwendungsdashboards anzeigen, konfigurieren und löschen, die für den Beitragsfilter erstellt wurden."
       },
-      "role_permissions_owner": "Erstellen, konfigurieren, sichten und löschen Sie Anwendungsdashboards.",
-      "role_permissions_viewer": "Zeigen Sie die Dashboards der Anwendungsperspektive und ihre Konfiguration an."
+      "role_permissions_owner": "Erstellen, konfigurieren, anzeigen und löschen Sie Anwendungsperspektiven.",
+      "role_permissions_viewer": "Anwendungsperspektiven und ihre Konfiguration anzeigen."
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "Zugriff auf alle dieser Einheit untergeordneten Entitätsdashboards, die sich auf den Zugriff auf Anwendungen und Plattformen beziehen."
+        "access_level": "Greifen Sie auf alle Entitätsdashboards unter dieser Einheit zu, die sich auf den Zugriff für Anwendungen und Plattformen beziehen."
       },
       "role_permissions_owner": "Entitätsdashboards anzeigen.",
       "role_permissions_viewer": "Entitätsdashboards anzeigen."
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "Zugriff für alle Namensbereiche und Cluster unter dieser Einheit."
+        "access_level": "Zugriff auf alle Namensbereiche und Cluster mit dem ausgewählten Zugriffstyp und alle zusätzlichen Berechtigungen."
       },
       "limited_access": {
-        "access_level": "Eingeschränkter Zugriff nur für die unten ausgewählten Namensbereiche und Cluster."
+        "access_level": "Greifen Sie nur auf die aufgelisteten Namensbereiche und Cluster mit dem ausgewählten Zugriffstyp und alle zusätzlichen Berechtigungen zu."
       },
       "role_permissions": "Namensbereiche und Cluster anzeigen."
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "Zugriff für alle mobilen Apps unter dieser Einheit."
+        "access_level": "Zugriff auf alle mobilen Apps mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen."
       },
       "limited_access": {
-        "access_level": "Eingeschränkter Zugriff nur für die unten ausgewählten mobilen Apps."
+        "access_level": "Nur auf die aufgelisteten mobilen Apps mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zugreifen."
       },
       "role_permissions_owner": "Mobile Apps erstellen, konfigurieren, anzeigen und löschen.",
-      "role_permissions_viewer": "Mobile Apps und ihre Konfiguration anzeigen."
+      "role_permissions_viewer": "Mobile Apps anzeigen."
     },
     "synthetics": {
       "access_all": {
-        "access_level": "Zugriff für alle synthetischen Tests unter dieser Einheit."
+        "access_level": "Greifen Sie auf alle synthetischen Tests mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zu."
       },
       "limited_access": {
-        "access_level": "Eingeschränkter Zugriff nur für die unten ausgewählten synthetischen Tests."
+        "access_level": "Nur auf die aufgelisteten synthetischen Tests mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zugreifen."
       },
       "role_permissions_owner": "Synthetische Tests erstellen, konfigurieren, anzeigen und löschen.",
       "role_permissions_viewer": "Synthetische Tests und ihre Konfiguration anzeigen."
     },
     "website": {
       "access_all": {
-        "access_level": "Zugriff für alle Websites unter dieser Einheit."
+        "access_level": "Greifen Sie auf alle Websites mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zu."
       },
       "limited_access": {
-        "access_level": "Eingeschränkter Zugriff nur für die unten ausgewählten Websites."
+        "access_level": "Greifen Sie nur auf die aufgelisteten Websites mit dem ausgewählten Zugriffstyp und allen zusätzlichen Berechtigungen zu."
       },
       "role_permissions_owner": "Websites erstellen, anzeigen und löschen.",
-      "role_permissions_viewer": "Websites und ihre Konfiguration anzeigen."
+      "role_permissions_viewer": "Websites anzeigen."
     }
   },
   "cardTitle_Area": "Bereich",
@@ -341,7 +344,15 @@
       "wrong": "Es liegt ein Fehler vor",
       "errorInfo": "Daten können nicht aus der Datenbank abgerufen werden",
       "failed": "Fehler",
-      "inProgress": "In Bearbeitung"
+      "inProgress": "In Bearbeitung",
+      "deletionUntilTime": "'Löschen bis'-Zeit",
+      "deletionUntilDate": "Löschen bis Datum",
+      "untilDateValidationMessage": "Das Datum muss dem aktuellen Datum entsprechen oder vor diesem liegen",
+      "reasonValidationMessage": "Der Löschgrund darf nicht leer sein",
+      "toastSuccessTitle": "Protokolllöschung erfolgreich",
+      "toastSuccessMessage": "Protokolle für den ausgewählten Zeitraum wurden gelöscht.",
+      "toastErrorTitle": "Löschen des Protokolls fehlgeschlagen",
+      "toastErrorMessage": "Protokolle konnten nicht gelöscht werden. Versuchen Sie es erneut."
     },
     "failedToSaveConfig": "Fehler beim Speichern der Konfiguration: {{err}}",
     "IdPMetadataRequired": "IdP-Metadatendatei ist erforderlich",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "Ermöglicht den Zugriff auf die Überwachungsfunktion {{label}}.",
     "failedToSaveGroup": "Fehler beim Speichern der Gruppe: {{err}}",
     "limitedAccess": "Eingeschränkter Zugriff",
-    "filterInvites": "Einladungen filtern",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Sind Sie sicher, dass Sie die Einladung zum Beitritt zu Tenant <strong>{{tenant}}</strong> für <strong>{{email}}</strong> widerrufen möchten?",
     "inviteUser": "Benutzer einladen",
     "sendInvitation": "Einladung senden",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "URL des Salesforce-Unternehmens",
     "alertChannelDocumentationMessage": "Weitere Informationen zum Einrichten dieses Alertkanals finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Stellen Sie sicher, dass der Benutzerzugriff auf Instana in Ihrem Identitätsprovider inaktiviert ist.",
-    "createIDPConfirmationDescription": "Anstehende Einladungen werden gelöscht. Benutzer werden automatisch von Ihrem Identitätsprovider (IdP) bereitgestellt."
+    "createIDPConfirmationDescription": "Anstehende Einladungen werden gelöscht. Benutzer werden automatisch von Ihrem Identitätsprovider (IdP) bereitgestellt.",
+    "revokeInvitationForUserWithEmail": "Einladung zur Teilnahme am {{tenant}}-Tenant für {{email}} widerrufen",
+    "invitationValidUntil": "Einladung gültig bis",
+    "invitedBy": "Eingeladen von"
   },
   "languageSelection": {
     "language": "Sprache",

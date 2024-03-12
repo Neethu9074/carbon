@@ -1,4 +1,6 @@
 {
+  "welcomeToInstana": "¡Bienvenido a Instana!",
+  "getStartedAndInstallYourFirstAgent": "Empiece e instale el primer agente.",
   "trialExpirationPopUp": {
     "titleBeforeTrialPeriodEnd": "Su evaluación ha caducado",
     "titleAfterTrialPeriodEnd": "El periodo de evaluación ha finalizado",
@@ -9,12 +11,529 @@
     "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Solicitar un presupuesto",
     "buyNowBtn": "Comprar en AWS",
-    "alreadyHaveLicense": "¿Ya tiene una licencia? Actívela en <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>."
+    "alreadyHaveLicense": "¿Ya tiene una licencia? Actívela en <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>.",
+    "getAnswers": "Obtener respuestas",
+    "titleDetail": {
+      "trial": "Prueba",
+      "sandboxTrial": "Prueba de recinto de seguridad"
+    }
   },
   "playwithinstana": {
     "title": "Jugar con Instana",
     "content": "Preparado para supervisar su propio entorno",
     "bookdemo": " Reservar una demo",
-    "freetrial": " Prueba gratuita"
+    "freetrial": " Prueba gratuita",
+    "taketour": " Realice una visita guiada"
+  },
+  "agentDetails": {
+    "agentMode": {
+      "dynamic": "Dinámico",
+      "static": "Estático"
+    },
+    "docker": {
+      "pullTheAgentContainerImage": "Extraer la imagen del contenedor del agente de Instana",
+      "runTheInstanaAgentContainerImage": "Ejecutar la imagen del contenedor del agente de Instana",
+      "upgradeTheInstanaAgentContainerImage": "Actualizar la imagen del contenedor del agente de Instana",
+      "installAgentOnDocker": "Instalar agente en Docker",
+      "configurationOptions": "Opciones de configuración"
+    },
+    "jvmVendor": {
+      "azulZulu18": "Azul Zulu 1.8",
+      "eclipseOpenJD11": "Eclipse OpenJ9 11"
+    },
+    "askForHelp": {
+      "email": "correo electrónico",
+      "send": "Enviar",
+      "askForHelpTitle": "Pedir ayuda a un colega",
+      "thisWillBeAvailableOnceYourInstanceIsReady": "Estará disponible una vez que la instancia esté lista.",
+      "inviteAColeague": "Invitar a un colega",
+      "agentKey": "Clave de agente"
+    },
+    "common": {
+      "agentCatalog": "Catálogo de agentes",
+      "step1": "Paso 1: ",
+      "step2": "Paso 2: ",
+      "step3": "Paso 3: ",
+      "step4": "Paso 4: ",
+      "step5": "Paso 5: ",
+      "download": "Descargar",
+      "clusterName": "Nombre de clúster",
+      "agentZoneOptional": "Zona de agente (opcional)",
+      "networkRequirements": "Requisitos de red",
+      "toInstallAndRunAnAgentCompleteTheFollowingSteps": "Para instalar y ejecutar un agente, realice los pasos siguientes.",
+      "enterANameForAClusterGroupYouWantToAddThisClusterTo": "Especifique un nombre para un grupo de clústeres<br>al que desee añadir este clúster.",
+      "agentKey": "Clave de agente de Instana",
+      "documentationTitle": "Documentación",
+      "choosingTheProperInstallationMethod": "Elección del método de instalación adecuado",
+      "configuringTheAgentAfterInstall": "Configuración del agente después de la instalación",
+      "packaging": "Empaquetando",
+      "runtime": "Tiempo de ejecución",
+      "prerequisitesTitle": "Requisitos previos",
+      "viewDeployedAgents": "Ver agentes desplegados",
+      "openAgentDashboardOptional": "Opcional: una vez que el agente se haya desplegado correctamente, puede verlo en el mapa de infraestructura.",
+      "downloadKey": "Descargar clave",
+      "support": "Soporte",
+      "sideCard": {
+        "prerequisites": "Requisitos previos",
+        "documentation": "Documentación",
+        "askAColleagueForHelp": "Pedir ayuda a un colega"
+      }
+    },
+    "kubernetes": {
+      "kubernetes": {
+        "enterAClusterNameAndOptionallyTheAgentZone": "Paso 1: Especifique un nombre de clúster y, opcionalmente, la zona de agente de la que desea que forme parte el clúster.",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Paso 2: Revise los requisitos previos y ejecute el código de despliegue del agente.",
+        "support": "Soporte"
+      },
+      "operator": {
+        "installUsingTheOperator": "Instalación utilizando el operador",
+        "installAnAgentOnKubernetes": "Instalar un agente en Kubernetes",
+        "installOperatorsManually": "Paso 1: Instale los operadores manualmente.",
+        "theLatestOperatorWillBeInstalled": "Se instalará el operador más reciente y no se actualizarán las CRD de 1.x:",
+        "enterAClusterNameAndOptionallyTheAgentZoneThatYouWantTheClusterToBePartOf": "Paso 2: Especifique un nombre de clúster y, opcionalmente, la zona de agente de la que desea que forme parte el clúster.",
+        "configureTheCustomResourceYAMLFile": "Paso 3: Configure el archivo YAML del recurso personalizado.",
+        "followTheInstructionsInTheDocumentation": "Siga las instrucciones de la <documentation>documentación</documentation>.",
+        "runTheFollowingCommandToDeployTheInstanaAgent": "Paso 4: Ejecute el mandato siguiente para desplegar el agente de Instana con la configuración elegida."
+      },
+      "helmChart": {
+        "installAnAgentOnKubernetes": "Instalar un agente en Kubernetes",
+        "configurationParameters": "Parámetros de configuración"
+      },
+      "k8_deamon": {
+        "installUsingYAML": "Instalar utilizando YAML",
+        "installAnAgentOnKubernetes": "Instalar un agente en Kubernetes"
+      },
+      "k8_aks": {
+        "installAnAgentOnAKS": "Instalar un agente en AKS"
+      },
+      "k8_eks": {
+        "installAnAgentOnAWSEKS": "Instalar un agente en AWS EKS"
+      }
+    },
+    "unix": {
+      "selectThePlatformArchitecture": "Seleccionar la arquitectura de plataforma",
+      "platformArchitecture": "Arquitectura de la plataforma",
+      "previewPrerequisites": "Vista previa de los requisitos previos",
+      "installingInstanaAgent": "Instalación del agente de Instana"
+    },
+    "aws": {
+      "step1": "Paso 1: ",
+      "step2": "Paso 2: ",
+      "step3": "Paso 3: ",
+      "step4": "Paso 4: ",
+      "instanaLambdaLayerManualWrapping": "Capa de Instana Lambda con encapsulado manual",
+      "awsLambdaRubyDocumentation": "Documentación de AWS Lambda Ruby",
+      "monitoringAwsLambdaDocumentation": "Supervisión de la documentación de AWS Lambda",
+      "awsLambdaGoDocumentation": "Documentación de AWS Lambda Go",
+      "taskDefinition": "Definición de tarea",
+      "assignECSTaskDefinitionWithFollowingIAMPermission": "Asigne a la definición de tarea de ECS un rol con al menos los siguientes permisos de IAM:",
+      "createECSTaskDefinition": "Crear una definición de tarea de ECS, utilizando esta plantilla",
+      "ec2": "Elastic Compute Cloud (EC2)",
+      "ecs": "Elastic Container Service (ECS)",
+      "selectLambdaRuntime": "Seleccione el tiempo de ejecución de Lambda.",
+      "lambdaSetEnvironmentVariables": "Establezca las siguientes variables de entorno en la sección correspondiente de la página de configuración de AWS Lambda",
+      "referenceToAwsLambdaGoDocumentation": "Las funciones de AWS Lambda escritas en Go se deben instrumentar manualmente para recopilar datos de rastreo. Siga las instrucciones de la <awsLambdaGoDoc>Documentación de AWS Lambda Go</awsLambdaGoDoc>.",
+      "reviewPrerequisitesAndConfigureLambda": "Revise los requisitos previos y configure las funciones de AWS Lambda para el rastreo nativo.",
+      "referDocumentationForSettingUpAwsSensor": "Para obtener detalles sobre cómo configurar el sensor AWS de Instana, consulte la <awsSensorDoc> Documentación del servicio AWS< /awsSensorDoc>.",
+      "referenceToAwsLambdaMonitoringDoc": "Los métodos alternativos para configurar el rastreo de Lambda nativo se detallan en la <awsLambdaMonitoring>documentación de supervisión de AWS Lambda</awsLambdaMonitoring>.",
+      "setupUpInstanaAwsSensorRunningInAwsRegion": "Configure un sensor de Instana AWS que se ejecute en su región de AWS",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Revise los requisitos previos y ejecute el código de despliegue del agente.",
+      "setIAMPermissionsAndEditTrustRelationship": "Establecer permisos de IAM y editar la relación de confianza",
+      "selectWhereToRunAwsAgentOn": "Seleccione dónde ejecutar el agente de AWS",
+      "selectApplicationRunime": "Paso 1: Seleccione el tiempo de ejecución de la aplicación",
+      "applicationRuntime": "Entorno de ejecución de la aplicación",
+      "reviewPrerequisiteAndSetEnvVariableEcs": "Paso 2: Revise el requisito previo y establezca la variable de entorno en la definición de tarea de ECS.",
+      "instanaEndpointUrl": "URL del punto final de Instana",
+      "instanaEndpointPort": "Puerto del punto final de Instana",
+      "insertLinesToDocker": "Paso 2: Inserte las líneas siguientes en el archivo Docker antes del ENTRYPOINT o del último mandato CMD.",
+      "initiateDockerBuildProcess": "Paso 3: Inicie el proceso de compilación de Docker iniciando sesión con las credenciales proporcionadas.",
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "romanStep1": "(i) ",
+      "romanStep2": "(ii) ",
+      "romanStep3": "(iii) ",
+      "selectAwsRegion": "Seleccione la región de AWS",
+      "awsRegion": "Región de AWS",
+      "awsCommandLineInterfaceValue": "Proporcione los valores y utilice un mandato similar al siguiente para utilizar la interfaz de línea de mandatos de AWS",
+      "amazonResourceName": "Nombre de recurso de Amazon (ARN)",
+      "setEnvVariablesInLambdaFunction": "Establezca las variables de entorno siguientes en la función Lambda.",
+      "selectInstanaLambdaLayer": "Seleccione la capa de Instana Lambda con el nombre de recurso de Amazon (ARN) a continuación.",
+      "setEnvVariablesInECSTaskDefinition": "Establezca las variables de entorno siguientes en la definición de tarea de ECS.",
+      "integrateInstanaInProcessCollectorForAws": "Paso 2: Integre el recopilador en curso de Instana para AWS.",
+      "setEnvironmentVariablesInECSTaskDefinition": "Paso 3: Establezca las siguientes variables de entorno en la definición de tarea de ECS.",
+      "installationMethod": "Método de instalación",
+      "applicationDirectory": "Directorio de aplicación",
+      "workDirDirectoryInDocker": "Normalmente se establece como el directorio WORKDIR en Dockerfile.",
+      "lambdaFunctionName": "Nombre de función Lambda",
+      "referenceToAwsLambdaRubyDocumentation": "Las funciones de AWS Lambda escritas en Go se deben instrumentar manualmente para recopilar datos de rastreo. Siga las instrucciones de la <awsLambdaRubyDoc>Documentación de AWS Lambda Ruby</awsLambdaRubyDoc>.",
+      "preferredMethodForEnablingTracing": "El método preferido para habilitar el rastreo en funciones de AWS Lambda basadas en Java es utilizar la capa de Instana Lambda con AutoTrace tal como se describe en los pasos siguientes.",
+      "setupAwsLambdaFunctionsForNativeTracing": "Revise los requisitos previos y configure las funciones de AWS Lambda para el rastreo nativo con los pasos siguientes.",
+      "useScriptAsUserDataForEc2Instance": "Utilice este script como datos de usuario para la instancia de EC2",
+      "selectAgentPackagingAndRuntime": "Seleccione la modalidad de empaquetado y el tiempo de ejecución del agente",
+      "awsLambdaPythonAutotrace": "El modo preferido para configurar funciones AWS Lambda basadas en Python para el rastreo es el nivel Instana Lambda con AutoTrace.",
+      "preferredMethodForNodeJsLambdaConfiguration": "La forma preferida de configurar las funciones AWS Lambda basadas en Node.js 8.x es utilizar la capa <lambdaManualWrapping>Instana Lambda con encapsulado manual</lambdaManualWrapping>.",
+      "imageOptions": {
+        "linuxGlibcBased": "Linux (basado en glibc)",
+        "alpineLinuxMuslBased": "Alpine Linux (basado en musl)"
+      },
+      "iamPermissions": "Permisos de IAM",
+      "trustRelationships": "Relaciones de confianza",
+      "enterAClusterNameAndOptionallyTheAgentZone": "Especifique un nombre de clúster y, opcionalmente, la zona de agente de la que desea que forme parte el clúster.",
+      "awsLambdaNodeJsAutotrace": "El modo preferido para configurar las funciones AWS Lambda basándose en Node.js 10.x (o más reciente) para el rastreo es el nivel de Instana Lambda con AutoTrace.",
+      "selectAwsRegionAndLambdaHandler": "Seleccione la región de AWS y especifique el manejador lambda actual",
+      "setInstanaAutoWrapHandlerAsLambdaFunction": "Establezca el manejador de ajuste automático de Instana como manejador para la función Lambda.",
+      "autoWrapHandler": "Manejador de ajuste automático",
+      "runCodeBelow": "Ejecute el código de despliegue de agente siguiente.",
+      "prerequisiteLinks": {
+        "networkRequirements": "Requisitos de red"
+      },
+      "documentationLinks": {
+        "installAgentOnAwsEc2": "Instale el agente en AWS EC2 (Windows)",
+        "monitoringGo": "Supervisión de Go",
+        "awsLambdaNativeTracingForRuby": "Rastreo de AWS Lambda nativo para Ruby",
+        "awsLambdaNativeTracingForPython": "Rastreo de AWS Lambda nativo para Python",
+        "gcrDocumentation": "Documentación de Google Cloud Run",
+        "gcBuildpackDocs": "Documentación del paquete de compilación de Google Cloud Run",
+        "setupGcpAgent": "Configurar el agente GCP",
+        "awsLambdaNativeTracingForNodeJs": "Rastreo de AWS Lambda nativo para Node.js",
+        "instanaLambdaLayerAndManualWrapping": "Capa de Instana Lambda y ajuste manual",
+        "awsLambdaEnvVariables": "Variables de entorno de AWS Lambda",
+        "monitoringPython": "Supervisión de Python",
+        "runningStartupScript": "Ejecución del script de inicio",
+        "uninstallingTheHostAgent": "Desinstalación del agente de host",
+        "awsLambdaNativeTracingForJava": "Rastreo de AWS Lambda nativo para Java",
+        "awsLambdaFunctions": "Funciones de AWS Lambda",
+        "monitoringAwsFargate": "Supervisión de AWS Fargate",
+        "monitoringAwsFargateJava": "Supervisión de AWS Fargate (Java)",
+        "configureTaskDefinition": "Configuración de la definición de tarea",
+        "monitoringAwsFargateDotnet": "Supervisión de AWS Fargate (.Net Core)",
+        "monitoringAwsFargateNodejs": "Supervisión de AWS Fargate (Node.js)",
+        "monitoringAwsFargatePython": "Supervisión de AWS Fargate (Python)",
+        "monitoredAwsServices": "Servicios AWS supervisados",
+        "monitoringNodejs": "Js del nodo de supervisión",
+        "installGcrCollectors": "Instalar recopiladores en curso de Google Cloud Run",
+        "installAgentOnEc2": "Instalar agente en AWS EC2",
+        "configurationOptions": "Opciones de configuración",
+        "installAgentAwsEks": "Instalar un agente en AWS EKS",
+        "monitoringGcr": "Supervisión de Google Cloud Run",
+        "monitoringAwsFargateRuby": "Supervisión de AWS Fargate (Ruby)",
+        "awsServiceDocumentation": "Documentación del servicio AWS",
+        "monitoringAwsLambda": "Supervisión de AWS Lambda",
+        "configuringAwsLambdaMonitoring": "Configuración de la supervisión de AWS Lambda",
+        "awsLambdaNativeTracingForGo": "Rastreo de AWS Lambda nativo para Go"
+      }
+    },
+    "runtime": {
+      "go": "Go",
+      "java": "Java",
+      "dotnet": ".NET Core",
+      "nodejs": "Node.js",
+      "python": "Python",
+      "nodejs8": "Node.js 8.x",
+      "nodejs10Plus": "Node.js 10.x o posterior",
+      "python2and3": "Python 2.7 y 3.x",
+      "ruby": "Ruby"
+    },
+    "bosh": {
+      "boshDirectorRuntimeConfig": "Configuración de tiempo de ejecución de BOSH Director",
+      "specifyDesiredBoshReleaseVersion": "Especifique la versión de release de Instana BOSH que desea.",
+      "downloadBoshReleases": "Descargue los siguientes releases de BOSH",
+      "createInstanaUAAClient": "Crear el cliente de Instana UAA",
+      "uploadBOSHReleasesToBOSHDirector": "Suba los releases de Instana BOSH a BOSH Director.",
+      "createInstanaUAAClientDesc": "En la cuenta de usuario y autenticación (UAA) de la base, cree un cliente con la autorización 'cloud_controller.admin_read_only'. La forma más fácil de crear el cliente de UAA necesario es utilizar la <uaacTool>herramienta uaac</uaacTool>.",
+      "uaaClientId": "ID de cliente de UAA",
+      "configuringTheCloudFoundrySensor": "Configuración del sensor de Cloud Foundry",
+      "uaaClientSecret": "Secreto de cliente de UAA",
+      "releaseVersion": "Versión de release",
+      "instanaBOSHArtifcatory": "Instana BOSH artifactory",
+      "deployingTheInstanaAgent": "Despliegue del agente de Instana",
+      "replaceTheCommandsBelow": "Sustituya en los mandatos siguientes '<uaa-api-endpoint>' por el punto final de la API de UAA y '<clients.admin-secret>' por el cliente de UAA con la autorización 'clients.admin' o 'clients.write'.",
+      "configureBoshAddons": "Configurar complementos de BOSH",
+      "chooseNameForCloudFoundryFoundation": "Elija un nombre para la base de Cloud Foundry",
+      "cloudFoundryFoundationName": "Nombre de la base de Cloud Foundry",
+      "applyFollowingRuntimeConfigurations": "Aplique lo siguiente como configuraciones de tiempo de ejecución de BOSH a BOSH Director",
+      "cloudFoundryUAACTool": "Herramienta de Cloud Foundry UAAC ",
+      "placeholderReleaseVersionEG001": "Versión del release, por ejemplo, '0.0.1'",
+      "placeholderFoundationNameEGProd": "El nombre de la instalación, por ejemplo, 'prod'",
+      "placeholderUaaClientIdEGMyClientId": "El ID del cliente de UAA, por ejemplo, 'my-client-id'",
+      "theUaaClientIdCannotBeBlank": "El ID del cliente de UAA no puede estar en blanco",
+      "placeholderUaaClientSecretEGMyClientSecret": "El secreto del cliente de UAA, por ejemplo, 'my-client-secret'",
+      "theUaaClientSecretCannotBeBlank": "El secreto del cliente de UAA no puede estar en blanco"
+    },
+    "tanzu": {
+      "downloadInstanaMonitoringApplicationMonitoring": "Descargue el mosaico \"Instana Microservices and Application Monitoring\" del enlace siguiente",
+      "vmwareTanzuNetworkLink": "Enlace de red de VMware Tanzu",
+      "reviewThePrerequisites": "Revisar los requisitos previos",
+      "installingTheInstanaAgent": "Instalación del agente de Instana",
+      "vmwareTanzuDocumentation": "Documentación de VMware Tanzu",
+      "vmwareTanzuNetwork": "Red VMware Tanzu",
+      "addTileToOpsManagerAndConfigureIt": "Añada el mosaico a Ops Manager y configúrelo",
+      "addInstanaApplicationMonitoring": "Añada el mosaico \"Instana Microservices Application Monitoring\" a Ops Manager y aplique lo siguiente al separador \"Configuración del backend\" del mosaico.",
+      "nameYourVmwareFoundation": "Asigne un nombre a su base de VMware Tanzu",
+      "assignANameToVMwareTanzuFoundation": "Asigne un nombre a su base de VMware Tanzu (por ejemplo, \"prod-eu\" o \"dev01\") accediendo al valor de zona de agente en la pestaña Configuración del agente.",
+      "applyTileChanges": "Aplicar los cambios del mosaico",
+      "applyTheChangesMadeWithinThisTile": "Aplicar los cambios realizados en este mosaico a todos los demás mosaicos de Ops Manager. Los mosaicos no seleccionados para el paso 'Aplicar cambios' en Ops Manager seguirán ocultos en Instana."
+    },
+    "windows": {
+      "common": {
+        "ConfigureTheAgent": "Paso 1: Configure el agente",
+        "packaging": "Empaquetando",
+        "runtime": "Tiempo de ejecución",
+        "dynamic": "Dinámico",
+        "static": "Estático",
+        "previewPrerequisites": "Vista previa de los requisitos previos",
+        "supportedOperatingSystemsAndPlatformArchitectures": "Sistemas operativos y arquitecturas de plataforma soportados"
+      },
+      "windows_64_bit": {
+        "downloadTheLatestWindowsInstaller": "Paso 2: Descargue el instalador de Windows más reciente (64Bit)",
+        "agentInstaller": "Instalador del agente",
+        "launchTheInstallerAsAnApplicationAndSupplyTheConfigurationBelow": "Paso 3: Inicie el instalador como una aplicación y proporcione la configuración siguiente.",
+        "instanaBackendAddress": "Dirección del backend de Instana",
+        "instanaBackendPort": "Puerto del backend de Instana",
+        "instanaAgentKey": "Clave de agente de Instana",
+        "downloadkey": "Descargar clave",
+        "installTheAgent": "Instalar el agente (instalador de Windows)"
+      },
+      "windows_64_bit_unattended": {
+        "downloadTheWindowsInstaller": "Paso 2: Descargue el instalador de Windows, revise los requisitos previos y ejecute el código de despliegue del agente.",
+        "theLatestWindowsInstallerIsAvailableAtTheFollowingAddress": "El instalador de Windows más reciente (64Bit) está disponible en la siguiente dirección.",
+        "windowsInstaller": "Instalador de Windows (64 bits)",
+        "theFollowingCommandLineInstallationWillInstallTheInstanaAgent": "La siguiente instalación de línea de mandatos instalará el agente de Instana sin abrir la interfaz de usuario del instalador.",
+        "installTheAgent": "Instalar el agente (instalador de Windows)"
+      },
+      "windows_zip": {
+        "selectAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente.",
+        "selectPlatformArchitectureReviewThePrerequisites": "Paso 2: Seleccione la arquitectura de la plataforma, revise los requisitos previos y ejecute el código de despliegue del agente.",
+        "installingTheJDK": "Instalación del JDK",
+        "installTheAgent": "Instalar el agente (archivo ZIP)",
+        "hostAgentTypes": "Tipos de agente de host"
+      },
+      "windows_ec2_64": {
+        "selectTheAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente.",
+        "useTheScriptAsUserDataForTheEC2Instance": "Paso 2: Utilice el script como \"Datos de usuario\" para la instancia de EC2.",
+        "installTheScriptOnTheVirtualMachine": "Instale el script en la máquina virtual como un servicio de Windows y, a continuación, inícielo automáticamente.",
+        "installAgentOnAWSEC2Windows": "Instalar agente en AWS EC2 (Windows)",
+        "runCommandsOnAWSEC2": "Ejecutar mandatos en AWS EC2"
+      }
+    },
+    "linux": {
+      "linux_auto": {
+        "installAnAgentOnLinux": "Instalar un agente en Linux",
+        "configurationParameters": "Parámetros de configuración",
+        "troubleshootingInstallation": "Resolución de problemas de instalación",
+        "runningTheAgent": "Ejecución del agente"
+      },
+      "linux_deb_rpm": {
+        "step1DownloadTheInstallPackage": "Paso 1. Descargue el paquete de instalación.",
+        "DEBAndRPMPackage": "Paquete DEB y RPM",
+        "installUsingAPackage": "Instalar utilizando un paquete"
+      },
+      "linux_ec2": {
+        "selectTheAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente",
+        "Packaging": "Empaquetando",
+        "dynamic": "Dinámico",
+        "static": "Estático",
+        "runtime": "Tiempo de ejecución",
+        "azulZulu": "Azul Zulu 1.8",
+        "eclipseOpenJ9": "Eclipse OpenJ9 11",
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Paso 2: Revise los requisitos previos y ejecute el código de despliegue del agente.",
+        "installagentOnAWSEC2": "Instalar agente en AWS EC2",
+        "RuncommandsonAWSES2": "Ejecutar mandatos en AWS EC2",
+        "configurationParameters": "Parámetros de configuración"
+      },
+      "archive": {
+        "selectTheAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente",
+        "selecTthePlatformArchitecture": "Paso 2: Seleccione la arquitectura de plataforma",
+        "platformArchitecture": "Arquitectura de la plataforma",
+        "hostRequirements": "Requisitos de host",
+        "installUsingATarFile": "Instalar utilizando un archivo tar",
+        "startingTheAgent": "Inicio del agente",
+        "agentOptions": {
+          "linux64Bit": "Linux (64Bit)",
+          "linux32Bit": "Linux (32Bit)",
+          "linux64BitArm": "Linux (64 bits - ARM)",
+          "linux32BitArm": "Linux (32 bits - ARM)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux32BitPowerPc": "Linux (32Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 bits - PowerPC Little Endian)",
+          "linuxS390X": "Linux (s390x)"
+        }
+      },
+      "linux_gce": {
+        "installAnAgentOnLinux": "Instalar un agente en Linux",
+        "configurationParameters": "Parámetros de configuración"
+      }
+    },
+    "openshift": {
+      "documentLinks": {
+        "installOperatorByUsingOlm": "Instalación del operador utilizando OLM",
+        "setUpProject": "Configurar un proyecto y una cuenta de servicio",
+        "installAgentUsingOperator": "Instalar el agente utilizando el operador",
+        "configuringAgentAfterInstall": "Configuración del agente después de la instalación",
+        "installUsingHelm": " Instalar utilizando el gráfico Helm",
+        "installUsingYaml": "Instalar utilizando YAML"
+      },
+      "instructions": {
+        "operator": {
+          "installOperatorsManually": "Paso 1: Instale los operadores manualmente.",
+          "installOperatorsManuallySubtext": "Se instalará el operador más reciente y no se actualizarán las CRD de 1.x:",
+          "enterAClusterNameAndOptionallyTheAgentZone": "Paso 2: Especifique un nombre de clúster y, opcionalmente, la zona de agente de la que desea que forme parte el clúster.",
+          "configureCustomYamlFile": "Paso 3: Configure el archivo YAML del recurso personalizado.",
+          "configureCustomYamlFileSubtext1": "Siga las instrucciones de la <installOperatorDoc>documentación.</installOperatorDoc>",
+          "configureCustomYamlFileSubtext2": "Puede configurar además el agente de host según sus requisitos, tal como se describe en <networkAccess>Configurar el acceso de red para las aplicaciones supervisadas.</networkAccess>",
+          "runTheFollowingCommand": "Paso 4: Ejecute el mandato siguiente para desplegar el agente de Instana con la configuración elegida."
+        },
+        "enterAClusterNameAndOptionallyTheAgentZone": "Paso 1: Especifique un nombre de clúster y, opcionalmente, la zona de agente de la que desea que forme parte el clúster.",
+        "reviewPrerequisiteAndRunCode": "Paso 2: Revise los requisitos previos y ejecute el código de despliegue del agente."
+      }
+    },
+    "azure": {
+      "installingAgentOnAks": "Instalación de un agente en Aks",
+      "configureAfterInstall": "Configuración del agente después de la instalación"
+    },
+    "gcp": {
+      "dockerBuild": "Compilación de Docker",
+      "cloudNativeBuildPack": "Paquetes de compilación nativos de nube",
+      "applicationRuntime": "Entorno de ejecución de la aplicación",
+      "reviewInfoStep": "Paso 2: Revise la información adicional e integre el recopilador en curso de instana para Google Cloud Run.",
+      "installationMethod": "Método de instalación",
+      "selectInstallationMethod": "Paso 1: Seleccione el método de instalación y el tiempo de ejecución de la aplicación.",
+      "selectAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente",
+      "useScript": "Paso 2: Utilice el script siguiente como 'Script de inicio' para la instancia de GCE",
+      "integrateInstanaInProcessCollectorForGoogle": "Paso 2: Integre el recopilador en curso de Instana para Google Cloud Run.",
+      "setEnvironmentVariablesCloudRunServiceDefinition": "Paso 3: Establezca las variables de entorno siguientes en la definición del servicio Cloud Run.",
+      "setEnvVariablesInCloudRunServiceRevision": "Establezca las siguientes variables de entorno en la revisión del servicio Cloud Run."
+    },
+    "macOs": {
+      "downloadingTheAgent": "Descarga del agente",
+      "startingTheAgent": "Inicio del agente"
+    },
+    "mac": {
+      "selectAgentPackagingMode": "Paso 1: Seleccione la modalidad de empaquetado del agente.",
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Paso 2: Revise los requisitos previos y ejecute el código de despliegue del agente."
+    }
+  },
+  "welcomepage": {
+    "heading": "Bienvenido",
+    "viewAll": "Ver todo",
+    "consumeData": {
+      "title": "Consumir datos",
+      "description": "Empiece y despliegue el primer agente.",
+      "buttonName": "Desplegar agente",
+      "buttonType": "primario"
+    },
+    "inviteTeammates": {
+      "title": "Invitar a compañeros de equipo",
+      "description": "Colabore con sus colegas.",
+      "buttonName": "Enviar invitación",
+      "buttonType": "ghost"
+    },
+    "nextSteps": {
+      "title": "Próximos pasos",
+      "description": "Busque más pasos de configuración pulsando el símbolo ? en la esquina superior derecha.",
+      "buttonName": "Obtener respuestas",
+      "buttonType": "ghost"
+    },
+    "component": {
+      "applicationWidget": {
+        "label": "Aplicaciones",
+        "name": "Nombre",
+        "calls": "Llamadas",
+        "latency": "Latencia",
+        "erroneousCallRate": "Tasa de llamadas erróneas",
+        "openCreationDialog": "Abrir diálogo de creación"
+      },
+      "eventWidget": {
+        "label": "Sucesos",
+        "incidents": "Incidencias",
+        "critical": "Crítico",
+        "warning": "Aviso",
+        "viewEvents": "Ver sucesos"
+      },
+      "platformWidget": {
+        "platforms": "Plataformas",
+        "cloudFoundry": "Cloud Foundry",
+        "vsphere": "vSphere",
+        "openstack": "OpenStack",
+        "ibmp": "IBM Power HMC",
+        "powervcRegion": "Región de PowerVC",
+        "sap": "SAP",
+        "ibmz": "IBM Z HMC",
+        "kubernetes": "Kubernetes",
+        "name": "Nombre",
+        "nodes": "Nodos",
+        "namespaces": "Espacios de nombres",
+        "pods": "Pods"
+      },
+      "bizopsWidget": {
+        "label": "Supervisión de negocio",
+        "name": "Nombre",
+        "activities": "Actividades",
+        "count": "Count"
+      },
+      "incidentsWidget": {
+        "label": "Incidencias",
+        "active": "activo",
+        "title": "Título",
+        "on": "Activar",
+        "started": "Iniciado",
+        "end": "Fin"
+      },
+      "websitesWidget": {
+        "label": "Sitios web",
+        "name": "Nombre",
+        "pageViews": "Vistas de página",
+        "onLoadTimes": "OnLoad veces"
+      },
+      "mobileAppsWidget": {
+        "label": "Aplicaciones móviles",
+        "name": "Nombre",
+        "sessions": "Sesiones",
+        "views": "Vistas"
+      },
+      "infrastructureWidget": {
+        "label": "Infraestructura",
+        "mean": "media",
+        "name": "Nombre",
+        "os": "SO",
+        "cpuNum": "Número de CPU",
+        "cpuUsage": "Uso de CPU",
+        "created": "Creado",
+        "started": "Iniciado"
+      }
+    },
+    "noData": {
+      "applicationWidget": {
+        "header": "Sin aplicaciones",
+        "description": "Cree su propia perspectiva sobre los servicios que desea observar.",
+        "buttonName": "Crear perspectiva de aplicación"
+      },
+      "incidentsWidget": {
+        "header": "Sin incidencias",
+        "description": "Las incidencias le ayudan a detectar, comprender e investigar los problemas de calidad de servicio de sus aplicaciones."
+      },
+      "websitesWidget": {
+        "header": "Sin sitios web",
+        "description": "Añadir sitios web y empezar a recopilar datos",
+        "buttonName": "Añadir sitio web"
+      },
+      "mobileListWidget": {
+        "header": "No hay aplicaciones móviles",
+        "description": "Añada aplicaciones móviles y empiece a recopilar datos.",
+        "buttonName": "Añadir aplicaciones móviles"
+      },
+      "infrastructureWidget": {
+        "header": "No hay hosts, contenedores o procesos",
+        "description": "Busque aquí el resultado del agente desplegado."
+      },
+      "platformsWidget": {
+        "header": "Sin plataformas",
+        "description": "Aquí encontrará todas las plataformas instaladas."
+      },
+      "businessMonitoringWidget": {
+        "header": "No hay procesos empresariales",
+        "description": "Habilite IBM Business Automation Workflow o configure Instana para capturar y almacenar datos de negocio de procesos de negocio."
+      }
+    }
   }
 }
