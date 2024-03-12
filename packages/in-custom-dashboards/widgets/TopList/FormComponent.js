@@ -14,6 +14,7 @@ import {
   useFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
+import { source as logs } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
@@ -101,7 +102,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
             </SelectInSection>
           );
         })}
-        disabledDataSources={[event, sli]}
+        disabledDataSources={[event, sli, logs]}
         maxGrouping={50}
         withLastValue
       />

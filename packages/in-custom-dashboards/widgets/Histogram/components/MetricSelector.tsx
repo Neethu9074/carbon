@@ -27,6 +27,7 @@ import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConf
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 // @ts-expect-error
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { source as logs } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 
 interface MetricSelectorProps {
   form: MapForm<any>;
@@ -60,7 +61,7 @@ export default function MetricSelector({ form, onChange }: MetricSelectorProps) 
         onChangeSource={handleOnChangeSource}
         withGrouping={false}
         withAggregationInMetrics={false}
-        disabledDataSources={[event, sli, application, mobileApp, website]}
+        disabledDataSources={[event, sli, application, mobileApp, website, logs]}
       />
     </Stack>
   );
