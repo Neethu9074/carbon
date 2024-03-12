@@ -6,10 +6,20 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
+import { TimeConfig, TagFilter } from '@instana/types';
+
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/CustomEvents';
 import CustomEvent from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/CustomEvent';
 
-export default function CustomEventIndex(props) {
+export interface CustomEventIndexProp {
+  mobileAppId: string;
+  mobileAppLabel: string;
+  timeConfig: TimeConfig;
+  tagFilters: Array<TagFilter>;
+  location: any;
+}
+
+export default function CustomEventIndex(props: CustomEventIndexProp) {
   return (
     <Switch>
       <Route path="*/details">

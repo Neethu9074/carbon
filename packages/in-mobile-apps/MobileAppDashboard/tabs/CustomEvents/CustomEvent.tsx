@@ -49,7 +49,7 @@ export interface CustomEventProp {
   tagFilters: Array<TagFilter>;
   timeConfig: TimeConfig;
   mobileAppId: string;
-  viewId: string;
+  viewId?: string;
   mobileAppLabel: string;
 }
 
