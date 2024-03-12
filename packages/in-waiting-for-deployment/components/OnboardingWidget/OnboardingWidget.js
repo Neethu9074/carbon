@@ -41,7 +41,9 @@ export default function OnboardingWidget(props) {
   const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
 
   useEffect(() => {
-    trackingService.dialogOpened();
+    if (!agentInstallationV2Enabled) {
+      trackingService.dialogOpened();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

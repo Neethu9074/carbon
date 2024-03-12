@@ -11,6 +11,7 @@ import { Button } from '@instana/components';
 
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { AgentSnapshotResponse } from 'in-plg/api/AgentSnapshot';
+import createTracker from 'in-waiting-for-deployment/tracker';
 import { getAgentSnapshots } from 'in-plg/api/NetworkUtil';
 import { t } from 'in-i18n';
 
@@ -18,6 +19,8 @@ interface GetDeployedAgentsProps {
   agent: string;
   fromOnboarding?: boolean;
 }
+
+const trackingService = createTracker('agent.installation');
 
 const GetDeployedAgents = ({ agent, fromOnboarding = false }: GetDeployedAgentsProps): JSX.Element | null => {
   const DEPLOYED_AGENT_CHECK_INTERVAL: number = 10000;
@@ -57,6 +60,7 @@ const GetDeployedAgents = ({ agent, fromOnboarding = false }: GetDeployedAgentsP
         <Button
           disabled={!deployedAgentsCount}
           href={`/#/physical?q=${agent}&timeline.to&timeline.fm&timeline.ar=true`}
+          onClick={() => trackingService.deployAgentsButtonClicked()}
         >
           {t('in-plg:agentDetails.common.viewDeployedAgents')}
         </Button>
