@@ -53,8 +53,9 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { noop } from 'in-services/fixedObjects';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormItems>
   extends FormControlProps<FORM_TYPE>,
@@ -101,7 +102,10 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const isAppContributionFilterConfigured =
     applicationContributionFilterEnabled &&
     permissionSetField?.value?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
-
+  const restrictingApplicationId = permissionSetField?.value?.restrictedApplicationFilter?.restrictingApplicationId;
+  const restrictedApplicationToolTipText = (
+    <Trans i18nKey="in-settings:permissionScope.applicationCreatedUsingContributionFilter" />
+  );
   const selectedIds = getFilteredScopeIds(scopeBindings); // All ids with valid scopeId (includes ids with contributor access)
   const selectedEntities = useSelectedEntities({
     selectedIds: isAppWithContributorFeature
@@ -180,7 +184,11 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
       getContent(entity) {
         const id = extractId(entity);
         const name = extractName(entity);
-        return (
+        return restrictingApplicationId === id ? (
+          <Tooltip content={restrictedApplicationToolTipText} delay={500} align="bottomMiddle">
+            <SvgIcon type="lib_help_error_info_outline" />
+          </Tooltip>
+        ) : (
           <SvgIcon
             aria-label={t('in-settings:PermissionSection.deleteButton', { name })}
             onClick={() => removeEntitiesFromPermissionSet(id)}
