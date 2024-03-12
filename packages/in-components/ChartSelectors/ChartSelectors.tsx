@@ -12,9 +12,11 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 
+import locals from './ChartSelectors.mless';
+
 interface MetricsProps {
   id: string;
-  label: string | undefined;
+  label: any;
   value: string;
   tab: string;
   tabDefault?: boolean;
@@ -36,6 +38,7 @@ interface TimeShiftAwareChartSelectorWithUrlStateProps {
   disabledWidgetInLive?: boolean;
   children: React.ReactElement;
 }
+
 // The child components will receive these additional properties.
 // - selectedTab: The ID of the selected tab.
 // - selectedMetric: The ID of the selected metric which should be shown, when time shift is on.
@@ -48,7 +51,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   urlMatrixParamConfig: { path, paramTab, paramMetric },
   disabledWidgetInLive,
   children
-}: TimeShiftAwareChartSelectorWithUrlStateProps) {
+}: TimeShiftAwareChartSelectorWithUrlStateProps): JSX.Element {
   // find the default metric of the specified tab
   const findDefaultMetricByTab = (tabId: string) =>
     metrics.find((m: MetricsProps) => m.tab === tabId && m.tabDefault)?.id ??
@@ -88,7 +91,6 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   };
 
   const [{ [paramTab]: activeTab, [paramMetric]: activeMetric }, setUrlState] = useUrlState(urlStateDefinition);
-
   const setActiveTab = (tab: string) => setUrlState({ [paramTab]: tab, [paramMetric]: null });
   const setActiveMetric = (metric: string | undefined) => setUrlState({ [paramMetric]: metric, [paramTab]: null });
 
@@ -159,10 +161,12 @@ export function ComboChartMetricSelector({
   return (
     <ComboBoxBehavior
       value={selected}
-      options={metrics.map((o: MetricsProps) => ({
-        value: o.id,
-        label: `<div className={locals.comboOption}>{o.label}</div>`
-      }))}
+      options={
+        metrics.map((o: MetricsProps) => ({
+          value: o.id,
+          label: <div className={locals.comboOption}>{o.label}</div>
+        })) as MetricsProps[]
+      }
       onChange={value => onChange(value)}
       disableAutomaticOptionSorting
       overlayAlignment="bottomRight"

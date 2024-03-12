@@ -5,6 +5,7 @@
 
 import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
@@ -13,48 +14,43 @@ export const TAG_CALL_HTTP_STATUS = 'call.http.status';
 // includedRanges - array of single digit numbers representing the whole range which starts with that digit,
 // e.g. [2] includes all 2xx HTTP status codes
 export default function formModelFromHttpStatusRange(includedRanges: (number | undefined)[]) {
-  let rangesExpression: any = [];
+  let rangesExpression: FormModelElement[] = [];
   while (includedRanges && includedRanges.length > 0 && includedRanges.length < 5) {
-    const start: number | undefined = includedRanges.shift();
-    let end: number | undefined;
-    if (start) {
-      end = start + 1;
-    }
+    const start: number = includedRanges.shift()!;
+    let end: number = start + 1;
     // iterate to the end of the continuous range
     while (includedRanges.length > 0 && includedRanges[0] === end) {
-      end = includedRanges.shift();
+      end = includedRanges.shift()!;
       if (end) {
         end = end + 1;
       }
     }
 
-    if (start && end === 6) {
+    if (end === 6) {
       // no range end needed
       rangesExpression = joinExpressions({
         logicalOperator: or,
         expressions: [rangesExpression, tagFilter(TAG_CALL_HTTP_STATUS, GREATER_OR_EQUAL_THAN, start * 100)]
       });
-    } else if (end && start == 1) {
+    } else if (start == 1) {
       // no range start needed
       rangesExpression = joinExpressions({
         logicalOperator: or,
         expressions: [rangesExpression, tagFilter(TAG_CALL_HTTP_STATUS, LESS_OR_EQUAL_THAN, end * 100 - 1)]
       });
     } else {
-      if (start && end) {
-        rangesExpression = joinExpressions({
-          logicalOperator: or,
-          expressions: [
-            rangesExpression,
-            joinExpressions({
-              expressions: [
-                tagFilter(TAG_CALL_HTTP_STATUS, GREATER_OR_EQUAL_THAN, start * 100),
-                tagFilter(TAG_CALL_HTTP_STATUS, LESS_OR_EQUAL_THAN, end * 100 - 1)
-              ]
-            })
-          ]
-        });
-      }
+      rangesExpression = joinExpressions({
+        logicalOperator: or,
+        expressions: [
+          rangesExpression,
+          joinExpressions({
+            expressions: [
+              tagFilter(TAG_CALL_HTTP_STATUS, GREATER_OR_EQUAL_THAN, start * 100),
+              tagFilter(TAG_CALL_HTTP_STATUS, LESS_OR_EQUAL_THAN, end * 100 - 1)
+            ]
+          })
+        ]
+      });
     }
   }
   return rangesExpression;

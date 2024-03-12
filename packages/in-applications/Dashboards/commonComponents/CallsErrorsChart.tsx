@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TimeConfig, TagFilter, TimeShift, Group, BoundaryScope, EndpointType } from '@instana/types';
+import { TimeConfig, TagFilter, TimeShift, BoundaryScope, EndpointType, Group } from '@instana/types';
 
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
@@ -26,13 +26,13 @@ interface Props {
   endpointId?: string;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
-  timeShiftConfig: TimeShift;
-  timeShiftMetric: string;
+  timeShiftConfig?: TimeShift;
+  timeShiftMetric?: string;
   groupBy: Group;
   boundaryScope?: BoundaryScope;
   cardTitle: string;
   renderPostChartContent: (props: AdditionChartContentProps) => React.ReactNode;
-  rightHeaderContent: React.ReactElement;
+  rightHeaderContent?: React.ReactElement;
   endpointTypes?: EndpointType[];
 }
 
@@ -105,7 +105,7 @@ export default function CallsErrorsChart({
   let metricConfigs;
   let renderer;
   let colors;
-  if (timeShiftConfig.offset) {
+  if (timeShiftConfig?.offset) {
     const timeShiftChartMetric = chartMetrics.find(m => m.id === timeShiftMetric) ?? chartMetrics[0];
     const timeShiftMetricConfig = {
       metric: timeShiftChartMetric.metric,
@@ -175,8 +175,8 @@ export default function CallsErrorsChart({
         })
       }
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset !== 0}
-      reverseTooltipOrder={timeShiftConfig.offset !== 0}
+      reverseLegendOrder={timeShiftConfig?.offset !== 0}
+      reverseTooltipOrder={timeShiftConfig?.offset !== 0}
       config={{
         y1: {
           metrics: metricConfigs,

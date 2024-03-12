@@ -44,12 +44,12 @@ interface HttpSectionsProps {
   groupBy: Group;
   hasHttpAndOtherEndpoints: boolean;
   renderPostChartContentHttpStatus: (lanesProps: any) => JSX.Element;
-  rightHeaderContent: React.ReactElement;
+  rightHeaderContent?: React.ReactElement;
   serviceId: string;
   tagFilters: (TagFilter | { name: string; operator: TagFilterOperator })[];
   timeConfig: TimeConfig;
-  timeShiftConfig: TimeShift;
-  timeShiftMetric: string;
+  timeShiftConfig?: TimeShift;
+  timeShiftMetric?: string;
 }
 
 interface MetricConfigProps {
@@ -78,7 +78,7 @@ export default function HttpSections({
   cardTitle,
   rightHeaderContent,
   endpointTypes
-}: HttpSectionsProps) {
+}: HttpSectionsProps): JSX.Element {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorsBlueprintConfig = getBlueprintConfig('errors');
@@ -191,7 +191,7 @@ export default function HttpSections({
   let metricConfigs: MetricConfigProps[];
   let renderer;
   let colors;
-  if (timeShiftConfig.offset) {
+  if (timeShiftConfig?.offset) {
     const timeShiftChartMetric = chartMetrics.find(m => m.metric === timeShiftMetric) ?? chartMetrics[0];
     const timeShiftMetricConfig = {
       metric: timeShiftChartMetric.metric,
@@ -260,8 +260,8 @@ export default function HttpSections({
       }
       timeConfig={timeConfig}
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset !== 0}
-      reverseTooltipOrder={timeShiftConfig.offset !== 0}
+      reverseLegendOrder={timeShiftConfig?.offset !== 0}
+      reverseTooltipOrder={timeShiftConfig?.offset !== 0}
       config={{
         y1: {
           metrics: metricConfigs,
@@ -282,8 +282,8 @@ export default function HttpSections({
             name: 'analyze',
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
-            getHref$: (highlightedTime: TimeConfig, metricsToAdd: ChartedMetricsConfig | undefined) => {
-              return getJumpToAnalyzeHref$(
+            getHref$: (highlightedTime: TimeConfig, metricsToAdd: ChartedMetricsConfig | undefined) =>
+              getJumpToAnalyzeHref$(
                 {
                   applicationId,
                   serviceId,
@@ -307,8 +307,7 @@ export default function HttpSections({
                   chartedMetrics: [createChartedMetric('calls', 'SUM')]
                 },
                 getLinkToApplicationAnalyze
-              );
-            }
+              )
           }
         ]
       }}
@@ -320,9 +319,9 @@ export default function HttpSections({
 function selectedMetricsToFormModel(
   renderedMetrics: string[],
   metricConfigs: MetricConfigProps[],
-  timeShiftConfig: TimeShift
+  timeShiftConfig?: TimeShift
 ) {
-  if (timeShiftConfig.offset) {
+  if (timeShiftConfig?.offset) {
     if (metricConfigs[0].metric === 'calls') {
       return [tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY)];
     }

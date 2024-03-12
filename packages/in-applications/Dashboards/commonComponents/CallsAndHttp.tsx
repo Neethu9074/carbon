@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { BoundaryScope, EndpointType, Group, TagFilter, TimeConfig, TimeShift } from '@instana/types';
+
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
@@ -79,6 +81,25 @@ const allMetrics = [
 const allMetricsWithoutNonHttp = allMetrics.filter(metric => metric.id !== 'nonHttp');
 const allMetricsWithoutHttp = allMetrics.filter(m => m.tab !== tabHttpStatusCodes.id);
 
+interface Props {
+  applicationId: string;
+  serviceId: string;
+  endpointId: string;
+  tagFilters: TagFilter[];
+  timeConfig: TimeConfig;
+  boundaryScope: BoundaryScope;
+  cardTitle: string;
+  callGroupBy: Group;
+  renderPostChartContent: (lanesProps: any) => JSX.Element;
+  renderPostChartContentHttpStatus: (lanesProps: any) => JSX.Element;
+  hasHttpAndOtherEndpoints: boolean;
+  endpointTypes: EndpointType[];
+}
+
+interface CallsAndHttpProps extends Props {
+  showHttp: boolean;
+  urlMatrixParamConfig: { path: string; paramTab: string; paramMetric: string };
+}
 export default function CallsAndHttp({
   applicationId,
   serviceId,
@@ -93,12 +114,10 @@ export default function CallsAndHttp({
   showHttp,
   hasHttpAndOtherEndpoints,
   urlMatrixParamConfig,
-  syntheticCalls,
   endpointTypes
-}) {
+}: CallsAndHttpProps): JSX.Element {
   const tabs = showHttp ? allTabs : callsOnlyTab;
   const metrics = showHttp ? (hasHttpAndOtherEndpoints ? allMetrics : allMetricsWithoutNonHttp) : allMetricsWithoutHttp;
-
   return (
     <TimeShiftAwareChartSelectorWithUrlState
       cardTitle={cardTitle}
@@ -118,13 +137,18 @@ export default function CallsAndHttp({
         renderPostChartContent={renderPostChartContent}
         renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
         hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
-        syntheticCalls={syntheticCalls}
         endpointTypes={endpointTypes}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
 }
 
+interface ChartPresenterProps extends Props {
+  selectedTabId?: string; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  selectedMetricValue?: string; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  timeShiftConfig?: TimeShift; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  selectorComponent?: React.ReactElement;
+}
 function ChartPresenter({
   applicationId,
   serviceId,
@@ -139,11 +163,10 @@ function ChartPresenter({
   selectedTabId, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   timeShiftConfig, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  syntheticCalls,
   cardTitle,
   selectorComponent,
   endpointTypes
-}) {
+}: ChartPresenterProps) {
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
       applicationId={applicationId}
@@ -156,7 +179,6 @@ function ChartPresenter({
       timeShiftMetric={selectedMetricValue}
       groupBy={callGroupBy}
       renderPostChartContent={renderPostChartContent}
-      syntheticCalls={syntheticCalls}
       endpointTypes={endpointTypes}
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
@@ -174,8 +196,6 @@ function ChartPresenter({
       groupBy={createGroupBy('call.http.status')}
       renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
       hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
-      showGraph
-      syntheticCalls={syntheticCalls}
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
       endpointTypes={endpointTypes}
