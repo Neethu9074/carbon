@@ -117,21 +117,24 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
         darkFrame
       >
         <div className={locals.paddingBodyWrapper}>
-          <Stack gap="xsmall">
-            <ScopeConfigPresenter
-              tagFilterFormModel={tagFilterFormModel}
-              queryBuilder={
-                (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
-              }
-              scopePath={<></>}
-            />
-
-            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
-
-            {!tagFilterFormModel?.length && !groupBy?.length && (
-              <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
-            )}
-          </Stack>
+          {!tagFilterFormModel?.length && !groupBy?.length ? (
+            <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
+          ) : (
+            <Stack gap="xsmall">
+              {tagFilterFormModel?.length > 0 && (
+                <ScopeConfigPresenter
+                  tagFilterFormModel={tagFilterFormModel}
+                  queryBuilder={
+                    (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
+                  }
+                  scopePath={<></>}
+                />
+              )}
+              {groupBy && groupBy?.length > 0 && (
+                <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
+              )}
+            </Stack>
+          )}
         </div>
       </ExpandableLightCard>
 
