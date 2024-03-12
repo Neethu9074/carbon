@@ -34,11 +34,8 @@ import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils'
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-<<<<<<< HEAD
-import { getEventType, getServiceIds } from 'in-stores/events';
-=======
 import { actionAutomationEnabled } from 'in-services/featureFlags';
->>>>>>> 8c97c0a5a3 (remove action associations, policies by default)
+import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
 import { role } from 'in-stores/user';
@@ -164,6 +161,8 @@ export default function ApplicationEventContent({ event, snapshot }) {
           alertConfig={alertConfig}
         />
       )}
+
+      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );
 }
