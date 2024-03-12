@@ -1,32 +1,38 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
+import { TimeConfig, TagFilter } from '@instana/types';
 import { Button } from '@instana/components';
 
-import {
-  customEventsTabFullyQualified,
-  detailsPath,
-  useGetLinkToMobileApp,
-  useLinkToAnalyze
-} from 'in-mobile-apps/navigation/paths';
+// @ts-expect-error Could not find a declaration file for module
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
+// @ts-expect-error Could not find a declaration file for module
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
+// @ts-expect-error Could not find a declaration file for module
+import { customEventId as customEventIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
+// @ts-expect-error Could not find a declaration file for module
+import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
+// @ts-expect-error Could not find a declaration file for module
+import { customEventsTabFullyQualified } from 'in-mobile-apps/navigation/paths';
+// @ts-expect-error Could not find a declaration file for module
+import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
+// @ts-expect-error Could not find a declaration file for module
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+// @ts-expect-error Could not find a declaration file for module
+import RedirectWithHash from 'in-components/RedirectWithHash';
+import { detailsPath, useGetLinkToMobileApp, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import PlatformTopList from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/PlatformTopList';
-import { customEventId as customEventIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import ViewTopList from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/ViewTopList';
 import OsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/OsTopList';
-import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { millis, number } from 'in-services/formatters/number';
-import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -38,7 +44,23 @@ import { t } from 'in-i18n';
 
 import locals from './CustomEvent.mless';
 
-export default function CustomEvent({ location, tagFilters, timeConfig, mobileAppId, viewId, mobileAppLabel }) {
+export interface CustomEventProp {
+  location: any;
+  tagFilters: Array<TagFilter>;
+  timeConfig: TimeConfig;
+  mobileAppId: string;
+  viewId: string;
+  mobileAppLabel: string;
+}
+
+export default function CustomEvent({
+  location,
+  tagFilters,
+  timeConfig,
+  mobileAppId,
+  viewId,
+  mobileAppLabel
+}: CustomEventProp) {
   const tagCatalogCustom = useTagCatalog('custom');
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const customEventId = getMatrixParameter(location, '/details', customEventIdMatrixParameter);
@@ -50,8 +72,20 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
 
   const granularity = getChartGranularity(timeConfig);
   tagFilters = tagFilters.concat([
-    { name: 'mobileBeacon.type', stringValue: 'custom', operator: 'EQUALS' },
-    { name: 'mobileBeacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' }
+    {
+      name: 'mobileBeacon.type',
+      stringValue: 'custom',
+      operator: 'EQUALS',
+      type: 'TAG_FILTER',
+      entity: 'NOT_APPLICABLE'
+    },
+    {
+      name: 'mobileBeacon.customEvent.name',
+      stringValue: customEventId,
+      operator: 'EQUALS',
+      type: 'TAG_FILTER',
+      entity: 'NOT_APPLICABLE'
+    }
   ]);
   const viewInAnalytics = {
     mobileAppLabel,
@@ -328,7 +362,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
               mobileAppLabel={mobileAppLabel}
               tagFilters={tagFilters}
               timeConfig={timeConfig}
-              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
+              urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab', paramMetric: 'beaconCount' }}
             />
           </Col>
         )}
@@ -338,8 +372,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
             mobileAppLabel={mobileAppLabel}
             tagFilters={tagFilters}
             timeConfig={timeConfig}
-            viewId={viewId}
-            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'platformTab' }}
+            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'platformTab', paramMetric: 'beaconCount' }}
           />
         </Col>
         <Col lg={viewId == null ? 4 : 6}>
@@ -348,8 +381,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
             mobileAppLabel={mobileAppLabel}
             tagFilters={tagFilters}
             timeConfig={timeConfig}
-            viewId={viewId}
-            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab' }}
+            urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab', paramMetric: 'beaconCount' }}
           />
         </Col>
       </Row>
