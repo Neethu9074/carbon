@@ -58,6 +58,15 @@ export function deleteLocation(locationId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
+export function deactivateLocation(locationId: string): Observable<unknown> {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: locationUrl + '/' + locationId + `?requestType=DEACTIVATE`
+  }).map(response => deepFreeze(response));
+}
+
 export const getLocationsAsResultObservable: (
   testType: string,
   locationType?: string
