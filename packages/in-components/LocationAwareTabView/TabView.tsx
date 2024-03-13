@@ -36,6 +36,7 @@ interface TabViewProps<TabData, TabProps extends {}, ExtensionProps extends {}> 
   tabChangeTracker?: (props: { tab: string }) => void;
   renderHeaderOnErrors?: boolean;
   renderErrors?: (errors: Error[]) => JSX.Element;
+  renderLoading?: () => JSX.Element;
   /**
    * This prop can be used to render additional elements below the tab navigation.
    * Even if this can take any component, it is recommended to wrap your custom elements
@@ -47,6 +48,7 @@ interface TabViewProps<TabData, TabProps extends {}, ExtensionProps extends {}> 
 export default function TabView<TabData, TabProps extends {} = {}, ExtensionProps extends {} = {}>({
   result$,
   renderErrors,
+  renderLoading,
   renderHeaderOnErrors = false,
   tabs,
   filterTabByResult = () => () => true,
@@ -104,6 +106,7 @@ export default function TabView<TabData, TabProps extends {} = {}, ExtensionProp
           location={location}
           props={tabProps}
           renderErrors={renderErrors}
+          renderLoading={renderLoading}
         />
       </Sticky>
     </section>

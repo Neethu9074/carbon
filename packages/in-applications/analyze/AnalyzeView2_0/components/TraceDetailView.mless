@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+@import '~in-themes/active.less';
+
 :local {
   .closeIcon {
     cursor: pointer;
@@ -25,5 +27,12 @@
   .label {
     color: var(--ids-color-option-indigo-500);
     background-color: var(--ids-color-option-blue-100) !important;
+  }
+
+  .errorMessage {
+    margin: (@grid__gutter * 1px) 0;
+  }
+  .errorReasons {
+    margin-left: calc(2rem);
   }
 }

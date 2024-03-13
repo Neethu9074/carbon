@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Button, SvgIcon } from '@instana/components';
+import { Button, Message, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Link } from '@instana/components';
@@ -24,6 +24,7 @@ import {
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
+import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -34,6 +35,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { analyzeTagFilterExpression } from './analyzeTagFilter';
@@ -57,6 +59,8 @@ import { t } from 'in-i18n';
 import locals from './TraceDetailView.mless';
 
 const maximumNumberOfCallsForLargeTraceConsideration = LARGE_TRACE_THRESHOLD;
+const MAX_RETRIES = 3;
+const RETRY_DELAY = seconds.toMillis(15);
 
 export default function TraceDetailView(props) {
   const dataSource = props.dataSource;
@@ -68,7 +72,7 @@ export default function TraceDetailView(props) {
   } = props;
   const isFromSameTrace = analyzeTagFilterExpression(backendQueryModel, traceId);
 
-  const result$ = useRetriableObservable({ traceId, retries: 3, retryDelay: seconds.toMillis(15) });
+  const { result$, retry } = useRetriableObservable({ traceId, retries: MAX_RETRIES, retryDelay: RETRY_DELAY });
 
   return (
     <>
@@ -108,6 +112,8 @@ export default function TraceDetailView(props) {
             result$={result$}
             withoutBreadcrumb
             withoutPadding
+            renderLoading={() => <LoadingDashboard traceId={traceId} retry={retry} />}
+            renderErrors={() => <RetryErrorMessage traceId={traceId} />}
             withProps={({ result }) => {
               return {
                 data: result.data,
@@ -158,7 +164,7 @@ function useRetriableObservable({ traceId, retries, retryDelay }) {
     result$.emit(traceSummary);
   }, [retry, result$, traceSummary, timeConfig.to, retries, retryDelay]);
 
-  return result$;
+  return { result$, retry };
 }
 
 function isAlmostNow(timestamp) {
@@ -206,6 +212,47 @@ function Header(props) {
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener
     />
+  );
+}
+
+function LoadingDashboard({ traceId, retry }) {
+  if (retry === 0) {
+    return <DefaultLoadingDashboard lightMode />;
+  }
+
+  let customLoadingTitle = t('in-applications:traceDetail.components.loadingDashboard.defaultTitle');
+  if (retry > 1) {
+    customLoadingTitle = t('in-applications:traceDetail.components.loadingDashboard.retryTitle', { retry });
+  }
+
+  const customLoadingMessage = {
+    title: customLoadingTitle,
+    description: t('in-applications:traceDetail.components.loadingDashboard.loadingMessage', { traceId })
+  };
+
+  return <DefaultLoadingDashboard lightMode customLoadingMessage={customLoadingMessage} />;
+}
+
+function RetryErrorMessage({ traceId }) {
+  return (
+    <LeftRightPadding>
+      <Message
+        type="warning"
+        title={t('in-applications:traceDetail.components.retryErrorMessage.title', { traceId })}
+        bold
+        withIcon
+        className={locals.errorMessage}
+      >
+        <div className={locals.errorReasons}>
+          <span>{t('in-applications:traceDetail.components.retryErrorMessage.reasonHeader')}</span>
+          <ul>
+            <li>{t('in-applications:traceDetail.components.retryErrorMessage.traceDropped')}</li>
+            <li>{t('in-applications:traceDetail.components.retryErrorMessage.noInstanaTrace')}</li>
+            <li>{t('in-applications:traceDetail.components.retryErrorMessage.outsideRetention')}</li>
+          </ul>
+        </div>
+      </Message>
+    </LeftRightPadding>
   );
 }
 
