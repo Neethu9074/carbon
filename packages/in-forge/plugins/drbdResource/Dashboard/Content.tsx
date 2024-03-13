@@ -21,6 +21,7 @@ import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 import { SnapshotData } from 'in-stores/snapshot';
+import { yesOrNo } from 'in-services/formatters/boolean';
 
 export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -32,13 +33,13 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceSuspended')}>
-          <MetricValue snapshotId={snapshotId} metric="resourceSuspended" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="resourceSuspended" formatter={yesOrNo} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceMayPromote')}>
-          <MetricValue snapshotId={snapshotId} metric="resourceMayPromote" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="resourceMayPromote" formatter={yesOrNo} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdResource.resourceForceIOFailures')}>
-          <MetricValue snapshotId={snapshotId} metric="resourceForceIOFailures" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="resourceForceIOFailures" formatter={yesOrNo} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>

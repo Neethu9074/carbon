@@ -16,6 +16,7 @@ import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 import { TimeConfig } from '@instana/types';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { yesOrNo } from 'in-services/formatters/boolean';
 
 export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -27,13 +28,13 @@ export default function DeviceDashboard({ snapshot, timeConfig }: { snapshot: Sn
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceQuorum')}>
-          <MetricValue snapshotId={snapshotId} metric="deviceQuorum" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="deviceQuorum" formatter={yesOrNo} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceUnintentionalDiskless')}>
-          <MetricValue snapshotId={snapshotId} metric="deviceUnintentionalDiskless" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="deviceUnintentionalDiskless" formatter={yesOrNo} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdDevice.deviceAlSuspended')}>
-          <MetricValue snapshotId={snapshotId} metric="deviceAlSuspended" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="deviceAlSuspended" formatter={yesOrNo} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.drbdDevice.dashboard.deviceSizeBytes')}>

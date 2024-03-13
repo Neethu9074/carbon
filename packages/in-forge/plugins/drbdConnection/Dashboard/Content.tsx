@@ -17,6 +17,7 @@ import { number } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 import { TimeConfig } from '@instana/types';
+import { yesOrNo } from 'in-services/formatters/boolean';
 
 export default function ConnectionDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -34,7 +35,7 @@ export default function ConnectionDashboard({ snapshot, timeConfig }: { snapshot
           <MetricValue snapshotId={snapshotId} metric="connectionApInFlightBytes" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.drbdConnection.dashboard.connectionCongested')}>
-          <MetricValue snapshotId={snapshotId} metric="connectionCongested" formatter={Boolean} />
+          <MetricValue snapshotId={snapshotId} metric="connectionCongested" formatter={yesOrNo} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
