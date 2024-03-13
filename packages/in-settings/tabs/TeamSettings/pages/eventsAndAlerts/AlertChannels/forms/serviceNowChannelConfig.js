@@ -9,10 +9,12 @@ import React, { useState } from 'react';
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 
+import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import IconButton from 'in-components/IconButton/IconButton';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -42,6 +44,10 @@ const parameters = [
   {
     key: 'password',
     label: t('in-settings:tabs.password')
+  },
+  {
+    key: 'autoCloseIncidents',
+    label: t('in-settings:tabs.autoCloseIncidents')
   }
 ];
 
@@ -57,6 +63,7 @@ export default {
     alertChannel.serviceNowUrl = '';
     alertChannel.username = '';
     alertChannel.password = '';
+    alertChannel.autoCloseIncidents = false;
   },
 
   createDetails(alertChannel) {
@@ -71,7 +78,7 @@ export default {
   },
 
   createForm(alertChannel) {
-    return createMapForm()
+    const mapForm = createMapForm()
       .put(
         'kind',
         createField({
@@ -105,7 +112,14 @@ export default {
           value: alertChannel ? alertChannel.get('password') : '',
           validator: value => notBlankCustomFieldValidation(value, t('in-settings:tabs.password'))
         })
+      )
+      .put(
+        'autoCloseIncidents',
+        createField({
+          value: alertChannel ? alertChannel.get('autoCloseIncidents') : false
+        })
       );
+    return mapForm;
   },
 
   createEntity(alertChannel, form) {
@@ -115,7 +129,8 @@ export default {
       name: form.get('name').value,
       serviceNowUrl: form.get('serviceNowUrl').value,
       username: form.get('username').value,
-      password: form.get('password').value
+      password: form.get('password').value,
+      autoCloseIncidents: form.get('autoCloseIncidents').value
     };
   },
 
@@ -225,6 +240,19 @@ function Form({ form, onChange }) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
+      {serviceNowAutoCloseAndCustomPayloadsEnabled &&
+        form.get('autoCloseIncidents').map(field => (
+          <FormGroup className={block}>
+            <CheckboxFancy
+              label={t('in-settings:tabs.autoCloseIncidents')}
+              id="autoCloseIncidents"
+              checked={field.value}
+              onChange={e => onChange('autoCloseIncidents', e.target.checked)}
+              size="larger"
+            />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
     </fieldset>
   );
 }

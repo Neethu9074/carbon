@@ -112,5 +112,6 @@ module.exports = {
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
   welcomePageV2Enabled: false,
-  infrastructureExploreTagColumnsEnabled: true
+  infrastructureExploreTagColumnsEnabled: true,
+  serviceNowAutoCloseAndCustomPayloadsEnabled: false
 };
