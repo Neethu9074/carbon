@@ -89,6 +89,7 @@ const Invites = () => {
       customDeleteTooltipMessage={(entity: PendingInvitation) =>
         t('in-settings:tabs.revokeInvitationForUserWithEmail', { email: entity.email, tenant: config.tenant })
       }
+      boundedPath="/invites"
     />
   );
 };
