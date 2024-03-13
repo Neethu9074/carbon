@@ -28,9 +28,9 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { ActionInstance, PaginatedResult, Policy, VolatileId, Event, TriggerType } from 'in-types';
+import useLinkToPolicyDetails from 'in-automation/AssociatedActions/useLinkToPolicyDetails';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { isAutomatic, isManual, TriggerSpecification } from 'in-automation/Policies/types';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -174,7 +174,8 @@ export function Subscript({ policy }: { policy: PolicyTableEntity }) {
 }
 
 function PolicyLink({ policy }: { policy: Policy }) {
-  const navigateToPolicyDetails = useNavigateToPolicyDetails();
+  const policyLink = useLinkToPolicyDetails(policy);
+
   return (
     <Tooltip content={policy.name} delay={500}>
       <Link
@@ -183,7 +184,7 @@ function PolicyLink({ policy }: { policy: Policy }) {
           [locals.block]: true,
           [locals.ellipsis]: policy.name.length > 60
         })}
-        onClick={() => navigateToPolicyDetails(policy, false)}
+        href={policyLink}
       >
         {policy.name}
       </Link>

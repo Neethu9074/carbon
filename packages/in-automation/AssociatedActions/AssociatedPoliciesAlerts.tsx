@@ -132,7 +132,7 @@ function RightHeader({ eventSpecification, triggerReload }: RightHeaderProps) {
       hiddenIds={[]}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
-          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          ? t('in-settings:tabs.addNumberOfItemsPolicy', { count: numberOfItems })
           : t('in-settings:tabs.addActions')
       }
       requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
