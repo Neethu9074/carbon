@@ -1,0 +1,155 @@
+{
+  "alertConfig": {
+    "name": "SA with group",
+    "description": "The logs count is higher or equal to 20.",
+    "severity": 5,
+    "tagFilterExpression": {
+      "type": "TAG_FILTER",
+      "name": "log.level",
+      "stringValue": "ERROR",
+      "booleanValue": false,
+      "value": "ERROR",
+      "operator": "EQUALS",
+      "entity": "NOT_APPLICABLE"
+    },
+    "groupBy": [
+      {
+        "tagName": "log.streamName",
+        "key": ""
+      }
+    ],
+    "threshold": {
+      "type": "staticThreshold",
+      "operator": ">=",
+      "value": 20,
+      "lastUpdated": 0
+    },
+    "alertChannelIds": [],
+    "granularity": 600000,
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "timeWindow": 600000
+    },
+    "customPayloadFields": [],
+    "id": "123",
+    "created": 1709723400927,
+    "initialCreated": 1709714148788,
+    "readOnly": false,
+    "enabled": true,
+    "calculateThresholdOnBackend": false
+  },
+  "tagCatalog": {
+    "tagTree": [
+      {
+        "label": "Logs",
+        "description": null,
+        "icon": null,
+        "children": [
+          {
+            "label": "Stream Name",
+            "icon": "lib_views_tag",
+            "tagName": "log.streamName",
+            "type": "TAG"
+          },
+          {
+            "label": "Exception Type",
+            "icon": "lib_views_tag",
+            "tagName": "log.exception.type",
+            "type": "TAG"
+          },
+          {
+            "label": "Level",
+            "icon": "lib_help_error_info_outline",
+            "tagName": "log.level",
+            "type": "TAG"
+          }
+        ],
+        "type": "LEVEL",
+        "queryable": false
+      }
+    ],
+    "tags": [
+      {
+        "name": "log.streamName",
+        "label": "Stream Name",
+        "type": "STRING",
+        "description": null,
+        "canApplyToSource": false,
+        "canApplyToDestination": false,
+        "idTag": false
+      },
+      {
+        "name": "log.exception.type",
+        "label": "Exception Type",
+        "type": "STRING",
+        "description": null,
+        "canApplyToSource": false,
+        "canApplyToDestination": false,
+        "idTag": false
+      },
+      {
+        "name": "log.level",
+        "label": "Level",
+        "type": "STRING",
+        "description": null,
+        "canApplyToSource": false,
+        "canApplyToDestination": false,
+        "idTag": false
+      }
+    ]
+  },
+  "tagFilterExpression": {
+    "type": "EXPRESSION",
+    "logicalOperator": "AND",
+    "elements": [
+      {
+        "type": "TAG_FILTER",
+        "name": "log.level",
+        "stringValue": "ERROR",
+        "numberValue": null,
+        "booleanValue": null,
+        "key": null,
+        "value": "ERROR",
+        "operator": "EQUALS",
+        "entity": "NOT_APPLICABLE"
+      },
+      {
+        "type": "EXPRESSION",
+        "logicalOperator": "AND",
+        "elements": [
+          {
+            "type": "TAG_FILTER",
+            "name": "log.streamName",
+            "operator": "EQUALS",
+            "entity": "NOT_APPLICABLE",
+            "value": "log.monolog"
+          }
+        ]
+      }
+    ]
+  },
+  "logGroupItem": [
+    {
+      "label": "log.monolog",
+      "numberOfLogs": 30098,
+      "percentage": 0.3905331585981393,
+      "cursor": {
+        "ingestionTime": 1709889261000,
+        "offset": 1
+      }
+    },
+    {
+      "label": "log.slf4j",
+      "numberOfLogs": 17900,
+      "percentage": 0.23225940391078126,
+      "cursor": {
+        "ingestionTime": 1709889261000,
+        "offset": 2
+      }
+    }
+  ],
+  "logGroupBy": {
+    "groupbyTag": "log.streamName",
+    "groupbyTagEntity": "NOT_APPLICABLE"
+  }
+}
