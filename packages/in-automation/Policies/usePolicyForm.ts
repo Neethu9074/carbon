@@ -194,12 +194,20 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
           form => {
             const action = actions.find(action => action.id === form.actionId.value);
             const emptyRequiredParam =
-              action?.inputParameters?.reduce((acc, paramter) => {
-                if (acc) return true;
-                const formValue = form.parameters.value.find(p => p.name === paramter.name);
-                if (paramter.required && !formValue && paramter.type !== 'dynamic') return true;
-                return false;
+              action?.inputParameters?.reduce((acc, parameter) => {
+                // If the accumulator already found a missing parameter or the current parameter is hidden, skip further checks
+                if (acc || parameter.hidden) {
+                  return acc;
+                }
+                const formValue = form.parameters.value.find(p => p.name === parameter.name);
+                // If the parameter is required, not provided in the form, and not dynamic, return true (indicating a missing required parameter)
+                if (parameter.required && !formValue && parameter.type !== 'dynamic') {
+                  return true;
+                }
+                // Otherwise, return the current state of the accumulator
+                return acc;
               }, false) ?? false;
+
             if (form.type.get('automatic').value && (form.agentId.value === '' || emptyRequiredParam)) {
               return [
                 {
