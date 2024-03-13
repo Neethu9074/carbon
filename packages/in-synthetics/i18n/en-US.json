@@ -284,7 +284,7 @@
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Locations are being deployed",
-          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This can take up to 10 minutes.</strong>",
+          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This can take up to 10 minutes for each selected datacenter.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Datacenter Code",
