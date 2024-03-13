@@ -1124,6 +1124,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow Alert Channel",
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
+    "autoCloseIncidents": "Auto close incidents",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
     "scope": "Scope",

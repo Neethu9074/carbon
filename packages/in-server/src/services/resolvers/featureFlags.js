@@ -524,5 +524,10 @@ module.exports = exports = [
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
+    instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
+    defaultValue: false
   }
 ];
