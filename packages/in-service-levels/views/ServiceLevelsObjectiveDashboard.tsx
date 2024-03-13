@@ -50,6 +50,7 @@ export default function ServiceLevelsObjectiveDashboard() {
   const tabData = tabProps?.data;
   const entity = tabData?.entity;
   const service = tabData && isApplicationSloTabData(tabData) ? tabData.service : undefined;
+  const endpoint = tabData && isApplicationSloTabData(tabData) ? tabData.endpoint : undefined;
   const configuration = tabData?.configuration;
   const sloTimeWindow = configuration?.timeWindow;
 
@@ -61,7 +62,9 @@ export default function ServiceLevelsObjectiveDashboard() {
           HeaderComponent={SloDashboardHeader}
           tabs={tabs}
           props={tabProps ?? {}}
-          additionalHeader={<SloMetaInfoHeader configuration={configuration} entity={entity} service={service} />}
+          additionalHeader={
+            <SloMetaInfoHeader configuration={configuration} entity={entity} service={service} endpoint={endpoint} />
+          }
         />
       </SloTimeWindowProvider>
     </SloTrackerProvider>

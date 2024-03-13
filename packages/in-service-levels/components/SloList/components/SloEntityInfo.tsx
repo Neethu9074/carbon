@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { Stack, SvgIcon, Typography } from '@instana/components';
@@ -16,6 +17,7 @@ interface Props {
   entity: LabeledEntity;
   entityType: SloEntityType;
   service?: LabeledEntity;
+  endpoint?: LabeledEntity;
 }
 
 type EntityDisplayData = {
@@ -23,9 +25,11 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({ entity, entityType, service }: Props) {
+export default function SloEntityInfo({ entity, entityType, service, endpoint }: Props) {
   const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
-  const showServiceInfo = entityType === 'application' && service?.label;
+  const compact = useMediaQuery('(min-width: 600px)');
+  const serviceEndpointInfo = entityType === 'application';
+  const showServiceEndpointInfo = serviceEndpointInfo && compact;
 
   return (
     <Stack direction="horizontal" align="center">
@@ -35,9 +39,14 @@ export default function SloEntityInfo({ entity, entityType, service }: Props) {
         </Tooltip>
         <Typography variant="body-regular">{entity.label}</Typography>
       </Stack>
-      {showServiceInfo && (
+      {showServiceEndpointInfo && service?.label && (
         <Typography variant="body-small">
           {t('in-service-levels:sloList.components.sloEntityInfo.service', { label: service.label })}
+        </Typography>
+      )}
+      {showServiceEndpointInfo && endpoint?.label && (
+        <Typography variant="body-small">
+          {t('in-service-levels:sloList.components.sloEntityInfo.endpoint', { label: endpoint?.label })}
         </Typography>
       )}
     </Stack>
