@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { Stack, SvgIcon, Typography } from '@instana/components';
@@ -11,6 +10,7 @@ import { SloEntityType } from '@instana/types';
 
 import { LabeledEntity } from 'in-service-levels/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 import { t } from 'in-i18n';
 
 interface Props {

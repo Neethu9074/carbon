@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
@@ -13,6 +12,7 @@ import { Stack } from '@instana/components';
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 import { LabeledEntity } from 'in-service-levels/types';
 import TagList from 'in-components/TagsList/TagList';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 
 import locals from './SloDashboardMetaInfo.mless';
 

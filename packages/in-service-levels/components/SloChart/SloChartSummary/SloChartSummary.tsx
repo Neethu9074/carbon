@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummarySkeleton';
@@ -15,6 +14,7 @@ import { SloEntityType, ServiceLevelIndicatorType, TimeWindowType } from 'in-typ
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
 import useSloFormatter from 'in-service-levels/hooks/useSloFormatter';
 import { MetricDataPoint } from 'in-components/Chart/types';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
