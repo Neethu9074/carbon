@@ -386,6 +386,8 @@
       "success": "Success",
       "failure": "Failed",
       "popVersion": "Version",
+      "noActionsAllowed": "NA",
+      "deleteRestrictedDescription": "Managed locations cannot be deleted.",
       "deleteLocationBroswerRefreshInfo": "It will take some time for the location to disappear from the list of locations and may require a browser refresh.",
       "deactivateLocation": {
         "deactivate": "Deactivate",
