@@ -105,10 +105,11 @@ function RightHeader({ eventSpecification, isCustomEvent, triggerReload }: Right
     updatedActionIds.forEach(ActionId => {
       const triggerType: TriggerType = isCustomEvent ? 'customEvent' : 'builtinEvent';
       const filteredAction = updatedActions.find(action => action.id === ActionId);
+      const description = filteredAction?.description ?? `Description for ${filteredAction?.name}`;
       if (filteredAction) {
         const policy = {
           name: `policy_${filteredAction.name}_${filteredAction.id}`,
-          description: `${filteredAction.description}`,
+          description: description,
           tags: [],
           trigger: {
             type: triggerType,
@@ -157,7 +158,7 @@ function RightHeader({ eventSpecification, isCustomEvent, triggerReload }: Right
       hiddenIds={[]}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
-          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          ? t('in-settings:tabs.addNumberOfItemsPolicy', { count: numberOfItems })
           : t('in-automation:policies.addPolicies')
       }
       requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
