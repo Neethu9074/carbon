@@ -34,12 +34,9 @@ import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/a
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
-import AlertsActionsSelection from 'in-automation/AssociatedActions/AlertsActionsSelection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -251,19 +248,6 @@ export default function AdvancedModeContainer(props) {
             TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
             supportDynamicTypes
           />
-        </>
-      )
-    },
-    {
-      scrollId: '8',
-      label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.label'),
-      title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.actionsOptional.title'),
-      hidden: isGlobalSmartAlert || !role.canConfigureAutomationActions || !actionAutomationEnabled,
-      valid: true,
-      isBeta: true,
-      content: (
-        <>
-          <AlertsActionsSelection form={form} onChange={onChange} pageSize={5} />
         </>
       )
     }

@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import RecommendationActionForPoliciesTable from 'in-automation/AssociatedActions/RecommendationActionsForPoliciesTable';
 import { Event, ApplicationAlertConfigWithMetadata, Policy, Result, VolatileId } from 'in-types';
 import { getAllActionsWithAISuggestions, getPoliciesForTrigger } from 'in-automation/api';
-import { getEventSpecificationId, getIsCustomEvent } from './shared';
+import { getEventSpecificationId, getIsCustomEvent } from './sharedPolicies';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';

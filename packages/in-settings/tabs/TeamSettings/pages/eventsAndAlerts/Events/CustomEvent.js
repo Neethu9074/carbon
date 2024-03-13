@@ -5,9 +5,7 @@
 
 import React, { useEffect } from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
-import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import {
@@ -27,12 +25,6 @@ import {
   hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import {
-  deprecateAppDataLegacyEventsEnabled,
-  disallowAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled,
-  actionAutomationEnabled
-} from 'in-services/featureFlags';
-import {
   createCustomThresholdBasedEventSpecification,
   createCustomMultiThresholdBasedEventSpecification,
   createThresholdRule
@@ -42,9 +34,13 @@ import {
   isDeprecatedAppDataEntityType,
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import {
+  deprecateAppDataLegacyEventsEnabled,
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { entityCountDetection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { getCustomEventActionAssociations, updateCustomEventActionAssociations } from 'in-automation/api';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
@@ -57,7 +53,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { associateActionsTracker } from 'in-automation/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
@@ -66,32 +61,18 @@ import { submitEventTracker } from 'in-settings/tracker';
 import { viewEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
-import { getAllActions } from 'in-automation/api';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
-  function mergeResultData() {
-    const eventDetails$ = getCustomEventSpecificationMutable(entityId);
-    const actionDetails$ = getCustomEventActionAssociations(entityId);
-    // calling Get Event and Get action associations call and combining results
-    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) => ({
-      ...eventResponse,
-      actionIds: actionResponse?.map(action => action.id) ?? []
-    }));
-  }
-  const actions = useObservable(getAllActions, []) ?? [];
   const entityFormParam = {
     entityId,
     createDefaultEntity: createCustomThresholdBasedEventSpecification,
     createForm: event => createEventFormDefinition(event ?? createCustomThresholdBasedEventSpecification(), !entityId),
-    getEntityFromApi:
-      role.canConfigureAutomationActions && actionAutomationEnabled
-        ? mergeResultData
-        : getCustomEventSpecificationMutable,
-    saveEntity: (event, form) => save(event, form, actions),
+    getEntityFromApi: getCustomEventSpecificationMutable,
+    saveEntity: (event, form) => save(event, form),
     // eslint-disable-next-line
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
@@ -206,12 +187,11 @@ export default function CustomEvent(props) {
   );
 }
 
-function save(event, form, actions) {
+function save(event, form) {
   const isTriggering = form.get('triggering').value;
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn')?.value ?? null;
-  const actionIds = form.get('actionIds')?.value ?? [];
 
   submitEventTracker({
     scopeType,
@@ -221,22 +201,7 @@ function save(event, form, actions) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  if (role.canConfigureAutomationActions && actionAutomationEnabled) {
-    const actionNames = actions.reduce(
-      (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
-      []
-    );
-    associateActionsTracker({
-      eventName: form.get('name').value,
-      actionNames: actionNames,
-      type: 'Custom event'
-    });
-    return saveCustomEventSpecification(eventSpecification).flatMap(() =>
-      updateCustomEventActionAssociations(actionIds, event.id)
-    );
-  } else {
-    return saveCustomEventSpecification(eventSpecification);
-  }
+  return saveCustomEventSpecification(eventSpecification);
 }
 
 function getTagFilterForHostAvailability(form) {
