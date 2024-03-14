@@ -113,5 +113,6 @@ module.exports = {
   logSmartAlertsEnabled: true,
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
-  serviceNowAutoCloseAndCustomPayloadsEnabled: false
+  serviceNowAutoCloseAndCustomPayloadsEnabled: false,
+  rawTraceDownloadEnabled: false
 };

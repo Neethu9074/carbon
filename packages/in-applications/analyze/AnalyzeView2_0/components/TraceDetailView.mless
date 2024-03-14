@@ -35,4 +35,12 @@
   .errorReasons {
     margin-left: calc(2rem);
   }
+
+  .downloadDropdown {
+    flex-direction: column;
+  }
+  .downloadOption {
+    justify-content: flex-start;
+    width: 100%;
+  }
 }

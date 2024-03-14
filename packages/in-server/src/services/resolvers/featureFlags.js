@@ -529,5 +529,10 @@ module.exports = exports = [
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
     instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'rawTraceDownloadEnabled',
+    instanaCtlKey: 'feature.application.raw.trace.download.enabled',
+    defaultValue: false
   }
 ];
