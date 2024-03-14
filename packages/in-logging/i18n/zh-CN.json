@@ -49,5 +49,7 @@
   "warn": "{{count}} 个警告",
   "warn_plural": "{{count}} 个警告",
   "process": "处理",
-  "host": "主机"
+  "host": "主机",
+  "fileOnHost": "在",
+  "file": "文件"
 }

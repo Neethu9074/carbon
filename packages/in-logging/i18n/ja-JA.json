@@ -49,5 +49,7 @@
   "warn": "{{count}} 個の警告",
   "warn_plural": "{{count}} 個の警告",
   "process": "プロセス",
-  "host": "ホスト"
+  "host": "ホスト",
+  "fileOnHost":"オン",
+  "file":"ファイル"
 }

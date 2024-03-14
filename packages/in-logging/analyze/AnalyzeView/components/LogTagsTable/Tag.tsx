@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
+import { LogTag, TagFilter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { TagFilter } from '@instana/types';
 
 import {
   ApplicationProps,
@@ -29,14 +29,16 @@ import {
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
 import {
   containerSnapshotIds,
+  ID_HOST,
   LOG_CUSTOM_KEY_APPLICATION_ID,
-  LOG_CUSTOM_KEY_APPLICATION_IDS
+  LOG_CUSTOM_KEY_APPLICATION_IDS,
+  LOG_FILE_PATH
 } from 'in-logging/queryBuilder';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
+import useResolvedValue, { resolveInfraLabel } from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
 // @ts-expect-error needs TS migration
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/constants';
-import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -110,36 +112,62 @@ export function TagValue({
 }
 
 function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkProps) {
-  const resolvedLink = useResolvedLink(uniqueTagName, tag, item);
+  const idHostStringValue = item.tags.find(tag => tag.name === ID_HOST)?.stringValue as string;
+  const hostTag = item.tags.find(tag => tag.name === ID_HOST) as LogTag;
 
-  if (tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
-    return (
-      <Overlay<ApplicationsListProps>
-        content={ApplicationsList}
-        props={{ applicationIds: (tag.stringValue || '').split(','), item }}
-        align="leftMiddle"
-      >
-        {({ toggle }: ToggleProps) => (
-          <span className={locals.link} onClick={toggle}>
-            {resolvedValue}
-          </span>
-        )}
-      </Overlay>
-    );
-  }
+  //As long as we have to put the link and the name of the Log Id Host, we are faking the tag name and the tag object
+  //to the hooks for getting the correct name and the correct link, only when we are facing the log.file.path tagRow
+  const universalTagName = uniqueTagName === LOG_FILE_PATH ? ID_HOST : uniqueTagName;
+  const universalTag = uniqueTagName === LOG_FILE_PATH ? hostTag : tag;
 
-  if (resolvedLink) {
-    return (
-      <Link
-        className={locals.value}
-        href={resolvedLink}
-        onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
-      >
-        {resolvedValue}
-      </Link>
-    );
-  }
-  return <span className={locals.value}>{resolvedValue}</span>;
+  const resolveIdHostLink = resolveInfraLabel(idHostStringValue || '');
+  const resolvedLogTagName = useObservable(resolveIdHostLink, [idHostStringValue], {
+    resetStateOnObservableChange: true
+  });
+
+  const resolvedLink = useResolvedLink(universalTagName, universalTag, item);
+
+  const renderContent = () => {
+    if (tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
+      return (
+        <Overlay<ApplicationsListProps>
+          content={ApplicationsList}
+          props={{ applicationIds: (tag.stringValue || '').split(','), item }}
+          align="leftMiddle"
+        >
+          {({ toggle }: ToggleProps) => (
+            <span className={locals.link} onClick={toggle}>
+              {resolvedValue}
+            </span>
+          )}
+        </Overlay>
+      );
+    }
+
+    if (resolvedLink) {
+      return (
+        <>
+          {tag.name === LOG_FILE_PATH && (
+            <>
+              <div className={locals.value}>{tag.stringValue}</div>
+              <span>{t('in-logging:fileOnHost')}</span>
+            </>
+          )}
+          <Link
+            className={locals.value}
+            href={resolvedLink}
+            onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
+          >
+            {tag.name === LOG_FILE_PATH ? resolvedLogTagName : resolvedValue}
+          </Link>
+        </>
+      );
+    }
+
+    return <span className={locals.value}>{resolvedValue}</span>;
+  };
+
+  return renderContent();
 }
 
 export const TagGroupHeader = ({ groupLabel }: TagGroupHeaderProps) => {
@@ -181,18 +209,11 @@ function Application({ applicationId, item }: ApplicationProps) {
   );
 }
 
-export function TagEntry({
-  tag,
-  item,
-  uniqueTagName,
-  tagToLabelMap,
-  allowedTagsForGrouping,
-  onSelectTagHref,
-  getHrefToGroupedView
-}: TagEntryProps) {
+export function TagEntry(props: TagEntryProps) {
+  const { tag, item, uniqueTagName, tagToLabelMap, allowedTagsForGrouping, onSelectTagHref, getHrefToGroupedView } =
+    props;
   const [isHovered, setIsHovered] = useState(false);
   const isContainerTag = containerSnapshotIds.includes(tag.name as string);
-
   return (
     <>
       <Li

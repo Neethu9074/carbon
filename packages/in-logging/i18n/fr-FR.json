@@ -49,5 +49,7 @@
   "warn": "{{count}} avertissement",
   "warn_plural": "{{count}} avertissements",
   "process": "Processus",
-  "host": "Hôte"
+  "host": "Hôte",
+  "fileOnHost": "sur",
+  "file": "Fichier"
 }

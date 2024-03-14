@@ -17,6 +17,7 @@ import {
   LOG_CUSTOM_KEY_ENDPOINT_ID,
   LOG_CUSTOM_KEY_ENDPOINT_NAME,
   LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_FILE_PATH,
   LOG_KUBERNETES_CLUSTER_NAME,
   LOG_KUBERNETES_DEPLOYMENT_NAME,
   LOG_KUBERNETES_NAMESPACE_NAME,
@@ -63,6 +64,7 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
       new Map<string, LinkResolverObservable>([
         [ID_PROCESS, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [ID_HOST, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [LOG_FILE_PATH, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
         [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
         [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
