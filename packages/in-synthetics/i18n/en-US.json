@@ -281,7 +281,7 @@
         "provider": "Provider",
         "locationName": "Location Name",
         "status": "Activation Status",
-        "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Using an Instana-hosted PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Locations are being deployed",
           "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This can take up to 10 minutes for each selected datacenter.</strong>",
@@ -331,7 +331,7 @@
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
         "title": "Synthetic PoP Commands",
-        "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Deploying a Self-hosted PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n\t--repo \"https://agents.instana.io/helm\" \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourPassword>\" \\\n\tsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n\t--repo \"https://agents.instana.io/helm\" \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true \\\n\t--set redis.tls.secretName=\"syntheticpop-redis\" \\\n\tsynthetic-pop",
         "tlsInstructions": "If you want to enable Redis TLS, you need to have your X.509 certificate-key pair (`tls.crt`, `tls.key`) and CA root certificate file (`ca.crt`).\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
