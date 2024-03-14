@@ -50,7 +50,7 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
       message =
         context === 'locations'
           ? t('in-synthetics:dialog.locationFeedback.failureMesssageDelete')
-          : t('in-synthetics:dialog.feedback.failuteMesssageDelete');
+          : t('in-synthetics:dialog.feedback.failureMesssageDelete', { errorMessage: error });
       break;
     default:
       message = '';
@@ -68,7 +68,7 @@ export const showCreateErrorMessage = (error: string) => showErrorMessage('creat
 
 export const showUpdateErrorMessage = (error: string) => showErrorMessage('update', undefined, error);
 
-export const showDeleteErrorMessage = (context?: string) => showErrorMessage('delete', context);
+export const showDeleteErrorMessage = (error: string, context?: string) => showErrorMessage('delete', context, error);
 
 export const showCreateSuccessMessage = () => showSuccessMessage('create');
 
