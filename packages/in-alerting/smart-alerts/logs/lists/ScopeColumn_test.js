@@ -8,8 +8,8 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertConfig } from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import { getFiltersCount } from 'in-alerting/smart-alerts/components/limitedFilters';
-import { alertConfig } from 'in-alerting/smart-alerts/logs/data/testData.json';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { t } from 'in-i18n';
 

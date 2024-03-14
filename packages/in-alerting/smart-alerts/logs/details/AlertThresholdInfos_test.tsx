@@ -11,7 +11,7 @@ import { StaticThresholdConfig, ThresholdConfigUnion, ThresholdOperator, Thresho
 
 import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
-import { alertConfig } from 'in-alerting/smart-alerts/logs/data/testData.json';
+import { alertConfig } from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
