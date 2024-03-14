@@ -40,6 +40,7 @@ import IconButton from 'in-components/IconButton/IconButton';
 import { NewPolicy } from 'in-automation/Policies/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { success } from 'in-services/util/result';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RecommendationActionsTable.mless';
@@ -132,7 +133,7 @@ export default function RecommendationActionForPoliciesTable({
                   }}
                 />
               </Tooltip>
-            ) : (
+            ) : role?.canRunAutomationActions ? (
               <Button // we are executing turbo actions directly from recommendation card
                 kind="action"
                 icon={'lib_actions_play'}
@@ -150,6 +151,8 @@ export default function RecommendationActionForPoliciesTable({
               >
                 {t('in-automation:ActionCatalog.run')}
               </Button>
+            ) : (
+              <div />
             )
         }
       ]}

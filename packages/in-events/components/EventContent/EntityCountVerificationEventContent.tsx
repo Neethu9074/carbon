@@ -111,9 +111,13 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
         </Col>
       </Row>
 
-      {role?.canConfigureAutomationPolicies && actionAutomationEnabled && isIssue && hasEventSpec && (
-        <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
-      )}
+      {role?.canConfigureAutomationPolicies &&
+        role.canConfigureAutomationActions &&
+        actionAutomationEnabled &&
+        isIssue &&
+        hasEventSpec && (
+          <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
+        )}
     </>
   );
 }

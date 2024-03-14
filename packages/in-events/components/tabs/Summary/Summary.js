@@ -233,12 +233,16 @@ const EventContent = connectTo(
           </Row>
         )}
 
-        {role?.canConfigureAutomationPolicies && actionAutomationEnabled && isIssue && hasEventSpec && (
-          <AssociatedAndRecommendedPolicies
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={event?.toJS()}
-          />
-        )}
+        {role?.canConfigureAutomationPolicies &&
+          role.canConfigureAutomationActions &&
+          actionAutomationEnabled &&
+          isIssue &&
+          hasEventSpec && (
+            <AssociatedAndRecommendedPolicies
+              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+              event={event?.toJS()}
+            />
+          )}
         <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
       </>
     );
