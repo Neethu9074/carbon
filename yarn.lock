@@ -2035,7 +2035,34 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/plex/-/plex-6.0.0-next.6.tgz#5b4ab81a84ddb06651fdf684521927cdce135b79"
   integrity sha512-B3uGruTn2rS5gweynLmfSe7yCawSRsJguJJQHVQiqf4rh2RNgJFu8YLE2Zd/JHV0ZXoVMOslcXP2k3hMkxKEyA==
 
-"@instana/components@2.45.0", "@instana/components@^2.45.0":
+"@instana/components@2.46.1":
+  version "2.46.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.46.1.tgz#b720f746bab8a42386d5aa8de5e0efdc8ac213eb"
+  integrity sha512-edUIEDAY+7VfjRTLo5bZrsSqTnXrD6ASArpzQiDaIdR+L8W/cZ3p8MhtweVwdsZDHtQfqB+zzZvH28wQtH0Rsg==
+  dependencies:
+    "@carbon/colors" "^11.14.0"
+    "@carbon/icons-react" "^11.18.0"
+    "@carbon/layout" "11.13.0"
+    "@carbon/react" "1.27.0"
+    "@carbon/styles" "1.27.0"
+    "@carbon/themes" "11.18.0"
+    "@carbon/type" "11.17.0"
+    "@emotion/react" "^11.9.0"
+    "@emotion/styled" "^11.8.1"
+    "@instana/design-tokens" "^1.23.6"
+    "@instana/format-date" "^1.6.3"
+    "@instana/format-numbers" "^1.5.3"
+    "@instana/hooks" "^1.11.3"
+    "@instana/i18n-react" "^1.5.3"
+    "@instana/observables" "^1.7.3"
+    "@mui/material" "^5.12.1"
+    classnames "^2.2.6"
+    lodash "^4.17.21"
+    prism-react-renderer "^1.2.1"
+    prismjs "^1.24.1"
+    react-toggle "^4.1.2"
+
+"@instana/components@^2.45.0":
   version "2.45.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-2.45.0.tgz#571698efe9c591dd9e9a0f8a4ea1f015d9133fc7"
   integrity sha512-HjTAMdT7pFK8NTwW6LwFdd/zNhJmVudKcIqa5Ma9Z0QP4J6vlxuP6aVW4jBEE1acSX6JOwqfFfoU+Y3QaOxl/A==

@@ -416,6 +416,7 @@
   "welcomepage": {
     "heading": "Welcome",
     "viewAll": "View all",
+    "addMore": "Add",
     "consumeData": {
       "title": "Consume Data",
       "description": "Get started and deploy your first agent.",
