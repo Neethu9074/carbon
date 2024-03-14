@@ -9,6 +9,7 @@ import React from 'react';
 
 import { bytesTwoDecimalPlaces, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -158,51 +159,55 @@ function getRowDetails(row: any) {
 
   return (
     <div>
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          metrics: ['executors.' + row.key + '.jvmCpuTime', 'executors.' + row.key + '.executorCpuTime'],
-          labels: [
-            t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
-            t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')
-          ],
-          type: 'line',
-          formatter: percentagePlainTwoDecimalPlaces
-        }}
-      />
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          metrics: [
-            'executors.' + row.key + '.shuffleClientUsedDirectMemory',
-            'executors.' + row.key + '.shuffleClientUsedHeapMemory'
-          ],
-          labels: [
-            t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
-            t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedHeapMemory')
-          ],
-          type: 'line',
-          formatter: bytesTwoDecimalPlaces
-        }}
-      />
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          metrics: [
-            'executors.' + row.key + '.deSerializationCpuTime',
-            'executors.' + row.key + '.serializationCpuTime'
-          ],
-          labels: [
-            t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
-            t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime')
-          ],
-          type: 'line',
-          formatter: percentagePlainTwoDecimalPlaces
-        }}
-      />
+      <>
+        <Columize>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['executors.' + row.key + '.jvmCpuTime', 'executors.' + row.key + '.executorCpuTime'],
+              labels: [
+                t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
+                t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')
+              ],
+              type: 'line',
+              formatter: percentagePlainTwoDecimalPlaces
+            }}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: [
+                'executors.' + row.key + '.shuffleClientUsedDirectMemory',
+                'executors.' + row.key + '.shuffleClientUsedHeapMemory'
+              ],
+              labels: [
+                t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
+                t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedHeapMemory')
+              ],
+              type: 'line',
+              formatter: bytesTwoDecimalPlaces
+            }}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: [
+                'executors.' + row.key + '.deSerializationCpuTime',
+                'executors.' + row.key + '.serializationCpuTime'
+              ],
+              labels: [
+                t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
+                t('in-forge:plugins.azureDatabricks.labelSerializationCpuTime')
+              ],
+              type: 'line',
+              formatter: percentagePlainTwoDecimalPlaces
+            }}
+          />
+        </Columize>
+      </>
     </div>
   );
 }
