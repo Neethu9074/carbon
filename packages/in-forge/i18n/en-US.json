@@ -4391,6 +4391,8 @@
         "ioThroughput": "IO Throughput",
         "readThroughput": "Read throughput",
         "writeThroughput": "Write throughput",
+        "ebsIo": "EBS IO",
+        "ebsIoBalance": "Balance",
         "networkTraffic": "Network Traffic",
         "receiveThroughput": "Receive throughput",
         "transmitThroughput": "Transmit throughput",
@@ -4433,6 +4435,7 @@
       "writeLatency": "Write latency",
       "readThroughput": "Read throughput",
       "writeThroughput": "Write throughput",
+      "ebsIoBalance": "EBS IO Balance",
       "receiveThroughput": "Receive throughput",
       "transmitThroughput": "Transmit throughput",
       "volumeBytesUsed": "Volume Bytes Used"
