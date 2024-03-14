@@ -5537,7 +5537,7 @@
       "labelInputRowPerSecond": "Input Row Per Second",
       "labelTotalExecutorCount": "Executors",
       "labelTotalJobCount": "Jobs Running",
-      "labelTotalMemoryMb": "Memories",
+      "labelTotalMemoryMb": "Memory",
       "titleClusters": "Clusters",
       "titleExecutors": "Executors"
     },
