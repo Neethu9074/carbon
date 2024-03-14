@@ -158,7 +158,7 @@ export default function MetricConfiguration(props) {
                 ) : undefined
               }
               formatterSection={formatterSection}
-              disabledDataSources={[sliSource, logsSource]}
+              disabledDataSources={[sliSource]}
               axisForm={form}
               axisName={axisName}
               withLabelConfiguration

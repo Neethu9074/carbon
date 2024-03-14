@@ -11,8 +11,9 @@ import { just } from '@instana/observables';
 import { Result } from '@instana/types';
 
 import realGetUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
-import { baseConfig, baseResult, baseTimeConfig, metricsBase } from './utils_test';
+import { baseResult, metricsBase } from './utils_test';
 import { LIVE_MODE_REFRESH_INTERVAL, useLogsPolling } from './useLogsPolling';
+import { deepCopy } from 'in-services/util/object';
 
 jest.mock('in-subscription/getUnifiedMetrics');
 
@@ -41,13 +42,13 @@ describe('useLogsPolling', () => {
       return data;
     });
 
-    const logsPollingProps = {
-      metrics: metricsBase,
-      timeConfig: { ...baseTimeConfig, autoRefresh: true },
-      config: baseConfig
-    };
+    const metrics = deepCopy(metricsBase);
 
-    const { result } = renderHook(() => useLogsPolling(logsPollingProps));
+    for(const metric in metrics) {
+      metrics[metric] = { ...metrics[metric], timeConfig: {...metrics[metric].timeConfig, autoRefresh: true}};
+    }
+
+    const { result } = renderHook(() => useLogsPolling({metrics}));
 
     act(() => {
       jest.advanceTimersByTime(LIVE_MODE_REFRESH_INTERVAL * NUMBER_OF_INTERVALS);

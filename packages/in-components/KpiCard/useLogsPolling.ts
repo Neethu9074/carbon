@@ -4,18 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { isEqual } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 
 import { just, Observable } from '@instana/observables';
-import { Result, TimeConfig } from '@instana/types';
+import { Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import {
-  Config,
-  ConfigWithCompanionMetric,
-  ConfigWithStaticCompanion
-} from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { UnifiedMetricConfiguration } from 'in-types';
 
@@ -25,60 +19,50 @@ type MetricsConfigurations = { [p: string]: UnifiedMetricConfiguration };
 
 export interface UseLogsPollingParams {
   metrics: MetricsConfigurations;
-  timeConfig: TimeConfig;
-  config:
-    | Config<UnifiedMetricConfiguration>
-    | ConfigWithCompanionMetric<UnifiedMetricConfiguration>
-    | ConfigWithStaticCompanion<UnifiedMetricConfiguration>;
 }
 
 /** Logging doesn't support live mode in the backend, this hook implements autoRefresh via polling **/
-export const useLogsPolling = ({ metrics, timeConfig, config }: UseLogsPollingParams) => {
+export const useLogsPolling = ({ metrics }: UseLogsPollingParams) => {
   const currentDataToTime = useRef<number | null | undefined>();
-  const prevMetricsRef = useRef<MetricsConfigurations>(metrics);
-  const [metric, setMetric] = useState<MetricsConfigurations>(metrics);
-  const [fetchedResult, setFetchedResult] = useState<null | Result<UnifiedMetricsResult[]>>(null);
+  const metricsRef = useRef<MetricsConfigurations>(metrics);
 
-  const isLogConfig = config.metricConfiguration.source === 'LOG';
-  const isLiveMode = timeConfig.autoRefresh;
+  const [fetchedResult, setFetchedResult] = useState<null | Result<UnifiedMetricsResult[]>>(null);
+  const [update, setUpdate] = useState<{}>({});
+
+  const isLogConfig = Object.values(metrics)
+    .map(metric => metric.source)
+    .includes('LOG');
+  const isLiveMode = Object.values(metrics)[0].timeConfig.autoRefresh;
   const isPollingActive = isLogConfig && isLiveMode;
 
-  //Reset the state if the config changes
   useEffect(() => {
-    if (!isEqual(prevMetricsRef.current, metrics)) {
-      setFetchedResult(null);
-      setMetric(metrics);
-    }
-    prevMetricsRef.current = metrics;
+    metricsRef.current = metrics;
   }, [metrics]);
 
   useEffect(() => {
     let intervalId: number | undefined;
 
     function updateMetrics() {
-      setMetric(prevMetrics => {
-        if (!prevMetrics) return prevMetrics;
+      const now = Date.now();
+      let prevMetrics = metricsRef.current;
 
-        const now = Date.now();
+      const updatedMetrics = Object.keys(prevMetrics).reduce((acc, key) => {
+        const metric = prevMetrics[key];
+        const to = key === 'comparison' ? now + prevMetrics.comparison.timeShift.offset : now;
+        const updatedMetric = {
+          ...metric,
+          timeConfig: {
+            ...metric.timeConfig,
+            to,
+            focusedMoment: to,
+            autoRefresh: false
+          }
+        };
+        return { ...acc, [key]: updatedMetric };
+      }, {});
 
-        const updatedMetrics = Object.keys(prevMetrics).reduce((acc, key) => {
-          const metric = prevMetrics[key];
-          const to = key === 'comparison' ? now + prevMetrics.comparison.timeShift.offset : now;
-
-          const updatedMetric = {
-            ...metric,
-            timeConfig: {
-              ...metric.timeConfig,
-              to,
-              focusedMoment: to,
-              autoRefresh: false
-            }
-          };
-          return { ...acc, [key]: updatedMetric };
-        }, {});
-
-        return updatedMetrics;
-      });
+      metricsRef.current = updatedMetrics;
+      setUpdate({});
     }
 
     if (isPollingActive) {
@@ -87,28 +71,24 @@ export const useLogsPolling = ({ metrics, timeConfig, config }: UseLogsPollingPa
     }
 
     return () => clearInterval(intervalId);
-  }, [config, timeConfig, isPollingActive]);
+  }, [isPollingActive]);
 
-  const fetchUnifiedMetrics = useCallback(
-    ([metric]: [MetricsConfigurations | null]): Observable<Result<UnifiedMetricsResult[]> | null> => {
-      const metricTo = metric && Object.values(metric)[0].timeConfig.to;
-      const shouldFetchNewMetrics = metric && currentDataToTime.current !== metricTo;
+  const fetchUnifiedMetrics = (): Observable<Result<UnifiedMetricsResult[]> | null> => {
+    const metrics = metricsRef.current;
+    const metricTo = metrics && Object.values(metrics)[0].timeConfig.to;
+    const shouldFetchNewMetrics = metrics && currentDataToTime.current !== metricTo;
 
-      if (shouldFetchNewMetrics) {
-        currentDataToTime.current = metricTo;
-        return getUnifiedMetrics({ metrics: metric });
-      }
+    if (shouldFetchNewMetrics) {
+      currentDataToTime.current = metricTo;
+      return getUnifiedMetrics({ metrics: metrics });
+    }
 
-      return just(null);
-    },
-    []
-  );
+    return just(null);
+  };
 
-  const logsResult = useObservable<Result<UnifiedMetricsResult[]> | null, [MetricsConfigurations | null]>(
-    fetchUnifiedMetrics,
-    [metric],
-    { resetStateOnObservableChange: false }
-  );
+  const logsResult = useObservable<Result<UnifiedMetricsResult[]> | null, [unknown]>(fetchUnifiedMetrics, [update], {
+    resetStateOnObservableChange: false
+  });
 
   //Cache the result so no loading indicator appears while the result is updating
   useEffect(() => {
@@ -116,11 +96,6 @@ export const useLogsPolling = ({ metrics, timeConfig, config }: UseLogsPollingPa
       setFetchedResult(logsResult);
     }
   }, [logsResult]);
-
-  //Clear the result on time config changes
-  useEffect(() => {
-    setFetchedResult(null);
-  }, [timeConfig]);
 
   return isPollingActive ? fetchedResult : null;
 };

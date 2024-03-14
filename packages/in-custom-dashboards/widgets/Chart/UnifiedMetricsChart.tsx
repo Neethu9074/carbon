@@ -8,14 +8,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   AdjustedTimeframe,
   Grouping,
+  isInfraMetricConfiguration,
   LabeledMetricResult,
+  MetricResult,
   Result,
+  ResultType,
   TimeConfig,
-  UnifiedMetricConfiguration,
-  isInfraMetricConfiguration
+  UnifiedMetricConfiguration
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { ResultType } from '@instana/types';
 
 import {
   Axis,
@@ -39,11 +40,13 @@ import {
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import { getLogMetricsConfig, transformToPerSecondAggregation } from 'in-components/KpiCard/utils';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { AxisNames } from 'in-components/Chart/data/dataSearchUtils';
 import { noop, pendingResult } from 'in-services/fixedObjects';
@@ -220,7 +223,7 @@ interface ResultData {
 type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfiguration };
 
 export function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
-  const metrics: UnifiedMetricsConfigObject = {};
+  let metrics: UnifiedMetricsConfigObject = {};
   const companionMetrics: UnifiedMetricsConfigObject = {};
   const resultType = enforceSingleNumberResult.find(({ id }) => id === config?.y1.renderer)
     ? 'SINGLE_NUMBER'
@@ -239,15 +242,25 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
     );
   }
 
+  metrics = getLogMetricsConfig(metrics, 'Chart');
+
   const stableConfig = useStableObjectInstance(config);
 
-  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]) ?? pendingResult;
+  const logsPollingResult = useLogsPolling({ metrics });
+
+  const metricResult =
+    useObservable<Result<MetricResult[]>, unknown[]>(
+      () => getUnifiedMetrics({ metrics }),
+      [timeConfig, stableConfig]
+    ) ?? pendingResult;
   const companionMetricResult =
     useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 
+  let result = getResult(metricResult, logsPollingResult, metrics);
+
   // do not execute the query while the parent component is still loading data for the chart configuration
   return {
-    metricResult,
+    metricResult: result,
     companionMetricResult
   };
 }
@@ -562,4 +575,23 @@ export function toAxisConfiguration(
     adjustedTimeframes: resultDataAsList.map(({ adjustedTimeframe }) => adjustedTimeframe as AdjustedTimeframe),
     lastValue: axis.metrics.some(({ lastValue }) => lastValue === true)
   };
+}
+
+function getResult(
+  metricResult: Result<UnifiedMetricsResult[]>,
+  logsPollingResult: Result<UnifiedMetricsResult[]> | null,
+  metrics: UnifiedMetricsConfigObject
+) {
+  let result = logsPollingResult ?? metricResult;
+
+  const includesLogsMetric = Object.values(metrics).some(metric => metric.source === 'LOG');
+  const includesPerSecondLogs =
+    includesLogsMetric &&
+    Object.values(metrics).some(metric => metric.source === 'LOG' && metric.aggregation === 'PER_SECOND');
+
+  if (includesLogsMetric && includesPerSecondLogs && result.data) {
+    return { ...metricResult, data: transformToPerSecondAggregation(result?.data, metrics) };
+  }
+
+  return result;
 }
