@@ -17,7 +17,6 @@ import {
   zhmcEnabled,
   sloV2Enabled,
   powervcEnabled,
-  automationPoliciesEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled
 } from 'in-services/featureFlags';
@@ -710,10 +709,6 @@ export function getProductPermissions(): Array<ProductPermission> {
 
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return !automationCapabilities.has(keyForGroupApi);
-    });
-  } else if (!automationPoliciesEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_CONFIGURE_AUTOMATION_POLICIES;
     });
   }
 

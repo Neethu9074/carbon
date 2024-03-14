@@ -20,7 +20,6 @@ import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/a
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import AlertsActionAssociationsViewer from 'in-automation/AssociatedActions/AlertsActionAssicationsViewer';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
@@ -31,21 +30,17 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { operators } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import ListTitle from 'in-components/lists/Title';
 import { success } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
@@ -53,7 +48,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/Ale
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert, actionAssociationsErrors }) {
+export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const {
     name,
@@ -69,7 +64,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert, ac
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const actionIds = alertConfig?.actionIds ?? [];
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
   return (
@@ -191,27 +185,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert, ac
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
-      {role?.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert ? (
-        <ExpandableLightCard
-          title={
-            <div>
-              <span>{t('in-settings:tabs.ActionAssociations')}</span> <BetaBadge />
-            </div>
-          }
-          useMaxAvailableHeight={false}
-          bodyWithoutPadding
-          openByDefault
-          darkFrame
-        >
-          {actionAssociationsErrors?.length ? (
-            <ErroneousResultPresenter errors={[...actionAssociationsErrors]} />
-          ) : (
-            <div className={locals.alertChannelsWrapper}>
-              <AlertsActionAssociationsViewer actionIds={actionIds} />
-            </div>
-          )}
-        </ExpandableLightCard>
-      ) : null}
     </AlertDetailsCard>
   );
 }
@@ -283,13 +256,7 @@ function AdditionalFiltersCard({ tagFilterFormModel, alertType, thresholdType })
 
 AlertConfiguration.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  isGlobalSmartAlert: PropTypes.bool,
-  actionAssociationsErrors: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired
-    })
-  )
+  isGlobalSmartAlert: PropTypes.bool
 };
 
 function getDescription(operator, message) {

@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { combineLatest } from '@instana/observables';
-
 import {
   deleteGlobalAlertConfig,
   disableGlobalAlertConfig,
@@ -42,12 +40,9 @@ import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
-import { getApplicationAlertActionAssociationsWithResult } from 'in-automation/api';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { hasError, isLoading } from 'in-services/util/result';
 import { role } from 'in-stores/user';
 
 const endpointConfig = { asObservable: true };
@@ -88,38 +83,6 @@ function GlobalAlertDetails(props) {
     />
   );
 }
-const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
-function mergeResultData(id, endpointConfig, created) {
-  const alertDetails$ = created
-    ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig)
-    : getLatestAlertConfig(id, endpointConfig);
-
-  // calling Get Alert and Get action associations call and combining results
-  if (hasAutomationActions) {
-    const actionDetails$ = getApplicationAlertActionAssociationsWithResult(id);
-    return combineLatest([alertDetails$, actionDetails$]).map(([alertResponse, actionResponse]) =>
-      combineResults(alertResponse, actionResponse)
-    );
-  }
-
-  return alertDetails$;
-}
-
-function combineResults(alertResponse, actionResponse) {
-  if (isLoading(alertResponse) || hasError(alertResponse) || isLoading(actionResponse)) {
-    return alertResponse;
-  }
-  if (hasError(actionResponse)) {
-    return {
-      ...alertResponse,
-      actionAssociationsErrors: actionResponse.errors
-    };
-  }
-  return {
-    ...alertResponse,
-    actionIds: actionResponse?.data?.map(action => action.id) ?? []
-  };
-}
 
 function IndividualAlertDetails(props) {
   return (
@@ -131,7 +94,9 @@ function IndividualAlertDetails(props) {
         alertsTabSegment
       }}
       matrix={{ alertIdParam, alertCreatedParam }}
-      getConfig={(id, created) => mergeResultData(id, endpointConfig, created)}
+      getConfig={(id, created) =>
+        created ? getAlertConfigByIdAndTimestamp(id, created, endpointConfig) : getLatestAlertConfig(id, endpointConfig)
+      }
       getConfigVersions={id => getAllVersionsOfAlertConfig(id, endpointConfig)}
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}
@@ -167,14 +132,8 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlo
   );
 }
 
-function renderAlertConfiguration({ alertConfig, isGlobalSmartAlert, actionAssociationsErrors }) {
-  return (
-    <AlertConfiguration
-      alertConfig={alertConfig}
-      isGlobalSmartAlert={isGlobalSmartAlert}
-      actionAssociationsErrors={actionAssociationsErrors}
-    />
-  );
+function renderAlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
+  return <AlertConfiguration alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />;
 }
 
 AlertDetails.propTypes = {

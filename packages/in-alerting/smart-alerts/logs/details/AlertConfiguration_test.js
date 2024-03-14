@@ -10,7 +10,7 @@ import React from 'react';
 import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { getDescription } from 'in-alerting/smart-alerts/components/dialog/timeThresholdDescriptionText';
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
-import { alertConfig } from 'in-alerting/smart-alerts/logs/data/testData.json';
+import { alertConfig } from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

@@ -34,7 +34,6 @@ export default function SloConfigPreview() {
   const timeWindowType = form.getIn(['objective', 'type']).value;
   const sloEntityType = form.getIn(['entity', 'type']).value;
   const indicatorType = form.getIn(['indicator', 'type']).value;
-  const blueprintType = form.getIn(['indicator', 'blueprint']).value;
   const objectiveDate = form.getIn(['objective', 'startTimestamp', 'date']).value;
   const objectiveTime = form.getIn(['objective', 'startTimestamp', 'time']).value;
   const objectiveDurationUnit = form.getIn(['objective', 'durationUnit']).value;
@@ -53,7 +52,6 @@ export default function SloConfigPreview() {
     <Card leftHeaderContent={<PreviewChartLeftHeader status={status} />}>
       <HorizontalIndicator progress={progress} />
       <SloChartSummary
-        blueprintType={blueprintType}
         budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
         consumedBudgetSingleNumber={consumedBudgetNumber?.values as MetricDataPoint[]}
         fromTimestamp={fromTimestamp}

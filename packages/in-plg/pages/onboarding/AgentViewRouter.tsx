@@ -6,24 +6,16 @@
 
 import React, { useEffect } from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import createTracker, { CreateTrackerProps } from 'in-waiting-for-deployment/tracker';
 import { getEntriesForFreeTrial } from 'in-plg/pages/onboarding/content';
 import ContentProps from 'in-plg/pages/onboarding/content/ContentProps';
-//@ts-expect-error
-import { getUnitKeys } from 'in-api/unitKeys';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Header from 'in-plg/components/Header/Header';
 import config from 'in-services/config';
 import { t } from 'in-i18n';
-
-interface UnitKeys {
-  agentKey: string;
-  downloadKey: string;
-}
 
 interface BreadCrumbItem {
   icon?: string;
@@ -35,14 +27,16 @@ interface BreadCrumbItem {
 interface AgentViewRouterProps {
   selectedService: string;
   fromOnboarding?: boolean;
+  agentKey: string;
+  downloadKey: string;
 }
 
-export default function AgentViewRouter({ selectedService, fromOnboarding = false }: AgentViewRouterProps) {
-  const unitKeysResp: UnitKeys = useObservable<UnitKeys, []>(getUnitKeys(), []) ?? {
-    agentKey: 'agentKey',
-    downloadKey: 'downloadKey'
-  };
-
+export default function AgentViewRouter({
+  selectedService,
+  fromOnboarding = false,
+  agentKey,
+  downloadKey
+}: AgentViewRouterProps) {
   const entities: ContentProps[] = getEntriesForFreeTrial();
   const selectedEntity = entities.find(entity => entity.id === selectedService);
   const technology = selectedEntity?.subTechnology ?? selectedEntity;
@@ -84,8 +78,8 @@ export default function AgentViewRouter({ selectedService, fromOnboarding = fals
         {technology?.Content && selectedEntity?.id && (
           <technology.Content
             id={selectedEntity.id}
-            agentKey={unitKeysResp.agentKey}
-            downloadKey={unitKeysResp.downloadKey}
+            agentKey={agentKey}
+            downloadKey={downloadKey}
             tenant={config.tenant}
             tenantUnit={config.tenantUnit}
             butlerDomain={config.butlerDomain}

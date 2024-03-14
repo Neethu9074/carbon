@@ -89,7 +89,7 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
   };
 }
 
-function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
+export function toAlertConfig(form: MapForm<any>): Readonly<LogAlertConfig> {
   const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
 
   return Object.freeze({

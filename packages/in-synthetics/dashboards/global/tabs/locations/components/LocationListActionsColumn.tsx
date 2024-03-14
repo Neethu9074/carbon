@@ -18,6 +18,7 @@ import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn.mless';
@@ -47,34 +48,67 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
     return addActiveDialog(<DeactivateSelectedLocation item={item} />);
   };
 
-  return (
-    <HorizontalFlexWrapper className={locals.actions}>
-      <MoreMenu
-        renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
-          <IconButton
-            kind="info"
-            type="lib_menu_more_horizontal"
-            onClick={e => {
-              stopPropagation(e);
-              toggle();
-            }}
-            ref={ref as React.MutableRefObject<HTMLButtonElement>}
-          />
-        )}
-      >
+  if (syntheticDeactivateDatacentersEnabled) {
+    return (
+      <HorizontalFlexWrapper className={locals.actions}>
+        <MoreMenu
+          renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
+            <IconButton
+              kind="info"
+              type="lib_menu_more_horizontal"
+              onClick={e => {
+                stopPropagation(e);
+                toggle();
+              }}
+              ref={ref as React.MutableRefObject<HTMLButtonElement>}
+            />
+          )}
+        >
+          {item.type === 'Private' && (
+            <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
+              {t('in-synthetics:dashboard.locationList.deleteLocation')}
+            </MoreMenuButton>
+          )}
+          {item.type === 'Managed' && (
+            <MoreMenuButton icon="lib_actions_lock" onClick={showDeactivateDialog}>
+              {t('in-synthetics:dashboard.locationList.deactivateLocation.deactivate')}
+            </MoreMenuButton>
+          )}
+        </MoreMenu>
+      </HorizontalFlexWrapper>
+    );
+  } else {
+    return (
+      <HorizontalFlexWrapper className={locals.actions}>
         {item.type === 'Private' && (
-          <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
-            {t('in-synthetics:dashboard.locationList.deleteLocation')}
-          </MoreMenuButton>
+          <MoreMenu
+            renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
+              <IconButton
+                kind="info"
+                type="lib_menu_more_horizontal"
+                onClick={e => {
+                  stopPropagation(e);
+                  toggle();
+                }}
+                ref={ref as React.MutableRefObject<HTMLButtonElement>}
+              />
+            )}
+          >
+            <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
+              {t('in-synthetics:dashboard.locationList.deleteLocation')}
+            </MoreMenuButton>
+          </MoreMenu>
         )}
-        {syntheticDeactivateDatacentersEnabled && item.type === 'Managed' && (
-          <MoreMenuButton icon="lib_actions_lock" onClick={showDeactivateDialog}>
-            {t('in-synthetics:dashboard.locationList.deactivateLocation.deactivate')}
-          </MoreMenuButton>
+        {item.type === 'Managed' && (
+          <div>
+            <Tooltip content={t('in-synthetics:dashboard.locationList.deleteRestrictedDescription')}>
+              <span>{t('in-synthetics:dashboard.locationList.noActionsAllowed')}</span>
+            </Tooltip>
+          </div>
         )}
-      </MoreMenu>
-    </HorizontalFlexWrapper>
-  );
+      </HorizontalFlexWrapper>
+    );
+  }
 };
 
 export default LocationListActionsColumn;

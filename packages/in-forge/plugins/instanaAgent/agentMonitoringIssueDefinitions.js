@@ -256,5 +256,14 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/int-sdks-apis`
+  },
+  agent_tmp_directory_missing: {
+    issueDescription: {
+      Component: function missingTmpDirectory() {
+        return <span>{t('in-forge:plugins.instanaAgent.tmpDirectoryMissingIssue')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/BdvTVF`
   }
 };

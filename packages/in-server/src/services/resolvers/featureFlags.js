@@ -476,11 +476,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'automationPoliciesEnabled',
-    instanaCtlKey: 'feature.automation.policies.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false
@@ -528,6 +523,16 @@ module.exports = exports = [
   {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
+    instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'rawTraceDownloadEnabled',
+    instanaCtlKey: 'feature.application.raw.trace.download.enabled',
     defaultValue: false
   }
 ];

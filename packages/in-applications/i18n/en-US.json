@@ -7,6 +7,8 @@
   "labelCall": "Call",
   "labelTrace": "Trace",
   "linkDownload": "Download",
+  "linkDownloadCalls": "Download calls",
+  "linkDownloadRawTrace": "Download raw trace",
   "labelCalls": "Calls",
   "labelCallsPerSecondFull": "Calls Per Second",
   "labelTraces": "Traces",
@@ -602,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "Parent call cannot be loaded at this moment",
       "callTreeLoadingOfCallsFailed": "Calls cannot be loaded at this moment",
       "retry": "Try again",
-      "treeHeaderLatency": "Root call latency"
+      "treeHeaderLatency": "Root call latency",
+      "loadingDashboard": {
+        "defaultTitle": "This is taking a bit longer than expected...",
+        "retryTitle": "Attempting... {{retry}}/3",
+        "loadingMessage": "Bear with us, we need more time to load the trace with ID {{traceId}}."
+      },
+      "retryErrorMessage": {
+        "title": "Trace with ID {{traceId}} could not be found.",
+        "reasonHeader": "Possible reasons include:",
+        "traceDropped": "the trace was dropped",
+        "noInstanaTrace": "the trace is not an Instana trace",
+        "outsideRetention": "the trace is outside of the Instana retention period"
+      }
     }
   },
   "tabs": {

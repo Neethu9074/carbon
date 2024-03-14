@@ -209,8 +209,6 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
-export const automationPoliciesEnabled = isFeatureFlagEnabled('automationPoliciesEnabled', false);
-
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
@@ -225,3 +223,10 @@ export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
+
+export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
+  'serviceNowAutoCloseAndCustomPayloadsEnabled',
+  false
+);
+
+export const rawTraceDownloadEnabled = isFeatureFlagEnabled('rawTraceDownloadEnabled', false);

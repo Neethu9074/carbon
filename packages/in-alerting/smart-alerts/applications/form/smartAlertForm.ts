@@ -40,7 +40,6 @@ export interface UiExtraData {
   applicationId?: string;
   endpointId?: string;
   serviceId?: string;
-  actionIds?: string[];
   builtIn?: boolean;
 }
 
@@ -84,8 +83,7 @@ export function createSmartAlertForm(
     tagFilterExpression,
     threshold,
     timeThreshold,
-    triggering,
-    actionIds
+    triggering
   } = alertConfig;
 
   const form = createMapForm({
@@ -124,9 +122,6 @@ export function createSmartAlertForm(
       }),
       alertChannelIds: createField({
         value: alertChannelIds ?? []
-      }),
-      actionIds: createField({
-        value: actionIds ?? []
       }),
       granularity: createField({
         value: granularity ?? getDefaultGranularity(threshold)

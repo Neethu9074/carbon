@@ -15,11 +15,9 @@ import {
   isMobileAppSmartAlertEvent
 } from 'in-events/components/eventUtil';
 import AssociatedAndRecommendedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedPoliciesAlerts';
-import AssociatedAndRecommendedActionsAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedActionsAlerts';
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
-import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
-import { actionAutomationEnabled, rcaUIEnabled, automationPoliciesEnabled } from 'in-services/featureFlags';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import { actionAutomationEnabled, rcaUIEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
@@ -103,11 +101,8 @@ export default function IncidentEventList({
         setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
         highlightEventOnHover={highlightEventOnHover}
       />
-      {automationPoliciesEnabled &&
-        role?.canConfigureAutomationPolicies &&
+      {role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
-        role.canConfigureAutomationActions &&
-        role.canConfigureEventsAndAlerts &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -116,37 +111,11 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
-      {!automationPoliciesEnabled &&
+      {role?.canConfigureAutomationPolicies &&
         actionAutomationEnabled &&
-        role.canConfigureAutomationActions &&
-        role.canConfigureEventsAndAlerts &&
-        !isWebsiteSmartAlertEvent(triggerEvent) &&
-        !isApplicationSmartAlertEvent(triggerEvent) &&
-        !isMobileAppSmartAlertEvent(triggerEvent) && (
-          <AssociatedAndRecommendedActions
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={triggerEvent?.toJS()}
-          />
-        )}
-      {automationPoliciesEnabled &&
-        role?.canConfigureAutomationPolicies &&
-        actionAutomationEnabled &&
-        role.canConfigureAutomationActions &&
-        role.canConfigureEventsAndAlerts &&
         !isGlobalSmartAlert &&
         isApplicationSmartAlertEvent(triggerEvent) && (
           <AssociatedAndRecommendedPoliciesAlerts
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={triggerEvent?.toJS()}
-          />
-        )}
-      {!automationPoliciesEnabled &&
-        actionAutomationEnabled &&
-        role.canConfigureAutomationActions &&
-        role.canConfigureEventsAndAlerts &&
-        !isGlobalSmartAlert &&
-        isApplicationSmartAlertEvent(triggerEvent) && (
-          <AssociatedAndRecommendedActionsAlerts
             volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
             event={triggerEvent?.toJS()}
           />

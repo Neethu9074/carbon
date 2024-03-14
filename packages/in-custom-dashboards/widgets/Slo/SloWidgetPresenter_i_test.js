@@ -47,7 +47,16 @@ describe('in-custom-dashboards/widgets/Slo/SloWidgetPresenter', () => {
   const useTagCatalogReturnValue = { errors: [], progress: { loading: false } };
   const sliConfigurationMock = { id: widgetConfig.sliConfigId, sliEntity: { sliType: widgetConfig.entityType } };
   const sloEntityMock = { id: widgetConfig.entityId, label: 'Test Entity Label' };
-
+  global.matchMedia =
+    global.matchMedia ||
+    function () {
+      return {
+        matches: false,
+        matchMedia: function () {},
+        addEventListener: function () {},
+        removeListener: function () {}
+      };
+    };
   it('should render loader and skeletons if status are pending.', async () => {
     useTagCatalog.mockReturnValue(useTagCatalogReturnValue);
     useSliConfiguration.mockReturnValue([sliConfigurationMock, 'pending', [], { loading: false }]);

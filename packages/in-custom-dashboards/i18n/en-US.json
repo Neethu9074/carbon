@@ -253,6 +253,19 @@
         "syntheticMonitoring": "Synthetic Monitoring"
       }
     },
+    "srcLogging": {
+      "index": {
+        "logging": "Logs"
+      },
+      "formComponent": {
+        "metrics": {
+          "count": "Count"
+        },
+        "metric": "Metric",
+        "aggregation": "Aggregation",
+        "pleaseSelect": "Please select"
+      }
+    },
     "metricConfigurator": {
       "ds": "Data Source",
       "pleaseSelect": "Please select",

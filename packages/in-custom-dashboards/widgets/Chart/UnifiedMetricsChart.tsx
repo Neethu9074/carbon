@@ -304,7 +304,7 @@ function addUnifiedMetricsConfigForCompanionMetrics(
 
 export function parseMetricId(metricId: string) {
   const [axis, index] = metricId.split('-');
-  return { axis: axis, index: index };
+  return { axis: axis, index: Number(index) };
 }
 
 // For charts in custom dashboards we support a feature called "Display Current Values".

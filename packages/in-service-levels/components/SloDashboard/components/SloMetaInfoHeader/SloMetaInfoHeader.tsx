@@ -21,13 +21,13 @@ import locals from './SloMetaInfoHeader.mless';
 
 type SloMetaInfoHeaderProps = Partial<ApplicationSloTabData>;
 
-export default function SloMetaInfoHeader({ configuration, entity, service }: SloMetaInfoHeaderProps) {
+export default function SloMetaInfoHeader({ configuration, entity, service, endpoint }: SloMetaInfoHeaderProps) {
   if (!configuration) return null;
 
   return (
     <AdditionalDashboardHeader className={locals.metaInfoHeader}>
       <Stack align="start" direction="horizontal" distribution="spaceBetween" wrap>
-        <SloDashboardMetaInfo configuration={configuration} entity={entity} service={service} />
+        <SloDashboardMetaInfo configuration={configuration} entity={entity} service={service} endpoint={endpoint} />
         <TabButtons />
       </Stack>
     </AdditionalDashboardHeader>
