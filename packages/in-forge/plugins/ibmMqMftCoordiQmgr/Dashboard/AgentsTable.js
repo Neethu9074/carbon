@@ -7,6 +7,7 @@
 import React from 'react';
 
 import getIbmMqMftAgentsForCoordiQmgr from '../subscriptions/getIbmMqMftAgentsForCoordiQmgr';
+import { getAgentStatus } from 'in-forge/plugins/ibmMqMftAgent/Dashboard/AgentStatus.tsx';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -76,10 +77,19 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.ibmMqMftAgent.dashboard.agentStatus'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'agentStatus']);
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'agentStatusMetric';
+      },
+      getContent(value) {
+        return getAgentStatus(value);
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }

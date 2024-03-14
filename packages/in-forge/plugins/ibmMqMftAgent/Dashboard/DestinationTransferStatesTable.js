@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
+import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
+import { StatesMap } from './TransferStates';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -22,24 +23,57 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.ibmMqMftAgent.dashboard.transferState'),
-    type: 'string',
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.state;
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `as.dst.${row.id}.state`;
+      },
+      getContent(value) {
+        return StatesMap[value];
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqMftAgent.dashboard.transferStateCapturedTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `as.dst.${row.id}.capturedTime`;
+      },
+      getContent(value) {
+        return formatDateTime(value);
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
 ];
 
 export default function DestinationTransferStatesTable({ snapshot }) {
-  const rows = [];
-  snapshot.getIn(['data', 'DestinationTransferStates'], emptyList).forEach(transfer => {
-    rows.push({
-      id: transfer.get('ID'),
-      state: transfer.get('state'),
-      key: transfer.get('ID')
-    });
-  });
+  const snapshotId = snapshot.get('id');
+  const regex = /^as.dst.(.*)\.state$/;
+  const metricIds = snapshot.get('metricIds');
+  const rows = metricIds
+    .filter(metricId => regex.test(metricId))
+    .map(metricId => {
+      return {
+        id: metricId.match(regex)[1],
+        key: metricId.match(regex)[1],
+        snapshotId
+      };
+    })
+    .valueSeq()
+    .toArray();
 
   if (rows.length === 0) {
     return null;
