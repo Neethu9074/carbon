@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 
 export default function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(true);
+
   useEffect(() => {
     const matchQueryList = window.matchMedia(query);
     function handleChange(e: { matches: boolean | ((prevState: boolean) => boolean) }) {
@@ -18,5 +19,6 @@ export default function useMediaQuery(query: string) {
       matchQueryList.removeEventListener('change', handleChange);
     };
   }, [query]);
+
   return matches;
 }
