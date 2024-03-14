@@ -102,6 +102,7 @@ export default function IncidentEventList({
         highlightEventOnHover={highlightEventOnHover}
       />
       {role?.canConfigureAutomationPolicies &&
+        role.canConfigureAutomationActions &&
         actionAutomationEnabled &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
@@ -112,6 +113,7 @@ export default function IncidentEventList({
           />
         )}
       {role?.canConfigureAutomationPolicies &&
+        role.canConfigureAutomationActions &&
         actionAutomationEnabled &&
         !isGlobalSmartAlert &&
         isApplicationSmartAlertEvent(triggerEvent) && (
