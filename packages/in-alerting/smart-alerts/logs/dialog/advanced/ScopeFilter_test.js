@@ -8,8 +8,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 import alertFormDefinition from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
+import { alertConfig } from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import ScopeFilter from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter';
-import { alertConfig } from 'in-alerting/smart-alerts/logs/data/testData';
 import { t } from 'in-i18n';
 
 describe('ScopeFilter : in-alerting/smart-alerts/logs/dialog/advanced/ScopeFilter', () => {

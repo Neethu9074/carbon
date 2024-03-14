@@ -10,8 +10,8 @@ import React from 'react';
 
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import alertFormDefinition from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
+import { alertConfig } from 'in-alerting/smart-alerts/logs/data/alertConfigData.json';
 import ScopeGroup from 'in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup';
-import { alertConfig } from 'in-alerting/smart-alerts/logs/data/testData';
 import { t } from 'in-i18n';
 
 describe('Render Scope Group in Log SA dialog : in-alerting/smart-alerts/logs/dialog/advanced/ScopeGroup', () => {

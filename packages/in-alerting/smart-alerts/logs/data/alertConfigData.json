@@ -151,5 +151,32 @@
   "logGroupBy": {
     "groupbyTag": "log.streamName",
     "groupbyTagEntity": "NOT_APPLICABLE"
+  },
+  "form": {
+    "alertChannelIds": [],
+    "description": "The log count is higher or equal to 12 (AN smart alert)",
+    "granularity": 600000,
+    "name": "Test alert",
+    "severity": 5,
+    "tagFilterExpression": {
+      "elements": [],
+      "logicalOperator": "AND",
+      "type": "EXPRESSION"
+    },
+    "id": "123",
+    "threshold": {
+      "type": "staticThreshold",
+      "operator": ">=",
+      "lastUpdated": 0,
+      "value": 12
+    },
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "timeWindow": 600000
+    },
+    "hiddenFields": {
+      "calculateThresholdOnBackend": true
+    },
+    "customPayloadFields": []
   }
 }
