@@ -57,6 +57,7 @@ function Renderer() {
       isAgentDeployed={false}
       isBackendAvailable={apiCallSatisfied}
       agentKey={config.agentKey}
+      downloadKey={config.agentKey}
       tenant={config.tenant}
       tenantUnit={config.tenantUnit}
       butlerDomain={config.butlerDomain}

@@ -9,7 +9,6 @@ import React from 'react';
 
 import SliSummarySkeleton from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummarySkeleton';
 import { formatSloStatus, getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
-import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
 import { SloEntityType, ServiceLevelIndicatorType, TimeWindowType } from 'in-types';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
@@ -21,7 +20,6 @@ import { t } from 'in-i18n';
 import locals from './SloChartSummary.mless';
 
 interface SloChartSummaryProps {
-  blueprintType?: CustomBlueprintType;
   budgetSingleNumber?: MetricDataPoint[];
   consumedBudgetSingleNumber?: MetricDataPoint[];
   fromTimestamp: number;
@@ -38,7 +36,6 @@ interface SloChartSummaryProps {
 }
 
 function SloChartSummary({
-  blueprintType,
   budgetSingleNumber,
   consumedBudgetSingleNumber,
   fromTimestamp,
@@ -54,7 +51,7 @@ function SloChartSummary({
   timeWindowType
 }: SloChartSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
-  const sliFormatter = useSloFormatter({ blueprintType, indicatorType, sloEntityType });
+  const sliFormatter = useSloFormatter({ indicatorType, sloEntityType });
 
   const budget = getValueFromSingleValueMetric(budgetSingleNumber);
   const consumedBudget = getValueFromSingleValueMetric(consumedBudgetSingleNumber);
