@@ -20,6 +20,7 @@ import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
@@ -105,7 +106,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
 
       action$.errors().once(error => {
         setIsDeleting(false);
-        showDeleteErrorMessage(error);
+        showDeleteErrorMessage(deserializeErrorMessage(error.message));
         close();
       });
     };

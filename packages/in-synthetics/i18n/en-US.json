@@ -237,7 +237,7 @@
       "failureTitle": "Failed!",
       "failureMessageCreate": "Failed to create the synthetic test: {{errorMessage}}",
       "failureMessageUpdate": "Failed to update the synthetic test: {{errorMessage}}",
-      "failuteMesssageDelete": "Failed to delete the synthetic test. Please try again later"
+      "failureMesssageDelete": "Failed to delete the synthetic test: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
