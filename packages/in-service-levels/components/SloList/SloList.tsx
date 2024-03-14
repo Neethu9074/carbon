@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
@@ -28,6 +27,7 @@ import useSloListItems from 'in-service-levels/hooks/useSloListItems';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 import { all } from 'in-hooks/utils/progress';
 
 interface GetColumnDefinitionsProps {

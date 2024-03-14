@@ -10,6 +10,17 @@ import ShowCase from './ShowCase';
 import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Slo/ShowCase', () => {
+  global.matchMedia =
+    global.matchMedia ||
+    function () {
+      return {
+        matches: false,
+        matchMedia: function () {},
+        addEventListener: function () {},
+        removeListener: function () {}
+      };
+    };
+
   it('should render the render without an issue', async () => {
     render(<ShowCase />);
 
@@ -17,7 +28,7 @@ describe('in-custom-dashboards/widgets/Slo/ShowCase', () => {
     expect(screen.getByText(t('in-custom-dashboards:widgets.slo.demo.title'), { exact: false })).toBeVisible();
     expect(screen.getByText(t('in-custom-dashboards:widgets.slo.demo.appName'), { exact: false })).toBeVisible();
     expect(
-      screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.timeWindow'), { exact: false })
+      screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.timeWindow'), { exact: true })
     ).toBeVisible();
     expect(
       screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.timeWindowType', { context: 'rolling' }), {
