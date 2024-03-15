@@ -4,20 +4,20 @@
  */
 
 import { InView } from 'react-intersection-observer';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
 
-import { SvgIcon, Card, Message } from '@instana/components';
+import { Card, Message, SvgIcon } from '@instana/components';
 
 import {
-  rowHeightPixels,
-  cols,
-  margin,
   breakpoints,
-  containerPadding
+  cols,
+  containerPadding,
+  margin,
+  rowHeightPixels
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -26,6 +26,7 @@ import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import { t, Trans } from 'in-i18n';
+import { ViewLogsButton } from 'in-components/Logging/ViewLogsButton';
 import oldTheme from 'in-themes';
 
 import locals from './Grid.mless';
@@ -216,7 +217,8 @@ function WidgetContent({
 
 function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget, onZoomWidget, onRemoveWidget }) {
   return (
-    <>
+    <div className={locals.moreMenuContainer}>
+      <ViewLogsButton className={locals.viewInAnalyze} config={widget.config} />
       {zoomWidgetEnabled && (
         <SvgIcon size="s" className={locals.zoom} type="lib_actions_maximize" onClick={() => onZoomWidget(widget.id)} />
       )}
@@ -241,7 +243,7 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
           {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
         </MoreMenuButton>
       </MoreMenu>
-    </>
+    </div>
   );
 }
 
