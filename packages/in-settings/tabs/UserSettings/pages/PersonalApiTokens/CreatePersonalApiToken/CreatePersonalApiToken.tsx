@@ -7,8 +7,9 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { createField, createMapForm } from 'formalistic';
 
-import { Button, Code, Spacer, Stack, StackItem, Typography } from '@instana/components';
+import { Code, Spacer, Stack, StackItem, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Button } from '@instana/legacy';
 
 import { PersonalApiToken, createPersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';

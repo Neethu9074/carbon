@@ -6,7 +6,8 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Button, Message } from '@instana/components';
+import { Message } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { clickTestAlertChannelTracker } from 'in-settings/tracker';

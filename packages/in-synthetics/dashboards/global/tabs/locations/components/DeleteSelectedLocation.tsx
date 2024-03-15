@@ -6,8 +6,9 @@
 
 import React, { useState } from 'react';
 
-import { Button, Message, Typography, Link } from '@instana/components';
+import { Message, Typography, Link } from '@instana/components';
 import { LocationListItem } from '@instana/types';
+import { Button } from '@instana/legacy';
 
 import { ModalNotification } from 'in-synthetics/dashboards/global/tabs/locations/components/ModalNotification';
 import { showDeleteSuccessMessage, showDeleteErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';

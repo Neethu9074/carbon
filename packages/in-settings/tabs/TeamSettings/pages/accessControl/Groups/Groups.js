@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, ColumnizedContent, KeyValue, Ul, Li } from '@instana/components';
+import { ColumnizedContent, KeyValue, Ul, Li } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getEntityIdView,

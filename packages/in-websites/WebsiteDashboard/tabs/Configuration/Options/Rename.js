@@ -7,7 +7,8 @@ import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Button, Stack, Card } from '@instana/components';
+import { Stack, Card } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';

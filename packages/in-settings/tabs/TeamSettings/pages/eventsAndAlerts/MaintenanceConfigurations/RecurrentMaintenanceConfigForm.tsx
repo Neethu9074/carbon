@@ -19,7 +19,7 @@ import {
 import { DateFormatterInput } from '@instana/format-date';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   advancedModeMaintenanceWindowTracker,

@@ -9,7 +9,7 @@ import { useState } from 'react';
 import React from 'react';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';

@@ -7,9 +7,10 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
-import { Button, Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
+import { Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
+import { Button } from '@instana/legacy';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';

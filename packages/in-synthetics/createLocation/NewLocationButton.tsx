@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import CreateNewLocationDialog from 'in-synthetics/createLocation/CreateNewLocationDialog';

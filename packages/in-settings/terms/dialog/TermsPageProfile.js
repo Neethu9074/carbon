@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';

@@ -8,7 +8,7 @@ import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect } from 'react';
 
 import { ApiGroup, PermissionSet } from '@instana/types';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';

@@ -7,8 +7,9 @@
 import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
-import { Button, Typography } from '@instana/components';
 import { Disposable } from '@instana/observables';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 //@ts-expect-error not migrated to typescript yet
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';

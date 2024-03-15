@@ -6,9 +6,8 @@
 import { uniq, find } from 'lodash';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import Gravatar from 'in-components/Gravatar';

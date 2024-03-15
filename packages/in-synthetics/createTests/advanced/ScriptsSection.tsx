@@ -7,9 +7,9 @@
 import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
-import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   timeoutObject,

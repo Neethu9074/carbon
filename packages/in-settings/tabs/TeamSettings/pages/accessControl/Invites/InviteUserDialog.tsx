@@ -6,9 +6,10 @@
 import { Field, Item, ListForm, MapForm, Path } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Message, Button, Stack, StackItem } from '@instana/components';
+import { Message, Stack, StackItem } from '@instana/components';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 import {
   anyValidEntry,

@@ -7,8 +7,9 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Button, Card } from '@instana/components';
 import { Disposable } from '@instana/observables';
+import { Card } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
