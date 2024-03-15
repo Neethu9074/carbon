@@ -7,6 +7,26 @@
     "crash": "Crash"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "Activity Name",
+          "activityClassName": "Activity Class Name",
+          "activityLocalPathName": "Activity Local Path",
+          "fragmentScreenName": "Fragment Name",
+          "fragmentClassName": "Fragment Class Name",
+          "fragmentLocalPathName": "Fragment Local Path",
+          "activeFragmentList": "Active Fragment List",
+          "activityCreatedTime": "Activity Created Time",
+          "fragmentResumeTime": "Fragment Resume Time"
+        },
+        "ios": {
+          "accessibilityLabel": "Accessibility Label",
+          "navigationItemTitle": "Navigation Item Title",
+          "className": "Class Name"
+        }
+      }
+    },
     "uniqueUsers": "Unique Users",
     "metrics": {
       "timestampMetricName": "timestamp",
