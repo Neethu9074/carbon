@@ -53,6 +53,7 @@ export default function DatatableWrapper({
     infraType,
     syntheticType
   ]);
+
   dashboardTileProps = {
     ...dashboardTileProps,
     header: dashboardTileProps ? `${dashboardTileProps.header} ${itemCount > 0 ? `(${itemCount})` : ''}` : ''
@@ -102,7 +103,7 @@ export default function DatatableWrapper({
   ];
 
   return (
-    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}>
+    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
       <DashboardTable
         headers={headers}
         rows={processedItems}

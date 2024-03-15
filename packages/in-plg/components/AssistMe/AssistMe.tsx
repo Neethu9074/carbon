@@ -16,7 +16,7 @@ export default function AssistMe({ isAssistMeEnabled }: { isAssistMeEnabled: boo
   if (isAssistMeEnabled) {
     if (isCarbonShellEnabled()) {
       return (
-        <div data-search-context="getting started">
+        <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
           <LicenseBannerButton
             id="wm-getanswers"
             kind="ghost"
@@ -30,7 +30,7 @@ export default function AssistMe({ isAssistMeEnabled }: { isAssistMeEnabled: boo
       );
     }
     return (
-      <div data-search-context="getting started">
+      <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
         <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
       </div>
     );

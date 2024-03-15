@@ -171,7 +171,7 @@ export default connectTo(() => ({
         return (
           <Stack direction="horizontal" align="center">
             <HealthDot severity={get(item, ['entityHealthInfo', 'maxSeverity', 0, 1], 0)} iconSize={10} />
-            <SvgIcon type={getIcon(item)} />
+            <SvgIcon type={getIcon(item)} color="var(--ids-color-option-neutral-700)" />
             <Link href={getLink(item)}>{getLabel(item)}</Link>
           </Stack>
         );

@@ -417,6 +417,7 @@
     "heading": "Welcome",
     "viewAll": "View all",
     "addMore": "Add",
+    "UrlShortener": "URL Shortener",
     "consumeData": {
       "title": "Consume Data",
       "description": "Get started and deploy your first agent.",
@@ -515,7 +516,7 @@
         "testsApplied": "Tests applied"
       },
       "dashboardWidget": {
-        "label": "Dashboards",
+        "label": "My custom dashboards",
         "name": "Name",
         "owner": "Owner"
       }
@@ -580,5 +581,10 @@
       "addButton": "Add button",
       "handleButton": "Handle button"
     }
+  },
+  "assistme": {
+   "dataSearchContext": {
+    "gettingStarted": "Getting Started"
+   }
   }
 }

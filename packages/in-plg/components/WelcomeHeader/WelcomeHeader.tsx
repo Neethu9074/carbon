@@ -20,7 +20,7 @@ import { user } from 'in-stores/user';
 
 export default function WelcomeHeader() {
   // @ts-expect-error The User type needs to be updated.
-  const headerTitle = `${t('in-plg:welcomepage.heading')} ${user?.fullName ?? ''}`;
+  const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const { createHrefToPath } = useNavigation();
 
   const tileData = [
@@ -64,10 +64,12 @@ export default function WelcomeHeader() {
             id="url-shortener-button"
             ariaLabel={t('in-plg:welcomepage.ariaLabel.shareButton')}
             icon="lib_actions_interface_link"
+            iconDescription={t('in-plg:welcomepage.UrlShortener')}
             kind="tertiary"
-            onClick={() => {
+            onClick={e => {
               track(URL_SHORTENER_OPEN);
               toggle();
+              e.stopPropagation();
             }}
             ref={refSetter}
           />
@@ -85,17 +87,25 @@ export default function WelcomeHeader() {
   }
 
   return (
-    <HeaderTile headerTitle={headerTitle} datepicker={datepicker}>
-      {tileData.map(tile => (
-        <HeaderItemTile
-          title={tile.title}
-          description={tile.description}
-          buttonName={tile.buttonName}
-          buttonType={tile.buttonType == 'primary' ? 'primary' : 'ghost'}
-          href={tile.key == 'nextSteps' ? undefined : createRedirectHref(tile.key)}
-          onClick={tile.key == 'nextSteps' ? () => openAssistMe() : undefined}
-        />
-      ))}
-    </HeaderTile>
+    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
+      <HeaderTile headerTitle={headerTitle} datepicker={datepicker}>
+        {tileData.map((tile, index) => (
+          <HeaderItemTile
+            key={index}
+            title={tile.title}
+            description={tile.description}
+            buttonName={tile.buttonName}
+            buttonType={tile.buttonType === 'primary' ? 'primary' : 'ghost'}
+            href={tile.key === 'nextSteps' ? undefined : createRedirectHref(tile.key)}
+            onClick={e => {
+              e.stopPropagation();
+              if (tile.key === 'nextSteps') {
+                openAssistMe();
+              }
+            }}
+          />
+        ))}
+      </HeaderTile>
+    </div>
   );
 }

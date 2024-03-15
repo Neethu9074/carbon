@@ -124,7 +124,7 @@ export default connectTo(() => ({
           return (
             <Stack direction="horizontal" align="center">
               <HealthDot severity={maxSeverity} iconSize={10} />
-              <SvgIcon type="lib_application" />
+              <SvgIcon type="lib_application" color="var(--ids-color-option-neutral-700)" />
               <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
                 {item.application.label}
               </Link>
@@ -139,7 +139,7 @@ export default connectTo(() => ({
                 healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null
               }
             />
-            <SvgIcon type="lib_application" />
+            <SvgIcon type="lib_application" color="var(--ids-color-option-neutral-700)" />
             <Link>{item.application.label}</Link>
           </Stack>
         );
