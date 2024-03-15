@@ -45,8 +45,8 @@ import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const automationAPIBase = '/api/automation';
-const actionUrl = `${automationAPIBase}/settings/actions` as const;
-const policiesUrl = `${automationAPIBase}/settings/policies` as const;
+const actionUrl = `${automationAPIBase}/actions` as const;
+const policiesUrl = `${automationAPIBase}/policies` as const;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
