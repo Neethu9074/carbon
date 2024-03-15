@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';

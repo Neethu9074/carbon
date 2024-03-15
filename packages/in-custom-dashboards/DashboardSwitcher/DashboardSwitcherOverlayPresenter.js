@@ -6,10 +6,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import rpt from 'prop-types';
 
-import { keyCodes, Pill, Button, Ul, Li } from '@instana/components';
-import { LiHorizontalIndicator } from '@instana/components';
-import { LiLoadingSkeleton } from '@instana/components';
+import { keyCodes, Pill, Ul, Li, LiHorizontalIndicator, LiLoadingSkeleton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Button } from '@instana/legacy';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';

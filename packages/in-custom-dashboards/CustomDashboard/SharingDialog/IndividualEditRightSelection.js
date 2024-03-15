@@ -5,10 +5,8 @@
 
 import React from 'react';
 
-import { Ul, Li, ColumnizedContent } from '@instana/components';
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Ul, Li, ColumnizedContent, KeyValue, SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';

@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import SlideInView from 'in-components/SlideInView/SlideInView';

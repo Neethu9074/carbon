@@ -7,7 +7,7 @@ import { createField, Field, ValidationResult } from 'formalistic';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import BeaconSelectInSection from 'in-custom-dashboards/widgets/Slo/sli/BeaconSelectInSection';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
@@ -147,11 +147,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
         withAdditionalFilters
       />
     );
-    wrapper
-      .find(Section)
-      .dive()
-      .find(Button)
-      .simulate('click', {});
+    wrapper.find(Section).dive().find(Button).simulate('click', {});
 
     // Then
     expect(onChangeTagFilterExpression).toHaveBeenLastCalledWith([]);

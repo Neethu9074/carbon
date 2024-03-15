@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import BaseDialog from 'in-components/Dialog/BaseDialog';
 import { noop } from 'in-services/util/function';

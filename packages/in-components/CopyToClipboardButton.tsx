@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { Button, ButtonKinds, ButtonSizes } from '@instana/components';
+import { Button, ButtonKinds, ButtonSizes } from '@instana/legacy';
 
 import CopyToClipboard, { CopyToClipboardProps } from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';

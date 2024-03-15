@@ -6,7 +6,7 @@
 import React, { forwardRef } from 'react';
 import { Item } from 'formalistic';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton';

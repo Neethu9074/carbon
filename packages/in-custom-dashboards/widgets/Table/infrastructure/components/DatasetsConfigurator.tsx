@@ -8,7 +8,8 @@ import { Item, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 import { isEqual } from 'lodash';
 
-import { Button, Li, Stack, Ul } from '@instana/components';
+import { Li, Stack, Ul } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 // @ts-expect-error
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';

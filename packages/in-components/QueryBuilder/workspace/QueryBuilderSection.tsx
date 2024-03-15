@@ -5,8 +5,9 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { Button, Message, Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 import { TagCatalog } from '@instana/types';
+import { Button } from '@instana/legacy';
 
 import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';

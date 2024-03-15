@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';

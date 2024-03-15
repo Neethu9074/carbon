@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button, keyCodes, SvgIcon } from '@instana/components';
+import { keyCodes, SvgIcon } from '@instana/components';
 import { on } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';

@@ -8,8 +8,9 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import { AvailablePlugins, GetAvailablePluginsQuery, Result, TagFilterExpression } from '@instana/types';
-import { Button, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import RegexMetricList from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/RegexMetricList';
 // @ts-expect-error needs to be converted
@@ -82,11 +83,11 @@ export default function RegexMetricSelectorOverlay({
         </Overlay>
       </div>
       <RegexMetricList
-          tagFilterExpression={backendQueryModel}
-          type={type}
-          regex={debouncedRegex.debouncedValue}
-          size={100}
-        />
+        tagFilterExpression={backendQueryModel}
+        type={type}
+        regex={debouncedRegex.debouncedValue}
+        size={100}
+      />
       <Button className={locals.button} kind="action" disabled={!type} onClick={done}>
         {t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricSelectorOverlay.done')}
       </Button>
