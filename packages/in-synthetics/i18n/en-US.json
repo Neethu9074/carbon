@@ -241,7 +241,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
-      "failureMesssageDelete": "Failed to delete the location. Please try again later"
+      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "successMessageDeactivate": "Successfully deactivated the location",
+      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
@@ -395,7 +397,6 @@
         "confirmation": "Are you sure you want to deactivate Managed <strong>{{label}}</strong> ({{status}}) location?",
         "reason": "Reasons for deactivate",
         "deactivateButton": "Deactivate Location",
-        "deactivateSuccess": "The location has been deactivated",
         "deactiveTestLinked": "There are {{linkedTests}} active tests associated with location <strong>{{label}}</strong> ({{status}}). Are you sure you want to deactivate Managed <strong>{{label}}</strong> ({{status}}) location?"
       }
     },

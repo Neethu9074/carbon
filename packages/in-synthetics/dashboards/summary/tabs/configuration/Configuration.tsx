@@ -99,14 +99,14 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
 
       action$.once(() => {
         setIsDeleting(false);
-        showDeleteSuccessMessage();
+        showDeleteSuccessMessage('test');
         close();
         goToPath(syntheticsPath);
       });
 
       action$.errors().once(error => {
         setIsDeleting(false);
-        showDeleteErrorMessage(deserializeErrorMessage(error.message));
+        showDeleteErrorMessage(deserializeErrorMessage(error.message), 'test');
         close();
       });
     };

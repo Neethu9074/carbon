@@ -9,6 +9,10 @@ import React, { useState } from 'react';
 import { Button, Typography } from '@instana/components';
 import { LocationListItem } from '@instana/types';
 
+import {
+  showLocationDeactivateErrorMessage,
+  showLocationDeactivateSuccessMessage
+} from 'in-synthetics/createTests/utils/userFeedback';
 import { ModalNotification } from 'in-synthetics/dashboards/global/tabs/locations/components/ModalNotification';
 import { NotificationState } from 'in-synthetics/utils/constants';
 import { close } from 'in-components/DialogPresenter/store';
@@ -44,18 +48,14 @@ const DeactivateSelectedLocation = ({ item }: Props) => {
       setIsDeactivating(false);
       setReasonInputvalue('');
       setValidationInputValue('');
-      setNotification({
-        show: true,
-        message: t('in-synthetics:dashboard.locationList.deactivateLocation.deactivateSuccess'),
-        variant: 'success'
-      });
+      showLocationDeactivateSuccessMessage();
       close();
       window.location.reload();
     });
 
     action$.errors().once(error => {
       setIsDeactivating(false);
-      setNotification({ show: true, message: error.message, variant: 'failure' });
+      showLocationDeactivateErrorMessage(error.message.split(':')[2]);
       close();
     });
   };

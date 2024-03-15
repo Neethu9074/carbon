@@ -10,6 +10,7 @@ import { Button, Message, Typography, Link } from '@instana/components';
 import { LocationListItem } from '@instana/types';
 
 import { ModalNotification } from 'in-synthetics/dashboards/global/tabs/locations/components/ModalNotification';
+import { showDeleteSuccessMessage, showDeleteErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { NotificationState } from 'in-synthetics/utils/constants';
 import { close } from 'in-components/DialogPresenter/store';
 import { deleteLocation } from 'in-synthetics/api';
@@ -50,13 +51,14 @@ const DeleteSelectedLocation = ({ item }: Props) => {
         message: t('in-synthetics:dashboard.locationList.deletionSuccess'),
         variant: 'success'
       });
+      showDeleteSuccessMessage('location');
       close();
       window.location.reload();
     });
 
     action$.errors().once(error => {
       setIsDeleting(false);
-      setNotification({ show: true, message: error.message, variant: 'failure' });
+      showDeleteErrorMessage(error.message.split(':')[2], 'location');
       close();
     });
   };
