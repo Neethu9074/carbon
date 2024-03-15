@@ -78,7 +78,7 @@ export default (
     {hasSloAccess && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes()}
-    {role.canConfigureAutomationActions && actionAutomationEnabled && automationRoutes}
+    {actionAutomationEnabled && automationRoutes}
     {hasBizOpsAccess && bizopsRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}

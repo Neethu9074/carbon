@@ -46,6 +46,7 @@ import { listSuccess } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
@@ -120,7 +121,7 @@ export default function Policies() {
         cardTitle={t('in-automation:policies.policies')}
         rightHeader={
           <>
-            <CreateNewEntityButton />
+            {role?.canConfigureAutomationPolicies ? <CreateNewEntityButton /> : <div />}
             <PolicyFilters setFilter={setFilter} trigger={trigger} tags={tags} availableTags={availableTags} />
           </>
         }
@@ -292,12 +293,16 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
             <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item, false)}>
               {t('in-automation:edit')}
             </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item, true)}>
-              {t('in-automation:copy')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>
-              {t('in-automation:delete')}
-            </MoreMenuButton>
+            {role?.canConfigureAutomationPolicies && (
+              <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item, true)}>
+                {t('in-automation:copy')}
+              </MoreMenuButton>
+            )}
+            {role?.canConfigureAutomationPolicies && (
+              <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>
+                {t('in-automation:delete')}
+              </MoreMenuButton>
+            )}
           </MoreMenu>
         </Stack>
       );

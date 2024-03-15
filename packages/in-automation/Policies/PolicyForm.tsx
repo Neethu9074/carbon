@@ -66,6 +66,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Dialog from 'in-components/Dialog/Dialog';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -108,7 +109,7 @@ export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: Po
           : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
       </SubViewHeader>
       <HorizontalFlexWrapper>
-        <CopyPolicyLink isNew={isNew} policy={policy} />
+        {role?.canConfigureAutomationPolicies && <CopyPolicyLink isNew={isNew} policy={policy} />}
       </HorizontalFlexWrapper>
     </HorizontalFlexWrapper>
   );
@@ -129,13 +130,15 @@ export function PolicyFormFooter({
       <Spacer vertical="xlarge" />
       <FormFooter>
         <CancelButton onClick={() => navigateToPolicies()} />
-        <SaveButton form={form} isSaving={submitStatus === 'pending'}>
-          {submitStatus === 'pending'
-            ? t('forms.states.saving')
-            : isNew
-            ? t('forms.actions.create')
-            : t('forms.actions.save')}
-        </SaveButton>
+        {role?.canConfigureAutomationPolicies && (
+          <SaveButton form={form} isSaving={submitStatus === 'pending'}>
+            {submitStatus === 'pending'
+              ? t('forms.states.saving')
+              : isNew
+              ? t('forms.actions.create')
+              : t('forms.actions.save')}
+          </SaveButton>
+        )}
       </FormFooter>
     </>
   );

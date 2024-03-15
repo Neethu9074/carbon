@@ -406,7 +406,7 @@ function Incidents() {
 function AutomationMenu() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!role?.canConfigureAutomationActions || !actionAutomationEnabled) {
+  if (!actionAutomationEnabled) {
     return null;
   }
 
