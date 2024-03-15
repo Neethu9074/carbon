@@ -31,7 +31,7 @@ export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps)
   if (!selectedMetricGroup && !isEmpty(groupBy)) {
     return (
       <div className={local.minHeight}>
-        <Message withIcon>{t('in-alerting:smartAlerts.logs.form.noMetricSelected')}</Message>
+        <Message withIcon>{t('in-alerting:smartAlerts.logs.form.nGroupSelected')}</Message>
       </div>
     );
   }

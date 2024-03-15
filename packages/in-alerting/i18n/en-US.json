@@ -1354,7 +1354,7 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
-        "noMetricSelected": "No metric selected"
+        "nGroupSelected": "No group selected"
       },
       "logCount": "Log count"
     }

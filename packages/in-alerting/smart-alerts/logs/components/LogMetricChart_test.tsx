@@ -25,9 +25,9 @@ describe('LogMetricChart', () => {
     expect(result).toMatchInlineSnapshot(`ShallowWrapper {}`);
   });
 
-  it('should render No metric selected message', () => {
+  it('should render No group selected message', () => {
     render(<LogMetricChart alertConfig={alertConfig} timeConfig={timeConfig} />);
 
-    expect(screen.getByText(t('in-alerting:smartAlerts.logs.form.noMetricSelected'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-alerting:smartAlerts.logs.form.nGroupSelected'))).toBeInTheDocument();
   });
 });
