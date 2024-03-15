@@ -11,7 +11,7 @@ type ActionType = 'create' | 'delete' | 'update';
 // Contexts available will be "test" deletion dialog and "location" deletion dialog
 
 export function showSuccessMessage(type?: ActionType, context?: string): void {
-  let message = '';
+  let message;
   switch (type) {
     case 'create':
       message = t('in-synthetics:dialog.feedback.successMessageCreate');
@@ -38,7 +38,7 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
 }
 
 export function showErrorMessage(type?: ActionType, context?: string, error?: string): void {
-  let message = '';
+  let message;
   switch (type) {
     case 'create':
       message = t('in-synthetics:dialog.feedback.failureMessageCreate', { errorMessage: error });
