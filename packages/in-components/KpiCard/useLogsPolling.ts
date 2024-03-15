@@ -5,13 +5,15 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
 
 import { just, Observable } from '@instana/observables';
-import { Result } from '@instana/types';
+import { Result, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { UnifiedMetricConfiguration } from 'in-types';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export const LIVE_MODE_REFRESH_INTERVAL = 5000;
 
@@ -29,11 +31,21 @@ export const useLogsPolling = ({ metrics }: UseLogsPollingParams) => {
   const [fetchedResult, setFetchedResult] = useState<null | Result<UnifiedMetricsResult[]>>(null);
   const [update, setUpdate] = useState<{}>({});
 
+  const timeConfig = useTimeConfig();
+  const prevTimeConfig = useRef<TimeConfig>(timeConfig);
+
   const isLogConfig = Object.values(metrics)
     .map(metric => metric.source)
     .includes('LOG');
   const isLiveMode = Object.values(metrics)[0].timeConfig.autoRefresh;
   const isPollingActive = isLogConfig && isLiveMode;
+
+  useEffect(() => {
+    if (!isEqual(timeConfig, prevTimeConfig.current)) {
+      setFetchedResult(null);
+    }
+    prevTimeConfig.current = timeConfig;
+  }, [timeConfig]);
 
   useEffect(() => {
     metricsRef.current = metrics;
