@@ -29,7 +29,7 @@ interface ManagedLocationProps {
 }
 
 const ManagedLocation = ({ form, datacenters, updateForm }: ManagedLocationProps) => {
-  const popDocsUrl = 'https://ibm.biz/pop_deployment';
+  const managedPopDocsUrl = 'https://ibm.biz/Instana-hosted_PoP';
 
   return (
     <div className={locals.wrapper}>
@@ -43,7 +43,7 @@ const ManagedLocation = ({ form, datacenters, updateForm }: ManagedLocationProps
               i18nKey="in-synthetics:dialog.createLocation.managedLocation.datacentersSubtitle"
               components={{
                 // @ts-expect-error property children missing
-                linkDatacenters: <Link href={popDocsUrl} external />
+                linkDatacenters: <Link href={managedPopDocsUrl} external />
               }}
             />
           </Typography>
