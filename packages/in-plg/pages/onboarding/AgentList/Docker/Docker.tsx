@@ -12,6 +12,8 @@ import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/L
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import { FormInputPlg } from 'in-plg/pages/onboarding/content/ContentComponents';
+import { viewDeployedAgentsZoneDropDownEnabled } from 'in-services/featureFlags';
+import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
@@ -102,6 +104,10 @@ export default function Docker({
     return script;
   }, [agentZone, agentKey, downloadKey, agentEndpoint, agentEndpointPort]);
 
+  const updateAgentZone = (agent: string) => {
+    setAgentZone(agent);
+  };
+
   return (
     <Container>
       <MainBody>
@@ -114,11 +120,15 @@ export default function Docker({
             t('in-plg:agentDetails.aws.step1') + t('in-plg:agentDetails.aws.enterAClusterNameAndOptionallyTheAgentZone')
           }
         >
-          <KeyValue
-            label={t('in-plg:agentDetails.common.agentZoneOptional')}
-            value={<FormInputPlg onChange={value => setAgentZone(value)} />}
-            withGap
-          />
+          {viewDeployedAgentsZoneDropDownEnabled ? (
+            <AgentzoneLister callBackFunc={updateAgentZone} />
+          ) : (
+            <KeyValue
+              label={t('in-plg:agentDetails.common.agentZoneOptional')}
+              value={<FormInputPlg onChange={value => setAgentZone(value)} />}
+              withGap
+            />
+          )}
         </LayoutSection>
 
         <LayoutSection

@@ -15,6 +15,8 @@ import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingE
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import { AgentFormInput } from 'in-plg/pages/onboarding/content/ContentComponents';
+import { viewDeployedAgentsZoneDropDownEnabled } from 'in-services/featureFlags';
+import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
@@ -77,6 +79,10 @@ const AwsEks = ({
     return content;
   };
 
+  const updateAgentZone = (agent: string) => {
+    setAgentZone(agent);
+  };
+
   return (
     <Container>
       <MainBody>
@@ -95,30 +101,34 @@ const AwsEks = ({
               value={<AgentFormInput onChange={value => setClusterName(value)} />}
               withGap
             />
-            <KeyValue
-              label={
-                <Tooltip
-                  content={
-                    <Trans
-                      i18nKey="in-plg:agentDetails.common.enterANameForAClusterGroupYouWantToAddThisClusterTo"
-                      components={{ 1: <br /> }}
-                    />
-                  }
-                  align="auto"
-                >
-                  <Stack direction="horizontal" gap="xxsmall" align="center">
-                    {t('in-plg:agentDetails.common.agentZoneOptional')}
-                    <SvgIcon
-                      size="xxs"
-                      type="lib_help_error_help_outline"
-                      color={themes.default.ids.color.option.neutral['600']}
-                    />
-                  </Stack>
-                </Tooltip>
-              }
-              value={<AgentFormInput onChange={value => setAgentZone(value)} />}
-              withGap
-            />
+            {viewDeployedAgentsZoneDropDownEnabled ? (
+              <AgentzoneLister callBackFunc={updateAgentZone} />
+            ) : (
+              <KeyValue
+                label={
+                  <Tooltip
+                    content={
+                      <Trans
+                        i18nKey="in-plg:agentDetails.common.enterANameForAClusterGroupYouWantToAddThisClusterTo"
+                        components={{ 1: <br /> }}
+                      />
+                    }
+                    align="auto"
+                  >
+                    <Stack direction="horizontal" gap="xxsmall" align="center">
+                      {t('in-plg:agentDetails.common.agentZoneOptional')}
+                      <SvgIcon
+                        size="xxs"
+                        type="lib_help_error_help_outline"
+                        color={themes.default.ids.color.option.neutral['600']}
+                      />
+                    </Stack>
+                  </Tooltip>
+                }
+                value={<AgentFormInput onChange={value => setAgentZone(value)} />}
+                withGap
+              />
+            )}
           </Stack>
         </LayoutSection>
 
