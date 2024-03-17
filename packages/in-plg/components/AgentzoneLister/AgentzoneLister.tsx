@@ -141,8 +141,8 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
           e ? setAgentZoneInternal((e as Option).value) : setAgentZoneInternal('')
         }
         onBlur={() => setBackendQueryModel(backendQueryModelDefaultValue)}
-        placeholder="e.g. Europe"
-        formatCreateLabel={(inputText: string) => `Add "${inputText}"`}
+        placeholder={t('in-plg:Components.AgentzoneLister.EGEurope')}
+        formatCreateLabel={(inputText: string) => `${t('in-plg:Components.AgentzoneLister.Add')} "${inputText}"`}
         onInputChange={(inputValue: string) => {
           if (inputValue) {
             setBackendQueryModel({
