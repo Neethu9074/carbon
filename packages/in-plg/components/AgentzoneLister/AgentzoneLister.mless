@@ -12,6 +12,6 @@
     width: 8.4rem; // to keep the tooltip closer to the helpText
   }
   .comboBox {
-    min-width: 15rem;
+    width: 15rem;
   }
 }

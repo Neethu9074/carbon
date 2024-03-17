@@ -45,9 +45,22 @@ const backendQueryModelDefaultValue = {
   elements: []
 };
 
+const retrievalSize = 200;
+
+/**
+ *
+ * @param callBackFunc It send the state update back to the parent component.
+ * @returns string[] of first 200 Agent zones sorted by the name.
+ *
+ * * Each search will send an API request to fetch the Agent zones based
+ * * on search criteria. This ensures that if the searched keyword is not
+ * * present in the first 200, the user can still get it from backend.
+ *
+ * ! Search functionality is case-sensitive.
+ */
 const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [listOfAgentZones, setListOfAgentZones] = useState([]);
+  const [listOfAgentZones, setListOfAgentZones] = useState<string[]>([]);
   const [backendQueryModel, setBackendQueryModel] = useState<BackendQueryModelProp>(backendQueryModelDefaultValue);
   const [agentZoneInternal, setAgentZoneInternal] = useState<string>('');
 
@@ -61,7 +74,7 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
       },
       order: { by: 'label', direction: 'ASC' },
       pagination: {
-        retrievalSize: 200,
+        retrievalSize: retrievalSize,
         fullData: false
       },
       type: 'genericZone'
