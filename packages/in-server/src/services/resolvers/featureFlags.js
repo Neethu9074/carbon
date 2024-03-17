@@ -521,6 +521,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'viewDeployedAgentsZoneDropDownEnabled',
+    instanaCtlKey: 'feature.viewdeployed.agentszone.dropdown.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
     defaultValue: false
