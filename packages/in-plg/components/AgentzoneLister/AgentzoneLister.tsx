@@ -8,9 +8,11 @@ import React, { useEffect, useState } from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
-import AsyncCreatableComboBox, { Option, Options } from 'in-components/ComboBox/AsyncCreatableComboBox';
 import getEntities from 'in-plg/subscriptions/getInfrastructureEntities';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+import { Option, Options } from 'in-components/ComboBox/ComboBox';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -32,6 +34,11 @@ interface BackendQueryModelProp {
   value?: string;
 }
 
+interface GetAgentZonesProp {
+  timeConfig: TimeConfig;
+  backendQueryModel: BackendQueryModelProp;
+}
+
 const backendQueryModelDefaultValue = {
   type: 'EXPRESSION',
   logicalOperator: 'AND',
@@ -46,22 +53,7 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
 
   const timeConfig = useTimeConfig();
 
-  const agentZoneList = async (inputValue: string) => {
-    if (inputValue) {
-      setBackendQueryModel({
-        type: 'TAG_FILTER',
-        name: 'label',
-        operator: 'CONTAINS',
-        entity: 'NOT_APPLICABLE',
-        value: `${inputValue}`
-      });
-    } else {
-      setBackendQueryModel(backendQueryModelDefaultValue);
-    }
-    return listOfAgentZones;
-  };
-
-  function getAgentZones({ timeConfig, backendQueryModel }: any) {
+  function getAgentZones({ timeConfig, backendQueryModel }: GetAgentZonesProp) {
     return getEntities({
       filter: {
         tagFilterExpression: backendQueryModel,
@@ -128,17 +120,29 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
           </Stack>
         </div>
       </Tooltip>
-      <AsyncCreatableComboBox
+      <CreatableComboBox
         className={locals.comboBox}
         isLoading={isLoading}
-        defaultOptions={listOfAgentZones}
-        loadOptions={inputValue => agentZoneList(inputValue)}
+        options={listOfAgentZones}
         onChange={(e: Option | Options | null) =>
           e ? setAgentZoneInternal((e as Option).value) : setAgentZoneInternal('')
         }
         onBlur={() => setBackendQueryModel(backendQueryModelDefaultValue)}
         placeholder="e.g. Europe"
         formatCreateLabel={(inputText: string) => `Add "${inputText}"`}
+        onInputChange={(inputValue: string) => {
+          if (inputValue) {
+            setBackendQueryModel({
+              type: 'TAG_FILTER',
+              name: 'label',
+              operator: 'CONTAINS',
+              entity: 'NOT_APPLICABLE',
+              value: `${inputValue}`
+            });
+          } else {
+            setBackendQueryModel(backendQueryModelDefaultValue);
+          }
+        }}
       />
     </Stack>
   );
