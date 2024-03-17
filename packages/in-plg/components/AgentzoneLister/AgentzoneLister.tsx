@@ -7,11 +7,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
-import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
-import { Option, Options } from 'in-components/ComboBox/ComboBox';
+import AsyncCreatableComboBox, { Option, Options } from 'in-components/ComboBox/AsyncCreatableComboBox';
+import getEntities from 'in-plg/subscriptions/getInfrastructureEntities';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Trans, t } from 'in-i18n';
 
 import locals from './AgentzoneLister.mless';
@@ -20,14 +22,84 @@ interface AgentzoneListerProp {
   callBackFunc: (agentZone: string) => void;
 }
 
+interface BackendQueryModelProp {
+  type: string;
+  logicalOperator?: string;
+  elements?: never[];
+  name?: string;
+  operator?: 'EQUALS' | 'NOT_EQUAL' | 'CONTAINS' | 'NOT_CONTAIN' | 'NOT_EMPTY' | 'IS_EMPTY';
+  entity?: 'NOT_APPLICABLE';
+  value?: string;
+}
+
+const backendQueryModelDefaultValue = {
+  type: 'EXPRESSION',
+  logicalOperator: 'AND',
+  elements: []
+};
+
 const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [listOfAgentZones, setListOfAgentZones] = useState([]);
+  const [backendQueryModel, setBackendQueryModel] = useState<BackendQueryModelProp>(backendQueryModelDefaultValue);
   const [agentZoneInternal, setAgentZoneInternal] = useState<string>('');
 
-  const listOfAgentZones: Options | Option = [
-    { value: 'foo', label: 'foo' },
-    { value: 'bar', label: 'bar' },
-    { value: 'baz', label: 'baz' }
-  ];
+  const timeConfig = useTimeConfig();
+
+  const agentZoneList = async (inputValue: string) => {
+    if (inputValue) {
+      setBackendQueryModel({
+        type: 'TAG_FILTER',
+        name: 'label',
+        operator: 'CONTAINS',
+        entity: 'NOT_APPLICABLE',
+        value: `${inputValue}`
+      });
+    } else {
+      setBackendQueryModel(backendQueryModelDefaultValue);
+    }
+    return listOfAgentZones;
+  };
+
+  function getAgentZones({ timeConfig, backendQueryModel }: any) {
+    return getEntities({
+      filter: {
+        tagFilterExpression: backendQueryModel,
+        timeConfig
+      },
+      order: { by: 'label', direction: 'ASC' },
+      pagination: {
+        retrievalSize: 200,
+        fullData: false
+      },
+      type: 'genericZone'
+    });
+  }
+
+  interface AgentZonesItemsProp {
+    label: string;
+  }
+
+  useObservable(
+    getAgentZones({ timeConfig, backendQueryModel })
+      .map(result => {
+        if (result?.progress?.loading) {
+          setIsLoading(true);
+        } else {
+          setIsLoading(false);
+        }
+        const items = result?.data?.items;
+        if (items) {
+          return items.map((item: AgentZonesItemsProp) => ({ value: item?.label, label: item?.label }));
+        } else {
+          return [];
+        }
+      })
+      .tap(result => {
+        setListOfAgentZones(result);
+      }),
+    [backendQueryModel]
+  );
 
   useEffect(() => {
     if (agentZoneInternal) {
@@ -56,11 +128,15 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
           </Stack>
         </div>
       </Tooltip>
-      <CreatableComboBox
+      <AsyncCreatableComboBox
         className={locals.comboBox}
-        value={agentZoneInternal}
-        options={listOfAgentZones}
-        onChange={(e: Option | null) => (e ? setAgentZoneInternal(e.value) : setAgentZoneInternal(''))}
+        isLoading={isLoading}
+        defaultOptions={listOfAgentZones}
+        loadOptions={inputValue => agentZoneList(inputValue)}
+        onChange={(e: Option | Options | null) =>
+          e ? setAgentZoneInternal((e as Option).value) : setAgentZoneInternal('')
+        }
+        onBlur={() => setBackendQueryModel(backendQueryModelDefaultValue)}
         placeholder="e.g. Europe"
         formatCreateLabel={(inputText: string) => `Add "${inputText}"`}
       />
