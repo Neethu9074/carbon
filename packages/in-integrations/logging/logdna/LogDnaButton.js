@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import { jumpToLogDna } from 'in-integrations/logging/logdna/tracker';

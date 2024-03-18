@@ -6,9 +6,10 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { Button, Card, Stack, SvgIcon, Typography, Pill, Link } from '@instana/components';
+import { Card, Stack, SvgIcon, Typography, Pill, Link } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Incident } from '@instana/types';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import {

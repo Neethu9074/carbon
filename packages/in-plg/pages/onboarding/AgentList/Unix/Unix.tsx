@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue, Button } from '@instana/components';
+import { Stack, Typography, KeyValue } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getPlatformArchitectures, supportViewData } from 'in-plg/pages/onboarding/AgentList/Unix/Data';
 import { DropDown, getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';

@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 import { Card } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getSnapshotId,

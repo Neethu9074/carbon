@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { InfraAlertConfigWithMetadata } from 'in-types';

@@ -6,10 +6,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { List, Map } from 'immutable';
 
-import { Button, Card, Stack, Typography, Pill } from '@instana/components';
+import { Card, Stack, Typography, Pill } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 import {
   RCAFeedbackClosedManuallyTracker,

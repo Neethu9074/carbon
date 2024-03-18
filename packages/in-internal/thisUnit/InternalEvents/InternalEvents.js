@@ -5,8 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/components';
 import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
