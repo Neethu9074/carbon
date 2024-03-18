@@ -19,6 +19,7 @@
   "titleLastKnownHost": "Last Known Host",
   "titleLastKnownProcess": "Last Known Process",
   "titleIncidentTimeline": "Incident Timeline",
+  "titleIncidentTriggeredBy": "Incident triggered by:",
   "titleAnalyzeCustomEvents": "Analyze Custom Events",
   "titleAnalyzeHTTPRequests": "Analyze HTTP Requests",
   "titleAnalyzeJsErrors": "Analyze JS Errors",

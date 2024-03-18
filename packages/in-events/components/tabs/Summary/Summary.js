@@ -306,7 +306,8 @@ const IncidentContent = connectTo(
         {incidentSummarizationEnabled && incident && incident.get('metadata')?.has('incidentSummary') && (
           <EventSummarization
             title={t('in-events:incidentSummarization.incidentSummaryTitle')}
-            incident={incident.toJS()}
+            incident={incident}
+            latestSnapshot={latestSnapshot}
           />
         )}
         {shouldTimelineBeDisplayed && (
