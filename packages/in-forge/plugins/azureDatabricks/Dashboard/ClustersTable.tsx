@@ -13,108 +13,112 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const clusterNameCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelClusterName'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.key;
-    }
-  }
-};
+interface ClusterRow {
+  key: string;
+  snapshot: SnapshotData;
+  configuredLogAnalytics: string;
+  timeConfig: TimeConfig;
+  snapshotId: string;
+}
 
-const clusterIdCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelClusterId'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterId']);
+const cols = [
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelClusterName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ClusterRow) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelClusterId'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ClusterRow) {
+        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterId']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelSparkVersion'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ClusterRow) {
+        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.sparkVersion']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelClusterCore'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ClusterRow) {
+        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterCore']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelClusterSource'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ClusterRow) {
+        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterSource']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelExecutorCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ClusterRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ClusterRow) {
+        return 'clusters.' + row.key + '.executorCount';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelClusterMemory'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ClusterRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ClusterRow) {
+        return 'clusters.' + row.key + '.clusterMemoryMb';
+      },
+      getContent: megaBytes.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelJobCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ClusterRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ClusterRow) {
+        return 'clusters.' + row.key + '.jobCount';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
-};
-
-const sparkVersionCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelSparkVersion'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.sparkVersion']);
-    }
-  }
-};
-
-const clusterCoreCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelClusterCore'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterCore']);
-    }
-  }
-};
-
-const clusterSourceCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelClusterSource'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterSource']);
-    }
-  }
-};
-
-const executorCountCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelExecutorCount'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'clusters.' + row.key + '.executorCount';
-    },
-    getContent: number.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const clusterMemoryCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelClusterMemory'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'clusters.' + row.key + '.clusterMemoryMb';
-    },
-    getContent: megaBytes.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const jobCountCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelJobCount'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'clusters.' + row.key + '.jobCount';
-    },
-    getContent: number.compact,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
+];
 
 export default function ClustersTable({
   snapshot,
@@ -131,7 +135,7 @@ export default function ClustersTable({
     return null;
   }
 
-  const rows = clusterNames.toArray().map((clusterName: string) => {
+  const rows: ClusterRow[] = clusterNames.toArray().map((clusterName: string) => {
     return {
       key: clusterName,
       snapshot: snapshot,
@@ -141,16 +145,6 @@ export default function ClustersTable({
     };
   });
 
-  const cols = [
-    clusterNameCol,
-    clusterIdCol,
-    sparkVersionCol,
-    clusterCoreCol,
-    clusterSourceCol,
-    executorCountCol,
-    jobCountCol,
-    clusterMemoryCol
-  ];
   return (
     <Table
       withoutPadding
@@ -160,12 +154,11 @@ export default function ClustersTable({
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
-      initialSortColumn={cols.indexOf(clusterNameCol)}
     />
   );
 }
 
-function getRowDetails(row: any) {
+function getRowDetails(row: ClusterRow) {
   const snapshotId = row.snapshotId;
   const timeConfig = row.timeConfig;
 

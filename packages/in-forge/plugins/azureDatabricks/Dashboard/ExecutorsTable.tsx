@@ -13,95 +13,100 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-const executorNameCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelExecutorName'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.key;
-    }
-  }
-};
+interface ExecutorRow {
+  key: string;
+  timeConfig: TimeConfig;
+  snapshotId: string;
+  snapshot: SnapshotData;
+}
 
-const clusterNameCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelClusterName'),
-  type: 'string',
-  typeArgs: {
-    getValue(row: any) {
-      return row.snapshot.getIn(['data', 'executors.' + row.key + '.clusterName']);
+const cols = [
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelExecutorName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ExecutorRow) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelClusterName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: ExecutorRow) {
+        return row.snapshot.getIn(['data', 'executors.' + row.key + '.clusterName']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ExecutorRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ExecutorRow) {
+        return 'executors.' + row.key + '.executorCpuTime';
+      },
+      getContent: percentagePlainTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ExecutorRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ExecutorRow) {
+        return 'executors.' + row.key + '.shuffleClientUsedDirectMemory';
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedHeapMemory'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ExecutorRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ExecutorRow) {
+        return 'executors.' + row.key + '.shuffleClientUsedHeapMemory';
+      },
+      getContent: bytesTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: ExecutorRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: ExecutorRow) {
+        return 'executors.' + row.key + '.jvmCpuTime';
+      },
+      getContent: percentagePlainTwoDecimalPlaces,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
-};
-
-const executorCpuTimeCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'executors.' + row.key + '.executorCpuTime';
-    },
-    getContent: percentagePlainTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const shuffleClientUsedDirectMemoryCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'executors.' + row.key + '.shuffleClientUsedDirectMemory';
-    },
-    getContent: bytesTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const shuffleClientUsedHeapMemoryCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedHeapMemory'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'executors.' + row.key + '.shuffleClientUsedHeapMemory';
-    },
-    getContent: bytesTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
-
-const jvmCpuTimeCol = {
-  title: t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row: any) {
-      return row.snapshotId;
-    },
-    getMetricName(row: any) {
-      return 'executors.' + row.key + '.jvmCpuTime';
-    },
-    getContent: percentagePlainTwoDecimalPlaces,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
-  }
-};
+];
 
 export default function ExecutorsTable({
   snapshot,
@@ -122,7 +127,7 @@ export default function ExecutorsTable({
     return null;
   }
 
-  const rows = executorNames.toArray().map((executorName: string) => {
+  const rows: ExecutorRow[] = executorNames.toArray().map((executorName: string) => {
     return {
       key: executorName,
       timeConfig,
@@ -131,14 +136,6 @@ export default function ExecutorsTable({
     };
   });
 
-  const cols = [
-    executorNameCol,
-    clusterNameCol,
-    jvmCpuTimeCol,
-    executorCpuTimeCol,
-    shuffleClientUsedDirectMemoryCol,
-    shuffleClientUsedHeapMemoryCol
-  ];
   return (
     <Table
       withoutPadding
@@ -148,12 +145,11 @@ export default function ExecutorsTable({
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
-      initialSortColumn={cols.indexOf(executorNameCol)}
     />
   );
 }
 
-function getRowDetails(row: any) {
+function getRowDetails(row: ExecutorRow) {
   const snapshotId = row.snapshotId;
   const timeConfig = row.timeConfig;
 
