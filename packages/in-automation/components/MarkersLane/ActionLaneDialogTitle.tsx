@@ -6,8 +6,6 @@
 
 import React from 'react';
 
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
-
 import locals from './ActionlaneDialogPresenter.mless';
 
 type ActionLaneDialogTitleProps = {
@@ -18,7 +16,6 @@ export default function ActionLaneDialogTitle({ title }: ActionLaneDialogTitlePr
   return (
     <div className={locals.dialogTitleComponent}>
       <h1 className={locals.dialogTitle}>{title}</h1>
-      <BetaBadge />
     </div>
   );
 }

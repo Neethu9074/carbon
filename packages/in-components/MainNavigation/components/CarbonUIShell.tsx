@@ -419,7 +419,6 @@ function AutomationMenu() {
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      infoTag={t('in-components:featureFeedback.labelBETA')}
       isActive={matchLocation(isAutomationView)}
       href={createHrefToPath(actionCatalogPath)}
     />
