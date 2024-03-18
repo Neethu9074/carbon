@@ -6,28 +6,42 @@
 
 import React from 'react';
 
-import { LogAlertConfigWithMetadata, Result, TimeConfig } from '@instana/types';
-
+import {
+  Granularity,
+  LogAlertConfigWithMetadata,
+  LogTimeThreshold,
+  Result,
+  StaticThresholdData,
+  TagFilter,
+  TagFilterExpression,
+  ThresholdData,
+  TimeConfig,
+  GetLogMetricAlertsPreviewQuery
+} from 'in-types';
 //@ts-expect-error TS migration
 import { getThreshold, extendMetricConfiguration } from 'in-alerting/components/Chart/AlertingChartWrapper';
 //@ts-expect-error TS migration
 import { getRendererBasedOnThresholdType, getY1 } from 'in-alerting/components/Chart/AlertingChart';
+// @ts-expect-error TS migration
+import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 import { SelectedMetric, getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getChartConfig, getUnifiedMetricConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
+import getLogMetricsAlertPreview from 'in-alerting/smart-alerts/logs/subscriptions/getLogMetricsAlertPreview';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
 import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { number } from 'in-services/formatters/number';
-import { TagFilterExpression } from 'in-types';
 import { t } from 'in-i18n';
 
 interface LogAlertChartWrapperProps {
   alertConfig: LogAlertConfigWithMetadata;
   timeConfig: TimeConfig;
   selectedMetricGroup?: SelectedMetric;
+  alertsPreviewEnabled?: boolean;
 }
 
 /**
@@ -41,9 +55,10 @@ const logSumMetricId = 'logs_distribution';
 export default function LogAlertChartWrapper({
   alertConfig,
   timeConfig,
-  selectedMetricGroup
+  selectedMetricGroup,
+  alertsPreviewEnabled
 }: LogAlertChartWrapperProps) {
-  const { threshold, granularity, tagFilterExpression } = alertConfig;
+  const { threshold, granularity, tagFilterExpression, timeThreshold } = alertConfig;
   const highlight = undefined;
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
@@ -103,10 +118,67 @@ export default function LogAlertChartWrapper({
       {...metricChartProps}
       metricsConfiguration={extendMetricConfiguration(chartProps)}
       granularity={granularity}
+      renderPreChartContent={props => {
+        if (!alertsPreviewEnabled) {
+          return;
+        }
+
+        const alertsPreviewQuery = getAlertsPreviewQuery(
+          timeConfig,
+          enrichedTagFilterExpression,
+          granularity,
+          threshold,
+          timeThreshold
+        );
+
+        return (
+          <MarkerLanesPresenter {...props}>
+            <AlertsPreviewLane
+              getAlertsPreview={getLogMetricsAlertPreview}
+              alertsPreviewConfiguration={alertsPreviewQuery}
+            />
+          </MarkerLanesPresenter>
+        );
+      }}
     />
   );
 }
 
 function getMetricValues(metricResult: Result<UnifiedMetricsResult[]>) {
   return metricResult?.data && metricResult?.data.length > 0 ? metricResult?.data[0]?.values : [];
+}
+
+function getAlertsPreviewQuery(
+  timeConfig: TimeConfig,
+  enrichedTagFilterExpression: TagFilter | TagFilterExpression,
+  granularity: Granularity,
+  threshold: ThresholdData,
+  timeThreshold: LogTimeThreshold
+) {
+  if (shouldRequestAlertsPreview(threshold)) {
+    return {
+      timeThreshold,
+      threshold,
+      granularity,
+      metric: {
+        source: 'LOG',
+        timeConfig,
+        granularity,
+        aggregation: 'SUM',
+        metric: logSumMetricId,
+        resultType: 'TIME_SERIES',
+        timeShift: { offset: 0 },
+        tagFilterExpression: enrichedTagFilterExpression
+      }
+    } as GetLogMetricAlertsPreviewQuery;
+  }
+
+  return null;
+}
+
+function shouldRequestAlertsPreview(threshold: ThresholdData) {
+  if (threshold.type === 'staticThreshold') {
+    return (threshold as StaticThresholdData).value != null;
+  }
+  return false;
 }

@@ -17,7 +17,7 @@ import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventCon
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { TagFilterExpression, TimeConfig, TagCatalog, GroupByTag } from 'in-types';
+import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo } from 'in-types';
 import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -55,7 +55,7 @@ export default function LogEventContent({ event }: Props) {
 
   const groups =
     groupingTags?.length > 0 &&
-    groupingTags?.map((grouping: GroupByTag & { value: string }) => {
+    groupingTags?.map((grouping: GroupTagInfo) => {
       return {
         groupbyTag: grouping.tagName,
         groupbyTagEntity: NOT_APPLICABLE,

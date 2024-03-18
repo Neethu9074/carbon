@@ -49,6 +49,7 @@ export function LogMetricChart({ alertConfig, timeConfig }: LogMetricChartProps)
         alertConfig={alertConfig}
         timeConfig={timeConfig}
         selectedMetricGroup={selectedMetricGroup ?? undefined}
+        alertsPreviewEnabled
       />
     </div>
   );
