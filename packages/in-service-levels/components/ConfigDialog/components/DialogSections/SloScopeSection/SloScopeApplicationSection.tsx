@@ -8,9 +8,9 @@ import React, { useContext } from 'react';
 
 import { Stack } from '@instana/components';
 
-import SloRefactorScopeSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloRefactorScopeSection';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
+import ScopeSelection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/ScopeSelection';
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { titleWidth } from 'in-service-levels/constants';
@@ -56,7 +56,7 @@ export default function SloScopeApplicationSection() {
             />
           </Section>
         </Sections>
-        <SloRefactorScopeSection />
+        <ScopeSelection />
       </Stack>
     </SloDialogSection>
   );

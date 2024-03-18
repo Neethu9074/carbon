@@ -29,7 +29,6 @@ export type SloFormFields = {
   nameTags: SloNameTagsForm;
 };
 
-export type CustomScopeType = 'custom' | 'serviceEndpoint';
 export type SloFormTarget = MapForm<SloTargetFields>;
 export type CustomBlueprintType = BlueprintType | 'custom' | undefined;
 
@@ -60,7 +59,6 @@ export type SloScopeFields = {
   includeSynthetic: Field<boolean>;
   endpointId: Field<string>;
   serviceId: Field<string>;
-  scopeSelection: Field<CustomScopeType>;
   tagFilterExpression: Field<FormModelElement[]>;
 };
 

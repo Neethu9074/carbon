@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
@@ -19,21 +19,27 @@ import TabSelect, {
   TabSelectPanels
 } from 'in-components/TabSelect';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { defaultScope } from 'in-service-levels/constants';
 import { titleWidth } from 'in-service-levels/constants';
 
-export default function SloRefactorScopeSection() {
+export default function ScopeSelection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
-  const scopeSelect = form.getIn(['scope', 'scopeSelection']);
+  const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
+  const isCustomTag = tagFilterExpressionField.value.length;
 
+  const scopeSelection = isCustomTag ? 'custom' : 'serviceEndpoint';
+  const [scope, setScope] = useState(scopeSelection);
   const isFormInEditMode = mode === 'EDIT';
+
   return (
     <TabSelect
       onChange={scope => {
-        onChange(['scope', 'scopeSelection'], () => scopeSelect.setValue(scope));
+        setScope(scope);
+        if (scope != 'custom' && isCustomTag) {
+          onChange(['scope', 'tagFilterExpression'], () => tagFilterExpressionField.setValue([]).setTouched(true));
+        }
       }}
-      activePanelId={scopeSelect.value ?? defaultScope}
+      activePanelId={scope === 'custom' ? 'custom' : 'serviceEndpoint'}
     >
       <TabSelectHeader>
         <Typography variant="heading-200" noWrap noMargin>
@@ -41,10 +47,10 @@ export default function SloRefactorScopeSection() {
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        <TabSelectItem forId="serviceEndpoint" withRadioButton>
+        <TabSelectItem forId="serviceEndpoint" withRadioButton disabled={isFormInEditMode}>
           <span>{t('in-service-levels:createSloDialog.serviceAndEndpoint')}</span>
         </TabSelectItem>
-        <TabSelectItem forId="custom" withRadioButton>
+        <TabSelectItem forId="custom" withRadioButton disabled={isFormInEditMode}>
           <span>{t('in-service-levels:general.custom')}</span>
         </TabSelectItem>
       </TabSelectMenu>

@@ -7,7 +7,6 @@
 import { AggregationType, BlueprintType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import { CustomScopeType } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { deepFreeze } from 'in-services/util/object';
 
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
@@ -60,7 +59,6 @@ export const timeAggregationOptions: TimeAggregationOptions = deepFreeze([
 ]);
 
 export const defaultBlueprint: BlueprintType = 'availability';
-export const defaultScope: CustomScopeType = 'serviceEndpoint';
 
 export const SloTimeWindowTypes = Object.freeze({
   SELECTED_TIME: 'SELECTED_TIME',
