@@ -130,10 +130,9 @@ export default function DetailTab({
         actorType !== 'ACTOR_UNKNOWN' &&
         ((actorType === 'USER' && role?.canConfigureUsers) ||
           (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
-          (actorType === 'POLICY' && role?.canConfigureAutomationPolicies)),
+          actorType === 'POLICY'),
       ObservableLink: actorType === 'POLICY' ? undefined : getActorLink(actorType, actorId),
-      stringLink:
-        actorType === 'POLICY' && role?.canConfigureAutomationPolicies ? getPolicyView(actorId ?? '') : undefined
+      stringLink: actorType === 'POLICY' ? getPolicyView(actorId ?? '') : undefined
     },
     {
       label: t('in-automation:actionHistory.eventId'),

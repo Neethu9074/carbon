@@ -69,7 +69,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -233,16 +232,12 @@ const EventContent = connectTo(
           </Row>
         )}
 
-        {role?.canConfigureAutomationPolicies &&
-          role.canConfigureAutomationActions &&
-          actionAutomationEnabled &&
-          isIssue &&
-          hasEventSpec && (
-            <AssociatedAndRecommendedPolicies
-              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-              event={event?.toJS()}
-            />
-          )}
+        {actionAutomationEnabled && isIssue && hasEventSpec && (
+          <AssociatedAndRecommendedPolicies
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={event?.toJS()}
+          />
+        )}
         <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
       </>
     );

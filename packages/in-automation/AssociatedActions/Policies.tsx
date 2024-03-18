@@ -133,11 +133,17 @@ export default function Policies({
       );
     }
   });
-
-  let columnDefinitionsToShow = [...columnDefinition, deleteColumn(triggerReload)];
-  if (role?.canRunAutomationActions) {
+  let columnDefinitionsToShow = [...columnDefinition];
+  if (role?.canConfigureAutomationPolicies && !role?.canRunAutomationActions) {
+    columnDefinitionsToShow = [...columnDefinition, deleteColumn(triggerReload)];
+  }
+  if (role?.canConfigureAutomationPolicies && role?.canRunAutomationActions) {
     columnDefinitionsToShow = [...columnDefinition, executeColumn(volatileId, event), deleteColumn(triggerReload)];
   }
+  if (role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) {
+    columnDefinitionsToShow = [...columnDefinition, executeColumn(volatileId, event)];
+  }
+
   return (
     <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
       onChange={setServerTableState}

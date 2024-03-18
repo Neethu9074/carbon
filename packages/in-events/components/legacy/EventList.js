@@ -25,7 +25,6 @@ import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function IncidentEventList({
@@ -101,9 +100,7 @@ export default function IncidentEventList({
         setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
         highlightEventOnHover={highlightEventOnHover}
       />
-      {role?.canConfigureAutomationPolicies &&
-        role.canConfigureAutomationActions &&
-        actionAutomationEnabled &&
+      {actionAutomationEnabled &&
         !isWebsiteSmartAlertEvent(triggerEvent) &&
         !isApplicationSmartAlertEvent(triggerEvent) &&
         !isMobileAppSmartAlertEvent(triggerEvent) && (
@@ -112,16 +109,12 @@ export default function IncidentEventList({
             event={triggerEvent?.toJS()}
           />
         )}
-      {role?.canConfigureAutomationPolicies &&
-        role.canConfigureAutomationActions &&
-        actionAutomationEnabled &&
-        !isGlobalSmartAlert &&
-        isApplicationSmartAlertEvent(triggerEvent) && (
-          <AssociatedAndRecommendedPoliciesAlerts
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={triggerEvent?.toJS()}
-          />
-        )}
+      {actionAutomationEnabled && !isGlobalSmartAlert && isApplicationSmartAlertEvent(triggerEvent) && (
+        <AssociatedAndRecommendedPoliciesAlerts
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          event={triggerEvent?.toJS()}
+        />
+      )}
       <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );

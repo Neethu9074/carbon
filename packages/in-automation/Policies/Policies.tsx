@@ -287,24 +287,22 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     width: 5,
     getContent: function Content(item) {
       const navigateToPolicyDetails = useNavigateToPolicyDetails();
-      return (
+      return role?.canConfigureAutomationPolicies ? (
         <Stack align="end">
           <MoreMenu kind="subtle">
             <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item, false)}>
               {t('in-automation:edit')}
             </MoreMenuButton>
-            {role?.canConfigureAutomationPolicies && (
-              <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item, true)}>
-                {t('in-automation:copy')}
-              </MoreMenuButton>
-            )}
-            {role?.canConfigureAutomationPolicies && (
-              <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>
-                {t('in-automation:delete')}
-              </MoreMenuButton>
-            )}
+            <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item, true)}>
+              {t('in-automation:copy')}
+            </MoreMenuButton>
+            <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>
+              {t('in-automation:delete')}
+            </MoreMenuButton>
           </MoreMenu>
         </Stack>
+      ) : (
+        <div />
       );
     }
   }

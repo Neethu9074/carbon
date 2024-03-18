@@ -23,6 +23,7 @@ import { Action, Event, TriggerType, VolatileId } from 'in-types';
 import { createBulkPoliciesTracker } from 'in-automation/tracker';
 import Policies from 'in-automation/AssociatedActions/Policies';
 import { NewPolicy } from 'in-automation/Policies/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface AssociatedPoliciesCardProps {
@@ -65,11 +66,15 @@ export default function AssociatedPoliciesCard({
       volatileId={volatileId}
       triggerReload={triggerReload}
       rightHeader={
-        <RightHeader
-          eventSpecification={eventSpecification}
-          triggerReload={triggerReload}
-          isCustomEvent={isCustomEvent}
-        />
+        role?.canConfigureAutomationPolicies ? (
+          <RightHeader
+            eventSpecification={eventSpecification}
+            triggerReload={triggerReload}
+            isCustomEvent={isCustomEvent}
+          />
+        ) : (
+          <div />
+        )
       }
       triggerDetails={{
         triggerType: isCustomEvent ? 'customEvent' : 'builtinEvent',

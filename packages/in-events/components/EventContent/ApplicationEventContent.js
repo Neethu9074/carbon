@@ -38,7 +38,6 @@ import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';
@@ -154,16 +153,13 @@ export default function ApplicationEventContent({ event, snapshot }) {
       </Row>
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
-      {role?.canConfigureAutomationPolicies &&
-        role.canConfigureAutomationActions &&
-        actionAutomationEnabled &&
-        !isGlobalSmartAlert && (
-          <AssociatedAndRecommendedPoliciesAlerts
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={event?.toJS()}
-            alertConfig={alertConfig}
-          />
-        )}
+      {actionAutomationEnabled && !isGlobalSmartAlert && (
+        <AssociatedAndRecommendedPoliciesAlerts
+          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+          event={event?.toJS()}
+          alertConfig={alertConfig}
+        />
+      )}
 
       <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
