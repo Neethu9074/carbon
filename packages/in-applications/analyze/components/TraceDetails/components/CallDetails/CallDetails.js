@@ -97,7 +97,7 @@ export default function CallDetails(props) {
       {
         label: t('in-analyze:traceDetail.components.callDetails.started'),
         duration: call.start,
-        formatter: formatDateTime
+        formatter: formatDateTimeWithMilliSeconds(formatDateTime)
       },
       {
         label: t('in-analyze:traceDetail.components.callDetails.latency'),
@@ -246,4 +246,8 @@ function DisplayTimeData({ values }) {
       })}
     </Dl>
   );
+}
+
+function formatDateTimeWithMilliSeconds(formatter) {
+  return time => formatter(time) + '.' + new Date(time).getMilliseconds();
 }
