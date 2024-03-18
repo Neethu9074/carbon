@@ -133,7 +133,10 @@ export default function RecommendationActionForPoliciesTable({
                   }}
                 />
               </Tooltip>
-            ) : role?.canRunAutomationActions ? (
+            ) : role?.canRunAutomationActions &&
+              isExternal(item.type) &&
+              item?.metadata?.ai &&
+              item?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' ? (
               <Button // we are executing turbo actions directly from recommendation card
                 kind="action"
                 icon={'lib_actions_play'}
