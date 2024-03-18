@@ -117,7 +117,7 @@
     "favico.js": "^0.3.10",
     "formalistic": "^2.0.0",
     "framer-motion": "^3.3.0",
-    "fuzzysort": "^1.1.4",
+    "fuzzysort": "^2.0.0",
     "hammerjs": "^2.0.4",
     "history": "4.7.2-ENCODING-FIX",
     "i18next": "^19.8.4",
