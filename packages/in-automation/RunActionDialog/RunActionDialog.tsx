@@ -10,7 +10,7 @@ import { isEmpty } from 'lodash';
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getInterpreterToUse,

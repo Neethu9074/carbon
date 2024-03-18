@@ -7,10 +7,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, Typography } from '@instana/components';
+import { Link, SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   isDocLink,

@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Result, SyntheticTest } from '@instana/types';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';

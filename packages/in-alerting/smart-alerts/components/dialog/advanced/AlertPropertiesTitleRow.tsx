@@ -7,8 +7,8 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React, { useRef } from 'react';
 
-import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';

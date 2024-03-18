@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';

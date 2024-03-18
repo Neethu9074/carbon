@@ -7,8 +7,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, Stack, Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Spacer, Stack, Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   ANSIBlE_TYPE,

@@ -7,9 +7,9 @@
 import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 
-import { Button, Typography } from '@instana/components';
+import { Typography, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getType,
