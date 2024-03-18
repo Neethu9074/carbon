@@ -30,9 +30,11 @@ export default function PredictiveTriggerDescription(props: PredictiveTriggerDes
       <SvgIcon className={locals.icon} type="lib_openTelemetry" />
       <div>
         <span className={locals.label}>
-          {t('in-alerting:smartAlerts.infrastructure.alertDetails.predictiveTrigger.title')}
+          {t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.alertTitle', {
+            value: formattedTimeToFailure
+          })}
         </span>
-        <p>{formattedTimeToFailure}</p>
+        <p>{}</p>
       </div>
     </div>
   );

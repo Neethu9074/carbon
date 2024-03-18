@@ -5,7 +5,7 @@
  */
 
 import { MapForm, Field } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { PredictiveTrigger } from '@instana/types';
 
@@ -45,6 +45,14 @@ export default function ConfigureTimeToFailure({ form, updateForm }: ConfigureTi
 
   const options = getOptions(granularity);
   const selectedOption = timeToFailure / granularity;
+
+  useEffect(() => {
+    if (!isSelectedTimeExists(selectedOption, granularity)) {
+      handleTimeToFailureChange(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption, granularity]);
+
   return (
     <SelectInSection
       label={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.timeToFailure')}
@@ -81,4 +89,10 @@ function getOptions(granularity: number) {
     });
   }
   return options;
+}
+
+function isSelectedTimeExists(selectedOption: number, granularity: number) {
+  const options = getOptions(granularity);
+  const formatedTime = formatDurationAccurately(selectedOption * granularity, 60000, false);
+  return options.find(option => option.label === formatedTime);
 }

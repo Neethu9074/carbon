@@ -1205,10 +1205,7 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertProperties": "Alert Properties",
-        "predictiveTrigger": {
-          "title": "Predictively trigger the alert in advance"
-        }
+        "alertConfigurationTitleAlertProperties": "Alert Properties"
       },
       "list": {
         "columns": {
@@ -1252,7 +1249,8 @@
           "title": "Time Threshold: When do you want to be alerted?"
         },
         "predictiveTrigger": {
-          "title": "Predictive trigger",
+          "title": "Predictive alerts are disabled",
+          "alertTitle": "Alert will be triggered {{value}} before predicted violation",
           "timeToFailure": "Time to Failure"
         },
         "alertChannel": {
