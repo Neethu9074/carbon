@@ -38,7 +38,7 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.kafka.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/kafka-ssl-client-auth-not-config`
   },
-  invalid_jmx_credentials: {
+  kafka_invalid_jmx_credentials: {
     issueDescription: {
       Component: function invalidJmxCredentials() {
         return (
