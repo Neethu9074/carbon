@@ -114,6 +114,5 @@ module.exports = {
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
-  rawTraceDownloadEnabled: false,
-  viewDeployedAgentsZoneDropDownEnabled: false
+  rawTraceDownloadEnabled: false
 };

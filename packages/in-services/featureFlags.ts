@@ -230,8 +230,3 @@ export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
 );
 
 export const rawTraceDownloadEnabled = isFeatureFlagEnabled('rawTraceDownloadEnabled', false);
-
-export const viewDeployedAgentsZoneDropDownEnabled = isFeatureFlagEnabled(
-  'viewDeployedAgentsZoneDropDownEnabled',
-  false
-);
