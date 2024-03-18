@@ -6,8 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, SvgIcon, Typography } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { KeyValue, Stack, Typography } from '@instana/components';
 
 import {
   getDocumentations,
@@ -18,13 +17,11 @@ import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/L
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import { FormInputPlg } from 'in-plg/pages/onboarding/content/ContentComponents';
-import { viewDeployedAgentsZoneDropDownEnabled } from 'in-services/featureFlags';
 import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import Code from 'in-plg/components/Code/Code';
-import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
 export default function OpenshiftOperator({
@@ -89,34 +86,7 @@ export default function OpenshiftOperator({
               value={<FormInputPlg onChange={value => setClusterName(value)} />}
               withGap
             />
-            {viewDeployedAgentsZoneDropDownEnabled ? (
-              <AgentzoneLister callBackFunc={updateAgentZone} />
-            ) : (
-              <KeyValue
-                label={
-                  <Tooltip
-                    content={
-                      <Trans
-                        i18nKey="in-plg:agentDetails.common.enterANameForAClusterGroupYouWantToAddThisClusterTo"
-                        components={{ 1: <br /> }}
-                      />
-                    }
-                    align="auto"
-                  >
-                    <Stack direction="horizontal" gap="xxsmall" align="center">
-                      {t('in-plg:agentDetails.common.agentZoneOptional')}
-                      <SvgIcon
-                        size="xs"
-                        type="lib_help_error_help_outline"
-                        color={themes.default.ids.color.option.neutral[600]}
-                      />
-                    </Stack>
-                  </Tooltip>
-                }
-                value={<FormInputPlg onChange={value => setAgentZone(value)} />}
-                withGap
-              />
-            )}
+            <AgentzoneLister callBackFunc={updateAgentZone} />
           </Stack>
         </LayoutSection>
 

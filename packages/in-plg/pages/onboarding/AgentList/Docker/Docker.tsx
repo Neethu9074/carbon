@@ -6,13 +6,11 @@
 
 import React, { useState, useMemo } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
-import { FormInputPlg } from 'in-plg/pages/onboarding/content/ContentComponents';
-import { viewDeployedAgentsZoneDropDownEnabled } from 'in-services/featureFlags';
 import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
@@ -120,15 +118,7 @@ export default function Docker({
             t('in-plg:agentDetails.aws.step1') + t('in-plg:agentDetails.aws.enterAClusterNameAndOptionallyTheAgentZone')
           }
         >
-          {viewDeployedAgentsZoneDropDownEnabled ? (
-            <AgentzoneLister callBackFunc={updateAgentZone} />
-          ) : (
-            <KeyValue
-              label={t('in-plg:agentDetails.common.agentZoneOptional')}
-              value={<FormInputPlg onChange={value => setAgentZone(value)} />}
-              withGap
-            />
-          )}
+          <AgentzoneLister callBackFunc={updateAgentZone} />
         </LayoutSection>
 
         <LayoutSection
