@@ -48,6 +48,7 @@ const helpTexts = {
   'entity.azure.service.sqlelasticpool': t('in-stores:search.fieldsEntityAzureServiceSqlelasticpool'),
   'entity.azure.service.sqlserver': t('in-stores:search.fieldsEntityAzureServiceSqlserver'),
   'entity.azure.service.storage': t('in-stores:search.fieldsEntityAzureServiceStorage'),
+  'entity.azure.service.databricks': t('in-stores:search.fieldsEntityAzureDatabricks'),
   'entity.azure.service.storage.queue': t('in-stores:search.fieldsEntityAzureServiceStorageQueue'),
   'entity.azure.service.storage.blob': t('in-stores:search.fieldsEntityAzureServiceStorageBlob'),
   'entity.azure.service.servicebus': t('in-stores:search.fieldsEntityAzureServiceBus'),

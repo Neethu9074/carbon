@@ -67,6 +67,7 @@ export const nonServicePlugins = {
   azureBlob: 'azureBlob',
   azureFunctionApp: 'azureFunctionApp',
   azureFunction: 'azureFunction',
+  azureDatabricks: 'azureDatabricks',
   azureServiceBus: 'azureServiceBus',
   azureServiceBusQueues: 'azureServiceBusQueues',
   azureServiceBusTopics: 'azureServiceBusTopics',
@@ -433,6 +434,7 @@ export const fullyQualifiedPlugins = {
   azureSqlDb: 'com.instana.forge.hardware.virtual.azure.sqldb.AzureSqlDb',
   azureSqlElasticPool: 'com.instana.forge.hardware.virtual.azure.sqlelasticpool.AzureSqlElasticPool',
   azureSqlServer: 'com.instana.forge.hardware.virtual.azure.sqlserver.AzureSqlServer',
+  azureDatabricks: 'com.instana.forge.hardware.virtual.azure.databricks.AzureDatabricks',
   azureServiceBus: 'com.instana.forge.hardware.virtual.azure.servicebus.AzureServiceBus',
   azureServiceBusQueues:
     'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.queues.AzureServiceBusQueues',

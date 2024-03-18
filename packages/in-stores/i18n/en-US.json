@@ -220,6 +220,7 @@
     "fieldsEntityAzureServiceSqlelasticpool": "Azure SQL Elastic Pool",
     "fieldsEntityAzureServiceSqlserver": "Azure SQL Server",
     "fieldsEntityAzureServiceStorage": "Azure Storage",
+    "fieldsEntityAzureDatabricks": "Azure Databricks",
     "fieldsEntityAzureServiceStorageQueue": "Azure Storage Queue",
     "fieldsEntityAzureServiceStorageBlob": "Azure Storage Blob",
     "fieldsEntityAzureServiceBus": "Azure Service Bus",

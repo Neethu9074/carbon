@@ -158,6 +158,7 @@ import './sapJavaInstance';
 import './rabbitMqCluster';
 import './awsRedshiftNode';
 import './ibmiNetworkInfo';
+import './azureDatabricks';
 import './aceMessageFlow';
 import './azureSqlServer';
 import './beeInstanaNode';
