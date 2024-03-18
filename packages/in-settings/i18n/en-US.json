@@ -211,7 +211,7 @@
       "limited_access": {
         "access_level": "Access only the listed applications with the selected access type and any additional permissions.",
         "access_level_contributor": "You can find the applications with contributor access in the access configuration pane on the user or group details. <br /><br />Access the application perspectives with the contribution filter applied as contributor. <br />Access the selected application perspectives as viewer",
-        "role_permissions_contributor": "Create application dashboards with the contribution filter applied; view, configure and delete these application dashboards that are created for the contribution filter."
+        "role_permissions_contributor": "Create application perspectives with the contribution filter applied; view, configure and delete these application perspectives that are created for the contribution filter."
       },
       "role_permissions_owner": "Create, configure, view and delete application perspectives.",
       "role_permissions_viewer": "View application perspectives and their configuration."
