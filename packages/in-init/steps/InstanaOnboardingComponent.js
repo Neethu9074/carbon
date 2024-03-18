@@ -12,6 +12,7 @@ import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullV
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
+import createTracker from 'in-waiting-for-deployment/tracker';
 import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -31,6 +32,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
     checkResult: result => checkIfUserCanPass(result.hasEntities)
   });
   const keys = useObservable(getUnitKeys, []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
+  const trackingService = createTracker('onboarding');
 
   if (!accountConfig) {
     return <LoadingIndicator height="100vh" />;
@@ -56,7 +58,10 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
             activeLicenseType={accountConfig.activeLicenseType}
             getRedirectButtonProperties={() => ({
               children: 'Go to Instana!',
-              onClick: () => onDialogSkip()
+              onClick: () => {
+                onDialogSkip();
+                trackingService.gotoInstanaButtonClicked();
+              }
             })}
             agentEndpoint={config.agentEndpoint}
             agentEndpointPort={config.agentEndpointPort}
