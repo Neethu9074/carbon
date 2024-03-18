@@ -48,7 +48,7 @@ export default function ActionCatalogTab() {
         loadEntities={getAllActions}
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
-        showDuplicateColumn
+        showDuplicateColumn={role?.canConfigureAutomationActions}
         isBeta
       />
     </AutomationTabs>
