@@ -15,6 +15,8 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import AwsIcon from 'in-plg/pages/onboarding/icons/AwsIcon';
 
+import locals from './Header.mless';
+
 const IconSwitch = ({ icon, iconColor }) => {
   //handling the case of custom icons for tech
   switch (icon) {
@@ -34,7 +36,7 @@ const AgentInstallBreadCrumbs = crumbs => {
     const isLastItem = index === crumbs.length - 1;
     const textClass = isLastItem ? 'body-bold' : 'body-regular';
     return (
-      <Breadcrumb href={item.href} key={index}>
+      <Breadcrumb href={item.href} key={index} className={locals.breadcrumb}>
         <Stack direction="horizontal" align="center">
           <IconSwitch icon={item.icon} iconColor={item.iconColor} />
           <Typography variant={textClass}>{item.title}</Typography>
