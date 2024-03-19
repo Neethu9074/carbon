@@ -582,6 +582,12 @@
       "handleButton": "Handle button"
     }
   },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "e.g. Europe",
+      "Add": "Add"
+    }
+  },
   "assistme": {
    "dataSearchContext": {
     "gettingStarted": "Getting Started"
