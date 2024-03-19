@@ -186,8 +186,13 @@
   "sloChart": {
     "sloFormatter": {
       "unit": "llamada",
+      "unit_application": "llamada",
+      "unit_website": "baliza",
       "unit_plural": "calls",
-      "thousandCallsFormat": "{{count}}K llamadas"
+      "unit_application_plural": "calls",
+      "unit_website_plural": "balizas",
+      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Estado",

@@ -34,9 +34,10 @@ function getEventBasedFormatter(sloEntityType: SloEntityType): (value: number) =
       });
     }
 
-    return `${number.compact(value)} ${t('in-service-levels:sloChart.sloFormatter.unit', {
-      context: sloEntityType,
+    return t('in-service-levels:sloChart.sloFormatter.callsFormat', {
+      entityType: sloEntityType,
+      formattedCount: number.compact(value),
       count: value
-    })}`;
+    });
   };
 }
