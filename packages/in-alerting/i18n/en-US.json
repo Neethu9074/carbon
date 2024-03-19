@@ -1149,7 +1149,6 @@
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
         "thresholdTitle": "Threshold: When is the condition violated?",
-        "userImpactInfo": "Only authenticated users are considered for the user-impact threshold.",
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom Payloads"
       }
