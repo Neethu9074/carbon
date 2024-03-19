@@ -7,8 +7,7 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Link, Spacer, Typography } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Link, Spacer, Typography, Toggle } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -1153,11 +1152,7 @@ const WebhookSection = ({
               <Label htmlFor="action-ignoreCertErrors" hasError={!field.valid && field.touched}>
                 {t('in-automation:ActionCatalog.ignoreCertErrors')}
               </Label>
-              <Toggle
-                disabled={isNotEditable}
-                checked={field.value}
-                onChange={e => onChange('ignoreCertErrors', e.target.checked)}
-              />
+              <Toggle disabled={isNotEditable} checked={field.value} onToggle={e => onChange('ignoreCertErrors', e)} />
             </FormGroup>
           ))}
         </Col>
