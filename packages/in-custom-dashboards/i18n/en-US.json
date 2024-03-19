@@ -149,6 +149,7 @@
       "formComponent": {
         "metric": "Metric",
         "eventCount": "Event Count",
+        "unnamedLog": "Unnamed Log Metric",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Please select a metric",
         "pleaseSelect": "Please select",
