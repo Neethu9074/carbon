@@ -7,8 +7,7 @@
 import React, { Fragment } from 'react';
 
 import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button, Link } from '@instana/components';
 
 import {
   sessionIdUrlParameter,

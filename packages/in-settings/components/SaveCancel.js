@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import SectionLine from 'in-settings/components/SectionLine';
