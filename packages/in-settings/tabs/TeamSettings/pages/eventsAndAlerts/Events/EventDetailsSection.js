@@ -7,8 +7,7 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import {
   severityOptions,
@@ -102,7 +101,7 @@ export function EventDetailsSection({ form, onChange, disabled }) {
                       disabled={disabled}
                       id="event-triggering"
                       checked={field.value}
-                      onChange={e => onChange('triggering', e.target.checked)}
+                      onToggle={e => onChange('triggering', e)}
                     />
                   </FormGroup>
                 ))}
