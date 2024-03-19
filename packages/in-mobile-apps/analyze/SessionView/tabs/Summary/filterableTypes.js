@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { themes } from '@instana/design-tokens';
+
 import { t } from 'in-i18n';
 
 export const types = {
@@ -10,31 +12,36 @@ export const types = {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.HTTPShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.HTTPBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.HTTPLong'),
-    color: '#8900b3'
+    color: themes.g10.ids.color.option.purple[500],
+    colorType: 'purple'
   },
   sessionStart: {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.sesShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.sesBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.sesLong'),
-    color: '#F16528'
+    color: themes.g10.ids.color.option.orange[500],
+    colorType: 'orange'
   },
   viewChange: {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.traShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.traBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.traLong'),
-    color: '#91c200'
+    color: themes.g10.ids.color.option.lime[500],
+    colorType: 'lime'
   },
   custom: {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusLong'),
-    color: '#009e89'
+    color: themes.g10.ids.color.option.teal[500],
+    colorType: 'teal'
   },
   crash: {
     short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craShort'),
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craLong'),
-    color: 'darkred'
+    color: themes.g10.ids.color.option.red[500],
+    colorType: 'red'
   }
 };
 
