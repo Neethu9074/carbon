@@ -8,14 +8,14 @@ import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect } from 'react';
 
 import { ApiGroup, PermissionSet } from '@instana/types';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/RolesAndAccessScopeOverview';
-import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
 import {
-  getField,
-  getScopeFromProductArea
+  getAreaRoleFromPermissionSet,
+  getField
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
 import {
   ProductArea,
   ScopeRoles
@@ -61,7 +61,7 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
   };
 
   const onClickSave = (form: MapForm<FORM_TYPE>) => {
-    const initialApplicationPermission = getScopeFromProductArea(
+    const initialApplicationRole = getAreaRoleFromPermissionSet(
       ProductArea.APPLICATION,
       permissionSetField?.value as PermissionSet
     );
@@ -69,15 +69,12 @@ export default function RoleAndAccessScopeColumns<FORM_TYPE extends MapFormItems
       scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor
     )?.length;
     const currentPermissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
+    const currentApplicationRole = getAreaRoleFromPermissionSet(ProductArea.APPLICATION, currentPermissionSet);
     const currentTagfilter = currentPermissionSet?.restrictedApplicationFilter?.tagFilterExpression;
-    const currentApplicationPermission = getScopeFromProductArea(
-      ProductArea.APPLICATION,
-      currentPermissionSet as PermissionSet
-    );
     if (
       applicationContributionFilterEnabled &&
       contributorApplicationIds > 0 &&
-      (currentTagfilter === undefined || currentApplicationPermission !== initialApplicationPermission)
+      (currentTagfilter === undefined || currentApplicationRole !== initialApplicationRole)
     ) {
       addActiveDialog(
         <ConfirmationDialog

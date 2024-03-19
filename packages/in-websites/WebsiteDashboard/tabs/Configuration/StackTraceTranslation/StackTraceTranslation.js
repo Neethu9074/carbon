@@ -6,7 +6,8 @@
 import React, { Fragment, useState } from 'react';
 
 import { combineLatest, just } from '@instana/observables';
-import { Button, Card, Stack } from '@instana/components';
+import { Card, Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getSourceMapDownloadConfigurations,

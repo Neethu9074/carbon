@@ -7,8 +7,9 @@
 import { Field, Item, MapForm, ValidationResult } from 'formalistic';
 import React from 'react';
 
-import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Stack, SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { onlyUniqueKeyNames } from 'in-synthetics/createTests/validators/configValidators';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
@@ -32,7 +33,7 @@ interface Props {
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
 }
 
-export default function CustomPropertiesSection({ 
+export default function CustomPropertiesSection({
   form,
   updateForm,
   customProperties,
@@ -40,7 +41,6 @@ export default function CustomPropertiesSection({
   invalidCustomProperty,
   setInvalidCustomProperty
 }: Props) {
-
   function addNewCustomPropertyRow() {
     setCustomProperties([
       ...customProperties,

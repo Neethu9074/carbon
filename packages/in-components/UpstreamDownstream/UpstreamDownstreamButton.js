@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import UpstreamDownstream from 'in-components/UpstreamDownstream/UpstreamDownstream';
 import Overlay from 'in-components/overlays/Overlay';

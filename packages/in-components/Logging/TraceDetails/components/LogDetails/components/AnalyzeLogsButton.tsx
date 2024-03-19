@@ -5,8 +5,9 @@
 
 import React, { MutableRefObject } from 'react';
 
-import { Button, Li, SvgIcon, Ul } from '@instana/components';
+import { Li, SvgIcon, Ul } from '@instana/components';
 import { LogItem, LogTag } from '@instana/types';
+import { Button } from '@instana/legacy';
 
 import { getValueMatchTagFilter, LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
 import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';

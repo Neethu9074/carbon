@@ -7,7 +7,7 @@ import { uniqBy } from 'lodash';
 import React from 'react';
 
 import { HorizontalIndicator } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';

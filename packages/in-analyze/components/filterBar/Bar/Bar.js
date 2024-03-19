@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { t } from 'in-i18n';
 

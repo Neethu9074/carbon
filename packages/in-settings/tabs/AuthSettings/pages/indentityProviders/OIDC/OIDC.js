@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import ConfigureIdPInfoMessage from 'in-settings/tabs/AuthSettings/pages/indentityProviders/ConfigureIdPInfoMessage';

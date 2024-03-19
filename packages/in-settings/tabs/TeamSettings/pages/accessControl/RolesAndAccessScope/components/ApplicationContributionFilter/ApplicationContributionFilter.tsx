@@ -7,18 +7,15 @@
 import { MapForm, MapFormItems } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
-import { Button, Typography } from '@instana/components';
 import { Disposable } from '@instana/observables';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 //@ts-expect-error not migrated to typescript yet
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
-import {
-  contributionFilterNameValidator,
-  getField,
-  updateFormField
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 //@ts-expect-error not migrated to typescript yet
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
+import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { contributionFilterNameExists } from 'in-settings/tabs/TeamSettings/api/groups';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -47,7 +44,7 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   const tagFilterExpressionField = form.get('tagFilterExpression') as any;
   const tagFilterExpression = tagFilterExpressionField?.value as FormModelElement[];
   const filterNameField = getField<string>(form, 'label');
-  const filterName = filterNameField?.value;
+  const filterName = filterNameField?.value?.trim();
   const [initialfilterName] = useState(filterNameField?.value);
   const [isFilterNameValid, setFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>('');
@@ -55,39 +52,41 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
 
   const debouncedValidation = useDebounce(() => {
     if (filterName) {
-      const appsObservable = contributionFilterNameExists(filterName);
-      if (appsDisposable) {
-        // Clean up
-        appsDisposable?.dispose();
-      }
-      appsDisposable = appsObservable.subscribe(result => {
-        if (result?.data) {
-          // Name is valid if no application perspective with the same name is found
-          const isNameValid = result?.data?.exists === false;
-          setFilterNameValid(isNameValid);
-          setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
-
-          // Report valid
-          setValid(isNameValid);
+      // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
+      if (editMode && initialfilterName === filterName) {
+        setValid(true);
+        setErrorMessage(null);
+      } else {
+        const appsObservable = contributionFilterNameExists(filterName);
+        if (appsDisposable) {
+          // Clean up
+          appsDisposable?.dispose();
         }
-      });
+        appsDisposable = appsObservable.subscribe(result => {
+          if (result?.data) {
+            // Name is valid if no application perspective with the same name is found
+            const isNameValid = result.data.exists === false;
+            setFilterNameValid(isNameValid);
+            setErrorMessage(isNameValid ? '' : t('in-settings:PermissionSection.contributionFilter_name_alreadyUsed'));
+
+            // Report valid
+            setValid(isNameValid);
+          }
+        });
+      }
     }
   }, 500);
 
   useEffect(() => {
     // Already invalid (blank or larger than 128 characters)
-    if (contributionFilterNameValidator(filterName) !== null) {
+    if (!filterNameField?.valid) {
       setValid(false);
       setErrorMessage(null);
-    } else if (editMode && initialfilterName === filterName) {
-      // Existing group with contribution filter should not be validated again on edit, as the corresponding application perspective already exists
-      setValid(true);
-      setErrorMessage(null);
-    } else if (filterName) {
+    } else {
       // Validate against API
       debouncedValidation();
     }
-  }, [filterName, setValid, editMode, initialfilterName, debouncedValidation]);
+  }, [filterName, filterNameField?.valid, debouncedValidation, setValid]);
 
   const setTagFilterExpression = (
     tagFilterExpression: FormModelElement[],

@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { t } from 'in-i18n';

@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Button, Spacer, Stack, Typography } from '@instana/components';
+import { Spacer, Stack, Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   AUTOMATIC,

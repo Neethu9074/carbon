@@ -12,28 +12,20 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
-import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
-import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import MobileAppEventListItemContent from 'in-events/components/legacy/MobileAppEventListItemContent';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
-import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
-import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
-import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
-import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
-import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isAppDataEntityType } from 'in-services/entityUtils';
-import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
+import EventEntityDetails from './EventEntityDetails';
 import { urlQueryKeys } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -166,88 +158,12 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBa
             <EndedMarker event={event} />
             <EventDurationMarker event={event} />
           </div>
-          <DetailsHeaderEntity event={event} timeConfig={timeConfig} />
+          <EventEntityDetails triggeringEvent={event} timeConfig={timeConfig} />
         </div>
       </div>
 
       <SvgIcon type={iconType} size="xs" color={themes.default.ids.color.option.neutral['600']} />
     </div>
-  );
-}
-
-function DetailsHeaderEntity({ event, timeConfig }) {
-  if (isWebsiteSmartAlertEvent(event)) {
-    return <WebsiteDetailsHeaderEntity event={event} />;
-  } else if (isApplicationSmartAlertEvent(event)) {
-    return <ApplicationDetailsHeaderEntity event={event} />;
-  } else if (isMobileAppSmartAlertEvent(event)) {
-    return <MobileAppDetailsHeaderEntity event={event} />;
-  }
-
-  return (
-    <EntityWithParentInformation
-      entityId={event.get('entityId')}
-      entityType={event.get('entityType')}
-      metadata={event.get('metadata')}
-      timeConfig={timeConfig}
-      linkTimeConfig={getTimeConfigFromEvent(event)}
-    />
-  );
-}
-
-function ApplicationDetailsHeaderEntity({ event }) {
-  const alertConfig = useApplicationEventAlertConfig(event);
-  const eventEntity = useApplicationEventEntity(event);
-
-  if (!eventEntity || !alertConfig) {
-    return null;
-  }
-
-  return (
-    <ApplicationScopePath
-      {...eventEntity}
-      boundaryScope={alertConfig.boundaryScope}
-      timeConfig={getTimeConfigFromEvent(event)}
-      iconSize="xs"
-      showDashboardLinks
-      noBottomMargin
-    />
-  );
-}
-
-function WebsiteDetailsHeaderEntity({ event }) {
-  const eventEntity = useWebsiteEventEntity(event);
-
-  if (!eventEntity) {
-    return null;
-  }
-
-  return (
-    <WebsiteScopePath
-      {...eventEntity}
-      timeConfig={getTimeConfigFromEvent(event)}
-      iconSize="xs"
-      showDashboardLinks
-      noBottomMargin
-    />
-  );
-}
-
-function MobileAppDetailsHeaderEntity({ event }) {
-  const eventEntity = useMobileAppEventEntity(event);
-
-  if (!eventEntity) {
-    return null;
-  }
-
-  return (
-    <MobileAppScopePath
-      {...eventEntity}
-      timeConfig={getTimeConfigFromEvent(event)}
-      iconSize="xs"
-      showDashboardLinks
-      noBottomMargin
-    />
   );
 }
 

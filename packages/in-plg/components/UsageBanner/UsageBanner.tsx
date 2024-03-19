@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
@@ -42,7 +41,6 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const isPaidLicenseUsage = activeLicense === 'hostBasedPaid';
   const isRemainingDaysLimited = remainingDays! <= 30;
   const isTrial = isSelfService || isQuota;
-  const isAssistMeEnabled = isTrial || isFreeNotForResale;
   const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
@@ -97,27 +95,26 @@ export function UsageBanner({ message }: UsageBannerProps) {
             </LicenseBannerButton>
           )}
           {(isTrial || needToShowReminder) && (
-            <LicenseBannerButton
-              icon="lib_actions_request_quote"
-              iconColor="var(--cds-link-primary)"
-              id="wm-requestaquote"
-              kind="ghost"
-              target="_blank"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
-                addActiveDialog(<RequestQuoteDialog />);
-              }}
-            >
-              {t('in-plg:licenseBanner.requestQuoteBtn')}
-            </LicenseBannerButton>
+            <>
+              <LicenseBannerButton
+                icon="lib_actions_request_quote"
+                iconColor="var(--cds-link-primary)"
+                id="wm-requestaquote"
+                kind="ghost"
+                target="_blank"
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
+                  addActiveDialog(<RequestQuoteDialog />);
+                }}
+              >
+                {t('in-plg:licenseBanner.requestQuoteBtn')}
+              </LicenseBannerButton>
+              <div className={locals.verticalLine} />
+            </>
           )}
-          <div
-            className={classNames({
-              [locals.verticalLine]: isTrial
-            })}
-          />
-          <AssistMe isAssistMeEnabled={isAssistMeEnabled} />
+
+          <AssistMe />
         </>
       )}
     </Stack>

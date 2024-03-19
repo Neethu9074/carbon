@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Message, Stack } from '@instana/components';
-import { Spacer } from '@instana/components';
-import { Button } from '@instana/components';
+import { Message, Stack, Spacer } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import BuiltInGlobalSmartAlertsPermissionWrapper from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
 import ContributionFilterDropdown, {

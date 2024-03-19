@@ -8,7 +8,8 @@ import { Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { ApplicationBoundaryScope } from '@instana/types';
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line import/no-deprecated -- Existing usage of deprecated code, this component will be removed in the future

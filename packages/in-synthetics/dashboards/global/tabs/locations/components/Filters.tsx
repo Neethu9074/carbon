@@ -38,7 +38,7 @@ export default function Filters({ setFilter, locationTypes }: FilterProps) {
       <ComboBox
         value={locationTypes}
         onChange={t => Array.isArray(t) && setFilter({ locationTypes: t.map(a => a.value) })}
-        placeholder={t('in-synthetics:dashboard.testList.locationLabel')}
+        placeholder={t('in-synthetics:dashboard.locationList.type')}
         isMulti
         options={locationTypeLabelOptions}
         className={locals.filter}

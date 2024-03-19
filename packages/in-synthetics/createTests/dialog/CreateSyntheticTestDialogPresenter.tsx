@@ -7,7 +7,7 @@
 import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import {

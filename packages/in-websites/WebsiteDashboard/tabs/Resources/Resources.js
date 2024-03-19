@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
-import { Button } from '@instana/components';
 import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   pageIdUrlParameter,

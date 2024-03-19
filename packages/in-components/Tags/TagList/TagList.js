@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
 import getFilterableTags from 'in-subscription/getFilterableTags';

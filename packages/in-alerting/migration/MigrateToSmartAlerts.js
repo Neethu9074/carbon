@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   applicationsAlertingDeprecatedEventConfirmMigrated,

@@ -7,8 +7,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createField } from 'formalistic';
 
-import { Button } from '@instana/components';
 import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';

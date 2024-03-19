@@ -6,7 +6,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import TagFilterExpressionConfig from 'in-custom-dashboards/widgets/Slo/sli/TagFilterExpressionConfig';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';

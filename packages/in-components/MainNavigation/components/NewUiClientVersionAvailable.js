@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { uiNeedsRefresh$ } from 'in-services/uiClientVersion';
 import connectTo from 'in-hoc/connectTo';
@@ -13,24 +14,24 @@ import { t } from 'in-i18n';
 
 import locals from './NewUiClientVersionAvailable.mless';
 
-export default connectTo({ uiNeedsRefresh: uiNeedsRefresh$ }, function NewUiClientVersionAvailable({
-  isExpanded,
-  uiNeedsRefresh
-}) {
-  if (!uiNeedsRefresh) {
-    return null;
-  }
+export default connectTo(
+  { uiNeedsRefresh: uiNeedsRefresh$ },
+  function NewUiClientVersionAvailable({ isExpanded, uiNeedsRefresh }) {
+    if (!uiNeedsRefresh) {
+      return null;
+    }
 
-  return (
-    <div className={locals.wrapper}>
-      {isExpanded ? (
-        updateUiSection
-      ) : (
-        <SvgIcon className={locals.updateIcon} size="l" type="lib_help_error_info_outline" />
-      )}
-    </div>
-  );
-});
+    return (
+      <div className={locals.wrapper}>
+        {isExpanded ? (
+          updateUiSection
+        ) : (
+          <SvgIcon className={locals.updateIcon} size="l" type="lib_help_error_info_outline" />
+        )}
+      </div>
+    );
+  }
+);
 
 const updateUiSection = (
   <div className={locals.updateSection}>

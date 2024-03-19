@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Header from 'in-components/workspace/Header';

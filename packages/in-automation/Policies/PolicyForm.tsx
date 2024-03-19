@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { Button, Link, Spacer, Stack, Typography } from '@instana/components';
+import { Link, Spacer, Stack, Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   ApplyOn,

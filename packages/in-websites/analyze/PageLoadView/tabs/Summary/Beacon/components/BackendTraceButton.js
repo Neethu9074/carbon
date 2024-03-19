@@ -7,7 +7,7 @@ import { InView } from 'react-intersection-observer';
 import React from 'react';
 
 import { empty } from '@instana/observables';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';

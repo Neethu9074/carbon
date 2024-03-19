@@ -8,8 +8,9 @@ import { Field, Item, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Stack, SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';

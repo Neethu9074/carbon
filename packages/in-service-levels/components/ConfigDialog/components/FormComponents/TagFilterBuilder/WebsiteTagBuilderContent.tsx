@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Button, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';

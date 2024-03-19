@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { toParams } from 'in-stores/navigation/routing/stringifier';

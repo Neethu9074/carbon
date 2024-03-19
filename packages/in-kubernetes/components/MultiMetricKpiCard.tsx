@@ -7,9 +7,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, ButtonKinds, SvgIcon } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
+import { Button, ButtonKinds } from '@instana/legacy';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';

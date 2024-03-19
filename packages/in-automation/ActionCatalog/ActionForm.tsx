@@ -368,7 +368,7 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCha
         {t('in-automation:ActionCatalog.content')}
       </Label>
       <Code
-        lineNumbers
+        lineNumbers={!isNotEditable}
         readOnly={isNotEditable}
         mode={'markdown'}
         value={field.value}

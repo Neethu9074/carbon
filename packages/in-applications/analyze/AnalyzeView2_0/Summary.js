@@ -5,10 +5,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Button, Card, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
+import { Card, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
@@ -34,8 +35,8 @@ import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-components/Logging/TraceDetails/components/Logs';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { latency, number } from 'in-services/formatters/number';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { emptyObject } from 'in-services/fixedObjects';

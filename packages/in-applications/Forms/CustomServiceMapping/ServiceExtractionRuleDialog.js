@@ -8,7 +8,7 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';

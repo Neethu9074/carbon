@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import { Link, Button, SvgIcon, Typography, Stack } from '@instana/components';
+import { Link, SvgIcon, Typography, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 import { Result } from '@instana/types';
 
 //@ts-expect-error missing typescript migration
@@ -36,10 +37,6 @@ export function StickyBanner({ message }: StickyBannerProps) {
   const location = useLocation();
   //@ts-expect-error
   const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
-  const isAssistMeEnabled =
-    message.activeLicense == 'selfService' ||
-    message.activeLicense == 'quota' ||
-    message.activeLicense == 'free_not_for_resale';
   const queuedUpLicense = queuedLicenseDetails?.data?.items[0]?.license.type;
   const isPaidLicenseUsage = message.activeLicense == 'hostBasedPaid';
   const noQueuedLicense =
@@ -124,7 +121,7 @@ export function StickyBanner({ message }: StickyBannerProps) {
                     {t('in-plg:licenseBanner.requestQuoteBtn')}
                   </Button>
                 )}
-                <AssistMe isAssistMeEnabled={isAssistMeEnabled} />
+                <AssistMe />
               </>
             )}
           </Stack>

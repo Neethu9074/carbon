@@ -8,7 +8,7 @@ import { List } from 'immutable';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { notBlankValidator } from 'in-services/validators/string';

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import { Message, Spacer, Pill } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';

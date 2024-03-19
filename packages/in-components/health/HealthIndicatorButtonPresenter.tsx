@@ -6,7 +6,7 @@
 import React, { MutableRefObject, RefCallback } from 'react';
 
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { t } from 'in-i18n';

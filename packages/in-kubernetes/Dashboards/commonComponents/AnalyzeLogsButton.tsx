@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { useLinkToLogs } from 'in-logging/navigation/paths';

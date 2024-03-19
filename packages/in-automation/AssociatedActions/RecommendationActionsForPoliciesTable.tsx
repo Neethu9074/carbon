@@ -7,8 +7,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, Stack, Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Spacer, Stack, Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   ANSIBlE_TYPE,
@@ -133,7 +133,10 @@ export default function RecommendationActionForPoliciesTable({
                   }}
                 />
               </Tooltip>
-            ) : role?.canRunAutomationActions ? (
+            ) : role?.canRunAutomationActions &&
+              isExternal(item.type) &&
+              item?.metadata?.ai &&
+              item?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' ? (
               <Button // we are executing turbo actions directly from recommendation card
                 kind="action"
                 icon={'lib_actions_play'}

@@ -436,7 +436,6 @@ function AutomationMenu(props) {
         icon="lib_automation"
         isActive={matchLocation(isAutomationView)}
         href={createHrefToPath(actionCatalogPath)}
-        isBeta
         {...props}
       />
     )

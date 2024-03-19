@@ -25,8 +25,8 @@ describe('ManagedLocation', () => {
 
     expect(screen.getByText('Datacenters')).toBeInTheDocument();
 
-    const linkElement = screen.getByText('Synthetic PoP Deployment');
-    expect(linkElement.getAttribute('href')).toBe('https://ibm.biz/pop_deployment');
+    const linkElement = screen.getByText('Using an Instana-hosted PoP');
+    expect(linkElement.getAttribute('href')).toBe('https://ibm.biz/Instana-hosted_PoP');
 
     expect(container.getElementsByTagName('th').length).toBe(5);
     expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Datacenter Code');
@@ -80,12 +80,6 @@ describe('ManagedLocation', () => {
     expect(tbody).toBeInTheDocument();
     const trElements = tbody?.getElementsByTagName('tr')!;
     expect(trElements?.length).toEqual(1);
-
-    // expect(trElements[0]).toHaveTextContent('us-west-1');
-    // expect(trElements[0]).toHaveTextContent('us-west-1(NCalifornia)');
-    // expect(trElements[0]).toHaveTextContent('AWS');
-    // expect(trElements[0]).toHaveTextContent('tu-us-west-1(NCalifornia)');
-    // expect(trElements[0]).toHaveTextContent('Active');
   });
 
   test('checkbox should be enabled for datacenters with status as Inactive', () => {

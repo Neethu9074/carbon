@@ -49,7 +49,6 @@ export default function ActionCatalogTab() {
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
         showDuplicateColumn={role?.canConfigureAutomationActions}
-        isBeta
       />
     </AutomationTabs>
   );

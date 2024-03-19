@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import locals from './NotDefined.mless';
 

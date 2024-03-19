@@ -9,7 +9,7 @@ import { composeValidators, createField, createMapForm } from 'formalistic';
 import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   formatDate,

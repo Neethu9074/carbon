@@ -140,6 +140,18 @@ const syntheticToogleArray: string[] = syntheticArray.map(ele => ele.label);
 
 const widgetData = [
   {
+    key: 'incidentsWidget',
+    label: t('in-plg:welcomepage.component.incidentsWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: IncidentsWidget
+  },
+  {
+    key: 'dashboardWidget',
+    label: t('in-plg:welcomepage.component.dashboardWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: DashboardWidget
+  },
+  {
     key: 'websitesWidget',
     label: t('in-plg:welcomepage.component.websitesWidget.label'),
     icon: 'lib_actions_reorder',
@@ -191,18 +203,6 @@ const widgetData = [
     key: 'eventsWidget',
     label: t('in-plg:welcomepage.component.eventWidget.label'),
     icon: 'lib_actions_reorder'
-  },
-  {
-    key: 'incidentsWidget',
-    label: t('in-plg:welcomepage.component.incidentsWidget.label'),
-    icon: 'lib_actions_reorder',
-    widget: IncidentsWidget
-  },
-  {
-    key: 'dashboardWidget',
-    label: t('in-plg:welcomepage.component.dashboardWidget.label'),
-    icon: 'lib_actions_reorder',
-    widget: DashboardWidget
   }
 ];
 
@@ -236,9 +236,9 @@ export default function PageContent() {
 function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
   return orderedItems.filter(({ id }: { id: string }) => {
     if (
-      (id === '1' && !hasWebsitesAccess) ||
-      (id === '2' && !hasMobileAppsAccess) ||
-      (id === '4' && !hasApplicationsAccess)
+      (id === '3' && !hasWebsitesAccess) ||
+      (id === '4' && !hasMobileAppsAccess) ||
+      (id === '6' && !hasApplicationsAccess)
     ) {
       return false;
     }

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { useSyntheticTestResultDashboard } from 'in-synthetics/navigation/paths';

@@ -6,8 +6,9 @@
 
 import React, { useState } from 'react';
 
-import { Button, Typography } from '@instana/components';
 import { LocationListItem } from '@instana/types';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   showLocationDeactivateErrorMessage,

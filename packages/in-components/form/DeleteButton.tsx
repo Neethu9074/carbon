@@ -7,7 +7,7 @@ import { MapForm, MapFormItems } from 'formalistic';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button, ButtonProps } from '@instana/components';
+import { Button, ButtonProps } from '@instana/legacy';
 
 import { t } from 'in-i18n';
 

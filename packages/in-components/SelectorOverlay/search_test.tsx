@@ -4,43 +4,75 @@
  */
 
 import { expect } from 'chai';
+import React from 'react';
 
+import { Options } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { search } from 'in-components/SelectorOverlay/search';
 
-const nodes = [
+const nodes: Options[] = [
   {
     label: 'Root Level Leaf',
     description: 'Funky root leaf',
-    icon: 'plugin:host'
+    icon: 'plugin:host',
+    badge: null,
+    breadcrumbAndLabel: <></>,
+    keywords: '',
+    tagName: '',
+    children: []
   },
   {
     label: 'Root Level Node',
     description: 'Some description',
     icon: 'plugin:neo4j',
+    badge: null,
+    breadcrumbAndLabel: <></>,
+    keywords: '',
+    tagName: '',
     children: [
       {
         label: 'First Level Leaf',
         description: 'Some description',
-        icon: 'plugin:docker'
+        icon: 'plugin:docker',
+        badge: null,
+        breadcrumbAndLabel: <></>,
+        keywords: '',
+        tagName: '',
+        children: []
       },
       {
         label: 'First Level Node',
         description: 'Some description',
         icon: 'plugin:mule',
+        badge: null,
+        breadcrumbAndLabel: <></>,
+        keywords: 'firstLevelNode',
+        tagName: '',
         children: [
           {
             label: 'Second Level Leaf',
-            keywords: 'foobar'
+            keywords: 'foobar',
+            badge: null,
+            breadcrumbAndLabel: <></>,
+            tagName: '',
+            children: []
           },
           {
             label: 'Second Level Node',
             description: 'Some description',
             icon: 'plugin:mule',
+            badge: null,
+            breadcrumbAndLabel: <></>,
+            keywords: '',
+            tagName: '',
             children: [
               {
                 label: 'Third Level Leaf',
                 description: 'Some description',
-                keywords: 'fobar'
+                keywords: 'fobar',
+                badge: null,
+                breadcrumbAndLabel: <></>,
+                tagName: '',
+                children: []
               }
             ]
           }
@@ -58,9 +90,13 @@ describe('in-components/SelectorOverlay/search', () => {
   it('should filter by label', () => {
     expect(search(nodes, 'third')).to.deep.equal([
       {
+        badge: null,
+        children: [],
         label: 'Third Level Leaf',
         description: 'Some description',
-        keywords: 'fobar'
+        keywords: 'fobar',
+        tagName: '',
+        breadcrumbAndLabel: <></>
       }
     ]);
   });
@@ -68,20 +104,18 @@ describe('in-components/SelectorOverlay/search', () => {
   it('should filter by description', () => {
     expect(search(nodes, 'FunKy')).to.deep.equal([
       {
+        badge: null,
+        children: [],
         label: 'Root Level Leaf',
         description: 'Funky root leaf',
-        icon: 'plugin:host'
+        icon: 'plugin:host',
+        keywords: '',
+        tagName: '',
+        breadcrumbAndLabel: <></>
       }
     ]);
   });
-
-  it('should only return exact matches if fuzzy is false', () => {
-    expect(search(nodes, 'fobar', false)).to.deep.equal([
-      {
-        label: 'Third Level Leaf',
-        description: 'Some description',
-        keywords: 'fobar'
-      }
-    ]);
+  it('should not return elements with children', () => {
+    expect(search(nodes, 'firstLevelNode')).to.deep.equal([]);
   });
 });

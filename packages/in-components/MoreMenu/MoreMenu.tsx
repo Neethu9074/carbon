@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button, ButtonKinds, ButtonSizes } from '@instana/components';
+import { Button, ButtonKinds, ButtonSizes } from '@instana/legacy';
 
 import { stopPropagation } from 'in-services/util/function';
 import Overlay from 'in-components/overlays/Overlay';

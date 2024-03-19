@@ -7,8 +7,9 @@
 import React, { SetStateAction, useState } from 'react';
 
 import { DeleteLogsHistoryResult } from '@instana/types/typeDefinitions';
-import { Button, SvgIcon, Typography } from '@instana/components';
+import { SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Button } from '@instana/legacy';
 
 import { ModalNotification } from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/ModalNotification';
 import useDeleteLogsForm from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToLogs } from 'in-logging/navigation/paths';

@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';

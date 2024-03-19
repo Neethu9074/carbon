@@ -15,9 +15,9 @@ import {
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
+import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } from 'in-types';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { TagFilterExpression, TimeConfig, TagCatalog, GroupByTag } from 'in-types';
 import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -55,7 +55,7 @@ export default function LogEventContent({ event }: Props) {
 
   const groups =
     groupingTags?.length > 0 &&
-    groupingTags?.map((grouping: GroupByTag & { value: string }) => {
+    groupingTags?.map((grouping: GroupTagInfo) => {
       return {
         groupbyTag: grouping.tagName,
         groupbyTagEntity: NOT_APPLICABLE,
@@ -76,8 +76,12 @@ export default function LogEventContent({ event }: Props) {
 
   const windowSize = getWindowSizeFromEvent(event, minDurationMillis, maxDurationMillis);
 
+  const granularity = alertConfig.granularity;
+  const eventData = event.toJS();
+
   let timeConfig = {
     ...getChartTimeConfigByEvent(event),
+    to: roundToNearest(eventData?.end, granularity),
     autoRefresh: false,
     ...(windowSize && { windowSize })
   } as TimeConfig;
@@ -134,4 +138,11 @@ export default function LogEventContent({ event }: Props) {
 function getAnalyzeTimeConfig(event: EventOrMap) {
   const eventTimeConfig = getTimeConfigFromEvent(event);
   return fixateTimeConfig(eventTimeConfig);
+}
+
+function roundToNearest(endTime: number | Nullish, granularity: number) {
+  if (!endTime) {
+    return null;
+  }
+  return Math.round((endTime + granularity) / granularity) * granularity;
 }

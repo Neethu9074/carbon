@@ -9,7 +9,7 @@ import { List } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';

@@ -6,10 +6,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Button, Message, SvgIcon } from '@instana/components';
+import { Message, SvgIcon, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   LARGE_TRACE_THRESHOLD,

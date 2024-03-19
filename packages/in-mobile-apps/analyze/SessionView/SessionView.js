@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   beaconIdUrlParameter,

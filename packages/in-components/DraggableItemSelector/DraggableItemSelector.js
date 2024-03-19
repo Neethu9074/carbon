@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import useDuringTransition from 'in-components/DraggableItemSelector/useDuringTransition';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
