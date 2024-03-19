@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import { Link, Button, SvgIcon, Typography, Stack } from '@instana/components';
+import { Link, SvgIcon, Typography, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 import { Result } from '@instana/types';
 
 //@ts-expect-error missing typescript migration
