@@ -9,7 +9,6 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -46,7 +45,6 @@ export default function PoliciesButtonGroup({ selectedType, setSelectedType }: P
     <Stack gap="xxsmall">
       <div className={locals.actionsButtonGroup}>
         <ButtonGroup buttonPropsList={buttonProps} activeKey={selectedType} segmented />
-        <BetaBadge />
       </div>
     </Stack>
   );
