@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
     "contribution_filter": "Contribution filter",
-    "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator",
+    "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator. An application perspective using the contribution filter tags is automatically created once you save.",
     "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "The contribution filter name must not be blank.",
@@ -197,8 +197,8 @@
     "roleTooltip_synthetics": "Viewer: Ability to view Synthetic Test dashboards (configuration can't be viewed). <br /> Owner: Ability to create new Synthetic Tests; view, configure and delete Synthetic Tests, and view and delete Synthetic Locations.",
     "contribution_filter_accessScope": "Limited access scope (Viewer)",
     "contribution_filter_warning": {
-      "firstParagraph": "Any change that you save will update all application perspectives that use this contribution filter.",
-      "secondParagraph": "If you change the access type, then the contribution filter is deleted. All application perspectives that use the contribution filter can be edited by any user with owner access on the Applications section."
+      "firstParagraph": "Any change that you save impacts all application perspectives that use this contribution filter, as well as the application perspective, which is automatically created using contribution filter tags.",
+      "secondParagraph": "If you change the access type, then the contribution filter is deleted. The contribution filter tags on all related application perspective configurations become editable by any user with owner access on the Applications section."
     },
     "applicationCreatedUsingContributionFilter": "This application perspective is automatically created and updated by using the contribution filter."
   },
@@ -296,7 +296,7 @@
     "backToParentViewName": "Back to {{parentViewName}}",
     "search": "Search...",
     "confirmRemoveItem": "Are you sure you want to remove <strong>{{itemName}}</strong>?",
-    "confirmSaveGroup": "Saving these updates will remove the contribution filter from {{numberOfContributorAPs}} application perspectives and become disabled",
+    "confirmSaveGroup": "Saving these updates will delete the contribution filter.<br/>The contribution filter tags on <strong>{{numberOfContributorAPs}}</strong> application perspective configurations become editable by any user with owner access on the Applications section.<br/><br/>Make sure you have selected application perspectives to grant access in case of limited access scope.",
     "enable": "Enable",
     "disable": "Disable",
     "deleteEntity": "Delete {{entity}}.",
