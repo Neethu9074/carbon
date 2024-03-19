@@ -19,8 +19,8 @@ import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePr
 import ConfigurationStep from 'in-synthetics/createLocation/steps/ConfigurationStep';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { getDatacenterLicense } from 'in-synthetics/api';
-import { pendingResult } from 'in-services/fixedObjects';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
@@ -120,7 +120,7 @@ const CreateNewLocationDialogPresenter = ({
                 ? false
                 : true;
             }}
-            onStepChanged={() => {}}
+            onStepChanged={noop}
             noStepCheckOnFirstStep
           />
         </div>
