@@ -54,6 +54,7 @@ const helpTexts = {
   'entity.azure.service.servicebus': t('in-stores:search.fieldsEntityAzureServiceBus'),
   'entity.azure.service.servicebus.queues': t('in-stores:search.fieldsEntityAzureServiceBusQueues'),
   'entity.azure.service.servicebus.topics': t('in-stores:search.fieldsEntityAzureServiceBusTopics'),
+  'entity.azure.service.machinelearning': t('in-stores:search.fieldsEntityAzureMachineLearning'),
   'entity.azure.service.managedhsm': t('in-stores:search.fieldsEntityAzureKeyVaultManagedHSM'),
   'entity.host': t('in-stores:search.fieldsEntityHost'),
   'entity.host.os': t('in-stores:search.fieldsEntityHostOs'),

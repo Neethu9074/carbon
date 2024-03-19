@@ -319,6 +319,11 @@
   "pluginName_azureServiceBusTopics_1": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics_2": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics": "Azure Service Bus Topic",
+  "pluginName_azureMachineLearning_plural": "Azure Machine Learning",
+  "pluginName_azureMachineLearning_0": "Azure Machine Learning",
+  "pluginName_azureMachineLearning_1": "Azure Machine Learning",
+  "pluginName_azureMachineLearning_2": "Azure Machine Learning",
+  "pluginName_azureMachineLearning": "Azure Machine Learning",
   "pluginName_azureManagedHSM_plural": "Azure Key Vault Managed HSM",
   "pluginName_azureManagedHSM_0": "Azure Key Vault Managed HSM",
   "pluginName_azureManagedHSM_1": "Azure Key Vault Managed HSM",
@@ -4993,6 +4998,43 @@
         "titleStatus": "Status",
         "titleMaxSize": "Max Size",
         "labelSize": "Size"
+      }
+    },
+    "azureMachineLearning": {
+      "infoAzureMachineLearning": "Azure Machine Learning",
+      "infoName":  "Name",
+      "infoSubscriptionID":"Subscription ID",
+      "infoType": "Type",
+      "infoLocation": "Location",
+      "infoResourceGroup":"Resource Group",
+      "infoCreatedAt": "Created At",
+      "kpi": {
+        "labelCpuUtilization": "CPU Utilization",
+        "labelActiveNodes": "Active Nodes"
+      },
+      "dashboard": {
+        "titleProcessorUtilization": "Processor Utilization",
+        "labelCpuUtilization": "Cpu Utilizati on",
+        "labelGpuUtilization": "Gpu Utilization",
+        "titleNodes": "Nodes Overview",
+        "labelActiveNodes": "Active Nodes",
+        "labelTotalNodes": "Total Nodes",
+        "titleCores": "Cores Overview",
+        "labelActiveCores": "Active Cores",
+        "labelTotalCores": "Total Cores",
+        "titleRuns": "Run Statistics",
+        "labelStartedRuns": "Started Runs",
+        "labelCompletedRuns": "Completed Runs",
+        "labelCancelledRuns": "Cancelled Runs",
+        "labelErrors": "Errors",
+        "labelFailedRuns": "Failed Runs",
+        "tileDisk": "Disk Status",
+        "labelDiskUsedMegabytes": "Used Disk Space",
+        "labelDiskReadMegabytes": "Disk Read Size",
+        "labelDiskWriteMegabytes": "Disk Write Size",
+        "labelRun": "Run",
+        "labelQuota": "Quota",
+        "labelResource": "Resource"
       }
     },
     "azureMySql": {

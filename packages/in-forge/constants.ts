@@ -71,6 +71,7 @@ export const nonServicePlugins = {
   azureServiceBus: 'azureServiceBus',
   azureServiceBusQueues: 'azureServiceBusQueues',
   azureServiceBusTopics: 'azureServiceBusTopics',
+  azureMachineLearning: 'azureMachineLearning',
   azureKeyVault: 'azureKeyVault',
   azureManagedHSM: 'azureManagedHSM',
   beeInstanaNode: 'beeInstanaNode',
@@ -440,6 +441,7 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.queues.AzureServiceBusQueues',
   azureServiceBusTopics:
     'com.instana.forge.hardware.virtual.azure.servicebus.derivedentity.topics.AzureServiceBusTopics',
+  azureMachineLearning: 'com.instana.forge.hardware.virtual.azure.machinelearning.AzureMachineLearning',
   azureKeyVault: 'com.instana.forge.hardware.virtual.azure.keyvault.AzureKeyVault',
   azureManagedHSM: 'com.instana.forge.hardware.virtual.azure.managedhsm.AzureManagedHSM',
   beeInstanaNode: 'com.instana.forge.infrastructure.database.beeinstana.BeeInstanaNode',
