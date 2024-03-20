@@ -20,7 +20,7 @@ import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const connectionLinkCol = {
-  title: t('in-forge:plugins.drbdResource.connName'),
+  title: t('in-forge:plugins.drbdResource.connUniqueName'),
   type: 'snapshotLink',
   typeArgs: {
     getSnapshotId(row: any) {

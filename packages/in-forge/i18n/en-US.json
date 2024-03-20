@@ -6905,7 +6905,7 @@
       "resourceForceIOFailures": "Resource Configured to Force IO Failures",
       "resourcePromotionScore": "Resource Promotion Score",
       "resourceRole": "Resource Role",
-      "connName": "Name",
+      "connUniqueName": "Name",
       "resourcesWithCount": "Resources ({{len}})",
       "connectionsWithCount": "Connections ({{len}})",
       "peersWithCount": "Peers ({{len}})"
