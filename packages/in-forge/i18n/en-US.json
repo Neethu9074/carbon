@@ -11250,6 +11250,7 @@
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka monitoring requires <code>sslTruststoreLocation</code> and <code>sslTruststorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances secured with TLS.",
       "kafkaMonitoringRequiresSslKeyStoreLocation": "Kafka monitoring requires <code>sslKeyStoreLocation</code> and <code>sslKeyStorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring SSL client authentication.",
+      "kafkaMonitoringRequiresJmxAuthentication": "Kafka monitoring requires <code>JMX Authentication</code> to be configured in Instana agent <code>configuration.yaml</code> when JMX Authentication is enabled.",
       "underReplicatedPartitions": "Under-replicated Partitions",
       "offlinePartitions": "Offline Partitions",
       "leaderElections": "Leader Elections",
