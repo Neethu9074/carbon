@@ -14,6 +14,7 @@ export const mockEmptyPermissionsSet = {
   mobileAppIds: [],
   permissions: [],
   websiteIds: [],
+  businessPerspectiveIds: [],
   syntheticTestIds: []
 };
 
@@ -184,6 +185,7 @@ export const mockPermissionsSetWithData = {
     { scopeId: '12', scopeRoleId: '-1' }
   ],
   syntheticTestIds: [],
+  businessPerspectiveIds: [],
   permissions: mockPermissionsWithLimitedAccess
 };
 

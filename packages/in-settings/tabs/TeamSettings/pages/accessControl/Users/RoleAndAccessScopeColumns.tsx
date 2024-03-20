@@ -66,6 +66,7 @@ function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): Permi
   const permissionSet = {
     websiteIds: [],
     mobileAppIds: [],
+    businessPerspectiveIds: [],
     applicationIds: [],
     kubernetesClusterUUIDs: [],
     kubernetesNamespaceUIDs: [],
