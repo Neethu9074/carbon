@@ -242,6 +242,10 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
     );
   }
 
+  //The extra logic and transformation of the metric config and the results is needed due to the missing support for
+  //timeShift, aggregation, resultType, autoRefresh
+  //these workarounds will be removed once the logging backend is updated to support these features
+
   const widgetConfigType = config.y1.renderer === 'pie' ? 'BigNumber' : 'Chart';
   metrics = getLogMetricsConfig(metrics, widgetConfigType);
 
