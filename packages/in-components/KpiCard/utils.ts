@@ -39,7 +39,7 @@ export function transformLogsResult(
   return newResult;
 }
 
-function reduceResultValues(result: Result<MetricResult[]>): Result<MetricResult[]> {
+export function reduceResultValues(result: Result<MetricResult[]>): Result<MetricResult[]> {
   if (result.data) {
     return {
       ...result,
@@ -120,7 +120,10 @@ export function getLogMetricsConfig(
   return newMetrics;
 }
 
-export function transformToPerSecondAggregation(data: UnifiedMetricsResult[], metrics: UnifiedMetricConfigurations) {
+export function transformToPerSecondAggregation(
+  data: UnifiedMetricsResult[] | undefined,
+  metrics: UnifiedMetricConfigurations
+) {
   if (!data || !data.values) return [];
 
   return data.map(dataset => {
