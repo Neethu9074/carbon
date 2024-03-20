@@ -38,9 +38,9 @@ import {
   enforceSingleNumberResult,
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { getLogMetricsConfig, reduceResultValues, transformToPerSecondAggregation } from 'in-components/KpiCard/utils';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
-import { getLogMetricsConfig, transformToPerSecondAggregation } from 'in-components/KpiCard/utils';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
@@ -242,7 +242,8 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
     );
   }
 
-  metrics = getLogMetricsConfig(metrics, 'Chart');
+  const widgetConfigType = config.y1.renderer === 'pie' ? 'BigNumber' : 'Chart';
+  metrics = getLogMetricsConfig(metrics, widgetConfigType);
 
   const stableConfig = useStableObjectInstance(config);
 
@@ -256,7 +257,7 @@ export function useResultData(config: Config, granularity: number, timeConfig: T
   const companionMetricResult =
     useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 
-  let result = getResult(metricResult, logsPollingResult, metrics);
+  let result = getResult(metricResult, logsPollingResult, metrics, widgetConfigType);
 
   // do not execute the query while the parent component is still loading data for the chart configuration
   return {
@@ -580,7 +581,8 @@ export function toAxisConfiguration(
 function getResult(
   metricResult: Result<UnifiedMetricsResult[]>,
   logsPollingResult: Result<UnifiedMetricsResult[]> | null,
-  metrics: UnifiedMetricsConfigObject
+  metrics: UnifiedMetricsConfigObject,
+  widgetType: 'BigNumber' | 'Chart'
 ) {
   let result = logsPollingResult ?? metricResult;
 
@@ -589,8 +591,17 @@ function getResult(
     includesLogsMetric &&
     Object.values(metrics).some(metric => metric.source === 'LOG' && metric.aggregation === 'PER_SECOND');
 
-  if (includesLogsMetric && includesPerSecondLogs && result.data) {
-    return { ...metricResult, data: transformToPerSecondAggregation(result?.data, metrics) };
+  let transformedResult: Result<MetricResult[]> = {
+    ...result,
+    data: transformToPerSecondAggregation(result?.data, metrics)
+  };
+
+  if (widgetType === 'BigNumber') {
+    transformedResult = reduceResultValues(transformedResult);
+  }
+
+  if ((includesLogsMetric || includesPerSecondLogs) && result.data) {
+    return { ...metricResult, data: transformedResult.data };
   }
 
   return result;
