@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyCodes } from '@instana/components';
@@ -15,8 +15,8 @@ import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { search } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import Node from 'in-components/SelectorOverlay/Node';
-import { isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-components/SearchInput';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -41,17 +41,14 @@ export default function SelectorOverlay({
   shouldTriggerWindowResize
 }) {
   const [focusedNode, setFocusedNode] = useState(null);
-  const [showFocusedNode, setShowFocusedNode] = useState(false);
-  options = useMemo(() => {
+  const filteredOptions = useMemo(() => {
     if (isNotBlank(query)) {
-      const results = search(options, query, !strict);
+      const nodes = focusedNode !== null ? [focusedNode] : options;
+      const results = search(nodes, query, !strict);
       return results.filter(node => !node.disabled);
     }
     return options;
-  }, [options, query, strict]);
-  useEffect(() => {
-    setShowFocusedNode(false);
-  }, [options]);
+  }, [options, query, strict, focusedNode]);
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
@@ -94,13 +91,13 @@ export default function SelectorOverlay({
             />
           </div>
         )}
-        {loading === false && options.length === 0 && (
+        {loading === false && filteredOptions.length === 0 && (
           <NoDataAvailable className={locals.overlay} text={t('in-components:selectorOverlay.noResults')} />
         )}
         {loading === false && (
           <SlideInView
-            showSlideInContent={showFocusedNode}
-            onShowSlideInContentChange={setShowFocusedNode}
+            showSlideInContent={showFocusedNode()}
+            onShowSlideInContentChange={unfocusNode}
             onAfterSlideOut={() => {
               lastFocusedElementRef.current?.focus();
             }}
@@ -132,7 +129,7 @@ export default function SelectorOverlay({
                 ref={staticContentWrapperRef}
                 onKeyDown={onKeyDown}
               >
-                {options.slice(0, maxResults).map((node, i) => (
+                {filteredOptions.slice(0, maxResults).map((node, i) => (
                   <Node
                     key={i}
                     node={node}
@@ -155,17 +152,24 @@ export default function SelectorOverlay({
 
   function focusNode(focusedNode) {
     setFocusedNode(focusedNode);
-    setShowFocusedNode(true);
+  }
+
+  function unfocusNode() {
+    setFocusedNode(null);
+  }
+
+  function showFocusedNode() {
+    return focusedNode !== null && isBlank(query);
   }
 
   function onKeyDown(event) {
     if (isArrowRight(event) || isReturn(event)) {
       event.target.click();
     } else if (isArrowLeft(event)) {
-      setShowFocusedNode(false);
+      unfocusNode();
     } else if (
       isArrowUp(event) &&
-      !showFocusedNode &&
+      !showFocusedNode() &&
       getInteractiveElements(event.currentTarget).indexOf(event.target) === 0
     ) {
       //arrow up from first element in root menu
