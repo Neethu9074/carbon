@@ -108,7 +108,7 @@ export default function BigNumberKpiCard({
       config.metricConfiguration.timeShift
     ]) ?? pendingResult;
 
-  const logsPollingResult = useLogsPolling({ metrics, timeConfig, config }) ?? pendingResult;
+  const logsPollingResult = useLogsPolling({ metrics }) ?? pendingResult;
 
   let result = isLogsPolling ? logsPollingResult : metricsResult;
 

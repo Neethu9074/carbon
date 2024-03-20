@@ -13,7 +13,6 @@ import {
   metricsPath,
   useChartFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-import { source as logsSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { source as sliSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { duplicate, onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
@@ -158,7 +157,7 @@ export default function MetricConfiguration(props) {
                 ) : undefined
               }
               formatterSection={formatterSection}
-              disabledDataSources={[sliSource, logsSource]}
+              disabledDataSources={[sliSource]}
               axisForm={form}
               axisName={axisName}
               withLabelConfiguration

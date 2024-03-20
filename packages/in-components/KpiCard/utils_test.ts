@@ -163,7 +163,7 @@ describe('getLogMetricsConfig', () => {
       metric1: {
         ...metricConfigurationBase,
         granularity: 300,
-        timeConfig: { ...baseTimeConfig, windowSize: 300 }
+        timeConfig: { ...baseTimeConfig, windowSize: 300, focusedMoment: timestamp }
       }
     };
     expect(getLogMetricsConfig(inputMetrics)).toEqual(expected);
