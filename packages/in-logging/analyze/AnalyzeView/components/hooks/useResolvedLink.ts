@@ -48,7 +48,7 @@ function findTag(tags: LogTag[], tagName: string, tagKey?: string): LogTag | und
   return tags.find(tag => (tagKey ? tag.name === tagName && tag.key === tagKey : tag.name === tagName));
 }
 
-export default function useResolvedLink(presentedName: string, tag: LogTag, item: LogItem): string | null {
+export default function useResolvedLink(presentedName: string, tag: LogTag | undefined, item: LogItem): string | null {
   const getLinkToTraceDetail = useLinkToTraceDetail();
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
@@ -62,9 +62,9 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
   const tagValueObservableLinkResolver = useMemo(
     () =>
       new Map<string, LinkResolverObservable>([
-        [ID_PROCESS, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
-        [ID_HOST, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
-        [LOG_FILE_PATH, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [ID_PROCESS, (t, _) => getDashboardLink(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [ID_HOST, (t, _) => getDashboardLink(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
+        [LOG_FILE_PATH, (t, _) => getDashboardLink(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
         [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
         [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
@@ -78,14 +78,14 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
   const tagValueStringLinkResolver = useMemo(
     () =>
       new Map<string, LinkResolverString>([
-        [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t.stringValue)],
+        [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t?.stringValue)],
         [
           LOG_CUSTOM_KEY_APPLICATION_ID,
-          (t, _) => (t.stringValue ? getLinkToApplicationDashboard({ applicationId: t.stringValue }) : null)
+          (t, _) => (t?.stringValue ? getLinkToApplicationDashboard({ applicationId: t?.stringValue }) : null)
         ],
         [
           `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`,
-          (t, _) => (t.stringValue ? getLinkToServiceDashboard({ serviceId: t.stringValue }) : null)
+          (t, _) => (t?.stringValue ? getLinkToServiceDashboard({ serviceId: t?.stringValue }) : null)
         ],
         [
           LOG_SERVICE_NAME,
@@ -105,14 +105,15 @@ export default function useResolvedLink(presentedName: string, tag: LogTag, item
     [getLinkToApplicationDashboard, getLinkToServiceDashboard, getLinkToEndpointDashboard, getLinkToTraceDetail]
   );
 
+
   const observableResolver = tagValueObservableLinkResolver.get(presentedName);
   const stringResolver = tagValueStringLinkResolver.get(presentedName);
 
   return (
-    useObservable(observableResolver ? observableResolver(tag, item) : just(null), [presentedName], {
+    useObservable(observableResolver && tag ? observableResolver(tag, item) : just(null), [presentedName], {
       resetStateOnObservableChange: true
     }) ??
-    (stringResolver && stringResolver(tag, item)) ??
+    (stringResolver && tag && stringResolver(tag, item)) ??
     null
   );
 }
