@@ -97,7 +97,7 @@ export default function CallDetails(props) {
       {
         label: t('in-analyze:traceDetail.components.callDetails.started'),
         duration: call.start,
-        formatter: formatDateTimeWithMilliSeconds(formatDateTime)
+        formatter: formatDateTimeWithMilliSeconds
       },
       {
         label: t('in-analyze:traceDetail.components.callDetails.latency'),
@@ -234,7 +234,7 @@ function DisplayTimeData({ values }) {
         const formatter = value.formatter ?? latencyFixed.compact;
         const durationValue = duration == null ? valueMissingPlaceholder : `${formatter(duration)}`;
         const durationInPercent =
-          (totalDuration && duration == null) || !showDurationInpercent
+          !totalDuration || duration == null || !showDurationInpercent
             ? null
             : '(' + (((duration / totalDuration) * 100) | 0) + '%)';
 
@@ -248,6 +248,6 @@ function DisplayTimeData({ values }) {
   );
 }
 
-function formatDateTimeWithMilliSeconds(formatter) {
-  return time => formatter(time) + '.' + new Date(time).getMilliseconds();
+function formatDateTimeWithMilliSeconds(time) {
+  return formatDateTime(time) + '.' + new Date(time).getMilliseconds();
 }
