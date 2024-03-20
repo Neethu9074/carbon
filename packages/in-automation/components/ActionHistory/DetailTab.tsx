@@ -25,12 +25,11 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
-import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import { ActionInstance, ActorType } from 'in-types';
@@ -131,12 +130,9 @@ export default function DetailTab({
         actorType !== 'ACTOR_UNKNOWN' &&
         ((actorType === 'USER' && role?.canConfigureUsers) ||
           (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
-          (actorType === 'POLICY' && automationPoliciesEnabled && role?.canConfigureAutomationPolicies)),
+          actorType === 'POLICY'),
       ObservableLink: actorType === 'POLICY' ? undefined : getActorLink(actorType, actorId),
-      stringLink:
-        actorType === 'POLICY' && automationPoliciesEnabled && role?.canConfigureAutomationPolicies
-          ? getPolicyView(actorId ?? '')
-          : undefined
+      stringLink: actorType === 'POLICY' ? getPolicyView(actorId ?? '') : undefined
     },
     {
       label: t('in-automation:actionHistory.eventId'),

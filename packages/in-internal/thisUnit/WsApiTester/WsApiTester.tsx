@@ -6,8 +6,9 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Button, Card, Message, Spacer, Stack } from '@instana/components';
+import { Card, Message, Spacer, Stack } from '@instana/components';
 import { Disposable } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import ApiResponseList, { ApiTestResponse } from 'in-internal/thisUnit/WsApiTester/ApiResponseList';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';

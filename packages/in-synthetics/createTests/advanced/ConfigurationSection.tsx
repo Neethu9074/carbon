@@ -8,8 +8,9 @@ import { Field, Item, MapForm, ValidationResult, createField } from 'formalistic
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Button, Stack, SvgIcon } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Stack, SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   onlyUniqueKeyNames,

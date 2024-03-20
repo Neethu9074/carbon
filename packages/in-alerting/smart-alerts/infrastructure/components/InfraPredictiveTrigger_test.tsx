@@ -7,7 +7,9 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
+import InfraPredictiveTrigger, {
+  getTimeToFailure
+} from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
 //@ts-expect-error
 import { alertConfig } from 'in-alerting/smart-alerts/infrastructure/data/testData';
 import alertFormDefinition from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
@@ -19,8 +21,28 @@ describe('Render InfraPredictiveTrigger : in-alerting/smart-alerts/infrastructur
   it('Check if component rendered in UI', () => {
     render(<InfraPredictiveTrigger form={form} updateForm={updateForm} />);
     expect(
-      screen.getByText(t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title'))
+      screen.getByText(
+        t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.alertTitle', {
+          value: '30 minutes'
+        })
+      )
     ).toBeInTheDocument();
     expect(screen.getByText('30 minutes')).toBeInTheDocument();
+  });
+
+  it('returns null when minutes is undefined', () => {
+    const result = getTimeToFailure(null);
+
+    expect(result).toBeNull();
+  });
+
+  it('returns the correct string when minutes is defined', () => {
+    const result = getTimeToFailure(60000);
+
+    expect(result).toEqual(
+      t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.alertTitle', {
+        value: '1 minute'
+      })
+    );
   });
 });

@@ -7,7 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Link, SvgIcon } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   useLinkToApplicationDashboard,

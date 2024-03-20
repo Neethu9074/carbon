@@ -213,7 +213,7 @@ export default connectTo(() => ({
           return (
             <Stack direction="horizontal">
               <HealthDot severity={severity} iconSize={10} />
-              <SvgIcon type="lib_synthetic" />
+              <SvgIcon type="lib_synthetic" color="var(--ids-color-option-neutral-700)" />
               <Link
                 href={createLinkLocation(item, location)}
                 onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
@@ -279,7 +279,7 @@ export default connectTo(() => ({
           return (
             <Stack direction="horizontal">
               <HealthDot severity={maxSev} iconSize={10} />
-              <SvgIcon type={'lib_synthetic_location'} />
+              <SvgIcon type="lib_synthetic_location" color="var(--ids-color-option-neutral-700)" />
               <Link>{item?.label}</Link>
             </Stack>
           );
@@ -311,7 +311,10 @@ export default connectTo(() => ({
           return (
             <Stack direction="horizontal">
               <HealthDot severity={item.severity} iconSize={10} />
-              <SvgIcon type={item.enabled ? 'lib_alerts_alert' : 'lib_actions_pause'} />
+              <SvgIcon
+                type={item.enabled ? 'lib_alerts_alert' : 'lib_actions_pause'}
+                color="var(--ids-color-option-neutral-700)"
+              />
               <Link href={createLinkLocation(item, location)}>{item?.name}</Link>
             </Stack>
           );

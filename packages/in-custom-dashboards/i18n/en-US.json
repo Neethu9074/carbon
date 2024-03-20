@@ -149,6 +149,7 @@
       "formComponent": {
         "metric": "Metric",
         "eventCount": "Event Count",
+        "unnamedLog": "Unnamed Log Metric",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Please select a metric",
         "pleaseSelect": "Please select",
@@ -251,6 +252,19 @@
       },
       "index": {
         "syntheticMonitoring": "Synthetic Monitoring"
+      }
+    },
+    "srcLogging": {
+      "index": {
+        "logging": "Logs"
+      },
+      "formComponent": {
+        "metrics": {
+          "count": "Count"
+        },
+        "metric": "Metric",
+        "aggregation": "Aggregation",
+        "pleaseSelect": "Please select"
       }
     },
     "metricConfigurator": {

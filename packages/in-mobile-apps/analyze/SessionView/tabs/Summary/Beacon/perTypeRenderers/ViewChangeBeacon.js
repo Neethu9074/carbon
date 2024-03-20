@@ -7,8 +7,13 @@ import React, { Fragment } from 'react';
 
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
+import MapKeyToTranslatedDisplayName from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/EumTagMap';
+import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
+import EumMeta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/EumMeta';
 import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
+import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export const getLabel = beacon => beacon.view;
@@ -34,4 +39,29 @@ export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   </Fragment>
 );
 
-export const Body = () => null;
+export const Body = ({ beacon }) => {
+  return (
+    Object.keys(beacon.internalMeta).length > 0 && (
+      <Fragment>
+        <Row>
+          <Col lg={6}>
+            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumViewChangeBeacon.viewTransitionLabel')}</BodyHeader>
+
+            <Dl>
+              {Object.keys(beacon.internalMeta).map(key => (
+                <Di key={key} title={MapKeyToTranslatedDisplayName(key)}>
+                  {beacon.internalMeta[key]}
+                </Di>
+              ))}
+            </Dl>
+          </Col>
+
+          <Col lg={6}>
+            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumSessionStartBeacon.metaHeader')}</BodyHeader>
+            <EumMeta beacon={beacon} />
+          </Col>
+        </Row>
+      </Fragment>
+    )
+  );
+};

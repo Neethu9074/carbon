@@ -16,6 +16,7 @@ import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
+import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
@@ -29,39 +30,46 @@ import 'in-themes/foundation.less';
 export default function App() {
   useDisabledBodyScroll();
 
-  const apiCallSatisfied = useResultFromApiPing({
-    url: 'https://instana.io/portal2/api/selfservice/unitStatus/' + config.tenant + '/' + config.tenantUnit,
-    checkResult: result => result.status === 'running'
-  });
-
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
         <ThemeProvider theme="default">
           <DialogPresenter />
 
-          <FullViewOnboardingWidget
-            isRestricted
-            disableAwsSensorDocumentation
-            isAgentDeployed={false}
-            isBackendAvailable={apiCallSatisfied}
-            agentKey={config.agentKey}
-            tenant={config.tenant}
-            tenantUnit={config.tenantUnit}
-            butlerDomain={config.butlerDomain}
-            trackingIdPrefix="onboarding"
-            getRedirectButtonProperties={() => ({
-              disabled: !apiCallSatisfied,
-              href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
-              children: 'Sign in to Instana'
-            })}
-            agentEndpoint={config.agentEndpoint}
-            agentEndpointPort={config.agentEndpointPort}
-            serverlessEndpoint={config.serverlessEndpoint}
-          />
+          <FullViewOnboardingWidget Renderer={Renderer} />
           <TooltipPresenter />
         </ThemeProvider>
       </GlobalTheme>
     </ErrorBoundary>
+  );
+}
+
+function Renderer() {
+  const apiCallSatisfied = useResultFromApiPing({
+    url: 'https://instana.io/portal2/api/selfservice/unitStatus/' + config.tenant + '/' + config.tenantUnit,
+    checkResult: result => result.status === 'running'
+  });
+
+  return (
+    <OnboardingWidgetPresenterV2
+      isRestricted
+      disableAwsSensorDocumentation
+      isAgentDeployed={false}
+      isBackendAvailable={apiCallSatisfied}
+      agentKey={config.agentKey}
+      downloadKey={config.agentKey}
+      tenant={config.tenant}
+      tenantUnit={config.tenantUnit}
+      butlerDomain={config.butlerDomain}
+      trackingIdPrefix="onboarding"
+      getRedirectButtonProperties={() => ({
+        disabled: !apiCallSatisfied,
+        href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
+        children: 'Sign in to Instana'
+      })}
+      agentEndpoint={config.agentEndpoint}
+      agentEndpointPort={config.agentEndpointPort}
+      serverlessEndpoint={config.serverlessEndpoint}
+    />
   );
 }

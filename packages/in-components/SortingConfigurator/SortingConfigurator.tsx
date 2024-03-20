@@ -5,7 +5,8 @@
 
 import React, { useRef } from 'react';
 
-import { Button, Li } from '@instana/components';
+import { Li } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { Ul } from '@instana/components';
 
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';

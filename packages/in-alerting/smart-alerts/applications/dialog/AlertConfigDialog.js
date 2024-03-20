@@ -26,13 +26,8 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { updateApplicationAlertActionAssociations } from 'in-automation/api';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { getApplicationAlertActionAssociations } from 'in-automation/api';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
-import { associateActionsTracker } from 'in-automation/tracker';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/dialog/AlertConfigDialogWithThreshold');
@@ -50,27 +45,8 @@ export default function AlertConfigDialog({
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const duplicateFrom = alertConfig?.duplicateFrom;
   const [form, setForm] = useState(() =>
-    createSmartAlertForm(fromAlertConfig({ actionIds: [], ...alertConfig }), editMode, isGlobalSmartAlert)
+    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
   );
-  //condition to call get action associations api
-  const showActionscondition = !isGlobalSmartAlert && role.canConfigureAutomationActions && actionAutomationEnabled;
-  //Get associations call and add actionIds to alertConfig.
-  useEffect(() => {
-    //when we migrate deprecated event to alert, we already have actionIds in alertConfig.
-    if (showActionscondition && !alertConfig.actionIds) {
-      // To get associations, we need app alert id. If it is duplicate/clone dialog, we can get it from duplicateFrom.
-      const alertId = duplicateFrom ?? alertConfig?.id;
-      getApplicationAlertActionAssociations(alertId).once(actions => {
-        const selectedActions = actions.map(action => action.id);
-        const updatedForm = createSmartAlertForm(
-          fromAlertConfig({ actionIds: selectedActions, ...alertConfig }),
-          editMode,
-          isGlobalSmartAlert
-        );
-        setForm(updatedForm);
-      });
-    }
-  }, [alertConfig, editMode, isGlobalSmartAlert, showActionscondition, duplicateFrom]);
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -192,7 +168,6 @@ function createOrSaveAlert({
   }
 
   const alertConfig = toAlertConfig(form);
-  const actionIds = form.get('actionIds')?.value ?? [];
 
   const isEffectivelyGlobalSmartAlert = migrationMode
     ? Object.keys(alertConfig.applications).length > 1
@@ -203,26 +178,9 @@ function createOrSaveAlert({
   if (isEffectivelyEditMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       config => {
-        // add action associations
-        if (role.canConfigureAutomationActions && actionAutomationEnabled && !isGlobalSmartAlert) {
-          updateApplicationAlertActionAssociations(actionIds, form.get('id').value).once(
-            () => {
-              onClose(config);
-              showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-              trackAlertUpdated(config);
-              associateActionsTracker({ actionIds, alertId: form.get('id').value, type: 'Application Alert' });
-            },
-            err => {
-              logger.error(`failed to add association to: ${alertConfig} ${err.message}`, err);
-              addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
-              setIsSaving(false);
-            }
-          );
-        } else {
-          onClose(config);
-          showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-          trackAlertUpdated(alertConfig);
-        }
+        onClose(config);
+        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+        trackAlertUpdated(alertConfig);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -233,43 +191,14 @@ function createOrSaveAlert({
   } else {
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       config => {
-        // add action associations
-        if (
-          role.canConfigureAutomationActions &&
-          actionAutomationEnabled &&
-          !isEffectivelyGlobalSmartAlert &&
-          actionIds.length > 0
-        ) {
-          updateApplicationAlertActionAssociations(actionIds, config.id).once(
-            () => {
-              onClose(config);
-              const href = getLinkToAlertConfig(config.id, null, config.applicationId);
-              showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-              const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-              trackAlertSaved(newConfig, simpleMode);
+        onClose(config);
+        const href = isEffectivelyGlobalSmartAlert
+          ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
+          : getLinkToAlertConfig(config.id, null, config.applicationId);
 
-              associateActionsTracker({
-                actionIds,
-                alertId: config.id,
-                type: 'Application alert'
-              });
-            },
-            err => {
-              logger.error(`failed to add association to: ${alertConfig} ${err.message}`, err);
-              addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(err));
-              setIsSaving(false);
-            }
-          );
-        } else {
-          onClose(config);
-          const href = isEffectivelyGlobalSmartAlert
-            ? getLinkToGlobalAlertConfigWithoutAPDashboard(config.id)
-            : getLinkToAlertConfig(config.id, null, config.applicationId);
-
-          showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
-          const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-          trackAlertSaved(newConfig, simpleMode);
-        }
+        showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
+        const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
+        trackAlertSaved(newConfig, simpleMode);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
@@ -349,7 +278,6 @@ AlertConfigDialog.propTypes = {
   startWithSimpleMode: PropTypes.bool,
   alertConfig: PropTypes.shape({
     applications: PropTypes.object,
-    actionIds: PropTypes.arrayOf(PropTypes.string),
     id: PropTypes.string,
     threshold: PropTypes.object,
     boundaryScope: PropTypes.string,

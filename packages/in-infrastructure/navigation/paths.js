@@ -68,6 +68,14 @@ export const metricsMatrixParameter = {
   initialState: undefined
 };
 
+export const tagsMatrixParameter = {
+  path: infraExplorePath,
+  name: 'tags',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: undefined
+};
+
 export const orderMatrixParameter = {
   path: infraExplorePath,
   name: 'order',

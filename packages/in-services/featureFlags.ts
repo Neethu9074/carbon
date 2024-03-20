@@ -25,6 +25,7 @@ export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitorin
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
+export const infrastructureExploreTagColumnsEnabled = isFeatureFlagEnabled('infrastructureExploreTagColumnsEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
 export const beeinstanaHistogramsEnabled = isFeatureFlagEnabled('beeinstanaHistogramsEnabled');
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
@@ -171,9 +172,6 @@ export const allowedMillisGapsInOneSecondResolution = 20000;
 // rollup = 5s
 export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
-//Flag which exposes the download button - enables the download of metrics from event view
-export const allowDownloadMetricsFromCharts = isFeatureFlagEnabled('allowDownloadMetricsFromCharts', false);
-
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
@@ -211,8 +209,6 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
-export const automationPoliciesEnabled = isFeatureFlagEnabled('automationPoliciesEnabled', false);
-
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
@@ -227,3 +223,10 @@ export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
+
+export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
+  'serviceNowAutoCloseAndCustomPayloadsEnabled',
+  false
+);
+
+export const rawTraceDownloadEnabled = isFeatureFlagEnabled('rawTraceDownloadEnabled', false);

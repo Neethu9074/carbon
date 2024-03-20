@@ -7,7 +7,7 @@ import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import CustomSyntheticRuleDialog, {
   getInitialForm as getConfigRuleForm

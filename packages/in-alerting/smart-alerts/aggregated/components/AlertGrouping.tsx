@@ -7,8 +7,8 @@
 import React from 'react';
 
 import { Stack } from '@instana/components';
+import { TagFilter } from '@instana/types';
 
-import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import HelpText from 'in-components/form/HelpText';
@@ -18,25 +18,23 @@ import locals from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping
 
 interface AlertGroupingProps {
   AlertQueryBuilder: QueryBuilderComponent;
-  //TODO : need to update type of groupBy once type definition gets updated.
-  groupBy: any;
+  groupBy?: TagFilter[];
 }
 
 export function AlertGrouping({ AlertQueryBuilder, groupBy }: AlertGroupingProps) {
-  if (!groupBy.length) {
+  if (!groupBy?.length) {
     return null;
   }
-  const groupingFE = toUIGrouping(groupBy);
 
   return (
     <Stack gap="xsmall">
       <>
         <HelpText>{t('in-alerting:components.groupBy')}</HelpText>
         <div className={locals.wrapper}>
-          {groupingFE.map(
+          {groupBy.map(
             (item, i) =>
               (
-                <AlertQueryBuilder value={fromBackendModel(item)} readOnly key={i} />
+                <AlertQueryBuilder value={fromBackendModel(item as TagFilter)} readOnly key={i} />
               ) as unknown as QueryBuilderComponent
           )}
         </div>

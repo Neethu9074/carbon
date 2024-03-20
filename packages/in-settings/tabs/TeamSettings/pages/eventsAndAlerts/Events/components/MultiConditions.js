@@ -7,8 +7,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Stack, Button, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Button } from '@instana/legacy';
 
 import { putMetricDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
@@ -16,7 +17,6 @@ import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pag
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MultiConditions.mless';
@@ -143,7 +143,7 @@ export function MultiConditions({
             {idx > 1 && (
               <Row className={locals.logicalOperator}>
                 <Col lg={1}>
-                  <Pill color={themes.default.ids.color.option.teal['500']}>
+                  <Pill type="teal">
                     {t('in-settings:tabs.team.events.logicalOperator', { context: ruleLogicalOperator })}
                   </Pill>
                 </Col>

@@ -14,7 +14,7 @@ describe('DeployTabSelection component', () => {
     const { container } = render(<DeployTabSelection downloadKey={''} agentKey={''} syntheticAcceptorURL={''} />);
 
     expect(screen.getByText('Synthetic PoP Commands')).toBeInTheDocument();
-    const linkElement = screen.getByText('Synthetic PoP Deployment');
+    const linkElement = screen.getByText('Deploying a Self-hosted PoP');
     expect(linkElement.getAttribute('href')).toBe('https://ibm.biz/pop_deployment');
 
     expect(container.getElementsByTagName('li').length).toBe(2);

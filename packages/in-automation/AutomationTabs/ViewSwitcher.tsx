@@ -11,10 +11,8 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { automationPoliciesEnabled } from 'in-services/featureFlags';
 import { actionHistoryTracker } from 'in-automation/tracker';
 import DashboardHeader from 'in-components/DashboardHeader';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -22,10 +20,7 @@ const dashboardHeaderProps = {
   icon: 'lib_automation',
   label: t('in-automation:automation'),
   title: t('in-automation:automation'),
-  showHistoricDataWarning: false,
-  renderMetaInformation: () => {
-    return <BetaBadge />;
-  }
+  showHistoricDataWarning: false
 };
 export default function ViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
@@ -53,13 +48,11 @@ export default function ViewSwitcher() {
               }}
             />
           )}
-          {automationPoliciesEnabled && role?.canConfigureAutomationPolicies && (
-            <SecondLevelNavigationItem
-              href={createHrefToPath(policiesFullyQualified)}
-              label={t('in-automation:policies.policies')}
-              isActive={isPoliciesActive}
-            />
-          )}
+          <SecondLevelNavigationItem
+            href={createHrefToPath(policiesFullyQualified)}
+            label={t('in-automation:policies.policies')}
+            isActive={isPoliciesActive}
+          />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

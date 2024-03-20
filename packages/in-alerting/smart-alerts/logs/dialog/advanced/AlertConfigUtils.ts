@@ -4,22 +4,22 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Group, GroupByTag } from '@instana/types';
+import { Group, GroupByTag, TagFilterExpressionElementUnion } from '@instana/types';
 
-// TODO can be removed later
-export function toBackendGroupBy(groupBy?: Group[]) {
-  if (!groupBy) {
-    return [];
+import {
+  OPERATOR_OR,
+  addTagFilters,
+  createTagFilterExpression
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
+
+export function toGroupByTag(groupBy: Group[]): GroupByTag[] | undefined {
+  if (!groupBy.length) {
+    return undefined;
   }
-  return groupBy?.filter(g => g?.groupbyTag).map(g => toGroupTag(g));
-}
-
-export function toGroupTag(group: Group) {
-  return group?.groupbyTagSecondLevelKey ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey : group.groupbyTag;
-}
-
-export function toGroupByTag(groupBy: Group[]) {
-  return groupBy.map(group => ({ tagname: group.groupbyTag, key: group?.groupbyTagSecondLevelKey ?? null }));
+  return groupBy.map(group => ({ tagName: group.groupbyTag, key: group?.groupbyTagSecondLevelKey ?? undefined }));
 }
 
 export const logsGroupbyTag = (groupBy: GroupByTag[]): Group[] => {
@@ -31,3 +31,49 @@ export const logsGroupbyTag = (groupBy: GroupByTag[]): Group[] => {
     };
   });
 };
+
+export function toUIGrouping(groupBy: Group[]) {
+  if (!groupBy.length) {
+    return [];
+  }
+  const grouping = groupBy.map((tag: Group) => {
+    return {
+      value: '',
+      operator: '',
+      name: tag.groupbyTag,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER',
+      key: tag?.groupbyTagSecondLevelKey
+    };
+  });
+  return grouping;
+}
+
+/**
+ * Sets the backend query model filter expression.
+ * @param searchBy The table search by value.
+ */
+export function setBackendQueryModel(
+  backendGroupBy: Group[],
+  backendQueryModel: TagFilterExpressionElementUnion,
+  setFilterExpression: any,
+  searchBy?: string
+) {
+  if (searchBy) {
+    const searchQuery = backendGroupBy.map((groupBy: Group) => {
+      return tagFilter(groupBy.groupbyTag, CONTAINS, searchBy, groupBy.groupbyTagSecondLevelKey, NOT_APPLICABLE);
+    });
+
+    if (backendQueryModel?.type === 'TAG_FILTER' || backendQueryModel?.elements?.length > 0) {
+      const searchQueryModel = addTagFilters(createTagFilterExpression(OPERATOR_OR, searchQuery), [backendQueryModel]);
+
+      setFilterExpression(searchQueryModel);
+      return;
+    } else {
+      setFilterExpression(createTagFilterExpression(OPERATOR_OR, searchQuery));
+      return;
+    }
+  }
+
+  setFilterExpression(backendQueryModel);
+}

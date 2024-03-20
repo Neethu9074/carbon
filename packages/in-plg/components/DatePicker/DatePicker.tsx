@@ -131,7 +131,10 @@ function LiveModeToggle({ isLive: isLiveProp, liveModeDisabled, liveModeDisabled
         kind="tertiary"
         iconStyle={locals.liveIcon}
         className={isLive ? locals.carbonLive : locals.carbonStatic}
-        onClick={() => !isLive && track(TIME_LIVE_MODE)}
+        onClick={e => {
+          e.stopPropagation();
+          return !isLive && track(TIME_LIVE_MODE);
+        }}
       >
         {t('in-components:time.dashboardHeaderButtonLive')}
       </DashboardButton>

@@ -93,6 +93,12 @@ export default function RequestResponseStep({
     }
   ];
 
+  const getfileUploadedMessage = (extension: string) => {
+    if (extension === 'side')
+      return t('in-synthetics:dialog.createTest.advancedMode.configStep.sideFileUploadedMessage');
+    else return t('in-synthetics:dialog.createTest.advancedMode.configStep.bundleFileNotSupportedMessage');
+  };
+
   function onLocationSelect(location: Record<string, string>) {
     const selectedLocations = locationsField.value;
     if (selectedLocations.includes(location.id)) {
@@ -119,7 +125,7 @@ export default function RequestResponseStep({
             if (result == null) {
               return null;
             }
-            return (result as Result<SyntheticLocation[]>) ?? dummyLocations;
+            return result ?? dummyLocations;
           }
         ),
       []
@@ -284,15 +290,7 @@ export default function RequestResponseStep({
                   {scriptErrors && scriptErrors.length !== 0 && <ErrorList errors={scriptErrors} />}
                 </>
               ) : (
-                <Message
-                  className={locals.message}
-                  withIcon
-                  title={
-                    script.extension === 'side'
-                      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.sideFileUploadedMessage')
-                      : t('in-synthetics:dialog.createTest.advancedMode.configStep.bundleFileNotSupportedMessage')
-                  }
-                />
+                <Message className={locals.message} withIcon title={getfileUploadedMessage(script.extension)} />
               )}
             </div>
           )}

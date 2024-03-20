@@ -6,9 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack, SvgIcon } from '@instana/components';
+import { themes } from '@instana/design-tokens';
+
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -40,7 +44,18 @@ export default function ConfigureGranularity({ onChange, granularity, thresholdT
 
   return (
     <AlertThresholdConfigItemContainer noIcon>
-      <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}</label>
+      <Stack gap="xsmall" align="center" direction="horizontal">
+        <label>
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}
+        </label>
+        <Tooltip
+          align="bottomMiddle"
+          content={t('in-alerting:smartAlerts.components.smartAlertDialog.granularityTooltipText')}
+        >
+          <SvgIcon type="lib_help_error_info_outline" size="s" color={themes.default.ids.color.option.neutral['700']} />
+        </Tooltip>
+      </Stack>
+
       <DebouncedRestrictedSlider
         marks={marks}
         max={marks[marks.length - 1].value}

@@ -9,7 +9,7 @@ import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   track,
@@ -46,6 +46,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
 import Dashboard from 'in-infrastructure/Dashboard';
 import SearchBar from 'in-components/SearchBar';
+import { getUnitKeys } from 'in-api/unitKeys';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -71,6 +72,7 @@ export default connectTo(
     return observables;
   },
   function AgentView({ agentSnapshotsResult, accountConfig }) {
+    const unitKeys = useObservable(getUnitKeys(), []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
     if (
       !accountConfig ||
       !agentSnapshotsResult ||
@@ -97,7 +99,13 @@ export default connectTo(
             <Route
               exact
               path="/agents/installation/:selectedservice"
-              render={({ match }) => <AgentViewRouter selectedService={match.params.selectedservice} />}
+              render={({ match }) => (
+                <AgentViewRouter
+                  selectedService={match.params.selectedservice}
+                  agentKey={unitKeys.agentKey}
+                  downloadKey={unitKeys.downloadKey}
+                />
+              )}
             />
           )}
 

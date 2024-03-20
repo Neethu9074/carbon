@@ -6,15 +6,17 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { Group } from '@instana/types';
+
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import { getColumnDefinition } from 'in-alerting/smart-alerts/logs/data/getColumnDefinition';
 import { setDefaultMetrics } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
-import { State } from 'in-hooks/useCursorPagination';
 import { CatalogResponse } from 'in-logging/api/catalog';
+import { State } from 'in-hooks/useCursorPagination';
 
 interface LogMetricGroupTableListProps extends State<any, any> {
-  groupBy: string[];
+  groupBy: Group[];
   retrievalSize: number;
   totalHits?: number;
   fixedLayout?: boolean;
@@ -48,7 +50,7 @@ export default function LogMetricGroupTableList(props: LogMetricGroupTableListPr
     }
 
     if (selectedMetricGroup) {
-      selectedMetricGroup$.emit({ [groupBy[0]]: selectedMetricGroup });
+      selectedMetricGroup$.emit({ ...groupBy[0], groupbyValue: selectedMetricGroup });
     }
   }, [selectedMetricGroup, items, isLoading, groupBy]);
 

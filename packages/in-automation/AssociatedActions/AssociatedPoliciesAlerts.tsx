@@ -12,11 +12,12 @@ import { Event, VolatileId, Action, ApplicationAlertConfigWithMetadata, TriggerT
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { getAllActions, getAllActionsWithAISuggestions, saveBulkPolicies } from 'in-automation/api';
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
+import { getEventSpecificationId, useDualReload } from './sharedPolicies';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { getEventSpecificationId, useDualReload } from './shared';
+import { createBulkPoliciesTracker } from 'in-automation/tracker';
 import Policies from 'in-automation/AssociatedActions/Policies';
-import { associateActionsTracker } from 'in-automation/tracker';
 import { NewPolicy } from 'in-automation/Policies/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface AssociatedActionsCardProps {
@@ -47,7 +48,13 @@ export default function AssociatedPoliciesAlerts({
       event={event}
       volatileId={volatileId}
       triggerReload={triggerReload}
-      rightHeader={<RightHeader eventSpecification={alertConfig} triggerReload={triggerReload} reload={reload} />}
+      rightHeader={
+        role?.canConfigureAutomationPolicies ? (
+          <RightHeader eventSpecification={alertConfig} triggerReload={triggerReload} reload={reload} />
+        ) : (
+          <div />
+        )
+      }
       triggerDetails={{ triggerType: 'applicationSmartAlert', triggerId: eventSpecificationId }}
     />
   );
@@ -61,24 +68,21 @@ interface RightHeaderProps {
 
 function RightHeader({ eventSpecification, triggerReload }: RightHeaderProps) {
   const allActions = useObservable<Action[], never[]>(getAllActions, []) ?? [];
-  const { id: applicationAlertId, name: eventName } = eventSpecification;
 
   function submitActionSelection(selectedIds: string[]) {
     const updatedActionIds = [...selectedIds];
     const policies = [] as NewPolicy[];
-    const actionNames = allActions.reduce<string[]>(
-      (acc, action) => [...acc, ...(updatedActionIds.includes(action.id) ? [action.name] : [])],
-      []
-    );
     const updatedActions = allActions.reduce<Action[]>(
       (acc, action) => [...acc, ...(selectedIds.includes(action.id) ? [action] : [])],
       []
     );
-
-    associateActionsTracker({
-      eventName,
-      actionNames,
-      type: 'Application alert'
+    const actionNames = allActions.reduce<string[]>(
+      (acc, action) => [...acc, ...(selectedIds.includes(action.id) ? [action.name] : [])],
+      []
+    );
+    createBulkPoliciesTracker({
+      triggerName: eventSpecification.name,
+      actionNames: actionNames
     });
     updatedActionIds.forEach(ActionId => {
       const triggerType: TriggerType = 'applicationSmartAlert';
@@ -90,7 +94,7 @@ function RightHeader({ eventSpecification, triggerReload }: RightHeaderProps) {
           tags: [],
           trigger: {
             type: triggerType,
-            id: applicationAlertId
+            id: eventSpecification.id
           },
 
           typeConfigurations: [
@@ -135,7 +139,7 @@ function RightHeader({ eventSpecification, triggerReload }: RightHeaderProps) {
       hiddenIds={[]}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
-          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          ? t('in-settings:tabs.addNumberOfItemsPolicy', { count: numberOfItems })
           : t('in-settings:tabs.addActions')
       }
       requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}

@@ -245,9 +245,6 @@ export const SETTINGS_EVENT_DISABLE = 'settings.event.disabled';
 export const SETTINGS_EVENT_DELETE_TRIGGER = 'settings.event.delete.clicked';
 export const SETTINGS_EVENT_DELETED = 'settings.event.delete.confirmed';
 
-export const SETTINGS_AUTOMATION_ACTION_CREATE = 'settings.automation.action.create';
-export const SETTINGS_AUTOMATION_ACTION_EDIT = 'settings.automation.action.edit';
-export const SETTINGS_AUTOMATION_ACTION_DELETE = 'settings.automation.action.delete';
 export const SETTINGS_MAINTENANCE_WINDOW_EDIT = 'settings.maintenance.edit';
 export const SETTINGS_MAINTENANCE_WINDOW_NEW = 'settings.maintenance.new';
 export const SETTINGS_MAINTENANCE_WINDOW_SUBMIT = 'settings.maintenance.submit';
@@ -273,7 +270,8 @@ export const ONBOARDING_SEARCH_QUERY_CHANGED = 'onboardingNewUnit.searchQuery.ch
 export const ONBOARDING_CATALOG_PAGE_OPENED = 'catalog.page.opened';
 export const ONBOARDING_CATALOG_PAGE_SEARCH_USED = 'catalog.page.search.used';
 export const ONBOARDING_AGENT_DETAILS_PAGE_OPENED = 'agent.details.page.opened';
-export const ONBOARDING_DEPLOY_AGENTS_BUTTON_CLICKED = 'deploy.agents.button.clicked';
+export const ONBOARDING_DEPLOY_AGENTS_BUTTON_CLICKED = 'view.deployed.agents.button.clicked';
+export const ONBOARDING_GOTO_INSTANA_BUTTON_CLICKED = 'goto.instana.button.clicked';
 
 export const PROFILING_OVERVIEW_OPENED = 'profiling.overview.openend';
 export const PROFILING_CPU_TREEVIEW_OPENEND = 'profiling.cpu.treeView.openend';
@@ -370,6 +368,7 @@ export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
 export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
+export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
@@ -388,19 +387,20 @@ export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
 export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
 export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 
-// Action associations and action history
-export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
-export const DELETE_ASSOCIATE_ACTION = 'action.association.delete';
-export const DELETE_ASSOCIATE_ACTION_APP_ALERT = 'action.association.delete_app_alert';
-export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';
-export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
+// Automation
+export const AUTOMATION_ACTION_CREATE = 'automation.action.create';
+export const AUTOMATION_ACTION_EDIT = 'automation.action.edit';
+export const AUTOMATION_ACTION_DELETE = 'automation.action.delete';
+export const AUTOMATION_ACTION_RUN = 'automation.action.run';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
-export const CREATE_AUTOMATION_POLICY = 'automation.policy.create';
-export const EDIT_AUTOMATION_POLICY = 'automation.policy.edit';
 export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
 export const EXECUTE_TURBO_ACTION = 'execute.turbo.action';
+export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
+export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
+
+export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
 // Smart Alert Tracking
 
@@ -413,7 +413,6 @@ export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
-export const ACTION_SMART_ALERT_ASSOCIATED = 'smartalert.action.associated';
 
 // Business Monitoring Tracking
 export const BIZOPS_PROCESSES_TABS_CLICK = 'bizops.processes.tabs.click';

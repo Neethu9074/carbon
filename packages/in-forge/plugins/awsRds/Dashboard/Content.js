@@ -144,6 +144,20 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
+      <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.ebsIo')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['ebs_io_balance'],
+            labels: [t('in-forge:plugins.awsRds.dashboard.ebsIoBalance')],
+            formatter: percentage.detailed,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.awsRds.dashboard.networkTraffic')}>
         <Chart
           snapshotId={snapshotId}

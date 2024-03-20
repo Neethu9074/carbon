@@ -138,9 +138,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
             value={field.value}
             onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
               updateForm(
-                form.updateIn(['label'], (field: Item) =>
-                  (field as Field<string>).setValue(target.value).setTouched(true)
-                )
+                form.updateIn(['label'], field => (field as Field<string>).setValue(target.value).setTouched(true))
               );
             }}
             hasError={!field.valid && field.touched}
@@ -158,7 +156,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
             value={field.value}
             onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
               updateForm(
-                form.updateIn(['description'], (field: Item) =>
+                form.updateIn(['description'], field =>
                   (field as Field<string>).setValue(target.value).setTouched(true)
                 )
               );

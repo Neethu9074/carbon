@@ -8,4 +8,14 @@
   .catalog {
     max-height: calc(100vh - 5rem);
   }
+  .breadcrumb {
+    cursor: default;
+    pointer-events: none;
+    &:hover,
+    &:focus {
+      background: none;
+      color: var(--ids-color-option-neutral-500) !important;
+      outline: none;
+    }
+  }
 }

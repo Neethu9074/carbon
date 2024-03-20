@@ -8,10 +8,8 @@
 import Configuration from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Configuration';
 // @ts-expect-error Could not find a declaration file for module
 import Geography from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/Geography';
-// @ts-expect-error Could not find a declaration file for module
-import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
-// @ts-expect-error Could not find a declaration file for module
 import CustomEvents from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents';
+import HttpRequests from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import Summary from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/Summary';
 import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';

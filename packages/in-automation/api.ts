@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { fromJS } from 'immutable';
-
 import { Observable } from '@instana/observables';
 
 import {
@@ -16,8 +14,6 @@ import {
   ActionMatch,
   EventSpecificationInfo,
   CustomEventSpecificationWithMetadata,
-  ActionAssociation,
-  ActionAssociations,
   ApplicationAlertConfigWithMetadata,
   Result,
   ActionInstance,
@@ -49,10 +45,8 @@ import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const automationAPIBase = '/api/automation';
-const actionUrl = `${automationAPIBase}/settings/actions` as const;
-const actionAssociationsUrl = `${automationAPIBase}/settings/actions-associations` as const;
-const resourceAssociationsUrl = `${automationAPIBase}/associations/v1` as const;
-const policiesUrl = `${automationAPIBase}/settings/policies` as const;
+const actionUrl = `${automationAPIBase}/actions` as const;
+const policiesUrl = `${automationAPIBase}/policies` as const;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -196,7 +190,6 @@ export function getAllActionsWithAISuggestionsInternal({
 }
 
 export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;
-export type NewActionAssociation = Omit<ActionAssociations, 'id'>;
 
 export const createDocLinkField = (value: string): Field => ({
   value,
@@ -1326,93 +1319,6 @@ export function updateActionInstanceFeedback({ id, feedback, to, windowSize, com
       windowSize
     }
   }).map(response => response.body);
-}
-
-export function updateActionResourceAssociations(data: NewActionAssociation) {
-  return http({
-    method: 'PUT',
-    maxRetries: 3,
-    url: actionAssociationsUrl,
-    headers: getCsrfHeader(),
-    data: data
-  }).map(response => response.body);
-}
-
-export function getActionResourceAssociations(actionId: string) {
-  return http<ActionAssociation[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `${actionAssociationsUrl}?action_id=${encodeURIComponent(actionId)}`,
-    headers: getCsrfHeader()
-  }).map(response => response.body);
-}
-
-export function updateApplicationAlertActionAssociations(actionIds: string[], applicationAlertId: string) {
-  return http({
-    method: 'PUT',
-    maxRetries: 3,
-    url: `${resourceAssociationsUrl}/application-alert-configs/${encodeURIComponent(applicationAlertId)}/actions`,
-    headers: getCsrfHeader(),
-    data: actionIds
-  }).map(response => fromJS(response.body));
-}
-
-export function updateBuiltinEventActionAssociations(actionIds: string[], builtinEventId: string) {
-  return http({
-    method: 'PUT',
-    maxRetries: 3,
-    url: `${resourceAssociationsUrl}/builtin-events/${encodeURIComponent(builtinEventId)}/actions`,
-    headers: getCsrfHeader(),
-    data: actionIds
-  }).map(response => fromJS(response.body));
-}
-
-export function getBuiltinEventActionAssociations(builtinEventId: string) {
-  return http<Action[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `${actionAssociationsUrl}?builtin_event_id=${encodeURIComponent(builtinEventId)}`,
-    treat400AsError: false
-  }).map(response => response.body);
-}
-
-export function updateCustomEventActionAssociations(actionIds: string[], customEventId: string) {
-  return http({
-    method: 'PUT',
-    maxRetries: 3,
-    url: `${resourceAssociationsUrl}/custom-events/${encodeURIComponent(customEventId)}/actions`,
-    headers: getCsrfHeader(),
-    data: actionIds
-  }).map(response => fromJS(response.body));
-}
-
-export function getCustomEventActionAssociations(customEventId: string) {
-  return http<Action[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `${actionAssociationsUrl}?custom_event_id=${encodeURIComponent(customEventId)}`,
-    treat400AsError: false
-  }).map(response => response.body);
-}
-
-function getApplicationAlertActionAssociationsRequest(id: string) {
-  return http<Action[]>({
-    method: 'GET',
-    maxRetries: 3,
-    headers: getCsrfHeader(),
-    url: `${automationAPIBase}/settings/actions-associations?application_alert_id=${encodeURIComponent(id)}`,
-    treat400AsError: false
-  });
-}
-
-export function getApplicationAlertActionAssociations(id: string): Observable<Action[]> {
-  const request = getApplicationAlertActionAssociationsRequest(id);
-  return request.map(response => response.body);
-}
-
-export function getApplicationAlertActionAssociationsWithResult(id: string): Observable<Result<Action[]>> {
-  const request = getApplicationAlertActionAssociationsRequest(id);
-  return createObservable(request);
 }
 
 export function getPolicies() {

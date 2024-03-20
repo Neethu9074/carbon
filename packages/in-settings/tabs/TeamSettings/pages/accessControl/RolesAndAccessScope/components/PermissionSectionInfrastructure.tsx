@@ -5,7 +5,7 @@
  */
 
 import { MapFormItems } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
 import { PermissionSet } from '@instana/types';
@@ -21,6 +21,7 @@ import {
   AreaRoleWithCustomType,
   ProductArea,
   ScopedPermissionItem,
+  ScopedPermissionItems,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import InfrastructureAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/InfrastructureAccessPanel';
@@ -38,57 +39,36 @@ import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'infraDfqFilter';
-const VIEWER_ACCESS = 'VIEWER_ACCESS';
 
 export interface PermissionSectionInfrastructureProps<FORM_TYPE extends MapFormItems>
   extends SlideControlProps<SubSlideConfig>,
     FormControlProps<FORM_TYPE> {
   title: string;
-  viewerAccessDescription: string;
   icon: string;
 }
 
 export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFormItems>({
   title,
-  viewerAccessDescription,
   icon,
   form,
   setForm
 }: PermissionSectionInfrastructureProps<FORM_TYPE>) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
-
+  const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet); // yet unused
+  const [initialDfq] = useState(permissionSetField?.value[entityPermissionKey]);
+  const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
-  const limitedPermission = permissionSet
-    ? getScopeFromProductArea(productArea, permissionSet) === ScopedPermissionItem.NO_ACCESS
-      ? ScopedPermissionItem.NO_ACCESS
-      : VIEWER_ACCESS
-    : VIEWER_ACCESS;
-
-  const onUpdatePermissionSet = (
-    role: AreaRoleWithCustomType | undefined,
-    limitation: ScopedPermissionType | typeof VIEWER_ACCESS
-  ) => {
+  const onUpdatePermissionSet = (role: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || role === 'CUSTOM') return;
 
-    // because of reusing update for not existing VIEWER_ACCESS in combination with DFQ
-    // this converts into LIMITED_ACCESS if a DFQ is inserted or ACCESS_ALL otherwise
-    if (limitation === VIEWER_ACCESS) {
-      const hasEmptyDfq = !!permissionSet.infraDfqFilter?.scopeId;
-      limitation = hasEmptyDfq ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.LIMITED_ACCESS;
-    }
-    const { [entityPermissionKey]: infraFilter, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      productArea,
-      limitation,
-      role
-    );
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, limitation, role);
 
     const newInfraFilter =
-      limitation === ScopedPermissionItem.LIMITED_ACCESS ? infraFilter : { scopeId: '', scopeRoleId: '-1' };
+      limitation === ScopedPermissionItem.LIMITED_ACCESS ? initialDfq : { scopeId: '', scopeRoleId: '-1' };
     const newPermissionSet = {
       ...restPermissionSet,
       [entityPermissionKey]: newInfraFilter
@@ -100,7 +80,7 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
   return (
     <TabSelect
       activePanelId={limitedPermission}
-      onChange={panelId => onUpdatePermissionSet(role, panelId ?? VIEWER_ACCESS)}
+      onChange={panelId => onUpdatePermissionSet(role, panelId ?? defaultLimitation)}
     >
       <TabSelectHeader>
         <SvgIcon type={icon} size="l" />
@@ -109,20 +89,21 @@ export default function PermissionSectionInfrastructure<FORM_TYPE extends MapFor
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
-        <TabSelectItem key="VIEWER_ACCESS" forId="VIEWER_ACCESS" withRadioButton>
-          {t('in-settings:permissionScope.selection', { context: 'viewer_access' })}
-        </TabSelectItem>
-        <TabSelectItem key="NO_ACCESS" forId="NO_ACCESS" withRadioButton>
-          {t('in-settings:permissionScope.selection', { context: ScopedPermissionItem.NO_ACCESS.toLowerCase() })}
-        </TabSelectItem>
+        {ScopedPermissionItems.map(context => (
+          <TabSelectItem key={context} forId={context} withRadioButton>
+            {t('in-settings:permissionScope.selection', { context: context.toLowerCase() })}
+          </TabSelectItem>
+        ))}
       </TabSelectMenu>
       <TabSelectPanels>
-        <TabSelectPanel key="VIEWER_ACCESS" id="VIEWER_ACCESS">
-          <InfrastructureAccessPanel description={viewerAccessDescription} role={role} form={form} setForm={setForm} />
-        </TabSelectPanel>
-        <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
-          <NoAccessPanel productArea={ProductArea.INFRASTRUCTURE} />
-        </TabSelectPanel>
+        {ScopedPermissionItems.map(context => (
+          <TabSelectPanel key={context} id={context}>
+            {(context === ScopedPermissionItem.ACCESS_ALL || context === ScopedPermissionItem.LIMITED_ACCESS) && (
+              <InfrastructureAccessPanel form={form} setForm={setForm} scopedPermissionItem={context} />
+            )}
+            {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
+          </TabSelectPanel>
+        ))}
       </TabSelectPanels>
     </TabSelect>
   );

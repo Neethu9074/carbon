@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-// @ts-expect-error component needs to be translated to ts
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import DurationDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationDistribution';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import DurationOverTime from 'in-bizops/dashboards/activity/tabs/summary/components/DurationOverTime';
 import { activitiesPath } from 'in-bizops/navigation/paths';
 import { t } from 'in-i18n';
@@ -70,7 +69,7 @@ const metrics = [
     tab: tabDistribution.id,
     tabDefault: true
   }
-] as const;
+];
 
 export default function DurationAndDistribution() {
   const urlMatrixParamConfig = {

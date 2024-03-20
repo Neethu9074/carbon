@@ -6,8 +6,8 @@
 import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 import { Card } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getSnapshotId,
@@ -28,15 +28,13 @@ import {
 import {
   actionAutomationEnabled,
   incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled,
-  automationPoliciesEnabled
+  incidentSummarizationTimelineEnabled
 } from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
-import AssociatedAndRecommendedActions from 'in-automation/AssociatedActions/AssociatedAndRecommendedActions';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -71,7 +69,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -235,29 +232,12 @@ const EventContent = connectTo(
           </Row>
         )}
 
-        {automationPoliciesEnabled &&
-          role?.canConfigureAutomationPolicies &&
-          actionAutomationEnabled &&
-          role.canConfigureAutomationActions &&
-          role.canConfigureEventsAndAlerts &&
-          isIssue &&
-          hasEventSpec && (
-            <AssociatedAndRecommendedPolicies
-              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-              event={event?.toJS()}
-            />
-          )}
-        {!automationPoliciesEnabled &&
-          actionAutomationEnabled &&
-          role.canConfigureAutomationActions &&
-          role.canConfigureEventsAndAlerts &&
-          isIssue &&
-          hasEventSpec && (
-            <AssociatedAndRecommendedActions
-              volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-              event={event?.toJS()}
-            />
-          )}
+        {actionAutomationEnabled && isIssue && hasEventSpec && (
+          <AssociatedAndRecommendedPolicies
+            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
+            event={event?.toJS()}
+          />
+        )}
         <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
       </>
     );
@@ -321,7 +301,8 @@ const IncidentContent = connectTo(
         {incidentSummarizationEnabled && incident && incident.get('metadata')?.has('incidentSummary') && (
           <EventSummarization
             title={t('in-events:incidentSummarization.incidentSummaryTitle')}
-            incident={incident.toJS()}
+            incident={incident}
+            latestSnapshot={latestSnapshot}
           />
         )}
         {shouldTimelineBeDisplayed && (

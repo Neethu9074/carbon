@@ -167,7 +167,6 @@ router.get('/', async (req, res) => {
       termsAndPrivacyAccepted,
       reportingData,
       starredItems,
-      getLicenseInfo,
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
@@ -175,10 +174,8 @@ router.get('/', async (req, res) => {
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
-    const isTrialOrNotForResaleUser = ['selfService', 'quota', 'free_not_for_resale'];
     const isAssistMeEnabled =
-      isTrialOrNotForResaleUser.includes(activeLicenseInfo) || clientConfig.featureFlags?.welcomePageV2Enabled;
+      !clientConfig.featureFlags?.playwithEnabled && !clientConfig.featureFlags?.playWithReleaseEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled));
     res.send(
       compiledTemplate({
@@ -227,7 +224,6 @@ function initializeSubRequestPromises(req) {
     getLatestTermsAndPrivacyAcceptance(req),
     getIsMonitoring(req),
     getStarredItems(req),
-    getLicenseInfo(req),
     configResolver.getClientConfig(req, req.tenant, req.unit)
   ]);
 }
@@ -321,12 +317,6 @@ function getStarredItems(req) {
   return getFromUiBackend({
     req,
     path: '/api/starred-item'
-  });
-}
-function getLicenseInfo(req) {
-  return getFromUiBackend({
-    req,
-    path: '/api/license'
   });
 }
 

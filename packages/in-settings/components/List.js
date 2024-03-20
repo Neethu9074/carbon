@@ -13,12 +13,13 @@ import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -27,6 +28,7 @@ import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
+import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -122,13 +124,28 @@ function InnerList({
   initialPageNumber,
   customDialogMessage,
   customDialogConfirmLabel,
-  customDeleteTooltipMessage
+  customDeleteTooltipMessage,
+  boundedPath
 }) {
   const [orderByState, setOrderBy] = useState(initialOrderBy ?? 'name');
   const [orderDirectionState, setOrderDirection] = useState(initalOrderDir ?? 'ASC');
-  const [queryState, setQuery] = useState('');
-  const [pageState, setPage] = useState(initialPageNumber ?? 1);
-
+  const [{ query, page }, setState] = useUrlState({
+    bind: [
+      {
+        path: boundedPath ?? '/',
+        name: 'query',
+        initialState: ''
+      },
+      {
+        path: boundedPath ?? '/',
+        name: 'page',
+        initialState: 1,
+        parser: intParser
+      }
+    ]
+  });
+  const [queryState, setQuery] = useState(boundedPath && query ? query : '');
+  const [pageState, setPage] = useState(boundedPath && page ? page : initialPageNumber ?? 1);
   const { goToPath } = useNavigation();
   const prevExtraFilterValues = useRef();
   useEffect(() => {
@@ -201,6 +218,10 @@ function InnerList({
           setOrderBy(orderBy);
           setOrderDirection(orderDirection);
           setQuery(query);
+          if (boundedPath) {
+            setState({ query, page: 1 });
+            setState({ page });
+          }
         }}
         columnDefinitions={addTableActions({
           title,

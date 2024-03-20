@@ -106,8 +106,7 @@ packages/in-forge/plugins/ibmCloudSqlQuery                      @Instana-IBM-Git
 packages/in-forge/plugins/ibmCloudVpn4Vpc                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
 packages/in-forge/plugins/ibmCos                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
 packages/in-forge/plugins/ibmDataPower*                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
-packages/in-forge/plugins/ibmIDb2                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
-packages/in-forge/plugins/ibmIOs                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/ibmI*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmMq*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/ibmOpenstack*                         @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/ibmVsi                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
@@ -118,7 +117,7 @@ packages/in-forge/plugins/jenkins                               @Instana-IBM-Git
 packages/in-forge/plugins/jettyApplicationContainer             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/jiraApplication                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/jvmRuntimePlatform                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system @instana/eng-java
-packages/in-forge/plugins/kafka*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+packages/in-forge/plugins/kafka*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/kongApigateway                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/kubernetesCluster                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
 packages/in-forge/plugins/kubernetesCronJob                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
@@ -226,6 +225,7 @@ packages/in-service-levels                                                      
 packages/in-services                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics                                                              @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
+packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
 packages/in-settings/tabs/TeamSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response

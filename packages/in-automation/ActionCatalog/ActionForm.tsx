@@ -7,8 +7,7 @@
 import React, { useState, useContext } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Link, Spacer, Typography } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Link, Spacer, Typography, Toggle } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -81,8 +80,6 @@ import {
   getHelpTextType,
   JIRA_OPERATIONS
 } from 'in-automation/ActionCatalog/shared';
-import SmartAlertsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SmartAlertsSelection';
-import EventsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventsSelection';
 import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -103,7 +100,6 @@ import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -114,8 +110,6 @@ interface ActionFormProps {
   entity: ActionFormEntity;
   setForm: SetFormFunction;
   isCreate: boolean;
-  // eslint-disable-next-line react/no-unused-prop-types
-  close?: boolean;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
@@ -148,22 +142,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action, is
               <FormGroup>
                 <ParametersTable form={form} setForm={setForm} onChange={onChange} />
               </FormGroup>
-            </>
-          )}
-          {role?.canConfigureEventsAndAlerts && (
-            <>
-              <SectionHeading>
-                {showTimeoutSection ? 4 : 3}. {t('in-automation:ActionCatalog.ActionAssociationsForEvent')}
-              </SectionHeading>
-              <EventsSelection form={form} setForm={setForm} />
-            </>
-          )}
-          {role?.canConfigureApplicationSmartAlerts && (
-            <>
-              <SectionHeading>
-                {showTimeoutSection ? 5 : 4}. {t('in-automation:ActionCatalog.ActionAssociationsForSmartAlert')}
-              </SectionHeading>
-              <SmartAlertsSelection form={form} setForm={setForm} isAutomation />
             </>
           )}
         </Col>
@@ -389,7 +367,7 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCha
         {t('in-automation:ActionCatalog.content')}
       </Label>
       <Code
-        lineNumbers
+        lineNumbers={!isNotEditable}
         readOnly={isNotEditable}
         mode={'markdown'}
         value={field.value}
@@ -642,7 +620,7 @@ const TicketCloseAndCommentSection = ({
   form,
   onChange,
   close = false
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'close'>) => {
+}: Pick<ActionFormProps, 'form' | 'onChange'> & { close?: boolean }) => {
   const comment = form.get('comment') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -1174,11 +1152,7 @@ const WebhookSection = ({
               <Label htmlFor="action-ignoreCertErrors" hasError={!field.valid && field.touched}>
                 {t('in-automation:ActionCatalog.ignoreCertErrors')}
               </Label>
-              <Toggle
-                disabled={isNotEditable}
-                checked={field.value}
-                onChange={e => onChange('ignoreCertErrors', e.target.checked)}
-              />
+              <Toggle disabled={isNotEditable} checked={field.value} onToggle={e => onChange('ignoreCertErrors', e)} />
             </FormGroup>
           ))}
         </Col>

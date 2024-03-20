@@ -6,9 +6,9 @@
 import React from 'react';
 
 import { KeyValue } from '@instana/components';
-import { Button } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 import { Card } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getReportingUrl } from 'in-mobile-apps/configuration';
 import { t } from 'in-i18n';

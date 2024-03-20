@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -16,13 +15,14 @@ import useSloFormatter, { SloFormatterFunction } from 'in-service-levels/hooks/u
 import SloTimeTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTimeTile';
 import SloTile from 'in-service-levels/components/SloChart/SloChartTiles/SloTile';
 import { MetricDataPoint } from 'in-components/Chart/types';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from './SloChartSummary.mless';
 
-jest.mock('@mui/material/useMediaQuery', () => ({
-  ...jest.requireActual('@mui/material/useMediaQuery'),
+jest.mock('in-hooks/useMediaQuery', () => ({
+  ...jest.requireActual('in-hooks/useMediaQuery'),
   default: jest.fn(),
   __esModule: true
 }));

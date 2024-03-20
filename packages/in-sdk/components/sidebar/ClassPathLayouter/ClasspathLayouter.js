@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { toClassPathTree } from 'in-sdk/components/sidebar/ClassPathLayouter/treeStructureGenerator';
 import { t } from 'in-i18n';

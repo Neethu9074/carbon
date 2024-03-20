@@ -20,6 +20,7 @@ import { deepFreeze } from 'in-services/util/object';
 interface SloMetricConfigGeneratorProps {
   configId: string;
   timeConfig: TimeConfig;
+  granularity?: number;
 }
 
 type TimeSeriesGenerator<T> = T & { granularity: number };
@@ -70,7 +71,7 @@ export const sloMetrics = deepFreeze({
         metric: 'ERROR_BUDGET_REMAINING',
         timeConfig
       } as const),
-    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -79,9 +80,9 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BUDGET_REMAINING_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig)
+        granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const),
-    timeSeriesCompact: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeriesCompact: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -90,7 +91,7 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'ERROR_BUDGET_REMAINING_SPARK_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig)
+        granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   },
 
@@ -110,7 +111,7 @@ export const sloMetrics = deepFreeze({
 
   consumedBudget: {
     label: t('in-service-levels:general.metrics.consumedBudget'),
-    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -119,13 +120,13 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'CONSUMED_ERROR_BUDGET_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig)
+        granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   },
 
   momentaryConsumption: {
     label: t('in-service-levels:general.metrics.momentaryBudgetConsumption'),
-    timeSeries: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+    timeSeries: ({ configId, timeConfig, granularity }: SloMetricConfigGeneratorProps) =>
       ({
         timeShift: { offset: 0 },
         aggregation: 'MEAN',
@@ -134,7 +135,7 @@ export const sloMetrics = deepFreeze({
         resultType: 'TIME_SERIES',
         metric: 'ERROR_CHART',
         timeConfig,
-        granularity: calculateSloGranularity(timeConfig)
+        granularity: granularity ?? calculateSloGranularity(timeConfig)
       } as const)
   }
 });

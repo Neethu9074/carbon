@@ -84,7 +84,7 @@
     "platform_permissions": "Accès {{quantityOfAreas}}",
     "analyticsContentMessage": "Peut afficher des données dans l'analyse définie par la portée d'accès dans les sites Web, les applications mobiles, les applications, les plateformes et l'infrastructure",
     "infrastructureContentMessage": "Peut afficher les entités définies par la portée d'accès dans Applications, Platforms, Infrastructure et éventuellement par DFQ",
-    "eventsAndAlertsContentMessage": "Peut afficher des événements et des alertes en fonction de la portée d'accès définie dans les sites Web, les applications mobiles, les applications, les plateformes et l'infrastructure",
+    "eventsAndAlertsContentMessage": "Peut afficher des événements et des alertes en fonction de la portée d'accès définie dans les sites Web, les applications mobiles, les applications, la surveillance synthétique, les plateformes et l'infrastructure",
     "permissions": "Droits",
     "additionalPermissions": "Droits supplémentaires",
     "permissions_DASHBOARD": "Droits d'accès aux tableaux de bord personnalisés",
@@ -154,7 +154,10 @@
     "contribution_filter": "Filtre de contribution",
     "contributionFilter_description": "Le filtre de contribution est appliqué lors de la création de configurations d'application. Dans la configuration d'application, le filtre de contribution peut être affiné avec des balises de filtre après un opérateur {{logicalOperator}}.",
     "contributionFilter_downstreamCalls": "Déterminez le niveau maximal d'informations supplémentaires pouvant être incluses dans les perspectives d'application",
-    "contributionFilter_name": "Nom"
+    "contributionFilter_name": "Nom",
+    "contributionFilter_name_mayNotBeBlank": "Le nom du filtre de contribution ne doit pas être vide.",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "Le nom du filtre de contribution ne doit pas dépasser 128 caractères.",
+    "contributionFilter_name_alreadyUsed": "Le nom du filtre de contribution est déjà utilisé."
   },
   "selectItemForm": {
     "doneButton": "Terminé"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "Niveau d'accès",
-    "configuration_summary": "Récapitulatif de la configuration",
+    "permissions": "Droits",
     "selection": "Non disponible",
     "selection_access_all": "Accéder à tout",
     "selection_limited_access": "Accès limité",
@@ -187,7 +190,7 @@
     "role_viewer": "Visualiseur",
     "role_custom": "Personnalisé",
     "role_contributor": "Contributeur",
-    "role_permissions": "Rôle/Droits d'accès",
+    "access_type": "Type d'accès",
     "roleTooltip_websites": "Afficheur : peut afficher les tableaux de bord de site Web (la configuration ne peut pas être affichée). <br /> Propriétaire : peut créer des site Web ; peut afficher, configurer et supprimer des tableaux de bord.",
     "roleTooltip_mobileApps": "Afficheur : peut afficher les tableaux de bord des applications mobiles (la configuration ne peut pas être affichée). <br /> Propriétaire : peut créer des applications mobiles ; peut afficher, configurer et supprimer les tableaux de bord des applications mobiles",
     "roleTooltip_applications": "Afficheur : peut afficher les tableaux de bord des applications (la configuration ne peut pas être affichée). <br /> Propriétaire : peut créer des applications ; peut afficher, configurer et supprimer les tableaux de bord des applications.",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "Portée d'accès limitée (Afficheur)",
     "contribution_filter_warning": {
       "firstParagraph": "Toute modification que vous sauvegardez mettra à jour toutes les perspectives d'application qui utilisent ce filtre de contribution.",
-      "secondParagraph": "Si vous modifiez le rôle, le filtre de contribution est supprimé. Toutes les perspectives d'application qui utilisent le filtre de contribution peuvent être ensuite éditées par un utilisateur disposant d'un accès Propriétaire à la section Applications. Cette opération ne peut pas être annulée."
+      "secondParagraph": "Si vous modifiez le type d'accès, le filtre de contribution est supprimé. Toutes les perspectives d'application qui utilisent le filtre de contribution peuvent être éditées par tout utilisateur disposant d'un accès propriétaire dans la section Applications."
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "Accès pour toutes les perspectives d'application sous cette unité.",
-        "role_permissions_contributor": "Affichez tous les tableaux de bord d'application sous cette unité. Créez, configurez et supprimez des tableaux de bord d'application à l'aide du filtre de contribution."
+        "access_level": "Accédez à toutes les perspectives d'application avec le type d'accès sélectionné et des droits supplémentaires.",
+        "role_permissions_contributor": "Créez des perspectives d'application à l'aide du filtre de contribution ; affichez, configurez et supprimez ces perspectives d'application. Affichez d'autres perspectives d'application, si l'accès est accordé."
       },
       "limited_access": {
-        "access_level": "Accès limité uniquement pour les tableaux de bord d'application sélectionnés ci-dessous.",
-        "access_level_contributor": "Accès limité uniquement pour les tableaux de bord d'application sélectionnés ci-dessous",
+        "access_level": "N'accédez qu'aux applications répertoriées avec le type d'accès sélectionné et des droits supplémentaires.",
+        "access_level_contributor": "Vous pouvez trouver les applications avec un accès contributeur dans le panneau de configuration des accès sur les détails de l'utilisateur ou du groupe. <br /><br />Accédez aux perspectives d'application avec le filtre de contribution appliqué en tant que contributeur. <br />Accéder aux perspectives d'application sélectionnées en tant qu'afficheur",
         "role_permissions_contributor": "Créez des tableaux de bord d'application avec le filtre de contribution appliqué ; affichez, configurez et supprimez ces tableaux de bord d'application créés pour le filtre de contribution."
       },
-      "role_permissions_owner": "Créez, configurez, affichez et supprimez des tableaux de bord d'application.",
-      "role_permissions_viewer": "Affichez les tableaux de bord de la perspective de l'application et leur configuration."
+      "role_permissions_owner": "Créer, configurer, afficher et supprimer des perspectives d'application.",
+      "role_permissions_viewer": "Afficher les perspectives d'application et leur configuration."
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "Accès à tous les tableaux de bord d'entité sous cette unité qui sont liés à l'accès accordé à l'application et aux plateformes."
+        "access_level": "Accédez à tous les tableaux de bord d'entité de cette unité, qui sont liés à l'accès accordé aux applications et aux plateformes."
       },
       "role_permissions_owner": "Affichez les tableaux de bord d'entité.",
       "role_permissions_viewer": "Affichez les tableaux de bord d'entité."
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "Accès pour tous les espaces de nom et les clusters sous cette unité."
+        "access_level": "Accédez à tous les espaces de nom et clusters avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "limited_access": {
-        "access_level": "Accès limité uniquement pour les espaces de nom et les clusters sélectionnés ci-dessous."
+        "access_level": "Accédez uniquement aux espaces de nom et aux clusters répertoriés avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "role_permissions": "Afficher les espaces de nom et les clusters."
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "Accès pour toutes les applications mobiles sous cette unité."
+        "access_level": "Accédez à toutes les applications mobiles avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "limited_access": {
-        "access_level": "Accès limité uniquement pour les applications mobiles sélectionnées ci-dessous."
+        "access_level": "N'accédez qu'aux applications mobiles répertoriées avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "role_permissions_owner": "Créez, configurez, affichez et supprimez des applications mobiles.",
-      "role_permissions_viewer": "Affichez les applications mobiles et leur configuration."
+      "role_permissions_viewer": "Afficher les applications mobiles."
     },
     "synthetics": {
       "access_all": {
-        "access_level": "Accès pour tous les tests synthétiques sous cette unité."
+        "access_level": "Accédez à tous les tests synthétiques avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "limited_access": {
-        "access_level": "Accès limité uniquement pour les tests synthétiques sélectionnés ci-dessous."
+        "access_level": "Accédez uniquement aux tests synthétiques répertoriés avec le type d'accès sélectionné et aux droits supplémentaires."
       },
       "role_permissions_owner": "Créez, configurez, affichez et supprimez des tests synthétiques.",
       "role_permissions_viewer": "Affichez les tests synthétiques et leur configuration."
     },
     "website": {
       "access_all": {
-        "access_level": "Accès pour tous les sites Web sous cette unité."
+        "access_level": "Accédez à tous les sites Web avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "limited_access": {
-        "access_level": "Accès limité uniquement pour les sites Web sélectionnés ci-dessous."
+        "access_level": "N'accédez qu'aux sites Web répertoriés avec le type d'accès sélectionné et des droits supplémentaires."
       },
       "role_permissions_owner": "Créez, affichez et supprimez des sites Web.",
-      "role_permissions_viewer": "Affichez les sites Web et leur configuration."
+      "role_permissions_viewer": "Afficher les sites Web."
     }
   },
   "cardTitle_Area": "Zone",
@@ -341,7 +344,15 @@
       "wrong": "Un problème s'est produit",
       "errorInfo": "Impossible d'extraire les données de la base de données",
       "failed": "Échec",
-      "inProgress": "En cours"
+      "inProgress": "En cours",
+      "deletionUntilTime": "Suppression jusqu'à l'heure",
+      "deletionUntilDate": "Suppression jusqu'à la date",
+      "untilDateValidationMessage": "La date doit être identique ou antérieure à la date en cours.",
+      "reasonValidationMessage": "La raison de la suppression ne peut pas être vide.",
+      "toastSuccessTitle": "La suppression du journal a abouti.",
+      "toastSuccessMessage": "Les journaux de la période sélectionnée ont été supprimés.",
+      "toastErrorTitle": "La suppression du journal a échoué.",
+      "toastErrorMessage": "Les journaux n'ont pas pu être supprimés. Veuillez réessayer."
     },
     "failedToSaveConfig": "Échec de la sauvegarde de la configuration : {{err}}",
     "IdPMetadataRequired": "Le fichier de métadonnées de fournisseur d'identité est requis",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "Autorise l'accès à la fonctionnalité de surveillance {{label}}.",
     "failedToSaveGroup": "Échec de l'enregistrement du groupe : {{err}}",
     "limitedAccess": "Accès limité",
-    "filterInvites": "Filtrer les invitations",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Voulez-vous vraiment révoquer l'invitation à rejoindre le locataire <strong>{{tenant}}</strong> pour <strong>{{email}}</strong> ?",
     "inviteUser": "Inviter un utilisateur",
     "sendInvitation": "Envoyer une invitation",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "URL de l'organisation Salesforce",
     "alertChannelDocumentationMessage": "Pour plus de détails sur la configuration de ce canal d'alerte, <documentationLink>consultez notre documentation</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "Assurez-vous que l'accès utilisateur à Instana est désactivé dans votre fournisseur d'identité.",
-    "createIDPConfirmationDescription": "Les invitations en attente seront supprimées. Les utilisateurs sont mis à disposition automatiquement à partir de votre fournisseur d'identité."
+    "createIDPConfirmationDescription": "Les invitations en attente seront supprimées. Les utilisateurs sont mis à disposition automatiquement à partir de votre fournisseur d'identité.",
+    "revokeInvitationForUserWithEmail": "Révoquer l'invitation à rejoindre le titulaire {{tenant}} pour {{email}}",
+    "invitationValidUntil": "Invitation valide jusqu'au",
+    "invitedBy": "Invité par"
   },
   "languageSelection": {
     "language": "Langue",

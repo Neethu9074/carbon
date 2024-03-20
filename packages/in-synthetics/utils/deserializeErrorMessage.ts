@@ -5,7 +5,11 @@
  */
 
 const deserializeErrorMessage = (error: string): string => {
-  return JSON.parse(error.substring(error.indexOf('{'), error.indexOf('}') + 1)).errors[0];
+  try {
+    return JSON.parse(error.substring(error.indexOf('{'), error.indexOf('}') + 1)).errors[0];
+  } catch {
+    return error;
+  }
 };
 
 export default deserializeErrorMessage;

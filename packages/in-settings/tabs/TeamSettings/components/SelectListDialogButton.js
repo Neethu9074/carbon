@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import SelectListDialog from 'in-settings/tabs/TeamSettings/components/SelectListDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

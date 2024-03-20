@@ -9,7 +9,7 @@ import React from 'react';
 
 import { GroupPermissionEntity, PermissionSet, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   extractId,

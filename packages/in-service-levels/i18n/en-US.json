@@ -186,8 +186,13 @@
   "sloChart": {
     "sloFormatter": {
       "unit": "call",
+      "unit_application": "call",
+      "unit_website": "beacon",
       "unit_plural": "calls",
-      "thousandCallsFormat": "{{count}}K calls"
+      "unit_application_plural": "calls",
+      "unit_website_plural": "beacons",
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Status",
@@ -213,6 +218,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Service: {{label}}",
+        "endpoint": "Endpoint: {{label}}",
         "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {

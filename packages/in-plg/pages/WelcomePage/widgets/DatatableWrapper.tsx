@@ -45,6 +45,7 @@ export default function DatatableWrapper({
   const [processedItems, setProcessedItems] = useState<ProcessedItem[]>([]);
   const [itemCount, setItemCount] = useState<number>(0);
   const [query, setQuery] = useState<string>('');
+  const header = dashboardTileProps?.header ?? '';
 
   const result = useObservable(getItems({ timeConfig, query, infraType, syntheticType }), [
     timeConfig,
@@ -52,6 +53,7 @@ export default function DatatableWrapper({
     infraType,
     syntheticType
   ]);
+
   dashboardTileProps = {
     ...dashboardTileProps,
     header: dashboardTileProps ? `${dashboardTileProps.header} ${itemCount > 0 ? `(${itemCount})` : ''}` : ''
@@ -101,7 +103,7 @@ export default function DatatableWrapper({
   ];
 
   return (
-    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}>
+    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
       <DashboardTable
         headers={headers}
         rows={processedItems}
@@ -121,6 +123,7 @@ export default function DatatableWrapper({
         onSearch={(searchQuery: string) => {
           setQuery(searchQuery);
         }}
+        iconDescription={`${t('in-plg:welcomepage.addMore')} ${header}`}
       />
     </DashboardTile>
   );

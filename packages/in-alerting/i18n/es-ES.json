@@ -59,6 +59,8 @@
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Está viendo una configuración de alerta suprimida. No es posible realizar modificaciones.",
     "alertPropertyInfosWarning": "Aviso",
     "alertPropertyInfosCritical": "Crítico",
+    "alertConfirmationDialogDescription": "No hay ningún {{entityPlaceholder}} configurado para ser alertado. ¿Está seguro de que desea continuar?",
+    "labelConfirm": "Confirmar",
     "customPayload": {
       "deleteRow": "Suprimir fila",
       "key": "Clave",
@@ -82,7 +84,15 @@
       "globalCustomPayloadTitle": "Cargas útiles personalizadas globales ({{count}})",
       "globalCustomPayloadRetrieveFailed": "Algo ha fallado. No se han podido recuperar las cargas útiles personalizadas globales.",
       "noGlobalCustomPayloadConfigured": "No se ha configurado ninguna carga útil personalizada global"
-    }
+    },
+    "previewFor": "Vista previa de: ",
+    "groupedViewHeader": "{{formattedCount}} resultados",
+    "groupedViewHeader_plural": "{{formattedCount}} resultados",
+    "groupedViewHeader_0": "{{formattedCount}} resultados",
+    "groupedViewHeader_1": "{{formattedCount}} resultados",
+    "groupedViewHeader_2": "{{formattedCount}} resultados",
+    "resultHeaderLoading": "Cargando…",
+    "loadMore": "Cargar más"
   },
   "potentialProblems": {
     "titleErrorRate": "La tasa de llamadas erróneas es superior a la normal",
@@ -134,6 +144,7 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "No se han encontrado configuraciones de Smart Alert para una búsqueda determinada",
     "titleNoSmartAlertsCreated": "No se han creado alertas inteligentes",
     "titleCopyOf": "(Copia de) {{smartAlertTitle}}",
+    "smartAlertsTitle": "Alertas inteligentes",
     "applications": {
       "alertConfiguration": "Configuración de alertas",
       "advanced": {
@@ -971,12 +982,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Paso 1: Pruebas",
-        "simpleAlertConfigDialogStep1Headline": "¿Sobre qué pruebas sintéticas se debe alertar?",
+        "simpleAlertConfigDialogStep1Headline": "¿Sobre qué pruebas sintéticas desea que se le notifique?",
         "simpleAlertConfigDialogStep1Tooltip": "Las alertas individuales se enviarán de forma independiente para cada prueba sintética, por ubicación",
         "stepConfigsStep4Title": "Paso 4: Canales de alerta",
         "alertDialogHeadline": "¿Qué debe aparecer en la alerta?",
         "stepConfigsStep2Title": "Paso 2: Ámbito",
-        "scopeHeadline": "¿Dónde desea que se active la alerta?",
+        "scopeHeadline": "¿Cuál es el alcance?",
+        "scopeDescription": "Elija dónde desea que se aplique la condición.",
         "stepConfigsStep3Title": "Paso 3: Umbral de tiempo",
         "stepConfigsStep5Title": "Paso 5: Propiedades de alerta",
         "thresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?",
@@ -1001,7 +1013,7 @@
         "alertChannelsTitle": "¿Quién debe recibir las alertas?",
         "scopeFilterLabel": "Ámbito",
         "alertTestsLabel": "Pruebas sintéticas",
-        "alertTestsTitle": "Pruebas sintéticas: ¿Sobre qué pruebas sintéticas se debe alertar?",
+        "alertTestsTitle": "Pruebas sintéticas: ¿Sobre qué pruebas sintéticas desea que le notifique?",
         "propertiesLabel": "Propiedades de alerta",
         "propertiesTitle": "¿Qué debe incluir la notificación de alerta?",
         "failureThreshold": "Umbral de tiempo",
@@ -1273,17 +1285,83 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
         "noMetricSelected": "No se ha seleccionado ninguna métrica"
       },
-      "groupedViewHeader": "{{formattedCount}} resultados",
-      "groupedViewHeader_plural": "{{formattedCount}} resultados",
-      "groupedViewHeader_0": "{{formattedCount}} resultados",
-      "groupedViewHeader_1": "{{formattedCount}} resultados",
-      "groupedViewHeader_2": "{{formattedCount}} resultados",
-      "resultHeaderLoading": "Cargando…",
-      "loadMore": "Cargar más",
       "count": "Count",
-      "previewFor": "Vista previa de: ",
       "selectEntityType": "Seleccione un tipo de entidad",
       "regexNotValid": "La expresión regular no es válida"
+    },
+    "logs": {
+      "alertDetails": {
+        "alertConfiguration": "Configuración de alertas",
+        "metricName": "Recuento de registros",
+        "alertConfigurationTitleScope": "Ámbito",
+        "noScopeSelected": "No hay filtros de ámbito o grupos configurados.",
+        "alertConfigurationTitleTimeThreshold": "Umbral de tiempo",
+        "alertConfigurationTitleAlertChannels": "Canales de alerta",
+        "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
+        "alertConfigurationTitleTrigger": "Activador"
+      },
+      "list": {
+        "moreFiltersWithCount": "+{{count}} filtro más",
+        "moreFiltersWithCount_plural": "+{{count}} filtros más",
+        "moreFiltersWithCount_0": "+{{count}} filtros más",
+        "moreFiltersWithCount_1": "+{{count}} filtros más",
+        "moreFiltersWithCount_2": "+{{count}} filtros más",
+        "filter": "Filtrar",
+        "filter_plural": "Filtros",
+        "filter_0": "Filtros",
+        "filter_1": "Filtros",
+        "filter_2": "Filtros",
+        "columns": {
+          "name": {
+            "subtitle": {
+              "staticThresholdType": "Umbral estático",
+              "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
+            }
+          }
+        }
+      },
+      "advancedModeContainer": {
+        "scope": {
+          "label": "Ámbito",
+          "title": "Ámbito: ¿Dónde se está produciendo la condición?"
+        },
+        "threshold": {
+          "label": "Umbral",
+          "title": "Umbral: ¿Cuándo se infringe la condición?"
+        },
+        "timeThreshold": {
+          "label": "Umbral de tiempo",
+          "title": "Umbral de tiempo: ¿Cuándo desea ser alertado?"
+        },
+        "alertChannel": {
+          "label": "Canales de alerta",
+          "title": "Canales de alertas: ¿Quién necesita ser alertado?"
+        },
+        "properties": {
+          "label": "Propiedades",
+          "title": "Propiedades de alerta adicionales",
+          "preview": {
+            "subtitle": "Recuento de registros"
+          },
+          "alertPropertiesTitlePlaceholder": "Alerta inteligente de registros",
+          "descriptionPlaceholder": {
+            "logsCount_higherThan": "El recuento de registros es superior a {{value}}.",
+            "logsCount_higherEqual": "El recuento de registros es mayor o igual que {{value}}.",
+            "logsCount_lowerThan": "El recuento de registros es inferior a {{value}}.",
+            "logsCount_lowerEqual": "El recuento de registros es inferior o igual a {{value}}."
+          }
+        },
+        "customPayloads": {
+          "label": "Cargas útiles",
+          "title": "Carga útil personalizada"
+        },
+        "thresholdValue": "Valor de umbral"
+      },
+      "form": {
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
+        "noMetricSelected": "No se ha seleccionado ninguna métrica"
+      },
+      "logs": "Registros"
     }
   }
 }

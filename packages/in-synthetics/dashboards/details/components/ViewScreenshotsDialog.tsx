@@ -9,7 +9,7 @@ import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import {

@@ -74,8 +74,6 @@
       "infrastructure": "基础架构",
       "profiles": "概要文件",
       "logs": "日志",
-      "eumWebsites": "EUM：Web 站点",
-      "eumMobileApps": "EUM：移动应用程序",
       "pageLoads": "页面加载数",
       "pageTransitions": "页面转换数",
       "pageTransitions2": "页面转换数",
@@ -159,7 +157,15 @@
         "resourceUri": "资源 URI",
         "cacheInteraction": "高速缓存交互",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 不监视此调用的 {{location}}",
-        "tags": "标记"
+        "tags": "标记",
+        "loading": "正在装入调用详细信息。",
+        "labelError": "意外错误",
+        "retryError": "无法装入调用详细信息。",
+        "started": "已启动",
+        "selfTime": "自计时",
+        "networkTime": "网络时间",
+        "waitingTime": "等待时间",
+        "latency": "等待时间"
       },
       "callTree": {
         "expandButtonForRow": "展开所有子调用",

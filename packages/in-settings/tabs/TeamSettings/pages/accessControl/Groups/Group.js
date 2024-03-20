@@ -193,7 +193,7 @@ function getPermissionSetWithApFilters(permissionSet, form) {
   const contributionFilterConfig = {
     tagFilterExpression: backendModel,
     scope: form.get('scope')?.value,
-    label: form.get('label')?.value
+    label: form.get('label')?.value?.trim()
   };
   const permissionSetWithFilter = {
     ...permissionSet,

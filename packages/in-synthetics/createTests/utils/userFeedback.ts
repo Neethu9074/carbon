@@ -6,12 +6,12 @@
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
 
-type ActionType = 'create' | 'delete' | 'update';
+type ActionType = 'create' | 'delete' | 'update' | 'deactivate';
 
 // Contexts available will be "test" deletion dialog and "location" deletion dialog
 
 export function showSuccessMessage(type?: ActionType, context?: string): void {
-  let message = '';
+  let message;
   switch (type) {
     case 'create':
       message = t('in-synthetics:dialog.feedback.successMessageCreate');
@@ -24,6 +24,9 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
         context === 'locations'
           ? t('in-synthetics:dialog.locationFeedback.successMessageDelete')
           : t('in-synthetics:dialog.feedback.successMessageDelete');
+      break;
+    case 'deactivate':
+      message = t('in-synthetics:dialog.locationFeedback.successMessageDeactivate');
       break;
     default:
       message = '';
@@ -38,7 +41,7 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
 }
 
 export function showErrorMessage(type?: ActionType, context?: string, error?: string): void {
-  let message = '';
+  let message;
   switch (type) {
     case 'create':
       message = t('in-synthetics:dialog.feedback.failureMessageCreate', { errorMessage: error });
@@ -49,8 +52,13 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
     case 'delete':
       message =
         context === 'locations'
-          ? t('in-synthetics:dialog.locationFeedback.failureMesssageDelete')
-          : t('in-synthetics:dialog.feedback.failuteMesssageDelete');
+          ? t('in-synthetics:dialog.locationFeedback.failureMesssageDelete', { deleteLocationErrorMessage: error })
+          : t('in-synthetics:dialog.feedback.failureMesssageDelete', { errorMessage: error });
+      break;
+    case 'deactivate':
+      message = t('in-synthetics:dialog.locationFeedback.failureMesssageDeactivate', {
+        deactivateLocationErrorMessage: error
+      });
       break;
     default:
       message = '';
@@ -68,10 +76,14 @@ export const showCreateErrorMessage = (error: string) => showErrorMessage('creat
 
 export const showUpdateErrorMessage = (error: string) => showErrorMessage('update', undefined, error);
 
-export const showDeleteErrorMessage = (context?: string) => showErrorMessage('delete', context);
+export const showDeleteErrorMessage = (error: string, context?: string) => showErrorMessage('delete', context, error);
 
 export const showCreateSuccessMessage = () => showSuccessMessage('create');
 
 export const showUpdateSuccessMessage = () => showSuccessMessage('update');
 
 export const showDeleteSuccessMessage = (context?: string) => showSuccessMessage('delete', context);
+
+export const showLocationDeactivateSuccessMessage = () => showSuccessMessage('deactivate');
+
+export const showLocationDeactivateErrorMessage = (error: string) => showErrorMessage('deactivate', undefined, error);

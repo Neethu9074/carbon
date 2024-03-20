@@ -25,6 +25,9 @@
       "label": "Fehlerrate",
       "rawDataLabel": "Fehleranzahl"
     },
+    "customMetric": {
+      "label": "Angepasster Messwert"
+    },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "Sitzungsstarts",
       "viewChangeBeaconCountLabel": "Anzeigewechsel",

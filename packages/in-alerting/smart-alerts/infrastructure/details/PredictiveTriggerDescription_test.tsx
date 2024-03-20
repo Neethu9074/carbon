@@ -9,6 +9,7 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 describe('in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription', () => {
@@ -22,11 +23,15 @@ describe('in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescr
 
   it('renders correctly when there is a predictive trigger', () => {
     // WHEN
-    render(<PredictiveTriggerDescription predictiveTrigger={{ timeToFailure: 12345 }} />);
-
+    render(<PredictiveTriggerDescription predictiveTrigger={{ timeToFailure: 60000 }} />);
+    const formattedTimeToFailure = formatDurationAccurately(60000, 60000, false);
     // THEN
     expect(
-      screen.getByText(t('in-alerting:smartAlerts.infrastructure.alertDetails.predictiveTrigger.title'))
+      screen.getByText(
+        t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.alertTitle', {
+          value: formattedTimeToFailure
+        })
+      )
     ).toBeInTheDocument();
   });
 });

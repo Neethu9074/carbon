@@ -19,8 +19,8 @@ import BasicDetailsStep from 'in-synthetics/createTests/wizard/BasicDetailsStep'
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { GroupPermissionEntity, Error as ScriptError, Result } from 'in-types';
 import SelectTestStep from 'in-synthetics/createTests/wizard/SelectTestStep';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { Code, Script } from 'in-synthetics/utils/constants';
-import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from 'in-synthetics/createTests/wizard/WizardModeContainer.mless';
@@ -143,7 +143,7 @@ const WizardModeContainer = ({
         additionalStepCheck={(step: number) => {
           return step !== 0 ? isStepDisabled(step) : true;
         }}
-        onStepChanged={() => {}}
+        onStepChanged={noop}
       />
     </div>
   );

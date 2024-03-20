@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import UserList, { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/UserList';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';

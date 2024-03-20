@@ -49,5 +49,7 @@
   "warn": "{{count}} Warning",
   "warn_plural": "{{count}} Warnings",
   "process": "Process",
-  "host": "Host"
+  "host": "Host",
+  "fileOnHost": "on",
+  "file": "File"
 }

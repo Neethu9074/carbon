@@ -6,7 +6,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useRef } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { t } from 'in-i18n';
 

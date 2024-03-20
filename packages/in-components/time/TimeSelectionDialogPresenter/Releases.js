@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import convertToScopes from 'in-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-components/time/TimeSelectionDialogPresenter/ReleaseScope';

@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregato)"
   },
+  "logSmartAlerts": {
+    "logs": "Log"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Stato di Esito negativo"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "AI generata",
     "suggestionHelpfulText": "Questo suggerimento è stato utile?",
     "thankYouForYourFeedback": "Grazie per il tuo feedback!",
-    "noEntitiesErrorTitle": "Non è stata trovata alcuna causa principale probabile",
-    "noEntitiesErrorDescription": "Ciò di solito si verifica quando l'incidente non ha un impatto significativo sul servizio",
     "performanceConstantlyEvaluated": "Le prestazioni vengono attivamente valutate e migliorate durante la fase Beta. Lascia un feedback per aiutarci a migliorare la nostra AI",
     "probableRootCauseLabel": "Entità causa principale probabile: {{entity_name}}",
-    "relatedEventsLabel": "Eventi entità trovati: {{number_of_events}}",
+    "relatedEventsLabel": "Eventi associati ({{number_of_events}})",
     "entitiesNumber": "Entità",
-    "techPreview": "ANTEPRIMA TECNICA"
+    "techPreview": "ANTEPRIMA TECNICA",
+    "probabilityLevelText": "Livello di probabilità:",
+    "highProbability": "ALTO",
+    "moderateProbability": "MODERATO",
+    "lowProbability": "BASSO",
+    "naProbability": "N/D",
+    "highProbabilityBadgeText": "Questa valutazione di probabilità si basa sulla probabilità che l'entità in questione non sia integra. Una probabilità alta indica che questa entità è verosimilmente problematica in base alle prove fornite.",
+    "moderateProbabilityBadgeText": "Questa valutazione di probabilità si basa sulla probabilità che l'entità in questione non sia integra. È probabile che questa entità sia la causa principale, tuttavia è necessaria una ulteriore analisi.",
+    "lowProbabilityBadgeText": "Questa valutazione di probabilità si basa sulla probabilità che l'entità in questione non sia integra. Considerate le informazioni attuali, questo componente ha una bassa probabilità di essere non integro, ma merita di essere ulteriormente analizzato.",
+    "naProbabilityBadgeText": "Questa valutazione di probabilità si basa sulla probabilità che l'entità in questione non sia integra. Purtroppo non è stato possibile accertare la valutazione di probabilità per questo incidente."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Riepilogo dell'incidente",
-    "thisIncident": "Questo incidente sembra essere:",
     "errorTitle": "Nessun riepilogo trovato",
     "errorDescription": "Non è stato possibile creare alcun riepilogo per questo evento",
-    "summarizationHelpfulText": "Questo riepilogo è stato utile?"
+    "summarizationHelpfulText": "Questo riepilogo è stato utile?",
+    "alertChannelTableTitle": "Canali di avviso associati all'incidente",
+    "noDataAlertChannels": "Non è stato possibile associare canali di avviso a questo incidente"
   },
   "feedback": {
     "skip": "Ignora",
@@ -187,5 +198,9 @@
     "contactMeNo": "No, preferisco non essere contattato.",
     "appreciateResponse": "Apprezziamo la tua risposta!",
     "followUpQuestion": "Desideri seguire l'evoluzione del tuo feedback tecnico per ulteriori chiarimenti o discussioni?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Processi di business interessati",
+    "titleImpactedBusinessProcessesIncident": "Processi di business interessati per evento di attivazione"
   }
 }

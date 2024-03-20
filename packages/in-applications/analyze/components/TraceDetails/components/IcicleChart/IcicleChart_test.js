@@ -100,58 +100,58 @@ describe('in-applications/analyze/components/TraceDetails/components/IcicleChart
     });
 
     it('0 duration call', () => {
-      let rootCall = deepFreeze(require('./testData/0durationCalls.js').default);
+      let rootCall = deepFreeze(require('./testData/0durationCalls.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/0durationCalls_expected.js').default;
+      const expectedCallFrames = require('./testData/0durationCalls_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
     it('synchronous call', () => {
-      let rootCall = deepFreeze(require('./testData/syncCalls.js').default);
+      let rootCall = deepFreeze(require('./testData/syncCalls.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/syncCalls_expected.js').default;
+      const expectedCallFrames = require('./testData/syncCalls_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
     it('asynchronous call case 1', () => {
-      let rootCall = deepFreeze(require('./testData/asyncCalls1.js').default);
+      let rootCall = deepFreeze(require('./testData/asyncCalls1.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/asyncCalls1_expected.js').default;
+      const expectedCallFrames = require('./testData/asyncCalls1_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
     it('asynchronous call case 2', () => {
-      let rootCall = deepFreeze(require('./testData/asyncCalls2.js').default);
+      let rootCall = deepFreeze(require('./testData/asyncCalls2.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/asyncCalls2_expected.js').default;
+      const expectedCallFrames = require('./testData/asyncCalls2_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
     it('asynchronous call case 3', () => {
-      let rootCall = deepFreeze(require('./testData/asyncCalls3.js').default);
+      let rootCall = deepFreeze(require('./testData/asyncCalls3.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/asyncCalls3_expected.js').default;
+      const expectedCallFrames = require('./testData/asyncCalls3_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
     it('child calls outside of the root call', () => {
-      let rootCall = deepFreeze(require('./testData/childCallsOutsideOfRootCall.js').default);
+      let rootCall = deepFreeze(require('./testData/childCallsOutsideOfRootCall.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/childCallsOutsideOfRootCall_expected.js').default;
+      const expectedCallFrames = require('./testData/childCallsOutsideOfRootCall_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
 
     it('child calls with same start and 0 duration', () => {
-      let rootCall = deepFreeze(require('./testData/0durationCallsSameStart.js').default);
+      let rootCall = deepFreeze(require('./testData/0durationCallsSameStart.ts').default);
       const callFrames = applyLayout(rootCall);
 
-      const expectedCallFrames = require('./testData/0durationCallsSameStart_expected.js').default;
+      const expectedCallFrames = require('./testData/0durationCallsSameStart_expected.ts').default;
       expect(callFrames).to.deep.equal(expectedCallFrames);
     });
   });

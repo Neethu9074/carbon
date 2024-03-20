@@ -6,6 +6,7 @@
 import React, { ReactNode } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import ResultAwareBigNumberKpiCard, {
   Config,
@@ -16,6 +17,8 @@ import ResultAwareBigNumberKpiCard, {
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
+import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
+import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -57,6 +60,9 @@ export default function BigNumberKpiCard({
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
 
+  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
+  const isLogsPolling = isLoggingWidget && timeConfig.autoRefresh;
+
   const metricDefaults = {
     timeShift: {
       offset: 0
@@ -64,7 +70,7 @@ export default function BigNumberKpiCard({
     resultType: 'SINGLE_NUMBER'
   } as const;
 
-  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  let metrics: { [index: string]: UnifiedMetricConfiguration } = {
     [metricKey]: {
       // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
       timeConfig: usedTimeConfig,
@@ -91,9 +97,20 @@ export default function BigNumberKpiCard({
     };
   }
 
-  const result: Result<MetricResult[]> =
-    useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
-    pendingResult;
+  if (isLoggingWidget) {
+    metrics = getLogMetricsConfig(metrics);
+  }
+
+  const metricsResult: Result<MetricResult[]> =
+    useObservable(!isLogsPolling ? () => getUnifiedMetrics({ metrics }) : just(null), [
+      config,
+      timeConfig,
+      config.metricConfiguration.timeShift
+    ]) ?? pendingResult;
+
+  const logsPollingResult = useLogsPolling({ metrics }) ?? pendingResult;
+
+  let result = isLogsPolling ? logsPollingResult : metricsResult;
 
   return (
     <ResultAwareBigNumberKpiCard

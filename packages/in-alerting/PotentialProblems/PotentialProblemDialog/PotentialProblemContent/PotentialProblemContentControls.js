@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {

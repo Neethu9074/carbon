@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "添加合成测试",
       "dialogTitle": "创建合成测试",
       "noLocationFound": "对不起！找不到任何位置",
       "noApplicationsFound": "找不到应用程序",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "浏览器合成测试",
           "browserTypeText": "浏览器合成测试是一种监视 Web 应用程序性能的方法，通过 Web 浏览器中的脚本模拟用户与 Web 站点的交互，对影响用户体验的问题提供有价值的洞察并确保 Web 站点功能。",
           "browserSimpleTitle": "浏览器简单测试",
-          "browserScriptTitle": "浏览器脚本测试",
-          "internetServicesTypeLabel": "因特网服务",
-          "internetServicesTypeHeadline": "因特网服务测试",
-          "internetServicesTypeText": "因特网服务合成测试涉及模拟用户与 Web 服务的交互，以监控和测试其性能，帮助识别和预防停机问题。"
+          "browserScriptTitle": "浏览器脚本测试"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此测试将如何工作？",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "重试一次",
           "retryFieldOptionTwice": "重试两次",
           "retryIntervalFieldLabel": "重试时间间隔",
-          "retryIntervalDescription": "此测试将在 {{retryIntervalValue}} 秒后重试 {{retryCount}}。",
+          "retryIntervalDescription": "此测试将在 {{retryIntervalValue}} {{retryIntervalUnit}} 之后重试 {{retryCount}} 次。",
           "markSyntheticCall": "标记合成调用"
         },
         "loadMore": "加载更多",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "浏览器",
-          "internetServicesName": "因特网服务"
+          "browserName": "浏览器"
         },
         "customProperties": {
           "property": "属性",
@@ -251,10 +248,64 @@
       "buttonSave": "保存",
       "scriptSavedMessage": "已添加脚本",
       "bundleSavedMessage": "已添加捆绑脚本"
+    },
+    "createLocation": {
+      "newLocation": "新建位置",
+      "activate": "激活",
+      "done": "完成",
+      "stepConfigs": {
+        "selectType": "步骤 1：选择类型",
+        "configuration": "步骤 2：配置"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "要使用哪种类型的位置？"
+      },
+      "privateLocation": {
+        "name": "专用",
+        "headline": "专用位置",
+        "description": {
+          "headline": "使用时间",
+          "htmlContent": "当您想要监视仅在专用网络中可访问的面向内部的应用程序或端点时。 这些位置由您设置、托管和管理。"
+        }
+      },
+      "managedLocation": {
+        "name": "受管",
+        "headline": "受管位置",
+        "description": {
+          "headline": "使用时间",
+          "htmlContent": "当您想要监视可公开访问的 Web 站点和应用程序时。 这些位置由 Instana 在世界各地的数据中心托管和管理。"
+        },
+        "managedDatacentersLabel": "数据中心",
+        "datacenterCode": "数据中心代码",
+        "datacenterName": "数据中心名称",
+        "provider": "提供程序",
+        "locationName": "位置显示名称",
+        "status": "激活状态",
+        "datacentersSubtitle": "在其中一个可用数据中心内激活 Instana 受管位置。 有关更多信息，请参阅<linkDatacenters>合成 PoP 部署</linkDatacenters>。",
+        "confirmationDialog": {
+          "headline": "正在部署位置",
+          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>这可能最多需要 10 分钟。</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "数据中心代码",
+              "datacenterName": "数据中心名称",
+              "locationName": "位置显示名称",
+              "datacenterStatus": "激活状态"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "需要至少选择一个数据中心"
+      },
+      "licenseCheck": {
+        "title": "您需要一个许可证。",
+        "description": "要使用 Instana 受管位置，需要一个<linkLicenses>额外的许可证</linkLicenses>。 请与 Instana 管理员联系以获取帮助。"
+      },
+      "status": {
+        "pending": "暂挂"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "添加合成测试"
   },
   "createSmartAlert": {
     "buttonLabel": "添加合成智能警报"

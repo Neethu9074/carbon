@@ -5,15 +5,17 @@
 
 import React, { useEffect } from 'react';
 
-import { keyCodes } from '@instana/components';
+import { keyCodes, Stack } from '@instana/components';
 
+import sources, { isBetaSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
-import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -83,6 +85,15 @@ export default function MetricConfigurator({
     changeLabel('');
   };
 
+  const additionalDataSourceSelectorContent = (
+    <Stack inline direction="horizontal">
+      <LeftRightPadding>
+        {isBetaSource(sourceField.value) && <BetaBadge />}
+        <TouchedMessages field={sourceField} />
+      </LeftRightPadding>
+    </Stack>
+  );
+
   const dataSourceSection = (
     <SelectInSection
       id="metric-configurator-source"
@@ -90,7 +101,7 @@ export default function MetricConfigurator({
       value={sourceField.value}
       onChange={e => onChangeSource(e.target.value)}
       hasError={!sourceField.valid && sourceField.touched}
-      additionalContent={<TouchedMessages field={sourceField} />}
+      additionalContent={additionalDataSourceSelectorContent}
     >
       <option value="">{t('in-custom-dashboards:widgets.metricConfigurator.pleaseSelect')}</option>
       {Object.values(sources)

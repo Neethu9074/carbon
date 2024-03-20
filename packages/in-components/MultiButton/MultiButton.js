@@ -5,7 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import Overlay from 'in-components/overlays/Overlay';
 

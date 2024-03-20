@@ -43,7 +43,8 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
     timeConfig =>
       sloMetrics.remainingBudget.timeSeries({
         configId: configuration.id!,
-        timeConfig
+        timeConfig,
+        granularity
       }),
     timeConfig,
     timeWindows,
@@ -74,7 +75,7 @@ export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProp
           renderer,
           formatter
         },
-        granularity,
+        granularity: metricResult?.granularity ?? granularity,
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
         // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { isLoading, hasError } from 'in-services/util/result';
 import { getButtonKindBySeverity } from 'in-stores/events';

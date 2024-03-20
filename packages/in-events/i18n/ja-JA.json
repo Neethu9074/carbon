@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (集約)"
   },
+  "logSmartAlerts": {
+    "logs": "Logs"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "失敗状況"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "AI 生成",
     "suggestionHelpfulText": "この提案は役に立ちましたか?",
     "thankYouForYourFeedback": "フィードバックをありがとうございました。",
-    "noEntitiesErrorTitle": "考えられる根本原因が見つかりません",
-    "noEntitiesErrorDescription": "これは通常、インシデントがサービスに大きな影響を与えなかった場合に発生します。",
     "performanceConstantlyEvaluated": "パフォーマンスは、ベータ期間中に積極的に評価され、改善されています。 AIの改善に役立つフィードバックをお寄せください",
     "probableRootCauseLabel": "推定される根本原因エンティティー: {{entity_name}}",
-    "relatedEventsLabel": "検出されたエンティティー・イベント: {{number_of_events}}",
+    "relatedEventsLabel": "関連イベント ({{number_of_events}})",
     "entitiesNumber": "エンティティー",
-    "techPreview": "テクニカル・プレビュー"
+    "techPreview": "テクニカル・プレビュー",
+    "probabilityLevelText": "確率レベル:",
+    "highProbability": "HIGH",
+    "moderateProbability": "普通",
+    "lowProbability": "LOW",
+    "naProbability": "該当なし",
+    "highProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 「高確率」は、このエンティティーが、提供された証拠に基づいて問題がある可能性が高いことを示します。",
+    "moderateProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 このエンティティーが根本原因である可能性がありますが、より多くの分析が必要です。",
+    "lowProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 現在の情報から判断すると、このコンポーネントは正常ではない可能性が低くなりますが、さらに調査されることが保証されます。",
+    "naProbabilityBadgeText": "この確率評価は、問題のエンティティーが正常でない可能性に基づいています。 残念ながら、このインシデントの確率評価を確認できませんでした。"
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "インシデントの要約",
-    "thisIncident": "このインシデントは以下のように表示されます。",
     "errorTitle": "要約が見つかりません",
     "errorDescription": "このイベントの要約を作成できませんでした",
-    "summarizationHelpfulText": "この要約は役に立ちましたか?"
+    "summarizationHelpfulText": "この要約は役に立ちましたか?",
+    "alertChannelTableTitle": "インシデントに関連付けられたアラート・チャネル",
+    "noDataAlertChannels": "このインシデントに関連付けることができるアラート・チャネルはありません"
   },
   "feedback": {
     "skip": "スキップ",
@@ -187,5 +198,9 @@
     "contactMeNo": "いいえ、連絡は不要です。",
     "appreciateResponse": "ご回答ありがとうございました。",
     "followUpQuestion": "技術的なフィードバックについて、さらに詳しいご説明やディスカッションのためのフォローアップをご希望ですか?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "影響を受けるビジネス・プロセス",
+    "titleImpactedBusinessProcessesIncident": "トリガー・イベントの影響を受けるビジネス・プロセス"
   }
 }

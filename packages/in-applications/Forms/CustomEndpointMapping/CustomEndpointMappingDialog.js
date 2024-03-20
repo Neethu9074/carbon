@@ -7,8 +7,9 @@ import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Button, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
 import { just } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import {

@@ -7,9 +7,10 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
-import { Button, Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
+import { Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
+import { Button } from '@instana/legacy';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
@@ -20,6 +21,7 @@ import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
 import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Identify';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
@@ -98,14 +100,14 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
 
       action$.once(() => {
         setIsDeleting(false);
-        showDeleteSuccessMessage();
+        showDeleteSuccessMessage('test');
         close();
         goToPath(syntheticsPath);
       });
 
       action$.errors().once(error => {
         setIsDeleting(false);
-        showDeleteErrorMessage(error);
+        showDeleteErrorMessage(deserializeErrorMessage(error.message), 'test');
         close();
       });
     };

@@ -34,7 +34,7 @@ export default function OnboardingWidgetPresenterV2(props: any) {
     <div className={locals.wrapper}>
       <WelcomeToInstanaBanner />
       <ProgressSection {...props} />
-      <Portal />
+      <Portal {...props} />
     </div>
   );
 }

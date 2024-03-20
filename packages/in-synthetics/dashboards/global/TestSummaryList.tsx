@@ -17,7 +17,7 @@ import {
   TimeConfig
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   CurrentState,

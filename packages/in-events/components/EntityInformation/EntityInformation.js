@@ -75,10 +75,11 @@ function InfraEntityInformation({
   useSnapshotLink = false,
   kind = 'dark',
   getLabelCallback = label => label,
-  pathname
+  pathname,
+  shouldDisplayDefaultLabel = true
 }) {
   return (
-    <EntityInformationPresenter>
+    <EntityInformationPresenter shouldDisplayDefaultLabel={shouldDisplayDefaultLabel}>
       <HierarchicalLink
         timeConfig={linkTimeConfig}
         snapshot={entity}
@@ -135,7 +136,8 @@ function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeCon
   );
 }
 
-function EntityInformationPresenter({ children, label = t('in-events:entityInfoPresenterDefaultLabel') }) {
+function EntityInformationPresenter({ children, shouldDisplayDefaultLabel, label }) {
+  if (shouldDisplayDefaultLabel && !label) label = t('in-events:entityInfoPresenterDefaultLabel');
   return (
     <div className={locals.container}>
       <span className={locals.label}>{label}</span>

@@ -6,8 +6,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -54,7 +53,7 @@ function EventType({ onChange, types, type, label }) {
       <Toggle
         id={`event-type-${type}`}
         checked={types.includes(type)}
-        onChange={() => onSelectChanged(types, onChange, type)}
+        onToggle={() => onSelectChanged(types, onChange, type)}
       />
     </HorizontalFormGroup>
   );

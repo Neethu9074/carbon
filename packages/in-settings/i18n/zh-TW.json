@@ -84,7 +84,7 @@
     "platform_permissions": "存取 {{quantityOfAreas}}",
     "analyticsContentMessage": "可以在網站、行動應用程式、應用程式、平台及基礎架構中的存取範圍所定義的 Analytics 中檢視資料",
     "infrastructureContentMessage": "可以檢視由「應用程式」、「平台」、「基礎架構」中的存取範圍所定義的實體，以及選擇性地由 DFQ 所定義的實體",
-    "eventsAndAlertsContentMessage": "可以根據網站、行動式應用程式、應用程式、平台及基礎架構中定義的存取範圍來檢視事件及警示",
+    "eventsAndAlertsContentMessage": "可以根據網站、行動式應用程式、應用程式、綜合監視、平台及基礎架構中定義的存取範圍來檢視事件及警示",
     "permissions": "權限",
     "additionalPermissions": "其他許可權",
     "permissions_DASHBOARD": "自訂儀表板許可權",
@@ -154,7 +154,10 @@
     "contribution_filter": "貢獻度過濾器",
     "contributionFilter_description": "建立新的應用程式配置時，會套用貢獻度過濾器。 在應用程式配置上，可以使用 {{logicalOperator}} 運算子之後的過濾器標籤來精簡貢獻度過濾器",
     "contributionFilter_downstreamCalls": "決定可包含在應用程式視景中的其他資訊層次上限",
-    "contributionFilter_name": "名稱"
+    "contributionFilter_name": "名稱",
+    "contributionFilter_name_mayNotBeBlank": "要素項過濾器名稱不得為空白。",
+    "contributionFilter_name_mustNotBeLargerThan128Characters": "要素項過濾器名稱不得大於 128 個字元。",
+    "contributionFilter_name_alreadyUsed": "已使用要素項過濾器名稱。"
   },
   "selectItemForm": {
     "doneButton": "完成"
@@ -164,7 +167,7 @@
   },
   "permissionScope": {
     "access_level": "存取權層次",
-    "configuration_summary": "配置摘要",
+    "permissions": "權限",
     "selection": "無法使用",
     "selection_access_all": "全部存取",
     "selection_limited_access": "受限存取權",
@@ -187,7 +190,7 @@
     "role_viewer": "檢視器",
     "role_custom": "自訂",
     "role_contributor": "貢獻者",
-    "role_permissions": "角色/許可權",
+    "access_type": "存取類型",
     "roleTooltip_websites": "檢視器：能夠檢視網站儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的網站；檢視、配置及刪除網站儀表板。",
     "roleTooltip_mobileApps": "檢視者：能夠檢視行動式應用程式儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的行動式應用程式；檢視、配置及刪除行動式應用程式儀表板。",
     "roleTooltip_applications": "檢視者：能夠檢視應用程式儀表板（無法檢視配置）。 <br /> 擁有者：能夠建立新的應用程式；檢視、配置及刪除應用程式儀表板。",
@@ -195,68 +198,68 @@
     "contribution_filter_accessScope": "受限存取權範圍（檢視器）",
     "contribution_filter_warning": {
       "firstParagraph": "您儲存的任何變更都會更新使用此貢獻度過濾器的所有應用程式視景。",
-      "secondParagraph": "如果您變更角色，則會刪除貢獻度過濾器。 然後，任何具有「應用程式」區段「擁有者」存取權的使用者都可以編輯所有使用貢獻度過濾器的應用程式視景。 無法復原。"
+      "secondParagraph": "如果您變更存取類型，則會刪除要素項過濾器。 任何具有「應用程式」區段擁有者存取權的使用者，都可以編輯所有使用要素項過濾器的應用程式視景。"
     }
   },
   "configurationSummary": {
     "application": {
       "access_all": {
-        "access_level": "此裝置下所有應用程式視景的存取權。",
-        "role_permissions_contributor": "檢視此裝置下的所有應用程式儀表板。 使用貢獻度過濾器來建立、配置及刪除應用程式儀表板。"
+        "access_level": "使用選取的存取類型及任何其他許可權來存取所有應用程式視景。",
+        "role_permissions_contributor": "使用要素項過濾器建立應用程式視景；檢視、配置及刪除這些應用程式視景。 檢視其他應用程式視景（如果已授與存取權）。"
       },
       "limited_access": {
-        "access_level": "僅對下列所選應用程式儀表板進行受限存取。",
-        "access_level_contributor": "僅對下列所選應用程式儀表板進行受限存取",
+        "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的應用程式。",
+        "access_level_contributor": "您可以在使用者或群組詳細資料的存取配置窗格中，找到具有要素項存取權的應用程式。 <br /><br />以貢獻者身分套用要素項過濾器來存取應用程式視景。 <br />以檢視者身分存取選取的應用程式視景",
         "role_permissions_contributor": "建立已套用貢獻度過濾器的應用程式儀表板；檢視、配置及刪除這些針對貢獻度過濾器建立的應用程式儀表板。"
       },
-      "role_permissions_owner": "建立、配置、檢視及刪除應用程式儀表板。",
-      "role_permissions_viewer": "檢視應用程式視景儀表板及其配置。"
+      "role_permissions_owner": "建立、配置、檢視及刪除應用程式視景。",
+      "role_permissions_viewer": "檢視應用程式視景及其配置。"
     },
     "infrastructure": {
       "limited_access": {
-        "access_level": "此裝置下所有實體儀表板的存取權，與授與應用程式及平台的存取權相關。"
+        "access_level": "存取此裝置下的所有實體儀表板，這些實體儀表板與授與應用程式及平台的存取權相關。"
       },
       "role_permissions_owner": "檢視實體儀表板。",
       "role_permissions_viewer": "檢視實體儀表板。"
     },
     "kubernetes": {
       "access_all": {
-        "access_level": "此裝置下所有名稱空間及叢集的存取權。"
+        "access_level": "使用選取的存取類型及任何其他許可權來存取所有名稱空間及叢集。"
       },
       "limited_access": {
-        "access_level": "僅對下列選取的名稱空間及叢集進行受限存取。"
+        "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的名稱空間及叢集。"
       },
       "role_permissions": "檢視名稱空間及叢集。"
     },
     "mobile_app": {
       "access_all": {
-        "access_level": "此裝置下所有行動式應用程式的存取權。"
+        "access_level": "使用選取的存取類型及任何其他許可權來存取所有行動式應用程式。"
       },
       "limited_access": {
-        "access_level": "僅對下列所選取行動式應用程式進行受限存取。"
+        "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的行動式應用程式。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除行動式應用程式。",
-      "role_permissions_viewer": "檢視行動式應用程式及其配置。"
+      "role_permissions_viewer": "檢視行動式應用程式。"
     },
     "synthetics": {
       "access_all": {
-        "access_level": "此裝置下所有綜合測試的存取權。"
+        "access_level": "使用選取的存取類型及任何其他許可權來存取所有綜合測試。"
       },
       "limited_access": {
-        "access_level": "僅對下列所選虛構測試進行受限存取。"
+        "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的綜合測試。"
       },
       "role_permissions_owner": "建立、配置、檢視及刪除綜合測試。",
       "role_permissions_viewer": "檢視綜合測試及其配置。"
     },
     "website": {
       "access_all": {
-        "access_level": "存取此裝置下的所有網站。"
+        "access_level": "使用選取的存取類型及任何其他許可權來存取所有網站。"
       },
       "limited_access": {
-        "access_level": "僅對下列所選網站進行受限存取。"
+        "access_level": "使用選取的存取類型及任何其他許可權僅存取所列出的網站。"
       },
       "role_permissions_owner": "建立、檢視及刪除網站。",
-      "role_permissions_viewer": "檢視網站及其配置。"
+      "role_permissions_viewer": "檢視網站。"
     }
   },
   "cardTitle_Area": "區域",
@@ -341,7 +344,15 @@
       "wrong": "發生一些問題",
       "errorInfo": "我們無法從資料庫中擷取資料",
       "failed": "失敗",
-      "inProgress": "進行中"
+      "inProgress": "進行中",
+      "deletionUntilTime": "刪除截止時間",
+      "deletionUntilDate": "刪除截止日期",
+      "untilDateValidationMessage": "日期必須等於或早於現行日期",
+      "reasonValidationMessage": "刪除原因不能是空的",
+      "toastSuccessTitle": "日誌刪除成功",
+      "toastSuccessMessage": "已順利刪除所選時段的日誌。",
+      "toastErrorTitle": "日誌刪除失敗",
+      "toastErrorMessage": "無法刪除日誌。 請重試。"
     },
     "failedToSaveConfig": "無法儲存配置：{{err}}",
     "IdPMetadataRequired": "需要 IdP meta 資料檔",
@@ -411,7 +422,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "允許存取 {{label}} 監視功能。",
     "failedToSaveGroup": "無法儲存群組：{{err}}",
     "limitedAccess": "受限存取",
-    "filterInvites": "過濾邀請",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "對於 <strong>{{email}}</strong>，您確定要撤銷加入 <strong>{{tenant}}</strong> 租戶的邀請嗎？",
     "inviteUser": "邀請使用者",
     "sendInvitation": "傳送邀請",
@@ -1151,7 +1161,10 @@
     "salesforceUrl": "Salesforce 組織 URL",
     "alertChannelDocumentationMessage": "如需設定此警示通道的詳細資料，<documentationLink>請查看我們的說明文件</documentationLink>",
     "ensureThatTheUserAccessToInstanaIsDisabledInYourIdp": "請確定您的身分提供者中已停用使用者對 Instana 的存取權。",
-    "createIDPConfirmationDescription": "將刪除擱置邀請。 使用者會從您的身分提供者 (IdP) 自動佈建。"
+    "createIDPConfirmationDescription": "將刪除擱置邀請。 使用者會從您的身分提供者 (IdP) 自動佈建。",
+    "revokeInvitationForUserWithEmail": "撤銷加入 {{tenant}} 租戶的邀請，電子郵件為 {{email}}",
+    "invitationValidUntil": "邀請有效截止時間",
+    "invitedBy": "邀請者："
   },
   "languageSelection": {
     "language": "語言",

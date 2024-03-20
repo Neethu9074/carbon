@@ -6,12 +6,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { KeyValue, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
 import { just } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';

@@ -96,7 +96,6 @@ module.exports = {
   incidentSummarizationTimelineEnabled: true,
   apiTokenDialogEnabled: true,
   regexMetricSelectionEnabled: true,
-  automationPoliciesEnabled: false,
   autoFormatterTimeSeriesEnabled: true,
   multiGroupTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
@@ -112,5 +111,8 @@ module.exports = {
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
-  welcomePageV2Enabled: false
+  welcomePageV2Enabled: false,
+  infrastructureExploreTagColumnsEnabled: true,
+  serviceNowAutoCloseAndCustomPayloadsEnabled: false,
+  rawTraceDownloadEnabled: false
 };

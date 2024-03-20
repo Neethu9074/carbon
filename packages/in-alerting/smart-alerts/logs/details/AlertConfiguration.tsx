@@ -12,19 +12,19 @@ import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
+import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
-import { logsGroupbyTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import { StaticThresholdConfig, TagCatalog, TagFilter, ThresholdConfigUnion } from 'in-types';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
-import { StaticThresholdConfig, TagCatalog, ThresholdConfigUnion } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -57,6 +57,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
   const timeConfig = useMemo(() => {
     return chartTimeConfig;
   }, []);
+
+  const groupingFilter = groupBy && toUIGrouping(logsGroupbyTag(groupBy));
 
   return (
     <AlertDetailsCard>
@@ -94,9 +96,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
             {groupBy && groupBy.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={tagFilterExpression}
-                //@ts-expect-error TODO change related to new typedef.
-                backendGroupBy={groupBy}
-                groupBy={logsGroupbyTag(groupBy)[0]}
+                groupBy={logsGroupbyTag(groupBy)}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,
                   to: timeConfig.to,
@@ -117,21 +117,24 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
         darkFrame
       >
         <div className={locals.paddingBodyWrapper}>
-          <Stack gap="xsmall">
-            <ScopeConfigPresenter
-              tagFilterFormModel={tagFilterFormModel}
-              queryBuilder={
-                (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
-              }
-              scopePath={<></>}
-            />
-
-            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupBy ?? []} />
-
-            {!tagFilterFormModel?.length && !groupBy?.length && (
-              <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
-            )}
-          </Stack>
+          {!tagFilterFormModel?.length && !groupBy?.length ? (
+            <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
+          ) : (
+            <Stack gap="xsmall">
+              {tagFilterFormModel?.length > 0 && (
+                <ScopeConfigPresenter
+                  tagFilterFormModel={tagFilterFormModel}
+                  queryBuilder={
+                    (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
+                  }
+                  scopePath={<></>}
+                />
+              )}
+              {groupBy && groupBy?.length > 0 && (
+                <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
+              )}
+            </Stack>
+          )}
         </div>
       </ExpandableLightCard>
 

@@ -38,8 +38,7 @@ export default function TimeThresholdConfigPresenter({
   hasTraceImpactOption,
   hasUserImpactOption,
   impactTimeThresholdDisabled,
-  oneMinuteGranularityAllowed,
-  userImpactInfo
+  oneMinuteGranularityAllowed
 }) {
   return (
     <TwoColumnContainer
@@ -81,7 +80,6 @@ export default function TimeThresholdConfigPresenter({
         )
       }
       removePaddingSecondaryArea
-      infoContent={checkIfUserImpact(form.get('timeThreshold')) && userImpactInfo}
     />
   );
 }
@@ -89,10 +87,6 @@ export default function TimeThresholdConfigPresenter({
 function getTitle(form) {
   const timeThresholdType = form.get('type').value;
   return titleValues[timeThresholdType];
-}
-
-function checkIfUserImpact(form) {
-  return form.get('type').value === 'userImpactOfViolationsInSequence' ? true : false;
 }
 
 TimeThresholdConfigPresenter.propTypes = {
@@ -103,6 +97,5 @@ TimeThresholdConfigPresenter.propTypes = {
   hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
   impactTimeThresholdDisabled: PropTypes.bool,
-  oneMinuteGranularityAllowed: PropTypes.bool,
-  userImpactInfo: PropTypes.string
+  oneMinuteGranularityAllowed: PropTypes.bool
 };

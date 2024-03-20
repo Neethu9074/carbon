@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SvgIcon, Stack, Typography, Spacer } from '@instana/components';
 
@@ -36,13 +36,21 @@ export default function AgentCatalog(props) {
     SetFilteredEntities(filteredEntities);
   };
   const breadCrumbs = [
-    <Breadcrumb href={`#/agents${props?.fromOnboarding ? '/onboarding' : ''}/installation`}>
+    <Breadcrumb
+      href={`#/agents${props?.fromOnboarding ? '/onboarding' : ''}/installation`}
+      className={locals.breadcrumb}
+    >
       <Stack direction="horizontal" align="center">
         <SvgIcon type="lib_infrastructure" />
         <Typography variant="body-bold">{t('in-plg:agentDetails.common.agentCatalog')}</Typography>
       </Stack>
     </Breadcrumb>
   ];
+
+  useEffect(() => {
+    trackingService.catalogPageOpened();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack direction="vertical">

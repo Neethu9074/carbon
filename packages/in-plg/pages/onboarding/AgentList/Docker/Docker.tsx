@@ -6,12 +6,12 @@
 
 import React, { useState, useMemo } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
-import { FormInputPlg } from 'in-plg/pages/onboarding/content/ContentComponents';
+import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
@@ -102,6 +102,10 @@ export default function Docker({
     return script;
   }, [agentZone, agentKey, downloadKey, agentEndpoint, agentEndpointPort]);
 
+  const updateAgentZone = (agent: string) => {
+    setAgentZone(agent);
+  };
+
   return (
     <Container>
       <MainBody>
@@ -114,11 +118,7 @@ export default function Docker({
             t('in-plg:agentDetails.aws.step1') + t('in-plg:agentDetails.aws.enterAClusterNameAndOptionallyTheAgentZone')
           }
         >
-          <KeyValue
-            label={t('in-plg:agentDetails.common.agentZoneOptional')}
-            value={<FormInputPlg onChange={value => setAgentZone(value)} />}
-            withGap
-          />
+          <AgentzoneLister callBackFunc={updateAgentZone} />
         </LayoutSection>
 
         <LayoutSection

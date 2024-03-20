@@ -19,6 +19,9 @@
   "totalCpu": "Total UC",
   "totalMemory": "Mémoire totale",
   "totalStorage": "Espace de stockage total",
+  "totalCapacity": "Capacité totale",
+  "availableCapacity": "Capacité disponible",
+  "volumeCount": "Nombre de volumes",
   "cpuArch": "Architecture d'UC",
   "cpuModel": "Modèle d'UC",
   "cpuVendor": "Fournisseur d'UC",
@@ -26,6 +29,7 @@
   "status": "Statut",
   "state": "Etat",
   "hostIP": "IP de l'hôte",
+  "ip": "IP",
   "hypervisorType": "Type d'hyperviseur",
   "hypervisorVersion": "Version d'hyperviseur",
   "instanceCount": "Nombre d'instances",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "Utilisation des groupes de serveurs",
   "floatingIpsUsage": "Utilisation des adresses IP flottantes",
   "securityGroupsUsage": "Utilisation des groupes de sécurité",
+  "project": "Projet",
+  "hostName": "Host Name",
+  "cpuUtilization": "Utilisation de l'UC",
+  "health": "Intégrité",
   "dashboards": {
-    "regions": "Régions",
     "powervcRegions": "Régions PowerVC",
     "hypervisors": "Hyperviseurs",
     "computeInstances": "Instances de calcul",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "Nombre total de groupes de serveurs utilisés",
     "totalFloatingIpsUsed": "Nombre total d'IP flottantes utilisées",
     "totalSecurityGroupsUsed": "Nombre total de groupes de sécurité utilisés",
-    "memoryUsageAll": "Utilisation de la mémoire par toutes les machines virtuelles",
-    "cpuUsageAll": "Utilisation de l'UC par toutes les machines virtuelles",
-    "storageUsageAll": "Utilisation du stockage par toutes les machines virtuelles",
     "noDataAvailable": {
       "hypervisorTitle": "Aucun hyperviseur PowerVC disponible",
-      "hypervisorDescription": "Aucun hyperviseur PowerVC n'a été extrait pour l'intervalle sélectionné."
+      "hypervisorDescription": "Aucun hyperviseur PowerVC n'a été extrait pour l'intervalle sélectionné.",
+      "instanceTitle": "Aucune instance PowerVC disponible",
+      "instanceDescription": "Aucune instance PowerVC n'a été extraite pour l'intervalle sélectionné."
     }
   }
 }

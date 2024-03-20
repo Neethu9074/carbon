@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';

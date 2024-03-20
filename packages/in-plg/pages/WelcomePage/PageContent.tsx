@@ -140,33 +140,16 @@ const syntheticToogleArray: string[] = syntheticArray.map(ele => ele.label);
 
 const widgetData = [
   {
-    key: 'applicationWidget',
-    label: t('in-plg:welcomepage.component.applicationWidget.label'),
-    icon: 'lib_actions_reorder',
-    widget: ApplicationWidget
-  },
-  {
-    key: 'eventsWidget',
-    label: t('in-plg:welcomepage.component.eventWidget.label'),
-    icon: 'lib_actions_reorder'
-  },
-  {
-    key: 'platformsWidget',
-    label: getPlatformsTitle(),
-    icon: 'lib_actions_reorder',
-    widget: PlatformWidget
-  },
-  {
-    key: 'businessMonitoringWidget',
-    label: t('in-plg:welcomepage.component.bizopsWidget.label'),
-    icon: 'lib_actions_reorder',
-    widget: BusinessMonitoringWidget
-  },
-  {
     key: 'incidentsWidget',
     label: t('in-plg:welcomepage.component.incidentsWidget.label'),
     icon: 'lib_actions_reorder',
     widget: IncidentsWidget
+  },
+  {
+    key: 'dashboardWidget',
+    label: t('in-plg:welcomepage.component.dashboardWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: DashboardWidget
   },
   {
     key: 'websitesWidget',
@@ -181,6 +164,24 @@ const widgetData = [
     icon: 'lib_actions_reorder',
     type: 'mobileApps',
     widget: WebsitesAndMobileListWidget
+  },
+  {
+    key: 'businessMonitoringWidget',
+    label: t('in-plg:welcomepage.component.bizopsWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: BusinessMonitoringWidget
+  },
+  {
+    key: 'applicationWidget',
+    label: t('in-plg:welcomepage.component.applicationWidget.label'),
+    icon: 'lib_actions_reorder',
+    widget: ApplicationWidget
+  },
+  {
+    key: 'platformsWidget',
+    label: getPlatformsTitle(),
+    icon: 'lib_actions_reorder',
+    widget: PlatformWidget
   },
   {
     key: 'infrastructureWidget',
@@ -199,10 +200,9 @@ const widgetData = [
     type: 'synthetic'
   },
   {
-    key: 'dashboardWidget',
-    label: t('in-plg:welcomepage.component.dashboardWidget.label'),
-    icon: 'lib_actions_reorder',
-    widget: DashboardWidget
+    key: 'eventsWidget',
+    label: t('in-plg:welcomepage.component.eventWidget.label'),
+    icon: 'lib_actions_reorder'
   }
 ];
 
@@ -210,7 +210,7 @@ const tableEntryArray: tableEntry[] = widgetData
   .filter(
     ele =>
       (ele.key === 'applicationWidget' && hasApplicationsAccess) ||
-      (ele.key === 'events' && hasEventsAccess) ||
+      (ele.key === 'eventsWidget' && hasEventsAccess) ||
       (ele.key === 'platformsWidget' && hasAPlatformAccess) ||
       (ele.key === 'businessMonitoringWidget' && hasBizOpsAccess) ||
       ele.key === 'incidentsWidget' ||
@@ -235,9 +235,11 @@ export default function PageContent() {
 
 function filterItems(orderedItems: WidgetOrdering[]): WidgetOrdering[] {
   return orderedItems.filter(({ id }: { id: string }) => {
-    if (id === '1' && !hasWebsitesAccess && !hasMobileAppsAccess) {
-      return false;
-    } else if (id === '2' && !hasApplicationsAccess) {
+    if (
+      (id === '3' && !hasWebsitesAccess) ||
+      (id === '4' && !hasMobileAppsAccess) ||
+      (id === '6' && !hasApplicationsAccess)
+    ) {
       return false;
     }
     return true;
@@ -332,6 +334,7 @@ function RenderEvents({ dashboardTileProps }: { dashboardTileProps: dashboardTil
     <DashboardTile
       {...dashboardTileProps}
       handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
+      size="xs"
       rightHeaderContent={
         EventsfullListViewHref && <Link href={EventsfullListViewHref}>{t('in-plg:welcomepage.viewAll')}</Link>
       }

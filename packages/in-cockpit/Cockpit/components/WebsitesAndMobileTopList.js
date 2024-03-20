@@ -6,8 +6,9 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, KeyValue, SvgIcon } from '@instana/components';
+import { KeyValue, SvgIcon } from '@instana/components';
 import { combineLatest } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';

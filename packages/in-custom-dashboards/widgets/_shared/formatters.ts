@@ -40,6 +40,8 @@ export function getFormatter(source: MetricSource, metric: string, aggregation: 
       return getApplicationMetricFormatter(metric, aggregation);
     case 'SYNTHETICS':
       return getSyntheticMetricFormatter(metric);
+    case 'LOG':
+      return getLogFormatter(aggregation);
   }
   return publicFormatters;
 }
@@ -55,4 +57,13 @@ function getSyntheticMetricFormatter(metric: string): Formatter[] {
     return [bytesCompact, bytesDetailed];
   }
   return publicFormatters;
+}
+
+const logFormattersByAggregation: Partial<Record<AggregationType, Formatter[]>> = {
+  PER_SECOND: [perSecondDetailed],
+  SUM: [numberCompact]
+};
+
+function getLogFormatter(aggregation: AggregationType) {
+  return logFormattersByAggregation[aggregation] || [defaultFormatter];
 }

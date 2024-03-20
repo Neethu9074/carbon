@@ -70,6 +70,7 @@ interface ListProps<ItemType extends Object> {
   customDialogMessage?: (entity: ItemType) => void;
   customDialogConfirmLabel?: string;
   customDeleteTooltipMessage?: (entity: ItemType) => string;
+  boundedPath?: string;
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;

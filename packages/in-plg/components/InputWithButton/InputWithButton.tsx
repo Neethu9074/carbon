@@ -6,7 +6,8 @@
 
 import React, { useRef } from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import Input from 'in-components/form/Input';

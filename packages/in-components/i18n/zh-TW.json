@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "更多",
     "workspaceAPIQuery": "API 查詢",
     "workspaceUseThisExpressionToQueryOurAPI": "使用此表示式來查詢我們的 API",
-    "workspaceIncludeSidebarFilters": "包括過濾器資訊看板項目",
     "workspaceTitleFilter": "過濾器",
     "workspaceButtonClear": "清除",
     "errorWithDataYourDefinedQueryIsTooComplex": "您所定義的查詢太複雜，請減少巢狀數量。",

@@ -70,7 +70,7 @@ export default connectTo(() => ({
         return (
           <Stack direction="horizontal" align="center">
             <HealthDot severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)} iconSize={10} />
-            <SvgIcon type="lib_bizops" />
+            <SvgIcon type="lib_bizops" color="var(--ids-color-option-neutral-700)" />
             <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>
           </Stack>
         );
@@ -99,7 +99,7 @@ export default connectTo(() => ({
             rollup={getChartGranularity(timeConfig)}
             timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
             metrics={item?.metrics?.started_processes}
-            metric={item?.businessProcess?.startedInstancesCount}
+            metric={item?.metrics?.started_processes?.[0] && item?.metrics?.started_processes[0][1]}
             tooltipFormatter={number.compact}
           />
         );

@@ -56,8 +56,7 @@
       "submit": "Inoltra"
     },
     "states": {
-      "saving": "Salvataggio in corso...",
-      "loading": "Caricamento in corso…"
+      "saving": "Salvataggio in corso..."
     }
   },
   "language_en-US": "Inglese",

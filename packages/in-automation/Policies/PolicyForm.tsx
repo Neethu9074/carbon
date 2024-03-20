@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { Button, Link, Spacer, Stack, Typography } from '@instana/components';
+import { Link, Spacer, Stack, Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   ApplyOn,
@@ -66,6 +67,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Dialog from 'in-components/Dialog/Dialog';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
@@ -87,10 +89,11 @@ export function PolicyFormBody({
         <Col lg={8}>
           <SectionHeading>{t('in-automation:policies.1PolicyDetails')}</SectionHeading>
           <DetailsSection form={form} setForm={setForm} />
-          <SectionHeading>{t('in-automation:policies.2PolicyConfiguration')}</SectionHeading>
+          <SectionHeading>{t('in-automation:policies.2TriggerConfiguration')}</SectionHeading>
           <SelectTrigger form={form} setForm={setForm} triggers={triggers} />
+          <TypeSection form={form} setForm={setForm} />
           <ScopeSection form={form} setForm={setForm} />
-          <SourceSection form={form} setForm={setForm} />
+          <SectionHeading>{t('in-automation:policies.3ActionConfiguration')}</SectionHeading>
           <SelectAction form={form} setForm={setForm} actions={actions} />
         </Col>
       </Row>
@@ -107,7 +110,7 @@ export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: Po
           : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
       </SubViewHeader>
       <HorizontalFlexWrapper>
-        <CopyPolicyLink isNew={isNew} policy={policy} />
+        {role?.canConfigureAutomationPolicies && <CopyPolicyLink isNew={isNew} policy={policy} />}
       </HorizontalFlexWrapper>
     </HorizontalFlexWrapper>
   );
@@ -128,13 +131,15 @@ export function PolicyFormFooter({
       <Spacer vertical="xlarge" />
       <FormFooter>
         <CancelButton onClick={() => navigateToPolicies()} />
-        <SaveButton form={form} isSaving={submitStatus === 'pending'}>
-          {submitStatus === 'pending'
-            ? t('forms.states.saving')
-            : isNew
-            ? t('forms.actions.create')
-            : t('forms.actions.save')}
-        </SaveButton>
+        {role?.canConfigureAutomationPolicies && (
+          <SaveButton form={form} isSaving={submitStatus === 'pending'}>
+            {submitStatus === 'pending'
+              ? t('forms.states.saving')
+              : isNew
+              ? t('forms.actions.create')
+              : t('forms.actions.save')}
+          </SaveButton>
+        )}
       </FormFooter>
     </>
   );
@@ -221,6 +226,9 @@ function ScopeSection({
   const scope = form.get('scope');
   const applyOn = scope.get('applyOn');
   const query = scope.get('query');
+  const automatic = form.getIn(['action', 'type', 'automatic']);
+
+  if (!automatic.value) return null;
 
   return (
     <Row>
@@ -280,7 +288,7 @@ function ScopeSection({
   );
 }
 
-function SourceSection({
+function TypeSection({
   form,
   setForm
 }: {
@@ -290,7 +298,7 @@ function SourceSection({
   const type = form.getIn(['action', 'type']);
   return (
     <FormGroup>
-      <Label hasError={!type.valid && type.touched}>{t('in-automation:policies.source')}</Label>
+      <Label hasError={!type.valid && type.touched}>{t('in-automation:policies.policyType')}</Label>
       <Row>
         <Col lg={3} className={locals.column}>
           <CheckboxFancy
@@ -318,8 +326,8 @@ function SourceSection({
             }
           />
         </Col>
-        <TouchedMessages field={type} className={locals.subErrorTextFormField} />
       </Row>
+      <TouchedMessages field={type} className={locals.subErrorTextFormField} />
     </FormGroup>
   );
 }
@@ -403,12 +411,12 @@ function SelectTrigger({
         page={0}
         isSearchable={false}
         orderBy="id"
-        noDataMessage={t('in-automation:policies.noTriggerConfigured')}
+        noDataMessage={t('in-automation:policies.noEventTriggerConfigured')}
         orderDirection="ASC"
         columnDefinitions={columnDefinitions}
         result={listSuccess(selectedTrigger ? [selectedTrigger] : [])}
         leftHeader={
-          <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.trigger')}</Label>
+          <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.eventTrigger')}</Label>
         }
         rightHeader={
           <Button
@@ -416,7 +424,7 @@ function SelectTrigger({
             onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
             icon="lib_openclose_add_circle_outline"
           >
-            {t('in-automation:policies.addTrigger')}
+            {t('in-automation:policies.addEventTrigger')}
           </Button>
         }
         fixedLayout
@@ -490,7 +498,9 @@ function SelectTriggerDialog({
 
   const table = (
     <ServerTablePresenter<TriggerSpecification, ServerTablePresenterProps<TriggerSpecification>>
-      searchPlaceholder={t('in-automation:policies.searchTriggers')}
+      searchPlaceholder={t('in-automation:policies.searchEventTriggers')}
+      searchWidth={170}
+      searchMaxWidth={170}
       onChange={setServerTableState}
       onRowClick={onChange}
       page={page}
@@ -505,12 +515,17 @@ function SelectTriggerDialog({
     />
   );
   return (
-    <Dialog className={locals.select} title={t('in-automation:policies.addTrigger')} onClose={close} withoutBodyPadding>
+    <Dialog
+      className={locals.select}
+      title={t('in-automation:policies.addEventTrigger')}
+      onClose={close}
+      withoutBodyPadding
+    >
       <div className={locals.selectDialog}>
         <TabSelect activePanelId={selectedTab} onChange={setSelectedTab}>
           <TabSelectHeader>
             <Typography variant="heading-200" noWrap>
-              {t('in-automation:policies.selectTrigger')}
+              {t('in-automation:policies.selectEventTrigger')}
             </Typography>
           </TabSelectHeader>
           <TabSelectMenu>
@@ -531,7 +546,7 @@ function SelectTriggerDialog({
       <FormFooter>
         <CancelButton onClick={close} />
         <Button kind="primary" disabled={!selectedId} onClick={handleSubmit}>
-          {t('in-automation:policies.addTrigger')}
+          {t('in-automation:policies.addEventTrigger')}
         </Button>
       </FormFooter>
     </Dialog>

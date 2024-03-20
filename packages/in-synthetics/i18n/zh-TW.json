@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "新增綜合測試",
       "dialogTitle": "建立綜合測試",
       "noLocationFound": "抱歉！找不到任何位置",
       "noApplicationsFound": "找不到任何應用程式",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "瀏覽器綜合測試",
           "browserTypeText": "瀏覽器綜合測試是一種監視 Web 應用程式效能的方法，其方式是透過 Web 瀏覽器中的 Script 來模擬使用者與網站的互動，對影響使用者體驗的問題提供有價值的見解並確保網站正常發揮作用。",
           "browserSimpleTitle": "瀏覽器簡式測試",
-          "browserScriptTitle": "瀏覽器 Script 測試",
-          "internetServicesTypeLabel": "網際網路服務",
-          "internetServicesTypeHeadline": "網際網路服務測試",
-          "internetServicesTypeText": "網際網路服務綜合測試涉及模擬使用者與 Web 服務的互動，以監視及測試其效能，協助識別並防止關閉時間問題。"
+          "browserScriptTitle": "瀏覽器 Script 測試"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此測試將如何運作？",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "重試一次",
           "retryFieldOptionTwice": "重試兩次",
           "retryIntervalFieldLabel": "重試間隔",
-          "retryIntervalDescription": "此測試將在 {{retryIntervalValue}} 秒之後重試 {{retryCount}} 次。",
+          "retryIntervalDescription": "此測試將在 {{retryIntervalValue}} {{retryIntervalUnit}} 之後重試 {{retryCount}}。",
           "markSyntheticCall": "標示虛構呼叫"
         },
         "loadMore": "載入更多",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "瀏覽器",
-          "internetServicesName": "網際網路服務"
+          "browserName": "瀏覽器"
         },
         "customProperties": {
           "property": "內容",
@@ -251,10 +248,64 @@
       "buttonSave": "儲存",
       "scriptSavedMessage": "已新增 Script",
       "bundleSavedMessage": "已新增組合 Script"
+    },
+    "createLocation": {
+      "newLocation": "新位置",
+      "activate": "啟動",
+      "done": "完成",
+      "stepConfigs": {
+        "selectType": "步驟 1：選取類型",
+        "configuration": "步驟 2：配置"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "您要使用哪種類型的位置？"
+      },
+      "privateLocation": {
+        "name": "專用",
+        "headline": "專用位置",
+        "description": {
+          "headline": "何時使用",
+          "htmlContent": "當您想要監視僅在專用網路中可存取的面向內部應用程式或端點時。 這些位置由您設定、代管及管理。"
+        }
+      },
+      "managedLocation": {
+        "name": "受管理",
+        "headline": "受管理位置",
+        "description": {
+          "headline": "何時使用",
+          "htmlContent": "當您想要監視可公開存取的網站及應用程式時。 這些位置由 Instana 在全球各地的資料中心代管及管理。"
+        },
+        "managedDatacentersLabel": "資料中心",
+        "datacenterCode": "資料中心代碼",
+        "datacenterName": "資料中心名稱",
+        "provider": "提供者",
+        "locationName": "位置顯示名稱",
+        "status": "啟動狀態",
+        "datacentersSubtitle": "在其中一個可用的資料中心啟動 Instana 受管理位置。 如需相關資訊，請參閱<linkDatacenters>綜合 PoP 部署</linkDatacenters>。",
+        "confirmationDialog": {
+          "headline": "正在部署位置",
+          "message": "我們正在下列資料中心設定您的新位置。 請耐心等候我們為您自動部署此項目。 完成時，您可以在「位置」標籤中找到新的位置。 <strong>這可能需要 10 分鐘。</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "資料中心代碼",
+              "datacenterName": "資料中心名稱",
+              "locationName": "位置顯示名稱",
+              "datacenterStatus": "啟動狀態"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "至少需要選取一個資料中心"
+      },
+      "licenseCheck": {
+        "title": "您需要授權。",
+        "description": "若要使用 Instana 受管理位置，則需要<linkLicenses>其他授權</linkLicenses>。 請聯絡您的 Instana 管理者，以取得協助。"
+      },
+      "status": {
+        "pending": "擱置"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "新增綜合測試"
   },
   "createSmartAlert": {
     "buttonLabel": "新增綜合智慧型警示"

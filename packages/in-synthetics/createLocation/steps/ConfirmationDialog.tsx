@@ -95,12 +95,12 @@ const ConfirmationDialog = ({
       getSyntheticDatacenterDeployment({
         deploymentAction: 'activate',
         syntheticDatacenters: form.get('syntheticDatacenters').value
-      }).filter((result: any) => {
-        if (result && result.data) {
-          const { rejectedArray, acceptedArray } = categorizeActivationRequestedDatacenters(result.data);
+      }).filter((deployment: any) => {
+        if (deployment && deployment.data) {
+          const { rejectedArray, acceptedArray } = categorizeActivationRequestedDatacenters(deployment.data);
           setRejectedDatacenters(rejectedArray);
           setAcceptedDatacenters(acceptedArray);
-          return result;
+          return deployment;
         }
       }),
       []
@@ -111,6 +111,22 @@ const ConfirmationDialog = ({
       {buttonLabel}
     </SaveButton>
   );
+
+  const getTitle = () => {
+    return rejectedDatacenters.length > 1
+      ? t(
+          'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessageMultipleDatacenters',
+          {
+            rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
+          }
+        )
+      : t(
+          'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessageSingleDatacenter',
+          {
+            rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
+          }
+        );
+  };
 
   return (
     <BaseDialog title={header} headerIcon={headerIcon} onClose={onClose} onSubmit={onSubmit} customButtons={button}>
@@ -134,17 +150,7 @@ const ConfirmationDialog = ({
         <>
           {rejectedDatacenters.length > 0 && (
             <div className={locals.messageWrapper}>
-              <Message
-                type="warning"
-                withIcon
-                className={locals.bottomSpace}
-                title={t(
-                  'in-synthetics:dialog.createLocation.managedLocation.confirmationDialog.activationRejectedMessage',
-                  {
-                    rejectedDatacentersList: formatRejectedDatacenters(rejectedDatacenters)
-                  }
-                )}
-              />
+              <Message type="warning" withIcon className={locals.bottomSpace} title={getTitle()} />
             </div>
           )}
           <List<SyntheticDatacenter>

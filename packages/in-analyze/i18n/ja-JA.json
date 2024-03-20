@@ -74,8 +74,6 @@
       "infrastructure": "インフラストラクチャー",
       "profiles": "プロファイル",
       "logs": "ログ",
-      "eumWebsites": "EUM: Web サイト",
-      "eumMobileApps": "EUM: モバイル・アプリケーション",
       "pageLoads": "ページ・ロード",
       "pageTransitions": "ページ遷移",
       "pageTransitions2": "ページ遷移",
@@ -159,7 +157,15 @@
         "resourceUri": "リソース URI",
         "cacheInteraction": "相互作用のキャッシュ",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana はこの呼び出しの {{location}} をモニターしません",
-        "tags": "タグ"
+        "tags": "タグ",
+        "loading": "通話の詳細をロードしています。",
+        "labelError": "予期しないエラー",
+        "retryError": "通話詳細をロードできませんでした。",
+        "started": "開始済み",
+        "selfTime": "セルフタイム",
+        "networkTime": "ネットワーク時間",
+        "waitingTime": "待機時間",
+        "latency": "待ち時間"
       },
       "callTree": {
         "expandButtonForRow": "すべてのサブ呼び出しを展開",

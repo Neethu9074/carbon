@@ -17,6 +17,7 @@ const defaultValue = {
     mobileAppIds: [],
     permissions: [],
     websiteIds: [],
+    businessPerspectiveIds: [],
     syntheticTestIds: []
   }
 };

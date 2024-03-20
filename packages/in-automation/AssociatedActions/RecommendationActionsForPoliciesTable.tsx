@@ -7,8 +7,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, Stack, Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Spacer, Stack, Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   ANSIBlE_TYPE,
@@ -24,8 +24,8 @@ import {
 import { Action, ApplicationAlertConfigWithMetadata, Policy, Result, VolatileId, Event } from 'in-types';
 import { descriptionColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { associateActionsTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { createPolicyTracker, executeTurboActionTracker } from 'in-automation/tracker';
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { ScoredAction, saveNewPolicy, EventSpecification } from 'in-automation/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -40,6 +40,7 @@ import IconButton from 'in-components/IconButton/IconButton';
 import { NewPolicy } from 'in-automation/Policies/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { success } from 'in-services/util/result';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RecommendationActionsTable.mless';
@@ -114,7 +115,7 @@ export default function RecommendationActionForPoliciesTable({
           width: '10',
           widthInAbsoluteUnit: true,
           getContent: (item: Action) =>
-            !isExternal(item.type) ? (
+            !isExternal(item.type) && role?.canConfigureAutomationPolicies ? (
               <Tooltip content={t('in-automation:associateActionWithName', { actionName: item.name })} delay={500}>
                 <IconButton
                   kind="primaryv2"
@@ -132,7 +133,10 @@ export default function RecommendationActionForPoliciesTable({
                   }}
                 />
               </Tooltip>
-            ) : (
+            ) : role?.canRunAutomationActions &&
+              isExternal(item.type) &&
+              item?.metadata?.ai &&
+              item?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' ? (
               <Button // we are executing turbo actions directly from recommendation card
                 kind="action"
                 icon={'lib_actions_play'}
@@ -150,6 +154,8 @@ export default function RecommendationActionForPoliciesTable({
               >
                 {t('in-automation:ActionCatalog.run')}
               </Button>
+            ) : (
+              <div />
             )
         }
       ]}
@@ -244,11 +250,12 @@ function associateAction({
     if (hasError(response)) {
       onCreateFailed();
     } else {
-      associateActionsTracker({
-        eventName: event.name,
-        actionNames: [action.name]
+      createPolicyTracker({
+        name: policy.name,
+        triggerName: event.name,
+        actionName: action.name,
+        type: 'manual'
       });
-
       triggerReload();
       setSelectedType('associatedPolicies');
       oncreateSuccess(policy.name);

@@ -6,7 +6,7 @@
 import React, { ComponentProps } from 'react';
 import classNames from 'classnames';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import locals from './ButtonGroup.mless';
 

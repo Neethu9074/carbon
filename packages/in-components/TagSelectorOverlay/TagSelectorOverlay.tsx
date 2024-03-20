@@ -62,7 +62,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
   );
 }
 
-interface Options {
+export interface Options {
   label: string;
   badge: JSX.Element | Nullish | false;
   breadcrumbAndLabel: JSX.Element;

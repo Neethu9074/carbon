@@ -11,17 +11,11 @@ import {
   AreaPermissionType,
   Capability,
   CapabilityType,
-  InfrastructureCapability,
   LimitedAccessScope,
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import {
-  automationPoliciesEnabled,
-  infraSmartAlertsEnabled,
-  logSmartAlertsEnabled,
-  syntheticRbacEnabled
-} from 'in-services/featureFlags';
+import { infraSmartAlertsEnabled, logSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -152,6 +146,16 @@ export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
   ...syntheticOtherCapabilities
 ];
 
+export const infrastructureOtherCapabilities: Array<CapabilityType> = [
+  Capability.CAN_CREATE_HEAP_DUMP,
+  Capability.CAN_CREATE_THREAD_DUMP
+];
+
+export const infrastructureAdditionalCapabilities: Array<CapabilityType> = [
+  ...infrastructureOtherCapabilities,
+  ...[AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE as CapabilityType]
+];
+
 export const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS];
 
 export const eventCapabilities: Array<CapabilityType> = [
@@ -213,7 +217,7 @@ export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS,
   Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-  ...(automationPoliciesEnabled ? [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES] : [])
+  Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
 ];
 
 export const unionGlobalCapabilities: Array<CapabilityType> = [
@@ -296,7 +300,7 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
     permission: AreaPermission.ACCESS_INFRASTRUCTURE,
     capabilities: noCapabilities,
-    additionalCapabilities: Object.values(InfrastructureCapability) as PermissionsUnion[]
+    additionalCapabilities: infrastructureAdditionalCapabilities
   },
   [ProductArea.SYNTHETICS]: {
     limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,

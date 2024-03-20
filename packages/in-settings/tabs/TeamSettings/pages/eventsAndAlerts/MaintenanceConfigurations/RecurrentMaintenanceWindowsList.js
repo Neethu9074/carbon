@@ -6,9 +6,10 @@
 import React, { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 
-import { Button, Link, Stack, Typography } from '@instana/components';
+import { Link, Stack, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 import {
   editMaintenanceWindowTracker,

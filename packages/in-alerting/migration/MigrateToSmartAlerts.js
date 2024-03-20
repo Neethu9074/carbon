@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   applicationsAlertingDeprecatedEventConfirmMigrated,
@@ -20,11 +21,8 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
-import { getCustomEventActionAssociations } from 'in-automation/api';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function MigrateToSmartAlerts({ eventSpecificationId }) {
@@ -90,8 +88,6 @@ function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSu
   );
 }
 
-const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
-
 function doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess) {
   if (migrationInProgress) {
     return;
@@ -104,33 +100,16 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
         const data = res?.data ?? {};
         const { globalApplicationsAlertConfig, applicationAlertConfig, globalSmartAlert, scopeMigrationDetails } = data;
 
-        if (hasAutomationActions && !globalSmartAlert) {
-          getCustomEventActionAssociations(eventSpecificationId).once(actionDetails => {
-            const ids = actionDetails.map(action => action.id) ?? [];
-            const config = { actionIds: ids, ...applicationAlertConfig };
-            // Call the final function with all the data
-            showSmartAlertDialog({
-              eventSpecificationId,
-              setMigrating,
-              setMigrationInProgress,
-              onSuccess,
-              globalSmartAlert,
-              config,
-              scopeMigrationDetails
-            });
-          });
-        } else {
-          const config = globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig;
-          showSmartAlertDialog({
-            eventSpecificationId,
-            setMigrating,
-            setMigrationInProgress,
-            onSuccess,
-            globalSmartAlert,
-            config,
-            scopeMigrationDetails
-          });
-        }
+        const config = globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig;
+        showSmartAlertDialog({
+          eventSpecificationId,
+          setMigrating,
+          setMigrationInProgress,
+          onSuccess,
+          globalSmartAlert,
+          config,
+          scopeMigrationDetails
+        });
       },
       () => setMigrationInProgress(false)
     );

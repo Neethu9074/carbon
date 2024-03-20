@@ -21,7 +21,7 @@ describe('LocationList', () => {
     expect(screen.getByText('Location Name')).toBeVisible();
     expect(screen.getByText('Display Name')).toBeVisible();
     expect(screen.getByText('Status')).toBeVisible();
-    expect(screen.getByText('Type')).toBeVisible();
+    expect(screen.getAllByText('Type')[1]).toBeVisible();
     expect(screen.getByText('No. of Tests Linked')).toBeVisible();
     expect(screen.getByText('Last Test Run On')).toBeVisible();
     expect(screen.getByText('Namespace')).toBeVisible();

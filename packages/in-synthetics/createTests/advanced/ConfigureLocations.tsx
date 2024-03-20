@@ -9,7 +9,7 @@ import { Field, MapForm } from 'formalistic';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports

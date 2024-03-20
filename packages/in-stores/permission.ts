@@ -17,7 +17,6 @@ import {
   zhmcEnabled,
   sloV2Enabled,
   powervcEnabled,
-  automationPoliciesEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled
 } from 'in-services/featureFlags';
@@ -107,7 +106,9 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS',
-  CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS'
+  CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS',
+  CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -652,6 +653,20 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanConfigureSyntheticCredentialsLabel'),
     description: t('in-stores:permissionCanConfigureSyntheticCredentialsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_CREATE_HEAP_DUMP]: {
+    keyForGroupApi: Capability.CAN_CREATE_HEAP_DUMP,
+    keyForApiTokenApi: '',
+    label: t('in-stores:permissionCanCreateHeapDumpLabel'),
+    description: t('in-stores:permissionCanCreateHeapDumpDescription'),
+    category: t('in-stores:permissionInfrastructureCategory')
+  },
+  [Capability.CAN_CREATE_THREAD_DUMP]: {
+    keyForGroupApi: Capability.CAN_CREATE_THREAD_DUMP,
+    keyForApiTokenApi: '',
+    label: t('in-stores:permissionCanCreateThreadDumpLabel'),
+    description: t('in-stores:permissionCanCreateThreadDumpDescription'),
+    category: t('in-stores:permissionInfrastructureCategory')
   }
 };
 
@@ -694,10 +709,6 @@ export function getProductPermissions(): Array<ProductPermission> {
 
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return !automationCapabilities.has(keyForGroupApi);
-    });
-  } else if (!automationPoliciesEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_CONFIGURE_AUTOMATION_POLICIES;
     });
   }
 

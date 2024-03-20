@@ -28,28 +28,29 @@ export function scriptDetailsUpdater(
   isUpdated: boolean,
   scriptDetails?: Code
 ) {
-  return isUpdateConfig && !isUpdated
-    ? configForm.get('script')
-      ? {
-          name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
-          text: (configForm.get('script') as Field<string>).value,
-          extension: isSideScript((configForm.get('script') as Field<string>).value) ? 'side' : 'js'
-        }
-      : {
-          name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
-          text: (configForm.getIn(['scripts', 'bundle']) as Field<string>).value,
-          scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
-          extension: 'zip'
-        }
-    : scriptDetails?.modified && configForm.get('script')
-    ? {
-        name: scriptDetails?.name,
+  const isSide = isSideScript((configForm.get('script') as Field<string>)?.value);
+  if (isUpdateConfig && !isUpdated) {
+    if (configForm.get('script')) {
+      return {
+        name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
         text: (configForm.get('script') as Field<string>).value,
-        extension: isNotBlank(scriptDetails?.name)
-          ? isSideScript((configForm.get('script') as Field<string>).value)
-            ? 'side'
-            : 'js'
-          : ''
-      }
-    : { name: '', text: '', extension: 'js' };
+        extension: isSide ? 'side' : 'js'
+      };
+    } else {
+      return {
+        name: t('in-synthetics:dialog.updateTest.bundleSavedMessage'),
+        text: (configForm.getIn(['scripts', 'bundle']) as Field<string>).value,
+        scriptFile: (configForm.getIn(['scripts', 'scriptFile']) as Field<string>).value,
+        extension: 'zip'
+      };
+    }
+  } else if (scriptDetails?.modified && configForm.get('script')) {
+    return {
+      name: scriptDetails?.name,
+      text: (configForm.get('script') as Field<string>).value,
+      extension: isNotBlank(scriptDetails?.name) ? (isSide ? 'side' : 'js') : ''
+    };
+  } else {
+    return { name: '', text: '', extension: 'js' };
+  }
 }

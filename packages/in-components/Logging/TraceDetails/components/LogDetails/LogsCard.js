@@ -26,6 +26,7 @@ import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Char
 import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
 import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils/index';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -83,8 +84,7 @@ function getData({ callId, timeConfig }) {
       data: []
     });
   }
-
-  return getLogs({
+  const callBody = {
     timeConfig,
     retrievalSize: maxRetrievalSize,
     tagFilterExpression: toBackendQueryModel(
@@ -110,7 +110,16 @@ function getData({ callId, timeConfig }) {
       LOG_EXCEPTION_STACK_TRACE,
       SPAN_STACK_TRACE
     ]
-  });
+  };
+
+  const mixpanelProps = {
+    timeConfig: callBody.timeConfig,
+    tagFilterExpression: callBody.tagFilterExpression
+  };
+
+  handleLogCallsWithFilters(mixpanelProps);
+
+  return getLogs(callBody);
 }
 
 export default LogsCard;
