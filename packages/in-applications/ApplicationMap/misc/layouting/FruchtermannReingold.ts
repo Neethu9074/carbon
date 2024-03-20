@@ -3,6 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  ApplicationMapDimensions,
+  ApplicationMapEdge,
+  ApplicationMapGraph,
+  ApplicationMapGraphNode,
+  ApplicationMapNode,
+  ApplicationMapNodePosition
+} from 'in-applications/types';
+
 /* eslint-disable complexity */
 const ITERATIONS = 1000;
 const SPEED = 0.1;
@@ -13,16 +22,28 @@ export default {
   getCameraPositionByDimensions
 };
 
-function applyLayout({ nodes, edges, positionsMap }) {
+function applyLayout({
+  nodes,
+  edges,
+  positionsMap
+}: {
+  nodes: Map<string, ApplicationMapNode>;
+  edges: Map<string, ApplicationMapEdge>;
+  positionsMap: Map<string, ApplicationMapNodePosition>;
+}) {
   const sigmaGraph = buildSigmaGraphStructure(nodes, edges, positionsMap);
-  start(sigmaGraph);
+  go(sigmaGraph);
   applyPositionUpdate(sigmaGraph, positionsMap);
 }
 
-function buildSigmaGraphStructure(nodes, edges, positionsMap) {
-  const graph = {
+function buildSigmaGraphStructure(
+  nodes: Map<string, ApplicationMapNode>,
+  edges: Map<string, ApplicationMapEdge>,
+  positionsMap: Map<string, ApplicationMapNodePosition>
+) {
+  const graph: ApplicationMapGraph = {
     nodes: [],
-    nodeMap: {},
+    nodeMap: new Map<string, ApplicationMapGraphNode>(),
     edges: []
   };
 
@@ -30,21 +51,29 @@ function buildSigmaGraphStructure(nodes, edges, positionsMap) {
   for (const node of nodeSceneObjects) {
     const storedNodePosition = positionsMap.get(node.id);
 
-    const sigmaNode = {
+    const sigmaNode: ApplicationMapGraphNode = {
       id: node.id,
       x: Math.random(),
       y: Math.random(),
       size: 1,
-      inNode: node
+      inNode: node,
+      fixed: false,
+      fr_x: 0,
+      fr_y: 0,
+      fr: { dx: 0, dy: 0 }
     };
-    graph.nodeMap[node.id] = sigmaNode;
-    graph.nodes.push(sigmaNode);
 
     if (storedNodePosition) {
       sigmaNode.fixed = true;
       sigmaNode.x = storedNodePosition.x;
       sigmaNode.y = storedNodePosition.y;
     }
+
+    sigmaNode.fr_x = sigmaNode.x / SCALE;
+    sigmaNode.fr_y = sigmaNode.y / SCALE;
+
+    graph.nodeMap.set(node.id, sigmaNode);
+    graph.nodes.push(sigmaNode);
   }
 
   let edgeIdCounter = 0;
@@ -60,21 +89,7 @@ function buildSigmaGraphStructure(nodes, edges, positionsMap) {
   return graph;
 }
 
-function start(graph) {
-  // Init nodes
-  graph.nodes.forEach(node => {
-    node.fr_x = node.x / SCALE;
-    node.fr_y = node.y / SCALE;
-    node.fr = {
-      dx: 0,
-      dy: 0
-    };
-  });
-
-  go(graph);
-}
-
-function go(graph) {
+function go(graph: ApplicationMapGraph) {
   const nodesCount = graph.nodes.length;
   const area = nodesCount * nodesCount;
   const maxDisplace = nodesCount / 10;
@@ -87,7 +102,7 @@ function go(graph) {
   }
 }
 
-function atomicGo(graph, maxDisplace, k, gravity) {
+function atomicGo(graph: ApplicationMapGraph, maxDisplace: number, k: number, gravity: number) {
   const nodes = graph.nodes;
   const edges = graph.edges;
   const nodesCount = nodes.length;
@@ -142,8 +157,8 @@ function atomicGo(graph, maxDisplace, k, gravity) {
     e = edges[i];
 
     // Attraction force
-    nSource = graph.nodeMap[e.source];
-    nTarget = graph.nodeMap[e.target];
+    nSource = graph.nodeMap.get(e.source);
+    nTarget = graph.nodeMap.get(e.target);
 
     if (!nSource || !nTarget) {
       continue;
@@ -200,9 +215,10 @@ function atomicGo(graph, maxDisplace, k, gravity) {
   if (totalDistance < 0.001) {
     return true;
   }
+  return false;
 }
 
-function applyPositionUpdate(graph, positionsMap) {
+function applyPositionUpdate(graph: ApplicationMapGraph, positionsMap: Map<string, ApplicationMapNodePosition>) {
   // frequently used aspect ratio on monitors
   const aspectRatio = 16 / 9;
 
@@ -224,6 +240,6 @@ function applyPositionUpdate(graph, positionsMap) {
   });
 }
 
-function getCameraPositionByDimensions({ minX, maxX, minY, maxY }) {
+function getCameraPositionByDimensions({ minX, maxX, minY, maxY }: ApplicationMapDimensions) {
   return { x: (maxX + minX) / 2, y: (maxY + minY) / 2 };
 }
