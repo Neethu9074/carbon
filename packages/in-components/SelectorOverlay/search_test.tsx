@@ -82,6 +82,27 @@ const nodes: Options[] = [
   }
 ];
 
+const namespaceOptions: Options[] = [
+  {
+    label: 'uid',
+    description: 'Kubernetes Namespace UID',
+    keywords: 'Kubernetes namespace uid',
+    badge: null,
+    breadcrumbAndLabel: <></>,
+    tagName: 'kubernetes.namespace.uid',
+    children: []
+  },
+  {
+    label: 'name',
+    description: 'Kubernetes namespace name',
+    keywords: 'Kubernetes namespace name',
+    badge: null,
+    breadcrumbAndLabel: <></>,
+    tagName: 'kubernetes.namespace.name',
+    children: []
+  }
+];
+
 describe('in-components/SelectorOverlay/search', () => {
   it('should return the whole tree if the query is empty', () => {
     expect(search(nodes, '')).to.deep.equal(nodes);
@@ -112,6 +133,28 @@ describe('in-components/SelectorOverlay/search', () => {
         keywords: '',
         tagName: '',
         breadcrumbAndLabel: <></>
+      }
+    ]);
+  });
+  it('should sort by relevance', () => {
+    expect(search(namespaceOptions, 'namespace name')).to.deep.equal([
+      {
+        label: 'name',
+        description: 'Kubernetes namespace name',
+        keywords: 'Kubernetes namespace name',
+        badge: null,
+        breadcrumbAndLabel: <></>,
+        tagName: 'kubernetes.namespace.name',
+        children: []
+      },
+      {
+        label: 'uid',
+        description: 'Kubernetes Namespace UID',
+        keywords: 'Kubernetes namespace uid',
+        badge: null,
+        breadcrumbAndLabel: <></>,
+        tagName: 'kubernetes.namespace.uid',
+        children: []
       }
     ]);
   });

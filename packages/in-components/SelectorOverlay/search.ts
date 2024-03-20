@@ -11,7 +11,7 @@ import { Options } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 // Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
 const RANGE = 100;
 const FUZZY_SEARCH_THRESHOLD = (1 + 2 + 3 + 4) * RANGE;
-const KEYS = ['tagName', 'label', 'keywords', 'description'];
+const KEYS = ['label', 'keywords', 'tagName', 'description'];
 
 export function search(nodes: Options[], query: string) {
   if (!query) {
