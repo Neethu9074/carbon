@@ -469,7 +469,7 @@ export const fullyQualifiedPlugins = {
   drbdResource: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.resource.DrbdResource',
   drbdDevice: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.device.DrbdDevice',
   drbdConnection: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.connection.DrbdConnection',
-  drbdPeer: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.peer.DrbdPeer',
+  drbdPeer: 'com.instana.forge.infrastructure.storage.drbd.derivedentity.peerdevice.DrbdPeerDevice',
   dropwizardApplicationContainer:
     'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
