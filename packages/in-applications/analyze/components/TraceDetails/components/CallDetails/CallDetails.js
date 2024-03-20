@@ -234,9 +234,9 @@ function DisplayTimeData({ values }) {
         const formatter = value.formatter ?? latencyFixed.compact;
         const durationValue = duration == null ? valueMissingPlaceholder : `${formatter(duration)}`;
         const durationInPercent =
-          !totalDuration || duration == null || !showDurationInpercent
-            ? null
-            : '(' + (((duration / totalDuration) * 100) | 0) + '%)';
+          totalDuration >= 1 && duration >= 1 && showDurationInpercent
+            ? '(' + (((duration / totalDuration) * 100) | 0) + '%)'
+            : null;
 
         return (
           <Di title={label} key={label}>
