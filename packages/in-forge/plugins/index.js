@@ -210,6 +210,7 @@ import './tuxedoMachine';
 import './sapHanaSystem';
 import './sapDbInstance';
 import './powerVCRegion';
+import './ibmiDiskInfo';
 import './ibmMqMftZone';
 import './ibmCloudEtcd';
 import './awsBeanstalk';

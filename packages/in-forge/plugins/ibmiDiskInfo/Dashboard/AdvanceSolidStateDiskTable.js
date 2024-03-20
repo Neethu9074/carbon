@@ -6,15 +6,18 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, percentage, bytes } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.resourceName'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.resourceName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.unitNumber'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -39,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.aspNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.aspNumber'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +59,7 @@ const cols = [
   },
 
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.serialNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.serialNumber'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -65,7 +68,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdPFAWarning'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.ssdPFAWarning'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -74,7 +77,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdReadWriteProtected'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.ssdReadWriteProtected'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -83,55 +86,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdLifeRemaining'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSolidStateDiskMetrics.${row.key}.ssdLifeRemaining`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdSupportedBytesWritten'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSolidStateDiskMetrics.${row.key}.ssdSupportedBytesWritten`;
-      },
-      getContent: bytes.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdBytesWritten'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSolidStateDiskMetrics.${row.key}.ssdBytesWritten`;
-      },
-      getContent: bytes.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdPowerOnDays'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.ssdPowerOnDays'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -141,23 +96,6 @@ const cols = [
         return `advanceSolidStateDiskMetrics.${row.key}.ssdPowerOnDays`;
       },
       getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.percentUsed'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `advanceSolidStateDiskMetrics.${row.key}.percentUsed`;
-      },
-      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -196,12 +134,61 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')}
+        cardTitle={t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.name')}
         cols={cols}
         rows={rows}
-        initialSortColumn={2}
+        initialSortColumn={0}
         initialSortDirection="desc"
+        getRowDetails={getRowDetails}
       />
     );
   }
 );
+
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Columize>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: percentage.detailed,
+            metrics: [
+              'advanceSolidStateDiskMetrics.' + row.key + '.ssdLifeRemaining',
+              'advanceSolidStateDiskMetrics.' + row.key + '.percentUsed'
+            ],
+            labels: [
+              t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.ssdLifeRemaining'),
+              [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.percentUsed')]
+            ],
+            min: 0,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: bytes.detailed,
+            metrics: [
+              'advanceSolidStateDiskMetrics.' + row.key + '.ssdSupportedBytesWritten',
+              'advanceSolidStateDiskMetrics.' + row.key + '.ssdBytesWritten'
+            ],
+            labels: [
+              t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.ssdSupportedBytesWritten'),
+              [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.solidStateDisk.ssdBytesWritten')]
+            ],
+            min: 0,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </Columize>
+    </div>
+  );
+}

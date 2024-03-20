@@ -1,7 +1,6 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import React from 'react';
@@ -15,14 +14,14 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.unitNumber'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `basicSolidStateDiskMetrics.${row.key}.unitNumber`;
+        return `basicSpinningDiskTypeMetrics.${row.key}.unitNumber`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -31,14 +30,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.aspNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.aspNumber'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `basicSolidStateDiskMetrics.${row.key}.aspNumber`;
+        return `basicSpinningDiskTypeMetrics.${row.key}.aspNumber`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -47,14 +46,23 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.diskType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.spinningDiskTypeRawData.get('diskType');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.unitStorageCapacity'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `basicSolidStateDiskMetrics.${row.key}.unitStorageCapacity`;
+        return `basicSpinningDiskTypeMetrics.${row.key}.unitStorageCapacity`;
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
@@ -63,14 +71,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.percentUsed'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.percentUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `basicSolidStateDiskMetrics.${row.key}.percentUsed`;
+        return `basicSpinningDiskTypeMetrics.${row.key}.percentUsed`;
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
@@ -84,23 +92,23 @@ export default connectTo(
   props => {
     const { snapshotId } = props;
     return {
-      data: getRawPayloadWithTimestamp(snapshotId, 'basicSolidStateDiskRawPayload')
+      data: getRawPayloadWithTimestamp(snapshotId, 'basicSpinningDiskTypeRawPayload')
     };
   },
-  function BasicSolidStateDiskTable({ data, snapshotId, timeConfig }) {
+  function BasicSpinningDiskTypeTable({ data, snapshotId, timeConfig }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-    const basicSolidStateDiskRawPayload = data.get('raw_payload');
-    if (basicSolidStateDiskRawPayload.size === 0) {
+    const basicSpinningDiskTypeRawPayload = data.get('raw_payload');
+    if (basicSpinningDiskTypeRawPayload.size === 0) {
       return null;
     }
 
-    const rows = basicSolidStateDiskRawPayload
-      .map((solidStateDiskRawData, key) => {
+    const rows = basicSpinningDiskTypeRawPayload
+      .map((spinningDiskTypeRawData, key) => {
         return {
           key,
-          solidStateDiskRawData,
+          spinningDiskTypeRawData,
           timeConfig,
           snapshotId
         };
@@ -113,7 +121,7 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')}
+            title={t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.name')}
             timestamp={data.get('timestamp')}
           />
         }

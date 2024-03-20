@@ -866,6 +866,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmiDiskInfo_plural": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_0": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_2": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo": "Disk Information on IBM i",
   "pluginName_ibmIOs_plural": "IBM i",
   "pluginName_ibmIOs_0": "IBM i",
   "pluginName_ibmIOs_1": "IBM i",
@@ -10290,6 +10295,68 @@
         }
       }
     },
+    "ibmiDiskInfo": {
+      "name": "Disk Information on IBM i",
+      "dashboard":{
+        "tables":{
+          "spinningDiskType": {
+            "name": "Hardware Disk Drives(HDD) Info",
+            "resourceName": "Resource Name",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "diskModel": "Disk Model",
+            "unitNumber": "Unit Number",
+            "aspNumber": "ASP Number",
+            "unitStorageCapacity": "Storage Capacity",
+            "unitMediaCapacityGb": "Media Capacity(GB)",
+            "charts": {
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
+          },
+          "solidStateDisk": {
+            "name": "Solid State Disk(SSD) Info",
+            "resourceName": "Resource Name",
+            "unitStorageCapacity": "Storage Capacity",
+            "percentUsed": "Percent Used",
+            "unitNumber": "Unit Number",
+            "serialNumber": "Serial Number",
+            "aspNumber": "ASP Number",
+            "ssdLifeRemaining": "SSD Remaining Life",
+            "ssdPowerOnDays": "SSD Power On days",
+            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
+            "ssdBytesWritten": "SSD Bytes Written",
+            "ssdReadWriteProtected": "SSD Read Write Protected",
+            "ssdPFAWarning": "SSD PFA Warning"
+          },
+          "systemDiskStatus": {
+            "name": "System Overall Disk Information",
+            "resourceName": "Resource Name",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "unitNumber": "Unit Number",
+            "aspNumber": "ASP Number",
+            "typeOfDiskUnit": "Type of Disk Unit",
+            "charts": {
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
+          },
+          "nonVolatileMemory": {
+            "name": "Non Volatile Memory Express(NVMe) Information",
+            "resourceName": "Resource Name",
+            "hardwareModelNumber": "Model Number",
+            "lifeRemaining": "Life Remaining",
+            "spareCapacity": "Spare Capacity",
+            "spareCapacityThreshold": "Spare Capacity Threshold",
+            "namespaceUsed": "Namespace Used",
+            "powerCycles": "Power Cycles",
+            "powerOnHours": "Power On (in Hours)",
+            "mediaErrors": "Media Errors",
+            "unSafeShutDowns": "Unsafe Shutdowns",
+            "firmwareLevel": "Firmware Level"
+          }
+        }
+      }
+    },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
       "dashboard":{
@@ -10496,66 +10563,12 @@
             "messageTimestamp": "Timestamp",
             "messageText": "Text",
             "messageSecondLevelText": "Second Level Text"
-          },
-          "spinningDiskType": {
-            "name": "Hardware Disk Drives (HDD) Info",
-            "resourceName": "Resource Name",
-            "percentUsed": "Percent Used",
-            "diskType": "Disk Type",
-            "diskModel": "Disk Model",
-            "unitNumber": "Unit Number",
-            "aspNumber": "ASP Number",
-            "unitStorageCapacity": "Storage Capacity",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
-          },
-          "solidStateDisk": {
-            "name": "Solid State Disk (SSD) Info",
-            "resourceName": "Resource Name",
-            "unitStorageCapacity": "Storage Capacity",
-            "percentUsed": "Percent Used",
-            "unitNumber": "Unit Number",
-            "serialNumber": "Serial Number",
-            "aspNumber": "ASP Number",
-            "ssdLifeRemaining": "SSD Remaining Life",
-            "ssdPowerOnDays": "SSD Power On days",
-            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
-            "ssdBytesWritten": "SSD Bytes Written",
-            "ssdReadWriteProtected": "SSD Read Write Protected",
-            "ssdPFAWarning": "SSD PFA Warning"
-          },
-          "systemDiskStatus": {
-            "name": "System Overall Disk Information",
-            "resourceName": "Resource Name",
-            "percentUsed": "Percent Used",
-            "diskType": "Disk Type",
-            "unitNumber": "Unit Number",
-            "aspNumber": "ASP Number",
-            "typeOfDiskUnit": "Type of Disk Unit",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
-          },
-          "nonVolatileMemory": {
-            "name": "Non Volatile Memory Express(NVMe) Information",
-            "resourceName": "Resource Name",
-            "hardwareModelNumber": "Model Number",
-            "lifeRemaining": "Life Remaining",
-            "spareCapacity": "Spare Capacity",
-            "spareCapacityThreshold": "Spare Capacity Threshold",
-            "namespaceUsed": "Namespace Used",
-            "powerCycles": "Power Cycles",
-            "powerOnHours": "Power On Hours",
-            "mediaErrors": "Media Errors",
-            "unSafeShutDowns": "Unsafe Shutdowns",
-            "firmwareLevel": "Firmware Level"
           }
         }
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "diskInfo": "Disk Information",
       "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
