@@ -28,9 +28,12 @@ export default function useSloFormatter({ indicatorType, sloEntityType }: useSlo
 function getEventBasedFormatter(sloEntityType: SloEntityType): (value: number) => string {
   return value => {
     if (value >= 10000) {
+      const thousandthVal = value / 1000;
+      const detailedValue = number.detailed(thousandthVal);
       return t('in-service-levels:sloChart.sloFormatter.thousandCallsFormat', {
         entityType: sloEntityType,
-        count: number.detailed(value / 1000)
+        formattedCount: detailedValue,
+        count: thousandthVal
       });
     }
 
