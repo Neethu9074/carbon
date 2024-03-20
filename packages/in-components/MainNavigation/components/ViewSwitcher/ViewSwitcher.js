@@ -424,7 +424,7 @@ function SloDashboard(props) {
 function AutomationMenu(props) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!role.canConfigureAutomationActions || !actionAutomationEnabled) {
+  if (!actionAutomationEnabled) {
     return null;
   }
 

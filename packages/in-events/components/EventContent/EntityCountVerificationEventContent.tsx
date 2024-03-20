@@ -31,7 +31,6 @@ import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
 import { line } from 'in-stores/metric/renderer';
 import { TimeConfig } from 'in-types';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -111,13 +110,9 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
         </Col>
       </Row>
 
-      {role?.canConfigureAutomationPolicies &&
-        role.canConfigureAutomationActions &&
-        actionAutomationEnabled &&
-        isIssue &&
-        hasEventSpec && (
-          <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
-        )}
+      {actionAutomationEnabled && isIssue && hasEventSpec && (
+        <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
+      )}
     </>
   );
 }

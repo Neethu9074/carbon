@@ -48,13 +48,11 @@ export default function ViewSwitcher() {
               }}
             />
           )}
-          {role?.canConfigureAutomationPolicies && (
-            <SecondLevelNavigationItem
-              href={createHrefToPath(policiesFullyQualified)}
-              label={t('in-automation:policies.policies')}
-              isActive={isPoliciesActive}
-            />
-          )}
+          <SecondLevelNavigationItem
+            href={createHrefToPath(policiesFullyQualified)}
+            label={t('in-automation:policies.policies')}
+            isActive={isPoliciesActive}
+          />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
