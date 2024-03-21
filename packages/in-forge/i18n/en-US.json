@@ -538,11 +538,11 @@
   "pluginName_drbdConnection_1": "DRBD Connections",
   "pluginName_drbdConnection_2": "DRBD Connections",
   "pluginName_drbdConnection": "DRBD Connection",
-  "pluginName_drbdPeer_plural": "DRBD Peer Devices",
-  "pluginName_drbdPeer_0": "DRBD Peer Devices",
-  "pluginName_drbdPeer_1": "DRBD Peer Devices",
-  "pluginName_drbdPeer_2": "DRBD  Peer devices",
-  "pluginName_drbdPeer": "DRBD Peer Device",
+  "pluginName_drbdPeerDevice_plural": "DRBD Peer Devices",
+  "pluginName_drbdPeerDevice_0": "DRBD Peer Devices",
+  "pluginName_drbdPeerDevice_1": "DRBD Peer Devices",
+  "pluginName_drbdPeerDevice_2": "DRBD  Peer devices",
+  "pluginName_drbdPeerDevice": "DRBD Peer Device",
   "pluginName_dropwizardApplicationContainer_plural": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_0": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_1": "Dropwizard Apps",
@@ -6958,11 +6958,11 @@
       "connectionApInFlightBytes": "Application Requests Bytes",
       "connectionRsInFlightBytes": "Resync Requests Bytes"
     },
-    "drbdPeer": {
+    "drbdPeerDevice": {
       "dashboard": {
         "peerDeviceOutOfSyncBytes": "Out of Sync Bytes"
       },
-      "drbdPeer": "DRBD Peer Device",
+      "drbdPeerDevice": "DRBD Peer Device",
       "peerDeviceName": "Peer Device Name",
       "connectionName": "Connection Name",
       "peerNodeId": "Peer Node Id",

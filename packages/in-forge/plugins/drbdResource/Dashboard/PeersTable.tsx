@@ -20,7 +20,7 @@ import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const peerLinkCol = {
-  title: t('in-forge:plugins.drbdPeer.peerDeviceName'),
+  title: t('in-forge:plugins.drbdPeerDevice.peerDeviceName'),
   type: 'snapshotLink',
   typeArgs: {
     getSnapshotId(row: any) {
@@ -30,7 +30,7 @@ const peerLinkCol = {
 };
 
 const peerDataCol1 = {
-  title: t('in-forge:plugins.drbdPeer.connectionName'),
+  title: t('in-forge:plugins.drbdPeerDevice.connectionName'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -39,7 +39,7 @@ const peerDataCol1 = {
   }
 };
 const peerDataCol2 = {
-  title: t('in-forge:plugins.drbdPeer.peerNodeId'),
+  title: t('in-forge:plugins.drbdPeerDevice.peerNodeId'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -48,7 +48,7 @@ const peerDataCol2 = {
   }
 };
 const peerDataCol3 = {
-  title: t('in-forge:plugins.drbdPeer.volume'),
+  title: t('in-forge:plugins.drbdPeerDevice.volume'),
   type: 'string',
   typeArgs: {
     getValue(row: any) {
@@ -58,7 +58,7 @@ const peerDataCol3 = {
 };
 
 const peerMetricsCol = {
-  title: t('in-forge:plugins.drbdPeer.peerDeviceOutOfSyncBytes'),
+  title: t('in-forge:plugins.drbdPeerDevice.peerDeviceOutOfSyncBytes'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row: any) {

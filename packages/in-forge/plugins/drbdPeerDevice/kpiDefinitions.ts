@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.drbdPeer.peerDeviceOutOfSyncBytes'),
+    label: t('in-forge:plugins.drbdPeerDevice.peerDeviceOutOfSyncBytes'),
     metric: 'peerDeviceOutOfSyncBytes',
     formatter: number.compact
   }

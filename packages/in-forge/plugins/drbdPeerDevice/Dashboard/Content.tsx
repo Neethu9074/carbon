@@ -6,19 +6,20 @@
 
 import React from 'react';
 
+import { TimeConfig } from '@instana/types';
+
+// @ts-expect-error Module needs to be translated to TS
+import MetricValue from 'in-components/MetricValue';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
-// @ts-expect-error Module needs to be translated to TS
-import MetricValue from 'in-components/MetricValue';
-import { t } from 'in-i18n';
-import { TimeConfig } from '@instana/types';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
-export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
+export default function PeerDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -27,18 +28,18 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutOfSyncBytes')}>
+        <KpiKeyValue label={t('in-forge:plugins.drbdPeerDevice.dashboard.peerDeviceOutOfSyncBytes')}>
           <MetricValue snapshotId={snapshotId} metric="peerDeviceOutOfSyncBytes" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutOfSyncBytes')}>
+        <DashboardSection title={t('in-forge:plugins.drbdPeerDevice.dashboard.peerDeviceOutOfSyncBytes')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['peerDeviceOutOfSyncBytes'],
-              labels: [t('in-forge:plugins.drbdPeer.dashboard.peerDeviceOutOfSyncBytes')],
+              labels: [t('in-forge:plugins.drbdPeerDevice.dashboard.peerDeviceOutOfSyncBytes')],
               type: 'line',
               formatter: number.compact
             }}

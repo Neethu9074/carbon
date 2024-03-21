@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import metricDefinitions from 'in-forge/plugins/drbdPeerDevice/metricDefinitions';
 // @ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from 'in-forge/plugins/drbdPeer/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/drbdPeer/kpiDefinitions';
+import kpiDefinitions from 'in-forge/plugins/drbdPeerDevice/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.drbdPeer,
+  plugin: plugins.drbdPeerDevice,
   kpiDefinitions,
   metricDefinitions
 });

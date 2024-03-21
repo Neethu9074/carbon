@@ -10,7 +10,7 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: ['peerDeviceOutOfSyncBytes'],
-    labels: [t('in-forge:plugins.drbdPeer.peerDeviceOutOfSyncBytes')],
+    labels: [t('in-forge:plugins.drbdPeerDevice.peerDeviceOutOfSyncBytes')],
     min: 0,
     formatter: zeroDecimalPlaces
   }

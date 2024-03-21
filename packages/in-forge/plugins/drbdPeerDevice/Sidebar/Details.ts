@@ -4,5 +4,5 @@
  * Copyright IBM Corp. 2023
  */
 
-import Details from 'in-forge/plugins/drbdPeer/Dashboard/Sidebar';
+import Details from 'in-forge/plugins/drbdPeerDevice/Dashboard/Sidebar';
 export default Details;
