@@ -118,10 +118,10 @@ export default connectTo(
       return null;
     }
 
-    const rows = connectionNames.toArray().map(connName => {
+    const rows = connectionNames.toArray().map(connUniqueName => {
       return {
-        key: connName,
-        name: connName,
+        key: connUniqueName,
+        name: connUniqueName,
         snapshotId: snapshot.get('id'),
         timeConfig
       };
