@@ -22,6 +22,8 @@ import GlobalTheme from 'in-themes/GlobalTheme';
 import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
 
+const trackingService = createTracker('onboarding');
+
 export default function InstanaOnboardingComponent({ onDialogSkip }) {
   useDisabledBodyScroll();
 
@@ -32,7 +34,6 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
     checkResult: result => checkIfUserCanPass(result.hasEntities)
   });
   const keys = useObservable(getUnitKeys, []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
-  const trackingService = createTracker('onboarding');
 
   if (!accountConfig) {
     return <LoadingIndicator height="100vh" />;

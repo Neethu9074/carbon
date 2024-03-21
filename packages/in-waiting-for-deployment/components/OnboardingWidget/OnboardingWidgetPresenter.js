@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import InstallDocumentation from 'in-waiting-for-deployment/components/OnboardingWidget/InstallDocumentation';
 import ProgressSection from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressSection';
@@ -12,6 +12,11 @@ import InfoSection from 'in-waiting-for-deployment/components/OnboardingWidget/I
 import locals from './OnboardingWidgetPresenter.mless';
 
 export default function OnboardingWidgetPresenter(props) {
+  useEffect(() => {
+    props.trackingService.dialogOpened();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={locals.wrapper}>
       <InstallDocumentation {...props} />

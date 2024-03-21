@@ -15,7 +15,8 @@ import {
   ONBOARDING_AGENT_DETAILS_PAGE_OPENED,
   ONBOARDING_CATALOG_PAGE_SEARCH_USED,
   ONBOARDING_DEPLOY_AGENTS_BUTTON_CLICKED,
-  ONBOARDING_GOTO_INSTANA_BUTTON_CLICKED
+  ONBOARDING_GOTO_INSTANA_BUTTON_CLICKED,
+  ONBOARDING_SIGN_INTO_INSTANA_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
 
 export default function createTracker(prefix: string) {
@@ -32,7 +33,8 @@ export default function createTracker(prefix: string) {
       track(`${prefix}${ONBOARDING_CATALOG_PAGE_SEARCH_USED}`, e),
     agentDetailsPageOpened: () => track(`${prefix}${ONBOARDING_AGENT_DETAILS_PAGE_OPENED}`),
     deployAgentsButtonClicked: () => track(`${prefix}${ONBOARDING_DEPLOY_AGENTS_BUTTON_CLICKED}`),
-    gotoInstanaButtonClicked: () => track(`${prefix}${ONBOARDING_GOTO_INSTANA_BUTTON_CLICKED}`)
+    gotoInstanaButtonClicked: () => track(`${prefix}${ONBOARDING_GOTO_INSTANA_BUTTON_CLICKED}`),
+    signInToInstanaButtonClicked: () => track(`${prefix}${ONBOARDING_SIGN_INTO_INSTANA_BUTTON_CLICKED}`)
   };
 }
 
