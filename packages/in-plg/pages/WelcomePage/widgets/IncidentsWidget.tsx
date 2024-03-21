@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Link, Stack, Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -30,6 +31,13 @@ export default connectTo(() => ({
   timeConfig: timeConfig$,
   openEventsAtServerTime: openEventsAtServerTime$
 }))(function IncidentsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
+  const fullListViewHref = useObservable(
+    getEventsViewFilteredBy({
+      eventTypeFilter: 'incident',
+      timeConfig
+    }),
+    []
+  );
   const getHeaders = () => {
     return [
       {
@@ -63,13 +71,6 @@ export default connectTo(() => ({
         by: 'start',
         direction: 'DESC'
       }
-    });
-  }
-
-  function getLinkToEventsList(timeConfig: TimeConfig) {
-    return getEventsViewFilteredBy({
-      eventTypeFilter: 'incident',
-      timeConfig
     });
   }
 
@@ -108,7 +109,6 @@ export default connectTo(() => ({
         return (
           <Stack direction="horizontal" align="center">
             <HealthDot severity={item.severity} iconSize={10} />
-            {/* <Link>{item.title}</Link> */}
             <Link href={onItemClicked(item.id)}>{item.title}</Link>
           </Stack>
         );
@@ -146,7 +146,7 @@ export default connectTo(() => ({
       {...generalProps}
       getItems={getIncidentData}
       viewAll
-      href={getLinkToEventsList(timeConfig)}
+      href={fullListViewHref}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
     />
