@@ -7,14 +7,22 @@
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { AgentSnapshotResponse } from 'in-plg/api/AgentSnapshot';
+import createTracker from 'in-waiting-for-deployment/tracker';
 import { getAgentSnapshots } from 'in-plg/api/NetworkUtil';
 import { t } from 'in-i18n';
 
-const GetDeployedAgents = ({ agent }: { agent: string }): JSX.Element => {
+interface GetDeployedAgentsProps {
+  agent: string;
+  fromOnboarding?: boolean;
+}
+
+const trackingService = createTracker('agent.installation');
+
+const GetDeployedAgents = ({ agent, fromOnboarding = false }: GetDeployedAgentsProps): JSX.Element | null => {
   const DEPLOYED_AGENT_CHECK_INTERVAL: number = 10000;
   const [deployedAgentsCount, setDeployedAgentsCount] = useState<number>(0);
   const [intervalCounter, setIntervalCounter] = useState<number>(0);
@@ -48,9 +56,15 @@ const GetDeployedAgents = ({ agent }: { agent: string }): JSX.Element => {
 
   return (
     <LayoutSection title={t('in-plg:agentDetails.common.openAgentDashboardOptional')}>
-      <Button disabled={!deployedAgentsCount} href={`/#/physical?q=${agent}`}>
-        {t('in-plg:agentDetails.common.viewDeployedAgents')}
-      </Button>
+      {!fromOnboarding ? (
+        <Button
+          disabled={!deployedAgentsCount}
+          href={`/#/physical?q=${agent}&timeline.to&timeline.fm&timeline.ar=true`}
+          onClick={() => trackingService.deployAgentsButtonClicked()}
+        >
+          {t('in-plg:agentDetails.common.viewDeployedAgents')}
+        </Button>
+      ) : null}
     </LayoutSection>
   );
 };

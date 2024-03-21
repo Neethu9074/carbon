@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "状況",
-      "remainingBudget": "残りのエラー予算",
+      "remainingBudget": "残り",
       "totalBudget": "エラー予算",
       "consumedBudget": "消費されたエラー予算",
       "momentaryBudgetConsumption": "エラー予算の使用量",
@@ -127,18 +127,15 @@
     "customFilter": "カスタム・フィルター (オプション)",
     "title": "サービス・レベル目標 (SLO) の作成",
     "selectIndicator": "ブループリントの選択",
-    "selectEntityNavItem": "エンティティーの選択",
+    "selectEntityNavItem": "エンティティーの設定",
     "selectEntityTitle": "SLO を追加するエンティティーの選択:",
-    "selectScopeNavItem": "スコープの選択",
-    "selectScopeTitle": "スコープの選択",
-    "selectIndicatorTitle": "SLI インディケーター",
+    "selectScopeNavItem": "スコープの設定",
     "selectIndicatorNavItem": "インジケーターの設定",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP 要求",
       "beaconLabel_pageLoad": "Web サイト・ページのロード",
       "beaconLabel_custom": "Web サイトのカスタム・イベント"
     },
-    "selectObjectiveNavItem": "目標の選択",
     "selectObjectiveTitle": "目標の設定",
     "sloTarget": "SLO ターゲット",
     "timeWindow": "時間枠",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "時間枠は少なくとも 1 日の長さでなければなりません",
     "errorInvalidExpression": "入力されたフィルターは無効です",
     "errorBlankEntity": "リストからエンティティーを選択してください",
-    "nameAndTagsTitle": "名前とタグ",
-    "nameAndTagsNavItem": "名前 & タグ",
+    "nameAndTagsTitle": "詳細の設定",
     "sloNameLabel": "SLO 名",
     "sloNamePlaceholder": "名前の入力",
     "sloNameCopyTemplate": "{{name}}(のコピー)",
@@ -182,13 +178,21 @@
       "thresholdLabel_availability": "エラー率 (%)",
       "setGoodCall": "サービスに対する良好な呼び出しを設定する",
       "setBadCall": "不正な呼び出しをサービスに設定する (オプション)"
+    },
+    "previewSection": {
+      "dataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 SLO には、SLO が作成された時点からのデータのみが含まれます。"
     }
   },
   "sloChart": {
     "sloFormatter": {
       "unit": "コール",
+      "unit_application": "コール",
+      "unit_website": "ビーコン",
       "unit_plural": "呼び出し",
-      "thousandCallsFormat": "{{count}}K 呼び出し"
+      "unit_application_plural": "呼び出し",
+      "unit_website_plural": "ビーコン",
+      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "状況",
@@ -198,7 +202,12 @@
       "timeWindow": "時間枠",
       "timeWindowType_dynamic": "動的時間枠",
       "timeWindowType_rolling": "ローリング時間枠",
-      "timeWindowType_fixed": "固定時間枠"
+      "timeWindowType_fixed": "固定時間枠",
+      "configuredTimeWindow": "構成済みの SLO 時間枠:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "開始時刻: {{startDay}}、{{startTime}}",
+      "matchedSLOTimeWindow": "一致する SLO 時間ウィンドウ: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "構成が不完全なため、プレビューを使用できません。",
@@ -208,10 +217,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "アプリケーション SLO",
-          "websites": "Web サイト SLO"
-        }
+        "service": "サービス: {{label}}",
+        "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
         "placeholder": "エンティティー・タイプ"
@@ -256,8 +263,14 @@
       "summaryLabel": "サマリー",
       "configurationLabel": "構成"
     },
+    "timeWindowSelection": {
+      "timeWindow": "不明な選択",
+      "timeWindow_SELECTED_TIME": "選択時刻",
+      "timeWindow_SLO_TIME_WINDOW": "SLO 時間枠"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "残りのエラー予算",
         "totalBudget": "予算: {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +281,7 @@
         "totalTraffic": "合計: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "エラー予算",
-        "title_fullWindow": "時間枠全体のエラー予算",
-        "optionCompact": "コンパクト",
-        "optionFull": "全消費量"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "時間枠全体でのエラー予算の使用量"
+        "title": "エラー予算"
       },
       "trafficChart": {
         "title": "トラフィック"

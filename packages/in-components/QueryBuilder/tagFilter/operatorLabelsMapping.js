@@ -83,3 +83,12 @@ export const KEY_VALUE_PAIR_IS_BLANK = t('in-components:queryBuilder.keyValuePai
 export const KEY_VALUE_PAIR_NOT_BLANK = t('in-components:queryBuilder.keyValuePair.notBlank');
 export const KEY_VALUE_PAIR_STARTS_WITH = t('in-components:queryBuilder.keyValuePair.startsWith');
 export const KEY_VALUE_PAIR_ENDS_WITH = t('in-components:queryBuilder.keyValuePair.endsWith');
+
+export const KEY_NUMBER_PAIR_EQUALS = '=';
+export const KEY_NUMBER_PAIR_NOT_EQUAL = '!=';
+export const KEY_NUMBER_PAIR_LESS_THAN = '<';
+export const KEY_NUMBER_PAIR_GREATER_THAN = '>';
+export const KEY_NUMBER_PAIR_NOT_EMPTY = t('in-components:queryBuilder.number.isPresent');
+export const KEY_NUMBER_PAIR_IS_EMPTY = t('in-components:queryBuilder.number.isNotPresent');
+export const KEY_NUMBER_PAIR_LESS_OR_EQUAL_THAN = '<=';
+export const KEY_NUMBER_PAIR_GREATER_OR_EQUAL_THAN = '>=';

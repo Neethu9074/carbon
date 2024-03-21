@@ -5,27 +5,18 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 
-import { LiLoadMore } from '@instana/components';
+import { Group } from '@instana/types';
 
-//@ts-expect-error
-import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import MetricGroupHeader from 'in-alerting/smart-alerts/aggregated/components/MetricGroupHeader';
 import { selectedMetricGroup$ } from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import { getColumnDefinition } from 'in-alerting/smart-alerts/logs/data/getColumnDefinition';
 import { setDefaultMetrics } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
-import TableLoading from 'in-alerting/smart-alerts/aggregated/components/TableLoading';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import GroupTableList from 'in-alerting/smart-alerts/aggregated/components/GroupTableList';
 import { CatalogResponse } from 'in-logging/api/catalog';
 import { State } from 'in-hooks/useCursorPagination';
-import { LogGroupItem } from 'in-types';
-import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList.mless';
 
 interface LogMetricGroupTableListProps extends State<any, any> {
-  groupBy: string[];
+  groupBy: Group[];
   retrievalSize: number;
   totalHits?: number;
   fixedLayout?: boolean;
@@ -40,19 +31,7 @@ interface LogMetricGroupTableListProps extends State<any, any> {
  */
 
 export default function LogMetricGroupTableList(props: LogMetricGroupTableListProps) {
-  const {
-    errors,
-    progress,
-    groupBy,
-    items,
-    retrievalSize,
-    totalHits,
-    fixedLayout,
-    loadMore: defaultCursorPaginationLoadMore,
-    canLoadMore,
-    setBackendQueryModel,
-    tagCatalog
-  } = props;
+  const { errors, progress, groupBy, items, retrievalSize, loadMore, tagCatalog } = props;
 
   const hasErrors = errors && errors?.length > 0;
   const isLoading = progress && progress?.loading;
@@ -71,7 +50,7 @@ export default function LogMetricGroupTableList(props: LogMetricGroupTableListPr
     }
 
     if (selectedMetricGroup) {
-      selectedMetricGroup$.emit({ [groupBy[0]]: selectedMetricGroup });
+      selectedMetricGroup$.emit({ ...groupBy[0], groupbyValue: selectedMetricGroup });
     }
   }, [selectedMetricGroup, items, isLoading, groupBy]);
 
@@ -82,43 +61,14 @@ export default function LogMetricGroupTableList(props: LogMetricGroupTableListPr
   });
 
   return (
-    <>
-      <div
-        className={classNames({
-          [locals.tableMinHeight]: items?.length >= 5
-        })}
-      >
-        <MetricGroupHeader isLoading={isLoading} totalHits={totalHits} setBackendQueryModel={setBackendQueryModel} />
-        {!hasErrors && items?.length > 0 && (
-          <CursorPaginatedTable
-            columnDefinitions={columnDefinitions}
-            numSkeletonRows={3}
-            totalHits={totalHits}
-            onChange={() => undefined}
-            progress={progress}
-            canLoadMore={canLoadMore}
-            items={items}
-            isSearchable={false}
-            defaultPageSize={retrievalSize}
-            onRowClick={(item: LogGroupItem) => {
-              setSelectedMetricGroup(item?.label);
-            }}
-            fixedLayout={fixedLayout}
-            size="compact"
-          />
-        )}
-        {canLoadMore && (
-          <LiLoadMore
-            label={t('in-alerting:components.loadMore')}
-            //@ts-expect-error TS incompactable
-            loadMore={() => {
-              defaultCursorPaginationLoadMore();
-            }}
-          />
-        )}
-        {!isLoading && items.length === 0 && <NoDataAvailable height={240} />}
-        {progress?.loading && items.length === 0 && <TableLoading progress={progress} />}
-      </div>
-    </>
+    <GroupTableList
+      {...props}
+      isLoading={isLoading}
+      hasErrors={hasErrors}
+      columnDefinitions={columnDefinitions}
+      retrievalSize={retrievalSize}
+      setSelectedMetricGroup={setSelectedMetricGroup}
+      loadMore={loadMore}
+    />
   );
 }

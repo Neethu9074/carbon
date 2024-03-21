@@ -17,7 +17,6 @@ import {
   zhmcEnabled,
   sloV2Enabled,
   powervcEnabled,
-  automationPoliciesEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled
 } from 'in-services/featureFlags';
@@ -97,10 +96,6 @@ export const Capability = Object.freeze({
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
   CAN_VIEW_SYNTHETIC_LOCATIONS: 'CAN_VIEW_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS',
-  CAN_VIEW_BUSINESS_PROCESSES: 'CAN_VIEW_BUSINESS_PROCESSES',
-  CAN_VIEW_BUSINESS_PROCESS_DETAILS: 'CAN_VIEW_BUSINESS_PROCESS_DETAILS',
-  CAN_VIEW_BUSINESS_ACTIVITIES: 'CAN_VIEW_BUSINESS_ACTIVITIES',
-  CAN_VIEW_BIZOPS_ALERTS: 'CAN_VIEW_BIZOPS_ALERTS',
   CAN_USE_SYNTHETIC_CREDENTIALS: 'CAN_USE_SYNTHETIC_CREDENTIALS',
   CAN_CONFIGURE_SYNTHETIC_CREDENTIALS: 'CAN_CONFIGURE_SYNTHETIC_CREDENTIALS',
   CAN_CONFIGURE_EVENTS_AND_ALERTS: 'CAN_CONFIGURE_EVENTS_AND_ALERTS',
@@ -111,7 +106,9 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS',
-  CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS'
+  CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS',
+  CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -657,38 +654,19 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     description: t('in-stores:permissionCanConfigureSyntheticCredentialsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
   },
-  /* BizOps */
-  [Capability.CAN_VIEW_BUSINESS_PROCESSES]: {
-    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESSES,
-    keyForApiTokenApi: 'canViewBusinessProcesses',
-    label: t('in-stores:permissionCanViewBusinessProcessesLabel'),
-    description: t('in-stores:permissionCanViewBusinessProcessesDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
+  [Capability.CAN_CREATE_HEAP_DUMP]: {
+    keyForGroupApi: Capability.CAN_CREATE_HEAP_DUMP,
+    keyForApiTokenApi: '',
+    label: t('in-stores:permissionCanCreateHeapDumpLabel'),
+    description: t('in-stores:permissionCanCreateHeapDumpDescription'),
+    category: t('in-stores:permissionInfrastructureCategory')
   },
-  [Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]: {
-    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
-    keyForApiTokenApi: 'canViewBusinessProcessDetails',
-    label: t('in-stores:permissionCanViewBusinessProcessDetailsLabel'),
-    description: t('in-stores:permissionCanViewBusinessProcessDetailsDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_VIEW_BUSINESS_ACTIVITIES]: {
-    keyForGroupApi: Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
-    keyForApiTokenApi: 'canViewBusinessActivities',
-    label: t('in-stores:permissionCanViewBusinessActivitiesLabel'),
-    description: t('in-stores:permissionCanViewBusinessActivitiesDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
-  },
-  [Capability.CAN_VIEW_BIZOPS_ALERTS]: {
-    keyForGroupApi: Capability.CAN_VIEW_BIZOPS_ALERTS,
-    keyForApiTokenApi: 'canViewBizAlerts',
-    label: t('in-stores:permissionCanViewBusinessSmartAlertsLabel'),
-    description: t('in-stores:permissionCanViewBusinessSmartAlertsDescription'),
-    category: t('in-stores:permissionBusinessProcessesCategory'),
-    isOwnerPermission: false
+  [Capability.CAN_CREATE_THREAD_DUMP]: {
+    keyForGroupApi: Capability.CAN_CREATE_THREAD_DUMP,
+    keyForApiTokenApi: '',
+    label: t('in-stores:permissionCanCreateThreadDumpLabel'),
+    description: t('in-stores:permissionCanCreateThreadDumpDescription'),
+    category: t('in-stores:permissionInfrastructureCategory')
   }
 };
 
@@ -731,23 +709,6 @@ export function getProductPermissions(): Array<ProductPermission> {
 
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return !automationCapabilities.has(keyForGroupApi);
-    });
-  } else if (!automationPoliciesEnabled) {
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return keyForGroupApi !== Capability.CAN_CONFIGURE_AUTOMATION_POLICIES;
-    });
-  }
-
-  if (!businessObservabilityEnabled) {
-    const bizopsCapabilities: Set<CapabilityType> = new Set([
-      Capability.CAN_VIEW_BUSINESS_PROCESSES,
-      Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS,
-      Capability.CAN_VIEW_BUSINESS_ACTIVITIES,
-      Capability.CAN_VIEW_BIZOPS_ALERTS
-    ]);
-
-    permissions = permissions.filter(({ keyForGroupApi }) => {
-      return !bizopsCapabilities.has(keyForGroupApi);
     });
   }
 

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { setLogLevel } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { close } from 'in-components/DialogPresenter/store';

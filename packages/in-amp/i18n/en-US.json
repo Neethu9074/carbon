@@ -57,7 +57,8 @@
       "syntheticPops":"Synthetic Managed PoPs",
       "resourceUnits":"Resource Units",
       "consumedUnits":"Consumed Units",
-      "addons":"Add-ons"
+      "addons":"Add-ons",
+      "helperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests."
     },
     "activationAdoption": {
       "activationAdoption": "Activation & Adoption",

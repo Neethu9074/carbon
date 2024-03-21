@@ -7,9 +7,8 @@ import React from 'react';
 
 import { TimeShift } from '@instana/types';
 
-// @ts-expect-error
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import KubernetesChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesChartPresenter';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { AxisColor, Formatter } from 'in-components/Chart/types';
 import { timeShift } from 'in-themes/chartColors';

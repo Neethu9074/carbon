@@ -7,8 +7,9 @@
 import { MapForm, createField, createMapForm } from 'formalistic';
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { Button, Stack, Typography } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
+import { Button } from '@instana/legacy';
 
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';

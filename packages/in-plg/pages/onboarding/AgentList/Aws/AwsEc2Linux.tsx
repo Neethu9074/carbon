@@ -19,7 +19,15 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
-export default function AwsEc2Linux({ agentKey, downloadKey, azulDisabled = false }: OnboardingProps): JSX.Element {
+export default function AwsEc2Linux({
+  agentKey,
+  downloadKey,
+  azulDisabled = false,
+  agentEndpoint,
+  instanaDomain,
+  agentEndpointPort,
+  fromOnboarding
+}: OnboardingProps): JSX.Element {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
@@ -131,14 +139,14 @@ export default function AwsEc2Linux({ agentKey, downloadKey, azulDisabled = fals
           <Code
             lang="bash"
             code={[
-              `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -d ${downloadKey} -t ${
+              `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -d ${downloadKey} -t ${
                 agentMode === 'dynamic' ? 'dynamic' : 'static'
-              } -e ingress-pink-saas.instana.rocks:443 -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
+              } -e ${agentEndpoint}:${agentEndpointPort} -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
             ]}
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="ec2%20AND%20linux" />
+        <GetDeployedAgents agent="ec2%20AND%20linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <Typography variant="body-bold">Support</Typography>

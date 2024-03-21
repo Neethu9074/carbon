@@ -21,7 +21,7 @@ const transLikeComponentToCheckForKeys = ['Trans', 'TextWithLink'];
 
 // Not using a lambda so that we can adapt the test timeout.
 // parseTransFromString takes quite some time
-describe('in-i18n/translations', function() {
+describe.only('in-i18n/translations', function () {
   jest.setTimeout(1000 * 60);
 
   const i18nKeys = getAllI18nKeys();
@@ -138,8 +138,9 @@ function getAllI18nKeys() {
        * To achieve this we need to transpile the tsx files to Js before scanning them
        * Reference: https://github.com/nucleartux/i18next-scanner-typescript/blob/master/src/index.js
        */
-      if (['.tsx'].includes(ext)
-      //  && !base.includes('.d.ts')
+      if (
+        ['.tsx'].includes(ext)
+        //  && !base.includes('.d.ts')
       ) {
         try {
           const { outputText } = typescript.transpileModule(content, {

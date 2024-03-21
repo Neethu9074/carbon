@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
+
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -15,6 +17,7 @@ import { t } from 'in-i18n';
 export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePrefix }) {
   const snapshotId = snapshot.get('id');
   const metricIdsResult = useMetricIds({ snapshotId, timeConfig });
+
   if (metricIdsResult.progress?.loading) {
     return <LoadingIndicator />;
   }
@@ -32,7 +35,7 @@ export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePre
 const gaugeHistogram = {
   prefix: 'metrics.gauge_histograms.',
   type: 'gauge_histogram',
-  color: '#F1C40F',
+  color: themes.default.ids.color.option.yellow['500'],
   metrics: [
     {
       label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -44,7 +47,7 @@ const gaugeHistogram = {
 const stateSet = {
   prefix: 'metrics.statesets.',
   type: 'stateset',
-  color: '#2274A5',
+  color: themes.default.ids.color.option.blue['500'],
   metrics: [
     {
       label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -56,7 +59,7 @@ const stateSet = {
 const info = {
   prefix: 'metrics.infos.',
   type: 'info',
-  color: '#2274A5',
+  color: themes.default.ids.color.option.blue['500'],
   metrics: [
     {
       label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
@@ -68,7 +71,7 @@ const info = {
 const untyped = {
   prefix: 'metrics.untyped.',
   type: 'untyped',
-  color: '#2274A5',
+  color: themes.default.ids.color.option.blue['500'],
   metrics: [
     {
       label: t('in-forge:plugins.prometheus.dashboard.value'),

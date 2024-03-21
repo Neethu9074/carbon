@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -12,13 +13,15 @@ import SectionLine from 'in-settings/components/SectionLine';
 import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function UsageCharts({
   windowSize,
   tenantUnit,
   showPurchasedMetric = true,
-  showAggregatedMetrics = false
+  showAggregatedMetrics = false,
+  hasSyntheticAddons = false
 }) {
   return (
     <>
@@ -67,13 +70,19 @@ export default function UsageCharts({
         </Col>
       </Row>
       <br />
-      {showAggregatedMetrics && (
+      {showAggregatedMetrics && hasSyntheticAddons && (
         <>
           <SectionLine />
           <SubViewHeader>{t('in-amp:components.usageCharts.addons')}</SubViewHeader>
           <Row>
             <Col xs={6}>
-              <Card title={t('in-amp:components.usageCharts.syntheticPops')}>
+              <Card>
+                <SubViewHeader>
+                  {t('in-amp:components.usageCharts.syntheticPops')}
+                  <Tooltip content={t('in-amp:components.usageCharts.helperText')} align="rightMiddle">
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
+                  </Tooltip>
+                </SubViewHeader>
                 <UsageChart
                   windowSize={windowSize}
                   showAggregatedMetrics={showAggregatedMetrics}

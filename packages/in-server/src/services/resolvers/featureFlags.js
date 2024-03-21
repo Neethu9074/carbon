@@ -111,6 +111,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'infrastructureExploreTagColumnsEnabled',
+    instanaCtlKey: 'feature.infrastructure.explore.tag.columns.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'beeInstanaInfraMetricsEnabled',
     instanaCtlKey: 'feature.beeinstana.infra.metrics.enabled',
     defaultValue: false
@@ -163,6 +168,11 @@ module.exports = exports = [
   {
     uiClientKey: 'kubernetesTeamEnabled',
     instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'kubernetesPrometheusMetricsEnabled',
+    instanaCtlKey: 'feature.kubernetes.prometheus.metrics.enabled',
     defaultValue: false
   },
   {
@@ -296,24 +306,14 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsFeatureEnabled',
-    instanaCtlKey: 'feature.bizops.feature.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'bizopsActivityDistributionChartsEnabled',
-    instanaCtlKey: 'feature.bizops.activity.distribution.charts.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsGoldenSignalsEnabled',
     instanaCtlKey: 'feature.bizops.golden.signals.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsImpactedBusinessProcessesTableEnabled',
-    instanaCtlKey: 'feature.bizops.impacted.business.processes.table.enabled',
-    defaultValue: true
+    uiClientKey: 'bizopsRbacEnabled',
+    instanaCtlKey: 'feature.bizops.rbac.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -476,11 +476,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'automationPoliciesEnabled',
-    instanaCtlKey: 'feature.automation.policies.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
     instanaCtlKey: 'feature.multigroup.timeseries.enabled',
     defaultValue: false
@@ -511,11 +506,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'allowDownloadMetricsFromCharts',
-    instanaCtlKey: 'feature.chart.download.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
     instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false
@@ -533,6 +523,16 @@ module.exports = exports = [
   {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
+    instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'rawTraceDownloadEnabled',
+    instanaCtlKey: 'feature.application.raw.trace.download.enabled',
     defaultValue: false
   }
 ];

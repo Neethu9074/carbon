@@ -25,6 +25,7 @@ export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitorin
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
+export const infrastructureExploreTagColumnsEnabled = isFeatureFlagEnabled('infrastructureExploreTagColumnsEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
 export const beeinstanaHistogramsEnabled = isFeatureFlagEnabled('beeinstanaHistogramsEnabled');
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
@@ -64,6 +65,7 @@ export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpo
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
+export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
@@ -157,12 +159,8 @@ export const hiddenSearchFieldValues = {
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
-export const bizopsFeatureEnabled = isFeatureFlagEnabled('bizopsFeatureEnabled');
-export const bizopsActivityDistributionChartsEnabled = isFeatureFlagEnabled('bizopsActivityDistributionChartsEnabled');
 export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
-export const bizopsImpactedBusinessProcessesTableEnabled = isFeatureFlagEnabled(
-  'bizopsImpactedBusinessProcessesTableEnabled'
-);
+export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled');
 
 // ########################################################################################
 // Chart gap hiding
@@ -173,9 +171,6 @@ export const allowedMillisGapsInOneSecondResolution = 20000;
 // For example, the following configuration will hide up to 11.5s of missing data points.
 // rollup = 5s
 export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
-
-//Flag which exposes the download button - enables the download of metrics from event view
-export const allowDownloadMetricsFromCharts = isFeatureFlagEnabled('allowDownloadMetricsFromCharts', false);
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
@@ -214,8 +209,6 @@ export const oneMinuteGranularityForStaticThresholdEnabled = isFeatureFlagEnable
 export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', false);
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
-export const automationPoliciesEnabled = isFeatureFlagEnabled('automationPoliciesEnabled', false);
-
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
@@ -230,3 +223,10 @@ export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
+
+export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
+  'serviceNowAutoCloseAndCustomPayloadsEnabled',
+  false
+);
+
+export const rawTraceDownloadEnabled = isFeatureFlagEnabled('rawTraceDownloadEnabled', false);

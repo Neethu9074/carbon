@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "Plus",
     "workspaceAPIQuery": "Requête d'API",
     "workspaceUseThisExpressionToQueryOurAPI": "Utilisez cette expression pour interroger notre API",
-    "workspaceIncludeSidebarFilters": "Inclure les éléments de la barre latérale de filtre",
     "workspaceTitleFilter": "Filtre",
     "workspaceButtonClear": "Effacer",
     "errorWithDataYourDefinedQueryIsTooComplex": "Votre requête définie est trop complexe. Réduisez le nombre d'imbrications.",

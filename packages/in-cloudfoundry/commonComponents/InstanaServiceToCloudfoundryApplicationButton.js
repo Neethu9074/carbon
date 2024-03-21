@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Td, Table, Tbody, Tr } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import getCloudfoundryApplicationForInstanaApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplicationForInstanaApplication';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';

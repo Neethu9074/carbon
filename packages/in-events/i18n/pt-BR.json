@@ -150,6 +150,9 @@
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)"
   },
+  "logSmartAlerts": {
+    "logs": "Logs"
+  },
   "syntheticSmartAlerts": {
     "failedStatusMetric": "Status com falha"
   },
@@ -158,20 +161,28 @@
     "AIGenBadgeText": "Gerados por IA",
     "suggestionHelpfulText": "Esta sugestão foi útil?",
     "thankYouForYourFeedback": "Obrigado por seu feedback.",
-    "noEntitiesErrorTitle": "Nenhuma causa raiz provável localizada",
-    "noEntitiesErrorDescription": "Isso geralmente ocorre quando o incidente não teve impacto significativo no serviço",
     "performanceConstantlyEvaluated": "O desempenho está sendo ativamente avaliado e melhorado durante o Beta. Deixe o seu feedback para nos ajudar a melhorar nossa IA",
     "probableRootCauseLabel": "Entidade de causa raiz provável: {{entity_name}}",
-    "relatedEventsLabel": "Eventos de entidade localizados: {{number_of_events}}",
+    "relatedEventsLabel": "Eventos associados ({{number_of_events}})",
     "entitiesNumber": "Entidades",
-    "techPreview": "VISUALIZAÇÃO DE TECNOLOGIA"
+    "techPreview": "VISUALIZAÇÃO DE TECNOLOGIA",
+    "probabilityLevelText": "Nível de probabilidade:",
+    "highProbability": "ALTO",
+    "moderateProbability": "MODERADO",
+    "lowProbability": "BAIXO",
+    "naProbability": "N/D",
+    "highProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. A alta probabilidade indica que essa entidade é provavelmente problemática com base na evidência fornecida.",
+    "moderateProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. É provável que essa entidade seja a causa raiz, no entanto, mais análises são necessárias.",
+    "lowProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. Dadas as informações presentes, esse componente tem baixa probabilidade de não estar funcional, mas merece ser investigado mais aprofundadamente.",
+    "naProbabilityBadgeText": "Essa classificação de probabilidade é baseada na probabilidade de a entidade em questão não estar funcional. Infelizmente, a classificação de probabilidade para este incidente não pôde ser verificada."
   },
   "incidentSummarization": {
     "incidentSummaryTitle": "Resumo do incidente",
-    "thisIncident": "Este incidente parece ser:",
     "errorTitle": "Nenhum resumo localizado",
     "errorDescription": "Nenhum resumo pôde ser criado para este evento",
-    "summarizationHelpfulText": "Este resumo foi útil?"
+    "summarizationHelpfulText": "Este resumo foi útil?",
+    "alertChannelTableTitle": "Canais de alerta associados ao incidente",
+    "noDataAlertChannels": "Nenhum canal de alerta pôde ser associado a este incidente"
   },
   "feedback": {
     "skip": "Ignorar",
@@ -187,5 +198,9 @@
     "contactMeNo": "Não, prefiro não ser contactado.",
     "appreciateResponse": "Agradecemos a sua resposta!",
     "followUpQuestion": "Gostaria que o acompanhássemos em relação ao seu feedback técnico para esclarecimentos adicionais ou discussões?"
+  },
+  "bizops": {
+    "titleImpactedBusinessProcesses": "Processos de negócios impactados",
+    "titleImpactedBusinessProcessesIncident": "Processos de negócios impactados para evento acionador"
   }
 }

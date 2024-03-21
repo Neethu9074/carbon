@@ -6,10 +6,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Button, SvgIcon } from '@instana/components';
+import { Message, SvgIcon, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   LARGE_TRACE_THRESHOLD,
@@ -22,8 +22,12 @@ import {
   traceViewTrackIfLargeTrace
 } from 'in-applications/tracker';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { analyzeTagFilterExpression } from 'in-applications/analyze/AnalyzeView2_0/components/analyzeTagFilter';
+import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
+import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
@@ -34,9 +38,11 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { rawTraceDownloadEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { analyzeTagFilterExpression } from './analyzeTagFilter';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzePath } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -45,7 +51,9 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getColor } from 'in-applications/endpointTypes';
 import { getChartGranularity } from 'in-stores/metric';
+import Overlay from 'in-components/overlays/Overlay';
 import { chartColors } from 'in-themes/chartColors';
+import ButtonGroup from 'in-components/ButtonGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours, seconds } from 'in-services/time';
 import Tooltip from 'in-components/Tooltip';
@@ -57,6 +65,8 @@ import { t } from 'in-i18n';
 import locals from './TraceDetailView.mless';
 
 const maximumNumberOfCallsForLargeTraceConsideration = LARGE_TRACE_THRESHOLD;
+const MAX_RETRIES = 3;
+const RETRY_DELAY = seconds.toMillis(15);
 
 export default function TraceDetailView(props) {
   const dataSource = props.dataSource;
@@ -68,7 +78,7 @@ export default function TraceDetailView(props) {
   } = props;
   const isFromSameTrace = analyzeTagFilterExpression(backendQueryModel, traceId);
 
-  const result$ = useRetriableObservable({ traceId, retries: 3, retryDelay: seconds.toMillis(15) });
+  const { result$, retry } = useRetriableObservable({ traceId, retries: MAX_RETRIES, retryDelay: RETRY_DELAY });
 
   return (
     <>
@@ -108,6 +118,8 @@ export default function TraceDetailView(props) {
             result$={result$}
             withoutBreadcrumb
             withoutPadding
+            renderLoading={() => <LoadingDashboard traceId={traceId} retry={retry} />}
+            renderErrors={() => <RetryErrorMessage traceId={traceId} />}
             withProps={({ result }) => {
               return {
                 data: result.data,
@@ -158,7 +170,7 @@ function useRetriableObservable({ traceId, retries, retryDelay }) {
     result$.emit(traceSummary);
   }, [retry, result$, traceSummary, timeConfig.to, retries, retryDelay]);
 
-  return result$;
+  return { result$, retry };
 }
 
 function isAlmostNow(timestamp) {
@@ -209,6 +221,47 @@ function Header(props) {
   );
 }
 
+function LoadingDashboard({ traceId, retry }) {
+  if (retry === 0) {
+    return <DefaultLoadingDashboard lightMode />;
+  }
+
+  let customLoadingTitle = t('in-applications:traceDetail.components.loadingDashboard.defaultTitle');
+  if (retry > 1) {
+    customLoadingTitle = t('in-applications:traceDetail.components.loadingDashboard.retryTitle', { retry });
+  }
+
+  const customLoadingMessage = {
+    title: customLoadingTitle,
+    description: t('in-applications:traceDetail.components.loadingDashboard.loadingMessage', { traceId })
+  };
+
+  return <DefaultLoadingDashboard lightMode customLoadingMessage={customLoadingMessage} />;
+}
+
+function RetryErrorMessage({ traceId }) {
+  return (
+    <LeftRightPadding>
+      <Message
+        type="warning"
+        title={t('in-applications:traceDetail.components.retryErrorMessage.title', { traceId })}
+        bold
+        withIcon
+        className={locals.errorMessage}
+      >
+        <div className={locals.errorReasons}>
+          <span>{t('in-applications:traceDetail.components.retryErrorMessage.reasonHeader')}</span>
+          <ul>
+            <li>{t('in-applications:traceDetail.components.retryErrorMessage.traceDropped')}</li>
+            <li>{t('in-applications:traceDetail.components.retryErrorMessage.noInstanaTrace')}</li>
+            <li>{t('in-applications:traceDetail.components.retryErrorMessage.outsideRetention')}</li>
+          </ul>
+        </div>
+      </Message>
+    </LeftRightPadding>
+  );
+}
+
 function applyTraceIdFilter(formModel, traceId) {
   const traceIdFilterExpression = [tagFilter('trace.id', EQUALS, traceId)];
   return traceIdFilterExpression;
@@ -221,6 +274,9 @@ function renderButtonLine(props) {
 function TraceDetailViewButtonLine({ traceId, result, formModel }) {
   const timeConfig = useTimeConfig();
   const { location, createHref } = useNavigation();
+
+  const isInternalVisible = useObservable(isInternalVisible$, []);
+  const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
 
   const traceIdInUrl = result?.data?.id ?? traceId;
 
@@ -275,17 +331,61 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
       )}?pretty&retrievalSize=200&offset=0&ingestionTime=${Date.now()}`
     : `/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`;
 
+  const rawTraceDownloadUrl =
+    `/api/application-monitoring/analyze/traces/` +
+    encodeURIComponent(traceIdInUrl) +
+    `/raw?retrievalSize=100&offset=0&ingestionTimestamp=${Date.now()}`;
+
+  const DownloadTraceOptions = ({ close }) => (
+    <ButtonGroup
+      segmented
+      buttonPropsList={[
+        {
+          text: t('in-applications:linkDownloadCalls'),
+          key: 'downloadTrace',
+          onClick: () => {
+            downloadTraceClickedTracker({ rawTrace: false });
+            close();
+            window.open(traceDownloadUrl, '_blank');
+          },
+          className: locals.downloadOption
+        },
+        {
+          text: t('in-applications:linkDownloadRawTrace'),
+          key: 'downloadRawTrace',
+          onClick: () => {
+            downloadTraceClickedTracker({ rawTrace: true });
+            close();
+            window.open(rawTraceDownloadUrl, '_blank');
+          },
+          className: locals.downloadOption
+        }
+      ]}
+      className={locals.downloadDropdown}
+    />
+  );
+
   return (
     <>
-      <Button
-        icon="lib_actions_download"
-        kind="secondary"
-        target="_blank"
-        href={traceDownloadUrl}
-        onClick={() => downloadTraceClickedTracker(emptyObject)}
-      >
-        {t('in-applications:linkDownload')}
-      </Button>
+      {rawTraceDownloadEnabled && (isTroubleshootingModeEnabled || isInternalVisible) ? (
+        <Overlay withoutWrapper content={DownloadTraceOptions} align="bottomMiddle">
+          {({ toggle, refSetter }) => (
+            <DropdownButton kind="secondary" icon="lib_actions_download" onClick={toggle} refSetter={refSetter}>
+              {t('in-applications:linkDownload')}
+            </DropdownButton>
+          )}
+        </Overlay>
+      ) : (
+        <Button
+          icon="lib_actions_download"
+          kind="secondary"
+          target="_blank"
+          href={traceDownloadUrl}
+          onClick={() => downloadTraceClickedTracker({ rawTrace: false })}
+        >
+          {t('in-applications:linkDownload')}
+        </Button>
+      )}
       <Button
         icon="lib_analyze"
         kind="secondary"

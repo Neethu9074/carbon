@@ -6,19 +6,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { TimeConfig } from '@instana/types';
+import { Group, TimeConfig } from '@instana/types';
 
-import {
-  EMPTY_EXPRESSION,
-  OPERATOR_OR,
-  addTagFilters,
-  createTagFilterExpression
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LogMetricGroupTableList from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList';
 import { IngestionOffsetCursor, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { setBackendQueryModel } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { CatalogResponse } from 'in-logging/api/catalog';
@@ -28,7 +21,7 @@ const retrievalSize = 5;
 interface LogMetricGroupProps {
   backendQueryModel: TagFilterExpressionElementUnion;
   timeConfig: TimeConfig;
-  groupBy: string[];
+  groupBy: Group[];
   selectedMetricGroup?: { [index: string]: any };
   setSelectedMetricGroup?: React.Dispatch<{ [index: string]: any }>;
   tagCatalog?: CatalogResponse;
@@ -45,7 +38,7 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
   // because it's in array and object format.
   // resulting in re-rending of the table each time even if there is no change,
   // so passing it as a string value to the dependency array of useCursorPagination
-  const groupByString = groupBy?.toString();
+  const groupByString = JSON.stringify(groupBy);
   const chartConfig = JSON.stringify(timeConfig);
   const filterExpressionJSON = JSON.stringify(filterExpression);
 
@@ -74,6 +67,7 @@ export default function LogMetricGroup(props: LogMetricGroupProps) {
       totalHits={totalHits}
       setBackendQueryModel={searchBy => setBackendQueryModel(groupBy, backendQueryModel, setFilterExpression, searchBy)}
       {...props}
+      groupBy={groupBy}
       {...cursorPaginatedProps}
     />
   );
@@ -91,13 +85,13 @@ function getGroups({
 }: {
   timeConfig: TimeConfig;
   backendQueryModel: TagFilterExpression;
-  groupBy: string[];
+  groupBy: Group[];
   cursor: IngestionOffsetCursor;
   retrievalSize: number;
 }) {
   return getLogGroups({
     timeConfig,
-    group: { groupbyTag: groupBy[0], groupbyTagEntity: 'NOT_APPLICABLE' },
+    group: groupBy[0],
     tagFilterExpression: backendQueryModel,
     pagination: {
       retrievalSize,
@@ -105,32 +99,4 @@ function getGroups({
       cursor
     }
   });
-}
-
-/**
- * Sets the backend query model filter expression.
- * @param searchBy The table search by value.
- */
-function setBackendQueryModel(
-  groupBy: string[],
-  backendQueryModel: TagFilterExpressionElementUnion,
-  setFilterExpression: React.Dispatch<{ [index: string]: any }>,
-  searchBy?: string
-) {
-  if (searchBy) {
-    const searchQuery = groupBy.map((groupBy: string) => {
-      return tagFilter(groupBy, CONTAINS, searchBy, null, NOT_APPLICABLE);
-    });
-
-    if (backendQueryModel?.type === 'TAG_FILTER' || backendQueryModel?.elements?.length > 0) {
-      const searchQueryModel = addTagFilters(createTagFilterExpression(OPERATOR_OR, searchQuery), [backendQueryModel]);
-      setFilterExpression(searchQueryModel);
-      return;
-    } else {
-      setFilterExpression(createTagFilterExpression(OPERATOR_OR, searchQuery));
-      return;
-    }
-  }
-
-  setFilterExpression(backendQueryModel);
 }

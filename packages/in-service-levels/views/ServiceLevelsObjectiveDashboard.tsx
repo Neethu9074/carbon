@@ -20,6 +20,7 @@ import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/com
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
 import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
+import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { getSloConfiguration } from 'in-service-levels/api/configuration';
@@ -32,9 +33,13 @@ import { LabeledEntity } from 'in-service-levels/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
 
+interface UrlState {
+  sloId: string;
+}
+
 export default function ServiceLevelsObjectiveDashboard() {
   const location = useLocation();
-  const [{ sloId }] = useUrlState<{ sloId: string }>({
+  const [{ sloId }] = useUrlState<UrlState>({
     bind: [defaultServiceLevelObjectiveUrlParameters.sloId]
   });
 
@@ -45,19 +50,24 @@ export default function ServiceLevelsObjectiveDashboard() {
   const tabData = tabProps?.data;
   const entity = tabData?.entity;
   const service = tabData && isApplicationSloTabData(tabData) ? tabData.service : undefined;
+  const endpoint = tabData && isApplicationSloTabData(tabData) ? tabData.endpoint : undefined;
   const configuration = tabData?.configuration;
   const sloTimeWindow = configuration?.timeWindow;
 
   return (
-    <SloTimeWindowProvider sloConfigId={sloId} sloTimeWindow={sloTimeWindow}>
-      <TabView
-        location={location}
-        HeaderComponent={SloDashboardHeader}
-        tabs={tabs}
-        props={tabProps ?? {}}
-        additionalHeader={<SloMetaInfoHeader configuration={configuration} entity={entity} service={service} />}
-      />
-    </SloTimeWindowProvider>
+    <SloTrackerProvider value={sloTrackers}>
+      <SloTimeWindowProvider sloConfigId={sloId} sloTimeWindow={sloTimeWindow}>
+        <TabView
+          location={location}
+          HeaderComponent={SloDashboardHeader}
+          tabs={tabs}
+          props={tabProps ?? {}}
+          additionalHeader={
+            <SloMetaInfoHeader configuration={configuration} entity={entity} service={service} endpoint={endpoint} />
+          }
+        />
+      </SloTimeWindowProvider>
+    </SloTrackerProvider>
   );
 }
 

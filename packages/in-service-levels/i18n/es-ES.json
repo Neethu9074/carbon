@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Estado",
-      "remainingBudget": "Error de presupuesto restante",
+      "remainingBudget": "Restante",
       "totalBudget": "Presupuesto de error",
       "consumedBudget": "Presupuesto de error consumido",
       "momentaryBudgetConsumption": "Consumo de presupuesto de error",
@@ -126,20 +126,17 @@
   "createSloDialog": {
     "customFilter": "Filtro personalizado (opcional)",
     "title": "Crear objetivo de nivel de servicio (SLO)",
-    "selectIndicator": "Seleccionar blueprints",
-    "selectEntityNavItem": "Seleccionar entidad",
+    "selectIndicator": "Seleccionar Blueprint",
+    "selectEntityNavItem": "Establecer entidad",
     "selectEntityTitle": "Seleccione una entidad a la que añadir SLO:",
-    "selectScopeNavItem": "Seleccionar ámbito",
-    "selectScopeTitle": "Seleccionar ámbito",
-    "selectIndicatorTitle": "Indicador de SLI",
+    "selectScopeNavItem": "Establecer ámbito",
     "selectIndicatorNavItem": "Establecer indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitudes HTTP",
       "beaconLabel_pageLoad": "Cargas de página de sitio web",
       "beaconLabel_custom": "Eventos personalizados de sitio web"
     },
-    "selectObjectiveNavItem": "Seleccionar objetivo",
-    "selectObjectiveTitle": "Establecer el objetivo",
+    "selectObjectiveTitle": "Establecer objetivo",
     "sloTarget": "Destino de SLO",
     "timeWindow": "Ventana de tiempo",
     "length": "Longitud",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "El intervalo de tiempo debe ser como mínimo de un día",
     "errorInvalidExpression": "Los filtros especificados no son válidos",
     "errorBlankEntity": "Seleccione una entidad de la lista",
-    "nameAndTagsTitle": "Nombre y etiquetas",
-    "nameAndTagsNavItem": "Nombre y etiquetas",
+    "nameAndTagsTitle": "Establecer detalles",
     "sloNameLabel": "Nombre del SLO",
     "sloNamePlaceholder": "Especificar nombre",
     "sloNameCopyTemplate": "Copia de {{name}}",
@@ -182,13 +178,21 @@
       "thresholdLabel_availability": "Tasa de errores (%)",
       "setGoodCall": "Establecer las llamadas correctas a un servicio",
       "setBadCall": "Establecer las llamadas erróneas a un servicio (opcional)"
+    },
+    "previewSection": {
+      "dataInfo": "Los datos de vista previa muestran solo un máximo de 7 días en el pasado. El SLO solo incluirá datos desde el momento en que se creó"
     }
   },
   "sloChart": {
     "sloFormatter": {
       "unit": "llamada",
+      "unit_application": "llamada",
+      "unit_website": "baliza",
       "unit_plural": "calls",
-      "thousandCallsFormat": "{{count}}K llamadas"
+      "unit_application_plural": "calls",
+      "unit_website_plural": "balizas",
+      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Estado",
@@ -198,7 +202,12 @@
       "timeWindow": "Ventana de tiempo",
       "timeWindowType_dynamic": "Ventana de tiempo dinámico",
       "timeWindowType_rolling": "Ventana de tiempo de desplazable",
-      "timeWindowType_fixed": "Ventana de tiempo fijo"
+      "timeWindowType_fixed": "Ventana de tiempo fijo",
+      "configuredTimeWindow": "Ventana de tiempo de SLO configurada:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "Hora de inicio: {{startDay}}, {{startTime}}",
+      "matchedSLOTimeWindow": "Ventanas de tiempo de SLO coincidentes: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "La vista previa no está disponible porque la configuración está incompleta.",
@@ -208,10 +217,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "SLO de aplicación",
-          "websites": "Sitio web SLO"
-        }
+        "service": "Servicio: {{label}}",
+        "tooltip": "SLO de {{context}}"
       },
       "entityTypeFilter": {
         "placeholder": "Tipo de entidad"
@@ -256,8 +263,14 @@
       "summaryLabel": "Resumen",
       "configurationLabel": "Configuración"
     },
+    "timeWindowSelection": {
+      "timeWindow": "Selección desconocida",
+      "timeWindow_SELECTED_TIME": "Hora seleccionada",
+      "timeWindow_SLO_TIME_WINDOW": "Ventana de tiempo de SLO"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "Error de presupuesto restante",
         "totalBudget": "Presupuesto: {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +281,7 @@
         "totalTraffic": "Total: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Presupuesto de error",
-        "title_fullWindow": "Presupuesto de error durante toda la ventana temporal",
-        "optionCompact": "Condensar",
-        "optionFull": "Consumo total"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Error de consumo de presupuesto durante toda la ventana de tiempo"
+        "title": "Presupuesto de error"
       },
       "trafficChart": {
         "title": "Tráfico"

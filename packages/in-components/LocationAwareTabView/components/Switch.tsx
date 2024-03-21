@@ -12,6 +12,7 @@ import { Result, Error } from '@instana/types';
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
@@ -19,7 +20,6 @@ import Title from 'in-components/Title';
 import { Nullish } from 'in-types';
 
 import locals from './Switch.mless';
-import { Tab } from 'in-components/LocationAwareTabView/types';
 
 interface TabSwitchProps<TabData, TabProps extends {}> {
   tabs: Tab<TabData, TabProps>[];
@@ -28,6 +28,7 @@ interface TabSwitchProps<TabData, TabProps extends {}> {
   hasErrors?: boolean;
   location: Location;
   renderErrors?: (errors: Error[]) => JSX.Element;
+  renderLoading?: () => JSX.Element;
 }
 
 export default function TabSwitch<TabData, TabProps extends {} = {}>({
@@ -36,14 +37,15 @@ export default function TabSwitch<TabData, TabProps extends {} = {}>({
   hasErrors,
   location,
   props,
-  renderErrors
+  renderErrors,
+  renderLoading
 }: TabSwitchProps<TabData, TabProps>) {
   const isLoading = result && result.progress.loading;
 
   if (result && hasErrors) {
     return renderErrors ? renderErrors(result.errors) : <DashboardErroneousResultPresenter errors={result.errors} />;
   } else if (isLoading) {
-    return <DefaultLoadingDashboard lightMode />;
+    return renderLoading ? renderLoading() : <DefaultLoadingDashboard lightMode />;
   }
 
   return (

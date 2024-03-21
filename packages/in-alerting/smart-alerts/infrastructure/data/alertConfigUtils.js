@@ -26,3 +26,18 @@ export function getMetricPathAndLabel(options, metricName, entityType) {
   }
   return emptyObject;
 }
+
+export function setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricGroup) {
+  if (items?.length === 0) {
+    return;
+  }
+
+  if (selectedMetricGroup) {
+    const metricExistsInItems = items.find(item => item.tags === selectedMetricGroup);
+    if (metricExistsInItems) {
+      return;
+    }
+  }
+
+  setSelectedMetricGroup(items[0].tags);
+}

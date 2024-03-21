@@ -49,5 +49,7 @@
   "warn": "{{count}}개 경고",
   "warn_plural": "{{count}}개 경고",
   "process": "프로세스",
-  "host": "호스트"
+  "host": "호스트",
+  "fileOnHost":"켜기",
+  "file": "파일"
 }

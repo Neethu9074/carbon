@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { DurationDistributionScale } from '@instana/types';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 

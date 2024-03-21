@@ -9,8 +9,14 @@ import React from 'react';
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Typography } from '@instana/components';
 
+import {
+  SLO_CONFIG_DELETE_ERROR,
+  SLO_CONFIG_DELETE_FINISH,
+  SLO_CONFIG_DELETE_START
+} from 'in-services/tracking/eventNames';
 import { deleteSloConfiguration } from 'in-service-levels/api/configuration';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t, Trans } from 'in-i18n';
@@ -31,7 +37,7 @@ function showConfirmationDialog(
   configuration: ServiceLevelObjectiveConfiguration,
   onComplete?: CompletionCallback
 ): void {
-  const { id, name } = configuration;
+  const { name } = configuration;
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-service-levels:general.deleteDialog.pleaseConfirm')}
@@ -47,26 +53,34 @@ function showConfirmationDialog(
       confirmButtonLabel={t('in-service-levels:general.deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(id!, onComplete);
+        onDelete(configuration, onComplete);
       }}
     />
   );
+
+  trackSloEvent(SLO_CONFIG_DELETE_START, {
+    id: configuration.id,
+    blueprint: configuration.indicator.blueprint,
+    entityType: configuration.entity.type,
+    indicatorType: configuration.indicator.type,
+    timeWindowType: configuration.timeWindow.type
+  });
 }
 
-function onDelete(id: string, onComplete?: CompletionCallback): void {
-  deleteSloConfiguration(id).once(
+function onDelete(configuration: ServiceLevelObjectiveConfiguration, onComplete?: CompletionCallback): void {
+  deleteSloConfiguration(configuration.id!).once(
     () => {
-      onDeleteSuccess();
+      onDeleteSuccess(configuration);
       onComplete?.(true);
     },
     () => {
-      onDeleteFailed();
+      onDeleteFailed(configuration);
       onComplete?.(false);
     }
   );
 }
 
-function onDeleteSuccess(): void {
+function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration): void {
   addMessage(
     {
       type: 'info',
@@ -75,9 +89,17 @@ function onDeleteSuccess(): void {
     },
     'slo-delete-info'
   );
+
+  trackSloEvent(SLO_CONFIG_DELETE_FINISH, {
+    id: configuration.id,
+    blueprint: configuration.indicator.blueprint,
+    entityType: configuration.entity.type,
+    indicatorType: configuration.indicator.type,
+    timeWindowType: configuration.timeWindow.type
+  });
 }
 
-function onDeleteFailed(): void {
+function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration): void {
   addMessage(
     {
       type: 'danger',
@@ -86,4 +108,12 @@ function onDeleteFailed(): void {
     },
     'slo-delete-error'
   );
+
+  trackSloEvent(SLO_CONFIG_DELETE_ERROR, {
+    id: configuration.id,
+    blueprint: configuration.indicator.blueprint,
+    entityType: configuration.entity.type,
+    indicatorType: configuration.indicator.type,
+    timeWindowType: configuration.timeWindow.type
+  });
 }

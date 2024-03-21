@@ -8,7 +8,8 @@ import { Language } from 'prism-react-renderer';
 import { isArray } from 'lodash';
 import React from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import CodeComponent from 'in-components/Code';

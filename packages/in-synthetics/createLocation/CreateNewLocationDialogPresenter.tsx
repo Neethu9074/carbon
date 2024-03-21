@@ -8,26 +8,21 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
 import { useObservable } from '@instana/hooks';
-import { createLogger } from '@instana/logger';
 import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
-import getSyntheticDatacenterDeployment from 'in-synthetics/subscriptions/getSyntheticDatacenterDeployment';
 import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocationType';
 import ConfirmationDialog from 'in-synthetics/createLocation/steps/ConfirmationDialog';
 import { getLocationsBluePrintConfig } from 'in-synthetics/createLocation/bluePrints';
 import ConfigurationStep from 'in-synthetics/createLocation/steps/ConfigurationStep';
-import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { getDatacenterLicense } from 'in-synthetics/api';
-import { pendingResult } from 'in-services/fixedObjects';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
-
-const logger = createLogger('in-synthetics/createLocation/CreateNewLocationDialogPresenter');
 
 interface Props {
   onClose: () => void;
@@ -62,28 +57,16 @@ const CreateNewLocationDialogPresenter = ({
   const [selectedBlueprint, setSelectedBlueprint] = useState(getLocationsBluePrintConfig()[0]);
 
   const onSubmit = () => {
-    getSyntheticDatacenterDeployment({
-      deploymentAction: 'activate',
-      syntheticDatacenters: form.get('syntheticDatacenters').value
-    }).once(
-      () => {
-        // action on success
-        onClose();
-        addActiveDialog(
-          <ConfirmationDialog
-            header={t('in-synthetics:dialog.createLocation.newLocation')}
-            headerIcon="lib_synthetic_location"
-            buttonLabel={t('in-synthetics:dialog.createLocation.done')}
-            buttonKind="primary"
-            onSubmit={() => onClose()}
-            form={form}
-          />
-        );
-      },
-      error => {
-        onClose();
-        logger.error(`failed to activate datacenters : ${deserializeErrorMessage(error.message)}`, error);
-      }
+    onClose();
+    addActiveDialog(
+      <ConfirmationDialog
+        header={t('in-synthetics:dialog.createLocation.newLocation')}
+        headerIcon="lib_synthetic_location"
+        buttonLabel={t('in-synthetics:dialog.createLocation.done')}
+        buttonKind="primary"
+        onSubmit={() => onClose()}
+        form={form}
+      />
     );
   };
 
@@ -101,7 +84,7 @@ const CreateNewLocationDialogPresenter = ({
             formId={formId}
             form={form}
             updateForm={updateForm}
-            onCreate={selectedBlueprint.type === 'private' ? onClose : onSubmit}
+            onCreate={selectedBlueprint.type === 'private' ? onClose : () => onSubmit()}
             simpleModeStep={simpleModeStep}
             setSimpleModeStep={setSimpleModeStep}
             stepConfigs={stepConfigs}
@@ -129,14 +112,16 @@ const CreateNewLocationDialogPresenter = ({
                 ? t('in-synthetics:dialog.createLocation.activate')
                 : t('in-synthetics:dialog.createLocation.done')
             }
-            additionalStepCheck={() => {
-              return selectedBlueprint.type === 'managed' &&
+            additionalStepCheck={(step: number) => {
+              return step === 0 &&
+                selectedBlueprint.type === 'managed' &&
                 !checkLicense.progress.loading &&
                 checkLicense.errors.length !== 0
                 ? false
                 : true;
             }}
-            onStepChanged={() => {}}
+            onStepChanged={noop}
+            noStepCheckOnFirstStep
           />
         </div>
       </div>

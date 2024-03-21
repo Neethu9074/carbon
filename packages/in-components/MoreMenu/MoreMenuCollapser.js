@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import Tooltip from 'in-components/Tooltip';

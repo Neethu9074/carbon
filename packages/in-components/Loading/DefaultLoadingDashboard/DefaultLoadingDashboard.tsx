@@ -6,14 +6,24 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LoadingSkeleton } from '@instana/components';
+import { LoadingSkeleton, Message } from '@instana/components';
 
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { Row, Col } from 'in-components/layout/Grid';
 
 import locals from './DefaultLoadingDashboard.mless';
 
-export default function DefaultLoadingDashboard({ lightMode }: { lightMode?: boolean }) {
+type CustomLoadingMessage = {
+  title: string;
+  description?: string;
+};
+
+interface DefaultLoadingDashboardProps {
+  lightMode?: boolean;
+  customLoadingMessage?: CustomLoadingMessage;
+};
+
+export default function DefaultLoadingDashboard({ lightMode, customLoadingMessage }: DefaultLoadingDashboardProps) {
   const kpiClassName = classNames({
     [locals.skeletonKpi]: true,
     [locals.lightMode]: lightMode
@@ -26,6 +36,16 @@ export default function DefaultLoadingDashboard({ lightMode }: { lightMode?: boo
 
   return (
     <LeftRightPadding>
+      {customLoadingMessage && (
+        <Row className={locals.firstRow}>
+          <Col lg={12}>
+            <Message type="neutral" title={customLoadingMessage.title} bold>
+              {customLoadingMessage.description && <span>{customLoadingMessage.description}</span>}
+            </Message>
+          </Col>
+        </Row>
+      )}
+
       <Row className={locals.firstRow}>
         <Col lg={4}>
           <LoadingSkeleton lightMode={lightMode} className={kpiClassName} />

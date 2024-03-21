@@ -7,22 +7,24 @@
 import React, { useState, useMemo } from 'react';
 
 import { create } from '@instana/observables';
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
+import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/logs/details/AlertThresholdInfos';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
+import { StaticThresholdConfig, TagCatalog, TagFilter, ThresholdConfigUnion } from 'in-types';
+import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { LogMetricChart } from 'in-alerting/smart-alerts/logs/components/LogMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogMetricGroup from 'in-alerting/smart-alerts/logs/components/LogMetricGroup';
-import { AlertGrouping } from 'in-alerting/smart-alerts/logs/details/AlertGrouping';
-import { StaticThresholdConfig, TagCatalog, ThresholdConfigUnion } from 'in-types';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -43,16 +45,20 @@ export type Tags = { [index: string]: any };
 export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAlertConfigWithMetadata }) {
   const { timeThreshold, threshold, granularity, groupBy, customPayloadFields, tagFilterExpression, alertChannelIds } =
     alertConfig;
-  const tagCatalog = useTagCatalog();
+  const tagCatalog = useTagCatalog('SMART_ALERTS');
+  //@ts-expect-error TODO : remove expect error once typedefinition updated with this usecase.
+  const groupByTagCatalog = useTagCatalog('SMART_ALERTS_GROUPING');
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
 
-  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
+  const AlertGroupByQueryBuilder = getGroupByQueryBuilder(groupByTagCatalog as TagCatalog).QueryBuilder;
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const timeConfig = useMemo(() => {
     return chartTimeConfig;
   }, []);
+
+  const groupingFilter = groupBy && toUIGrouping(logsGroupbyTag(groupBy));
 
   return (
     <AlertDetailsCard>
@@ -79,17 +85,24 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
       >
         {chartViewConfig => (
           <Card title={t('in-events:titleMetrics')}>
-            <LogMetricChart alertConfig={alertConfig} timeConfig={chartViewConfig.timeConfig} />
+            <LogMetricChart
+              alertConfig={alertConfig}
+              timeConfig={{
+                ...chartViewConfig.timeConfig,
+                to: timeConfig.to,
+                focusedMoment: timeConfig.focusedMoment
+              }}
+            />
             {groupBy && groupBy.length > 0 && (
               <LogMetricGroup
                 backendQueryModel={tagFilterExpression}
-                groupBy={groupBy}
+                groupBy={logsGroupbyTag(groupBy)}
                 timeConfig={{
                   ...chartViewConfig.timeConfig,
                   to: timeConfig.to,
                   focusedMoment: timeConfig.focusedMoment
                 }}
-                tagCatalog={tagCatalog}
+                tagCatalog={groupByTagCatalog}
               />
             )}
           </Card>
@@ -104,17 +117,24 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
         darkFrame
       >
         <div className={locals.paddingBodyWrapper}>
-          <Stack gap="xsmall">
-            <ScopeConfigPresenter
-              tagFilterFormModel={tagFilterFormModel}
-              queryBuilder={
-                (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
-              }
-              scopePath={<></>}
-            />
-
-            <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupBy ?? []} />
-          </Stack>
+          {!tagFilterFormModel?.length && !groupBy?.length ? (
+            <Message small title={t('in-alerting:smartAlerts.logs.alertDetails.noScopeSelected')} />
+          ) : (
+            <Stack gap="xsmall">
+              {tagFilterFormModel?.length > 0 && (
+                <ScopeConfigPresenter
+                  tagFilterFormModel={tagFilterFormModel}
+                  queryBuilder={
+                    (<AlertQueryBuilder value={tagFilterFormModel} readOnly />) as unknown as QueryBuilderComponent
+                  }
+                  scopePath={<></>}
+                />
+              )}
+              {groupBy && groupBy?.length > 0 && (
+                <AlertGrouping AlertQueryBuilder={AlertGroupByQueryBuilder} groupBy={groupingFilter as TagFilter[]} />
+              )}
+            </Stack>
+          )}
         </div>
       </ExpandableLightCard>
 

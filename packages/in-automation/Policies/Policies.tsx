@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { Button, Spacer, Stack, Typography } from '@instana/components';
+import { Spacer, Stack, Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   AUTOMATIC,
@@ -34,6 +35,7 @@ import usePolicies, { refresh } from 'in-automation/Policies/usePolicies';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -45,10 +47,10 @@ import { listSuccess } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
-import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 
 const pathSegment = '/policies';
 const matrixPrefix = '';
@@ -120,7 +122,7 @@ export default function Policies() {
         cardTitle={t('in-automation:policies.policies')}
         rightHeader={
           <>
-            <CreateNewEntityButton />
+            {role?.canConfigureAutomationPolicies ? <CreateNewEntityButton /> : <div />}
             <PolicyFilters setFilter={setFilter} trigger={trigger} tags={tags} availableTags={availableTags} />
           </>
         }
@@ -235,7 +237,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
 
   {
     id: 'trigger',
-    label: t('in-automation:policies.trigger'),
+    label: t('in-automation:policies.eventTrigger'),
     getContent: item => {
       if (isEventSpecification(item.trigger)) {
         return <EventName hasRowNavigation={false} entity={item.trigger} />;
@@ -286,7 +288,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     width: 5,
     getContent: function Content(item) {
       const navigateToPolicyDetails = useNavigateToPolicyDetails();
-      return (
+      return role?.canConfigureAutomationPolicies ? (
         <Stack align="end">
           <MoreMenu kind="subtle">
             <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item, false)}>
@@ -300,6 +302,8 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
             </MoreMenuButton>
           </MoreMenu>
         </Stack>
+      ) : (
+        <div />
       );
     }
   }

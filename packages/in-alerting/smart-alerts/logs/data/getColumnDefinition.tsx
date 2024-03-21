@@ -16,17 +16,17 @@ import { number, withSiPrefixOneDecimalPlace } from 'in-services/formatters/numb
 import AggregationSymbol from 'in-components/AggregationSymbol/AggregationSymbol';
 import { CatalogResponse } from 'in-logging/api/catalog';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { LogGroupItem } from 'in-types';
+import { Group, LogGroupItem } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/logs/components/LogMetricGroupTableList.mless';
+import locals from 'in-alerting/smart-alerts/aggregated/components/GroupTableList.mless';
 
 export function getColumnDefinition({
   groupBy,
   selectedMetricGroup,
   tagCatalog
 }: {
-  groupBy: string[];
+  groupBy: Group[];
   selectedMetricGroup?: string;
   tagCatalog?: CatalogResponse;
 }) {
@@ -52,17 +52,17 @@ export function getColumnDefinition({
     }
   };
 
-  const groupsColumn = groupBy.map((groupKey: string) => {
+  const groupsColumn = groupBy.map((groups: Group) => {
     return {
       width: '6rem',
       getId: (item: LogGroupItem) => (item ? item.label : ''),
-      id: groupKey,
+      id: groups.groupbyTag,
       cellClassName: locals.wordBreak,
       headCellProps: {
         className: locals.wordBreak
       },
       sortable: false,
-      label: <LogGroupLabel groupKey={groupKey} tagCatalog={tagCatalog} />,
+      label: <LogGroupLabel groups={[groups]} tagCatalog={tagCatalog} />,
       getContent(item: LogGroupItem) {
         return item.label;
       }
@@ -73,7 +73,7 @@ export function getColumnDefinition({
     return {
       id: 'numberOfLogs',
       width: '8rem',
-      label: t('in-alerting:smartAlerts.logs.logs'),
+      label: t('in-alerting:smartAlerts.logs.logCount'),
       widthInAbsoluteUnit: true,
       sortable: false,
       getContent(item: LogGroupItem) {

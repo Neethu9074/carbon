@@ -7,9 +7,9 @@
 import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
-import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   timeoutObject,
@@ -32,13 +32,12 @@ import { scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDeta
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { stringValidator } from 'in-services/validators/jsonType';
-import { numberValidator } from 'in-services/validators/jsonType';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { minValidator } from 'in-services/validators/number';
@@ -95,8 +94,8 @@ export default function ScriptsSection({
   const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
 
   const [timeout, setTimeout] = useState({
-    value: timeoutField.value.replace(/[^0-9]/g, ''),
-    unit: timeoutField.value.replace(/[0-9]/g, '')
+    value: timeoutField.value.replace(/\D/g, ''),
+    unit: timeoutField.value.replace(/\d/g, '')
   });
   const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 
@@ -126,6 +125,20 @@ export default function ScriptsSection({
     }
   }
 
+  const getScriptFileName = () => {
+    let scriptName;
+    if (isUpdateConfig && !isUpdated) {
+      scriptName = configForm.get('script')
+        ? t('in-synthetics:dialog.updateTest.scriptSavedMessage')
+        : t('in-synthetics:dialog.updateTest.bundleSavedMessage');
+    } else {
+      scriptName = isBlank(script.extension)
+        ? t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptEditedManuallyMessage')
+        : script.name;
+    }
+    return scriptName;
+  };
+
   const columnDefinition = [
     {
       id: 'file_name',
@@ -134,21 +147,34 @@ export default function ScriptsSection({
       getContent() {
         return (
           <HorizontalFlexWrapper className={locals.row}>
-            <span>
-              {isUpdateConfig && !isUpdated
-                ? configForm.get('script')
-                  ? t('in-synthetics:dialog.updateTest.scriptSavedMessage')
-                  : t('in-synthetics:dialog.updateTest.bundleSavedMessage')
-                : isBlank(script.extension)
-                ? t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptEditedManuallyMessage')
-                : script.name}
-            </span>
+            <span>{getScriptFileName()}</span>
             <SvgIcon type="lib_actions_delete" onClick={deleteScript} />
           </HorizontalFlexWrapper>
         );
       }
     }
   ];
+
+  const loadEntities = () => {
+    let scriptEntities;
+    if (script.extension !== 'zip') {
+      scriptEntities =
+        configForm.get('script') && isNotBlank((configForm.getIn(['script']) as Field<string>)?.value)
+          ? [configForm.getIn(['script']) as Field<string>]
+          : [];
+    } else {
+      scriptEntities =
+        configForm.get('scripts') && isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
+          ? [configForm.getIn(['scripts', 'bundle']) as Field<string>]
+          : [];
+    }
+    return just(scriptEntities);
+  };
+
+  const title =
+    script.text !== '' || (isUpdateConfig && !isUpdated)
+      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+      : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction');
 
   return (
     <>
@@ -178,23 +204,31 @@ export default function ScriptsSection({
                       scriptContent={script}
                       zipFileDetails={zipFile}
                       setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                      onSubmit={(scriptContent, zipFile) => {
+                      onSubmit={(scriptContent, zipFileContent) => {
                         let updatedForm;
-                        let testType = isBrowser
+                        const testType = isBrowser
                           ? scriptTestType(scriptContent.extension, syntheticType)
                           : syntheticType;
-                        if (scriptContent.extension !== 'zip') {
+                        const columnLabelUpdated = isBlank(scriptContent.extension)
+                          ? ''
+                          : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName');
+                        const getScriptFile = () => {
                           let scriptFile = '';
                           // If we upload or enter a script that isn't a JSON string, JSON.parse() will throw an exception
                           // In those cases, control enters the catch block and we assign the original script value to scriptFile.
                           try {
-                            scriptFile =
-                              scriptContent.extension !== 'side'
-                                ? String(JSON.parse(scriptContent.text))
-                                : scriptContent.text;
+                            if (scriptContent.extension !== 'side') {
+                              scriptFile = String(JSON.parse(scriptContent.text));
+                            } else {
+                              scriptFile = scriptContent.text;
+                            }
                           } catch (e) {
                             scriptFile = scriptContent.text;
                           }
+                          return scriptFile;
+                        };
+                        if (scriptContent.extension !== 'zip') {
+                          let scriptFile = getScriptFile();
                           if (!form.get('configuration').get('script')) {
                             updatedForm = form.put(
                               'configuration',
@@ -231,51 +265,45 @@ export default function ScriptsSection({
                             );
                           }
                           updateForm(updatedForm);
+                        } else if (!form.get('configuration').get('scripts')) {
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .put(
+                                'scripts',
+                                createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
+                              )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(testType).setTouched(true)
+                              )
+                              .remove('script')
+                          );
                         } else {
-                          if (!form.get('configuration').get('scripts')) {
-                            updatedForm = form.put(
-                              'configuration',
-                              form
-                                .get('configuration')
-                                .put(
-                                  'scripts',
-                                  createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
-                                )
-                                .updateIn(['syntheticType'], (field: Item) =>
-                                  (field as Field<string>).setValue(testType).setTouched(true)
-                                )
-                                .remove('script')
-                            );
-                          } else {
-                            updatedForm = form.put(
-                              'configuration',
-                              form
-                                .get('configuration')
-                                .updateIn(['scripts', 'bundle'], (field: Item) =>
-                                  (field as Field<string>).setValue(scriptContent.text).setTouched(true)
-                                )
-                                .updateIn(['scripts', 'scriptFile'], (field: Item) =>
-                                  (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
-                                )
-                                .updateIn(['syntheticType'], (field: Item) =>
-                                  (field as Field<string>).setValue(testType).setTouched(true)
-                                )
-                                .remove('script')
-                            );
-                          }
-                          updateForm(updatedForm);
+                          updatedForm = form.put(
+                            'configuration',
+                            form
+                              .get('configuration')
+                              .updateIn(['scripts', 'bundle'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+                              )
+                              .updateIn(['scripts', 'scriptFile'], (field: Item) =>
+                                (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+                              )
+                              .updateIn(['syntheticType'], (field: Item) =>
+                                (field as Field<string>).setValue(testType).setTouched(true)
+                              )
+                              .remove('script')
+                          );
                         }
+                        updateForm(updatedForm);
                         setScript(scriptContent);
-                        setZipFile(zipFile);
+                        setZipFile(zipFileContent);
                         setSliderState({
                           slideInConfig: {},
                           isVisible: false
                         });
-                        setColumnLabel(
-                          isBlank(scriptContent.extension)
-                            ? ''
-                            : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
-                        );
+                        setColumnLabel(columnLabelUpdated);
                         setIsUpdated(true);
                         if (isBrowser) {
                           setCommonAttributes({ ...commonAttributes, syntheticType: testType });
@@ -285,10 +313,7 @@ export default function ScriptsSection({
                       isBrowser={isBrowser}
                     />
                   ),
-                  title:
-                    script.text !== '' || (isUpdateConfig && !isUpdated)
-                      ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
-                      : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')
+                  title: title
                 },
                 isVisible: true
               });
@@ -305,18 +330,7 @@ export default function ScriptsSection({
           </Button>
         }
         isSearchable={false}
-        loadEntities={() => {
-          return just(
-            script.extension !== 'zip'
-              ? configForm.get('script') && isNotBlank((configForm.getIn(['script']) as Field<string>)?.value)
-                ? [configForm.getIn(['script']) as Field<string>]
-                : []
-              : configForm.get('scripts') &&
-                isNotBlank((configForm.getIn(['scripts', 'bundle']) as Field<string>)?.value)
-              ? [configForm.getIn(['scripts', 'bundle']) as Field<string>]
-              : []
-          );
-        }}
+        loadEntities={loadEntities}
       />
       <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>

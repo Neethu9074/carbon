@@ -6,8 +6,9 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
@@ -21,7 +22,6 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import { useTheme } from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './ServiceExtractionRuleDialog.mless';
@@ -76,13 +76,12 @@ class BasicDialog extends React.Component {
             </FormGroup>
           ))}
           {serviceConfiguration.get('matchSpecification').map((matchSpecification, matchSpecificationIndex) => {
-            const theme = useTheme();
             return (
               <div key={matchSpecificationIndex}>
                 <div>
                   {matchSpecificationIndex > 0 && (
                     <div>
-                      <Pill className={locals.operatorPill} color={theme.ids.color.option.neutral['400']}>
+                      <Pill className={locals.operatorPill} color={themes.default.ids.color.option.neutral['400']}>
                         {t('in-applications:forms.and')}
                       </Pill>
                     </div>

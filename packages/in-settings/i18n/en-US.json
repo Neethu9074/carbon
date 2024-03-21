@@ -70,7 +70,6 @@
     "kubernetes": "Kubernetes",
     "allSynthetics": "All Synthetic tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
-    "role": "Custom",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
     "role_permissions": "Unknown - Access {{quantityOfAreas}}",
@@ -84,6 +83,7 @@
     "platform_permissions": "Access {{quantityOfAreas}}",
     "analyticsContentMessage": "Can view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "infrastructureContentMessage": "Can view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
+    "infrastructureAccessAllMessage": "All entities",
     "eventsAndAlertsContentMessage": "Can view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Synthetic Monitoring, Platforms & Infrastructure",
     "permissions": "Permissions",
     "additionalPermissions": "Additional permissions",
@@ -136,11 +136,11 @@
     "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
     "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
     "deleteButton": "Remove {{name}} from list",
-    "infrastructureAccessScope": "Access scope",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
     "infrastructureDfqUse": "In addition, you can use the dynamic focus query below to grant access to infrastructure.",
     "infrastructureDfqMore": "Learn more.",
-    "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms.",
+    "infrastructureDfqToggleLabel": "Additional access using dynamic focus query(DFQ)",
+    "infrastructureDfq_mayNotBeBlank": "The value must not be blank.",
     "descriptionAccessAll_kubernetes": "All namespaces and clusters can be viewed.",
     "descriptionAccessNo_kubernetes": "No access to namespaces and clusters.",
     "descriptionAccessLimited_kubernetes": "Select the namespaces and clusters below to grant access.",
@@ -152,7 +152,7 @@
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
     "contribution_filter": "Contribution filter",
-    "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator",
+    "contributionFilter_description": "The contribution filter is applied when creating new application configurations. On the application configuration, the contribution filter can be refined with filter tags after an {{logicalOperator}} operator. An application perspective using the contribution filter tags is automatically created once you save.",
     "contributionFilter_downstreamCalls": "Determine the maximum level of additional information that can be included in the application perspectives",
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "The contribution filter name must not be blank.",
@@ -197,9 +197,10 @@
     "roleTooltip_synthetics": "Viewer: Ability to view Synthetic Test dashboards (configuration can't be viewed). <br /> Owner: Ability to create new Synthetic Tests; view, configure and delete Synthetic Tests, and view and delete Synthetic Locations.",
     "contribution_filter_accessScope": "Limited access scope (Viewer)",
     "contribution_filter_warning": {
-      "firstParagraph": "Any change that you save will update all application perspectives that use this contribution filter.",
-      "secondParagraph": "If you change the access type, then the contribution filter is deleted. All application perspectives that use the contribution filter can be edited by any user with owner access on the Applications section."
-    }
+      "firstParagraph": "Any change that you save impacts all application perspectives that use this contribution filter, as well as the application perspective, which is automatically created using contribution filter tags.",
+      "secondParagraph": "If you change the access type, then the contribution filter is deleted. The contribution filter tags on all related application perspective configurations become editable by any user with owner access on the Applications section."
+    },
+    "applicationCreatedUsingContributionFilter": "This application perspective is automatically created and updated by using the contribution filter."
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +211,18 @@
       "limited_access": {
         "access_level": "Access only the listed applications with the selected access type and any additional permissions.",
         "access_level_contributor": "You can find the applications with contributor access in the access configuration pane on the user or group details. <br /><br />Access the application perspectives with the contribution filter applied as contributor. <br />Access the selected application perspectives as viewer",
-        "role_permissions_contributor": "Create application dashboards with the contribution filter applied; view, configure and delete these application dashboards that are created for the contribution filter."
+        "role_permissions_contributor": "Create application perspectives with the contribution filter applied; view, configure and delete these application perspectives that are created for the contribution filter."
       },
       "role_permissions_owner": "Create, configure, view and delete application perspectives.",
       "role_permissions_viewer": "View application perspectives and their configuration."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "Access all the entity dashboards under this unit, which are related to the access granted to application and platforms."
+      "access_all": {
+        "access_level": "Access all entity dashboards with the selected permissions."
       },
-      "role_permissions_owner": "View entity dashboards.",
+      "limited_access": {
+        "access_level": "Access only the entities that can be viewed though the access granted on the other Instana sections."
+      },
       "role_permissions_viewer": "View entity dashboards."
     },
     "kubernetes": {
@@ -293,7 +296,7 @@
     "backToParentViewName": "Back to {{parentViewName}}",
     "search": "Search...",
     "confirmRemoveItem": "Are you sure you want to remove <strong>{{itemName}}</strong>?",
-    "confirmSaveGroup": "Saving these updates will remove the contribution filter from {{numberOfContributorAPs}} application perspectives and become disabled",
+    "confirmSaveGroup": "Saving these updates will delete the contribution filter.<br/>The contribution filter tags on <strong>{{numberOfContributorAPs}}</strong> application perspective configurations become editable by any user with owner access on the Applications section.<br/><br/>Make sure you have selected application perspectives to grant access in case of limited access scope.",
     "enable": "Enable",
     "disable": "Disable",
     "deleteEntity": "Delete {{entity}}.",
@@ -487,23 +490,20 @@
     "alertChannels": "Alert Channels",
     "alertChannelEntityName": "alert channel {{entityName}}",
     "noEventsSelected": "No Events Selected",
-    "noActionsSelected": "No Actions Selected",
     "addActions": "Add Actions",
     "addEvents": "Add Events",
     "pleaseSelectAtLeastOneEvent": "Please select at least one event.",
     "pleaseSelectAtLeastOneAction": "Please select at least one action.",
     "addNumberOfItemsEvent": "Add {{count}} Event",
     "addNumberOfItemsEvent_plural": "Add {{count}} Events",
-    "addNumberOfItemsAction": "Add {{count}} Action",
-    "addNumberOfItemsAction_plural": "Add {{count}} Actions",
-    "addNumberOfItemsAction_0": "Add {{count}} Actions",
-    "addNumberOfItemsAction_1": "Add {{count}} Actions",
-    "addNumberOfItemsAction_2": "Add {{count}} Actions",
+    "addNumberOfItemsPolicy": "Add {{count}} Policy",
+    "addNumberOfItemsPolicy_plural": "Add {{count}} Policies",
+    "addNumberOfItemsPolicy_0": "Add {{count}} Policies",
+    "addNumberOfItemsPolicy_1": "Add {{count}} Policies",
+    "addNumberOfItemsPolicy_2": "Add {{count}} Policies",
     "addNumberOfItemsEvent_0": "Add {{count}} Events",
     "addNumberOfItemsEvent_1": "Add {{count}} Events",
     "addNumberOfItemsEvent_2": "Add {{count}} Events",
-    "actionAssociationsStep": "{{step}}. Action Associations",
-    "ActionAssociations": "Action Associations",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Caution!</strong> All events that match the event types will enter the notification stream.",
     "dfqFormDesc": "A <strong>non-empty</strong> filter query which defines for which entities the configuration will be applied. Select <em>\"Apply on: All available entities\"</em> if you want this rule to be applied on all entities. For more information on syntax, please see our <docLink>documentation</docLink>.",
     "addNumberOfItemsApplicationPerspective": "Add {{count}} Application Perspective",
@@ -801,7 +801,8 @@
     "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
     "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
     "deleteGroupMessage": "Are you sure you want to remove <strong>{{groupName}}</strong> from all units on this tenant?",
-    "thisWillRemoveContributionFilterMessage": "This will remove Contribution filter from <strong>{{apCount}}</strong> application perspectives and become disabled",
+    "thisWillRemoveContributionFilterMessage": "This will remove <strong>{{apCount}}</strong> number of application perspectives from the contribution filter",
+    "thisWillRemoveContributionFilterFromOtherUnits": "This will remove <strong>{{apCount}}</strong> number of application perspectives from the contribution filter and any contribution filters defined on other units",
     "addGroup": "New group",
     "pendingInvitations": "Pending Invitations",
     "revoke": "Revoke",
@@ -1123,6 +1124,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow Alert Channel",
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
+    "autoCloseIncidents": "Auto close incidents",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
     "scope": "Scope",

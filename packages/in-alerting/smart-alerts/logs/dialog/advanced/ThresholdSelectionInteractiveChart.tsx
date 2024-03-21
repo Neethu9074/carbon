@@ -40,16 +40,11 @@ export default function ThresholdSelectionInteractiveChart({
   const groupByTag = form.get('groupBy').value;
 
   const groupBy = useMemo(() => {
-    if (groupByTag) {
-      return [groupByTag.groupbyTag];
-    }
-
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return groupByTag ? [groupByTag] : [];
   }, [groupByTag]);
 
   useEffect(() => {
-    if (!groupBy) {
+    if (!groupBy || groupBy.length === 0) {
       selectedMetricGroup$.emit(null);
     }
   }, [groupBy]);
@@ -76,7 +71,11 @@ export default function ThresholdSelectionInteractiveChart({
           <>
             <LogMetricChart
               alertConfig={alertConfigModel as LogAlertConfigWithMetadata}
-              timeConfig={chartViewConfig.timeConfig}
+              timeConfig={{
+                ...chartViewConfig.timeConfig,
+                to: timeConfig.to,
+                focusedMoment: timeConfig.focusedMoment
+              }}
             />
             {groupBy && groupBy?.length > 0 && (
               <LogMetricGroup

@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import RoEmitter from '@instana/roemitter';
 
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';
@@ -13,7 +14,6 @@ import { ContextMenuContent } from 'in-applications/ApplicationMap/components/Co
 import { NodeComponent } from 'in-applications/ApplicationMap/components/Node/Node';
 import { ApplicationMapReactComponent } from 'in-applications/ApplicationMap';
 import { deepCopy } from 'in-services/util/object';
-import { useTheme } from 'in-themes';
 
 export default {
   parameters: {
@@ -156,11 +156,10 @@ export function NodeStatesStory() {
 }
 
 export function NodeWrapper({ title, children }) {
-  const theme = useTheme();
   return (
     <div
       style={{
-        background: theme.ids.color.option.neutral['50'],
+        background: themes.default.ids.color.option.neutral['50'],
         margin: '0px 0.5rem',
         padding: '1rem 2.5rem 1px',
         width: 130
@@ -169,7 +168,7 @@ export function NodeWrapper({ title, children }) {
       <h3
         style={{
           margin: '-1rem  0 1rem -2.5rem',
-          color: theme.ids.color.option.neutral['500']
+          color: themes.default.ids.color.option.neutral['500']
         }}
       >
         {title}

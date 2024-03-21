@@ -19,6 +19,9 @@
   "totalCpu": "CPU 총계",
   "totalMemory": "메모리 총계",
   "totalStorage": "스토리지 총계",
+  "totalCapacity": "총 용량",
+  "availableCapacity": "사용 가능한 용량",
+  "volumeCount": "볼륨 수",
   "cpuArch": "CPU 아키텍처",
   "cpuModel": "CPU 모델",
   "cpuVendor": "CPU 벤더",
@@ -26,6 +29,7 @@
   "status": "상태",
   "state": "상태",
   "hostIP": "호스트 IP",
+  "ip": "IP",
   "hypervisorType": "하이퍼바이저 유형",
   "hypervisorVersion": "하이퍼바이저 버전",
   "instanceCount": "인스턴스 수",
@@ -37,8 +41,11 @@
   "serverGroupsUsage": "서버 그룹 사용량",
   "floatingIpsUsage": "부동 IP 사용량",
   "securityGroupsUsage": "보안 그룹 사용량",
+  "project": "프로젝트",
+  "hostName": "호스트 이름",
+  "cpuUtilization": "CPU 이용률",
+  "health": "상태",
   "dashboards": {
-    "regions": "지역",
     "powervcRegions": "PowerVC 영역",
     "hypervisors": "하이퍼바이저",
     "computeInstances": "컴퓨팅 인스턴스",
@@ -58,12 +65,11 @@
     "totalServerGroupsUsed": "사용된 서버 그룹 총계",
     "totalFloatingIpsUsed": "사용된 부동 IP 총계",
     "totalSecurityGroupsUsed": "사용된 보안 그룹 총계",
-    "memoryUsageAll": "모든 VM의 메모리 사용량",
-    "cpuUsageAll": "모든 VM의 CPU 사용량",
-    "storageUsageAll": "모든 VM의 스토리지 사용량",
     "noDataAvailable": {
       "hypervisorTitle": "사용 가능 PowerVC 하이퍼바이저 없음",
-      "hypervisorDescription": "선택한 시간 범위에 대해 검색된 PowerVC 하이퍼바이저가 없습니다."
+      "hypervisorDescription": "선택한 시간 범위에 대해 검색된 PowerVC 하이퍼바이저가 없습니다.",
+      "instanceTitle": "사용 가능한 PowerVC 인스턴스가 없음",
+      "instanceDescription": "선택한 시간 범위에 대해 검색된 PowerVC 인스턴스가 없습니다."
     }
   }
 }

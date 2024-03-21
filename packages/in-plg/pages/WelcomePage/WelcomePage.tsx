@@ -6,17 +6,21 @@
 
 import React from 'react';
 
-import { ThemeProvider } from '@instana/components';
+import { Stack, ThemeProvider } from '@instana/components';
 
 import WelcomeHeader from 'in-plg/components/WelcomeHeader/WelcomeHeader';
+import PageContent from 'in-plg/pages/WelcomePage/PageContent';
 
-import locals from './WelcomePage.mless';
+import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
 
 export default function WelcomePage() {
   return (
     <div className={locals.container}>
       <ThemeProvider theme={'g10'}>
         <WelcomeHeader />
+        <Stack direction="vertical">
+          <PageContent />
+        </Stack>
       </ThemeProvider>
     </div>
   );

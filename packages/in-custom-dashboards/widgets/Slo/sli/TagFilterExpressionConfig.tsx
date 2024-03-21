@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import LightCard from 'in-alerting/components/LightCard/LightCard';

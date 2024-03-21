@@ -11,17 +11,31 @@ import React from 'react';
 import AgentCatalog from 'in-plg/pages/onboarding/AgentCatalog';
 import AgentViewRouter from 'in-plg/pages/onboarding/AgentViewRouter';
 
-const Portal = () => {
+interface PortalProps {
+  agentKey: string;
+  downloadKey: string;
+}
+
+const Portal = (props: PortalProps) => {
   return (
     <>
       <Switch>
         <Route
           exact
-          path="/agents/installation/:selectedservice"
-          render={({ match }) => <AgentViewRouter selectedService={match.params.selectedservice} />}
+          path="/agents/onboarding/installation/:selectedservice"
+          render={({ match }) => (
+            <AgentViewRouter
+              selectedService={match.params.selectedservice}
+              fromOnboarding
+              agentKey={props.agentKey}
+              downloadKey={props.downloadKey}
+            />
+          )}
         />
 
-        <Route path="/" component={AgentCatalog} />
+        <Route path="/agents/onboarding/installation" render={() => <AgentCatalog fromOnboarding />} />
+
+        <Route path="/" render={() => <AgentCatalog fromOnboarding />} />
       </Switch>
     </>
   );

@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "更多",
     "workspaceAPIQuery": "API 查询",
     "workspaceUseThisExpressionToQueryOurAPI": "使用此表达式查询我们的 API",
-    "workspaceIncludeSidebarFilters": "包含过滤器侧边栏项",
     "workspaceTitleFilter": "过滤器",
     "workspaceButtonClear": "清除",
     "errorWithDataYourDefinedQueryIsTooComplex": "定义的查询太复杂，请减少嵌套数量。",

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   availableGroupings,

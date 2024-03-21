@@ -7,7 +7,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { FeedbackStepConfigs } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/stepConfig';
 import terrible from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/feedback/assets/terrible.png';

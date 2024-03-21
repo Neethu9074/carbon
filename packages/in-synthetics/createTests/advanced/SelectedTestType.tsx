@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';

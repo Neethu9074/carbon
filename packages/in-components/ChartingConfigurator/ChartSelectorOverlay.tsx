@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { Entity, getEntityNameByType, getIconByType, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
@@ -94,7 +94,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
   };
 
   const optionGroups = Object.getOwnPropertyNames(options);
-  const groups: {value: string, options: (ChartMetric | ChartTemplate)[]}[] = []
+  const groups: { value: string, options: (ChartMetric | ChartTemplate)[] }[] = []
   optionGroups.forEach(key => {
     options[key].forEach(option => {
       const groupName = getGroupName(key, option);

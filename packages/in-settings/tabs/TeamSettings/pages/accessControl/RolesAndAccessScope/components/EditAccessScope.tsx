@@ -11,6 +11,7 @@ import { PermissionSet, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
+import PermissionSectionBusinessMonitoring from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
 import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import {
   getAreaRoleFromPermissionSet,
@@ -31,10 +32,14 @@ import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
+import {
+  applicationContributionFilterEnabled,
+  syntheticRbacEnabled,
+  bizopsRbacEnabled
+} from 'in-services/featureFlags';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
-import { applicationContributionFilterEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
@@ -69,6 +74,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
 
   let isValidContributionFilter = true;
   const [isValidContributionFilterName, setValidContributionFilterName] = useState(true);
+  const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
 
   const validateContributionFilter = () => {
     const permissionSet = getField<PermissionSet>(form, 'permissionSet')?.value;
@@ -187,6 +193,13 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     },
     {
+      scrollId: '4.5-bizops',
+      label: 'Business Monitoring',
+      title: 'Business Monitoring',
+      valid: true,
+      content: <PermissionSectionBusinessMonitoring />
+    },
+    {
       scrollId: '5-applications',
       label: t('in-settings:productAreas.title_applications'),
       title: t('in-settings:productAreas.title_applications'),
@@ -226,7 +239,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       content: (
         <PermissionSectionInfrastructure
           title={t('in-settings:productAreas.title_infrastructure')}
-          viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
           icon="lib_infrastructure"
           {...formControlProps}
           {...slideControlProps}
@@ -234,6 +246,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       )
     }
   ];
+
   navItems = syntheticRbacEnabled
     ? [
         ...navItems,
@@ -340,6 +353,10 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
         }
       ];
 
+  // Filter out areas the user does not have permissions for
+  navItems = bizopsRbacEnabled ? navItems : navItems.filter(it => it.scrollId !== '4.5-bizops');
+  navItems = hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms');
+
   return (
     <ConfigDialog
       showSubSlide={showSubSlide}
@@ -350,11 +367,14 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
         setTimeout(() => setSubSlideConfig(undefined), 1000);
       }}
       title={t('in-settings:roleAndAccessScope.dialogTitle', { context })}
-      navItems={hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms')}
+      navItems={navItems}
       onClickSave={() => onSave(form)}
       onClickCancel={onCancel}
       disabledSaveButton={
-        !form.hierarchyTouched || isBlank((form.get('name') as Field<string>).value) || !isValidContributionFilter
+        !form.hierarchyTouched ||
+        !permissionSetField?.hierarchyValid ||
+        isBlank((form.get('name') as Field<string>).value) ||
+        !isValidContributionFilter
       }
       noHeader
       noDivider

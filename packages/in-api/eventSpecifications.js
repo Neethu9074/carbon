@@ -54,7 +54,8 @@ export function getBuiltInEventSpecificationMutable(eventSpecificationIds) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventSpecificationIds)}`
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventSpecificationIds)}`,
+    treat400AsError: false
   }).map(response => response.body);
 }
 

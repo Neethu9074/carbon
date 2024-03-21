@@ -86,7 +86,7 @@
     },
     "metrics": {
       "status": "Status",
-      "remainingBudget": "Verbleibendes Fehlerbudget",
+      "remainingBudget": "Verbleibend",
       "totalBudget": "Fehlerbudget",
       "consumedBudget": "Fehlerbudget verbraucht",
       "momentaryBudgetConsumption": "Fehlerbudgetverbrauch",
@@ -126,19 +126,16 @@
   "createSloDialog": {
     "customFilter": "Benutzerdefinierter Filter (optional)",
     "title": "Service Level Objective (SLO) erstellen",
-    "selectIndicator": "Entwürfe auswählen",
-    "selectEntityNavItem": "Entität auswählen",
+    "selectIndicator": "Blueprint auswählen",
+    "selectEntityNavItem": "Entität festlegen",
     "selectEntityTitle": "Wählen Sie eine Entität aus, zu der SLO hinzugefügt werden soll:",
-    "selectScopeNavItem": "Bereich auswählen",
-    "selectScopeTitle": "Bereich auswählen",
-    "selectIndicatorTitle": "SLI-Anzeiger",
+    "selectScopeNavItem": "Bereich festlegen",
     "selectIndicatorNavItem": "Anzeiger festlegen",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP-Anforderungen",
       "beaconLabel_pageLoad": "Laden von Websites",
       "beaconLabel_custom": "Benutzerdefinierte Websiteereignisse"
     },
-    "selectObjectiveNavItem": "Zielsetzung auswählen",
     "selectObjectiveTitle": "Zielsetzung festlegen",
     "sloTarget": "SLO-Ziel",
     "timeWindow": "Zeitfenster",
@@ -154,8 +151,7 @@
     "errorTimeWindowMin": "Das Zeitfenster muss mindestens einen Tag lang sein.",
     "errorInvalidExpression": "Die eingegebenen Filter sind nicht gültig",
     "errorBlankEntity": "Wählen Sie eine Entität aus der Liste aus",
-    "nameAndTagsTitle": "Name und Tags",
-    "nameAndTagsNavItem": "Name & Tags",
+    "nameAndTagsTitle": "Details festlegen",
     "sloNameLabel": "SLO-Name",
     "sloNamePlaceholder": "Name eingeben",
     "sloNameCopyTemplate": "Kopie von {{name}}",
@@ -182,13 +178,21 @@
       "thresholdLabel_availability": "Fehlerrate (%)",
       "setGoodCall": "Legen Sie die gültigen Aufrufe für einen Service fest",
       "setBadCall": "Legen Sie die fehlerhaften Aufrufe für einen Service fest (optional)"
+    },
+    "previewSection": {
+      "dataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das SLO enthält nur Daten ab dem Zeitpunkt seiner Erstellung"
     }
   },
   "sloChart": {
     "sloFormatter": {
       "unit": "Aufruf",
+      "unit_application": "Aufruf",
+      "unit_website": "Beacon",
       "unit_plural": "Aufrufe",
-      "thousandCallsFormat": "{{count}}K Aufrufe"
+      "unit_application_plural": "Aufrufe",
+      "unit_website_plural": "Beacons",
+      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Status",
@@ -198,7 +202,12 @@
       "timeWindow": "Zeitfenster",
       "timeWindowType_dynamic": "Dynamisches Zeitfenster",
       "timeWindowType_rolling": "Rotierendes Zeitfenster",
-      "timeWindowType_fixed": "Festes Zeitfenster"
+      "timeWindowType_fixed": "Festes Zeitfenster",
+      "configuredTimeWindow": "Konfiguriertes SLO-Zeitfenster:",
+      "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
+      "startTime": "Startzeit: {{startDay}} , {{startTime}}",
+      "matchedSLOTimeWindow": "Übereinstimmende SLO-Zeitfenster: ",
+      "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
       "previewNotAvailWidgetConfigIncomplete": "Die Vorschau ist nicht verfügbar, da die Konfiguration unvollständig ist.",
@@ -208,10 +217,8 @@
   "sloList": {
     "components": {
       "sloEntityInfo": {
-        "tooltip": {
-          "applications": "Anwendungs-SLO",
-          "websites": "Website-SLO"
-        }
+        "service": "Service: {{label}}",
+        "tooltip": "{{context}}-SLO"
       },
       "entityTypeFilter": {
         "placeholder": "Entitätstyp"
@@ -256,8 +263,14 @@
       "summaryLabel": "Zusammenfassung",
       "configurationLabel": "Konfiguration"
     },
+    "timeWindowSelection": {
+      "timeWindow": "Unbekannte Auswahl",
+      "timeWindow_SELECTED_TIME": "Ausgewählte Zeit",
+      "timeWindow_SLO_TIME_WINDOW": "SLO-Zeitfenster"
+    },
     "components": {
       "errorBudgetKpiCard": {
+        "remainingBudget": "Verbleibendes Fehlerbudget",
         "totalBudget": "Budget: {{value}}"
       },
       "sloStatusKpiCard": {
@@ -268,13 +281,7 @@
         "totalTraffic": "Gesamt: {{value}}"
       },
       "errorBudgetChart": {
-        "title": "Fehlerbudget",
-        "title_fullWindow": "Fehlerbudget für das gesamte Zeitfenster",
-        "optionCompact": "Kompakt",
-        "optionFull": "Vollständiger Verbrauch"
-      },
-      "errorBudgetConsumptionChart": {
-        "title": "Fehlerbudgetverbrauch über das gesamte Zeitfenster"
+        "title": "Fehlerbudget"
       },
       "trafficChart": {
         "title": "Datenverkehr"

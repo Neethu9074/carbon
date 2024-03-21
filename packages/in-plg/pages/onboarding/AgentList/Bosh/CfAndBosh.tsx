@@ -90,7 +90,8 @@ export default function CfAndBosh({
   agentKey,
   agentEndpoint,
   downloadKey,
-  instanaDomain
+  instanaDomain,
+  fromOnboarding
 }: OnboardingProps): JSX.Element {
   const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
@@ -334,7 +335,7 @@ export default function CfAndBosh({
                   </Stack>
                 </LayoutSection>
 
-                <GetDeployedAgents agent="bosh" />
+                <GetDeployedAgents agent="bosh" fromOnboarding={fromOnboarding} />
               </MainBody>
               <SidePanel>
                 <SupportViewSection items={supportViewData} />

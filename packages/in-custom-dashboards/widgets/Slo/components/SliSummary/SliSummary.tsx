@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-// eslint-disable-next-line no-restricted-imports
-import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-custom-dashboards/widgets/Slo/components/SliSummary/SliSummarySkeleton';
@@ -13,6 +11,7 @@ import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFo
 import SloTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
 import { formatSloStatus } from 'in-service-levels/utils/format';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { SliEntity } from 'in-types';
 import { t } from 'in-i18n';

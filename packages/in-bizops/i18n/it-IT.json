@@ -14,7 +14,8 @@
     "durationLabel": "Durata",
     "noData": "Nessun dato disponibile",
     "healthLabel": "Integrità",
-    "startLabel": "Avviato"
+    "startLabel": "Avviato",
+    "unnamedActivity": "(Attività senza nome) {{activityType}}"
   },
   "navigation": {
     "businessMonitoring": "Monitoraggio aziendale"
@@ -28,14 +29,19 @@
       "widgets": {
         "topActivities": "Prime attività (conteggio)",
         "infrastructureIssuesAndChanges": "Problemi dell'infrastruttura e modifiche",
-        "viewAll": "Visualizza tutte le attività"
+        "viewAll": "Visualizza tutte le attività",
+        "processCount": "Conteggio",
+        "processCountTotal": "totale",
+        "processErrors": "Errori"
       }
     },
     "activity": {
       "pageTitle": "Attività di business",
       "summaryTab": "Riepilogo",
       "widgets": {
-        "duration": "Durata"
+        "duration": "Durata",
+        "activityCount": "Conteggio",
+        "activityErrors": "Errori"
       },
       "timespans": {
         "minute": "1 minuto",

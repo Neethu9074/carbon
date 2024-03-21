@@ -9,6 +9,8 @@ import React from 'react';
 
 import ConfigureTimeToFailure from 'in-alerting/smart-alerts/infrastructure/components/ConfigureTimeToFailure';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
+import { formatDurationAccurately } from 'in-services/formatters/date';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger.mless';
@@ -19,11 +21,16 @@ interface InfraPredictiveTriggerProps {
 }
 
 export default function InfraPredictiveTrigger({ form, updateForm }: InfraPredictiveTriggerProps) {
+  const predictiveTrigger = form.get('predictiveTrigger')?.value;
+  const timeToFailure = getTimeToFailure(predictiveTrigger?.timeToFailure);
+
   return (
     <BorderedContainer>
       <div className={locals.container}>
         <h3 className={locals.headline}>
-          {t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title')}
+          {timeToFailure
+            ? timeToFailure
+            : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title')}
         </h3>
         <BorderedContainer>
           <ConfigureTimeToFailure form={form} updateForm={updateForm} />
@@ -31,4 +38,13 @@ export default function InfraPredictiveTrigger({ form, updateForm }: InfraPredic
       </div>
     </BorderedContainer>
   );
+}
+
+export function getTimeToFailure(minutes: number | Nullish) {
+  if (!minutes) {
+    return null;
+  }
+  return t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.alertTitle', {
+    value: formatDurationAccurately(minutes, 60000, false)
+  });
 }

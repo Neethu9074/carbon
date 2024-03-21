@@ -10,6 +10,7 @@ import { PermissionSet } from '@instana/types';
 import { Ul } from '@instana/components';
 
 import { SyntheticMonitoringSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticMonitoringSection';
+import { BusinessMonitoringSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring/BusinessMonitoringSection';
 import { EventsAndAlertsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/EventsAndAlerts/EventsAndAlertsSection';
 import { GlobalFunctionsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/GlobalFunctions/GlobalFunctionsSection';
 import { InfrastructureSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Infrastructure/InfrastructureSection';
@@ -18,7 +19,7 @@ import { MobileAppsSection } from 'in-settings/tabs/TeamSettings/pages/accessCon
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
-import { syntheticRbacEnabled } from 'in-services/featureFlags';
+import { syntheticRbacEnabled, bizopsRbacEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
   permissionsSet: PermissionSet;
@@ -33,6 +34,7 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
         <ApplicationsSection />
         <PlatformsSection />
         <InfrastructureSection />
+        {bizopsRbacEnabled && <BusinessMonitoringSection />}
         {syntheticRbacEnabled && <SyntheticMonitoringSection />}
         <EventsAndAlertsSection />
         <GlobalFunctionsSection />

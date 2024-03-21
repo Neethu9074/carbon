@@ -29,7 +29,7 @@ const columnDefinitions = [
     label: t('in-alerting:smartAlerts.applications.logMessages.levelColumn'),
     width: 10,
     getContent(item) {
-      return <Pill kind="lighter">{item.level}</Pill>;
+      return <Pill type="gray">{item.level}</Pill>;
     }
   },
   {

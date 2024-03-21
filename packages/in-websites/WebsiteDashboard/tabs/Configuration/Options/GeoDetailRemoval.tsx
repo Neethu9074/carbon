@@ -5,9 +5,10 @@
 
 import React, { FormEvent, useState } from 'react';
 
-import { Button, Card, Stack } from '@instana/components';
+import { Card, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/legacy';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';

@@ -54,30 +54,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.userID'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('USERID');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.rfcCaller'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('RFC_CALLER');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.calls'),
     type: 'number',
     typeArgs: {

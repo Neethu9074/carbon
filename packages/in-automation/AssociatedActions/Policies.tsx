@@ -7,10 +7,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Button, Typography } from '@instana/components';
+import { Link, SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   isDocLink,
@@ -21,15 +20,16 @@ import {
   isJira,
   getDocLinkFromFields,
   isAnsible,
-  getType
+  getType,
+  isManual as isManualAction
 } from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { ActionInstance, PaginatedResult, Policy, VolatileId, Event, TriggerType } from 'in-types';
+import useLinkToPolicyDetails from 'in-automation/AssociatedActions/useLinkToPolicyDetails';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { isAutomatic, isManual, TriggerSpecification } from 'in-automation/Policies/types';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -132,11 +132,17 @@ export default function Policies({
       );
     }
   });
-
-  let columnDefinitionsToShow = [...columnDefinition, deleteColumn(triggerReload)];
-  if (role?.canRunAutomationActions) {
+  let columnDefinitionsToShow = [...columnDefinition];
+  if (role?.canConfigureAutomationPolicies && !role?.canRunAutomationActions) {
+    columnDefinitionsToShow = [...columnDefinition, deleteColumn(triggerReload)];
+  }
+  if (role?.canConfigureAutomationPolicies && role?.canRunAutomationActions) {
     columnDefinitionsToShow = [...columnDefinition, executeColumn(volatileId, event), deleteColumn(triggerReload)];
   }
+  if (role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) {
+    columnDefinitionsToShow = [...columnDefinition, executeColumn(volatileId, event)];
+  }
+
   return (
     <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
       onChange={setServerTableState}
@@ -173,7 +179,8 @@ export function Subscript({ policy }: { policy: PolicyTableEntity }) {
 }
 
 function PolicyLink({ policy }: { policy: Policy }) {
-  const navigateToPolicyDetails = useNavigateToPolicyDetails();
+  const policyLink = useLinkToPolicyDetails(policy);
+
   return (
     <Tooltip content={policy.name} delay={500}>
       <Link
@@ -182,7 +189,7 @@ function PolicyLink({ policy }: { policy: Policy }) {
           [locals.block]: true,
           [locals.ellipsis]: policy.name.length > 60
         })}
-        onClick={() => navigateToPolicyDetails(policy, false)}
+        href={policyLink}
       >
         {policy.name}
       </Link>
@@ -324,14 +331,39 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          onClick={() =>
+          onClick={() => {
             addActiveDialog(
               <RunActionDialog action={action} executePolicy={item} volatileId={volatileId} event={event} />
-            )
-          }
+            );
+            runActionTracker({
+              actionType: action.type,
+              actionName: action.name,
+              policyId: item.id,
+              policyName: item.name
+            });
+          }}
           noAutoMargin
         >
           {t('in-automation:ActionCatalog.run')}
+        </Button>
+      );
+    } else if (isManual(item) && isManualAction(type)) {
+      return (
+        <Button
+          kind="action"
+          icon={'lib_views_show'}
+          onClick={() => {
+            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+            runActionTracker({
+              actionType: action.type,
+              actionName: action.name,
+              policyId: item.id,
+              policyName: item.name
+            });
+          }}
+          noAutoMargin
+        >
+          {t('in-automation:ActionCatalog.view')}
         </Button>
       );
     } else {

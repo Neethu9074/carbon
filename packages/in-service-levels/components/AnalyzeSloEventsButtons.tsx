@@ -12,7 +12,8 @@ import {
   ServiceLevelObjectiveConfiguration,
   SloEntity
 } from '@instana/types';
-import { Button, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';

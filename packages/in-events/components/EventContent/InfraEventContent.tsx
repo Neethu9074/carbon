@@ -19,8 +19,8 @@ import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/compone
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
+import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeInfraGroupingTags';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
-import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeGroupingTags';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';

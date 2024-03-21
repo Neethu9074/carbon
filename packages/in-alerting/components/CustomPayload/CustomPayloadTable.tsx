@@ -6,7 +6,8 @@
 import { Item, ListForm, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Button, TrProps } from '@instana/components';
+import { TrProps } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';

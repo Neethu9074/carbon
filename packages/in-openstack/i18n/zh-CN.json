@@ -17,7 +17,7 @@
   "type": "类型",
   "totalCpu": "总 CPU",
   "totalMemory": "总内存",
-  "totalStorage": "总存储容量",
+  "totalStorage": "总存储空间 (GB)",
   "cpuArch": "CPU 体系结构",
   "cpuModel": "CPU 型号",
   "cpuVendor": "CPU 供应商",
@@ -67,7 +67,6 @@
   "updated": "更新时间",
   "imageSize": "映像大小 (MB)",
   "dashboards": {
-    "regions": "区域",
     "openstackRegions": "OpenStack 区域",
     "name": "名称",
     "hypervisors": "系统管理程序",

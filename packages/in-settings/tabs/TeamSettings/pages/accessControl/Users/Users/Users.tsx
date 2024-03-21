@@ -79,6 +79,7 @@ export default function Users() {
         searchPlaceholder={t('in-settings:components.search')}
         customDialogMessage={isAnyIDPActive ? (entity: UserResult) => customDialogMessage(entity) : undefined}
         onRowClick={noop}
+        boundedPath="/users"
       />
     </>
   );

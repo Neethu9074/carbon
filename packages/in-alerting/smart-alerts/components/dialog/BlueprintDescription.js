@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';

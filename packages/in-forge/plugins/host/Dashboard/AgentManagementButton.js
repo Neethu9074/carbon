@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';

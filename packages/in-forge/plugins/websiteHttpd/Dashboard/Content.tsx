@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 import locals from './Content.mless';
 
-export default function EumWebsiteHttpdDashboard({ snapshot }: { snapshot: any}) {
+export default function EumWebsiteHttpdDashboard({ snapshot }: { snapshot: any }) {
   const websiteId = snapshot.get('data').get('key');
   const websiteHref = useLinkToWebsite(websiteId);
 
@@ -34,4 +34,3 @@ export default function EumWebsiteHttpdDashboard({ snapshot }: { snapshot: any})
     </>
   );
 }
-

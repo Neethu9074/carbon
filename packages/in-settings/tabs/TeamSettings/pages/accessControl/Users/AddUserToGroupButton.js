@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import AddUserToGroupDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';

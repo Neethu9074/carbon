@@ -29,7 +29,7 @@ interface ManagedLocationProps {
 }
 
 const ManagedLocation = ({ form, datacenters, updateForm }: ManagedLocationProps) => {
-  const popDocsUrl = 'https://ibm.biz/pop_deployment';
+  const managedPopDocsUrl = 'https://ibm.biz/Instana-hosted_PoP';
 
   return (
     <div className={locals.wrapper}>
@@ -43,7 +43,7 @@ const ManagedLocation = ({ form, datacenters, updateForm }: ManagedLocationProps
               i18nKey="in-synthetics:dialog.createLocation.managedLocation.datacentersSubtitle"
               components={{
                 // @ts-expect-error property children missing
-                linkDatacenters: <Link href={popDocsUrl} external />
+                linkDatacenters: <Link href={managedPopDocsUrl} external />
               }}
             />
           </Typography>
@@ -77,12 +77,36 @@ const getColumnDefinitions = (
 
   const onDatacenterSelect = (entity: SyntheticDatacenter) => {
     const selectedDatacenters = datacentersField.value;
-    const { code, label, provider, countryName, cityName, latitude, longitude, status } = entity;
+    const {
+      code,
+      label,
+      provider,
+      countryName,
+      cityName,
+      latitude,
+      longitude,
+      status,
+      // @ts-expect-error property not yet in type but present
+      locationDisplayLabel,
+      datacenterId
+    } = entity;
     const index = selectedDatacenters.findIndex(datacenter => datacenter?.code === code);
     if (index !== -1) {
       selectedDatacenters.splice(index, 1);
     } else {
-      selectedDatacenters.push({ code, label, provider, countryName, cityName, latitude, longitude, status });
+      selectedDatacenters.push({
+        code,
+        label,
+        provider,
+        countryName,
+        cityName,
+        latitude,
+        longitude,
+        status,
+        // @ts-expect-error property not yet in type but present
+        locationDisplayLabel,
+        datacenterId
+      });
     }
     updateForm(
       form.updateIn(['syntheticDatacenters'], (field: Item) =>
@@ -121,6 +145,15 @@ const getColumnDefinitions = (
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
         return <span className={locals.label}>{datacenterProviderMap.get(entity.provider)}</span>;
+      }
+    },
+    {
+      id: 'location',
+      label: t('in-synthetics:dialog.createLocation.managedLocation.locationName'),
+      defaultOrderDirection: 'ASC',
+      getContent(entity: SyntheticDatacenter) {
+        const locationName: string = entity?.locationLabel ?? '';
+        return <span className={locals.label}>{locationName}</span>;
       }
     },
     {

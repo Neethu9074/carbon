@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { CSVLink } from 'react-csv';
 import { Observable } from 'rxjs';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 import { Cursor } from '@instana/types';
 
 import { t } from 'in-i18n';
@@ -112,9 +112,7 @@ export default function CsvExporter({
               ref={csvInstance}
               target="_blank"
             />
-          ) : (
-            undefined
-          )}
+          ) : undefined}
         </Fragment>
       );
     }

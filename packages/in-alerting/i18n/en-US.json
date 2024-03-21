@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "Payloads",
             "title": "Custom Payload"
-          },
-          "actionsOptional": {
-            "label": "Actions",
-            "title": "Action Associations"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
         "timeThresholdConfigNumberOfViolations": "Number of Metric Violations",
         "timeThresholdConfigEvaluationGranularity": "Evaluation Granularity",
+        "granularityTooltipText": "The time granularity set here will determine the frequency at which the threshold is evaluated.",
         "timeThresholdConfigNumberOfTracesThreshold": "Number of Impacted Traces",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Number of Impacted Users",
         "timeThresholdConfigAtLeast": "At least",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
         "thresholdTitle": "Threshold: When is the condition violated?",
-        "userImpactInfo": "Only authenticated users are considered for the user-impact threshold.",
         "payloadsLabel": "Payloads",
         "payloadsTitle": "Custom Payloads"
       }
@@ -1208,10 +1204,7 @@
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertProperties": "Alert Properties",
-        "predictiveTrigger": {
-          "title": "Predictively trigger the alert in advance"
-        }
+        "alertConfigurationTitleAlertProperties": "Alert Properties"
       },
       "list": {
         "columns": {
@@ -1255,7 +1248,8 @@
           "title": "Time Threshold: When do you want to be alerted?"
         },
         "predictiveTrigger": {
-          "title": "Predictive trigger",
+          "title": "Predictive alerts are disabled",
+          "alertTitle": "Alert will be triggered {{value}} before predicted violation",
           "timeToFailure": "Time to Failure"
         },
         "alertChannel": {
@@ -1288,8 +1282,9 @@
     "logs": {
       "alertDetails": {
         "alertConfiguration": "Alert Configuration",
-        "metricName": "Log Count",
+        "metricName": "Log count",
         "alertConfigurationTitleScope": "Scope",
+        "noScopeSelected": "No scope filters or groups configured.",
         "alertConfigurationTitleTimeThreshold": "Time Threshold",
         "alertConfigurationTitleAlertChannels": "Alert Channels",
         "alertConfigurationTitleAlertProperties": "Alert Properties",
@@ -1318,11 +1313,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Scope",
-          "title": "Scope: Where is the condition happening?"
+          "title": "Scope: Where is the condition happening?",
+          "metric": "Metric"
         },
         "threshold": {
           "label": "Threshold",
-          "title": "Threshold: When is the condition violated?"
+          "title": "Threshold: When is the condition violated?",
+          "tooltipText": "The threshold value defined here will be evaluated based on the time granularity specified below."
         },
         "timeThreshold": {
           "label": "Time Threshold",
@@ -1340,10 +1337,10 @@
           },
           "alertPropertiesTitlePlaceholder": "Logs Smart alert",
           "descriptionPlaceholder": {
-            "logsCount_higherThan": "The logs count is higher than {{value}}.",
-            "logsCount_higherEqual": "The logs count is higher or equal to {{value}}.",
-            "logsCount_lowerThan": "The logs count is lower than {{value}}.",
-            "logsCount_lowerEqual": "The logs count is lower or equal to {{value}}."
+            "logsCount_higherThan": "The log count is higher than {{value}}.",
+            "logsCount_higherEqual": "The log count is higher or equal to {{value}}.",
+            "logsCount_lowerThan": "The log count is lower than {{value}}.",
+            "logsCount_lowerEqual": "The log count is lower or equal to {{value}}."
           }
         },
         "customPayloads": {
@@ -1353,9 +1350,10 @@
         "thresholdValue": "Threshold Value"
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0"
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "nGroupSelected": "No group selected"
       },
-      "logs": "Logs"
+      "logCount": "Log count"
     }
   }
 }

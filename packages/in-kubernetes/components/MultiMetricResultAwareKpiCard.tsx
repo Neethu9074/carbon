@@ -45,7 +45,7 @@ export default function MultiMetricResultAwareKpiCard<T>({
     return (
       <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
         <Stack align="center" distribution="center">
-          <span title={result[0].errors[0].message}>
+          <span title={result[0]?.errors[0]?.message}>
             <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
           </span>
         </Stack>

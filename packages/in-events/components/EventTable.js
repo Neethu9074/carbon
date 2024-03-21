@@ -6,10 +6,11 @@
 import React, { useEffect, useState } from 'react';
 import { findIndex } from 'lodash';
 
-import { Button, Stack, SvgIcon, Typography, Pill } from '@instana/components';
+import { Stack, SvgIcon, Typography, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import {
   eventFeedbackClosedManuallyTracker,

@@ -50,7 +50,7 @@ function useActions() {
 }
 
 function usePolicyDetailsUrlParams() {
-  const [{ policyId, op }] = useUrlState<{ policyId?: string; op?: 'copy' }>({
+  const [{ policyId, op }] = useUrlState<{ policyId?: string; op: 'copy' | null }>({
     bind: [policyDetailsUrlParameters.policyId, policyDetailsUrlParameters.op]
   });
   const isCopy = op === 'copy';

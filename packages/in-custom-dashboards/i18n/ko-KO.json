@@ -166,7 +166,9 @@
         "crossSeriesAggregation": "교차 계열 집계에 SUM 사용",
         "crossSeriesAggregationHelp": "일반적으로 교차 계열 집계는 교차 시간 집계(데이터 점을 단일 버킷으로 결합하는 데 사용되는 방법)와 동일합니다. 이 토글을 사용으로 설정하면 지정된 집계를 사용하는 대신 데이터 계열의 버킷을 합산합니다.",
         "crossSeriesAggregationDisabledHelp": "{{aggregation}}에 적용할 수 없음",
-        "crossSeriesAggregationRestrictedHelp": "이 메트릭에 적용할 수 없음"
+        "crossSeriesAggregationRestrictedHelp": "이 메트릭에 적용할 수 없음",
+        "lastValue": "마지막 값 사용",
+        "lastValueHelp": "이 토글을 사용하면 시간 범위의 마지막 버킷에 대한 집계를 표시합니다."
       },
       "metrics": {
         "infrastructurePlatforms": "인프라 및 플랫폼",
@@ -180,6 +182,14 @@
         "inputPlaceholder": "메트릭 패턴(예: metric_. *)",
         "done": "완료",
         "help": "## 꿀팁\nApache Lucene 플레이버 regex는 다음 연산자와 함께 지원됩니다.\n###.\n모든 문자와 일치합니다. 예:\n\n    ab.     # 'aba', 'abb', 'abz' 등과 일치합니다.\n### ? + *\n선행 문자를 특정 횟수만큼 반복하십시오. 예:\n\n    abc?     # 'c' 를 한 번 또는 0번 반복합니다. 'ab' and 'abc'와 일치합니다.\n    ab+      # 'b'를 한 번 이상 반복합니다. 'ab', 'abb', 'abbb' 등과 일치합니다.\n    ab*      # 'b'를 0번이상 반복합니다. 'a', 'ab', 'abb', 'abbb' 등과 일치합니다.\n### |\n OR 연산자. 왼쪽 또는 오른쪽에서 가장 긴 패턴이 일치하는 경우 일치가 성공합니다. 예:\n\n    abc|xyz # 'abc' 및 'xyz'와 일치\n ### ( ... )\n그룹을 형성합니다. 그룹을 사용하여 표현식의 일부를 단일 문자로 처리할 수 있습니다. 예:\n\n    abc(def)?  # 'abc' 및 'abcdef'와 일치하지만 'abcd'는 일치하지 않습니다.\n### [...]\n대괄호 안의 문자 중 하나와 일치합니다. 예:\n\n    [abc]   #는 'a', 'b', 'c'와 일치합니다.\n대괄호 안에서, `-` 는 `-` 가 첫 번째 문자이거나 이스케이프된 경우가 아니라면 범위를 표시합니다. 예:\n\n    [a-c] #는 'a', 'b' 또는 'c' 와 일치합니다.\n [-abc] # '-'는 첫 번째 문자입니다. '-', 'a', 'b', 또는 'c'와 일치합니다.\n    [abc\\-] # '-'를 이스케이프합니다. 'a', 'b', 'c', 또는 '-'와 일치합니다.\n 대괄호 안의 문자 앞에 있는 `^` 는 문자 또는 범위를 부정합니다. 예:\n\n    [^abc]      'a', 'b' 또는 'c' 를 제외한 모든 문자와 일치합니다.\n    [^a-c]      # 'a', 'b' 또는 'c' 를 제외한 모든 문자와 일치합니다.\n    [^-abc]     # '-', 'a', 'b', 또는 'c' 를 제외한 모든 문자와 일치합니다.\n    [^abc\\-]    # matches any character except 'a', 'b', 'c', 또는 '-'를 제외한 모든 문자와 일치합니다.\n\n`\\w` 또는 `\\S`와 같은 PCRE 문자 클래스는 현재 지원되지 않습니다. 또한 `^` 또는 `$`와 같은 앵커 연산자는 지원되지 않습니다. 표현식은 전체 문자열과 일치해야 합니다.\n## 자세한 정보\n전체 구문은 [문서] ({{documentationLink}})를 참조하십시오."
+      },
+      "regexMetricsList": {
+        "noRegex": "regex 조회 입력",
+        "loading": "로드 중...",
+        "error": "이러한 메트릭을 로드하는 중에 문제점이 발생했습니다.",
+        "noResults": "해당 정규식과 일치하는 메트릭이 없음",
+        "matches": "{{number}}개의 메트릭과 일치함",
+        "more": "{{number}}개 더"
       },
       "metricSelectionCategoryOverlay": {
         "list": "목록",
@@ -812,6 +822,9 @@
         "endedOn": "종료 날짜",
         "duration": "지속 기간"
       }
+    },
+    "time": {
+      "lastValueTooltipLabel": "지난 {{duration}}"
     }
   },
   "duplicateDashboardDialog": {

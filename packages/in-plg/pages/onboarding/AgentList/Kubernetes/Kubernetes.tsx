@@ -6,20 +6,19 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, SvgIcon, Typography } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { KeyValue, Stack, Typography } from '@instana/components';
 
 import { getBashCode, Documentations, Prerequisites } from 'in-plg/pages/onboarding/AgentList/Kubernetes/SupportView';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import { FormInputPlg } from 'in-plg/pages/onboarding/content/ContentComponents';
+import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import Code from 'in-plg/components/Code/Code';
-import Tooltip from 'in-components/Tooltip';
-import { Trans, t } from 'in-i18n';
+import { t } from 'in-i18n';
 
 const Kubernetes = ({
   id,
@@ -27,7 +26,8 @@ const Kubernetes = ({
   downloadKey,
   instanaDomain,
   agentEndpoint,
-  agentEndpointPort
+  agentEndpointPort,
+  fromOnboarding
 }: OnboardingProps): JSX.Element => {
   const [clusterName, setClusterName] = useState<string>('');
   const [agentZone, setAgentZone] = useState<string>('');
@@ -60,6 +60,10 @@ const Kubernetes = ({
     }
   ];
 
+  const updateAgentZone = (agent: string) => {
+    setAgentZone(agent);
+  };
+
   return (
     <Container>
       <MainBody>
@@ -76,30 +80,7 @@ const Kubernetes = ({
               value={<FormInputPlg onChange={value => setClusterName(value)} />}
               withGap
             />
-            <KeyValue
-              label={
-                <Tooltip
-                  content={
-                    <Trans
-                      i18nKey="in-plg:agentDetails.common.enterANameForAClusterGroupYouWantToAddThisClusterTo"
-                      components={{ br: <br /> }}
-                    />
-                  }
-                  align="auto"
-                >
-                  <Stack direction="horizontal" gap="xxsmall" align="center">
-                    {t('in-plg:agentDetails.common.agentZoneOptional')}
-                    <SvgIcon
-                      size="xs"
-                      type="lib_help_error_help_outline"
-                      color={themes.default.ids.color.option.neutral[600]}
-                    />
-                  </Stack>
-                </Tooltip>
-              }
-              value={<FormInputPlg onChange={value => setAgentZone(value)} />}
-              withGap
-            />
+            <AgentzoneLister callBackFunc={updateAgentZone} />
           </Stack>
         </LayoutSection>
 
@@ -120,7 +101,7 @@ const Kubernetes = ({
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent={infraMapFilter()} />
+        <GetDeployedAgents agent={infraMapFilter()} fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

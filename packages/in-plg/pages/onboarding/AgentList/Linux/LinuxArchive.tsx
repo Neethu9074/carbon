@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography, Button } from '@instana/components';
+import { KeyValue, Stack, Typography } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
@@ -105,7 +106,7 @@ function PlatformArchitecture({
   );
 }
 
-const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain }: OnboardingProps) => {
+const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, fromOnboarding }: OnboardingProps) => {
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const [option, setOption] = useState(agentOptions[0].key);
   const sideCardData = [
@@ -180,7 +181,7 @@ const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain 
           />
         </LayoutSection>
 
-        <GetDeployedAgents agent="linux" />
+        <GetDeployedAgents agent="linux" fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={sideCardData} />

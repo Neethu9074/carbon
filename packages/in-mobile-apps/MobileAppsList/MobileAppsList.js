@@ -6,7 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Card, Link, SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { Card, Link, SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import {

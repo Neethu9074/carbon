@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import { DashboardButton, HeaderItemTile, HeaderTile, Stack } from '@instana/components';
@@ -19,27 +18,28 @@ import { openAssistMe } from '../AssistMe/AssistMe';
 import DatePicker from '../DatePicker/DatePicker';
 import { user } from 'in-stores/user';
 
-import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
-
 export default function WelcomeHeader() {
   // @ts-expect-error The User type needs to be updated.
-  const headerTitle = `${t('in-plg:welcomepage.heading')} ${user?.fullName ?? ''}`;
+  const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
   const { createHrefToPath } = useNavigation();
 
   const tileData = [
     {
+      key: 'consumeData',
       title: t('in-plg:welcomepage.consumeData.title'),
       description: t('in-plg:welcomepage.consumeData.description'),
       buttonName: t('in-plg:welcomepage.consumeData.buttonName'),
       buttonType: t('in-plg:welcomepage.consumeData.buttonType')
     },
     {
+      key: 'inviteTeammates',
       title: t('in-plg:welcomepage.inviteTeammates.title'),
       description: t('in-plg:welcomepage.inviteTeammates.description'),
       buttonName: t('in-plg:welcomepage.inviteTeammates.buttonName'),
       buttonType: t('in-plg:welcomepage.inviteTeammates.buttonType')
     },
     {
+      key: 'nextSteps',
       title: t('in-plg:welcomepage.nextSteps.title'),
       description: t('in-plg:welcomepage.nextSteps.description'),
       buttonName: t('in-plg:welcomepage.nextSteps.buttonName'),
@@ -61,13 +61,15 @@ export default function WelcomeHeader() {
       <Overlay props={props} content={UrlShortenerOverlay} withoutWrapper withoutArrow>
         {({ toggle, refSetter }) => (
           <DashboardButton
-            className={locals.urlShortener}
             id="url-shortener-button"
+            ariaLabel={t('in-plg:welcomepage.ariaLabel.shareButton')}
             icon="lib_actions_interface_link"
+            iconDescription={t('in-plg:welcomepage.UrlShortener')}
             kind="tertiary"
-            onClick={() => {
+            onClick={e => {
               track(URL_SHORTENER_OPEN);
               toggle();
+              e.stopPropagation();
             }}
             ref={refSetter}
           />
@@ -85,21 +87,25 @@ export default function WelcomeHeader() {
   }
 
   return (
-    <HeaderTile
-      headerTitle={headerTitle}
-      datepicker={datepicker}
-      className={classNames(locals.backgroundImage, locals.backgroundImage1)}
-    >
-      {tileData.map(tile => (
-        <HeaderItemTile
-          title={tile.title}
-          description={tile.description}
-          buttonName={tile.buttonName}
-          buttonType={tile.buttonType == 'primary' ? 'primary' : 'ghost'}
-          href={tile.title == 'nextSteps' ? undefined : createRedirectHref(tile.title)}
-          onClick={tile.title == 'nextSteps' ? () => openAssistMe() : undefined}
-        />
-      ))}
-    </HeaderTile>
+    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
+      <HeaderTile headerTitle={headerTitle} datepicker={datepicker}>
+        {tileData.map((tile, index) => (
+          <HeaderItemTile
+            key={index}
+            title={tile.title}
+            description={tile.description}
+            buttonName={tile.buttonName}
+            buttonType={tile.buttonType === 'primary' ? 'primary' : 'ghost'}
+            href={tile.key === 'nextSteps' ? undefined : createRedirectHref(tile.key)}
+            onClick={e => {
+              e.stopPropagation();
+              if (tile.key === 'nextSteps') {
+                openAssistMe();
+              }
+            }}
+          />
+        ))}
+      </HeaderTile>
+    </div>
   );
 }

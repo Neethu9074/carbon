@@ -49,5 +49,7 @@
   "warn": "{{count}} aviso",
   "warn_plural": "{{count}} avisos",
   "process": "Proceso",
-  "host": "Host"
+  "host": "Host",
+  "fileOnHost": "en el",
+  "file": "Fichero"
 }

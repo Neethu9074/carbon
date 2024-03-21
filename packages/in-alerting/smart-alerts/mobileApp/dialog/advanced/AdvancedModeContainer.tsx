@@ -8,6 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { HistoricBaselineData, isAdaptiveBaselineConfig, Result } from '@instana/types';
+
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   AlertConfigDialogPresenterProps,
@@ -172,7 +173,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
               hasUserImpactOption
-              userImpactInfo={t('in-alerting:smartAlerts.mobileApp.advanced.userImpactInfo')}
               oneMinuteGranularityAllowed={thresholdType === STATIC_THRESHOLD}
             />
           )

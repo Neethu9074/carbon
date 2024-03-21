@@ -12,7 +12,6 @@
     margin-bottom: 0;
   }
   .accessLevel {
-    margin-bottom: 1rem;
     margin-top: 1rem;
   }
 }

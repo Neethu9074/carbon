@@ -24,6 +24,7 @@ import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/s
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { loggingEnabled } from 'in-services/featureFlags';
@@ -88,7 +89,7 @@ function useLogsInCallsWithoutLogging({ trace }: UseLogsInCallsParams) {
 }
 
 function getData({ traceId, timeConfig }: GetDataParams) {
-  return getLogs({
+  const callBody = {
     timeConfig,
     retrievalSize: maxRetrievalSize,
     tagFilterExpression: toBackendQueryModel(
@@ -113,7 +114,14 @@ function getData({ traceId, timeConfig }: GetDataParams) {
       LOG_CALL_ID,
       LOG_STREAM_NAME
     ]
-  });
+  };
+  const mixpanelProps = {
+    timeConfig: callBody.timeConfig,
+    tagFilterExpression: callBody.tagFilterExpression
+  };
+  handleLogCallsWithFilters(mixpanelProps);
+
+  return getLogs(callBody);
 }
 
 export default useLogsInCalls;

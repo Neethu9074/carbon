@@ -7,13 +7,9 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import {
-  ADD_CLOSING_BRACKET,
-  ADD_CONJUNCTION
-} from 'in-components/QueryBuilder/validation/elementIdentificationHelpers';
+import { ADD_CLOSING_BRACKET, ADD_CONJUNCTION, CLOSE_BRACKET } from 'in-components/QueryBuilder/validation/bracket';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { CONJUNCTION } from 'in-components/QueryBuilder/transformation/renderModel';
-import { CLOSE_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
 import locals from './Spacing.mless';

@@ -8,6 +8,5 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 import { GetDatacenterDeploymentQuery, Result } from 'in-types';
 
 export default createResultSubscriptionFactory<GetDatacenterDeploymentQuery, Result<Map<string, string>>>({
-  eventId: 'getSyntheticDatacenterDeployment',
-  trackSubscriptionStatistics: false
+  eventId: 'getSyntheticDatacenterDeployment'
 });

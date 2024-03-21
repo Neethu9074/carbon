@@ -11,14 +11,13 @@ import { LogItem, LogMessageItem, LogTag } from '@instana/types';
 import { SpanExcerpt } from '@instana/types/typeDefinitions';
 import { Stack } from '@instana/components';
 
+// @ts-expect-error not yet migrated to typescript
+import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
 import {
   isParameterTag,
   mapToSiderbarTagListObject,
   parseStackTrace
 } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
-// @ts-ignore
-import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
-// @ts-ignore
 import AnalyzeLogsButton from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
 import LogStackTrace from 'in-components/Logging/TraceDetails/components/LogDetails/LogStackTrace';
 import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';

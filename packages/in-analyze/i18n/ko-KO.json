@@ -74,8 +74,6 @@
       "infrastructure": "인프라",
       "profiles": "프로파일",
       "logs": "로그",
-      "eumWebsites": "EUM: 웹 사이트",
-      "eumMobileApps": "EUM: 모바일 앱",
       "pageLoads": "페이지 로드",
       "pageTransitions": "페이지 전환",
       "pageTransitions2": "페이지 전환",
@@ -159,7 +157,15 @@
         "resourceUri": "리소스 URI",
         "cacheInteraction": "캐시 상호작용",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana는 이 호출의 {{location}}을(를) 모니터하지 않음",
-        "tags": "태그"
+        "tags": "태그",
+        "loading": "통화 세부사항을 로드 중입니다.",
+        "labelError": "예기치 않은 오류",
+        "retryError": "통화 세부사항을 로드할 수 없습니다.",
+        "started": "시작됨",
+        "selfTime": "자가 시간",
+        "networkTime": "네트워크 시간",
+        "waitingTime": "대기 시간",
+        "latency": "대기 시간"
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",

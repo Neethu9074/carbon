@@ -32,7 +32,7 @@ interface Description {
 }
 
 const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateForm, checkLicense }: Props) => {
-  const popDocsUrl = 'https://ibm.biz/pop_deployment';
+  const managedPopDocsUrl = 'https://ibm.biz/Instana-hosted_PoP';
   const getWarningMessage = () => {
     if (!checkLicense.progress.loading) {
       if (checkLicense.errors.length !== 0) {
@@ -48,7 +48,7 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
                 i18nKey="in-synthetics:dialog.createLocation.licenseCheck.description"
                 components={{
                   // @ts-expect-error property children missing
-                  linkLicenses: <Link className={locals.link} href={popDocsUrl} external />
+                  linkLicenses: <Link className={locals.link} href={managedPopDocsUrl} external />
                 }}
               />
             }

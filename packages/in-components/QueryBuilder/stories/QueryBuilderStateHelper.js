@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 export function QueryBuilderStateHelper({ children: Component }) {
   const [readOnly, setReadOnly] = useState(false);
@@ -106,6 +106,18 @@ export function QueryBuilderStateHelper({ children: Component }) {
     },
     {
       type: 'CLOSE_BRACKET'
+    },
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'TAG_FILTER',
+      name: 'call.metric',
+      operator: 'GREATER_THAN',
+      key: 'metricName',
+      value: 5,
+      entity: 'NOT_APPLICABLE'
     }
   ]);
   return (

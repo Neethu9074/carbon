@@ -27,7 +27,7 @@ export default function SloScopeWebsiteSection() {
   return (
     <section>
       <Typography variant="heading-200" component="h2">
-        {t('in-service-levels:createSloDialog.selectScopeTitle')}
+        {t('in-service-levels:createSloDialog.selectScopeNavItem')}
       </Typography>
       <Sections>
         <Section title={t('in-service-levels:general.beacon')} titleWidth={titleWidth}>

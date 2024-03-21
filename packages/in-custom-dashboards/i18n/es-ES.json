@@ -166,7 +166,9 @@
         "crossSeriesAggregation": "Utilice SUM para la agregación de series cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, la agregación entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
         "crossSeriesAggregationDisabledHelp": "No aplicable a {{aggregation}}",
-        "crossSeriesAggregationRestrictedHelp": "No aplicable a esta métrica"
+        "crossSeriesAggregationRestrictedHelp": "No aplicable a esta métrica",
+        "lastValue": "Utilizar último valor",
+        "lastValueHelp": "Con este conmutador habilitado, mostraremos la agregación para el último grupo en el intervalo de tiempo."
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestructura y plataformas",
@@ -180,6 +182,14 @@
         "inputPlaceholder": "Patrón de métrica (por ejemplo, metric_. *)",
         "done": "Hecho",
         "help": "## Sugerencias rápidas\nSe admite la expresión regular de tipo Apache Lucene con los operadores siguientes.\n###.\nCoincide con cualquier carácter. Por ejemplo:\n\n    ab.     # coincide con 'aba', 'abb', 'abz', etc.\n### ? + *\nRepetir el carácter anterior un determinado número de veces. Por ejemplo:\n\n    abc?     # repetir 'c' una o cero veces. coincide con 'ab' y 'abc'\nab+      # repetir 'b' una o más veces. coincide con 'ab', 'abb', 'abbb', etc.\n    ab * # repetir 'b' cero o más veces. coincide con 'a', 'ab', 'abb', 'abbb', etc.\n### | \nOperador OR. La coincidencia tendrá éxito si el patrón más largo del lado izquierdo o del lado derecho coincide. Por ejemplo:\n\n    abc|xyz # coincide con 'abc' y 'xyz'\n ### (...)\nForma un grupo. Puede utilizar un grupo para tratar parte de la expresión como un único carácter. Por ejemplo:\n\n    abc(def)? # coincide con 'abc' y 'abcdef' pero no con 'abcd'\n### [ ...]\nCoincide con uno de los caracteres entre corchetes. Por ejemplo:\n\n    [abc] # coincide con 'a', 'b', 'c'\nDentro de los corchetes, `-` indica un rango a menos que `-` sea el primer carácter o vaya acompañado de un carácter de escape. Por ejemplo:\n\n    [a-c] # coincide con 'a', 'b' o 'c'\n [-abc]  #'-' es el primer carácter. Coincide con '-', 'a ', 'b' o 'c'\n [abc\\-] # Es el carácter de escape para '-'. Coincide con 'a', 'b', 'c' o '-'\nUn ` ^ ` antepuesto a un carácter entre corchetes niega el carácter o rango. Por ejemplo:\n\n    [^ abc] # coincide con cualquier carácter excepto 'a', 'b' o 'c'\n[^a-c]      # coincide con cualquier carácter excepto 'a', 'b' o 'c'\n [^-abc] # coincide con cualquier carácter excepto '-', 'a', 'b' o 'c'\n [^ abc\\-] # coincide con cualquier carácter excepto 'a', 'b', 'c' o '-'\n\nTenga en cuenta que las clases de caracteres PCRE como `\\w` o `\\S` no se admiten actualmente. Tenga en cuenta también que los operadores de ancla como `^` o `$` no se admiten. La expresión debe coincidir con toda la serie.\n## \nPara obtener más información sobre la sintaxis completa, consulte nuestra [documentación] ({{documentationLink}})."
+      },
+      "regexMetricsList": {
+        "noRegex": "Escriba una consulta de expresión regular",
+        "loading": "Cargando...",
+        "error": "Se ha producido un problema al cargar estas métricas.",
+        "noResults": "No hay ninguna métrica que coincida con esa expresión regular",
+        "matches": "Coincide con {{number}} métricas",
+        "more": "{{number}} más"
       },
       "metricSelectionCategoryOverlay": {
         "list": "Listar",
@@ -812,6 +822,9 @@
         "endedOn": "Finalizó el",
         "duration": "Duración"
       }
+    },
+    "time": {
+      "lastValueTooltipLabel": "Última {{duration}}"
     }
   },
   "duplicateDashboardDialog": {

@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { Button, Card, Stack } from '@instana/components';
+import { Card, Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import FileUploadConfigurationDialog from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/StackTraceTranslation/FileUploadConfigurationDialog';
 import { MessageType } from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/StackTraceTranslation/FileUploadConfigurationDialogPresenter';

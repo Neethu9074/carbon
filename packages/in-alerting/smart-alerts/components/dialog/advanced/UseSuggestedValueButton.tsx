@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';

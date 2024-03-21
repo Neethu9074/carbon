@@ -20,8 +20,10 @@ import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/Sel
 import ActionTable, { ActionTableProps } from 'in-automation/ActionCatalog/ActionTable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Action, Event, TriggerType, VolatileId } from 'in-types';
+import { createBulkPoliciesTracker } from 'in-automation/tracker';
 import Policies from 'in-automation/AssociatedActions/Policies';
 import { NewPolicy } from 'in-automation/Policies/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface AssociatedPoliciesCardProps {
@@ -64,11 +66,15 @@ export default function AssociatedPoliciesCard({
       volatileId={volatileId}
       triggerReload={triggerReload}
       rightHeader={
-        <RightHeader
-          eventSpecification={eventSpecification}
-          triggerReload={triggerReload}
-          isCustomEvent={isCustomEvent}
-        />
+        role?.canConfigureAutomationPolicies ? (
+          <RightHeader
+            eventSpecification={eventSpecification}
+            triggerReload={triggerReload}
+            isCustomEvent={isCustomEvent}
+          />
+        ) : (
+          <div />
+        )
       }
       triggerDetails={{
         triggerType: isCustomEvent ? 'customEvent' : 'builtinEvent',
@@ -93,14 +99,22 @@ function RightHeader({ eventSpecification, isCustomEvent, triggerReload }: Right
       (acc, action) => [...acc, ...(selectedIds.includes(action.id) ? [action] : [])],
       []
     );
-
+    const actionNames = allActions.reduce<string[]>(
+      (acc, action) => [...acc, ...(selectedIds.includes(action.id) ? [action.name] : [])],
+      []
+    );
+    createBulkPoliciesTracker({
+      triggerName: eventSpecification.name,
+      actionNames: actionNames
+    });
     updatedActionIds.forEach(ActionId => {
       const triggerType: TriggerType = isCustomEvent ? 'customEvent' : 'builtinEvent';
       const filteredAction = updatedActions.find(action => action.id === ActionId);
+      const description = filteredAction?.description ?? `Description for ${filteredAction?.name}`;
       if (filteredAction) {
         const policy = {
           name: `policy_${filteredAction.name}_${filteredAction.id}`,
-          description: `${filteredAction.description}`,
+          description: description,
           tags: [],
           trigger: {
             type: triggerType,
@@ -149,7 +163,7 @@ function RightHeader({ eventSpecification, isCustomEvent, triggerReload }: Right
       hiddenIds={[]}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
-          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          ? t('in-settings:tabs.addNumberOfItemsPolicy', { count: numberOfItems })
           : t('in-automation:policies.addPolicies')
       }
       requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}

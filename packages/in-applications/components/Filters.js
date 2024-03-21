@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';

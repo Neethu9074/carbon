@@ -9,6 +9,8 @@
     margin-right: -1px;
     border-radius: var(--ids-border-radius-option-small) 0 0 var(--ids-border-radius-option-small);
     height: 2.5rem;
+    display: flex;
+    gap: 1rem;
     &:hover,
     &:active,
     &:focus {

@@ -13,9 +13,6 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentStatus')}>
-        {data.get('agentStatus')}
-      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.hostName')}>
         {data.get('agentDeclaredHostName')}
       </DescriptionItem>
@@ -33,9 +30,6 @@ export default function Info({ snapshot }) {
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentOsName')}>
         {data.get('agentOsName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.PublishTimeUTC')}>
-        {data.get('PublishTimeUTC')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.maxSourceTransfers')}>
         {data.get('maxSourceTransfers')}

@@ -6,15 +6,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button, keyCodes, SvgIcon } from '@instana/components';
+import { keyCodes, SvgIcon } from '@instana/components';
 import { on } from '@instana/observables';
+import { Button } from '@instana/legacy';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -44,11 +44,11 @@ export default class extends React.Component {
         ...zoomInAction,
         getHref$: () => zoomInAction.getHref$(highlightedTimeframe)
       },
-      allowDownloadMetricsFromCharts && {
+      {
         ...downloadJSONAction,
         onClick: () => downloadJSONAction.onClick(this.props.metrics, highlightedTimeframe)
       },
-      allowDownloadMetricsFromCharts && {
+      {
         ...downloadCSVAction,
         onClick: () => downloadCSVAction.onClick(this.props.metrics, highlightedTimeframe)
       }

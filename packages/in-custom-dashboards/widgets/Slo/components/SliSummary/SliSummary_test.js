@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-// eslint-disable-next-line no-restricted-imports
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -13,13 +11,14 @@ import SloTimeTile from 'in-custom-dashboards/widgets/Slo/components/widget/tile
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import SloTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile';
 import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
+import useMediaQuery from 'in-hooks/useMediaQuery';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from './SliSummary.mless';
 
-jest.mock('@mui/material/useMediaQuery', () => ({
-  ...jest.requireActual('@mui/material/useMediaQuery'),
+jest.mock('in-hooks/useMediaQuery', () => ({
+  ...jest.requireActual('in-hooks/useMediaQuery'),
   default: jest.fn(),
   __esModule: true
 }));
@@ -55,18 +54,8 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
   it('should have budgetSpent set to false for all SloTiles if slo is not set', () => {
     const wrapper = shallow(<SliSummary {...defaultProps} />);
 
-    expect(
-      wrapper
-        .find(SloTile)
-        .first()
-        .prop('budgetSpent')
-    ).toEqual(false);
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('budgetSpent')
-    ).toEqual(false);
+    expect(wrapper.find(SloTile).first().prop('budgetSpent')).toEqual(false);
+    expect(wrapper.find(SloTile).last().prop('budgetSpent')).toEqual(false);
   });
 
   it.each`
@@ -84,19 +73,9 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
 
       const wrapper = shallow(<SliSummary {...defaultProps} slo={givenSlo} metricSli={givenMetricSli} />);
 
-      expect(
-        wrapper
-          .find(SloTile)
-          .first()
-          .prop('value')
-      ).toEqual(expectedStatus);
+      expect(wrapper.find(SloTile).first().prop('value')).toEqual(expectedStatus);
 
-      expect(
-        wrapper
-          .find(SloTile)
-          .first()
-          .prop('budget')
-      ).toEqual(expectedTarget);
+      expect(wrapper.find(SloTile).first().prop('budget')).toEqual(expectedTarget);
     }
   );
 
@@ -104,36 +83,21 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
     useSliFormatter.mockReturnValueOnce(() => 'foo');
 
     const wrapper = shallow(<SliSummary {...defaultProps} slo={3} metricSli={1} />);
-    expect(
-      wrapper
-        .find(SloTile)
-        .first()
-        .prop('budgetSpent')
-    ).toEqual(true);
+    expect(wrapper.find(SloTile).first().prop('budgetSpent')).toEqual(true);
   });
 
   it('should have value set to undefined on second SloTile if slo and metricSli are given', () => {
     useSliFormatter.mockReturnValueOnce(() => 'foo');
 
     const wrapper = shallow(<SliSummary {...defaultProps} slo={3} metricSli={1} />);
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('value')
-    ).toBeUndefined();
+    expect(wrapper.find(SloTile).last().prop('value')).toBeUndefined();
   });
 
   it('should have budgetSpent set to false on second SloTile if slo and metricSli are given', () => {
     useSliFormatter.mockReturnValueOnce(() => 'foo');
 
     const wrapper = shallow(<SliSummary {...defaultProps} slo={3} metricSli={1} />);
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('budgetSpent')
-    ).toEqual(false);
+    expect(wrapper.find(SloTile).last().prop('budgetSpent')).toEqual(false);
   });
 
   it('should render correctly if metricSpent is set', () => {
@@ -141,12 +105,7 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
 
     const wrapper = shallow(<SliSummary {...defaultProps} metricSpent={1} />);
 
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('value')
-    ).toEqual('1min');
+    expect(wrapper.find(SloTile).last().prop('value')).toEqual('1min');
   });
 
   it('should render correctly if there is some budget given', () => {
@@ -154,23 +113,13 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
 
     const wrapper = shallow(<SliSummary {...defaultProps} budget={1} />);
 
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('budget')
-    ).toEqual('1min');
+    expect(wrapper.find(SloTile).last().prop('budget')).toEqual('1min');
   });
 
   it('should render correctly if no remaining budget is available', () => {
     const wrapper = shallow(<SliSummary {...defaultProps} metricRemaining={0} />);
 
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('budgetSpent')
-    ).toEqual(true);
+    expect(wrapper.find(SloTile).last().prop('budgetSpent')).toEqual(true);
   });
 
   it('should render correct label if time window type is dynamic', () => {
@@ -209,18 +158,8 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
     const wrapper = shallow(<SliSummary {...defaultProps} />);
 
     expect(wrapper.find('div').prop('className')).toEqual(locals.listContainer);
-    expect(
-      wrapper
-        .find(SloTile)
-        .first()
-        .prop('compact')
-    ).toEqual(true);
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('compact')
-    ).toEqual(true);
+    expect(wrapper.find(SloTile).first().prop('compact')).toEqual(true);
+    expect(wrapper.find(SloTile).last().prop('compact')).toEqual(true);
     expect(wrapper.find(SloTimeTile).prop('compact')).toEqual(true);
   });
   it('should render normal SloTiles if media query condition is met', () => {
@@ -229,18 +168,8 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
     const wrapper = shallow(<SliSummary {...defaultProps} />);
 
     expect(wrapper.find('div').prop('className')).toEqual(locals.tilesContainer);
-    expect(
-      wrapper
-        .find(SloTile)
-        .first()
-        .prop('compact')
-    ).toEqual(false);
-    expect(
-      wrapper
-        .find(SloTile)
-        .last()
-        .prop('compact')
-    ).toEqual(false);
+    expect(wrapper.find(SloTile).first().prop('compact')).toEqual(false);
+    expect(wrapper.find(SloTile).last().prop('compact')).toEqual(false);
     expect(wrapper.find(SloTimeTile).prop('compact')).toEqual(false);
   });
 });

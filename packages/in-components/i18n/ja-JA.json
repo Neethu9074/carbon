@@ -698,7 +698,6 @@
     "simpleValueSelectorMore": "詳細",
     "workspaceAPIQuery": "API 照会",
     "workspaceUseThisExpressionToQueryOurAPI": "この式を使用して API を照会します",
-    "workspaceIncludeSidebarFilters": "フィルターのサイドバー項目を含みます",
     "workspaceTitleFilter": "フィルター",
     "workspaceButtonClear": "クリア",
     "errorWithDataYourDefinedQueryIsTooComplex": "定義された照会が複雑すぎます。ネストの量を減らしてください。",

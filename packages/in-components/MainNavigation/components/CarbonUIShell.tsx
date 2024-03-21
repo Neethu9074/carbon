@@ -288,6 +288,7 @@ function Platforms() {
           label={t('in-components:mainNavigation.viewSwitcherLabelSap')}
           href={createHrefToPath(sapSystemList)}
           isActive={matchLocation(sap)}
+          infoTag={t('in-components:featureFeedback.labelBETA')}
         />
       )}
       {hasVSphereAccess && !playwithEnabled && (
@@ -405,7 +406,7 @@ function Incidents() {
 function AutomationMenu() {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!role?.canConfigureAutomationActions || !actionAutomationEnabled) {
+  if (!actionAutomationEnabled) {
     return null;
   }
 
@@ -418,7 +419,6 @@ function AutomationMenu() {
       id="main-nav-automation-dashboard"
       label={t('in-automation:automation')}
       icon="lib_automation"
-      infoTag={t('in-components:featureFeedback.labelBETA')}
       isActive={matchLocation(isAutomationView)}
       href={createHrefToPath(actionCatalogPath)}
     />

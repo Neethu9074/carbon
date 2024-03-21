@@ -14,10 +14,10 @@ import {
   useChartFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
+import { source as sliSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { duplicate, onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { isInitiallyOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/TimeShiftingForm';
-import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -157,7 +157,7 @@ export default function MetricConfiguration(props) {
                 ) : undefined
               }
               formatterSection={formatterSection}
-              disabledDataSources={[source]}
+              disabledDataSources={[sliSource]}
               axisForm={form}
               axisName={axisName}
               withLabelConfiguration

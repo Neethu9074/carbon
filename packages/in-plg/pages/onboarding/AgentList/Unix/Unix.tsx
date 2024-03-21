@@ -6,7 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue, Button } from '@instana/components';
+import { Stack, Typography, KeyValue } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { getPlatformArchitectures, supportViewData } from 'in-plg/pages/onboarding/AgentList/Unix/Data';
 import { DropDown, getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
@@ -23,7 +24,14 @@ const agentModeOptions = [
   { key: 'static', label: t('in-plg:agentDetails.agentMode.static') }
 ];
 
-export default function Unix({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain }: OnboardingProps) {
+export default function Unix({
+  tenant,
+  tenantUnit,
+  agentKey,
+  downloadKey,
+  butlerDomain,
+  fromOnboarding
+}: OnboardingProps) {
   const [agentMode, setAgentMode] = useState(agentModeOptions[0].key);
 
   const [platformArch, setPlatformArch] = useState(getPlatformArchitectures(agentMode)[0]);
@@ -93,7 +101,7 @@ export default function Unix({ tenant, tenantUnit, agentKey, downloadKey, butler
           <KeyValue label={t('in-plg:agentDetails.unix.platformArchitecture')} value={getPlatformArch()} withGap />
         </LayoutSection>
 
-        <GetDeployedAgents agent={platformArch.searchKey} />
+        <GetDeployedAgents agent={platformArch.searchKey} fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
         <SupportViewSection items={supportViewData(agentKey)} />

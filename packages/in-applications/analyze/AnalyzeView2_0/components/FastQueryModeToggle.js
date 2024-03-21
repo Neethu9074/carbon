@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -21,7 +20,8 @@ export default function FastQueryModeToggle({ fastQueryModeEnabled, onChangeFast
       </Tooltip>
 
       <Spacer horizontal="xxsmall" />
-      <Toggle checked={fastQueryModeEnabled} onChange={e => onChangeFastQueryModeEnabled(e.target.checked)} />
+
+      <Toggle checked={fastQueryModeEnabled} onToggle={onChangeFastQueryModeEnabled} />
     </div>
   );
 }

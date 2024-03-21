@@ -98,11 +98,11 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.zeit'),
+    title: t('in-sap:dashboards.dialogTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.userDetail.get('ZEIT');
+        return formatTime(row.userDetail.get('ZEIT'));
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -149,4 +149,11 @@ export default connectTo(
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;
+}
+
+function formatTime(timeString) {
+  const hours = timeString.substring(0, 2);
+  const minutes = timeString.substring(2, 4);
+  const seconds = timeString.substring(4, 6);
+  return `${hours}:${minutes}:${seconds}`;
 }

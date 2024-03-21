@@ -9,8 +9,8 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.sapJavaSystem.messageDeliveredStatus'),
-    metric: 'metrics.Performance.J2EE_Messages_Performance.J2EE_SYS_J2EEMESSAGES_DELIVERED.status',
+    label: t('in-forge:abapSystemsensor.activeABAPInstances'),
+    metric: 'numberOfInstances',
     formatter: number.compact
   }
 ];

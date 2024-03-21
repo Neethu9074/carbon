@@ -5,7 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, Button, Th, SortableTh } from '@instana/components';
+import { SvgIcon, Th, SortableTh } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';

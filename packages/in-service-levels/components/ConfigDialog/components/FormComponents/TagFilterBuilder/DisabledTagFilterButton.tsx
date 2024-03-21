@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';

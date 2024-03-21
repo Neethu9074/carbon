@@ -8,9 +8,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Message, Spacer, Pill } from '@instana/components';
-import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
@@ -161,7 +160,7 @@ export default function AlertHeader({
         </div>
 
         <div className={locals.right}>
-          <Pill className={locals.badge} color={themes.default.ids.color.option.purple['500']} kind="light">
+          <Pill className={locals.badge} type="purple" kind="light">
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
           {extendedAlertConfigVersions.length > 0 && (

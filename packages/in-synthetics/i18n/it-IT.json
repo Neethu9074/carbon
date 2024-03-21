@@ -1,6 +1,7 @@
 {
   "dialog": {
     "createTest": {
+      "buttonLabel": "Aggiungi test sintetico",
       "dialogTitle": "Crea test sintetico",
       "noLocationFound": "Spiacenti. Nessuna ubicazione trovata",
       "noApplicationsFound": "Nessuna applicazione trovata",
@@ -127,10 +128,7 @@
           "browserTypeHeadline": "Test sintetici del browser",
           "browserTypeText": "Il test sintetico del browser è un metodo di monitoraggio delle prestazioni delle applicazioni Web simulando le interazioni dell'utente con un sito Web tramite uno script in un browser Web, fornendo informazioni preziose sui problemi che influenzano l'esperienza dell'utente e garantendo la funzionalità del sito Web.",
           "browserSimpleTitle": "Test semplice del browser",
-          "browserScriptTitle": "Test di script del browser",
-          "internetServicesTypeLabel": "Servizi Internet",
-          "internetServicesTypeHeadline": "Test servizi Internet",
-          "internetServicesTypeText": "Il test sintetico dei servizi Internet implica la simulazione delle interazioni degli utenti con i servizi Web per monitorare e testare le loro prestazioni, consentendo di individuare e prevenire i tempi di inattività."
+          "browserScriptTitle": "Test di script del browser"
         },
         "configurationLabel": "Configurazione",
         "configurationTitle": "Configurazione: come funzionerà questo test?",
@@ -201,7 +199,7 @@
           "retryFieldOptionOnce": "Riprova una volta",
           "retryFieldOptionTwice": "Riprova due volte",
           "retryIntervalFieldLabel": "Intervallo tentativi",
-          "retryIntervalDescription": "Questo test eseguirà un nuovo tentativo {{retryCount}} dopo {{retryIntervalValue}} secondi.",
+          "retryIntervalDescription": "Questo test ritenterà {{retryCount}} dopo {{retryIntervalValue}} {{retryIntervalUnit}}.",
           "markSyntheticCall": "Contrassegna chiamata sintetica"
         },
         "loadMore": "Carica altro",
@@ -215,8 +213,7 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser",
-          "internetServicesName": "Servizi Internet"
+          "browserName": "Browser"
         },
         "customProperties": {
           "property": "Proprietà",
@@ -251,10 +248,64 @@
       "buttonSave": "Salva",
       "scriptSavedMessage": "Script aggiunto",
       "bundleSavedMessage": "Script in bundle aggiunti"
+    },
+    "createLocation": {
+      "newLocation": "Nuova ubicazione",
+      "activate": "Attiva",
+      "done": "Fine",
+      "stepConfigs": {
+        "selectType": "Passo 1: Selezionare il tipo",
+        "configuration": "Passo 2: Configurazione"
+      },
+      "selectLocationType": {
+        "contentWrapperHeadline": "Quale tipo di ubicazione si desidera utilizzare?"
+      },
+      "privateLocation": {
+        "name": "Privato",
+        "headline": "Ubicazione privata",
+        "description": {
+          "headline": "Quando utilizzare",
+          "htmlContent": "Quando si desidera monitorare applicazioni interne o endpoint accessibili solo nella rete privata. Queste ubicazioni sono configurate, ospitate e gestite dall'utente."
+        }
+      },
+      "managedLocation": {
+        "name": "Gestito",
+        "headline": "Ubicazione gestita",
+        "description": {
+          "headline": "Quando utilizzare",
+          "htmlContent": "Quando si desidera monitorare siti web e applicazioni accessibili al pubblico. Queste ubicazioni sono ospitate e gestite da Instana presso i data center di tutto il mondo."
+        },
+        "managedDatacentersLabel": "Data center",
+        "datacenterCode": "Codice data center",
+        "datacenterName": "Nome data center",
+        "provider": "Provider",
+        "locationName": "Nome di visualizzazione ubicazione",
+        "status": "Stato di attivazione",
+        "datacentersSubtitle": "Attivare un'ubicazione gestita da Instana in uno dei data center disponibili. Per ulteriori informazioni, consultare <linkDatacenters>Distribuzione PoP sintetico</linkDatacenters>.",
+        "confirmationDialog": {
+          "headline": "Le ubicazioni sono in fase di distribuzione",
+          "message": "Stiamo configurando le nuove ubicazioni presso i data center seguenti. Attendere mentre completiamo la distribuzione automatica. Una volta terminata, è possibile trovare le nuove ubicazioni nella scheda Ubicazioni. <strong>Questa operazione può richiedere fino a 10 minuti.</strong>",
+          "table": {
+            "heads": {
+              "datacenterCode": "Codice data center",
+              "datacenterName": "Nome data center",
+              "locationName": "Nome di visualizzazione ubicazione",
+              "datacenterStatus": "Stato di attivazione"
+            }
+          }
+        }
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "È necessario selezionare almeno un data center"
+      },
+      "licenseCheck": {
+        "title": "È necessaria una licenza.",
+        "description": "Per utilizzare le ubicazioni gestite da Instana, è richiesta una <linkLicenses>licenza aggiuntiva</linkLicenses>. Contattare l'amministratore Instana per assistenza."
+      },
+      "status": {
+        "pending": "In sospeso"
+      }
     }
-  },
-  "createTest": {
-    "buttonLabel": "Aggiungi test sintetico"
   },
   "createSmartAlert": {
     "buttonLabel": "Aggiungi avviso smart sintetico"

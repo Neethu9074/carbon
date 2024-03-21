@@ -5,31 +5,33 @@
 
 import React from 'react';
 
-import { Card, Stack, SvgIcon, Typography } from '@instana/components';
+import { Card, Stack, SvgIcon } from '@instana/components';
 
 import locals from 'in-events/components/legacy/EventSummary.mless';
 
 interface EventSummaryCardProps {
-  content: string;
-  summaryType: string;
+  summaryType: string | undefined;
+  children: React.ReactNode;
 }
 
-export default function EventSummaryCard({ content, summaryType }: EventSummaryCardProps) {
+export default function EventSummaryCard({ summaryType, children }: EventSummaryCardProps) {
   return (
     <Card className={locals.summaryCard}>
       <Stack direction="horizontal">
         <SvgIcon type={determineIconBasedOnSummaryType(summaryType)} />
-        <Typography variant="body-regular">{content}</Typography>
+        {children}
       </Stack>
     </Card>
   );
 }
 
-function determineIconBasedOnSummaryType(summaryType: string): string {
+function determineIconBasedOnSummaryType(summaryType: string | undefined): string {
   if (summaryType === 'metric') {
     return 'lib_line_chart';
   } else if (summaryType === 'severity') {
     return 'lib_help_error_warning_outline';
+  } else if (summaryType === 'topology') {
+    return 'lib_synthetic_location';
   }
   return 'lib_help_error_info_outline';
 }

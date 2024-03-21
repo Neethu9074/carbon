@@ -7,6 +7,8 @@
   "labelCall": "Call",
   "labelTrace": "Trace",
   "linkDownload": "Download",
+  "linkDownloadCalls": "Download calls",
+  "linkDownloadRawTrace": "Download raw trace",
   "labelCalls": "Calls",
   "labelCallsPerSecondFull": "Calls Per Second",
   "labelTraces": "Traces",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "Application scope.",
       "stepTitleApplicationUsesBoundaryScope": "This Application Perspective uses <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "You are viewing this application perspective configuration in read-only mode.",
+      "readOnlyRestrictingApplicationConfiguration": "This application perspective is a contribution filter and can not be changed or removed from here.",
+      "readOnlyRestrictingApConfigWithGroupPermission": "This application perspective is a contribution filter and can be updated or removed from <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig>.",
       "stepTitleBuiltInSmartAlertsScope": "Built–In Smart Alerts scope.",
       "noBuiltInSmartAlertsActive": "No built-in Smart Alerts active for this application perspective.",
       "optionNoDownstreamServices": "No downstream services",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "Parent call cannot be loaded at this moment",
       "callTreeLoadingOfCallsFailed": "Calls cannot be loaded at this moment",
       "retry": "Try again",
-      "treeHeaderLatency": "Root call latency"
+      "treeHeaderLatency": "Root call latency",
+      "loadingDashboard": {
+        "defaultTitle": "This is taking a bit longer than expected...",
+        "retryTitle": "Attempting... {{retry}}/3",
+        "loadingMessage": "Bear with us, we need more time to load the trace with ID {{traceId}}."
+      },
+      "retryErrorMessage": {
+        "title": "Trace with ID {{traceId}} could not be found.",
+        "reasonHeader": "Possible reasons include:",
+        "traceDropped": "the trace was dropped",
+        "noInstanaTrace": "the trace is not an Instana trace",
+        "outsideRetention": "the trace is outside of the Instana retention period"
+      }
     }
   },
   "tabs": {

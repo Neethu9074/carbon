@@ -25,6 +25,7 @@ export default function SimpleModePageNavigation({
   onStepChanged,
   isSaving,
   additionalStepCheck = () => true,
+  noStepCheckOnFirstStep = false,
   customSaveButtonText
 }) {
   const [step, setStep] = useState(0);
@@ -82,6 +83,7 @@ export default function SimpleModePageNavigation({
           step={step}
           stepConfigs={stepConfigs}
           customSaveButtonText={customSaveButtonText}
+          noStepCheckOnFirstStep={noStepCheckOnFirstStep}
         />
       </form>
     </>
@@ -106,6 +108,7 @@ SimpleModePageNavigation.propTypes = {
   isSaving: PropTypes.bool,
   simpleModeStep: PropTypes.number,
   additionalStepCheck: PropTypes.func,
+  noStepCheckOnFirstStep: PropTypes.bool,
   customSaveButtonText: PropTypes.string
 };
 

@@ -11,9 +11,8 @@ import React from 'react';
 
 import { Message, Stack, StackItem, SvgIcon } from '@instana/components';
 import { Duration, TimeUnitType } from '@instana/types';
+import { Link, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
-import { Toggle } from '@instana/legacy';
 
 //import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
@@ -77,7 +76,7 @@ export default function Timing({
               <Toggle
                 id="allDay"
                 checked={allDayToggle}
-                onChange={() => {
+                onToggle={() => {
                   if (!allDayToggle) {
                     let updatedForm = form.updateIn(['window', 'duration'], (field: Item) =>
                       (field as Field<Duration>).setValue({ amount: 1, unit: DurationUnit.days }).setTouched(true)

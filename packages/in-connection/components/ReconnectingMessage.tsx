@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

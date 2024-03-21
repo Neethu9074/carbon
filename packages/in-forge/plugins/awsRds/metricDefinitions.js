@@ -118,6 +118,13 @@ export default [
     formatter: bytes.perSecond
   },
   {
+    metric: 'ebs_io_balance',
+    label: t('in-forge:plugins.awsRds.ebsIoBalance'),
+    category: [t('in-forge:plugins.awsRds.disk')],
+    min: 0,
+    formatter: percentage
+  },
+  {
     metric: 'net_receive_throughput',
     label: t('in-forge:plugins.awsRds.receiveThroughput'),
     category: [t('in-forge:plugins.awsRds.network')],

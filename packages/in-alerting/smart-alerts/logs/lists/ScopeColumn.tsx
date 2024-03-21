@@ -35,7 +35,7 @@ export default function ScopeColumn({ config }: { config: LogAlertConfigWithMeta
 
   return (
     <div className={locals.filters}>
-      <LogScopePath entityLabel={'Logs'} />
+      <LogScopePath entityLabel={t('in-alerting:smartAlerts.logs.logCount')} />
       {otherTagFiltersCount >= 1 && (
         <Tooltip
           themeStyle="light"

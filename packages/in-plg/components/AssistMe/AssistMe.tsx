@@ -12,31 +12,27 @@ import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/is
 import IconButton from 'in-components/IconButton/IconButton';
 import { t } from 'in-i18n';
 
-export default function AssistMe({ isAssistMeEnabled }: { isAssistMeEnabled: boolean }) {
-  if (isAssistMeEnabled) {
-    if (isCarbonShellEnabled()) {
-      return (
-        <div data-search-context="getting started">
-          <LicenseBannerButton
-            id="wm-getanswers"
-            kind="ghost"
-            icon="lib_help_error_help_outline"
-            iconColor="currentColor"
-            onClick={openAssistMe}
-          >
-            {t('in-plg:licenseBanner.getAnswers')}
-          </LicenseBannerButton>
-        </div>
-      );
-    }
+export default function AssistMe() {
+  if (isCarbonShellEnabled()) {
     return (
-      <div data-search-context="getting started">
-        <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
+      <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
+        <LicenseBannerButton
+          id="wm-getanswers"
+          kind="ghost"
+          icon="lib_help_error_help_outline"
+          iconColor="currentColor"
+          onClick={openAssistMe}
+        >
+          {t('in-plg:licenseBanner.getAnswers')}
+        </LicenseBannerButton>
       </div>
     );
-  } else {
-    return null;
   }
+  return (
+    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
+      <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
+    </div>
+  );
 }
 interface AssistMeKeys {
   productId: string;

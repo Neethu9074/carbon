@@ -49,7 +49,6 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = true;
       featureFlags.actionAutomationEnabled = true;
-      featureFlags.automationPoliciesEnabled = true;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -73,7 +72,6 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = false;
       featureFlags.actionAutomationEnabled = true;
-      featureFlags.automationPoliciesEnabled = true;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -97,7 +95,6 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = true;
       featureFlags.actionAutomationEnabled = false;
-      featureFlags.automationPoliciesEnabled = false;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -123,7 +120,6 @@ describe('in-stores/permission.ts', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.syntheticsEnabled = false;
       featureFlags.actionAutomationEnabled = false;
-      featureFlags.automationPoliciesEnabled = false;
 
       // Given
       const productPermissions = getProductPermissions();
@@ -155,16 +151,6 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_INSTALL_NEW_AGENTS]);
     });
 
-    it('Checks the BizOps capability permissions are available when feature flag is set', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.businessObservabilityEnabled = true;
-      const productPermissions = getProductPermissions();
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_PROCESSES]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_ACTIVITIES]);
-      expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_BIZOPS_ALERTS]);
-    });
-
     it('Checks the BizOps flag does not affect other permissions', () => {
       const featureFlags = jest.requireMock('in-services/featureFlags');
       featureFlags.businessObservabilityEnabled = false;
@@ -173,16 +159,6 @@ describe('in-stores/permission.ts', () => {
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_VIEW_LOGS]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING]);
       expect(productPermissions).toContain(productPermissionsObject[Capability.CAN_INSTALL_NEW_AGENTS]);
-    });
-
-    it('Checks the BizOps capability permissions are NOT available when feature flag is not set', () => {
-      const featureFlags = jest.requireMock('in-services/featureFlags');
-      featureFlags.businessObservabilityEnabled = false;
-      const productPermissions = getProductPermissions();
-      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_PROCESSES]);
-      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_PROCESS_DETAILS]);
-      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BUSINESS_ACTIVITIES]);
-      expect(productPermissions).not.toContain(productPermissionsObject[Capability.CAN_VIEW_BIZOPS_ALERTS]);
     });
 
     it('Checks that Infra SA permission is not available when infraSmartAlertsEnabled feature flag is not set', () => {

@@ -10,9 +10,9 @@ import { useObservable } from '@instana/hooks';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
+import createTracker from 'in-waiting-for-deployment/tracker';
 import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -23,7 +23,6 @@ import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
 
 export default function InstanaOnboardingComponent({ onDialogSkip }) {
-  const { goToPath } = useNavigation();
   useDisabledBodyScroll();
 
   const accountConfig = useObservable(getUsageInfo(), []);
@@ -33,6 +32,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
     checkResult: result => checkIfUserCanPass(result.hasEntities)
   });
   const keys = useObservable(getUnitKeys, []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
+  const trackingService = createTracker('onboarding');
 
   if (!accountConfig) {
     return <LoadingIndicator height="100vh" />;
@@ -60,7 +60,7 @@ export default function InstanaOnboardingComponent({ onDialogSkip }) {
               children: 'Go to Instana!',
               onClick: () => {
                 onDialogSkip();
-                goToPath('/'); // Clears the URL after selecting the agent details widget.
+                trackingService.gotoInstanaButtonClicked();
               }
             })}
             agentEndpoint={config.agentEndpoint}

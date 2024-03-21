@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { CustomBlueprintType } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { ServiceLevelIndicatorType, SloEntityType } from 'in-types';
 import { minutes, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -12,29 +11,36 @@ import { t } from 'in-i18n';
 export type SloFormatterFunction = (value: number) => string;
 
 interface useSloFormatterProps {
-  blueprintType?: CustomBlueprintType;
   indicatorType?: ServiceLevelIndicatorType;
   sloEntityType?: SloEntityType;
 }
 
-export default function useSloFormatter({
-  blueprintType,
-  indicatorType,
-  sloEntityType
-}: useSloFormatterProps): SloFormatterFunction {
-  if (blueprintType === 'availability' || (sloEntityType === 'website' && indicatorType === 'eventBased')) {
-    return callsFormatter;
+export default function useSloFormatter({ indicatorType, sloEntityType }: useSloFormatterProps): SloFormatterFunction {
+  if (!sloEntityType) return _value => '';
+
+  if (indicatorType === 'eventBased') {
+    return getEventBasedFormatter(sloEntityType);
   }
 
   return minutes.fixedCompact;
 }
 
-function callsFormatter(value: number): string {
-  if (value >= 10000) {
-    return t('in-service-levels:sloChart.sloFormatter.thousandCallsFormat', {
-      count: number.detailed(value / 1000)
-    });
-  }
+function getEventBasedFormatter(sloEntityType: SloEntityType): (value: number) => string {
+  return value => {
+    if (value >= 10000) {
+      const thousandthVal = value / 1000;
+      const detailedValue = number.detailed(thousandthVal);
+      return t('in-service-levels:sloChart.sloFormatter.thousandCallsFormat', {
+        entityType: sloEntityType,
+        formattedCount: detailedValue,
+        count: thousandthVal
+      });
+    }
 
-  return `${number.compact(value)} ${t('in-service-levels:sloChart.sloFormatter.unit', { count: value })}`;
+    return t('in-service-levels:sloChart.sloFormatter.callsFormat', {
+      entityType: sloEntityType,
+      formattedCount: number.compact(value),
+      count: value
+    });
+  };
 }

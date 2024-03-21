@@ -219,6 +219,11 @@
   "pluginName_azure_1": "Azure Instances",
   "pluginName_azure_2": "Azure Instances",
   "pluginName_azure": "Azure Instance",
+  "pluginName_azureKeyVault_plural": "Azure KeyVault",
+  "pluginName_azureKeyVault_0": "Azure KeyVault",
+  "pluginName_azureKeyVault_1": "Azure KeyVault",
+  "pluginName_azureKeyVault_2": "Azure KeyVault",
+  "pluginName_azureKeyVault": "Azure KeyVault",
   "pluginName_azureApiManagement_plural": "Azure API Management Services",
   "pluginName_azureApiManagement_0": "Azure API Management Services",
   "pluginName_azureApiManagement_1": "Azure API Management Services",
@@ -294,6 +299,11 @@
   "pluginName_azureFunctions_1": "Azure Functions",
   "pluginName_azureFunctions_2": "Azure Functions",
   "pluginName_azureFunctions": "Azure Function",
+  "pluginName_azureDatabricks_plural": "Azure Databricks",
+  "pluginName_azureDatabricks_0": "Azure Databricks",
+  "pluginName_azureDatabricks_1": "Azure Databricks",
+  "pluginName_azureDatabricks_2": "Azure Databricks",
+  "pluginName_azureDatabricks": "Azure Databricks",
   "pluginName_azureServiceBus_plural": "Azure Service Bus",
   "pluginName_azureServiceBus_0": "Azure Service Bus",
   "pluginName_azureServiceBus_1": "Azure Service Bus",
@@ -309,6 +319,16 @@
   "pluginName_azureServiceBusTopics_1": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics_2": "Azure Service Bus Topics",
   "pluginName_azureServiceBusTopics": "Azure Service Bus Topic",
+  "pluginName_azureMachineLearning_plural": "Azure Machine Learning",
+  "pluginName_azureMachineLearning_0": "Azure Machine Learning",
+  "pluginName_azureMachineLearning_1": "Azure Machine Learning",
+  "pluginName_azureMachineLearning_2": "Azure Machine Learning",
+  "pluginName_azureMachineLearning": "Azure Machine Learning",
+  "pluginName_azureManagedHSM_plural": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_0": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_1": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM_2": "Azure Key Vault Managed HSM",
+  "pluginName_azureManagedHSM": "Azure Key Vault Managed HSM",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -876,6 +896,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmiDiskInfo_plural": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_0": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_2": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo": "Disk Information on IBM i",
   "pluginName_ibmIOs_plural": "IBM i",
   "pluginName_ibmIOs_0": "IBM i",
   "pluginName_ibmIOs_1": "IBM i",
@@ -1058,6 +1083,11 @@
   "pluginName_kubernetesDeployment_1": "Kubernetes Deployments",
   "pluginName_kubernetesDeployment_2": "Kubernetes Deployments",
   "pluginName_kubernetesDeployment": "Kubernetes Deployment",
+  "pluginName_kubernetesEndpoints_plural": "Kubernetes Endpoints",
+  "pluginName_kubernetesEndpoints_0": "Kubernetes Endpoint",
+  "pluginName_kubernetesEndpoints_1": "Kubernetes Endpoint",
+  "pluginName_kubernetesEndpoints_2": "Kubernetes Endpoint",
+  "pluginName_kubernetesEndpoints": "Kubernetes Endpoint",
   "pluginName_kubernetesNamespace_plural": "Kubernetes Namespaces",
   "pluginName_kubernetesNamespace_0": "Kubernetes Namespaces",
   "pluginName_kubernetesNamespace_1": "Kubernetes Namespaces",
@@ -1088,6 +1118,11 @@
   "pluginName_kubernetesReplicaSet_1": "Kubernetes Replica Sets",
   "pluginName_kubernetesReplicaSet_2": "Kubernetes Replica Sets",
   "pluginName_kubernetesReplicaSet": "Kubernetes Replica Set",
+  "pluginName_kubernetesReplicationController_plural": "Kubernetes Replication Controllers",
+  "pluginName_kubernetesReplicationController_0": "Kubernetes Replication Controller",
+  "pluginName_kubernetesReplicationController_1": "Kubernetes Replication Controller",
+  "pluginName_kubernetesReplicationController_2": "Kubernetes Replication Controller",
+  "pluginName_kubernetesReplicationController": "Kubernetes Replication Controller",
   "pluginName_kubernetesService_plural": "Kubernetes Services",
   "pluginName_kubernetesService_0": "Kubernetes Services",
   "pluginName_kubernetesService_1": "Kubernetes Services",
@@ -1467,6 +1502,8 @@
   "pluginName_tanzuFoundationMember_1": "Tanzu Foundations Members",
   "pluginName_tanzuFoundationMember_2": "Tanzu Foundations Members",
   "pluginName_tanzuFoundationMember": "Tanzu Foundation Member",
+  "pluginName_tibcoASNode": "Tibco AS Node",
+  "pluginName_tibcoASNode_plural": "Tibco AS Nodes",
   "pluginName_tibcoBWAppNode": "Tibco BW AppNode",
   "pluginName_tibcoBWAppNode_plural": "Tibco BW AppNodes",
   "pluginName_tibcoBWAppInst": "Tibco BW App Instance",
@@ -4399,6 +4436,8 @@
         "ioThroughput": "IO Throughput",
         "readThroughput": "Read throughput",
         "writeThroughput": "Write throughput",
+        "ebsIo": "EBS IO",
+        "ebsIoBalance": "Balance",
         "networkTraffic": "Network Traffic",
         "receiveThroughput": "Receive throughput",
         "transmitThroughput": "Transmit throughput",
@@ -4441,6 +4480,7 @@
       "writeLatency": "Write latency",
       "readThroughput": "Read throughput",
       "writeThroughput": "Write throughput",
+      "ebsIoBalance": "EBS IO Balance",
       "receiveThroughput": "Receive throughput",
       "transmitThroughput": "Transmit throughput",
       "volumeBytesUsed": "Volume Bytes Used"
@@ -4715,6 +4755,28 @@
       "eventHubEvents": "Event Hub Events",
       "sizeOfEventHubEvents": "Size of Event Hub Events"
     },
+    "azureManagedHSM": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoProvisioningState": "Provisioning State",
+      "infoTier": "Tier",
+      "infoType":"Type",
+      "labelAvailability": "Availability",
+      "labelServiceApiLatency": "Service Api Latency",
+      "labelServiceApiHit": "Service Api Hit",
+      "infoMangedHSM": "Azure KeyVault Managed HSM",
+      "dashboard": {
+        "labelAvailability": "Availability",
+        "labelServiceAPI": "Service Api",
+        "labelLatency": "Latency",
+        "labelHit": "Hit"
+      },
+      "kpi": {
+        "labelServiceApiLatency": "Service Api Latency",
+        "labelAvailability": "Availability"
+      }
+    },
     "azureAppService": {
       "infoName": "Name",
       "infoResourceGroup": "Resource Group",
@@ -4753,6 +4815,35 @@
       "performance": "Performance",
       "traffic": "Traffic",
       "runtime": "Runtime"
+    },
+    "azureKeyVault": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoProvisioningState": "Provisioning State",
+      "infoTier": "Tier",
+      "infoType":"Type",
+      "labelAvailability": "Availability",
+      "labelServiceApiLatency": "Service Api Latency",
+      "labelServiceApiHit": "Service Api Hit",
+      "labelServiceApiResult": "Service Api Result",
+      "labelSaturationShoeBox": "SaturationShoeBox",
+      "infoKeyVault": "Azure KeyVault",
+      "vaultCategory": "Vaults",
+      "serviceApiCategory": "Service Api",
+      "dashboard": {
+        "labelAvailability": "Availability",
+        "labelSaturationShoeBox": "SaturationShoeBox",
+        "labelResult": "Result",
+        "labelServiceAPI": "Service Api",
+        "labelLatency": "Latency",
+        "labelHit": "Hit"
+      },
+      "kpi": {
+        "labelServiceApiLatency": "Service Api Latency",
+        "labelAvailability": "Availability"
+
+      }
     },
     "azureCosmosDB": {
       "infoName": "Name",
@@ -4942,6 +5033,43 @@
         "titleStatus": "Status",
         "titleMaxSize": "Max Size",
         "labelSize": "Size"
+      }
+    },
+    "azureMachineLearning": {
+      "infoAzureMachineLearning": "Azure Machine Learning",
+      "infoName":  "Name",
+      "infoSubscriptionID":"Subscription ID",
+      "infoType": "Type",
+      "infoLocation": "Location",
+      "infoResourceGroup":"Resource Group",
+      "infoCreatedAt": "Created At",
+      "kpi": {
+        "labelCpuUtilization": "CPU Utilization",
+        "labelActiveNodes": "Active Nodes"
+      },
+      "dashboard": {
+        "titleProcessorUtilization": "Processor Utilization",
+        "labelCpuUtilization": "Cpu Utilizati on",
+        "labelGpuUtilization": "Gpu Utilization",
+        "titleNodes": "Nodes Overview",
+        "labelActiveNodes": "Active Nodes",
+        "labelTotalNodes": "Total Nodes",
+        "titleCores": "Cores Overview",
+        "labelActiveCores": "Active Cores",
+        "labelTotalCores": "Total Cores",
+        "titleRuns": "Run Statistics",
+        "labelStartedRuns": "Started Runs",
+        "labelCompletedRuns": "Completed Runs",
+        "labelCancelledRuns": "Cancelled Runs",
+        "labelErrors": "Errors",
+        "labelFailedRuns": "Failed Runs",
+        "tileDisk": "Disk Status",
+        "labelDiskUsedMegabytes": "Used Disk Space",
+        "labelDiskReadMegabytes": "Disk Read Size",
+        "labelDiskWriteMegabytes": "Disk Write Size",
+        "labelRun": "Run",
+        "labelQuota": "Quota",
+        "labelResource": "Resource"
       }
     },
     "azureMySql": {
@@ -5460,6 +5588,38 @@
       "infoLocation": "Location",
       "infoSubscriptionID": "Subscription ID",
       "infoResourceGroup": "Resource Group"
+    },
+    "azureDatabricks": {
+      "infoAzureDatabricks": "Azure Databricks",
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoType": "Type",
+      "labelClusterName": "Cluster Name",
+      "labelClusterId": "Cluster Id",
+      "labelSparkVersion": "Spark Version",
+      "labelClusterCore": "Cluster Core",
+      "labelClusterSource": "Cluster Source",
+      "labelExecutorCount": "Executor Count",
+      "labelMaxShuffleBytesWritten": "Max Shuffle Bytes Written",
+      "labelSumShuffleClientUsedHeapMemory": "Sum Shuffle Client Used Heap Memory",
+      "labelClusterMemory": "Memory",
+      "labelJobCount": "Job Count",
+      "labelExecutorName": "Executor Name",
+      "labelDeSerializationCpuTime": "Deserialization CPU Time",
+      "labelSerializationCpuTime": "Serialization CPU Time",
+      "labelExecutorCpuTime": "Execution CPU Time Ratio",
+      "labelShuffleClientUsedDirectMemory": "Shuffle Client Used Direct Memory",
+      "labelShuffleClientUsedHeapMemory": "Shuffle Client Used Heap Memory",
+      "labelJvmCpuTime": "JVM CPU Time Ratio",
+      "labelExecutionDuration": "Execution Duration",
+      "labelInputRowPerSecond": "Input Row Per Second",
+      "labelTotalExecutorCount": "Executors",
+      "labelTotalJobCount": "Jobs Running",
+      "labelTotalMemoryMb": "Memory",
+      "titleClusters": "Clusters",
+      "titleExecutors": "Executors"
     },
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
@@ -6499,8 +6659,15 @@
         "purescaleMem": "Member ID",
         "purescaleMemAlert": "Member Node Alert",
         "purescaleCFAlert": "CF Node Alert",
-        "purescaleCf": "CF ID"
-
+        "purescaleCf": "CF ID",
+        "currentCfLockSize": "Current CF Lock Size",
+        "configuredCfLockSize": "Configured CF Lock Size",
+        "targetedCfLockSize": "Targeted CF Lock Size",
+        "currentCfScaSize": "Current CF SCA Size",
+        "configuredCfScaSize": "Configured CF SCA Size",
+        "targetedCfScaSize": "Targeted CF SCA Size",
+        "purescaleLockTable": "Purescale Lock Memory Table",
+        "purescaleScaTable": "Purescale SCA Memory Table"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6742,7 +6909,17 @@
       "pgHostName": "Host Name",
       "pgState": "State",
       "instanceStopped": "Instance Stopped",
-      "pgAlert": "Alert"
+      "pgAlert": "Alert",
+      "lockHostId": "Host Id",
+      "lockHostName": "Host Name",
+      "currentCfLockSize": "Current CF Lock Size",
+      "configuredCfLockSize": "Configured CF Lock Size",
+      "targetedCfLockSize": "Targeted CF Lock Size",
+      "scaHostId": "Host Id",
+      "scaHostName": "Host Name",
+      "currentCfScaSize": "Current CF SCA Size",
+      "configuredCfScaSize": "Configured CF SCA Size",
+      "targetedCfScaSize": "Targeted CF SCA Size"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -8295,7 +8472,26 @@
         "requests": "Requests",
         "finishedRequests": "Finished Requests",
         "activeRequests": "Active Requests",
-        "pendingRequests": "Pending Requests"
+        "pendingRequests": "Pending Requests",
+        "connections":"Connections",
+        "runningCount":"Running Connection Count",
+        "idleCount":"Idle Connection Count",
+        "garbageCollectionStats": "Garbage Collection Statistics",
+        "host":"Host",
+        "port":"Port",
+        "volumeId":"Volume ID",
+        "storeType": "Store Type",
+        "historyCount":"History Count",
+        "waiterCount":"Waiter Count",
+        "startedJobs":"Started Jobs",
+        "processedJobs":"Processed Jobs",
+        "queueLoads":"Queue Loads",
+        "expensiveStatementStats":"Expensive Statements",
+        "dbUser":"DB User",
+        "startDateAndTime":"Start Time and Date",
+        "executionTime":"Statement Execution Time",
+        "errorMessage":"Could not extract the query from DB",
+        "details" : "Details"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -10212,6 +10408,68 @@
         }
       }
     },
+    "ibmiDiskInfo": {
+      "name": "Disk Information on IBM i",
+      "dashboard":{
+        "tables":{
+          "spinningDiskType": {
+            "name": "Hardware Disk Drives(HDD) Info",
+            "resourceName": "Resource Name",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "diskModel": "Disk Model",
+            "unitNumber": "Unit Number",
+            "aspNumber": "ASP Number",
+            "unitStorageCapacity": "Storage Capacity",
+            "unitMediaCapacityGb": "Media Capacity(GB)",
+            "charts": {
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
+          },
+          "solidStateDisk": {
+            "name": "Solid State Disk(SSD) Info",
+            "resourceName": "Resource Name",
+            "unitStorageCapacity": "Storage Capacity",
+            "percentUsed": "Percent Used",
+            "unitNumber": "Unit Number",
+            "serialNumber": "Serial Number",
+            "aspNumber": "ASP Number",
+            "ssdLifeRemaining": "SSD Remaining Life",
+            "ssdPowerOnDays": "SSD Power On days",
+            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
+            "ssdBytesWritten": "SSD Bytes Written",
+            "ssdReadWriteProtected": "SSD Read Write Protected",
+            "ssdPFAWarning": "SSD PFA Warning"
+          },
+          "systemDiskStatus": {
+            "name": "System Overall Disk Information",
+            "resourceName": "Resource Name",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "unitNumber": "Unit Number",
+            "aspNumber": "ASP Number",
+            "typeOfDiskUnit": "Type of Disk Unit",
+            "charts": {
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
+          },
+          "nonVolatileMemory": {
+            "name": "Non Volatile Memory Express(NVMe) Information",
+            "resourceName": "Resource Name",
+            "hardwareModelNumber": "Model Number",
+            "lifeRemaining": "Life Remaining",
+            "spareCapacity": "Spare Capacity",
+            "spareCapacityThreshold": "Spare Capacity Threshold",
+            "namespaceUsed": "Namespace Used",
+            "powerCycles": "Power Cycles",
+            "powerOnHours": "Power On (in Hours)",
+            "mediaErrors": "Media Errors",
+            "unSafeShutDowns": "Unsafe Shutdowns",
+            "firmwareLevel": "Firmware Level"
+          }
+        }
+      }
+    },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
       "dashboard":{
@@ -10418,66 +10676,12 @@
             "messageTimestamp": "Timestamp",
             "messageText": "Text",
             "messageSecondLevelText": "Second Level Text"
-          },
-          "spinningDiskType": {
-            "name": "Hardware Disk Drives (HDD) Info",
-            "resourceName": "Resource Name",
-            "percentUsed": "Percent Used",
-            "diskType": "Disk Type",
-            "diskModel": "Disk Model",
-            "unitNumber": "Unit Number",
-            "aspNumber": "ASP Number",
-            "unitStorageCapacity": "Storage Capacity",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
-          },
-          "solidStateDisk": {
-            "name": "Solid State Disk (SSD) Info",
-            "resourceName": "Resource Name",
-            "unitStorageCapacity": "Storage Capacity",
-            "percentUsed": "Percent Used",
-            "unitNumber": "Unit Number",
-            "serialNumber": "Serial Number",
-            "aspNumber": "ASP Number",
-            "ssdLifeRemaining": "SSD Remaining Life",
-            "ssdPowerOnDays": "SSD Power On days",
-            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
-            "ssdBytesWritten": "SSD Bytes Written",
-            "ssdReadWriteProtected": "SSD Read Write Protected",
-            "ssdPFAWarning": "SSD PFA Warning"
-          },
-          "systemDiskStatus": {
-            "name": "System Overall Disk Information",
-            "resourceName": "Resource Name",
-            "percentUsed": "Percent Used",
-            "diskType": "Disk Type",
-            "unitNumber": "Unit Number",
-            "aspNumber": "ASP Number",
-            "typeOfDiskUnit": "Type of Disk Unit",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
-          },
-          "nonVolatileMemory": {
-            "name": "Non Volatile Memory Express(NVMe) Information",
-            "resourceName": "Resource Name",
-            "hardwareModelNumber": "Model Number",
-            "lifeRemaining": "Life Remaining",
-            "spareCapacity": "Spare Capacity",
-            "spareCapacityThreshold": "Spare Capacity Threshold",
-            "namespaceUsed": "Namespace Used",
-            "powerCycles": "Power Cycles",
-            "powerOnHours": "Power On Hours",
-            "mediaErrors": "Media Errors",
-            "unSafeShutDowns": "Unsafe Shutdowns",
-            "firmwareLevel": "Firmware Level"
           }
         }
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "diskInfo": "Disk Information",
       "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
@@ -10701,7 +10905,7 @@
         "AgentStartTimeUTC": "Start Time(UTC)",
         "agentVersion": "Build Version",
         "agentOsName": "Operating System",
-        "PublishTimeUTC": "Publish Time(UTC)",
+        "publishedAt": "Published At",
         "maxSourceTransfers": "Max Source Transfers",
         "maxDestinationTransfers": "Max Destination Transfers",
         "maxQueuedTransfers": "Max Queued Transfers",
@@ -10709,6 +10913,8 @@
         "agentType": "Type",
         "agentTimeZone": "Time Zone",
         "runningTransfers": "Running Transfers",
+        "recentActivities": "Recent Activities",
+        "recentActivitiesDesc": "Recent file transfers with this agent are listed in the Source or Destination Transfers table if there are any. These metrics remain in this dashboard before they expire.",
         "totalCurrentTransfers": "Total Current Transfers",
         "totalSourceTransfers": "Source Transfers",
         "totalDestinationTransfers": "Destination Transfers",
@@ -10716,6 +10922,7 @@
         "totalRetryingTransfers": "Total Retrying Transfers",
         "totalWaitForCapacityTransfers": "Total Transfers Waiting for Capacity",
         "transferState": "State",
+        "transferStateCapturedTime": "Captured Time",
         "sourceTransfersWithCount": "Source Transfers ({{len}})",
         "destinationTransfersWithCount": "Destination Transfers ({{len}})"
       },
@@ -11084,6 +11291,7 @@
       "agentTlsExpired": "The Agent TLS certificate <code>{{cert}}</code> expired in <code>{{context}}</code>.",
       "agentTlsAboutToExpire": "The Agent TLS certificate <code>{{cert}}</code> is about to expire in <code>{{context}}</code> days.",
       "tlsProtocolMissingIssue": "The Agent is missing TLSv1.3 support",
+      "tmpDirectoryMissingIssue": "The /tmp directory is missing in the Agent",
       "agentVersion": "Agent Version",
       "bootVersion": "Boot Version",
       "origin": "Origin",
@@ -11155,6 +11363,7 @@
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka monitoring requires <code>sslTruststoreLocation</code> and <code>sslTruststorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances secured with TLS.",
       "kafkaMonitoringRequiresSslKeyStoreLocation": "Kafka monitoring requires <code>sslKeyStoreLocation</code> and <code>sslKeyStorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring SSL client authentication.",
+      "kafkaMonitoringRequiresJmxAuthentication": "Kafka monitoring requires <code>JMX Authentication</code> to be configured in Instana agent <code>configuration.yaml</code> when JMX Authentication is enabled.",
       "underReplicatedPartitions": "Under-replicated Partitions",
       "offlinePartitions": "Offline Partitions",
       "leaderElections": "Leader Elections",
@@ -12141,6 +12350,17 @@
       "labelDatabaseDiskWrites": "Database Disk Writes",
       "labelDatabaseBytesReceived": "Database Bytes Received",
       "labelDatabaseBytesSent": "Database Bytes Sent"
+    },
+    "tibcoASNode": {
+      "connectErrorIssueDescription": "Agent could not connect to FTL realm service. Connection failed with error: <code>{{error}}</code>",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "tibcoASNode": "Tibco AS Node",
+      "pid": "Process ID",
+      "nodeName": "Node Name",
+      "liveDataSize": "Live Data Size",
+      "completedOpsCount": "Completed Operations",
+      "failedOpsCount": "Failed Operations",
+      "completedOrFailedOperationsRate": "Completed/Failed Operations Rate"
     },
     "tibcoBWAppNode": {
       "tibcoBWAppNode": "Tibco BW AppNode",
@@ -13832,7 +14052,6 @@
       "sqlId": "SQL ID",
       "userName": "User Name",
       "totalWaitTime": "Total Wait Time (Milliseconds)",
-      "sqlText": "SQL Text",
       "seconds": "Seconds",
       "activeSessionHistory": "Active Session History (Last 1 Hr)",
       "sessionCount": "Session Count",
@@ -14485,7 +14704,22 @@
       "enqueueWait": "Enqueue Process",
       "btcWait": "BTC",
       "spoolWait": "Spool",
-      "update2Wait": "Update2"
+      "update2Wait": "Update2",
+      "severity": "Severity",
+      "abapdumpstats": "ABAP Dump Statistics",
+      "errorCount": "Error Count",
+      "success": "Success",
+      "readyToProcess": "Ready to Process",
+      "error": "Error",
+      "inBoundIdoc": "Inbound IDocs",
+      "outBoundIdoc": "Outbound IDocs",
+      "gatewayBackendEndErrorLogs": "Gateway Backend Error Logs",
+      "callTime": "Call Time",
+      "executionTime": "Execution Time",
+      "dataSend": "Data Send",
+      "dataReceived": "Data Received",
+      "callMetrics": "Call Metrics",
+      "pageFrequency": "Page Frequency"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",
@@ -15493,5 +15727,8 @@
       "operation": "Operation",
       "tags": "Tags"
     }
+  },
+  "abapSystemsensor": {
+    "activeABAPInstances": "Active ABAP Instances"
   }
 }

@@ -4,45 +4,51 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Map, List as ImmutableList } from 'immutable';
 import React, { useMemo, useState } from 'react';
 
 import { Button, Card, Stack, SvgIcon, Typography, Pill, Link } from '@instana/components';
+import { Snapshot, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
-import { Incident } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
   incidentSummarizationFeedbackHelpfulTracker,
   incidentSummarizationFeedbackUnhelpfulTracker
 } from 'in-events/tracker';
+//@ts-expect-error
+import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import { getEntityIdView, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 //@ts-expect-error
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
+import EventEntityDetails from 'in-events/components/legacy/EventEntityDetails';
 import EventSummaryCard from 'in-events/components/legacy/EventSummaryCard';
+//@ts-expect-error
+import { getEvent } from 'in-stores/events';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-settings/components/List';
+import { EventOrMap } from 'in-events/types';
 
 import locals from 'in-events/components/legacy/EventSummary.mless';
 
 interface EventSummarizationProps {
   title: string;
-  incident: Incident;
+  incident: EventOrMap;
+  latestSnapshot: Snapshot;
 }
 interface BulletPointSummaryListProps {
-  incidentSummary: IncidentSummaryType;
+  timeConfig: TimeConfig;
+  incidentSummary: Map<string, string>;
+  triggeringEvent: EventOrMap | null | {};
 }
 
 interface EventSummaryErrorMessageProps {
   title: string;
   description: string;
   tooltipDescription?: string;
-}
-
-interface IncidentSummaryType {
-  severity?: string;
-  metric?: string;
 }
 
 interface FeedbackState {
@@ -67,10 +73,14 @@ const columnDefinitionsForAlertChannels = [
   }
 ];
 
-export default function EventSummarization({ title, incident }: EventSummarizationProps): JSX.Element {
+export default function EventSummarization({ title, incident, latestSnapshot }: EventSummarizationProps): JSX.Element {
   const incidentSummary = useMemo(() => extractSummaryFromIncident(incident), [incident]);
   const associatedChannelIds = useMemo(() => extractAlertChannelIdsFromIncident(incident), [incident]);
 
+  const triggeringEvent = useObservable(getEvent(incident.getIn(['triggeringEvent'], '')), [incident, title]) ?? null;
+  const timeConfigFromEvent = triggeringEvent
+    ? getTimeConfigForSnapshotRetrieval(triggeringEvent as EventOrMap, latestSnapshot)
+    : null;
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -84,14 +94,20 @@ export default function EventSummarization({ title, incident }: EventSummarizati
         >
           <Stack gap="small">
             <Stack direction="horizontal">
-              {Object.keys(incidentSummary).length > 0 && <BulletPointSummaryList incidentSummary={incidentSummary} />}
-              {Object.keys(incidentSummary).length <= 0 && (
+              {incidentSummary && incidentSummary.size > 0 && (
+                <BulletPointSummaryList
+                  incidentSummary={incidentSummary}
+                  timeConfig={timeConfigFromEvent}
+                  triggeringEvent={triggeringEvent}
+                />
+              )}
+              {incidentSummary && incidentSummary.size <= 0 && (
                 <EventSummaryErrorMessage
                   title={t('in-events:incidentSummarization.errorTitle')}
                   description={t('in-events:incidentSummarization.errorDescription')}
                 />
               )}
-              {associatedChannelIds && Array.isArray(associatedChannelIds) && (
+              {associatedChannelIds && (
                 <div className={locals.alertChannelsList}>
                   <List
                     title={t('in-events:incidentSummarization.alertChannelTableTitle')}
@@ -121,14 +137,34 @@ export default function EventSummarization({ title, incident }: EventSummarizati
   );
 }
 
-function BulletPointSummaryList({ incidentSummary }: BulletPointSummaryListProps): JSX.Element {
+function BulletPointSummaryList({
+  incidentSummary,
+  timeConfig,
+  triggeringEvent
+}: BulletPointSummaryListProps): JSX.Element {
   return (
     <div className={locals.containerForIncidentSummaryBullets}>
       <Stack gap="small">
-        {Object.keys(incidentSummary).map(summaryType => (
-          //@ts-expect-error
-          <EventSummaryCard content={incidentSummary[summaryType] || ''} summaryType={summaryType} />
-        ))}
+        <EventSummaryCard summaryType="topology">
+          {triggeringEvent && (
+            <div>
+              {t('in-events:titleIncidentTriggeredBy')}
+              <EventEntityDetails
+                triggeringEvent={triggeringEvent as EventOrMap}
+                timeConfig={timeConfig}
+                shouldDisplayDefaultLabel={false}
+              />
+            </div>
+          )}
+        </EventSummaryCard>
+        {incidentSummary.keySeq().map(
+          summaryType =>
+            summaryType && (
+              <EventSummaryCard summaryType={summaryType}>
+                <Typography variant="body-regular">{incidentSummary.get(summaryType, '')}</Typography>
+              </EventSummaryCard>
+            )
+        )}
       </Stack>
     </div>
   );
@@ -160,23 +196,17 @@ function EventSummaryErrorMessage({
   );
 }
 
-function extractSummaryFromIncident(incident: Incident): IncidentSummaryType {
-  if (incident.metadata && incident.metadata.incidentSummary) {
-    return incident.metadata.incidentSummary;
-  } else {
-    return {};
-  }
+function extractSummaryFromIncident(incident: EventOrMap): Map<string, string> | null {
+  return incident.getIn(['metadata', 'incidentSummary'], null);
 }
 
-function extractAlertChannelIdsFromIncident(incident: Incident): string[] | null {
-  if (incident.metadata && incident.metadata.alertChannelIds) {
-    return incident.metadata.alertChannelIds;
-  } else {
-    return null;
-  }
+function extractAlertChannelIdsFromIncident(incident: EventOrMap): string[] | null {
+  const alertChannelIds = incident.getIn(['metadata', 'alertChannelIds'], null);
+  if (ImmutableList.isList(alertChannelIds)) return (alertChannelIds as ImmutableList<string>).toArray();
+  return alertChannelIds;
 }
 
-function FeedbackComponent({ incident }: { incident: Incident }): JSX.Element {
+function FeedbackComponent({ incident }: { incident: EventOrMap }): JSX.Element {
   const [feedbackState, setFeedbackState] = useState<FeedbackState>({ thumbsDown: false, thumbsUp: false });
   return (
     <Stack direction="horizontal" gap="small" align="center">

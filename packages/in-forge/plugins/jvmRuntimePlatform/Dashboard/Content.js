@@ -6,7 +6,7 @@
 import { List, Map } from 'immutable';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import PrometheusJavaClientMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PrometheusJavaClientMetrics';

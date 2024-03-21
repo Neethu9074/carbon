@@ -6,7 +6,7 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { Button } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import DropdownButton from 'in-components/Button/DropdownButton';
 

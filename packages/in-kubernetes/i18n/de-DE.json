@@ -34,6 +34,7 @@
     "controlPlane": "Steuerebene",
     "events": "Ereignisse",
     "nodes": "Knoten",
+    "fargateNode": "Fargate-Knoten",
     "namespaces": "Namensbereiche",
     "deployments": "Implementierungen",
     "deploymentConfigs": "Implementierungskonfigurationen",
@@ -44,6 +45,8 @@
     "pods": "Pods",
     "persistentVolumes": "Persistente Datenträger",
     "persistentVolumeClaims": "Persistent Volume Claims",
+    "prometheusMetrics": "Prometheus-Metriken",
+    "prometheusEndpoints": "Prometheus-Endpunkte",
     "infrastructure": "Infrastruktur",
     "name": "Name",
     "cpuUsage": "CPU-Nutzung",
@@ -178,6 +181,7 @@
     "externalIp": "Externe IP",
     "unmonitoredHost": "Nicht überwachter Host",
     "theHostIsUnmonitoredOnAKubernetesMasterNode": "Auf dem Host ist kein Instana-Hostagent aktiv. Dies wird normalerweise durch einen Taint, eine begrenzte Kapazität, einen überlasteten Host oder eine andere Einschränkung verursacht, die untersucht werden sollte.",
+    "theHostIsUnmonitoredFargateNode": "Der Host kann von einem Hostagenten nicht überwacht werden, da es sich um einen Fargate-Knoten handelt.",
     "host": "Host",
     "podsAllocation": "Pod-Zuordnung",
     "kubernetesPod": "Kubernetes-Pod",
@@ -286,7 +290,6 @@
   "succeeded": "Erfolgreich",
   "failed": "Fehlgeschlagen",
   "unknown": "Unbekannt",
-  "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "Es sind keine Kubernetes-Daten verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://ibm.biz/monitoring-k8s-tsg"

@@ -7,9 +7,9 @@
 import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 
-import { Button, Typography } from '@instana/components';
+import { Typography, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import {
   getType,
@@ -38,6 +38,7 @@ import { runActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import TestActionButton from './TestActionButton';
 import { Event, VolatileId } from 'in-types';
+import { role } from 'in-stores/user';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -283,7 +284,7 @@ export default function ActionTable({
       searchPlaceholder={t('in-automation:searchActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
-      tableActions={tableActions}
+      tableActions={role?.canConfigureAutomationActions ? tableActions : {}}
       extraFilters={createFilters(hiddenIds)}
       getEntityName={getEntityName}
       customSortEntities={sortEntities}
