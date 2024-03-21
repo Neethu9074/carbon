@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
 
@@ -33,6 +33,7 @@ export default function Logs(props) {
   const { setSelectedLog, items, progress, errors } = useLogsInCallsContext();
 
   const { selectedLogIdPair, setCallId } = props;
+  const [isToggled, setIsToggled] = useState({});
 
   if (progress?.loading) {
     return <LoadingList numSkeletonRows={3} />;
@@ -42,6 +43,13 @@ export default function Logs(props) {
   if (hasErrors) {
     return <ErrorList errors={errors} />;
   }
+
+  const handleLogItemToggle = itemId => {
+    setIsToggled(prevStates => ({
+      ...prevStates,
+      [itemId]: !prevStates[itemId]
+    }));
+  };
 
   return (
     <Ul space="disabled">
@@ -56,7 +64,8 @@ export default function Logs(props) {
 
         return (
           <Li
-            onClick={() => {
+            onMouseUp={() => {
+              handleLogItemToggle(id);
               setCallId(callId);
               setSelectedLog(log);
             }}
@@ -65,8 +74,9 @@ export default function Logs(props) {
               [locals.selectedRow]: isSelected
             })}
             renderNestedContent={() => <LogTagsTable item={log} />}
+            toggleContentOnRowClick
           >
-            <ColumnizedContent columnDefinitions={columnDefinitions} {...log} />
+            <ColumnizedContent columnDefinitions={columnDefinitions} {...log} isToggled={!!isToggled[id]} />
           </Li>
         );
       })}
