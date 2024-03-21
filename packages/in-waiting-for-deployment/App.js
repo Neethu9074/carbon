@@ -20,12 +20,15 @@ import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidge
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
+import createTracker from 'in-waiting-for-deployment/tracker';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import GlobalTheme from 'in-themes/GlobalTheme';
 import config from 'in-services/config';
 
 import 'in-themes/foundation.less';
+
+const trackingService = createTracker('onboarding');
 
 export default function App() {
   useDisabledBodyScroll();
@@ -65,7 +68,10 @@ function Renderer() {
       getRedirectButtonProperties={() => ({
         disabled: !apiCallSatisfied,
         href: `https://${config.tenantUnit}-${config.tenant}.${config.tenantUnitDomainSuffix}`,
-        children: 'Sign in to Instana'
+        children: 'Sign in to Instana',
+        onClick: () => {
+          trackingService.signInToInstanaButtonClicked();
+        }
       })}
       agentEndpoint={config.agentEndpoint}
       agentEndpointPort={config.agentEndpointPort}

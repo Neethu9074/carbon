@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
 import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
@@ -39,13 +39,6 @@ export default function OnboardingWidget(props) {
     props.Renderer || (agentInstallationV2Enabled ? OnboardingWidgetPresenterV2 : OnboardingWidgetPresenter);
   const trackingService = createTracker(props.trackingIdPrefix);
   const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
-
-  useEffect(() => {
-    if (!agentInstallationV2Enabled) {
-      trackingService.dialogOpened();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
