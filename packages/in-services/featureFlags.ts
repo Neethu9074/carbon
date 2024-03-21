@@ -214,7 +214,7 @@ export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled',
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
 
-export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', false);
+export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', true);
 
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
