@@ -214,8 +214,11 @@ export const hasEventsAccess =
   hasAPlatformAccess ||
   hasInfrastructureAccess ||
   hasSyntheticsAccess;
-export const hasBizOpsAccess =
-  hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
+
+export const hasBizOpsAccess = hasPermission(
+  LimitedAccessScope.LIMITED_BIZOPS_SCOPE,
+  AreaPermission.ACCESS_BIZOPS
+) && businessObservabilityEnabled
 
 interface AreaPermissionProps {
   value: AreaPermissionType;

@@ -112,6 +112,7 @@
     "title_mobileApps": "Mobile apps",
     "title_platforms": "Platforms",
     "title_websites": "Websites",
+    "title_businessMonitoring": "Business Monitoring",
     "title_syntheticMonitoring": "Synthetic Monitoring"
   },
   "headingSection": {
@@ -130,6 +131,7 @@
     "addButton_mobileApps": "Select mobile apps",
     "descriptionLimitedAccess_mobileApps": "Select the role and add mobile apps below to grant access.",
     "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the selected role.",
+    "descriptionAccessAll_bizops": "The business monitoring part is fully accessible.",
     "description_analytics": "Content is defined by access granted to website, mobile app and application dashboards.",
     "description_events_and_alerts": "Events and alerts to view are defined by the access granted to website, mobile app, application dashboards and platforms.",
     "addButton_applications": "Select applications",
@@ -178,6 +180,7 @@
     "description_no_access": "Can't use this area at all",
     "description_no_access_website": "No access: Access to websites is denied.",
     "description_no_access_mobile_app": "No access: Access to mobile apps is denied.",
+    "description_no_access_bizops": "No access: Access to business monitoring is denied.",
     "description_no_access_application": "No access: Access to applications is denied.",
     "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_no_access_infrastructure": "No access: Access to infrastructure is denied.",
