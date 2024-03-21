@@ -12,16 +12,22 @@ import { generateUniqueShortId } from '@instana/utils';
 import { Stack, SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
+import {
+  expectJson,
+  expectStatus,
+  placeholders,
+  Validation,
+  ErrorType,
+  expectMatch
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
-import { expectJson, expectStatus, placeholders, Validation } from 'in-synthetics/utils/constants';
 import { Validations } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { jsonValidator } from 'in-synthetics/createTests/validators/jsonValidator';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { ErrorType } from 'in-synthetics/utils/constants';
-import ComboBox from 'in-components/ComboBox/ComboBox';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
@@ -65,28 +71,148 @@ export default function ValidationSection({
     switch (field) {
       case 'expectStatus':
         updateForm(
-          form.updateIn(['configuration', field], (field: Item) =>
-            (field as Field<string>).setValue(action === 'delete' ? '' : '200').setTouched(false)
+          form.updateIn(['configuration', field], (statusField: Item) =>
+            (statusField as Field<string>).setValue(action === 'delete' ? '' : '200').setTouched(false)
           )
         );
         break;
       case 'expectJson':
         setInvalidJSON({ invalid: false, message: '' });
         updateForm(
-          form.updateIn(['configuration', field], (field: Item) =>
-            (field as Field<Record<string, string>>).setValue({}).setTouched(false)
+          form.updateIn(['configuration', field], (jsonField: Item) =>
+            (jsonField as Field<Record<string, string>>).setValue({}).setTouched(false)
           )
         );
         break;
       case 'expectMatch':
         updateForm(
-          form.updateIn(['configuration', field], (field: Item) =>
-            (field as Field<string>).setValue('').setTouched(false)
+          form.updateIn(['configuration', field], (matchField: Item) =>
+            (matchField as Field<string>).setValue('').setTouched(false)
           )
         );
         break;
     }
   }
+
+  const showTouchedMessage = (selectionKey: string) => {
+    if (selectionKey === expectStatus)
+      return !expectStatusField.valid && expectStatusField.touched && <TouchedMessages field={expectStatusField} />;
+    else return !expectMatchField.valid && expectMatchField.touched && <TouchedMessages field={expectMatchField} />;
+  };
+
+  const onComboBoxChange = (e: Option, selection: Validation) => {
+    const updatedSelections = expectSelections.slice();
+    // stores the previous expect option which was selected in the combobox
+    let previousKey;
+    for (let updatedSelection of updatedSelections) {
+      if (updatedSelection.id === selection.id) {
+        const updatedValue = e.value === expectStatus ? '200' : e.value === expectJson ? JSON.stringify({}) : '';
+        previousKey = updatedSelection.key;
+        if (previousKey === expectJson) {
+          setInvalidJSON({ invalid: false, message: '' });
+        }
+        updatedSelection.key = e.value;
+        updatedSelection.value = updatedValue;
+        updatedSelection.fieldName = placeholders[e.value].field;
+      }
+    }
+    // previousKey does not exist if it's a newly added row
+    if (previousKey) {
+      switch (selection.key) {
+        case expectStatus:
+          updateForm(
+            previousKey === 'Expect JSON'
+              ? form
+                  .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                    (field as Field<string>).setValue('200').setTouched(false)
+                  )
+                  .updateIn(['configuration', 'expectJson'], (field: Item) =>
+                    (field as Field<Record<string, string>>).setValue({}).setTouched(false)
+                  )
+              : form
+                  .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                    (field as Field<string>).setValue('200').setTouched(false)
+                  )
+                  .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                    (field as Field<string>).setValue('').setTouched(false)
+                  )
+          );
+          break;
+        case expectJson:
+          updateForm(
+            form
+              .updateIn(['configuration', 'expectJson'], (field: Item) =>
+                (field as Field<Record<string, string>>).setValue({}).setTouched(false)
+              )
+              .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
+                (field as Field<string>).setValue('').setTouched(false)
+              )
+          );
+          break;
+        case expectMatch:
+          updateForm(
+            previousKey === 'Expect JSON'
+              ? form
+                  .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                    (field as Field<string>).setValue('').setTouched(false)
+                  )
+                  .updateIn(['configuration', 'expectJson'], (field: Item) =>
+                    (field as Field<Record<string, string>>).setValue({}).setTouched(false)
+                  )
+              : form
+                  .updateIn(['configuration', 'expectMatch'], (field: Item) =>
+                    (field as Field<string>).setValue('').setTouched(false)
+                  )
+                  .updateIn(['configuration', 'expectStatus'], (field: Item) =>
+                    (field as Field<string>).setValue('').setTouched(false)
+                  )
+          );
+      }
+    } else {
+      resetFields(selection.fieldName, 'add');
+    }
+    setExpectSelections([...updatedSelections]);
+  };
+
+  const onComboBoxValueChange = (target: HTMLInputElement, selection: Validation) => {
+    const updatedSelections = expectSelections.slice();
+    for (let updatedSelection of updatedSelections) {
+      if (updatedSelection.id === selection.id) {
+        updatedSelection.value = target.value;
+      }
+    }
+    setExpectSelections([...updatedSelections]);
+    updateForm(
+      form.updateIn(['configuration', selection.fieldName], (field: Item) =>
+        (field as Field<string>).setValue(target.value).setTouched(true)
+      )
+    );
+  };
+
+  const onDebouncedTextAreaChange = (target: HTMLInputElement, selection: Validation) => {
+    const validation = jsonValidator(target.value);
+    if (!validation[0].invalid) {
+      const config = JSON.parse(target.value);
+      const updatedSelections = expectSelections.slice();
+      for (let updatedSelection of updatedSelections) {
+        if (updatedSelection.id === selection.id) {
+          updatedSelection.value = JSON.stringify(config);
+        }
+      }
+      setExpectSelections([...updatedSelections]);
+      updateForm(
+        form.updateIn(['configuration', 'expectJson'], (field: Item) =>
+          (field as Field<Record<string, string>>).setValue(config).setTouched(true)
+        )
+      );
+    }
+    setInvalidJSON({ invalid: validation[0].invalid, message: validation[0].message });
+  };
+
+  const hasValidationError = (selectionKey: string) => {
+    if (selectionKey === expectStatus) return !expectStatusField.valid && expectStatusField.touched;
+    else return !expectMatchField.valid && expectMatchField.touched;
+  };
 
   return (
     <div>
@@ -102,90 +228,11 @@ export default function ValidationSection({
                 isClearable={false}
                 onChange={e => {
                   if (e != null && !(e instanceof Array)) {
-                    const updatedSelections = expectSelections.slice();
-                    // stores the previous expect option which was selected in the combobox
-                    let previousKey;
-                    for (let i = 0; i < updatedSelections.length; i++) {
-                      if (updatedSelections[i].id === selection.id) {
-                        previousKey = updatedSelections[i].key;
-                        if (previousKey === expectJson) {
-                          setInvalidJSON({ invalid: false, message: '' });
-                        }
-                        updatedSelections[i].key = e.value;
-                        updatedSelections[i].value =
-                          selection.key === expectStatus
-                            ? '200'
-                            : selection.key === expectJson
-                            ? JSON.stringify({})
-                            : '';
-                        updatedSelections[i].fieldName = placeholders[e.value].field;
-                      }
-                    }
-                    // previousKey does not exist if it's a newly added row
-                    if (previousKey) {
-                      if (selection.key == expectStatus) {
-                        if (previousKey === 'Expect JSON') {
-                          updateForm(
-                            form
-                              .updateIn(['configuration', 'expectStatus'], (field: Item) =>
-                                (field as Field<string>).setValue('200').setTouched(false)
-                              )
-                              .updateIn(['configuration', 'expectJson'], (field: Item) =>
-                                (field as Field<Record<string, string>>).setValue({}).setTouched(false)
-                              )
-                          );
-                        } else {
-                          updateForm(
-                            form
-                              .updateIn(['configuration', 'expectStatus'], (field: Item) =>
-                                (field as Field<string>).setValue('200').setTouched(false)
-                              )
-                              .updateIn(['configuration', 'expectMatch'], (field: Item) =>
-                                (field as Field<string>).setValue('').setTouched(false)
-                              )
-                          );
-                        }
-                      } else if (selection.key == expectJson) {
-                        updateForm(
-                          form
-                            .updateIn(['configuration', 'expectJson'], (field: Item) =>
-                              (field as Field<Record<string, string>>).setValue({}).setTouched(false)
-                            )
-                            .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
-                              (field as Field<string>).setValue('').setTouched(false)
-                            )
-                        );
-                      } else if (selection.key == 'Expect Match') {
-                        if (previousKey === 'Expect JSON') {
-                          updateForm(
-                            form
-                              .updateIn(['configuration', 'expectMatch'], (field: Item) =>
-                                (field as Field<string>).setValue('').setTouched(false)
-                              )
-                              .updateIn(['configuration', 'expectJson'], (field: Item) =>
-                                (field as Field<Record<string, string>>).setValue({}).setTouched(false)
-                              )
-                          );
-                        } else {
-                          updateForm(
-                            form
-                              .updateIn(['configuration', 'expectMatch'], (field: Item) =>
-                                (field as Field<string>).setValue('').setTouched(false)
-                              )
-                              .updateIn(['configuration', 'expectStatus'], (field: Item) =>
-                                (field as Field<string>).setValue('').setTouched(false)
-                              )
-                          );
-                        }
-                      }
-                    } else {
-                      resetFields(selection.fieldName, 'add');
-                    }
-                    setExpectSelections([...updatedSelections]);
+                    onComboBoxChange(e, selection);
                   }
                 }}
                 isOptionDisabled={option =>
-                  expectSelections.filter(selection => selection.key === option.value).length > 0
+                  expectSelections.filter(expectSelection => expectSelection.key === option.value).length > 0
                 }
               />
             </FormGroup>
@@ -198,31 +245,12 @@ export default function ValidationSection({
                         name={selection.fieldName}
                         placeholder={placeholders[selection.key].label}
                         value={selection.value.toString()}
-                        hasError={
-                          selection.key === expectStatus
-                            ? !expectStatusField.valid && expectStatusField.touched
-                            : !expectMatchField.valid && expectMatchField.touched
-                        }
+                        hasError={hasValidationError(selection.key)}
                         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                          const updatedSelections = expectSelections.slice();
-                          for (let i = 0; i < updatedSelections.length; i++) {
-                            if (updatedSelections[i].id === selection.id) {
-                              updatedSelections[i].value = target.value;
-                            }
-                          }
-                          setExpectSelections([...updatedSelections]);
-                          updateForm(
-                            form.updateIn(['configuration', selection.fieldName], (field: Item) =>
-                              (field as Field<string>).setValue(target.value).setTouched(true)
-                            )
-                          );
+                          onComboBoxValueChange(target, selection);
                         }}
                       />
-                      {selection.key === expectStatus
-                        ? !expectStatusField.valid &&
-                          expectStatusField.touched && <TouchedMessages field={expectStatusField} />
-                        : !expectMatchField.valid &&
-                          expectMatchField.touched && <TouchedMessages field={expectMatchField} />}
+                      {showTouchedMessage(selection.key)}
                     </>
                   ) : (
                     <>
@@ -233,23 +261,7 @@ export default function ValidationSection({
                         value={selection.value}
                         hasError={invalidJSON.invalid}
                         onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                          const validation = jsonValidator(target.value);
-                          if (!validation[0].invalid) {
-                            const config = JSON.parse(target.value);
-                            const updatedSelections = expectSelections.slice();
-                            for (let i = 0; i < updatedSelections.length; i++) {
-                              if (updatedSelections[i].id === selection.id) {
-                                updatedSelections[i].value = JSON.stringify(config);
-                              }
-                            }
-                            setExpectSelections([...updatedSelections]);
-                            updateForm(
-                              form.updateIn(['configuration', 'expectJson'], (field: Item) =>
-                                (field as Field<Record<string, string>>).setValue(config).setTouched(true)
-                              )
-                            );
-                          }
-                          setInvalidJSON({ invalid: validation[0].invalid, message: validation[0].message });
+                          onDebouncedTextAreaChange(target, selection);
                         }}
                       />
                       {invalidJSON.invalid && <ValidationBlock>{invalidJSON.message}</ValidationBlock>}
