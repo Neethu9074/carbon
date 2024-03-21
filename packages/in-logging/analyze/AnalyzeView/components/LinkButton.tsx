@@ -19,15 +19,21 @@ export interface LinkButtonProps {
   itemId: string;
   time: number;
   groupKey?: string;
+  className?: string;
 }
 
-export function LinkButton({ itemId, time, groupKey }: LinkButtonProps) {
+export function LinkButton({ itemId, time, groupKey, className }: LinkButtonProps) {
   const link = useAbsoluteUrlToItem(itemId, time, groupKey);
   return (
     <Tooltip content={t('in-logging:tooltipCopyLinkToClipboard')}>
       <CopyToClipboard getText={() => link.toString()}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
-          <IconButton ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_interface_link" />
+          <IconButton
+            className={className}
+            ref={copyToClipboardRef}
+            iconSize={'xs'}
+            type="lib_actions_interface_link"
+          />
         )}
       </CopyToClipboard>
     </Tooltip>

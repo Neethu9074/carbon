@@ -37,6 +37,10 @@
     margin-left: 0.25rem;
   }
 
+  .squareHover:before {
+    border-radius: 0;
+  }
+
   .centeredCopyButtonWrapper {
     align-items: flex-start;
 

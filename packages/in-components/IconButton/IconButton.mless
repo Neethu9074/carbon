@@ -25,6 +25,7 @@
     position: absolute;
     opacity: 0;
     pointer-events: none;
+    border-radius: var(--ids-border-radius-option-round);
     top: 0%;
     left: 0%;
     width: 100%;
