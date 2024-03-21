@@ -36,13 +36,19 @@ export default function ActionCatalogTab() {
         getEntityName={action => t('in-automation:ActionCatalog.actionWithNameForDelete', { actionName: action.name })}
         tableActions={tableActions}
         rightHeader={
-          <CreateNewEntityButton labelNew={t('in-automation:ActionCatalog.newAction')} pathNew={actionDetailsNewPath} />
+          role?.canConfigureAutomationActions ? (
+            <CreateNewEntityButton
+              labelNew={t('in-automation:ActionCatalog.newAction')}
+              pathNew={actionDetailsNewPath}
+            />
+          ) : (
+            <div />
+          )
         }
         loadEntities={getAllActions}
         showActionLink
         showTestColumn={role?.canRunAutomationActions}
-        showDuplicateColumn
-        isBeta
+        showDuplicateColumn={role?.canConfigureAutomationActions}
       />
     </AutomationTabs>
   );

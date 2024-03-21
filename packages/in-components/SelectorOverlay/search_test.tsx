@@ -15,53 +15,52 @@ const nodes: Options[] = [
     description: 'Funky root leaf',
     icon: 'plugin:host',
     badge: null,
-    breadcrumbAndLabel: <></>,
     keywords: '',
     tagName: '',
-    children: []
+    children: [],
+    parentLabels: []
   },
   {
     label: 'Root Level Node',
     description: 'Some description',
     icon: 'plugin:neo4j',
     badge: null,
-    breadcrumbAndLabel: <></>,
     keywords: '',
     tagName: '',
+    parentLabels: [],
     children: [
       {
         label: 'First Level Leaf',
         description: 'Some description',
         icon: 'plugin:docker',
         badge: null,
-        breadcrumbAndLabel: <></>,
         keywords: '',
         tagName: '',
-        children: []
+        children: [],
+        parentLabels: []
       },
       {
         label: 'First Level Node',
         description: 'Some description',
         icon: 'plugin:mule',
         badge: null,
-        breadcrumbAndLabel: <></>,
         keywords: 'firstLevelNode',
         tagName: '',
+        parentLabels: [],
         children: [
           {
             label: 'Second Level Leaf',
             keywords: 'foobar',
             badge: null,
-            breadcrumbAndLabel: <></>,
             tagName: '',
-            children: []
+            children: [],
+            parentLabels: []
           },
           {
             label: 'Second Level Node',
             description: 'Some description',
             icon: 'plugin:mule',
             badge: null,
-            breadcrumbAndLabel: <></>,
             keywords: '',
             tagName: '',
             children: [
@@ -70,15 +69,37 @@ const nodes: Options[] = [
                 description: 'Some description',
                 keywords: 'fobar',
                 badge: null,
-                breadcrumbAndLabel: <></>,
                 tagName: '',
-                children: []
+                children: [],
+                parentLabels: []
               }
-            ]
+            ],
+            parentLabels: []
           }
         ]
       }
     ]
+  }
+];
+
+const namespaceOptions: Options[] = [
+  {
+    label: 'uid',
+    description: 'Kubernetes Namespace UID',
+    keywords: 'Kubernetes namespace uid',
+    badge: null,
+    tagName: 'kubernetes.namespace.uid',
+    children: [],
+    parentLabels: []
+  },
+  {
+    label: 'name',
+    description: 'Kubernetes namespace name',
+    keywords: 'Kubernetes namespace name',
+    badge: null,
+    tagName: 'kubernetes.namespace.name',
+    children: [],
+    parentLabels: []
   }
 ];
 
@@ -92,11 +113,15 @@ describe('in-components/SelectorOverlay/search', () => {
       {
         badge: null,
         children: [],
-        label: 'Third Level Leaf',
+        label: (
+          <>
+            <span className="local-css-highlight">Third</span> Level Leaf
+          </>
+        ),
         description: 'Some description',
         keywords: 'fobar',
-        tagName: '',
-        breadcrumbAndLabel: <></>
+        parentLabels: [],
+        tagName: ''
       }
     ]);
   });
@@ -107,11 +132,45 @@ describe('in-components/SelectorOverlay/search', () => {
         badge: null,
         children: [],
         label: 'Root Level Leaf',
-        description: 'Funky root leaf',
+        description: (
+          <>
+            <span className="local-css-highlight">Funky</span> root leaf
+          </>
+        ),
         icon: 'plugin:host',
         keywords: '',
-        tagName: '',
-        breadcrumbAndLabel: <></>
+        parentLabels: [],
+        tagName: ''
+      }
+    ]);
+  });
+  it('should sort by relevance', () => {
+    expect(search(namespaceOptions, 'namespace name')).to.deep.equal([
+      {
+        label: 'name',
+        description: (
+          <>
+            Kubernetes <span className="local-css-highlight">namespace name</span>
+          </>
+        ),
+        keywords: 'Kubernetes namespace name',
+        badge: null,
+        tagName: 'kubernetes.namespace.name',
+        parentLabels: [],
+        children: []
+      },
+      {
+        label: 'uid',
+        description: (
+          <>
+            Kubernetes <span className="local-css-highlight">Namespace</span> UID
+          </>
+        ),
+        keywords: 'Kubernetes namespace uid',
+        badge: null,
+        tagName: 'kubernetes.namespace.uid',
+        parentLabels: [],
+        children: []
       }
     ]);
   });

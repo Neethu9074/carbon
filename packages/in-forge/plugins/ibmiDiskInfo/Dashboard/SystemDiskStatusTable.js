@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.resourceName'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.resourceName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -26,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.diskType'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.diskType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -35,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.aspNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.aspNumber'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -45,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.unitNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.unitNumber'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -55,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.percentUsed'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.percentUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -71,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.typeOfDiskUnit'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.typeOfDiskUnit'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -114,7 +114,7 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.name')}
+            title={t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.name')}
             timestamp={data.get('timestamp')}
           />
         }
@@ -140,7 +140,7 @@ function getRowDetails(row) {
         y1={{
           formatter: percentage.compact,
           metrics: ['systemDiskStatusMetrics.' + row.key + '.elapsedPercentBusy'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.systemDiskStatus.charts.elapsedPercentBusy')],
+          labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.charts.elapsedPercentBusy')],
           min: 0,
           type: 'line'
         }}

@@ -28,6 +28,7 @@ import { t } from 'in-i18n';
 interface FormComponentProps {
   dataSourceSection: JSX.Element;
   formatterSection: JSX.Element;
+  labelSection: JSX.Element;
   timeShiftConfiguration: JSX.Element;
   form: MapForm<any>;
   onChange: any;
@@ -40,7 +41,8 @@ export default function FormComponent({
   formatterSection,
   form,
   onChange,
-  timeShiftConfiguration
+  timeShiftConfiguration,
+  labelSection
 }: FormComponentProps) {
   const timeConfig = useTimeConfig();
 
@@ -110,6 +112,7 @@ export default function FormComponent({
         />
       </Sections>
       <Sections>{timeShiftConfiguration}</Sections>
+      <Sections>{labelSection}</Sections>
     </Stack>
   );
 }

@@ -115,7 +115,7 @@ export default function RecommendationActionForPoliciesTable({
           width: '10',
           widthInAbsoluteUnit: true,
           getContent: (item: Action) =>
-            !isExternal(item.type) ? (
+            !isExternal(item.type) && role?.canConfigureAutomationPolicies ? (
               <Tooltip content={t('in-automation:associateActionWithName', { actionName: item.name })} delay={500}>
                 <IconButton
                   kind="primaryv2"

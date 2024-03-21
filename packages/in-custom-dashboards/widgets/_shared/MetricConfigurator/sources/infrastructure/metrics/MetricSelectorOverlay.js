@@ -6,7 +6,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import BreadcrumbAndLabel from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/BreadcrumbAndLabel';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -50,13 +49,6 @@ export function toOptions(metricTreeNodes, parentLabels = []) {
   return metricTreeNodes.map(metricTreeNode => {
     return {
       label: metricTreeNode.label,
-      breadcrumbAndLabel: (
-        <BreadcrumbAndLabel
-          path={parentLabels}
-          label={metricTreeNode.label}
-          hasChildren={metricTreeNode.children?.length > 0}
-        />
-      ),
       parentLabels,
       description: metricTreeNode.description,
       metric: metricTreeNode.name,
@@ -79,7 +71,6 @@ export function toOptions(metricTreeNodes, parentLabels = []) {
     };
   });
 }
-
 
 MetricSelectorOverlay.propTypes = {
   metricCatalog: PropTypes.any,

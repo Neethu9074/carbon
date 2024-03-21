@@ -7,6 +7,8 @@
 import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, percentage } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -15,7 +17,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.resourceName'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.resourceName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.hardwareModelNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.hardwareModelNumber'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.lifeRemaining'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.lifeRemaining'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -49,39 +51,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.spareCapacity'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `nonVolatileMemoryMetrics.${row.key}.spareCapacity`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.spareCapacityThreshold'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `nonVolatileMemoryMetrics.${row.key}.spareCapacityThreshold`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.namespaceUsed'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.namespaceUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -97,7 +67,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.powerCycles'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.powerCycles'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -113,7 +83,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.powerOnHours'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.powerOnHours'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -129,7 +99,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.mediaErrors'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.mediaErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -145,7 +115,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.unSafeShutDowns'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.unSafeShutDowns'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -161,7 +131,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.firmwareLevel'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.firmwareLevel'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -204,15 +174,44 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.nonVolatileMemory.name')}
+            title={t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.name')}
             timestamp={data.get('timestamp')}
           />
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={6}
+        initialSortColumn={2}
         initialSortDirection="desc"
+        getRowDetails={getRowDetails}
       />
     );
   }
 );
+
+function getRowDetails(row) {
+  const snapshotId = row.snapshotId;
+  const timeConfig = row.timeConfig;
+
+  return (
+    <div>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          formatter: percentage.detailed,
+          metrics: [
+            'nonVolatileMemoryMetrics.' + row.key + '.spareCapacity',
+            'nonVolatileMemoryMetrics.' + row.key + '.spareCapacityThreshold'
+          ],
+          labels: [
+            t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.spareCapacity'),
+            [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.nonVolatileMemory.spareCapacityThreshold')]
+          ],
+          min: 0,
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
+    </div>
+  );
+}

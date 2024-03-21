@@ -9,6 +9,7 @@ import React from 'react';
 
 import { ColumnizedContent, KeyValue, Li, ListGroup, SvgIcon } from '@instana/components';
 
+import { BreadcrumbAndLabel } from '../TagSelectorOverlay/TagSelectorOverlay';
 import { node as nodePropType } from 'in-components/SelectorOverlay/props';
 
 import locals from './Node.mless';
@@ -42,7 +43,13 @@ export const breadcrumbAndLabelColumnDefinition = {
       <KeyValue
         inverted
         accentuated
-        value={node.breadcrumbAndLabel}
+        value={
+          <BreadcrumbAndLabel
+            path={node.parentLabels}
+            label={node.label}
+            hasChildren={'children' in node && node.children?.length > 0}
+          />
+        }
         label={node.description}
         className={locals.keyValue}
         multilineValue

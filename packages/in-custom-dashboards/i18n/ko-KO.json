@@ -215,8 +215,7 @@
         "pleaseSelect": "선택하십시오.",
         "sliConfigComputeErrBudgetSliVal": "오류 예산 및 SLI 값을 계산하는 데 사용되는 SLI 구성",
         "typeSloThreshold": "<code>{{compact}}</code> - <code>{{detailed}}</code> 사이의 원하는 SLO 임계값을 입력하십시오.",
-        "valType": "값 유형",
-        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
+        "valType": "값 유형"
       },
       "index": {
         "srvLevelIndicator": "SLI(Service-Level Indicator)"

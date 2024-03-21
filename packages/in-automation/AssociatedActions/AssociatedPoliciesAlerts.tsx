@@ -17,6 +17,7 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createBulkPoliciesTracker } from 'in-automation/tracker';
 import Policies from 'in-automation/AssociatedActions/Policies';
 import { NewPolicy } from 'in-automation/Policies/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface AssociatedActionsCardProps {
@@ -47,7 +48,13 @@ export default function AssociatedPoliciesAlerts({
       event={event}
       volatileId={volatileId}
       triggerReload={triggerReload}
-      rightHeader={<RightHeader eventSpecification={alertConfig} triggerReload={triggerReload} reload={reload} />}
+      rightHeader={
+        role?.canConfigureAutomationPolicies ? (
+          <RightHeader eventSpecification={alertConfig} triggerReload={triggerReload} reload={reload} />
+        ) : (
+          <div />
+        )
+      }
       triggerDetails={{ triggerType: 'applicationSmartAlert', triggerId: eventSpecificationId }}
     />
   );

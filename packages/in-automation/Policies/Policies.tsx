@@ -47,6 +47,7 @@ import { listSuccess } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
@@ -121,7 +122,7 @@ export default function Policies() {
         cardTitle={t('in-automation:policies.policies')}
         rightHeader={
           <>
-            <CreateNewEntityButton />
+            {role?.canConfigureAutomationPolicies ? <CreateNewEntityButton /> : <div />}
             <PolicyFilters setFilter={setFilter} trigger={trigger} tags={tags} availableTags={availableTags} />
           </>
         }
@@ -287,7 +288,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     width: 5,
     getContent: function Content(item) {
       const navigateToPolicyDetails = useNavigateToPolicyDetails();
-      return (
+      return role?.canConfigureAutomationPolicies ? (
         <Stack align="end">
           <MoreMenu kind="subtle">
             <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item, false)}>
@@ -301,6 +302,8 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
             </MoreMenuButton>
           </MoreMenu>
         </Stack>
+      ) : (
+        <div />
       );
     }
   }

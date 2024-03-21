@@ -13,6 +13,7 @@ import {
   ConfigWithCompanionMetric,
   ConfigWithStaticCompanion
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { Mutable, UnifiedMetricConfiguration } from 'in-types';
 import { deepCopy } from 'in-services/util/object';
 
@@ -38,7 +39,7 @@ export function transformLogsResult(
   return newResult;
 }
 
-function reduceResultValues(result: Result<MetricResult[]>): Result<MetricResult[]> {
+export function reduceResultValues(result: Result<MetricResult[]>): Result<MetricResult[]> {
   if (result.data) {
     return {
       ...result,
@@ -81,22 +82,27 @@ export interface UnifiedMetricConfigurations {
 }
 
 /** Transform metrics time config for logs widgets with time shift since time shift is not supported **/
-export function getLogMetricsConfig(metrics: UnifiedMetricConfigurations) {
+export function getLogMetricsConfig(
+  metrics: UnifiedMetricConfigurations,
+  widgetType: 'BigNumber' | 'Chart' = 'BigNumber'
+) {
   const newMetrics = cloneDeep(metrics) as Record<string, Mutable<UnifiedMetricConfiguration>>;
   for (const [key] of Object.entries(newMetrics)) {
-    newMetrics[key].granularity = newMetrics[key].timeConfig.windowSize;
-    if (key === 'comparison') {
-      const newTimeConfig = cloneDeep(newMetrics.comparison.timeConfig) as Mutable<TimeConfig>;
-      const to = newMetrics.comparison.timeConfig.to;
-      const now = Date.now();
-      const offset = newMetrics.comparison.timeShift.offset;
-      const toWithOffset = (to ?? now) + offset;
+    if (newMetrics[key].source !== 'LOG') continue;
+    const newTimeConfig = cloneDeep(newMetrics[key].timeConfig) as Mutable<TimeConfig>;
+    const to = newMetrics[key].timeConfig.to;
+    const now = Date.now();
+    const offset = newMetrics[key].timeShift.offset;
+    const toWithOffset = (to ?? now) + offset;
 
-      newTimeConfig.to = toWithOffset;
-      newTimeConfig.focusedMoment = toWithOffset;
-
-      newMetrics.comparison.timeConfig = newTimeConfig;
+    if (key !== 'comparison') {
+      newMetrics[key].timeShift = { offset: 0 };
     }
+
+    newTimeConfig.to = toWithOffset;
+    newTimeConfig.focusedMoment = toWithOffset;
+
+    newMetrics[key].timeConfig = newTimeConfig;
 
     if (newMetrics[key].timeConfig.autoRefresh) {
       const newTimeConfig = cloneDeep(newMetrics[key].timeConfig) as Mutable<TimeConfig>;
@@ -106,8 +112,43 @@ export function getLogMetricsConfig(metrics: UnifiedMetricConfigurations) {
       newMetrics[key].timeConfig = newTimeConfig;
     }
 
-    newMetrics[key].granularity = newMetrics[key].timeConfig.windowSize;
+    if (widgetType === 'BigNumber') {
+      newMetrics[key].granularity = newMetrics[key].timeConfig.windowSize;
+    }
   }
 
   return newMetrics;
+}
+
+export function transformToPerSecondAggregation(
+  data: UnifiedMetricsResult[] | undefined,
+  metrics: UnifiedMetricConfigurations
+) {
+  if (!data || !data.values) return [];
+
+  return data.map(dataset => {
+    const metricConfig = metrics[dataset.id] ?? {};
+    const { source, aggregation } = metricConfig;
+    const isLogsPerSecondMetric = source === 'LOG' && aggregation === 'PER_SECOND';
+
+    if (dataset.values && isLogsPerSecondMetric) {
+      return {
+        ...dataset,
+        values: toPerSecondAverage(dataset.values)
+      };
+    } else return dataset;
+  });
+}
+
+function toPerSecondAverage(data: number[][]): number[][] {
+  if (data.length < 2) return [];
+
+  const timeDiffSeconds = (data[1][0] - data[0][0]) / 1000;
+
+  if (timeDiffSeconds === 0) return [];
+
+  return data.map(([timestamp, value]) => {
+    const avgPerSecond = value / timeDiffSeconds;
+    return [timestamp, avgPerSecond] as [number, number];
+  });
 }

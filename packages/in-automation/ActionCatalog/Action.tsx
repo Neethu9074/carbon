@@ -146,6 +146,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
             saveEnabled={saveEnabled}
             isCreate={isCreate || isCopy}
             listPath={actionCatalogPath}
+            hasSaveButton={role?.canConfigureAutomationActions}
           />
         </SettingsDetailPage>
       </div>
@@ -189,7 +190,7 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: Actio
               }}
             />
           )}
-          {entity && isAction(entity) && <CopyActionLink action={entity} />}
+          {entity && isAction(entity) && role?.canConfigureAutomationActions && <CopyActionLink action={entity} />}
         </HorizontalFlexWrapper>
       )}
     </HorizontalFlexWrapper>

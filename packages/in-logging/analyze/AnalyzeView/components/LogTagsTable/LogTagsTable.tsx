@@ -77,6 +77,7 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
   const mapTags = (tags: LogTag[]) =>
     tags.map(tag => {
       const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
+      if(tag.stringValue === 'null') return null
       return (
         <TagEntry
           key={uniqueTagName}

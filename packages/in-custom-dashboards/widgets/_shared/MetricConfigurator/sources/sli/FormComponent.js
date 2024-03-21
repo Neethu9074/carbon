@@ -193,11 +193,8 @@ function getDropdownOptions(entityConfigs, sliConfigs) {
       };
     }
     const applicationLabel = categories[entityId].label;
-    const breadcrumbAndLabel = t('in-custom-dashboards:widgets.srcSli.formComp.combinedLabel', {
-      applicationLabel,
-      sliName
-    });
-    categories[entityId].children.push({ id: sliConfigId, label: sliName, breadcrumbAndLabel });
+    const parentLabels = [applicationLabel];
+    categories[entityId].children.push({ id: sliConfigId, label: sliName, parentLabels });
   });
 
   return Object.values(categories);

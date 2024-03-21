@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.resourceName'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.resourceName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -25,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.unitNumber'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -35,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.aspNumber'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.aspNumber'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -45,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.diskType'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.diskType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -54,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.diskModel'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.diskModel'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -63,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitMediaCapacityGb'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.unitMediaCapacityGb'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.percentUsed'),
+    title: t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.percentUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -129,7 +129,7 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')}
+            title={t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.name')}
             timestamp={data.get('timestamp')}
           />
         }
@@ -155,7 +155,7 @@ function getRowDetails(row) {
         y1={{
           formatter: percentage.compact,
           metrics: ['advanceSpinningDiskTypeMetrics.' + row.key + '.elapsedPercentBusy'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedPercentBusy')],
+          labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.charts.elapsedPercentBusy')],
           min: 0,
           type: 'line'
         }}

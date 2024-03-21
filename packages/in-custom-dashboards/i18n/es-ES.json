@@ -215,8 +215,7 @@
         "pleaseSelect": "Seleccione",
         "sliConfigComputeErrBudgetSliVal": "Configuración de SLI utilizada para calcular el presupuesto con errores y los valores de SLI",
         "typeSloThreshold": "Escriba el umbral de SLO que desea desde <code>{{compact}}</code> hasta <code>{{detailed}}</code>.",
-        "valType": "Tipo de valor",
-        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
+        "valType": "Tipo de valor"
       },
       "index": {
         "srvLevelIndicator": "Indicadores de nivel de servicio"

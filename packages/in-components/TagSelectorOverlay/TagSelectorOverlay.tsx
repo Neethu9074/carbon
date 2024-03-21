@@ -63,10 +63,10 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
 }
 
 export interface Options {
-  label: string;
+  label: string | JSX.Element;
   badge: JSX.Element | Nullish | false;
-  breadcrumbAndLabel: JSX.Element;
-  description?: string;
+  parentLabels: string[];
+  description?: string | JSX.Element;
   keywords: string;
   tagName: string;
   icon?: string;
@@ -110,13 +110,7 @@ function toOptions(
               'tagName' in tagTreeNode &&
               Boolean(tagTreeNode.tagName) &&
               ((<Badge tagTreeNode={tagTreeNode} tagCatalog={tagCatalog} />) as JSX.Element | Nullish),
-            breadcrumbAndLabel: (
-              <BreadcrumbAndLabel
-                path={parentLabels}
-                label={tagTreeNode.label}
-                hasChildren={'children' in tagTreeNode && tagTreeNode.children?.length > 0}
-              />
-            ),
+            parentLabels: parentLabels,
             description: tagTreeNode.description,
             keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
             tagName: 'tagName' in tagTreeNode ? tagTreeNode.tagName : '',
@@ -134,7 +128,7 @@ interface BreadcrumbAndLabelProps {
   hasChildren: boolean;
 }
 
-function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLabelProps): JSX.Element {
+export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLabelProps): JSX.Element {
   if (hasChildren) {
     return <>{label}</>;
   }

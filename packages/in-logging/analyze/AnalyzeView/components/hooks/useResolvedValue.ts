@@ -45,7 +45,7 @@ const tagValueResolver = new Map<string, LinkResolver>([
   ...containerTagResolvers
 ]);
 
-function resolveInfraLabel(snapshotId: string): Observable<string> {
+export function resolveInfraLabel(snapshotId: string): Observable<string> {
   return getSnapshot(snapshotId).map(getLabel);
 }
 

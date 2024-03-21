@@ -83,7 +83,7 @@ function TimingValueList({ values }) {
 
         const durationValue = duration == null ? valueMissingPlaceholder : `${latencyFixed.compact(duration)}`;
         const durationInPercent =
-          totalDuration && duration == null ? null : '(' + (((duration / totalDuration) * 100) | 0) + '%)';
+          totalDuration >= 1 && duration >= 1 ? '(' + (((duration / totalDuration) * 100) | 0) + '%)' : null;
 
         return (
           <li key={label} className={locals.timingValue}>

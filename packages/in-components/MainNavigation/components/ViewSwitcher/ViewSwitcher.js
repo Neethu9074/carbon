@@ -424,7 +424,7 @@ function SloDashboard(props) {
 function AutomationMenu(props) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (!role.canConfigureAutomationActions || !actionAutomationEnabled) {
+  if (!actionAutomationEnabled) {
     return null;
   }
 
@@ -436,7 +436,6 @@ function AutomationMenu(props) {
         icon="lib_automation"
         isActive={matchLocation(isAutomationView)}
         href={createHrefToPath(actionCatalogPath)}
-        isBeta
         {...props}
       />
     )

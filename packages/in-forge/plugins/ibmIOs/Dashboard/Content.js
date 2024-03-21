@@ -5,12 +5,6 @@
 
 import React from 'react';
 
-import AdvanceSpinningDiskTypeTable from 'in-forge/plugins/ibmIOs/Dashboard/AdvanceSpinningDiskTypeTable';
-import BasicSpinningDiskTypeTable from 'in-forge/plugins/ibmIOs/Dashboard/BasicSpinningDiskTypeTable';
-import AdvanceSolidStateDiskTable from 'in-forge/plugins/ibmIOs/Dashboard/AdvanceSolidStateDiskTable';
-import BasicSolidStateDiskTable from 'in-forge/plugins/ibmIOs/Dashboard/BasicSolidStateDiskTable';
-import NonVolatileMemoryTable from 'in-forge/plugins/ibmIOs/Dashboard/NonVolatileMemoryTable';
-import SystemDiskStatusTable from 'in-forge/plugins/ibmIOs/Dashboard/SystemDiskStatusTable';
 import UserSpoolSpaceTable from 'in-forge/plugins/ibmIOs/Dashboard/UserSpoolSpaceTable';
 import MessageQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/MessageQueueTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -22,6 +16,7 @@ import ActiveJobsTable from 'in-forge/plugins/ibmIOs/Dashboard/ActiveJobsTable';
 import HistoryLogTable from 'in-forge/plugins/ibmIOs/Dashboard/HistoryLogTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SubsystemTable from 'in-forge/plugins/ibmIOs/Dashboard/SubsystemTable';
+import DiskInfoTable from 'in-forge/plugins/ibmIOs/Dashboard/DiskInfoTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import JobQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/JobQueueTable';
 import { number, percentage, bytes } from 'in-services/formatters/number';
@@ -157,13 +152,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       </Columize>
       <AspTable snapshot={snapshot} timeConfig={timeConfig} />
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <AdvanceSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <BasicSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <AdvanceSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <BasicSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
-      <NonVolatileMemoryTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <SystemDiskStatusTable snapshotId={snapshotId} timeConfig={timeConfig} />
 
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')}>
@@ -183,6 +172,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
         <UserSpoolSpaceTable snapshotId={snapshotId} />
       </Columize>
       <NetworkInfoTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DiskInfoTable snapshot={snapshot} timeConfig={timeConfig} />
       <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshotId={snapshotId} timeConfig={timeConfig} />

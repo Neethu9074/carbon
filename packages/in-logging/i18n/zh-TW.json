@@ -49,5 +49,7 @@
   "warn": "{{count}} 則警告",
   "warn_plural": "{{count}} 則警告",
   "process": "程序",
-  "host": "主機"
+  "host": "主機",
+  "fileOnHost": "里",
+  "file": "文件"
 }

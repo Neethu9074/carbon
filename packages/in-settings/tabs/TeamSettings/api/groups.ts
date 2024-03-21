@@ -239,6 +239,7 @@ function createPermissionSet() {
     websiteIds: [],
     mobileAppIds: [],
     syntheticTestIds: [],
+    businessPerspectiveIds: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' }
   };
 }

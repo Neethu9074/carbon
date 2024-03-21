@@ -68,6 +68,7 @@ export const LOG_MESSAGE = 'log.message';
 export const LOG_CUSTOM = 'log.custom';
 export const LOG_SERVICE_NAME = 'service.name';
 export const LOG_MESSAGE_TIMESTAMP = 'log.tsFromMessage';
+export const LOG_FILE_PATH = 'log.file.path';
 
 export const LOG_KUBERNETES_CLUSTER_NAME = 'kubernetes.cluster.name';
 export const LOG_KUBERNETES_NODE_NAME = 'kubernetes.node.name';
@@ -146,6 +147,7 @@ export const logTableTags = [
   ID_PROCESS,
   PROCESS_ID,
   HOST_NAME,
+  LOG_FILE_PATH,
   ...containerSnapshotIds,
   ...containerIds,
   ...kubernetesTags
@@ -165,4 +167,4 @@ export const restrictedTags = new Set<string>([
   ...kubernetesEntitySnapshotIds
 ]);
 
-export const OTEL_STREAM_NAME = "opentelemetry-stream";
+export const OTEL_STREAM_NAME = 'opentelemetry-stream';

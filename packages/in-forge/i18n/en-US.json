@@ -533,6 +533,36 @@
   "pluginName_domino_1": "Domino Server",
   "pluginName_domino_2": "Domino Server",
   "pluginName_domino": "Domino Server",
+  "pluginName_drbd_plural": "DRBD",
+  "pluginName_drbd_0": "DRBD",
+  "pluginName_drbd_1": "DRBD",
+  "pluginName_drbd_2": "DRBD",
+  "pluginName_drbd": "DRBD",
+  "pluginName_drbdReactor_plural": "DRBD Reactor",
+  "pluginName_drbdReactor_0": "DRBD Reactor",
+  "pluginName_drbdReactor_1": "DRBD Reactor",
+  "pluginName_drbdReactor_2": "DRBD Reactor",
+  "pluginName_drbdReactor": "DRBD Reactor",
+  "pluginName_drbdResource_plural": "DRBD Resources",
+  "pluginName_drbdResource_0": "DRBD Resources",
+  "pluginName_drbdResource_1": "DRBD Resources",
+  "pluginName_drbdResource_2": "DRBD Resources",
+  "pluginName_drbdResource": "DRBD Resource",
+  "pluginName_drbdDevice_plural": "DRBD Devices",
+  "pluginName_drbdDevice_0": "DRBD Devices",
+  "pluginName_drbdDevice_1": "DRBD Devices",
+  "pluginName_drbdDevice_2": "DRBD Devices",
+  "pluginName_drbdDevice": "DRBD Device",
+  "pluginName_drbdConnection_plural": "DRBD Connections",
+  "pluginName_drbdConnection_0": "DRBD Connections",
+  "pluginName_drbdConnection_1": "DRBD Connections",
+  "pluginName_drbdConnection_2": "DRBD Connections",
+  "pluginName_drbdConnection": "DRBD Connection",
+  "pluginName_drbdPeerDevice_plural": "DRBD Peer Devices",
+  "pluginName_drbdPeerDevice_0": "DRBD Peer Devices",
+  "pluginName_drbdPeerDevice_1": "DRBD Peer Devices",
+  "pluginName_drbdPeerDevice_2": "DRBD  Peer devices",
+  "pluginName_drbdPeerDevice": "DRBD Peer Device",
   "pluginName_dropwizardApplicationContainer_plural": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_0": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_1": "Dropwizard Apps",
@@ -866,6 +896,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmiDiskInfo_plural": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_0": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo_2": "Disk Information on IBM i",
+  "pluginName_ibmiDiskInfo": "Disk Information on IBM i",
   "pluginName_ibmIOs_plural": "IBM i",
   "pluginName_ibmIOs_0": "IBM i",
   "pluginName_ibmIOs_1": "IBM i",
@@ -7030,6 +7065,89 @@
       "metricsIncludeRegexDoesNotMatchAnyMetric": "Regex: {{metrics_include}} from the configuration file does not match any metric",
       "missingDominoStatsFile": "Metrics file could not be found on the host"
     },
+    "drbdReactor": {
+      "drbdReactor": "DRBD Reactor",
+      "resourcesNumber": "Number of Resources",
+      "resourceSuspendedCount": "Number of Suspended Resources",
+      "kmodVersion": "Kmod Version",
+      "utilsVersion": "Utils Version",
+      "drbdHost": "DRBD Host"
+    },
+    "drbdResource": {
+      "drbdResource": "DRBD Resource",
+      "resourceName": "DRBD Resource Name",
+      "drbdHost": "DRBD Host",
+      "resourceSuspended": "Resource Suspended",
+      "resourceMayPromote": "Resource Promoted to Primary",
+      "resourceForceIOFailures": "Resource Configured to Force IO Failures",
+      "resourcePromotionScore": "Resource Promotion Score",
+      "resourceRole": "Resource Role",
+      "connUniqueName": "Name",
+      "resourcesWithCount": "Resources ({{len}})",
+      "connectionsWithCount": "Connections ({{len}})",
+      "peersWithCount": "Peers ({{len}})"
+    },
+    "drbdDevice": {
+      "dashboard": {
+        "DeviceIO": "Device IO",
+        "BlockIORequest": "Block IO requests",
+        "deviceReadBytesTotal": "Read Bytes Total",
+        "deviceWrittenBytesTotal": "Written Bytes Total",
+        "deviceSizeBytes": "Size Bytes",
+        "deviceUpperPending": "Block I/O Requests Number not Answered",
+        "deviceLowerPending": "Open Requests Number Issued",
+        "deviceAlWritesTotal": "Updates Of The Activity-Log",
+        "deviceBmWritesTotal": "Updates Of The Bitmap Area"
+      },
+      "deviceName": "Name",
+      "drbdDevice": "DRBD Device",
+      "drbdHost": "DRBD Host",
+      "resourceName": "DRBD Resource Name",
+      "deviceUnintentionalDiskless": "Device Unintentional Diskless",
+      "deviceReadBytesTotal": "Read Bytes Total",
+      "deviceWrittenBytesTotal": "Written Bytes Total",
+      "deviceSizeBytes": "Size Bytes",
+      "deviceUpperPending": "Block I/O Requests Number not Answered",
+      "deviceLowerPending": "Open Requests Number Issued",
+      "deviceAlSuspended": "Activity-Log is Suspended",
+      "deviceAlWritesTotal": "Updates Of The Activity-Log",
+      "deviceBmWritesTotal": "Updates Of The Bitmap Area",
+      "deviceQuorum": "Quorum",
+      "deviceClient": "Client",
+      "volume": "Volume",
+      "minor": "Minor",
+      "deviceState": "State",
+      "devicesWithCount": "Devices ({{len}})"
+    },
+    "drbdConnection": {
+      "dashboard": {
+        "connectionCongested": "Connection Congested",
+        "connectionApInFlightBytes": "Application Requests in Flight",
+        "connectionRsInFlightBytes": "Resync Requests in Flight"
+      },
+      "connectionName": "Name",
+      "drbdConnection": "DRBD Connection",
+      "peerNodeId": "Peer Node Id",
+      "resourceName": "DRBD Resource Name",
+      "drbdHost": "DRBD Host",
+      "connectionState": "State",
+      "connectionCongested": "Connection Congested",
+      "connectionApInFlightBytes": "Application Requests Bytes",
+      "connectionRsInFlightBytes": "Resync Requests Bytes"
+    },
+    "drbdPeerDevice": {
+      "dashboard": {
+        "peerDeviceOutOfSyncBytes": "Out of Sync Bytes"
+      },
+      "drbdPeerDevice": "DRBD Peer Device",
+      "peerDeviceName": "Peer Device Name",
+      "connectionName": "Connection Name",
+      "peerNodeId": "Peer Node Id",
+      "volume": "Volume",
+      "resourceName": "DRBD Resource Name",
+      "drbdHost": "DRBD Host",
+      "peerDeviceOutOfSyncBytes": "Out of Sync Bytes"
+    },
     "dropwizardApplicationContainer": {
       "dashboard": {
         "dropwizard": "Dropwizard"
@@ -10290,6 +10408,68 @@
         }
       }
     },
+    "ibmiDiskInfo": {
+      "name": "Disk Information on IBM i",
+      "dashboard":{
+        "tables":{
+          "spinningDiskType": {
+            "name": "Hardware Disk Drives(HDD) Info",
+            "resourceName": "Resource Name",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "diskModel": "Disk Model",
+            "unitNumber": "Unit Number",
+            "aspNumber": "ASP Number",
+            "unitStorageCapacity": "Storage Capacity",
+            "unitMediaCapacityGb": "Media Capacity(GB)",
+            "charts": {
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
+          },
+          "solidStateDisk": {
+            "name": "Solid State Disk(SSD) Info",
+            "resourceName": "Resource Name",
+            "unitStorageCapacity": "Storage Capacity",
+            "percentUsed": "Percent Used",
+            "unitNumber": "Unit Number",
+            "serialNumber": "Serial Number",
+            "aspNumber": "ASP Number",
+            "ssdLifeRemaining": "SSD Remaining Life",
+            "ssdPowerOnDays": "SSD Power On days",
+            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
+            "ssdBytesWritten": "SSD Bytes Written",
+            "ssdReadWriteProtected": "SSD Read Write Protected",
+            "ssdPFAWarning": "SSD PFA Warning"
+          },
+          "systemDiskStatus": {
+            "name": "System Overall Disk Information",
+            "resourceName": "Resource Name",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "unitNumber": "Unit Number",
+            "aspNumber": "ASP Number",
+            "typeOfDiskUnit": "Type of Disk Unit",
+            "charts": {
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
+          },
+          "nonVolatileMemory": {
+            "name": "Non Volatile Memory Express(NVMe) Information",
+            "resourceName": "Resource Name",
+            "hardwareModelNumber": "Model Number",
+            "lifeRemaining": "Life Remaining",
+            "spareCapacity": "Spare Capacity",
+            "spareCapacityThreshold": "Spare Capacity Threshold",
+            "namespaceUsed": "Namespace Used",
+            "powerCycles": "Power Cycles",
+            "powerOnHours": "Power On (in Hours)",
+            "mediaErrors": "Media Errors",
+            "unSafeShutDowns": "Unsafe Shutdowns",
+            "firmwareLevel": "Firmware Level"
+          }
+        }
+      }
+    },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
       "dashboard":{
@@ -10496,66 +10676,12 @@
             "messageTimestamp": "Timestamp",
             "messageText": "Text",
             "messageSecondLevelText": "Second Level Text"
-          },
-          "spinningDiskType": {
-            "name": "Hardware Disk Drives (HDD) Info",
-            "resourceName": "Resource Name",
-            "percentUsed": "Percent Used",
-            "diskType": "Disk Type",
-            "diskModel": "Disk Model",
-            "unitNumber": "Unit Number",
-            "aspNumber": "ASP Number",
-            "unitStorageCapacity": "Storage Capacity",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
-          },
-          "solidStateDisk": {
-            "name": "Solid State Disk (SSD) Info",
-            "resourceName": "Resource Name",
-            "unitStorageCapacity": "Storage Capacity",
-            "percentUsed": "Percent Used",
-            "unitNumber": "Unit Number",
-            "serialNumber": "Serial Number",
-            "aspNumber": "ASP Number",
-            "ssdLifeRemaining": "SSD Remaining Life",
-            "ssdPowerOnDays": "SSD Power On days",
-            "ssdSupportedBytesWritten": "SSD Supported Bytes Written",
-            "ssdBytesWritten": "SSD Bytes Written",
-            "ssdReadWriteProtected": "SSD Read Write Protected",
-            "ssdPFAWarning": "SSD PFA Warning"
-          },
-          "systemDiskStatus": {
-            "name": "System Overall Disk Information",
-            "resourceName": "Resource Name",
-            "percentUsed": "Percent Used",
-            "diskType": "Disk Type",
-            "unitNumber": "Unit Number",
-            "aspNumber": "ASP Number",
-            "typeOfDiskUnit": "Type of Disk Unit",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
-          },
-          "nonVolatileMemory": {
-            "name": "Non Volatile Memory Express(NVMe) Information",
-            "resourceName": "Resource Name",
-            "hardwareModelNumber": "Model Number",
-            "lifeRemaining": "Life Remaining",
-            "spareCapacity": "Spare Capacity",
-            "spareCapacityThreshold": "Spare Capacity Threshold",
-            "namespaceUsed": "Namespace Used",
-            "powerCycles": "Power Cycles",
-            "powerOnHours": "Power On Hours",
-            "mediaErrors": "Media Errors",
-            "unSafeShutDowns": "Unsafe Shutdowns",
-            "firmwareLevel": "Firmware Level"
           }
         }
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "diskInfo": "Disk Information",
       "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs"
@@ -11237,6 +11363,7 @@
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka monitoring requires <code>sslTruststoreLocation</code> and <code>sslTruststorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances secured with TLS.",
       "kafkaMonitoringRequiresSslKeyStoreLocation": "Kafka monitoring requires <code>sslKeyStoreLocation</code> and <code>sslKeyStorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring SSL client authentication.",
+      "kafkaMonitoringRequiresJmxAuthentication": "Kafka monitoring requires <code>JMX Authentication</code> to be configured in Instana agent <code>configuration.yaml</code> when JMX Authentication is enabled.",
       "underReplicatedPartitions": "Under-replicated Partitions",
       "offlinePartitions": "Offline Partitions",
       "leaderElections": "Leader Elections",

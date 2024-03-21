@@ -5,13 +5,16 @@
  */
 
 import fuzzysort from 'fuzzysort';
+import React from 'react';
 
 import { Options } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+
+import nodeLocals from './Node.mless';
 
 // Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
 const RANGE = 100;
 const FUZZY_SEARCH_THRESHOLD = (1 + 2 + 3 + 4) * RANGE;
-const KEYS = ['tagName', 'label', 'keywords', 'description'];
+const KEYS = ['label', 'description', 'keywords', 'tagName'];
 
 export function search(nodes: Options[], query: string) {
   if (!query) {
@@ -31,7 +34,7 @@ function searchNodes(nodes: Options[], query: string, result: Options[], matcher
   const matchResults = matcher(allNodes, query);
   matchResults
     .filter(matchResult => matchResult?.score > -FUZZY_SEARCH_THRESHOLD)
-    .forEach(matchResult => result.push(matchResult.obj));
+    .forEach(matchResult => result.push(highlight(matchResult)));
 }
 
 function flattenNodes(nodes: Options[]): Options[] {
@@ -55,4 +58,17 @@ function fuzzyMatches(targets: Options[], query: string): Fuzzysort.KeysResults<
 
 function score(result: Fuzzysort.KeyResult<Options>, offset: number, range: number = RANGE): number {
   return result ? result.score - offset * range : -(offset + 1) * range;
+}
+function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
+  var label = highlightResult(matchResult[0]);
+  var description = highlightResult(matchResult[1]);
+  return {
+    ...matchResult.obj,
+    label: (label && <>{label}</>) || matchResult.obj.label,
+    description: (description && <>{description}</>) || matchResult.obj.description
+  };
+}
+
+function highlightResult(result: Fuzzysort.Result): (string | JSX.Element)[] | undefined {
+  return fuzzysort.highlight(result, m => <span className={nodeLocals.highlight}>{m}</span>)?.filter(x => x !== '');
 }
