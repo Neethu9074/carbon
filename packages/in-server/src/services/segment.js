@@ -5,6 +5,6 @@
 
 const serverConfig = require('../serverConfig.js');
 
-exports.getSegmentKey = function getSegmentToken() {
+exports.getSegmentKey = function getSegmentKey() {
   return serverConfig.segmentKey;
 };

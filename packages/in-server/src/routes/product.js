@@ -184,7 +184,7 @@ router.get('/', async (req, res) => {
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
-        segmentToken: getSegmentKey(),
+        segmentKey: getSegmentKey(),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
