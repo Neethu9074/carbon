@@ -204,7 +204,14 @@ packages/in-infrastructure          @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-init                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-integrations            @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
 packages/in-kubernetes              @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
+
+# Logging specific areas
 packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+# code needs to be shifted - this will be a follow-up, and has already been discussed
+packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-integrations/logging    @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/TeamSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
