@@ -53,7 +53,6 @@ export default function SaveButton({
       icon={isSaving ? 'lib_actions_loading' : icon}
       iconSpinning={isSaving}
       className={className}
-      // @ts-expect-error: Property 'autoFocus' does not exist on type 'IntrinsicAttributes & PropsType & RefAttributes<any>'
       autoFocus={autoFocus}
     >
       {children}
