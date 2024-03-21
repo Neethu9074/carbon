@@ -11,6 +11,7 @@ const fs = require('fs');
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { getMixpanelToken } = require('../services/mixpanel');
+const { getSegmentKey } = require('../services/segment');
 const buildInformation = require('../../assets/build.json');
 const configResolver = require('../services/config');
 const checkSumMod = require('../services/checksum');
@@ -183,6 +184,7 @@ router.get('/', async (req, res) => {
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
+        segmentToken: getSegmentKey(),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
