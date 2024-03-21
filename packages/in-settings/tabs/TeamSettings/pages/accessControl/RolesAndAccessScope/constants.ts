@@ -57,6 +57,7 @@ export type AreaRoleWithCustomType = AreaRoleWithContributorType | 'CUSTOM';
 export const ProductArea = Object.freeze({
   WEBSITE: 'WEBSITE',
   MOBILE_APP: 'MOBILE_APP',
+  BIZOPS: 'BIZOPS',
   APPLICATION: 'APPLICATION',
   KUBERNETES: 'KUBERNETES',
   VSPHERE: 'VSPHERE',
@@ -85,6 +86,7 @@ export type LimitableProductArea = Extract<
   ProductAreaType,
   | 'WEBSITE'
   | 'MOBILE_APP'
+  | 'BIZOPS'
   | 'APPLICATION'
   | 'INFRASTRUCTURE'
   | 'KUBERNETES'
@@ -121,6 +123,7 @@ export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissio
 
 const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM_APPLICATIONS];
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
+export const bizopsCapabilities: Array<CapabilityType> = [];
 export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
 export const applicationAdditionalCapabilities: Array<CapabilityType> = [
@@ -249,6 +252,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
     limitation: LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
     permission: AreaPermission.ACCESS_MOBILE_APPS,
     capabilities: mobileAppCapabilities
+  },
+  [ProductArea.BIZOPS]: {
+    capabilities: bizopsCapabilities,
+    permission: AreaPermission.ACCESS_BIZOPS,
+    limitation: LimitedAccessScope.LIMITED_BIZOPS_SCOPE
   },
   [ProductArea.APPLICATION]: {
     limitation: LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
