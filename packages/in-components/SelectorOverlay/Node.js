@@ -9,7 +9,7 @@ import React from 'react';
 
 import { ColumnizedContent, KeyValue, Li, ListGroup, SvgIcon } from '@instana/components';
 
-import { BreadcrumbAndLabel } from '../TagSelectorOverlay/TagSelectorOverlay';
+import { BreadcrumbAndLabel } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { node as nodePropType } from 'in-components/SelectorOverlay/props';
 
 import locals from './Node.mless';
