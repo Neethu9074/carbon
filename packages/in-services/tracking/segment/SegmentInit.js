@@ -6,8 +6,11 @@
 
 import { AnalyticsBrowser } from '@segment/analytics-next';
 
-export function init() {
-  const analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
+let analytics = null;
 
+export default function Segment() {
+  if (analytics == null) {
+    analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
+  }
   return analytics;
 }
