@@ -215,8 +215,7 @@
         "pleaseSelect": "選択してください",
         "sliConfigComputeErrBudgetSliVal": "エラー・バジェット値および SLI 値を計算するために使用される SLI 構成",
         "typeSloThreshold": "必要な SLO しきい値を入力します (<code>{{compact}}</code> から <code>{{detailed}}</code>)。",
-        "valType": "値のタイプ",
-        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
+        "valType": "値のタイプ"
       },
       "index": {
         "srvLevelIndicator": "サービス・レベル指標"

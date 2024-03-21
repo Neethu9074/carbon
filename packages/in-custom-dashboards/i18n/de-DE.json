@@ -215,8 +215,7 @@
         "pleaseSelect": "Bitte auswählen",
         "sliConfigComputeErrBudgetSliVal": "SLI-Konfiguration zur Berechnung des Fehlerbudgets und der SLI-Werte",
         "typeSloThreshold": "Geben Sie Ihren gewünschten SLO-Schwellenwert von <code>{{compact}}</code> in <code>{{detailed}}</code> ein.",
-        "valType": "Wertetyp",
-        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
+        "valType": "Wertetyp"
       },
       "index": {
         "srvLevelIndicator": "Service-Level-Indikatoren"
