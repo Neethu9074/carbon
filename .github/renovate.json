@@ -12,12 +12,9 @@
       "enabled": false
     },
     {
-      "excludePackagePatterns": ["^@instana/components"],
-      "enabled": false
-    },
-    {
       "matchSourceUrls": ["https://github.ibm.com/instana/ui-foundation"],
-      "groupName": "ui-foundation monorepo",
+      "groupName": "ui-foundation",
+      "labels": ["Review + Merge"],
       "enabled": true
     }
   ]
