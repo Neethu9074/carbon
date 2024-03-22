@@ -413,7 +413,7 @@ export default function Infrastructure({
       onClick: () => setType('CLUSTER')
     });
 
-    if (!isDatabase(entity) && hasSomeNonClusterTechnologies(entity)) {
+    if (hasSomeNonClusterTechnologies(entity)) {
       buttonPropsList.push({
         text: t('in-applications:buttonProcess'),
         key: 'PROCESS',
@@ -424,6 +424,14 @@ export default function Infrastructure({
         key: 'CONTAINER',
         onClick: () => setType('CONTAINER')
       });
+      buttonPropsList.push({
+        text: t('in-applications:buttonHost'),
+        key: 'HOST',
+        onClick: () => setType('HOST')
+      });
+    } else {
+      // Show host information as fallback, e.g. for kubernetesService we usually should have host information.
+      // In worst case we show the host tab with "Unmonitored" host, like we do in many cases.
       buttonPropsList.push({
         text: t('in-applications:buttonHost'),
         key: 'HOST',
@@ -479,20 +487,6 @@ export default function Infrastructure({
   );
 }
 
-function isDatabase(entity) {
-  // endpoints only have .type, not .types
-  if (!entity.types) {
-    return entity.type == 'DATABASE';
-  }
-
-  for (const type of entity.types) {
-    if (type == 'DATABASE') {
-      return true;
-    }
-  }
-  return false;
-}
-
 function hasSomeClusterTechnologies(entity) {
   if (!entity || !entity.technologies) {
     return false;
@@ -513,12 +507,20 @@ function hasSomeNonClusterTechnologies(entity) {
   });
 }
 
+// see com.instana.sdk.call.TechnologyConstants in the backend
 const clusterTechnologies = [
-  'elasticsearchCluster',
+  'awsMskCluster',
   'cassandraCluster',
+  'consulCluster',
   'couchbaseCluster',
+  'elasticsearchCluster',
+  'hazelcastCluster',
+  'ibmDataPowerCluster',
+  'kafkaCluster',
+  'kafkaConnectCluster',
   'kubernetesService',
-  'redisCluster'
+  'redisCluster',
+  'rocketMqCluster'
 ];
 
 function isClusterTechnology(technology) {
