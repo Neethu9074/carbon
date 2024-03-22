@@ -102,7 +102,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     label: getField<string>(form, 'label')?.value,
     scope: getField<string>(form, 'scope')?.value,
     tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value,
-    applicationIds: permissionSet
+    [applicationEntityKey]: permissionSet
       ? permissionSet[applicationEntityKey]?.filter(entity => entity.scopeRoleId === ScopeRoles.Contributor)
       : []
   });
