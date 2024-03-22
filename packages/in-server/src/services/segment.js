@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-const serverConfig = require('../serverConfig.js');
+const serverConfig = require('../serverConfig');
 
 exports.getSegmentKey = function getSegmentKey() {
   return serverConfig.segmentKey;

@@ -17,7 +17,7 @@ export const commonProperties = {
 };
 
 export function Segment() {
-  if (analytics == null) {
+  if (analytics === null) {
     analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
   }
   return analytics;
