@@ -93,7 +93,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
     scopedPermissionItem,
     AreaRole.VIEWER
   );
-  const InfrastructurePermissionsSection = () => {
+  const displayInfrastructurePermissionsSection = () => {
     return (
       <StackItem>
         {area.capabilities.map(productPermission => (
@@ -116,7 +116,7 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
       </StackItem>
     );
   };
-  const InfrastructureFilterSection = () => {
+  const displayInfrastructureFilterSection = () => {
     return (
       <>
         <StackItem>
@@ -165,10 +165,10 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
               {rolePermissionMessage}
             </Typography>
           </StackItem>
-          <InfrastructurePermissionsSection />
+          {displayInfrastructurePermissionsSection()}
         </Stack>
       </ConfigurationSummary>
-      {scopedPermissionItem === ScopedPermissionItem.LIMITED_ACCESS && <InfrastructureFilterSection />}
+      {scopedPermissionItem === ScopedPermissionItem.LIMITED_ACCESS && displayInfrastructureFilterSection()}
     </Stack>
   );
 }

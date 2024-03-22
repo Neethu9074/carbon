@@ -63,7 +63,7 @@ export const InfrastructureSection = () => {
       subList={subListContent}
       disabled={hasNoAccess}
     >
-      <Typography variant="body-small">{getColumnContentMessage()}</Typography>
+      {!hasNoAccess && <Typography variant="body-small">{getColumnContentMessage()}</Typography>}
     </AreaExpandableListItem>
   );
 };
