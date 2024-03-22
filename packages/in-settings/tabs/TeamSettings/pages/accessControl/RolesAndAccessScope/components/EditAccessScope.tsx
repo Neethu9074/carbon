@@ -200,8 +200,10 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       content: (
         <PermissionSectionBusinessMonitoring
           title={t('in-settings:productAreas.title_businessMonitoring')}
-          accessAllTitle={t('in-settings:permissionScope.description_access_all')}
-          accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_bizops')}
+          accessAllTitle={t('in-settings:permissionScope.title_access_all_bizops')}
+          accessAllDescription={t('in-settings:permissionScope.description_access_all_bizops')}
+          noAccessTitle={t('in-settings:permissionScope.title_no_access_bizops')}
+          noAccessDescription={t('in-settings:permissionScope.description_no_access_bizops')}
           productArea={ProductArea.BIZOPS}
           icon="lib_bizops"
           {...formControlProps}

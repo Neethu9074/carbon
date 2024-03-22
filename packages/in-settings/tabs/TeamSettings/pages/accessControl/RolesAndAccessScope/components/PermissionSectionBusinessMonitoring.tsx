@@ -10,7 +10,7 @@ import React from 'react';
 import { SvgIcon, Typography } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
-import BusinessMonitoringAccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/BusinessMonitoringPanels/BusinessMonitoringAccessAllPanel';
+import BusinessMonitoringPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/BusinessMonitoringPanels/BusinessMonitoringPanel';
 import {
   getField,
   updateFormField,
@@ -24,7 +24,6 @@ import TabSelect, {
   TabSelectPanels
 } from 'in-components/TabSelect';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { LimitableProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
@@ -36,6 +35,8 @@ export interface PermissionSectionBusinessMonitoringProps<FORM_TYPE extends MapF
   title: string;
   accessAllTitle: string;
   accessAllDescription: string;
+  noAccessTitle: string;
+  noAccessDescription: string;
   productArea: LimitableProductArea;
   icon: string;
   setValid?: (isValid: boolean) => void;
@@ -46,6 +47,8 @@ export default function PermissionSectionBusinessMonitoring<FORM_TYPE extends Ma
   title,
   accessAllTitle,
   accessAllDescription,
+  noAccessTitle,
+  noAccessDescription,
   productArea,
   icon,
   form,
@@ -107,9 +110,11 @@ export default function PermissionSectionBusinessMonitoring<FORM_TYPE extends Ma
         {ScopedPermissionItems.map(context => (
           <TabSelectPanel key={context} id={context}>
             {context === ScopedPermissionItem.ACCESS_ALL && (
-              <BusinessMonitoringAccessAllPanel title={accessAllTitle} description={accessAllDescription} />
+              <BusinessMonitoringPanel title={accessAllTitle} description={accessAllDescription} />
             )}
-            {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
+            {context === ScopedPermissionItem.NO_ACCESS && (
+              <BusinessMonitoringPanel title={noAccessTitle} description={noAccessDescription} />
+            )}
           </TabSelectPanel>
         ))}
       </TabSelectPanels>
