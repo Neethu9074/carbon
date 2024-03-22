@@ -6,8 +6,9 @@
 
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { CSVLink } from 'react-csv';
-import { Observable } from 'rxjs';
 
+// this was imported from rxjs by accident probably since fetchData returns @instana/observables/Observable in every use case
+import { Observable } from '@instana/observables';
 import { Button } from '@instana/legacy';
 import { Cursor } from '@instana/types';
 
