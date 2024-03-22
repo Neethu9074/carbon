@@ -44,8 +44,20 @@ export default function Summary() {
     return (
       <Fragment>
         <KpiGridRow sizes={[true, true]}>
-          <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityCount')} />
-          <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityErrors')} />
+          <ActivityMetricKpiCard
+            title={t('in-bizops:dashboards.activity.widgets.activityCount')}
+            metric="COUNT"
+            timeConfig={timeConfig}
+            processId={businessProcessId}
+            activityName={businessActivityName}
+          />
+          <ActivityMetricKpiCard
+            title={t('in-bizops:dashboards.activity.widgets.activityErrors')}
+            metric="ERRORS"
+            timeConfig={timeConfig}
+            processId={businessProcessId}
+            activityName={businessActivityName}
+          />
         </KpiGridRow>
         <Row>
           <Col lg>
