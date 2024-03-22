@@ -208,6 +208,75 @@ export default connectTo(
 
         <h2>{t('in-internal:monitoringUnit.cashier.cashierIngest')}</h2>
         <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.aggregatedCashierReports')}>
+            <Chart
+              snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: cashieringests.map(
+                  () =>
+                    'metrics.meters.com.instana.cashieringest.service.kafka.KafkaStreamAggregatorUsageReporting.aggregated-cashier-reports'
+                ),
+                labels: cashieringestsLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.emittedCashierReports')}>
+            <Chart
+              snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: cashieringests.map(
+                  () =>
+                    'metrics.meters.com.instana.cashieringest.service.kafka.KafkaStreamAggregatorUsageReporting.emitted-cashier-reports'
+                ),
+                labels: cashieringestsLabels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.aggregatedKafkaStreamsLagTimer99th')}>
+            <Chart
+              snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMillisTwoDecimalPlaces,
+                metrics: cashieringests.map(
+                  () =>
+                    'metrics.timers.com.instana.cashieringest.service.kafka.KafkaStreamAggregatorUsageReporting.kafka-streams-lag-timer.99th'
+                ),
+                labels: cashieringestsLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={t('in-internal:monitoringUnit.cashier.aggregatedKafkaStreamsLagTimerMean')}>
+            <Chart
+              snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: timeByMillisTwoDecimalPlaces,
+                metrics: cashieringests.map(
+                  () =>
+                    'metrics.timers.com.instana.cashieringest.service.kafka.KafkaStreamAggregatorUsageReporting.kafka-streams-lag-timer.mean'
+                ),
+                labels: cashieringestsLabels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.cashier.consumedCashierReport')}>
             <Chart
               snapshotIds={cashieringests.map(r => r.dropwizard.get('id'))}
