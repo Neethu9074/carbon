@@ -102,32 +102,32 @@ export default function CustomPropertiesSection({
   }
 
   function validateCustomProperties(
-    customProperties: ConfigItem[],
+    updatedCustomProperties: ConfigItem[],
     value: string,
     index: number,
     isPropertyName: boolean
   ): ConfigItem[] {
-    const propertyName = isPropertyName ? value : customProperties[index].key;
-    const propertyValue = isPropertyName ? customProperties[index].value : value;
+    const propertyName = isPropertyName ? value : updatedCustomProperties[index].key;
+    const propertyValue = isPropertyName ? updatedCustomProperties[index].value : value;
     const nameUndefined: ValidationResult = notUndefinedValidator(propertyName);
     const nameNotBlank: ValidationResult = notBlankValidator(propertyName);
     const valueUndefined: ValidationResult = notUndefinedValidator(propertyValue);
     const valueNotBlank: ValidationResult = notBlankValidator(propertyValue);
     if (nameUndefined) {
-      customProperties[index].error['name'] = { invalid: true, message: nameUndefined[0].message! };
+      updatedCustomProperties[index].error['name'] = { invalid: true, message: nameUndefined[0].message! };
     } else if (nameNotBlank) {
-      customProperties[index].error['name'] = { invalid: true, message: nameNotBlank[0].message! };
+      updatedCustomProperties[index].error['name'] = { invalid: true, message: nameNotBlank[0].message! };
     } else {
-      customProperties[index].error['name'] = { invalid: false, message: '' };
+      updatedCustomProperties[index].error['name'] = { invalid: false, message: '' };
     }
     if (valueUndefined) {
-      customProperties[index].error['value'] = { invalid: true, message: valueUndefined[0].message! };
+      updatedCustomProperties[index].error['value'] = { invalid: true, message: valueUndefined[0].message! };
     } else if (valueNotBlank) {
-      customProperties[index].error['value'] = { invalid: true, message: valueNotBlank[0].message! };
+      updatedCustomProperties[index].error['value'] = { invalid: true, message: valueNotBlank[0].message! };
     } else {
-      customProperties[index].error['value'] = { invalid: false, message: '' };
+      updatedCustomProperties[index].error['value'] = { invalid: false, message: '' };
     }
-    return customProperties;
+    return updatedCustomProperties;
   }
 
   return (
