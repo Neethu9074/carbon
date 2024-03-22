@@ -258,6 +258,7 @@
         "logging": "Logs"
       },
       "formComponent": {
+        "onlyMetric": "The only available metric for Logs",
         "metrics": {
           "count": "Count"
         },
