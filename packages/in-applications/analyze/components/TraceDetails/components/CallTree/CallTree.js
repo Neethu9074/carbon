@@ -12,8 +12,8 @@ import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetail
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
 import { isLazyNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import Row from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row';
-import { getCallIdFromTags, getSpanIdFromTags } from 'in-components/Logging/TraceDetails/utils';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { getCallIdFromTags, getSpanIdFromTags } from 'in-logging/components/TraceDetails/utils';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { isLoading } from 'in-services/util/result';
 import createScale from 'in-services/scale';

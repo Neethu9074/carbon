@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 
-import { getLogLevelAndColor } from 'in-components/Logging/TraceDetails/utils';
+import { getLogLevelAndColor } from 'in-logging/components/TraceDetails/utils';
 import { number } from 'in-services/formatters/number';
 import { role } from 'in-stores/user';
 import Pill from 'in-components/Pill';

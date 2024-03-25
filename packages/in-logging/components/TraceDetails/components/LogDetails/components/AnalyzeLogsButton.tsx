@@ -15,7 +15,7 @@ import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
-import locals from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton.mless';
+import locals from 'in-logging/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton.mless';
 
 interface AnalyzeLogsButtonProps {
   log: LogItem;

@@ -6,8 +6,8 @@
 
 import { SpanExcerpt } from '@instana/types/typeDefinitions';
 
-import { LogSpanExcerpt } from './LogDetails';
-import { getCardTitle } from './utils';
+import { LogSpanExcerpt } from 'in-logging/components/TraceDetails/components/LogDetails/LogDetails';
+import { getCardTitle } from 'in-logging/components/TraceDetails/components/LogDetails/utils';
 
 const mockSpanExcerpt: Omit<SpanExcerpt, 'data'> = {
   duration: 500,
@@ -21,7 +21,7 @@ const mockSpanExcerpt: Omit<SpanExcerpt, 'data'> = {
   start: 1000
 };
 
-describe('in-components/Logging/TraceDetails/components/LogDetails/utils', () => {
+describe('in-logging/components/TraceDetails/components/LogDetails/utils', () => {
   describe('getCardTitle', () => {
     it('should get card title for LogSpanExcerpt from upper case log levels', () => {
       // GIVEN

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { getCardTitle } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
+import { getCardTitle } from 'in-logging/components/TraceDetails/components/LogDetails/utils';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
 
 describe('getCardTitle', () => {

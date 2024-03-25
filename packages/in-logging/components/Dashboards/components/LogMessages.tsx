@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import LogMessagesTable from 'in-components/Logging/Dashboards/components/LogMessagesTable';
+import LogMessagesTable from 'in-logging/components/Dashboards/components/LogMessagesTable';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';

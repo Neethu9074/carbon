@@ -21,10 +21,10 @@ import {
 } from 'in-logging/queryBuilder';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { getCardTitle } from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
+import { getCardTitle } from 'in-logging/components/TraceDetails/components/LogDetails/utils';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
-import LogDetails from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
+import LogDetails from 'in-logging/components/TraceDetails/components/LogDetails/LogDetails';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils/index';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';

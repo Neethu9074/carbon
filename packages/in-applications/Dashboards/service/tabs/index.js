@@ -9,7 +9,7 @@ import React from 'react';
 import Troubleshooting from 'in-applications/Dashboards/service/tabs/troubleshooting/Troubleshooting';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
-import LogMessagesTab from 'in-components/Logging/Dashboards/components/LogMessages';
+import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import Endpoints from 'in-applications/Dashboards/service/tabs/Endpoints';
 import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';

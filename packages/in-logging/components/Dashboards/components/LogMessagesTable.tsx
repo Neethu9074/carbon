@@ -29,7 +29,7 @@ import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 import {Pill} from '@instana/components';
 
-import locals from 'in-components/Logging/Dashboards/components/MessagesTable.mless';
+import locals from 'in-logging/components/Dashboards/components/MessagesTable.mless';
 import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 

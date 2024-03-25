@@ -25,14 +25,14 @@ import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/Heig
 import { FAKE_ROOT_CALL_ID } from '../components/TraceDetails/components/CallTree/lazyCallTree';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
-import LogsInCallsContext from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import LogsInCallsContext from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
-import useLogsInCalls from 'in-components/Logging/TraceDetails/useLogsInCalls';
-import { countOtelLogs } from 'in-components/Logging/TraceDetails/utils';
+import useLogsInCalls from 'in-logging/components/TraceDetails/useLogsInCalls';
+import { countOtelLogs } from 'in-logging/components/TraceDetails/utils';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
-import Logs from 'in-components/Logging/TraceDetails/components/Logs';
+import Logs from 'in-logging/components/TraceDetails/components/Logs';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { latency, number } from 'in-services/formatters/number';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';

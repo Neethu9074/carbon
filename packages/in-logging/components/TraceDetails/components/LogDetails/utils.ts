@@ -6,7 +6,7 @@
 
 import { LogItem, LogTag } from '@instana/types';
 
-import { LogSpanExcerpt } from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails';
+import { LogSpanExcerpt } from 'in-logging/components/TraceDetails/components/LogDetails/LogDetails';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { t } from 'in-i18n';
 
