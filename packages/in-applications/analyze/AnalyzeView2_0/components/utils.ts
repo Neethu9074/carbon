@@ -3,7 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export function getServerity({ item, dataSource }) {
+type ItemInfo = {
+  item: any; // TODO: make type concrete after big files get migrated (e.g. Results.js)
+  dataSource: 'calls' | 'traces';
+};
+
+export function getServerity({ item, dataSource }: ItemInfo) {
   if (dataSource === 'traces') {
     return item.trace.erroneous ? 10 : 0;
   }
