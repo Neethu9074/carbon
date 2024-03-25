@@ -4,27 +4,17 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext } from 'react';
+import { useContext, createContext } from 'react';
 
-import { TraceActivityTreeNode, LogItem } from '@instana/types/typeDefinitions';
-import { Progress, TimeConfig } from '@instana/types';
+import { LogsInCallsContextType } from 'in-components/Logging/types';
 
-const LogsInCallsContext = React.createContext<{
-  setSelectedLog: React.Dispatch<React.SetStateAction<TraceActivityTreeNode | LogItem> | null>;
-  selectedLog: null | TraceActivityTreeNode | LogItem;
-  timeConfigForLogs: null | TimeConfig;
-  items: LogItem[];
-  errors?: Error[];
-  progress?: Progress;
-}>({
+const LogsInCallsContext = createContext<LogsInCallsContextType>({
   setSelectedLog: () => {},
   selectedLog: null,
   timeConfigForLogs: null,
   items: []
 });
 
-export const useLogsInCallsContext = () => {
-  return useContext(LogsInCallsContext);
-};
+export const useLogsInCallsContext = (): LogsInCallsContextType => useContext(LogsInCallsContext);
 
 export default LogsInCallsContext;
