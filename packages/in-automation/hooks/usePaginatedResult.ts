@@ -12,16 +12,26 @@ import { listSuccess } from 'in-services/util/result';
 
 type SortFunction<T> = (entity: T) => any;
 
-export default function usePaginatedResult<T>(
-  result: Result<T[]> | Nullish,
-  serverTableUrlState: Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>,
-  searchAttributes: (keyof T | ((entity: T) => string))[],
-  sort: SortFunction<T> | SortFunction<T>[] | keyof T = entity => {
+interface UsePaginatedResultParams<T> {
+  result: Result<T[]> | Nullish;
+  serverTableUrlState: Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>;
+  setServerTableUrlState: (
+    serverTableUrlState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>
+  ) => void;
+  searchAttributes: (keyof T | ((entity: T) => string))[];
+  sort?: SortFunction<T> | SortFunction<T>[] | keyof T;
+}
+export default function usePaginatedResult<T>({
+  result,
+  serverTableUrlState,
+  setServerTableUrlState,
+  searchAttributes,
+  sort = entity => {
     const { orderBy } = serverTableUrlState;
     const value = entity[orderBy as keyof T];
     return typeof value === 'string' ? value.trim().toLowerCase() : value;
   }
-): Result<PaginatedResult<T>> {
+}: UsePaginatedResultParams<T>): Result<PaginatedResult<T>> {
   const { page, pageSize, orderDirection, query } = serverTableUrlState;
 
   if (result?.data) {
@@ -40,9 +50,14 @@ export default function usePaginatedResult<T>(
     if (orderDirection === 'DESC') {
       entities = entities.reverse();
     }
-    const offset = (page - 1) * pageSize;
-    const until = offset + pageSize;
+    let offset = (page - 1) * pageSize;
+    let until = offset + pageSize;
     const totalHits = entities.length;
+    if (offset === totalHits && totalHits !== 0) {
+      setServerTableUrlState({ page: page - 1 });
+      offset -= pageSize;
+      until -= pageSize;
+    }
     entities = entities.slice(offset, until);
     return listSuccess(entities, totalHits, pageSize, page);
   }

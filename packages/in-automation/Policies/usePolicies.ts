@@ -10,13 +10,17 @@ import { create } from '@instana/observables';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { AUTOMATIC, MANUAL, isAutomatic, isManual } from 'in-automation/Policies/types';
-import usePaginatedResult from 'in-automation/Policies/usePaginatedResult';
+import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { Policy, Result, TypeConfigurationType } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import { getPolicies } from 'in-automation/api';
 
-export interface UsePoliciesParams extends Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'> {
+export interface UsePoliciesParams {
+  serverTableUrlState: Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>;
+  setServerTableUrlState: (
+    serverTableUrlState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>
+  ) => void;
   tags?: string[];
   trigger?: TypeConfigurationType | undefined;
 }
@@ -26,15 +30,7 @@ export function refresh() {
   refreshSignal.emit(true);
 }
 
-export default function usePolicies({
-  page,
-  pageSize,
-  orderBy,
-  orderDirection,
-  query,
-  tags,
-  trigger
-}: UsePoliciesParams) {
+export default function usePolicies({ serverTableUrlState, setServerTableUrlState, tags, trigger }: UsePoliciesParams) {
   const policies = useObservable(refreshSignal.flatMap(getPolicies), []) ?? (pendingResult as Result<Policy[]>);
 
   const filters = [
@@ -71,17 +67,19 @@ export default function usePolicies({
         })
       };
   const availableTags = [...new Set(policies?.data?.flatMap(({ tags }) => tags ?? []))];
-  const result = usePaginatedResult(
-    filteredPolicies,
-    { page, pageSize, orderBy, orderDirection, query },
-    [
+  const result = usePaginatedResult({
+    result: filteredPolicies,
+    serverTableUrlState,
+    setServerTableUrlState,
+    searchAttributes: [
       'name',
       'description',
       policy => policy?.tags?.toString() ?? '',
       policy => policy?.trigger?.name ?? '',
       policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name
     ],
-    entity => {
+    sort: entity => {
+      const { orderBy } = serverTableUrlState;
       const value = entity[orderBy as keyof Policy];
       if (orderBy === 'trigger') {
         return entity.trigger.name?.trim()?.toLowerCase();
@@ -91,6 +89,6 @@ export default function usePolicies({
       }
       return typeof value === 'string' ? value.trim().toLowerCase() : value;
     }
-  );
+  });
   return [resultToFetchedStateResponse(result), availableTags] as const;
 }

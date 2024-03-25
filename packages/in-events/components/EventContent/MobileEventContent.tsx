@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { Map } from 'immutable';
 
 import { Card } from '@instana/components';
 
@@ -29,6 +30,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
 import { EventOrMap } from 'in-events/types';
@@ -38,9 +40,10 @@ import locals from 'in-events/components/EventContent/MobileEventContent.mless';
 
 interface Props {
   event: EventOrMap;
+  snapshot: Map<string, unknown>;
 }
 
-export default function MobileEventContent({ event }: Props) {
+export default function MobileEventContent({ event, snapshot }: Props) {
   const eventEntity = useMobileAppEventEntity(event);
   const alertConfig = useMobileAppEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState<string>('');
@@ -116,6 +119,10 @@ export default function MobileEventContent({ event }: Props) {
           </Card>
         </Col>
       </Row>
+      <AutomationCard
+        volatileId={(snapshot?.get('volatileId') as Map<string, unknown>)?.toJS() ?? {}}
+        event={event?.toJS()}
+      />
     </>
   );
 }

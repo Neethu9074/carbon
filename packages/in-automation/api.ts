@@ -13,15 +13,19 @@ import {
   Event,
   ActionMatch,
   EventSpecificationInfo,
-  CustomEventSpecificationWithMetadata,
   ApplicationAlertConfigWithMetadata,
-  Result,
   ActionInstance,
   Policy,
   TagCatalog,
   ParameterValue,
   GetDynamicParameterValues,
-  TriggerType
+  TriggerType,
+  WebsiteAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  InfraAlertConfigWithMetadata,
+  LogAlertConfigWithMetadata,
+  GlobalApplicationsAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata
 } from 'in-types';
 import {
   ANSIBlE_TYPE,
@@ -33,14 +37,12 @@ import {
   GITLAB_TYPE,
   JIRA_TYPE
 } from 'in-automation/ActionCatalog/shared';
+import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
-import turboSubmitActionExecution from './subscriptions/turboSubmitActionExecution';
-import submitActionExecution from './subscriptions/submitActionExecution';
+import submitActionExecution from 'in-automation/subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import createObservable from 'in-services/http/observableHttpResult';
-import memoize from 'in-services/util/memoizingObservableGenerator';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { NewPolicy } from 'in-automation/Policies/types';
+import { mapData } from 'in-services/util/result';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -71,35 +73,23 @@ export interface ScoredAction extends Action {
   aiEngine: string;
 }
 
-export const getAllActionsObservable = memoize(getAllActionsInternal, () => '', 1000);
-export function getAllActionsInternal() {
-  return createObservable(
-    http<Action[]>({
-      method: 'GET',
-      maxRetries: 3,
-      url: actionUrl
-    }).map(response => response)
-  );
-}
-
-export function getAllActionsWithAISuggestions(
-  eventName: string,
-  eventDescription: string,
-  id?: string
-): Observable<ScoredAction[]> {
+export function getAllActionsWithAISuggestions(name: string, description: string, targetSnapshotId?: string) {
   return http<ActionMatch[]>({
     method: 'POST',
     maxRetries: 3,
-    url: id
-      ? `${automationAPIBase}/ai/action/match?targetSnapshotId=${encodeURIComponent(id)}`
-      : `${automationAPIBase}/ai/action/match`,
+    url: `${automationAPIBase}/ai/action/match${
+      targetSnapshotId ? `?targetSnapshotId=${encodeURIComponent(targetSnapshotId)}` : ''
+    }`,
     data: {
-      name: eventName,
-      description: eventDescription
+      name,
+      description
     },
-    headers: getCsrfHeader()
+    headers: getCsrfHeader(),
+    mapToResultObject: true
   }).map(response =>
-    response.body.map(({ action, score, confidence, aiEngine }) => ({ ...action, score, confidence, aiEngine }))
+    mapData(response, actions =>
+      actions.map(({ action, score, confidence, aiEngine }) => ({ ...action, score, confidence, aiEngine }))
+    )
   );
 }
 
@@ -138,55 +128,6 @@ export function deleteAction(actionId: string) {
     headers: getCsrfHeader(),
     url: `${actionUrl}/${encodeURIComponent(actionId)}`
   }).map(response => response.body);
-}
-
-export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
-export function getScoredActionsForEventOrAlert(
-  selectedActions: string[],
-  eventSpecification: EventSpecification | ApplicationAlertConfigWithMetadata
-) {
-  if (selectedActions.length === 0) {
-    return alwaysEmptyArray as unknown as Observable<Action[]>;
-  }
-  // null is treated as a pending result when converting the HTTP response into a result
-  return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
-    actions.filter(action => selectedActions.indexOf(action.id) >= 0)
-  );
-}
-
-interface getAllActionsWithAISuggestionsProps {
-  eventName: string;
-  eventDescription: string;
-  id?: string;
-}
-
-export const getAllActionsWithAISuggestionsInternalObservable: (
-  args: getAllActionsWithAISuggestionsProps
-) => Observable<Result<ScoredAction[]>> = memoize(
-  getAllActionsWithAISuggestionsInternal,
-  ({ eventName, eventDescription, id }) => eventName + eventDescription + id,
-  1000
-);
-
-export function getAllActionsWithAISuggestionsInternal({
-  eventName,
-  eventDescription,
-  id
-}: getAllActionsWithAISuggestionsProps): Observable<Result<ScoredAction[]>> {
-  return createObservable(
-    http<ScoredAction[]>({
-      method: 'POST',
-      maxRetries: 3,
-      url: id
-        ? `${automationAPIBase}/ai/action/match?eventId=${encodeURIComponent(id)}`
-        : `${automationAPIBase}/ai/action/match`,
-      data: {
-        name: eventName,
-        description: eventDescription
-      },
-      headers: getCsrfHeader()
-    })
-  );
 }
 
 export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;
@@ -1410,6 +1351,142 @@ export function getApplicationSmartAlertConfigs() {
     mapToResultObject: true
   });
 }
+
+export function getWebsiteSmartAlertConfigs() {
+  return http<WebsiteAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.WEBSITE,
+    mapToResultObject: true
+  });
+}
+
+export function getGlobalApplicationSmartAlertConfigs() {
+  return http<GlobalApplicationsAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.APPLICATION_GLOBAL,
+    mapToResultObject: true
+  });
+}
+
+export function getMobileAppSmartAlertConfigs() {
+  return http<MobileAppAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.MOBILEAPP,
+    mapToResultObject: true
+  });
+}
+
+export function getInfraSmartAlertConfigs() {
+  return http<InfraAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.INFRA,
+    mapToResultObject: true
+  });
+}
+
+export function getLogSmartAlertConfigs() {
+  return http<LogAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.LOGS,
+    mapToResultObject: true
+  });
+}
+
+export function getSyntheticSmartAlertConfigs() {
+  return http<SyntheticAlertConfigWithMetadata[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: apiEndpoint.SYNTHETICS,
+    mapToResultObject: true
+  });
+}
+
+export function getBuiltInEventSpecification(id: string) {
+  return http<EventSpecificationInfo>({
+    method: 'GET',
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getCustomEventSpecification(id: string) {
+  return http<EventSpecificationInfo>({
+    method: 'GET',
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getApplicationSmartAlertConfig(id: string) {
+  return http<ApplicationAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.APPLICATION}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getGlobalApplicationSmartAlertConfig(id: string) {
+  return http<ApplicationAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.APPLICATION_GLOBAL}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getWebsiteSmartAlertConfig(id: string) {
+  return http<WebsiteAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.WEBSITE}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getMobileAppSmartAlertConfig(id: string) {
+  return http<MobileAppAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.MOBILEAPP}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getInfraSmartAlertConfig(id: string) {
+  return http<InfraAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.INFRA}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getLogSmartAlertConfig(id: string) {
+  return http<LogAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.LOGS}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
+export function getSyntheticSmartAlertConfig(id: string) {
+  return http<SyntheticAlertConfigWithMetadata>({
+    method: 'GET',
+    url: `${apiEndpoint.SYNTHETICS}/${encodeURIComponent(id)}`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}
+
 export function getDynamicParameterTagCatalog() {
   return http<TagCatalog>({
     method: 'GET',

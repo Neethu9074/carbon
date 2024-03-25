@@ -29,13 +29,14 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/WebsiteEventContent.mless';
 
-export default function WebsiteEventContent({ event }) {
+export default function WebsiteEventContent({ event, snapshot }) {
   const eventEntity = useWebsiteEventEntity(event);
   const alertConfig = useWebsiteEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();
@@ -123,6 +124,7 @@ export default function WebsiteEventContent({ event }) {
           </Card>
         </Col>
       </Row>
+      <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
     </>
   );
 }
