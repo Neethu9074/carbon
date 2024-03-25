@@ -132,7 +132,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 return { scopeId: entityId.scopeId, scopeRoleId: ScopeRoles.Contributor };
               } else {
                 // Contributor: Change all non contributor APs to Viewer
-                return { scopeId: entityId.scopeId, scopeRoleId: newScopeRoleId };
+                return { scopeId: entityId.scopeId, scopeRoleId: ScopeRoles.Viewer };
               }
             } else {
               // Contributor: Keep existing contributor APs
@@ -177,7 +177,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       form = updateFormField(form, 'scope', scope);
     }
 
-    // Calculate entity ids based on selected access type
+    // Update entity id list based on selected access type
     const newEntityIds = updateEntityIds(entityIds, selected, productArea, limitation);
 
     const newPermissionSet = {
