@@ -14,11 +14,10 @@ import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import LocationsSection, { LocationsListProps } from 'in-synthetics/createTests/advanced/LocationsSection';
 import memoize, { ObservableCreator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
 import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
-import { LocationsListProps } from 'in-synthetics/createTests/advanced/LocationsSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import LocationsSection from 'in-synthetics/createTests/advanced/LocationsSection';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
@@ -49,6 +48,16 @@ function createMemoizedObservableForReferencedLocations<RESULT>(
   );
 }
 
+const noLocationsDataAvailable = () => {
+  return (
+    <NoDataAvailable
+      type="lib_synthetic"
+      height={160}
+      text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
+    />
+  );
+};
+
 export default function ConfigureLocations({
   form,
   updateForm,
@@ -63,7 +72,7 @@ export default function ConfigureLocations({
         if (result == null) {
           return EMPTY;
         }
-        return (result as Result<SyntheticLocation[]>)?.data?.filter(
+        return result?.data?.filter(
           (location: SyntheticLocation) => locationIds.filter(ids => ids === location.id).length > 0
         );
       })
@@ -78,13 +87,7 @@ export default function ConfigureLocations({
         setTitle={false}
         // @ts-expect-error
         loadEntities={loadEntities ? loadEntities : () => locations}
-        renderNoDataAvailable={() => (
-          <NoDataAvailable
-            type="lib_synthetic"
-            height={160}
-            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
-          />
-        )}
+        renderNoDataAvailable={() => noLocationsDataAvailable()}
         tableActions={locationTestSelectionTableActions(form, updateForm)}
         rightHeader={
           <Button
@@ -169,25 +172,13 @@ function SelectListDialogContent({
         {...props}
         loadEntities={() => loadLocationEntities}
         rightHeader={buttonGroup}
-        renderNoDataAvailable={() => (
-          <NoDataAvailable
-            type="lib_synthetic"
-            height={160}
-            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
-          />
-        )}
+        renderNoDataAvailable={() => noLocationsDataAvailable()}
       />
     ) : (
       <LocationsSection
         {...props}
         loadEntities={() => locations('')}
-        renderNoDataAvailable={() => (
-          <NoDataAvailable
-            type="lib_synthetic"
-            height={160}
-            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
-          />
-        )}
+        renderNoDataAvailable={() => noLocationsDataAvailable()}
       />
     );
 

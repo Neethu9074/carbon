@@ -65,7 +65,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
 export interface Options {
   label: string | JSX.Element;
   badge: JSX.Element | Nullish | false;
-  parentLabels: string[];
+  parentLabels: (string | JSX.Element)[];
   description?: string | JSX.Element;
   keywords: string;
   tagName: string;

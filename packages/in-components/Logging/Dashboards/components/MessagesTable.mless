@@ -18,7 +18,7 @@
   }
 
   .logLevelPill {
-    min-width: 3.125rem;
+    width: 100%;
   }
 
   .logLevelPillCell {

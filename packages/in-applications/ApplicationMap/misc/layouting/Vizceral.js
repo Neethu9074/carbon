@@ -38,7 +38,7 @@ function applyLayout({ nodes, edges }) {
   );
 
   calcRanks(N, positions);
-  applyRanks(N, nodes.LUT, E, edges.LUT);
+  applyRanks(N, nodes.LUT, edges.LUT);
   centerNodesX(N);
   translateNodesY(N, -35);
   applyPosition(N);

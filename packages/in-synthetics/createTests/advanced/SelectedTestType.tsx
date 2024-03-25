@@ -77,7 +77,7 @@ const SelectedTestType = ({
   setScriptDetails,
   setHeaders
 }: SelectedTestTypeProps) => {
-  const populateCommonAttributes = (form: MapForm<any>) => {
+  const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
     commonAttributes['testFrequency'] = form.get('testFrequency').value;
     commonAttributes['locations'] = form.get('locations').value;
@@ -90,36 +90,40 @@ const SelectedTestType = ({
     updateForm(createForm(false, selectedBlueprint, commonAttributes));
   };
 
+  const renderSubCategories = () => {
+    switch (selectedBlueprint.type) {
+      case 'Browser':
+        return (
+          <RenderBrowser
+            selectedBlueprint={selectedBlueprint}
+            testTypeSelected={testTypeSelected}
+            setTestTypeSelected={setTestTypeSelected}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isUpdateConfig={isUpdateConfig}
+            setScriptDetails={setScriptDetails}
+          />
+        );
+      case 'Internet Services':
+        return <RenderInternetServices selectedBlueprint={selectedBlueprint} />;
+      default:
+        return (
+          <RenderHttpTests
+            selectedBlueprint={selectedBlueprint}
+            testTypeSelected={testTypeSelected}
+            setTestTypeSelected={setTestTypeSelected}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isUpdateConfig={isUpdateConfig}
+            setScriptDetails={setScriptDetails}
+          />
+        );
+    }
+  };
+
   return (
     <div className={locals.container}>
-      <div>
-        {
-          //Default component is RenderHttpTests
-          selectedBlueprint.type === 'Browser' ? (
-            <RenderBrowser
-              selectedBlueprint={selectedBlueprint}
-              testTypeSelected={testTypeSelected}
-              setTestTypeSelected={setTestTypeSelected}
-              commonAttributes={commonAttributes}
-              setCommonAttributes={setCommonAttributes}
-              isUpdateConfig={isUpdateConfig}
-              setScriptDetails={setScriptDetails}
-            />
-          ) : selectedBlueprint.type === 'Internet Services' ? (
-            <RenderInternetServices selectedBlueprint={selectedBlueprint} />
-          ) : (
-            <RenderHttpTests
-              selectedBlueprint={selectedBlueprint}
-              testTypeSelected={testTypeSelected}
-              setTestTypeSelected={setTestTypeSelected}
-              commonAttributes={commonAttributes}
-              setCommonAttributes={setCommonAttributes}
-              isUpdateConfig={isUpdateConfig}
-              setScriptDetails={setScriptDetails}
-            />
-          )
-        }
-      </div>
+      <div>{renderSubCategories()}</div>
       {!isUpdateConfig && (
         <Button
           kind="primary"
@@ -129,7 +133,7 @@ const SelectedTestType = ({
             if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
             if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
-            populateCommonAttributes(form);
+            populateCommonAttributes();
             setRenderSectionsCounter(v => v + 1);
             setHeaders([
               {

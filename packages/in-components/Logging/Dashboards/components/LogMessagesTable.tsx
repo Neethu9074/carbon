@@ -27,7 +27,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
-import Pill from 'in-components/Pill';
+import {Pill} from '@instana/components';
 
 import locals from 'in-components/Logging/Dashboards/components/MessagesTable.mless';
 import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
@@ -66,9 +66,9 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, AdditionalProps>[] = [
     },
     cellClassName: locals.logLevelPillCell,
     getContent(item: LogMessageItem) {
-      const color = logPillColorMap.get(item.level.toLowerCase());
+      const color = logPillColorMap[item.level.toLowerCase()]  ?? 'high-contrast';
       return (
-        <Pill className={locals.logLevelPill} color={color}>
+        <Pill className={locals.logLevelPill} type={color}>
           {item.level}
         </Pill>
       );

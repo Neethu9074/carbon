@@ -115,7 +115,7 @@ describe('in-components/SelectorOverlay/search', () => {
         children: [],
         label: (
           <>
-            <span className="local-css-highlight">Third</span> Level Leaf
+            <span key="0" className="local-css-highlight">Third</span> Level Leaf
           </>
         ),
         description: 'Some description',
@@ -134,7 +134,7 @@ describe('in-components/SelectorOverlay/search', () => {
         label: 'Root Level Leaf',
         description: (
           <>
-            <span className="local-css-highlight">Funky</span> root leaf
+            <span key="0" className="local-css-highlight">Funky</span> root leaf
           </>
         ),
         icon: 'plugin:host',
@@ -150,7 +150,7 @@ describe('in-components/SelectorOverlay/search', () => {
         label: 'name',
         description: (
           <>
-            Kubernetes <span className="local-css-highlight">namespace name</span>
+            Kubernetes <span key="0" className="local-css-highlight">namespace name</span>
           </>
         ),
         keywords: 'Kubernetes namespace name',
@@ -163,7 +163,7 @@ describe('in-components/SelectorOverlay/search', () => {
         label: 'uid',
         description: (
           <>
-            Kubernetes <span className="local-css-highlight">Namespace</span> UID
+            Kubernetes <span key="0" className="local-css-highlight">Namespace</span> UID
           </>
         ),
         keywords: 'Kubernetes namespace uid',

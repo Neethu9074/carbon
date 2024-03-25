@@ -8,12 +8,12 @@ import React from 'react';
 
 import { StackItem, Typography } from '@instana/components';
 
-interface AccessAllPanelProps {
+interface BusinessMonitoringPanelProps {
   description: string;
   title: string;
 }
 
-export default function BusinessMonitoringAccessAllPanel({ title, description }: AccessAllPanelProps) {
+export default function BusinessMonitoringPanel({ title, description }: BusinessMonitoringPanelProps) {
   return (
     <StackItem>
       <Typography variant="heading-200" component="div">

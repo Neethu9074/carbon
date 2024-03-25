@@ -11,13 +11,18 @@ import { ColumnizedContent, KeyValue, Li, ListGroup, SvgIcon } from '@instana/co
 
 import { BreadcrumbAndLabel } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { node as nodePropType } from 'in-components/SelectorOverlay/props';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 
 import locals from './Node.mless';
 
 export const iconColumnDefinition = {
   width: '2rem',
   getContent({ node }) {
-    return <SvgIcon className={locals.icon} type={node.icon ?? 'lib_views_tag'} />;
+    return (
+      <Tooltip delay={2000} content={node.tagName}>
+        <SvgIcon className={locals.icon} type={node.icon ?? 'lib_views_tag'} />
+      </Tooltip>
+    );
   }
 };
 

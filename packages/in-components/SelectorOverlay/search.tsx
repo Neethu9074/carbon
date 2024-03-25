@@ -13,8 +13,8 @@ import nodeLocals from './Node.mless';
 
 // Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
 const RANGE = 100;
-const FUZZY_SEARCH_THRESHOLD = (1 + 2 + 3 + 4) * RANGE;
-const KEYS = ['label', 'description', 'keywords', 'tagName'];
+const FUZZY_SEARCH_THRESHOLD = (1 + 2 + 3 + 4 + 5 + 6) * RANGE;
+const KEYS = ['label', 'description', 'parentLabels.0', 'parentLabels.1', 'keywords', 'tagName'];
 
 export function search(nodes: Options[], query: string) {
   if (!query) {
@@ -60,15 +60,42 @@ function score(result: Fuzzysort.KeyResult<Options>, offset: number, range: numb
   return result ? result.score - offset * range : -(offset + 1) * range;
 }
 function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
-  var label = highlightResult(matchResult[0]);
-  var description = highlightResult(matchResult[1]);
-  return {
-    ...matchResult.obj,
-    label: (label && <>{label}</>) || matchResult.obj.label,
-    description: (description && <>{description}</>) || matchResult.obj.description
-  };
+  let label = matchResult.obj.label;
+  const labelHighlighted = highlightResult(matchResult[0]);
+  if (labelHighlighted) {
+    label = <>{labelHighlighted}</>;
+  }
+
+  let description = matchResult.obj.description;
+  if (description) {
+    const descriptionHighlighted = highlightResult(matchResult[1]);
+    if (descriptionHighlighted) {
+      description = <>{descriptionHighlighted}</>;
+    }
+  }
+
+  let parentLabels = matchResult.obj.parentLabels;
+  if (parentLabels.length > 0) {
+    const parentLabel0Highlighted = highlightResult(matchResult[2]);
+    if (parentLabel0Highlighted) {
+      parentLabels[0] = <>{parentLabel0Highlighted}</>;
+    }
+    if (parentLabels.length > 1) {
+      const parentLabel1Highlighted = highlightResult(matchResult[3]);
+      if (parentLabel1Highlighted) {
+        parentLabels[1] = <>{parentLabel1Highlighted}</>;
+      }
+    }
+  }
+  return { ...matchResult.obj, label, description, parentLabels };
 }
 
 function highlightResult(result: Fuzzysort.Result): (string | JSX.Element)[] | undefined {
-  return fuzzysort.highlight(result, m => <span className={nodeLocals.highlight}>{m}</span>)?.filter(x => x !== '');
+  return fuzzysort
+    .highlight(result, (m, i) => (
+      <span key={i} className={nodeLocals.highlight}>
+        {m}
+      </span>
+    ))
+    ?.filter(x => x !== '');
 }

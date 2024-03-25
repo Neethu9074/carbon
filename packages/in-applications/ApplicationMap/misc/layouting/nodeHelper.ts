@@ -3,19 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  APMapEdge,
+  APMapGraphEdge,
+  APMapNode,
+  TransformedAPMapNode,
+  APMapEdgeLookUpTable,
+  APMapGraphColumnInfo
+} from 'in-applications/types';
+
 const DISCONNECTED_NODES_RANK = -1;
 const DEFAULT_NODES_RANK = 0;
 const DISTANCE_BETWEEN_ROWS = 2.5;
 const DISTANCE_BETWEEN_COLUMNS = 8;
 
-export function transformNodes(_nodes, _edges) {
-  const LUT = {};
-  const LUTAsArray = [];
+export function transformNodes(_nodes: Map<string, APMapNode>, _edges: Map<string, APMapEdge>) {
+  const LUT: Record<string, TransformedAPMapNode> = {};
+  const LUTAsArray: TransformedAPMapNode[] = [];
   let index = 0;
 
   const nodeSceneObjects = _nodes.values();
   for (const node of nodeSceneObjects) {
-    const transformedNode = {
+    const transformedNode: TransformedAPMapNode = {
       name: node.id,
       rank: DEFAULT_NODES_RANK,
       inNode: node,
@@ -53,33 +62,30 @@ export function transformNodes(_nodes, _edges) {
   };
 }
 
-export function transformEdges(_edges) {
-  const LUT = {
+export function transformEdges(_edges: Map<string, APMapEdge>) {
+  const graphEdges: APMapGraphEdge[] = Array.from(_edges.values()).map((edge, i) => ({
+    id: i,
+    source: edge.from.id,
+    target: edge.to.id
+  }));
+
+  const LUT: APMapEdgeLookUpTable = {
     outgoing: {},
     incoming: {}
   };
 
-  const list = [];
-  let index = 0;
-  const edgeSceneObjects = _edges.values();
-  for (let edge of edgeSceneObjects) {
-    edge = {
-      source: edge.from.id,
-      target: edge.to.id
-    };
-
+  graphEdges.forEach(edge => {
     LUT.outgoing[edge.source] = edge.target;
     LUT.incoming[edge.target] = edge.source;
-    list[index++] = edge;
-  }
+  });
 
   return {
-    list,
+    list: graphEdges,
     LUT
   };
 }
 
-export function calcRanks(nodes, vizceralPosition) {
+export function calcRanks(nodes: TransformedAPMapNode[], vizceralPosition: Record<string, any>) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     const position = vizceralPosition[node.name];
@@ -97,8 +103,12 @@ export function calcRanks(nodes, vizceralPosition) {
   }
 }
 
-export function applyRanks(nodes, nodesLUT, edges, edgesLUT) {
-  let columns = {};
+export function applyRanks(
+  nodes: TransformedAPMapNode[],
+  nodesLUT: Record<string, TransformedAPMapNode>,
+  edgesLUT: APMapEdgeLookUpTable
+) {
+  let columns: Record<number, APMapGraphColumnInfo> = {};
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
@@ -113,14 +123,18 @@ export function applyRanks(nodes, nodesLUT, edges, edgesLUT) {
 
   const sortedColumns = Object.keys(columns)
     .filter(rank => Number(rank) >= 0)
-    .map(rank => columns[rank])
+    .map(rank => columns[Number(rank)])
     .sort((c1, c2) => c1.rank - c2.rank);
 
   applyColumns(nodesLUT, sortedColumns, edgesLUT);
   applyDisconnected(columns[DISCONNECTED_NODES_RANK]);
 }
 
-function applyColumns(nodesLUT, columns, edgesLUT) {
+function applyColumns(
+  nodesLUT: Record<string, TransformedAPMapNode>,
+  columns: APMapGraphColumnInfo[],
+  edgesLUT: APMapEdgeLookUpTable
+) {
   if (columns.length === 0) {
     return;
   }
@@ -169,7 +183,7 @@ function applyColumns(nodesLUT, columns, edgesLUT) {
   }
 }
 
-function applyDisconnected(disconnectedNodes) {
+function applyDisconnected(disconnectedNodes: APMapGraphColumnInfo) {
   if (disconnectedNodes) {
     const x = -DISTANCE_BETWEEN_COLUMNS;
     for (let iN = 0, lengthN = disconnectedNodes.nodes.length; iN < lengthN; iN++) {
@@ -180,81 +194,33 @@ function applyDisconnected(disconnectedNodes) {
   }
 }
 
-export function centerNodesX(nodes) {
+export function centerNodesX(nodes: TransformedAPMapNode[]) {
   let maxX = 0;
   let minX = Number.MAX_VALUE;
 
   for (let i = 0, length = nodes.length; i < length; i++) {
     const item = nodes[i];
-    maxX = Math.max(maxX, item.x);
-    minX = Math.min(minX, item.x);
+    maxX = Math.max(maxX, Number(item.x));
+    minX = Math.min(minX, Number(item.x));
   }
   const width = maxX - minX;
 
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
-    node.x = node.x - minX - width / 2;
+    node.x = Number(node.x) - minX - width / 2;
   }
 }
 
-export function translateNodesY(nodes, offset) {
-  for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
-    nodes[iN].y += offset;
-  }
+export function translateNodesY(nodes: TransformedAPMapNode[], offset: number) {
+  nodes.forEach(node => (node.y = Number(node.y) + offset));
 }
 
-export function applyPosition(nodes) {
+export function applyPosition(nodes: TransformedAPMapNode[]) {
   for (let iN = 0, lengthN = nodes.length; iN < lengthN; iN++) {
     const node = nodes[iN];
     // add noise to the screen y position to avoid orthogonal lines
     const noise = 0.1 * Math.random();
-    node.inNode.x = node.x;
-    node.inNode.y = node.y + noise;
-  }
-}
-
-export function createSubGraphs(nodes) {
-  const subGraphs = [];
-
-  for (let i = 0, length = nodes.length; i < length; i++) {
-    const node = nodes[i];
-    if (node.__touched) {
-      continue;
-    }
-
-    const graph = {
-      nodes: [],
-      connections: []
-    };
-    addConnected(node, graph);
-    subGraphs.push(graph);
-  }
-
-  return subGraphs;
-}
-
-export function addConnected(node, graph) {
-  if (node.__touched) {
-    return;
-  }
-
-  node.__touched = true;
-  graph.nodes.push(node);
-
-  for (let i = 0, length = node.outgoingConnections.length; i < length; i++) {
-    const target = node.outgoingConnections[i];
-    graph.connections.push({
-      source: node.inNode.id,
-      target: target.inNode.id
-    });
-    addConnected(target, graph);
-  }
-  for (let i = 0, length = node.incomingConnections.length; i < length; i++) {
-    addConnected(node.incomingConnections[i], graph);
-    const source = node.incomingConnections[i];
-    graph.connections.push({
-      source: source.inNode.id,
-      target: node.inNode.id
-    });
+    node.inNode.x = Number(node.x);
+    node.inNode.y = Number(node.y) + noise;
   }
 }

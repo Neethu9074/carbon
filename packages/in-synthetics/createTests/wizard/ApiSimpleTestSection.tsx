@@ -67,8 +67,8 @@ const ApiSimpleTestSection = ({ methodField, updateForm, form, urlField }: ApiSi
               value={field.value}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
-                  form.updateIn(['configuration', 'url'], field =>
-                    (field as Field<string>).setValue(target?.value).setTouched(true)
+                  form.updateIn(['configuration', 'url'], (urlField: Item) =>
+                    (urlField as Field<string>).setValue(target?.value).setTouched(true)
                   )
                 );
               }}
