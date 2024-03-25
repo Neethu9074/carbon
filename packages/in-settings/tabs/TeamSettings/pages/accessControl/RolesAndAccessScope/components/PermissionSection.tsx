@@ -121,9 +121,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
       // Only show applications with contributor access for access all
       if (limitation === ScopedPermissionItem.ACCESS_ALL) {
-        return editMode
-          ? entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor)
-          : entityIds;
+        return entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor);
       } else if (limitation === ScopedPermissionItem.LIMITED_ACCESS) {
         const newScopeRoleId = role === AreaRoleWithContributor.OWNER ? ScopeRoles.Owner : ScopeRoles.Viewer;
         return entityIds?.map(entityId => {
