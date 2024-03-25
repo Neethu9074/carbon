@@ -48,7 +48,7 @@ const Entry = ({ entry, earliestTimestamp, endTimestamp }: EntryProps) => {
       <div className={locals.entry}>
         <div ref={ref} className={locals.leftHeader}>
           <Tooltip content={typeDefinition.long} align="rightMiddle">
-            <Pill color={typeDefinition.color} className={locals.type}>
+            <Pill type={typeDefinition.color} className={locals.type}>
               {typeDefinition.short}
             </Pill>
           </Tooltip>

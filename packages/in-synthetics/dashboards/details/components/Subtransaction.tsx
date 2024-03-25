@@ -67,7 +67,7 @@ export default function Subtransaction({ subtransaction }: SubtransactionProps) 
 function TypeHeader({ subtransaction }: SubtransactionProps) {
   return (
     <Tooltip content={''} align="rightMiddle">
-      <Pill color={'#ABB0B8'} className={locals.type}>
+      <Pill type={'gray'} className={locals.type}>
         {subtransaction.metrics.httpOperation}
       </Pill>
     </Tooltip>

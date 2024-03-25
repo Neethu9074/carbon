@@ -21,7 +21,9 @@ export const consoleLogLevelColumn = {
   getContent({ name }: LogLevelColumnProps) {
     return (
       <div className={locals.healthColumn}>
-        <Pill className={locals.pill}>{name}</Pill>
+        <Pill className={locals.pill} type={'high-contrast'}>
+          {name}
+        </Pill>
       </div>
     );
   }
