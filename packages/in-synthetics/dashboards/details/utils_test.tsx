@@ -20,7 +20,6 @@ describe('getStatusKPICard', () => {
     const expectedText = 'Successful';
     const expectedColor = themes.default.ids.color.option.green['500'];
     const KpiCard = getStatusKPICard(status);
-    //const result = shallow(<DetailsHeader {...props} />);
     expect(KpiCard.props.value).toBe(expectedText);
     expect(KpiCard.props.color).toBe(expectedColor);
   });

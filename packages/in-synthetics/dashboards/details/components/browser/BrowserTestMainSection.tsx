@@ -23,7 +23,7 @@ interface TimelineProps {
   isBrowserType: boolean;
 }
 
-export default function BrowserTestTimeline({ details, startTime, finishTime, isBrowserType }: TimelineProps) {
+const BrowserTestMainSection = ({ details, startTime, finishTime, isBrowserType }: TimelineProps) => {
   const [filter, setFilter] = useState({ query: '', type: '' });
   const [pageRefExpanded, setPageRefExpanded] = useState(defaultPage);
 
@@ -93,4 +93,6 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
       />
     </Card>
   );
-}
+};
+
+export default BrowserTestMainSection;
