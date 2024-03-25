@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-export default function calculate(calls) {
-  if (!calls || calls < 0) {
+export default function calculate(numberOfCalls: number) {
+  if (!numberOfCalls || numberOfCalls < 0) {
     return 0;
   }
 
-  return Math.log10(calls);
+  return Math.log10(numberOfCalls);
 }
