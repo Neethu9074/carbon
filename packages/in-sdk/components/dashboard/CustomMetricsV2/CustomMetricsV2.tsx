@@ -42,6 +42,7 @@ interface CustomMetricProps {
   postProcessRow?: () => void;
   getRows?: (p: GetRowsProps) => Row[];
   customColumns?: any;
+  path?: string;
 }
 
 interface GetRowsProps extends CustomMetricProps {
@@ -177,16 +178,6 @@ const cols = [
   }
 ];
 
-const bind = [
-  {
-    path: '/dashboard',
-    name: 'pinnedMetrics',
-    initialState: [],
-    serializer: buildJsonSerializer(),
-    parser: buildJsonParser([])
-  }
-];
-
 const resets = [
   {
     bind: [snapshotIdUrlParameter],
@@ -197,12 +188,28 @@ const resets = [
 ];
 
 export default function CustomMetricsV2(props: CustomMetricProps) {
-  const { titlePrefix, postProcessRow, getRows = getDefaultRows, customColumns, timeConfig, snapshot } = props;
+  const {
+    titlePrefix,
+    postProcessRow,
+    getRows = getDefaultRows,
+    customColumns,
+    timeConfig,
+    snapshot,
+    path = '/dashboard'
+  } = props;
 
   const snapshotId = snapshot.get('id');
 
   const [{ pinnedMetrics }, setState] = useUrlState<{ pinnedMetrics: string[] }>({
-    bind,
+    bind: [
+      {
+        path,
+        name: 'pinnedMetrics',
+        initialState: [],
+        serializer: buildJsonSerializer(),
+        parser: buildJsonParser([])
+      }
+    ],
     resets
   });
 

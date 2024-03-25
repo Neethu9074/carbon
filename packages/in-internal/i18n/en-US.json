@@ -1031,6 +1031,9 @@
     "entityStatistics": {
       "cockpit": "Cockpit"
     },
+    "metrics": {
+      "enterSnapshotId": "Enter a snapshot id"
+    },
     "graphExplorer": {
       "snapshotId": "snapshotId..."
     },
