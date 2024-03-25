@@ -3,7 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-export default function createSceneService(scene) {
+interface SceneService {
+  getScene: () => _Scene;
+  dispose: () => void;
+}
+
+export default function createSceneService(scene: _Scene): SceneService {
   function getScene() {
     return scene;
   }
