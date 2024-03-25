@@ -18,14 +18,27 @@ import {
   RunConfiguration,
   PolicyRunnable,
   TypeConfigurationType,
-  ParameterValue
+  ParameterValue,
+  WebsiteAlertConfigWithMetadata,
+  GlobalApplicationsAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  InfraAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata,
+  LogAlertConfigWithMetadata,
+  Result
 } from 'in-types';
 import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 
 export type Triggers = {
-  customEvent: EventSpecificationInfo[];
-  builtinEvent: EventSpecificationInfo[];
-  applicationSmartAlert: ApplicationAlertConfigWithMetadata[];
+  customEvent: Result<EventSpecificationInfo[]>;
+  builtinEvent: Result<EventSpecificationInfo[]>;
+  applicationSmartAlert: Result<ApplicationAlertConfigWithMetadata[]>;
+  websiteSmartAlert: Result<WebsiteAlertConfigWithMetadata[]>;
+  globalApplicationSmartAlert: Result<GlobalApplicationsAlertConfigWithMetadata[]>;
+  mobileAppSmartAlert: Result<MobileAppAlertConfigWithMetadata[]>;
+  infraSmartAlert: Result<InfraAlertConfigWithMetadata[]>;
+  logSmartAlert: Result<LogAlertConfigWithMetadata[]>;
+  syntheticsSmartAlert: Result<SyntheticAlertConfigWithMetadata[]>;
 };
 
 export type PolicyFormEntity = Policy | NewPolicy;
@@ -59,21 +72,65 @@ type NewActionConfiguration = Omit<ActionConfiguration, 'action'> & {
   action: { id: string };
 };
 
-export type TriggerSpecification = EventSpecificationInfo | ApplicationAlertConfigWithMetadata;
+export type TriggerSpecification =
+  | EventSpecificationInfo
+  | ApplicationAlertConfigWithMetadata
+  | WebsiteAlertConfigWithMetadata
+  | GlobalApplicationsAlertConfigWithMetadata
+  | MobileAppAlertConfigWithMetadata
+  | InfraAlertConfigWithMetadata
+  | SyntheticAlertConfigWithMetadata
+  | LogAlertConfigWithMetadata;
+
 export const isEventSpecification = (item?: TriggerSpecification): item is EventSpecificationInfo =>
   (item as EventSpecificationInfo)?.type !== undefined;
 
 export const isApplicationSmartAlert = (item?: TriggerSpecification): item is ApplicationAlertConfigWithMetadata =>
   (item as ApplicationAlertConfigWithMetadata)?.applicationId !== undefined;
 
+export const isGlobalApplicationSmartAlert = (
+  item?: TriggerSpecification
+): item is GlobalApplicationsAlertConfigWithMetadata =>
+  (item as GlobalApplicationsAlertConfigWithMetadata)?.applicationIds !== undefined;
+
+export const isMobileAppSmartAlert = (item?: TriggerSpecification): item is MobileAppAlertConfigWithMetadata =>
+  (item as MobileAppAlertConfigWithMetadata)?.mobileAppId !== undefined;
+
+export const isWebsiteSmartAlert = (item?: TriggerSpecification): item is WebsiteAlertConfigWithMetadata =>
+  (item as WebsiteAlertConfigWithMetadata)?.websiteId !== undefined;
+
+export const isSyntheticsSmartAlert = (item?: TriggerSpecification): item is SyntheticAlertConfigWithMetadata =>
+  (item as SyntheticAlertConfigWithMetadata)?.syntheticTestIds !== undefined;
+
+export const isInfraSmartAlert = (item?: TriggerSpecification): item is InfraAlertConfigWithMetadata =>
+  (item ?? false) && 'predictiveTrigger' in (item as InfraAlertConfigWithMetadata);
+
 export const getTriggerType = (item: TriggerSpecification): TriggerType => {
   if (isApplicationSmartAlert(item)) {
     return 'applicationSmartAlert';
   }
-  if (item.type === 'CUSTOM') {
+  if (isGlobalApplicationSmartAlert(item)) {
+    return 'globalApplicationSmartAlert';
+  }
+  if (isWebsiteSmartAlert(item)) {
+    return 'websiteSmartAlert';
+  }
+  if (isMobileAppSmartAlert(item)) {
+    return 'mobileAppSmartAlert';
+  }
+  if (isSyntheticsSmartAlert(item)) {
+    return 'syntheticsSmartAlert';
+  }
+  if (isInfraSmartAlert(item)) {
+    return 'infraSmartAlert';
+  }
+  if (isEventSpecification(item) && item.type === 'CUSTOM') {
     return 'customEvent';
   }
-  return 'builtinEvent';
+  if (isEventSpecification(item) && item.type === 'BUILT_IN') {
+    return 'builtinEvent';
+  }
+  return 'logSmartAlert';
 };
 
 export const scopeAll = 'all' as const;

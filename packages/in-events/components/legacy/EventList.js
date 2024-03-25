@@ -9,19 +9,13 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
-import {
-  isApplicationSmartAlertEvent,
-  isWebsiteSmartAlertEvent,
-  isMobileAppSmartAlertEvent
-} from 'in-events/components/eventUtil';
-import AssociatedAndRecommendedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedPoliciesAlerts';
-import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
-import { actionAutomationEnabled, rcaUIEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { getEventType, getServiceIds } from 'in-stores/events';
+import { rcaUIEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
@@ -63,8 +57,6 @@ export default function IncidentEventList({
   const isTriggeringEvent = ev => ev.getIn(['problem', 'id']) === triggeringProblemId;
 
   const triggerEvent = events.find(isTriggeringEvent);
-  const isGlobalSmartAlert =
-    isApplicationSmartAlertEvent(triggerEvent) && triggerEvent.getIn(['metadata', 'globalSmartAlert'], false);
 
   const eventType = getEventType(incident);
   const serviceIds = getServiceIds(incident);
@@ -100,21 +92,7 @@ export default function IncidentEventList({
         setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
         highlightEventOnHover={highlightEventOnHover}
       />
-      {actionAutomationEnabled &&
-        !isWebsiteSmartAlertEvent(triggerEvent) &&
-        !isApplicationSmartAlertEvent(triggerEvent) &&
-        !isMobileAppSmartAlertEvent(triggerEvent) && (
-          <AssociatedAndRecommendedPolicies
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={triggerEvent?.toJS()}
-          />
-        )}
-      {actionAutomationEnabled && !isGlobalSmartAlert && isApplicationSmartAlertEvent(triggerEvent) && (
-        <AssociatedAndRecommendedPoliciesAlerts
-          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-          event={triggerEvent?.toJS()}
-        />
-      )}
+      <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggerEvent?.toJS()} />
       <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );

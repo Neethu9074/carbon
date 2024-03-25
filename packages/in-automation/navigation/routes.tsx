@@ -46,9 +46,7 @@ export default [
   <Route exact path={policiesFullyQualified} key="policies">
     {renderAsyncRouteChildren(Policies)}
   </Route>,
-  <Route
-    path={policiesDetailsFullyQualified}
-    key="policyDetails"
-    render={props => addKeyToComponent(renderAsyncRouteChildren(PolicyDetails), props.match.params?.id)}
-  />
+  <Route path={policiesDetailsFullyQualified} key="policyDetails">
+    {renderAsyncRouteChildren(PolicyDetails)}
+  </Route>
 ];

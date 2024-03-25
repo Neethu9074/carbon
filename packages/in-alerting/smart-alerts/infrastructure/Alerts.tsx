@@ -62,7 +62,7 @@ export default function Alerts() {
   );
 }
 
-function getSubtitle(
+export function getSubtitle(
   rule: InfraAlertRuleUnion,
   threshold: ThresholdConfigUnion & { value?: number },
   predictiveTrigger?: PredictiveTrigger

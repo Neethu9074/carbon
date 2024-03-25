@@ -20,7 +20,15 @@ const iconDimensions = new Map<string, SvgIconProps['size']>([
   ['compact', 'xs']
 ]);
 
-export default function Icon({ type, size = 'normal', iconSize, iconSpinning, kind = 'action', disabled }: IconProps) {
+export default function Icon({
+  type,
+  size = 'normal',
+  iconSize,
+  iconSpinning,
+  kind = 'action',
+  disabled,
+  color
+}: IconProps) {
   let iSize: typeof iconSize = 'regular';
   if (iconSize) {
     iSize = iconSize;
@@ -31,6 +39,7 @@ export default function Icon({ type, size = 'normal', iconSize, iconSpinning, ki
     <SvgIcon
       type={type}
       size={iSize}
+      color={color}
       className={classNames({
         [locals.icon]: true,
         [locals[`icon--${kind}`]]: kind,

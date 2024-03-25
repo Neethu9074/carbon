@@ -7,17 +7,17 @@
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 
 export const automationRoot = '/automation';
-export const actionCatalogPath = `${automationRoot}/actionCatalog`;
-export const actionDetailsPath = `${automationRoot}/actionCatalog/:id`;
-export const actionDetailsNewPath = `${automationRoot}/actionCatalog/new`;
-export const actionDetailsCopyPath = `${automationRoot}/actionCatalog/copy`;
-export const actionDetailsCopyFormPath = `${automationRoot}/actionCatalog/copy/:id`;
+export const actionCatalogPath = `${automationRoot}/actionCatalog` as const;
+export const actionDetailsPath = `${automationRoot}/actionCatalog/:id` as const;
+export const actionDetailsNewPath = `${automationRoot}/actionCatalog/new` as const;
+export const actionDetailsCopyPath = `${automationRoot}/actionCatalog/copy` as const;
+export const actionDetailsCopyFormPath = `${automationRoot}/actionCatalog/copy/:id` as const;
 export const actionHistoryPath = '/actionHistory';
 
 export const policies = '/policies';
-export const policiesFullyQualified = `${automationRoot}${policies}`;
+export const policiesFullyQualified = `${automationRoot}${policies}` as const;
 
 export const policiesDetails = '/details';
-export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policiesDetails}`;
+export const policiesDetailsFullyQualified = `${policiesFullyQualified}${policiesDetails}` as const;
 
 export const isAutomationView = getRootPathPredicate(automationRoot);

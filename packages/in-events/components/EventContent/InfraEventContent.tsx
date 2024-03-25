@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -31,6 +32,7 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -46,9 +48,10 @@ import locals from './InfraEventContent.mless';
 
 interface Props {
   event: EventOrMap;
+  snapshot: Map<string, unknown>;
 }
 
-export default function InfraEventContent({ event }: Props) {
+export default function InfraEventContent({ event, snapshot }: Props) {
   const alertConfig = useInfraEventAlertConfig(event);
   const entityType = alertConfig?.rule?.entityType ?? 'all';
   const tagCatalog = useTagCatalog({ ownerType: entityType });
@@ -154,6 +157,10 @@ export default function InfraEventContent({ event }: Props) {
           </Card>
         </Col>
       </Row>
+      <AutomationCard
+        volatileId={(snapshot?.get('volatileId') as Map<string, unknown>)?.toJS() ?? {}}
+        event={event?.toJS()}
+      />
     </>
   );
 }

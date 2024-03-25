@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -19,6 +20,7 @@ import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/t
 import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
@@ -29,9 +31,10 @@ import { t } from 'in-i18n';
 
 interface Props {
   event: EventMap;
+  snapshot: Map<string, unknown>;
 }
 
-export default function SyntheticEventContent({ event }: Props) {
+export default function SyntheticEventContent({ event, snapshot }: Props) {
   const alertConfig = useSyntheticEventAlertConfig(event);
 
   if (!alertConfig) {
@@ -85,6 +88,10 @@ export default function SyntheticEventContent({ event }: Props) {
           />
         </Col>
       </Row>
+      <AutomationCard
+        volatileId={(snapshot?.get('volatileId') as Map<string, unknown>)?.toJS() ?? {}}
+        event={event?.toJS()}
+      />
     </>
   );
 }

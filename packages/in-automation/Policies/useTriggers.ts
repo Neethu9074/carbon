@@ -6,56 +6,78 @@
 
 import { useObservable } from '@instana/hooks';
 
-import { getEventSpecifications, getApplicationSmartAlertConfigs } from 'in-automation/api';
-import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { all as allStatus } from 'in-hooks/utils/fetchStatus';
-import { all as allProgress } from 'in-hooks/utils/progress';
+import {
+  ApplicationAlertConfigWithMetadata,
+  EventSpecificationInfo,
+  GlobalApplicationsAlertConfigWithMetadata,
+  InfraAlertConfigWithMetadata,
+  LogAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  Result,
+  SyntheticAlertConfigWithMetadata,
+  WebsiteAlertConfigWithMetadata
+} from 'in-types';
+import {
+  getEventSpecifications,
+  getApplicationSmartAlertConfigs,
+  getWebsiteSmartAlertConfigs,
+  getGlobalApplicationSmartAlertConfigs,
+  getMobileAppSmartAlertConfigs,
+  getInfraSmartAlertConfigs,
+  getLogSmartAlertConfigs,
+  getSyntheticSmartAlertConfigs
+} from 'in-automation/api';
+import { pendingResult } from 'in-services/fixedObjects';
 import { Triggers } from 'in-automation/Policies/types';
-import { FetchedState } from 'in-hooks/utils/types';
-import { EventSpecificationInfo } from 'in-types';
+import { mapData } from 'in-services/util/result';
 
-export default function useTriggers(): FetchedState<Triggers> {
-  const [eventSpecifications, eventSpecificationsStatus, eventSpecificationsErrors, eventSpecificationsProgress] =
-    resultToFetchedStateResponse(useObservable(getEventSpecifications, []));
-  const [
-    applicationSmartAlerts,
-    applicationSmartAlertsStatus,
-    applicationSmartAlertsErrors,
-    applicationSmartAlertsProgress
-  ] = resultToFetchedStateResponse(useObservable(getApplicationSmartAlertConfigs, []));
+export default function useTriggers(): Triggers {
+  const eventSpecification =
+    useObservable(getEventSpecifications, []) ?? (pendingResult as Result<EventSpecificationInfo[]>);
+  const applicationSmartAlert =
+    useObservable(getApplicationSmartAlertConfigs, []) ??
+    (pendingResult as Result<ApplicationAlertConfigWithMetadata[]>);
+  const websiteSmartAlert =
+    useObservable(getWebsiteSmartAlertConfigs, []) ?? (pendingResult as Result<WebsiteAlertConfigWithMetadata[]>);
+  const globalApplicationSmartAlert =
+    useObservable(getGlobalApplicationSmartAlertConfigs, []) ??
+    (pendingResult as Result<GlobalApplicationsAlertConfigWithMetadata[]>);
+  const mobileAppSmartAlert =
+    useObservable(getMobileAppSmartAlertConfigs, []) ?? (pendingResult as Result<MobileAppAlertConfigWithMetadata[]>);
+  const infraSmartAlert =
+    useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraAlertConfigWithMetadata[]>);
+  const logSmartAlert =
+    useObservable(getLogSmartAlertConfigs, []) ?? (pendingResult as Result<LogAlertConfigWithMetadata[]>);
+  const syntheticsSmartAlert = useObservable(getSyntheticSmartAlertConfigs, []) as Result<
+    SyntheticAlertConfigWithMetadata[]
+  >;
 
-  const status = allStatus(eventSpecificationsStatus, applicationSmartAlertsStatus);
-  const progress = allProgress(eventSpecificationsProgress, applicationSmartAlertsProgress);
-  const errors = [...eventSpecificationsErrors, ...applicationSmartAlertsErrors];
-
-  if (status != 'resolved') {
-    return [undefined, status, errors, progress];
-  }
-
-  const { customEvents, builtInEvents } =
-    eventSpecifications?.reduce(
-      (acc, eventSpecification) => {
-        if (eventSpecification.type === 'CUSTOM') {
-          acc.customEvents.push(eventSpecification);
-        } else {
-          acc.builtInEvents.push(eventSpecification);
-        }
-        return acc;
-      },
-      { customEvents: [], builtInEvents: [] } as {
-        customEvents: EventSpecificationInfo[];
-        builtInEvents: EventSpecificationInfo[];
+  const customEvent = mapData(eventSpecification, data =>
+    data?.reduce<EventSpecificationInfo[]>((specs, eventSpecification) => {
+      if (eventSpecification.type === 'CUSTOM') {
+        specs.push(eventSpecification);
       }
-    ) ?? {};
+      return specs;
+    }, [])
+  );
+  const builtinEvent = mapData(eventSpecification, data =>
+    data?.reduce<EventSpecificationInfo[]>((specs, eventSpecification) => {
+      if (eventSpecification.type === 'BUILT_IN') {
+        specs.push(eventSpecification);
+      }
+      return specs;
+    }, [])
+  );
 
-  return [
-    {
-      customEvent: customEvents!,
-      builtinEvent: builtInEvents!,
-      applicationSmartAlert: applicationSmartAlerts!
-    },
-    status,
-    errors,
-    progress
-  ];
+  return {
+    customEvent,
+    builtinEvent,
+    applicationSmartAlert,
+    websiteSmartAlert,
+    globalApplicationSmartAlert,
+    mobileAppSmartAlert,
+    infraSmartAlert,
+    logSmartAlert,
+    syntheticsSmartAlert
+  };
 }

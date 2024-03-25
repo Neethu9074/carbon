@@ -66,11 +66,11 @@ function usePolicyDetailsUrlParams() {
 export default function PolicyDetails() {
   const { policyId, isNew, isCopy } = usePolicyDetailsUrlParams();
   const [actions, actionsStatus, actionsErrors] = useActions();
-  const [triggers, triggersStatus, triggersErrors] = useTriggers();
+  const triggers = useTriggers();
   const [policy, policyStatus, policyErrors] = usePolicy(policyId, isCopy);
 
-  const status = allStatus(policyStatus, triggersStatus, actionsStatus);
-  const errors = [...policyErrors, ...triggersErrors, ...actionsErrors];
+  const status = allStatus(policyStatus, actionsStatus);
+  const errors = [...policyErrors, ...actionsErrors];
 
   const [form, setForm] = usePolicyForm(policy, actions, triggers);
   const navigateToPolicies = useNavigateToPolicies();
@@ -144,7 +144,7 @@ function save(
   const trackerDetails = {
     name: policy.name,
     // @ts-expect-error
-    triggerName: triggers?.[policy.trigger.type].find(({ id }) => id === policy.trigger.id)?.name,
+    triggerName: triggers?.[policy.trigger.type]?.data.find(({ id }) => id === policy.trigger.id)?.name,
     actionName: actions?.find(
       ({ id }) => id === policy.typeConfigurations[0].runnable.runConfiguration.actions[0].action.id
     )?.name,
@@ -164,8 +164,8 @@ function onSaveSuccess(name: string) {
     {
       type: 'info',
       timeout: seconds.toMillis(4),
-      title: t('in-automation:policies.onSaveSuccessTitle'),
-      content: t('in-automation:policies.onSaveSuccessContent', {
+      title: t('in-automation:policies.createDialog.success.title'),
+      content: t('in-automation:policies.createDialog.success.content', {
         name
       })
     },
@@ -178,8 +178,8 @@ function onSaveFailure(name: string) {
     {
       type: 'danger',
       timeout: seconds.toMillis(6),
-      title: t('in-automation:policies.onSaveFailedTitle'),
-      content: t('in-automation:policies.onSaveFailedContent', {
+      title: t('in-automation:policies.createDialog.failure.title'),
+      content: t('in-automation:policies.createDialog.failure.content', {
         name
       })
     },
