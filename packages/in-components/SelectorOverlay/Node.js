@@ -46,11 +46,11 @@ export const breadcrumbAndLabelColumnDefinition = {
         value={
           <BreadcrumbAndLabel
             path={node.parentLabels}
-            label={node.label}
+            label={node.withHighlights.label}
             hasChildren={'children' in node && node.children?.length > 0}
           />
         }
-        label={node.description}
+        label={node.withHighlights.description}
         className={locals.keyValue}
         multilineValue
         multilineLabel
