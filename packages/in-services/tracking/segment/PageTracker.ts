@@ -8,10 +8,9 @@ import { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-//import getAccount from 'in-subscription/getAccount';
-import { playwithEnabled } from 'in-services/featureFlags';
 //@ts-expect-error
 import { Segment, commonProperties } from 'in-services/tracking/segment/SegmentInit';
+import { playwithEnabled } from 'in-services/featureFlags';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { getTenantsWithUnits } from 'in-api/account';
 import { find } from 'in-services/arrayUtils';
