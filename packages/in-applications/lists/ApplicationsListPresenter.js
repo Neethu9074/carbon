@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/components';
-import { TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';

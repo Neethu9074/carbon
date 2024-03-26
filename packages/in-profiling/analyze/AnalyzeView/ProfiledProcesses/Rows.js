@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows, TableErrorRows } from '@instana/components';
+import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows, TableErrorRows } from '@instana/legacy';
 
 import Row from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Row';
 

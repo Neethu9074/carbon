@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Th, Tr, Td } from '@instana/components';
+import { Table, Thead, Tbody, Th, Tr, Td } from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';

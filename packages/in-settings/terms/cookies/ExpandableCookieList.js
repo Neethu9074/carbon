@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, TableLoadMoreRow, Th } from '@instana/components';
+import { Table, Thead, Tbody, Tr, TableLoadMoreRow, Th } from '@instana/legacy';
 
 import Rows from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Rows';
 import { t } from 'in-i18n';
