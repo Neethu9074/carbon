@@ -33,7 +33,11 @@ export default function MetricSelectorOverlay({
       loading={loading}
       shouldTriggerWindowResize
       onChange={node => {
-        onChange(node);
+        onChange({
+          ...node,
+          label: flattenReactChildrenToString(node.label.props.children),
+          description: flattenReactChildrenToString(node.description.props.children)
+        });
         close();
       }}
       query={query}
@@ -44,8 +48,13 @@ export default function MetricSelectorOverlay({
   );
 }
 
+function flattenReactChildrenToString(node) {
+  return node.map(item => (typeof item === 'object' ? item.props.children : item)).join('');
+}
+
 export function toOptions(metricTreeNodes, parentLabels = []) {
   const joinedParentLabels = parentLabels.join(' ');
+
   return metricTreeNodes.map(metricTreeNode => {
     return {
       label: metricTreeNode.label,

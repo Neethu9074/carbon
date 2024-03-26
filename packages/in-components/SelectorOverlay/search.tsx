@@ -59,9 +59,11 @@ function fuzzyMatches(targets: Options[], query: string): Fuzzysort.KeysResults<
 function score(result: Fuzzysort.KeyResult<Options>, offset: number, range: number = RANGE): number {
   return result ? result.score - offset * range : -(offset + 1) * range;
 }
+
 function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
-  var label = highlightResult(matchResult[0]);
-  var description = highlightResult(matchResult[1]);
+  const label = highlightResult(matchResult[0]);
+  const description = highlightResult(matchResult[1]);
+
   return {
     ...matchResult.obj,
     label: (label && <>{label}</>) || matchResult.obj.label,
