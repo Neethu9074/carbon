@@ -10,12 +10,11 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import AlertDetails, { AlertDetailsProps } from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
 import { alertsTabDetailsFullyQualified, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-import { AlertDetailsProps } from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
-import AlertDetails from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
@@ -33,7 +32,7 @@ import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 
-export default function AlertDetailsView() {
+const AlertDetailsView = () => {
   const timeConfig = useTimeConfig();
   const { location } = useNavigation();
   const isDetailsMainPage = isMainPage(location);
@@ -47,69 +46,77 @@ export default function AlertDetailsView() {
     isMainPage: isDetailsMainPage
   };
 
-  return isDetailsMainPage ? (
-    <Sticky header={<ViewSwitcher />}>
-      {test.progress.loading ? (
-        <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
-      ) : (
-        <LeftRightPadding>
-          <ViewTrackingMeta
-            data={{
-              productArea: productAreas.synthetic_monitoring,
-              pageRootName: pageNames.global_alerts,
-              pagePath: location?.pathname
-            }}
-          />
-          <AlertDetails {...props} />
-        </LeftRightPadding>
-      )}
-      <Footer />
-      {role?.canConfigureGlobalSyntheticSmartAlerts && (
-        <FloatingActionButtons>
-          <CreateSmartAlert />
-        </FloatingActionButtons>
-      )}
-    </Sticky>
-  ) : (
-    <>
-      <Sticky
-        header={
-          <>
-            <DashboardHeader
-              icon={'lib_synthetic'}
-              title={t('in-synthetics:dashboard.testList.mainLabel')}
-              label={get(test, ['data', 'label'])}
-              withBorderBottom
-            />
-            <DashboardHeaderShadowModule />
-          </>
-        }
-      >
-        {test.progress.loading ? (
-          <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
-        ) : (
-          <LeftRightPadding>
-            <ViewTrackingMeta
-              data={{
-                productArea: productAreas.synthetic_monitoring,
-                pageRootName: pageNames.local_alerts,
-                pagePath: location?.pathname
-              }}
-            />
-            <AlertDetails {...props} />
-          </LeftRightPadding>
-        )}
-        <Footer />
-        {role?.canConfigureGlobalSyntheticSmartAlerts && (
-          <FloatingActionButtons>
-            <CreateSmartAlert testId={testId} />
-          </FloatingActionButtons>
-        )}
-      </Sticky>
-    </>
-  );
-}
+  const renderMainPage = () => {
+    if (isDetailsMainPage) {
+      return (
+        <Sticky header={<ViewSwitcher />}>
+          {test.progress.loading ? (
+            <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
+          ) : (
+            <LeftRightPadding>
+              <ViewTrackingMeta
+                data={{
+                  productArea: productAreas.synthetic_monitoring,
+                  pageRootName: pageNames.global_alerts,
+                  pagePath: location?.pathname
+                }}
+              />
+              <AlertDetails {...props} />
+            </LeftRightPadding>
+          )}
+          <Footer />
+          {role?.canConfigureGlobalSyntheticSmartAlerts && (
+            <FloatingActionButtons>
+              <CreateSmartAlert />
+            </FloatingActionButtons>
+          )}
+        </Sticky>
+      );
+    } else {
+      return (
+        <Sticky
+          header={
+            <>
+              <DashboardHeader
+                icon={'lib_synthetic'}
+                title={t('in-synthetics:dashboard.testList.mainLabel')}
+                label={get(test, ['data', 'label'])}
+                withBorderBottom
+              />
+              <DashboardHeaderShadowModule />
+            </>
+          }
+        >
+          {test.progress.loading ? (
+            <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
+          ) : (
+            <LeftRightPadding>
+              <ViewTrackingMeta
+                data={{
+                  productArea: productAreas.synthetic_monitoring,
+                  pageRootName: pageNames.local_alerts,
+                  pagePath: location?.pathname
+                }}
+              />
+              <AlertDetails {...props} />
+            </LeftRightPadding>
+          )}
+          <Footer />
+          {role?.canConfigureGlobalSyntheticSmartAlerts && (
+            <FloatingActionButtons>
+              <CreateSmartAlert testId={testId} />
+            </FloatingActionButtons>
+          )}
+        </Sticky>
+      );
+    }
+  };
 
-function isMainPage(location: Location) {
+  return renderMainPage();
+};
+
+const isMainPage = (location: Location) => {
   return location?.pathname === alertsTabDetailsFullyQualified;
-}
+};
+
+export default AlertDetailsView;
