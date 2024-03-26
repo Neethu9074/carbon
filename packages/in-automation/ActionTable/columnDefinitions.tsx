@@ -6,10 +6,12 @@
 
 import React from 'react';
 
+import { formatDateTime } from '@instana/format-date';
 import { Typography } from '@instana/components';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getType, isExternal } from 'in-automation/ActionCatalog/shared';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -17,9 +19,9 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/api';
 import { t } from 'in-i18n';
 
-export const actionNameColumn: ColumnDefinition<Action | ScoredAction> = {
-  id: 'actionName',
-  label: t('in-automation:policies.actionName'),
+export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
+  id: 'name',
+  label: t('in-automation:name'),
   getContent(action) {
     const description = action.description ?? action.name;
     const name = isExternal(action.type) ? description : action.name;
@@ -33,10 +35,22 @@ export const actionNameColumn: ColumnDefinition<Action | ScoredAction> = {
       </Tooltip>
     );
   },
-  width: 23,
+  width: 15,
   sortable: true
 };
 
+export const descriptionColumn: ColumnDefinition<Action | ScoredAction> = {
+  label: t('in-automation:description'),
+  id: 'description',
+  width: 25,
+  getContent(action) {
+    return (
+      <FourLineWrapper>
+        <Typography variant="body-regular">{action.description}</Typography>
+      </FourLineWrapper>
+    );
+  }
+};
 export const aiEngineColumn: ColumnDefinition<ScoredAction> = {
   label: t('in-automation:aiEngine'),
   id: 'engine',
@@ -51,7 +65,7 @@ export const aiEngineColumn: ColumnDefinition<ScoredAction> = {
 };
 
 export const scoreColumn: ColumnDefinition<ScoredAction> = {
-  label: t('in-automation:ActionCatalog.aiScore'),
+  label: t('in-automation:ActionCatalog.confidenceTitle'),
   id: 'confidence',
   width: 10,
   sortable: true,
@@ -70,5 +84,14 @@ export const scoreColumn: ColumnDefinition<ScoredAction> = {
         </HorizontalFlexWrapper>
       </Tooltip>
     );
+  }
+};
+
+export const lastModifiedColumn: ColumnDefinition<Action> = {
+  label: t('in-automation:ActionCatalog.lastModified'),
+  id: 'modifiedAt',
+  width: 15,
+  getContent(action) {
+    return <Typography variant="body-regular">{formatDateTime(+action.modifiedAt * 1000)}</Typography>;
   }
 };

@@ -18,7 +18,7 @@ import {
   getSyntheticSmartAlertConfig,
   getWebsiteSmartAlertConfig
 } from 'in-automation/api';
-import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/sharedPolicies';
+import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Event, Result } from 'in-types';

@@ -41,7 +41,6 @@ import useServerTableUrlState, {
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { descriptionColumn, nameColumn, tagsColumn, typeColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/columns/EvaluationTypeColumn';
 import { Action, ApplicationAlertConfigWithMetadata, EventSpecificationInfo, TriggerType } from 'in-types';
@@ -51,6 +50,7 @@ import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infras
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
+import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
@@ -64,6 +64,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
 import { hasError, listSuccess, success } from 'in-services/util/result';
+import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
@@ -694,7 +695,11 @@ function SelectAction({
   const selectedAction = actions.find(action => action.id === actionId.value);
   const result = listSuccess(selectedAction ? [selectedAction] : []);
 
-  const columnDefinitions: ColumnDefinition<Action>[] = [nameColumn(false), descriptionColumn, typeColumn, tagsColumn];
+  const columnDefinitions: ColumnDefinition<Action>[] = [
+    nameColumn,
+    descriptionColumn,
+    tagsColumn as ColumnDefinition<Action>
+  ];
   const executableAction =
     isScript(selectedAction?.type) ||
     isWebhook(selectedAction?.type) ||
@@ -818,10 +823,9 @@ function SelectActionDialog({
         <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
       )
     },
-    nameColumn(false),
+    nameColumn,
     descriptionColumn,
-    typeColumn,
-    tagsColumn
+    tagsColumn as ColumnDefinition<Action>
   ];
 
   return (

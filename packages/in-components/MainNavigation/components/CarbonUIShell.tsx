@@ -79,10 +79,10 @@ import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
+import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
-import { actionCatalogPath, isAutomationView } from 'in-automation/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -420,7 +420,7 @@ function AutomationMenu() {
       label={t('in-automation:automation')}
       icon="lib_automation"
       isActive={matchLocation(isAutomationView)}
-      href={createHrefToPath(actionCatalogPath)}
+      href={createHrefToPath(actionCatalogFullyQualified)}
     />
   );
 }

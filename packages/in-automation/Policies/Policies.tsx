@@ -10,8 +10,6 @@ import { Spacer, Stack, Typography } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
-  AUTOMATIC,
-  MANUAL,
   TriggerSpecification,
   isApplicationSmartAlert,
   isEventSpecification,
@@ -25,46 +23,39 @@ import {
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { PoliciesFilterState, usePoliciesFilterUrlState } from 'in-automation/Policies/usePoliciesFilterUrlState';
-import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
+import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
+import { ActionInstance, PaginatedResult, Policy, EventSpecificationInfo, Trigger } from 'in-types';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
-import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
-import {
-  ActionInstance,
-  PaginatedResult,
-  Policy,
-  TypeConfigurationType,
-  EventSpecificationInfo,
-  Trigger
-} from 'in-types';
+import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
 import { hasError, isLoading, listSuccess } from 'in-services/util/result';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import usePolicies, { refresh } from 'in-automation/Policies/usePolicies';
+import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
+import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { TagsFilter } from 'in-automation/components/tableFilters';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { close } from 'in-components/DialogPresenter/store';
-import ComboBox from 'in-components/ComboBox/ComboBox';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
 import { role } from 'in-stores/user';
-import Tooltip from 'in-components/Tooltip';
-import WithSubscript from 'in-settings/components/WithSubscript';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
@@ -72,7 +63,7 @@ import locals from './Policies.mless';
 const pathSegment = '/policies';
 const matrixPrefix = '';
 
-type PolicyTableEntity = Policy & { history: ActionInstance | undefined; trigger: TriggerSpecification | undefined };
+type PolicyTableEntity = Policy & { trigger: TriggerSpecification | undefined };
 
 export default function Policies() {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
@@ -81,19 +72,19 @@ export default function Policies() {
     defaultOrderBy: 'name',
     defaultPageSize: 10,
     paginationResettingUrlParameters: [
-      createTriggerUrlParameter(pathSegment, matrixPrefix),
+      createTypeUrlParameter(pathSegment, matrixPrefix),
       createTagsUrlParameter(pathSegment, matrixPrefix)
     ]
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
 
-  const [{ tags, trigger }, setFilter] = usePoliciesFilterUrlState({ pathSegment, matrixPrefix });
+  const [{ tags, type }, setFilter] = usePoliciesFilterUrlState({ pathSegment, matrixPrefix });
 
   const [[policies, policyStatus, policiesErrors, policiesProgress], availableTags] = usePolicies({
     serverTableUrlState,
     setServerTableUrlState,
     tags,
-    trigger
+    type
   });
 
   const [history, historyStatus, historyErrors, historyProgress] = useActionHistory();
@@ -112,7 +103,6 @@ export default function Policies() {
       ? {
           ...policies!,
           items: policies!.items?.map(policy => {
-            // TODO: This is a hack to get the history item for a policy. We need to change the API to return the history
             const historyItem = history?.items?.find(item => (item as any).policyId === policy.id);
             const triggerType = policy.trigger.type;
             const triggerItem = isLoading(triggers[triggerType])
@@ -141,8 +131,19 @@ export default function Policies() {
         cardTitle={t('in-automation:policies.policies')}
         rightHeader={
           <>
-            {role?.canConfigureAutomationPolicies ? <CreateNewEntityButton /> : <div />}
-            <PolicyFilters setFilter={setFilter} trigger={trigger} tags={tags} availableTags={availableTags} />
+            {role?.canConfigureAutomationPolicies && (
+              <Button kind="action" onClick={() => navigateToPolicyDetails()} icon="lib_openclose_add_circle_outline">
+                {t('in-automation:policies.newPolicy')}
+              </Button>
+            )}
+            <>
+              <Spacer horizontal="small" />
+              <Stack direction="horizontal">
+                <PolicyTypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
+                <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
+              </Stack>
+              <Spacer horizontal="small" />
+            </>
           </>
         }
         orderBy={orderBy}
@@ -154,59 +155,10 @@ export default function Policies() {
           data: result
         }}
         columnDefinitions={columnDefinition}
+        noDataMessage={t('in-automation:policies.noPolicies')}
         fixedLayout
       />
     </AutomationTabs>
-  );
-}
-
-function CreateNewEntityButton() {
-  const navigateToPolicyDetails = useNavigateToPolicyDetails();
-  return (
-    <Button kind="action" onClick={() => navigateToPolicyDetails()} icon="lib_openclose_add_circle_outline">
-      {t('in-automation:policies.newPolicy')}
-    </Button>
-  );
-}
-
-const options = [
-  { label: t('in-automation:policies.manual'), value: MANUAL },
-  { label: t('in-automation:policies.automatic'), value: AUTOMATIC }
-] as const;
-
-function PolicyFilters({
-  trigger,
-  tags,
-  availableTags,
-  setFilter
-}: {
-  trigger: TypeConfigurationType | undefined;
-  availableTags: string[];
-  tags: string[];
-  setFilter: (change: Partial<PoliciesFilterState>) => void;
-}) {
-  return (
-    <>
-      <Spacer horizontal="small" />
-      <Stack direction="horizontal">
-        <ComboBox
-          options={options}
-          placeholder={t('in-automation:type')}
-          value={trigger}
-          onChange={newValue => {
-            if (!newValue) {
-              setFilter({ trigger: undefined });
-            } else {
-              // We aren't using a multi combo box so not handling that case
-              // @ts-expect-error
-              setFilter({ trigger: newValue.value });
-            }
-          }}
-        />
-        <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
-      </Stack>
-      <Spacer horizontal="small" />
-    </>
   );
 }
 
@@ -295,14 +247,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     sortable: true
   },
   actionNameColumn,
-  {
-    label: t('in-automation:tags'),
-    id: 'tags',
-    getContent(item) {
-      const { tags = [] } = item;
-      return <DynamicTagList tags={tags} />;
-    }
-  },
+  tagsColumn as ColumnDefinition<Policy>,
   {
     label: '',
     id: 'actions',
@@ -310,7 +255,8 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     width: 5,
     getContent: function Content(item) {
       const navigateToPolicyDetails = useNavigateToPolicyDetails();
-      return role?.canConfigureAutomationPolicies ? (
+      if (!role?.canConfigureAutomationPolicies) return null;
+      return (
         <Stack align="end">
           <MoreMenu kind="subtle">
             <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item, false)}>
@@ -324,8 +270,6 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
             </MoreMenuButton>
           </MoreMenu>
         </Stack>
-      ) : (
-        <div />
       );
     }
   }

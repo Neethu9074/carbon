@@ -66,12 +66,12 @@ import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-even
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
+import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { sapSystemListFullyQualified as sapSystemList, sap } from 'in-sap/navigation/paths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/paths';
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
-import { actionCatalogPath, isAutomationView } from 'in-automation/navigation/paths';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
@@ -435,7 +435,7 @@ function AutomationMenu(props) {
         label={t('in-automation:automation')}
         icon="lib_automation"
         isActive={matchLocation(isAutomationView)}
-        href={createHrefToPath(actionCatalogPath)}
+        href={createHrefToPath(actionCatalogFullyQualified)}
         {...props}
       />
     )
