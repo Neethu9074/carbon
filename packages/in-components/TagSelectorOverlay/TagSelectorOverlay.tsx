@@ -63,14 +63,18 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
 }
 
 export interface Options {
-  label: string | JSX.Element;
+  label: string;
   badge: JSX.Element | Nullish | false;
   parentLabels: string[];
-  description?: string | JSX.Element;
+  description?: string;
   keywords: string;
   tagName: string;
   icon?: string;
   children: Options[];
+  withHighlights?: {
+    label: string | JSX.Element;
+    description?: string | JSX.Element;
+  };
   tagType?: TagType;
 }
 
@@ -79,7 +83,7 @@ function toOptions(
   tagTreeNodes: TagTreeNodeUnion[],
   showTypeBadge: boolean | Nullish,
   queryableOnly: boolean,
-  parentLabels: string[] = [],
+  parentLabels: string[] = []
 ): Options[] {
   const joinedParentLabels = parentLabels.join(' ');
   return tagTreeNodes
@@ -135,7 +139,7 @@ export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLa
 
   return (
     <>
-      {path.map((part,i) => (
+      {path.map((part, i) => (
         <span className={locals.path} key={`${part}-${i}`}>
           {part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />

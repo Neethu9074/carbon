@@ -64,8 +64,10 @@ function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
   var description = highlightResult(matchResult[1]);
   return {
     ...matchResult.obj,
-    label: (label && <>{label}</>) || matchResult.obj.label,
-    description: (description && <>{description}</>) || matchResult.obj.description
+    withHighlights: {
+      label: (label && <>{label}</>) || matchResult.obj.label,
+      description: (description && <>{description}</>) || matchResult.obj.description
+    }
   };
 }
 
