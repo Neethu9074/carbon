@@ -41,7 +41,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
     []
   );
   const options = useMemo(
-    () => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge, queryableOnly),
+    () => toOptions(tagCatalog, tagCatalog.tagTree, showTypeBadge, queryableOnly, []),
     [showTypeBadge, tagCatalog, queryableOnly]
   );
 
@@ -63,23 +63,28 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
 }
 
 export interface Options {
-  label: string | JSX.Element;
+  label: string;
   badge: JSX.Element | Nullish | false;
-  parentLabels: (string | JSX.Element)[];
-  description?: string | JSX.Element;
+  parentLabels: string[];
+  description?: string;
   keywords: string;
   tagName: string;
   icon?: string;
   children: Options[];
+  withHighlights?: {
+    label: string | JSX.Element;
+    description?: string | JSX.Element;
+    parentLabels: (string | JSX.Element)[];
+  };
   tagType?: TagType;
 }
 
 function toOptions(
   tagCatalog: EnrichedTagCatalog,
   tagTreeNodes: TagTreeNodeUnion[],
-  parentLabels: string[] = [],
   showTypeBadge: boolean | Nullish,
-  queryableOnly: boolean
+  queryableOnly: boolean,
+  parentLabels: string[] = []
 ): Options[] {
   const joinedParentLabels = parentLabels.join(' ');
   return tagTreeNodes
@@ -95,9 +100,9 @@ function toOptions(
           ? toOptions(
               tagCatalog,
               tagTreeNode.children,
-              parentLabels.concat(tagTreeNode.label),
               showTypeBadge,
-              queryableOnly
+              queryableOnly,
+              parentLabels.concat(tagTreeNode.label)
             )
           : (emptyArray as unknown as Options[]);
       // filter empty category nodes
@@ -135,8 +140,8 @@ export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLa
 
   return (
     <>
-      {path.map(part => (
-        <span className={locals.path} key={part}>
+      {path.map((part, i) => (
+        <span className={locals.path} key={`${part}-${i}`}>
           {part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         </span>

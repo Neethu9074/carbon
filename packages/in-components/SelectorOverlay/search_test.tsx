@@ -113,12 +113,17 @@ describe('in-components/SelectorOverlay/search', () => {
       {
         badge: null,
         children: [],
-        label: (
-          <>
-            <span key="0" className="local-css-highlight">Third</span> Level Leaf
-          </>
-        ),
+        label: 'Third Level Leaf',
         description: 'Some description',
+        withHighlights: {
+          label: (
+            <>
+              <span key="0" className="local-css-highlight">Third</span> Level Leaf
+            </>
+          ),
+          description: 'Some description',
+          parentLabels: []
+        },
         keywords: 'fobar',
         parentLabels: [],
         tagName: ''
@@ -132,11 +137,16 @@ describe('in-components/SelectorOverlay/search', () => {
         badge: null,
         children: [],
         label: 'Root Level Leaf',
-        description: (
-          <>
-            <span key="0" className="local-css-highlight">Funky</span> root leaf
-          </>
-        ),
+        description: 'Funky root leaf',
+        withHighlights: {
+          label: 'Root Level Leaf',
+          description: (
+            <>
+              <span key="0" className="local-css-highlight">Funky</span> root leaf
+            </>
+          ),
+          parentLabels: []
+        },
         icon: 'plugin:host',
         keywords: '',
         parentLabels: [],
@@ -148,11 +158,16 @@ describe('in-components/SelectorOverlay/search', () => {
     expect(search(namespaceOptions, 'namespace name')).to.deep.equal([
       {
         label: 'name',
-        description: (
-          <>
-            Kubernetes <span key="0" className="local-css-highlight">namespace name</span>
-          </>
-        ),
+        description: 'Kubernetes namespace name',
+        withHighlights: {
+          label: 'name',
+          description: (
+            <>
+              Kubernetes <span key="0" className="local-css-highlight">namespace name</span>
+            </>
+          ),
+          parentLabels: []
+        },
         keywords: 'Kubernetes namespace name',
         badge: null,
         tagName: 'kubernetes.namespace.name',
@@ -161,11 +176,16 @@ describe('in-components/SelectorOverlay/search', () => {
       },
       {
         label: 'uid',
-        description: (
-          <>
-            Kubernetes <span key="0" className="local-css-highlight">Namespace</span> UID
-          </>
-        ),
+        description: 'Kubernetes Namespace UID',
+        withHighlights: {
+          label: 'uid',
+          description: (
+            <>
+              Kubernetes <span key="0" className="local-css-highlight">Namespace</span> UID
+            </>
+          ),
+          parentLabels: []
+        },
         keywords: 'Kubernetes namespace uid',
         badge: null,
         tagName: 'kubernetes.namespace.uid',

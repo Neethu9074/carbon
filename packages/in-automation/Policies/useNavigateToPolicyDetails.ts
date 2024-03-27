@@ -10,7 +10,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { Policy } from 'in-types';
 
-const policyIdParameter = policyDetailsUrlParameters.policyId;
+const idParameter = policyDetailsUrlParameters.id;
 const opParameter = policyDetailsUrlParameters.op;
 
 export default function useNavigateToPolicyDetails() {
@@ -19,7 +19,7 @@ export default function useNavigateToPolicyDetails() {
   return (policy?: Policy, copy?: boolean) => {
     location.pathname = policiesDetailsFullyQualified;
     const op = copy ? 'copy' : null;
-    setOrDeleteMatrixKey(location, policyIdParameter.path ?? '', policyIdParameter.name, policy?.id);
+    setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, policy?.id);
     setOrDeleteMatrixKey(location, opParameter.path ?? '', opParameter.name, op);
     navigate(location);
   };

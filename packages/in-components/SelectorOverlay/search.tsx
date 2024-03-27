@@ -60,34 +60,26 @@ function score(result: Fuzzysort.KeyResult<Options>, offset: number, range: numb
   return result ? result.score - offset * range : -(offset + 1) * range;
 }
 function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
-  let label = matchResult.obj.label;
-  const labelHighlighted = highlightResult(matchResult[0]);
-  if (labelHighlighted) {
-    label = <>{labelHighlighted}</>;
-  }
-
-  let description = matchResult.obj.description;
-  if (description) {
-    const descriptionHighlighted = highlightResult(matchResult[1]);
-    if (descriptionHighlighted) {
-      description = <>{descriptionHighlighted}</>;
-    }
-  }
-
-  let parentLabels = matchResult.obj.parentLabels;
-  if (parentLabels.length > 0) {
+  var label = highlightResult(matchResult[0]);
+  var description = highlightResult(matchResult[1]);
+  let parentLabels = [];
+  if (matchResult.obj.parentLabels.length > 0) {
     const parentLabel0Highlighted = highlightResult(matchResult[2]);
-    if (parentLabel0Highlighted) {
-      parentLabels[0] = <>{parentLabel0Highlighted}</>;
-    }
-    if (parentLabels.length > 1) {
+    parentLabels.push((parentLabel0Highlighted && <>{parentLabel0Highlighted}</>) || matchResult.obj.parentLabels[0]);
+    if (matchResult.obj.parentLabels.length > 1) {
       const parentLabel1Highlighted = highlightResult(matchResult[3]);
-      if (parentLabel1Highlighted) {
-        parentLabels[1] = <>{parentLabel1Highlighted}</>;
-      }
+      parentLabels.push((parentLabel1Highlighted && <>{parentLabel1Highlighted}</>) || matchResult.obj.parentLabels[1]);
     }
   }
-  return { ...matchResult.obj, label, description, parentLabels };
+
+  return {
+    ...matchResult.obj,
+    withHighlights: {
+      label: (label && <>{label}</>) || matchResult.obj.label,
+      description: (description && <>{description}</>) || matchResult.obj.description,
+      parentLabels
+    }
+  };
 }
 
 function highlightResult(result: Fuzzysort.Result): (string | JSX.Element)[] | undefined {
