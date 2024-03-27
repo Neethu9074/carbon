@@ -27,7 +27,7 @@ function createPolicy() {
   return policy;
 }
 
-export default function usePolicy(id: string | undefined, isCopy: boolean) {
+export default function usePolicy(id: string | null, isCopy: boolean) {
   return resultToFetchedStateResponse(
     useObservable<Result<PolicyFormEntity>, []>(
       () =>
