@@ -306,11 +306,11 @@ function RenderTable() {
                     };
 
                     return ele?.label == t('in-plg:welcomepage.component.eventWidget.label') ? (
-                      <div id={_config.id} ref={provided.innerRef} {...provided.draggableProps}>
+                      <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
                         <RenderEvents dashboardTileProps={dashboardTileProps} />
                       </div>
                     ) : (
-                      <div id={_config.id} ref={provided.innerRef} {...provided.draggableProps}>
+                      <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
                         {Widget && (
                           <Widget type={ele.type} widgetLabel={ele.key} dashboardTileProps={dashboardTileProps} />
                         )}
