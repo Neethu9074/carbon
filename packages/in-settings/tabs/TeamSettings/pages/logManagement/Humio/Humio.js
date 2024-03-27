@@ -7,7 +7,7 @@ import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
@@ -109,7 +109,7 @@ export default class Humio extends React.Component {
                   <Toggle
                     id="humio-enabled"
                     checked={enabled}
-                    onChange={e => this.onChange('enabled', e.target.checked)}
+                    onToggle={e => this.onChange('enabled', e)}
                   />
                 </HorizontalFormGroup>
               </div>
