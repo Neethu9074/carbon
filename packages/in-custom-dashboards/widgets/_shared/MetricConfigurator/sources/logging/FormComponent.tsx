@@ -21,8 +21,11 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import { getTagCatalog } from 'in-logging/api/catalog';
+import Section from 'in-components/workspace/Section';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
+import Select from 'in-components/form/Select';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 interface FormComponentProps {
@@ -65,18 +68,22 @@ export default function FormComponent({
     <Stack gap="xxsmall">
       <Sections>{dataSourceSection}</Sections>
       <Sections>
-        <SelectInSection
-          label={t('in-custom-dashboards:widgets.srcLogging.formComponent.metric')}
-          id="metic-configurator-application-metric"
-          value={metricField.value}
-          disabled
+        <Section
+          titleHtmlFor={'metic-configurator-application-metric'}
+          title={t('in-custom-dashboards:widgets.srcLogging.formComponent.metric')}
         >
-          {
-            <>
-              <option value="count">{t('in-custom-dashboards:widgets.srcLogging.formComponent.metrics.count')}</option>
-            </>
-          }
-        </SelectInSection>
+          <Tooltip align="bottomLeft" content={t('in-custom-dashboards:widgets.srcLogging.formComponent.onlyMetric')}>
+            <div>
+              <Select disabled value={metricField.value}>
+                <>
+                  <option value="count">
+                    {t('in-custom-dashboards:widgets.srcLogging.formComponent.metrics.count')}
+                  </option>
+                </>
+              </Select>
+            </div>
+          </Tooltip>
+        </Section>
       </Sections>
       <Sections>
         <SelectInSection

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import {

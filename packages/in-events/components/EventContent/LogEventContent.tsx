@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -27,6 +28,7 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LogAlertConfigButton from 'in-events/components/LogAlertConfigButton';
 import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
@@ -39,9 +41,10 @@ import { t } from 'in-i18n';
 
 interface Props {
   event: EventOrMap;
+  snapshot: Map<string, unknown>;
 }
 
-export default function LogEventContent({ event }: Props) {
+export default function LogEventContent({ event, snapshot }: Props) {
   const alertConfig = useLogEventAlertConfig(event);
   const tagCatalog = useTagCatalog('SMART_ALERTS');
 
@@ -131,6 +134,10 @@ export default function LogEventContent({ event }: Props) {
           </Card>
         </Col>
       </Row>
+      <AutomationCard
+        volatileId={(snapshot?.get('volatileId') as Map<string, unknown>)?.toJS() ?? {}}
+        event={event?.toJS()}
+      />
     </>
   );
 }

@@ -16,7 +16,6 @@ import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScr
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
 
@@ -77,7 +76,7 @@ const SelectedTestType = ({
   setScriptDetails,
   setHeaders
 }: SelectedTestTypeProps) => {
-  const populateCommonAttributes = (form: MapForm<any>) => {
+  const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
     commonAttributes['testFrequency'] = form.get('testFrequency').value;
     commonAttributes['locations'] = form.get('locations').value;
@@ -90,36 +89,40 @@ const SelectedTestType = ({
     updateForm(createForm(false, selectedBlueprint, commonAttributes));
   };
 
+  const renderSubCategories = () => {
+    switch (selectedBlueprint.type) {
+      case 'Browser':
+        return (
+          <RenderBrowser
+            selectedBlueprint={selectedBlueprint}
+            testTypeSelected={testTypeSelected}
+            setTestTypeSelected={setTestTypeSelected}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isUpdateConfig={isUpdateConfig}
+            setScriptDetails={setScriptDetails}
+          />
+        );
+      case 'Internet Services':
+        return <RenderInternetServices selectedBlueprint={selectedBlueprint} />;
+      default:
+        return (
+          <RenderHttpTests
+            selectedBlueprint={selectedBlueprint}
+            testTypeSelected={testTypeSelected}
+            setTestTypeSelected={setTestTypeSelected}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isUpdateConfig={isUpdateConfig}
+            setScriptDetails={setScriptDetails}
+          />
+        );
+    }
+  };
+
   return (
     <div className={locals.container}>
-      <div>
-        {
-          //Default component is RenderHttpTests
-          selectedBlueprint.type === 'Browser' ? (
-            <RenderBrowser
-              selectedBlueprint={selectedBlueprint}
-              testTypeSelected={testTypeSelected}
-              setTestTypeSelected={setTestTypeSelected}
-              commonAttributes={commonAttributes}
-              setCommonAttributes={setCommonAttributes}
-              isUpdateConfig={isUpdateConfig}
-              setScriptDetails={setScriptDetails}
-            />
-          ) : selectedBlueprint.type === 'Internet Services' ? (
-            <RenderInternetServices selectedBlueprint={selectedBlueprint} />
-          ) : (
-            <RenderHttpTests
-              selectedBlueprint={selectedBlueprint}
-              testTypeSelected={testTypeSelected}
-              setTestTypeSelected={setTestTypeSelected}
-              commonAttributes={commonAttributes}
-              setCommonAttributes={setCommonAttributes}
-              isUpdateConfig={isUpdateConfig}
-              setScriptDetails={setScriptDetails}
-            />
-          )
-        }
-      </div>
+      <div>{renderSubCategories()}</div>
       {!isUpdateConfig && (
         <Button
           kind="primary"
@@ -129,7 +132,7 @@ const SelectedTestType = ({
             if (testTypeSelected?.api.script) selectedBlueprint.testType = 'HTTPScript';
             if (testTypeSelected?.browser.simple) selectedBlueprint.testType = 'WebpageAction';
             if (testTypeSelected?.browser.script) selectedBlueprint.testType = 'BrowserScript';
-            populateCommonAttributes(form);
+            populateCommonAttributes();
             setRenderSectionsCounter(v => v + 1);
             setHeaders([
               {
@@ -246,12 +249,10 @@ const RenderBrowser = ({
   isUpdateConfig,
   setScriptDetails
 }: BaseRenderProps) => {
-  const simple: boolean = commonAttributes.syntheticType === 'WebpageAction' ? true : false;
-  const script: boolean =
+  const simple: boolean = commonAttributes.syntheticType === 'WebpageAction';
+  const script: boolean = !!(
     commonAttributes.syntheticType === 'BrowserScript' || commonAttributes.syntheticType === 'WebpageScript'
-      ? true
-      : false;
-  const isBrowserTest: boolean = selectedBlueprint.type === 'Browser' && syntheticBrowserScriptEnabled;
+  );
   return (
     <>
       <h3 className={locals.headline}>
@@ -278,7 +279,6 @@ const RenderBrowser = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
-            isBrowserTest={isBrowserTest}
           />
         </Col>
         <Col lg={6} className={locals.column}>
@@ -300,7 +300,6 @@ const RenderBrowser = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
-            isBrowserTest={isBrowserTest}
           />
         </Col>
       </Row>

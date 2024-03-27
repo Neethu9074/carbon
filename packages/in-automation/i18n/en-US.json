@@ -80,18 +80,18 @@
   "value": "Value",
   "type": "Type",
   "associatedPolicies": "Associated Policies",
-  "actionType": "Action type",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "aiEngine": "AI Engine",
   "engine": "Engine",
   "eventSimilarity": "Event Similarity",
-  "recommendedActionsCount": "Recommended Actions ({{count}})",
   "close": "Close",
+  "tag": "Tag",
+  "noTagsAvailable": "No tags available",
+  "actions": "Actions",
   "ActionCatalog": {
     "actionCatalog": "Action Catalog",
-    "actions": "Actions",
     "action": "action",
     "newAction": "New Action",
     "createANewAction": "Create A New Action",
@@ -280,13 +280,6 @@
     "addEventTrigger": "Add Event Trigger",
     "action": "Action",
     "atLeastOneOfTheTwoMustBeSelected": "At least one of the two must be selected.",
-    "onSaveSuccessTitle": "Policy was saved successfully.",
-    "onSaveSuccessContent": "Policy \"{{name}}\" has been saved successfully.",
-    "onCreateSuccessTitle": "Policy was created successfully.",
-    "onCreateSuccessContent": "Policy \"{{name}}\" has been created successfully.",
-    "onSaveFailedTitle": "Failed to save policy.",
-    "onSaveFailedContent": "There was a problem saving this policy: \"{{name}}\"",
-    "onAssociateFailedContent": "There was a problem saving this policy.",
     "noActionConfigured": "No Action Configured",
     "noEventTriggerConfigured": "No Event Trigger Configured",
     "configure": "Configure",
@@ -296,6 +289,11 @@
     "entityType": "Entity type",
     "properties": "Properties",
     "applicationSmartAlert": "Application Smart Alert",
+    "globalApplicationSmartAlert": "Global Application Smart Alert",
+    "infraSmartAlert": "Infrastructure Smart Alert",
+    "mobileAppSmartAlert": "Mobile Application Smart Alert",
+    "syntheticsSmartAlert": "Synthetics Smart Alert",
+    "logSmartAlert": "Log Smart Alert",
     "docLinkAndManualCantBeAutomated": "Documentation link and manual actions cannot be automated.",
     "triggeringAgent": "Triggering Agent",
     "triggeringHostFqdn": "Triggering Host FQDN",
@@ -308,11 +306,36 @@
     "searchPolicies": "Search Policies",
     "manualAutomatic": "Manual, Automatic",
     "policyType": "Policy Type",
-    "deleteDialog": {
-      "success": "Policy was successfully deleted.",
-      "failure": "Failed to delete the policy."
+    "createDialog": {
+      "success": {
+        "title": "Policy was created successfully.",
+        "content": "Policy \"{{name}}\" has been created successfully."
+      },
+      "failure": {
+        "title": "Failed to created policy.",
+        "content": "There was a problem creating this policy: \"{{name}}\"."
+      }
     },
-    "addPolicies": "Create Policies"
+    "createBulkDialog": {
+      "success": {
+        "title": "Policies were created successfully.",
+        "content": "{{count}} policy has been created successfully.",
+        "content_plural": "{{count}} policies have been created successfully.",
+        "content_0": "{{count}} policies have been created successfully.",
+        "content_1": "{{count}} policies have been created successfully.",
+        "content_2": "{{count}} policies have been created successfully."
+      },
+      "failure": {
+        "title": "Failed to created policies.",
+        "content": "There was a problem creating the policies."
+      }
+    },
+    "deleteDialog": {
+      "success": "Policy was deleted successfully.",
+      "failure": "Failed to delete policy."
+    },
+    "createPolicies": "Create Policies",
+    "websiteSmartAlert": "Website Smart Alert"
   },
   "deleteDialog": {
     "pleaseConfirm": "Please Confirm",

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';

@@ -30,7 +30,7 @@ import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import createScale from 'in-services/scale/scale';
 
-import locals from './Timeline.mless';
+import locals from 'in-synthetics/dashboards/details/components/Timeline.mless';
 
 const barHeight = 8;
 
@@ -40,7 +40,7 @@ interface TimelineProps {
   finishTime: number;
 }
 
-export default function Timeline({ details, startTime, finishTime }: TimelineProps) {
+const Timeline = ({ details, startTime, finishTime }: TimelineProps) => {
   const [filter, setFilter] = useState({ query: '', type: 'ALL' });
 
   const { data } = details;
@@ -91,9 +91,9 @@ export default function Timeline({ details, startTime, finishTime }: TimelinePro
       )}
     </Card>
   );
-}
+};
 
-function OverviewChart({ subtransactions, earliestTimestamp, endTimestamp }: SubtransactionsProps) {
+const OverviewChart = ({ subtransactions, earliestTimestamp, endTimestamp }: SubtransactionsProps) => {
   const { width, ref } = useResizeObserverCustom();
 
   const scale = createScale();
@@ -157,9 +157,9 @@ function OverviewChart({ subtransactions, earliestTimestamp, endTimestamp }: Sub
       </div>
     </div>
   );
-}
+};
 
-function OverviewChartToolTip({ subtransaction }: OverviewChartToolTipProps) {
+const OverviewChartToolTip = ({ subtransaction }: OverviewChartToolTipProps) => {
   return (
     <div className={locals.tooltipWrapper}>
       <div className={locals.labelRow}>
@@ -174,12 +174,12 @@ function OverviewChartToolTip({ subtransaction }: OverviewChartToolTipProps) {
       </dl>
     </div>
   );
-}
+};
 
-function applyLayout(subData?: TestResultSubtransaction[]) {
+const applyLayout = (subData?: TestResultSubtransaction[]) => {
   const occupiedTimeRangesByDepth: [] = [];
 
-  const result = subData?.map((sub: TestResultSubtransaction) => {
+  return subData?.map((sub: TestResultSubtransaction) => {
     const depth = findDepth(
       [sub.properties.startTime, sub.properties.startTime + Math.floor(sub.metrics.responseTime * 1000)],
       occupiedTimeRangesByDepth
@@ -189,11 +189,9 @@ function applyLayout(subData?: TestResultSubtransaction[]) {
       depth
     };
   });
+};
 
-  return result;
-}
-
-function findDepth(timeRange: unknown, occupiedTimeRangesByDepth: []) {
+const findDepth = (timeRange: unknown, occupiedTimeRangesByDepth: []) => {
   for (let depth = 0; ; depth++) {
     if (!isOverlappedWith(timeRange, occupiedTimeRangesByDepth[depth])) {
       if (!occupiedTimeRangesByDepth[depth]) {
@@ -205,4 +203,6 @@ function findDepth(timeRange: unknown, occupiedTimeRangesByDepth: []) {
       return depth;
     }
   }
-}
+};
+
+export default Timeline;

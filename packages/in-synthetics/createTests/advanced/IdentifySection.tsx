@@ -5,8 +5,7 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
 import { Button } from '@instana/legacy';
@@ -132,8 +131,8 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
                 value={field.value}
                 onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                   updateForm(
-                    form.updateIn(['label'], (field: Item) =>
-                      (field as Field<string>).setValue(target.value).setTouched(true)
+                    form.updateIn(['label'], (labelField: Item) =>
+                      (labelField as Field<string>).setValue(target.value).setTouched(true)
                     )
                   );
                 }}
@@ -155,8 +154,8 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
               value={field.value}
               onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
                 updateForm(
-                  form.updateIn(['description'], (field: Item) =>
-                    (field as Field<string>).setValue(target.value).setTouched(true)
+                  form.updateIn(['description'], (descriptionField: Item) =>
+                    (descriptionField as Field<string>).setValue(target.value).setTouched(true)
                   )
                 );
               }}

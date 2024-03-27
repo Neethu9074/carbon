@@ -13,6 +13,7 @@ import {
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import NetworkInterfacesTable from 'in-forge/plugins/otelHost/Dashboard/NetworkInterfacesTable';
+import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import FileSystemsTable from 'in-forge/plugins/otelHost/Dashboard/FileSystemsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -201,8 +202,14 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
-
+      <CustomMetricsV2
+        snapshot={snapshot}
+        timeConfig={timeConfig}
+        titlePrefix={t('in-forge:plugins.otelHost.type')}
+        specs={SPECS}
+      />
       <Footer smallMargin />
     </div>
   );
 }
+export const SPECS = [AVAILABLE_SPECS.GAUGE, AVAILABLE_SPECS.HISTOGRAM, AVAILABLE_SPECS.SUM, AVAILABLE_SPECS.SUMMARY];

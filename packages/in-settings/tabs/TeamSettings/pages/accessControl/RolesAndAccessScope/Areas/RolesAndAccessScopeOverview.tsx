@@ -31,10 +31,10 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
       <RolesAndAccessScopeContext.Provider value={{ permissionsSet: permissionsSet }}>
         <WebsitesSection />
         <MobileAppsSection />
+        {bizopsRbacEnabled && <BusinessMonitoringSection />}
         <ApplicationsSection />
         <PlatformsSection />
         <InfrastructureSection />
-        {bizopsRbacEnabled && <BusinessMonitoringSection />}
         {syntheticRbacEnabled && <SyntheticMonitoringSection />}
         <EventsAndAlertsSection />
         <GlobalFunctionsSection />

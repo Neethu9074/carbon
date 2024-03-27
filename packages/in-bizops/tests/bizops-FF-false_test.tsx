@@ -18,7 +18,7 @@ jest.mock('in-services/featureFlags', () => ({
 }));
 
 describe('in-stores/permissions.ts', () => {
-  it('Checks the BizOps area permission when the feature flag is not set', () => {
+  it('Checks that there is NO BizOps access when the feature flag is disabled', () => {
     expect(hasBizOpsAccess).toBeFalsy();
     expect(AreaPermissions).toContain('ACCESS_BIZOPS');
     expect(productAreaPermissions).not.toContain('ACCESS_BIZOPS');

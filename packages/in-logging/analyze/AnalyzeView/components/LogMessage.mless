@@ -6,7 +6,6 @@
 :local {
   .message {
     color: var(--ids-color-option-neutral-900);
-    user-select: all;
   }
 
   .hovered {

@@ -18,6 +18,7 @@ import {
   sloV2Enabled,
   powervcEnabled,
   infraSmartAlertsEnabled,
+  bizopsRbacEnabled,
   logSmartAlertsEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
@@ -215,10 +216,9 @@ export const hasEventsAccess =
   hasInfrastructureAccess ||
   hasSyntheticsAccess;
 
-export const hasBizOpsAccess = hasPermission(
-  LimitedAccessScope.LIMITED_BIZOPS_SCOPE,
-  AreaPermission.ACCESS_BIZOPS
-) && businessObservabilityEnabled
+export const hasBizOpsAccess =
+  businessObservabilityEnabled &&
+  (!bizopsRbacEnabled || hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS));
 
 interface AreaPermissionProps {
   value: AreaPermissionType;

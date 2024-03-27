@@ -4,21 +4,23 @@
  * Copyright IBM Corp. 2024
  */
 
-import { useLinkToLogs } from 'in-logging/navigation/paths';
-import { SvgIcon } from '@instana/components';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+
 import {
   enclose,
   FormModelElement,
   fromBackendModel,
   joinExpressions
 } from 'in-components/QueryBuilder/transformation/formModel';
-import { t } from 'in-i18n';
-import { ChartConfig } from 'in-components/Chart/types';
+import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { TagFilterExpressionElementUnion, UnifiedMetricConfiguration } from 'in-types';
-import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { useLinkToLogs } from 'in-logging/navigation/paths';
+import { ChartConfig } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 type MetricsConfig = ChartConfig | BigNumberConfig<UnifiedMetricConfiguration>;
 
@@ -32,11 +34,11 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
   if (!isLogsWidget) return null;
 
   return (
-      <Tooltip content={t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze')}>
-        <a className={className} href={link}>
-          <SvgIcon size='s' type="lib_analyze" />
-        </a>
-      </Tooltip>
+    <Tooltip content={t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze')}>
+      <a className={className} href={link}>
+        <SvgIcon size="s" type="lib_analyze" />
+      </a>
+    </Tooltip>
   );
 }
 
@@ -44,7 +46,8 @@ function containsLogMetrics(config: MetricsConfig) {
   return (
     (config as BigNumberConfig<UnifiedMetricConfiguration>).metricConfiguration?.source === 'LOG' ||
     Object.values(config).some(
-      value => Array.isArray(value.metrics) && value.metrics.some((metric: {source: string}) => metric.source === 'LOG')
+      value =>
+        Array.isArray(value?.metrics) && value.metrics.some((metric: { source: string }) => metric.source === 'LOG')
     )
   );
 }
@@ -53,14 +56,14 @@ function containsLogMetrics(config: MetricsConfig) {
 function getLogMetricsTagFilterExpressions(config: MetricsConfig) {
   const expressions: any[] = [];
 
-  const extractExpression = (metric: {source: string, tagFilterExpression: TagFilterExpressionElementUnion}) => {
+  const extractExpression = (metric: { source: string; tagFilterExpression: TagFilterExpressionElementUnion }) => {
     if (metric.source === 'LOG' && !isEmptyExpression(metric.tagFilterExpression)) {
       expressions.push(metric.tagFilterExpression as FormModelElement);
     }
   };
 
   Object.values(config).forEach(value => {
-    if (Array.isArray(value.metrics)) {
+    if (Array.isArray(value?.metrics)) {
       value.metrics.forEach(extractExpression);
     } else if (value?.source === 'LOG' && !isEmptyExpression(value.tagFilterExpression)) {
       expressions.push(value.tagFilterExpression);
@@ -68,11 +71,12 @@ function getLogMetricsTagFilterExpressions(config: MetricsConfig) {
   });
 
   if (expressions.length > 1) {
-    return joinExpressions({ expressions, logicalOperator: 'OR' })
-      .flatMap((element: any) => element.elements ? enclose(fromBackendModel(element)) : [element]);
+    return joinExpressions({ expressions, logicalOperator: 'OR' }).flatMap((element: any) =>
+      element.elements ? enclose(fromBackendModel(element)) : [element]
+    );
   }
 
-  return expressions.length === 1 && expressions[0]?.type === 'TAG_FILTER' ?
-    expressions.flatMap(element => element.elements ? enclose(fromBackendModel(element)) : [element]) :
-    [];
+  return expressions.length === 1 && expressions[0]?.type === 'TAG_FILTER'
+    ? expressions.flatMap(element => (element.elements ? enclose(fromBackendModel(element)) : [element]))
+    : [];
 }

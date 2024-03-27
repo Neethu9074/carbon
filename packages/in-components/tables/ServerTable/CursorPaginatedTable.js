@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { TableActionColumn, TableErrorRows, Table, Tbody, Thead, Tr } from '@instana/components';
+import { TableActionColumn, TableErrorRows, Table, Tbody, Thead, Tr } from '@instana/legacy';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';

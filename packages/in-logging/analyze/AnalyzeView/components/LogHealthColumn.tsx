@@ -27,11 +27,11 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
     return null;
   }
 
-  const color = logPillColorMap.get(logLevel.toLowerCase());
+  const color = logPillColorMap[logLevel.toLowerCase()] ?? 'high-contrast';
 
   return (
     <Link href={onSelectTagHref ? onSelectTagHref(tagFilter(LOG_LEVEL, EQUALS, logLevel)) : undefined}>
-      <Pill className={locals.pill} color={color}>
+      <Pill className={locals.pill} type={color}>
         {logLevel}
       </Pill>
     </Link>

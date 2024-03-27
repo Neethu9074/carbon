@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
-import { TableErrorRows, Table, Tbody, Thead } from '@instana/components';
+import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';

@@ -25,14 +25,9 @@ import {
   isEntityCountVerificationEvent,
   isLogSmartAlertEvent
 } from 'in-events/components/eventUtil';
-import {
-  actionAutomationEnabled,
-  incidentSummarizationEnabled,
-  incidentSummarizationTimelineEnabled
-} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
-import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
+import { incidentSummarizationEnabled, incidentSummarizationTimelineEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -58,6 +53,7 @@ import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import { getEventType, EVENT_TYPES, getServiceIds } from 'in-stores/events';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -114,7 +110,7 @@ const EventContent = connectTo(
     const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
     if (isWebsiteSmartAlertEvent(event)) {
-      return <WebsiteEventContent event={event} />;
+      return <WebsiteEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isApplicationSmartAlertEvent(event)) {
@@ -126,15 +122,15 @@ const EventContent = connectTo(
     }
 
     if (isInfraSmartAlertEvent(event)) {
-      return <InfraEventContent event={event} />;
+      return <InfraEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isSyntheticSmartAlertEvent(event)) {
-      return <SyntheticEventContent event={event} />;
+      return <SyntheticEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isMobileAppSmartAlertEvent(event)) {
-      return <MobileEventContent event={event} />;
+      return <MobileEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isSloSmartAlertEvent(event)) {
@@ -142,7 +138,7 @@ const EventContent = connectTo(
     }
 
     if (isLogSmartAlertEvent(event)) {
-      return <LogsEventContent event={event} />;
+      return <LogsEventContent event={event} snapshot={snapshot} />;
     }
 
     if (isEntityCountVerificationEvent(event)) {
@@ -232,11 +228,8 @@ const EventContent = connectTo(
           </Row>
         )}
 
-        {actionAutomationEnabled && isIssue && hasEventSpec && (
-          <AssociatedAndRecommendedPolicies
-            volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-            event={event?.toJS()}
-          />
+        {isIssue && hasEventSpec && (
+          <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
         )}
         <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
       </>

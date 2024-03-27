@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import PhmcNoDataNotification from 'in-phmc/lists/components/PhmcNoDataNotification';

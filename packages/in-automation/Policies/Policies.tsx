@@ -14,22 +14,38 @@ import {
   MANUAL,
   TriggerSpecification,
   isApplicationSmartAlert,
-  isAutomatic,
   isEventSpecification,
-  isManual
+  isGlobalApplicationSmartAlert,
+  isInfraSmartAlert,
+  isMobileAppSmartAlert,
+  isSyntheticsSmartAlert,
+  isWebsiteSmartAlert
 } from 'in-automation/Policies/types';
 // @ts-expect-error
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { PoliciesFilterState, usePoliciesFilterUrlState } from 'in-automation/Policies/usePoliciesFilterUrlState';
 import { createTagsUrlParameter, createTriggerUrlParameter } from 'in-automation/navigation/urlParameters';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
+import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
+import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
-import { ActionInstance, PaginatedResult, Policy, TypeConfigurationType } from 'in-types';
-import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
+import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
+import {
+  ActionInstance,
+  PaginatedResult,
+  Policy,
+  TypeConfigurationType,
+  EventSpecificationInfo,
+  Trigger
+} from 'in-types';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
+import { hasError, isLoading, listSuccess } from 'in-services/util/result';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import usePolicies, { refresh } from 'in-automation/Policies/usePolicies';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
@@ -38,16 +54,17 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
-import WithSubscript from 'in-settings/components/WithSubscript';
+import { TagsFilter } from 'in-automation/components/tableFilters';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { all as allProgress } from 'in-hooks/utils/progress';
 import { close } from 'in-components/DialogPresenter/store';
+import ComboBox from 'in-components/ComboBox/ComboBox';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
-import { listSuccess } from 'in-services/util/result';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
 import useTriggers from './useTriggers';
 import { role } from 'in-stores/user';
+import Tooltip from 'in-components/Tooltip';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policies.mless';
@@ -58,7 +75,7 @@ const matrixPrefix = '';
 type PolicyTableEntity = Policy & { history: ActionInstance | undefined; trigger: TriggerSpecification | undefined };
 
 export default function Policies() {
-  const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
+  const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
     defaultOrderBy: 'name',
@@ -68,28 +85,26 @@ export default function Policies() {
       createTagsUrlParameter(pathSegment, matrixPrefix)
     ]
   });
+  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
 
   const [{ tags, trigger }, setFilter] = usePoliciesFilterUrlState({ pathSegment, matrixPrefix });
 
   const [[policies, policyStatus, policiesErrors, policiesProgress], availableTags] = usePolicies({
-    page,
-    pageSize,
-    orderBy,
-    orderDirection,
-    query,
+    serverTableUrlState,
+    setServerTableUrlState,
     tags,
     trigger
   });
 
   const [history, historyStatus, historyErrors, historyProgress] = useActionHistory();
 
-  const [triggers, triggersStatus, triggersErrors, triggersProgress] = useTriggers();
+  const triggers = useTriggers();
   const actualPage = policies?.page ?? page;
   const actualPageSize = policies?.pageSize ?? pageSize;
 
-  const progress = allProgress(policiesProgress, historyProgress, triggersProgress);
-  const status = allStatus(policyStatus, historyStatus, triggersStatus);
-  const errors = [...policiesErrors, ...historyErrors, ...triggersErrors];
+  const progress = allProgress(policiesProgress, historyProgress);
+  const status = allStatus(policyStatus, historyStatus);
+  const errors = [...policiesErrors, ...historyErrors];
 
   const navigateToPolicyDetails = useNavigateToPolicyDetails();
   const result: PaginatedResult<PolicyTableEntity> | undefined =
@@ -100,8 +115,12 @@ export default function Policies() {
             // TODO: This is a hack to get the history item for a policy. We need to change the API to return the history
             const historyItem = history?.items?.find(item => (item as any).policyId === policy.id);
             const triggerType = policy.trigger.type;
-            // @ts-expect-error
-            const triggerItem = triggers?.[triggerType]?.find(trigger => trigger.id === policy.trigger.id);
+            const triggerItem = isLoading(triggers[triggerType])
+              ? null
+              : hasError(triggers[triggerType])
+              ? policy.trigger
+              : // @ts-expect-error
+                triggers?.[triggerType]?.data?.find(trigger => trigger.id === policy.trigger.id);
             return {
               ...policy,
               history: historyItem,
@@ -114,7 +133,7 @@ export default function Policies() {
   return (
     <AutomationTabs>
       <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
-        onChange={setServerTableState}
+        onChange={setServerTableUrlState}
         pageSize={actualPageSize}
         page={actualPage}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
@@ -184,95 +203,98 @@ function PolicyFilters({
             }
           }}
         />
-        <ComboBox
-          options={availableTags?.map(tag => ({ value: tag, label: tag }))}
-          placeholder={t('in-automation:tags')}
-          value={tags}
-          onChange={newValue => {
-            if (!newValue) {
-              setFilter({ tags: [] });
-            } else if (hasMultipleValuesSelected(newValue)) {
-              setFilter({ tags: newValue.map(o => o.value) });
-            } else {
-              setFilter({ tags: [newValue.value] });
-            }
-          }}
-          isMulti
-        />
+        <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
       </Stack>
       <Spacer horizontal="small" />
     </>
   );
 }
 
-function Subscript({ policy }: { policy: PolicyTableEntity }) {
-  if (isManual(policy) && isAutomatic(policy)) {
-    return <>{t('in-automation:policies.manualAutomatic')}</>;
-  }
-  if (isManual(policy)) {
-    return <>{t('in-automation:policies.manual')}</>;
-  }
-  if (isAutomatic(policy)) {
-    return <>{t('in-automation:policies.automatic')}</>;
-  }
-  return null;
+export function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
+  const { name } = entity;
+
+  return (
+    <Tooltip content={name} align="topLeft" delay={500}>
+      <WithSubscript subscript={entity.type === 'builtinEvent' ? 'Built-in' : ''}>
+        <span className={locals.ellipsis}>{name}</span>
+      </WithSubscript>
+    </Tooltip>
+  );
 }
 
 const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
-  {
-    id: 'name',
-    label: t('in-automation:name'),
-    getContent: item => (
-      <Tooltip content={item.name} align="topLeft" delay={500}>
-        <WithSubscript subscript={<Subscript policy={item} />}>
-          <Typography noWrap variant="body-regular">
-            {item.name}
-          </Typography>
-        </WithSubscript>
-      </Tooltip>
-    ),
-    width: 23,
-    sortable: true
-  },
-
+  nameColumn,
   {
     id: 'trigger',
     label: t('in-automation:policies.eventTrigger'),
     getContent: item => {
       if (isEventSpecification(item.trigger)) {
-        return <EventName hasRowNavigation={false} entity={item.trigger} />;
+        // return <EventName hasRowNavigation={false} entity={item.trigger} />;
+        return (
+          <div className={locals.eventNameWrapper}>
+            {(item.trigger as EventSpecificationInfo).entityType ? (
+              <EventName hasRowNavigation={false} entity={item.trigger} />
+            ) : (
+              <EventNameWithoutTriggerInfo entity={item.trigger} />
+            )}
+          </div>
+        );
+      }
+
+      if (isWebsiteSmartAlert(item.trigger)) {
+        return (
+          <NameColumnCell
+            config={item.trigger}
+            getSubtitle={config => getSubtitleWebsite(config.rule, config.threshold)}
+          />
+        );
       }
       if (isApplicationSmartAlert(item.trigger)) {
         return (
           <div className={locals.alertName}>
-            <SimpleListNameColumn config={item.trigger} />
+            <NameColumnCell config={item.trigger} />
           </div>
         );
       }
+
+      if (isMobileAppSmartAlert(item.trigger)) {
+        return (
+          <NameColumnCell
+            config={item.trigger}
+            getSubtitle={config => getSubtitleMobileApp(config.rule, config.threshold)}
+          />
+        );
+      }
+      if (isInfraSmartAlert(item.trigger)) {
+        return (
+          <NameColumnCell
+            config={item.trigger}
+            getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.predictiveTrigger)}
+          />
+        );
+      }
+      if (isGlobalApplicationSmartAlert(item.trigger)) {
+        return <SimpleListNameColumn config={item.trigger} />;
+      }
+      if (isSyntheticsSmartAlert(item.trigger)) {
+        return (
+          <NameColumnCell
+            config={item.trigger}
+            getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
+            renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
+          />
+        );
+      }
+      if (item.trigger) {
+        return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;
+      }
+
       return null;
     },
     width: 23,
     sortable: true
   },
-  {
-    id: 'actionName',
-    label: t('in-automation:policies.actionName'),
-    getContent: item => (
-      <Tooltip
-        content={item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-        align="topLeft"
-        delay={500}
-      >
-        <HorizontalFlexWrapper>
-          <Typography noWrap variant="body-regular">
-            {item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-          </Typography>
-        </HorizontalFlexWrapper>
-      </Tooltip>
-    ),
-    width: 23,
-    sortable: true
-  },
+  actionNameColumn,
   {
     label: t('in-automation:tags'),
     id: 'tags',

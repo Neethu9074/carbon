@@ -60,7 +60,7 @@ function getSyntheticMetricFormatter(metric: string): Formatter[] {
 }
 
 const logFormattersByAggregation: Partial<Record<AggregationType, Formatter[]>> = {
-  PER_SECOND: [perSecondDetailed],
+  PER_SECOND: [perSecondDetailed, numberCompact],
   SUM: [numberCompact]
 };
 

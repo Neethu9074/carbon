@@ -9,6 +9,7 @@ import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
+import { Progress } from '@instana/types';
 import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
@@ -48,6 +49,64 @@ export default function ViewScreenshotsDialog({ testId, resultId, startTime }: V
     downloadLink.click();
   };
 
+  const renderImagesDialog = (progress: Progress, data: ResultImages) => {
+    if (progress.loading) {
+      return (
+        <LoadingIndicator
+          text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.ScreenshotsLoadingMessage')}
+          className={locals.loading}
+        />
+      );
+    }
+
+    if (
+      data === undefined ||
+      data === null ||
+      isEmpty(data) ||
+      !Object.keys((data as ResultImages)?.imageFiles).length ||
+      Object.keys((data as ResultImages)?.imageFiles).length === 0
+    ) {
+      return (
+        <NoDataAvailable
+          type="lib_synthetic"
+          height={160}
+          text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.noScreenshotsAvailableMessage')}
+        />
+      );
+    } else {
+      return (
+        <>
+          <div className={locals.buttonWrapper}>
+            <Button
+              className={locals.buttonLabel}
+              kind="secondary"
+              icon={'lib_actions_download'}
+              onClick={() => download('IMAGES', imageRef)}
+              hidden={Object.keys((data as ResultImages)?.imageFiles).length <= 1}
+            >
+              {t('in-synthetics:dashboard.detailsPage.viewScreenshots.allImagesButton')}
+            </Button>
+          </div>
+          {Object.keys((data as ResultImages)?.imageFiles).map(filename => {
+            return (
+              <div className={locals.imagesWrapper} key={generateUniqueShortId()}>
+                <Button
+                  className={locals.imageButton}
+                  kind="secondary"
+                  icon={'lib_actions_download'}
+                  onClick={() => downloadBase64File(`data:image/png;base64, ${data?.imageFiles[filename]}`, filename)}
+                >
+                  {t('in-synthetics:dashboard.detailsPage.viewScreenshots.imageButton')}
+                </Button>
+                <img className={locals.image} src={`data:image/png;base64, ${data?.imageFiles[filename]}`} />
+              </div>
+            );
+          })}
+        </>
+      );
+    }
+  };
+
   return (
     <Dialog
       className={locals.dialog}
@@ -60,56 +119,7 @@ export default function ViewScreenshotsDialog({ testId, resultId, startTime }: V
           isActive
         />
       </SecondLevelNavigation>
-      <div className={locals.content}>
-        {progress.loading ? (
-          <LoadingIndicator
-            text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.ScreenshotsLoadingMessage')}
-            className={locals.loading}
-          />
-        ) : data === undefined ||
-          data === null ||
-          isEmpty(data) ||
-          Object.keys((data as ResultImages)?.imageFiles).length === 0 ? (
-          <NoDataAvailable
-            type="lib_synthetic"
-            height={160}
-            text={t('in-synthetics:dashboard.detailsPage.viewScreenshots.noScreenshotsAvailableMessage')}
-          />
-        ) : (
-          Object.keys((data as ResultImages)?.imageFiles).length && (
-            <>
-              <div className={locals.buttonWrapper}>
-                <Button
-                  className={locals.buttonLabel}
-                  kind="secondary"
-                  icon={'lib_actions_download'}
-                  onClick={() => download('IMAGES', imageRef)}
-                  hidden={Object.keys((data as ResultImages)?.imageFiles).length <= 1}
-                >
-                  {t('in-synthetics:dashboard.detailsPage.viewScreenshots.allImagesButton')}
-                </Button>
-              </div>
-              {Object.keys((data as ResultImages)?.imageFiles).map(filename => {
-                return (
-                  <div className={locals.imagesWrapper} key={generateUniqueShortId()}>
-                    <Button
-                      className={locals.imageButton}
-                      kind="secondary"
-                      icon={'lib_actions_download'}
-                      onClick={() =>
-                        downloadBase64File(`data:image/png;base64, ${data?.imageFiles[filename]}`, filename)
-                      }
-                    >
-                      {t('in-synthetics:dashboard.detailsPage.viewScreenshots.imageButton')}
-                    </Button>
-                    <img className={locals.image} src={`data:image/png;base64, ${data?.imageFiles[filename]}`} />
-                  </div>
-                );
-              })}
-            </>
-          )
-        )}
-      </div>
+      <div className={locals.content}>{renderImagesDialog(progress, data)}</div>
     </Dialog>
   );
 }

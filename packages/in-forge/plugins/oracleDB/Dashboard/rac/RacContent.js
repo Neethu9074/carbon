@@ -43,6 +43,8 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
   }
 
   const snapshotId = snapshot.get('id');
+  const data = snapshot.get('data');
+  const enablePDBMonitoring = data ? data.get('enablePDBMonitoring') : false;
   return (
     <div>
       <KpiSection>
@@ -107,7 +109,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
         <SGAPoolSizeTable snapshot={snapshot} timeConfig={timeConfig} />
       </Columize>
-      <ProcessUtilizationTable snapshot={snapshot} timeConfig={timeConfig} />
+      {enablePDBMonitoring !== true ? <ProcessUtilizationTable snapshot={snapshot} timeConfig={timeConfig} /> : null}
       <DBDetailsTable snapshot={snapshot} timeConfig={timeConfig} />
       <SQLExecutionAndParseDetailsTable snapshot={snapshot} timeConfig={timeConfig} />
       <Columize>

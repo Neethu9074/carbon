@@ -10,7 +10,7 @@ import { LicenseBannerButton } from '@instana/components';
 
 import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import IconButton from 'in-components/IconButton/IconButton';
-import { t } from 'in-i18n';
+import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
   if (isCarbonShellEnabled()) {
@@ -49,10 +49,22 @@ function init() {
   // @ts-expect-error defined in AssistMe controller.js
   assistMeController = window.initAssistMeController(assistMeProperties);
 }
+
+function changeWalkMeLanguage() {
+  if (activeLanguage == 'en-US') {
+    //@ts-expect-error WalkMeAPI is loaded during runtime using script
+    WalkMeAPI.changeLanguage('en');
+  } else {
+    //@ts-expect-error WalkMeAPI is loaded during runtime using script
+    WalkMeAPI.changeLanguage(activeLanguage);
+  }
+}
+
 export function openAssistMe() {
   if (!assistMeController) {
     init();
   }
+  changeWalkMeLanguage();
   //@ts-expect-error defined in AssistMe controller.js
   return assistMeController.isOpen() ? assistMeController.close() : assistMeController.open();
 }

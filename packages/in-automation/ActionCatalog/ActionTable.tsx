@@ -234,7 +234,7 @@ export interface ActionTableProps {
 }
 
 export default function ActionTable({
-  title = t('in-automation:ActionCatalog.actions'),
+  title = t('in-automation:actions'),
   pageSize = 20,
   rightHeader,
   loadEntities = getAllActions,

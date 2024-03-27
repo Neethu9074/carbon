@@ -14,7 +14,6 @@ import {
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
-import AssociatedAndRecommendedPoliciesAlerts from 'in-automation/AssociatedActions/AssociatedAndRecommendedPoliciesAlerts';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
@@ -34,7 +33,7 @@ import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils'
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -153,14 +152,7 @@ export default function ApplicationEventContent({ event, snapshot }) {
       </Row>
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
-      {actionAutomationEnabled && !isGlobalSmartAlert && (
-        <AssociatedAndRecommendedPoliciesAlerts
-          volatileId={snapshot?.get('volatileId')?.toJS() ?? {}}
-          event={event?.toJS()}
-          alertConfig={alertConfig}
-        />
-      )}
-
+      <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
       <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
     </>
   );

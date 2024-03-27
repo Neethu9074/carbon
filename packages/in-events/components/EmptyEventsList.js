@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Table, Th, Thead, Td, Tbody, Tr } from '@instana/components';
+import { Table, Th, Thead, Td, Tbody, Tr } from '@instana/legacy';
 
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification';

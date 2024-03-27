@@ -12629,6 +12629,7 @@
       "usage": "Usage",
       "usedBytes": "Bytes",
       "messages": "Messages",
+      "maxMessages": "Max Messages",
       "ipcQueues": "IPC Queues",
       "queueId": "Queue Id",
       "senderServer": "Sender Server",

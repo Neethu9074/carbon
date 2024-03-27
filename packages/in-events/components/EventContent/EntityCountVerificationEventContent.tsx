@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { TagFilterExpressionElementUnion, TagFilterOperator } from '@instana/types/typeDefinitions';
-import { Snapshot, TagFilterExpression } from '@instana/types';
+import { TagFilterExpression } from '@instana/types';
 import { Card } from '@instana/components';
 
 // @ts-ignore
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AnalyzeEntityCountVerificationEventButton from 'in-events/components/AnalyzeEntityCountVerificationEventButton';
-import AssociatedAndRecommendedPolicies from 'in-automation/AssociatedActions/AssociatedAndRecommendedPolicies';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -21,8 +21,8 @@ import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/const
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { numberCompact } from 'in-stores/metric/formatters';
@@ -35,7 +35,7 @@ import { t } from 'in-i18n';
 
 interface Props {
   event: EventMap;
-  snapshot: Snapshot;
+  snapshot: Map<string, unknown>;
 }
 
 export default function EntityCountVerificationEventContent({ event, snapshot }: Props) {
@@ -110,8 +110,11 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
         </Col>
       </Row>
 
-      {actionAutomationEnabled && isIssue && hasEventSpec && (
-        <AssociatedAndRecommendedPolicies volatileId={snapshot?.volatileId ?? {}} event={event?.toJS()} />
+      {hasEventSpec && isIssue && (
+        <AutomationCard
+          volatileId={(snapshot?.get('volatileId') as Map<string, unknown>)?.toJS() ?? {}}
+          event={event?.toJS()}
+        />
       )}
     </>
   );

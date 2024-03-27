@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';

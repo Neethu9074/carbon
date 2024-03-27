@@ -64,7 +64,7 @@ export default function Alerts({ websiteId, websiteLabel }: { websiteId: string;
   );
 }
 
-function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
+export function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);

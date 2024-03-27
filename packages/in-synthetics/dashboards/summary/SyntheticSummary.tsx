@@ -22,9 +22,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAle
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
-import isBrowserTestType from 'in-synthetics/utils/isBrowserTestType';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import hasEmptyStrings from 'in-synthetics/utils/hasEmptyStrings';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -33,7 +31,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer';
@@ -122,12 +119,9 @@ interface RenderMetaInformationProps {
 const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']) || '';
-  const testType: string = test.data?.configuration?.syntheticType ?? '';
-  const isBrowserTest: boolean = isBrowserTestType(testType) && syntheticBrowserScriptEnabled;
 
   return errorCode === 'NOT_FOUND' ? (
     <div className={locals.metaInformation}>
-      {isBrowserTest ? <BetaBadge /> : null}
       <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
     </div>
   ) : (
@@ -135,7 +129,6 @@ const RenderMetaInformation = ({ test }: RenderMetaInformationProps) => {
       <span className={locals.label}>
         {isActive ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
       </span>
-      {isBrowserTest ? <BetaBadge /> : null}
     </div>
   );
 };
@@ -191,7 +184,7 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
       kind="primary"
       icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
       onClick={() => pauseOrResume(test.data)}
-      disabled={totalLocations > 0 ? false : true}
+      disabled={(totalLocations <= 0)}
     >
       {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
     </Button>

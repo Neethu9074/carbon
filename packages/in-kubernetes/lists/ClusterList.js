@@ -7,7 +7,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 

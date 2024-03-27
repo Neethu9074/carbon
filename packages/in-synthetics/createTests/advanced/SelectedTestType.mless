@@ -23,10 +23,6 @@
     font-weight: 600;
     line-height: 1.5rem;
     color: var(--ids-color-option-neutral-800);
-    // allow beta badge placed besides the title
-    display: flex;
-    align-items: center;
-    gap: 1rem;
   }
 
   .button {

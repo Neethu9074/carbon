@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
