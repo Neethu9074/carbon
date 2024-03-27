@@ -6,19 +6,16 @@
 
 import { AnalyticsBrowser } from '@segment/analytics-next';
 
-import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { commomMilestoneVersion, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
 
 let analytics = null;
 
-const deploymentType = onPremLicenseInformationEnabled ? 'SaaS' : 'Self-Hosted';
-export const customRealmName = 'instanaProduct';
-
 export const commonProperties = {
-  productTitle: `Observability with Instana (${deploymentType})`,
-  ut30: '30AO8',
-  productCodeType: 'PID',
-  productCode: '5900-AG5',
-  commomMilestoneVersion: '2024-03-08 00:01:00'
+  productTitle: productTitle,
+  ut30: ut30,
+  productCodeType: productCodeType,
+  productCode: productCode,
+  commomMilestoneVersion: commomMilestoneVersion
 };
 
 export function Segment() {

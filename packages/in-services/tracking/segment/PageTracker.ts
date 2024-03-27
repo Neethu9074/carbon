@@ -4,15 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
-//@ts-nocheck
 import { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-import { Segment, commonProperties, customRealmName } from 'in-services/tracking/segment/SegmentInit';
+//@ts-expect-error
+import { Segment, commonProperties } from 'in-services/tracking/segment/SegmentInit';
+import { customRealmName } from 'in-services/util/constants';
 import { playwithEnabled } from 'in-services/featureFlags';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { getTenantsWithUnits } from 'in-api/account';
+import { TenantsWithUnits } from 'in-api/account';
 import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
 import { tenant } from 'in-stores/user';
@@ -22,12 +24,25 @@ interface SegmentEventTrackerProps {
   parentPageName: string;
 }
 
+interface currentUnitProps {
+  tenantUnitId: string;
+  tenantUnitName: string;
+  tenantName: string;
+}
+
+interface combineLatestProps {
+  tenantWithUnits: TenantsWithUnits;
+  usageInfo: UsageInfoProps;
+}
+
 let productPlanType: string;
 let instanceId: string;
 let tenantName: string;
 let tenantUnitName: string;
 let userId: string;
-
+interface UsageInfoProps {
+  activeLicenseType: string;
+}
 const segment = Segment();
 const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
   useEffect(() => {
@@ -41,14 +56,15 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
     const url = window.location.href;
     const path = window.location.pathname;
 
-    combineLatest([getTenantsWithUnits(), getUsageInfo()]).once(([tenantWithUnits, usageInfo]) => {
-      productPlanType = getLicenseTypeForSegment(usageInfo?.activeLicenseType);
-      const units = tenantWithUnits[tenant.name];
+    combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(response => {
+      const responseWithType = response as unknown as combineLatestProps;
+      productPlanType = getLicenseTypeForSegment(responseWithType.usageInfo?.activeLicenseType);
+      const units: any = responseWithType.tenantWithUnits[tenant?.name!];
 
       if (!units) {
         return;
       }
-      const currentUnit = find(units, unit => unit.tenantUnitName === config.tenantUnit);
+      const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
       if (currentUnit) {
         instanceId = currentUnit.tenantUnitId;
         tenantUnitName = currentUnit.tenantUnitName;
