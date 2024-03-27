@@ -82,7 +82,7 @@ function onCreate(event: Event, action: Action, setActiveKey: SetActiveKey) {
         type: 'manual'
       });
       refresh();
-      setActiveKey('associatedPolicies');
+      setActiveKey('automationPolicies');
     },
     () => {
       onCreateFailed(policy.name);

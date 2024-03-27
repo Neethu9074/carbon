@@ -452,7 +452,7 @@ function usePolicyFilters({
   };
 }
 
-interface AssociatedPoliciesProps {
+interface AutomationPoliciesProps {
   event: Event;
   volatileId: VolatileId;
   actions: Result<ScoredAction[]>;
@@ -460,7 +460,7 @@ interface AssociatedPoliciesProps {
   policies: Result<Policy[]>;
 }
 
-export default function AssociatedPolicies({ event, volatileId, actions, trigger, policies }: AssociatedPoliciesProps) {
+export default function AutomationPolicies({ event, volatileId, actions, trigger, policies }: AutomationPoliciesProps) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -492,7 +492,7 @@ export default function AssociatedPolicies({ event, volatileId, actions, trigger
     <ServerTablePresenter<Policy, ServerTablePresenterProps<Policy>>
       columnDefinitions={columnDefinitionsToShow}
       fixedLayout
-      leftHeader={<Typography variant="heading-300">{t('in-automation:associatedPolicies')}</Typography>}
+      leftHeader={<Typography variant="heading-300">{t('in-automation:automationPolicies')}</Typography>}
       onChange={setServerTableUrlState}
       onRowClick={policy => navigateToPolicyDetails(policy)}
       orderBy={orderBy}

@@ -80,7 +80,7 @@
   "noTagsConfigured": "No Tags Configured",
   "value": "Value",
   "type": "Type",
-  "associatedPolicies": "Associated Policies",
+  "automationPolicies": "Automation Policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
@@ -204,7 +204,7 @@
     "content": "Content",
     "deleteDialog": {
       "success": "Action was deleted successfully.",
-      "failure": "Failed to delete action."
+      "failure": "Failed to delete action: {{errorMessage}}"
     }
   },
   "actionHistory": {

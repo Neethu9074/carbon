@@ -36,7 +36,7 @@ import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { deleteAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
-import { Action } from 'in-types';
+import { Action, Error } from 'in-types';
 
 const pathSegment = '/actionCatalog';
 const matrixPrefix = '';
@@ -186,8 +186,8 @@ function onDelete(id: string) {
       onDeleteSuccess();
       refresh();
     },
-    () => {
-      onDeleteFailed();
+    error => {
+      onDeleteFailed(error);
     }
   );
 }
@@ -203,12 +203,14 @@ function onDeleteSuccess() {
   );
 }
 
-function onDeleteFailed() {
+function onDeleteFailed(error: Error) {
   addMessage(
     {
       type: 'danger',
-      timeout: 3000,
-      content: t('in-automation:ActionCatalog.deleteDialog.failure')
+      timeout: 15000,
+      content: (
+        <Trans i18nKey="in-automation:ActionCatalog.deleteDialog.failure" values={{ errorMessage: error.message }} />
+      )
     },
     'action-delete-error'
   );
