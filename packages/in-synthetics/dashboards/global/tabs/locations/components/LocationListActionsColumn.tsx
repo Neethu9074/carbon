@@ -18,18 +18,20 @@ import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import { deactivateLocation } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn.mless';
 
-type LocationListActionsColumnProps = {
+interface LocationListActionsColumnProps {
   item: LocationListItem;
   isLoading: boolean;
-};
+}
 
 const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColumnProps) => {
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
+  const isDeleteEnable = item.type === 'Private' || (item.type === 'Managed' && item.status === 'Offline');
 
   useEffect(() => {
     if (!isLoading && isMoreMenuSaving) {
@@ -45,7 +47,11 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
   };
 
   const showDeactivateDialog = () => {
-    return addActiveDialog(<DeactivateSelectedLocation item={item} />);
+    const action$ = deactivateLocation(item.id);
+
+    action$.once(() => {
+      return addActiveDialog(<DeactivateSelectedLocation item={item} />);
+    });
   };
 
   if (syntheticDeactivateDatacentersEnabled) {
@@ -64,12 +70,12 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
             />
           )}
         >
-          {item.type === 'Private' && (
+          {isDeleteEnable && (
             <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
               {t('in-synthetics:dashboard.locationList.deleteLocation')}
             </MoreMenuButton>
           )}
-          {item.type === 'Managed' && (
+          {item.type === 'Managed' && item.status === 'Online' && (
             <MoreMenuButton icon="lib_actions_lock" onClick={showDeactivateDialog}>
               {t('in-synthetics:dashboard.locationList.deactivateLocation.deactivate')}
             </MoreMenuButton>
