@@ -132,7 +132,7 @@ const columnDefinition: ColumnDefinition<Action>[] = [
                 {t('in-automation:test')}
               </MoreMenuButton>
             )}
-            {role?.canConfigureAutomationPolicies && (
+            {role?.canConfigureAutomationActions && (
               <>
                 <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action, false)}>
                   {t('in-automation:edit')}
