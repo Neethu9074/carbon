@@ -204,7 +204,7 @@
     "content": "Content",
     "deleteDialog": {
       "success": "Action was deleted successfully.",
-      "failure": "Failed to delete action."
+      "failure": "Failed to delete action: {{errorMessage}}"
     }
   },
   "actionHistory": {
