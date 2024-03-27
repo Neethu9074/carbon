@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
+//@ts-nocheck
 import { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-//@ts-expect-error
-import { Segment, commonProperties } from 'in-services/tracking/segment/SegmentInit';
+import { Segment, commonProperties, customRealmName } from 'in-services/tracking/segment/SegmentInit';
 import { playwithEnabled } from 'in-services/featureFlags';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { getTenantsWithUnits } from 'in-api/account';
@@ -26,6 +26,7 @@ let productPlanType: string;
 let instanceId: string;
 let tenantName: string;
 let tenantUnitName: string;
+let userId: string;
 
 const segment = Segment();
 const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
@@ -40,29 +41,20 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
     const url = window.location.href;
     const path = window.location.pathname;
 
-    combineLatest([
-      getTenantsWithUnits(),
-      //@ts-expect-error
-      getUsageInfo()
-    ]).once(([tenantWithUnits, usageInfo]) => {
-      //@ts-expect-error
+    combineLatest([getTenantsWithUnits(), getUsageInfo()]).once(([tenantWithUnits, usageInfo]) => {
       productPlanType = getLicenseTypeForSegment(usageInfo?.activeLicenseType);
-      //@ts-expect-error
       const units = tenantWithUnits[tenant.name];
 
       if (!units) {
         return;
       }
-      //@ts-expect-error
       const currentUnit = find(units, unit => unit.tenantUnitName === config.tenantUnit);
       if (currentUnit) {
-        //@ts-expect-error
         instanceId = currentUnit.tenantUnitId;
-        //@ts-expect-error
         tenantUnitName = currentUnit.tenantUnitName;
-        //@ts-expect-error
         tenantName = currentUnit.tenantName;
       }
+      userId = customRealmName + '-' + instanceId;
       segment.page('', parentPageName, {
         url,
         path,
@@ -70,6 +62,7 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         parentPageName,
         productPlanType,
         instanceId,
+        userId,
         tenantName,
         tenantUnitName,
         commonProperties
