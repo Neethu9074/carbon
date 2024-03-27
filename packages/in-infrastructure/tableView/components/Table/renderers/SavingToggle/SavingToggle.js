@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import ModificationSaveStatus from 'in-components/form/ModificationSaveStatus';
 
@@ -17,7 +16,7 @@ const block = 'in-table-saving-toggle';
 export default function SavingToggle({ onChange, checked, status }) {
   return (
     <div className={`${block}__flex-wrapper`}>
-      <Toggle className={`${block}__toggle`} checked={checked} onChange={e => onChange(e.target.checked)} />
+      <Toggle className={`${block}__toggle`} checked={checked} onToggle={e => onChange(e)} />
       <Spacer horizontal="xxsmall" />
       {status ? <ModificationSaveStatus status={status} className={`${block}__save-status`} reserveSpace /> : null}
     </div>
