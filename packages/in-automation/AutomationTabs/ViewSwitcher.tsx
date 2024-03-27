@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { actionCatalogPath, actionHistoryPath, policiesFullyQualified } from 'in-automation/navigation/paths';
+import { actionCatalogFullyQualified, actionHistoryPath, policiesFullyQualified } from 'in-automation/navigation/paths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -24,7 +24,7 @@ const dashboardHeaderProps = {
 };
 export default function ViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
-  const isCatalogActive = matchLocation(actionCatalogPath);
+  const isCatalogActive = matchLocation(actionCatalogFullyQualified);
   const isHistoryActive = matchLocation(actionHistoryPath);
   const isPoliciesActive = matchLocation(policiesFullyQualified);
 
@@ -34,7 +34,7 @@ export default function ViewSwitcher() {
       <DashboardHeaderModule theme={themes.light}>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
-            href={createHrefToPath(actionCatalogPath)}
+            href={createHrefToPath(actionCatalogFullyQualified)}
             label={t('in-automation:ActionCatalog.actionCatalog')}
             isActive={isCatalogActive}
           />

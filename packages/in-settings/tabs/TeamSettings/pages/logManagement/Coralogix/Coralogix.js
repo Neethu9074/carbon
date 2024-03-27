@@ -7,7 +7,7 @@ import { createMapForm, createField } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/CoralogixForm';
 import { teamSettingsLogManagementCoralogix } from 'in-settings/navigation/paths';
@@ -109,7 +109,7 @@ export default class Coralogix extends React.Component {
                   <Toggle
                     id="coralogix-enabled"
                     checked={enabled}
-                    onChange={e => this.onChange('enabled', e.target.checked)}
+                    onToggle={e => this.onChange('enabled', e)}
                   />
                 </HorizontalFormGroup>
               </div>

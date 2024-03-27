@@ -8,21 +8,26 @@ import React, { useState } from 'react';
 
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 
+import {
+  nameColumn,
+  aiEngineColumn,
+  scoreColumn,
+  descriptionColumn
+} from 'in-automation/ActionTable/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { actionNameColumn, aiEngineColumn, scoreColumn } from 'in-automation/ActionTable/columnDefinitions';
-import useNavigateToActionDetails from 'in-automation/AutomationCard/useNavigateToActionDetails';
+import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import { descriptionColumn, tagsColumn } from 'in-automation/ActionCatalog/ActionTable';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { createBasePolicy } from 'in-automation/AutomationCard/sharedPolicies';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { SetActiveKey } from 'in-automation/AutomationCard/AutomationCard';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
@@ -127,9 +132,9 @@ const getActionColumn = (
 });
 
 const columnDefinitions: ColumnDefinition<ScoredAction>[] = [
-  actionNameColumn,
+  nameColumn,
   descriptionColumn,
-  tagsColumn,
+  tagsColumn as ColumnDefinition<ScoredAction>,
   aiEngineColumn,
   scoreColumn
 ];
