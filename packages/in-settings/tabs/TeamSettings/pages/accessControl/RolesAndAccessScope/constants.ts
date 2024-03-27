@@ -172,7 +172,8 @@ export const eventCapabilities: Array<CapabilityType> = [
   ...(infraSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS] : []),
   ...(logSmartAlertsEnabled ? [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS] : []),
   Capability.CAN_CONFIGURE_INTEGRATIONS,
-  Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
+  Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
+  Capability.CAN_MANUALLY_CLOSE_ISSUE
 ];
 
 export const mixedCapabilities: Array<CapabilityType> = [
