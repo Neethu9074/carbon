@@ -121,12 +121,13 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   ) => {
     // Application
     if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
+      let newEntityIds: ScopeBinding[] = [];
       // Only show applications with contributor access for access all
       if (limitation === ScopedPermissionItem.ACCESS_ALL && role === AreaRoleWithContributor.CONTRIBUTOR) {
-        return entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor);
+        newEntityIds = entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor);
       } else if (limitation === ScopedPermissionItem.LIMITED_ACCESS) {
         const newScopeRoleId = role === AreaRoleWithContributor.OWNER ? ScopeRoles.Owner : ScopeRoles.Viewer;
-        let newEntityIds = entityIds?.map(entityId => {
+        newEntityIds = entityIds?.map(entityId => {
           if (role === AreaRoleWithContributor.CONTRIBUTOR) {
             if (entityId.scopeRoleId !== ScopeRoles.Contributor) {
               if (initialApplicationConfig[applicationEntityKey]?.some(item => item.scopeId === entityId.scopeId)) {
@@ -145,28 +146,26 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
             return { scopeId: entityId.scopeId, scopeRoleId: newScopeRoleId };
           }
         });
-
-        // Append contribution filter AP (parent) if required
-        if (
-          editMode &&
-          role === AreaRoleWithContributor.CONTRIBUTOR &&
-          initialApplicationConfig?.restrictingApplicationId &&
-          contributionFilterName === initialApplicationConfig?.label &&
-          entityIds.some(item => item.scopeId === initialApplicationConfig.restrictingApplicationId) === false
-        ) {
-          newEntityIds.push({
-            scopeId: initialApplicationConfig.restrictingApplicationId,
-            scopeRoleId: ScopeRoles.Viewer
-          });
-        }
-
-        return newEntityIds;
       }
+
+      // Append contribution filter AP (parent) if required
+      if (
+        editMode &&
+        role === AreaRoleWithContributor.CONTRIBUTOR &&
+        initialApplicationConfig?.restrictingApplicationId &&
+        contributionFilterName === initialApplicationConfig?.label &&
+        entityIds.some(item => item.scopeId === initialApplicationConfig.restrictingApplicationId) === false
+      ) {
+        newEntityIds.push({
+          scopeId: initialApplicationConfig.restrictingApplicationId,
+          scopeRoleId: ScopeRoles.Viewer
+        });
+      }
+
+      return newEntityIds;
     } else {
       return limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [];
     }
-
-    return entityIds;
   };
 
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
