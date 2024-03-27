@@ -66,7 +66,7 @@ export const aiEngineColumn: ColumnDefinition<ScoredAction> = {
 
 export const scoreColumn: ColumnDefinition<ScoredAction> = {
   label: t('in-automation:ActionCatalog.confidenceTitle'),
-  id: 'confidence',
+  id: 'score',
   width: 10,
   sortable: true,
   getContent(action) {

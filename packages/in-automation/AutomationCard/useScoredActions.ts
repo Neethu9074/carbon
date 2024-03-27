@@ -44,14 +44,12 @@ export function useRecommendedScoredActions({ actions, policies }: UseRecommende
   if (hasError(actions, policies))
     return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
   return success(
-    actions
-      .data!.filter(action => {
-        const policyExistWithAction = policies.data!.some(
-          policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
-        );
-        return !policyExistWithAction && action.confidence != 'low';
-      })
-      .sort((a, b) => b.score - a.score)
+    actions.data!.filter(action => {
+      const policyExistWithAction = policies.data!.some(
+        policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
+      );
+      return !policyExistWithAction && action.confidence != 'low';
+    })
   );
 }
 
@@ -72,6 +70,14 @@ export function usePaginatedScoredActions({
     result: actions,
     serverTableUrlState,
     setServerTableUrlState,
-    searchAttributes: ['name', 'description', 'type', action => action?.tags?.toString() ?? '']
+    searchAttributes: ['name', 'description', 'type', action => action?.tags?.toString() ?? ''],
+    sort: entity => {
+      const { orderBy } = serverTableUrlState;
+      let value = entity[orderBy as keyof ScoredAction];
+      if (orderBy === 'score') {
+        return [entity.score, entity.name.trim().toLowerCase()];
+      }
+      return typeof value === 'string' ? value.trim().toLowerCase() : value;
+    }
   });
 }

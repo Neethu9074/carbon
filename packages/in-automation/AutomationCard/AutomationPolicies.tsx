@@ -18,7 +18,8 @@ import {
   isJira,
   getDocLinkFromFields,
   isAnsible,
-  isManual
+  isManual,
+  isExternal
 } from 'in-automation/ActionCatalog/shared';
 import {
   nameColumn as actionNameColumn,
@@ -275,17 +276,19 @@ function useActionFilters({
 
   return {
     filteredActions: mapData(actions, data =>
-      data.filter(action =>
-        filters.reduce((shouldInclude, filter) => {
-          const emptyFilter = !filter.value?.length;
-          if (emptyFilter) return shouldInclude;
-          switch (filter.key) {
-            case 'type':
-              return (shouldInclude = shouldInclude && filter.value === action.type);
-            case 'tags':
-              return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
-          }
-        }, true)
+      data.filter(
+        action =>
+          !isExternal(action.type) &&
+          filters.reduce((shouldInclude, filter) => {
+            const emptyFilter = !filter.value?.length;
+            if (emptyFilter) return shouldInclude;
+            switch (filter.key) {
+              case 'type':
+                return (shouldInclude = shouldInclude && filter.value === action.type);
+              case 'tags':
+                return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
+            }
+          }, true)
       )
     ),
     type,
@@ -313,7 +316,8 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
-    defaultOrderBy: 'confidence',
+    defaultOrderBy: 'score',
+    defaultOrderDirection: 'DESC',
     defaultPageSize: 7
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;

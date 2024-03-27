@@ -94,8 +94,19 @@ function useActionDetailsUrlParams() {
   };
 }
 
-export default function ActionFormWrapper() {
+export default function ActionDetailsWrapper() {
   const { id, isNew, isCreate, isCopy } = useActionDetailsUrlParams();
+  return <ActionDetails key={String(isCopy)} id={id} isNew={isNew} isCreate={isCreate} isCopy={isCopy} />;
+}
+
+interface ActionDetailsProps {
+  id: string | null;
+  isNew: boolean;
+  isCreate: boolean;
+  isCopy: boolean;
+}
+
+function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
   const navigateToActionCatalog = useNavigateToActionCatalog();
   const entityFormParam = {
     entityId: id,
@@ -129,6 +140,8 @@ export default function ActionFormWrapper() {
       </SettingsDetailPage>
     );
   } else {
+    const isBuiltinAction = entity?.metadata?.builtIn ?? false;
+    const canSaveAction = (isBuiltinAction && isCopy) || !isBuiltinAction;
     content = (
       <div className={locals.actionBody}>
         <SettingsDetailPage>
@@ -150,7 +163,7 @@ export default function ActionFormWrapper() {
             saveEnabled={saveEnabled}
             isCreate={isNew}
             listPath={actionCatalogFullyQualified}
-            hasSaveButton={role?.canConfigureAutomationActions}
+            hasSaveButton={role?.canConfigureAutomationActions && canSaveAction}
           />
         </SettingsDetailPage>
       </div>

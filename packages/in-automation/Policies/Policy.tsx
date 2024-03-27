@@ -39,7 +39,7 @@ import locals from './Policy.mless';
 
 type SubmitPayload = {
   form: PolicyForm;
-  id: string | undefined;
+  id: string | null;
   isNew: boolean;
   triggers: Triggers | undefined;
   actions: Action[] | undefined;
@@ -57,14 +57,24 @@ function usePolicyDetailsUrlParams() {
   const isCreate = !id;
   const isNew = isCreate || isCopy;
   return {
-    id,
+    id: id ?? null,
     isNew,
     isCopy
   };
 }
 
-export default function PolicyDetails() {
+interface PolicyDetailsProps {
+  id: string | null;
+  isNew: boolean;
+  isCopy: boolean;
+}
+
+export default function PolicyDetailsWrapper() {
   const { id, isNew, isCopy } = usePolicyDetailsUrlParams();
+  return <PolicyDetails key={String(isCopy)} id={id} isNew={isNew} isCopy={isCopy} />;
+}
+
+function PolicyDetails({ id, isNew, isCopy }: PolicyDetailsProps) {
   const [actions, actionsStatus, actionsErrors] = useActions();
   const triggers = useTriggers();
   const [policy, policyStatus, policyErrors] = usePolicy(id, isCopy);
@@ -135,7 +145,7 @@ export default function PolicyDetails() {
 
 function save(
   form: PolicyForm,
-  id: string | undefined,
+  id: string | null,
   isNew: boolean,
   triggers: Triggers | undefined,
   actions: Action[] | undefined

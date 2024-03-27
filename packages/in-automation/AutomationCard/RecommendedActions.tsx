@@ -108,7 +108,10 @@ const getActionColumn = (
         <Button
           kind="action"
           icon="lib_actions_play"
-          onClick={() => addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />)}
+          onClick={e => {
+            stopPropagationAndPreventDefault(e);
+            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+          }}
           noAutoMargin
         >
           {t('in-automation:ActionCatalog.run')}
@@ -156,6 +159,7 @@ export default function RecommendedActions({
     pathSegment,
     matrixPrefix,
     defaultOrderBy: 'score',
+    defaultOrderDirection: 'DESC',
     defaultPageSize: 7
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
