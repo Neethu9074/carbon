@@ -7,11 +7,13 @@
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 
 export const automationRoot = '/automation';
-export const actionCatalogPath = `${automationRoot}/actionCatalog` as const;
-export const actionDetailsPath = `${automationRoot}/actionCatalog/:id` as const;
-export const actionDetailsNewPath = `${automationRoot}/actionCatalog/new` as const;
-export const actionDetailsCopyPath = `${automationRoot}/actionCatalog/copy` as const;
-export const actionDetailsCopyFormPath = `${automationRoot}/actionCatalog/copy/:id` as const;
+
+export const actionCatalog = '/actionCatalog';
+export const actionCatalogFullyQualified = `${automationRoot}${actionCatalog}` as const;
+
+export const actionDetails = '/details';
+export const actionDetailsFullyQualified = `${actionCatalogFullyQualified}${actionDetails}` as const;
+
 export const actionHistoryPath = '/actionHistory';
 
 export const policies = '/policies';

@@ -20,12 +20,17 @@ import {
   isAnsible,
   isManual
 } from 'in-automation/ActionCatalog/shared';
+import {
+  nameColumn as actionNameColumn,
+  aiEngineColumn,
+  scoreColumn,
+  descriptionColumn
+} from 'in-automation/ActionTable/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { actionNameColumn as policyActionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
-import { actionNameColumn, aiEngineColumn, scoreColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { NewPolicy, TriggerSpecification, isManual as isManualPolicy } from 'in-automation/Policies/types';
 import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
@@ -34,15 +39,14 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPad
 import { runActionTracker, createBulkPoliciesTracker } from 'in-automation/tracker';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { saveBulkPolicies, deletePolicy, ScoredAction } from 'in-automation/api';
-import { createBasePolicy } from 'in-automation/AutomationCard/sharedPolicies';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import { descriptionColumn } from 'in-automation/ActionCatalog/ActionTable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { Policy, VolatileId, Event, Result } from 'in-types';
@@ -425,20 +429,21 @@ function usePolicyFilters({
     }
   ];
 
-  return {
-    filteredPolicies: mapData(policies, data =>
-      data.filter(policy =>
-        filters.reduce((shouldInclude, filter) => {
-          const emptyFilter = !filter.value?.length;
-          if (emptyFilter) return shouldInclude;
-          switch (filter.key) {
-            case 'tags':
-              return shouldInclude && (policy.tags?.some(tag => filter.value?.includes(tag)) ?? false);
-          }
-        }, true)
-      )
-    ),
+  const filteredPolicies = mapData(policies, data =>
+    data.filter(policy =>
+      filters.reduce((shouldInclude, filter) => {
+        const emptyFilter = !filter.value?.length;
+        if (emptyFilter) return shouldInclude;
+        switch (filter.key) {
+          case 'tags':
+            return shouldInclude && (policy.tags?.some(tag => filter.value?.includes(tag)) ?? false);
+        }
+      }, true)
+    )
+  );
 
+  return {
+    filteredPolicies,
     tags,
     setTags: (tags: string[]) => {
       setTags(tags);

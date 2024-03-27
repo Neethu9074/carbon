@@ -7,7 +7,7 @@
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/sharedPolicies';
+import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { getPoliciesForTrigger } from 'in-automation/api';
