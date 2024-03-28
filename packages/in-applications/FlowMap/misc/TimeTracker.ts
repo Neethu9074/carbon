@@ -4,13 +4,17 @@
  */
 
 export default class TimeTracker {
+  timeOfLastFrameUpdate: number;
+  deltaTime: number;
+  now: number;
+
   constructor() {
     this.timeOfLastFrameUpdate = 0;
     this.deltaTime = 0;
     this.now = 0;
   }
 
-  update(highResTimestamp) {
+  update(highResTimestamp: number) {
     this.now = highResTimestamp;
     const deltaTimeInMs = this.now - this.timeOfLastFrameUpdate;
     this.deltaTime = deltaTimeInMs / 1000; // in ms
