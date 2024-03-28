@@ -1351,7 +1351,7 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
-        "nGroupSelected": "No group selected"
+        "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
       "logCount": "Log count"
     }
