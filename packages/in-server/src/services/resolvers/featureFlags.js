@@ -182,7 +182,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'logWidgetsEnabled',
-    instanaCtlKey: 'feature.logging.widgets',
+    instanaCtlKey: 'feature.log.widgets.enabled',
     defaultValue: false
   },
   {
