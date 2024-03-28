@@ -115,6 +115,9 @@ export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUp
 // Synthetic Deactivate Datacenters feature flag
 export const syntheticDeactivateDatacentersEnabled = isFeatureFlagEnabled('syntheticDeactivateDatacentersEnabled');
 
+// Synthetic Certificate Check Enabled feature flag
+export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'

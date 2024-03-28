@@ -106,6 +106,7 @@ module.exports = {
   syntheticInstanaHostedPoPEnabled: true,
   syntheticUpdateDeployPoPEnabled: true,
   syntheticDeactivateDatacentersEnabled: true,
+  syntheticCertificateCheckEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
