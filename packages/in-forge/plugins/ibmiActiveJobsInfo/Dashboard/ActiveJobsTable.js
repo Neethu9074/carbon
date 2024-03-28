@@ -166,7 +166,7 @@ const JobStatusEnum = jobStatus => {
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.jobName'),
+    title: t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.jobName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -175,7 +175,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.userName'),
+    title: t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.userName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -184,7 +184,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.elapsedCPU'),
+    title: t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.charts.elapsedCPU'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -200,7 +200,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.temporaryStorage'),
+    title: t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.charts.temporaryStorage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -216,7 +216,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.jobStatus'),
+    title: t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.jobStatus'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -232,7 +232,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.jobType'),
+    title: t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.jobType'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -253,19 +253,19 @@ export default connectTo(
   props => {
     const { snapshotId } = props;
     return {
-      data: getRawPayloadWithTimestamp(snapshotId, 'activeJobInfoMap')
+      data: getRawPayloadWithTimestamp(snapshotId, 'activeJobsRawPayload')
     };
   },
   function activeJobsTable({ data, snapshotId, timeConfig }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-    const activeJobInfoMap = data.get('raw_payload');
-    if (activeJobInfoMap.size === 0) {
+    const activeJobsRawPayload = data.get('raw_payload');
+    if (activeJobsRawPayload.size === 0) {
       return null;
     }
 
-    const rows = activeJobInfoMap
+    const rows = activeJobsRawPayload
       .map((activeJobInfoStringData, key) => {
         return {
           key,
@@ -282,7 +282,7 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')}
+            title={t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.name')}
             timestamp={data.get('timestamp')}
           />
         }
@@ -308,7 +308,7 @@ function getRowDetails(row) {
         y1={{
           formatter: percentage.detailed,
           metrics: ['activeJobsMetrics.' + row.key + '.elapsedCPU'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.elapsedCPU')],
+          labels: [t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.charts.elapsedCPU')],
           min: 0,
           type: 'line'
         }}
@@ -320,7 +320,7 @@ function getRowDetails(row) {
         y1={{
           formatter: bytes.detailed,
           metrics: ['activeJobsMetrics.' + row.key + '.temporaryStorage'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.temporaryStorage')],
+          labels: [t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.charts.temporaryStorage')],
           min: 0,
           type: 'line'
         }}
@@ -332,7 +332,7 @@ function getRowDetails(row) {
         y1={{
           formatter: number.compact,
           metrics: ['activeJobsMetrics.' + row.key + '.threadCount'],
-          labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.threadCount')],
+          labels: [t('in-forge:plugins.ibmiActiveJobsInfo.dashboard.tables.activeJobs.charts.threadCount')],
           min: 0,
           type: 'line'
         }}

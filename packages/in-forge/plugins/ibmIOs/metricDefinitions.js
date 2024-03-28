@@ -178,45 +178,6 @@ export default [
   {
     metrics: [
       getDynamicMetricMatch(
-        'activeJobsMetrics',
-        'threadCount',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.threadCount')],
-    min: 0,
-    formatter: number,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'activeJobsMetrics',
-        'temporaryStorage',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.temporaryStorage')],
-    min: 0,
-    formatter: bytes,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'activeJobsMetrics',
-        'elapsedCPU',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.elapsedCPU')],
-    min: 0,
-    formatter: percentage,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
         'outputQueueMetrics',
         'fileCount',
         t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.name')
