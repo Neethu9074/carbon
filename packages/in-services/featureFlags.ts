@@ -67,11 +67,12 @@ export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreE
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
-export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
-export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
-export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
+export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
+export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
+export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
+export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 

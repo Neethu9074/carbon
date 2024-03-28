@@ -216,6 +216,31 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'sliCHClusterAccessEnabled',
+    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sloEnabled',
+    instanaCtlKey: 'feature.slo.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'sloV2Enabled',
+    instanaCtlKey: 'feature.sloV2.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'sloSmartAlertsEnabled',
+    instanaCtlKey: 'feature.slo.smart.alerts.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
@@ -261,16 +286,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'sliCHClusterAccessEnabled',
-    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'apdexWidgetEnabled',
-    instanaCtlKey: 'feature.apdex.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true
@@ -294,11 +309,6 @@ module.exports = exports = [
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'sloV2Enabled',
-    instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'businessObservabilityEnabled',
@@ -369,11 +379,6 @@ module.exports = exports = [
     uiClientKey: 'alertsHubEnabled',
     instanaCtlKey: 'feature.alerts.hub.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'sloEnabled',
-    instanaCtlKey: 'feature.slo.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'syntheticRbacEnabled',
