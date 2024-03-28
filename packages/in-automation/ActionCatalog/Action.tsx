@@ -5,7 +5,6 @@
  */
 
 import { MapForm, Field as FormField } from 'formalistic';
-import { RouteComponentProps } from 'react-router';
 import React, { createContext } from 'react';
 
 import { themes } from '@instana/design-tokens';
@@ -47,15 +46,16 @@ import {
 } from 'in-automation/ActionCatalog/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
+import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-automation/tracker';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import { actionCatalogFullyQualified } from 'in-automation/navigation/paths';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { actionCatalogPath } from 'in-automation/navigation/paths';
+import useNavigateToActionCatalog from './useNavigateToActionCatalog';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';
@@ -64,6 +64,7 @@ import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
+import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import CopyActionLink from './CopyActionLink';
 import { Action, Field } from 'in-types';
@@ -72,32 +73,53 @@ import { t } from 'in-i18n';
 
 import locals from './Action.mless';
 
-interface MatchParams {
-  id: string;
-}
-
 export const isNotEditableContext = createContext(false);
 
 export type ActionFormEntity = NewAction | Action;
-const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
-export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
-  const { goToPath } = useNavigation();
 
-  const id = props.match.params.id;
-  const entityId = id === 'new' ? null : id;
-  const isCopy = props.match.path.split('/').at(-2) === 'copy';
+const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
+
+function useActionDetailsUrlParams() {
+  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
+    bind: [actionDetailsUrlParameters.id, actionDetailsUrlParameters.op]
+  });
+  const isCopy = op === 'copy';
+  const isCreate = !id;
+  const isNew = isCreate || isCopy;
+  return {
+    id: id ?? null,
+    isNew,
+    isCreate,
+    isCopy
+  };
+}
+
+export default function ActionDetailsWrapper() {
+  const { id, isNew, isCreate, isCopy } = useActionDetailsUrlParams();
+  return <ActionDetails key={String(isCopy)} id={id} isNew={isNew} isCreate={isCreate} isCopy={isCopy} />;
+}
+
+interface ActionDetailsProps {
+  id: string | null;
+  isNew: boolean;
+  isCreate: boolean;
+  isCopy: boolean;
+}
+
+function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
+  const navigateToActionCatalog = useNavigateToActionCatalog();
   const entityFormParam = {
-    entityId,
+    entityId: id,
     createDefaultEntity: createAction,
     createForm: (action: ActionFormEntity) => createActionFormDefinition(action),
     getEntityFromApi: (actionId: string) =>
       getAction(actionId).map(action =>
         isCopy ? { ...action, name: t('in-automation:copyOf', { name: action.name }) } : action
       ),
-    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, entityId, isCopy, entity),
-    openEntities: () => goToPath(actionCatalogPath)
+    saveEntity: (entity: ActionFormEntity, form: MapForm<any>) => save(form, id, isNew, entity),
+    openEntities: () => navigateToActionCatalog()
   };
-  const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
+  const { entity, form, saveEnabled, loading, error, message, onSubmit, setForm, onChange } =
     useEntityForm<ActionFormEntity>(entityFormParam);
   let content: JSX.Element;
   const errorLoading = error && !entity;
@@ -118,17 +140,12 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
       </SettingsDetailPage>
     );
   } else {
+    const isBuiltinAction = entity?.metadata?.builtIn ?? false;
+    const canSaveAction = (isBuiltinAction && isCopy) || !isBuiltinAction;
     content = (
       <div className={locals.actionBody}>
         <SettingsDetailPage>
-          <ActionFormHeader
-            isCreate={isCreate}
-            isCopy={isCopy}
-            form={form}
-            setForm={setForm}
-            entity={entity}
-            id={entityId}
-          />
+          <ActionFormHeader isNew={isNew} form={form} setForm={setForm} entity={entity} id={id} />
           <SectionLine />
 
           {message ? (
@@ -144,9 +161,9 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
             message={message}
             loading={loading}
             saveEnabled={saveEnabled}
-            isCreate={isCreate || isCopy}
-            listPath={actionCatalogPath}
-            hasSaveButton={role?.canConfigureAutomationActions}
+            isCreate={isNew}
+            listPath={actionCatalogFullyQualified}
+            hasSaveButton={role?.canConfigureAutomationActions && canSaveAction}
           />
         </SettingsDetailPage>
       </div>
@@ -162,23 +179,21 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
 }
 
 interface ActionFormHeaderProps {
-  isCreate: boolean;
-  isCopy: boolean;
+  isNew: boolean;
   form: MapForm<any> | null;
   entity: ActionFormEntity | null;
   setForm: SetFormFunction;
   id: string | null;
 }
-const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: ActionFormHeaderProps) => {
-  const isNewAction = isCreate || isCopy;
+const ActionFormHeader = ({ isNew, form, entity, setForm, id }: ActionFormHeaderProps) => {
   return (
     <HorizontalFlexWrapper className={locals.spaceBetween}>
       <SubViewHeader>
-        {isNewAction
+        {isNew
           ? t('in-automation:ActionCatalog.createANewAction')
           : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: entity!.name })}
       </SubViewHeader>
-      {!isNewAction && (
+      {!isNew && (
         <HorizontalFlexWrapper>
           {form && id !== null && role?.canRunAutomationActions && (
             <TestActionButton
@@ -198,10 +213,9 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm, id }: Actio
 };
 
 // TODO: Check built in
-function save(form: MapForm<any>, id: string | null, isCopy: boolean, entity: ActionFormEntity | null) {
+function save(form: MapForm<any>, id: string | null, isNew: boolean, entity: ActionFormEntity | null) {
   const actionSpecification = getActionSpecification(form, entity);
-  const isCreate = !id;
-  if (isCreate || isCopy) {
+  if (isNew) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
@@ -212,7 +226,7 @@ function save(form: MapForm<any>, id: string | null, isCopy: boolean, entity: Ac
       actionType: actionSpecification.type,
       actionName: actionSpecification.name
     });
-    return saveAction(actionSpecification, id);
+    return saveAction(actionSpecification, id!);
   }
 }
 

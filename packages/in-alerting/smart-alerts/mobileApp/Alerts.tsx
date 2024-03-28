@@ -73,7 +73,7 @@ function getExtraColumnDefinition(mobileAppLabel: string) {
   ];
 }
 
-function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
+export function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdConfigUnion & { value?: number }) {
   const { alertType, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName);

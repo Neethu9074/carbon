@@ -346,6 +346,10 @@
       "cashierRollups": "Cashier Rollups",
       "genReactorKafkaConsumerAvailCapacity": "GenericReactorKafkaConsumer available capacity",
       "cashierIngest": "Cashier Ingest",
+      "aggregatedCashierReports": "Aggregated cashier reports",
+      "emittedCashierReports": "Emitted cashier reports",
+      "aggregatedKafkaStreamsLagTimer99th": "Aggregated Kafka Streams Lag Timer (99th)",
+      "aggregatedKafkaStreamsLagTimerMean": "Aggregated Kafka Streams Lag Timer (Mean)",
       "consumedCashierReport": "Consumed cashier reports",
       "addRollupDataRate": "Add Rollup Data (rate)",
       "addRollupDataMean": "Add Rollup Data (mean)",
@@ -1026,6 +1030,9 @@
   "thisUnit": {
     "entityStatistics": {
       "cockpit": "Cockpit"
+    },
+    "metrics": {
+      "enterSnapshotId": "Enter a snapshot id"
     },
     "graphExplorer": {
       "snapshotId": "snapshotId..."

@@ -43,6 +43,8 @@ packages/in-forge                       @Instana-IBM-GitHub-Enterprise @instana/
 
 # Deliberately mentioning packages/in-forge/i18n without any code owners. This is intended to reduce code review requests triggered by changes in these files.
 packages/in-forge/i18n
+packages/in-forge/constants.ts
+packages/in-forge/plugins/index.js
 
 # Specific ownerships for different sensors
 packages/in-forge/plugins/abap*                                 @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
@@ -197,14 +199,29 @@ packages/in-forge/plugins/zhmcConsole                           @Instana-IBM-Git
 packages/in-forge/plugins/zhmcCpc                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/zooKeeper                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 
-packages/in-forge/tracing/bpm       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
-packages/in-hoc                     @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-hooks                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-infrastructure          @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-init                    @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-integrations            @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
-packages/in-kubernetes              @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
+packages/in-forge/tracing/bpm                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-java
+packages/in-hoc                                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-hooks                                          @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-infrastructure                                 @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-init                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-integrations                                   @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
+packages/in-internal                                       @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-internal/monitoringUnit/FillerStats            @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-internal/monitoringUnit/infrastructureMetrics  @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-internal/monitoringUnit/otlpAcceptor           @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-internal/thisUnit/GraphExplorer                @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-internal/thisUnit/Metrics                      @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-internal/thisUnit/SnapshotVersions             @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-internal/thisUnit/WsApiTester                  @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
+packages/in-kubernetes                                     @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
+
+# Logging specific areas
 packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+# code needs to be shifted - this will be a follow-up, and has already been discussed
+packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-integrations/logging    @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/TeamSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
@@ -221,16 +238,23 @@ packages/in-powervc                                                             
 packages/in-sdk                                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk/metrics                                                                   @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-service-levels                                                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-services                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics                                                              @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
+packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/BusinessMonitoringPanels     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
+packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
 packages/in-settings/tabs/TeamSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
+# Deliberately mentioning without any code owners. This is intended to reduce code review requests triggered by changes in these files.
+packages/in-settings/i18n
+
 packages/in-stores                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-stores/permissions*                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control
 packages/in-stores/snapshot                                                               @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
+# Deliberately mentioning without any code owners. This is intended to reduce code review requests triggered by changes in these files.
+packages/in-stores/i18n
 
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-subscription            @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -240,9 +264,6 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event  
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Apdex                                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Slo                                                  @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 
 # Custom Widget Table
 packages/in-custom-dashboards/widgets/Table @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
@@ -260,3 +281,10 @@ packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-
 
 # Container images
 /containers/ @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui
+
+# Service Levels areas
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli   @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Apdex                                    @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Slo                                      @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-service-levels                                                     @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-alerting/smart-alerts/slo                                          @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection

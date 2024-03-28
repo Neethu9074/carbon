@@ -8,12 +8,12 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
+import ActivityMetricKpiCard from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityMetricKpiCard';
+import ActivityErrorsChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityErrorsChart';
 import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
-import ActivityMetricKpiCard from './components/ActivityMetricKpiCard';
-import BizOpsErrorsChart from 'in-bizops/components/BizOpsErrorsChart';
 import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -44,8 +44,20 @@ export default function Summary() {
     return (
       <Fragment>
         <KpiGridRow sizes={[true, true]}>
-          <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityCount')} />
-          <ActivityMetricKpiCard title={t('in-bizops:dashboards.activity.widgets.activityErrors')} />
+          <ActivityMetricKpiCard
+            title={t('in-bizops:dashboards.activity.widgets.activityCount')}
+            metric="COUNT"
+            timeConfig={timeConfig}
+            processId={businessProcessId}
+            activityName={businessActivityName}
+          />
+          <ActivityMetricKpiCard
+            title={t('in-bizops:dashboards.activity.widgets.activityErrors')}
+            metric="ERRORS"
+            timeConfig={timeConfig}
+            processId={businessProcessId}
+            activityName={businessActivityName}
+          />
         </KpiGridRow>
         <Row>
           <Col lg>
@@ -72,7 +84,7 @@ export default function Summary() {
             />
           </Col>
           <Col lg>
-            <BizOpsErrorsChart />
+            <ActivityErrorsChart processId={businessProcessId} activityName={businessActivityName} />
           </Col>
         </Row>
         <Row>

@@ -215,8 +215,7 @@
         "pleaseSelect": "请选择",
         "sliConfigComputeErrBudgetSliVal": "用于计算错误预算和 SLI 值的 SLI 配置",
         "typeSloThreshold": "输入介于 <code>{{compact}}</code> 到 <code>{{detailed}}</code> 之间的期望 SLO 阈值。",
-        "valType": "值类型",
-        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
+        "valType": "值类型"
       },
       "index": {
         "srvLevelIndicator": "服务级别指示符"

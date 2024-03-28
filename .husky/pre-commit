@@ -1,0 +1,4 @@
+yarn run check:yarn-lock-exists
+yarn run lint-staged
+yarn test:typecheck
+git add README.md

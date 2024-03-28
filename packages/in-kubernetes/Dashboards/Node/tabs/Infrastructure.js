@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableLoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
+import { TableLoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 import { Card } from '@instana/components';
 
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';

@@ -7,7 +7,6 @@
 import React, { forwardRef } from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 
 import locals from 'in-synthetics/createTests/advanced/SimpleOrScriptOption.mless';
 
@@ -17,7 +16,6 @@ interface SimpleOrScriptOptionProps {
   title: string;
   description: JSX.Element;
   asRadioButton?: boolean;
-  isBrowserTest?: boolean;
   onChange: (checked: boolean) => void;
 }
 
@@ -27,7 +25,6 @@ const SimpleOrScriptOption = ({
   title,
   description,
   asRadioButton,
-  isBrowserTest,
   onChange
 }: SimpleOrScriptOptionProps) => {
   return (
@@ -37,7 +34,6 @@ const SimpleOrScriptOption = ({
       title={title}
       description={description}
       asRadioButton={asRadioButton}
-      isBrowserTest={isBrowserTest}
       onChange={onChange}
     />
   );
@@ -49,24 +45,20 @@ interface OptionBoxProps {
   title: string;
   description: JSX.Element;
   asRadioButton?: boolean;
-  isBrowserTest?: boolean;
   onChange: (checked: boolean) => void;
 }
 
 const OptionBoxWithRef = forwardRef(function OptionBox(
-  { checked, disabled, title, description, onChange, asRadioButton, isBrowserTest }: OptionBoxProps,
+  { checked, disabled, title, description, onChange, asRadioButton }: OptionBoxProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const labelContent = (
-    <>
-      <div className={locals.content}>
-        <div className={locals.title}>
-          <span>{title}</span>
-          {isBrowserTest ? <BetaBadge /> : null}
-        </div>
-        <div className={locals.description}>{description}</div>
+    <div className={locals.content}>
+      <div className={locals.title}>
+        <span>{title}</span>
       </div>
-    </>
+      <div className={locals.description}>{description}</div>
+    </div>
   );
   return (
     <div className={locals.wrapper} ref={ref}>

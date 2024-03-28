@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import { ColumnContentProps } from 'in-logging/analyze/AnalyzeView/components/Logs/Logs';
 import LogException from 'in-logging/analyze/AnalyzeView/components/LogException';
@@ -15,18 +15,12 @@ import locals from './LogMessageColumn.mless';
 export default function LogMessageColumn(props: ColumnContentProps) {
   const { tags, message, timestamp, itemId, isToggled } = props;
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
   return (
-    <div
-      className={locals.messageWrapper}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
-    >
+    <div className={locals.messageWrapper}>
       <span
         className={classNames({
-          [locals.collapsedMessage]: isToggled !== undefined ? !isToggled : !isExpanded,
-          [locals.messageExpanded]: isToggled !== undefined ? isToggled : isExpanded
+          [locals.collapsedMessage]: !isToggled,
+          [locals.messageExpanded]: isToggled
         })}
       >
         <LogMessage tags={tags} message={message} />

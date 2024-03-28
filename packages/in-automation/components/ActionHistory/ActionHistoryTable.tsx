@@ -214,7 +214,7 @@ export function getStatus(status: string) {
           [locals.statusIndicator__submitted]: status === 'SUBMITTED'
         })}
       >
-        <span>{t('in-automation:actionHistory.submitted')}</span>;
+        <span>{t('in-automation:actionHistory.submitted')}</span>
       </div>
     );
   }

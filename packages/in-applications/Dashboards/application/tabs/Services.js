@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { TableEntityCounter } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 
 import {
   applicationDashboardUrlParameters,

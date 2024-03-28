@@ -88,8 +88,8 @@ function PlatformArchitecture({
       <Button
         target="_blank"
         icon="lib_actions_download"
-        iconSize="xs"
-        kind="subtle"
+        iconSize="s"
+        kind="action"
         noAutoMargin
         href={getAgentDownloadURL(
           tenant,

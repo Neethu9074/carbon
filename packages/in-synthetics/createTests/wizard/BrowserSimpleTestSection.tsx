@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, MapForm } from 'formalistic';
+import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { t } from '@instana/i18n-react';
@@ -37,8 +37,8 @@ const BrowserSimpleTestSection = ({ urlField, updateForm, form }: BrowserSimpleT
             value={field.value}
             onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
               updateForm(
-                form.updateIn(['configuration', 'url'], field =>
-                  (field as Field<string>).setValue(target?.value).setTouched(true)
+                form.updateIn(['configuration', 'url'], (urlField: Item) =>
+                  (urlField as Field<string>).setValue(target?.value).setTouched(true)
                 )
               );
             }}

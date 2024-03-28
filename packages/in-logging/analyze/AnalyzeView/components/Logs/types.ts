@@ -34,3 +34,6 @@ export type HeaderActionProps = {
   orderBy: OrderBy;
   setOrder: ({ by, direction }: { by: string; direction: SortDirection }) => void;
 };
+
+export type PillTypeColors =  'red' |  'magenta' |  'purple' |  'blue' |  'cyan' |  'teal' |  'green' |  'gray' |  'cool-gray' |  'warm-gray' |
+                        'high-contrast' |  'outline' |  'lime' |  'slush-green' |  'yellow' |  'orange';

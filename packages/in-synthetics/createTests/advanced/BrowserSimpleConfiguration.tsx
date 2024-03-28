@@ -44,8 +44,8 @@ export default function BrowserSimpleConfiguration({ form, updateForm, invalidTi
   const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
 
   const [timeout, setTimeout] = useState({
-    value: timeoutField.value.replace(/[^0-9]/g, ''),
-    unit: timeoutField.value.replace(/[0-9]/g, '')
+    value: timeoutField.value.replace(/\D/g, ''),
+    unit: timeoutField.value.replace(/\d/g, '')
   });
   const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 

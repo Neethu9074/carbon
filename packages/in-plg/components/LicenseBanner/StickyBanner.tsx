@@ -97,7 +97,6 @@ export function StickyBanner({ message }: StickyBannerProps) {
                     kind="primaryv2"
                     target="_blank"
                     href="https://aws.amazon.com/marketplace/search/results?prevFilters=%257B%2522sr%2522%3A%25220-1%2522%2C%2522ref_%2522%3A%2522beagle%2522%2C%2522applicationId%2522%3A%2522AWSMPContessa%2522%257D&searchTerms=ibm+instana+observability"
-                    //@ts-expect-error missing rel
                     rel="noopener noreferrer"
                     onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
                   >

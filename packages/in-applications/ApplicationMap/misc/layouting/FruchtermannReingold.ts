@@ -5,10 +5,10 @@
 
 import {
   ApplicationMapDimensions,
-  ApplicationMapEdge,
+  APMapEdge,
   ApplicationMapGraph,
-  ApplicationMapGraphNode,
-  ApplicationMapNode,
+  APMapGraphNode,
+  APMapNode,
   ApplicationMapNodePosition
 } from 'in-applications/types';
 
@@ -27,8 +27,8 @@ function applyLayout({
   edges,
   positionsMap
 }: {
-  nodes: Map<string, ApplicationMapNode>;
-  edges: Map<string, ApplicationMapEdge>;
+  nodes: Map<string, APMapNode>;
+  edges: Map<string, APMapEdge>;
   positionsMap: Map<string, ApplicationMapNodePosition>;
 }) {
   const sigmaGraph = buildSigmaGraphStructure(nodes, edges, positionsMap);
@@ -37,13 +37,13 @@ function applyLayout({
 }
 
 function buildSigmaGraphStructure(
-  nodes: Map<string, ApplicationMapNode>,
-  edges: Map<string, ApplicationMapEdge>,
+  nodes: Map<string, APMapNode>,
+  edges: Map<string, APMapEdge>,
   positionsMap: Map<string, ApplicationMapNodePosition>
 ) {
   const graph: ApplicationMapGraph = {
     nodes: [],
-    nodeMap: new Map<string, ApplicationMapGraphNode>(),
+    nodeMap: new Map<string, APMapGraphNode>(),
     edges: []
   };
 
@@ -51,7 +51,7 @@ function buildSigmaGraphStructure(
   for (const node of nodeSceneObjects) {
     const storedNodePosition = positionsMap.get(node.id);
 
-    const sigmaNode: ApplicationMapGraphNode = {
+    const sigmaNode: APMapGraphNode = {
       id: node.id,
       x: Math.random(),
       y: Math.random(),

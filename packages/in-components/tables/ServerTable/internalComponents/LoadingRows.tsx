@@ -5,7 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows } from '@instana/components';
+import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows } from '@instana/legacy';
+
 import { Progress } from 'in-types';
 
 interface LoadingRowsProps {

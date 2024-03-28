@@ -58,7 +58,7 @@ function getColumnDefinitions() {
   ];
 }
 
-function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }) {
+export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }) {
   const { type, operator, value } = threshold;
   const subtitleElements = [t('in-alerting:smartAlerts.logs.list.columns.name.subtitle.staticThresholdType')];
 

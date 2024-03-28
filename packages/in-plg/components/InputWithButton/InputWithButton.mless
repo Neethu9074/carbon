@@ -14,4 +14,9 @@
   .inputLarge {
     min-width: 30rem;
   }
+  .button {
+    &:focus {
+      outline: none; // Button with onClick property is showing an outline.
+    }
+  }
 }

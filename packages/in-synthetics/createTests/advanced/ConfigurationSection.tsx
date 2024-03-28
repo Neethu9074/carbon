@@ -25,7 +25,8 @@ import {
   expectMatch,
   expectStatus,
   retriesObject,
-  timeoutObject
+  timeoutObject,
+  ConfigItem
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error Module needs to be translated to TS
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
@@ -42,7 +43,6 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { numberValidator } from 'in-services/validators/jsonType';
 import { minValidator } from 'in-services/validators/number';
-import { ConfigItem } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { isNotBlank } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
@@ -95,8 +95,8 @@ export default function ConfigurationSection({
   const retryIntervalField = configForm.get('retryInterval') as Field<number>;
   const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
   const [timeout, setTimeout] = useState({
-    value: timeoutField.value.replace(/[^0-9]/g, ''),
-    unit: timeoutField.value.replace(/[0-9]/g, '')
+    value: timeoutField.value.replace(/\D/g, ''),
+    unit: timeoutField.value.replace(/\d/g, '')
   });
   const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 
@@ -192,9 +192,14 @@ export default function ConfigurationSection({
     );
   }
 
-  function validateHeaders(headers: ConfigItem[], value: string, index: number, isHeaderName: boolean): ConfigItem[] {
-    const headerName = isHeaderName ? value : headers[index].key;
-    const headerValue = isHeaderName ? headers[index].value : value;
+  function validateHeaders(
+    updatedHeaders: ConfigItem[],
+    value: string,
+    index: number,
+    isHeaderName: boolean
+  ): ConfigItem[] {
+    const headerName = isHeaderName ? value : updatedHeaders[index].key;
+    const headerValue = isHeaderName ? updatedHeaders[index].value : value;
     const nameUndefined: ValidationResult = notUndefinedValidator(headerName);
     const nameNotBlank: ValidationResult = notBlankValidator(headerName);
     const nameNotValid: ValidationResult = requestHeaderNameValidator(headerName);
@@ -203,25 +208,25 @@ export default function ConfigurationSection({
     const valueNotValid: ValidationResult = requestHeaderValueValidator(headerValue);
 
     if (nameUndefined) {
-      headers[index].error['name'] = { invalid: true, message: nameUndefined[0].message! };
+      updatedHeaders[index].error['name'] = { invalid: true, message: nameUndefined[0].message! };
     } else if (nameNotBlank) {
-      headers[index].error['name'] = { invalid: true, message: nameNotBlank[0].message! };
+      updatedHeaders[index].error['name'] = { invalid: true, message: nameNotBlank[0].message! };
     } else if (nameNotValid) {
-      headers[index].error['name'] = { invalid: true, message: nameNotValid[0].message! };
+      updatedHeaders[index].error['name'] = { invalid: true, message: nameNotValid[0].message! };
     } else {
-      headers[index].error['name'] = { invalid: false, message: '' };
+      updatedHeaders[index].error['name'] = { invalid: false, message: '' };
     }
 
     if (valueUndefined) {
-      headers[index].error['value'] = { invalid: true, message: valueUndefined[0].message! };
+      updatedHeaders[index].error['value'] = { invalid: true, message: valueUndefined[0].message! };
     } else if (valueNotBlank) {
-      headers[index].error['value'] = { invalid: true, message: valueNotBlank[0].message! };
+      updatedHeaders[index].error['value'] = { invalid: true, message: valueNotBlank[0].message! };
     } else if (valueNotValid) {
-      headers[index].error['value'] = { invalid: true, message: valueNotValid[0].message! };
+      updatedHeaders[index].error['value'] = { invalid: true, message: valueNotValid[0].message! };
     } else {
-      headers[index].error['value'] = { invalid: false, message: '' };
+      updatedHeaders[index].error['value'] = { invalid: false, message: '' };
     }
-    return headers;
+    return updatedHeaders;
   }
 
   return (
@@ -263,8 +268,8 @@ export default function ConfigurationSection({
                 value={field.value}
                 onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                   updateForm(
-                    form.updateIn(['configuration', 'url'], (field: Item) =>
-                      (field as Field<string>).setValue(target?.value).setTouched(true)
+                    form.updateIn(['configuration', 'url'], (urlField: Item) =>
+                      (urlField as Field<string>).setValue(target?.value).setTouched(true)
                     )
                   );
                 }}

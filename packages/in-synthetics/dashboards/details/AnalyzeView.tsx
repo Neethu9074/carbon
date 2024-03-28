@@ -51,7 +51,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTestResultMetadata } from 'in-synthetics/api';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -148,10 +147,6 @@ const AnalyzeView = () => {
       [0]
     ) || dummyTestResultList;
 
-  const renderMetaInformation = () => {
-    return isBrowserTest ? <BetaBadge /> : null;
-  };
-
   return (
     <>
       <Sticky
@@ -161,7 +156,6 @@ const AnalyzeView = () => {
               title={t('in-synthetics:dashboard.testList.mainLabel')}
               label={resultsLabel}
               withBorderBottom
-              renderMetaInformation={renderMetaInformation}
               contextConfigurations={useSyntheticContextConfiguration()}
               liveModeDisabled
               liveModeDisabledTooltip={t('in-synthetics:dashboard.detailsPage.detailLiveModeDisabled')}

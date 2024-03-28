@@ -215,8 +215,7 @@
         "pleaseSelect": "Selezionare",
         "sliConfigComputeErrBudgetSliVal": "Configurazione SLI utilizzata per calcolare il budget per gli errori e i valori SLI",
         "typeSloThreshold": "Immettere la soglia SLO desiderata da <code>{{compact}}</code> a <code>{{detailed}}</code>.",
-        "valType": "Tipo di valore",
-        "combinedLabel": "{{applicationLabel}} / {{sliName}}"
+        "valType": "Tipo di valore"
       },
       "index": {
         "srvLevelIndicator": "Indicatori di livello di servizio"

@@ -21,7 +21,7 @@ finished
 
 echo "💣 installing commit hook"
 rm -f .git/hooks/pre-commit
-node ./node_modules/husky/bin/install.js 2>&1 | sed 's/^/   /'
+node ./node_modules/.bin/husky 2>&1 | sed 's/^/   /'
 finished
 
 echo "🧑‍🏭 installing auxiliary CLI tools"

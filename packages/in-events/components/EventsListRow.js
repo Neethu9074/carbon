@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td } from '@instana/components';
+import { Tr, Td, Pill } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -23,6 +23,7 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { isDisplayColumn } from 'in-events/components/EventsList';
 import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
@@ -36,12 +37,14 @@ import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './EventsListRow.mless';
 
 export default function EventRow({
   selectedEventId,
+  state,
   onItemClicked,
   isDenseList,
   timeScale,
@@ -54,7 +57,14 @@ export default function EventRow({
   const onClick = () => onItemClicked(event.id);
   if (isDenseList) {
     return (
-      <EventsListRowDense key={event.id} event={event} active={active} onClick={onClick} timeConfig={timeConfig} />
+      <EventsListRowDense
+        key={event.id}
+        state={state}
+        event={event}
+        active={active}
+        onClick={onClick}
+        timeConfig={timeConfig}
+      />
     );
   }
 
@@ -107,6 +117,11 @@ export default function EventRow({
           <div className={locals.timelineWrapper}>
             <div style={{ left, width }} className={locals.line} />
           </div>
+        </Td>
+      )}
+      {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && isDisplayColumn(headers, 'state') && (
+        <Td>
+          <span className={locals.text}>{getStateBadge(state)}</span>
         </Td>
       )}
       {headers && isDisplayColumn(headers, 'duration') && (
@@ -205,6 +220,36 @@ function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
     return formatDisplayDateTime(end, headers, isPreview);
   }
   return start !== end ? formatDisplayDateTime(end, headers, isPreview) : valueMissingPlaceholder;
+}
+
+function getColorForState(state) {
+  switch (state) {
+    case 'open':
+      return 'gray';
+    case 'closed':
+      return 'teal';
+    case 'manually_closed':
+      return 'green';
+  }
+}
+
+function getTranslatedLabelForState(state) {
+  switch (state) {
+    case 'open':
+      return t('in-events:stateActive');
+    case 'closed':
+      return t('in-events:stateClosedByInstana');
+    case 'manually_closed':
+      return t('in-events:stateManuallyClosed');
+  }
+}
+
+function getStateBadge(state) {
+  return (
+    <Pill className={locals.badge} type={getColorForState(state)}>
+      {getTranslatedLabelForState(state)}
+    </Pill>
+  );
 }
 
 function formatDisplayDateTime(timestamp, headers, isPreview) {

@@ -9,13 +9,13 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { policiesFullyQualified } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
-const policyIdParameter = policyDetailsUrlParameters.policyId;
+const idParameter = policyDetailsUrlParameters.id;
 
 export default function useNavigateToPolicies() {
   const { location, navigate } = useNavigation();
   return () => {
     location.pathname = policiesFullyQualified;
-    setOrDeleteMatrixKey(location, policyIdParameter.path ?? '', policyIdParameter.name, null);
+    setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, null);
     navigate(location);
   };
 }

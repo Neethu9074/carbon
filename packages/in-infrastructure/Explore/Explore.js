@@ -129,8 +129,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const validGroupResult = isGroupingConfigurationValid(group, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
-  const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
+  const isValid = tagFilterExpression.length === 0 || (validTagFilterExpressionResult.data === true && validGroupResult.data === true);
+  const isInvalid = tagFilterExpression.length > 0 && (validTagFilterExpressionResult.data === false || validGroupResult.data === false);
 
   const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
 

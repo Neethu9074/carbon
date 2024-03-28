@@ -90,7 +90,7 @@ export function createOptionsList(
         .filter(result => Boolean(result?.data?.app))
         .sort((resultA, resultB) => compareIgnoreCase(resultA.data.app.label, resultB.data.app.label))
         .map(({ data: { app, services } }) => ({
-          breadcrumbAndLabel: app.label, // used as a header on next level or in search
+          parentLabels: [],
           id: app.id,
           label: app.label,
           icon: 'lib_application',
@@ -157,7 +157,7 @@ function mapServicesWithEndpointsToOptions(
     const withoutEndpoint = {
       applicationId: appId,
       id: service.id,
-      breadcrumbAndLabel: service.id, // used as a header above endpoints-list
+      parentLabels: [],
       icon: 'lib_application_service',
       label: service.label,
       type: 'SERVICE',

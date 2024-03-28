@@ -4,7 +4,6 @@
  */
 
 import { apiScriptTest, apiSimpleTest, browserSimpleTest, browserScriptTest } from 'in-synthetics/utils/constants';
-import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.title');
@@ -76,8 +75,7 @@ const browserSimple: BluePrint = {
         </ul>
       `
     }
-  ],
-  isBeta: syntheticBrowserScriptEnabled
+  ]
 };
 
 const browserScript: BluePrint = {
@@ -100,8 +98,7 @@ const browserScript: BluePrint = {
         </ul>
       `
     }
-  ],
-  isBeta: syntheticBrowserScriptEnabled
+  ]
 };
 
 const blueprintConfig: readonly Readonly<BluePrint>[] = Object.freeze([]);
@@ -111,7 +108,6 @@ export interface BluePrint {
   name: string;
   headline: string;
   description: { headline: string; htmlContent: string }[];
-  isBeta?: boolean;
 }
 
 export const getSimpleBlueprintConfig = (isBrowserEnabled: boolean) => {

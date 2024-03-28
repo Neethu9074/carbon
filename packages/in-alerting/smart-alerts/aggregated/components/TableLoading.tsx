@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { TableHorizontalIndicatorRow, Table, Tbody, TableLoadingSkeletonRows } from '@instana/components';
+import { TableHorizontalIndicatorRow, Table, Tbody, TableLoadingSkeletonRows } from '@instana/legacy';
 import { Progress } from '@instana/types';
 
 import locals from 'in-alerting/smart-alerts/aggregated/components/TableLoading.mless';

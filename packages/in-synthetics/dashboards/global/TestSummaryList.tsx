@@ -25,7 +25,6 @@ import {
   filterUrlStateDefinition,
   matrixPrefix,
   pathSegment,
-  PresenterProps,
   syntheticTypesUrlParameter,
   locationsUrlParameter,
   applicationsUrlParameter
@@ -54,7 +53,6 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSm
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { CONTAINS, EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import CreateSyntheticTest from 'in-synthetics/createTests/CreateSyntheticTest';
@@ -62,6 +60,7 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { trackStartCreate } from 'in-alerting/smart-alerts/components/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useFilterHeader } from 'in-synthetics/dashboards/global/utils';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -124,7 +123,7 @@ const addFilter = (
   }
 };
 
-export default function TestSummaryList() {
+const TestSummaryList = () => {
   const timeConfig = useTimeConfig();
   const [{ syntheticTypes, locationIds, applicationIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
@@ -141,32 +140,12 @@ export default function TestSummaryList() {
     }
   }, [storedDialogAlarm]);
 
-  //function reloadTests() {}
-
-  function showSADialog() {
+  const showSADialog = () => {
     trackStartCreate();
     return addActiveDialog(<CreateSmartAlertDialog />);
-  }
+  };
 
-  function useFilterHeader(isFilterAllowed: boolean) {
-    return function Filter({ syntheticTypes, locationIds, applicationIds }: PresenterProps) {
-      if (!isFilterAllowed) {
-        return undefined;
-      } else {
-        return (
-          <Filters
-            result={syntheticTests}
-            setFilter={setFilter}
-            syntheticTypes={syntheticTypes}
-            locationIds={locationIds}
-            applicationIds={applicationIds}
-          />
-        );
-      }
-    };
-  }
-
-  const rightHeader = useFilterHeader(true);
+  const rightHeader = useFilterHeader(true, syntheticTests, setFilter);
   const location = useLocation();
 
   return (
@@ -207,9 +186,9 @@ export default function TestSummaryList() {
       )}
     </Sticky>
   );
-}
+};
 
-type GetTestSummaryList = {
+interface GetTestSummaryList {
   timeConfig: TimeConfig;
   orderBy: string;
   orderDirection: OrderDirection;
@@ -223,9 +202,9 @@ type GetTestSummaryList = {
   locationIds?: string[];
   applicationIds?: string[];
   excludeIds?: string[];
-};
+}
 
-export function getTestSummaryListData({
+export const getTestSummaryListData = ({
   timeConfig,
   orderBy = 'successRate',
   orderDirection = 'ASC',
@@ -238,7 +217,7 @@ export function getTestSummaryListData({
   locationIds = [],
   applicationIds = [],
   excludeIds = []
-}: GetTestSummaryList) {
+}: GetTestSummaryList) => {
   const baseTagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'AND',
@@ -329,4 +308,6 @@ export function getTestSummaryListData({
     },
     tagFilterExpression: baseTagFilterExpression
   });
-}
+};
+
+export default TestSummaryList;

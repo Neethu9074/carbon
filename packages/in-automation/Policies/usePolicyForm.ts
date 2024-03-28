@@ -27,6 +27,7 @@ import {
 import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notBlankValidator } from 'in-services/validators/string';
+import { isLoading } from 'in-services/util/result';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -109,7 +110,7 @@ export function getPolicyFromForm(form: PolicyForm) {
 function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[], triggers: Triggers) {
   const { actionId, agentId, applyOn, query, inputParameterValues, tags } = parsePolicy(policy);
   // @ts-expect-error
-  const triggerItem = triggers?.[policy.trigger.type]?.find(trigger => trigger.id === policy.trigger.id);
+  const triggerItem = triggers?.[policy.trigger.type]?.data?.find(trigger => trigger.id === policy.trigger.id);
   const form: PolicyForm = createMapForm({
     items: {
       name: createField({
@@ -259,11 +260,11 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
 export default function usePolicyForm(
   policy: PolicyFormEntity | undefined,
   actions: Action[] | undefined,
-  triggers: Triggers | undefined
+  triggers: Triggers
 ) {
   const [form, setForm] = useState<PolicyForm | null>(null);
   useEffect(() => {
-    if (policy && actions && triggers && !form) {
+    if (policy && actions && Object.values(triggers).every(trigger => !isLoading(trigger)) && !form) {
       setForm(createPolicyFormDefinition(policy, actions, triggers));
     }
   }, [policy, actions, triggers, form]);

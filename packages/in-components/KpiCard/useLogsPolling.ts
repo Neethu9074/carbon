@@ -20,7 +20,7 @@ export const LIVE_MODE_REFRESH_INTERVAL = 5000;
 type MetricsConfigurations = { [p: string]: UnifiedMetricConfiguration };
 
 export interface UseLogsPollingParams {
-  metrics: MetricsConfigurations;
+  metrics: MetricsConfigurations | {};
 }
 
 /** Logging doesn't support live mode in the backend, this hook implements autoRefresh via polling **/
@@ -37,7 +37,7 @@ export const useLogsPolling = ({ metrics }: UseLogsPollingParams) => {
   const isLogConfig = Object.values(metrics)
     .map(metric => metric.source)
     .includes('LOG');
-  const isLiveMode = Object.values(metrics)[0].timeConfig.autoRefresh;
+  const isLiveMode = Object.values(metrics)[0]?.timeConfig.autoRefresh;
   const isPollingActive = isLogConfig && isLiveMode;
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const useLogsPolling = ({ metrics }: UseLogsPollingParams) => {
 
       const updatedMetrics = Object.keys(prevMetrics).reduce((acc, key) => {
         const metric = prevMetrics[key];
-        const to = key === 'comparison' ? now + prevMetrics.comparison.timeShift.offset : now;
+        const to = key === 'comparison' ? now + prevMetrics?.comparison.timeShift.offset : now;
         const updatedMetric = {
           ...metric,
           timeConfig: {
@@ -87,7 +87,7 @@ export const useLogsPolling = ({ metrics }: UseLogsPollingParams) => {
 
   const fetchUnifiedMetrics = (): Observable<Result<UnifiedMetricsResult[]> | null> => {
     const metrics = metricsRef.current;
-    const metricTo = metrics && Object.values(metrics)[0].timeConfig.to;
+    const metricTo = metrics && Object.values(metrics)[0]?.timeConfig.to;
     const shouldFetchNewMetrics = metrics && currentDataToTime.current !== metricTo;
 
     if (shouldFetchNewMetrics) {

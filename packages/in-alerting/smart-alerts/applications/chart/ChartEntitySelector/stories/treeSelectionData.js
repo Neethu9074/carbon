@@ -61,7 +61,3 @@ export const leafNode = {
 };
 
 export const options = [{ ...leafNode }, { ...nodeWithKids }];
-
-export function optionsWithBreadCrumbLabels() {
-  return options.map(o => ({ ...o, breadcrumbAndLabel: 'breadcrumbAndLabel' }));
-}

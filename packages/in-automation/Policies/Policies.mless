@@ -5,9 +5,9 @@
  */
 
 :local {
-  .alertName {
+  .eventNameWrapper {
     svg {
-      margin-right: 0.25rem;
+      margin-right: 1.5rem;
     }
   }
 }

@@ -67,7 +67,7 @@ export default function ActionsLanePresenter({
     <>
       <MarkerLane<ActionsData>
         events={filteredActionInstances}
-        label={t('in-automation:ActionCatalog.actions')}
+        label={t('in-automation:actions')}
         isClustered
         chartContentPosition="pre"
         TooltipContent={({ actionInstances = [] }) => (

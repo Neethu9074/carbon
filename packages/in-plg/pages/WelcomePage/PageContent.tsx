@@ -7,7 +7,7 @@
 import { DragDropContext, Draggable, DraggableProvidedDragHandleProps, Droppable } from 'react-beautiful-dnd';
 import React, { useState } from 'react';
 
-import { DashboardTile, Link } from '@instana/components';
+import { DashboardButton, DashboardTile } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -306,11 +306,11 @@ function RenderTable() {
                     };
 
                     return ele?.label == t('in-plg:welcomepage.component.eventWidget.label') ? (
-                      <div id={_config.id} ref={provided.innerRef} {...provided.draggableProps}>
+                      <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
                         <RenderEvents dashboardTileProps={dashboardTileProps} />
                       </div>
                     ) : (
-                      <div id={_config.id} ref={provided.innerRef} {...provided.draggableProps}>
+                      <div id={ele.key} ref={provided.innerRef} {...provided.draggableProps}>
                         {Widget && (
                           <Widget type={ele.type} widgetLabel={ele.key} dashboardTileProps={dashboardTileProps} />
                         )}
@@ -336,7 +336,11 @@ function RenderEvents({ dashboardTileProps }: { dashboardTileProps: dashboardTil
       handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')}
       size="xs"
       rightHeaderContent={
-        EventsfullListViewHref && <Link href={EventsfullListViewHref}>{t('in-plg:welcomepage.viewAll')}</Link>
+        EventsfullListViewHref && (
+          <DashboardButton kind="ghost" size="lg" href={EventsfullListViewHref}>
+            {t('in-plg:welcomepage.viewAll')}
+          </DashboardButton>
+        )
       }
     >
       <div className={locals.dashboardTilesWrapper}>

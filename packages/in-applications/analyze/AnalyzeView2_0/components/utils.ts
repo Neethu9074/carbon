@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+type ItemInfo = {
+  item: any; // TODO: make type concrete after big files get migrated (e.g. Results.js)
+  dataSource: 'calls' | 'traces';
+};
+
+export function getServerity({ item, dataSource }: ItemInfo) {
+  if (dataSource === 'traces') {
+    return item.trace.erroneous ? 10 : 0;
+  }
+  return item.call.errorCount >= 1 ? 10 : 0;
+}

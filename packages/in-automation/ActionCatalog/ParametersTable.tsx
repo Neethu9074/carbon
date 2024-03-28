@@ -27,8 +27,6 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
-import locals from './ActionTable.mless';
-
 interface ParametersTableProps {
   form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
@@ -60,7 +58,6 @@ const getColumnDefinitions = ({
         <Tooltip content={item.value.label} align="topLeft" delay={500}>
           <Link
             href=""
-            className={locals.block}
             ellipsis
             onClick={e => {
               e.preventDefault();

@@ -419,20 +419,20 @@
     "addMore": "Add",
     "UrlShortener": "URL Shortener",
     "consumeData": {
-      "title": "Consume Data",
-      "description": "Get started and deploy your first agent.",
+      "title": "Discover services",
+      "description": "Start by enabling Instana to discover your services and other data to monitor.",
       "buttonName": "Deploy agent",
       "buttonType": "primary"
     },
     "inviteTeammates": {
       "title": "Invite teammates",
       "description": "Collaborate with your colleagues.",
-      "buttonName": "Send invitation",
+      "buttonName": "Manage users",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "Next steps",
-      "description": "Find more setup setup steps by clicking the ? symbol in the top right corner.",
+      "description": "Find more tours and additional support.",
       "buttonName": "Get answers",
       "buttonType": "ghost"
     },

@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { resetMetricsAndOrderOnTypeChange, typeMatrixParameter } from 'in-infrastructure/navigation/paths';
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
 import { mapData } from 'in-services/util/result';
+import useUrlState from 'in-hooks/useUrlState';
 
-export default ({ name, key, timeConfig, value, propose }) => {
+export default ({ name, key, timeConfig, value, propose, tagFilterExpression }) => {
   const fetchKeySuggestions = propose === 'KEYS';
 
   // Creating a copy of TimeConfig and setting the window size to 1 minute.
@@ -15,12 +17,22 @@ export default ({ name, key, timeConfig, value, propose }) => {
     windowSize: 60000
   };
 
+  const urlStateDefinition = {
+    bind: [typeMatrixParameter],
+    resets: [resetMetricsAndOrderOnTypeChange],
+    replaceHistory: false
+  };
+
+  const [{ type: urlType }] = useUrlState(urlStateDefinition);
+  const type = urlType === 'all' ? null : urlType;
+
   return getTagValueSearchSuggestions({
     tagName: key !== undefined ? name + '.' + key : name,
-    timeConfig: modifiedTimeConfig,
+    filter: { tagFilterExpression, timeConfig: modifiedTimeConfig },
     partialTagValue: value,
     valueCount: fetchKeySuggestions ? 1000 : 10,
-    fetchKeySuggestions
+    fetchKeySuggestions,
+    type
   }).map(dropTagPrefixIfNecessary(fetchKeySuggestions, name));
 };
 

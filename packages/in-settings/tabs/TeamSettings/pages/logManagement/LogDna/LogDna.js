@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
 import { createLogger } from '@instana/logger';
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
 // to suppress warning on deprecated code temporarily
 // eslint-disable-next-line import/no-deprecated
@@ -131,7 +131,7 @@ export default function LogDna() {
           <div style={{ marginBottom: '1rem' }}>
             <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableMezmoIntegrationForInstana')}>
               <Heading text={t('in-settings:tabs.showMezmoLinkOnHosts')} htmlFor="logdn-enabled" />
-              <Toggle id="logdna-enabled" checked={enabled} onChange={e => onChange('enabled', e.target.checked)} />
+              <Toggle id="logdna-enabled" checked={enabled} onToggle={e => this.onChange('enabled', e)} />
             </HorizontalFormGroup>
           </div>
           {form.get('instanceType').map(field => (

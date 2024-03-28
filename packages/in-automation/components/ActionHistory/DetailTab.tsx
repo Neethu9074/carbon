@@ -18,10 +18,11 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
-import { actionCatalogPath, policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
+import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
@@ -29,10 +30,10 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
+import { Action, ActionInstance, ActorType } from 'in-types';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
-import { ActionInstance, ActorType } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -53,7 +54,7 @@ export default function DetailTab({
   function getPolicyView(id: string): string {
     const path = location;
     path.pathname = policiesDetailsFullyQualified;
-    setOrDeleteMatrixKey(path, '/policies', 'policyId', id);
+    setOrDeleteMatrixKey(path, '/policies', 'id', id);
     return createHref(path);
   }
 
@@ -75,6 +76,8 @@ export default function DetailTab({
       });
     }
   };
+
+  const hrefToActionDetails = useHrefToActionDetails();
 
   const {
     actionName,
@@ -167,8 +170,10 @@ export default function DetailTab({
       value: actionName,
       isLink: true,
       isObservable: true,
-      ObservableLink: type === 'EXTERNAL' ? undefined : getEntityIdView(actionCatalogPath, actionId),
-      stringLink: type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined,
+      stringLink:
+        type === 'EXTERNAL'
+          ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value
+          : hrefToActionDetails({ id: actionId } as Action),
       onClick: () =>
         handleTracking(
           actionName,

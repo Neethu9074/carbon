@@ -4,132 +4,100 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
 import { LocationListItem } from '@instana/types';
-import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Message } from '@instana/components';
+import { just } from '@instana/observables';
 
-import {
-  showLocationDeactivateErrorMessage,
-  showLocationDeactivateSuccessMessage
-} from 'in-synthetics/createTests/utils/userFeedback';
-import { ModalNotification } from 'in-synthetics/dashboards/global/tabs/locations/components/ModalNotification';
-import { NotificationState } from 'in-synthetics/utils/constants';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
+// eslint-disable-next-line no-restricted-imports
+import List from 'in-settings/components/List';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import SaveButton from 'in-components/form/SaveButton/SaveButton';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { close } from 'in-components/DialogPresenter/store';
-import { deactivateLocation } from 'in-synthetics/api';
-import Label from 'in-components/form/Label/Label';
-import Input from 'in-components/form/Input/Input';
-import { isBlank } from 'in-services/util/string';
-import Dialog from 'in-components/Dialog/Dialog';
-import { t, Trans } from 'in-i18n';
+import BaseDialog from 'in-components/Dialog/BaseDialog';
+import { t } from 'in-i18n';
 
-import locals from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn.mless';
+import locals from 'in-synthetics/dashboards/global/tabs/locations/components/DeactivateSelectedLocation.mless';
 
 interface Props {
   item: LocationListItem;
 }
 
+const columnDefinitions = [
+  {
+    id: 'label',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.locationName'),
+    getContent(entity: LocationListItem) {
+      return <span>{entity.label}</span>;
+    }
+  },
+  {
+    id: 'displayLabel',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.displayName'),
+    getContent(entity: LocationListItem) {
+      return <span>{entity.displayLabel}</span>;
+    }
+  },
+  {
+    id: 'status',
+    label: t('in-synthetics:dialog.createLocation.managedLocation.locationStatus'),
+    getContent() {
+      return (
+        <span className={locals.entityWrapper}>
+          <HealthDot className={classNames({ [locals.dot]: true })} severity={5} iconSize={8} />
+          <span>
+            {t('in-synthetics:dialog.createLocation.managedLocation.deactivateDatacenter.deactivatingStatus')}
+          </span>
+        </span>
+      );
+    }
+  }
+];
+
 const DeactivateSelectedLocation = ({ item }: Props) => {
-  const [isDeactivating, setIsDeactivating] = useState(false);
-  const [validationInputValue, setValidationInputValue] = useState('');
-  const [reasonInputValue, setReasonInputvalue] = useState('');
-  const [notification, setNotification] = useState<NotificationState>({ show: false });
-
-  const locationValidation: string = 'LOCATION';
-
-  const { id, label, linkedTests, status }: LocationListItem = item;
-
-  const doDeactivateAction = () => {
-    setIsDeactivating(true);
-
-    const action$ = deactivateLocation(id);
-
-    action$.once(() => {
-      setIsDeactivating(false);
-      setReasonInputvalue('');
-      setValidationInputValue('');
-      showLocationDeactivateSuccessMessage();
-      close();
-      window.location.reload();
-    });
-
-    action$.errors().once(error => {
-      setIsDeactivating(false);
-      showLocationDeactivateErrorMessage(error.message.split(':')[2]);
-      close();
-    });
-  };
+  const customButton = (
+    <SaveButton kind="primary">
+      {t('in-synthetics:dialog.createLocation.managedLocation.deactivateDatacenter.button')}
+    </SaveButton>
+  );
 
   return (
-    <Dialog
-      title={t('in-synthetics:dashboard.locationList.deactivateLocation.dialogTitle')}
-      className={locals.dialog}
+    <BaseDialog
+      title={t('in-synthetics:dialog.createLocation.managedLocation.deactivateDatacenter.title')}
+      headerIcon={'lib_synthetic_location'}
       onClose={close}
-      doNotCloseOnOutsideClick
+      onSubmit={() => close()}
+      customButtons={customButton}
     >
-      <section className={locals.confirmationDialogContent}>
-        <Typography variant="body-regular">
-          {linkedTests > 0 ? (
-            <Trans
-              i18nKey={'in-synthetics:dashboard.locationList.deactivateLocation.deactiveTestLinked'}
-              values={{ label, status, linkedTests }}
-            />
-          ) : (
-            <Trans
-              i18nKey={'in-synthetics:dashboard.locationList.deactivateLocation.confirmation'}
-              values={{ label, status }}
-            />
-          )}
-        </Typography>
-        <Label htmlFor="reason">
-          {t('in-synthetics:dashboard.locationList.deactivateLocation.reason')}
-          <Input
-            name="reason"
-            value={reasonInputValue}
-            disabled={isDeactivating}
-            onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-              setReasonInputvalue(target.value);
-            }}
-          />
-        </Label>
-        <Label htmlFor="typingValidation">
-          {t('in-synthetics:dashboard.locationList.typeToContinue', {
-            location: locationValidation
-          })}
-          <Input
-            name="typingValidation"
-            placeholder={locationValidation}
-            value={validationInputValue}
-            disabled={isDeactivating}
-            onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-              setValidationInputValue(target.value);
-            }}
-          />
-        </Label>
-        {notification.show && (
-          <ModalNotification
-            message={notification.message!}
-            onClick={() => setNotification({ show: false })}
-            variant={notification.variant}
+      <div className={locals.descriptionWrapper}>
+        <DangerousHtmlPresenter
+          className={locals.htmlText}
+          html={t('in-synthetics:dialog.createLocation.managedLocation.deactivateDatacenter.deactivateMessage')}
+        />
+      </div>
+      <List<LocationListItem>
+        getHeader={() => null}
+        columnDefinitions={columnDefinitions}
+        loadEntities={() => just([item])}
+        renderNoDataAvailable={() => (
+          <NoDataAvailable
+            type="lib_synthetic"
+            height={160}
+            text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Location' })}
           />
         )}
-      </section>
-      <section className={locals.buttons}>
-        <Button kind="subtle" onClick={close}>
-          {t('in-synthetics:dashboard.locationList.cancelButton')}
-        </Button>
-        <Button
-          onClick={() => {
-            doDeactivateAction();
-          }}
-          disabled={validationInputValue !== locationValidation || isBlank(reasonInputValue)}
-          kind="danger"
-        >
-          {t('in-synthetics:dashboard.locationList.deactivateLocation.deactivateButton')}
-        </Button>
-      </section>
-    </Dialog>
+        isSearchable={false}
+        pageSize={1}
+        initialOrderBy="label"
+      />
+      <Message withIcon type="neutral" className={locals.message}>
+        {t('in-synthetics:dialog.createLocation.managedLocation.deactivateDatacenter.warningMessage')}
+      </Message>
+    </BaseDialog>
   );
 };
 

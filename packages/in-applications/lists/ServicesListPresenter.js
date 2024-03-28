@@ -6,8 +6,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper, TableEntityCounter, Link } from '@instana/components';
+import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { TableEntityCounter } from '@instana/legacy';
 import { Button } from '@instana/legacy';
+import { Link } from '@instana/components';
 
 import {
   createEndpointTypesUrlParameter,

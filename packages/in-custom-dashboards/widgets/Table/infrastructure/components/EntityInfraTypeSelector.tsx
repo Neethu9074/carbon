@@ -139,7 +139,7 @@ function getEntityOptions(entityItems: EntityItem[]) {
 
   return entityItems.map((entity: EntityItem) => ({
     ...entity,
-    breadcrumbAndLabel: entity.label,
+    parentLabels: [],
     icon: getInfraIconType(entity.type)
   }));
 }
