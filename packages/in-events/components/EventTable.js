@@ -109,7 +109,7 @@ function EventTable(props) {
   }
 
   function onItemClicked(eventId) {
-    onChange({ eventId });
+    onChange({ eventId, relatedEventsPage: 1 });
   }
 
   if (!selectedEventId) {
