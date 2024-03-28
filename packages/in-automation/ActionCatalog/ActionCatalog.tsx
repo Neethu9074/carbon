@@ -34,9 +34,9 @@ import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { deleteAction } from 'in-automation/api';
+import { Action, Error } from 'in-types';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
-import { Action, Error } from 'in-types';
 
 const pathSegment = '/actionCatalog';
 const matrixPrefix = '';
@@ -196,7 +196,7 @@ function onDeleteSuccess() {
   addMessage(
     {
       type: 'info',
-      timeout: 2000,
+      timeout: 5000,
       content: t('in-automation:ActionCatalog.deleteDialog.success')
     },
     'action-delete-info'
