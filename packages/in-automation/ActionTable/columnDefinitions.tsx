@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { formatDateTime } from '@instana/format-date';
-import { Typography } from '@instana/components';
+import { Typography, Link } from '@instana/components';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -17,21 +17,29 @@ import { getType, isExternal } from 'in-automation/ActionCatalog/shared';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/api';
+import { executeTurboActionTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   id: 'name',
   label: t('in-automation:name'),
+  ellipsis: true,
   getContent(action) {
     const description = action.description ?? action.name;
     const name = isExternal(action.type) ? description : action.name;
     return (
       <Tooltip content={name} align="topLeft" delay={500}>
-        <WithSubscript subscript={getType(action.type)}>
-          <Typography noWrap variant="body-regular">
-            {name}
-          </Typography>
-        </WithSubscript>
+        {isExternal(action.type) ? (
+          <Link ellipsis href={name} external onClick={() => handleTurboTracking(name)}>
+            <span>{description}</span>
+          </Link>
+        ) : (
+          <WithSubscript subscript={getType(action.type)}>
+            <Typography noWrap variant="body-regular">
+              {name}
+            </Typography>
+          </WithSubscript>
+        )}
       </Tooltip>
     );
   },
@@ -94,4 +102,12 @@ export const lastModifiedColumn: ColumnDefinition<Action> = {
   getContent(action) {
     return <Typography variant="body-regular">{formatDateTime(+action.modifiedAt * 1000)}</Typography>;
   }
+};
+
+export const handleTurboTracking = (name: string) => {
+  executeTurboActionTracker({
+    actionName: name,
+    actionType: 'Turbonomic',
+    page: 'Recommended actions'
+  });
 };
