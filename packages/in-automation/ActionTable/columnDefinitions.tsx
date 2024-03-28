@@ -31,7 +31,7 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
       <Tooltip content={name} align="topLeft" delay={500}>
         {isExternal(action.type) ? (
           <Link ellipsis href={name} external onClick={() => handleTurboTracking(name)}>
-            <span>{description}</span>
+            <span>{name}</span>
           </Link>
         ) : (
           <WithSubscript subscript={getType(action.type)}>
