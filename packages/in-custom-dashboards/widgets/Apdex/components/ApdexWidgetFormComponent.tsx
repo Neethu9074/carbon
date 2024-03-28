@@ -29,7 +29,9 @@ import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/App
 import ApdexManageList from 'in-custom-dashboards/widgets/Apdex/components/ApdexManageList';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { productAreas } from 'in-services/tracking/productAreas';
 import Section from 'in-components/workspace/Section/Section';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
@@ -56,7 +58,10 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
 
   const track = useSloTrackers();
   useEffect(() => {
-    track(APDEX_WIDGET_EDIT_START, undefined);
+    track(APDEX_WIDGET_EDIT_START, {
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
   }, [track]);
 
   // eslint-disable-next-line import/no-deprecated
@@ -99,7 +104,11 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
             entityType={entityType}
             onChange={value => updateForm<string>([apdexConfigIdKey], value)}
             onOpenConfigurationManager={() => {
-              track(APDEX_MANAGEMENT_VIEW, { entityType: entityType });
+              track(APDEX_MANAGEMENT_VIEW, {
+                entityType: entityType,
+                productArea: productAreas.custom_dashboard,
+                pageName: pageNames.custom_dashboard
+              });
               const config = getSlideInViewConfig({
                 entityType,
                 entityId,
@@ -132,7 +141,11 @@ function getSlideInViewConfig({
     slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]): () => void {
       if (showCreateFormState) return () => setShowCreateFormState(undefined);
       return () => {
-        track(APDEX_MANAGEMENT_EXIT, { entityType });
+        track(APDEX_MANAGEMENT_EXIT, {
+          entityType,
+          productArea: productAreas.custom_dashboard,
+          pageName: pageNames.custom_dashboard
+        });
         slideOut();
       };
     },

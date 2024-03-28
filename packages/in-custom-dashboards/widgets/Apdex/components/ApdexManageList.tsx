@@ -23,6 +23,8 @@ import ApdexList from 'in-custom-dashboards/widgets/Apdex/components/ApdexList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -57,19 +59,31 @@ export default function ApdexManageList({
   const onShowSlideInContentChange = () => onChange(undefined);
 
   const onCreateConfig = () => {
-    track(APDEX_MANAGEMENT_CREATE_START, { entityType });
+    track(APDEX_MANAGEMENT_CREATE_START, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
     setEditableApdexConfig({});
     onShowCreateForm(false);
   };
 
   const onEditConfig = (config: ApdexConfiguration) => {
-    track(APDEX_MANAGEMENT_EDIT_START, { entityType });
+    track(APDEX_MANAGEMENT_EDIT_START, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
     setEditableApdexConfig(config);
     onShowCreateForm(true);
   };
 
   const onDeleteApdexConfig = (id: string) => {
-    track(APDEX_MANAGEMENT_DELETE, { entityType });
+    track(APDEX_MANAGEMENT_DELETE, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
 
     deleteApdexConfiguration(id)
       .filter(result => !isLoading(result))

@@ -19,6 +19,10 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { serviceLevelsRoot } from 'in-service-levels/navigation/path';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t, Trans } from 'in-i18n';
 
 type CompletionCallback = (success: boolean) => void;
@@ -28,14 +32,17 @@ export default function useDoDeleteSloConfiguration(
   configuration: ServiceLevelObjectiveConfiguration,
   onComplete?: CompletionCallback
 ): DoFunction {
+  const location = useLocation();
+  const rootPath = serviceLevelsRoot === location?.pathname;
   return () => {
-    showConfirmationDialog(configuration, onComplete);
+    showConfirmationDialog(configuration, onComplete, rootPath);
   };
 }
 
 function showConfirmationDialog(
   configuration: ServiceLevelObjectiveConfiguration,
-  onComplete?: CompletionCallback
+  onComplete?: CompletionCallback,
+  rootPath?: boolean
 ): void {
   const { name } = configuration;
   addActiveDialog(
@@ -53,7 +60,7 @@ function showConfirmationDialog(
       confirmButtonLabel={t('in-service-levels:general.deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(configuration, onComplete);
+        onDelete(configuration, onComplete, rootPath);
       }}
     />
   );
@@ -63,24 +70,30 @@ function showConfirmationDialog(
     blueprint: configuration.indicator.blueprint,
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type
+    timeWindowType: configuration.timeWindow.type,
+    productArea: productAreas.slo,
+    pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
   });
 }
 
-function onDelete(configuration: ServiceLevelObjectiveConfiguration, onComplete?: CompletionCallback): void {
+function onDelete(
+  configuration: ServiceLevelObjectiveConfiguration,
+  onComplete?: CompletionCallback,
+  rootPath?: boolean
+): void {
   deleteSloConfiguration(configuration.id!).once(
     () => {
-      onDeleteSuccess(configuration);
+      onDeleteSuccess(configuration, rootPath);
       onComplete?.(true);
     },
     () => {
-      onDeleteFailed(configuration);
+      onDeleteFailed(configuration, rootPath);
       onComplete?.(false);
     }
   );
 }
 
-function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration): void {
+function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, rootPath?: boolean): void {
   addMessage(
     {
       type: 'info',
@@ -95,11 +108,13 @@ function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration): voi
     blueprint: configuration.indicator.blueprint,
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type
+    timeWindowType: configuration.timeWindow.type,
+    productArea: productAreas.slo,
+    pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
   });
 }
 
-function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration): void {
+function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, rootPath?: boolean): void {
   addMessage(
     {
       type: 'danger',
@@ -114,6 +129,8 @@ function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration): void
     blueprint: configuration.indicator.blueprint,
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type
+    timeWindowType: configuration.timeWindow.type,
+    productArea: productAreas.slo,
+    pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
   });
 }

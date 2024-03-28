@@ -41,11 +41,16 @@ import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes'
 // eslint-disable-next-line no-restricted-imports
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
+import { ProductArea, productAreas } from 'in-services/tracking/productAreas';
+import { PageName, pageNames } from 'in-services/tracking/pageNames';
 import { track } from 'in-services/tracking/trackers';
 
-interface SloTrackingEventPayload {
+interface SloTrackingMeta {
+  productArea: ProductArea;
+  pageName: PageName;
+}
+
+interface SloTrackingEventPayload extends SloTrackingMeta {
   id?: string;
   mode: CreateSloDialogMode;
   entityType: SloEntity['type'];
@@ -54,42 +59,34 @@ interface SloTrackingEventPayload {
   timeWindowType: TimeWindow['type'];
 }
 
-interface SloErrorTrackingEventPayload {
+interface SloErrorTrackingEventPayload extends SloTrackingMeta {
   mode: CreateSloDialogMode;
   code: 'API_ERROR' | 'UNEXPECTED_ERROR' | 'INVALID_SLO_CONFIG';
 }
 
-interface SliWidgetTrackingEventPayload {
+interface SliWidgetTrackingEventPayload extends SloTrackingMeta {
   entityType: SliType;
 }
 
-interface ApdexTrackingEventPayload {
+interface ApdexTrackingEventPayload extends SloTrackingMeta {
   entityType: ApdexEntityTypes;
 }
 
 export const sloTrackers = {
   [SLO_LIST_VIEW]: () => track(SLO_LIST_VIEW, { productArea: productAreas.slo, pageName: pageNames.slo_summary }),
-  [SLO_SUMMARY_VIEW]: (e: SloTrackingEventPayload) => track(SLO_SUMMARY_VIEW, { ...e, productArea: productAreas.slo }),
-  [SLO_CONFIG_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) =>
-    track(SLO_CONFIG_VIEW, { ...e, productArea: productAreas.slo, pageName: pageNames.slo_config }),
-  [SLO_CONFIG_DIALOG_OPEN]: () =>
-    track(SLO_CONFIG_DIALOG_OPEN, { productArea: productAreas.slo, pageName: pageNames.service_levels }),
-  [SLO_CONFIG_DIALOG_CLOSE]: () =>
-    track(SLO_CONFIG_DIALOG_CLOSE, { productArea: productAreas.slo, pageName: pageNames.service_levels }),
-  [SLO_CONFIG_DIALOG_ERROR]: (e: SloErrorTrackingEventPayload) =>
-    track(SLO_CONFIG_DIALOG_ERROR, { ...e, productArea: productAreas.slo, pageName: pageNames.service_levels }),
-  [SLO_CONFIG_DIALOG_FINISH]: (e: SloTrackingEventPayload) =>
-    track(SLO_CONFIG_DIALOG_FINISH, { ...e, productArea: productAreas.slo, pageName: pageNames.service_levels }),
-  [SLO_CONFIG_DELETE_START]: (e: Omit<SloTrackingEventPayload, 'mode'>) =>
-    track(SLO_CONFIG_DELETE_START, { ...e, productArea: productAreas.slo, pageName: pageNames.service_levels }),
-  [SLO_CONFIG_DELETE_ERROR]: (e: Omit<SloTrackingEventPayload, 'mode'>) =>
-    track(SLO_CONFIG_DELETE_ERROR, { ...e, productArea: productAreas.slo, pageName: pageNames.service_levels }),
-  [SLO_CONFIG_DELETE_FINISH]: (e: Omit<SloTrackingEventPayload, 'mode'>) =>
-    track(SLO_CONFIG_DELETE_FINISH, { ...e, productArea: productAreas.slo, pageName: pageNames.service_levels })
+  [SLO_SUMMARY_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_SUMMARY_VIEW, e),
+  [SLO_CONFIG_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_VIEW, e),
+  [SLO_CONFIG_DIALOG_OPEN]: (e: SloTrackingMeta) => track(SLO_CONFIG_DIALOG_OPEN, e),
+  [SLO_CONFIG_DIALOG_CLOSE]: (e: SloTrackingMeta) => track(SLO_CONFIG_DIALOG_CLOSE, e),
+  [SLO_CONFIG_DIALOG_ERROR]: (e: SloErrorTrackingEventPayload) => track(SLO_CONFIG_DIALOG_ERROR, e),
+  [SLO_CONFIG_DIALOG_FINISH]: (e: SloTrackingEventPayload) => track(SLO_CONFIG_DIALOG_FINISH, e),
+  [SLO_CONFIG_DELETE_START]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_DELETE_START, e),
+  [SLO_CONFIG_DELETE_ERROR]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_DELETE_ERROR, e),
+  [SLO_CONFIG_DELETE_FINISH]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_DELETE_FINISH, e)
 } as const;
 
 export const sliWidgetTrackers = {
-  [SLO_WIDGET_EDIT_START]: () => track(SLO_WIDGET_EDIT_START),
+  [SLO_WIDGET_EDIT_START]: (e: SloTrackingMeta) => track(SLO_WIDGET_EDIT_START, e),
   [SLI_MANAGEMENT_VIEW]: (e: SliWidgetTrackingEventPayload) => track(SLI_MANAGEMENT_VIEW, e),
   [SLI_MANAGEMENT_EXIT]: (e: SliWidgetTrackingEventPayload) => track(SLI_MANAGEMENT_EXIT, e),
   [SLI_MANAGEMENT_CREATE_START]: (e: SliWidgetTrackingEventPayload) => track(SLI_MANAGEMENT_CREATE_START, e),
@@ -100,7 +97,7 @@ export const sliWidgetTrackers = {
 } as const;
 
 export const apdexWidgetTrackers = {
-  [APDEX_WIDGET_EDIT_START]: () => track(APDEX_WIDGET_EDIT_START),
+  [APDEX_WIDGET_EDIT_START]: (e: SloTrackingMeta) => track(APDEX_WIDGET_EDIT_START, e),
   [APDEX_MANAGEMENT_VIEW]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_VIEW, e),
   [APDEX_MANAGEMENT_EXIT]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_EXIT, e),
   [APDEX_MANAGEMENT_CREATE_START]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_CREATE_START, e),

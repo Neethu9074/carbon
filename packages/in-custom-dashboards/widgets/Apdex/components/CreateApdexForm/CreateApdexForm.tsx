@@ -25,6 +25,8 @@ import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes'
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
@@ -77,7 +79,11 @@ export default function CreateApdexForm({
   };
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
-    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
+    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
     addMessage(
       {
         type: 'info',

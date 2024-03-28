@@ -16,6 +16,8 @@ import EntitySection from 'in-service-levels/components/SloDashboard/components/
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import TagList from 'in-components/TagsList/TagList';
 import { Nullish } from 'in-types';
 
@@ -47,7 +49,9 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
       blueprint: indicator.blueprint,
       indicatorType: indicator.type,
       timeWindowType: timeWindow.type,
-      entityType: entity.type
+      entityType: entity.type,
+      productArea: productAreas.slo,
+      pageName: pageNames.slo_config
     });
   }, [track, configuration]);
 

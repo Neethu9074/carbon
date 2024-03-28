@@ -21,6 +21,8 @@ import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
 
@@ -64,7 +66,7 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
 
   const trackSaveSuccess = (entityType: SliType, editMode: boolean): void => {
     const event = editMode ? SLI_MANAGEMENT_EDIT_FINISH : SLI_MANAGEMENT_CREATE_FINISH;
-    track(event, { entityType });
+    track(event, { entityType, productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard });
   };
 
   const normalizeFormData = (submittedForm: Item) => {

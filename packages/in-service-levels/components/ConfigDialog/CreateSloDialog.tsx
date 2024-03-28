@@ -33,8 +33,12 @@ import { close as closeDialog } from 'in-components/DialogPresenter/store';
 import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { serviceLevelsRoot } from 'in-service-levels/navigation/path';
 import ConfigDialog from 'in-service-levels/components/ConfigDialog';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { NavItem } from 'in-components/SideNav/SideNav';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -69,10 +73,15 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   const [form, setForm] = useState(createSloForm({ entityType: 'application', sloConfig: configuration }));
   const updateForm = useSloFormSideEffects(form, setForm);
   const [submitStatus, doSubmit] = useFormSubmission(getFormSubmitAction(mode));
+  const location = useLocation();
 
+  const rootPath = location?.pathname === serviceLevelsRoot;
   useEffect(() => {
-    trackSloEvent(SLO_CONFIG_DIALOG_OPEN, undefined);
-  }, []);
+    trackSloEvent(SLO_CONFIG_DIALOG_OPEN, {
+      productArea: productAreas.slo,
+      pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
+    });
+  }, [rootPath]);
 
   const entityIdField = form.getIn(['entity', 'entityId']);
   const tagFilterField = form.getIn(['scope', 'tagFilterExpression']);
@@ -144,7 +153,10 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
           title={t('in-service-levels:createSloDialog.title')}
           navItems={navItems}
           onClose={() => {
-            trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, undefined);
+            trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, {
+              productArea: productAreas.slo,
+              pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
+            });
             closeDialog();
           }}
           noHeader
@@ -157,8 +169,8 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
 
             doSubmit({
               payload: formToSloConfiguration(form, configuration?.id),
-              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) => onSuccess(mode, result),
-              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) => onError(mode, result)
+              onSuccess: (result: Result<ServiceLevelObjectiveConfiguration>) => onSuccess(mode, result, rootPath),
+              onError: (result?: Result<ServiceLevelObjectiveConfiguration>) => onError(mode, result, rootPath)
             });
           }}
         />
@@ -167,7 +179,7 @@ export default function CreateSloDialog({ configuration, mode }: CreateSloDialog
   );
 }
 
-function onSuccess(mode: CreateSloDialogMode, { data }: Result<ServiceLevelObjectiveConfiguration>) {
+function onSuccess(mode: CreateSloDialogMode, { data }: Result<ServiceLevelObjectiveConfiguration>, rootPath: boolean) {
   if (!data) throw Error(ServiceLevelErrors.UNEXPECTED_SLO_CREATION_ERROR);
 
   const { name, id, entity, indicator, timeWindow } = data;
@@ -187,7 +199,9 @@ function onSuccess(mode: CreateSloDialogMode, { data }: Result<ServiceLevelObjec
     blueprint: indicator.blueprint,
     indicatorType: indicator.type,
     entityType: entity.type,
-    timeWindowType: timeWindow.type
+    timeWindowType: timeWindow.type,
+    productArea: productAreas.slo,
+    pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
   });
 
   closeDialog();
@@ -198,9 +212,14 @@ const errorMessageHeader = {
   title: t('in-service-levels:createSloDialog.messages.creationFailedTitle')
 } as const;
 
-function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiveConfiguration>) {
+function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiveConfiguration>, rootPath?: boolean) {
   if (result && result.errors.length !== 0) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'API_ERROR' });
+    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
+      mode,
+      code: 'API_ERROR',
+      productArea: productAreas.slo,
+      pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
+    });
 
     return result.errors.forEach(error =>
       addMessage({
@@ -212,7 +231,12 @@ function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiv
   }
 
   if (!result?.data) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'UNEXPECTED_ERROR' });
+    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
+      mode,
+      code: 'UNEXPECTED_ERROR',
+      productArea: productAreas.slo,
+      pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
+    });
 
     return addMessage({
       ...errorMessageHeader,
@@ -223,7 +247,12 @@ function onError(mode: CreateSloDialogMode, result?: Result<ServiceLevelObjectiv
 
   const { name } = result.data;
 
-  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, { mode, code: 'INVALID_SLO_CONFIG' });
+  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
+    mode,
+    code: 'INVALID_SLO_CONFIG',
+    productArea: productAreas.slo,
+    pageName: rootPath ? pageNames.service_levels : pageNames.slo_config
+  });
 
   return addMessage({
     ...errorMessageHeader,

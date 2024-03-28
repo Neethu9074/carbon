@@ -22,6 +22,8 @@ import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -109,17 +111,29 @@ function SliManageListContent<S extends SliType>({
   const track = useSloTrackers();
 
   const onCreateConfig = () => {
-    track(SLI_MANAGEMENT_CREATE_START, { entityType });
+    track(SLI_MANAGEMENT_CREATE_START, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
     setSliConfigToEdit({});
     onShowCreateForm(false);
   };
   const onEditConfig = (config: SliConfigBySliType<S>) => {
-    track(SLI_MANAGEMENT_EDIT_START, { entityType });
+    track(SLI_MANAGEMENT_EDIT_START, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
     setSliConfigToEdit({ ...config, sliName: t('in-custom-dashboards:editor.copyOf', { title: config.sliName }) });
     onShowCreateForm(true);
   };
   const onDeleteConfig = (id: string) => {
-    track(SLI_MANAGEMENT_DELETE, { entityType });
+    track(SLI_MANAGEMENT_DELETE, {
+      entityType,
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    });
     deleteSliConfiguration(id).once(onDeleteSuccess, onDeleteFailed);
   };
 
@@ -145,7 +159,11 @@ function SliManageListContent<S extends SliType>({
             <Button
               kind="action"
               onClick={() => {
-                track(SLI_MANAGEMENT_CREATE_START, { entityType });
+                track(SLI_MANAGEMENT_CREATE_START, {
+                  entityType,
+                  productArea: productAreas.custom_dashboard,
+                  pageName: pageNames.custom_dashboard
+                });
                 onCreateConfig();
               }}
               icon="lib_openclose_add_circle_outline"
