@@ -38,7 +38,7 @@ export default function Unix({
 
   function getPlatformArch() {
     return (
-      <Stack direction="horizontal" align="end">
+      <Stack direction="horizontal" align="end" gap="disabled">
         <DropDown
           value={platformArch.label}
           options={getPlatformArchitectures(agentMode).map(option => option.label)}
@@ -54,8 +54,8 @@ export default function Unix({
         <Button
           href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, platformArch.key, butlerDomain)}
           icon="lib_actions_download"
-          iconSize="xs"
-          kind="subtle"
+          iconSize="s"
+          kind="action"
         >
           {''}
         </Button>
