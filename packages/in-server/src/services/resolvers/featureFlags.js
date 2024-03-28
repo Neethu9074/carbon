@@ -181,6 +181,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'logWidgetsEnabled',
+    instanaCtlKey: 'feature.logging.widgets',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
