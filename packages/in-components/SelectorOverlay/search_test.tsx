@@ -224,14 +224,15 @@ describe('in-components/SelectorOverlay/search', () => {
         withHighlights: {
           label: (
             <>
-              <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+              <span key="0" className="local-css-highlight">App</span>lication <span key="1" className="local-css-highlight">name</span>
             </>
           ),
           description: (
             <>
-              <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+              <span key="0" className="local-css-highlight">App</span>lication <span key="1" className="local-css-highlight">name</span>
             </>
-          )
+          ),
+          parentLabels: []
         },
         keywords: 'application name',
         badge: null,
@@ -246,14 +247,15 @@ describe('in-components/SelectorOverlay/search', () => {
         withHighlights: {
           label: (
             <>
-              JVM <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+              JVM <span key="0" className="local-css-highlight">App</span>lication <span key="1" className="local-css-highlight">name</span>
             </>
           ),
           description: (
             <>
-              JVM <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+              JVM <span key="0" className="local-css-highlight">App</span>lication <span key="1" className="local-css-highlight">name</span>
             </>
-          )
+          ),
+          parentLabels: []
         },
         keywords: 'jvm application name',
         badge: null,
