@@ -10,7 +10,7 @@ let analytics = null;
 
 export function Segment() {
   if (analytics === null) {
-    analytics = AnalyticsBrowser.load({ writeKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj' });
+    analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
   }
   return analytics;
 }
