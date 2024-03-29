@@ -4,12 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
+//@ts-ignore
 import { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 
+import { commomMilestoneVersion, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
 //@ts-expect-error
-import { Segment, commonProperties } from 'in-services/tracking/segment/SegmentInit';
+import { Segment } from 'in-services/tracking/segment/SegmentInit';
+import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
 import { customRealmName } from 'in-services/util/constants';
 import { playwithEnabled } from 'in-services/featureFlags';
 import getUsageInfo from 'in-subscription/getUsageInfo';
@@ -28,11 +31,6 @@ interface currentUnitProps {
   tenantUnitId: string;
   tenantUnitName: string;
   tenantName: string;
-}
-
-interface combineLatestProps {
-  tenantWithUnits: TenantsWithUnits;
-  usageInfo: UsageInfoProps;
 }
 
 let productPlanType: string;
@@ -56,10 +54,11 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
     const url = window.location.href;
     const path = window.location.pathname;
 
-    combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(response => {
-      const responseWithType = response as unknown as combineLatestProps;
-      productPlanType = getLicenseTypeForSegment(responseWithType.usageInfo?.activeLicenseType);
-      const units: any = responseWithType.tenantWithUnits[tenant?.name!];
+    combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
+      const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
+      const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
+      productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
+      const units: any = tenantWithUnitsWithType[tenant?.name!];
 
       if (!units) {
         return;
@@ -81,29 +80,15 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         userId,
         tenantName,
         tenantUnitName,
-        commonProperties
+        productTitle,
+        ut30,
+        productCodeType,
+        productCode,
+        commomMilestoneVersion
       });
     });
   }, [parentProductArea, parentPageName]);
   return null; // SegmentEventTracker does not render anything
-
-  function getLicenseTypeForSegment(currentActiveLicense: string) {
-    switch (currentActiveLicense) {
-      case 'selfService':
-        return 'trial';
-      case 'quota':
-        return 'POC';
-      case 'free_not_for_resale':
-        return 'NFR';
-      case 'paidPerUse':
-      case 'hostBasedPaid':
-        return 'subscription';
-      case 'paid-paygo':
-        return 'paygo';
-      default:
-        return currentActiveLicense;
-    }
-  }
 };
 
 export default PageTracker;
