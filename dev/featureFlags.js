@@ -43,6 +43,7 @@ module.exports = {
   loggingEnabled: true,
   carbonShellEnabled: true,
   carbonPillEnabled: true,
+  carbonMessageEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,

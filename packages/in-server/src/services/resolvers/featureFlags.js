@@ -521,6 +521,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonMessageEnabled',
+    instanaCtlKey: 'feature.carbon.message.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
     instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false
