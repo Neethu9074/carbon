@@ -141,7 +141,7 @@ function writeTryBuildServerConfigFile(cb) {
       name: 'in-token-test'
     },
     mixpanelToken: '3f2a70afd2509a7a526380e354dce94b',
-    segmentKey: 'writeKey',
+    segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
     eum: {
       apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
       domain: 'pink.instana.rocks/eum/',
