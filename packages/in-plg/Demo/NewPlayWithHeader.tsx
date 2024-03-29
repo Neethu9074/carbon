@@ -53,7 +53,7 @@ export default function NewPlayWithHeader() {
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52048"
         onClick={() => {
           eventTracker({
-            eventName: 'Free Trial clicked',
+            eventName: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
             parentProductArea: productAreas.home,
             parentPageName: pageNames.home
           });
