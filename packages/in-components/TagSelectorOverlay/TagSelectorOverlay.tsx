@@ -41,7 +41,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
     []
   );
   const options = useMemo(
-    () => toOptions(tagCatalog, tagCatalog.tagTree, showTypeBadge, queryableOnly, []),
+    () => toOptions(tagCatalog, tagCatalog.tagTree, showTypeBadge, queryableOnly, undefined, []),
     [showTypeBadge, tagCatalog, queryableOnly]
   );
 
@@ -70,6 +70,7 @@ export interface Options {
   keywords: string;
   tagName: string;
   icon?: string;
+  scoreBoost?: number;
   children: Options[];
   withHighlights?: {
     label: string | JSX.Element;
@@ -83,6 +84,7 @@ function toOptions(
   tagTreeNodes: TagTreeNodeUnion[],
   showTypeBadge: boolean | Nullish,
   queryableOnly: boolean,
+  scoreBoost?: number,
   parentLabels: string[] = []
 ): Options[] {
   const joinedParentLabels = parentLabels.join(' ');
@@ -101,6 +103,7 @@ function toOptions(
               tagTreeNode.children,
               showTypeBadge,
               queryableOnly,
+              tagTreeNode.scoreBoost,
               parentLabels.concat(tagTreeNode.label)
             )
           : (emptyArray as unknown as Options[]);
@@ -119,11 +122,22 @@ function toOptions(
             keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
             tagName: 'tagName' in tagTreeNode ? tagTreeNode.tagName : '',
             icon: tagTreeNode.icon,
+            scoreBoost: multiplyBoost(scoreBoost, tagTreeNode.scoreBoost),
             children: filteredChildren,
             tagType: 'tagName' in tagTreeNode ? tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type : undefined
           };
     })
     .filter(Boolean) as Options[];
+}
+
+function multiplyBoost(scoreA?: number, scoreB?: number) {
+  if (!scoreA) {
+    return scoreB;
+  }
+  if (!scoreB) {
+    return scoreA;
+  }
+  return scoreA * scoreB;
 }
 
 interface BreadcrumbAndLabelProps {
