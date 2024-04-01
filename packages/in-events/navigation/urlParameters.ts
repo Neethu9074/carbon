@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { eventsPath } from 'in-events/navigation/paths';
 import { eventId } from 'in-events/navigation/matrix';
 
@@ -21,4 +22,11 @@ export const orderByUrlParameter = {
   path: eventsPath,
   name: 'orderBy',
   initialState: 'start'
+};
+
+export const pageNumberUrlParameter = {
+  path: eventsPath,
+  name: 'relatedEventsPage',
+  initialState: 1,
+  parser: intParser
 };

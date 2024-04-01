@@ -49,13 +49,13 @@ const EumTags: EumTagMap = {
     displayName: t('in-mobile-apps:analyzeView.eumTags.viewTransition.android.activeFragmentList'),
     tagName: 'active.fragment.list'
   },
-  'act.created.time': {
-    displayName: t('in-mobile-apps:analyzeView.eumTags.viewTransition.android.activityCreatedTime'),
-    tagName: 'activity.created.time'
+  'act.resume.time': {
+    displayName: t('in-mobile-apps:analyzeView.eumTags.viewTransition.android.activityResumeTime'),
+    tagName: 'activity.resume.time'
   },
   'frag.resume.time': {
     displayName: t('in-mobile-apps:analyzeView.eumTags.viewTransition.android.fragmentResumeTime'),
-    tagName: 'fragment.created.time'
+    tagName: 'fragment.resume.time'
   },
 
   //###### FOR IOS ######

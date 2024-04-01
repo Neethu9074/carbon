@@ -181,6 +181,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'logWidgetsEnabled',
+    instanaCtlKey: 'feature.log.widgets.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -403,6 +408,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticDeactivateDatacentersEnabled',
     instanaCtlKey: 'feature.synthetic.deactivate.datacenters.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticCertificateCheckEnabled',
+    instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
     defaultValue: false
   },
   {

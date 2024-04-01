@@ -44,6 +44,7 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 
@@ -115,6 +116,9 @@ export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUp
 // Synthetic Deactivate Datacenters feature flag
 export const syntheticDeactivateDatacentersEnabled = isFeatureFlagEnabled('syntheticDeactivateDatacentersEnabled');
 
+// Synthetic Certificate Check Enabled feature flag
+export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'
@@ -161,7 +165,7 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
-export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled');
+export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled', true);
 
 // ########################################################################################
 // Chart gap hiding

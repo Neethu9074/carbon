@@ -52,13 +52,23 @@ function fuzzyMatches(targets: Options[], query: string): Fuzzysort.KeysResults<
     threshold: -FUZZY_SEARCH_THRESHOLD, // Don't return matches worse than this (higher is faster)
     limit: 5000, // Don't return more results than this (lower is faster)
     keys: KEYS,
-    scoreFn: a => KEYS.map((_, index) => score(a[index], index)).reduce((a, b) => a + b)
+    // conversion to unknown to add obj field as it is added before calling scoreFn (see https://github.com/farzher/fuzzysort/blob/c7f1d2674d7fa526015646bc02fd17e29662d30c/fuzzysort.js#L94)
+    scoreFn: a =>
+      KEYS.map((_, index) => score(a[index], index, (a as unknown as { obj: Options }).obj)).reduce((a, b) => a + b)
   });
 }
 
-function score(result: Fuzzysort.KeyResult<Options>, offset: number, range: number = RANGE): number {
-  return result ? result.score - offset * range : -(offset + 1) * range;
+function score(result: Fuzzysort.KeyResult<Options>, offset: number, matchObj: Options, range: number = RANGE): number {
+  if (result) {
+    const score = result.score - offset * range;
+    if (matchObj.scoreBoost) {
+      return score / matchObj.scoreBoost;
+    }
+    return score;
+  }
+  return -(offset + 1) * range;
 }
+
 function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
   var label = highlightResult(matchResult[0]);
   var description = highlightResult(matchResult[1]);
