@@ -17,7 +17,7 @@ import { getType, isExternal } from 'in-automation/ActionCatalog/shared';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/api';
-import { executeTurboActionTracker } from 'in-automation/tracker';
+import { viewTurboActionTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
@@ -105,7 +105,7 @@ export const lastModifiedColumn: ColumnDefinition<Action> = {
 };
 
 export const handleTurboTracking = (name: string) => {
-  executeTurboActionTracker({
+  viewTurboActionTracker({
     actionName: name,
     actionType: 'Turbonomic',
     page: 'Recommended actions'
