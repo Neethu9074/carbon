@@ -103,6 +103,28 @@ const namespaceOptions: Options[] = [
   }
 ];
 
+const appNameOptions: Options[] = [
+  {
+    label: 'JVM Application name',
+    description: 'JVM Application name',
+    keywords: 'jvm application name',
+    badge: null,
+    tagName: 'jvm.application.name',
+    children: [],
+    parentLabels: []
+  },
+  {
+    label: 'Application name',
+    description: 'Application name',
+    keywords: 'application name',
+    badge: null,
+    tagName: 'application.name',
+    children: [],
+    parentLabels: [],
+    scoreBoost: 10
+  }
+];
+
 describe('in-components/SelectorOverlay/search', () => {
   it('should return the whole tree if the query is empty', () => {
     expect(search(nodes, '')).to.deep.equal(nodes);
@@ -187,6 +209,53 @@ describe('in-components/SelectorOverlay/search', () => {
         tagName: 'kubernetes.namespace.uid',
         parentLabels: [],
         children: []
+      }
+    ]);
+  });
+  it('should sort by relevance with score boost', () => {
+    expect(search(appNameOptions, 'app name')).to.deep.equal([
+      {
+        label: 'Application name',
+        description: 'Application name',
+        withHighlights: {
+          label: (
+            <>
+              <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+            </>
+          ),
+          description: (
+            <>
+              <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+            </>
+          )
+        },
+        keywords: 'application name',
+        badge: null,
+        tagName: 'application.name',
+        children: [],
+        parentLabels: [],
+        scoreBoost: 10
+      },
+      {
+        label: 'JVM Application name',
+        description: 'JVM Application name',
+        withHighlights: {
+          label: (
+            <>
+              JVM <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+            </>
+          ),
+          description: (
+            <>
+              JVM <span className="local-css-highlight">App</span>lication <span className="local-css-highlight">name</span>
+            </>
+          )
+        },
+        keywords: 'jvm application name',
+        badge: null,
+        tagName: 'jvm.application.name',
+        children: [],
+        parentLabels: []
       }
     ]);
   });

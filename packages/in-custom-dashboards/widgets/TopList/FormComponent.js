@@ -21,6 +21,7 @@ import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { logWidgetsEnabled } from 'in-services/featureFlags';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
@@ -60,6 +61,12 @@ export default function ListWidgetFormComponent({ form, onChange }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [metricFormatter]
   );
+
+  const disabledDataSources = [event, sli];
+
+  if (logWidgetsEnabled) {
+    disabledDataSources.push(logs);
+  }
 
   return (
     <>
@@ -102,7 +109,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
             </SelectInSection>
           );
         })}
-        disabledDataSources={[event, sli, logs]}
+        disabledDataSources={disabledDataSources}
         maxGrouping={50}
         withLastValue
       />

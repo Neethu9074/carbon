@@ -28,6 +28,6 @@ describe('LogMetricChart', () => {
   it('should render No group selected message', () => {
     render(<LogMetricChart alertConfig={alertConfig} timeConfig={timeConfig} />);
 
-    expect(screen.getByText(t('in-alerting:smartAlerts.logs.form.nGroupSelected'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-alerting:smartAlerts.logs.form.noDataForSelectedGroup'))).toBeInTheDocument();
   });
 });
