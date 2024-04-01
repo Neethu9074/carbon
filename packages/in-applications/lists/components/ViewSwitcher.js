@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { alertsList, applicationsList, servicesList } from 'in-applications/navigation/paths';
