@@ -10438,6 +10438,9 @@
     },
     "ibmiDiskInfo": {
       "name": "Disk Information on IBM i",
+      "sidebar": {
+        "hostName": "Host Name"
+      },
       "dashboard":{
         "tables":{
           "spinningDiskType": {
@@ -10500,6 +10503,9 @@
     },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
+      "sidebar": {
+        "hostName": "Host Name"
+      },
       "dashboard":{
         "tables":{
           "netstatInterfaces": {
