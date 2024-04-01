@@ -41,6 +41,7 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
+  logWidgetsEnabled: true,
   carbonShellEnabled: true,
   carbonPillEnabled: true,
   pseudoLanguageEnabled: true,

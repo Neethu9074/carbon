@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -15,7 +16,6 @@ import {
   infraSmartAlerts,
   infraAlertDetailsFullyQualifiedPath
 } from 'in-stores/navigation/paths/mainPaths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';

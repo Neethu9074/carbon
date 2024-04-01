@@ -17,7 +17,7 @@
           "fragmentClassName": "Fragment Class Name",
           "fragmentLocalPathName": "Fragment Local Path",
           "activeFragmentList": "Active Fragment List",
-          "activityCreatedTime": "Activity Created Time",
+          "activityResumeTime": "Activity Resume Time",
           "fragmentResumeTime": "Fragment Resume Time"
         },
         "ios": {
