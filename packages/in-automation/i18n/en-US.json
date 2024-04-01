@@ -2,6 +2,7 @@
   "copy": "Copy",
   "edit": "Edit",
   "delete": "Delete",
+  "test": "Test",
   "recommendedActions": "Recommended Actions",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
@@ -79,7 +80,7 @@
   "noTagsConfigured": "No Tags Configured",
   "value": "Value",
   "type": "Type",
-  "associatedPolicies": "Associated Policies",
+  "automationPolicies": "Automation Policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
@@ -96,7 +97,6 @@
     "newAction": "New Action",
     "createANewAction": "Create A New Action",
     "configureActionEntityName": "Configure Action: {{entityName}}",
-    "actionWithNameForDelete": "action {{actionName}}",
     "lastModified": "Last Modified",
     "script": "Script",
     "interpreter": "Interpreter (optional)",
@@ -113,7 +113,6 @@
     "docLinkDescription": "URL to documentation that can help with remediation.",
     "manualContentDescription": "Enter instructions for the manual action here.",
     "manual": "Manual",
-    "execute": "Execute",
     "confidence_low": "Low",
     "body": "Body (optional)",
     "confidence_medium": "Medium",
@@ -201,9 +200,12 @@
     "bug": "Bug",
     "improvement": "Improvement",
     "newFeature": "New Feature",
-    "aiScore": "AI Score",
     "view": "View",
-    "content": "Content"
+    "content": "Content",
+    "deleteDialog": {
+      "success": "Action was deleted successfully.",
+      "failure": "Failed to delete action: {{errorMessage}}"
+    }
   },
   "actionHistory": {
     "actionHistory": "Action History",
@@ -306,6 +308,7 @@
     "searchPolicies": "Search Policies",
     "manualAutomatic": "Manual, Automatic",
     "policyType": "Policy Type",
+    "noPolicies": "There are no policies configured.",
     "createDialog": {
       "success": {
         "title": "Policy was created successfully.",

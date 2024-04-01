@@ -282,6 +282,8 @@
         "datacenterName": "Datacenter Name",
         "provider": "Provider",
         "locationName": "Location Name",
+        "displayName": "Display Name",
+        "locationStatus": "Status",
         "status": "Activation Status",
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Using an Instana-hosted PoP</linkDatacenters>.",
         "confirmationDialog": {
@@ -298,6 +300,13 @@
           "activateLocationLoadingMessage": "Activating Datacenters",
           "activationRejectedMessageSingleDatacenter": "Activation request for {{rejectedDatacentersList}} cannot be processed as it has already been activated",
           "activationRejectedMessageMultipleDatacenters": "Activation request for {{rejectedDatacentersList}} cannot be processed as they have already been activated"
+        },
+        "deactivateDatacenter": {
+          "title": "Location being deactivated",
+          "deactivateMessage": "We are deactivating the following location. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline. <strong>This can take up to 10 minutes.</strong>",
+          "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
+          "deactivatingStatus": "Deactivating",
+          "button": "Okey"
         }
       },
       "validators": {
@@ -392,12 +401,7 @@
       "deleteRestrictedDescription": "Managed locations cannot be deleted.",
       "deleteLocationBroswerRefreshInfo": "It will take some time for the location to disappear from the list of locations and may require a browser refresh.",
       "deactivateLocation": {
-        "deactivate": "Deactivate",
-        "dialogTitle": "Deactivate Location",
-        "confirmation": "Are you sure you want to deactivate Managed <strong>{{label}}</strong> ({{status}}) location?",
-        "reason": "Reasons for deactivate",
-        "deactivateButton": "Deactivate Location",
-        "deactiveTestLinked": "There are {{linkedTests}} active tests associated with location <strong>{{label}}</strong> ({{status}}). Are you sure you want to deactivate Managed <strong>{{label}}</strong> ({{status}}) location?"
+        "deactivate": "Deactivate"
       }
     },
     "summary": {

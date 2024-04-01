@@ -15,12 +15,12 @@ import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStat
 import { PolicyForm, Triggers, isAutomatic, isManual } from 'in-automation/Policies/types';
 import usePolicyForm, { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
 import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
-import { getAllActionsResult, saveNewPolicy, savePolicy } from 'in-automation/api';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createPolicyTracker, editPolicyTracker } from 'in-automation/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { getActions, saveNewPolicy, savePolicy } from 'in-automation/api';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -39,35 +39,45 @@ import locals from './Policy.mless';
 
 type SubmitPayload = {
   form: PolicyForm;
-  id: string | undefined;
+  id: string | null;
   isNew: boolean;
   triggers: Triggers | undefined;
   actions: Action[] | undefined;
 };
 
 function useActions() {
-  return resultToFetchedStateResponse(useObservable(getAllActionsResult, []));
+  return resultToFetchedStateResponse(useObservable(getActions, []));
 }
 
 function usePolicyDetailsUrlParams() {
-  const [{ policyId, op }] = useUrlState<{ policyId?: string; op: 'copy' | null }>({
-    bind: [policyDetailsUrlParameters.policyId, policyDetailsUrlParameters.op]
+  const [{ id, op }] = useUrlState<{ id?: string; op: 'copy' | null }>({
+    bind: [policyDetailsUrlParameters.id, policyDetailsUrlParameters.op]
   });
   const isCopy = op === 'copy';
-  const isCreate = !policyId;
+  const isCreate = !id;
   const isNew = isCreate || isCopy;
   return {
-    policyId,
+    id: id ?? null,
     isNew,
     isCopy
   };
 }
 
-export default function PolicyDetails() {
-  const { policyId, isNew, isCopy } = usePolicyDetailsUrlParams();
+interface PolicyDetailsProps {
+  id: string | null;
+  isNew: boolean;
+  isCopy: boolean;
+}
+
+export default function PolicyDetailsWrapper() {
+  const { id, isNew, isCopy } = usePolicyDetailsUrlParams();
+  return <PolicyDetails key={String(isCopy)} id={id} isNew={isNew} isCopy={isCopy} />;
+}
+
+function PolicyDetails({ id, isNew, isCopy }: PolicyDetailsProps) {
   const [actions, actionsStatus, actionsErrors] = useActions();
   const triggers = useTriggers();
-  const [policy, policyStatus, policyErrors] = usePolicy(policyId, isCopy);
+  const [policy, policyStatus, policyErrors] = usePolicy(id, isCopy);
 
   const status = allStatus(policyStatus, actionsStatus);
   const errors = [...policyErrors, ...actionsErrors];
@@ -118,7 +128,7 @@ export default function PolicyDetails() {
         onSubmit={form => {
           const name = (form as PolicyForm).get('name').value;
           doSubmit({
-            payload: { form: form as PolicyForm, id: policyId, isNew, triggers, actions },
+            payload: { form: form as PolicyForm, id, isNew, triggers, actions },
             onError: () => onSaveFailure(name),
             onSuccess: () => {
               onSaveSuccess(name);
@@ -135,7 +145,7 @@ export default function PolicyDetails() {
 
 function save(
   form: PolicyForm,
-  id: string | undefined,
+  id: string | null,
   isNew: boolean,
   triggers: Triggers | undefined,
   actions: Action[] | undefined

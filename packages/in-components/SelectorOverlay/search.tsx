@@ -52,42 +52,44 @@ function fuzzyMatches(targets: Options[], query: string): Fuzzysort.KeysResults<
     threshold: -FUZZY_SEARCH_THRESHOLD, // Don't return matches worse than this (higher is faster)
     limit: 5000, // Don't return more results than this (lower is faster)
     keys: KEYS,
-    scoreFn: a => KEYS.map((_, index) => score(a[index], index)).reduce((a, b) => a + b)
+    // conversion to unknown to add obj field as it is added before calling scoreFn (see https://github.com/farzher/fuzzysort/blob/c7f1d2674d7fa526015646bc02fd17e29662d30c/fuzzysort.js#L94)
+    scoreFn: a =>
+      KEYS.map((_, index) => score(a[index], index, (a as unknown as { obj: Options }).obj)).reduce((a, b) => a + b)
   });
 }
 
-function score(result: Fuzzysort.KeyResult<Options>, offset: number, range: number = RANGE): number {
-  return result ? result.score - offset * range : -(offset + 1) * range;
+function score(result: Fuzzysort.KeyResult<Options>, offset: number, matchObj: Options, range: number = RANGE): number {
+  if (result) {
+    const score = result.score - offset * range;
+    if (matchObj.scoreBoost) {
+      return score / matchObj.scoreBoost;
+    }
+    return score;
+  }
+  return -(offset + 1) * range;
 }
+
 function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
-  let label = matchResult.obj.label;
-  const labelHighlighted = highlightResult(matchResult[0]);
-  if (labelHighlighted) {
-    label = <>{labelHighlighted}</>;
-  }
-
-  let description = matchResult.obj.description;
-  if (description) {
-    const descriptionHighlighted = highlightResult(matchResult[1]);
-    if (descriptionHighlighted) {
-      description = <>{descriptionHighlighted}</>;
-    }
-  }
-
-  let parentLabels = matchResult.obj.parentLabels;
-  if (parentLabels.length > 0) {
+  var label = highlightResult(matchResult[0]);
+  var description = highlightResult(matchResult[1]);
+  let parentLabels = [];
+  if (matchResult.obj.parentLabels.length > 0) {
     const parentLabel0Highlighted = highlightResult(matchResult[2]);
-    if (parentLabel0Highlighted) {
-      parentLabels[0] = <>{parentLabel0Highlighted}</>;
-    }
-    if (parentLabels.length > 1) {
+    parentLabels.push((parentLabel0Highlighted && <>{parentLabel0Highlighted}</>) || matchResult.obj.parentLabels[0]);
+    if (matchResult.obj.parentLabels.length > 1) {
       const parentLabel1Highlighted = highlightResult(matchResult[3]);
-      if (parentLabel1Highlighted) {
-        parentLabels[1] = <>{parentLabel1Highlighted}</>;
-      }
+      parentLabels.push((parentLabel1Highlighted && <>{parentLabel1Highlighted}</>) || matchResult.obj.parentLabels[1]);
     }
   }
-  return { ...matchResult.obj, label, description, parentLabels };
+
+  return {
+    ...matchResult.obj,
+    withHighlights: {
+      label: (label && <>{label}</>) || matchResult.obj.label,
+      description: (description && <>{description}</>) || matchResult.obj.description,
+      parentLabels
+    }
+  };
 }
 
 function highlightResult(result: Fuzzysort.Result): (string | JSX.Element)[] | undefined {

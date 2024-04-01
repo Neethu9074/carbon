@@ -44,6 +44,7 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 
@@ -67,11 +68,12 @@ export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreE
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
-export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
-export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
-export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
+export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
+export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
+export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
+export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 
@@ -113,6 +115,9 @@ export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUp
 
 // Synthetic Deactivate Datacenters feature flag
 export const syntheticDeactivateDatacentersEnabled = isFeatureFlagEnabled('syntheticDeactivateDatacentersEnabled');
+
+// Synthetic Certificate Check Enabled feature flag
+export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -160,7 +165,7 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
-export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled');
+export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled', true);
 
 // ########################################################################################
 // Chart gap hiding
@@ -213,6 +218,7 @@ export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
+export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', false);
 
 export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', true);
 

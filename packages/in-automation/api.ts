@@ -50,15 +50,7 @@ const automationAPIBase = '/api/automation';
 const actionUrl = `${automationAPIBase}/actions` as const;
 const policiesUrl = `${automationAPIBase}/policies` as const;
 
-export function getAllActions(): Observable<Action[]> {
-  return http<Action[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: actionUrl
-  }).map(response => response.body);
-}
-
-export function getAllActionsResult() {
+export function getActions() {
   return http<Action[]>({
     method: 'GET',
     maxRetries: 3,

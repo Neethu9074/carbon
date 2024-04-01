@@ -16,8 +16,8 @@ import locals from 'in-plg/components/InputWithButton/InputWithButton.mless';
 
 interface InputWithButtonProps {
   type: 'copy' | 'download';
-  displayContent?: string;
-  inputValue?: string;
+  displayContent?: string; // Content displayed on the Input field.
+  inputValue?: string; // Actual content which is copied.
   icon?: string;
   href?: string;
   size?: 'small' | 'large';
@@ -39,41 +39,11 @@ export default function InputWithButton({
 
   const clickHandler = () => {
     if (type === 'copy') {
-      if (inputRef.current) {
-        const textArea = document.createElement('textarea');
-        textArea.value = inputValue;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
+      navigator.clipboard.writeText(inputValue).then(() => {
         addCopiedToClipboardMessage();
-      }
-    } else {
-      const anchor = document.createElement('a');
-      anchor.href = href;
-      anchor.target = '_blank';
-      anchor.download = inputValue;
-      anchor.style.display = 'none';
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
+      });
     }
   };
-
-  function renderButton() {
-    if (href !== '') {
-      return (
-        <Button icon={icon} kind="action" iconSize="s" size="normal" href={href}>
-          {''}
-        </Button>
-      );
-    }
-    return (
-      <Button icon={icon} kind="action" iconSize="s" size="normal" onClick={clickHandler}>
-        {''}
-      </Button>
-    );
-  }
 
   return (
     <Stack direction="horizontal" gap="disabled" align="center">
@@ -83,7 +53,16 @@ export default function InputWithButton({
         value={displayContent ? displayContent : inputValue}
         onChange={handleInputChange}
       />
-      {renderButton()}
+      <Button
+        icon={icon}
+        kind="action"
+        iconSize="s"
+        size="normal"
+        className={locals.button}
+        {...(href ? { href: href, target: '_blank' } : { onClick: clickHandler })}
+      >
+        {''}
+      </Button>
     </Stack>
   );
 }

@@ -41,7 +41,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
     []
   );
   const options = useMemo(
-    () => toOptions(tagCatalog, tagCatalog.tagTree, [], showTypeBadge, queryableOnly),
+    () => toOptions(tagCatalog, tagCatalog.tagTree, showTypeBadge, queryableOnly, undefined, []),
     [showTypeBadge, tagCatalog, queryableOnly]
   );
 
@@ -63,23 +63,30 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
 }
 
 export interface Options {
-  label: string | JSX.Element;
+  label: string;
   badge: JSX.Element | Nullish | false;
-  parentLabels: (string | JSX.Element)[];
-  description?: string | JSX.Element;
+  parentLabels: string[];
+  description?: string;
   keywords: string;
   tagName: string;
   icon?: string;
+  scoreBoost?: number;
   children: Options[];
+  withHighlights?: {
+    label: string | JSX.Element;
+    description?: string | JSX.Element;
+    parentLabels: (string | JSX.Element)[];
+  };
   tagType?: TagType;
 }
 
 function toOptions(
   tagCatalog: EnrichedTagCatalog,
   tagTreeNodes: TagTreeNodeUnion[],
-  parentLabels: string[] = [],
   showTypeBadge: boolean | Nullish,
-  queryableOnly: boolean
+  queryableOnly: boolean,
+  scoreBoost?: number,
+  parentLabels: string[] = []
 ): Options[] {
   const joinedParentLabels = parentLabels.join(' ');
   return tagTreeNodes
@@ -95,9 +102,10 @@ function toOptions(
           ? toOptions(
               tagCatalog,
               tagTreeNode.children,
-              parentLabels.concat(tagTreeNode.label),
               showTypeBadge,
-              queryableOnly
+              queryableOnly,
+              tagTreeNode.scoreBoost,
+              parentLabels.concat(tagTreeNode.label)
             )
           : (emptyArray as unknown as Options[]);
       // filter empty category nodes
@@ -115,11 +123,22 @@ function toOptions(
             keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
             tagName: 'tagName' in tagTreeNode ? tagTreeNode.tagName : '',
             icon: tagTreeNode.icon,
+            scoreBoost: multiplyBoost(scoreBoost, tagTreeNode.scoreBoost),
             children: filteredChildren,
             tagType: 'tagName' in tagTreeNode ? tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type : undefined
           };
     })
     .filter(Boolean) as Options[];
+}
+
+function multiplyBoost(scoreA?: number, scoreB?: number) {
+  if (!scoreA) {
+    return scoreB;
+  }
+  if (!scoreB) {
+    return scoreA;
+  }
+  return scoreA * scoreB;
 }
 
 interface BreadcrumbAndLabelProps {
@@ -135,8 +154,8 @@ export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLa
 
   return (
     <>
-      {path.map(part => (
-        <span className={locals.path} key={part}>
+      {path.map((part, i) => (
+        <span className={locals.path} key={`${part}-${i}`}>
           {part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         </span>

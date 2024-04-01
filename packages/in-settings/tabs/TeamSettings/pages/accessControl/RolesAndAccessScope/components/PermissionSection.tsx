@@ -13,6 +13,7 @@ import { Observable } from '@instana/observables';
 
 import {
   AreaRoleWithContributor,
+  AreaRoleWithContributorType,
   AreaRoleWithCustomType,
   LimitableProductArea,
   ProductArea,
@@ -90,6 +91,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   editMode
 }: PermissionSectionProps<I, FORM_TYPE>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
+  const applicationEntityKey = 'applicationIds';
   const permissionSetField = getField<PermissionSet>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
@@ -99,18 +101,60 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   const [initialApplicationConfig] = useState({
     label: getField<string>(form, 'label')?.value,
     scope: getField<string>(form, 'scope')?.value,
-    tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value
+    tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value,
+    [applicationEntityKey]: permissionSet
+      ? permissionSet[applicationEntityKey]?.filter(entity => entity.scopeRoleId === ScopeRoles.Contributor)
+      : []
   });
 
   const isAppContributionFilterConfigured =
     applicationContributionFilterEnabled &&
     permissionSet?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
 
+  const updateEntityIds = (
+    entityIds: ScopeBinding[],
+    role: AreaRoleWithContributorType | undefined,
+    productArea: LimitableProductArea,
+    limitation: ScopedPermissionType
+  ) => {
+    // Application
+    if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
+      // Only show applications with contributor access for access all
+      if (limitation === ScopedPermissionItem.ACCESS_ALL) {
+        return entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor);
+      } else if (limitation === ScopedPermissionItem.LIMITED_ACCESS) {
+        const newScopeRoleId = role === AreaRoleWithContributor.OWNER ? ScopeRoles.Owner : ScopeRoles.Viewer;
+        return entityIds?.map(entityId => {
+          if (role === AreaRoleWithContributor.CONTRIBUTOR) {
+            if (entityId.scopeRoleId !== ScopeRoles.Contributor) {
+              if (initialApplicationConfig[applicationEntityKey]?.some(item => item.scopeId === entityId.scopeId)) {
+                // Restore previous contribution AP (if change from contributor to owner/viewer back to contributor happened without saving)
+                return { scopeId: entityId.scopeId, scopeRoleId: ScopeRoles.Contributor };
+              } else {
+                // Contributor: Change all non contributor APs to Viewer
+                return { scopeId: entityId.scopeId, scopeRoleId: ScopeRoles.Viewer };
+              }
+            } else {
+              // Contributor: Keep existing contributor APs
+              return entityId;
+            }
+          } else {
+            // Viewer/Owner: Change all APs to new scope role
+            return { scopeId: entityId.scopeId, scopeRoleId: newScopeRoleId };
+          }
+        });
+      }
+    } else {
+      return limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [];
+    }
+
+    return entityIds;
+  };
+
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     let label;
     let tagFilterExpression;
     let scope;
-    let existingContributionAPs: ScopeBinding[] = [];
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -123,10 +167,6 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
         label = editMode ? initialApplicationConfig.label : defaultApplicationConfig.label;
         tagFilterExpression = initialApplicationConfig.tagFilterExpression;
         scope = initialApplicationConfig.scope;
-        existingContributionAPs =
-          editMode && limitation === ScopedPermissionItem.ACCESS_ALL
-            ? entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor)
-            : entityIds;
       } else {
         label = defaultApplicationConfig.label;
         tagFilterExpression = undefined;
@@ -136,13 +176,16 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
       form = updateFormField(form, 'tagFilterExpression', tagFilterExpression);
       form = updateFormField(form, 'scope', scope);
     }
+
+    // Update entity id list based on selected access type
+    const newEntityIds = updateEntityIds(entityIds, selected, productArea, limitation);
+
     const newPermissionSet = {
       ...restPermissionSet,
-      [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [],
+      [entityPermissionKey]: newEntityIds,
       ...(applicationContributionFilterEnabled &&
         productArea === ProductArea.APPLICATION && {
-          ['restrictedApplicationFilter']: tagFilterExpression ? defaultApplicationConfig : undefined,
-          [entityPermissionKey]: existingContributionAPs
+          ['restrictedApplicationFilter']: tagFilterExpression ? defaultApplicationConfig : undefined
         })
     };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));

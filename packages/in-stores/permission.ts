@@ -19,7 +19,8 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   bizopsRbacEnabled,
-  logSmartAlertsEnabled
+  logSmartAlertsEnabled,
+  manuallyCloseEventEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -109,7 +110,8 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS',
   CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS',
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
-  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
+  CAN_MANUALLY_CLOSE_ISSUE: 'CAN_MANUALLY_CLOSE_ISSUE'
 } as const);
 
 export const InfrastructureCapability = Object.freeze({
@@ -670,6 +672,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     label: t('in-stores:permissionCanCreateThreadDumpLabel'),
     description: t('in-stores:permissionCanCreateThreadDumpDescription'),
     category: t('in-stores:permissionInfrastructureCategory')
+  },
+  [Capability.CAN_MANUALLY_CLOSE_ISSUE]: {
+    keyForGroupApi: Capability.CAN_MANUALLY_CLOSE_ISSUE,
+    keyForApiTokenApi: 'canManuallyCloseIssue',
+    label: t('in-stores:permissionCanManuallyCloseIssueLabel'),
+    description: t('in-stores:permissionCanManuallyCloseIssueDescription'),
+    category: t('in-stores:permissionCanManuallyCloseIssueCategory'),
+    isOwnerPermission: false
   }
 };
 
@@ -724,6 +734,12 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!logSmartAlertsEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS;
+    });
+  }
+
+  if (!manuallyCloseEventEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_MANUALLY_CLOSE_ISSUE;
     });
   }
 

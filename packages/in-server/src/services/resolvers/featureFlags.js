@@ -181,6 +181,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'logWidgetsEnabled',
+    instanaCtlKey: 'feature.log.widgets.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -214,6 +219,31 @@ module.exports = exports = [
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'sliCHClusterAccessEnabled',
+    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sloEnabled',
+    instanaCtlKey: 'feature.slo.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'sloV2Enabled',
+    instanaCtlKey: 'feature.sloV2.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'sloSmartAlertsEnabled',
+    instanaCtlKey: 'feature.slo.smart.alerts.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -261,16 +291,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'sliCHClusterAccessEnabled',
-    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'apdexWidgetEnabled',
-    instanaCtlKey: 'feature.apdex.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true
@@ -294,11 +314,6 @@ module.exports = exports = [
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'sloV2Enabled',
-    instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'businessObservabilityEnabled',
@@ -371,11 +386,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'sloEnabled',
-    instanaCtlKey: 'feature.slo.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticRbacEnabled',
     instanaCtlKey: 'feature.synthetic.rbac.enabled',
     defaultValue: true
@@ -398,6 +408,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticDeactivateDatacentersEnabled',
     instanaCtlKey: 'feature.synthetic.deactivate.datacenters.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticCertificateCheckEnabled',
+    instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
     defaultValue: false
   },
   {
@@ -454,6 +469,11 @@ module.exports = exports = [
     uiClientKey: 'incidentSummarizationTimelineEnabled',
     instanaCtlKey: 'feature.incident.summarization.timeline.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'manuallyCloseEventEnabled',
+    instanaCtlKey: 'feature.manually.close.event.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'playWithReleaseEnabled',

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ApiGroup, ApplicationNameExists, GroupReference, Result, SearchResult } from '@instana/types';
 import { Observable, create } from '@instana/observables';
-import { ApiGroup, Result } from '@instana/types';
 
 import { syntheticViewCapabilities } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -19,10 +19,6 @@ type ApiCreateGroup = Omit<ApiGroup, 'id'>;
 function isApiGroup(group: ApiGroup | ApiCreateGroup): group is ApiGroup {
   return (group as ApiGroup).id !== undefined;
 }
-
-type ApplicationNameExists = {
-  exists: boolean;
-};
 
 const refreshSignalTeams = create().emit(true);
 export function refresh() {
@@ -252,4 +248,19 @@ export function contributionFilterNameExists(name: string): Observable<Result<Ap
       url: `/api/application-monitoring/settings/application/names/exists?name=${name}`
     })
   );
+}
+
+/**
+ * Find the group id and name for a restricting application with access group configuration permission
+ * @param {string} restrictingApplicationId application id of a parent restricting application
+ * @returns Observable<Response<GroupInfoByRestrictingApplicationId>>
+ */
+export function getGroupInfoByRestrictingApplicationId(
+  restrictingApplicationId: string
+): Observable<SearchResult<GroupReference>> {
+  return http<SearchResult<GroupReference>>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/rbac/groups/search?restrictingApplicationId=${restrictingApplicationId}`
+  }).map(response => response.body);
 }

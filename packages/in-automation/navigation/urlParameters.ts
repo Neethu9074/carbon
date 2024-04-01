@@ -4,36 +4,33 @@
  * Copyright IBM Corp. 2023
  */
 
+import { actionDetails, policies, policiesDetails } from 'in-automation/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { policies, policiesDetails } from 'in-automation/navigation/paths';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 
 export const policyDetailsUrlParameters = {
-  policyId: createPolicyUrlParameter(policies),
-  op: createPolicyOpParameter(policiesDetails)
+  id: createIdUrlParameter(policies),
+  op: createOpParameter(policiesDetails)
 };
 
-export function createPolicyUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+export const actionDetailsUrlParameters = {
+  id: createIdUrlParameter(actionDetails),
+  op: createOpParameter(actionDetails)
+};
+
+export function createIdUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
   return {
     path: pathSegment,
-    name: `${matrixPrefix}policyId`,
-    as: 'policyId'
+    name: `${matrixPrefix}id`,
+    as: 'id'
   };
 }
 
-export function createPolicyOpParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+export function createOpParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
   return {
     path: pathSegment,
     name: `${matrixPrefix}op`,
     as: 'op'
-  };
-}
-
-export function createTriggerUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
-  return {
-    path: pathSegment,
-    name: `${matrixPrefix}trigger`,
-    as: 'trigger'
   };
 }
 
@@ -45,5 +42,13 @@ export function createTagsUrlParameter(pathSegment: string, matrixPrefix: string
     initialState: [],
     parser: buildJsonParser([]),
     serializer: buildJsonSerializer()
+  };
+}
+
+export function createTypeUrlParameter(pathSegment: string, matrixPrefix: string = ''): ParameterDefinition<string> {
+  return {
+    path: pathSegment,
+    name: `${matrixPrefix}type`,
+    as: 'type'
   };
 }

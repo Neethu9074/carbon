@@ -23,8 +23,10 @@ import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/Heig
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './EventsList.mless';
@@ -81,6 +83,7 @@ function List(props) {
   }
 
   if (!isDenseList) {
+    const titleWidth = 45;
     return (
       <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
         <div
@@ -88,10 +91,10 @@ function List(props) {
             [locals.widgetCard]: isCustomDashboard
           })}
         >
-          <Table>
+          <Table fixedLayout>
             <Thead>
               <Tr size="compact">
-                <Th />
+                <Th useMinimumAmountOfHorizontalSpace />
                 {isDenseList ? (
                   <SortableColumn {...props} technicalName="start">
                     {t('in-events:headerStarted')}
@@ -99,7 +102,12 @@ function List(props) {
                 ) : (
                   <>
                     {isDisplayColumn(headers, 'title') && (
-                      <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
+                      <SortableColumn
+                        {...props}
+                        technicalName="problem.problemText"
+                        sortable={!isPreview}
+                        width={titleWidth}
+                      >
                         {t('in-events:headerTitle')}
                       </SortableColumn>
                     )}
@@ -117,6 +125,11 @@ function List(props) {
                     {isDisplayColumn(headers, 'timeline') && (
                       <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
                     )}
+                    {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && isDisplayColumn(headers, 'state') && (
+                      <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
+                        {t('in-events:headerState')}
+                      </SortableColumn>
+                    )}
                     {headers && isDisplayColumn(headers, 'duration') && <Th>{t('in-events:titleDuration')}</Th>}
                   </>
                 )}
@@ -127,6 +140,7 @@ function List(props) {
               {rawEventList.map(event => (
                 <EventListRow
                   key={event.id}
+                  state={event.state}
                   selectedEventId={selectedEventId}
                   onItemClicked={onItemClicked}
                   isDenseList={isDenseList}
@@ -147,10 +161,10 @@ function List(props) {
     );
   } else {
     return (
-      <Table>
+      <Table fixedLayout>
         <Thead>
           <Tr size="compact">
-            <Th />
+            <Th useMinimumAmountOfHorizontalSpace />
             {isDenseList ? (
               <SortableColumn {...props} technicalName="start">
                 {t('in-events:headerStarted')}
@@ -168,6 +182,11 @@ function List(props) {
                   {t('in-events:headerEnd')}
                 </SortableColumn>
                 <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
+                {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && (
+                  <SortableColumn {...props} technicalName="state">
+                    {t('in-events:headerState')}
+                  </SortableColumn>
+                )}
               </>
             )}
           </Tr>
@@ -195,7 +214,7 @@ function List(props) {
   }
 }
 
-function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName, sortable }) {
+function SortableColumn({ children, orderBy, orderDirection, onChange, technicalName, sortable, width }) {
   if (!sortable) {
     return <Th>{children}</Th>;
   }
@@ -210,6 +229,7 @@ function SortableColumn({ children, orderBy, orderDirection, onChange, technical
           orderDirection: orderBy === technicalName ? (orderDirection === 'ASC' ? 'DESC' : 'ASC') : 'ASC'
         });
       }}
+      width={width ?? undefined}
     >
       {children}
     </SortableTh>

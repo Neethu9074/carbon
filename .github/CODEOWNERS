@@ -238,7 +238,6 @@ packages/in-powervc                                                             
 packages/in-sdk                                                                           @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk/metrics                                                                   @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                                                                        @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-service-levels                                                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-services                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics                                                              @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
@@ -265,9 +264,6 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event  
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Apdex                                                @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Slo                                                  @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 
 # Custom Widget Table
 packages/in-custom-dashboards/widgets/Table @Instana-IBM-Github-Enterprise @instana/eng-issue-detection @instana/eng-ui @instana/eng-infrastructure
@@ -285,3 +281,10 @@ packages/in-zhmc                    @Instana-IBM-GitHub-Enterprise @instana/eng-
 
 # Container images
 /containers/ @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui
+
+# Service Levels areas
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli   @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Apdex                                    @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Slo                                      @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-service-levels                                                     @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-alerting/smart-alerts/slo                                          @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection

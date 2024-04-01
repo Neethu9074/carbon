@@ -11,7 +11,7 @@ import { Card, Spacer, Stack } from '@instana/components';
 import useScoredActions, { useRecommendedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
-import AssociatedPolicies from 'in-automation/AutomationCard/AssociatedPolicies';
+import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -21,7 +21,7 @@ import { Event, VolatileId } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export type ButtonKey = 'associatedPolicies' | 'recommendedActions' | 'actionHistory';
+export type ButtonKey = 'automationPolicies' | 'recommendedActions' | 'actionHistory';
 export type SetActiveKey = (str: ButtonKey) => void;
 
 interface AutomationCardButtonGroupProps {
@@ -32,9 +32,9 @@ interface AutomationCardButtonGroupProps {
 function AutomationCardButtonGroup({ activeKey, setActiveKey }: AutomationCardButtonGroupProps) {
   const buttonProps = [
     {
-      text: t('in-automation:associatedPolicies'),
-      key: 'associatedPolicies',
-      onClick: () => setActiveKey('associatedPolicies')
+      text: t('in-automation:automationPolicies'),
+      key: 'automationPolicies',
+      onClick: () => setActiveKey('automationPolicies')
     },
     {
       text: t('in-automation:recommendedActions'),
@@ -64,7 +64,7 @@ interface AutomationCardProps {
 }
 
 function AutomationCard({ volatileId, event }: AutomationCardProps) {
-  const [activeKey, setActiveKey] = useState<ButtonKey>('associatedPolicies');
+  const [activeKey, setActiveKey] = useState<ButtonKey>('automationPolicies');
   const policies = usePolicies({ event });
   const trigger = useTrigger({ event });
   const actions = useScoredActions({ event, trigger });
@@ -74,9 +74,9 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
       <Col xs>
         <Card>
           <AutomationCardButtonGroup activeKey={activeKey} setActiveKey={setActiveKey} />
-          {(activeKey === 'associatedPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
-          {activeKey === 'associatedPolicies' && (
-            <AssociatedPolicies
+          {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
+          {activeKey === 'automationPolicies' && (
+            <AutomationPolicies
               volatileId={volatileId}
               event={event}
               actions={actions}

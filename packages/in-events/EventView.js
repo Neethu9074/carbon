@@ -8,7 +8,12 @@ import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 
-import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
+import {
+  eventIdUrlParameter,
+  orderDirectionParameter,
+  orderByUrlParameter,
+  pageNumberUrlParameter
+} from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -53,7 +58,7 @@ export default function LegacyEventViewMigration(props) {
   return <EventView {...props} eventType={eventType} eventId={eventId} />;
 }
 const urlSettingsConfig = {
-  bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
+  bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter, pageNumberUrlParameter],
   replaceHistory: false
 };
 

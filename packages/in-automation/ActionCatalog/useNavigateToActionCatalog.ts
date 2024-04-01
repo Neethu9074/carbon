@@ -1,20 +1,20 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
-import { policyDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
+import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
+import { actionCatalogFullyQualified } from 'in-automation/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { policiesFullyQualified } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
-const idParameter = policyDetailsUrlParameters.id;
+const idParameter = actionDetailsUrlParameters.id;
 
-export default function useNavigateToPolicies() {
+export default function useNavigateToActionCatalog() {
   const { location, navigate } = useNavigation();
   return () => {
-    location.pathname = policiesFullyQualified;
+    location.pathname = actionCatalogFullyQualified;
     setOrDeleteMatrixKey(location, idParameter.path ?? '', idParameter.name, null);
     navigate(location);
   };
