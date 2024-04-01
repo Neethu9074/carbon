@@ -397,7 +397,7 @@ export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
 export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
-export const EXECUTE_TURBO_ACTION = 'execute.turbo.action';
+export const VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
 export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
 

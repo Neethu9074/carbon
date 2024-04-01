@@ -16,7 +16,7 @@ import {
   AUTOMATION_POLICY_CREATE,
   AUTOMATION_POLICY_EDIT,
   CLICK_TURBO_LINK_FOR_DETAILS,
-  EXECUTE_TURBO_ACTION
+  VIEW_TURBO_ACTION
 } from 'in-services/tracking/tracking';
 
 export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
@@ -30,4 +30,4 @@ export const createPolicyTracker = (e: Object) => track(AUTOMATION_POLICY_CREATE
 export const createBulkPoliciesTracker = (e: Object) => track(AUTOMATION_POLICY_CREATE, e);
 export const editPolicyTracker = (e: Object) => track(AUTOMATION_POLICY_EDIT, e);
 export const clickTurboLinkForDetailsTracker = (e: Object) => track(CLICK_TURBO_LINK_FOR_DETAILS, e);
-export const viewTurboActionTracker = (e: Object) => track(EXECUTE_TURBO_ACTION, e);
+export const viewTurboActionTracker = (e: Object) => track(VIEW_TURBO_ACTION, e);
