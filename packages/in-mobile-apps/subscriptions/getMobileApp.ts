@@ -1,11 +1,13 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetMobileAppQuery, Result, MobileApp } from 'in-types';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetMobileAppQuery, Result<MobileApp>>({
   eventId: 'getMobileApp',
   disposeSubscriptionOnDocumentHidden: false,
   trackSubscriptionStatistics: true
