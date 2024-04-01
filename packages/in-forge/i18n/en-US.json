@@ -10430,6 +10430,10 @@
             }
           }
         }
+      },
+      "sidebar": {
+        "ibmiActiveJobsInfo": "IBM i Info",
+        "hostName": "Host Name"
       }
     },
     "ibmiDiskInfo": {

@@ -16,7 +16,7 @@ export default function IbmIDiskInfoSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.ibmIOs.sidebar.ibmIOSInfo')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.ibmiActiveJobsInfo.sidebar.ibmiActiveJobsInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
