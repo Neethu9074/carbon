@@ -196,7 +196,7 @@ function onDeleteSuccess() {
   addMessage(
     {
       type: 'info',
-      timeout: 5000,
+      timeout: 2000,
       content: t('in-automation:ActionCatalog.deleteDialog.success')
     },
     'action-delete-info'
