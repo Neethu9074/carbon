@@ -12,6 +12,7 @@ import DeactivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/loc
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import DeleteSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeleteSelectedLocation';
+import { showLocationDeactivateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { syntheticDeactivateDatacentersEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
@@ -51,6 +52,10 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
 
     action$.once(() => {
       return addActiveDialog(<DeactivateSelectedLocation item={item} />);
+    });
+
+    action$.errors().once(error => {
+      showLocationDeactivateErrorMessage(error.message.split(':')[2]);
     });
   };
 

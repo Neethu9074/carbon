@@ -242,7 +242,6 @@
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
       "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
-      "successMessageDeactivate": "Successfully deactivated the location",
       "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
