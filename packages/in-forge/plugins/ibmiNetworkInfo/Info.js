@@ -14,7 +14,7 @@ export default function IbmiNetworkInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.IbmiNetworkInfo.sidebar.hostName')}>
+      <DescriptionItem title={t('in-forge:plugins.ibmiNetworkInfo.sidebar.hostName')}>
         {data.get('hostName')}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
