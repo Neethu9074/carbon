@@ -9,7 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
-import Message from 'in-components/MessageFlyout/Message';
+import MessageLocal from 'in-components/MessageFlyout/Message';
 
 import locals from './MessageFlyout.mless';
 
@@ -25,7 +25,7 @@ export default function MessageFlyout({ onlyShowUsageRelatedMessages, carbonVari
       {!onlyShowUsageRelatedMessages &&
         messages
           .filter(message => !message.isLicenseUsageMsg)
-          .map(message => <Message key={message.id} message={message} carbonVariant={carbonVariant} />)}
+          .map(message => <MessageLocal key={message.id} message={message} />)}
     </div>
   );
 }
