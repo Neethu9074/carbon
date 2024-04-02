@@ -32,7 +32,8 @@
         "viewAll": "View all activities",
         "processCount": "Count",
         "processCountTotal": "total",
-        "processErrors": "Errors"
+        "processErrors": "Errors",
+        "processLatency": "Latency"
       }
     },
     "activity": {
@@ -41,7 +42,8 @@
       "widgets": {
         "duration": "Duration",
         "activityCount": "Count",
-        "activityErrors": "Errors"
+        "activityErrors": "Errors",
+        "activityLatency": "Latency"
       },
       "timespans": {
         "minute": "1 minute",
