@@ -9,7 +9,7 @@ import React from 'react';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { kiloBytes } from 'in-services/formatters/number';
+import { number, millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import connectTo from 'in-hoc/connectTo';
@@ -37,7 +37,7 @@ const cols = [
       getMetricName(row) {
         return `pkgCache.${row.key}.numExcecutionPkg`;
       },
-      getContent: kiloBytes.detailed,
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -53,7 +53,7 @@ const cols = [
       getMetricName(row) {
         return `pkgCache.${row.key}.reclaimWaitTimePkg`;
       },
-      getContent: kiloBytes.detailed,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -69,7 +69,7 @@ const cols = [
       getMetricName(row) {
         return `pkgCache.${row.key}.avgExcecutionTimePkg`;
       },
-      getContent: kiloBytes.detailed,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -136,18 +136,20 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: kiloBytes.detailed,
-          metrics: [
-            'pkgCache.' + row.key + '.numExcecutionPkg',
-            'pkgCache.' + row.key + '.reclaimWaitTimePkg',
-            'pkgCache.' + row.key + '.avgExcecutionTimePkg'
-          ],
+          formatter: number.compact,
+          metrics: ['pkgCache.' + row.key + '.numExcecutionPkg'],
+          labels: [t('in-forge:plugins.db2Database.numExcecutionPkg')],
+          type: 'line'
+        }}
+        y2={{
+          min: 0,
+          metrics: ['pkgCache.' + row.key + '.reclaimWaitTimePkg', 'pkgCache.' + row.key + '.avgExcecutionTimePkg'],
           labels: [
-            t('in-forge:plugins.db2Database.numExcecutionPkg'),
             t('in-forge:plugins.db2Database.reclaimWaitTimePkg'),
             t('in-forge:plugins.db2Database.avgExcecutionTimePkg')
           ],
-          type: 'line'
+          type: 'line',
+          formatter: millis.detailed
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
