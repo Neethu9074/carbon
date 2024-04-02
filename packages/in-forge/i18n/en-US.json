@@ -6668,7 +6668,7 @@
         "targetedCfScaSize": "Targeted CF SCA Size",
         "purescaleLockTable": "pureScale Lock Memory Table",
         "purescaleScaTable": "pureScale SCA Memory Table",
-        "pureScalePkgCacheTable": "pureScale PkgCache Table",
+        "pureScalePkgCacheTable": "pureScale Package Cache Table",
         "pureScaleGrpTable": "pureScale Group BufferPool Table",
         "pageAccessDetails": "pureScale Page Access Table",
         "numExcecutionPkg": "Number Of Excecutions",
