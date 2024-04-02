@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyCodes } from '@instana/components';
@@ -36,19 +36,23 @@ export default function SelectorOverlay({
   withIcons = true,
   query,
   onQueryChange,
+  onFocusNode,
   disabled,
-  strict = false,
-  shouldTriggerWindowResize
+  shouldTriggerWindowResize,
+  nodesToSearchFrom = (options, focusedNode) => (focusedNode !== null ? [focusedNode] : options)
 }) {
   const [focusedNode, setFocusedNode] = useState(null);
+  useEffect(() => {
+    onFocusNode?.(focusedNode);
+  }, [focusedNode, onFocusNode]);
   const filteredOptions = useMemo(() => {
     if (isNotBlank(query)) {
-      const nodes = focusedNode !== null ? [focusedNode] : options;
-      const results = search(nodes, query, !strict);
+      const nodes = nodesToSearchFrom(options, focusedNode);
+      const results = search(nodes, query);
       return results.filter(node => !node.disabled);
     }
     return options;
-  }, [options, query, strict, focusedNode]);
+  }, [options, query, focusedNode, nodesToSearchFrom]);
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
@@ -199,6 +203,7 @@ SelectorOverlay.propTypes = {
   query: PropTypes.string.isRequired,
   shouldTriggerWindowResize: PropTypes.bool,
   onQueryChange: PropTypes.func.isRequired,
+  onFocusNode: PropTypes.func,
   disabled: PropTypes.bool,
-  strict: PropTypes.bool
+  nodesToSearchFrom: PropTypes.func
 };

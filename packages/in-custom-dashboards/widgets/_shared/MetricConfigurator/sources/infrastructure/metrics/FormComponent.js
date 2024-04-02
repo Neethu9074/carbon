@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Spacer, Stack } from '@instana/components';
 import { Toggle } from '@instana/legacy';
@@ -115,10 +115,11 @@ export default function FormComponent({
   });
 
   const catalogQuery = useDebouncedValue('', noop, 800);
+  const [selectedType, onSelectType] = useState();
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
-    type: isTypePrefilled ? type : undefined,
+    type: isTypePrefilled ? type : selectedType,
     query: catalogQuery.debouncedValue
   });
 
@@ -189,7 +190,6 @@ export default function FormComponent({
       metricCatalog.progress.loading
   };
   const stableMetricCatalog = catalogQuery.value === catalogQuery.debouncedValue ? metricCatalog : pendingResult;
-
   return (
     <Stack gap="xsmall">
       {dataSourceSection && <Sections>{dataSourceSection}</Sections>}
@@ -215,6 +215,7 @@ export default function FormComponent({
             type={type}
             onChange={onChange}
             onTypeChange={onTypeChange}
+            onSelectType={onSelectType}
             backendQueryModel={backendQueryModel}
             SelectorOverlay={MetricSelectionCategoryOverlay}
           />

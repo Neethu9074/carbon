@@ -78,6 +78,7 @@ export interface Options {
     parentLabels: (string | JSX.Element)[];
   };
   tagType?: TagType;
+  levelType?: string;
 }
 
 function toOptions(

@@ -17,6 +17,7 @@ export default function MetricSelectorOverlay({
   close,
   query,
   onQueryChange,
+  onSelectType,
   disabled
 }) {
   const options = useMemo(
@@ -38,8 +39,13 @@ export default function MetricSelectorOverlay({
       }}
       query={query}
       onQueryChange={onQueryChange}
+      // when filtering on a type, the metric catalog will already be filtered on that type, so options will contain all metrics from that type
+      onFocusNode={focusedNode => onSelectType(focusedNode?.levelType)}
       disabled={disabled}
       strict
+      nodesToSearchFrom={(options, focusedNode) =>
+        focusedNode !== null && focusedNode.levelType === null ? [focusedNode] : options
+      }
     />
   );
 }
@@ -54,6 +60,7 @@ export function toOptions(metricTreeNodes, parentLabels = []) {
       metric: metricTreeNode.name,
       type: metricTreeNode.type,
       parentType: metricTreeNode.parentType ?? metricTreeNode.type, // parentType was previously sent as type before R221
+      levelType: metricTreeNode.levelType,
       icon: metricTreeNode.icon,
       allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? [],
       keywords: [
@@ -78,6 +85,7 @@ MetricSelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired,
+  onSelectType: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   disabled: PropTypes.bool
 };
