@@ -10,6 +10,7 @@ import { Link } from '@instana/components';
 
 import {
   businessProcessActivityListPath,
+  businessProcessSummaryPath,
   businessActivityPath,
   businessActivitySummaryPath,
   businessProcessDashboard
@@ -22,8 +23,8 @@ import { clickBizopsProcessViewAllActivitiesTracker, selectBizopsProcessActiviti
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
+import { millis, number, percentage } from 'in-services/formatters/number';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -40,17 +41,20 @@ interface TopActivitiesProps {
   businessProcessName: string;
 }
 
+const labels = [
+  t('in-bizops:dashboards.summary.widgets.processLatency'),
+  t('in-bizops:dashboards.summary.widgets.processCalls'),
+  t('in-bizops:dashboards.summary.widgets.processErroneous')
+];
+
 export default function TopActivities({ businessProcessId, businessProcessName }: TopActivitiesProps) {
   const timeConfig = useTimeConfig();
-  /* TODO: When/if more metrics are added, use the labels prop to supply the
-  header tab button labels. Since we're starting with just one metric (count),
-  we don't need the labels prop just yet */
   return (
     <TopListWithUrlState
-      metrics={['activities_count']}
+      metrics={['call_latency', 'call_count', 'erroneous_call_rate']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
-      //labels={''}
-      formatters={[number.compact]}
+      labels={labels}
+      formatters={[millis.fixedCompact, number.compact, percentage.detailed]}
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       businessProcessId={businessProcessId}
@@ -58,6 +62,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
       getList={getList}
       Renderer={TopListCardPresenter}
       Label={Label}
+      urlMatrixParamConfig={{ path: businessProcessSummaryPath, paramTab: 'latencyTab' }}
     />
   );
 }
@@ -97,10 +102,11 @@ function ViewAll({ className }: viewAllProps) {
 type GetListProps = {
   businessProcessId: string;
   timeConfig: TimeConfig;
+  selectedMetric: string;
 };
 
 // Invoke the websocket to fetch business activity list data from backend
-function getList({ businessProcessId, timeConfig }: GetListProps) {
+function getList({ businessProcessId, timeConfig, selectedMetric }: GetListProps) {
   const tagFilterExpression: TagFilterExpression = {
     logicalOperator: 'AND',
     type: 'EXPRESSION',
@@ -118,13 +124,21 @@ function getList({ businessProcessId, timeConfig }: GetListProps) {
   return getBusinessActivities({
     dataType: 'ACTIVITY',
     metrics: {
-      activities_count: {
-        metric: 'activities_count',
-        aggregation: 'DISTINCT_COUNT'
+      call_latency: {
+        metric: 'call_latency',
+        aggregation: 'MEAN'
+      },
+      call_count: {
+        metric: 'call_count',
+        aggregation: 'SUM'
+      },
+      erroneous_call_rate: {
+        metric: 'erroneous_call_rate',
+        aggregation: 'SUM'
       }
     },
     order: {
-      by: 'activities_count',
+      by: selectedMetric,
       direction: 'DESC'
     },
     pagination: {

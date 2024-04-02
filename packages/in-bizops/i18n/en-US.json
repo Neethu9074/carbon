@@ -27,13 +27,15 @@
       "summaryTab": "Summary",
       "activitiesTab": "Activities",
       "widgets": {
-        "topActivities": "Top Activities (Count)",
+        "topActivities": "Top Activities",
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
         "viewAll": "View all activities",
         "processCount": "Count",
         "processCountTotal": "total",
         "processErrors": "Errors",
-        "processLatency": "Latency"
+        "processLatency": "Latency",
+        "processCalls": "Calls",
+        "processErroneous" : "Erroneous Call Rate"
       }
     },
     "activity": {
