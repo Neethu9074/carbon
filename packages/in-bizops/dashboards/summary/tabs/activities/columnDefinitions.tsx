@@ -51,7 +51,8 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
       } else {
         activityName = t('in-bizops:lists.unnamedActivity');
       }
-      return ActivityLink(activityName);
+
+      return ActivityLink(activityName, item.businessActivity?.activityId);
     }
   },
   {
@@ -100,7 +101,7 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
   */
 ];
 
-function ActivityLink(activityName: string | undefined) {
+function ActivityLink(activityName: string | undefined, activityId: string | undefined) {
   const { location, createHref } = useNavigation();
 
   const businessProcessId: string =
@@ -118,6 +119,7 @@ function ActivityLink(activityName: string | undefined) {
 
   location.pathname = businessActivitySummaryPath;
   setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
+  setOrDeleteMatrixKey(location, businessActivityPath, 'activityId', activityId);
 
   return (
     <Link

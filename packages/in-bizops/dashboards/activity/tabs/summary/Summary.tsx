@@ -38,6 +38,8 @@ export default function Summary() {
     t('in-bizops:dashboards.summary.pageTitle');
   const businessActivityName: string =
     getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
+  const businessActivityId: string =
+    getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
 
   // TODO: remove this if and just return once golden signals is complete
   if (bizopsGoldenSignalsEnabled) {
@@ -73,7 +75,7 @@ export default function Summary() {
             />
           </Col>
           <Col lg>
-            <TopServices />
+            <TopServices businessActivityId={businessActivityId} />
           </Col>
         </Row>
         <Row>

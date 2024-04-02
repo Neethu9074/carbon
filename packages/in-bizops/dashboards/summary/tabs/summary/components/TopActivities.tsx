@@ -182,6 +182,7 @@ function Label({ item }: LabelProps) {
 
   location.pathname = businessActivitySummaryPath;
   setOrDeleteMatrixKey(location, businessActivityPath, 'activityName', activityName);
+  setOrDeleteMatrixKey(location, businessActivityPath, 'activityId', item.businessActivity?.activityId);
 
   return (
     <Link href={createHref(location)} onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}>

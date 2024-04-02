@@ -15,7 +15,8 @@
     "noData": "No data available",
     "healthLabel": "Health",
     "startLabel": "Started",
-    "unnamedActivity": "(Unnamed Activity) {{activityType}}"
+    "unnamedActivity": "(Unnamed Activity) {{activityType}}",
+    "unnamedService": "(Unnamed Service)"
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -45,6 +46,7 @@
         "duration": "Duration",
         "activityCount": "Count",
         "activityErrors": "Errors",
+        "topServices": "Top Services",
         "activityLatency": "Latency"
       },
       "timespans": {
