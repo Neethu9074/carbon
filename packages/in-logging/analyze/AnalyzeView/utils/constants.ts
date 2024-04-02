@@ -5,8 +5,8 @@
  */
 
 import { facetedSearchItems } from 'in-logging/analyze/AnalyzeView/utils/facetedSearchItems';
-import { defaultChartedMetrics } from 'in-logging/analyze/AnalyzeView/utils/index';
 import { PillTypeColors } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import { defaultChartedMetrics } from 'in-logging/analyze/AnalyzeView/utils/index';
 
 export const dataSourceConfigurations = {
   logs: {
@@ -27,5 +27,6 @@ export const dataSourceConfigurations = {
 export const logPillColorMap: Record<string, PillTypeColors> = {
   error: 'red',
   warn: 'yellow',
-  info: 'blue'
+  info: 'blue',
+  fatal: 'purple'
 };

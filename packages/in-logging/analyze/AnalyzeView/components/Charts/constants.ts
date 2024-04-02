@@ -4,10 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import { themes } from '@instana/design-tokens';
-
+import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import { LowercaseLogLevel } from 'in-logging/components/types';
-import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 export const maxInitialLogLines = 2000;
@@ -17,9 +15,10 @@ export const logLevelColors: Record<LowercaseLogLevel, string> = {
   error: carbonAlert.red60,
   warn: carbonAlert.yellow30,
   info: carbonAlert.blue70,
-  debug: themes.default.ids.color.option.black,
-  trace: themes.default.ids.color.option.black,
-  unknown: themes.default.ids.color.option.black
+  fatal: carbonAlert.purple50,
+  debug: carbonCategorical.teal50,
+  trace: carbonCategorical.teal50,
+  unknown: carbonCategorical.teal50
 };
 
 export const getLogLevelColor = (logLevel?: string) => {

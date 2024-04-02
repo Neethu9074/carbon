@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Link, Pill } from '@instana/components';
 
+import { useLoggingAnalyzeContext } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -22,16 +23,24 @@ interface Props {
 }
 
 export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
+  const {
+    state: { extraChartLogLevel }
+  } = useLoggingAnalyzeContext();
+
   const logLevel = getLogLevel(tags);
   if (!logLevel) {
     return null;
   }
 
-  const color = logPillColorMap[logLevel.toLowerCase()] ?? 'high-contrast';
+  const isExtraLogLevel = logLevel === extraChartLogLevel?.toUpperCase();
+  const standardLogLevelColor = logPillColorMap[logLevel.toLowerCase()] ?? 'high-contrast';
+  const extraLogLevelColor = 'teal';
+
+  const color = isExtraLogLevel ? extraLogLevelColor : standardLogLevelColor;
 
   return (
-    <Link href={onSelectTagHref ? onSelectTagHref(tagFilter(LOG_LEVEL, EQUALS, logLevel)) : undefined}>
-      <Pill className={locals.pill} type={color}>
+    <Link href={onSelectTagHref && onSelectTagHref(tagFilter(LOG_LEVEL, EQUALS, logLevel))}>
+      <Pill className={locals.pill} type={color} lightenOpacity={0}>
         {logLevel}
       </Pill>
     </Link>
