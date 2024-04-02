@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 let snapshotProps = {};
 const cols = [
   {
-    title: t('in-forge:plugins.db2Database.scaHostId'),
+    title: t('in-forge:plugins.db2Database.grpHostId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -26,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.scaHostName'),
+    title: t('in-forge:plugins.db2Database.grpHostName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -35,14 +35,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.currentCfScaSize'),
+    title: t('in-forge:plugins.db2Database.currentCfGbpSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `db2cfsca.${row.key}.currentCfScaSize`;
+        return `grpBufferPool.${row.key}.currentCfGbpSize`;
       },
       getContent: kiloBytes.detailed,
       getTimeWindowAggregation() {
@@ -51,14 +51,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.configuredCfScaSize'),
+    title: t('in-forge:plugins.db2Database.configuredCfGbpSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `db2cfsca.${row.key}.configuredCfScaSize`;
+        return `grpBufferPool.${row.key}.configuredCfGbpSize`;
       },
       getContent: kiloBytes.detailed,
       getTimeWindowAggregation() {
@@ -67,14 +67,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.targetedCfScaSize'),
+    title: t('in-forge:plugins.db2Database.targetedCfGbpSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `db2cfsca.${row.key}.targetedCfScaSize`;
+        return `grpBufferPool.${row.key}.targetedCfGbpSize`;
       },
       getContent: kiloBytes.detailed,
       getTimeWindowAggregation() {
@@ -84,7 +84,7 @@ const cols = [
   }
 ];
 
-function Db2CfScaTable({ data, keys }) {
+function GrpBufferPoolTable({ data, keys }) {
   if (!data) {
     return null;
   }
@@ -114,7 +114,7 @@ function Db2CfScaTable({ data, keys }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.db2Database.dashboard.purescaleScaTable')}
+      cardTitle={t('in-forge:plugins.db2Database.dashboard.pureScaleGrpTable')}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -125,10 +125,10 @@ function Db2CfScaTable({ data, keys }) {
 export default connectTo(props => {
   snapshotProps = props;
   return {
-    data: getRawPayloadWithTimestamp(props.snapshotId, 'db2cfsca_extracted'),
-    keys: getRawPayloadWithTimestamp(props.snapshotId, 'db2CfScaId')
+    data: getRawPayloadWithTimestamp(props.snapshotId, 'grpBufferPool_extracted'),
+    keys: getRawPayloadWithTimestamp(props.snapshotId, 'grpBufferPoolId')
   };
-}, Db2CfScaTable);
+}, GrpBufferPoolTable);
 
 function getDetails(row) {
   return (
@@ -140,14 +140,14 @@ function getDetails(row) {
           min: 0,
           formatter: kiloBytes.detailed,
           metrics: [
-            'db2cfsca.' + row.key + '.currentCfScaSize',
-            'db2cfsca.' + row.key + '.configuredCfScaSize',
-            'db2cfsca.' + row.key + '.targetedCfScaSize'
+            'grpBufferPool.' + row.key + '.currentCfGbpSize',
+            'grpBufferPool.' + row.key + '.configuredCfGbpSize',
+            'grpBufferPool.' + row.key + '.targetedCfGbpSize'
           ],
           labels: [
-            t('in-forge:plugins.db2Database.currentCfScaSize'),
-            t('in-forge:plugins.db2Database.configuredCfScaSize'),
-            t('in-forge:plugins.db2Database.targetedCfScaSize')
+            t('in-forge:plugins.db2Database.currentCfGbpSize'),
+            t('in-forge:plugins.db2Database.configuredCfGbpSize'),
+            t('in-forge:plugins.db2Database.targetedCfGbpSize')
           ],
           type: 'line'
         }}

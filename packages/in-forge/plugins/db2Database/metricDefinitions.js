@@ -698,5 +698,59 @@ export default [
     category: [t('in-forge:plugins.db2Database.dashboard.purescaleScaTable')],
     min: 0,
     formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'pkgCache',
+        'numExcecutionPkg',
+        t('in-forge:plugins.db2Database.dashboard.numExcecutionPkg')
+      ),
+      getDynamicMetricMatch(
+        'pkgCache',
+        'reclaimWaitTimePkg',
+        t('in-forge:plugins.db2Database.dashboard.reclaimWaitTimePkg')
+      ),
+      getDynamicMetricMatch(
+        'pkgCache',
+        'avgExcecutionTimePkg',
+        t('in-forge:plugins.db2Database.dashboard.avgExcecutionTimePkg')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.numExcecutionPkg'),
+      t('in-forge:plugins.db2Database.reclaimWaitTimePkg'),
+      t('in-forge:plugins.db2Database.avgExcecutionTimePkg')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.pureScalePkgCacheTable')],
+    min: 0,
+    formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'grpBufferPool',
+        'currentCfGbpSize',
+        t('in-forge:plugins.db2Database.dashboard.currentCfGbpSize')
+      ),
+      getDynamicMetricMatch(
+        'grpBufferPool',
+        'configuredCfGbpSize',
+        t('in-forge:plugins.db2Database.dashboard.configuredCfGbpSize')
+      ),
+      getDynamicMetricMatch(
+        'grpBufferPool',
+        'targetedCfGbpSize',
+        t('in-forge:plugins.db2Database.dashboard.targetedCfGbpSize')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.currentCfGbpSize'),
+      t('in-forge:plugins.db2Database.configuredCfGbpSize'),
+      t('in-forge:plugins.db2Database.targetedCfGbpSize')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.pureScaleGrpTable')],
+    min: 0,
+    formatter: kiloBytes
   }
 ];
