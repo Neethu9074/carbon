@@ -10,6 +10,7 @@
     position: fixed;
     top: 6rem;
     right: 1.25rem;
+    background: none;
 
     z-index: var(--ids-z-index-option-graph-view);
   }
