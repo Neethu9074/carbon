@@ -25,6 +25,9 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
           ? t('in-synthetics:dialog.locationFeedback.successMessageDelete')
           : t('in-synthetics:dialog.feedback.successMessageDelete');
       break;
+    case 'deactivate':
+      message = t('in-synthetics:dialog.locationFeedback.successMessageDeactivate');
+      break;
     default:
       message = '';
       break;
@@ -80,5 +83,7 @@ export const showCreateSuccessMessage = () => showSuccessMessage('create');
 export const showUpdateSuccessMessage = () => showSuccessMessage('update');
 
 export const showDeleteSuccessMessage = (context?: string) => showSuccessMessage('delete', context);
+
+export const showLocationDeactivateSuccessMessage = () => showSuccessMessage('deactivate');
 
 export const showLocationDeactivateErrorMessage = (error: string) => showErrorMessage('deactivate', undefined, error);

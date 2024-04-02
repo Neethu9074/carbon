@@ -12,14 +12,12 @@ import DeactivateSelectedLocation from 'in-synthetics/dashboards/global/tabs/loc
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import DeleteSelectedLocation from 'in-synthetics/dashboards/global/tabs/locations/components/DeleteSelectedLocation';
-import { showLocationDeactivateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { syntheticDeactivateDatacentersEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
-import { deactivateLocation } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -48,15 +46,7 @@ const LocationListActionsColumn = ({ item, isLoading }: LocationListActionsColum
   };
 
   const showDeactivateDialog = () => {
-    const action$ = deactivateLocation(item.id);
-
-    action$.once(() => {
-      return addActiveDialog(<DeactivateSelectedLocation item={item} />);
-    });
-
-    action$.errors().once(error => {
-      showLocationDeactivateErrorMessage(error.message.split(':')[2]);
-    });
+    return addActiveDialog(<DeactivateSelectedLocation item={item} />);
   };
 
   if (syntheticDeactivateDatacentersEnabled) {
