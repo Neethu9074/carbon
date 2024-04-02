@@ -6,7 +6,7 @@
 
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 
-const deploymentType = onPremLicenseInformationEnabled ? 'SaaS' : 'Self-Hosted';
+const deploymentType = onPremLicenseInformationEnabled ? 'Self-Hosted' : 'SaaS';
 export const customRealmName = 'instanaProduct';
 export const productTitle = `Observability with Instana (${deploymentType})`;
 export const ut30 = '30AO8';
