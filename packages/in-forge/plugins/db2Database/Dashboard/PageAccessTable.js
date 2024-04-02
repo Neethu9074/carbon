@@ -84,7 +84,7 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(props.snapshotId, 'pageAccess')
     };
   },
-  function pageAccessDetailsTable({ data }) {
+  function PageAccessDetailsTable({ data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
