@@ -16,7 +16,6 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import { kubernetesClusterTagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
@@ -46,10 +45,9 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
 
   const { capacity, limits, requests, usage } = k8sNodeChart;
 
-  const clusterTag = kubernetesClusterTagEquals(node.clusterId);
-  const workloadTag = tagEquals('kubernetes.node.name', node.name);
-  const query = andQuery(clusterTag, workloadTag);
-  const tagFilterExpression = toBackendQueryModel(query);
+  const nodeTagId = tagEquals('id.kubernetesNode', snapshotId);
+  const nodeQuery = andQuery(nodeTagId);
+  const tagFilterExpression = toBackendQueryModel(nodeQuery);
   const type = plugins.kubernetesNode;
 
   const kpiWidth = 2;
@@ -90,7 +88,6 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={node.id} timeConfig={timeConfig} />
-
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
@@ -232,7 +229,6 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
@@ -345,13 +341,11 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={query} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={nodeQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={node.conditions} viewAllHref={viewAllHref} />

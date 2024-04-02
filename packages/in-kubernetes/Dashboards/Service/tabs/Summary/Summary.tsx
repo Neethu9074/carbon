@@ -11,8 +11,6 @@ import { AggregationType, KubernetesService, ResultType, TimeConfig } from '@ins
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -44,7 +42,6 @@ interface SummaryProps {
 }
 
 export default function Summary({ timeConfig, data: service }: SummaryProps) {
-  // Removing the old destructuring syntax for colors
   const snapshotId = service.id;
   const { limits, requests, usage } = k8sPodAndServiceChart;
 
@@ -53,10 +50,10 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
     comparisonIncreaseColor: blue.id
   };
 
-  const clusterTag = kubernetesClusterTagEquals(service.clusterName);
-  const nsTag = kubernetesNamespaceTagEquals(service.namespace);
-  const uidTag = tagEquals('kubernetes.service.uid', service.uid);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, uidTag));
+  const serviceTagId = tagEquals('id.kubernetesService', snapshotId);
+  const serviceQuery = andQuery(serviceTagId);
+
+  const tagFilterExpression = toBackendQueryModel(serviceQuery);
   const type = plugins.kubernetesService;
   const timeShift = useTimeShiftConfig();
 
@@ -281,10 +278,7 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, uidTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={serviceQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
 

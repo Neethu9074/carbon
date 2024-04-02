@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Card } from '@instana/components';
 
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
@@ -26,17 +24,12 @@ import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: statefulSet }) {
   const snapshotId = statefulSet.id;
-
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-
-  const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
-  const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
+  const statefulSetTagId = tagEquals('id.kubernetesStatefulSet', snapshotId);
 
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={statefulSet.id} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
@@ -79,7 +72,6 @@ export default function Summary({ timeConfig, data: statefulSet }) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <Card title={t('in-kubernetes:dashboards.cpuResources')}>
@@ -152,16 +144,11 @@ export default function Summary({ timeConfig, data: statefulSet }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(statefulSetTagId)} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <Card title={t('in-kubernetes:dashboards.replicas')}>
@@ -180,6 +167,6 @@ export default function Summary({ timeConfig, data: statefulSet }) {
           </Card>
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

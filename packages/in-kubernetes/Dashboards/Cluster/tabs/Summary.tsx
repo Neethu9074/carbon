@@ -11,8 +11,8 @@ import { AggregationType, KubernetesCluster, ResultType, TimeConfig } from '@ins
 
 import {
   LogsChartInteractionWrapper,
-  kubernetesClusterTagEquals,
-  andQuery
+  andQuery,
+  tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
@@ -59,11 +59,10 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
     comparisonIncreaseColor: blue.id
   };
 
-  const label = ' (cluster)';
-  const clusterName = cluster.label.substr(0, cluster.label.length - label.length);
-  const clusterTag = kubernetesClusterTagEquals(clusterName);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag));
+  const clusterTagId = tagEquals('id.kubernetesCluster', snapshotId);
+  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTagId));
   const type = plugins.kubernetesCluster;
+
   const defaultBigNumberMetricConfig = {
     source,
     aggregation: 'MEAN' as AggregationType,
@@ -323,7 +322,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={[clusterTag]} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={[clusterTagId]} timeConfig={timeConfig} />
         </Col>
       </Row>
 

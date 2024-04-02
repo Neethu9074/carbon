@@ -8,13 +8,9 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { AggregationType, ResultType } from '@instana/types';
 
-import {
-  kubernetesClusterTagEquals,
-  andQuery,
-  kubernetesNamespaceTagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
+import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { metricKey, comparisonMetricKey } from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
@@ -28,9 +24,10 @@ jest.mock('in-subscription/getUnifiedMetrics');
 
 const timeShift = { offset: 1 };
 const type = plugins.kubernetesNamespace;
-const clusterTag = kubernetesClusterTagEquals('clusterName');
-const nsTag = kubernetesNamespaceTagEquals('label');
-const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag));
+
+const snapshotId = 'XX_XXXXXXXXXXXXXXXXXXXXXXXXX';
+const clusterTagId = tagEquals('id.kubernetesCluster', snapshotId);
+const tagFilterExpression = toBackendQueryModel(andQuery(clusterTagId));
 const timeConfig = {
   windowSize: 1,
   to: 2,
@@ -80,24 +77,11 @@ describe('GetBigNumberKpiCardResult', () => {
           resultType: 'SINGLE_NUMBER',
           source: 'INFRASTRUCTURE_METRICS',
           tagFilterExpression: {
-            elements: [
-              {
-                entity: 'NOT_APPLICABLE',
-                name: 'kubernetes.cluster.name',
-                operator: 'EQUALS',
-                type: 'TAG_FILTER',
-                value: 'clusterName'
-              },
-              {
-                entity: 'NOT_APPLICABLE',
-                name: 'kubernetes.namespace.name',
-                operator: 'EQUALS',
-                type: 'TAG_FILTER',
-                value: 'label'
-              }
-            ],
-            logicalOperator: 'AND',
-            type: 'EXPRESSION'
+            entity: 'NOT_APPLICABLE',
+            name: 'id.kubernetesCluster',
+            operator: 'EQUALS',
+            type: 'TAG_FILTER',
+            value: 'XX_XXXXXXXXXXXXXXXXXXXXXXXXX'
           },
           timeConfig: { autoRefresh: false, focusedMoment: 3, to: 2, windowSize: 1 },
           timeShift: { offset: 0 },
@@ -109,24 +93,11 @@ describe('GetBigNumberKpiCardResult', () => {
           resultType: 'SINGLE_NUMBER',
           source: 'INFRASTRUCTURE_METRICS',
           tagFilterExpression: {
-            elements: [
-              {
-                entity: 'NOT_APPLICABLE',
-                name: 'kubernetes.cluster.name',
-                operator: 'EQUALS',
-                type: 'TAG_FILTER',
-                value: 'clusterName'
-              },
-              {
-                entity: 'NOT_APPLICABLE',
-                name: 'kubernetes.namespace.name',
-                operator: 'EQUALS',
-                type: 'TAG_FILTER',
-                value: 'label'
-              }
-            ],
-            logicalOperator: 'AND',
-            type: 'EXPRESSION'
+            entity: 'NOT_APPLICABLE',
+            name: 'id.kubernetesCluster',
+            operator: 'EQUALS',
+            type: 'TAG_FILTER',
+            value: 'XX_XXXXXXXXXXXXXXXXXXXXXXXXX'
           },
           timeConfig: { autoRefresh: false, focusedMoment: 3, to: 2, windowSize: 1 },
           timeShift: { offset: 1 },

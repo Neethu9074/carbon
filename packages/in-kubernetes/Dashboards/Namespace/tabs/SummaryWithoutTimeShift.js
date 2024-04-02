@@ -10,17 +10,16 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import {
-  kubernetesClusterTagEquals,
-  LogsChartInteractionWrapper,
-  andQuery,
-  kubernetesNamespaceTagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-import {
   resourceQuotaPercentage,
   resourceQuotaNumber,
   resourceQuotaBytes,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
@@ -45,8 +44,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
 
-  const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
-  const nsTag = kubernetesNamespaceTagEquals(namespace.label);
+  const namespaceTagId = tagEquals('id.kubernetesNamespace', snapshotId);
 
   const allDeploymentsHrefs = useNamespaceDashboard(namespace.id, {
     tab: '/deployments'
@@ -63,7 +61,6 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={namespace.id} timeConfig={timeConfig} />
-
       <KpiGridRow sizes={[6, 6]}>
         <KpiCard title={t('in-kubernetes:dashboards.status')} value={namespace.status} raw borderless />
         <KpiCard
@@ -74,7 +71,6 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
           borderless
         />
       </KpiGridRow>
-
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
@@ -117,7 +113,6 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
           />
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={4}>
           <Card title={t('in-kubernetes:dashboards.cpuResources')} useMaxAvailableHeight>
@@ -208,13 +203,11 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(clusterTag, nsTag)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(namespaceTagId)} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={6}>
           <TopDeploymentsList

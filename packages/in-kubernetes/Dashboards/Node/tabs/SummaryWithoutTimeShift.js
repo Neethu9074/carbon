@@ -11,7 +11,6 @@ import { Card } from '@instana/components';
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
@@ -35,9 +34,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
 
   const { capacity, limits, requests, usage } = k8sNodeChart;
 
-  const clusterTag = kubernetesClusterTagEquals(node.clusterId);
-  const workloadTag = tagEquals('kubernetes.node.name', node.name);
-
+  const nodeTagId = tagEquals('id.kubernetesNode', snapshotId);
   const viewAllHref = useNodeDashboard(snapshotId, { tab: '/conditions' });
 
   return (
@@ -110,7 +107,6 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <Card title={t('in-kubernetes:dashboards.cpuResources')}>
@@ -172,16 +168,11 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(nodeTagId)} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={node.conditions} viewAllHref={viewAllHref} />

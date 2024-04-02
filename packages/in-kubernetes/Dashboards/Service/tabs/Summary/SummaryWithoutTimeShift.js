@@ -10,8 +10,6 @@ import { Card } from '@instana/components';
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
@@ -30,17 +28,12 @@ import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
   const snapshotId = service.id;
-
   const { limits, requests, usage } = k8sPodAndServiceChart;
-
-  const clusterTag = kubernetesClusterTagEquals(service.clusterName);
-  const nsTag = kubernetesNamespaceTagEquals(service.namespace);
-  const uidTag = tagEquals('kubernetes.service.uid', service.uid);
+  const serviceTagId = tagEquals('id.kubernetesService', snapshotId);
 
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={service.id} timeConfig={timeConfig} />
-
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard title={t('in-kubernetes:dashboards.type')} value={service.type} raw borderless />
         <KpiCard title={t('in-kubernetes:dashboards.location')} value={service.location} raw borderless />
@@ -52,7 +45,6 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
           borderless
         />
       </KpiGridRow>
-
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
@@ -148,21 +140,16 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, uidTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(serviceTagId)} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <Endpoints timeConfig={timeConfig} service={service} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

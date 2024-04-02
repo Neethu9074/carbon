@@ -11,7 +11,7 @@ import { Card } from '@instana/components';
 
 import {
   LogsChartInteractionWrapper,
-  kubernetesClusterTagEquals
+  tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
@@ -36,9 +36,7 @@ export default function Summary({ timeConfig, data: cluster }) {
   const { running, limits, requests, usage } = k8sChartColors;
   const { pending, capacity, allocated } = k8sClusterChart;
 
-  const label = ' (cluster)';
-  const clusterName = cluster.label.substr(0, cluster.label.length - label.length);
-  const clusterTag = kubernetesClusterTagEquals(clusterName);
+  const clusterTagId = tagEquals('id.kubernetesCluster', snapshotId);
 
   const allItemsNodesHrefs = useClusterDashboard(cluster.id, {
     tab: '/nodes'
@@ -59,7 +57,6 @@ export default function Summary({ timeConfig, data: cluster }) {
   return (
     <>
       <MissingK8sPermissions cluster={cluster} />
-
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
@@ -102,7 +99,6 @@ export default function Summary({ timeConfig, data: cluster }) {
           />
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={4}>
           <Card title={t('in-kubernetes:dashboards.cpuResources')} useMaxAvailableHeight>
@@ -174,13 +170,11 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={[clusterTag]} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={[clusterTagId]} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={4}>
           <TopNodesList clusterId={cluster.id} timeConfig={timeConfig} allItemsHref={allItemsNodesHrefs} />

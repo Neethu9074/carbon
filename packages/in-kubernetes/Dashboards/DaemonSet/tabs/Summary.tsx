@@ -6,13 +6,11 @@
 
 import React from 'react';
 
-import { AggregationType, ResultType } from '@instana/types';
+import { AggregationType, ResultType, TimeConfig } from '@instana/types';
 
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -33,19 +31,23 @@ import { Row, Col } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: daemonSet }: any) {
+interface SummaryProps {
+  timeConfig: TimeConfig;
+  data: any;
+}
+
+export default function Summary({ timeConfig, data: daemonSet }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = daemonSet.id;
 
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
 
-  const clusterTag = kubernetesClusterTagEquals(daemonSet.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(daemonSet.namespace);
-  const workloadTag = tagEquals('kubernetes.daemonset.name', daemonSet.name);
+  const daemonSetTagId = tagEquals('id.kubernetesDaemonSet', snapshotId);
+  const daemonSetQuery = andQuery(daemonSetTagId);
+  const tagFilterExpression = toBackendQueryModel(daemonSetQuery);
 
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
   const tagFilterExpressionPodPhase = (phase: string) =>
-    toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag, tagEquals('kubernetes.pod.phase', phase)));
+    toBackendQueryModel(andQuery(daemonSetTagId, tagEquals('kubernetes.pod.phase', phase)));
   const type = plugins.kubernetesDaemonSet;
 
   const defaultConfig = {
@@ -98,7 +100,6 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={daemonSet.id} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={2}>
           <BigNumberKpiCard
@@ -171,7 +172,6 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
@@ -292,16 +292,11 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={daemonSetQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <KubernetesTimeShiftChartPresenter

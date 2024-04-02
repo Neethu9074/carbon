@@ -1,27 +1,39 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
+import { KubernetesCronJob, TimeConfig } from '@instana/types';
+
+// @ts-expect-error needs ts migration
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+// @ts-expect-error needs ts migration
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import { cronJobDashboard } from 'in-kubernetes/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { formatDuration } from 'in-services/formatters/date';
 import { Jobs } from 'in-kubernetes/Dashboards/CronJob/Jobs';
+import { Location } from 'in-stores/navigation/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: cronJob, location }) {
+interface SummaryProps {
+  timeConfig: TimeConfig;
+  location: Location;
+  data: KubernetesCronJob;
+}
+
+export default function Summary({ timeConfig, data: cronJob, location }: SummaryProps) {
   const snapshotId = cronJob.id;
   const podId = getMatrixParameter(location, cronJobDashboard, matrixPodId);
 
   return (
-    <Fragment>
+    <>
       <MissingK8sPermissions resourceSnapshotId={cronJob.id} timeConfig={timeConfig} />
 
       <Row>
@@ -56,6 +68,6 @@ export default function Summary({ timeConfig, data: cronJob, location }) {
           <Jobs timeConfig={timeConfig} cronJobId={cronJob.id} podId={podId} />
         </Col>
       </Row>
-    </Fragment>
+    </>
   );
 }

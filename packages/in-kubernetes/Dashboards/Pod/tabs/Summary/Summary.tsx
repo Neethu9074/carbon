@@ -12,9 +12,7 @@ import { Card } from '@instana/components';
 import {
   LogsChartInteractionWrapper,
   tagEquals,
-  andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals
+  andQuery
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
@@ -59,10 +57,10 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const containerStatuses = pod.status?.containerStatuses || [];
   const kpiWidth = 2;
 
-  const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
-  const podTag = tagEquals('kubernetes.pod.name', pod.label);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, podTag));
+  const podTagId = tagEquals('id.kubernetesPod', snapshotId);
+  const podQuery = andQuery(podTagId);
+  const tagFilterExpression = toBackendQueryModel(podQuery);
+
   const type = plugins.kubernetesPod;
 
   const defaultConfig = {
@@ -102,7 +100,6 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={pod.id} timeConfig={timeConfig} />
-
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
@@ -139,7 +136,6 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           raw
         />
       </KpiGridRow>
-
       {pod.status?.message && (
         <Row>
           <Col lg={12}>
@@ -152,7 +148,6 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           </Col>
         </Row>
       )}
-
       <Row>
         <Col lg={kpiWidth}>
           <BigNumberKpiCard
@@ -241,7 +236,6 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={6}>
           <KubernetesTimeShiftChartPresenter
@@ -314,16 +308,11 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, podTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={podQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <Card title={t('in-kubernetes:dashboards.containerStatus')} useMaxAvailableHeight>
@@ -331,7 +320,6 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={pod.conditions} viewAllHref={viewAllHref} />

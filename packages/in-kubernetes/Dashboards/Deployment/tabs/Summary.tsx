@@ -11,8 +11,6 @@ import { AggregationType, KubernetesWorkloadController, ResultType, TimeConfig }
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -54,11 +52,9 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
     comparisonIncreaseColor: blue.id
   };
 
-  const clusterTag = kubernetesClusterTagEquals(deployment.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(deployment.namespace);
-  const workloadTag = tagEquals('kubernetes.deployment.name', deployment.name);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
   const type = plugins.kubernetesDeployment;
+  const idTag = tagEquals('id.kubernetesDeployment', snapshotId);
+  const tagFilterExpression = toBackendQueryModel(andQuery(idTag));
 
   const defaultConfig = {
     source,
@@ -281,10 +277,7 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(idTag)} timeConfig={timeConfig} />
         </Col>
       </Row>
 

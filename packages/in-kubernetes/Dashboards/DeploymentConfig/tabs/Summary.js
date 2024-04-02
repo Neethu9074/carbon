@@ -9,18 +9,16 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   bytesTwoDecimalPlaces,
   timeByMillisTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
@@ -36,19 +34,13 @@ const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 
 export default function Summary({ timeConfig, data: deploymentConfig }) {
   const snapshotId = deploymentConfig.id;
-
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-
-  const clusterTag = kubernetesClusterTagEquals(deploymentConfig.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(deploymentConfig.namespace);
-  const workloadTag = tagEquals('openshift.deploymentconfig.name', deploymentConfig.name);
-
+  const deploymentConfigTagId = tagEquals('id.kubernetesDeploymentConfig', snapshotId);
   const viewAllHref = useDeploymentConfigDashboard(snapshotId, { tab: '/conditions' });
 
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={deploymentConfig.id} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={2}>
           <InfraMetricKpiCard
@@ -91,7 +83,6 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <Card title={t('in-kubernetes:dashboards.cpuResources')}>
@@ -163,16 +154,11 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(deploymentConfigTagId)} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={6}>
           <Card title={t('in-kubernetes:dashboards.replicas')}>
@@ -206,7 +192,6 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={deploymentConfig.conditions} viewAllHref={viewAllHref} />
