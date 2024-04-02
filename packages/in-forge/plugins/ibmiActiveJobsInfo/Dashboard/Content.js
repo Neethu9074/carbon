@@ -10,9 +10,5 @@ import ActiveJobsTable from './ActiveJobsTable';
 
 export default function IbmIActiveJobsInfoDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-  return (
-    <div>
-      <ActiveJobsTable snapshotId={snapshotId} timeConfig={timeConfig} />
-    </div>
-  );
+  return <ActiveJobsTable snapshotId={snapshotId} timeConfig={timeConfig} />;
 }
