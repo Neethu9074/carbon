@@ -106,7 +106,6 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticUpdateDeployPoPEnabled: true,
-  syntheticDeactivateDatacentersEnabled: true,
   syntheticCertificateCheckEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,

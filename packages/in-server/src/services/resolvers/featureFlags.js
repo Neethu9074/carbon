@@ -406,11 +406,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticDeactivateDatacentersEnabled',
-    instanaCtlKey: 'feature.synthetic.deactivate.datacenters.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'syntheticCertificateCheckEnabled',
     instanaCtlKey: 'feature.synthetic.certificate.check.enabled',
     defaultValue: false
