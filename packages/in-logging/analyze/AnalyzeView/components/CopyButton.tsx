@@ -12,14 +12,15 @@ import { t } from 'in-i18n';
 
 export interface CopyColumnProps {
   message: string;
+  className?: string;
 }
 
-export function CopyButton({ message }: CopyColumnProps) {
+export function CopyButton({ message, className }: CopyColumnProps) {
   return (
     <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
       <CopyToClipboard getText={() => message}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
-          <IconButton ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />
+          <IconButton className={className} ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />
         )}
       </CopyToClipboard>
     </Tooltip>

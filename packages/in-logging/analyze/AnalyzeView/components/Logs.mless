@@ -33,8 +33,11 @@
   .copyButtonWrapper,
   .centeredCopyButtonWrapper {
     display: flex;
+    padding: 0.0625rem;
+  }
 
-    margin-left: 0.25rem;
+  .squareHover:before {
+    border-radius: var(--ids-border-radius-option-small);
   }
 
   .centeredCopyButtonWrapper {
