@@ -705,7 +705,15 @@ export default [
         'pkgCache',
         'numExcecutionPkg',
         t('in-forge:plugins.db2Database.dashboard.numExcecutionPkg')
-      ),
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.numExcecutionPkg')],
+    category: [t('in-forge:plugins.db2Database.dashboard.pureScalePkgCacheTable')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
       getDynamicMetricMatch(
         'pkgCache',
         'reclaimWaitTimePkg',
@@ -718,13 +726,12 @@ export default [
       )
     ],
     labels: [
-      t('in-forge:plugins.db2Database.numExcecutionPkg'),
       t('in-forge:plugins.db2Database.reclaimWaitTimePkg'),
       t('in-forge:plugins.db2Database.avgExcecutionTimePkg')
     ],
     category: [t('in-forge:plugins.db2Database.dashboard.pureScalePkgCacheTable')],
     min: 0,
-    formatter: kiloBytes
+    formatter: millis.detailed
   },
   {
     metrics: [
