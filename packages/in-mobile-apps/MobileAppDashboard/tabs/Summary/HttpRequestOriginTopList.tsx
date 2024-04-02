@@ -9,11 +9,10 @@ import { AggregationType } from '@instana/types';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
-import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
-// @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { useGetLinkToMobileApp, useLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
 import { number, percentage } from 'in-services/formatters/number';
 import { UrlMatrixParamConfig } from 'in-applications/types';
