@@ -568,11 +568,6 @@ interface RunActionParams extends RunActionBaseParams {
   request: RunActionRequest[];
 }
 
-interface RunScriptActionParams extends RunActionBaseParams {
-  script: Field;
-  interpreter: Field;
-}
-
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 function runAction({
   volatileId,
@@ -662,16 +657,14 @@ export function runTurboAction({
 }
 
 export function runScriptAction({
-  script,
   volatileId,
   event,
   actionName,
   actionId,
-  interpreter,
   inputParameters,
   timeout,
   policyId
-}: RunScriptActionParams) {
+}: RunActionBaseParams) {
   return runAction({
     type: SCRIPT_TYPE,
     volatileId,
@@ -681,29 +674,8 @@ export function runScriptAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'script_ssh',
-        value: script.value,
-        encoding: script.encoding
-      },
-
-      {
-        name: 'subtype',
-        value: interpreter.value,
-        encoding: interpreter.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunWebhookActionParams extends RunActionBaseParams {
-  method: Field;
-  host: Field;
-  body: Field;
-  ignoreCertErrors: Field;
-  header: Field;
-  authen: Field;
 }
 
 export function runWebhookAction({
@@ -711,16 +683,10 @@ export function runWebhookAction({
   event,
   actionName,
   actionId,
-  method,
-  host,
-  body,
-  ignoreCertErrors,
-  header,
-  authen,
   inputParameters,
   timeout,
   policyId
-}: RunWebhookActionParams) {
+}: RunActionBaseParams) {
   return runAction({
     type: WEBHOOK_TYPE,
     volatileId,
@@ -730,60 +696,8 @@ export function runWebhookAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'method',
-        value: method.value,
-        encoding: method.encoding
-      },
-
-      {
-        name: 'host',
-        value: host.value,
-        encoding: host.encoding
-      },
-
-      {
-        name: 'body',
-        value: body.value,
-        encoding: body.encoding
-      },
-      {
-        name: 'ignoreCertErrors',
-        value: ignoreCertErrors.value,
-        encoding: ignoreCertErrors.encoding
-      },
-      {
-        name: 'header',
-        value: header.value,
-        encoding: header.encoding
-      },
-      {
-        name: 'authen',
-        value: authen.value,
-        encoding: authen.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunWebhookActionParams extends RunActionBaseParams {
-  method: Field;
-  host: Field;
-  body: Field;
-  ignoreCertErrors: Field;
-  header: Field;
-  authen: Field;
-}
-
-interface RunGithubOpenActionParams extends RunActionBaseParams {
-  owner: Field;
-  repo: Field;
-  ticketActionType: Field;
-  title: Field;
-  body: Field;
-  labels: Field;
-  assignees: Field;
 }
 
 export function runGithubOpenAction({
@@ -793,15 +707,8 @@ export function runGithubOpenAction({
   actionId,
   inputParameters,
   timeout,
-  owner,
-  repo,
-  ticketActionType,
-  title,
-  body,
-  labels,
-  assignees,
   policyId
-}: RunGithubOpenActionParams) {
+}: RunActionBaseParams) {
   return runAction({
     type: GITHUB_TYPE,
     volatileId,
@@ -811,52 +718,8 @@ export function runGithubOpenAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'owner',
-        value: owner.value,
-        encoding: owner.encoding
-      },
-      {
-        name: 'repo',
-        value: repo.value,
-        encoding: repo.encoding
-      },
-
-      {
-        name: 'ticketActionType',
-        value: ticketActionType.value,
-        encoding: ticketActionType.encoding
-      },
-      {
-        name: 'title',
-        value: title.value,
-        encoding: title.encoding
-      },
-      {
-        name: 'body',
-        value: body.value,
-        encoding: body.encoding
-      },
-      {
-        name: 'labels',
-        value: labels.value,
-        encoding: labels.encoding
-      },
-      {
-        name: 'assignees',
-        value: assignees.value,
-        encoding: assignees.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunGithubCloseActionParams extends RunActionBaseParams {
-  owner: Field;
-  repo: Field;
-  ticketActionType: Field;
-  comment: Field;
 }
 
 export function runGithubCloseAction({
@@ -866,12 +729,8 @@ export function runGithubCloseAction({
   actionId,
   inputParameters,
   timeout,
-  policyId,
-  owner,
-  repo,
-  ticketActionType,
-  comment
-}: RunGithubCloseActionParams) {
+  policyId
+}: RunActionBaseParams) {
   return runAction({
     type: GITHUB_TYPE,
     volatileId,
@@ -881,39 +740,8 @@ export function runGithubCloseAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'owner',
-        value: owner.value,
-        encoding: owner.encoding
-      },
-
-      {
-        name: 'repo',
-        value: repo.value,
-        encoding: repo.encoding
-      },
-      {
-        name: 'ticketActionType',
-        value: ticketActionType.value,
-        encoding: ticketActionType.encoding
-      },
-      {
-        name: 'comment',
-        value: comment.value,
-        encoding: comment.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunGitlabOpenActionParams extends RunActionBaseParams {
-  ticketActionType: Field;
-  projectId: Field;
-  title: Field;
-  body: Field;
-  labels: Field;
-  issue_type: Field;
 }
 
 export function runGitlabOpenAction({
@@ -923,14 +751,8 @@ export function runGitlabOpenAction({
   actionId,
   inputParameters,
   policyId,
-  timeout,
-  projectId,
-  ticketActionType,
-  title,
-  body,
-  labels,
-  issue_type
-}: RunGitlabOpenActionParams) {
+  timeout
+}: RunActionBaseParams) {
   return runAction({
     type: GITLAB_TYPE,
     volatileId,
@@ -940,46 +762,8 @@ export function runGitlabOpenAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'projectId',
-        value: projectId.value,
-        encoding: projectId.encoding
-      },
-
-      {
-        name: 'ticketActionType',
-        value: ticketActionType.value,
-        encoding: ticketActionType.encoding
-      },
-      {
-        name: 'title',
-        value: title.value,
-        encoding: title.encoding
-      },
-      {
-        name: 'body',
-        value: body.value,
-        encoding: body.encoding
-      },
-      {
-        name: 'labels',
-        value: labels.value,
-        encoding: labels.encoding
-      },
-      {
-        name: 'issue_type',
-        value: issue_type.value,
-        encoding: issue_type.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunGitlabCloseActionParams extends RunActionBaseParams {
-  projectId: Field;
-  ticketActionType: Field;
-  comment: Field;
 }
 
 export function runGitlabCloseAction({
@@ -989,11 +773,8 @@ export function runGitlabCloseAction({
   actionId,
   inputParameters,
   timeout,
-  policyId,
-  projectId,
-  ticketActionType,
-  comment
-}: RunGitlabCloseActionParams) {
+  policyId
+}: RunActionBaseParams) {
   return runAction({
     type: GITLAB_TYPE,
     volatileId,
@@ -1003,34 +784,8 @@ export function runGitlabCloseAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'projectId',
-        value: projectId.value,
-        encoding: projectId.encoding
-      },
-      {
-        name: 'ticketActionType',
-        value: ticketActionType.value,
-        encoding: ticketActionType.encoding
-      },
-      {
-        name: 'comment',
-        value: comment.value,
-        encoding: comment.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunJiraOpenActionParams extends RunActionBaseParams {
-  ticketActionType: Field;
-  project: Field;
-  summary: Field;
-  assignee: Field;
-  body: Field;
-  labels: Field;
-  issue_type: Field;
 }
 
 export function runJiraOpenAction({
@@ -1040,15 +795,8 @@ export function runJiraOpenAction({
   actionId,
   inputParameters,
   timeout,
-  policyId,
-  project,
-  ticketActionType,
-  summary,
-  assignee,
-  body,
-  labels,
-  issue_type
-}: RunJiraOpenActionParams) {
+  policyId
+}: RunActionBaseParams) {
   return runAction({
     type: JIRA_TYPE,
     volatileId,
@@ -1058,51 +806,8 @@ export function runJiraOpenAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'project',
-        value: project.value,
-        encoding: project.encoding
-      },
-
-      {
-        name: 'ticketActionType',
-        value: ticketActionType.value,
-        encoding: ticketActionType.encoding
-      },
-      {
-        name: 'summary',
-        value: summary.value,
-        encoding: summary.encoding
-      },
-      {
-        name: 'assignee',
-        value: assignee.value,
-        encoding: assignee.encoding
-      },
-      {
-        name: 'body',
-        value: body.value,
-        encoding: body.encoding
-      },
-      {
-        name: 'labels',
-        value: labels.value,
-        encoding: labels.encoding
-      },
-      {
-        name: 'issue_type',
-        value: issue_type.value,
-        encoding: issue_type.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunJiraCloseActionParams extends RunActionBaseParams {
-  project: Field;
-  ticketActionType: Field;
-  comment: Field;
 }
 
 export function runJiraCloseAction({
@@ -1112,11 +817,8 @@ export function runJiraCloseAction({
   actionId,
   inputParameters,
   timeout,
-  policyId,
-  project,
-  ticketActionType,
-  comment
-}: RunJiraCloseActionParams) {
+  policyId
+}: RunActionBaseParams) {
   return runAction({
     type: JIRA_TYPE,
     volatileId,
@@ -1126,31 +828,8 @@ export function runJiraCloseAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'project',
-        value: project.value,
-        encoding: project.encoding
-      },
-      {
-        name: 'ticketActionType',
-        value: ticketActionType.value,
-        encoding: ticketActionType.encoding
-      },
-      {
-        name: 'comment',
-        value: comment.value,
-        encoding: comment.encoding
-      }
-    ]
+    request: []
   });
-}
-
-interface RunAnsibleActionParams extends RunActionBaseParams {
-  playbookId: Field;
-  playbookFileName: Field;
-  ansibleUrl: Field;
-  jobTemplateUrl: string;
 }
 
 export function runAnsibleAction({
@@ -1158,14 +837,10 @@ export function runAnsibleAction({
   event,
   actionName,
   actionId,
-  playbookId,
-  playbookFileName,
-  ansibleUrl,
-  jobTemplateUrl,
   inputParameters,
   timeout,
   policyId
-}: RunAnsibleActionParams) {
+}: RunActionBaseParams) {
   return runAction({
     type: ANSIBlE_TYPE,
     volatileId,
@@ -1175,30 +850,7 @@ export function runAnsibleAction({
     actionId,
     inputParameters,
     policyId,
-    request: [
-      {
-        name: 'playbookId',
-        value: playbookId.value,
-        encoding: playbookId.encoding
-      },
-
-      {
-        name: 'playbookFileName',
-        value: playbookFileName.value,
-        encoding: playbookFileName.encoding
-      },
-
-      {
-        name: 'ansibleUrl',
-        value: ansibleUrl.value,
-        encoding: ansibleUrl.encoding
-      },
-      {
-        name: 'jobTemplateUrl',
-        value: jobTemplateUrl,
-        encoding: 'ascii'
-      }
-    ]
+    request: []
   });
 }
 
