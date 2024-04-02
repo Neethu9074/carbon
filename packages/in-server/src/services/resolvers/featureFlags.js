@@ -318,7 +318,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsRbacEnabled',
     instanaCtlKey: 'feature.bizops.rbac.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
