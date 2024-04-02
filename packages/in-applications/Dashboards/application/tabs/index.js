@@ -8,7 +8,7 @@ import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/R
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
-import LogMessagesTab from 'in-components/Logging/Dashboards/components/LogMessages';
+import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import Services from 'in-applications/Dashboards/application/tabs/Services';

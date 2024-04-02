@@ -10,15 +10,15 @@ import classNames from 'classnames';
 import { ColumnizedContent, Li, Ul } from '@instana/components';
 
 import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import { getCallIdFromTags } from 'in-components/Logging/TraceDetails/utils';
+import { getCallIdFromTags } from 'in-logging/components/TraceDetails/utils';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { LOG_SPAN_ID } from 'in-logging/queryBuilder';
 
-import locals from 'in-components/Logging/TraceDetails/components/Logs.mless';
+import locals from 'in-logging/components/TraceDetails/components/Logs.mless';
 
 const columnDefinitions = [
   logLevelColumn,

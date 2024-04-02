@@ -6,7 +6,7 @@
 
 import { useContext, createContext } from 'react';
 
-import { LogsInCallsContextType } from 'in-components/Logging/types';
+import { LogsInCallsContextType } from 'in-logging/components/types';
 
 const LogsInCallsContext = createContext<LogsInCallsContextType>({
   setSelectedLog: () => {},

@@ -5,8 +5,8 @@
 
 import React, { forwardRef } from 'react';
 
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
-import { getLogLevelAndColor } from 'in-components/Logging/TraceDetails/utils';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
+import { getLogLevelAndColor } from 'in-logging/components/TraceDetails/utils';
 import { role } from 'in-stores/user';
 
 import locals from './LogIndicator.mless';

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { countOtelLogs, filterOtelLogs, getLogLevelAndColor } from 'in-components/Logging/TraceDetails/utils';
+import { countOtelLogs, filterOtelLogs, getLogLevelAndColor } from 'in-logging/components/TraceDetails/utils';
 import { LOG_LEVEL, LOG_SPAN_ID, LOG_STREAM_NAME, OTEL_STREAM_NAME } from 'in-logging/queryBuilder';
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 

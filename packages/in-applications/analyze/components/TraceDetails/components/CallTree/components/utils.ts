@@ -6,7 +6,7 @@
 
 import { LogItem, TraceActivityTreeNode } from '@instana/types';
 
-import { getSpanIdFromTags } from 'in-components/Logging/TraceDetails/utils';
+import { getSpanIdFromTags } from 'in-logging/components/TraceDetails/utils';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { PartialExcept } from 'in-types';
 

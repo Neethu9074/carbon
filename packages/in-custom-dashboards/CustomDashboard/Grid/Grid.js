@@ -26,7 +26,7 @@ import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import { t, Trans } from 'in-i18n';
-import { ViewLogsButton } from 'in-components/Logging/ViewLogsButton';
+import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import oldTheme from 'in-themes';
 
 import locals from './Grid.mless';

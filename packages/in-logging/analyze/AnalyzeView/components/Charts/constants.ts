@@ -6,7 +6,7 @@
 
 import { themes } from '@instana/design-tokens';
 
-import { LowercaseLogLevel } from 'in-components/Logging/types';
+import { LowercaseLogLevel } from 'in-logging/components/types';
 import { carbonAlert } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 

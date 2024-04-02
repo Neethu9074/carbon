@@ -10,7 +10,7 @@ import { LOG_CALL_ID, LOG_SPAN_ID, LOG_STREAM_NAME, OTEL_STREAM_NAME } from 'in-
 import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { isLogItem } from 'in-logging/analyze/AnalyzeView/utils';
-import { LowercaseLogLevel } from 'in-components/Logging/types';
+import { LowercaseLogLevel } from 'in-logging/components/types';
 
 export function getSpanIdFromTags(tags: LogTag[]) {
   return tags.filter(({ name }) => name === LOG_SPAN_ID)[0]?.stringValue;

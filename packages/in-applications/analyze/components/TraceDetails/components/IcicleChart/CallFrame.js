@@ -13,8 +13,8 @@ import { convertToCallLogs } from 'in-applications/analyze/components/TraceDetai
 import LogTooltipContent from 'in-applications/analyze/components/TraceDetails/components/LogTooltipContent';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
-import { filterOtelLogs } from 'in-components/Logging/TraceDetails/utils';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
+import { filterOtelLogs } from 'in-logging/components/TraceDetails/utils';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 

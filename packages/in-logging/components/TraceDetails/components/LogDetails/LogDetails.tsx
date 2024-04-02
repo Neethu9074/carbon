@@ -17,11 +17,11 @@ import {
   isParameterTag,
   mapToSiderbarTagListObject,
   parseStackTrace
-} from 'in-components/Logging/TraceDetails/components/LogDetails/utils';
-import AnalyzeLogsButton from 'in-components/Logging/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
-import LogStackTrace from 'in-components/Logging/TraceDetails/components/LogDetails/LogStackTrace';
+} from 'in-logging/components/TraceDetails/components/LogDetails/utils';
+import AnalyzeLogsButton from 'in-logging/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
+import LogStackTrace from 'in-logging/components/TraceDetails/components/LogDetails/LogStackTrace';
 import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import { filterTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
@@ -35,7 +35,7 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import logIndicatorLocals from 'in-applications/analyze/components/TraceDetails/components/LogIndicator.mless';
-import locals from 'in-components/Logging/TraceDetails/components/LogDetails/LogDetails.mless';
+import locals from 'in-logging/components/TraceDetails/components/LogDetails/LogDetails.mless';
 
 export interface LogSpanExcerpt extends Omit<SpanExcerpt, 'data'> {
   data: {
