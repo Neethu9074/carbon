@@ -6669,7 +6669,7 @@
         "purescaleLockTable": "pureScale Lock Memory Table",
         "purescaleScaTable": "pureScale SCA Memory Table",
         "pureScalePkgCacheTable": "pureScale Package Cache Table",
-        "pureScaleGrpTable": "pureScale Group BufferPool Table",
+        "pureScaleGrpTable": "pureScale Group Buffer Pool Table",
         "pageAccessDetails": "pureScale Page Access Table",
         "numExcecutionPkg": "Number Of Excecutions",
         "reclaimWaitTimePkg": "Reclaim Waiting Time",
