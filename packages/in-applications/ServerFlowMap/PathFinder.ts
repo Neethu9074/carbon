@@ -3,16 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import { NodeCollection } from './types';
+
 export default class PathFinder {
-  constructor(nodes) {
+  rootNodeId: string | undefined;
+  nodes: any;
+  constructor(nodes: NodeCollection) {
     this.nodes = nodes;
   }
 
-  setRootNodeId(id) {
+  setRootNodeId(id: string) {
     this.rootNodeId = id;
   }
 
-  find(id, direction) {
+  find(id: string, direction: string) {
     if (!this.nodes.has(id)) {
       return [{ id }];
     }
@@ -22,10 +26,10 @@ export default class PathFinder {
     }
 
     const rootNode = this.nodes.get(this.rootNodeId);
-    return direction === 'incoming' ? this.searchLeft(rootNode, id) : this.searchRight(rootNode, id);
+    return direction === 'incoming' ? this.searchLeft(rootNode, id) : this.searchRight(rootNode, id, undefined);
   }
 
-  findChild(nodeId, childId, direction) {
+  findChild(nodeId: string, childId: string, direction: string) {
     if (!this.nodes.has(nodeId)) {
       return [{ service: nodeId, endpoint: childId }];
     }
@@ -36,15 +40,12 @@ export default class PathFinder {
 
     const node = this.nodes.get(nodeId);
 
-    const rootChild = this.nodes
-      .get(this.rootNodeId)
-      .children.values()
-      .next().value;
-
-    return (direction === 'incoming'
-      ? this.searchLeft(rootChild, childId, node.id)
-      : this.searchRight(rootChild, childId, node.id)
-    ).map(item => {
+    const rootChild = this.nodes.get(this.rootNodeId).children.values().next().value;
+    return (
+      direction === 'incoming'
+        ? this.searchLeft(rootChild, childId, node.id)
+        : this.searchRight(rootChild, childId, node.id)
+    ).map((item: any) => {
       return {
         service: this.nodes.get(item.nodeId).__originalId,
         endpoint: item.id
@@ -52,7 +53,7 @@ export default class PathFinder {
     });
   }
 
-  searchLeft(item, childIdToFind, parentIdToFind) {
+  searchLeft(item: any, childIdToFind: string, parentIdToFind?: undefined): any {
     if (this.matchesItem(item, childIdToFind, parentIdToFind)) {
       return [item];
     }
@@ -65,7 +66,7 @@ export default class PathFinder {
     }
   }
 
-  searchRight(item, childIdToFind, parentIdToFind) {
+  searchRight(item: any, childIdToFind: string, parentIdToFind?: string): any {
     if (this.matchesItem(item, childIdToFind, parentIdToFind)) {
       return [item];
     }
@@ -77,7 +78,7 @@ export default class PathFinder {
       }
     }
   }
-  matchesItem(item, childIdToFind, parentIdToFind) {
+  matchesItem(item: any, childIdToFind: string, parentIdToFind?: string) {
     if (childIdToFind === item.id) {
       if (!parentIdToFind || parentIdToFind === item.nodeId) {
         return true;
