@@ -14,7 +14,7 @@ import Info from '../Info';
 
 export default function IbmIDiskInfoSidebar({ snapshot }) {
   return (
-    <div>
+    <React.Fragment>
       <Collapsible initiallyOpen>
         <Collapsible.Header>{t('in-forge:plugins.ibmiActiveJobsInfo.sidebar.ibmiActiveJobsInfo')}</Collapsible.Header>
         <Collapsible.Content>
@@ -23,6 +23,6 @@ export default function IbmIDiskInfoSidebar({ snapshot }) {
       </Collapsible>
       <DeployedUnitList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />
-    </div>
+    </React.Fragment>
   );
 }
