@@ -11,11 +11,12 @@ import { TimeConfig } from '@instana/types';
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import ExpensiveStatementStatsList from 'in-forge/plugins/sapHana/Dashboard/ExpensiveStatementStats';
+import GarbageCollectionStatsList from 'in-forge/plugins/sapHana/Dashboard/GarbageCollectionStats';
+import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import ExpensiveStatementStatsList from './ExpensiveStatementStats';
-import GarbageCollectionStatsList from './GarbageCollectionStats';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import AlertsTable from './AlertsTable';
 import { t } from 'in-i18n';
@@ -232,10 +233,11 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
-            metrics: ['stats.idleCount', 'stats.runningCount'],
+            metrics: ['stats.idleCount', 'stats.runningCount', 'stats.queueingCount'],
             labels: [
               t('in-forge:plugins.sapHana.dashboard.idleCount'),
-              t('in-forge:plugins.sapHana.dashboard.runningCount')
+              t('in-forge:plugins.sapHana.dashboard.runningCount'),
+              t('in-forge:plugins.sapHana.dashboard.queueingCount')
             ],
             type: 'line'
           }}
@@ -244,6 +246,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       </DashboardSection>
       <GarbageCollectionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <ExpensiveStatementStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <SqlPlanCacheStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );

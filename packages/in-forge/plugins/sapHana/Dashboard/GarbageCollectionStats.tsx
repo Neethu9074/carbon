@@ -15,7 +15,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -100,50 +100,29 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.historyCount`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.historyCount')],
+                metrics: [`garbageCollectionStats.${row.key}.historyCount`,`garbageCollectionStats.${row.key}.waiterCount`],
+                labels: [t('in-forge:plugins.sapHana.dashboard.historyCount'),t('in-forge:plugins.sapHana.dashboard.waiterCount')],
                 type: 'line',
-                formatter: zeroDecimalPlaces
+                formatter: number.compact
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
-
+          </DashboardSection>
+          <DashboardSection>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.waiterCount`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.waiterCount')],
+                metrics: [`garbageCollectionStats.${row.key}.startedJobs`,`garbageCollectionStats.${row.key}.processedJobs`],
+                labels: [t('in-forge:plugins.sapHana.dashboard.startedJobs'),t('in-forge:plugins.sapHana.dashboard.processedJobs')],
                 type: 'line',
-                formatter: zeroDecimalPlaces
+                formatter: number.compact
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.startedJobs`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.startedJobs')],
-                type: 'line',
-                formatter: zeroDecimalPlaces
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.processedJobs`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.processedJobs')],
-                type: 'line',
-                formatter: zeroDecimalPlaces
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
+          </DashboardSection>
+          <DashboardSection>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -152,7 +131,7 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
                 metrics: [`garbageCollectionStats.${row.key}.queueLoads`],
                 labels: [t('in-forge:plugins.sapHana.dashboard.queueLoads')],
                 type: 'line',
-                formatter: zeroDecimalPlaces
+                formatter: number.compact
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
