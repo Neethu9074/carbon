@@ -121,10 +121,14 @@ function onCreateFailed(error: Error) {
   );
 }
 
-function onCreate(policies: NewPolicy[]) {
+function onCreate(policies: NewPolicy[], actionNames: string[], triggerName?: string) {
   saveBulkPolicies(policies).once(
     () => {
       onCreateSuccess(policies.length);
+      createBulkPoliciesTracker({
+        triggerName: triggerName ?? '',
+        actionNames
+      });
       close();
       refresh();
     },
@@ -341,13 +345,10 @@ function SelectActionsDialog({ event, actions, trigger }: SelectActionsDialogPro
       .filter((action): action is ScoredAction => !!action);
 
     const policies = selectedActions.map(action => createBasePolicy(event, action));
+    const triggerName = trigger.data?.name;
+    const actionNames = selectedActions.map(({ name }) => name);
 
-    onCreate(policies);
-
-    createBulkPoliciesTracker({
-      triggerName: trigger.data?.name,
-      actionNames: selectedActions.map(({ name }) => name)
-    });
+    onCreate(policies, actionNames, triggerName);
   }
 
   function onChange(action: ScoredAction) {
