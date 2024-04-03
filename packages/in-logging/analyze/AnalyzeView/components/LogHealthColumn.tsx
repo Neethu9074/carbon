@@ -33,7 +33,7 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
   }
 
   const isExtraLogLevel = logLevel === extraChartLogLevel?.toUpperCase();
-  const standardLogLevelColor = logPillColorMap[logLevel.toLowerCase()] ?? 'high-contrast';
+  const standardLogLevelColor = logPillColorMap[logLevel.toLowerCase()] ?? 'cool-gray';
   const extraLogLevelColor = 'teal';
 
   const color = isExtraLogLevel ? extraLogLevelColor : standardLogLevelColor;

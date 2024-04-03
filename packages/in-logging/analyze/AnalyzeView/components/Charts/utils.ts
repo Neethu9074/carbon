@@ -10,6 +10,7 @@ import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
+import { capitalize } from 'in-services/formatters/string';
 import { outlineForColor } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
@@ -74,7 +75,10 @@ export const getLogsChartConfig = (
         metric,
         tag: LOG_LEVEL,
         value: nextLogLevel.label,
-        label: t('in-logging:logsOverTime', { context: nextLogLevel.label })
+        label: t('in-logging:logsOverTime', {
+          context: 'NEXTLOGLEVEL',
+          label: capitalize(nextLogLevel.label.toLowerCase())
+        })
       })
     );
   }
