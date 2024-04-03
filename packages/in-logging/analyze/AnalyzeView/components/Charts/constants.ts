@@ -14,11 +14,11 @@ export const maxRetrievalSize = 2000;
 export const logLevelColors: Record<LowercaseLogLevel, string> = {
   error: carbonAlert.red60,
   warn: carbonAlert.yellow30,
-  info: carbonAlert.blue70,
+  info: carbonCategorical.blue80,
   fatal: carbonAlert.purple50,
-  debug: carbonCategorical.teal70,
-  trace: carbonCategorical.teal70,
-  unknown: carbonCategorical.teal70
+  debug: carbonCategorical.teal50,
+  trace: carbonCategorical.teal50,
+  unknown: carbonCategorical.teal50
 };
 
 export const getLogLevelColor = (logLevel?: string) => {
