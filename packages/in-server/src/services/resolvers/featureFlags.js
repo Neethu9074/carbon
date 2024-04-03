@@ -478,7 +478,7 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationContributionFilterEnabled',
     instanaCtlKey: 'feature.application.contribution.filter.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
