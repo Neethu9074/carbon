@@ -1,10 +1,9 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
-//@ts-nocheck
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -16,37 +15,35 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { millis, number } from 'in-services/formatters/number';
+import { bytes, number, seconds } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
+import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-interface DbConnectRow {
+import locals from './RawTableFormat.mless';
+
+interface RFCCallsRow {
   key: string;
   snapshotId: string;
-  dbStats: Map<string, object>;
+  rfcDetails: Map<string, object>;
 }
-interface DbConnectProps {
+
+interface RFCCallsProps {
   snapshotId: string;
   timeConfig: TimeConfig;
 }
 
 const cols = [
   {
-    title: t('in-sap:dashboards.taskType'),
+    title: t('in-sap:dashboards.account'),
     type: 'string',
     typeArgs: {
-      getValue(row: DbConnectRow) {
-        return row.dbStats.get('taskType');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.connectionName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: DbConnectRow) {
-        return row.dbStats.get('connectionName');
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('account');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -54,24 +51,35 @@ const cols = [
     title: t('in-sap:dashboards.entryID'),
     type: 'string',
     typeArgs: {
-      getValue(row: DbConnectRow) {
-        return row.dbStats.get('entryID');
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('entryID');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
       }
     }
   },
   {
-    title: t('in-sap:dashboards.dbTime'),
-    type: 'metric',
+    title: t('in-sap:dashboards.localDestination'),
+    type: 'string',
     typeArgs: {
-      getSnapshotId(row: DbConnectRow) {
-        return row.snapshotId;
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('localDest');
       },
-      getMetricName(row: DbConnectRow) {
-        return `dbConnectionList.${row.key}.dbTime`;
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.remoteDestination'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('remoteDest');
       },
-      getContent: millis.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -79,11 +87,11 @@ const cols = [
     title: t('in-sap:dashboards.calls'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: DbConnectRow) {
+      getSnapshotId(row: RFCCallsRow) {
         return row.snapshotId;
       },
-      getMetricName(row: DbConnectRow) {
-        return `dbConnectionList.${row.key}.totalCalls`;
+      getMetricName(row: RFCCallsRow) {
+        return `rfcCalls.${row.key}.calls`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -93,27 +101,27 @@ const cols = [
   }
 ];
 
-export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConnectProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'dbConnectionList'), [snapshotId]);
+export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'rfcCalls'), [snapshotId]);
   if (!data) {
     return null;
   }
-  const dbStat = (data as SnapshotData).get('raw_payload', []);
-  const rows: DbConnectRow[] = dbStat
+
+  const rfcList = (data as SnapshotData).get('raw_payload', []);
+  const rows: RFCCallsProps[] = rfcList
     .keySeq()
     .toArray()
     .map((key: string) => {
-      const dbStats = dbStat.get(key);
-
+      const rfcDetails = rfcList.get(key);
       return {
         key,
         snapshotId,
         timeConfig,
-        dbStats
+        rfcDetails
       };
     });
 
-  function getDetails(row: DbConnectRow) {
+  function getDetails(row: RFCCallsRow) {
     return (
       <div>
         <Columize>
@@ -123,10 +131,10 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`dbConnectionList.${row.key}.dbTime`],
-                labels: [t('in-sap:dashboards.dbTime')],
+                metrics: [`rfcCalls.${row.key}.call_Time`, `rfcCalls.${row.key}.execution_Time`],
+                labels: [t('in-sap:dashboards.callTime'), t('in-sap:dashboards.executionTime')],
                 type: 'line',
-                formatter: millis.detailed
+                formatter: seconds.detailed
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -137,10 +145,10 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`dbConnectionList.${row.key}.totalCalls`],
-                labels: [t('in-sap:dashboards.calls')],
+                metrics: [`rfcCalls.${row.key}.sendData`, `rfcCalls.${row.key}.receiveData`],
+                labels: [t('in-sap:dashboards.sentData'), t('in-sap:dashboards.receivedData')],
                 type: 'line',
-                formatter: number.compact
+                formatter: bytes.detailed
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -152,7 +160,7 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.dbConnection')}
+      cardTitle={t('in-sap:dashboards.rfcStats')}
       cols={cols}
       rows={rows}
       initialSortColumn={1}
@@ -160,4 +168,8 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
       getRowDetails={getDetails}
     />
   );
+}
+
+function Args({ args }: { args: any }) {
+  return <code className={locals.statement}>{args}</code>;
 }

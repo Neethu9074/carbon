@@ -9,6 +9,8 @@ import React, { Fragment } from 'react';
 import WorkProcessListMetric from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/WorkProcessListMetric';
 import DBConnectionProvider from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DBConnectionProvider';
 import DiskHourDataStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskHourDataStats';
+import FileSystemMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/FileSystemMetrics';
+import BufferStatistics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/BufferStatistics';
 import DatabaseHitList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DatabaseHitList';
 import TopProcessList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TopProcessList';
 import LockEntryList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/LockEntryList';
@@ -27,8 +29,9 @@ export default function Detailed({ timeConfig, data: sap }) {
   const snapshotId = sap.id;
   return (
     <Fragment>
-      <TopProcessList snapshotId={snapshotId} timeConfig={timeConfig} />
       <WorkProcessListMetric snapshotId={snapshotId} timeConfig={timeConfig} />
+      <TopProcessList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <BufferStatistics snapshotId={snapshotId} timeConfig={timeConfig} />
       <RequestQueue snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-sap:dashboards.spoolStats')}>
@@ -63,22 +66,9 @@ export default function Detailed({ timeConfig, data: sap }) {
       </Columize>
       <JobDetails snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalMemory snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DashboardSection title={t('in-sap:dashboards.paging')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
-            labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
-            type: 'line',
-            formatter: number
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DBConnectionProvider snapshotId={snapshotId} />
+      <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <FileSystemMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <DiskHourDataStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <LockEntryList snapshotId={snapshotId} />

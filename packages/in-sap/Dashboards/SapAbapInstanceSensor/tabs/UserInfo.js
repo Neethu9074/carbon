@@ -28,7 +28,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.guiVersion'),
+    title: t('in-sap:dashboards.mandt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -64,7 +64,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.term'),
+    title: t('in-sap:dashboards.terminalID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -88,13 +88,15 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.type'),
-    type: 'number',
+    title: t('in-sap:dashboards.logonType'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.userDetail.get('TYPE');
       },
-      getContent: number.compact
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   },
   {
