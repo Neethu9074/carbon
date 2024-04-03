@@ -14,6 +14,7 @@ export interface UiSettings {
 export interface Tenant {
   tenantKey: string;
   role?: Role;
+  name?: string;
 }
 
 export interface Role {

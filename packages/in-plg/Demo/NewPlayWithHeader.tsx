@@ -14,6 +14,9 @@ import {
   PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED,
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
 
 import locals from './PlayWithHeader.mless';
@@ -49,6 +52,11 @@ export default function NewPlayWithHeader() {
         target="_blank"
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52048"
         onClick={() => {
+          eventTracker({
+            eventName: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
+            parentProductArea: productAreas.home,
+            parentPageName: pageNames.home
+          });
           track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}
         icon="lib_arrow_short_right"

@@ -19,6 +19,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
+import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -47,6 +48,7 @@ export default function ServiceDashboard({ location }) {
 
   return (
     <>
+      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.service_summarys} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,

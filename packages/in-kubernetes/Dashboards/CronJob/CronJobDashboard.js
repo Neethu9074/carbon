@@ -16,6 +16,7 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import getKubernetesCronJob from 'in-kubernetes/subscriptions/getKubernetesCronJob';
 import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import PageTracker from 'in-services/tracking/segment/PageTracker';
 import { cronJobDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -43,6 +44,7 @@ export default function CronJobDashboard({ location }) {
 
   return (
     <>
+      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.cron_job_summary} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,
