@@ -104,7 +104,8 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     tagFilterExpression: getField<FormModelElement[]>(form, 'tagFilterExpression')?.value,
     [applicationEntityKey]: permissionSet
       ? permissionSet[applicationEntityKey]?.filter(entity => entity.scopeRoleId === ScopeRoles.Contributor)
-      : []
+      : [],
+    restrictingApplicationId: permissionSet?.restrictedApplicationFilter?.restrictingApplicationId ?? undefined
   });
 
   const isAppContributionFilterConfigured =
@@ -115,16 +116,18 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
     entityIds: ScopeBinding[],
     role: AreaRoleWithContributorType | undefined,
     productArea: LimitableProductArea,
-    limitation: ScopedPermissionType
+    limitation: ScopedPermissionType,
+    contributionFilterName: string | undefined
   ) => {
     // Application
     if (applicationContributionFilterEnabled && productArea === ProductArea.APPLICATION) {
+      let newEntityIds: ScopeBinding[] = [];
       // Only show applications with contributor access for access all
-      if (limitation === ScopedPermissionItem.ACCESS_ALL) {
-        return entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor);
+      if (limitation === ScopedPermissionItem.ACCESS_ALL && role === AreaRoleWithContributor.CONTRIBUTOR) {
+        newEntityIds = entityIds.filter(scopeBinding => scopeBinding.scopeRoleId === ScopeRoles.Contributor);
       } else if (limitation === ScopedPermissionItem.LIMITED_ACCESS) {
         const newScopeRoleId = role === AreaRoleWithContributor.OWNER ? ScopeRoles.Owner : ScopeRoles.Viewer;
-        return entityIds?.map(entityId => {
+        newEntityIds = entityIds?.map(entityId => {
           if (role === AreaRoleWithContributor.CONTRIBUTOR) {
             if (entityId.scopeRoleId !== ScopeRoles.Contributor) {
               if (initialApplicationConfig[applicationEntityKey]?.some(item => item.scopeId === entityId.scopeId)) {
@@ -144,17 +147,32 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
           }
         });
       }
+
+      // Append contribution filter AP (parent) if required
+      if (
+        editMode &&
+        role === AreaRoleWithContributor.CONTRIBUTOR &&
+        initialApplicationConfig?.restrictingApplicationId &&
+        contributionFilterName === initialApplicationConfig?.label &&
+        entityIds.some(item => item.scopeId === initialApplicationConfig.restrictingApplicationId) === false
+      ) {
+        newEntityIds.push({
+          scopeId: initialApplicationConfig.restrictingApplicationId,
+          scopeRoleId: ScopeRoles.Viewer
+        });
+      }
+
+      return newEntityIds;
     } else {
       return limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : [];
     }
-
-    return entityIds;
   };
 
   const onUpdatePermissionSet = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     let label;
     let tagFilterExpression;
     let scope;
+    let restrictedApplicationFilter;
     if (!permissionSet || selected === 'CUSTOM') return;
     const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
@@ -172,20 +190,29 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
         tagFilterExpression = undefined;
         scope = defaultApplicationConfig.scope;
       }
+
+      restrictedApplicationFilter = {
+        ...defaultApplicationConfig,
+        restrictingApplicationId:
+          editMode && label === initialApplicationConfig.label
+            ? initialApplicationConfig?.restrictingApplicationId
+            : undefined
+      };
+
       form = updateFormField(form, 'label', label);
       form = updateFormField(form, 'tagFilterExpression', tagFilterExpression);
       form = updateFormField(form, 'scope', scope);
     }
 
     // Update entity id list based on selected access type
-    const newEntityIds = updateEntityIds(entityIds, selected, productArea, limitation);
+    const newEntityIds = updateEntityIds(entityIds, selected, productArea, limitation, label);
 
     const newPermissionSet = {
       ...restPermissionSet,
       [entityPermissionKey]: newEntityIds,
       ...(applicationContributionFilterEnabled &&
         productArea === ProductArea.APPLICATION && {
-          ['restrictedApplicationFilter']: tagFilterExpression ? defaultApplicationConfig : undefined
+          ['restrictedApplicationFilter']: tagFilterExpression ? restrictedApplicationFilter : undefined
         })
     };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
