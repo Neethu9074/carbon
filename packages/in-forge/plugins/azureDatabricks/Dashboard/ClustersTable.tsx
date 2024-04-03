@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { List } from 'immutable';
 import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -14,6 +13,7 @@ import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
+import { List } from 'immutable';
 import { t } from 'in-i18n';
 
 interface ClusterRow {
@@ -29,8 +29,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelClusterName'),
     type: 'string',
     typeArgs: {
-      getValue(row: ClusterRow) {
-        return row.key;
+      getValue({ key }: ClusterRow) {
+        return key;
       }
     }
   },
@@ -38,8 +38,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelClusterId'),
     type: 'string',
     typeArgs: {
-      getValue(row: ClusterRow) {
-        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterId']);
+      getValue({ snapshot, key }: ClusterRow) {
+        return snapshot.getIn(['data', `clusters.${key}.clusterId`]);
       }
     }
   },
@@ -47,8 +47,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelSparkVersion'),
     type: 'string',
     typeArgs: {
-      getValue(row: ClusterRow) {
-        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.sparkVersion']);
+      getValue({ snapshot, key }: ClusterRow) {
+        return snapshot.getIn(['data', `clusters.${key}.sparkVersion`]);
       }
     }
   },
@@ -56,8 +56,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelClusterCore'),
     type: 'string',
     typeArgs: {
-      getValue(row: ClusterRow) {
-        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterCore']);
+      getValue({ snapshot, key }: ClusterRow) {
+        return snapshot.getIn(['data', `clusters.${key}.clusterCore`]);
       }
     }
   },
@@ -65,8 +65,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelClusterSource'),
     type: 'string',
     typeArgs: {
-      getValue(row: ClusterRow) {
-        return row.snapshot.getIn(['data', 'clusters.' + row.key + '.clusterSource']);
+      getValue({ snapshot, key }: ClusterRow) {
+        return snapshot.getIn(['data', `clusters.${key}.clusterSource`]);
       }
     }
   },
@@ -74,11 +74,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelExecutorCount'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ClusterRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ClusterRow) {
+        return snapshotId;
       },
-      getMetricName(row: ClusterRow) {
-        return 'clusters.' + row.key + '.executorCount';
+      getMetricName({ key }: ClusterRow) {
+        return `clusters.${key}.executorCount`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -90,11 +90,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelClusterMemory'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ClusterRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ClusterRow) {
+        return snapshotId;
       },
-      getMetricName(row: ClusterRow) {
-        return 'clusters.' + row.key + '.clusterMemoryMb';
+      getMetricName({ key }: ClusterRow) {
+        return `clusters.${key}.clusterMemoryMb`;
       },
       getContent: megaBytes.compact,
       getTimeWindowAggregation() {
@@ -106,11 +106,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelJobCount'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ClusterRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ClusterRow) {
+        return snapshotId;
       },
-      getMetricName(row: ClusterRow) {
-        return 'clusters.' + row.key + '.jobCount';
+      getMetricName({ key }: ClusterRow) {
+        return `clusters.${key}.jobCount`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -148,8 +148,8 @@ export default function ClustersTable({
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.azureDatabricks.titleClusters', {
-        len: rows.length
+      cardTitle={t('in-forge:plugins.azureDatabricks.titleClustersCount', {
+        count: rows.length
       })}
       cols={cols}
       rows={rows}
@@ -169,7 +169,7 @@ function getRowDetails(row: ClusterRow) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['clusters.' + row.key + '.executorCount'],
+            metrics: [`clusters.${row.key}.executorCount`],
             labels: [t('in-forge:plugins.azureDatabricks.labelExecutorCount')],
             type: 'line',
             formatter: number.compact
@@ -179,7 +179,7 @@ function getRowDetails(row: ClusterRow) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['clusters.' + row.key + '.jobCount'],
+            metrics: [`clusters.${row.key}.jobCount`],
             labels: [t('in-forge:plugins.azureDatabricks.labelJobCount')],
             type: 'line',
             formatter: number.compact
@@ -189,7 +189,7 @@ function getRowDetails(row: ClusterRow) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['clusters.' + row.key + '.clusterMemoryMb'],
+            metrics: [`clusters.${row.key}.clusterMemoryMb`],
             labels: [t('in-forge:plugins.azureDatabricks.labelClusterMemory')],
             type: 'line',
             formatter: megaBytes.compact
@@ -204,7 +204,7 @@ function getRowDetails(row: ClusterRow) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                metrics: ['clusters.' + row.key + '.maxShuffleBytesWritten'],
+                metrics: [`clusters.${row.key}.maxShuffleBytesWritten`],
                 labels: [t('in-forge:plugins.azureDatabricks.labelMaxShuffleBytesWritten')],
                 type: 'line',
                 formatter: bytes.compact
@@ -214,7 +214,7 @@ function getRowDetails(row: ClusterRow) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                metrics: ['clusters.' + row.key + '.sumShuffleClientUsedHeapMemory'],
+                metrics: [`clusters.${row.key}.sumShuffleClientUsedHeapMemory`],
                 labels: [t('in-forge:plugins.azureDatabricks.labelSumShuffleClientUsedHeapMemory')],
                 type: 'line',
                 formatter: bytes.compact
@@ -226,7 +226,7 @@ function getRowDetails(row: ClusterRow) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                metrics: ['clusters.' + row.key + '.executionDuration'],
+                metrics: [`clusters.${row.key}.executionDuration`],
                 labels: [t('in-forge:plugins.azureDatabricks.labelExecutionDuration')],
                 type: 'line',
                 formatter: seconds.fixedCompact
@@ -236,7 +236,7 @@ function getRowDetails(row: ClusterRow) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                metrics: ['clusters.' + row.key + '.inputRowsPerSecond'],
+                metrics: [`clusters.${row.key}.inputRowsPerSecond`],
                 labels: [t('in-forge:plugins.azureDatabricks.labelInputRowPerSecond')],
                 type: 'line',
                 formatter: number.compact

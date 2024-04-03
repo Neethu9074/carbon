@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { List } from 'immutable';
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -14,6 +13,7 @@ import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
+import { List } from 'immutable';
 import { t } from 'in-i18n';
 
 interface ExecutorRow {
@@ -28,8 +28,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelExecutorName'),
     type: 'string',
     typeArgs: {
-      getValue(row: ExecutorRow) {
-        return row.key;
+      getValue({ key }: ExecutorRow) {
+        return key;
       }
     }
   },
@@ -37,8 +37,8 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelClusterName'),
     type: 'string',
     typeArgs: {
-      getValue(row: ExecutorRow) {
-        return row.snapshot.getIn(['data', 'executors.' + row.key + '.clusterName']);
+      getValue({ snapshot, key }: ExecutorRow) {
+        return snapshot.getIn(['data', `executors.${key}.clusterName`]);
       }
     }
   },
@@ -46,11 +46,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ExecutorRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ExecutorRow) {
+        return snapshotId;
       },
-      getMetricName(row: ExecutorRow) {
-        return 'executors.' + row.key + '.executorCpuTime';
+      getMetricName({ key }: ExecutorRow) {
+        return `executors.${key}.executorCpuTime`;
       },
       getContent: percentagePlainTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -62,11 +62,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ExecutorRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ExecutorRow) {
+        return snapshotId;
       },
-      getMetricName(row: ExecutorRow) {
-        return 'executors.' + row.key + '.shuffleClientUsedDirectMemory';
+      getMetricName({ key }: ExecutorRow) {
+        return `executors.${key}.shuffleClientUsedDirectMemory`;
       },
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -78,11 +78,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedHeapMemory'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ExecutorRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ExecutorRow) {
+        return snapshotId;
       },
-      getMetricName(row: ExecutorRow) {
-        return 'executors.' + row.key + '.shuffleClientUsedHeapMemory';
+      getMetricName({ key }: ExecutorRow) {
+        return `executors.${key}.shuffleClientUsedHeapMemory`;
       },
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -94,11 +94,11 @@ const cols = [
     title: t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row: ExecutorRow) {
-        return row.snapshotId;
+      getSnapshotId({ snapshotId }: ExecutorRow) {
+        return snapshotId;
       },
-      getMetricName(row: ExecutorRow) {
-        return 'executors.' + row.key + '.jvmCpuTime';
+      getMetricName({ key }: ExecutorRow) {
+        return `executors.${key}.jvmCpuTime`;
       },
       getContent: percentagePlainTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -139,8 +139,8 @@ export default function ExecutorsTable({
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.azureDatabricks.titleExecutors', {
-        len: rows.length
+      cardTitle={t('in-forge:plugins.azureDatabricks.titleExecutorsCount', {
+        count: rows.length
       })}
       cols={cols}
       rows={rows}
@@ -161,7 +161,10 @@ function getRowDetails(row: ExecutorRow) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              metrics: ['executors.' + row.key + '.jvmCpuTime', 'executors.' + row.key + '.executorCpuTime'],
+              metrics: [
+                `executors.${row.key}.jvmCpuTime`,
+                `executors.${row.key}.executorCpuTime`
+              ],
               labels: [
                 t('in-forge:plugins.azureDatabricks.labelJvmCpuTime'),
                 t('in-forge:plugins.azureDatabricks.labelExecutorCpuTime')
@@ -175,8 +178,8 @@ function getRowDetails(row: ExecutorRow) {
             timeConfig={timeConfig}
             y1={{
               metrics: [
-                'executors.' + row.key + '.shuffleClientUsedDirectMemory',
-                'executors.' + row.key + '.shuffleClientUsedHeapMemory'
+                `executors.${row.key}.shuffleClientUsedDirectMemory`,
+                `executors.${row.key}.shuffleClientUsedHeapMemory`
               ],
               labels: [
                 t('in-forge:plugins.azureDatabricks.labelShuffleClientUsedDirectMemory'),
@@ -191,8 +194,8 @@ function getRowDetails(row: ExecutorRow) {
             timeConfig={timeConfig}
             y1={{
               metrics: [
-                'executors.' + row.key + '.deSerializationCpuTime',
-                'executors.' + row.key + '.serializationCpuTime'
+                `executors.${row.key}.deSerializationCpuTime`,
+                `executors.${row.key}.serializationCpuTime`
               ],
               labels: [
                 t('in-forge:plugins.azureDatabricks.labelDeSerializationCpuTime'),
