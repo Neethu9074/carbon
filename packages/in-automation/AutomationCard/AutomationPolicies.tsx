@@ -49,8 +49,8 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
+import { Policy, VolatileId, Event, Result, Error } from 'in-types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { Policy, VolatileId, Event, Result } from 'in-types';
 import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
@@ -107,12 +107,14 @@ function onCreateSuccess(count: number) {
   );
 }
 
-function onCreateFailed() {
+function onCreateFailed(error: Error) {
   addMessage(
     {
       type: 'danger',
       timeout: 3000,
-      content: t('in-automation:policies.createBulkDialog.failure.content'),
+      content: (
+        <Trans i18nKey="in-automation:policies.createBulkDialog.failure.content" values={{ error: error.message }} />
+      ),
       title: t('in-automation:policies.createBulkDialog.failure.title')
     },
     'policy-bulk-create-error'
@@ -126,8 +128,9 @@ function onCreate(policies: NewPolicy[]) {
       close();
       refresh();
     },
-    () => {
-      onCreateFailed();
+    err => {
+      close();
+      onCreateFailed(err);
     }
   );
 }

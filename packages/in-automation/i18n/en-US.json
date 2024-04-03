@@ -330,7 +330,7 @@
       },
       "failure": {
         "title": "Failed to created policies.",
-        "content": "There was a problem creating the policies."
+        "content": "There was a problem creating the policies:{{error}}"
       }
     },
     "deleteDialog": {
