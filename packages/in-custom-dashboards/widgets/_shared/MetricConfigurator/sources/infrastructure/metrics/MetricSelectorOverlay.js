@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
 
@@ -61,7 +62,7 @@ export function toOptions(metricTreeNodes, parentLabels = []) {
       type: metricTreeNode.type,
       parentType: metricTreeNode.parentType ?? metricTreeNode.type, // parentType was previously sent as type before R221
       levelType: metricTreeNode.levelType,
-      icon: metricTreeNode.icon,
+      icon: (metricTreeNode.levelType && getIconType(metricTreeNode.levelType)) || metricTreeNode.icon,
       allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? [],
       keywords: [
         joinedParentLabels,
