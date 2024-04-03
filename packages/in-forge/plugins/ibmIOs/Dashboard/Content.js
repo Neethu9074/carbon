@@ -6,13 +6,13 @@
 import React from 'react';
 
 import UserSpoolSpaceTable from 'in-forge/plugins/ibmIOs/Dashboard/UserSpoolSpaceTable';
+import ActiveJobsInfoTable from 'in-forge/plugins/ibmIOs/Dashboard/ActiveJobsInfoTable';
 import MessageQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/MessageQueueTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import NetworkInfoTable from 'in-forge/plugins/ibmIOs/Dashboard/NetworkInfoTable';
 import OutputQueueTable from 'in-forge/plugins/ibmIOs/Dashboard/OutputQueueTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import MemoryPoolsTable from 'in-forge/plugins/ibmIOs/Dashboard/MemoryPoolTable';
-import ActiveJobsTable from 'in-forge/plugins/ibmIOs/Dashboard/ActiveJobsTable';
 import HistoryLogTable from 'in-forge/plugins/ibmIOs/Dashboard/HistoryLogTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SubsystemTable from 'in-forge/plugins/ibmIOs/Dashboard/SubsystemTable';
@@ -109,7 +109,6 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <ActiveJobsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.auxiliaryStoragePool.name')}>
           <Chart
@@ -173,6 +172,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       </Columize>
       <NetworkInfoTable snapshot={snapshot} timeConfig={timeConfig} />
       <DiskInfoTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ActiveJobsInfoTable snapshot={snapshot} timeConfig={timeConfig} />
       <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshotId={snapshotId} timeConfig={timeConfig} />

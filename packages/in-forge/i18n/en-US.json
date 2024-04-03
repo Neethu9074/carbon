@@ -896,6 +896,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmiActiveJobsInfo_plural": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo_0": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo_1": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo_2": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo": "Active Jobs Information on IBM i",
   "pluginName_ibmiDiskInfo_plural": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_0": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
@@ -10437,8 +10442,34 @@
         }
       }
     },
+    "ibmiActiveJobsInfo": {
+      "name": "Active Jobs Information on IBM i",
+      "dashboard":{
+        "tables":{
+          "activeJobs": {
+            "name": "Top Active Jobs",
+            "jobName": "Job Name",
+            "jobStatus": "Job Status",
+            "jobType": "Job Type",
+            "userName": "User Name",
+            "charts": {
+              "elapsedCPU": "Elapsed CPU Percentage",
+              "temporaryStorage": "Temporary Storage",
+              "threadCount": "Thread Count"
+            }
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiActiveJobsInfo": "IBM i Info",
+        "hostName": "Host Name"
+      }
+    },
     "ibmiDiskInfo": {
       "name": "Disk Information on IBM i",
+      "sidebar": {
+        "hostName": "Host Name"
+      },
       "dashboard":{
         "tables":{
           "spinningDiskType": {
@@ -10501,6 +10532,9 @@
     },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
+      "sidebar": {
+        "hostName": "Host Name"
+      },
       "dashboard":{
         "tables":{
           "netstatInterfaces": {
@@ -10653,18 +10687,6 @@
             "userName": "User",
             "userSpoolSpace": "Spool Space"
           },
-          "activeJobs": {
-            "name": "Top Active Jobs",
-            "jobName": "Job Name",
-            "jobStatus": "Job Status",
-            "jobType": "Job Type",
-            "userName": "User Name",
-            "charts": {
-              "elapsedCPU": "Elapsed CPU Percentage",
-              "temporaryStorage": "Temporary Storage",
-              "threadCount": "Thread Count"
-            }
-          },
           "jobQueue": {
             "name": "Job Queue",
             "jobQueueName": "Job Queue Name",
@@ -10710,6 +10732,7 @@
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "activeJobsInfo": "Active Jobs Information",
       "diskInfo": "Disk Information",
       "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",

@@ -10,11 +10,11 @@ import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessSt
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { t } from 'in-i18n';
 
-export default function IbmiNetworkInfo({ snapshot }) {
+export default function IbmiActiveJobsInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.ibmiNetworkInfo.sidebar.hostName')}>
+      <DescriptionItem title={t('in-forge:plugins.ibmiActiveJobsInfo.sidebar.hostName')}>
         {data.get('hostName')}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
