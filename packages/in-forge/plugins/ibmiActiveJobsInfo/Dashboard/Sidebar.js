@@ -23,6 +23,6 @@ export default function IbmIDiskInfoSidebar({ snapshot }) {
       </Collapsible>
       <DeployedUnitList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />
-    </React.Fragment>
+    </>
   );
 }
