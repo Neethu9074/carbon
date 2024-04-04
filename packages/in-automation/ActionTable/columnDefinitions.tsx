@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { formatDateTime } from '@instana/format-date';
 import { Typography, Link } from '@instana/components';
+import { formatDateTime } from '@instana/format-date';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -15,9 +15,9 @@ import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWr
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getType, isExternal } from 'in-automation/ActionCatalog/shared';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { viewTurboActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/api';
-import { viewTurboActionTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
@@ -30,7 +30,7 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
     return (
       <Tooltip content={name} align="topLeft" delay={500}>
         {isExternal(action.type) ? (
-          <Link ellipsis href={name} external onClick={() => handleTurboTracking(name)}>
+          <Link ellipsis href={action.name} external onClick={() => handleTurboTracking(name)}>
             <span>{name}</span>
           </Link>
         ) : (

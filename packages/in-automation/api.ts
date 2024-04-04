@@ -1315,15 +1315,14 @@ export function getPoliciesForTrigger(triggerId: string, triggerType: TriggerTyp
   });
 }
 
-export function saveBulkPolicies(policies: NewPolicy[]) {
+export function saveBulkPolicies(policies: NewPolicy[]): Observable<Policy[]> {
   return http<Policy[]>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${policiesUrl}/bulk`,
-    data: policies,
-    mapToResultObject: true
-  });
+    data: policies
+  }).map(response => response.body);
 }
 
 export function getEventSpecifications() {

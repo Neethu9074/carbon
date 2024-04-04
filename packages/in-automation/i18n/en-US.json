@@ -329,8 +329,8 @@
         "content_2": "{{count}} policies have been created successfully."
       },
       "failure": {
-        "title": "Failed to created policies.",
-        "content": "There was a problem creating the policies."
+        "title": "Failed to create policies.",
+        "content": "There was a problem creating the policies:{{error}}"
       }
     },
     "deleteDialog": {
