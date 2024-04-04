@@ -189,14 +189,14 @@ describe('in-service-levels/navigation/hooks/useBasicFilterExpression', () => {
         value: 'Snacktastic'
       });
       expect(result.current.elements).toContainEqual({
-        entity: 'NOT_APPLICABLE',
+        entity: 'DESTINATION',
         name: 'service.name',
         operator: 'EQUALS',
         type: 'TAG_FILTER',
         value: 'Shopping cart'
       });
       expect(result.current.elements).toContainEqual({
-        entity: 'NOT_APPLICABLE',
+        entity: 'DESTINATION',
         name: 'endpoint.name',
         operator: 'EQUALS',
         type: 'TAG_FILTER',
