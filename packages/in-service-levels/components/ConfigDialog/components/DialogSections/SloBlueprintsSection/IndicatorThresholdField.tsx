@@ -14,10 +14,12 @@ import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/T
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
 
 interface IndicatorThresholdFieldProps {
   blueprint: CustomBlueprintType;
   disabled?: boolean;
+  percentageValue?: boolean;
   field: Field<number | undefined>;
   onChange: SloFormOnChange;
 }
@@ -26,6 +28,7 @@ export default function IndicatorThresholdField({
   blueprint,
   disabled = false,
   field,
+  percentageValue,
   onChange
 }: IndicatorThresholdFieldProps) {
   const isThresholdValid = isFieldValid(field);
@@ -35,12 +38,23 @@ export default function IndicatorThresholdField({
       <Typography variant="body-bold" component="p">
         {t('in-service-levels:createSloDialog.indicatorSection.thresholdLabel', { context: blueprint })}
       </Typography>
-      <ThresholdInput
-        disabled={disabled}
-        hasError={!isThresholdValid}
-        handleChange={value => onChange(['indicator', 'threshold'], () => field.setValue(value).setTouched(true))}
-        value={field.value}
-      />
+      {!percentageValue && (
+        <ThresholdInput
+          disabled={disabled}
+          hasError={!isThresholdValid}
+          handleChange={value => onChange(['indicator', 'threshold'], () => field.setValue(value).setTouched(true))}
+          value={field.value}
+        />
+      )}
+      {percentageValue && (
+        <PercentageInput
+          id="slo-threshold"
+          value={field.value}
+          onChange={value => onChange(['indicator', 'threshold'], () => field.setValue(value).setTouched(true))}
+          hasError={!isThresholdValid}
+          decimalPrecision={2}
+        />
+      )}
       {!isThresholdValid &&
         field.messages.map(({ message }, index) => (
           <ValidationBlock key={`error-msg-${index}`}>{message}</ValidationBlock>
