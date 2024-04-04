@@ -7701,9 +7701,11 @@
       "mainIniFile": "Main Ini File",
       "iniFilesDirectory": "Ini Files Directory",
       "additionalIniFilesParsed": "Additional Ini Files Parsed",
+      "endOfLifePhpVersion": "A version of PHP past its official end-of-life has been detected: {{version}}. This version does not receive updates or security fixes and might contain unresolved vulnerabilities. Furthermore, support for this version is deprecated by Instana. Consider updating your PHP installation to avoid problems.",
       "extensionsDirectory": "Extensions Directory",
       "instanaTracingExtensionVersion": "Instana Tracing Extension Version",
-      "php": "PHP"
+      "php": "PHP",
+      "supportedVersionsPage": "Supported Versions"
     },
     "ping": {
       "dashboard": {
