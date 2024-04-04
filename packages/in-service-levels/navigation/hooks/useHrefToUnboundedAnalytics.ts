@@ -63,6 +63,7 @@ export default function useHrefToUnboundedAnalytics({
 }: UseHrefToUnboundedAnalyticsProps): string | undefined {
   const { location, createHref } = useNavigation();
   const basicTagFilterExpression = useBasicTagFilterExpression({ entity, withLabels });
+
   const tagFilterExpression = additionalTagFilterExpression
     ? createTagFilterExpression('AND', [basicTagFilterExpression, additionalTagFilterExpression])
     : basicTagFilterExpression;
@@ -217,7 +218,7 @@ function updateLocationForApplicationEntity({
 }: UpdateLocationForApplicationEntityProps): Location {
   const { includeInternal, includeSynthetic, endpointId } = entity;
 
-  const hasEndpoint = endpointId !== undefined;
+  const hasEndpoint = !!endpointId; // endpointId can be null
   const groupByTag = hasEndpoint ? 'endpoint.name' : 'service.name';
   const groupBy = createGroupBy(groupByTag, entityTypes.DESTINATION);
   const chartedMetrics = [createChartedMetric(...getApplicationMetric(blueprint))];
