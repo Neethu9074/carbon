@@ -12,6 +12,14 @@ import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
+import RunActionContent, {
+  shouldHideParameter,
+  TRIGGERING_AGENT,
+  TRIGGERING_HOST_FQDN,
+  TRIGGERING_HOST_FQDN_OPTION,
+  TRIGGERING_HOST_IP,
+  TRIGGERING_HOST_IP_OPTION
+} from 'in-automation/RunActionDialog/RunActionDialogContent';
 import {
   getTimeoutFromFields,
   isAnsible,
@@ -22,37 +30,10 @@ import {
   parseDynamicParameter,
   parseVaultParameter,
   isGithub,
-  getGithubFields,
-  OPEN,
-  CLOSE,
-  ADD_COMMENT,
-  getGitlabFields,
   isGitlab,
-  getJiraFields,
   isManual
 } from 'in-automation/ActionCatalog/shared';
-import {
-  ResolvedDynamicParamValue,
-  resolveDynamicParameters,
-  runScriptAction,
-  runTurboAction,
-  runWebhookAction,
-  runAnsibleAction,
-  runGithubCloseAction,
-  runGithubOpenAction,
-  runGitlabOpenAction,
-  runGitlabCloseAction,
-  runJiraOpenAction,
-  runJiraCloseAction
-} from 'in-automation/api';
-import RunActionContent, {
-  shouldHideParameter,
-  TRIGGERING_AGENT,
-  TRIGGERING_HOST_FQDN,
-  TRIGGERING_HOST_FQDN_OPTION,
-  TRIGGERING_HOST_IP,
-  TRIGGERING_HOST_IP_OPTION
-} from 'in-automation/RunActionDialog/RunActionDialogContent';
+import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
@@ -394,10 +375,16 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
-  if (isScript(action.type)) {
-    runScriptAction({
+  if (
+    isScript(action.type) ||
+    isGithub(action.type) ||
+    isGitlab(action.type) ||
+    isJira(action.type) ||
+    isWebhook(action.type)
+  ) {
+    runAction({
       volatileId: selectedVolatileId,
-      event,
+      eventId: event?.id,
       actionName,
       timeout,
       actionId,
@@ -419,95 +406,10 @@ function onSave({
       actionInstanceId: actionInstanceId,
       policyId: executePolicyId
     }).once(handleActionResponse);
-  } else if (isGithub(action.type)) {
-    const { ticketActionType } = getGithubFields(action);
-    if (ticketActionType.value === OPEN) {
-      runGithubOpenAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-
-    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
-      runGithubCloseAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-  } else if (isGitlab(action.type)) {
-    const { ticketActionType } = getGitlabFields(action);
-    if (ticketActionType.value === OPEN) {
-      runGitlabOpenAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-
-    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
-      runGitlabCloseAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-  } else if (isJira(action.type)) {
-    const { ticketActionType } = getJiraFields(action);
-    if (ticketActionType.value === OPEN) {
-      runJiraOpenAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-
-    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
-      runJiraCloseAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-  } else if (isWebhook(action.type)) {
-    runWebhookAction({
-      volatileId: selectedVolatileId,
-      event,
-      actionName,
-      timeout,
-      actionId,
-      inputParameters: allInputParameters,
-      policyId: executePolicyId
-    }).once(handleActionResponse);
   } else if (isAnsible(action.type)) {
-    runAnsibleAction({
+    runAction({
       volatileId: selectedVolatileId,
-      event,
+      eventId: event?.id,
       actionName,
       timeout,
       actionId,

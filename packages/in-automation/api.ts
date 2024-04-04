@@ -27,18 +27,9 @@ import {
   GlobalApplicationsAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata
 } from 'in-types';
-import {
-  ANSIBlE_TYPE,
-  DOC_LINK_TYPE,
-  HTTP_METHODS_WITH_BODY,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE,
-  GITHUB_TYPE,
-  GITLAB_TYPE,
-  JIRA_TYPE
-} from 'in-automation/ActionCatalog/shared';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
+import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
 import submitActionExecution from 'in-automation/subscriptions/submitActionExecution';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { NewPolicy } from 'in-automation/Policies/types';
@@ -546,9 +537,9 @@ export function createAction(
   };
 }
 
-interface RunActionBaseParams {
+interface RunActionParams {
   volatileId: VolatileId;
-  event: Event | undefined;
+  eventId: string | undefined;
   actionName: string;
   actionId: string;
   inputParameters: ParameterValue[];
@@ -557,24 +548,11 @@ interface RunActionBaseParams {
   policyId: string;
 }
 
-interface RunActionRequest {
-  name: string;
-  value: string;
-  encoding: string;
-}
-
-interface RunActionParams extends RunActionBaseParams {
-  type: string;
-  request: RunActionRequest[];
-}
-
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction({
+export function runAction({
   volatileId,
-  event,
   actionName,
-  type,
-  request,
+  eventId,
   inputParameters,
   actionId,
   timeout,
@@ -585,36 +563,16 @@ function runAction({
     action: 'action.run',
     target: volatileId,
     args: {
-      type,
       hostsLimit,
       inputParameters,
       async: 'true',
-      event: JSON.stringify(event),
-      eventId: event?.id,
+      eventId: eventId,
       actionName,
       actionId,
       timeout: timeout === '' ? null : timeout,
-      request: request,
       policyId: policyId === '' ? null : policyId
     }
   });
-}
-
-interface RunActionBaseParams {
-  volatileId: VolatileId;
-  event: Event | undefined;
-  actionName: string;
-  actionId: string;
-  inputParameters: ParameterValue[];
-  timeout: string;
-  hostsLimit?: string;
-  policyId: string;
-}
-
-interface RunActionRequest {
-  name: string;
-  value: string;
-  encoding: string;
 }
 
 interface RunTurboActionParams {
@@ -653,204 +611,6 @@ export function runTurboAction({
       timeout: timeout === '' ? null : timeout,
       policyId: policyId === '' ? null : policyId
     }
-  });
-}
-
-export function runScriptAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: SCRIPT_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runWebhookAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: WEBHOOK_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runGithubOpenAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: GITHUB_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runGithubCloseAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: GITHUB_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runGitlabOpenAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  policyId,
-  timeout
-}: RunActionBaseParams) {
-  return runAction({
-    type: GITLAB_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runGitlabCloseAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: GITLAB_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runJiraOpenAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: JIRA_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runJiraCloseAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: JIRA_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
-  });
-}
-
-export function runAnsibleAction({
-  volatileId,
-  event,
-  actionName,
-  actionId,
-  inputParameters,
-  timeout,
-  policyId
-}: RunActionBaseParams) {
-  return runAction({
-    type: ANSIBlE_TYPE,
-    volatileId,
-    event,
-    actionName,
-    timeout,
-    actionId,
-    inputParameters,
-    policyId,
-    request: []
   });
 }
 
