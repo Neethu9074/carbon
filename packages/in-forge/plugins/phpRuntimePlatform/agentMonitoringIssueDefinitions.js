@@ -19,7 +19,7 @@ export default {
         );
       }
     },
-  explanationLinkLabel: t('in-forge:plugins.phpRuntimePlatform.supportedVersionsPage'),
+    explanationLinkLabel: t('in-forge:plugins.phpRuntimePlatform.supportedVersionsPage'),
     explanationLinkHref: `https://www.php.net/supported-versions.php`
   }
 };
