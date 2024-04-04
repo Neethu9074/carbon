@@ -33,7 +33,14 @@ export default function SloIndicatorAvailabilityForm() {
       <IndicatorFieldsSection>
         {/* Time-based SLI fields */}
         {isTimeBased && <IndicatorAggregationField field={aggregationField} onChange={onChange} />}
-        {isTimeBased && <IndicatorThresholdField blueprint={blueprint} field={thresholdField} onChange={onChange} />}
+        {isTimeBased && (
+          <IndicatorThresholdField
+            blueprint={blueprint}
+            field={thresholdField}
+            onChange={onChange}
+            percentageValue
+          />
+        )}
       </IndicatorFieldsSection>
     </Stack>
   );
