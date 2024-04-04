@@ -221,6 +221,7 @@
     "value": "Value",
     "actionInstanceId": "Action Instance ID",
     "event": "Event",
+    "eventName": "Event Name",
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
     "actionContent": "Action Content",
