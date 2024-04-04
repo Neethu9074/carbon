@@ -112,6 +112,14 @@ export default function DetailTab({
       value: status ? getStatus(status) : t('in-automation:actionHistory.unknown'),
       actionLane: inActionLane
     },
+    { label: t('in-automation:actionHistory.errorMessage'), value: errorMessage, showCondition: errorMessage },
+    {
+      label: t('in-automation:actionHistory.log'),
+      value: t('in-automation:actionHistory.viewLog'),
+      isLink: true,
+      actionLane: inActionLane,
+      stringLink: link
+    },
     {
       label: t('in-automation:actionHistory.startTime'),
       value: startDate ? formatDateTime(startDate) : formatDateTime(null),
@@ -123,7 +131,6 @@ export default function DetailTab({
       value: endDate ? formatDateTime(endDate) : formatDateTime(null)
     },
     { label: t('in-automation:actionHistory.returnCode'), value: returnCode },
-    { label: t('in-automation:actionHistory.eventName'), value: problemText, showCondition: eventId },
     {
       label: t('in-automation:actionHistory.initiator'),
       value: actorName,
@@ -138,27 +145,20 @@ export default function DetailTab({
       stringLink: actorType === 'POLICY' ? getPolicyView(actorId ?? '') : undefined
     },
     {
-      label: t('in-automation:actionHistory.eventId'),
-      value: eventId,
+      label: t('in-automation:actionHistory.event'),
+      value: problemText,
       isLink: true,
       showCondition: eventId,
       actionLane: inActionLane,
       stringLink: getLinkToEventDetails(eventId ?? '')
     },
     {
-      label: t('in-automation:actionHistory.hostSnapshot'),
+      label: t('in-automation:actionHistory.host'),
       value: snapshot?.label ?? hostSnapshotId,
       isLink: true,
       isObservable: true,
       showCondition: hostSnapshotId && snapshot,
       ObservableLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
-    },
-    {
-      label: t('in-automation:actionHistory.log'),
-      value: t('in-automation:actionHistory.viewLog'),
-      isLink: true,
-      actionLane: inActionLane,
-      stringLink: link
     },
     {
       label: t('in-automation:titleActionType'),
@@ -231,10 +231,6 @@ export default function DetailTab({
         showCondition: id.value && url.value ? id.value : ''
       });
     }
-  }
-
-  if (errorMessage) {
-    tableData.push({ label: t('in-automation:actionHistory.errorMessage'), value: errorMessage });
   }
 
   const renderRow = (
