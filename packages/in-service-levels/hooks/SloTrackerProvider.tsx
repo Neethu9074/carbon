@@ -7,6 +7,7 @@
 import React, { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 
 import { BlueprintType, ServiceLevelIndicatorType, SloEntity, TimeWindow } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 
 import {
   SLI_MANAGEMENT_VIEW,
@@ -45,7 +46,7 @@ import { ProductArea, productAreas } from 'in-services/tracking/productAreas';
 import { PageName, pageNames } from 'in-services/tracking/pageNames';
 import { track } from 'in-services/tracking/trackers';
 
-interface SloTrackingMeta {
+export interface SloTrackingMeta {
   productArea: ProductArea;
   pageName: PageName;
 }
@@ -121,26 +122,27 @@ export function trackSloEvent<EVENT extends keyof AllSloTrackers>(
   allSloTracker[event](payload as any);
 }
 
-const trackerContext = createContext({} as SloTrackersUnion);
+export const trackerContext = createContext({} as SloTrackerProviderProps);
 
 type SloTrackersUnion = SloTrackers | SliWidgetTrackers | ApdexWidgetTrackers;
 interface SloTrackerProviderProps {
-  value: SloTrackersUnion;
+  trackers: SloTrackersUnion;
+  meta: SloTrackingMeta;
 }
 
-export function SloTrackerProvider({ value, children }: PropsWithChildren<SloTrackerProviderProps>) {
-  return <trackerContext.Provider value={value}>{children}</trackerContext.Provider>;
+export function SloTrackerProvider({ trackers, meta, children }: PropsWithChildren<SloTrackerProviderProps>) {
+  return <trackerContext.Provider value={{ trackers, meta }}>{children}</trackerContext.Provider>;
 }
 
 export function useSloTrackers() {
-  const trackers = useContext(trackerContext);
-
+  const { trackers, meta } = useContext(trackerContext);
   return useMemo(
     () =>
       <EVENT extends keyof AllSloTrackers>(event: EVENT, payload: Parameters<AllSloTrackers[EVENT]>[0]) => {
         const tracker: AllSloTrackers[EVENT] = (trackers as AllSloTrackers)[event];
-        tracker(payload as any);
+        tracker({ ...payload, ...meta } as any);
       },
-    [trackers]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [generateStableHash({ trackers, meta })]
   );
 }

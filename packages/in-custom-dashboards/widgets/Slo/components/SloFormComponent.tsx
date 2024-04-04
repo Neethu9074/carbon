@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Button, Stack } from '@instana/components';
@@ -21,8 +21,13 @@ import {
   timeWindowType,
   TimeWindowType
 } from 'in-custom-dashboards/widgets/Slo/form';
+import {
+  sliWidgetTrackers,
+  SloTrackerProvider,
+  trackerContext,
+  useSloTrackers
+} from 'in-service-levels/hooks/SloTrackerProvider';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
-import { sliWidgetTrackers, SloTrackerProvider, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
@@ -40,9 +45,7 @@ import { SLO_TARGET_DECIMAL_PRECISION } from 'in-service-levels/constants';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { productAreas } from 'in-services/tracking/productAreas';
 import HelpAction from 'in-components/workspace/HelpAction';
-import { pageNames } from 'in-services/tracking/pageNames';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
@@ -69,10 +72,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   });
 
   const track = useSloTrackers();
-
+  const { meta } = useContext(trackerContext);
   useEffect(() => {
-    track(SLO_WIDGET_EDIT_START, { productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard });
-  }, [track]);
+    track(SLO_WIDGET_EDIT_START, { productArea: meta.productArea, pageName: meta.pageName });
+  }, [track, meta]);
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
@@ -101,8 +104,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   function activateManageSliSlideIn() {
     track(SLI_MANAGEMENT_VIEW, {
       entityType: entityTypeValue,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     return setSlideInView({
       renderTitle(showCreateFormState) {
@@ -118,15 +121,18 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         return () => {
           track(SLI_MANAGEMENT_EXIT, {
             entityType: entityTypeValue,
-            productArea: productAreas.custom_dashboard,
-            pageName: pageNames.custom_dashboard
+            productArea: meta.productArea,
+            pageName: meta.pageName
           });
           slideOut();
         };
       },
       getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
         return (
-          <SloTrackerProvider value={sliWidgetTrackers}>
+          <SloTrackerProvider
+            trackers={sliWidgetTrackers}
+            meta={{ productArea: meta.productArea, pageName: meta.pageName }}
+          >
             <SliManageList
               entityType={entityTypeValue}
               entityId={entityIdValue}

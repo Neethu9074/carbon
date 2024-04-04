@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Button, Message } from '@instana/components';
 import { OrderDirection } from '@instana/types';
@@ -15,15 +15,13 @@ import {
 } from 'in-services/tracking/eventNames';
 import useFilteredAndSortedSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useFilteredAndSortedSliConfigurations';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
+import { SloTrackingMeta, trackerContext, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -43,6 +41,7 @@ interface SliManageListContentProps<S extends SliType> {
 
 interface InternalContentProps<S extends SliType> {
   setSliConfigToEdit: React.Dispatch<React.SetStateAction<Partial<SliConfigBySliType<S>>>>;
+  meta: SloTrackingMeta;
 }
 
 export default function SliManageList<S extends SliType>({
@@ -56,6 +55,7 @@ export default function SliManageList<S extends SliType>({
   const [sliConfigToEdit, setSliConfigToEdit] = useState<Partial<SliConfigBySliType<S>>>({});
   const transitionDelay = 500;
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
+  const { meta } = useContext(trackerContext);
   const onShowSlideInContentChange = () => onChange(undefined);
 
   return (
@@ -89,6 +89,7 @@ export default function SliManageList<S extends SliType>({
           onChange={onChange}
           onShowCreateForm={onShowCreateForm}
           setSliConfigToEdit={setSliConfigToEdit}
+          meta={meta}
         />
       }
       enforceMaxHeightForStaticContent
@@ -102,7 +103,8 @@ function SliManageListContent<S extends SliType>({
   entityId,
   onChange,
   setSliConfigToEdit,
-  onShowCreateForm
+  onShowCreateForm,
+  meta
 }: SliManageListContentProps<S> & InternalContentProps<S>) {
   const [nameQuery, setNameQuery] = useState<string>('');
   const [orderBy, setOrderBy] = useState<string>('name');
@@ -113,8 +115,8 @@ function SliManageListContent<S extends SliType>({
   const onCreateConfig = () => {
     track(SLI_MANAGEMENT_CREATE_START, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     setSliConfigToEdit({});
     onShowCreateForm(false);
@@ -122,8 +124,8 @@ function SliManageListContent<S extends SliType>({
   const onEditConfig = (config: SliConfigBySliType<S>) => {
     track(SLI_MANAGEMENT_EDIT_START, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     setSliConfigToEdit({ ...config, sliName: t('in-custom-dashboards:editor.copyOf', { title: config.sliName }) });
     onShowCreateForm(true);
@@ -131,8 +133,8 @@ function SliManageListContent<S extends SliType>({
   const onDeleteConfig = (id: string) => {
     track(SLI_MANAGEMENT_DELETE, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     deleteSliConfiguration(id).once(onDeleteSuccess, onDeleteFailed);
   };
@@ -161,8 +163,8 @@ function SliManageListContent<S extends SliType>({
               onClick={() => {
                 track(SLI_MANAGEMENT_CREATE_START, {
                   entityType,
-                  productArea: productAreas.custom_dashboard,
-                  pageName: pageNames.custom_dashboard
+                  productArea: meta.productArea,
+                  pageName: meta.pageName
                 });
                 onCreateConfig();
               }}

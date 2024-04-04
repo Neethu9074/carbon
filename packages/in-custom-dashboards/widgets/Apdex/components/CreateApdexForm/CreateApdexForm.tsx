@@ -5,7 +5,7 @@
  */
 
 import { Item, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { ApdexConfiguration, Result } from '@instana/types';
 
@@ -19,14 +19,12 @@ import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/component
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
+import { trackerContext, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
@@ -65,7 +63,7 @@ export default function CreateApdexForm({
   const [submitStatus, doSubmit] = useFormSubmission(createApdexConfiguration);
 
   const track = useSloTrackers();
-
+  const { meta } = useContext(trackerContext);
   const isEditing = Boolean(apdexConfig.id);
 
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
@@ -81,8 +79,8 @@ export default function CreateApdexForm({
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
     track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     addMessage(
       {

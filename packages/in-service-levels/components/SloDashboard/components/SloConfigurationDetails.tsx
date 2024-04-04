@@ -4,17 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { Card, Ul } from '@instana/components';
 
+import {
+  SloTrackerProvider,
+  sloTrackers,
+  trackerContext,
+  useSloTrackers
+} from 'in-service-levels/hooks/SloTrackerProvider';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection/ScopeSection';
 import ObjectiveSection from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
 import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -34,11 +39,17 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
     return null;
   }
 
-  return <SloConfigurationDetailsContent data={data} />;
+  return (
+    <SloTrackerProvider trackers={sloTrackers} meta={{ productArea: productAreas.slo, pageName: pageNames.slo_config }}>
+      <SloConfigurationDetailsContent data={data} />
+    </SloTrackerProvider>
+  );
 }
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
   const { configuration, entity } = data;
+
+  const { meta } = useContext(trackerContext);
 
   const track = useSloTrackers();
   useEffect(() => {
@@ -50,10 +61,10 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
       indicatorType: indicator.type,
       timeWindowType: timeWindow.type,
       entityType: entity.type,
-      productArea: productAreas.slo,
-      pageName: pageNames.slo_config
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
-  }, [track, configuration]);
+  }, [track, configuration, meta]);
 
   return (
     <Card

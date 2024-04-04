@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { ApdexConfiguration, OrderDirection } from '@instana/types';
 
@@ -16,15 +16,13 @@ import {
 } from 'in-services/tracking/eventNames';
 import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
+import { trackerContext, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ApdexList from 'in-custom-dashboards/widgets/Apdex/components/ApdexList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
 import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -55,14 +53,15 @@ export default function ApdexManageList({
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
 
   const track = useSloTrackers();
+  const { meta } = useContext(trackerContext);
 
   const onShowSlideInContentChange = () => onChange(undefined);
 
   const onCreateConfig = () => {
     track(APDEX_MANAGEMENT_CREATE_START, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     setEditableApdexConfig({});
     onShowCreateForm(false);
@@ -71,8 +70,8 @@ export default function ApdexManageList({
   const onEditConfig = (config: ApdexConfiguration) => {
     track(APDEX_MANAGEMENT_EDIT_START, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
     setEditableApdexConfig(config);
     onShowCreateForm(true);
@@ -81,8 +80,8 @@ export default function ApdexManageList({
   const onDeleteApdexConfig = (id: string) => {
     track(APDEX_MANAGEMENT_DELETE, {
       entityType,
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
+      productArea: meta.productArea,
+      pageName: meta.pageName
     });
 
     deleteApdexConfiguration(id)
