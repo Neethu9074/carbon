@@ -12,47 +12,6 @@ import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
 
-import {
-  getInterpreterToUse,
-  getScriptFromFields,
-  getTimeoutFromFields,
-  getWebhookFields,
-  isAnsible,
-  isScript,
-  isExternal,
-  isWebhook,
-  isJira,
-  parseDynamicParameter,
-  parseVaultParameter,
-  getAnsibleFields,
-  isGithub,
-  getGithubFields,
-  getGithubOpenTicketFields,
-  getCloseAndCommentFields,
-  OPEN,
-  CLOSE,
-  ADD_COMMENT,
-  getGitlabFields,
-  isGitlab,
-  getGitlabOpenTicketFields,
-  getJiraFields,
-  getJiraOpenTicketFields,
-  isManual
-} from 'in-automation/ActionCatalog/shared';
-import {
-  ResolvedDynamicParamValue,
-  resolveDynamicParameters,
-  runScriptAction,
-  runTurboAction,
-  runWebhookAction,
-  runAnsibleAction,
-  runGithubCloseAction,
-  runGithubOpenAction,
-  runGitlabOpenAction,
-  runGitlabCloseAction,
-  runJiraOpenAction,
-  runJiraCloseAction
-} from 'in-automation/api';
 import RunActionContent, {
   shouldHideParameter,
   TRIGGERING_AGENT,
@@ -61,6 +20,20 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
+import {
+  getTimeoutFromFields,
+  isAnsible,
+  isScript,
+  isExternal,
+  isWebhook,
+  isJira,
+  parseDynamicParameter,
+  parseVaultParameter,
+  isGithub,
+  isGitlab,
+  isManual
+} from 'in-automation/ActionCatalog/shared';
+import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
@@ -402,17 +375,19 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
-  if (isScript(action.type)) {
-    const script = getScriptFromFields(action.fields);
-    const interpreter = getInterpreterToUse(action);
-    runScriptAction({
-      script,
+  if (
+    isScript(action.type) ||
+    isGithub(action.type) ||
+    isGitlab(action.type) ||
+    isJira(action.type) ||
+    isWebhook(action.type)
+  ) {
+    runAction({
       volatileId: selectedVolatileId,
-      event,
+      eventId: event?.id,
       actionName,
       timeout,
       actionId,
-      interpreter,
       policyId: executePolicyId,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
@@ -431,146 +406,13 @@ function onSave({
       actionInstanceId: actionInstanceId,
       policyId: executePolicyId
     }).once(handleActionResponse);
-  } else if (isGithub(action.type)) {
-    const { owner, repo, ticketActionType } = getGithubFields(action);
-    if (ticketActionType.value === OPEN) {
-      const { title, body, labels, assignees } = getGithubOpenTicketFields(action);
-      runGithubOpenAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        owner,
-        repo,
-        ticketActionType,
-        title,
-        body,
-        labels,
-        assignees,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-
-    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
-      const { comment } = getCloseAndCommentFields(action);
-      runGithubCloseAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        owner,
-        repo,
-        ticketActionType,
-        comment,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-  } else if (isGitlab(action.type)) {
-    const { projectId, ticketActionType } = getGitlabFields(action);
-    if (ticketActionType.value === OPEN) {
-      const { title, body, labels, issue_type } = getGitlabOpenTicketFields(action);
-      runGitlabOpenAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        projectId,
-        ticketActionType,
-        title,
-        body: body,
-        labels,
-        issue_type,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-
-    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
-      const { comment } = getCloseAndCommentFields(action);
-      runGitlabCloseAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        projectId,
-        ticketActionType,
-        comment,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-  } else if (isJira(action.type)) {
-    const { project, ticketActionType } = getJiraFields(action);
-    if (ticketActionType.value === OPEN) {
-      const { summary, body, assignee, labels, issue_type } = getJiraOpenTicketFields(action);
-      runJiraOpenAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        project,
-        ticketActionType,
-        summary,
-        body: body,
-        assignee,
-        labels,
-        issue_type,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-
-    if (ticketActionType.value === CLOSE || ticketActionType.value === ADD_COMMENT) {
-      const { comment } = getCloseAndCommentFields(action);
-      runJiraCloseAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        timeout,
-        actionId,
-        project,
-        ticketActionType,
-        comment,
-        inputParameters: allInputParameters,
-        policyId: executePolicyId
-      }).once(handleActionResponse);
-    }
-  } else if (isWebhook(action.type)) {
-    const { host, method, body, ignoreCertErrors, header, authen } = getWebhookFields(action);
-    runWebhookAction({
-      volatileId: selectedVolatileId,
-      event,
-      actionName,
-      timeout,
-      actionId,
-      host,
-      method,
-      body,
-      ignoreCertErrors,
-      header,
-      authen,
-      inputParameters: allInputParameters,
-      policyId: executePolicyId
-    }).once(handleActionResponse);
   } else if (isAnsible(action.type)) {
-    const { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl } = getAnsibleFields(action);
-    runAnsibleAction({
+    runAction({
       volatileId: selectedVolatileId,
-      event,
+      eventId: event?.id,
       actionName,
       timeout,
       actionId,
-      playbookId,
-      playbookFileName,
-      ansibleUrl,
-      jobTemplateUrl,
       inputParameters:
         hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters,
       policyId: executePolicyId
