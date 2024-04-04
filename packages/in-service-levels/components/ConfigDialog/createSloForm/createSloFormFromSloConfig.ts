@@ -35,7 +35,7 @@ import { numericValidator, positiveNumberValidator } from 'in-services/validator
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { defaultBlueprint, ServiceLevelErrors } from 'in-service-levels/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { SloBeaconTypes } from 'in-service-levels/types';
+import { isCustomBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
@@ -93,27 +93,21 @@ export const getIndicatorFormFieldsFromSloConfig = (
       aggregation: createField({ value: indicator.aggregation ?? 'MEAN' }),
       blueprint: createField({ value: blueprint }),
       threshold: createIndicatorThresholdField({ value: indicator.threshold, blueprint, indicatorType: type }),
-      badEventsFilter: createField({
-        value: []
-      }),
-      goodEventsFilter: createField({
-        value: []
-      }),
+      badEventsFilter: createField({ value: [] }),
+      goodEventsFilter: createField({ value: [] }),
       type: createField({ value: type })
     };
   }
 
   if (indicator.type === 'eventBased') {
     const blueprint = indicator.blueprint ?? defaultBlueprint;
+    const isCustomBlueprint = isCustomBlueprintIndicator(indicator);
+
     return {
       aggregation: createField({ value: 'MEAN' }),
-      badEventsFilter: createField({
-        value: []
-      }),
       blueprint: createField({ value: blueprint }),
-      goodEventsFilter: createField({
-        value: []
-      }),
+      badEventsFilter: createField({ value: isCustomBlueprint ? fromBackendModel(indicator.badEventsFilter) : [] }),
+      goodEventsFilter: createField({ value: isCustomBlueprint ? fromBackendModel(indicator.goodEventsFilter) : [] }),
       threshold: createField({
         value: indicator.threshold ?? undefined,
         validator: createThresholdFieldValidator(blueprint, type)
