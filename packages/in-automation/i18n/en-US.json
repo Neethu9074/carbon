@@ -164,7 +164,6 @@
     "defaultValue": "Default Value",
     "defaultValueOptional": "Default Value (optional)",
     "parameters": "Parameters",
-    "test": "Test",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
     "showAPIKeyTooltip": "Show API key",
