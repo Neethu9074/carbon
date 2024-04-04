@@ -20,13 +20,14 @@ import {
   rowHeightPixels
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
+import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import { zoomWidgetEnabled } from 'in-services/featureFlags';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
+import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
-import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import oldTheme from 'in-themes';
 
 import locals from './Grid.mless';
@@ -36,8 +37,13 @@ const disabledTransitionStyle = {
   transition: 'none'
 };
 
-const dragHandle = <SvgIcon className={locals.dragHandle} type="lib_actions_reorder" />;
-
+const dragHandle = (
+  <Tooltip content={t('in-forge:plugins.docker.dashboard.dragHandleTootip')}>
+    <div>
+      <SvgIcon className={locals.dragHandle} type="lib_actions_reorder" />
+    </div>
+  </Tooltip>
+);
 export default function GridPropsChecker(props) {
   if (!props.width) {
     return null;
@@ -220,29 +226,38 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
     <div className={locals.moreMenuContainer}>
       <ViewLogsButton className={locals.viewInAnalyze} config={widget.config} />
       {zoomWidgetEnabled && (
-        <SvgIcon size="s" className={locals.zoom} type="lib_actions_maximize" onClick={() => onZoomWidget(widget.id)} />
+        <Tooltip content={t('in-forge:plugins.docker.dashboard.zoomTooltip')}>
+          <div>
+            <SvgIcon size="s" className={locals.zoom} type="lib_actions_maximize" onClick={() => onZoomWidget(widget.id)} />
+          </div>
+        </Tooltip>
       )}
-      <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
-        <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
-          {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
-        </MoreMenuButton>
-        <CopyToClipboard
-          getText={() => onCopyWidget(widget.id)}
-          successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
-        >
-          {copyToClipboardRef => (
-            <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
-              {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
-            </MoreMenuButton>
-          )}
-        </CopyToClipboard>
-        <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
-          {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
-        </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
-          {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
-        </MoreMenuButton>
-      </MoreMenu>
+      <Tooltip content={t('in-forge:plugins.docker.dashboard.moreTooltip')}>
+      <div>
+        <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+          <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
+            {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
+          </MoreMenuButton>
+          <CopyToClipboard
+            getText={() => onCopyWidget(widget.id)}
+            successText={t('in-custom-dashboards:customDashboard.grid.grid.copied')}
+          >
+            {copyToClipboardRef => (
+              <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+                {t('in-custom-dashboards:customDashboard.grid.grid.copy')}
+              </MoreMenuButton>
+            )}
+          </CopyToClipboard>
+          <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
+            {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
+          </MoreMenuButton>
+          <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
+            {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
+          </MoreMenuButton>
+        </MoreMenu>
+        </div>
+      </Tooltip>
+      
     </div>
   );
 }
