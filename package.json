@@ -128,7 +128,7 @@
     "koijs": "^0.2.0",
     "lodash": "^4.17.21",
     "lucene": "^1.1.2",
-    "markdown-it": "^8.3.1",
+    "markdown-it": "^14.0.0",
     "markdown-it-link-target": "^1.0.1",
     "mime-db": "^1.52.0",
     "moment-timezone": "^0.5.43",
