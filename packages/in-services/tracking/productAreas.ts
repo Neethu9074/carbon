@@ -12,7 +12,7 @@ export const productAreas = Object.freeze({
   synthetic_monitoring: 'Synthetic Monitoring',
   analytics: 'Analytics',
   events: 'Events',
-  slo: 'Slo',
+  slo: 'Service Level Objectives',
   settings: 'Settings',
   bizops: 'BizOps',
   cloud_foundry: 'Platforms - Cloud Foundry',

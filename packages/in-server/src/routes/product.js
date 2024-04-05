@@ -174,6 +174,7 @@ router.get('/', async (req, res) => {
     const nonce = uuidv4();
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
+    clientConfig.segmentKey= getSegmentKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const isAssistMeEnabled =
       !clientConfig.featureFlags?.playwithEnabled && !clientConfig.featureFlags?.playWithReleaseEnabled;
@@ -184,7 +185,6 @@ router.get('/', async (req, res) => {
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
-        segmentKey: getSegmentKey(),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
