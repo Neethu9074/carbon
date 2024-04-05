@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
-
 import {
   clusterListFullyQualified,
   namespaceListFullyQualified,
@@ -14,6 +12,7 @@ import {
   k8sTeamFullyQualified
 } from 'in-kubernetes/navigation/paths';
 import { kubernetesExploreEnabled, kubernetesTeamEnabled, playwithEnabled } from 'in-services/featureFlags';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
