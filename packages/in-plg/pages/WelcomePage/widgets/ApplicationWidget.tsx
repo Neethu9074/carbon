@@ -13,11 +13,11 @@ import { t } from '@instana/i18n-react';
 
 //@ts-expect-error
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
@@ -25,11 +25,11 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+//@ts-expect-error doesn't contain type file
+import connectTo from 'in-hoc/connectTo';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-//@ts-ignore doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';

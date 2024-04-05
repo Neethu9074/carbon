@@ -11,7 +11,7 @@ import { TagFilterExpressionElementUnion, TagFilterOperator } from '@instana/typ
 import { TagFilterExpression } from '@instana/types';
 import { Card } from '@instana/components';
 
-// @ts-ignore
+// @ts-expect-error
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AnalyzeEntityCountVerificationEventButton from 'in-events/components/AnalyzeEntityCountVerificationEventButton';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';

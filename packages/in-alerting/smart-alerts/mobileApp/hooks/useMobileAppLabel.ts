@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-// @ts-ignore export for empty is missing in its *.d.ts files
+// @ts-expect-error export for empty is missing in its *.d.ts files
 import { empty, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 

@@ -20,32 +20,32 @@ import {
   hasZHMCAccess,
   hasSAPAccess
 } from 'in-stores/permission';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getOpenstackRegions';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getPowerVCRegionsWithDefaults } from 'in-powervc/subscriptions/getPowerVCRegions';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
-import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
-//@ts-ignore doesn't contain type file
+import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-expect-error doesn't contain type file
 import { getAbapSystemDashboard } from 'in-sap/navigation/paths';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
-import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { useNavigateToClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';

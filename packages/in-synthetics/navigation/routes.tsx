@@ -11,7 +11,7 @@ import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashb
 import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/SmartAlertList';
 // @ts-expect-error module need to be translated to TS
 import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
-//@ts-ignore
+//@ts-expect-error
 import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
 //@ts-expect-error
 import AlertDetailsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/AlertDetailsView';

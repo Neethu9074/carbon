@@ -16,7 +16,7 @@ const getProps = (id: string) => ({ match: { params: { id } } });
 describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog', () => {
   beforeEach(() => {
     jest.resetModules();
-    // @ts-ignore
+    // @ts-expect-error
     addActiveDialog.mockClear();
   });
 

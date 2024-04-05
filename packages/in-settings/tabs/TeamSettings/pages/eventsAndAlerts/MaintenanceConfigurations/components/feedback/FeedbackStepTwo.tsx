@@ -18,7 +18,7 @@ import locals from './Feedback.mless';
 
 export default function FeedbackStepTwo({ form, setForm }: FeedbackStepConfigs) {
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     setForm(form.updateIn(path, item => (item as Field<any>).setValue(value).setTouched(true)));
   };
   const [boxOne, setBoxOne] = useState<boolean>(false);

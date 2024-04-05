@@ -133,7 +133,6 @@ export function getTagSuggestions(
 
 export function createBoundedAlertQueryBuilder(suggestionTimeConfig?: TimeConfig): CreateQueryBuilderResponse {
   return createQueryBuilder({
-    //@ts-ignore-next-line
     getTagCatalog: () => getTagCatalog({ useCase: 'MAINTENANCE_WINDOWS' }),
     getSuggestions: args => getTagSuggestions(args, suggestionTimeConfig)
   });

@@ -212,7 +212,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, testListProps>[] = [
         <SparkChart
           loading={result?.progress?.loading}
           rollup={getChartGranularity(timeConfig)}
-          //@ts-ignore
+          //@ts-expect-error
           timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
           aggregation="MEAN"
           metrics={item?.metrics.avg_response_time}

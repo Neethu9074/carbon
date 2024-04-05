@@ -84,7 +84,6 @@ const columnDefinitions = [
     label: t('in-settings:tabs.name'),
     width: 60,
     getContent: (entity: PersonalApiToken) => (
-      // @ts-ignore
       <Link href={userSettingsPersonalApiTokens} ellipsis onClick={preventDefault}>
         {entity.name}
       </Link>

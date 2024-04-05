@@ -63,7 +63,7 @@ export default function MobileAppBigNumberCard({
     tagFilters: tagFilters,
     metric: metric,
     aggregation: aggregation,
-    // @ts-ignore
+    // @ts-expect-error
     timeShift: timeShift.offset
   };
 

@@ -8,11 +8,11 @@
 import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/businessProcess/BusinessProcessList';
 // @ts-expect-error module need to be translated to TS
 import BizActivitiesList from 'promise-loader?global,bizops!in-bizops/lists/BizActivitiesList';
+// @ts-expect-error
+import BusinessActivitySummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/activity/BusinessActivitySummary';
 // @ts-expect-error module need to be translated to TS
 import SmartAlertsList from 'promise-loader?global,bizops!in-bizops/lists/SmartAlertsList';
-// @ts-ignore
-import BusinessActivitySummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/activity/BusinessActivitySummary';
-//@ts-ignore
+//@ts-expect-error
 import BusinessProcessSummaryDashboard from 'promise-loader?global,bizops!in-bizops/dashboards/summary/BusinessProcessSummary';
 import { Route } from 'react-router-dom';
 import React from 'react';

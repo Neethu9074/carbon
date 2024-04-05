@@ -15,7 +15,7 @@ import {
   LOG_CUSTOM_KEY_APPLICATION_IDS
 } from 'in-logging/queryBuilder';
 import getApplication from 'in-applications/subscriptions/getApplication';
-// @ts-ignore
+// @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
 import { getSnapshot } from 'in-stores/snapshot';

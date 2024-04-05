@@ -249,10 +249,10 @@ export default function GroupMapping() {
             },
             errors: [],
             data: {
-              // @ts-ignore
+              // @ts-expect-error
               items: filteredItems.items?.slice(firstItem, lastItem) ?? [],
               pageSize,
-              // @ts-ignore
+              // @ts-expect-error
               totalHits: filteredItems.items?.length ?? 0,
               page
             }
@@ -300,12 +300,11 @@ export default function GroupMapping() {
     }
 
     function updateIn(path: string[], updater: Updater) {
-      // @ts-ignore Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
+      // @ts-expect-error Formalistic v2 expects number indices for ListForms, v1 used strings. Strings are still supported
       setForm(form.updateIn([GROUP_MAPPINGS, ...path], (f: Item) => updater(f).setTouched(true)));
     }
   }
 
-  // @ts-ignore
   function searchItem(item: any, searchFields: string[], query: string) {
     for (let i = 0; i < searchFields.length; i++) {
       if (containsIgnoreCase(item.get(searchFields[i]).value + '', query)) {

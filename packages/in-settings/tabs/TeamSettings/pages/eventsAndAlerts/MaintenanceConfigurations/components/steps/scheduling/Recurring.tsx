@@ -32,7 +32,7 @@ interface RecurringProps {
 
 export default function Recurring({ form, recurrentType, setForm, rrule, setFormRRule }: RecurringProps) {
   const recurrentTypeLabelName = ['yearly', 'monthly', 'weekly', 'daily'];
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   const intervalEvery = form.getIn(['window', 'recurrence', 'interval']) as Field<string>;
   return (
     <div>
@@ -48,13 +48,13 @@ export default function Recurring({ form, recurrentType, setForm, rrule, setForm
                 id="recurring-every"
                 placeholder="#"
                 onChange={v => {
-                  //@ts-ignore-next-line
+                  //@ts-expect-error-next-line
                   let updatedForm = form.updateIn(['window', 'recurrence', 'rrule'], (fieldItem: Item) =>
                     (fieldItem as Field<RRule | null>)
                       .setValue(setRRuleInterval(rrule, v.target.valueAsNumber))
                       .setTouched(true)
                   );
-                  //@ts-ignore-next-line
+                  //@ts-expect-error-next-line
                   updatedForm = updatedForm.updateIn(['window', 'recurrence', 'interval'], (fieldItem: Item) =>
                     (fieldItem as Field<string | undefined>).setValue(v.target.value).setTouched(true)
                   );

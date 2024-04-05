@@ -44,7 +44,6 @@ export function getBusinessProcessListWithDefaults({
   timeConfig,
   tagFilterExpression
 }: GetBusinessProcessListDefaultProps): Observable<Result<PaginatedResult<BusinessProcess>>> {
-  // @ts-ignore  TODO:  remove this ignore once the BusinessDataQuery type has been re-generated
   return getBusinessProcessList({
     pagination: {
       page,

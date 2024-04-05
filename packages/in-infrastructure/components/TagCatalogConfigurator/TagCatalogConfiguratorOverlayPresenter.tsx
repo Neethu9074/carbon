@@ -9,7 +9,7 @@ import React from 'react';
 
 import { TagTreeNodeUnion } from '@instana/types';
 
-// @ts-ignore-error needs to be refactored
+// @ts-expect-error-error needs to be refactored
 import DraggableItemSelector from 'in-components/DraggableItemSelector';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';

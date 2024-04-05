@@ -12,11 +12,11 @@ import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import getRawEvents from 'in-subscription/getRawEvents';
-import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

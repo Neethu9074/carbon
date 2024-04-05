@@ -10,7 +10,6 @@ import { SvgIcon, SvgIconProps } from '@instana/components';
 
 import { IconComponentProps } from 'in-components/IconButton/types';
 
-// @ts-ignore
 import locals from './IconButton.mless';
 
 interface IconProps extends IconComponentProps {}

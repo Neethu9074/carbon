@@ -38,7 +38,7 @@ export interface MaintenanceNamePreivewProps {
 export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivewProps) {
   const { form, onChange } = props;
   const [previewArrayOfDates, setPreviewArrayOfDates] = useState<StartObject[]>([]);
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   const rrule = (form.getIn(['window', 'recurrence', 'rrule']) as Field<RRule>).value;
   /* This useEffect generates the preview window. The reason this needs to be a useEffect is if the user uses the advanced mode and has all the steps viewable at once */
   useEffect(() => {

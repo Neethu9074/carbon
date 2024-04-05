@@ -39,7 +39,6 @@ function wrapWithBody(obj: object, isWrapped: boolean = false) {
   return resp;
 }
 
-// @ts-ignore
 function mockHttp() {
   const mockRes = create();
   // @ts-expect-error jest api apparently not supported by TS
@@ -72,7 +71,7 @@ describe('in-settings/tabs/UserSettings/pages/TwoFactorSettings/TwoFactorSetting
   });
 
   afterEach(() => {
-    // @ts-ignore
+    // @ts-expect-error
     http.mockClear();
   });
 
@@ -144,6 +143,5 @@ describe('in-settings/tabs/UserSettings/pages/TwoFactorSettings/TwoFactorSetting
 });
 
 function renderApiToken() {
-  // @ts-ignore
   return render(<TwoFactorSettings />);
 }

@@ -71,14 +71,14 @@ export default function Summary({ test }: SummaryProps) {
                 metric: 'status',
                 source: 'SYNTHETICS',
                 tagFilters: tagFilters,
-                // @ts-ignore
+                // @ts-expect-error
                 timeShift: timeShiftConfig.offset
               },
               companionMetricConfiguration: {
                 aggregation: 'DISTINCT_COUNT',
                 metric: 'id',
                 source: 'SYNTHETICS',
-                // @ts-ignore
+                // @ts-expect-error
                 tagFilters: tagFilters
               },
               // Need to add the companion metric config
@@ -98,7 +98,7 @@ export default function Summary({ test }: SummaryProps) {
                 metric: 'location_id',
                 source: 'SYNTHETICS',
                 tagFilters: tagFilters,
-                // @ts-ignore
+                // @ts-expect-error
                 timeShift: timeShiftConfig.offset
               },
               // Need to add the companion metric config
@@ -123,14 +123,14 @@ export default function Summary({ test }: SummaryProps) {
                 metric: 'response_time',
                 source: 'SYNTHETICS',
                 tagFilters: tagFilters,
-                // @ts-ignore
+                // @ts-expect-error
                 timeShift: timeShiftConfig.offset
               },
               companionMetricConfiguration: {
                 aggregation: 'P90',
                 metric: 'response_time',
                 source: 'SYNTHETICS',
-                // @ts-ignore
+                // @ts-expect-error
                 tagFilters: tagFilters
               },
               comparisonDecreaseColor: 'redish',
@@ -149,7 +149,7 @@ export default function Summary({ test }: SummaryProps) {
                 metric: 'response_size',
                 source: 'SYNTHETICS',
                 tagFilters: tagFilters,
-                // @ts-ignore
+                // @ts-expect-error
                 timeShift: timeShiftConfig.offset
               },
               // Need to add the companion metric config

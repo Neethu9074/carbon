@@ -73,7 +73,7 @@ export default function RawStack(props: RawStackProp) {
       wrapperClassName={locals.code}
       showLineNumbers={false}
       code={(props.data?.format === 'stack-java' ? removeBlankLines(props.data?.stack) : props.data?.stack) ?? ''}
-      // @ts-ignore Code does support Java, but the types are incomplete
+      // @ts-expect-error Code does support Java, but the types are incomplete
       lang={props.data?.format === 'stack-java' ? 'java' : 'raw'}
     />
   );

@@ -8,7 +8,6 @@ import { find } from 'lodash';
 
 import * as colors from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 
-// @ts-ignore
 import locals from './Badge.mless';
 
 export interface BadgeProps {

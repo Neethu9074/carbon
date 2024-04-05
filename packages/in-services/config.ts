@@ -25,14 +25,14 @@ export interface BuildInfo {
   tag: string;
 }
 
-// @ts-ignore
+// @ts-expect-error
 const theConfig: ClientConfig = window.instana.config;
 
 export default theConfig;
 
 export const config = theConfig;
 export const baseUrl = window.location.origin;
-// @ts-ignore
+// @ts-expect-error
 export const build: BuildInfo = window.instana.build;
 export const region = theConfig.region;
 export const instanaRegion = theConfig.instanaRegion;
