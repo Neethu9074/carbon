@@ -6,9 +6,9 @@
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.js';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable.js';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number } from 'in-services/formatters/number';
