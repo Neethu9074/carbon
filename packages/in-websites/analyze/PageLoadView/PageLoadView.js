@@ -22,6 +22,7 @@ import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeade
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
+import PageTracker from 'in-services/tracking/segment/PageTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -48,6 +49,7 @@ export default function PageLoadView(props) {
   const beaconType = props.dataSource;
   return (
     <>
+      <PageTracker parentProductArea={productAreas.websites_mobile_apps} parentPageName={pageNames.analytics} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.websites_mobile_apps,

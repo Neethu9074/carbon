@@ -164,7 +164,6 @@
     "defaultValue": "Default Value",
     "defaultValueOptional": "Default Value (optional)",
     "parameters": "Parameters",
-    "test": "Test",
     "showPasswordTooltip": "Show password",
     "hidePasswordTooltip": "Hide password",
     "showAPIKeyTooltip": "Show API key",
@@ -217,15 +216,15 @@
     "status": "Status",
     "startTime": "Start Time",
     "endTime": "End Time",
-    "eventName": "Event Name",
     "property": "Property",
     "value": "Value",
-    "actionInstanceId": "Action Instance Id",
-    "eventId": "Event Id",
+    "actionInstanceId": "Action Instance ID",
+    "event": "Event",
+    "eventName": "Event Name",
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
     "actionContent": "Action Content",
-    "hostSnapshot": "Host Snapshot",
+    "host": "Host",
     "log": "Log",
     "success": "Success",
     "failed": "Failed",
@@ -329,8 +328,8 @@
         "content_2": "{{count}} policies have been created successfully."
       },
       "failure": {
-        "title": "Failed to created policies.",
-        "content": "There was a problem creating the policies."
+        "title": "Failed to create policies.",
+        "content": "There was a problem creating the policies:{{error}}"
       }
     },
     "deleteDialog": {

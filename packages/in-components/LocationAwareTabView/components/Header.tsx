@@ -5,10 +5,10 @@
 
 import React, { ComponentType, ReactNode } from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { HorizontalIndicator } from '@instana/components';
 import { Result } from '@instana/types';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { Tab, TabHeaderProps } from 'in-components/LocationAwareTabView/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

@@ -6,13 +6,13 @@
 
 import React, { Fragment } from 'react';
 
+import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
 import DiskSummaryStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/DiskSummaryStats';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, bytes, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -36,6 +36,9 @@ export default function Summary({ timeConfig, data: sap }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title={t('in-sap:abapsensor.connectionStatus')}
+            iconAction={{
+              icon: 'lib_sap_status'
+            }}
             snapshotId={snapshotId}
             metric="sapMetricsStats.status"
             formatter={statusFormatter}
@@ -44,6 +47,9 @@ export default function Summary({ timeConfig, data: sap }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title={t('in-sap:dashboards.workProcessCount')}
+            iconAction={{
+              icon: 'lib_sap_wpCount'
+            }}
             snapshotId={snapshotId}
             metric="workloadcounts.workProcessRowCount"
             formatter={number.compact}
@@ -52,6 +58,9 @@ export default function Summary({ timeConfig, data: sap }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title={t('in-sap:dashboards.dbConnectionCount')}
+            iconAction={{
+              icon: 'lib_sap_db'
+            }}
             snapshotId={snapshotId}
             metric="sapMetricsStats.dbConnectionCount"
             formatter={number.compact}
@@ -60,6 +69,9 @@ export default function Summary({ timeConfig, data: sap }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title={t('in-sap:dashboards.totalMemory')}
+            iconAction={{
+              icon: 'lib_sap_memory'
+            }}
             snapshotId={snapshotId}
             metric="sapMetricsStats.totalMemory"
             formatter={bytes.compact}
@@ -70,8 +82,33 @@ export default function Summary({ timeConfig, data: sap }) {
         <Col lg={3}>
           <InfraMetricKpiCard
             title={t('in-sap:abapsensor.recentNoOfDumps')}
+            iconAction={{
+              icon: 'lib_sap_dumps'
+            }}
             snapshotId={snapshotId}
             metric="sapMetricsStats.numberOfDumps"
+            formatter={number.compact}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title={t('in-sap:abapsensor.inboundIdocErrors')}
+            iconAction={{
+              icon: 'lib_sap_inBound'
+            }}
+            snapshotId={snapshotId}
+            metric="sapMetricsStats.totalInboundIdocError"
+            formatter={number.compact}
+          />
+        </Col>
+        <Col lg={3}>
+          <InfraMetricKpiCard
+            title={t('in-sap:abapsensor.outboundIdocErrors')}
+            iconAction={{
+              icon: 'lib_sap_outBound'
+            }}
+            snapshotId={snapshotId}
+            metric="sapMetricsStats.totalOutboundIdocError"
             formatter={number.compact}
           />
         </Col>
@@ -213,21 +250,44 @@ export default function Summary({ timeConfig, data: sap }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title={t('in-sap:dashboards.memoryStats')}>
+        <DashboardSection title={t('in-sap:dashboards.freeMemoryStats')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              metrics: ['swapmemory.swapConf', 'swapmemory.freeSwap', 'swapmemory.swapSize', 'swapmemory.swapMax'],
-              labels: [
-                t('in-sap:dashboards.swapConf'),
-                t('in-sap:dashboards.freeSwap'),
-                t('in-sap:dashboards.swapSize'),
-                t('in-sap:dashboards.swapMax')
-              ],
+              metrics: ['swapmemory.freeMemory', 'swapmemory.physMem'],
+              labels: [t('in-sap:dashboards.freeMemory'), t('in-sap:dashboards.physMem')],
               type: 'line',
               formatter: bytes
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.swapMemoryStats')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['swapmemory.freeSwap', 'swapmemory.swapSize'],
+              labels: [t('in-sap:dashboards.freeSwap'), t('in-sap:dashboards.swapSize')],
+              type: 'line',
+              formatter: bytes
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-sap:dashboards.paging')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
+              labels: [t('in-sap:dashboards.pageIn'), t('in-sap:dashboards.pageOut')],
+              type: 'line',
+              formatter: number
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />

@@ -4,11 +4,15 @@
  */
 
 const express = require('express');
+const helmet = require('helmet');
 
 const serverConfig = require('./serverConfig.js');
 const { logger } = require('./logging');
 
 const app = express();
+
+app.disable('x-powered-by');
+app.use(helmet.hidePoweredBy());
 
 app.get('/healthcheck', (req, res) => res.json({}));
 

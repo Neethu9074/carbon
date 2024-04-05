@@ -37,12 +37,6 @@ export const tagEquals = (tag, value) => ({
   name: tag,
   value
 });
-export const kubernetesClusterTagEquals = clusterId => {
-  return tagEquals('kubernetes.cluster.name', clusterId);
-};
-export const kubernetesNamespaceTagEquals = namespaceName => {
-  return tagEquals('kubernetes.namespace.name', namespaceName);
-};
 
 export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
   const [isHovered$] = useState(create().emit(false));

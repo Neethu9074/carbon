@@ -5,9 +5,9 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/azureDatabricks/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/azureDatabricks/kpiDefinitions';
 // @ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import kpiDefinitions from 'in-forge/plugins/azureDatabricks/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({

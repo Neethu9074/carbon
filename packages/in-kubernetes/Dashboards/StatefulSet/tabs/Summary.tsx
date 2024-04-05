@@ -11,8 +11,6 @@ import { AggregationType, ResultType } from '@instana/types';
 import {
   LogsChartInteractionWrapper,
   andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -35,17 +33,16 @@ import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: statefulSet }: any) {
   const timeShift = useTimeShiftConfig();
-
   const snapshotId = statefulSet.id;
 
   const { usage, limits, requests, pending, allocated, unscheduled, unready, available, desired } = k8sChartColors;
 
-  const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
-  const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
+  const statefulSetTagId = tagEquals('id.kubernetesStatefulSet', snapshotId);
+  const statefulSetQuery = andQuery(statefulSetTagId);
+
+  const tagFilterExpression = toBackendQueryModel(statefulSetQuery);
   const tagFilterExpressionPodPhase = (phase: string) =>
-    toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag, tagEquals('kubernetes.pod.phase', phase)));
+    toBackendQueryModel(andQuery(statefulSetTagId, tagEquals('kubernetes.pod.phase', phase)));
 
   const type = plugins.kubernetesStatefulSet;
 
@@ -62,6 +59,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'SUM' as AggregationType
   };
+
   const isPodDistinctCountMetric = {
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'DISTINCT_COUNT' as AggregationType
@@ -79,6 +77,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     tagFilterExpression: tagFilterExpressionPodPhase('Running'),
     resultType: 'SINGLE_NUMBER' as ResultType
   };
+
   const defaultChartMetricConfig = {
     ...defaultConfig,
     granularity: getChartGranularity(timeConfig)
@@ -95,10 +94,10 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     comparisonDecreaseColor: blue.id,
     comparisonIncreaseColor: blue.id
   };
+
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={statefulSet.id} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={2}>
           <BigNumberKpiCard
@@ -171,7 +170,6 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
@@ -292,16 +290,11 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={statefulSetQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <KubernetesTimeShiftChartPresenter

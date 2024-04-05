@@ -302,11 +302,11 @@
           "activationRejectedMessageMultipleDatacenters": "Activation request for {{rejectedDatacentersList}} cannot be processed as they have already been activated"
         },
         "deactivateDatacenter": {
-          "title": "Location being deactivated",
-          "deactivateMessage": "We are deactivating the following location. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline. <strong>This can take up to 10 minutes.</strong>",
+          "title": "Deactivate Location",
+          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take up to 10 minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
-          "deactivatingStatus": "Deactivating",
-          "button": "Okey"
+          "activeStatus": "Active",
+          "deactivateButton": "Deactivate"
         }
       },
       "validators": {
@@ -397,8 +397,6 @@
       "success": "Success",
       "failure": "Failed",
       "popVersion": "Version",
-      "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Managed locations cannot be deleted.",
       "deleteLocationBroswerRefreshInfo": "It will take some time for the location to disappear from the list of locations and may require a browser refresh.",
       "deactivateLocation": {
         "deactivate": "Deactivate"

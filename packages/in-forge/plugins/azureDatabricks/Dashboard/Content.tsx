@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-// @ts-expect-error Module needs to be translated to TS
-import MetricValue from 'in-components/MetricValue';
 import ExecutorsTable from 'in-forge/plugins/azureDatabricks/Dashboard/ExecutorsTable';
 import ClustersTable from 'in-forge/plugins/azureDatabricks/Dashboard/ClustersTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { megaBytes, number } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+// @ts-expect-error Module needs to be translated to TS
+import MetricValue from 'in-components/MetricValue';
+import UnityCatalog from './UnityCatalog';
 import { t } from 'in-i18n';
 
 export default function AzureDatabricksDashboard({ snapshot }: { snapshot: SnapshotData }) {
@@ -34,6 +35,7 @@ export default function AzureDatabricksDashboard({ snapshot }: { snapshot: Snaps
       </KpiSection>
       <ClustersTable snapshot={snapshot} configuredLogAnalytics={configuredLogAnalytics} />
       <ExecutorsTable snapshot={snapshot} configuredLogAnalytics={configuredLogAnalytics} />
+      <UnityCatalog snapshot={snapshot} configuredLogAnalytics={configuredLogAnalytics}/>
     </div>
   );
 }

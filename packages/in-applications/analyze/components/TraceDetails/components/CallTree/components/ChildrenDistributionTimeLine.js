@@ -13,8 +13,8 @@ import { isCallNode } from 'in-applications/analyze/components/TraceDetails/comp
 import LogTooltipContent from 'in-applications/analyze/components/TraceDetails/components/LogTooltipContent';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
-import { filterOtelLogs } from 'in-components/Logging/TraceDetails/utils';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
+import { filterOtelLogs } from 'in-logging/components/TraceDetails/utils';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 

@@ -7,9 +7,8 @@
 import React, { Fragment } from 'react';
 import DOMPurify from 'dompurify';
 
+import { Spacer, Toggle } from '@instana/components';
 import { replaceHtmlChars } from '@instana/utils';
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { ansiToHtml } from 'in-forge/plugins/instanaAgent/Dashboard/ansiLoader';
@@ -133,7 +132,6 @@ class LogStreamer extends React.PureComponent<LogStreamerProps> {
   render() {
     const { logStreamTargetId, snapshot, onRender } = this.props;
     const { error, log, scrollToBottomOnChange } = this.state;
-
     return (
       <Fragment>
         {error && (
@@ -148,7 +146,11 @@ class LogStreamer extends React.PureComponent<LogStreamerProps> {
           {t('in-forge:plugins.instanaAgent.dashboard.automaticallyScrollToBottomOnLogChange')}
           <Spacer horizontal="xxsmall" />
           <Toggle
-            onChange={e => this.setState({ scrollToBottomOnChange: e.target.checked })}
+            onToggle={e => {
+              this.setState({ scrollToBottomOnChange: e });
+              event?.preventDefault();
+              event?.stopPropagation();
+            }}
             checked={scrollToBottomOnChange}
             id="set-auto-scroll"
             className={locals.toggle}

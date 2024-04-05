@@ -15,7 +15,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { kiloBytes, seconds } from 'in-services/formatters/number';
+import { kiloBytes, seconds, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -32,6 +32,16 @@ interface TopProcessStatsProps {
 }
 
 const cols = [
+  {
+    title: t('in-sap:dashboards.serialNumber'),
+    type: 'number',
+    typeArgs: {
+      getValue(row: TopProcessStatsRow) {
+        return row.topProcessStats.get('slNo');
+      },
+      getContent: number.compact
+    }
+  },
   {
     title: t('in-sap:dashboards.procId'),
     type: 'string',
@@ -164,8 +174,8 @@ export default function TopProcessList({ snapshotId, timeConfig }: TopProcessSta
       cardTitle={t('in-sap:dashboards.TopProcessList')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
-      initialSortDirection="desc"
+      initialSortColumn={0}
+      initialSortDirection="asc"
       getRowDetails={getDetails}
     />
   );

@@ -18,5 +18,3 @@ export function LogsChartInteractionWrapper({
 }: LogsChartInteractionWrapperProps): JSX.Element;
 export function tagEquals(tag: string, value: string): FormModelElement;
 export function andQuery(...queries: FormModelElement[]): FormModelElement[];
-export function kubernetesClusterTagEquals(clusterId: string): FormModelElement;
-export function kubernetesNamespaceTagEquals(namespaceName: string): FormModelElement;

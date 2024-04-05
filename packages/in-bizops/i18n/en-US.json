@@ -15,7 +15,8 @@
     "noData": "No data available",
     "healthLabel": "Health",
     "startLabel": "Started",
-    "unnamedActivity": "(Unnamed Activity) {{activityType}}"
+    "unnamedActivity": "(Unnamed Activity) {{activityType}}",
+    "unnamedService": "(Unnamed Service)"
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -27,12 +28,15 @@
       "summaryTab": "Summary",
       "activitiesTab": "Activities",
       "widgets": {
-        "topActivities": "Top Activities (Count)",
+        "topActivities": "Top Activities",
         "infrastructureIssuesAndChanges": "Infrastructure Issues & Changes",
         "viewAll": "View all activities",
         "processCount": "Count",
         "processCountTotal": "total",
-        "processErrors": "Errors"
+        "processErrors": "Errors",
+        "processLatency": "Latency",
+        "processCalls": "Calls",
+        "processErroneous" : "Erroneous Call Rate"
       }
     },
     "activity": {
@@ -41,7 +45,9 @@
       "widgets": {
         "duration": "Duration",
         "activityCount": "Count",
-        "activityErrors": "Errors"
+        "activityErrors": "Errors",
+        "topServices": "Top Services",
+        "activityLatency": "Latency"
       },
       "timespans": {
         "minute": "1 minute",

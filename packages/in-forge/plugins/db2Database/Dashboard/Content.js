@@ -37,8 +37,11 @@ import Db2Cf from 'in-forge/plugins/db2Database/Dashboard/Db2Cf';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import BackupDetailsTable from './BackupDetailsTable';
+import GrpBufferPoolTable from './GrpBufferPoolTable';
 import MetricValue from 'in-components/MetricValue';
 import HadrTakeOverInfo from './HadrTakeOverInfo';
+import PageAccessTable from './PageAccessTable';
+import PkgCacheTable from './PkgCacheTable';
 import { t } from 'in-i18n';
 
 export default function Db2Dashboard({ snapshot, timeConfig }) {
@@ -109,6 +112,9 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <Db2Cf snapshotId={snapshotId} />
       <Db2CfLockTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <Db2CfScaTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
+      <PkgCacheTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
+      <GrpBufferPoolTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
+      <PageAccessTable snapshotId={snapshotId} />
       <BackupDetailsTable snapshotId={snapshotId} />
       <HadrGenericsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />

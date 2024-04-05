@@ -37,30 +37,36 @@ export const getTriggerTypeFromEvent = (event: Event): TriggerType => {
 
 export const getTriggerIdFromEvent = (event: Event): string => event?.metadata?.eventSpecificationId;
 
-export const createBasePolicy = (event: Event, action: Action): NewPolicy => ({
-  name: `Policy_${action.name}_${action.id}`,
-  description: action.description ?? `Description for ${action.name}`,
-  tags: [],
-  trigger: {
-    type: getTriggerTypeFromEvent(event),
-    id: getTriggerIdFromEvent(event)
-  },
-  typeConfigurations: [
-    {
-      name: 'manual' as const,
-      runnable: {
-        type: 'action' as const,
-        id: action.id,
-        runConfiguration: {
-          actions: [
-            {
-              action: { id: action.id },
-              agentId: '',
-              inputParameterValues: []
-            }
-          ]
+export const createBasePolicy = (event: Event, action: Action): NewPolicy => {
+  const initialName = `Policy_${action.name}_${action.id}`;
+  // make sure name is  no longer than 127 characters
+  const name = initialName.slice(0, 127);
+
+  return {
+    name,
+    description: action.description ?? `Description for ${action.name}`,
+    tags: [],
+    trigger: {
+      type: getTriggerTypeFromEvent(event),
+      id: getTriggerIdFromEvent(event)
+    },
+    typeConfigurations: [
+      {
+        name: 'manual' as const,
+        runnable: {
+          type: 'action' as const,
+          id: action.id,
+          runConfiguration: {
+            actions: [
+              {
+                action: { id: action.id },
+                agentId: '',
+                inputParameterValues: []
+              }
+            ]
+          }
         }
       }
-    }
-  ]
-});
+    ]
+  };
+};

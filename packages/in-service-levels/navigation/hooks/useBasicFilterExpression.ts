@@ -17,7 +17,7 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { tagFilterForBoundaryScope } from 'in-analyze/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { ENDPOINT, SERVICE } from 'in-analyze/applicationFilter';
+import { ENDPOINT, SERVICE, entityTypes } from 'in-analyze/applicationFilter';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { alwaysNull } from 'in-services/fixedStreams';
 
@@ -64,11 +64,11 @@ function getLabelsTagFilter({
   }
 
   if (serviceName !== undefined) {
-    expressions.push(tagFilter(SERVICE.name, EQUALS, serviceName));
+    expressions.push(tagFilter(SERVICE.name, EQUALS, serviceName, undefined, entityTypes.DESTINATION));
   }
 
   if (endpointName !== undefined) {
-    expressions.push(tagFilter(ENDPOINT.name, EQUALS, endpointName));
+    expressions.push(tagFilter(ENDPOINT.name, EQUALS, endpointName, undefined, entityTypes.DESTINATION));
   }
 
   if (websiteName !== undefined) {
@@ -82,19 +82,19 @@ function getInternalIdTagFilter({ applicationId, endpointId, serviceId, websiteI
   const expressions = [];
 
   if (applicationId) {
-    expressions.push(tagFilter('application.id', EQUALS, applicationId, undefined, 'DESTINATION'));
+    expressions.push(tagFilter('application.id', EQUALS, applicationId, undefined, entityTypes.DESTINATION));
   }
 
   if (endpointId) {
-    expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, undefined, 'DESTINATION'));
+    expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, undefined, entityTypes.DESTINATION));
   }
 
   if (serviceId) {
-    expressions.push(tagFilter('service.id', EQUALS, serviceId, undefined, 'DESTINATION'));
+    expressions.push(tagFilter('service.id', EQUALS, serviceId, undefined, entityTypes.DESTINATION));
   }
 
   if (websiteId) {
-    expressions.push(tagFilter('beacon.website.id', EQUALS, websiteId, undefined, 'NOT_APPLICABLE'));
+    expressions.push(tagFilter('beacon.website.id', EQUALS, websiteId, undefined, entityTypes.NOT_APPLICABLE));
   }
 
   return expressions;

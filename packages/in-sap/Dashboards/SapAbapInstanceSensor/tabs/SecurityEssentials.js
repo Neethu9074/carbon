@@ -7,10 +7,10 @@
 import React, { Fragment } from 'react';
 
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
+import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import UserList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserList';
-import RFCCalls from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserInfo';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
@@ -46,7 +46,7 @@ export default function SecurityEssentials({ timeConfig, data: sap }) {
         />
       </DashboardSection>
       <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
-      <RFCCalls snapshotId={snapshotId} />
+      <RFCCallsMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <HttpMetricsStats snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );

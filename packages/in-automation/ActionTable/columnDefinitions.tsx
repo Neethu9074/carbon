@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Typography, Link } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
-import { Typography } from '@instana/components';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -15,6 +15,7 @@ import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWr
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getType, isExternal } from 'in-automation/ActionCatalog/shared';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { viewTurboActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/api';
 import { t } from 'in-i18n';
@@ -22,16 +23,23 @@ import { t } from 'in-i18n';
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   id: 'name',
   label: t('in-automation:name'),
+  ellipsis: true,
   getContent(action) {
     const description = action.description ?? action.name;
     const name = isExternal(action.type) ? description : action.name;
     return (
       <Tooltip content={name} align="topLeft" delay={500}>
-        <WithSubscript subscript={getType(action.type)}>
-          <Typography noWrap variant="body-regular">
-            {name}
-          </Typography>
-        </WithSubscript>
+        {isExternal(action.type) ? (
+          <Link ellipsis href={action.name} external onClick={() => handleTurboTracking(name)}>
+            <span>{name}</span>
+          </Link>
+        ) : (
+          <WithSubscript subscript={getType(action.type)}>
+            <Typography noWrap variant="body-regular">
+              {name}
+            </Typography>
+          </WithSubscript>
+        )}
       </Tooltip>
     );
   },
@@ -94,4 +102,12 @@ export const lastModifiedColumn: ColumnDefinition<Action> = {
   getContent(action) {
     return <Typography variant="body-regular">{formatDateTime(+action.modifiedAt * 1000)}</Typography>;
   }
+};
+
+export const handleTurboTracking = (name: string) => {
+  viewTurboActionTracker({
+    actionName: name,
+    actionType: 'Turbonomic',
+    page: 'Recommended actions'
+  });
 };

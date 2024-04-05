@@ -13,6 +13,7 @@ import { TimeConfig } from '@instana/types';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error Module needs to be translated to TS
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
+import { formatDateTime } from 'in-services/formatters/date';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { millis } from 'in-services/formatters/number';
@@ -56,7 +57,8 @@ const cols = [
     typeArgs: {
       getValue(row: ExpensiveStatementStatsRow) {
         return row.expensiveStatementStats.get('startDateAndTime');
-      }
+      },
+      getContent: formatDateTime
     }
   },
   {

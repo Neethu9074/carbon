@@ -47,19 +47,18 @@ import {
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { createActionFormDefinition } from 'in-automation/ActionCatalog/ActionFormDefinition';
 import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
-import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-automation/tracker';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { actionCatalogFullyQualified } from 'in-automation/navigation/paths';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
-import TestActionButton from 'in-automation/ActionCatalog/TestActionButton';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import useNavigateToActionCatalog from './useNavigateToActionCatalog';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ActionForm from 'in-automation/ActionCatalog/ActionForm';
 import SectionLine from 'in-settings/components/SectionLine';
+import useEntityForm from 'in-settings/hooks/useEntityForm';
 import { Tag } from 'in-automation/ActionCatalog/TagsTable';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
@@ -145,7 +144,7 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
     content = (
       <div className={locals.actionBody}>
         <SettingsDetailPage>
-          <ActionFormHeader isNew={isNew} form={form} setForm={setForm} entity={entity} id={id} />
+          <ActionFormHeader isNew={isNew} entity={entity} />
           <SectionLine />
 
           {message ? (
@@ -180,12 +179,9 @@ function ActionDetails({ id, isNew, isCreate, isCopy }: ActionDetailsProps) {
 
 interface ActionFormHeaderProps {
   isNew: boolean;
-  form: MapForm<any> | null;
   entity: ActionFormEntity | null;
-  setForm: SetFormFunction;
-  id: string | null;
 }
-const ActionFormHeader = ({ isNew, form, entity, setForm, id }: ActionFormHeaderProps) => {
+const ActionFormHeader = ({ isNew, entity }: ActionFormHeaderProps) => {
   return (
     <HorizontalFlexWrapper className={locals.spaceBetween}>
       <SubViewHeader>
@@ -195,16 +191,6 @@ const ActionFormHeader = ({ isNew, form, entity, setForm, id }: ActionFormHeader
       </SubViewHeader>
       {!isNew && (
         <HorizontalFlexWrapper>
-          {form && id !== null && role?.canRunAutomationActions && (
-            <TestActionButton
-              form={form}
-              setForm={setForm}
-              action={{
-                ...getActionSpecification(form, entity),
-                id: id // add id to send Action id to run action
-              }}
-            />
-          )}
           {entity && isAction(entity) && role?.canConfigureAutomationActions && <CopyActionLink action={entity} />}
         </HorizontalFlexWrapper>
       )}

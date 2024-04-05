@@ -7,7 +7,7 @@
 import React from 'react';
 
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
-import LogMessagesTab from 'in-components/Logging/Dashboards/components/LogMessages';
+import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import Infrastructure from 'in-applications/Dashboards/commonTabs/Infrastructure';
 import Summary from 'in-applications/Dashboards/endpoint/tabs/Summary';
 import FlowMap from 'in-applications/Dashboards/endpoint/tabs/FlowMap';

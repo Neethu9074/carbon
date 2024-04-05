@@ -896,6 +896,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmiActiveJobsInfo_plural": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo_0": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo_1": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo_2": "Active Jobs Information on IBM i",
+  "pluginName_ibmiActiveJobsInfo": "Active Jobs Information on IBM i",
   "pluginName_ibmiDiskInfo_plural": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_0": "Disk Information on IBM i",
   "pluginName_ibmiDiskInfo_1": "Disk Information on IBM i",
@@ -5596,6 +5601,7 @@
       "infoLocation": "Location",
       "infoSubscriptionID": "Subscription ID",
       "infoType": "Type",
+      "infoMetastore": "Metastore",
       "labelClusterName": "Cluster Name",
       "labelClusterId": "Cluster Id",
       "labelSparkVersion": "Spark Version",
@@ -5619,7 +5625,38 @@
       "labelTotalJobCount": "Jobs Running",
       "labelTotalMemoryMb": "Memory",
       "titleClusters": "Clusters",
-      "titleExecutors": "Executors"
+      "titleClustersCount": "Clusters ({{count}})",
+      "titleExecutors": "Executors",
+      "titleExecutorsCount": "Executors ({{count}})",
+      "titleUnityCatalog": "Unity Catalog",
+      "labelTotalCatalogs": "Catalogs",
+      "labelTotalSchemas": "Schemas",
+      "labelTotalTables": "Tables",
+      "labelTotalViews": "Views",
+      "labelTotalVolumes": "Volumes",
+      "labelTotalMLModels": "ML Models",
+      "labelTotalFunctions": "Functions",
+      "titleTablesByType": "Tables Created by Type",
+      "labelTableType": "Table Type",
+      "titleVolumesByType": "Volumes Created by Type",
+      "labelVolumeType": "Volume Type",
+      "titleSummary": "Summary",
+      "titleCatalogs": "Catalogs",
+      "titleCatalogsCount": "Catalogs ({{count}})",
+      "labelCatalogName": "Catalog Name",
+      "labelCatalogKind": "Kind",
+      "labelCatalogNameKind": "Catalog Name/Kind",
+      "titlePopAssets": "Top 10 Popular Assets in Last 24 Hours",
+      "titlePopAssetsCount": "Top 10 Popular Assets in Last 24 Hours ({{count}})",
+      "labelAssetName": "Asset Name",
+      "labelAssetType": "Type",
+      "labelAssetNameType": "Asset Name/Type",
+      "labelNumberOfAccess": "Number of Access",
+      "titleUnAuthOps": "Top 10 Unauthorized Operations in Last 24 Hours",
+      "titleUnAuthOpsCount": "Top 10 Unauthorized Operations in Last 24 Hours ({{count}})",
+      "labelOpName": "Action Name",
+      "labelOpError": "Error Message",
+      "labelOpNameError": "Action Name/ErrorMessage"
     },
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
@@ -6655,7 +6692,7 @@
         "backupDetails": "Recent Backup Details",
         "db2MemberDetails": "Member Details",
         "db2cfDetails": "CF Details",
-        "purescaleGeneralDetails": "Purescale General",
+        "purescaleGeneralDetails": "pureScale General",
         "purescaleMem": "Member ID",
         "purescaleMemAlert": "Member Node Alert",
         "purescaleCFAlert": "CF Node Alert",
@@ -6666,8 +6703,17 @@
         "currentCfScaSize": "Current CF SCA Size",
         "configuredCfScaSize": "Configured CF SCA Size",
         "targetedCfScaSize": "Targeted CF SCA Size",
-        "purescaleLockTable": "Purescale Lock Memory Table",
-        "purescaleScaTable": "Purescale SCA Memory Table"
+        "purescaleLockTable": "pureScale Lock Memory Table",
+        "purescaleScaTable": "pureScale SCA Memory Table",
+        "pureScalePkgCacheTable": "pureScale Package Cache Table",
+        "pureScaleGrpTable": "pureScale Group Buffer Pool Table",
+        "pageAccessDetails": "pureScale Page Access Table",
+        "numExcecutionPkg": "Number Of Excecutions",
+        "reclaimWaitTimePkg": "Reclaim Waiting Time",
+        "avgExcecutionTimePkg": "Average Excecution Time",
+        "currentCfGbpSize": "Current CF GBP Size",
+        "configuredCfGbpSize": "Configured CF GBP Size",
+        "targetedCfGbpSize": "Targeted CF GBP Size"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -6919,7 +6965,21 @@
       "scaHostName": "Host Name",
       "currentCfScaSize": "Current CF SCA Size",
       "configuredCfScaSize": "Configured CF SCA Size",
-      "targetedCfScaSize": "Targeted CF SCA Size"
+      "targetedCfScaSize": "Targeted CF SCA Size",
+      "pkgHostId": "Host ID",
+      "numExcecutionPkg": "Number Of Excecutions",
+      "reclaimWaitTimePkg": "Reclaim Waiting Time",
+      "avgExcecutionTimePkg": "Average Excecution Time",
+      "grpHostId": "Host ID",
+      "grpHostName": "Host Name",
+      "currentCfGbpSize": "Current CF GBP Size",
+      "configuredCfGbpSize": "Configured CF GBP Size",
+      "targetedCfGbpSize": "Targeted CF GBP Size",
+      "paMemberId": "Member ID",
+      "paTabschema": "Schema",
+      "paTabname": "Table Name",
+      "paReclaimWaitTime": "Reclaim Wait Time",
+      "paObjtType": "Type"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -8476,6 +8536,7 @@
         "connections":"Connections",
         "runningCount":"Running Connection Count",
         "idleCount":"Idle Connection Count",
+        "queueingCount":"Queueing Connection Count",
         "garbageCollectionStats": "Garbage Collection Statistics",
         "host":"Host",
         "port":"Port",
@@ -8488,10 +8549,15 @@
         "queueLoads":"Queue Loads",
         "expensiveStatementStats":"Expensive Statements",
         "dbUser":"DB User",
-        "startDateAndTime":"Start Time and Date",
+        "startDateAndTime":"Start Date and Time",
         "executionTime":"Statement Execution Time",
         "errorMessage":"Could not extract the query from DB",
-        "details" : "Details"
+        "details" : "Details",
+        "userName" :"User Name",
+        "schemaName":"Schema Name",
+        "executionCount":"Execution Count",
+        "avgExecutionTime":"Average Execution Time",
+        "sqlPlanCacheStats" :"Sql Plan Cache Statistics"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -10408,8 +10474,34 @@
         }
       }
     },
+    "ibmiActiveJobsInfo": {
+      "name": "Active Jobs Information on IBM i",
+      "dashboard":{
+        "tables":{
+          "activeJobs": {
+            "name": "Top Active Jobs",
+            "jobName": "Job Name",
+            "jobStatus": "Job Status",
+            "jobType": "Job Type",
+            "userName": "User Name",
+            "charts": {
+              "elapsedCPU": "Elapsed CPU Percentage",
+              "temporaryStorage": "Temporary Storage",
+              "threadCount": "Thread Count"
+            }
+          }
+        }
+      },
+      "sidebar": {
+        "ibmiActiveJobsInfo": "IBM i Info",
+        "hostName": "Host Name"
+      }
+    },
     "ibmiDiskInfo": {
       "name": "Disk Information on IBM i",
+      "sidebar": {
+        "hostName": "Host Name"
+      },
       "dashboard":{
         "tables":{
           "spinningDiskType": {
@@ -10472,6 +10564,9 @@
     },
     "ibmiNetworkInfo": {
       "name": "Network Information in IBM i",
+      "sidebar": {
+        "hostName": "Host Name"
+      },
       "dashboard":{
         "tables":{
           "netstatInterfaces": {
@@ -10624,18 +10719,6 @@
             "userName": "User",
             "userSpoolSpace": "Spool Space"
           },
-          "activeJobs": {
-            "name": "Top Active Jobs",
-            "jobName": "Job Name",
-            "jobStatus": "Job Status",
-            "jobType": "Job Type",
-            "userName": "User Name",
-            "charts": {
-              "elapsedCPU": "Elapsed CPU Percentage",
-              "temporaryStorage": "Temporary Storage",
-              "threadCount": "Thread Count"
-            }
-          },
           "jobQueue": {
             "name": "Job Queue",
             "jobQueueName": "Job Queue Name",
@@ -10681,6 +10764,7 @@
       },
       "name": "IBM i",
       "memoryPool": "Memory Pool",
+      "activeJobsInfo": "Active Jobs Information",
       "diskInfo": "Disk Information",
       "networkInfo": "Network Information",
       "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
@@ -14681,6 +14765,8 @@
       "pageOut": "Paging Out",
       "swapConf": "Swap Configuration",
       "freeSwap": "Free Swap Memory",
+      "freeMemory": "Free Memory",
+      "physMem": "Physical Memory",
       "swapSize": "Swap Size",
       "swapMax": "Swap Max",
       "status": "Status",
@@ -14720,7 +14806,27 @@
       "dataSend": "Data Send",
       "dataReceived": "Data Received",
       "callMetrics": "Call Metrics",
-      "pageFrequency": "Page Frequency"
+      "pageFrequency": "Page Frequency",
+      "capacity": "Capacity",
+      "free": "Free",
+      "usedPercentage": "Used percentage",
+      "fileSystemMetrics": "File System metrics",
+      "allocSize": "Allocation Size",
+      "availSize": "Available Size",
+      "bufferStats": "Buffer Statistics",
+      "hitRatio": "Hit Ratio",
+      "dbQuality": "DB Quality",
+      "insert": "Insert",
+      "update": "Update",
+      "delete": "Delete",
+      "request": "Request",
+      "hit": "Success Request",
+      "dbTime": "Database Time",
+      "calls": "Calls",
+      "dbConnection": "DB Connection",
+      "sentData": "Send Data",
+      "receivedData": "Received Data",
+      "rfcStats": "RFC Calls"
     },
     "syntheticPoP": {
       "redisTLSNotEnabledIssueDescription": "Synthetic PoP Redis TLS is not enabled, it is recommended that Synthetic PoP Redis TLS should be enabled in production environment. Please check TLS configuration in Synthetic PoP deployment and set in agent configuration.",

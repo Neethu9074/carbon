@@ -12,7 +12,8 @@ import {
   nameColumn,
   aiEngineColumn,
   scoreColumn,
-  descriptionColumn
+  descriptionColumn,
+  handleTurboTracking
 } from 'in-automation/ActionTable/columnDefinitions';
 import useServerTableUrlState, {
   ServerTableUrlState
@@ -188,6 +189,7 @@ export default function RecommendedActions({
       onChange={setServerTableUrlState}
       onRowClick={action => {
         if (isExternal(action.type)) {
+          handleTurboTracking(action.name);
           window.open(action.name, '_blank')?.focus();
         } else {
           navigateToActionDetails(action);

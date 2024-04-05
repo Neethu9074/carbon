@@ -126,14 +126,8 @@ export default [
   },
   {
     formatter: number,
-    metrics: ['stats.runningCount', 'stats.idleCount'],
-    labels: [t('in-forge:plugins.sapHana.dashboard.runningCount'), t('in-forge:plugins.sapHana.dashboard.idleCount')],
-    min: 0
-  },
-  {
-    formatter: number,
-    metrics: ['stats.runningCount', 'stats.idleCount'],
-    labels: [t('in-forge:plugins.sapHana.dashboard.runningCount'), t('in-forge:plugins.sapHana.dashboard.idleCount')],
+    metrics: ['stats.runningCount', 'stats.idleCount','stats.queueingCount'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.runningCount'), t('in-forge:plugins.sapHana.dashboard.idleCount'),t('in-forge:plugins.sapHana.dashboard.queueingCount')],
     min: 0
   },
   {
@@ -181,6 +175,32 @@ export default [
     ],
     labels: [t('in-forge:plugins.sapHana.dashboard.executionTime')],
     category: [t('in-forge:plugins.sapHana.dashboard.executionTime')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'sqlPlanCacheStats',
+        'avgExecutionTime',
+        t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'sqlPlanCacheStats',
+        'executionCount',
+        t('in-forge:plugins.sapHana.dashboard.executionCount')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
     min: 0,
     formatter: millis.detailed
   }

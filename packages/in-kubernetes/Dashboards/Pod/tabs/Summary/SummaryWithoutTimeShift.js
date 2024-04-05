@@ -12,9 +12,7 @@ import { Card } from '@instana/components';
 import {
   LogsChartInteractionWrapper,
   tagEquals,
-  andQuery,
-  kubernetesClusterTagEquals,
-  kubernetesNamespaceTagEquals
+  andQuery
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
@@ -44,16 +42,12 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
 
   const kpiWidth = 2;
 
-  const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
-  const podTag = tagEquals('kubernetes.pod.name', pod.label);
-
+  const podTagId = tagEquals('id.kubernetesPod', snapshotId);
   const viewAllHref = usePodDashboard(snapshotId, { tab: '/conditions' });
 
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={pod.id} timeConfig={timeConfig} />
-
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
@@ -90,7 +84,6 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
           raw
         />
       </KpiGridRow>
-
       {message && (
         <Row>
           <Col lg={12}>
@@ -103,7 +96,6 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
           </Col>
         </Row>
       )}
-
       <Row>
         <Col lg={kpiWidth}>
           <KpiCard
@@ -164,7 +156,6 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={6}>
           <Card title={t('in-kubernetes:dashboards.cpuResources')}>
@@ -209,16 +200,11 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, podTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(podTagId)} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <Card title={t('in-kubernetes:dashboards.containerStatus')} useMaxAvailableHeight>
@@ -226,7 +212,6 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
           </Card>
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={pod.conditions} viewAllHref={viewAllHref} />

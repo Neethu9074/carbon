@@ -8,12 +8,12 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
-import ActivityMetricKpiCard from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityMetricKpiCard';
-import ActivityErrorsChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityErrorsChart';
+import ActivityLatencyChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityLatencyChart';
 import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
+import ActivityMetricKpiCard from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityMetricKpiCard';
+import ActivityErrorsChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityErrorsChart';
 import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -38,6 +38,8 @@ export default function Summary() {
     t('in-bizops:dashboards.summary.pageTitle');
   const businessActivityName: string =
     getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
+  const businessActivityId: string =
+    getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
 
   // TODO: remove this if and just return once golden signals is complete
   if (bizopsGoldenSignalsEnabled) {
@@ -73,7 +75,7 @@ export default function Summary() {
             />
           </Col>
           <Col lg>
-            <TopServices />
+            <TopServices businessActivityId={businessActivityId} />
           </Col>
         </Row>
         <Row>
@@ -89,7 +91,7 @@ export default function Summary() {
         </Row>
         <Row>
           <Col lg>
-            <BizOpsLatencyChart />
+            <ActivityLatencyChart processId={businessProcessId} activityName={businessActivityName} />
           </Col>
           <Col lg>
             <DurationAndDistribution />

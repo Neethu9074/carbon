@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { number, bytes, millis, seconds, kiloBytes } from 'in-services/formatters/number';
+import { number, bytes, millis, seconds, kiloBytes, percentagePlain } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -138,8 +138,14 @@ export default [
   },
 
   {
-    metrics: ['swapmemory.swapConf'],
-    labels: [t('in-forge:plugins.sapAbapInstanceSensor.swapConf')],
+    metrics: ['swapmemory.freeMemory'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.freeMemory')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['swapmemory.physMem'],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.physMem')],
     min: 0,
     formatter: number
   },
@@ -152,12 +158,6 @@ export default [
   {
     metrics: ['swapmemory.swapSize'],
     labels: [t('in-forge:plugins.sapAbapInstanceSensor.swapSize')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metrics: ['swapmemory.swapMax'],
-    labels: [t('in-forge:plugins.sapAbapInstanceSensor.swapMax')],
     min: 0,
     formatter: number
   },
@@ -417,12 +417,12 @@ export default [
     metrics: [
       getDynamicMetricMatch('databaseStats', 'dbRequestTime', t('in-sap:dashboards.dbRequestTime')),
       getDynamicMetricMatch('databaseStats', 'totalDbRequests', t('in-sap:dashboards.totalDbRequests')),
-      getDynamicMetricMatch('databaseStats', 'totalDbCalls', t('in-sap:dashboards.totalDbCalls'))
+      getDynamicMetricMatch('databaseStats', 'totalDbCalls', t('in-sap:dashboards.dbCalls'))
     ],
     labels: [
       t('in-sap:dashboards.dbRequestTime'),
       t('in-sap:dashboards.totalDbRequests'),
-      t('in-sap:dashboards.totalDbCalls')
+      t('in-sap:dashboards.dbCalls')
     ],
     category: [t('in-sap:dashboards.databaseStats')],
     min: 0,
@@ -618,6 +618,116 @@ export default [
       t('in-forge:plugins.sapAbapInstanceSensor.dataReceived')
     ],
     category: [t('in-forge:plugins.sapAbapInstanceSensor.pageFrequency')],
+    min: 0,
+    formatter: bytes.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('fileSystemStats', 'CAPACITY', t('in-forge:plugins.sapAbapInstanceSensor.capacity')),
+      getDynamicMetricMatch('fileSystemStats', 'FREE', t('in-forge:plugins.sapAbapInstanceSensor.free'))
+    ],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.capacity'), t('in-forge:plugins.sapAbapInstanceSensor.free')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.fileSystemMetrics')],
+    min: 0,
+    formatter: bytes.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'fileSystemStats',
+        'USED_PERCENTAGE',
+        t('in-forge:plugins.sapAbapInstanceSensor.usedPercentage')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.usedPercentage')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.fileSystemMetrics')],
+    min: 0,
+    formatter: percentagePlain.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('bufferMetrics', 'allocSize', t('in-forge:plugins.sapAbapInstanceSensor.allocSize')),
+      getDynamicMetricMatch('bufferMetrics', 'availSize', t('in-forge:plugins.sapAbapInstanceSensor.availSize'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.allocSize'),
+      t('in-forge:plugins.sapAbapInstanceSensor.availSize')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.bufferStats')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('bufferMetrics', 'hitRatio', t('in-forge:plugins.sapAbapInstanceSensor.hitRatio')),
+      getDynamicMetricMatch('bufferMetrics', 'dbQuality', t('in-forge:plugins.sapAbapInstanceSensor.dbQuality'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.hitRatio'),
+      t('in-forge:plugins.sapAbapInstanceSensor.dbQuality')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.bufferStats')],
+    min: 0,
+    formatter: number.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('bufferMetrics', 'insert', t('in-forge:plugins.sapAbapInstanceSensor.insert')),
+      getDynamicMetricMatch('bufferMetrics', 'update', t('in-forge:plugins.sapAbapInstanceSensor.update')),
+      getDynamicMetricMatch('bufferMetrics', 'delete', t('in-forge:plugins.sapAbapInstanceSensor.delete')),
+      getDynamicMetricMatch('bufferMetrics', 'request', t('in-forge:plugins.sapAbapInstanceSensor.request')),
+      getDynamicMetricMatch('bufferMetrics', 'hit', t('in-forge:plugins.sapAbapInstanceSensor.hit'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.insert'),
+      t('in-forge:plugins.sapAbapInstanceSensor.update'),
+      t('in-forge:plugins.sapAbapInstanceSensor.delete'),
+      t('in-forge:plugins.sapAbapInstanceSensor.request'),
+      t('in-forge:plugins.sapAbapInstanceSensor.hit')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.bufferStats')],
+    min: 0,
+    formatter: number.detailed
+  },
+  {
+    metrics: [getDynamicMetricMatch('dbConnectionList', 'dbTime', t('in-forge:plugins.sapAbapInstanceSensor.dbTime'))],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.dbTime')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.dbConnection')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('dbConnectionList', 'totalCalls', t('in-forge:plugins.sapAbapInstanceSensor.calls'))
+    ],
+    labels: [t('in-forge:plugins.sapAbapInstanceSensor.calls')],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.dbConnection')],
+    min: 0,
+    formatter: number.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('rfcCalls', 'call_Time', t('in-forge:plugins.sapAbapInstanceSensor.callTime')),
+      getDynamicMetricMatch('rfcCalls', 'execution_Time', t('in-forge:plugins.sapAbapInstanceSensor.executionTime'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.callTime'),
+      t('in-forge:plugins.sapAbapInstanceSensor.executionTime')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.rfcStats')],
+    min: 0,
+    formatter: bytes.compact
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('rfcCalls', 'sendData', t('in-forge:plugins.sapAbapInstanceSensor.sentData')),
+      getDynamicMetricMatch('rfcCalls', 'receiveData', t('in-forge:plugins.sapAbapInstanceSensor.receivedData'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapAbapInstanceSensor.sentData'),
+      t('in-forge:plugins.sapAbapInstanceSensor.receivedData')
+    ],
+    category: [t('in-forge:plugins.sapAbapInstanceSensor.rfcStats')],
     min: 0,
     formatter: bytes.compact
   }

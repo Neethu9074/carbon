@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useMemo, useRef, useState } from 'react';
 import { MapForm, Field, Item } from 'formalistic';
 import { isEmpty, escapeRegExp } from 'lodash';
-import React, { useMemo, useRef } from 'react';
 
 //@ts-expect-error
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
@@ -56,10 +56,11 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
   const backendQueryModel = EMPTY_EXPRESSION;
   const catalogQuery = useDebouncedValue('', noop, 800);
   const initialRegex = useRef('');
+  const [selectedType, onSelectType] = useState();
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
-    type: undefined,
+    type: selectedType,
     query: metric && !metricPath ? metric : catalogQuery.debouncedValue
   });
 
@@ -196,6 +197,7 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         SelectorOverlay={MetricSelectionCategoryOverlay}
         type={entityTypeField?.value}
         onTypeChange={onTypeChange}
+        onSelectType={onSelectType}
       />
       <TouchedMessages field={metricField} />
       <ValidationMessages form={form} category={regexValidationError} />

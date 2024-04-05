@@ -12,7 +12,7 @@ import { applyLayout } from 'in-applications/analyze/components/TraceDetails/com
 import CallTimeAxis from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis/CallTimeAxis';
 import CallTooltipContent from 'in-applications/analyze/components/TraceDetails/components/CallTooltipContent';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
 

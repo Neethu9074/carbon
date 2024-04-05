@@ -145,9 +145,9 @@ function getDetails(row) {
             'db2cfsca.' + row.key + '.targetedCfScaSize'
           ],
           labels: [
-            t('in-forge:plugins.db2Database.currentCfLockSize'),
-            t('in-forge:plugins.db2Database.configuredCfLockSize'),
-            t('in-forge:plugins.db2Database.targetedCfLockSize')
+            t('in-forge:plugins.db2Database.currentCfScaSize'),
+            t('in-forge:plugins.db2Database.configuredCfScaSize'),
+            t('in-forge:plugins.db2Database.targetedCfScaSize')
           ],
           type: 'line'
         }}

@@ -105,7 +105,9 @@ function TagLabel({ tagCatalog, tag }: { readonly tagCatalog: EnrichedTagCatalog
   const path = tag && tagCatalog.tagsByName[tag]?.path;
   const label = LabelFromPath(path);
   return label ? (
-    <>{label}</>
+    <Tooltip delay={500} content={label} align="rightMiddle">
+      <span>{label}</span>
+    </Tooltip>
   ) : (
     <Tooltip
       delay={500}

@@ -71,11 +71,7 @@ export default function User({ beacon, beacons }) {
           <span className={locals.firstText}>{first}</span>{' '}
           {firstBeaconIsMissingUserData && (
             <Tooltip content={t('in-mobile-apps:beaconUserSum.userTooltipContent')}>
-              <Link
-                href="https://ibm.biz/ios-identify-users"
-                className={locals.firstBeaconIsMissingUserDataLink}
-                external
-              >
+              <Link href={redirectToDoc()} className={locals.firstBeaconIsMissingUserDataLink} external>
                 <SvgIcon type="lib_help_error_warning" className={locals.firstBeaconIsMissingUserData} size="s" />
               </Link>
             </Tooltip>

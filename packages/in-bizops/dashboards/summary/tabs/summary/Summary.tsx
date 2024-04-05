@@ -8,10 +8,10 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import ProcessMetricKpiCard from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessMetricsKpiCard';
+import ProcessLatencyChart from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessLatencyChart';
 import ProcessErrorsChart from 'in-bizops/dashboards/summary/tabs/summary/components/ProcessErrorsChart';
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import BizOpsLatencyChart from 'in-bizops/components/BizOpsLatencyChart';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
@@ -83,7 +83,10 @@ export default function Summary() {
         </Row>
         <Row>
           <Col lg>
-            <BizOpsLatencyChart />
+            <ProcessLatencyChart businessProcessId={businessProcessId} />
+          </Col>
+          <Col lg>
+            <></>
           </Col>
         </Row>
       </Fragment>

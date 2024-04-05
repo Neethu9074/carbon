@@ -10,8 +10,8 @@ import * as mobileApp from 'in-custom-dashboards/widgets/_shared/MetricConfigura
 import * as website from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website';
 import * as logging from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import * as event from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
+import { logWidgetsEnabled, syntheticCustomDashboardEnabled } from 'in-services/featureFlags';
 import * as sli from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
-import { syntheticCustomDashboardEnabled } from 'in-services/featureFlags';
 
 let all = {
   [infrastructure.metrics.source]: infrastructure.metrics,
@@ -19,11 +19,14 @@ let all = {
   [mobileApp.source]: mobileApp,
   [website.source]: website,
   [event.source]: event,
-  [sli.source]: sli,
-  [logging.source]: logging
+  [sli.source]: sli
 };
 if (syntheticCustomDashboardEnabled) {
   all = { ...all, [syntheticMonitoring.source]: syntheticMonitoring };
+}
+
+if (logWidgetsEnabled) {
+  all = { ...all, [logging.source]: logging };
 }
 
 export default all;

@@ -15,8 +15,8 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { bytes, millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -51,6 +51,33 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.tCode'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DatabaseHitListRow) {
+        return row.dataStats.get('tCode');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.terminalID'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DatabaseHitListRow) {
+        return row.dataStats.get('terminalId');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.taskType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DatabaseHitListRow) {
+        return row.dataStats.get('taskType');
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.report'),
     type: 'string',
     typeArgs: {
@@ -60,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.totalDbCalls'),
+    title: t('in-sap:dashboards.dbCalls'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: DatabaseHitListRow) {
@@ -76,11 +103,18 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.endDate'),
-    type: 'string',
+    title: t('in-sap:dashboards.bytesRequested'),
+    type: 'metric',
     typeArgs: {
-      getValue(row: DatabaseHitListRow) {
-        return row.dataStats.get('endDate');
+      getSnapshotId(row: DatabaseHitListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DatabaseHitListRow) {
+        return `databaseStats.${row.key}.bytesRequested`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -109,24 +143,44 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
     return (
       <div>
         <Columize>
-          <DashboardSection title={t('in-sap:dashboards.databaseStats')}>
+          <DashboardSection>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [
-                  `databaseStats.${row.key}.dbRequestTime`,
-                  `databaseStats.${row.key}.totalDbRequests`,
-                  `databaseStats.${row.key}.totalDbCalls`
-                ],
-                labels: [
-                  t('in-sap:dashboards.dbRequestTime'),
-                  t('in-sap:dashboards.totalDbRequests'),
-                  t('in-sap:dashboards.totalDbCalls')
-                ],
+                metrics: [`databaseStats.${row.key}.totalDbRequests`, `databaseStats.${row.key}.totalDbCalls`],
+                labels: [t('in-sap:dashboards.totalDbRequests'), t('in-sap:dashboards.dbCalls')],
                 type: 'line',
                 formatter: number.detailed
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [`databaseStats.${row.key}.dbRequestTime`],
+                labels: [t('in-sap:dashboards.dbRequestTime')],
+                type: 'line',
+                formatter: millis.compact
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [`databaseStats.${row.key}.bytesRequested`],
+                labels: [t('in-sap:dashboards.bytesRequested')],
+                type: 'line',
+                formatter: bytes.detailed
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -141,7 +195,7 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
       cardTitle={t('in-sap:dashboards.databaseHitList')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
+      initialSortColumn={0}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

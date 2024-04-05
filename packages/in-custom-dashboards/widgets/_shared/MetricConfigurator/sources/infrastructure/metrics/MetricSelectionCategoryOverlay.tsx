@@ -31,6 +31,7 @@ export interface Props {
   backendQueryModel: TagFilterExpression;
   type: string;
   onTypeChange: (t: string) => void;
+  onSelectType: (t: string) => void;
   close?: () => void;
   disabled: boolean;
 }
@@ -63,6 +64,7 @@ export default function MetricSelectionCategoryOverlay({
   backendQueryModel,
   type,
   onTypeChange,
+  onSelectType,
   close,
   disabled
 }: Props) {
@@ -73,6 +75,7 @@ export default function MetricSelectionCategoryOverlay({
       onChange={onMetricChange}
       query={query}
       onQueryChange={onQueryChange}
+      onSelectType={onSelectType}
       close={close}
       disabled={disabled}
     />

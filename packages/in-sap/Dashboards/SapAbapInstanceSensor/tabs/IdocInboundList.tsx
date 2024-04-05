@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
 
@@ -13,6 +14,7 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -98,7 +100,11 @@ const cols = [
 export default function IdocInboundMetrics({ snapshotId, timeConfig }: IdocInBoundDetailsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'inboundDetails'), [snapshotId]);
   if (!data) {
-    return null;
+    return (
+      <DashboardNotification type="info">
+        {t('in-sap:dashboards.noDataFound')}: {t('in-sap:dashboards.inBoundIdoc')}
+      </DashboardNotification>
+    );
   }
   const inBoundList = (data as SnapshotData).get('raw_payload', []);
   const rows: IdocInBoundDetailsProps[] = inBoundList
@@ -133,7 +139,13 @@ export default function IdocInboundMetrics({ snapshotId, timeConfig }: IdocInBou
               t('in-sap:dashboards.error')
             ],
             type: 'line',
-            formatter: number.compact
+            formatter: number.compact,
+            // @ts-expect-error Module needs to be translated to TS
+            colors: [
+              themes.default.ids.color.option.green['800'],
+              themes.default.ids.color.option.blue['500'],
+              themes.default.ids.color.option.red['700']
+            ]
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

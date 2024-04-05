@@ -25,6 +25,9 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
         {data.get('subscription')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.azureDatabricks.infoType')}>{data.get('type')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.azureDatabricks.infoMetastore')}>
+        {data.get('unityCatalog.metastore')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

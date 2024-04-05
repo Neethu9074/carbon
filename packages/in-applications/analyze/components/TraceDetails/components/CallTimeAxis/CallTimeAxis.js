@@ -9,7 +9,7 @@ import { themes } from '@instana/design-tokens';
 
 import CallStartLabel from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis/CallStartLabel';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
-import { useLogsInCallsContext } from 'in-components/Logging/TraceDetails/LogsInCallsContext';
+import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';

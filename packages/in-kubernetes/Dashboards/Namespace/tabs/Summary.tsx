@@ -9,17 +9,16 @@ import React from 'react';
 import { AggregationType, KubernetesNamespace, ResultType, TimeConfig } from '@instana/types';
 
 import {
-  kubernetesClusterTagEquals,
-  LogsChartInteractionWrapper,
-  andQuery,
-  kubernetesNamespaceTagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-import {
   resourceQuotaPercentage,
   resourceQuotaNumber,
   resourceQuotaBytes,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
@@ -57,9 +56,9 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
 
-  const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
-  const nsTag = kubernetesNamespaceTagEquals(namespace.label);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag));
+  const namespaceTagId = tagEquals('id.kubernetesNamespace', snapshotId);
+  const namespaceQuery = andQuery(namespaceTagId);
+  const tagFilterExpression = toBackendQueryModel(namespaceQuery);
   const type = plugins.kubernetesNamespace;
 
   const defaultConfig = {
@@ -112,7 +111,6 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={namespace.id} timeConfig={timeConfig} />
-
       <KpiGridRow sizes={[6, 6]}>
         <KpiCard title={t('in-kubernetes:dashboards.status')} value={namespace.status} raw borderless />
         <KpiCard
@@ -123,7 +121,6 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
           borderless
         />
       </KpiGridRow>
-
       <Row>
         <Col lg={2}>
           <MultiMetricBigNumberKpiCard
@@ -246,7 +243,6 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
           />
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
@@ -376,13 +372,11 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(clusterTag, nsTag)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={namespaceQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row verticallyStretchColumns>
         <Col lg={6}>
           <TopDeploymentsList

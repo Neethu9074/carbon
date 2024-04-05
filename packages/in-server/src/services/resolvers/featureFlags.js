@@ -181,6 +181,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'logWidgetsEnabled',
+    instanaCtlKey: 'feature.log.widgets.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -323,7 +328,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsRbacEnabled',
     instanaCtlKey: 'feature.bizops.rbac.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -398,11 +403,6 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticUpdateDeployPoPEnabled',
     instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticDeactivateDatacentersEnabled',
-    instanaCtlKey: 'feature.synthetic.deactivate.datacenters.enabled',
     defaultValue: false
   },
   {
@@ -488,7 +488,7 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationContributionFilterEnabled',
     instanaCtlKey: 'feature.application.contribution.filter.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'multiGroupTimeSeriesEnabled',
