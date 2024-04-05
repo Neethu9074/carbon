@@ -160,7 +160,8 @@ export default function InfraAlertChartWrapper({
           crossSeriesAggregation,
           granularity,
           threshold,
-          timeThreshold
+          timeThreshold,
+          entityType
         );
 
         return (
@@ -203,7 +204,8 @@ function getAlertsPreviewQuery(
   crossSeriesAggregation: AggregationType,
   granularity: Granularity,
   threshold: ThresholdData,
-  timeThreshold: InfraTimeThreshold
+  timeThreshold: InfraTimeThreshold,
+  entityType: string
 ) {
   if (shouldRequestAlertsPreview(threshold)) {
     return {
@@ -218,7 +220,8 @@ function getAlertsPreviewQuery(
         granularity,
         tagFilterExpression: enrichedTagFilterExpression,
         timeConfig,
-        regex: false
+        regex: false,
+        type: entityType
       }
     } as GetInfraMetricAlertsPreviewQuery;
   }
