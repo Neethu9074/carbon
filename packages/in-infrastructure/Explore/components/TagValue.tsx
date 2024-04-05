@@ -14,7 +14,7 @@ export default function TagValue({ value }: { value: string | undefined }) {
   if (!value) {
     return null;
   }
-  const displayedValue = value.replace('tag_not_present_group', '');
+  const displayedValue = value.replace('tag_not_present_group', '-');
   const valueSpan = (
     <span className={locals.value}>
       <bdi>{displayedValue}</bdi>
