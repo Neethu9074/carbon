@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
-
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { phmcListFullyQualified, systemListFullyQualified } from 'in-phmc/navigation/paths';

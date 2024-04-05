@@ -6,13 +6,12 @@
 
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
-
 import {
   sapSystemListFullyQualified,
   sapInstanceListFullyQualified,
   sapDbInstanceListFullyQualified
 } from 'in-sap/navigation/paths';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
