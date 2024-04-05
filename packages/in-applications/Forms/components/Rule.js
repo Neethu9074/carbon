@@ -72,7 +72,7 @@ const Rule = forwardRef(function Rule(
           {onToggleEnable && (
             <>
               <Spacer horizontal="xxsmall" />
-              <Toggle defaultToggled={enabled} disabled={isUnspecified} onToggle={onToggleEnable} />
+              <Toggle defaultToggled={enabled} disabled={isUnspecified} onToggle={onToggleEnable} checked={enabled} />
               <Spacer horizontal="xxsmall" />
             </>
           )}
