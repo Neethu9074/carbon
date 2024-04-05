@@ -23,7 +23,7 @@ import {
   alertId as alertIdMatrixParam,
   alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { SyntheticProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { getResolvedTimeConfig } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
@@ -33,9 +33,9 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSm
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
-import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { getLocationData } from 'in-synthetics/dashboards/global/LocationList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
@@ -255,7 +255,6 @@ export default connectTo(() => ({
             <SparkChart
               loading={result?.progress?.loading}
               rollup={getChartGranularity(timeConfig)}
-              //@ts-ignore
               timeConfig={getResolvedTimeConfig(timeConfig, result?.time)}
               aggregation="MEAN"
               metrics={item?.metrics.avg_response_time}

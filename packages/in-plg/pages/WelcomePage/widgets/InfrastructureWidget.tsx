@@ -11,22 +11,22 @@ import { Link, Stack, Typography } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import { InfraProps, SyntheticInfraColumn } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import search from 'in-subscription/search';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import { getLabel } from 'in-sdk/snapshot';
-import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-//@ts-ignore doesn't contain type file
+//@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';

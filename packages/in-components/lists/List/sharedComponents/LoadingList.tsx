@@ -9,7 +9,6 @@ import React from 'react';
 import { ListSizes, LoadingSkeleton } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
-// @ts-ignore
 import locals from './LoadingList.mless';
 
 interface LoadingListProps {

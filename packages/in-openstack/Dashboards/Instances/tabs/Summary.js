@@ -80,7 +80,7 @@ export default function Summary({ timeConfig, data: instance }) {
           </Card>
         </Col>
       </Row>
-      <Row></Row>
+      <Row />
       <DiskDetails snapshotId={instance.id} timeConfig={timeConfig} />
       <InstanceUsage snapshotId={instance.id} timeConfig={timeConfig} />
       <CpuDetails snapshotId={instance.id} timeConfig={timeConfig} />

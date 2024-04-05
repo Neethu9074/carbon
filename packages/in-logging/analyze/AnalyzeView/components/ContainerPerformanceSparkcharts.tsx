@@ -8,9 +8,9 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-// @ts-ignore
+// @ts-expect-error
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-// @ts-ignore
+// @ts-expect-error
 import MetricValue from 'in-components/MetricValue';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

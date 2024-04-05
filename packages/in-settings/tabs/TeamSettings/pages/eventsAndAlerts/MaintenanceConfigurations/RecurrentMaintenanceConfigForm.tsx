@@ -332,7 +332,7 @@ function validateStep(
       // So this try catch is necessary because getIn will throw an error if the path doesn't exist
       // The intended behaviour is to skip checking the field if it does not exist as this might happen such as checking the scope
       try {
-        //@ts-ignore-next-line
+        //@ts-expect-error-next-line
         const field = form.getIn(fieldPath);
         if (!field.touched) {
           validationResult = true;
@@ -347,7 +347,7 @@ function validateStep(
 
       checkValid.forEach(fieldPath => {
         try {
-          //@ts-ignore-next-line
+          //@ts-expect-error-next-line
           const field = form.getIn(fieldPath);
           if (!field.valid) {
             validationResult = true;
@@ -359,12 +359,12 @@ function validateStep(
       });
     }
     // RRULE Validation
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     const rrule = (form.getIn(['window', 'recurrence', 'rrule']) as Field<RRule | Nullish>).value;
     if (currentStep === 0 && rrule) {
-      //@ts-ignore-next-line
+      //@ts-expect-error-next-line
       const interval = form.getIn(['window', 'recurrence', 'interval']) as Field<string | number>;
-      //@ts-ignore-next-line
+      //@ts-expect-error-next-line
       const repeatType = (form.getIn(['window', 'recurrence', 'repeatType']) as Field<string>).value;
       const freq = rrule.options.freq;
 
@@ -400,7 +400,7 @@ function save(
     rruleWithoutInvalidRules.options.byhour = [];
     rruleWithoutInvalidRules.options.byminute = [];
     rruleWithoutInvalidRules.options.bysecond = [];
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     rruleWithoutInvalidRules.options.wkst = null;
   }
   let scheduling;
@@ -493,28 +493,28 @@ function onChangeApplyOn(form: MapForm<any>, applyOn: string): MapForm<any> | Nu
   } else if (applyOn === 'application') {
     updatedForm = updatedForm.remove('query');
     updatedForm = updatedForm.remove('tagFilterExpression');
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     updatedForm = putApplicationIdFields(updatedForm, []);
   } else if (applyOn === 'synthetic') {
     updatedForm = updatedForm.remove('query');
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     updatedForm = putTagFilterExpressionFields(updatedForm, true);
   } else {
     updatedForm = updatedForm.remove('applicationIds');
     updatedForm = updatedForm.remove('tagFilterExpression');
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     updatedForm = putQueryFields(updatedForm, '');
   }
 
   // Update any booleans
 
   if (applyOn !== 'synthetic') {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     updatedForm = updatedForm.updateIn(['tagFilterExpressionEnabled'], (field: Item) =>
       (field as Field<boolean>).setValue(false)
     );
   } else {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     updatedForm = updatedForm.updateIn(['tagFilterExpressionEnabled'], (field: Item) =>
       (field as Field<boolean>).setValue(true)
     );
@@ -568,20 +568,20 @@ function createForm(config: MaintenanceConfigV2, isCreate: boolean): MapForm<any
     );
 
   if (applyOn === 'dfq') {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     form = putQueryFields(form, query);
   }
 
   if (applyOn === 'application') {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     form = putApplicationIdFields(form, applicationIds);
   }
 
   if (applyOn === 'synthetic') {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     form = putTagFilterExpressionFields(form, true, config.tagFilterExpression);
   } else {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     form = putTagFilterExpressionFields(form, false);
   }
 
@@ -641,7 +641,7 @@ function putTagFilterExpressionFields(
     })
   );
   if (tagFilterExpressionEnabled) {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     updatedForm = updatedForm.put(
       'tagFilterExpression',
       createField({

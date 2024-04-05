@@ -44,13 +44,13 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
   const { form, setForm, entity } = props;
   // I expect the Typescript police to get me for using any but in this case the setValue property can be any value used in the form
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     setForm(form.updateIn(path, item => (item as Field<any>).setValue(value).setTouched(true)));
   };
   const setFormRRule = (form: MapForm<any>, newRRule: RRule | Nullish) => {
     setValue(form, ['window', 'recurrence', 'rrule'], newRRule);
   };
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   const rrule = (form.getIn(['window', 'recurrence', 'rrule']) as Field<RRule>).value;
   const windowForm = form.get('window') as MapForm<any>;
   const dateStartField = (windowForm.getIn(['start', 'date']) as Field<String>).value;
@@ -58,7 +58,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
   const duration = (windowForm.get('duration') as Field<Duration>).value;
 
   const TimezoneMessage = () => {
-    //@ts-ignore
+    //@ts-expect-error
     const timezoneIdFromEntity = entity.scheduling?.timezoneId;
 
     const currentTimezoneId = getSingle('formatTimestampsAsUtc')
@@ -126,7 +126,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
       formattedUTCDate.getTime() !== rrule.options.dtstart.getTime()
     ) {
       setForm(
-        //@ts-ignore-next-line
+        //@ts-expect-error-next-line
         form.updateIn(['window', 'recurrence', 'rrule'], item =>
           (item as Field<any>).setValue(setRRuleDtstart(rrule, formattedUTCDate)).setTouched(true)
         )
@@ -233,27 +233,27 @@ const resetFieldsUponFrequencySwitch = (
 ) => {
   // Resest interval
   let updatedForm = form.updateIn(
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     ['window', 'recurrence', 'interval'],
     (fieldItem: Item) => (fieldItem as Field<string>).setValue(newFreq !== RRule.YEARLY ? '' : '1').setTouched(false) // In the case of a yearly recurrence we need to set the interval to one so the MW recurs every year
   );
   // Reset Duration
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   updatedForm = updatedForm.updateIn(['window', 'duration'], (field: Item) =>
     (field as Field<Duration>).setValue({ amount: 0, unit: 'HOURS' }).setTouched(false)
   );
   // Reset Start Time
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   updatedForm = updatedForm.updateIn(['window', 'start', 'time'], field =>
     (field as Field<string>).setValue('').setTouched(false)
   );
   // Reset Start Date
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   updatedForm = updatedForm.updateIn(['window', 'start', 'date'], field =>
     (field as Field<string>).setValue('').setTouched(false)
   );
   // Reset RRule
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   updatedForm = updatedForm.updateIn(['window', 'recurrence', 'rrule'], field =>
     (field as Field<RRule | Nullish>).setValue(
       newFreq !== null && newFreq !== undefined ? createRRuleFreq(newFreq) : null

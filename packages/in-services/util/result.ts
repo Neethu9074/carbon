@@ -18,7 +18,7 @@ export function mapData<IN, OUT>(result: Result<IN>, fn: (data: IN) => OUT): Res
     });
   }
 
-  // @ts-ignore Data is null and therefore this is type compatible.
+  // @ts-expect-error Data is null and therefore this is type compatible.
   return result as Result<OUT>;
 }
 

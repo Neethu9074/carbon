@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 
 import {
@@ -15,7 +16,6 @@ import {
   deleteApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import http from 'in-services/http';
-import { generateUniqueShortId } from '@instana/utils';
 
 jest.mock('in-services/http');
 
@@ -49,7 +49,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api', () =
   });
 
   afterEach(() => {
-    // @ts-ignore
+    // @ts-expect-error
     http.mockClear();
   });
 

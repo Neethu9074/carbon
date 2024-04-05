@@ -22,7 +22,7 @@ jest.mock('in-settings/tabs/UserSettings/api/personalApiToken');
 describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken', () => {
   beforeEach(() => {
     jest.resetModules();
-    // @ts-ignore
+    // @ts-expect-error
     savePersonalApiToken.mockClear();
   });
 
@@ -33,7 +33,6 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiT
     userId: generateUniqueShortId()
   });
 
-  // @ts-ignore
   const mockSave = (name: string, ok: boolean = true) => {
     const res = create();
     let emitted: PersonalApiToken | null;

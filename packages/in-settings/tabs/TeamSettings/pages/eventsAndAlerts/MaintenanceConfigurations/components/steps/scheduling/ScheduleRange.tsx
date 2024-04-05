@@ -38,13 +38,13 @@ interface ScheduleRangeProps {
 
 export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: ScheduleRangeProps) {
   const [repeatType, setRepeatType] = useState(
-    //@ts-ignore-next-line
+    //@ts-expect-error-next-line
     (form.getIn(['window', 'recurrence', 'repeatType']) as Field<String>).value
   );
 
   const [endDateStr, setEndDateStr] = useState(rrule.options.until ? formatDate(rrule.options.until) : '');
   const untilValue = rrule.options.count || undefined;
-  //@ts-ignore-next-line
+  //@ts-expect-error-next-line
   const dateField = form.getIn(['window', 'start', 'date']) as Field<string | Nullish>;
 
   return (
@@ -58,7 +58,7 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
           <ErrorBoundary name="dateInput-schedule-RMW">
             <DateInput
               // placeholder not an official input prop so we're gonna ignore
-              // @ts-ignore
+              // @ts-expect-error
               placeholder="YYYY-MM-DD"
               value={dateField?.value}
               onChange={v => setValue(form, ['window', 'start', 'date'], v)}
@@ -95,7 +95,7 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
               checked={repeatType === 'forever'}
               onChange={() => {
                 const updatedForm = form.updateIn(
-                  //@ts-ignore-next-line
+                  //@ts-expect-error-next-line
                   ['window', 'recurrence', 'repeatType'],
                   (fieldItem: Item) => (fieldItem as Field<string>).setValue('forever').setTouched(true) // In the case of a yearly recurrence we need to set the interval to one so the MW recurs every year
                 );
@@ -113,7 +113,7 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
             </HorizontalFlexWrapper>
             <ErrorBoundary name="dateInput-schedule-RMW">
               <DateInput
-                //@ts-ignore
+                //@ts-expect-error
                 placeholder="YYYY-MM-DD"
                 onChange={v => {
                   if (v) {

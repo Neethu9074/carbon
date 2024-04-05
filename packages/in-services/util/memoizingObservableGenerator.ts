@@ -16,10 +16,10 @@ export default function memoize<ARG, RESULT>(
 ): ObservableCreator<ARG, RESULT> {
   const cache = new Map();
 
-  const memoizedObservableCreator: ObservableCreator<ARG, RESULT> = function() {
+  const memoizedObservableCreator: ObservableCreator<ARG, RESULT> = function () {
     // We don't want to call the function any other way, because we
     // do not want to incur a performance penalty because of static types.
-    // @ts-ignore
+    // @ts-expect-error
     const id = idGenerator.apply(this, arguments);
     if (cache.has(id)) {
       return cache.get(id);
@@ -39,7 +39,7 @@ export default function memoize<ARG, RESULT>(
 
     // We don't want to call the function any other way, because we
     // do not want to incur a performance penalty because of static types.
-    // @ts-ignore
+    // @ts-expect-error
     const observable = createObservable.apply(this, arguments).delayedStop(delayedStopTti, () => cache.delete(id));
     cache.set(id, observable);
     return observable;

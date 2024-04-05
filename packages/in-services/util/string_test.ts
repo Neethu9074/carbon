@@ -8,7 +8,6 @@ import { isBlank, getAThroughZRepresentation } from 'in-services/util/string';
 describe('in-services/util/string', () => {
   describe('isBlank', () => {
     it('must declare null as blank', () => {
-      // @ts-ignore
       expect(isBlank(null)).toEqual(true);
     });
 

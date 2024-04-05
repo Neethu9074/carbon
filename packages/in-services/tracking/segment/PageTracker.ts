@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-//@ts-ignore
 import { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';

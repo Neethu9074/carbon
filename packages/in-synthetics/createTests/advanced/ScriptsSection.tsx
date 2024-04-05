@@ -107,11 +107,11 @@ export default function ScriptsSection({
         )
       );
     } else {
-      //@ts-ignore-next-line
+      //@ts-expect-error-next-line
       let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );
-      //@ts-ignore-next-line
+      //@ts-expect-error-next-line
       updatedForm = updatedForm.updateIn(['configuration', 'scripts', 'scriptFile'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );

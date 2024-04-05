@@ -46,7 +46,7 @@ describe('in-stores/store', () => {
       const store = createStore({ name });
 
       // Retaining the test case for JavaScript users
-      // @ts-ignore
+      // @ts-expect-error
       expect(store.observable.emit).toEqual(undefined);
     });
 

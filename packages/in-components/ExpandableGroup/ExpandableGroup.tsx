@@ -10,7 +10,6 @@ import { SvgIcon } from '@instana/components';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-// @ts-ignore
 import locals from './ExpandableGroup.mless';
 
 interface ExpandableGroupProps {

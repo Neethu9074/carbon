@@ -30,10 +30,9 @@ import {
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-//@ts-ignore
-import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { getInfrastructurePermissions } from 'in-stores/permission';
+import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import FormGroup from 'in-settings/components/FormGroup';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';

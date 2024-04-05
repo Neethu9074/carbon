@@ -37,7 +37,7 @@ export const WithExtraLongNameAndMaxWidth = {
     }
   },
   decorators: [
-    // @ts-ignore
+    // @ts-expect-error
     story => <div style={{ width: 300, display: 'flex', flexDirection: 'column' }}>{story()}</div>
   ]
 };

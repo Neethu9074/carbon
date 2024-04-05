@@ -90,7 +90,6 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
           type: 'TAG_FILTER'
         }
       ],
-      // @ts-ignore
       timeShift: timeShiftConfig,
       resultType: 'SINGLE_NUMBER',
       timeConfig: timeConfig
