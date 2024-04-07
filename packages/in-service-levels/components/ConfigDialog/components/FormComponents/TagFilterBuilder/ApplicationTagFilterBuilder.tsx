@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button, Stack, Typography } from '@instana/components';
+import { Button, Stack, StackItem, Typography } from '@instana/components';
 
 import ApplicationTagFilterBuilderContent from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilderContent';
 import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
@@ -34,11 +34,11 @@ export default function ApplicationTagFilterBuilder({
       <Typography variant="heading-200">{t('in-service-levels:createSloDialog.custom')}</Typography>
       <Typography variant="body-regular">{t('in-service-levels:createSloDialog.customDescription')}</Typography>
       {!isScopeSelected ? (
-        <div>
+        <StackItem>
           <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
             {t('in-components:queryBuilder.components.filterButtonAddFilter')}
           </Button>
-        </div>
+        </StackItem>
       ) : (
         <ApplicationTagFilterBuilderContent
           form={form}

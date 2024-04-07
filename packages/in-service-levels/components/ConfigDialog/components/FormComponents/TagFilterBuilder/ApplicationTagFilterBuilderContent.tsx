@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { StackItem, Typography } from '@instana/components';
 import { TagFilter } from '@instana/types';
 import { Button } from '@instana/legacy';
 
@@ -41,7 +41,7 @@ export default function ApplicationTagFilterBuilderContent({
   const shouldRenderClearButton = tagFilterExpressionField.value.length !== 0 && !readOnly;
 
   return (
-    <div>
+    <StackItem>
       {shouldRenderExplanationText ? (
         <Typography variant="body-regular">
           {t('in-service-levels:components.tagFilterBuilder.filterAbscenseExplanation')}
@@ -69,6 +69,6 @@ export default function ApplicationTagFilterBuilderContent({
           {t('in-service-levels:general.clear')}
         </Button>
       )}
-    </div>
+    </StackItem>
   );
 }

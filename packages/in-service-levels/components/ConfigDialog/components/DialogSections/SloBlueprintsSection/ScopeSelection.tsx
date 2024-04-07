@@ -30,13 +30,13 @@ export default function ScopeSelection() {
   const scopeSelection = isCustomTag ? 'custom' : 'serviceEndpoint';
   const [scope, setScope] = useState(scopeSelection);
   const isFormInEditMode = mode === 'EDIT';
-  const hasServiceEndpoint = Boolean(isFormInEditMode && isCustomTag && (service.value || endpoint.value));
+  const hasServiceEndpoint = (isFormInEditMode && isCustomTag && Boolean(service.value)) || Boolean(endpoint.value);
 
   return (
     <TabSelect
       onChange={scope => {
         setScope(scope);
-        if (scope != 'custom' && isCustomTag) {
+        if (scope !== 'custom' && isCustomTag) {
           onChange(['scope', 'tagFilterExpression'], () => tagFilterExpressionField.setValue([]).setTouched(true));
         } else if (scope === 'custom') {
           const newForm = form
