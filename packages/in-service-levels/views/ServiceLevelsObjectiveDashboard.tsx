@@ -37,6 +37,10 @@ interface UrlState {
   sloId: string;
 }
 
+interface ResultWithIdentifier<I> extends Result<I> {
+  subscriptionIdentifier: string;
+}
+
 export default function ServiceLevelsObjectiveDashboard() {
   const location = useLocation();
   const [{ sloId }] = useUrlState<UrlState>({
@@ -71,6 +75,13 @@ export default function ServiceLevelsObjectiveDashboard() {
   );
 }
 
+const ResultIdentifier = Object.freeze({
+  CONFIG: 'CONFIG',
+  ENTITY: 'ENTITY',
+  SERVICE: 'SERVICE',
+  ENDPOINT: 'ENDPOINT'
+} as const);
+
 function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTabData>> {
   return getSloConfiguration(sloId)
     .flatMap((result): Observable<Result<unknown>[]> => {
@@ -79,15 +90,18 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
       }
 
       const { entity } = result.data!;
-      const observables = [just(result), loadEntity(entity)];
+      const observables = [
+        createResultWithIdentifier(just(result), ResultIdentifier.CONFIG),
+        createResultWithIdentifier(loadEntity(entity), ResultIdentifier.ENTITY)
+      ];
 
       if (isApplicationSloEntity(entity)) {
         const { serviceId, endpointId } = entity;
         if (serviceId) {
-          observables.push(getServiceLabel({ id: serviceId }));
+          observables.push(createResultWithIdentifier(getServiceLabel({ id: serviceId }), ResultIdentifier.SERVICE));
         }
         if (endpointId) {
-          observables.push(getEndpointInfo({ id: endpointId }));
+          observables.push(createResultWithIdentifier(getEndpointInfo({ id: endpointId }), ResultIdentifier.ENDPOINT));
         }
       }
 
@@ -96,21 +110,26 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
     .map((results): Result<SloTabData | ApplicationSloTabData> => {
       if (isLoading(...results)) return pendingResult as Result<SloTabData>;
 
+      const entityResult = getResultByIdentifier(results, ResultIdentifier.ENTITY);
+      const serviceResult = getResultByIdentifier(results, ResultIdentifier.SERVICE);
+      const endpointResult = getResultByIdentifier(results, ResultIdentifier.ENDPOINT);
+
       // If an entity, service or endpoint got deleted we get a NOT_FOUND error for labels from the backend and the status will be rejected.
       // However, the NOT_FOUND error is an expected error that can happen and we should display the SLO details anyway.
-      const entityErrors = (results[1]?.errors ?? ([] as Error[])).filter(({ code }) => code !== 'NOT_FOUND');
-      const serviceErrors = (results[2]?.errors ?? ([] as Error[])).filter(({ code }) => code !== 'NOT_FOUND');
-      const endpointErrors = (results[3]?.errors ?? ([] as Error[])).filter(({ code }) => code !== 'NOT_FOUND');
+      const entityErrors = (entityResult?.errors ?? ([] as Error[])).filter(({ code }) => code !== 'NOT_FOUND');
+      const serviceErrors = (serviceResult?.errors ?? ([] as Error[])).filter(({ code }) => code !== 'NOT_FOUND');
+      const endpointErrors = (endpointResult?.errors ?? ([] as Error[])).filter(({ code }) => code !== 'NOT_FOUND');
 
       // We need to cast here, because the types for combineLatest don't handle non uniform observables very well.
       // And we don't have a better way to combine such non uniform observables with better typing
       const configuration = results[0].data as ServiceLevelObjectiveConfiguration;
-      const entity: LabeledEntity = (results[1]?.data as LabeledEntity) ?? {
+      const entity: LabeledEntity = (entityResult?.data as LabeledEntity) ?? {
         label: t('in-service-levels:general.entityTypes.label', { context: 'unknown' }),
         deleted: true
       };
-      const service: LabeledEntity = (results[2]?.data as LabeledEntity) ?? undefined;
-      const endpoint: LabeledEntity = (results[3]?.data as LabeledEntity) ?? undefined;
+
+      const service: LabeledEntity = (serviceResult?.data as LabeledEntity) ?? undefined;
+      const endpoint: LabeledEntity = (endpointResult?.data as LabeledEntity) ?? undefined;
 
       return {
         progress: all(...results.map(r => r.progress)),
@@ -121,12 +140,41 @@ function getData(sloId: string): Observable<Result<SloTabData | ApplicationSloTa
           endpoint
         },
 
-        errors: results.flatMap((r, index) => {
-          if (index === 1) return entityErrors;
-          if (index === 2) return serviceErrors;
-          if (index === 3) return endpointErrors;
+        errors: results.flatMap(r => {
+          if (isResultFor(r, ResultIdentifier.ENTITY)) return entityErrors;
+          if (isResultFor(r, ResultIdentifier.SERVICE)) return serviceErrors;
+          if (isResultFor(r, ResultIdentifier.ENDPOINT)) return endpointErrors;
           return r.errors;
         })
       };
     });
+}
+
+function createResultWithIdentifier<I>(
+  subscription: Observable<Result<I>>,
+  subscriptionIdentifier: string
+): Observable<ResultWithIdentifier<I>> {
+  return subscription.map(result => ({ ...result, subscriptionIdentifier }));
+}
+
+function isResultWithIdentifier<I>(result: Result<I>): result is ResultWithIdentifier<I> {
+  return 'subscriptionIdentifier' in result;
+}
+
+function isResultFor<I>(
+  result: ResultWithIdentifier<any> | Result<any>,
+  subscriptionIdentifier: ResultWithIdentifier<I>['subscriptionIdentifier']
+): boolean {
+  return isResultWithIdentifier(result) && result.subscriptionIdentifier === subscriptionIdentifier;
+}
+
+function getResultByIdentifier<I>(
+  results: ResultWithIdentifier<any>[] | Result<any>[],
+  subscriptionIdentifier: ResultWithIdentifier<I>['subscriptionIdentifier']
+): ResultWithIdentifier<I> | undefined {
+  const result = results.find(result => isResultFor(result, subscriptionIdentifier));
+
+  if (result && isResultWithIdentifier(result)) return result;
+
+  return undefined;
 }

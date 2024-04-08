@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Stack, Typography, KeyValue } from '@instana/components';
 import { Button } from '@instana/legacy';
@@ -33,23 +33,17 @@ export default function Unix({
   fromOnboarding
 }: OnboardingProps) {
   const [agentMode, setAgentMode] = useState(agentModeOptions[0].key);
-
-  const [platformArch, setPlatformArch] = useState(getPlatformArchitectures(agentMode)[0]);
+  const getPlatformArchitectureValue = getPlatformArchitectures(agentMode);
+  const [selectedPlatform, setSelectedPlatform] = useState(getPlatformArchitectureValue[0].label);
+  const [platformArch, setPlatformArch] = useState(getPlatformArchitectureValue[0]);
 
   function getPlatformArch() {
     return (
       <Stack direction="horizontal" align="end" gap="disabled">
         <DropDown
-          value={platformArch.label}
-          options={getPlatformArchitectures(agentMode).map(option => option.label)}
-          onChange={selectedValue => {
-            const selectedPlatform = getPlatformArchitectures(agentMode).find(
-              platform => platform.label === selectedValue
-            );
-            if (selectedPlatform) {
-              setPlatformArch(selectedPlatform);
-            }
-          }}
+          value={selectedPlatform}
+          options={getPlatformArchitectureValue.map(option => option.label)}
+          onChange={setSelectedPlatform}
         />
         <Button
           href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, platformArch.key, butlerDomain)}
@@ -83,6 +77,14 @@ export default function Unix({
       </Stack>
     );
   }
+
+  useEffect(() => {
+    const platformSelected = getPlatformArchitectureValue.find(platform => platform.label === selectedPlatform);
+    if (platformSelected) {
+      setPlatformArch(platformSelected);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [agentMode, selectedPlatform]);
 
   return (
     <Container>
