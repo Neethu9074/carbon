@@ -10,7 +10,7 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
-import { LOG_LEVEL, getValueMatchTagFilter, DOCKER_ID } from 'in-logging/queryBuilder';
+import { LOG_LEVEL, getValueMatchTagFilter, DOCKER_ID, CONTAINERD_ID } from 'in-logging/queryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -34,13 +34,20 @@ interface ValueProps {
   snapshot: Map<string, any>;
 }
 
+const PLUGIN_IDS: Record<string, string> = {
+  docker: DOCKER_ID,
+  containerd: CONTAINERD_ID
+} as const;
+
 export default function LogsKpiCard(props: LogsKpiCardProps) {
   const { timeConfig, hasLogs, snapshot } = props;
 
+  const snapshotId = snapshot.get('data')?.get('Id') || snapshot.get('data')?.get('id');
+
   const tagFilterExpression: FormModelElement[] = [
     getValueMatchTagFilter({
-      name: DOCKER_ID,
-      value: snapshot.get('data')?.get('Id')
+      name: PLUGIN_IDS[snapshot.get('plugin')],
+      value: snapshotId
     }),
     {
       type: 'CONJUNCTION',
@@ -110,9 +117,11 @@ function ValueLoading() {
 function Value({ timeConfig, snapshot }: ValueProps) {
   const title = t('in-forge:plugins.docker.dashboard.logs');
 
+  const snapshotId = snapshot.get('data')?.get('Id') || snapshot.get('data')?.get('id');
+
   const getLogsTagFilterExpression = getValueMatchTagFilter({
-    name: DOCKER_ID,
-    value: snapshot.get('data')?.get('Id')
+    name: PLUGIN_IDS[snapshot.get('plugin')],
+    value: snapshotId
   });
 
   const logGroupsResult =
@@ -130,11 +139,7 @@ function Value({ timeConfig, snapshot }: ValueProps) {
     ) || pendingResult;
 
   if (isLoading(logGroupsResult)) {
-    return (
-      <KpiKeyValue label={title}>
-        <SvgIcon color={themes.default.ids.color.option.blue['400']} spinning type="lib_actions_loading" />
-      </KpiKeyValue>
-    );
+    return <SvgIcon color={themes.default.ids.color.option.blue['400']} spinning type="lib_actions_loading" />;
   }
   if (hasError(logGroupsResult)) {
     return <KpiKeyValue label={title}>{valueMissingPlaceholder}</KpiKeyValue>;
