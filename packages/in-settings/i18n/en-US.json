@@ -67,7 +67,7 @@
     "allApplications": "All applications",
     "allWebsites": "All websites",
     "allMobileApps": "All mobile apps",
-    "businessMonitoringAccessAllMessage":"All business processes",
+    "businessMonitoringAccessAllMessage": "All business processes",
     "kubernetes": "Kubernetes",
     "allSynthetics": "All Synthetic tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
@@ -1165,7 +1165,11 @@
     "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP).",
     "revokeInvitationForUserWithEmail": "Revoke the invitation to join the {{tenant}} tenant for {{email}}",
     "invitationValidUntil": "Invitation valid until",
-    "invitedBy": "Invited by"
+    "invitedBy": "Invited by",
+    "accessAll": "Access all",
+    "access": "Access",
+    "accessForTenantUnit": "Access for {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Number of members"
   },
   "languageSelection": {
     "language": "Language",
