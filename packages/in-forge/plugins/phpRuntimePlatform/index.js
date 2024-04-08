@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/phpRuntimePlatform/agentMonitoringIssueDefinitions';
 import kpiDefinitions from 'in-forge/plugins/phpRuntimePlatform/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -12,6 +13,7 @@ registerSnapshotDefinition({
   plugin: plugins.phpRuntimePlatform,
 
   kpiDefinitions,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.phpRuntimePlatform.php')
   }
