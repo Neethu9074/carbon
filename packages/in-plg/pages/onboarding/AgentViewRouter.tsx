@@ -45,7 +45,7 @@ export default function AgentViewRouter({
     return [
       {
         icon: 'lib_infrastructure',
-        title: t('in-plg:agentDetails.common.agentCatalog'),
+        title: t('in-plg:agentDetails.common.agentDeployment'),
         href: `#/agents${fromOnboarding ? '/onboarding' : ''}/installation`
       },
       {
