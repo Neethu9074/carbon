@@ -9,19 +9,40 @@ import React from 'react';
 import { SvgIconSizes } from '@instana/components';
 
 import useHrefToSloDashboard from 'in-service-levels/navigation/hooks/useHrefToSloDashboard';
+import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import ScopePath, { ScopeEntryType } from 'in-alerting/components/ScopePath';
-import { TimeConfig } from 'in-types';
+import { useLinkToWebsite } from 'in-websites/navigation/paths';
+import { TimeConfig, BoundaryScope } from 'in-types';
 
 interface Props {
-  sloId?: string;
+  sloId: string;
   sloLabel: string;
+  entityType: string;
+  entityId: string;
+  entityLabel: string;
+  boundaryScope?: BoundaryScope;
   timeConfig?: TimeConfig;
   iconSize?: keyof typeof SvgIconSizes;
   noBottomMargin?: boolean;
 }
 
-export default function SloScopePath({ sloId, sloLabel, timeConfig, iconSize, noBottomMargin }: Props) {
+export default function SloScopePath({
+  sloId,
+  sloLabel,
+  entityType,
+  entityId,
+  entityLabel,
+  boundaryScope,
+  timeConfig,
+  iconSize,
+  noBottomMargin
+}: Props) {
   const getObjectiveDashboard = useHrefToSloDashboard();
+  const getApplicationDashboard = useLinkToApplicationDashboard();
+  const websiteDashboardHref = useLinkToWebsite(entityId, {
+    timeConfig
+  });
+
   const entries: ScopeEntryType[] = [];
 
   if (sloLabel) {
@@ -30,6 +51,30 @@ export default function SloScopePath({ sloId, sloLabel, timeConfig, iconSize, no
       label: sloLabel,
       href: sloId != null ? getObjectiveDashboard(sloId, timeConfig) : undefined
     });
+  }
+
+  if (entityLabel) {
+    if (entityType === 'application') {
+      entries.push({
+        iconType: 'lib_application',
+        label: entityLabel,
+        href:
+          entityId != null
+            ? getApplicationDashboard({
+                applicationId: entityId,
+                timeConfig,
+                boundaryScope
+              })
+            : undefined
+      });
+    }
+    if (entityType === 'website') {
+      entries.push({
+        iconType: 'lib_website',
+        label: entityLabel,
+        href: entityId != null ? websiteDashboardHref : undefined
+      });
+    }
   }
 
   return <ScopePath entries={entries} iconSize={iconSize} noBottomMargin={noBottomMargin} />;

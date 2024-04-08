@@ -34,6 +34,7 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
     () =>
       isDeprecatedAppDataEntityType(event?.plugin ?? '') &&
       !event?.metadata?.applicationId &&
+      !event?.metadata?.sloId && // SLO Smart Alerts can also be on AP entity
       (event?.metadata?.custom_issue ?? false),
     [event]
   );
