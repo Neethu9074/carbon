@@ -78,7 +78,7 @@ export default function SloConfigPreview() {
               formatter: number.compact,
               renderer: renderer.line
             },
-            timeConfig: applyAdjustedTimeframe(timeConfig, metricResult?.[0].adjustedTimeframe)
+            timeConfig: applyAdjustedTimeframe(timeConfig, metricResult?.[0]?.adjustedTimeframe)
           }}
           result={{ progress, errors }}
         />
