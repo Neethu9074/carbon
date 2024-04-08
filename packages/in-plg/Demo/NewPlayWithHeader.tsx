@@ -50,7 +50,7 @@ export default function NewPlayWithHeader() {
         id="free_trial"
         kind="primary"
         target="_blank"
-        href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52048"
+        href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
         onClick={() => {
           eventTracker({
             eventName: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
