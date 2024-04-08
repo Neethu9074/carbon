@@ -61,8 +61,8 @@ const options = {
   validate_length: true
 };
 
-export default function urlValidator(value: string): ValidationResult {
-  if (!value || /[\s<>]/.test(value)) {
+const basicChecksOnUrl = (url: string): ValidationResult => {
+  if (!url || /[\s<>]/.test(url)) {
     return [
       {
         severity: 'error',
@@ -71,7 +71,7 @@ export default function urlValidator(value: string): ValidationResult {
     ];
   }
 
-  if (value.indexOf('mailto:') === 0) {
+  if (url.indexOf('mailto:') === 0) {
     return [
       {
         severity: 'error',
@@ -80,7 +80,7 @@ export default function urlValidator(value: string): ValidationResult {
     ];
   }
 
-  if (options.validate_length && value.length > 2048) {
+  if (options.validate_length && url.length > 2048) {
     return [
       {
         severity: 'error',
@@ -88,39 +88,13 @@ export default function urlValidator(value: string): ValidationResult {
       }
     ];
   }
+  return undefined;
+};
 
-  if (!options.allow_fragments && value.includes('#')) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createTest.validators.fragmentsNotSupported')
-      }
-    ];
-  }
-
-  if (!options.allow_query_components && (value.includes('?') || value.includes('&'))) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createTest.validators.queryNotSupported')
-      }
-    ];
-  }
-
-  let protocol: string, auth: string, host: string, hostname: string, port: number, port_str: string, split: string[];
-
-  // e.g.: http://foobar.com/?foo=bar#baz=qux
-  split = value.split('#'); // split = ['http://foobar.com/?foo=bar', 'baz=qux']
-  value = split.shift() ?? ''; // value = 'http://foobar.com/?foo=bar'
-
-  split = value.split('?'); // split = ['http://foobar.com/', 'foo=bar']
-  value = split.shift() ?? ''; // value = 'http://foobar.com/'
-
-  split = value.split('://'); // split = ['http', 'foobar.com/']
-
+const checkForProtocolAndurlFormat = (split: string[]): ValidationResult => {
   if (split.length > 1) {
     // case for incorrect protocol
-    protocol = split.shift()?.toLocaleLowerCase() ?? '';
+    const protocol = split.shift()?.toLocaleLowerCase() ?? '';
     if (options.require_valid_protocol && options.protocols.indexOf(protocol) === -1) {
       return [
         {
@@ -138,9 +112,121 @@ export default function urlValidator(value: string): ValidationResult {
       }
     ];
   }
+  return undefined;
+};
+
+const checkAuthentication = (user_pass: string[]): ValidationResult => {
+  if (user_pass[0] === '') {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.missUserAuthentication')
+      }
+    ];
+  }
+  let auth = user_pass.shift() ?? ''; // split: ['www.foobar.com:65535']
+  if (auth.indexOf(':') >= 0 && auth.split(':').length > 2) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.incorrectAuthentication')
+      }
+    ];
+  }
+  const [user, password]: string[] = auth.split(':');
+  if (user === '' || password === '') {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.missUserOrPassword')
+      }
+    ];
+  }
+  return undefined;
+};
+
+const checkForInvalidPort = (port: string): ValidationResult => {
+  if (port != '' && port.length > 0) {
+    const portInt = parseInt(port, 10);
+    if (!/^\d+$/.test(port) || portInt <= 0 || portInt > 65535) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-synthetics:dialog.createTest.validators.invalidPortValue')
+        }
+      ];
+    }
+  }
+  return undefined;
+};
+
+const checkForInvalidHost = (hostName: string): ValidationResult => {
+  if (hostName === '' && options.require_host) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.missHost')
+      }
+    ];
+  }
+
+  if (!isIP(hostName) && !isFQDN(hostName)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.invalidHost')
+      }
+    ];
+  }
+  return undefined;
+};
+
+const checkForFragmentsAndQuery = (url: string): ValidationResult => {
+  if (!options.allow_fragments && url.includes('#')) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.fragmentsNotSupported')
+      }
+    ];
+  }
+
+  if (!options.allow_query_components && (url.includes('?') || url.includes('&'))) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createTest.validators.queryNotSupported')
+      }
+    ];
+  }
+  return undefined;
+};
+
+export default function urlValidator(value: string): ValidationResult {
+  const basicChecksOnUrlResult = basicChecksOnUrl(value);
+  if (basicChecksOnUrlResult) {
+    return basicChecksOnUrlResult!;
+  }
+  const checkForFragmentsAndQueryResult = checkForFragmentsAndQuery(value);
+  if (checkForFragmentsAndQueryResult) {
+    return checkForFragmentsAndQueryResult;
+  }
+
+  let host: string, hostname: string, port_str: string, split: string[];
+
+  // e.g.: http://foobar.com/?foo=bar#baz=qux
+  split = value.split('#'); // split = ['http://foobar.com/?foo=bar', 'baz=qux']
+  value = split.shift() ?? ''; // value = 'http://foobar.com/?foo=bar'
+  split = value.split('?'); // split = ['http://foobar.com/', 'foo=bar']
+  value = split.shift() ?? ''; // value = 'http://foobar.com/'
+  split = value.split('://'); // split = ['http', 'foobar.com/']
+
+  const checkForProtocolAndurlFormatResult = checkForProtocolAndurlFormat(split);
+  if (checkForProtocolAndurlFormatResult) {
+    return checkForProtocolAndurlFormatResult;
+  }
 
   value = split.join('://');
-
   split = value.split('/');
   value = split.shift() ?? '';
 
@@ -151,36 +237,13 @@ export default function urlValidator(value: string): ValidationResult {
   // e.g. value = 'user:pass@www.foobar.com:65535'
   split = value.split('@'); // split: ['user:pass', 'www.foobar.com:65535']
   if (split.length > 1) {
-    if (split[0] === '') {
-      return [
-        {
-          severity: 'error',
-          message: t('in-synthetics:dialog.createTest.validators.missUserAuthentication')
-        }
-      ];
-    }
-    auth = split.shift() ?? ''; // split: ['www.foobar.com:65535']
-    if (auth.indexOf(':') >= 0 && auth.split(':').length > 2) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-synthetics:dialog.createTest.validators.incorrectAuthentication')
-        }
-      ];
-    }
-    const [user, password]: string[] = auth.split(':');
-    if (user === '' || password === '') {
-      return [
-        {
-          severity: 'error',
-          message: t('in-synthetics:dialog.createTest.validators.missUserOrPassword')
-        }
-      ];
+    const checkAuthenticationResult = checkAuthentication(split);
+    if (checkAuthenticationResult) {
+      return checkAuthenticationResult;
     }
   }
 
   hostname = split.join('@'); // e.g: 'www.foobar.com:65535'
-
   port_str = '';
   split = hostname.split(':'); // split: ['www.foobar.com','65535']
   host = split.shift() ?? ''; // split: ['65535']
@@ -188,34 +251,13 @@ export default function urlValidator(value: string): ValidationResult {
     port_str = split.join(':');
   }
 
-  if (port_str != '' && port_str.length > 0) {
-    port = parseInt(port_str, 10);
-    if (!/^[0-9]+$/.test(port_str) || port <= 0 || port > 65535) {
-      return [
-        {
-          severity: 'error',
-          message: t('in-synthetics:dialog.createTest.validators.invalidPortValue')
-        }
-      ];
-    }
+  const checkForInvalidPortResult = checkForInvalidPort(port_str);
+  if (checkForInvalidPortResult) {
+    return checkForInvalidPortResult;
   }
-
-  if (host === '' && options.require_host) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createTest.validators.missHost')
-      }
-    ];
-  }
-
-  if (!isIP(host) && !isFQDN(host)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createTest.validators.invalidHost')
-      }
-    ];
+  const checkForInvalidHostResult = checkForInvalidHost(host);
+  if (checkForInvalidHostResult) {
+    return checkForInvalidHostResult;
   }
   return undefined;
 }

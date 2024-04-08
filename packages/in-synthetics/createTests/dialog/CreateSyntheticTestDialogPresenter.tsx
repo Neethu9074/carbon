@@ -135,12 +135,52 @@ const CreateSyntheticTestDialogPresenter = ({
     }
   };
 
+  const HTTPActionErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'HTTPAction'
+      ? (configForm.get('headers') &&
+          headers.filter(
+            header =>
+              (header.error.name.invalid && !header.error.value.invalid) ||
+              (!header.error.name.invalid && header.error.value.invalid)
+          ).length > 0) ||
+          invalidHeader.invalid ||
+          (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
+          invalidJSON.invalid ||
+          (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
+      : undefined;
+  };
+
+  const scriptErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'HTTPScript' ||
+      syntheticTypeField.value === 'WebpageScript' ||
+      syntheticTypeField.value === 'BrowserScript'
+      ? // Initially there isn't 'script'/ 'scripts' within configuration
+        (!configForm.get('script') && !configForm.get('scripts')) ||
+          // validating js file if 'script' is present
+          (configForm.get('script') && !configForm.get('script').valid) ||
+          // validating zip file if 'scripts' is present
+          (configForm.get('scripts') &&
+            (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid))
+      : undefined;
+  };
+
+  const configPropertyErrorExist = () => {
+    return (
+      customProperties.filter(
+        property =>
+          (property.error.name.invalid && !property.error.value.invalid) ||
+          (!property.error.name.invalid && property.error.value.invalid)
+      ).length > 0 || invalidCustomProperty.invalid
+    );
+  };
+
   const isProceedDisabledAdvanced = () => {
     const configForm = form.get('configuration') as MapForm<any>;
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
     const labelField = form.get('label') as Field<string>;
     const frequencyField = form.get('testFrequency') as Field<number>;
     const locationsField = form.get('locations') as Field<string[]>;
+
     if (
       isSaving ||
       renderSectionsCounter === 0 ||
@@ -148,38 +188,15 @@ const CreateSyntheticTestDialogPresenter = ({
       ((syntheticTypeField.value === 'HTTPAction' || syntheticTypeField.value === 'WebpageAction') &&
         configForm.get('url') &&
         !configForm.get('url').valid) ||
-      (syntheticTypeField.value === 'HTTPAction' &&
-        configForm.get('headers') &&
-        headers.filter(
-          header =>
-            (header.error.name.invalid && !header.error.value.invalid) ||
-            (!header.error.name.invalid && header.error.value.invalid)
-        ).length > 0) ||
-      invalidHeader.invalid ||
-      (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
-      invalidJSON.invalid ||
-      (configForm.get('expectMatch') && !configForm.get('expectMatch').valid) ||
+      // for HTTPAction
+      HTTPActionErrorsExist(configForm, syntheticTypeField) ||
       // for HTTPScript, WebpageScript, and BrowserScript
-      ((syntheticTypeField.value === 'HTTPScript' ||
-        syntheticTypeField.value === 'WebpageScript' ||
-        syntheticTypeField.value === 'BrowserScript') &&
-        // Initially there isn't 'script'/ 'scripts' within configuration
-        ((!configForm.get('script') && !configForm.get('scripts')) ||
-          // validating js file if 'script' is present
-          (configForm.get('script') && !configForm.get('script').valid) ||
-          // validating zip file if 'scripts' is present
-          (configForm.get('scripts') &&
-            (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
+      scriptErrorExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
       !labelField.valid ||
-      customProperties.filter(
-        property =>
-          (property.error.name.invalid && !property.error.value.invalid) ||
-          (!property.error.name.invalid && property.error.value.invalid)
-      ).length > 0 ||
-      invalidCustomProperty.invalid ||
+      configPropertyErrorExist() ||
       invalidTimeout.invalid
     ) {
       return true;
@@ -208,6 +225,13 @@ const CreateSyntheticTestDialogPresenter = ({
     </FormFooter>
   );
 
+  const getSelectedTestSubTypes = (prevState: SetStateAction<any>) => {
+    if (selectedBlueprint.type === apiSimpleTest) return { ...prevState, api: { simple: true, script: false } };
+    if (selectedBlueprint.type === apiScriptTest) return { ...prevState, api: { simple: false, script: true } };
+    if (selectedBlueprint.type === browserSimpleTest) return { ...prevState, browser: { simple: true, script: false } };
+    if (selectedBlueprint.type === browserScriptTest) return { ...prevState, browser: { simple: false, script: true } };
+  };
+
   return (
     <DialogWithSlideInView
       footer={footer}
@@ -233,14 +257,7 @@ const CreateSyntheticTestDialogPresenter = ({
                 syntheticCreateAdvancedButtonClick({ detail: 'Switch to advanced mode' });
                 //@ts-expect-error
                 setTestTypeSelected((prevState: SetStateAction<any>) => {
-                  if (selectedBlueprint.type === apiSimpleTest)
-                    return { ...prevState, api: { simple: true, script: false } };
-                  if (selectedBlueprint.type === apiScriptTest)
-                    return { ...prevState, api: { simple: false, script: true } };
-                  if (selectedBlueprint.type === browserSimpleTest)
-                    return { ...prevState, browser: { simple: true, script: false } };
-                  if (selectedBlueprint.type === browserScriptTest)
-                    return { ...prevState, browser: { simple: false, script: true } };
+                  return getSelectedTestSubTypes(prevState);
                 });
                 setSimpleMode(!simpleMode);
                 populateCommonAttributes({ form, commonAttributes, setCommonAttributes });

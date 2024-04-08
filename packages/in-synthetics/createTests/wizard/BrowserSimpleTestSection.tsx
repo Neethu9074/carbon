@@ -37,8 +37,8 @@ const BrowserSimpleTestSection = ({ urlField, updateForm, form }: BrowserSimpleT
             value={field.value}
             onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
               updateForm(
-                form.updateIn(['configuration', 'url'], (urlField: Item) =>
-                  (urlField as Field<string>).setValue(target?.value).setTouched(true)
+                form.updateIn(['configuration', 'url'], (urlFormField: Item) =>
+                  (urlFormField as Field<string>).setValue(target?.value).setTouched(true)
                 )
               );
             }}

@@ -131,8 +131,8 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
                 value={field.value}
                 onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                   updateForm(
-                    form.updateIn(['label'], (labelField: Item) =>
-                      (labelField as Field<string>).setValue(target.value).setTouched(true)
+                    form.updateIn(['label'], (labelFormField: Item) =>
+                      (labelFormField as Field<string>).setValue(target.value).setTouched(true)
                     )
                   );
                 }}
@@ -154,8 +154,8 @@ export default function IdentifySection({ form, updateForm, applications }: Prop
               value={field.value}
               onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
                 updateForm(
-                  form.updateIn(['description'], (descriptionField: Item) =>
-                    (descriptionField as Field<string>).setValue(target.value).setTouched(true)
+                  form.updateIn(['description'], (descriptionFormField: Item) =>
+                    (descriptionFormField as Field<string>).setValue(target.value).setTouched(true)
                   )
                 );
               }}
