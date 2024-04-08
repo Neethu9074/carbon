@@ -11,7 +11,7 @@ import { t, Trans } from 'in-i18n';
 export default {
   end_of_life_php_version: {
     issueDescription: {
-      Component: function endOfLifePhpVersion({ url, version }) {
+      Component: function endOfLifePhpVersion({ url, version }: { url: string; version: string }) {
         return (
           <span>
             <Trans i18nKey="in-forge:plugins.phpRuntimePlatform.endOfLifePhpVersion" values={{ url, version }} />
