@@ -18,12 +18,16 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-export function dfsFas(graph) {
-  const fas = [];
+//@ts-expect-error
+import { Graph, TransformedAPMapNode, APMapGraphEdge } from './Graph';
+export function dfsFas(graph: Graph): APMapGraphEdge {
+  const fas: Array<APMapGraphEdge> = [];
   const stack = new Map();
-  const visited = {};
+  const visited: {
+    [key: string]: boolean;
+  } = {};
 
-  function dfs(node) {
+  function dfs(node: TransformedAPMapNode) {
     if (!node || visited[node.name]) {
       return;
     }
@@ -42,19 +46,18 @@ export function dfsFas(graph) {
     }
     stack.delete(node.name);
   }
-
   graph.nodes.forEach(dfs);
   return fas;
 }
 
-export function remove(graph) {
+export function remove(graph: Graph) {
   const fas = dfsFas(graph);
   for (let i = 0, length = fas.length; i < length; i++) {
     graph.reverseEdge(fas[i]);
   }
 }
 
-export function restore(graph) {
+export function restore(graph: Graph) {
   for (let i = 0, length = graph.edges.length; i < length; i++) {
     const edge = graph.edges[i];
     if (edge.reversed) {
