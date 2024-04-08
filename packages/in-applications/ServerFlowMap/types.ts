@@ -27,4 +27,6 @@ export interface NodeCollection {
     callsAgg: Array<Array<number>>;
   };
   outgoing: Array<NodeCollection>;
+  nodeId?: string;
+  __originalId?: string;
 }

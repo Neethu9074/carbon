@@ -5,7 +5,7 @@
 
 import { APMapEdge, APMapNode, ApplicationMapNodePosition } from 'in-applications/types';
 
-type layouter = 'flow' | 'force';
+type Layouter = 'flow' | 'force';
 interface ExtendedWorker extends Worker {
   hasReturned?: boolean;
 }
@@ -17,7 +17,7 @@ interface GraphStructure {
 export default (() => {
   let worker: ExtendedWorker | null = null;
 
-  function call(layouter: layouter, data: GraphStructure, onFinished: (arg0: any) => void) {
+  function call(layouter: Layouter, data: GraphStructure, onFinished: (arg0: any) => void) {
     disposeRunning();
     worker = new Worker(new URL('in-applications/ApplicationMap/misc/layouting/layout.worker', import.meta.url), {
       name: 'layoutingWorker'

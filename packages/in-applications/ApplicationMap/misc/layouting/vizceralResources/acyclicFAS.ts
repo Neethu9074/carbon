@@ -18,8 +18,12 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-//@ts-expect-error
-import { Graph, TransformedAPMapNode, APMapGraphEdge } from './Graph';
+import {
+  Graph,
+  TransformedAPMapNode,
+  APMapGraphEdge //@ts-expect-error Need TS migration
+
+} from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/Graph';
 export function dfsFas(graph: Graph): APMapGraphEdge {
   const fas: Array<APMapGraphEdge> = [];
   const stack = new Map();

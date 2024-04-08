@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { NodeCollection } from './types';
+import { NodeCollection } from 'in-applications/ServerFlowMap/types';
 
+type Nodes = Map<string, NodeCollection>;
 export default class PathFinder {
   rootNodeId: string | undefined;
-  nodes: any;
-  constructor(nodes: NodeCollection) {
+  nodes: Nodes;
+  constructor(nodes: Nodes) {
     this.nodes = nodes;
   }
 
@@ -40,46 +41,58 @@ export default class PathFinder {
 
     const node = this.nodes.get(nodeId);
 
-    const rootChild = this.nodes.get(this.rootNodeId).children.values().next().value;
+    const rootChild = this.nodes.get(this.rootNodeId)?.children.values().next().value;
     return (
       direction === 'incoming'
-        ? this.searchLeft(rootChild, childId, node.id)
-        : this.searchRight(rootChild, childId, node.id)
-    ).map((item: any) => {
+        ? this.searchLeft(rootChild, childId, node?.id)
+        : this.searchRight(rootChild, childId, node?.id)
+    )?.map((item: NodeCollection) => {
       return {
-        service: this.nodes.get(item.nodeId).__originalId,
+        service: item.nodeId ? this.nodes.get(item.nodeId)?.__originalId : undefined,
         endpoint: item.id
       };
     });
   }
 
-  searchLeft(item: any, childIdToFind: string, parentIdToFind?: undefined): any {
-    if (this.matchesItem(item, childIdToFind, parentIdToFind)) {
+  searchLeft(
+    item: NodeCollection | undefined,
+    childIdToFind: string,
+    parentIdToFind?: string
+  ): Array<NodeCollection> | null {
+    if (item && this.matchesItem(item, childIdToFind, parentIdToFind)) {
       return [item];
     }
-
-    for (let i = 0; i < item.incoming.length; i++) {
-      const match = this.searchLeft(item.incoming[i], childIdToFind, parentIdToFind);
-      if (match) {
-        return match.concat(item);
+    if (item) {
+      for (let i = 0; i < item.incoming.length; i++) {
+        const match = this.searchLeft(item.incoming[i], childIdToFind, parentIdToFind);
+        if (match) {
+          return match.concat(item);
+        }
       }
     }
+    return null;
   }
 
-  searchRight(item: any, childIdToFind: string, parentIdToFind?: string): any {
-    if (this.matchesItem(item, childIdToFind, parentIdToFind)) {
+  searchRight(
+    item: NodeCollection | undefined,
+    childIdToFind: string,
+    parentIdToFind?: string
+  ): Array<NodeCollection> | null {
+    if (item && this.matchesItem(item, childIdToFind, parentIdToFind)) {
       return [item];
     }
-
-    for (let i = 0; i < item.outgoing.length; i++) {
-      const match = this.searchRight(item.outgoing[i], childIdToFind, parentIdToFind);
-      if (match) {
-        return [item].concat(match);
+    if (item) {
+      for (let i = 0; i < item.outgoing.length; i++) {
+        const match = this.searchRight(item.outgoing[i], childIdToFind, parentIdToFind);
+        if (match) {
+          return [item].concat(match);
+        }
       }
     }
+    return null;
   }
-  matchesItem(item: any, childIdToFind: string, parentIdToFind?: string) {
-    if (childIdToFind === item.id) {
+  matchesItem(item: NodeCollection | undefined, childIdToFind: string, parentIdToFind?: string): boolean {
+    if (item && childIdToFind === item.id) {
       if (!parentIdToFind || parentIdToFind === item.nodeId) {
         return true;
       }
