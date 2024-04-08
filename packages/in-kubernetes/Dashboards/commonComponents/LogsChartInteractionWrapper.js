@@ -13,10 +13,9 @@ import AnalyzeLogsButton from 'in-kubernetes/Dashboards/commonComponents/Analyze
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsChart from 'in-kubernetes/Dashboards/commonComponents/LogsChart';
-import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { role } from 'in-stores/user';
