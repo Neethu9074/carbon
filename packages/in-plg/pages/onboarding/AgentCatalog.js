@@ -42,7 +42,7 @@ export default function AgentCatalog(props) {
     >
       <Stack direction="horizontal" align="center">
         <SvgIcon type="lib_infrastructure" />
-        <Typography variant="body-bold">{t('in-plg:agentDetails.common.agentCatalog')}</Typography>
+        <Typography variant="body-bold">{t('in-plg:agentDetails.common.agentDeployment')}</Typography>
       </Stack>
     </Breadcrumb>
   ];
@@ -79,7 +79,7 @@ export default function AgentCatalog(props) {
             hasError={false}
           />
           <Spacer vertical="xxsmall" />
-          <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentCatalog')} (${
+          <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentDeployment')} (${
             filteredEntities.length
           })`}</Typography>
           <CardGrid data={filteredEntities} {...props} />

@@ -50,7 +50,7 @@
       "agentKey": "Agent key"
     },
     "common": {
-      "agentCatalog": "Agent catalog",
+      "agentDeployment": "Agent deployment",
       "step1": "Step 1: ",
       "step2": "Step 2: ",
       "step3": "Step 3: ",
