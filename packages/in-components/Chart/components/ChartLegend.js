@@ -10,13 +10,13 @@ import { useObservable } from '@instana/hooks';
 
 import Legend from 'in-components/Chart/components/Legend';
 
-export default function ChartLegend({ chart }) {
+export default function ChartLegend({ chart, onLegendItemToggle }) {
   const filteredDataSeries = useObservable(chart.config.filteredDataSeries$, [chart.config.filteredDataSeries$], {
     pure: false
   });
 
-  const y1Lables = getLabelsMapFromAxis(chart.config.y1, filteredDataSeries, chart);
-  const y2Lables = getLabelsMapFromAxis(chart.config.y2, filteredDataSeries, chart, 'y2');
+  const y1Lables = getLabelsMapFromAxis(chart.config.y1, filteredDataSeries, chart, 'y1', onLegendItemToggle);
+  const y2Lables = getLabelsMapFromAxis(chart.config.y2, filteredDataSeries, chart, 'y2', onLegendItemToggle);
   return (
     <Legend
       reverseLegendOrder={chart.config.reverseLegendOrder}
@@ -29,7 +29,8 @@ export default function ChartLegend({ chart }) {
 }
 
 ChartLegend.propTypes = {
-  chart: rpt.object.isRequired
+  chart: rpt.object.isRequired,
+  onLegendItemToggle: rpt.func
 };
 
 /**
@@ -41,8 +42,9 @@ ChartLegend.propTypes = {
  * @param {Set} filteredDataSeries
  * @param {Object} chart
  * @param {String} axisName
+ * @param {Function} onToggle
  */
-function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1') {
+function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1', onToggle = () => {}) {
   const axisLabels =
     axis?.excludedLabelsFromLegend?.length > 0
       ? axis.labels.filter(label => axis.excludedLabelsFromLegend.indexOf(label) == -1)
@@ -62,6 +64,7 @@ function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1') 
         metricId: axis.metricIds[i],
         onToggle: () => {
           if (isToggleable) {
+            onToggle(chart.config, axisLabels[i]);
             chart.config.toggleDataSeries(`${axisName}-${i}`);
             chart.renderScheduler.forceRender();
           }

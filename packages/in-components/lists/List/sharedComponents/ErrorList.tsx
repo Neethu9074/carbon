@@ -10,7 +10,6 @@ import { Ul, Li, Message } from '@instana/components';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { Error } from 'in-types';
 
-// @ts-ignore
 import locals from './ErrorList.mless';
 
 interface ErrorListProps {

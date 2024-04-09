@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { xor } from 'lodash';
 
 import { create, just } from '@instana/observables';
 
@@ -12,6 +13,8 @@ import AnalyzeLogsButton from 'in-kubernetes/Dashboards/commonComponents/Analyze
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsChart from 'in-kubernetes/Dashboards/commonComponents/LogsChart';
+import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import RestrictedAccessMessage from 'in-components/rbac';
@@ -39,6 +42,7 @@ export const tagEquals = (tag, value) => ({
 });
 
 export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
+  const [filteredGroups, setFilteredGroups] = useState([]);
   const [isHovered$] = useState(create().emit(false));
   const generateLinkToLogs = useGenerateLinkToLogs();
   if (!loggingEnabled) {
@@ -53,6 +57,10 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
     );
   }
 
+  const groupFilters = filteredGroups.map(group =>
+    getValueMatchTagFilter({ name: LOG_LEVEL, value: group, operator: NOT_EQUAL })
+  );
+  const UALinkTagFilters = andQuery(...groupFilters, ...tagFilterExpression);
   const additionalContextMenuButtons = [
     {
       name: 'analyze',
@@ -61,7 +69,7 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
       getHref$: highlightedTime => {
         return just(
           generateLinkToLogs({
-            tagFilterExpression: tagFilterExpression,
+            tagFilterExpression: UALinkTagFilters,
             timeConfig: {
               focusedMoment: highlightedTime.focusedMoment,
               to: highlightedTime.to,
@@ -75,7 +83,7 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
   ];
 
   const logsButton = (
-    <AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} isHovered$={isHovered$} />
+    <AnalyzeLogsButton tagFilterExpression={UALinkTagFilters} timeConfig={timeConfig} isHovered$={isHovered$} />
   );
   return (
     <div onMouseEnter={() => isHovered$.emit(true)} onMouseLeave={() => isHovered$.emit(false)}>
@@ -83,6 +91,9 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
         <LogsChart
           tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
           additionalContextMenuButtons={additionalContextMenuButtons}
+          onLegendItemToggle={(chartConfig, label) => {
+            setFilteredGroups(prevState => xor([label.trim().toUpperCase()], prevState));
+          }}
         />
       </DashboardSection>
     </div>

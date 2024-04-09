@@ -65,7 +65,7 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
-          //@ts-ignore
+          //@ts-expect-error
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.timeseries_counts}

@@ -40,41 +40,47 @@ export function createForm(
   const wizardModeBlueprintTestType: string | undefined = selectedBlueprint?.type;
   let config: any;
 
+  savedState = savedState ?? {};
+
+  const getApiScriptTestConfig = () => {
+    return !savedState?.script
+      ? createAdvancedScriptConfigurationForm(savedState)
+      : createScriptConfigurationForm(simpleMode, savedState);
+  };
+
   if (simpleMode) {
     switch (wizardModeBlueprintTestType) {
       case apiScriptTest:
-        config = createScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = createScriptConfigurationForm(simpleMode, savedState);
         break;
       case apiSimpleTest:
-        config = createActionConfigurationForm(savedState ?? {});
+        config = createActionConfigurationForm(savedState);
         break;
       case browserSimpleTest:
-        config = createWebpageActionConfigurationForm(savedState ?? {});
+        config = createWebpageActionConfigurationForm(savedState);
         break;
       case browserScriptTest:
-        config = createBrowserScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = createBrowserScriptConfigurationForm(simpleMode, savedState);
         break;
     }
   } else {
     switch (advancedModeBlueprintTestType || wizardModeBlueprintTestType) {
       case 'HTTPAction':
       case apiSimpleTest:
-        config = createAdvancedActionConfigurationForm(savedState ?? {});
+        config = createAdvancedActionConfigurationForm(savedState);
         break;
       case 'HTTPScript':
       case apiScriptTest:
-        config = !savedState?.script
-          ? createAdvancedScriptConfigurationForm(savedState ?? {})
-          : createScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = getApiScriptTestConfig();
         break;
       case 'BrowserScript':
       case 'WebpageScript':
       case browserScriptTest:
-        config = createBrowserScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = createBrowserScriptConfigurationForm(simpleMode, savedState);
         break;
       case 'WebpageAction':
       case browserSimpleTest:
-        config = createAdvancedWebpageActionConfigurationForm(savedState ?? {});
+        config = createAdvancedWebpageActionConfigurationForm(savedState);
         break;
     }
   }

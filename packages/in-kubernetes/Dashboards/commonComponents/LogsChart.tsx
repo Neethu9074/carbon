@@ -12,6 +12,7 @@ import { TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { carbonAlert, outlineForColor } from 'in-themes/chartColors';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { ChartConfig } from 'in-components/Chart/types';
 import { t } from 'in-i18n';
 
 interface AdditionalContextMenuButtonConfig {
@@ -24,10 +25,11 @@ interface AdditionalContextMenuButtonConfig {
 interface LogsChartProps {
   tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
   additionalContextMenuButtons: AdditionalContextMenuButtonConfig[];
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
 export default function LogsChart(props: LogsChartProps) {
-  const { tagFilterExpression, additionalContextMenuButtons } = props;
+  const { tagFilterExpression, additionalContextMenuButtons, onLegendItemToggle } = props;
 
   return (
     <UnifiedMetricsChart
@@ -45,6 +47,7 @@ export default function LogsChart(props: LogsChartProps) {
         y2: { metrics: [] },
         type: 'TIME_SERIES'
       }}
+      onLegendItemToggle={onLegendItemToggle}
     />
   );
 }
@@ -77,7 +80,10 @@ interface AddLogLevelFilterTagToQueryModelRequest {
   value: string;
 }
 
-function addLogLevelFilterTagToQueryModel({ value, tagFilterExpression }: AddLogLevelFilterTagToQueryModelRequest) {
+export function addLogLevelFilterTagToQueryModel({
+  value,
+  tagFilterExpression
+}: AddLogLevelFilterTagToQueryModelRequest) {
   return {
     elements: [
       getValueMatchTagFilter({

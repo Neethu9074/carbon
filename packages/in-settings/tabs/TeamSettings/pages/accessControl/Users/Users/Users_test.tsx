@@ -56,7 +56,7 @@ const mockGet = (data: UserResult[]) => {
     progress: { loading: false },
     data
   });
-  // @ts-ignore
+  // @ts-expect-error
   getUsersAsResultObservable.mockReturnValue(res);
 };
 
@@ -73,9 +73,9 @@ function asLoadedResult(data: ConfigProps) {
 describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
   beforeEach(() => {
     jest.resetModules();
-    // @ts-ignore
+    // @ts-expect-error
     getUsersAsResultObservable.mockClear();
-    // @ts-ignore
+    // @ts-expect-error
     addActiveDialog.mockClear();
   });
 

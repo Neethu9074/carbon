@@ -54,7 +54,7 @@ const createToken = (tokenName?: any) => ({
   id: generateUniqueShortId()
 });
 
-// @ts-ignore
+// @ts-expect-error
 const mockApis = ({ amount, errors = null, first = null }: MockConfig) => {
   const mockRes = create();
   mockRes.emit({ errors: null, progress: { loading: false } });
@@ -166,6 +166,5 @@ describe('in-settings/tabs/TeamSettings/pages/Users/Users', () => {
 });
 
 function renderApiToken(idParam: string) {
-  // @ts-ignore
   return render(<ApiToken {...getProps(idParam)} />);
 }

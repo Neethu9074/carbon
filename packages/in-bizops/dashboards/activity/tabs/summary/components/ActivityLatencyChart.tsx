@@ -16,7 +16,7 @@ import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
-import { getFormatter } from 'in-stores/metric/formatters';
+import { millis } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -131,7 +131,7 @@ export default function ActivityLatencyChart({ processId, activityName }: Activi
         renderer: Renderer.line,
         labels: ['50th', '90th', '95th', '99th', 'Max', 'Mean'],
         metricIds: ['p50Latency', 'p90Latency', 'p95Latency', 'p99Latency', 'maxLatency', 'meanLatency'],
-        formatter: getFormatter('number.compact'),
+        formatter: millis.fixedCompact,
         metrics: [],
         colors: [
           chartColors.fiveColorPalette[1],

@@ -22,19 +22,22 @@ export const isSideScript = (script: string) => {
   return true;
 };
 
+const getExtension = (configForm: MapForm<any>) => {
+  return isSideScript((configForm.get('script') as Field<string>)?.value) ? 'side' : 'js';
+};
+
 export function scriptDetailsUpdater(
   configForm: MapForm<any>,
   isUpdateConfig: boolean,
   isUpdated: boolean,
   scriptDetails?: Code
 ) {
-  const isSide = isSideScript((configForm.get('script') as Field<string>)?.value);
   if (isUpdateConfig && !isUpdated) {
     if (configForm.get('script')) {
       return {
         name: t('in-synthetics:dialog.updateTest.scriptSavedMessage'),
         text: (configForm.get('script') as Field<string>).value,
-        extension: isSide ? 'side' : 'js'
+        extension: getExtension(configForm)
       };
     } else {
       return {
@@ -48,7 +51,7 @@ export function scriptDetailsUpdater(
     return {
       name: scriptDetails?.name,
       text: (configForm.get('script') as Field<string>).value,
-      extension: isNotBlank(scriptDetails?.name) ? (isSide ? 'side' : 'js') : ''
+      extension: isNotBlank(scriptDetails?.name) ? getExtension(configForm) : ''
     };
   } else {
     return { name: '', text: '', extension: 'js' };

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-ignore
+// @ts-expect-error
 import { overlayClassName } from 'in-components/overlays/OverlayPresenter/SingleOverlayPresenter';
 import { findParentNodeByClassName } from 'in-services/util/dom';
 

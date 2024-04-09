@@ -388,7 +388,7 @@ function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationAlertCon
       // using casting to the different Threshold Types here should be fine, to make TS happy, and
       // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
       // do not need these defaults...
-      // @ts-ignore-error needs to be refactored
+      // @ts-expect-error-error needs to be refactored
       value: (threshold as StaticThresholdConfig)?.value ?? null
     }
   };
@@ -404,9 +404,8 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: ApplicationAl
       // using casting to the different Threshold Types here should be fine, to make TS happy, and
       // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
       // do not need these defaults, but needs another double-check with the different use cases.
-      // @ts-ignore-error needs to be refactored
       value: (threshold as StaticThresholdConfig)?.value ?? null,
-      // @ts-ignore-error needs to be refactored
+      // @ts-expect-error-error needs to be refactored
       baseline: (threshold as HistoricBaselineConfig).baseline ?? [],
       deviationFactor: (threshold as HistoricBaselineConfig).deviationFactor ?? 0
     }

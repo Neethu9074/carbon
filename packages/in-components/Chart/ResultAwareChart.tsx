@@ -11,10 +11,10 @@ import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/re
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
+import { AxisConfiguration, ChartConfig } from 'in-components/Chart/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
-import { AxisConfiguration } from 'in-components/Chart/types';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Result } from 'in-types';
@@ -30,6 +30,7 @@ interface Props {
   config: ResultAwareChartConfig;
   renderLegend?: boolean;
   result: Result<unknown>;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
 export default function ResultAwareChart({ result, config, renderLegend = true }: Props) {
@@ -48,7 +49,8 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     granularity,
     extendBar = false,
     disableChartInLive,
-    approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention')
+    approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention'),
+    onLegendItemToggle
   } = config;
   let content;
 
@@ -88,6 +90,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       content = (
         <Chart
           renderLegend={renderLegend}
+          onLegendItemToggle={onLegendItemToggle}
           {...(config as ChartReactComponentProps)}
           disableChartInLive={disableChartInLive}
         />

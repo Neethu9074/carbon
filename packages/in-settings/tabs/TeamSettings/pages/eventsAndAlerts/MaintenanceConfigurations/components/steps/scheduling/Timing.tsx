@@ -81,9 +81,9 @@ export default function Timing({
                     let updatedForm = form.updateIn(['window', 'duration'], (field: Item) =>
                       (field as Field<Duration>).setValue({ amount: 1, unit: DurationUnit.days }).setTouched(true)
                     );
-                    //@ts-ignore-next-line
+                    //@ts-expect-error-next-line
                     updatedForm = updatedForm.updateIn(['window', 'start', 'time'], field =>
-                      //@ts-ignore-next-line
+                      //@ts-expect-error-next-line
                       (field as Field<string>).setValue('00:00:00').setTouched(true)
                     );
                     setForm(updatedForm);
@@ -91,9 +91,9 @@ export default function Timing({
                     let updatedForm = form.updateIn(['window', 'duration'], (field: Item) =>
                       (field as Field<Duration>).setValue({ amount: 0, unit: DurationUnit.hours }).setTouched(false)
                     );
-                    //@ts-ignore-next-line
+                    //@ts-expect-error-next-line
                     updatedForm = updatedForm.updateIn(['window', 'start', 'time'], field =>
-                      //@ts-ignore-next-line
+                      //@ts-expect-error-next-line
                       (field as Field<string>).setValue('').setTouched(false)
                     );
                     setForm(updatedForm);
@@ -138,7 +138,7 @@ export default function Timing({
                   <ErrorBoundary name="dateInput-timing-RMW">
                     <DateInput
                       //Ignoring id & placeholder props
-                      //@ts-ignore
+                      //@ts-expect-error
                       id={`maintenance-start-date`}
                       placeholder="YYYY-MM-DD"
                       value={dateField.value}

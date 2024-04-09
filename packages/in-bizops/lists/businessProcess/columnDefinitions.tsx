@@ -84,7 +84,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
         <SparkChart
           loading={false}
           rollup={getChartGranularity(timeConfig)}
-          //@ts-ignore
+          //@ts-expect-error
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
           metrics={item.metrics.started_processes}
@@ -119,7 +119,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           IndicatorPresenter={HealthIndicatorPresenter}
-          //@ts-ignore type error
+          //@ts-expect-error type error
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
         />

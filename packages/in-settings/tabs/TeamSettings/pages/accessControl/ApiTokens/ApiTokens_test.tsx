@@ -11,9 +11,8 @@ import { generateUniqueShortId } from '@instana/utils';
 import { create } from '@instana/observables';
 
 import { teamSettingsAccessControlApiTokenNew, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
-//@ts-ignore
-import { getApiTokens } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { ApiTokenProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import { getApiTokens } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import ApiTokens from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import { TenantsWithUnits, getTenantsWithUnits } from 'in-api/account';
 

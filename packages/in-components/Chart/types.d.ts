@@ -108,6 +108,7 @@ export interface ChartConfig {
   shareMaxAxisDomain?: boolean;
 
   width: number;
+  onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }
 
 export type Config = ResultAwareChartConfig &

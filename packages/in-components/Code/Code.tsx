@@ -12,7 +12,7 @@ export default function Code(props: CodeProps) {
     <CodeSnippet
       {...props}
       line={
-        // @ts-ignore Code does support Java, but the types are incomplete
+        // @ts-expect-error Code does support Java, but the types are incomplete
         props.lang === 'java' ? getActualJavaLine(props.code, props.line) : props.line
       }
     />

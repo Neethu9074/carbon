@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 
 import ClusterNodesTable from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterNodesTable';
 import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
-import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';

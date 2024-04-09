@@ -19,7 +19,8 @@ import {
   SlideInHeader,
   SliderState,
   Zip,
-  scriptTestType
+  scriptTestType,
+  Script
 } from 'in-synthetics/utils/constants';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
@@ -82,11 +83,6 @@ export default function ScriptsSection({
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
-  const [columnLabel, setColumnLabel] = useState(
-    (isUpdateConfig && !isUpdated) || (scriptDetails?.modified && isBlank(scriptDetails?.name))
-      ? ''
-      : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName')
-  );
 
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
@@ -99,6 +95,13 @@ export default function ScriptsSection({
   });
   const selectedUnit = Object.keys(timeoutObject).filter(item => timeoutObject[item].value === timeout.unit)[0];
 
+  const getColumnLabel = () => {
+    return (isUpdateConfig && !isUpdated) || (scriptDetails?.modified && isBlank(scriptDetails?.name))
+      ? ''
+      : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName');
+  };
+  const [columnLabel, setColumnLabel] = useState(getColumnLabel());
+
   function deleteScript() {
     if (script.extension !== 'zip') {
       updateForm(
@@ -107,11 +110,11 @@ export default function ScriptsSection({
         )
       );
     } else {
-      //@ts-ignore-next-line
+      //@ts-expect-error-next-line
       let updatedForm = form.updateIn(['configuration', 'scripts', 'bundle'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );
-      //@ts-ignore-next-line
+      //@ts-expect-error-next-line
       updatedForm = updatedForm.updateIn(['configuration', 'scripts', 'scriptFile'], (field: Item) =>
         (field as Field<string>).setValue('').setTouched(true)
       );
@@ -176,6 +179,79 @@ export default function ScriptsSection({
       ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
       : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction');
 
+  const getScriptFileContent = (scriptContent: Script) => {
+    let scriptFile = '';
+    // If we upload or enter a script that isn't a JSON string, JSON.parse() will throw an exception
+    // In those cases, control enters the catch block and we assign the original script value to scriptFile.
+    try {
+      if (scriptContent.extension !== 'side') {
+        scriptFile = String(JSON.parse(scriptContent.text));
+      } else {
+        scriptFile = scriptContent.text;
+      }
+    } catch (e) {
+      scriptFile = scriptContent.text;
+    }
+    return scriptFile;
+  };
+
+  const getupdatedForm = (scriptContent: Script, testType: string) => {
+    let updatedForm;
+    if (scriptContent.extension !== 'zip') {
+      let scriptFile = getScriptFileContent(scriptContent);
+      if (!form.get('configuration').get('script')) {
+        updatedForm = form.put(
+          'configuration',
+          form
+            .get('configuration')
+            .put(
+              'script',
+              createField({
+                value: scriptFile,
+                validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+              }).setTouched(true)
+            )
+            .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
+            .remove('scripts')
+        );
+      } else {
+        updatedForm = form.put(
+          'configuration',
+          form
+            .get('configuration')
+            .updateIn(['script'], (field: Item) => (field as Field<string>).setValue(scriptFile).setTouched(true))
+            .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
+            .remove('scripts')
+        );
+      }
+      updateForm(updatedForm);
+    } else if (!form.get('configuration').get('scripts')) {
+      updatedForm = form.put(
+        'configuration',
+        form
+          .get('configuration')
+          .put('scripts', createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!))
+          .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
+          .remove('script')
+      );
+    } else {
+      updatedForm = form.put(
+        'configuration',
+        form
+          .get('configuration')
+          .updateIn(['scripts', 'bundle'], (field: Item) =>
+            (field as Field<string>).setValue(scriptContent.text).setTouched(true)
+          )
+          .updateIn(['scripts', 'scriptFile'], (field: Item) =>
+            (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
+          )
+          .updateIn(['syntheticType'], (field: Item) => (field as Field<string>).setValue(testType).setTouched(true))
+          .remove('script')
+      );
+    }
+    return updatedForm;
+  };
+
   return (
     <>
       <List
@@ -205,98 +281,13 @@ export default function ScriptsSection({
                       zipFileDetails={zipFile}
                       setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
                       onSubmit={(scriptContent, zipFileContent) => {
-                        let updatedForm;
                         const testType = isBrowser
                           ? scriptTestType(scriptContent.extension, syntheticType)
                           : syntheticType;
                         const columnLabelUpdated = isBlank(scriptContent.extension)
                           ? ''
                           : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName');
-                        const getScriptFile = () => {
-                          let scriptFile = '';
-                          // If we upload or enter a script that isn't a JSON string, JSON.parse() will throw an exception
-                          // In those cases, control enters the catch block and we assign the original script value to scriptFile.
-                          try {
-                            if (scriptContent.extension !== 'side') {
-                              scriptFile = String(JSON.parse(scriptContent.text));
-                            } else {
-                              scriptFile = scriptContent.text;
-                            }
-                          } catch (e) {
-                            scriptFile = scriptContent.text;
-                          }
-                          return scriptFile;
-                        };
-                        if (scriptContent.extension !== 'zip') {
-                          let scriptFile = getScriptFile();
-                          if (!form.get('configuration').get('script')) {
-                            updatedForm = form.put(
-                              'configuration',
-                              form
-                                .get('configuration')
-                                .put(
-                                  'script',
-                                  createField({
-                                    value: scriptFile,
-                                    validator: composeAndShortCircuitOnError(
-                                      notUndefinedValidator,
-                                      stringValidator,
-                                      notBlankValidator
-                                    )
-                                  }).setTouched(true)
-                                )
-                                .updateIn(['syntheticType'], (field: Item) =>
-                                  (field as Field<string>).setValue(testType).setTouched(true)
-                                )
-                                .remove('scripts')
-                            );
-                          } else {
-                            updatedForm = form.put(
-                              'configuration',
-                              form
-                                .get('configuration')
-                                .updateIn(['script'], (field: Item) =>
-                                  (field as Field<string>).setValue(scriptFile).setTouched(true)
-                                )
-                                .updateIn(['syntheticType'], (field: Item) =>
-                                  (field as Field<string>).setValue(testType).setTouched(true)
-                                )
-                                .remove('scripts')
-                            );
-                          }
-                          updateForm(updatedForm);
-                        } else if (!form.get('configuration').get('scripts')) {
-                          updatedForm = form.put(
-                            'configuration',
-                            form
-                              .get('configuration')
-                              .put(
-                                'scripts',
-                                createZipScriptConfigurationForm(scriptContent.text, scriptContent.scriptFile!)
-                              )
-                              .updateIn(['syntheticType'], (field: Item) =>
-                                (field as Field<string>).setValue(testType).setTouched(true)
-                              )
-                              .remove('script')
-                          );
-                        } else {
-                          updatedForm = form.put(
-                            'configuration',
-                            form
-                              .get('configuration')
-                              .updateIn(['scripts', 'bundle'], (field: Item) =>
-                                (field as Field<string>).setValue(scriptContent.text).setTouched(true)
-                              )
-                              .updateIn(['scripts', 'scriptFile'], (field: Item) =>
-                                (field as Field<string>).setValue(scriptContent.scriptFile!).setTouched(true)
-                              )
-                              .updateIn(['syntheticType'], (field: Item) =>
-                                (field as Field<string>).setValue(testType).setTouched(true)
-                              )
-                              .remove('script')
-                          );
-                        }
-                        updateForm(updatedForm);
+                        updateForm(getupdatedForm(scriptContent, testType));
                         setScript(scriptContent);
                         setZipFile(zipFileContent);
                         setSliderState({

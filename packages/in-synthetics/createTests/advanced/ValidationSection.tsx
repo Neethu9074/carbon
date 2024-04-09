@@ -100,25 +100,9 @@ export default function ValidationSection({
     else return !expectMatchField.valid && expectMatchField.touched && <TouchedMessages field={expectMatchField} />;
   };
 
-  const onComboBoxChange = (e: Option, selection: Validation) => {
-    const updatedSelections = expectSelections.slice();
-    // stores the previous expect option which was selected in the combobox
-    let previousKey;
-    for (let updatedSelection of updatedSelections) {
-      if (updatedSelection.id === selection.id) {
-        const updatedValue = e.value === expectStatus ? '200' : e.value === expectJson ? JSON.stringify({}) : '';
-        previousKey = updatedSelection.key;
-        if (previousKey === expectJson) {
-          setInvalidJSON({ invalid: false, message: '' });
-        }
-        updatedSelection.key = e.value;
-        updatedSelection.value = updatedValue;
-        updatedSelection.fieldName = placeholders[e.value].field;
-      }
-    }
-    // previousKey does not exist if it's a newly added row
+  const resetCurrentValuesIfExist = (previousKey: string | undefined, selectedCombo: Validation) => {
     if (previousKey) {
-      switch (selection.key) {
+      switch (selectedCombo.key) {
         case expectStatus:
           updateForm(
             previousKey === 'Expect JSON'
@@ -144,7 +128,7 @@ export default function ValidationSection({
               .updateIn(['configuration', 'expectJson'], (field: Item) =>
                 (field as Field<Record<string, string>>).setValue({}).setTouched(false)
               )
-              .updateIn(['configuration', placeholders[previousKey!].field], (field: Item) =>
+              .updateIn(['configuration', placeholders[previousKey].field], (field: Item) =>
                 (field as Field<string>).setValue('').setTouched(false)
               )
           );
@@ -169,8 +153,38 @@ export default function ValidationSection({
           );
       }
     } else {
-      resetFields(selection.fieldName, 'add');
+      resetFields(selectedCombo.fieldName, 'add');
     }
+  };
+
+  const getUpdatedComboBoxValue = (comboBoxValue: string) => {
+    switch (comboBoxValue) {
+      case expectStatus:
+        return '200';
+      case expectJson:
+        return JSON.stringify({});
+      default:
+        return '';
+    }
+  };
+
+  const onComboBoxChange = (e: Option, selection: Validation) => {
+    const updatedSelections = expectSelections.slice();
+    // stores the previous expect option which was selected in the combobox
+    let previousKey;
+    for (let updatedSelection of updatedSelections) {
+      if (updatedSelection.id === selection.id) {
+        previousKey = updatedSelection.key;
+        if (previousKey === expectJson) {
+          setInvalidJSON({ invalid: false, message: '' });
+        }
+        updatedSelection.key = e.value;
+        updatedSelection.value = getUpdatedComboBoxValue(e.value);
+        updatedSelection.fieldName = placeholders[e.value].field;
+      }
+    }
+    // previousKey does not exist if it's a newly added row
+    resetCurrentValuesIfExist(previousKey, selection);
     setExpectSelections([...updatedSelections]);
   };
 

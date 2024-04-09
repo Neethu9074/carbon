@@ -27,11 +27,11 @@ export function wrap(history: History<any>): MatrixAwareHistory {
   const origReplace = history.replace;
   const origListen = history.listen;
 
-  // @ts-ignore The types are incomplete. This field exists and is used by other
+  // @ts-expect-error The types are incomplete. This field exists and is used by other
   // libraries that interact with the history module.
   history.location = parseUrl(window.location.hash.replace(/^#/, ''));
 
-  // @ts-ignore
+  // @ts-expect-error
   history.listen = (listener: MatrixAwareHistoryListener) => origListen.call(history, wrapListener(listener));
   history.push = (pathnameOrLocation: string | Location) =>
     origPush.call(history, translate(pathnameOrLocation, currentLocation));

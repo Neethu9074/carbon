@@ -33,7 +33,7 @@ import {
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
 import { getKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { LogItem, LogTag } from 'in-types';
 
@@ -53,24 +53,21 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
+  const getLinkToDashboard = useGetDashboardLink();
 
-  const containerTagResolvers: [string, LinkResolverObservable][] = containerSnapshotIds.map(id => [
+  const containerTagResolvers: [string, LinkResolverString][] = containerSnapshotIds.map(id => [
     id,
-    (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })
+    (t, _) => getLinkToDashboard(t.stringValue ?? '', { pathname: '/physical/dashboard' })
   ]);
 
   const tagValueObservableLinkResolver = useMemo(
     () =>
       new Map<string, LinkResolverObservable>([
-        [ID_PROCESS, (t, _) => getDashboardLink(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
-        [ID_HOST, (t, _) => getDashboardLink(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
-        [LOG_FILE_PATH, (t, _) => getDashboardLink(t?.stringValue ?? '', { pathname: '/physical/dashboard' })],
         [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
         [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
         [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
         [LOG_KUBERNETES_NAMESPACE_NAME, getKubernetesLink],
         [LOG_KUBERNETES_DEPLOYMENT_NAME, getKubernetesLink],
-        ...containerTagResolvers
       ]),
     [containerTagResolvers]
   );
@@ -78,7 +75,22 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
   const tagValueStringLinkResolver = useMemo(
     () =>
       new Map<string, LinkResolverString>([
-        [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t?.stringValue)],
+        [
+          ID_PROCESS,
+          (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })
+        ],
+        [
+          ID_HOST,
+          (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })
+        ],
+        [
+          LOG_FILE_PATH,
+          (t, _) => getLinkToDashboard(t?.stringValue ?? '', { pathname: '/physical/dashboard' })
+        ],
+        [
+          LOG_TRACE_ID,
+          (t, _) => getLinkToTraceDetail(t?.stringValue)
+        ],
         [
           LOG_CUSTOM_KEY_APPLICATION_ID,
           (t, _) => (t?.stringValue ? getLinkToApplicationDashboard({ applicationId: t?.stringValue }) : null)
@@ -100,7 +112,8 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
             const endpointId = findTag(item.tags, LOG_CUSTOM, LOG_CUSTOM_KEY_ENDPOINT_ID)?.stringValue;
             return endpointId ? getLinkToEndpointDashboard({ endpointId }) : null;
           }
-        ]
+        ],
+        ...containerTagResolvers
       ]),
     [getLinkToApplicationDashboard, getLinkToServiceDashboard, getLinkToEndpointDashboard, getLinkToTraceDetail]
   );
