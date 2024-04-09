@@ -40,9 +40,13 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
 
   return (
     <Link href={onSelectTagHref && onSelectTagHref(tagFilter(LOG_LEVEL, EQUALS, logLevel))}>
-      <Pill className={locals.pill} type={color} lightenOpacity={0}>
-        {logLevel}
-      </Pill>
+      {
+        // @ts-expect-error the type definition in ui-foundation is not correct,
+        // yellow is not accepted since 3.x
+        <Pill className={locals.pill} type={color} lightenOpacity={0}>
+          {logLevel}
+        </Pill>
+      }
     </Link>
   );
 }
