@@ -27,6 +27,6 @@ export const dataSourceConfigurations = {
 export const logPillColorMap: Record<string, PillTypeColors> = {
   error: 'red',
   warn: 'yellow',
-  info: 'blue',
+  info: 'cyan',
   fatal: 'purple'
 };
