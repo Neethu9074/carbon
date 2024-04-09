@@ -42,8 +42,8 @@ import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes'
 // eslint-disable-next-line no-restricted-imports
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import { ProductArea, productAreas } from 'in-services/tracking/productAreas';
-import { PageName, pageNames } from 'in-services/tracking/pageNames';
+import { ProductArea } from 'in-services/tracking/productAreas';
+import { PageName } from 'in-services/tracking/pageNames';
 import { track } from 'in-services/tracking/trackers';
 
 export interface SloTrackingMeta {
@@ -74,7 +74,7 @@ interface ApdexTrackingEventPayload extends SloTrackingMeta {
 }
 
 export const sloTrackers = {
-  [SLO_LIST_VIEW]: () => track(SLO_LIST_VIEW, { productArea: productAreas.slo, pageName: pageNames.slo_summary }),
+  [SLO_LIST_VIEW]: () => track(SLO_LIST_VIEW),
   [SLO_SUMMARY_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_SUMMARY_VIEW, e),
   [SLO_CONFIG_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_VIEW, e),
   [SLO_CONFIG_DIALOG_OPEN]: (e: SloTrackingMeta) => track(SLO_CONFIG_DIALOG_OPEN, e),
@@ -138,7 +138,10 @@ export function useSloTrackers() {
   const { trackers, meta } = useContext(trackerContext);
   return useMemo(
     () =>
-      <EVENT extends keyof AllSloTrackers>(event: EVENT, payload: Parameters<AllSloTrackers[EVENT]>[0]) => {
+      <EVENT extends keyof AllSloTrackers>(
+        event: EVENT,
+        payload: Omit<Parameters<AllSloTrackers[EVENT]>[0], keyof SloTrackingMeta>
+      ) => {
         const tracker: AllSloTrackers[EVENT] = (trackers as AllSloTrackers)[event];
         tracker({ ...payload, ...meta } as any);
       },

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Button, Stack } from '@instana/components';
@@ -21,12 +21,7 @@ import {
   timeWindowType,
   TimeWindowType
 } from 'in-custom-dashboards/widgets/Slo/form';
-import {
-  sliWidgetTrackers,
-  SloTrackerProvider,
-  trackerContext,
-  useSloTrackers
-} from 'in-service-levels/hooks/SloTrackerProvider';
+import { sliWidgetTrackers, SloTrackerProvider, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
@@ -55,6 +50,8 @@ import { Nullish } from 'in-types';
 import { t, Trans } from 'in-i18n';
 
 import locals from './SloFormComponent.mless';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 export interface FormComponentProps {
   form: MapForm<any>;
@@ -72,10 +69,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   });
 
   const track = useSloTrackers();
-  const { meta } = useContext(trackerContext);
   useEffect(() => {
-    track(SLO_WIDGET_EDIT_START, { productArea: meta.productArea, pageName: meta.pageName });
-  }, [track, meta]);
+    track(SLO_WIDGET_EDIT_START, {});
+  }, [track]);
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
@@ -103,9 +99,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   function activateManageSliSlideIn() {
     track(SLI_MANAGEMENT_VIEW, {
-      entityType: entityTypeValue,
-      productArea: meta.productArea,
-      pageName: meta.pageName
+      entityType: entityTypeValue
     });
     return setSlideInView({
       renderTitle(showCreateFormState) {
@@ -120,9 +114,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         if (showCreateFormState) return () => setShowCreateFormState(undefined);
         return () => {
           track(SLI_MANAGEMENT_EXIT, {
-            entityType: entityTypeValue,
-            productArea: meta.productArea,
-            pageName: meta.pageName
+            entityType: entityTypeValue
           });
           slideOut();
         };
@@ -131,7 +123,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         return (
           <SloTrackerProvider
             trackers={sliWidgetTrackers}
-            meta={{ productArea: meta.productArea, pageName: meta.pageName }}
+            meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
           >
             <SliManageList
               entityType={entityTypeValue}

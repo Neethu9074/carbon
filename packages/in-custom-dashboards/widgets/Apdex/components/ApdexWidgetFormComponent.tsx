@@ -4,18 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Item, MapForm } from 'formalistic';
 
 import { Stack, StackItem } from '@instana/components';
 
-import {
-  SloTrackerProvider,
-  SloTrackingMeta,
-  apdexWidgetTrackers,
-  trackerContext,
-  useSloTrackers
-} from 'in-service-levels/hooks/SloTrackerProvider';
+import { SloTrackerProvider, apdexWidgetTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import {
   apdexConfigIdKey,
   defaultEntityType,
@@ -38,6 +32,8 @@ import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 export interface FormComponentProps {
   form: MapForm<any>;
@@ -50,7 +46,6 @@ interface GetSlideInViewConfigProps {
   entityId: string;
   onChange: (value: string) => void;
   track: ReturnType<typeof useSloTrackers>;
-  meta: SloTrackingMeta;
 }
 
 export default function ApdexWidgetFormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
@@ -61,15 +56,10 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
     updateFormWithSideEffects(form.updateIn(path as any, f => setFieldValue<T>(f, value, true)));
   }
 
-  const { meta } = useContext(trackerContext);
-
   const track = useSloTrackers();
   useEffect(() => {
-    track(APDEX_WIDGET_EDIT_START, {
-      productArea: meta.productArea,
-      pageName: meta.pageName
-    });
-  }, [track, meta]);
+    track(APDEX_WIDGET_EDIT_START, {});
+  }, [track]);
 
   // eslint-disable-next-line import/no-deprecated
   const entityType = getField<ApdexEntityTypes>(form, [entityTypeKey])?.value ?? defaultEntityType;
@@ -112,16 +102,13 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
             onChange={value => updateForm<string>([apdexConfigIdKey], value)}
             onOpenConfigurationManager={() => {
               track(APDEX_MANAGEMENT_VIEW, {
-                entityType: entityType,
-                productArea: meta.productArea,
-                pageName: meta.pageName
+                entityType: entityType
               });
               const config = getSlideInViewConfig({
                 entityType,
                 entityId,
                 onChange: value => updateForm<string>([apdexConfigIdKey], value),
-                track,
-                meta
+                track
               });
               setSlideInView(config);
             }}
@@ -136,8 +123,7 @@ function getSlideInViewConfig({
   entityType,
   entityId,
   onChange,
-  track,
-  meta
+  track
 }: GetSlideInViewConfigProps): SlideInViewConfig<'CREATE' | 'EDIT' | undefined> {
   return {
     renderTitle(showCreateFormState): string {
@@ -151,9 +137,7 @@ function getSlideInViewConfig({
       if (showCreateFormState) return () => setShowCreateFormState(undefined);
       return () => {
         track(APDEX_MANAGEMENT_EXIT, {
-          entityType,
-          productArea: meta.productArea,
-          pageName: meta.pageName
+          entityType
         });
         slideOut();
       };
@@ -162,7 +146,7 @@ function getSlideInViewConfig({
       return (
         <SloTrackerProvider
           trackers={apdexWidgetTrackers}
-          meta={{ productArea: meta.productArea, pageName: meta.pageName }}
+          meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
         >
           <ApdexManageList
             entityId={entityId}

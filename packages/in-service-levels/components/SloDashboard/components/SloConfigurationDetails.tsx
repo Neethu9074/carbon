@@ -4,16 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { Card, Ul } from '@instana/components';
 
-import {
-  SloTrackerProvider,
-  sloTrackers,
-  trackerContext,
-  useSloTrackers
-} from 'in-service-levels/hooks/SloTrackerProvider';
+import { SloTrackerProvider, sloTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection/ScopeSection';
 import ObjectiveSection from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
 import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
@@ -49,8 +44,6 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
   const { configuration, entity } = data;
 
-  const { meta } = useContext(trackerContext);
-
   const track = useSloTrackers();
   useEffect(() => {
     const { indicator, timeWindow, entity } = configuration;
@@ -60,11 +53,9 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
       blueprint: indicator.blueprint,
       indicatorType: indicator.type,
       timeWindowType: timeWindow.type,
-      entityType: entity.type,
-      productArea: meta.productArea,
-      pageName: meta.pageName
+      entityType: entity.type
     });
-  }, [track, configuration, meta]);
+  }, [track, configuration]);
 
   return (
     <Card

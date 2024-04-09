@@ -4,7 +4,7 @@
  */
 
 import { Item, MapForm } from 'formalistic';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Result, SliConfigurationWithLastUpdated } from '@instana/types';
 import { Message, Stack, Spacer } from '@instana/components';
@@ -14,7 +14,7 @@ import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-cus
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
-import { trackerContext, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
@@ -58,13 +58,13 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
   });
 
   const track = useSloTrackers();
-  const { meta } = useContext(trackerContext);
+
   // eslint-disable-next-line import/no-deprecated
   const sliName = getField(form, [sliSliNameKey])?.value ?? '';
 
   const trackSaveSuccess = (entityType: SliType, editMode: boolean): void => {
     const event = editMode ? SLI_MANAGEMENT_EDIT_FINISH : SLI_MANAGEMENT_CREATE_FINISH;
-    track(event, { entityType, productArea: meta.productArea, pageName: meta.pageName });
+    track(event, { entityType });
   };
 
   const normalizeFormData = (submittedForm: Item) => {

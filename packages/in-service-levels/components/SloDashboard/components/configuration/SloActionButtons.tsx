@@ -17,6 +17,8 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import IconButton from 'in-components/IconButton/IconButton';
 import { noop } from 'in-services/fixedObjects';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 interface SloActionButtonsProps {
   configuration: ServiceLevelObjectiveConfiguration;
@@ -25,7 +27,12 @@ interface SloActionButtonsProps {
 
 export default function SloActionButtons({ configuration, editDisabled }: SloActionButtonsProps) {
   const { goToPath } = useNavigation();
-  const doDelete = useDoDeleteSloConfiguration(configuration, success => success && goToPath(serviceLevelsOverview));
+  const meta = { productArea: productAreas.slo, pageName: pageNames.slo_config };
+  const doDelete = useDoDeleteSloConfiguration(
+    configuration,
+    meta,
+    success => success && goToPath(serviceLevelsOverview)
+  );
 
   const openCloneDialog = () => {
     addActiveDialog(
@@ -37,12 +44,13 @@ export default function SloActionButtons({ configuration, editDisabled }: SloAct
           lastUpdated: undefined,
           name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: configuration.name })
         }}
+        meta={meta}
       />
     );
   };
 
   const openEditDialog = () => {
-    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} />);
+    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} meta={meta} />);
   };
 
   return (

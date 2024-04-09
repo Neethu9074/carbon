@@ -34,6 +34,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { LabeledEntity } from 'in-service-levels/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { all } from 'in-hooks/utils/progress';
+import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 
 interface UrlState {
   sloId: string;
@@ -60,7 +61,10 @@ export default function ServiceLevelsObjectiveDashboard() {
       trackers={sloTrackers}
       meta={{
         productArea: productAreas.slo,
-        pageName: location.pathname === '/slo/objective/summary' ? pageNames.slo_summary : pageNames.slo_config
+        pageName:
+          location.pathname === serviceLevelsObjectiveSummaryFullyQualified
+            ? pageNames.slo_summary
+            : pageNames.slo_config
       }}
     >
       <SloTimeWindowProvider sloConfigId={sloId} sloTimeWindow={sloTimeWindow}>

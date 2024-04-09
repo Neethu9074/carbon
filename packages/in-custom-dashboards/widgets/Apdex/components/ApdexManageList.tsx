@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ApdexConfiguration, OrderDirection } from '@instana/types';
 
@@ -16,7 +16,7 @@ import {
 } from 'in-services/tracking/eventNames';
 import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
-import { trackerContext, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
@@ -53,15 +53,12 @@ export default function ApdexManageList({
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
 
   const track = useSloTrackers();
-  const { meta } = useContext(trackerContext);
 
   const onShowSlideInContentChange = () => onChange(undefined);
 
   const onCreateConfig = () => {
     track(APDEX_MANAGEMENT_CREATE_START, {
-      entityType,
-      productArea: meta.productArea,
-      pageName: meta.pageName
+      entityType
     });
     setEditableApdexConfig({});
     onShowCreateForm(false);
@@ -69,9 +66,7 @@ export default function ApdexManageList({
 
   const onEditConfig = (config: ApdexConfiguration) => {
     track(APDEX_MANAGEMENT_EDIT_START, {
-      entityType,
-      productArea: meta.productArea,
-      pageName: meta.pageName
+      entityType
     });
     setEditableApdexConfig(config);
     onShowCreateForm(true);
@@ -79,9 +74,7 @@ export default function ApdexManageList({
 
   const onDeleteApdexConfig = (id: string) => {
     track(APDEX_MANAGEMENT_DELETE, {
-      entityType,
-      productArea: meta.productArea,
-      pageName: meta.pageName
+      entityType
     });
 
     deleteApdexConfiguration(id)

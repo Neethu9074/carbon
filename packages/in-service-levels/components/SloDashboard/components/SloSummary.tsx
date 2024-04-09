@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import MatchingSloTimeWindowsCard from 'in-service-levels/components/SloDashboard/components/MatchingSloTimeWindowsCard';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
@@ -14,7 +14,7 @@ import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/componen
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
-import { trackerContext, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -36,7 +36,6 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
-  const { meta } = useContext(trackerContext);
 
   const track = useSloTrackers();
   useEffect(() => {
@@ -46,11 +45,9 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       blueprint: indicator.blueprint,
       indicatorType: indicator.type,
       timeWindowType: timeWindow.type,
-      entityType: entity.type,
-      productArea: meta.productArea,
-      pageName: meta.pageName
+      entityType: entity.type
     });
-  }, [track, configuration, meta]);
+  }, [track, configuration]);
   return (
     <>
       <Row>

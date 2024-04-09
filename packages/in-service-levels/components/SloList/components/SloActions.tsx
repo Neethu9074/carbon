@@ -16,6 +16,8 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { noop } from 'in-services/fixedObjects';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 interface Props {
   item: SloListItem;
@@ -24,7 +26,7 @@ interface Props {
 export default function SloActions({ item }: Props) {
   const { configuration, entity } = item;
   const disabled = entity.deleted;
-
+  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
   const openCloneDialog = () => {
     addActiveDialog(
       <CreateSloDialog
@@ -35,12 +37,13 @@ export default function SloActions({ item }: Props) {
           lastUpdated: undefined,
           name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: item.configuration.name })
         }}
+        meta={meta}
       />
     );
   };
 
   const openEditDialog = () => {
-    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} />);
+    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} meta={meta} />);
   };
 
   return (

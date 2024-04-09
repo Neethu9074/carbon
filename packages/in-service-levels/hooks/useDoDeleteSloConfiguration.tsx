@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Typography } from '@instana/components';
@@ -14,13 +14,11 @@ import {
   SLO_CONFIG_DELETE_FINISH,
   SLO_CONFIG_DELETE_START
 } from 'in-services/tracking/eventNames';
-import { SloTrackingMeta, trackSloEvent, trackerContext } from 'in-service-levels/hooks/SloTrackerProvider';
+import { SloTrackingMeta, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import { deleteSloConfiguration } from 'in-service-levels/api/configuration';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
 import { t, Trans } from 'in-i18n';
 
 type CompletionCallback = (success: boolean) => void;
@@ -28,9 +26,9 @@ type DoFunction = () => void;
 
 export default function useDoDeleteSloConfiguration(
   configuration: ServiceLevelObjectiveConfiguration,
+  meta: SloTrackingMeta,
   onComplete?: CompletionCallback
 ): DoFunction {
-  const { meta } = useContext(trackerContext);
   return () => {
     showConfirmationDialog(configuration, meta, onComplete);
   };
@@ -68,8 +66,8 @@ function showConfirmationDialog(
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
     timeWindowType: configuration.timeWindow.type,
-    productArea: meta?.productArea ?? productAreas.slo,
-    pageName: meta?.pageName ?? pageNames.service_levels
+    productArea: meta.productArea,
+    pageName: meta.pageName
   });
 }
 
@@ -106,8 +104,8 @@ function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, meta
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
     timeWindowType: configuration.timeWindow.type,
-    productArea: meta?.productArea ?? productAreas.slo,
-    pageName: meta?.pageName ?? pageNames.service_levels
+    productArea: meta.productArea,
+    pageName: meta.pageName
   });
 }
 
@@ -127,7 +125,7 @@ function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, meta:
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
     timeWindowType: configuration.timeWindow.type,
-    productArea: meta?.productArea ?? productAreas.slo,
-    pageName: meta?.pageName ?? pageNames.service_levels
+    productArea: meta.productArea,
+    pageName: meta.pageName
   });
 }
