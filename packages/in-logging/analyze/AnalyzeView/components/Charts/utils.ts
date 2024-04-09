@@ -59,7 +59,7 @@ export const getLogsChartConfig = (
         logLevelColors.warn,
         logLevelColors.info,
         logLevelColors.fatal,
-        logLevelColors.unknown
+        logLevelColors.nextloglevel
       ],
       formatter: 'number.compact',
       renderer: 'stackedBar'

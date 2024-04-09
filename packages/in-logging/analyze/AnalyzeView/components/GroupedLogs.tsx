@@ -13,6 +13,7 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { number, percentage, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
+import { useLoggingAnalyzeContext } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import { getLogLevelColor } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
@@ -64,11 +65,12 @@ const columnDefinitions = [
 export interface GroupedLogsProps extends StateManagementChildProps {}
 export default function GroupedLogs(props: GroupedLogsProps) {
   const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog, groupBy } = props;
+  const { state } = useLoggingAnalyzeContext();
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
   const getColor = useMemo(
-    () => (item: LogGroupItem, index: number) => getLogGroupColor(item, index, groupBy),
-    [groupBy]
+    () => (item: LogGroupItem, index: number) => getLogGroupColor(item, index, groupBy, state.extraChartLogLevel),
+    [groupBy, state.extraChartLogLevel]
   );
 
   return (
@@ -88,9 +90,12 @@ export default function GroupedLogs(props: GroupedLogsProps) {
     </QueryBuilderWorkspace>
   );
 }
-function getLogGroupColor(item: LogGroupItem, index: number, groupBy: Group) {
+function getLogGroupColor(item: LogGroupItem, index: number, groupBy: Group, extraChartLogLevel?: string) {
   if (groupBy?.groupbyTag === LOG_LEVEL) {
     const logLevel = item.label.toLowerCase();
+    if (extraChartLogLevel && extraChartLogLevel.toLowerCase() === logLevel) {
+      return getLogLevelColor('nextloglevel');
+    }
     return getLogLevelColor(logLevel);
   }
   return GROUP_COLORS[index];
