@@ -12,7 +12,7 @@ import { Options } from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import nodeLocals from './Node.mless';
 
 // Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
-const RANGE = 1000;
+const RANGE = 200;
 const FUZZY_SEARCH_THRESHOLD = (1 + 2 + 3 + 4 + 5 + 6) * RANGE;
 const KEYS = ['label', 'description', 'parentLabels.0', 'parentLabels.1', 'keywords', 'tagName'];
 
