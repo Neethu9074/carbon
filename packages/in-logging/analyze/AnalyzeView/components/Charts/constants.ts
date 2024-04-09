@@ -4,18 +4,18 @@
  * Copyright IBM Corp. 2022
  */
 
-import { carbonAlert, carbonCategorical } from 'in-themes/chartColors';
 import { LowercaseLogLevel } from 'in-logging/components/types';
+import { carbonCategorical } from 'in-themes/chartColors';
 import { t } from 'in-i18n';
 
 export const maxInitialLogLines = 2000;
 export const customChartHeight = 215;
 export const maxRetrievalSize = 2000;
 export const logLevelColors: Record<LowercaseLogLevel, string> = {
-  error: carbonAlert.red60,
-  warn: carbonAlert.yellow30,
-  info: carbonCategorical.blue80,
-  fatal: carbonAlert.purple50,
+  error: carbonCategorical.red50,
+  warn: carbonCategorical.yellow50,
+  info: carbonCategorical.cyan50,
+  fatal: carbonCategorical.purple50,
   debug: carbonCategorical.teal50,
   trace: carbonCategorical.teal50,
   unknown: carbonCategorical.teal50
