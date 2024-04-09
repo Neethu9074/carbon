@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import TabPane from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/TabPane';
 import Tabs from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/Tabs';
+import DetailsOutputTab from 'in-automation/components/ActionHistory/DetailsOutputTab';
 import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParamsTab';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -91,6 +92,12 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
               <DashboardHeaderShadowModule />
               <DetailTab id={id} properties={data} />
             </TabPane>
+
+            <TabPane title={t('in-automation:actionHistory.output')}>
+              <DashboardHeaderShadowModule />
+              <DetailsOutputTab output={data?.output} />
+            </TabPane>
+
             <TabPane title={t('in-automation:actionHistory.inputParameters')}>
               <DashboardHeaderShadowModule />
               <DetailParamsTab inputParameters={data?.inputParameters} />
