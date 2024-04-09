@@ -89,7 +89,7 @@ function DatePresenterWrapper({
   liveModeDisabledTooltip
 }: DatePresenterWrapperProps) {
   return (
-    <Stack direction="horizontal" gap={'disabled'}>
+    <Stack direction="horizontal" gap="disabled">
       <DatePresenter
         expanded={isOpen}
         timeConfig={timeConfig}

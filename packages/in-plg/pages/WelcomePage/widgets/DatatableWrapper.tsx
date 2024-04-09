@@ -7,6 +7,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { DashboardTable, DashboardTile } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -19,6 +20,7 @@ import {
   DatatableWidgetProps
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ProcessedItem {
@@ -40,6 +42,7 @@ export default function DatatableWrapper({
   href,
   isDashboardWidget,
   syntheticType,
+  maxItems = 5,
   dashboardTileProps
 }: DatatableWidgetProps) {
   const [processedItems, setProcessedItems] = useState<ProcessedItem[]>([]);
@@ -60,39 +63,32 @@ export default function DatatableWrapper({
   };
 
   useEffect(() => {
-    if (result?.data) {
-      let resultItems;
-      if (result?.data && result?.data?.items) {
-        resultItems = result.data.items.slice(0, 5);
-      } else {
-        setItemCount(result.data.length);
-        resultItems = result.data.slice(0, 5);
-      }
+    const data = result?.data;
 
-      if (result?.data?.totalHits) {
-        setItemCount(result.data.totalHits);
-      }
-
-      // For smart Alerts the search is being done in front-end
-      if (query !== '' && syntheticType === 'smartalerts') {
-        const extraSearchAttributes: [] = [];
-        //@ts-expect-error
-        const searchData = getResultsToDisplay(result.data, query, extraSearchAttributes);
-        setItemCount(searchData.length);
-        resultItems = searchData.slice(0, 5);
-      }
-
-      const processedItemsArray: ProcessedItem[] = resultItems.map((item: {}, index: number) => {
-        const processedItem: ProcessedItem = { id: index };
-        columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
-          const value = getContent({ item, result, timeConfig });
-          processedItem[key] = value;
-        });
-        return processedItem;
-      });
-      setProcessedItems(processedItemsArray);
+    if (!data) {
+      return;
     }
-  }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType]);
+
+    const resultDataItems = data.items ?? data;
+    const hasQuery = query !== '';
+    const isSmartAlerts = syntheticType === 'smartalerts';
+    const searchData = hasQuery
+      ? getSearchData({
+          isDashboardWidget,
+          isSmartAlerts,
+          items: data,
+          query
+        })
+      : null;
+
+    const items = searchData ?? resultDataItems;
+    const resultItems = maxItems ? items.slice(0, maxItems) : items;
+    const hits = searchData?.length ?? data?.totalHits ?? data.length;
+    const processedItems = getProcessedItems({ resultItems, columnDefinitions, result, timeConfig });
+
+    setItemCount(hits);
+    setProcessedItems(processedItems);
+  }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType, maxItems]);
 
   const exclusionArray = [
     'infrastructure',
@@ -107,9 +103,9 @@ export default function DatatableWrapper({
       <DashboardTable
         headers={headers}
         rows={processedItems}
-        searchPlaceholder="Search"
+        searchPlaceholder={t('in-plg:welcomepage.search')}
         viewLabel={t('in-plg:welcomepage.viewAll')}
-        iconColor="#ffffff"
+        iconColor={themes.default.ids.color.option.white}
         hasAddMore={hasAddMore ? true : false}
         viewAll={viewAll ? true : false}
         addMore={addMore}
@@ -127,4 +123,43 @@ export default function DatatableWrapper({
       />
     </DashboardTile>
   );
+}
+
+interface GeProcessedItemsProps {
+  resultItems: [];
+  result: [];
+  columnDefinitions: [];
+  timeConfig: TimeConfig;
+}
+
+function getProcessedItems({ resultItems, columnDefinitions, result, timeConfig }: GeProcessedItemsProps) {
+  const processedItems: ProcessedItem[] = resultItems?.map((item: {}, index: number) => {
+    const processedItem: ProcessedItem = { id: index };
+    columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
+      const value = getContent({ item, result, timeConfig });
+      processedItem[key] = value;
+    });
+    return processedItem;
+  });
+
+  return processedItems;
+}
+
+interface SearchDataProps {
+  isDashboardWidget?: boolean;
+  isSmartAlerts: boolean;
+  query: string;
+  items: any;
+}
+
+function getSearchData({ isDashboardWidget, isSmartAlerts, items, query }: SearchDataProps) {
+  if (isDashboardWidget) {
+    return items.filter(({ title }: { title: string }) => title.toLowerCase().includes(query.trim().toLowerCase()));
+  }
+
+  if (isSmartAlerts) {
+    return getResultsToDisplay(items, query, [() => '']);
+  }
+
+  return;
 }

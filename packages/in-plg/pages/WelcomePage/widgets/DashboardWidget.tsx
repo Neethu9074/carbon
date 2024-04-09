@@ -6,7 +6,9 @@
 
 import React from 'react';
 
-import { Link, Typography } from '@instana/components';
+import { Link, Pill, Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { UserResult } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
@@ -15,18 +17,30 @@ import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/h
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import useGetCustomDashboard from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboard';
-import useGetUserDetail from 'in-plg/pages/WelcomePage/widgets/hooks/useGetUserDetail';
+// @ts-expect-error needs ts migration
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { searchCustomDashboards } from 'in-custom-dashboards/api';
+import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import { timeConfig$ } from 'in-stores/time/config';
 
 export default connectTo(() => ({
   timeConfig: timeConfig$
-}))(function DashboardWidget({ config, widgetLabel, dashboardTileProps }: WidgetProps) {
+}))(function DashboardWidget({
+  config,
+  widgetLabel,
+  dashboardTileProps,
+  maxItems,
+  viewAll = welcomePageV2Enabled
+}: WidgetProps) {
+  // @ts-ignore
+  const users = useObservable(getUsers, []) ?? null;
+  const { createHrefToPath } = useNavigation();
+
   const getHeaders = () => {
     return [
       {
@@ -36,6 +50,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.dashboardWidget.owner'),
         key: 'owner'
+      },
+      {
+        header: t('in-plg:welcomepage.component.dashboardWidget.permissions'),
+        key: 'permissions'
       }
     ];
   };
@@ -50,7 +68,13 @@ export default connectTo(() => ({
     {
       key: 'owner',
       getContent({ item }) {
-        return <CustomDashboardOwner id={item.id} />;
+        const user = users?.data?.find((user: UserResult) => user.id === item.ownerId);
+
+        if (!user) {
+          return '-';
+        }
+
+        return <Typography variant="body-regular">{user.fullName}</Typography>;
       }
     },
     {
@@ -72,50 +96,30 @@ export default connectTo(() => ({
     addActiveDialog(<NewDashboardDialog />);
   }
 
-  function getDashboards({ query }: { query: string }) {
-    return searchCustomDashboards(query);
-  }
-
   return (
     <DatatableWrapper
       {...generalProps}
-      getItems={getDashboards}
       query=""
       hasAddMore
+      isDashboardWidget
+      maxItems={maxItems}
+      viewAll={viewAll}
+      href={createHrefToPath(customDashboardsPath)}
+      getItems={getCustomDashboards}
       addMore={addNewDashboard}
       addData={addNewDashboard}
-      isDashboardWidget
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
     />
   );
 });
 
-function CustomDashboardOwner({ id }: { id: string }) {
-  let userId = null;
-  const dashboard = useGetCustomDashboard(id);
-  if (dashboard) {
-    const accessRules = dashboard.accessRules;
-    accessRules.forEach(item => {
-      if (item.relationType === 'USER' && item.relatedId) {
-        userId = item.relatedId;
-      }
-    });
-  }
-
-  return userId && <OwnerDetail userId={userId} />;
-}
-
-function OwnerDetail({ userId }: { userId: string }) {
-  const user = useGetUserDetail(userId);
-  if (!user) {
-    return null;
-  }
-  return <Typography variant="body-regular">{user.fullName}</Typography>;
-}
-
 function DashboardPermission({ id }: { id: string }) {
   const permission: string = useGetCustomDashboardPermissions(id);
 
-  return <Typography variant="body-regular">{permission}</Typography>;
+  return (
+    <Pill kind="info" type="gray">
+      {permission}
+    </Pill>
+  );
 }

@@ -63,7 +63,9 @@ type tableEntry = {
     infraType?: string;
     widgetLabel?: string;
     syntheticType?: string;
-    dashboardTileProps?: dashboardTileParamProps;
+    dashboardTileProps?: DashboardTileParamProps;
+    maxItems?: number | null;
+    viewAll?: boolean;
   }>;
   type?: string;
   toogles?: string[];
@@ -72,7 +74,7 @@ type tableEntry = {
   config?: string;
 };
 
-export interface dashboardTileParamProps {
+export interface DashboardTileParamProps {
   key: number;
   header: string;
   icon?: string;
@@ -298,7 +300,7 @@ function RenderTable() {
               return (
                 <Draggable key={_config.id} draggableId={_config.id} index={index}>
                   {provided => {
-                    const dashboardTileProps: dashboardTileParamProps = {
+                    const dashboardTileProps: DashboardTileParamProps = {
                       key: +_config.id,
                       header: ele.label,
                       icon: ele.icon,
@@ -327,7 +329,7 @@ function RenderTable() {
   );
 }
 
-function RenderEvents({ dashboardTileProps }: { dashboardTileProps: dashboardTileParamProps }) {
+function RenderEvents({ dashboardTileProps }: { dashboardTileProps: DashboardTileParamProps }) {
   const EventsfullListViewHref = useObservable(getEventsViewFilteredBy({}), []);
 
   return (
@@ -402,4 +404,8 @@ function RenderEvents({ dashboardTileProps }: { dashboardTileProps: dashboardTil
       </div>
     </DashboardTile>
   );
+}
+
+export function getWidget(widgetName: string) {
+  return tableEntryArray.find(item => item.key === widgetName) ?? null;
 }
