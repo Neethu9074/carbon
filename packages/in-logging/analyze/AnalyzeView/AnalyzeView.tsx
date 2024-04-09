@@ -8,6 +8,7 @@ import React from 'react';
 import getFacetedSearchSuggestions from 'in-logging/analyze/AnalyzeView/utils/getFacetedSearchSuggestions';
 import StateManagement, { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import { LoggingAnalyzeContextWrapper } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import { dataSourceConfigurations } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
@@ -34,17 +35,19 @@ export default function LoggingAnalyzeView() {
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
     >
-      {(opts: StateManagementChildProps) =>
-        !role!.canViewLogs ? (
-          <QueryBuilderWorkspace {...opts}>
-            <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
-          </QueryBuilderWorkspace>
-        ) : opts.isGrouped ? (
-          <GroupedLogs {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} getLabel={getLabel} />
-        ) : (
-          <Logs {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
-        )
-      }
+      {(opts: StateManagementChildProps) => (
+        <LoggingAnalyzeContextWrapper>
+          {!role!.canViewLogs ? (
+            <QueryBuilderWorkspace {...opts}>
+              <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
+            </QueryBuilderWorkspace>
+          ) : opts.isGrouped ? (
+            <GroupedLogs {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} getLabel={getLabel} />
+          ) : (
+            <Logs {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
+          )}
+        </LoggingAnalyzeContextWrapper>
+      )}
     </StateManagement>
   );
 }
