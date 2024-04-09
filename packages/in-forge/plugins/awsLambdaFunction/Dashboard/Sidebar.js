@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsLambdaFunction/Info';
 import { fullyQualifiedPlugins } from 'in-forge/constants';
 import TagList from 'in-sdk/components/sidebar/TagList';

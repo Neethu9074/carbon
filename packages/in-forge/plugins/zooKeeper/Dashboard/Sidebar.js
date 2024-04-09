@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import StandaloneInfo from 'in-forge/plugins/zooKeeper/StandaloneInfo';
 import ReplicatedInfo from 'in-forge/plugins/zooKeeper/ReplicatedInfo';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 

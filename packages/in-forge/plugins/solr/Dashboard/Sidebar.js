@@ -5,18 +5,16 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
 import SolrCoreInfo from '../SolrCoreInfo';
 import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function SolrSidebar({ snapshot }) {
-  const coreNames = snapshot
-    .getIn(['data', 'core_names'], emptyList)
-    .toArray()
-    .sort();
+  const coreNames = snapshot.getIn(['data', 'core_names'], emptyList).toArray().sort();
 
   return (
     <div>

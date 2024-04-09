@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 

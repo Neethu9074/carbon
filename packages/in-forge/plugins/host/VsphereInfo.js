@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import getVsphereDatacenterByVm from 'in-vsphere/subscriptions/getVsphereDatacenterByVm';
 import VsphereSnapshotLink from 'in-components/Link/SnapshotLink/VsphereSnapshotLink';
 import getVsphereVmByVmHost from 'in-vsphere/subscriptions/getVsphereVmByVmHost';
 import getVsphereHostByVm from 'in-vsphere/subscriptions/getVsphereHostByVm';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

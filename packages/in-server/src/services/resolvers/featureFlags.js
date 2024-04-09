@@ -526,6 +526,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonAccordionEnabled',
+    instanaCtlKey: 'feature.carbon.accordion.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
     instanaCtlKey: 'feature.last.value.for.non.time.series.widget.enabled',
     defaultValue: false

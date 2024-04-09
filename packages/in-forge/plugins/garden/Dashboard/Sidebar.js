@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import CloudfoundryInfo from 'in-forge/plugins/garden/CloudfoundryInfo';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { pcfEnabled } from 'in-services/featureFlags';
 import List from 'in-sdk/components/sidebar/List';
 import Info from 'in-forge/plugins/garden/Info';

@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import getTriggersForLambdaVersion from 'in-subscription/getTriggersForLambdaVersion';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsLambdaVersion/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import { t } from 'in-i18n';

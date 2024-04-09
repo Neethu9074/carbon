@@ -5,19 +5,17 @@
 
 import React, { Fragment } from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import MongoDbClusterInfo from 'in-forge/plugins/mongoDb/MongoDbClusterInfo';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
 import List from 'in-sdk/components/sidebar/List';
 import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function MongoDBSidebar({ snapshot }) {
-  const databases = snapshot
-    .getIn(['data', 'databases'], emptyList)
-    .toArray()
-    .sort();
+  const databases = snapshot.getIn(['data', 'databases'], emptyList).toArray().sort();
 
   const data = snapshot.get('data');
 
