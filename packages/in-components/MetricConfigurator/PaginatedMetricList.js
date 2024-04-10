@@ -3,16 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Ul, Li, SearchInput } from '@instana/components';
 
-import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
-import { search } from 'in-components/SelectorOverlay/search';
+import { useSearch } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Pagination from 'in-components/Pagination/Pagination';
-import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 import locals from './PaginatedMetricList.mless';
@@ -26,12 +24,7 @@ const itemsPerPage = 100;
 
 export default function PaginatedMetricList({ options, onChange, isMetricDisabled }) {
   const [{ query, currentPage }, setState] = useState(initialState);
-  options = useMemo(() => {
-    if (isNotBlank(query)) {
-      return search(options, query);
-    }
-    return options;
-  }, [options, query]);
+  options = useSearch(options, query);
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
@@ -102,7 +95,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
 }
 
 PaginatedMetricList.propTypes = {
-  options: nodeArrayPropType.isRequired,
+  options: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   isMetricDisabled: PropTypes.func.isRequired
 };

@@ -3,20 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { keyCodes, HorizontalIndicator,SearchInput } from '@instana/components';
+import { keyCodes, HorizontalIndicator, SearchInput } from '@instana/components';
 
-import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import SelectorNode, { Options } from 'in-components/SelectorOverlay/Node';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { search } from 'in-components/SelectorOverlay/search';
+import { useSearch } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import Node from 'in-components/SelectorOverlay/Node';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -28,6 +26,20 @@ const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
 const maxResults = 100;
 
+export interface SelectorOverlayProps {
+  options: Options[];
+  loading?: boolean;
+  onChange: (node: Options) => void;
+  withIcons: boolean;
+  query: string;
+  onQueryChange: (value: string) => void;
+  onFocusNode?: (node?: Options) => void;
+  disabled?: boolean;
+  shouldTriggerWindowResize?: boolean;
+  nodesToSearchFrom?: (options: Options[], focusedNode?: Options) => Options[];
+  showLoadingInBackground?: boolean;
+}
+
 export default function SelectorOverlay({
   options,
   loading = false,
@@ -35,33 +47,16 @@ export default function SelectorOverlay({
   withIcons = true,
   query,
   onQueryChange,
-  onFocusNode,
-  disabled,
-  shouldTriggerWindowResize,
-  nodesToSearchFrom = (options, focusedNode) => (focusedNode !== null ? [focusedNode] : options),
+  onFocusNode = noop,
+  disabled = false,
+  shouldTriggerWindowResize = false,
+  nodesToSearchFrom = (options, focusedNode) => (focusedNode ? [focusedNode] : options),
   showLoadingInBackground = false // true if the loading indicator should be shown at the top and the catalog still shown
-}) {
-  const [focusedNode, setFocusedNode] = useState(null);
-  useEffect(() => {
-    onFocusNode?.(focusedNode);
-  }, [focusedNode, onFocusNode]);
-  const filteredOptions = useMemo(() => {
-    if (isNotBlank(query)) {
-      const nodes = nodesToSearchFrom(options, focusedNode);
-      const results = search(nodes, query);
-      return results.filter(node => !node.disabled);
-    }
-    return options;
-  }, [options, query, focusedNode, nodesToSearchFrom]);
-
+}: Readonly<SelectorOverlayProps>) {
   // Used to jump to the first available group when clicking enter in the input field.
-  const staticContentWrapperRef = useRef();
-  // We use this ref to store the last element (either search or tag groups)
-  // which received focus. This information is used when sliding out to restore
-  // focus to whatever was focused beforehand.
-  const lastFocusedElementRef = useRef();
+  const staticContentWrapperRef = useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
   // Keep a reference to search input
-  const searchElementRef = useRef();
+  const searchElementRef = useRef<HTMLInputElement>() as React.MutableRefObject<HTMLInputElement>;
 
   const focusOnFirstResult = () => {
     if (staticContentWrapperRef.current) {
@@ -81,12 +76,12 @@ export default function SelectorOverlay({
           className={locals.searchInput}
           onReturn={focusOnFirstResult}
           onArrowDown={focusOnFirstResult}
-          inputRef={searchElementRef}
+          inputRef={searchElementRef as any}
           disabled={disabled}
         />
       </div>
       <div className={locals.overlay}>
-        {loading === true && (!showLoadingInBackground || filteredOptions.length === 0) && (
+        {loading === true && (!showLoadingInBackground || options.length === 0) && (
           <div className={locals.loading}>
             <LoadingIndicator
               text={t('in-components:selectorOverlay.loadingIndicatorLoadingCatalog')}
@@ -95,100 +90,147 @@ export default function SelectorOverlay({
             />
           </div>
         )}
-        {loading === true && showLoadingInBackground && filteredOptions.length !== 0 && (
+        {loading === true && showLoadingInBackground && options.length !== 0 && (
           <HorizontalIndicator progress={{ loading }} />
         )}
-        {loading === false && filteredOptions.length === 0 && (
+        {loading === false && options.length === 0 && (
           <NoDataAvailable className={locals.overlay} text={t('in-components:selectorOverlay.noResults')} />
         )}
-        {(loading === false || showLoadingInBackground) && filteredOptions.length !== 0 && (
-          <SlideInView
-            showSlideInContent={showFocusedNode()}
-            onShowSlideInContentChange={unfocusNode}
-            onAfterSlideOut={() => {
-              lastFocusedElementRef.current?.focus();
-            }}
-            HeaderComponent={ListHeader}
-            slideTransitionDurationMillis={250}
-            slideInContentTitle={focusedNode?.label}
+        {(loading === false || showLoadingInBackground) && options.length !== 0 && (
+          <DataAvailable
+            onFocusNode={onFocusNode}
+            disabled={disabled}
+            onChange={onChange}
+            options={options}
+            nodesToSearchFrom={nodesToSearchFrom}
+            query={query}
             shouldTriggerWindowResize={shouldTriggerWindowResize}
-            slideInContent={
-              focusedNode?.children && (
-                <div onKeyDown={onKeyDown}>
-                  {focusedNode?.children.slice(0, maxResults).map((node, i) => (
-                    <Node
-                      key={i}
-                      node={node}
-                      focusNode={disabled ? noop : focusNode}
-                      onChange={disabled ? noop : onChange}
-                      asListGroup
-                      withIcons={withIcons}
-                    />
-                  ))}
-                </div>
-              )
-            }
-            staticContent={
-              <div
-                onFocus={e => {
-                  lastFocusedElementRef.current = e.target;
-                }}
-                ref={staticContentWrapperRef}
-                onKeyDown={onKeyDown}
-              >
-                {filteredOptions.slice(0, maxResults).map((node, i) => (
-                  <Node
-                    key={i}
-                    node={node}
-                    focusNode={disabled ? noop : focusNode}
-                    onChange={disabled ? noop : onChange}
-                    asListGroup
-                    withIcons={withIcons}
-                    withBreadcrumbs={isNotBlank(query)}
-                    height={`${categoryHeight}px`}
-                  />
-                ))}
-              </div>
-            }
-            enforceMaxHeightForStaticContent
+            withIcons={withIcons}
+            staticContentWrapperRef={staticContentWrapperRef}
+            searchElementRef={searchElementRef}
           />
         )}
       </div>
     </>
   );
+}
 
-  function focusNode(focusedNode) {
+export interface DataAvailableProps {
+  disabled: boolean;
+  onChange: (node: Options) => void;
+  options: Options[];
+  onFocusNode: (node?: Options) => void;
+  nodesToSearchFrom: (options: Options[], focusedNode?: Options) => Options[];
+  query: string;
+  shouldTriggerWindowResize?: boolean;
+  withIcons: boolean;
+  staticContentWrapperRef: React.MutableRefObject<HTMLInputElement>;
+  searchElementRef: React.MutableRefObject<HTMLInputElement>;
+}
+
+function DataAvailable({
+  disabled,
+  onChange,
+  options,
+  onFocusNode,
+  nodesToSearchFrom,
+  query,
+  shouldTriggerWindowResize,
+  withIcons,
+  staticContentWrapperRef,
+  searchElementRef
+}: DataAvailableProps) {
+  const [focusedNode, setFocusedNode] = useState<Options | undefined>(undefined);
+  useEffect(() => {
+    onFocusNode?.(focusedNode);
+  }, [focusedNode, onFocusNode]);
+
+  // We use this ref to store the last element (either search or tag groups)
+  // which received focus. This information is used when sliding out to restore
+  // focus to whatever was focused beforehand.
+  const lastFocusedElementRef = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
+  const List = isBlank(query) ? OptionList : SearchResults;
+  return (
+    <SlideInView
+      showSlideInContent={showFocusedNode()}
+      onShowSlideInContentChange={unfocusNode}
+      onAfterSlideOut={() => {
+        lastFocusedElementRef.current?.focus();
+      }}
+      HeaderComponent={ListHeader}
+      slideTransitionDurationMillis={250}
+      slideInContentTitle={focusedNode?.label}
+      shouldTriggerWindowResize={shouldTriggerWindowResize}
+      slideInContent={
+        focusedNode?.children && (
+          <div onKeyDown={onKeyDown}>
+            {focusedNode?.children.slice(0, maxResults).map((node, i) => (
+              <SelectorNode
+                key={i}
+                node={node}
+                focusNode={disabled ? noop : focusNode}
+                onChange={disabled ? noop : onChange}
+                asListGroup
+                withIcons={withIcons}
+              />
+            ))}
+          </div>
+        )
+      }
+      staticContent={
+        <div
+          onFocus={e => {
+            lastFocusedElementRef.current = e.target;
+          }}
+          ref={staticContentWrapperRef}
+          onKeyDown={onKeyDown}
+        >
+          <List
+            options={nodesToSearchFrom(options, focusedNode)}
+            disabled={disabled}
+            focusNode={focusNode}
+            onChange={onChange}
+            query={query}
+            withIcons={withIcons}
+          />
+        </div>
+      }
+      enforceMaxHeightForStaticContent
+    />
+  );
+
+  function focusNode(focusedNode: Options) {
     setFocusedNode(focusedNode);
   }
 
   function unfocusNode() {
-    setFocusedNode(null);
+    setFocusedNode(undefined);
   }
 
   function showFocusedNode() {
-    return focusedNode !== null && isBlank(query);
+    return focusedNode !== undefined && isBlank(query);
   }
 
-  function onKeyDown(event) {
+  function onKeyDown(event: KeyboardEvent | React.KeyboardEvent) {
     if (isArrowRight(event) || isReturn(event)) {
-      event.target.click();
+      (event.target as any).click();
     } else if (isArrowLeft(event)) {
       unfocusNode();
     } else if (
       isArrowUp(event) &&
       !showFocusedNode() &&
-      getInteractiveElements(event.currentTarget).indexOf(event.target) === 0
+      getInteractiveElements(event.currentTarget as HTMLElement).indexOf(event.target as HTMLElement) === 0
     ) {
       //arrow up from first element in root menu
       searchElementRef?.current?.focus();
     } else {
       const nextElement = onArrowKeyDownFocusSiblings(event);
       if (nextElement) {
-        const scrollPosition = staticContentWrapperRef?.current?.parentElement.scrollTop;
+        const scrollPosition = (staticContentWrapperRef?.current?.parentElement as HTMLElement).scrollTop;
         const elementPosition = nextElement.offsetTop;
         if (elementPosition < scrollPosition + categoryHeight) {
           // element is at top but behind category, scroll to show element right under category
-          staticContentWrapperRef?.current?.parentElement.scrollTo({
+          (staticContentWrapperRef?.current?.parentElement as HTMLElement).scrollTo({
             top: elementPosition - categoryHeight,
             behavior: 'smooth'
           });
@@ -198,16 +240,52 @@ export default function SelectorOverlay({
   }
 }
 
-SelectorOverlay.propTypes = {
-  options: nodeArrayPropType.isRequired,
-  loading: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool,
-  query: PropTypes.string.isRequired,
-  shouldTriggerWindowResize: PropTypes.bool,
-  onQueryChange: PropTypes.func.isRequired,
-  onFocusNode: PropTypes.func,
-  disabled: PropTypes.bool,
-  nodesToSearchFrom: PropTypes.func,
-  showLoadingInBackground: PropTypes.bool
-};
+interface SearchResultsProps {
+  options: Options[];
+  disabled: boolean;
+  focusNode: (node: Options) => void;
+  onChange: (node: Options) => void;
+  withIcons: boolean;
+  query: string;
+}
+
+function SearchResults({ options, disabled, focusNode, onChange, query, withIcons }: SearchResultsProps) {
+  const filteredOptions = useSearch(options, query);
+  return (
+    <OptionList
+      options={filteredOptions.slice(0, maxResults)}
+      disabled={disabled}
+      focusNode={focusNode}
+      onChange={onChange}
+      query={query}
+      withIcons={withIcons}
+    />
+  );
+}
+
+interface OptionsListProps {
+  options: Options[];
+  disabled: boolean;
+  focusNode: (node: Options) => void;
+  onChange: (node: Options) => void;
+  query: string;
+  withIcons: boolean;
+}
+function OptionList({ options, disabled, focusNode, onChange, query, withIcons }: OptionsListProps) {
+  return (
+    <>
+      {options.map((node, i) => (
+        <SelectorNode
+          key={i}
+          node={node}
+          focusNode={disabled ? noop : focusNode}
+          onChange={disabled ? noop : onChange}
+          asListGroup
+          withIcons={withIcons}
+          withBreadcrumbs={isNotBlank(query)}
+          height={`${categoryHeight}px`}
+        />
+      ))}
+    </>
+  );
+}
