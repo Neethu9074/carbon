@@ -15,7 +15,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { canSeeExtendedInternalMonitoring, role } from 'in-stores/user';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -114,18 +113,11 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.groupedView')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sloViolations')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/sloViolations' })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.eventView')}
-                              href$={getModifiedUrlStream(params => {
-                                params.pathname = '/events';
-                                params.query.q =
-                                  '(event.text:"[SREInfaSLO]" OR event.text:"[SRESLO]" OR event.text:"[TUSLO]" OR event.text:"[ExpTUSLO]" OR event.text:"[DevTUSLO]") AND event.state:open';
-                                setOrDeleteMatrixKey(params, '/events', 'view', 'issue');
-                              })}
+                              href={linkToEventView({ ...location }, createHref)}
                             />
                           </LinkList>
                         </LinkListItem>
@@ -141,7 +133,7 @@ export default connectTo(
 
                   <LinkListItem
                     label={t('in-internal:components.landing.regionStatistics')}
-                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/region'))}
+                    href={createHref({ ...location, pathname: '/internal/monitoringUnit/region' })}
                     description={t('in-internal:components.landing.statisticsWholeMonitorUnit')}
                   />
 
@@ -152,12 +144,12 @@ export default connectTo(
                     <LinkList>
                       <LinkListItem
                         label={t('in-internal:components.landing.unitList')}
-                        href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/units'))}
+                        href={createHref({ ...location, pathname: '/internal/monitoringUnit/units' })}
                         description={t('in-internal:components.landing.allowsUnitLevelStability')}
                       />
                       <LinkListItem
                         label={t('in-internal:components.landing.agents')}
-                        href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/agents'))}
+                        href={createHref({ ...location, pathname: '/internal/monitoringUnit/agents' })}
                         description={t('in-internal:components.landing.agentDesc')}
                       />
                     </LinkList>
@@ -168,16 +160,15 @@ export default connectTo(
                       <LinkList>
                         <LinkListItem
                           label={t('in-internal:components.landing.acceptor')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sre/acceptors')
-                          )}
+                          href={createHref({ ...location, pathname: '/internal/monitoringUnit/sre/acceptors' })}
                           description={t('in-internal:components.landing.acceptorDesc')}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.serverlessAcceptor')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
-                          )}
+                          href={createHref({
+                            ...location,
+                            pathname: '/internal/monitoringUnit/serverless/serverlessacceptors'
+                          })}
                           description={t('in-internal:components.landing.serverlessAcceptorDesc')}
                         />
                         <LinkListItem
@@ -187,16 +178,12 @@ export default connectTo(
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.cashiers')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/cashier/cashiers')
-                          )}
+                          href={createHref({ ...location, pathname: '/internal/monitoringUnit/cashier/cashiers' })}
                           description={t('in-internal:components.landing.cashiersDesc')}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.hubforce')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/hubforce')
-                          )}
+                          href={createHref({ ...location, pathname: '/internal/monitoringUnit/hubforce' })}
                           description={t('in-internal:components.landing.hubforceDesc')}
                         />
                         <LinkListItem
@@ -206,57 +193,54 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.processing')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appdataProcessing')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/appdataProcessing' })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.batchingWriting')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appdataBatchingInsights')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/appdataBatchingInsights'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.writingReading')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appdata')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/appdata' })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.readingRrealTime')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appdataLiveAggregator')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/appdataLiveAggregator'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.healthAggregation')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appdataHealthAggregator')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/appdataHealthAggregator'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.healthProcessing')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appdataHealthProcessor')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/appdataHealthProcessor'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.queryPerformance')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/appDataQueryPerformance')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/appDataQueryPerformance'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.callExtraction')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/callExtraction')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/callExtraction' })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.resilientMapping')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/resilientMapping')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/resilientMapping' })}
                             />
                           </LinkList>
                         </LinkListItem>
@@ -268,31 +252,34 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.syntheticsAcceptor')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticAcceptor')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/synthetics/SyntheticAcceptor'
+                              })}
                               description={t('in-internal:components.landing.syntheticsAcceptorDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.syntheticsHealthProcessor')}
-                              href$={getModifiedUrlStream(
-                                params =>
-                                  (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsHealthProcessor')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/synthetics/SyntheticsHealthProcessor'
+                              })}
                               description={t('in-internal:components.landing.syntheticsHealthProcessorDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.syntheticsMonitorWriter')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsWriter')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/synthetics/SyntheticsWriter'
+                              })}
                               description={t('in-internal:components.landing.syntheticsMonitorWriterDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.syntheticsMonitorReader')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsReader')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/synthetics/SyntheticsReader'
+                              })}
                               description={t('in-internal:components.landing.syntheticsMonitorReaderDesc')}
                             />
                           </LinkList>
@@ -305,9 +292,10 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.fillerMetricExtraction')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/infrastructureMetrics/filler')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/infrastructureMetrics/filler'
+                              })}
                             />
                           </LinkList>
                         </LinkListItem>
@@ -319,52 +307,65 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.overview')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/overview')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/eum/overview' })}
                               description={t('in-internal:components.landing.overviewDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.landingEumAcceptor')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/eum-acceptor')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/eum/eum-acceptor' })}
                               description={t('in-internal:components.landing.landingEumAcceptorDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.jsStackTraceTranslator')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/jsStackTraceTranslator')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/eum/jsStackTraceTranslator'
+                              })}
                               description={t('in-internal:components.landing.jsStackTraceTranslatorDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.eumProcessor')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/eum-processor')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/eum/eum-processor' })}
                               description={t('in-internal:components.landing.eumProcessorDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.eumHealthHrocessor')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/eumHealthProcessor')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/eum/eumHealthProcessor'
+                              })}
                               description={t('in-internal:components.landing.eumHealthHrocessorDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.appdataWriter')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/appdata-writer')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/eum/appdata-writer'
+                              })}
                               description={t('in-internal:components.landing.appdataWriterDesc')}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.errorSimulator')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/eum/errorSimulator')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/eum/errorSimulator'
+                              })}
                               description={t('in-internal:components.landing.errorSimulatorDesc')}
+                            />
+                          </LinkList>
+                        </LinkListItem>
+
+                        <LinkListItem
+                          label={t('in-internal:components.landing.logMonitoring')}
+                          description={t('in-internal:components.landing.logMonitoringDesc')}
+                        >
+                          <LinkList>
+                            <LinkListItem
+                              label={t('in-internal:components.landing.logHealthProcessor')}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/log/logHealthProcessor'
+                              })}
                             />
                           </LinkList>
                         </LinkListItem>
@@ -379,27 +380,31 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.metricsCassandra')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/sre/metricscassandra'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.spansCassandra')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/sre/spanscassandra'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.profilesCassandra')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/sre/profilescassandra'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.stateCassandra')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/sre/statecassandra'
+                              })}
                             />
                           </LinkList>
                         </LinkListItem>
@@ -407,53 +412,49 @@ export default connectTo(
                           <LinkList>
                             <LinkListItem
                               label={t('in-internal:components.landing.clickhouseApplication')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
-                              )}
+                              href={createHref({ ...location, pathname: '/internal/monitoringUnit/sre/clickhouse' })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.clickhouseLogs')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/clickhouseLogs')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/sre/clickhouseLogs'
+                              })}
                             />
                             <LinkListItem
                               label={t('in-internal:components.landing.tableSizes')}
-                              href$={getModifiedUrlStream(
-                                params => (params.pathname = '/internal/monitoringUnit/sre/clickhouseTableSizes')
-                              )}
+                              href={createHref({
+                                ...location,
+                                pathname: '/internal/monitoringUnit/sre/clickhouseTableSizes'
+                              })}
                             />
                           </LinkList>
                         </LinkListItem>
                         <LinkListItem
                           label={t('in-internal:components.landing.elasticsearch')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sre/elastic')
-                          )}
+                          href={createHref({ ...location, pathname: '/internal/monitoringUnit/sre/elastic' })}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.elasticsearchNg')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sre/elasticng')
-                          )}
+                          href={createHref({ ...location, pathname: '/internal/monitoringUnit/sre/elasticng' })}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.kafka')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sre/kafka')
-                          )}
+                          href={createHref({ ...location, pathname: '/internal/monitoringUnit/sre/kafka' })}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.beeInstanaAggregators')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sre/beeinstanaaggregators')
-                          )}
+                          href={createHref({
+                            ...location,
+                            pathname: '/internal/monitoringUnit/sre/beeinstanaaggregators'
+                          })}
                         />
                         <LinkListItem
                           label={t('in-internal:components.landing.beeInstanaIngestors')}
-                          href$={getModifiedUrlStream(
-                            params => (params.pathname = '/internal/monitoringUnit/sre/beeinstanaingestors')
-                          )}
+                          href={createHref({
+                            ...location,
+                            pathname: '/internal/monitoringUnit/sre/beeinstanaingestors'
+                          })}
                         />
                       </LinkList>
                     </LinkListItem>
@@ -491,7 +492,7 @@ export default connectTo(
                           ? t('in-internal:components.landing.entityAndMetricStatistics')
                           : t('in-internal:components.landing.entityStatistics')
                       }
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/entityStatistics'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/entityStatistics' })}
                       description={
                         pluginMetricStatisticsEnabled
                           ? t('in-internal:components.landing.entityAndMetricStatisticsDesc')
@@ -500,44 +501,42 @@ export default connectTo(
                     />
                     <LinkListItem
                       label={t('in-internal:components.landing.agents')}
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/agents' })}
                       description={t('in-internal:components.landing.agentsDesc')}
                     />
                     <LinkListItem
                       label={t('in-internal:components.landing.graphExplorer')}
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/graphExplorer'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/graphExplorer' })}
                       description={t('in-internal:components.landing.graphExplorerDesc')}
                     />
                     <LinkListItem
                       label={t('in-internal:components.landing.infrastructureEntityVer')}
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/snapshotVersions'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/snapshotVersions' })}
                       description={t('in-internal:components.landing.infrastructureEntityVerDesc')}
                     />
                     <LinkListItem
                       label="Infrastructure Metrics"
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/metrics'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/metrics' })}
                       description="Browse metrics associated with an entity"
                     />
                     <LinkListItem
                       label={t('in-internal:components.landing.internalEvents')}
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/internalEvents'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/internalEvents' })}
                       description={t('in-internal:components.landing.internalEventsDesc')}
                     />
                     <LinkListItem
                       label="Adaptive Baseline Model for AP/Website/MobileApp Smart Alert"
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = '/internal/thisUnit/adaptiveBaselineModel')
-                      )}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/adaptiveBaselineModel' })}
                       description="Inspect an Adaptive Baseline Model for specific Appdata entity"
                     />
                     <LinkListItem
                       label={t('in-internal:components.landing.wsTesterTitle')}
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/wsApiTester'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/wsApiTester' })}
                       description={t('in-internal:components.landing.wsTesterDescription')}
                     />
                     <LinkListItem
                       label={t('in-internal:components.landing.endUserMonitoring')}
-                      href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/eum'))}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/eum' })}
                       description={t('in-internal:components.landing.eumDescription')}
                     />
                   </LinkList>
@@ -663,3 +662,12 @@ export default connectTo(
     );
   }
 );
+
+function linkToEventView(clonedLocation, createHref) {
+  clonedLocation.pathname = '/events';
+  clonedLocation.query.q =
+    '(event.text:"[SREInfaSLO]" OR event.text:"[SRESLO]" OR event.text:"[TUSLO]" OR event.text:"[ExpTUSLO]" OR event.text:"[DevTUSLO]") AND event.state:open';
+  setOrDeleteMatrixKey(clonedLocation, '/events', 'view', 'issue');
+
+  return createHref(clonedLocation);
+}

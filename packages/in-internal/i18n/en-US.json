@@ -135,7 +135,10 @@
       "demoeu": "demoeu",
       "wsTesterTitle": "Websocket Api Tester",
       "wsTesterDescription": "Tool for testing WebSocket subscriptions",
-      "eumDescription": "Metrics for end-user monitoring components within this unit."
+      "eumDescription": "Metrics for end-user monitoring components within this unit.",
+      "logMonitoring": "Log Monitoring",
+      "logMonitoringDesc": "Information about our log processing pipeline.",
+      "logHealthProcessor": "log-health-processor (health rule execution)"
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -557,6 +560,27 @@
         "shortBeaconBatchWriteFail": "Short Term Beacon Batch Write Failures",
         "longBeaconBatchWrite": "Long Term Beacon Batch Writes",
         "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures"
+      }
+    },
+    "log": {
+      "logHealthProcessor": {
+        "incomingEnrichedLogs": "Incoming Enriched Log Records",
+        "droppedIncomingEnrichedLogs": "Dropped Incoming Enriched Log Records",
+        "outgoingMatchedLogs": "Outgoing Matched Logs",
+        "failOutgoingMatchedLogs": "Outgoing Matched Log Failures",
+        "incomingMatchedLogs": "Incoming Matched Logs Records",
+        "droppedIncomingMatchedLogs": "Dropped Incoming Matched Log Records",
+        "processedMatchedLogs": "Processed Matched Logs",
+        "failProcessedMatchedLogs": "Processed Matched Log Failures",
+        "configEval": "Config Evaluations",
+        "configEvalFail": "Config Evaluation Failures",
+        "outgoingEvent": "Outgoing Events",
+        "failOutgoingEvent": "Failed Outgoing Events",
+        "assignedConfigs": "Assigned Configurations",
+        "hostCpuLoad": "Host CPU load",
+        "host": "Host",
+        "hostLoad": "Host Load",
+        "garbageCollection": "Garbage Collection"
       }
     },
     "fillerStats": {
