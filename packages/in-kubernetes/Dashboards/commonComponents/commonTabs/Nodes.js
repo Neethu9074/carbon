@@ -24,7 +24,7 @@ import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -44,22 +44,24 @@ function EntityHost({ nodeId, timeConfig, clusterDistribution }) {
   const isLoading = host && get(host, ['progress', 'loading']);
   const isHostUnmonitored = host?.errors.length > 0;
   const hostData = host?.data;
+  const getDashboardLink = useGetDashboardLink();
 
   if (!isLoading && !isHostUnmonitored) {
     const shortenStringLength = 25;
     const label = getLabel(hostData);
     const shortenedLabel = shorten(getLabel(hostData), shortenStringLength);
     const isLabelShortened = label.length > shortenStringLength;
+    const href = getDashboardLink(hostData.get('id'), {
+      pathname: '/physical/dashboard',
+      to: timeConfig.to,
+      focusedMoment: timeConfig.to
+    });
 
     return (
       <EntityLink
         snapshot={hostData}
         label={shortenedLabel}
-        href$={getDashboardLink(hostData.get('id'), {
-          pathname: '/physical/dashboard',
-          to: timeConfig.to,
-          focusedMoment: timeConfig.to
-        })}
+        href={href}
         {...(isLabelShortened && {
           tooltip: getLabel(hostData)
         })}

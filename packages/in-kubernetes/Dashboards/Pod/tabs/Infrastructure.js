@@ -25,8 +25,8 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { podIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -38,24 +38,28 @@ import { t } from 'in-i18n';
 const pathSegment = '/containers';
 const matrixPrefix = 'container.';
 
+const DashboardLink = ({ item, timeConfig }) => {
+  const href = useGetDashboardLink()(get(item, ['container', 'id']), {
+    pathname: '/physical/dashboard',
+    to: timeConfig.to,
+    focusedMoment: timeConfig.to
+  });
+
+  return (
+    <SeverityAwareEntityLink
+      icon={getContainerIconByPlugin(get(item, ['container', 'plugin']))}
+      label={get(item, ['container', 'label'])}
+      href={href}
+      severity={item.entityHealthInfo.maxSeverity}
+    />
+  );
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
-    getContent(item, { timeConfig }) {
-      return (
-        <SeverityAwareEntityLink
-          icon={getContainerIconByPlugin(get(item, ['container', 'plugin']))}
-          label={get(item, ['container', 'label'])}
-          href$={getDashboardLink(get(item, ['container', 'id']), {
-            pathname: '/physical/dashboard',
-            to: timeConfig.to,
-            focusedMoment: timeConfig.to
-          })}
-          severity={item.entityHealthInfo.maxSeverity}
-        />
-      );
-    }
+    getContent: (item, { timeConfig }) => <DashboardLink item={item} timeConfig={timeConfig} />
   },
   {
     id: 'ready',
