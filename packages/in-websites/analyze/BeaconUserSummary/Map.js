@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { amCharts, worldLowMap, centerAlignedLocationPointer } from 'in-components/AmMap/libraryWrapper';
+import { amCharts, worldHighMap, centerAlignedLocationPointer } from 'in-components/AmMap/libraryWrapper';
 import AmMap from 'in-components/AmMap/ReactWrapper';
 
 import locals from './Map.mless';
@@ -24,7 +24,7 @@ export default function Map({ beacon }) {
 function onDidMount({ containerElement }, beacon) {
   const worldDataProvider = {
     map: 'worldLow',
-    areas: worldLowMap.svg.g.path.map(p => ({
+    areas: worldHighMap.svg.g.path.map(p => ({
       id: p.id
     })),
     images: [
