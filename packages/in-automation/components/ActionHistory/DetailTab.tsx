@@ -94,6 +94,7 @@ export default function DetailTab({
     type,
     actorType,
     actorName,
+    output,
     actorId
   } = properties;
 
@@ -118,7 +119,8 @@ export default function DetailTab({
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
       actionLane: inActionLane,
-      stringLink: link
+      stringLink: link,
+      showCondition: output === null || output?.trim().length === 0
     },
     {
       label: t('in-automation:actionHistory.startTime'),

@@ -93,10 +93,12 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
               <DetailTab id={id} properties={data} />
             </TabPane>
 
-            <TabPane title={t('in-automation:actionHistory.output')}>
-              <DashboardHeaderShadowModule />
-              <DetailsOutputTab output={data?.output} />
-            </TabPane>
+            {data?.output !== null && data?.output?.trim().length !== 0 ? (
+              <TabPane title={t('in-automation:actionHistory.output')}>
+                <DashboardHeaderShadowModule />
+                <DetailsOutputTab output={data?.output} />
+              </TabPane>
+            ) : null}
 
             <TabPane title={t('in-automation:actionHistory.inputParameters')}>
               <DashboardHeaderShadowModule />

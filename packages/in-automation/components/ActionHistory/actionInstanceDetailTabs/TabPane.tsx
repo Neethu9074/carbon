@@ -10,6 +10,8 @@ import { Stack } from '@instana/components';
 
 import Title from 'in-components/Title';
 
+import locals from './tabTitle.mless';
+
 type Props = {
   title: string;
   children: ReactElement | ReactElement[];
@@ -19,7 +21,7 @@ const TabPane = ({ title, children }: Props): JSX.Element => {
   return (
     <Stack gap="small">
       <Title title={title} />
-      <div>{children}</div>
+      <div className={locals.contentDiv}>{children}</div>
     </Stack>
   );
 };
