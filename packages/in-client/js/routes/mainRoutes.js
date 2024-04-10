@@ -29,6 +29,7 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
+import { role, canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
@@ -52,7 +53,6 @@ import vsphereRoutes from 'in-vsphere/navigation/routes';
 import powervcRoutes from 'in-powervc/navigation/routes';
 import welcomePageRoutes from 'in-plg/navigation/routes';
 import bizopsRoutes from 'in-bizops/navigation/routes';
-import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
 import phmcRoutes from 'in-phmc/navigation/routes';
@@ -68,7 +68,7 @@ export default (
         {renderAsyncRouteChildren(AgentView)}
       </Route>
     )}
-    {(isInstanaEmail || internalMonitoringUnit) && (
+    {(canSeeExtendedInternalMonitoring || internalMonitoringUnit) && (
       <Route path="/internal" windowTitle="Internal">
         {renderAsyncRouteChildren(InternalViews)}
       </Route>

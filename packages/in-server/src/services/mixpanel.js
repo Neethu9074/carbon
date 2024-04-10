@@ -11,7 +11,7 @@ exports.getMixpanelToken = function getMixpanelToken(user, allAnalyticsServicesA
   }
 
   // Do not send anything to Mixpanel for Instana employees
-  if (user.email.endsWith('@instana.com')) {
+  if (user.role?.canSeeExtendedInternalMonitoring) {
     return undefined;
   }
 

@@ -16,6 +16,7 @@ import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
+import { canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Landing from 'in-internal/monitoringUnit/unit/Landing';
 import Logging from 'in-internal/monitoringUnit/unit/Logging';
@@ -25,7 +26,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import Stan from 'in-internal/monitoringUnit/unit/Stan';
 import Eum from 'in-internal/monitoringUnit/unit/Eum';
 import { timeConfig$ } from 'in-stores/time/config';
-import { isInstanaEmail } from 'in-stores/user';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -165,7 +165,7 @@ function Navigation({ tenant, unit }) {
         label={t('in-internal:monitoringUnit.unit.tenantUnit.profile')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/profileDataStatistics'))}
       />
-      {isInstanaEmail && (
+      {canSeeExtendedInternalMonitoring && (
         <LinkListItem
           label={t('in-internal:monitoringUnit.unit.tenantUnit.sloViolations')}
           href$={getModifiedUrlStream(p => {
