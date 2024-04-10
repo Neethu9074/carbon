@@ -41,8 +41,8 @@ router.use('/bundle/internal.*.js', async (req, res, next) => {
     }
 
     res.setHeader('Vary', 'Cookie');
-    const user = getUserFromUserStr(userStr);
-    if (user && user.email.endsWith('@instana.com')) {
+    const user = getParsedUser(userStr);
+    if (user && user.role?.canSeeExtendedInternalMonitoring) {
       next();
     } else {
       res.sendStatus(403);
@@ -89,7 +89,7 @@ function checkChecksumAndSend(req, res, checksumToCheck, fileToSend) {
   });
 }
 
-function getUserFromUserStr(userStr) {
+function getParsedUser(userStr) {
   let user;
   try {
     user = JSON.parse(userStr);

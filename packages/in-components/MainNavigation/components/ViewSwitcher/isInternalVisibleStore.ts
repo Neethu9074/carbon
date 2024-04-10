@@ -4,8 +4,8 @@
  */
 
 import { internalMonitoringUnit } from 'in-services/featureFlags';
+import { canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import { trySet, tryGet } from 'in-services/localStorage';
-import { isInstanaEmail } from 'in-stores/user';
 import { createStore } from 'in-stores/store';
 import { minutes } from 'in-services/time';
 
@@ -18,7 +18,7 @@ const isInternalVisibleStore = createStore({
   // Either the view is deliberately enabled or the user opened the internal views directly
   initialValue:
     internalMonitoringUnit ||
-    (isInstanaEmail &&
+    (canSeeExtendedInternalMonitoring &&
       (window.location.href.indexOf('/#/internal') != -1 || hasInternalFeatureEnabledPerLocalStorage()))
 });
 export const isInternalVisible$ = isInternalVisibleStore.observable;
@@ -49,7 +49,7 @@ export function click() {
   const temp = timesClicked.slice().sort((a, b) => a - b);
   const timeBetweenAllClicks = (temp[numClicksNeeded - 1] || Number.MAX_VALUE) - temp[0];
 
-  if (isInstanaEmail && timeBetweenAllClicks < 2000) {
+  if (canSeeExtendedInternalMonitoring && timeBetweenAllClicks < 2000) {
     timesClicked = []; // Reset to start next session of 10 clicks
     toggleVisible();
   }

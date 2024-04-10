@@ -12,12 +12,12 @@ import { internalMonitoringUnit, pluginMetricStatisticsEnabled } from 'in-servic
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { canSeeExtendedInternalMonitoring, role } from 'in-stores/user';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
-import { isInstanaEmail, role } from 'in-stores/user';
 import { Col, Row } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { config } from 'in-services/config';
@@ -37,7 +37,7 @@ export default connectTo(
 
     return (
       <>
-        {internalMonitoringUnit && isInstanaEmail && (
+        {internalMonitoringUnit && canSeeExtendedInternalMonitoring && (
           <Row>
             <Col lg={6}>
               <OpenEventsCountChartWrapper
@@ -101,7 +101,7 @@ export default connectTo(
             <Col lg={6}>
               <Card title={t('in-internal:components.landing.instanaInstallMonitor')}>
                 <LinkList>
-                  {isInstanaEmail && (
+                  {canSeeExtendedInternalMonitoring && (
                     <LinkListItem
                       label={t('in-internal:components.landing.serviceLevelObj')}
                       description={t('in-internal:components.landing.sloCheckCompDatastoresExpectedBounds')}
@@ -464,7 +464,7 @@ export default connectTo(
           )}
 
           <Col lg={6}>
-            {internalMonitoringUnit && isInstanaEmail && (
+            {internalMonitoringUnit && canSeeExtendedInternalMonitoring && (
               <Row>
                 <Col lg={12}>
                   <Card title={t('in-internal:components.landing.tip')}>
@@ -545,7 +545,7 @@ export default connectTo(
               </Col>
             </Row>
 
-            {isInternalVisible && isInstanaEmail && (
+            {isInternalVisible && canSeeExtendedInternalMonitoring && (
               <Row>
                 <Col lg={12}>
                   <Card title={t('in-internal:components.landing.availInstanaUnits')}>
