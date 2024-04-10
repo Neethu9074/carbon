@@ -14,7 +14,9 @@ import FloatingAddSloButton from 'in-service-levels/components/FloatingAddSloBut
 import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SloList from 'in-service-levels/components/SloList/SloList';
+import { productAreas } from 'in-services/tracking/productAreas';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Sticky from 'in-components/Sticky';
 
 export default function ServiceLevelsOverview() {
@@ -34,7 +36,10 @@ export default function ServiceLevelsOverview() {
       }
     >
       <LeftRightPadding>
-        <SloTrackerProvider value={sloTrackers}>
+        <SloTrackerProvider
+          trackers={sloTrackers}
+          meta={{ productArea: productAreas.slo, pageName: pageNames.service_levels }}
+        >
           <SloList pathSegment={serviceLevelsOverview} />
         </SloTrackerProvider>
       </LeftRightPadding>

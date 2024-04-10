@@ -63,7 +63,6 @@ export default function CreateApdexForm({
   const [submitStatus, doSubmit] = useFormSubmission(createApdexConfiguration);
 
   const track = useSloTrackers();
-
   const isEditing = Boolean(apdexConfig.id);
 
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
@@ -77,7 +76,9 @@ export default function CreateApdexForm({
   };
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
-    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
+    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, {
+      entityType
+    });
     addMessage(
       {
         type: 'info',
