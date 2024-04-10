@@ -37,13 +37,13 @@ export default function SloActions({ item }: Props) {
           lastUpdated: undefined,
           name: t('in-service-levels:createSloDialog.sloNameCopyTemplate', { name: item.configuration.name })
         }}
-        meta={meta}
+        trackingMeta={meta}
       />
     );
   };
 
   const openEditDialog = () => {
-    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} meta={meta} />);
+    addActiveDialog(<CreateSloDialog mode="EDIT" configuration={configuration} trackingMeta={meta} />);
   };
 
   return (

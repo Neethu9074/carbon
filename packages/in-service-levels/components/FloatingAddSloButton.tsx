@@ -16,7 +16,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 
 export default function FloatingAddSloButton() {
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
-  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" meta={meta} />);
+  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" trackingMeta={meta} />);
 
   return (
     <FloatingActionButtons>

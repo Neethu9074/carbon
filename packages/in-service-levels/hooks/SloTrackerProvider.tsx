@@ -74,7 +74,7 @@ interface ApdexTrackingEventPayload extends SloTrackingMeta {
 }
 
 export const sloTrackers = {
-  [SLO_LIST_VIEW]: () => track(SLO_LIST_VIEW),
+  [SLO_LIST_VIEW]: (e: SloTrackingMeta) => track(SLO_LIST_VIEW, e),
   [SLO_SUMMARY_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_SUMMARY_VIEW, e),
   [SLO_CONFIG_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_VIEW, e),
   [SLO_CONFIG_DIALOG_OPEN]: (e: SloTrackingMeta) => track(SLO_CONFIG_DIALOG_OPEN, e),

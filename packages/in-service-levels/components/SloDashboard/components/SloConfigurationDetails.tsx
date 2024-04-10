@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 
 import { Card, Ul } from '@instana/components';
 
-import { SloTrackerProvider, sloTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import ScopeSection from 'in-service-levels/components/SloDashboard/components/configuration/ScopeSection/ScopeSection';
 import ObjectiveSection from 'in-service-levels/components/SloDashboard/components/configuration/ObjectiveSection';
 import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
@@ -16,8 +16,6 @@ import SloActionButtons from 'in-service-levels/components/SloDashboard/componen
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
 import TagList from 'in-components/TagsList/TagList';
 import { Nullish } from 'in-types';
 
@@ -34,11 +32,7 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
     return null;
   }
 
-  return (
-    <SloTrackerProvider trackers={sloTrackers} meta={{ productArea: productAreas.slo, pageName: pageNames.slo_config }}>
-      <SloConfigurationDetailsContent data={data} />
-    </SloTrackerProvider>
-  );
+  return <SloConfigurationDetailsContent data={data} />;
 }
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {

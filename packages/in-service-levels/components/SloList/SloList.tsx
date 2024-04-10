@@ -5,7 +5,7 @@
  */
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -29,6 +29,8 @@ import { MetricDataSeries } from 'in-components/Chart/types';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { LabeledEntity } from 'in-service-levels/types';
 import { all } from 'in-hooks/utils/progress';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
 
 interface GetColumnDefinitionsProps {
   isMediumWidth?: boolean;
@@ -115,6 +117,12 @@ interface Props {
 export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const isMediumWidth = useMediaQuery('(min-width: 1560px)');
   const isSmallWidth = useMediaQuery('(min-width: 1200px)');
+
+  const track = useSloTrackers();
+
+  useEffect(() => {
+    track(SLO_LIST_VIEW, {});
+  }, [track]);
 
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
     pathSegment,
