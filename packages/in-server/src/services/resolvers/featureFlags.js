@@ -438,7 +438,7 @@ module.exports = exports = [
   {
     uiClientKey: 'regexMetricSelectionEnabled',
     instanaCtlKey: 'feature.regex.metric.selection.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaUIEnabled',
