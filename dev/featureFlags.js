@@ -46,6 +46,7 @@ module.exports = {
   carbonPillEnabled: true,
   carbonMessageEnabled: false,
   carbonAccordionEnabled: true,
+  carbonContentSwitcherEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,

@@ -9,6 +9,7 @@ import { Field, MapForm } from 'formalistic';
 
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
+import { ButtonGroup } from '@instana/components';
 import { Button } from '@instana/legacy';
 import { t } from '@instana/i18n-react';
 
@@ -22,7 +23,6 @@ import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
-import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 import { SliderState } from 'in-synthetics/utils/constants';
 import SaveButton from 'in-components/form/SaveButton';
 

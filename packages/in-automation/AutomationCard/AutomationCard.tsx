@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Card, Spacer, Stack } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 
 import useScoredActions, { useRecommendedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
@@ -15,7 +16,6 @@ import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies'
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
-import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { Event, VolatileId } from 'in-types';
 import { role } from 'in-stores/user';

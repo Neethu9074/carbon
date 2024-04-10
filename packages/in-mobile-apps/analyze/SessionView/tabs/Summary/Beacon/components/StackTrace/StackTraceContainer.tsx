@@ -6,9 +6,10 @@
 
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
+
 import { FormatedStackTrace } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStackParser';
 import RawStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
 import locals from './StackTraceContainer.mless';

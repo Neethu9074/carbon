@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 
 import { combineLatest, just } from '@instana/observables';
+import { ButtonGroup } from '@instana/components';
 
 import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
@@ -17,7 +18,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import { add, remove } from 'in-cockpit/starredItems';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import search from 'in-subscription/search';

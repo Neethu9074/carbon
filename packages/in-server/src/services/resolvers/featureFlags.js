@@ -516,6 +516,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'carbonContentSwitcherEnabled',
+    instanaCtlKey: 'feature.carbon.content.switcher.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonPillEnabled',
     instanaCtlKey: 'feature.carbon.pill.enabled',
     defaultValue: false

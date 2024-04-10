@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
 import { Message, SvgIcon, Link } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Button } from '@instana/legacy';
@@ -53,7 +54,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import { getChartGranularity } from 'in-stores/metric';
 import Overlay from 'in-components/overlays/Overlay';
 import { chartColors } from 'in-themes/chartColors';
-import ButtonGroup from 'in-components/ButtonGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours, seconds } from 'in-services/time';
 import Tooltip from 'in-components/Tooltip';

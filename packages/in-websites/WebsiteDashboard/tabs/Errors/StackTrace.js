@@ -5,11 +5,12 @@
 
 import React, { Fragment, useState } from 'react';
 
+import { ButtonGroup } from '@instana/components';
+
 import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/RawStack';
 import ParsedStackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/ParsedStackTrace';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { serializeLines } from 'in-components/StackTrace';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
 import locals from './StackTrace.mless';

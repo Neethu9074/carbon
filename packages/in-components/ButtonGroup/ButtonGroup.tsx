@@ -21,6 +21,13 @@ type ButtonGroupProps<T> = {
   disabledWidgetInLive?: boolean;
 } & T;
 
+/**
+ * This is the old non-carbonized component.
+ *
+ * @deprecated Do not use it any longer, but use it from @instana/components:
+ *
+ *   import { ButtonGroup } from '@instana/components'
+ */
 export default function ButtonGroup<RemainingPropsType = {}>({
   buttonPropsList,
   activeKey,

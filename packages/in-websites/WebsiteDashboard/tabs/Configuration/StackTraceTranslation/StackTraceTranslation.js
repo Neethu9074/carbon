@@ -7,6 +7,7 @@ import React, { Fragment, useState } from 'react';
 
 import { combineLatest, just } from '@instana/observables';
 import { Card, Stack } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -25,7 +26,6 @@ import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
 import { isNotBlank } from 'in-services/util/string';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 

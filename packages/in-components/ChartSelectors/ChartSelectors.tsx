@@ -5,11 +5,12 @@
 
 import React, { useEffect } from 'react';
 
+import { ButtonGroup } from '@instana/components';
+
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './ChartSelectors.mless';

@@ -7,6 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { useDeploymentDashboard, useDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
@@ -14,7 +15,6 @@ import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenSh
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import { trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
