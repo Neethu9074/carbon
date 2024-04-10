@@ -35,7 +35,7 @@ pipeline {
     ansiColor('xterm')
   }
   environment {
-    INSTANA_VERSION_PROVIDER_SERVER_URL = 'http://localhost:3000'
+    INSTANA_VERSION_PROVIDER_SERVER_URL = 'http://10.16.108.135:80'
   }
   stages {
     stage ('Setup') {
