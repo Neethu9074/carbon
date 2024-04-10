@@ -38,6 +38,7 @@ import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnaps
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
+import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
@@ -60,7 +61,6 @@ interface RunActionDialogProps {
   policy?: NewPolicy;
   executePolicy?: Policy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
-  triggerReload?: (n: number) => void;
 }
 
 export default function RunActionDialog({
@@ -70,8 +70,7 @@ export default function RunActionDialog({
   test,
   policy,
   handleSave,
-  executePolicy,
-  triggerReload
+  executePolicy
 }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
@@ -139,8 +138,7 @@ export default function RunActionDialog({
                   event,
                   policy,
                   handleSave,
-                  executePolicy,
-                  triggerReload
+                  executePolicy
                 })
               }
             />
@@ -253,7 +251,6 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   policy?: NewPolicy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
   executePolicy?: Policy;
-  triggerReload?: (n: number) => void;
 }
 
 function onSave({
@@ -267,8 +264,7 @@ function onSave({
   event,
   policy,
   handleSave,
-  executePolicy,
-  triggerReload
+  executePolicy
 }: OnSaveParams) {
   // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
   // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
@@ -351,8 +347,8 @@ function onSave({
       setActionInstanceId(response?.actionInstanceId);
     } else {
       setActionInstanceId(response.actionInstanceId);
-      if (triggerReload && isExternal(action.type)) {
-        triggerReload(Math.random());
+      if (isExternal(action.type)) {
+        refresh();
       }
     }
   };
