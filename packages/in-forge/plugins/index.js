@@ -140,6 +140,7 @@ import './activeMQArtemis';
 import './awsEcsContainer';
 import './azureAppService';
 import './azureRedisCache';
+import './microsoftPurview';
 import './cockroachDBNode';
 import './defaultEntity20';
 import './genericHardware';

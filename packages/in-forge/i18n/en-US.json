@@ -329,6 +329,11 @@
   "pluginName_azureManagedHSM_1": "Azure Key Vault Managed HSM",
   "pluginName_azureManagedHSM_2": "Azure Key Vault Managed HSM",
   "pluginName_azureManagedHSM": "Azure Key Vault Managed HSM",
+  "pluginName_microsoftPurview_plural": "Microsoft Purview",
+  "pluginName_microsoftPurview_0": "Microsoft Purview",
+  "pluginName_microsoftPurview_1": "Microsoft Purview",
+  "pluginName_microsoftPurview_2": "Microsoft Purview",
+  "pluginName_microsoftPurview": "Microsoft Purview",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -4882,6 +4887,38 @@
         "titleInstanceMetrics": "Instance metrics",
         "labelRl": "Read Latency",
         "labelWl": "Write Latency"
+      }
+    },
+    "microsoftPurview": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoCreatedAt": "Created At",
+      "infoType":"Type",
+      "infoSubscriptionID": "Subscription ID",
+      "infoPurviewLabel": "Microsoft Purview",
+      "labelDataMapStorageSize": "Data Map Storage Size",
+      "labelDataMapCapacityUnits": "Data Map Capacity Units",
+      "labelScanCancelled": "Scan Cancelled",
+      "labelScanFailed": "Scan Failed",
+      "labelScanCompleted": "Scan Completed",
+      "labelScanTimeTaken": "Scan Time Taken",
+      "labelDataMap": "Data Map",
+      "labelScans": "Scans",
+      "dashboard": {
+        "labelDataMapStorageSize": "Data Map Storage Size",
+        "labelDataMapCapacityUnits": "Data Map Capacity Units",
+        "labelDataMapUnits": "Units",
+        "labelDataMapSize": "Size",
+        "labelScanCompleted": "Completed",
+        "labelScanFailed": "Failed",
+        "labelScanCancelled": "Cancelled",
+        "labelScanTimeTaken": "Scan Time Taken",
+        "labelScanTime": "Time"
+      },
+      "kpi": {
+        "dataMapCapacityUnits": "Data Map Capacity Units",
+        "scansFailed" : "Scans Failed"
       }
     },
     "azureDataFactory": {

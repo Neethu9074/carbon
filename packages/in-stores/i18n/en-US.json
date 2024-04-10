@@ -217,6 +217,7 @@
     "fieldsEntityAzureServiceDataFactory": "Azure DataFactory",
     "fieldsEntityAzureServiceKeyVault": "Azure KeyVault",
     "fieldsEntityAzureKeyVaultManagedHSM": "Azure Key Vault Managed HSM",
+    "fieldsEntityAzureServicePurview": "Microsoft Purview",
     "fieldsEntityAzureServiceMySql": "Azure MySQL",
     "fieldsEntityAzureServiceRediscache": "Azure Redis Cache",
     "fieldsEntityAzureServiceSqldb": "Azure SQL Database",
