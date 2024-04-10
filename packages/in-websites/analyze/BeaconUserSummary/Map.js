@@ -23,7 +23,7 @@ export default function Map({ beacon }) {
 
 function onDidMount({ containerElement }, beacon) {
   const worldDataProvider = {
-    map: 'worldLow',
+    map: 'worldHigh',
     areas: worldHighMap.svg.g.path.map(p => ({
       id: p.id
     })),
