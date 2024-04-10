@@ -95,6 +95,11 @@
             "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Check whether the website certificate is going to expire or not using this script"
+          }
         }
       },
       "validators": {
@@ -128,7 +133,11 @@
           "browserTypeHeadline": "Browser Synthetic Tests",
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
           "browserSimpleTitle": "Browser Simple Test",
-          "browserScriptTitle": "Browser Script Test"
+          "browserScriptTitle": "Browser Script Test",
+          "certificateCheckTitle": "Certificate Check",
+          "certificateCheckLabel": "SSL Certificate Check",
+          "certificateCheckHeadline": "SSL Certificate Check Headline",
+          "certificateCheckText": "SSL Certificate Check Text"
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -213,13 +222,19 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser"
+          "browserName": "Browser",
+          "certificateCheckName": "SSL Certificate Check"
         },
         "customProperties": {
           "property": "Property",
           "propertyValue": "Value",
           "addProperty": "Add Property",
           "propertyNameMustBeUnique": "Property name must be unique."
+        },
+        "certificateCheck": {
+          "inputHostName": "Host Name",
+          "inputDaysLine1": "Test will fail when there are",
+          "inputDaysLine2": "days remaining before expiration."
         }
       }
     },

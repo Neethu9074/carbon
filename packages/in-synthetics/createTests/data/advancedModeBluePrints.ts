@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface AdvancedBluePrint {
@@ -12,6 +13,7 @@ export interface AdvancedBluePrint {
   label?: string;
   description: { headline: string; text: string };
   testType?: string;
+  isBeta?: boolean;
 }
 
 const apiBlueprint: AdvancedBluePrint = {
@@ -35,11 +37,30 @@ const browserBlueprint: AdvancedBluePrint = {
   }
 };
 
+const certificateCheckBlueprint: AdvancedBluePrint = {
+  type: 'Certificate Check',
+  name: t('in-synthetics:dialog.createTest.advancedMode.advancedBluePrint.certificateCheckName'),
+  label: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckLabel'),
+  description: {
+    headline: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckHeadline'),
+    text: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckText')
+  },
+  testType: '',
+  isBeta: syntheticCertificateCheckEnabled
+};
+
 const advancedBluePrintConfig: readonly Readonly<AdvancedBluePrint>[] = Object.freeze([]);
 
-export const getAdvancedBlueprintConfig = (isBrowserEnabled: boolean) => {
+export const getAdvancedBlueprintConfig = (isBrowserEnabled: boolean, isCertificateCheckEnabled: boolean) => {
   if (isBrowserEnabled) {
-    return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
+    if (isCertificateCheckEnabled) {
+      return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
+    } else {
+      return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
+    }
+  }
+  if (isCertificateCheckEnabled) {
+    return advancedBluePrintConfig.concat(apiBlueprint, certificateCheckBlueprint);
   }
   return advancedBluePrintConfig.concat(apiBlueprint);
 };

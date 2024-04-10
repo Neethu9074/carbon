@@ -160,7 +160,7 @@ const checkForInvalidPort = (port: string): ValidationResult => {
   return undefined;
 };
 
-const checkForInvalidHost = (hostName: string): ValidationResult => {
+export const checkForInvalidHost = (hostName: string): ValidationResult => {
   if (hostName === '' && options.require_host) {
     return [
       {

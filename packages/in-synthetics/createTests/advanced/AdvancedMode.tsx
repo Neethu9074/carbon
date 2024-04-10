@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { syntheticBrowserCreateTestEnabled, syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
@@ -21,7 +22,6 @@ import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLoca
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
@@ -53,11 +53,15 @@ const AdvancedMode = ({
   invalidCustomProperty,
   setInvalidCustomProperty,
   invalidTimeout,
-  setInvalidTimeout
+  setInvalidTimeout,
+  certificateCheckHostNameError,
+  setCertificateCheckHostNameError,
+  certificateCheckDaysRemainingError,
+  setCertificateCheckDaysRemainingError
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)[
+    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled, syntheticCertificateCheckEnabled)[
       testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
     ]
   );
@@ -93,6 +97,10 @@ const AdvancedMode = ({
             isBrowser={syntheticType === 'HTTPScript' ? false : true}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
+            certificateCheckHostNameError={certificateCheckHostNameError}
+            setCertificateCheckHostNameError={setCertificateCheckHostNameError}
+            certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
+            setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />
         );
       case 'HTTPAction':
