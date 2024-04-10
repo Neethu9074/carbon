@@ -11,13 +11,16 @@ import { t } from '@instana/i18n-react';
 
 import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 interface Props {
   configuration: ServiceLevelObjectiveConfiguration;
 }
 
 export default function DeleteSloMoreMenuButton({ configuration }: Props) {
-  const doDelete = useDoDeleteSloConfiguration(configuration);
+  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
+  const doDelete = useDoDeleteSloConfiguration(configuration, meta);
   return (
     <MoreMenuButton icon="lib_actions_delete" onClick={doDelete}>
       {t('in-service-levels:general.deleteButtonLabel')}

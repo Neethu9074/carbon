@@ -7,6 +7,7 @@
 import React, { createContext, PropsWithChildren, useContext, useMemo } from 'react';
 
 import { BlueprintType, ServiceLevelIndicatorType, SloEntity, TimeWindow } from '@instana/types';
+import { generateStableHash } from '@instana/utils';
 
 import {
   SLI_MANAGEMENT_VIEW,
@@ -41,9 +42,16 @@ import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes'
 // eslint-disable-next-line no-restricted-imports
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import { ProductArea } from 'in-services/tracking/productAreas';
+import { PageName } from 'in-services/tracking/pageNames';
 import { track } from 'in-services/tracking/trackers';
 
-interface SloTrackingEventPayload {
+export interface SloTrackingMeta {
+  productArea: ProductArea;
+  pageName: PageName;
+}
+
+interface SloTrackingEventPayload extends SloTrackingMeta {
   id?: string;
   mode: CreateSloDialogMode;
   entityType: SloEntity['type'];
@@ -52,25 +60,25 @@ interface SloTrackingEventPayload {
   timeWindowType: TimeWindow['type'];
 }
 
-interface SloErrorTrackingEventPayload {
+interface SloErrorTrackingEventPayload extends SloTrackingMeta {
   mode: CreateSloDialogMode;
   code: 'API_ERROR' | 'UNEXPECTED_ERROR' | 'INVALID_SLO_CONFIG';
 }
 
-interface SliWidgetTrackingEventPayload {
+interface SliWidgetTrackingEventPayload extends SloTrackingMeta {
   entityType: SliType;
 }
 
-interface ApdexTrackingEventPayload {
+interface ApdexTrackingEventPayload extends SloTrackingMeta {
   entityType: ApdexEntityTypes;
 }
 
 export const sloTrackers = {
-  [SLO_LIST_VIEW]: () => track(SLO_LIST_VIEW),
-  [SLO_SUMMARY_VIEW]: (e: SloTrackingEventPayload) => track(SLO_SUMMARY_VIEW, e),
+  [SLO_LIST_VIEW]: (e: SloTrackingMeta) => track(SLO_LIST_VIEW, e),
+  [SLO_SUMMARY_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_SUMMARY_VIEW, e),
   [SLO_CONFIG_VIEW]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_VIEW, e),
-  [SLO_CONFIG_DIALOG_OPEN]: () => track(SLO_CONFIG_DIALOG_OPEN),
-  [SLO_CONFIG_DIALOG_CLOSE]: () => track(SLO_CONFIG_DIALOG_CLOSE),
+  [SLO_CONFIG_DIALOG_OPEN]: (e: SloTrackingMeta) => track(SLO_CONFIG_DIALOG_OPEN, e),
+  [SLO_CONFIG_DIALOG_CLOSE]: (e: SloTrackingMeta) => track(SLO_CONFIG_DIALOG_CLOSE, e),
   [SLO_CONFIG_DIALOG_ERROR]: (e: SloErrorTrackingEventPayload) => track(SLO_CONFIG_DIALOG_ERROR, e),
   [SLO_CONFIG_DIALOG_FINISH]: (e: SloTrackingEventPayload) => track(SLO_CONFIG_DIALOG_FINISH, e),
   [SLO_CONFIG_DELETE_START]: (e: Omit<SloTrackingEventPayload, 'mode'>) => track(SLO_CONFIG_DELETE_START, e),
@@ -79,7 +87,7 @@ export const sloTrackers = {
 } as const;
 
 export const sliWidgetTrackers = {
-  [SLO_WIDGET_EDIT_START]: () => track(SLO_WIDGET_EDIT_START),
+  [SLO_WIDGET_EDIT_START]: (e: SloTrackingMeta) => track(SLO_WIDGET_EDIT_START, e),
   [SLI_MANAGEMENT_VIEW]: (e: SliWidgetTrackingEventPayload) => track(SLI_MANAGEMENT_VIEW, e),
   [SLI_MANAGEMENT_EXIT]: (e: SliWidgetTrackingEventPayload) => track(SLI_MANAGEMENT_EXIT, e),
   [SLI_MANAGEMENT_CREATE_START]: (e: SliWidgetTrackingEventPayload) => track(SLI_MANAGEMENT_CREATE_START, e),
@@ -90,7 +98,7 @@ export const sliWidgetTrackers = {
 } as const;
 
 export const apdexWidgetTrackers = {
-  [APDEX_WIDGET_EDIT_START]: () => track(APDEX_WIDGET_EDIT_START),
+  [APDEX_WIDGET_EDIT_START]: (e: SloTrackingMeta) => track(APDEX_WIDGET_EDIT_START, e),
   [APDEX_MANAGEMENT_VIEW]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_VIEW, e),
   [APDEX_MANAGEMENT_EXIT]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_EXIT, e),
   [APDEX_MANAGEMENT_CREATE_START]: (e: ApdexTrackingEventPayload) => track(APDEX_MANAGEMENT_CREATE_START, e),
@@ -114,26 +122,30 @@ export function trackSloEvent<EVENT extends keyof AllSloTrackers>(
   allSloTracker[event](payload as any);
 }
 
-const trackerContext = createContext({} as SloTrackersUnion);
+export const trackerContext = createContext({} as SloTrackerProviderProps);
 
 type SloTrackersUnion = SloTrackers | SliWidgetTrackers | ApdexWidgetTrackers;
 interface SloTrackerProviderProps {
-  value: SloTrackersUnion;
+  trackers: SloTrackersUnion;
+  meta: SloTrackingMeta;
 }
 
-export function SloTrackerProvider({ value, children }: PropsWithChildren<SloTrackerProviderProps>) {
-  return <trackerContext.Provider value={value}>{children}</trackerContext.Provider>;
+export function SloTrackerProvider({ trackers, meta, children }: PropsWithChildren<SloTrackerProviderProps>) {
+  return <trackerContext.Provider value={{ trackers, meta }}>{children}</trackerContext.Provider>;
 }
 
 export function useSloTrackers() {
-  const trackers = useContext(trackerContext);
-
+  const { trackers, meta } = useContext(trackerContext);
   return useMemo(
     () =>
-      <EVENT extends keyof AllSloTrackers>(event: EVENT, payload: Parameters<AllSloTrackers[EVENT]>[0]) => {
+      <EVENT extends keyof AllSloTrackers>(
+        event: EVENT,
+        payload: Omit<Parameters<AllSloTrackers[EVENT]>[0], keyof SloTrackingMeta>
+      ) => {
         const tracker: AllSloTrackers[EVENT] = (trackers as AllSloTrackers)[event];
-        tracker(payload as any);
+        tracker({ ...payload, ...meta } as any);
       },
-    [trackers]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [generateStableHash({ trackers, meta })]
   );
 }

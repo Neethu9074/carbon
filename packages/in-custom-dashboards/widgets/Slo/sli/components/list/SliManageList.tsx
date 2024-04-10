@@ -110,17 +110,23 @@ function SliManageListContent<S extends SliType>({
   const track = useSloTrackers();
 
   const onCreateConfig = () => {
-    track(SLI_MANAGEMENT_CREATE_START, { entityType });
+    track(SLI_MANAGEMENT_CREATE_START, {
+      entityType
+    });
     setSliConfigToEdit({});
     onShowCreateForm(false);
   };
   const onEditConfig = (config: SliConfigBySliType<S>) => {
-    track(SLI_MANAGEMENT_EDIT_START, { entityType });
+    track(SLI_MANAGEMENT_EDIT_START, {
+      entityType
+    });
     setSliConfigToEdit({ ...config, sliName: t('in-custom-dashboards:editor.copyOf', { title: config.sliName }) });
     onShowCreateForm(true);
   };
   const onDeleteConfig = (id: string) => {
-    track(SLI_MANAGEMENT_DELETE, { entityType });
+    track(SLI_MANAGEMENT_DELETE, {
+      entityType
+    });
     deleteSliConfiguration(id).once(onDeleteSuccess, onDeleteFailed);
   };
 
@@ -146,7 +152,9 @@ function SliManageListContent<S extends SliType>({
             <Button
               kind="action"
               onClick={() => {
-                track(SLI_MANAGEMENT_CREATE_START, { entityType });
+                track(SLI_MANAGEMENT_CREATE_START, {
+                  entityType
+                });
                 onCreateConfig();
               }}
               icon="lib_openclose_add_circle_outline"
