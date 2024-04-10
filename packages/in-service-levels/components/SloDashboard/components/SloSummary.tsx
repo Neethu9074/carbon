@@ -14,9 +14,9 @@ import SloStatusKpiCard from 'in-service-levels/components/SloDashboard/componen
 import TrafficKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/TrafficKpiCard';
 import TrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart';
 import TimeWindowCard from 'in-service-levels/components/SloDashboard/components/TimeWindowCard';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
-import { SLO_LIST_VIEW } from 'in-services/tracking/eventNames';
+import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
+import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
 
@@ -38,8 +38,16 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
 
   const track = useSloTrackers();
-  useEffect(() => track(SLO_LIST_VIEW, undefined), [track]);
-
+  useEffect(() => {
+    const { indicator, timeWindow, entity } = configuration;
+    track(SLO_SUMMARY_VIEW, {
+      id: configuration.id,
+      blueprint: indicator.blueprint,
+      indicatorType: indicator.type,
+      timeWindowType: timeWindow.type,
+      entityType: entity.type
+    });
+  }, [track, configuration]);
   return (
     <>
       <Row>

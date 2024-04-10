@@ -13,8 +13,8 @@ import ObjectiveSection from 'in-service-levels/components/SloDashboard/componen
 import IndicatorSection from 'in-service-levels/components/SloDashboard/components/configuration/IndicatorSection';
 import SloActionButtons from 'in-service-levels/components/SloDashboard/components/configuration/SloActionButtons';
 import EntitySection from 'in-service-levels/components/SloDashboard/components/configuration/EntitySection';
-import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
+import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_CONFIG_VIEW } from 'in-services/tracking/eventNames';
 import TagList from 'in-components/TagsList/TagList';
 import { Nullish } from 'in-types';
