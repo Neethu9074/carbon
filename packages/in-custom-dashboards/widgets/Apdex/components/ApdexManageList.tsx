@@ -16,12 +16,12 @@ import {
 } from 'in-services/tracking/eventNames';
 import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ApdexList from 'in-custom-dashboards/widgets/Apdex/components/ApdexList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
@@ -57,19 +57,25 @@ export default function ApdexManageList({
   const onShowSlideInContentChange = () => onChange(undefined);
 
   const onCreateConfig = () => {
-    track(APDEX_MANAGEMENT_CREATE_START, { entityType });
+    track(APDEX_MANAGEMENT_CREATE_START, {
+      entityType
+    });
     setEditableApdexConfig({});
     onShowCreateForm(false);
   };
 
   const onEditConfig = (config: ApdexConfiguration) => {
-    track(APDEX_MANAGEMENT_EDIT_START, { entityType });
+    track(APDEX_MANAGEMENT_EDIT_START, {
+      entityType
+    });
     setEditableApdexConfig(config);
     onShowCreateForm(true);
   };
 
   const onDeleteApdexConfig = (id: string) => {
-    track(APDEX_MANAGEMENT_DELETE, { entityType });
+    track(APDEX_MANAGEMENT_DELETE, {
+      entityType
+    });
 
     deleteApdexConfiguration(id)
       .filter(result => !isLoading(result))

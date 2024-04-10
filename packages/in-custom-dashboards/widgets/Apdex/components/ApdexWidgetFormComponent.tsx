@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Item, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
+import { Item, MapForm } from 'formalistic';
 
 import { Stack, StackItem } from '@instana/components';
 
+import { SloTrackerProvider, apdexWidgetTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import {
   apdexConfigIdKey,
   defaultEntityType,
@@ -17,7 +18,6 @@ import {
   setFieldValue
 } from 'in-custom-dashboards/widgets/Apdex/form';
 import { APDEX_MANAGEMENT_EXIT, APDEX_MANAGEMENT_VIEW, APDEX_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
-import { SloTrackerProvider, apdexWidgetTrackers, useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 // eslint-disable-next-line import/no-deprecated
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import ConfigurationSelector from 'in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector';
@@ -32,6 +32,8 @@ import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 
 export interface FormComponentProps {
   form: MapForm<any>;
@@ -56,7 +58,7 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
 
   const track = useSloTrackers();
   useEffect(() => {
-    track(APDEX_WIDGET_EDIT_START, undefined);
+    track(APDEX_WIDGET_EDIT_START, {});
   }, [track]);
 
   // eslint-disable-next-line import/no-deprecated
@@ -99,7 +101,9 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
             entityType={entityType}
             onChange={value => updateForm<string>([apdexConfigIdKey], value)}
             onOpenConfigurationManager={() => {
-              track(APDEX_MANAGEMENT_VIEW, { entityType: entityType });
+              track(APDEX_MANAGEMENT_VIEW, {
+                entityType: entityType
+              });
               const config = getSlideInViewConfig({
                 entityType,
                 entityId,
@@ -132,13 +136,18 @@ function getSlideInViewConfig({
     slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]): () => void {
       if (showCreateFormState) return () => setShowCreateFormState(undefined);
       return () => {
-        track(APDEX_MANAGEMENT_EXIT, { entityType });
+        track(APDEX_MANAGEMENT_EXIT, {
+          entityType
+        });
         slideOut();
       };
     },
     getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
       return (
-        <SloTrackerProvider value={apdexWidgetTrackers}>
+        <SloTrackerProvider
+          trackers={apdexWidgetTrackers}
+          meta={{ productArea: productAreas.custom_dashboard, pageName: pageNames.custom_dashboard }}
+        >
           <ApdexManageList
             entityId={entityId}
             entityType={entityType}

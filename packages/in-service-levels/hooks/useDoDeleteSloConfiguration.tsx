@@ -14,9 +14,9 @@ import {
   SLO_CONFIG_DELETE_FINISH,
   SLO_CONFIG_DELETE_START
 } from 'in-services/tracking/eventNames';
+import { SloTrackingMeta, trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import { deleteSloConfiguration } from 'in-service-levels/api/configuration';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { trackSloEvent } from 'in-service-levels/hooks/SloTrackerProvider';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t, Trans } from 'in-i18n';
@@ -26,15 +26,17 @@ type DoFunction = () => void;
 
 export default function useDoDeleteSloConfiguration(
   configuration: ServiceLevelObjectiveConfiguration,
+  meta: SloTrackingMeta,
   onComplete?: CompletionCallback
 ): DoFunction {
   return () => {
-    showConfirmationDialog(configuration, onComplete);
+    showConfirmationDialog(configuration, meta, onComplete);
   };
 }
 
 function showConfirmationDialog(
   configuration: ServiceLevelObjectiveConfiguration,
+  meta: SloTrackingMeta,
   onComplete?: CompletionCallback
 ): void {
   const { name } = configuration;
@@ -53,7 +55,7 @@ function showConfirmationDialog(
       confirmButtonLabel={t('in-service-levels:general.deleteDialog.delete')}
       onSubmit={() => {
         close();
-        onDelete(configuration, onComplete);
+        onDelete(configuration, meta, onComplete);
       }}
     />
   );
@@ -63,24 +65,30 @@ function showConfirmationDialog(
     blueprint: configuration.indicator.blueprint,
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type
+    timeWindowType: configuration.timeWindow.type,
+    productArea: meta.productArea,
+    pageName: meta.pageName
   });
 }
 
-function onDelete(configuration: ServiceLevelObjectiveConfiguration, onComplete?: CompletionCallback): void {
+function onDelete(
+  configuration: ServiceLevelObjectiveConfiguration,
+  meta: SloTrackingMeta,
+  onComplete?: CompletionCallback
+): void {
   deleteSloConfiguration(configuration.id!).once(
     () => {
-      onDeleteSuccess(configuration);
+      onDeleteSuccess(configuration, meta);
       onComplete?.(true);
     },
     () => {
-      onDeleteFailed(configuration);
+      onDeleteFailed(configuration, meta);
       onComplete?.(false);
     }
   );
 }
 
-function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration): void {
+function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, meta: SloTrackingMeta): void {
   addMessage(
     {
       type: 'info',
@@ -95,11 +103,13 @@ function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration): voi
     blueprint: configuration.indicator.blueprint,
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type
+    timeWindowType: configuration.timeWindow.type,
+    productArea: meta.productArea,
+    pageName: meta.pageName
   });
 }
 
-function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration): void {
+function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, meta: SloTrackingMeta): void {
   addMessage(
     {
       type: 'danger',
@@ -114,6 +124,8 @@ function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration): void
     blueprint: configuration.indicator.blueprint,
     entityType: configuration.entity.type,
     indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type
+    timeWindowType: configuration.timeWindow.type,
+    productArea: meta.productArea,
+    pageName: meta.pageName
   });
 }

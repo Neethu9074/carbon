@@ -19,10 +19,10 @@ import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/component
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { seconds } from 'in-services/time/time';
@@ -63,7 +63,6 @@ export default function CreateApdexForm({
   const [submitStatus, doSubmit] = useFormSubmission(createApdexConfiguration);
 
   const track = useSloTrackers();
-
   const isEditing = Boolean(apdexConfig.id);
 
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
@@ -77,7 +76,9 @@ export default function CreateApdexForm({
   };
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
-    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
+    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, {
+      entityType
+    });
     addMessage(
       {
         type: 'info',

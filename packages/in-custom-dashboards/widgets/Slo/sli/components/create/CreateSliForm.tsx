@@ -14,10 +14,10 @@ import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-cus
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
+import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
-import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';

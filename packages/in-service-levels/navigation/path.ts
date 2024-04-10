@@ -6,7 +6,7 @@
 
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 
-const serviceLevelsRoot = '/slo';
+export const serviceLevelsRoot = '/slo';
 
 export const serviceLevelsOverview = serviceLevelsRoot;
 
