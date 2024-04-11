@@ -157,7 +157,7 @@ const Groups = () => {
         customDeleteTooltipMessage={(group: ApiGroup) =>
           group?.name === groupNameDefault || group?.name === groupNameOwner
             ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
-            : ''
+            : t('in-settings:components.deleteEntity', { entity: group.name })
         }
         customDialogMessage={(group: ApiGroup) => getDialogMessage(group)}
         boundedPath="/groups"

@@ -1169,7 +1169,8 @@
     "accessAll": "Access all",
     "access": "Access",
     "accessForTenantUnit": "Access for {{tenantUnit}}-{{tenant}}",
-    "numberOfMembers": "Number of members"
+    "numberOfMembers": "Number of members",
+    "groupEntityName": "group {{entityName}}"
   },
   "languageSelection": {
     "language": "Language",

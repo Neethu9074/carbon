@@ -34,7 +34,19 @@
   .deleteWrapper {
     text-align: right;
   }
+  .deleteIcon {
+    margin-left: 0.5rem;
+  }
   .withBottomPadding {
     padding-bottom: 5rem;
+  }
+
+  .icon {
+    fill: var(--ids-color-option-blue-500);
+  }
+
+  .disabled {
+    opacity: 0.6;
+    cursor: default;
   }
 }
