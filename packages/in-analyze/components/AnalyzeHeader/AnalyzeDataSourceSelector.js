@@ -6,7 +6,8 @@
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, SvgIcon, Ul } from '@instana/components';
+import { Li, SvgIcon, Ul, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 /* eslint-enable no-restricted-imports */
@@ -41,7 +42,6 @@ import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
-import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -397,7 +397,7 @@ function ProductAreaEntry({
         {getLabelByType(dataSource)}
 
         {beta && (
-          <Pill kind="primary" className={locals.betaPill}>
+          <Pill kind="primary" className={locals.betaPill} color={themes.default.ids.color.option.blue['500']}>
             {t('in-analyze:components.analyzeHeader.beta')}
           </Pill>
         )}

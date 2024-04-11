@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { SvgIcon, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
@@ -18,7 +18,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeFilterFormComponents.mless';
