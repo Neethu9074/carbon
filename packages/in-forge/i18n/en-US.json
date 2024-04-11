@@ -1058,6 +1058,11 @@
   "pluginName_kafkaConnectWorker_1": "Kafka Workers",
   "pluginName_kafkaConnectWorker_2": "Kafka Workers",
   "pluginName_kafkaConnectWorker": "Kafka Worker",
+  "pluginName_kafkaConnectTask_plural": "Kafka Tasks",
+  "pluginName_kafkaConnectTask_0": "Kafka Tasks",
+  "pluginName_kafkaConnectTask_1": "Kafka Tasks",
+  "pluginName_kafkaConnectTask_2": "Kafka Tasks",
+  "pluginName_kafkaConnectTask": "Kafka Task",
   "pluginName_kafkastreams_plural": "Kafka Stream",
   "pluginName_kafkastreams_0": "Kafka Stream",
   "pluginName_kafkastreams_1": "Kafka Stream",
@@ -1437,6 +1442,16 @@
   "pluginName_redisEnterpriseNode_1": "Redis Enterprise Nodes",
   "pluginName_redisEnterpriseNode_2": "Redis Enterprise Nodes",
   "pluginName_redisEnterpriseNode": "Redis Enterprise Node",
+  "pluginName_redisEnterpriseDatabase_plural": "Redis Enterprise Databases",
+  "pluginName_redisEnterpriseDatabase_0": "Redis Enterprise Databases",
+  "pluginName_redisEnterpriseDatabase_1": "Redis Enterprise Databases",
+  "pluginName_redisEnterpriseDatabase_2": "Redis Enterprise Databases",
+  "pluginName_redisEnterpriseDatabase": "Redis Enterprise Database",
+  "pluginName_redisEnterpriseShard_plural": "Redis Enterprise Shards",
+  "pluginName_redisEnterpriseShard_0": "Redis Enterprise Shards",
+  "pluginName_redisEnterpriseShard_1": "Redis Enterprise Shards",
+  "pluginName_redisEnterpriseShard_2": "Redis Enterprise Shards",
+  "pluginName_redisEnterpriseShard": "Redis Enterprise Shard",
   "pluginName_rocketMqCluster_plural": "RocketMQ Clusters",
   "pluginName_rocketMqCluster_0": "RocketMQ Clusters",
   "pluginName_rocketMqCluster_1": "RocketMQ Clusters",
@@ -8449,6 +8464,29 @@
       "totalConnectionsReceived": "Total Connections Received",
       "redisEnterpriseCluster": "Redis Enterprise Cluster"
     },
+    "redisEnterpriseDatabase": {
+      "dashboard": {
+        "totalConnections": "Total Connection",
+        "latency": "Latency",
+        "connections": "Connections",
+        "redisEnterpriseDatabase": "Redis Enterprise Database"
+      },
+      "name": "Name",
+      "status": "Status",
+      "clusterName": "Cluster Name",
+      "redisEnterpriseDatabase": "Redis Enterprise Database"
+    },
+    "redisEnterpriseShard": {
+      "dashboard": {
+        "connectedClients":"Connected Clients",
+        "blockedClients": "Blocked Clients",
+        "redisEnterpriseShard": "Redis Enterprise Shard"
+      },
+      "role": "Role",
+      "status": "Status",
+      "clusterName": "Cluster Name",
+      "redisEnterpriseShard": "Redis Enterprise Shard"
+    },
     "redisEnterpriseNode": {
       "dashboard": {
         "requests": "Requests",
@@ -11825,6 +11863,16 @@
       "workerName": "Worker Name",
       "brokersInUse": "Brokers in use",
       "connectorStartupFailure": "Connector Startup Failure"
+    },
+    "kafkaConnectTask": {
+      "partitionCount": "Partition Count",
+      "runningRatio": "Running Ratio",
+      "pauseRatio": "Pause Ratio",
+      "taskInfo": "Task Info",
+      "taskId": "Task Id",
+      "connectorId": "Connector Id",
+      "status": "status",
+      "kafkaTask": "KafkaTask"
     },
     "kubernetesCronJob": {
       "activeJobs": "Active Jobs",
