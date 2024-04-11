@@ -5,8 +5,10 @@
 
 :local {
   .pill {
-    margin-left: 0.75rem;
+    margin-left: 0.75rem !important; // needs higher specificity not to get overrules by Pill
     position: relative;
+    min-width: max-content;
+    text-wrap: nowrap;
     top: -4px;
   }
 

@@ -21,6 +21,7 @@ export default function BatchingIndicator({ batchCount, tooltipContent, tooltipA
   return (
     <Tooltip content={tooltipContent} align={tooltipAlign}>
       <Pill
+        type="gray"
         kind="lighter"
         className={classNames({
           [locals.pill]: true,
