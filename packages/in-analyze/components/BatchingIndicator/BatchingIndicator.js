@@ -25,7 +25,7 @@ export default function BatchingIndicator({ batchCount, tooltipContent, tooltipA
         kind="lighter"
         className={classNames({
           [locals.pill]: true,
-          [locals.noTopPosition]: noTopPosition
+          [locals.noTopPosition]: !noTopPosition
         })}
       >
         {number.compact(batchCount)}
