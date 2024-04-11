@@ -7,6 +7,7 @@ import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { Li, SvgIcon, Ul, Pill } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 /* eslint-enable no-restricted-imports */
@@ -395,7 +396,7 @@ function ProductAreaEntry({
         {getLabelByType(dataSource)}
 
         {beta && (
-          <Pill kind="primary" className={locals.betaPill}>
+          <Pill kind="primary" className={locals.betaPill} color={themes.default.ids.color.option.blue['500']}>
             {t('in-analyze:components.analyzeHeader.beta')}
           </Pill>
         )}
