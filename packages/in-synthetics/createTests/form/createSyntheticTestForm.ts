@@ -35,46 +35,54 @@ export function createForm(
   selectedBlueprint?: BluePrint | AdvancedBluePrint,
   savedState?: Record<string, any>
 ) {
-  // @ts-expect-error testType does not exist in wizardModeBlueprintTestType
+  // @ts-expect-error testType does not exist in advanced mode blueprint
   const advancedModeBlueprintTestType: string = selectedBlueprint?.testType;
+  const advancedModeBlueprintType: string | undefined = selectedBlueprint?.type;
+
   const wizardModeBlueprintTestType: string | undefined = selectedBlueprint?.type;
   let config: any;
+
+  savedState = savedState ?? {};
+
+  const getApiScriptTestConfig = () => {
+    return !savedState?.script
+    ? createAdvancedScriptConfigurationForm(advancedModeBlueprintType, savedState)
+    : createScriptConfigurationForm(simpleMode, savedState);
+  };
 
   if (simpleMode) {
     switch (wizardModeBlueprintTestType) {
       case apiScriptTest:
-        config = createScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = createScriptConfigurationForm(simpleMode, savedState);
         break;
       case apiSimpleTest:
-        config = createActionConfigurationForm(savedState ?? {});
+        config = createActionConfigurationForm(savedState);
         break;
       case browserSimpleTest:
-        config = createWebpageActionConfigurationForm(savedState ?? {});
+        config = createWebpageActionConfigurationForm(savedState);
         break;
       case browserScriptTest:
-        config = createBrowserScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = createBrowserScriptConfigurationForm(simpleMode, savedState);
         break;
     }
   } else {
     switch (advancedModeBlueprintTestType || wizardModeBlueprintTestType) {
       case 'HTTPAction':
       case apiSimpleTest:
-        config = createAdvancedActionConfigurationForm(savedState ?? {});
+        config = createAdvancedActionConfigurationForm(savedState);
         break;
       case 'HTTPScript':
       case apiScriptTest:
-        config = !savedState?.script
-          ? createAdvancedScriptConfigurationForm(savedState ?? {})
-          : createScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = getApiScriptTestConfig();
         break;
       case 'BrowserScript':
       case 'WebpageScript':
       case browserScriptTest:
-        config = createBrowserScriptConfigurationForm(simpleMode, savedState ?? {});
+        config = createBrowserScriptConfigurationForm(simpleMode, savedState);
         break;
       case 'WebpageAction':
       case browserSimpleTest:
-        config = createAdvancedWebpageActionConfigurationForm(savedState ?? {});
+        config = createAdvancedWebpageActionConfigurationForm(savedState);
         break;
     }
   }
@@ -297,8 +305,9 @@ function createWebpageActionConfigurationForm(savedState?: Record<string, any>) 
     );
 }
 
-function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>) {
-  return createMapForm()
+function createAdvancedScriptConfigurationForm(type: string | undefined, savedState?: Record<string, any>) {
+  const checkCertificate: boolean = type === 'Certificate Check' ? true : false;
+  let configuration = createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -326,7 +335,24 @@ function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>)
         value: savedState?.markSyntheticCall ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
+    )
+    .put(
+      'certificateCheck',
+      createField({
+        value: savedState?.certificateCheck ?? checkCertificate,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
     );
+  if (checkCertificate) {
+    return configuration.put(
+      'script',
+      createField({
+        value: savedState?.script,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    );
+  }
+  return configuration;
 }
 
 export function createZipScriptConfigurationForm(bundle: string, scriptFile: string) {

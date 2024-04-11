@@ -6,8 +6,9 @@
 
 import React, { Fragment } from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import Info from 'in-forge/plugins/tuxedoAppServiceBrokerProject/Info';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 
 export default function TuxedoAppServiceBrokerProjectSidebar({ snapshot }) {

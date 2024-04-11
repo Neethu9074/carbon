@@ -329,6 +329,11 @@
   "pluginName_azureManagedHSM_1": "Azure Key Vault Managed HSM",
   "pluginName_azureManagedHSM_2": "Azure Key Vault Managed HSM",
   "pluginName_azureManagedHSM": "Azure Key Vault Managed HSM",
+  "pluginName_microsoftPurview_plural": "Microsoft Purview",
+  "pluginName_microsoftPurview_0": "Microsoft Purview",
+  "pluginName_microsoftPurview_1": "Microsoft Purview",
+  "pluginName_microsoftPurview_2": "Microsoft Purview",
+  "pluginName_microsoftPurview": "Microsoft Purview",
   "pluginName_baw_plural": "BAW",
   "pluginName_baw_0": "BAW",
   "pluginName_baw_1": "BAW",
@@ -4884,6 +4889,38 @@
         "labelWl": "Write Latency"
       }
     },
+    "microsoftPurview": {
+      "infoName": "Name",
+      "infoResourceGroup": "Resource Group",
+      "infoLocation": "Location",
+      "infoCreatedAt": "Created At",
+      "infoType":"Type",
+      "infoSubscriptionID": "Subscription ID",
+      "infoPurviewLabel": "Microsoft Purview",
+      "labelDataMapStorageSize": "Data Map Storage Size",
+      "labelDataMapCapacityUnits": "Data Map Capacity Units",
+      "labelScanCancelled": "Scan Cancelled",
+      "labelScanFailed": "Scan Failed",
+      "labelScanCompleted": "Scan Completed",
+      "labelScanTimeTaken": "Scan Time Taken",
+      "labelDataMap": "Data Map",
+      "labelScans": "Scans",
+      "dashboard": {
+        "labelDataMapStorageSize": "Data Map Storage Size",
+        "labelDataMapCapacityUnits": "Data Map Capacity Units",
+        "labelDataMapUnits": "Units",
+        "labelDataMapSize": "Size",
+        "labelScanCompleted": "Completed",
+        "labelScanFailed": "Failed",
+        "labelScanCancelled": "Cancelled",
+        "labelScanTimeTaken": "Scan Time Taken",
+        "labelScanTime": "Time"
+      },
+      "kpi": {
+        "dataMapCapacityUnits": "Data Map Capacity Units",
+        "scansFailed" : "Scans Failed"
+      }
+    },
     "azureDataFactory": {
       "infoName": "Name",
       "infoAzureDataFactory": "Azure DataFactory",
@@ -7704,9 +7741,11 @@
       "mainIniFile": "Main Ini File",
       "iniFilesDirectory": "Ini Files Directory",
       "additionalIniFilesParsed": "Additional Ini Files Parsed",
+      "endOfLifePhpVersion": "A version of PHP past its official end-of-life has been detected: {{version}}. This version no longer receives updates or security fixes and might contain unfixed vulnerabilities. Furthermore, support for this version is deprecated by Instana. Consider upgrading your PHP installation to a supported version.",
       "extensionsDirectory": "Extensions Directory",
       "instanaTracingExtensionVersion": "Instana Tracing Extension Version",
-      "php": "PHP"
+      "php": "PHP",
+      "supportedVersionsPage": "Supported Versions"
     },
     "ping": {
       "dashboard": {

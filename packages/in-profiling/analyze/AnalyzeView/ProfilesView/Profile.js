@@ -28,7 +28,7 @@ import InfiniteCircle from 'in-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';
 import SetBodyColor from 'in-components/SetBodyColor';
-import ButtonGroup from 'in-components/ButtonGroup';
+import { ButtonGroup } from '@instana/components';
 import SearchInput from 'in-components/SearchInput';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

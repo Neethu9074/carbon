@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/awsMskCluster/Info';
 import { t } from 'in-i18n';

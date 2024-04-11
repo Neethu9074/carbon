@@ -13,9 +13,9 @@
     "buyNowBtn": "Buy on AWS",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Get answers",
-    "titleDetail":{
-      "trial":"Trial",
-      "sandboxTrial":"Sandbox trial"
+    "titleDetail": {
+      "trial": "Trial",
+      "sandboxTrial": "Sandbox trial"
     }
   },
   "playwithinstana": {
@@ -73,10 +73,10 @@
       "openAgentDashboardOptional": "Optional: After your agent deploys successfully, you can view it on the infrastructure map.",
       "downloadKey": "Download key",
       "support": "Support",
-      "sideCard":{
-        "prerequisites":"Prerequisites",
-        "documentation":"Documentation",
-        "askAColleagueForHelp":"Ask a colleague for help"
+      "sideCard": {
+        "prerequisites": "Prerequisites",
+        "documentation": "Documentation",
+        "askAColleagueForHelp": "Ask a colleague for help"
       }
     },
     "kubernetes": {
@@ -131,7 +131,7 @@
       "ec2": "Elastic Compute Cloud (EC2)",
       "ecs": "Elastic Container Service (ECS)",
       "selectLambdaRuntime": "Select the Lambda runtime.",
-      "lambdaSetEnvironmentVariables" : "Set the following environment variables in respective section at AWS Lambda configuration page",
+      "lambdaSetEnvironmentVariables": "Set the following environment variables in respective section at AWS Lambda configuration page",
       "referenceToAwsLambdaGoDocumentation": "AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the <awsLambdaGoDoc>AWS Lambda Go documentation</awsLambdaGoDoc>.",
       "reviewPrerequisitesAndConfigureLambda": "Review the prerequisites and configure your AWS Lambda functions for native tracing.",
       "referDocumentationForSettingUpAwsSensor": "For details on setting up the Instana AWS Sensor, refer to the <awsSensorDoc> AWS Service documentation< /awsSensorDoc>.",
@@ -159,7 +159,7 @@
       "setEnvVariablesInLambdaFunction": "Set the following environment variables in Lambda function.",
       "selectInstanaLambdaLayer": "Select the Instana Lambda layer with the Amazon Resource Name (ARN) below.",
       "setEnvVariablesInECSTaskDefinition": "Set the following environment variables in the ECS Task Definition.",
-      "integrateInstanaInProcessCollectorForAws" : "Step 2: Integrate the Instana in-process collector for AWS.",
+      "integrateInstanaInProcessCollectorForAws": "Step 2: Integrate the Instana in-process collector for AWS.",
       "setEnvironmentVariablesInECSTaskDefinition": "Step 3: Set the following environment variables on the ECS Task Definition.",
       "installationMethod": "Installation method",
       "applicationDirectory": "Application directory",
@@ -172,7 +172,7 @@
       "selectAgentPackagingAndRuntime": "Select the agent packaging mode and runtime",
       "awsLambdaPythonAutotrace": "The preferred way to configure AWS Lambda functions based on Python for tracing is the Instana Lambda layer with AutoTrace.",
       "preferredMethodForNodeJsLambdaConfiguration": "The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the <lambdaManualWrapping>Instana Lambda layer with manual wrapping</lambdaManualWrapping>.",
-      "imageOptions" : {
+      "imageOptions": {
         "linuxGlibcBased": "Linux (glibc - based)",
         "alpineLinuxMuslBased": "Alpine Linux(musl - based)"
       },
@@ -183,7 +183,7 @@
       "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",
       "autoWrapHandler": "Auto-wrap Handler",
-      "runCodeBelow":"Run the agent deployment code below.",
+      "runCodeBelow": "Run the agent deployment code below.",
       "prerequisiteLinks": {
         "networkRequirements": "Network Requirements"
       },
@@ -214,9 +214,9 @@
         "installGcrCollectors": "Install Gogle Cloud Run in-process collectors",
         "installAgentOnEc2": "Install agent on AWS EC2",
         "configurationOptions": "Configuration options",
-        "installAgentAwsEks":"Install an agent on AWS EKS",
+        "installAgentAwsEks": "Install an agent on AWS EKS",
         "monitoringGcr": "Monitoring Google Cloud Run",
-        "monitoringAwsFargateRuby":"Monitoring AWS Fargate (Ruby)",
+        "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
         "awsServiceDocumentation": "AWS Service documentation",
         "monitoringAwsLambda": "Monitoring AWS Lambda",
         "configuringAwsLambdaMonitoring": "Configuring AWS Lambda monitoring",
@@ -316,7 +316,7 @@
         "runCommandsOnAWSEC2": "Run commands on AWS EC2"
       }
     },
-    "linux":{
+    "linux": {
       "linux_auto": {
         "installAnAgentOnLinux": "Install an agent on Linux",
         "configurationParameters": "Configuration parameters",
@@ -328,7 +328,7 @@
         "DEBAndRPMPackage": "DEB and RPM package",
         "installUsingAPackage": "Install using a package"
       },
-      "linux_ec2":{
+      "linux_ec2": {
         "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
         "Packaging": "Packaging",
         "dynamic": "Dynamic",
@@ -364,27 +364,27 @@
         "configurationParameters": "Configuration Parameters"
       }
     },
-    "openshift":{
-      "documentLinks":{
-      "installOperatorByUsingOlm":"Installing Operator by using OLM",
-      "setUpProject":"Set up a project and service account",
-      "installAgentUsingOperator":"Install agent using the Operator",
-      "configuringAgentAfterInstall":"Configuring the agent after install",
-      "installUsingHelm":" Install using the Helm chart",
-      "installUsingYaml":"Install using YAML"
-    },
-    "instructions":{
-      "operator":{
-        "installOperatorsManually":"Step 1: Install operators manually.",
-        "installOperatorsManuallySubtext":"The latest Operator will be installed, and 1.x CRDs will not be upgraded:",
-        "enterAClusterNameAndOptionallyTheAgentZone": "Step 2: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
-        "configureCustomYamlFile":"Step 3: Configure the custom resource YAML file.",
-        "configureCustomYamlFileSubtext1":"Follow the instructions in the <installOperatorDoc>documentation.</installOperatorDoc>",
-        "configureCustomYamlFileSubtext2":"You can further configure the host agent to your requirements, as described in <networkAccess>Configure network access for monitored applications.</networkAccess>",
-        "runTheFollowingCommand":"Step 4: Run the following command to deploy the Instana agent with your chosen configuration."
+    "openshift": {
+      "documentLinks": {
+        "installOperatorByUsingOlm": "Installing Operator by using OLM",
+        "setUpProject": "Set up a project and service account",
+        "installAgentUsingOperator": "Install agent using the Operator",
+        "configuringAgentAfterInstall": "Configuring the agent after install",
+        "installUsingHelm": " Install using the Helm chart",
+        "installUsingYaml": "Install using YAML"
       },
-      "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
-      "reviewPrerequisiteAndRunCode": "Step 2: Review the prerequisites and run the agent deployment code."
+      "instructions": {
+        "operator": {
+          "installOperatorsManually": "Step 1: Install operators manually.",
+          "installOperatorsManuallySubtext": "The latest Operator will be installed, and 1.x CRDs will not be upgraded:",
+          "enterAClusterNameAndOptionallyTheAgentZone": "Step 2: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+          "configureCustomYamlFile": "Step 3: Configure the custom resource YAML file.",
+          "configureCustomYamlFileSubtext1": "Follow the instructions in the <installOperatorDoc>documentation.</installOperatorDoc>",
+          "configureCustomYamlFileSubtext2": "You can further configure the host agent to your requirements, as described in <networkAccess>Configure network access for monitored applications.</networkAccess>",
+          "runTheFollowingCommand": "Step 4: Run the following command to deploy the Instana agent with your chosen configuration."
+        },
+        "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+        "reviewPrerequisiteAndRunCode": "Step 2: Review the prerequisites and run the agent deployment code."
       }
     },
     "azure": {
@@ -397,7 +397,7 @@
       "applicationRuntime": "Application runtime",
       "reviewInfoStep": "Step 2: Review the additional information and integrate the instana in-process collector for Google Cloud Run.",
       "installationMethod": "Installation method",
-      "selectInstallationMethod":"Step 1: Select the installation method and application runtime.",
+      "selectInstallationMethod": "Step 1: Select the installation method and application runtime.",
       "selectAgentPackagingMode": "Step 1: Select agent packaging mode",
       "useScript": "Step 2: Use the following script as 'Startup Script' for the GCE instance",
       "integrateInstanaInProcessCollectorForGoogle": "Step 2: Integrate the Instana in-process collector for Google Cloud Run.",
@@ -416,6 +416,7 @@
   "welcomepage": {
     "heading": "Welcome",
     "viewAll": "View all",
+    "search": "Search",
     "addMore": "Add",
     "UrlShortener": "URL Shortener",
     "consumeData": {
@@ -436,7 +437,7 @@
       "buttonName": "Get answers",
       "buttonType": "ghost"
     },
-    "component":{
+    "component": {
       "applicationWidget": {
         "label": "Applications",
         "name": "Name",
@@ -458,7 +459,7 @@
         "vsphere": "vSphere",
         "openstack": "OpenStack",
         "ibmp": "IBM Power HMC",
-        "powervcRegion":"PowerVC Region",
+        "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
         "kubernetes": "Kubernetes",
@@ -518,7 +519,8 @@
       "dashboardWidget": {
         "label": "My custom dashboards",
         "name": "Name",
-        "owner": "Owner"
+        "owner": "Owner",
+        "permissions": "Permissions"
       }
     },
     "noData": {
@@ -589,8 +591,8 @@
     }
   },
   "assistme": {
-   "dataSearchContext": {
-    "gettingStarted": "Getting Started"
-   }
+    "dataSearchContext": {
+      "gettingStarted": "Getting Started"
+    }
   }
 }

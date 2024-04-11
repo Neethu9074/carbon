@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import KubernetesInfo from 'in-forge/plugins/syntheticPoP/Dashboard/KubernetesInfo';
 import EngineList from 'in-forge/plugins/syntheticPoP/Dashboard/EngineList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/syntheticPoP/Info';
 import { t } from 'in-i18n';
 

@@ -13,9 +13,9 @@ import { t } from '@instana/i18n-react';
 import UrlShortenerOverlay from 'in-components/DashboardHeader/UrlShortener/UrlShortenerOverlay';
 import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { openAssistMe } from 'in-plg/components/AssistMe/AssistMe';
+import DatePicker from 'in-plg/components/DatePicker/DatePicker';
 import Overlay from 'in-components/overlays/Overlay';
-import { openAssistMe } from '../AssistMe/AssistMe';
-import DatePicker from '../DatePicker/DatePicker';
 import { user } from 'in-stores/user';
 
 export default function WelcomeHeader() {
@@ -47,37 +47,6 @@ export default function WelcomeHeader() {
     }
   ];
 
-  const datepicker = (
-    <div className="header">
-      <Stack direction="horizontal">
-        <UrlShortener darkTheme={false} />
-        <DatePicker darkTheme={false} />
-      </Stack>
-    </div>
-  );
-
-  function UrlShortener(props: any) {
-    return (
-      <Overlay props={props} content={UrlShortenerOverlay} withoutWrapper withoutArrow>
-        {({ toggle, refSetter }) => (
-          <DashboardButton
-            id="url-shortener-button"
-            ariaLabel={t('in-plg:welcomepage.ariaLabel.shareButton')}
-            icon="lib_actions_interface_link"
-            iconDescription={t('in-plg:welcomepage.UrlShortener')}
-            kind="tertiary"
-            onClick={e => {
-              track(URL_SHORTENER_OPEN);
-              toggle();
-              e.stopPropagation();
-            }}
-            ref={refSetter}
-          />
-        )}
-      </Overlay>
-    );
-  }
-
   function createRedirectHref(currentTile: string) {
     if (currentTile == 'consumeData') {
       return createHrefToPath('/agents/installation');
@@ -88,18 +57,18 @@ export default function WelcomeHeader() {
 
   return (
     <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
-      <HeaderTile headerTitle={headerTitle} datepicker={datepicker}>
-        {tileData.map((tile, index) => (
+      <HeaderTile headerTitle={headerTitle} datepicker={<DatePickerHeader />}>
+        {tileData.map(({ title, description, buttonName, buttonType, key }) => (
           <HeaderItemTile
-            key={index}
-            title={tile.title}
-            description={tile.description}
-            buttonName={tile.buttonName}
-            buttonType={tile.buttonType === 'primary' ? 'primary' : 'ghost'}
-            href={tile.key === 'nextSteps' ? undefined : createRedirectHref(tile.key)}
+            key={key}
+            title={title}
+            description={description}
+            buttonName={buttonName}
+            buttonType={buttonType === 'primary' ? 'primary' : 'ghost'}
+            href={key === 'nextSteps' ? undefined : createRedirectHref(key)}
             onClick={e => {
               e.stopPropagation();
-              if (tile.key === 'nextSteps') {
+              if (key === 'nextSteps') {
                 openAssistMe();
               }
             }}
@@ -107,5 +76,38 @@ export default function WelcomeHeader() {
         ))}
       </HeaderTile>
     </div>
+  );
+}
+
+export function DatePickerHeader() {
+  return (
+    <div className="header">
+      <Stack direction="horizontal">
+        <UrlShortener darkTheme={false} />
+        <DatePicker darkTheme={false} />
+      </Stack>
+    </div>
+  );
+}
+
+export function UrlShortener(props: any) {
+  return (
+    <Overlay props={props} content={UrlShortenerOverlay} withoutWrapper withoutArrow>
+      {({ toggle, refSetter }) => (
+        <DashboardButton
+          id="url-shortener-button"
+          ariaLabel={t('in-plg:welcomepage.ariaLabel.shareButton')}
+          icon="lib_actions_interface_link"
+          iconDescription={t('in-plg:welcomepage.UrlShortener')}
+          kind="tertiary"
+          onClick={e => {
+            track(URL_SHORTENER_OPEN);
+            toggle();
+            e.stopPropagation();
+          }}
+          ref={refSetter}
+        />
+      )}
+    </Overlay>
   );
 }

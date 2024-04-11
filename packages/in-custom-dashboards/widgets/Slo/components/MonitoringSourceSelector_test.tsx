@@ -6,9 +6,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
+
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import { MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 

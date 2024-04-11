@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
 import { create, just } from '@instana/observables';
+import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -27,7 +28,6 @@ import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
-import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import ListTitle from 'in-components/lists/Title';

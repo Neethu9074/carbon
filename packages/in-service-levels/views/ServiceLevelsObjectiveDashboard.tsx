@@ -20,6 +20,7 @@ import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/com
 import SloDashboardHeader from 'in-service-levels/components/SloDashboard/components/SloDashboardHeader';
 import { defaultServiceLevelObjectiveUrlParameters } from 'in-service-levels/navigation/urlParameters';
 import SloMetaInfoHeader from 'in-service-levels/components/SloDashboard/components/SloMetaInfoHeader';
+import { serviceLevelsObjectiveSummaryFullyQualified } from 'in-service-levels/navigation/path';
 import { SloTrackerProvider, sloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -27,7 +28,9 @@ import { getSloConfiguration } from 'in-service-levels/api/configuration';
 import { loadEntity } from 'in-service-levels/hooks/useSloEntitiesLabels';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { hasError, isLoading } from 'in-services/util/result';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { LabeledEntity } from 'in-service-levels/types';
 import useUrlState from 'in-hooks/useUrlState';
@@ -59,7 +62,16 @@ export default function ServiceLevelsObjectiveDashboard() {
   const sloTimeWindow = configuration?.timeWindow;
 
   return (
-    <SloTrackerProvider value={sloTrackers}>
+    <SloTrackerProvider
+      trackers={sloTrackers}
+      meta={{
+        productArea: productAreas.slo,
+        pageName:
+          location.pathname === serviceLevelsObjectiveSummaryFullyQualified
+            ? pageNames.slo_summary
+            : pageNames.slo_config
+      }}
+    >
       <SloTimeWindowProvider sloConfigId={sloId} sloTimeWindow={sloTimeWindow}>
         <TabView
           location={location}

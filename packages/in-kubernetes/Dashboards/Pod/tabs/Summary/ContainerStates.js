@@ -22,8 +22,8 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import getKubernetesContainers from 'in-kubernetes/subscriptions/getKubernetesContainers';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
@@ -40,6 +40,7 @@ export default connectTo(
     const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
     const allContainerStates = [...get(pod, ['status', 'initContainerStatuses'], []), ...containerStatuses];
     const viewAllHref = usePodDashboard(pod.id, { tab: '/containers' });
+    const getDashboardLink = useGetDashboardLink();
 
     if (!allContainerStates || allContainerStates.length === 0) {
       return <NoDataAvailable height={160} />;
@@ -73,7 +74,7 @@ export default connectTo(
                       <SeverityAwareEntityLink
                         icon={getContainerIconByPlugin(get(containerSnapshot, ['container', 'plugin']))}
                         label={get(containerSnapshot, ['containerLabel'])}
-                        href$={getDashboardLink(status.containerSnapshotId, {
+                        href={getDashboardLink(status.containerSnapshotId, {
                           pathname: '/physical/dashboard',
                           to: timeConfig.to,
                           focusedMoment: timeConfig.to

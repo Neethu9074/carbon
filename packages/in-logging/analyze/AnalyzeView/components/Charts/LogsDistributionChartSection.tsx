@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { LogGroupItem, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Group, IngestionOffsetCursor } from '@instana/types/typeDefinitions';
+import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs TS migration
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
@@ -15,6 +16,7 @@ import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/Grou
 import { ChartProps, LogsDistributionChartSectionProps } from 'in-logging/analyze/AnalyzeView/components/Charts/types';
 import { customChartHeight, logsChartOptions } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { getLogsChartConfig, getMetricConfig } from 'in-logging/analyze/AnalyzeView/components/Charts/utils';
+import { useLoggingAnalyzeContext } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -22,6 +24,7 @@ import { ChartedMetric } from 'in-applications/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
+import { LOG_LEVEL } from 'in-logging/queryBuilder';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { error } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -83,15 +86,53 @@ function Chart(props: ChartProps) {
 }
 
 function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
+  const timeConfig = useTimeConfig();
+  const { setState, state } = useLoggingAnalyzeContext();
+
+  const logGroupsResult =
+    useObservable(
+      () =>
+        getLogGroups({
+          tagFilterExpression: backendQueryModelWithFacets,
+          timeConfig,
+          group: { groupbyTag: LOG_LEVEL, groupbyTagEntity: 'NOT_APPLICABLE' },
+          pagination: {
+            retrievalSize: 20
+          }
+        }),
+      [timeConfig.to, timeConfig.windowSize, backendQueryModelWithFacets]
+    ) || pendingResult;
+
+  const config =
+    logGroupsResult.data &&
+    getLogsChartConfig(backendQueryModelWithFacets as TagFilterExpression, metric, logGroupsResult.data.items);
+
+  useEffect(() => {
+    const prevExtraLogLevel = state.extraChartLogLevel;
+    const nextExtraLogLevel = config?.y1.metrics[4]?.label;
+
+    if (prevExtraLogLevel !== nextExtraLogLevel) setState({ extraChartLogLevel: nextExtraLogLevel });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config]);
+
+  if (logGroupsResult.data) {
+    return (
+      <UnifiedMetricsChart
+        renderPreChartContent={LogsChartLegend}
+        customHeight={customChartHeight}
+        automaticallySize={false}
+        renderLegend={false}
+        excludedContextMenuActions={['globalHighlight', 'download']}
+        config={config}
+        renderErrorDetail
+      />
+    );
+  }
+
   return (
-    <UnifiedMetricsChart
-      renderPreChartContent={LogsChartLegend}
-      customHeight={customChartHeight}
-      automaticallySize={false}
-      renderLegend={false}
-      excludedContextMenuActions={['globalHighlight', 'download']}
-      config={getLogsChartConfig(backendQueryModelWithFacets as TagFilterExpression, metric)}
-      renderErrorDetail
+    <ResultAwareChart
+      result={pendingResult}
+      config={{ customHeight: customChartHeight, timeConfig: placeholderTimeConfig }}
     />
   );
 }

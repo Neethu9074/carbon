@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 
 import { Link, Stack, Typography } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/legacy';
@@ -43,7 +44,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { formatDateTime } from 'in-services/formatters/date';
-import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';

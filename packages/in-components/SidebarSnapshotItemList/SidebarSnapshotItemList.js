@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { ClickableList, ClickableSnapshotListItem } from 'in-sdk/components/sidebar/ClickableList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import { sortByLabel } from 'in-sdk/snapshot';

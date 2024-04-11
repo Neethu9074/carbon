@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Stack, StackItem } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 
 import {
   ChartViewConfigItem,
@@ -15,7 +16,6 @@ import {
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import ButtonGroup from 'in-components/ButtonGroup';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator.mless';
 

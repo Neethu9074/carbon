@@ -6,12 +6,13 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import {
   trackSidebarRelatedEntitiesExpanded,
   trackSidebarRelatedEntitiesClicked
 } from 'in-infrastructure/tracking/tracking';
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getPluginName } from 'in-sdk/pluginName';

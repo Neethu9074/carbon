@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import MatchExpressionList from 'in-forge/plugins/websiteHttpd/MatchExpressionList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/websiteHttpd/Info';
 import { t } from 'in-i18n';
 

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { ClickableList, ClickableListItem } from 'in-sdk/components/sidebar/ClickableList';
 import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 
 export default function ServiceListPresenter({ result, header = t('in-sdk:services') }) {

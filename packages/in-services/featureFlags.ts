@@ -48,6 +48,8 @@ export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
+export const carbonAccordionEnabled = isFeatureFlagEnabled('carbonAccordionEnabled');
+export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');

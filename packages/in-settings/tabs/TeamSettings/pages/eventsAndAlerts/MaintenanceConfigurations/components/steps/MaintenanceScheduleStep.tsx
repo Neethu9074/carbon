@@ -11,6 +11,7 @@ import { RRule } from 'rrule';
 
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
 import { Link, Message, Stack } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -28,7 +29,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { parseDateTime } from 'in-services/formatters/date';
 import { getSingle } from 'in-services/settings/settings';
 import FormGroup from 'in-components/form/FormGroup';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 

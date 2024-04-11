@@ -12,7 +12,6 @@ import { BusinessProcessItem, Result, TimeConfig } from '@instana/types';
 import connectTo from 'in-hoc/connectTo';
 import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
-import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
@@ -36,8 +35,13 @@ export default connectTo(
       metrics: {
         started_processes: {
           metric: 'started_processes',
-          granularity: getChartGranularity(props.timeConfig),
+          granularity: 0,
           aggregation: 'DISTINCT_COUNT'
+        },
+        erroneous_call_count: {
+          metric: 'erroneous_call_count',
+          granularity: 0,
+          aggregation: 'SUM'
         }
       },
       processDefinitionId: props.processId
@@ -55,7 +59,7 @@ export default connectTo(
             // the metric for started_processes looks like [[id, value]]
             kpiValue = result?.data?.metrics.started_processes[0][1];
           } else if (metric === 'ERRORS') {
-            kpiValue = result?.data?.metrics.openIssues[0][1];
+            kpiValue = result?.data?.metrics.erroneous_call_count[0][1];
           }
 
           return (

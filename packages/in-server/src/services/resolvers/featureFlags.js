@@ -323,7 +323,7 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsGoldenSignalsEnabled',
     instanaCtlKey: 'feature.bizops.golden.signals.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsRbacEnabled',
@@ -443,7 +443,7 @@ module.exports = exports = [
   {
     uiClientKey: 'regexMetricSelectionEnabled',
     instanaCtlKey: 'feature.regex.metric.selection.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaUIEnabled',
@@ -516,6 +516,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'carbonContentSwitcherEnabled',
+    instanaCtlKey: 'feature.carbon.content.switcher.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'carbonPillEnabled',
     instanaCtlKey: 'feature.carbon.pill.enabled',
     defaultValue: false
@@ -523,6 +528,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMessageEnabled',
     instanaCtlKey: 'feature.carbon.message.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonAccordionEnabled',
+    instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: false
   },
   {

@@ -6,13 +6,14 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KubernetesInfo from 'in-forge/plugins/remoteHost/Dashboard/KubernetesInfo';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import InterfaceList from 'in-forge/plugins/remoteHost/InterfaceList';
 import HostHardware from 'in-forge/plugins/remoteHost/HostHardware';
 import VsphereInfo from 'in-forge/plugins/remoteHost/VsphereInfo';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { vsphereEnabled } from 'in-services/featureFlags';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import { t } from 'in-i18n';

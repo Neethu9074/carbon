@@ -5,18 +5,16 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
 import Backends from '../Backends';
 import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function VarnishSidebar({ snapshot }) {
-  const backendNames = snapshot
-    .getIn(['data', 'backend_names'], emptyList)
-    .toArray()
-    .sort();
+  const backendNames = snapshot.getIn(['data', 'backend_names'], emptyList).toArray().sort();
   return (
     <div>
       <Collapsible initiallyOpen>

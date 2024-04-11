@@ -10,10 +10,13 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { productAreas } from 'in-services/tracking/productAreas';
+import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
 
 export default function FloatingAddSloButton() {
-  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" />);
+  const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
+  const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" trackingMeta={meta} />);
 
   return (
     <FloatingActionButtons>
