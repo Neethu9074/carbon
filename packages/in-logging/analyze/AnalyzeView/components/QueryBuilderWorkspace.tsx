@@ -34,6 +34,8 @@ import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
+import locals from './QueryBuilder.mless';
+
 interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
   children: React.ReactNode;
   validationError?: string;
@@ -108,7 +110,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
             />
           </Sections>
           {!isValid && !isLoading && (
-            <Message type="error" withIcon small>
+            <Message className={locals.message} inline type="error" withIcon small>
               {validationError ??
                 t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
             </Message>
