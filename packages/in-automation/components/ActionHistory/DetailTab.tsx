@@ -20,7 +20,6 @@ import {
 } from 'in-settings/navigation/paths';
 import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
 import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
-import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -109,18 +108,18 @@ export default function DetailTab({
   );
   const tableData = [
     {
-      label: t('in-automation:actionHistory.status'),
-      value: status ? getStatus(status) : t('in-automation:actionHistory.unknown'),
+      label: t('in-automation:actionHistory.errorMessage'),
+      value: errorMessage,
+      showCondition: errorMessage,
       actionLane: inActionLane
     },
-    { label: t('in-automation:actionHistory.errorMessage'), value: errorMessage, showCondition: errorMessage },
     {
       label: t('in-automation:actionHistory.log'),
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
       actionLane: inActionLane,
       stringLink: link,
-      showCondition: output === null || output?.trim().length === 0
+      showCondition: (output === null || output?.trim().length === 0) && status !== 'SUBMITTED' && status !== 'TIMEOUT'
     },
     {
       label: t('in-automation:actionHistory.startTime'),
@@ -184,13 +183,11 @@ export default function DetailTab({
         ),
       actionLane: inActionLane
     },
-    { label: t('in-automation:actionHistory.actionInstanceId'), value: id }
-  ];
-
-  if (isAnsible(type)) {
-    tableData.push({
+    { label: t('in-automation:actionHistory.actionInstanceId'), value: id },
+    {
       label: t('in-automation:actionHistory.hostsLimit'),
       actionLane: false,
+      showCondition: isAnsible(type),
       value: (
         <Ul framed={false}>
           {(() => {
@@ -203,7 +200,10 @@ export default function DetailTab({
           })()}
         </Ul>
       )
-    });
+    }
+  ];
+
+  if (isAnsible(type)) {
     const ansibleUrl = metadata?.find(data => data.name === 'ansibleUrl');
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
     if (ansibleUrl && ansibleJobId) {

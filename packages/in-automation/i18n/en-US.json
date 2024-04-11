@@ -256,7 +256,7 @@
     "timeout": "Timeout",
     "issueUrl": "Issue url",
     "taskUrl": "Task url",
-    "output": "output"
+    "output": "Output"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"

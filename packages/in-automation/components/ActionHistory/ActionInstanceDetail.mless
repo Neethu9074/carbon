@@ -84,4 +84,8 @@
       }
     }
   }
+
+  .titleWrapper {
+    gap: 1rem;
+  }
 }

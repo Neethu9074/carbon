@@ -12,14 +12,17 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import TabPane from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/TabPane';
 import Tabs from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/Tabs';
 import DetailsOutputTab from 'in-automation/components/ActionHistory/DetailsOutputTab';
+import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParamsTab';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import getActionInstance from 'in-automation/subscriptions/getActionInstance';
 import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
 import Feedback from 'in-automation/components/ActionHistory/Feedback';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
+import { Title } from 'in-components/Dialog/Header';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -81,9 +84,23 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
     }
   };
 
+  const DialogTitle = ({ title, status }: { title: string; status: string }) => {
+    return (
+      <HorizontalFlexWrapper className={locals.titleWrapper}>
+        <Title title={title} />
+        {status ? <div>{getStatus(status)}</div> : <span>{t('in-automation:actionHistory.unknown')}</span>}
+      </HorizontalFlexWrapper>
+    );
+  };
+
   return (
     <div className={locals.detailDialog}>
-      <Dialog title={title} onClose={close} withoutBodyPadding>
+      <Dialog
+        title={<DialogTitle title={title} status={data?.status} />}
+        onClose={close}
+        doNotCloseOnOutsideClick
+        withoutBodyPadding
+      >
         {errors.length > 0 ? (
           <ErroneousResultPresenter errors={[...errors]} />
         ) : (
