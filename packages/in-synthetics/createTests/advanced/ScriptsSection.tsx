@@ -100,7 +100,7 @@ export default function ScriptsSection({
   const certificateCheck = configForm.get('certificateCheck') as Field<boolean>;
   const [basicScript, setBasicScript] = useState(certificateCheckBasicScript);
   let certificateCheckScript: string[] = ['', ''];
-  if (certificateCheck.value) {
+  if (certificateCheck) {
     const startIndex = script.text.lastIndexOf('("');
     const endIndex = script.text.lastIndexOf('");');
     certificateCheckScript = script.text
@@ -280,12 +280,7 @@ export default function ScriptsSection({
   };
 
   const getScriptSection = (certificateCheckField: Field<boolean>) => {
-    if (certificateCheckField.value) {
-      // TODO: This is the Certificate Check section
-      // We need to add the logic that takes the input values
-      // and replace them in the pre-defined hard coded script
-      // This is the Script that should be part of the form that is being send to
-      // the backend for processing as a normal HTTPScript test.
+    if (certificateCheckField != undefined && certificateCheck.value) {
       return (
         <div className={locals.configContainer}>
           <FormGroup className={locals.descriptionInput}>
