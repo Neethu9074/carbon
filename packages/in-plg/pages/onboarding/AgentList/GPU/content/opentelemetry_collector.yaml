@@ -35,9 +35,9 @@ spec:
           - key: service.name
             value: nvidia-dcgm
             action: update
-          #- key: INSTANA_PLUGIN
-          #  value: dcgm
-          #  action: insert
+          - key: INSTANA_PLUGIN
+            value: dcgm
+            action: insert
     exporters:
       otlp:
         endpoint: ${agentServiceEndpoint}
