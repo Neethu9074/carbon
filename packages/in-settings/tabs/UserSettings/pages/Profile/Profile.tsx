@@ -86,14 +86,27 @@ function render({ form, setForm, user, setCanSaveItem }: RenderProps) {
   );
 }
 
+// currently the users name is stored within the window object and only fetched during the initial page load
+// hakisch way to ensure that the name is correctly set whilst navigating to the new home-page.
+const setUserNameLocally = (nextName: string) => {
+  // @ts-expect-error global access (window)
+  window.instana.user.preferredName = nextName;
+  // @ts-expect-error global access (window)
+  window.instana.user.fullName = nextName;
+};
+
 function onSubmit(e: FormEvent, { form, setMessage }: { form: MapForm<any>; setMessage: (msg: MessageProps) => void }) {
   e.preventDefault();
   const setTemporaryMessage = (message: string, type: string, isSaving: boolean = false) =>
     setMessage({ isSaving, type, message });
   if (form.hierarchyValid && form.hierarchyTouched) {
     setTemporaryMessage(t('in-settings:tabs.profile.saving'), 'neutral', true);
-    updateUserName(form.get('fullName').value).once(
-      () => setTemporaryMessage(t('in-settings:tabs.profile.saved'), 'success'),
+    const nextName = form.get('fullName').value;
+    updateUserName(nextName).once(
+      () => {
+        setTemporaryMessage(t('in-settings:tabs.profile.saved'), 'success');
+        setUserNameLocally(nextName);
+      },
       () => setTemporaryMessage(t('in-settings:tabs.profile.failed'), 'error')
     );
   }
