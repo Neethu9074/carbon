@@ -411,6 +411,22 @@
     "mac": {
       "selectAgentPackagingMode": "Step 1: Select  agent packaging mode.",
       "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
+    },
+    "gpu": {
+      "dcgmExporterEndpoint": "DCGM Exporter Endpoint",
+      "agentServiceEndpoint": "Agent Service Endpoint",
+      "documentLinks":{
+        "installDcgmExporter":"NVIDIA GPU Operator.",
+        "preGPUOperator":"Prerequisites of installing the NVIDIA GPU Operator."
+      },
+      "instructions":{
+        "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
+        "reviewPrerequisiteAndRunCode": "Step 2: Review the prerequisites and run the agent deployment code.",
+        "dcgmExporter": "Step 3: Install NVIDIA GPU Operator. Enable it if you need the component such as the NVIDIA drivers (to enable CUDA), Kubernetes device plugin for GPUs, the NVIDIA Container Toolkit and others.",
+        "opentelemetryOperator": "Step 4: Install OpenTelemetry Operator.",
+        "dcgmExporterEndpoint": "Step 5: Enter the NVIDIA DCGM Exporter endpoint.",
+        "opentelemetryCollector": "Step 6: Install OpenTelemetry Collector to receive and export GPU metrics to Instana backend."
+      }
     }
   },
   "welcomepage": {

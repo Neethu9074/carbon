@@ -1274,6 +1274,11 @@
   "pluginName_oTelLLM_1": "OTEL LLMonitors",
   "pluginName_oTelLLM_2": "OTEL LLMonitors",
   "pluginName_oTelLLM": "OTEL LLMonitor",
+  "pluginName_oTelDcgm_plural": "OTEL Dcgms",
+  "pluginName_oTelDcgm_0": "OTEL Dcgms",
+  "pluginName_oTelDcgm_1": "OTEL Dcgms",
+  "pluginName_oTelDcgm_2": "OTEL Dcgms",
+  "pluginName_oTelDcgm": "OTEL Dcgm",
   "pluginName_otelHost_plural": "OTEL Hosts",
   "pluginName_otelHost_0": "OTEL Hosts",
   "pluginName_otelHost_1": "OTEL Hosts",
@@ -12559,6 +12564,18 @@
         "totalTokenByModel": "Total Tokens by Model",
         "totalCostByModel": "Total Cost by Model",
         "totalCountByModel": "Total Request Counts by Model"
+      }
+    },
+    "oTelDcgm": {
+      "oTelDcgm": "OTEL Dcgm",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "dashboard": {
+        "gpuTemp": "GPU Temp"
       }
     },
     "otelHost": {
