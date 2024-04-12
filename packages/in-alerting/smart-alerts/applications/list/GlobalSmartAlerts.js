@@ -11,7 +11,9 @@ import { Card } from '@instana/components';
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
@@ -24,6 +26,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default function GlobalSmartAlerts({ location }) {
   const [hasDataToRender, setHasDataToRender] = useState(true);
@@ -56,9 +59,20 @@ export default function GlobalSmartAlerts({ location }) {
         </WithEmptyStateFallback>
       </LeftRightPadding>
       {role.canConfigureGlobalApplicationSmartAlerts && (
-        <FloatingActionButtons>
-          <CreateGlobalSmartAlertButton location={location} />
-        </FloatingActionButtons>
+        <>
+          <FloatingActionButtons>
+            <CreateGlobalSmartAlertButton location={location} />
+          </FloatingActionButtons>
+          {applicationSmartAlertFullScreenDesignEnabled && (
+            <FloatingActionButtons>
+              <CreateSmartAlertButton
+                isGlobal
+                buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlert')}
+                isFloatingButton
+              />
+            </FloatingActionButtons>
+          )}
+        </>
       )}
       <Footer />
     </Sticky>

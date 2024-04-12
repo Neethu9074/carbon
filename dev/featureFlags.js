@@ -117,6 +117,7 @@ module.exports = {
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
+  applicationSmartAlertFullScreenDesignEnabled: true,
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,

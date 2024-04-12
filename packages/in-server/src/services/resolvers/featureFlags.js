@@ -551,6 +551,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'applicationSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'application.smart.alerts.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
     defaultValue: false

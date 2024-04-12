@@ -147,6 +147,12 @@ export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('last
 
 export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
 
+//New Smart alert Design implementation
+
+export const applicationSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
+  'applicationSmartAlertFullScreenDesignEnabled'
+);
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

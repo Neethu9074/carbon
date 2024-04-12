@@ -14,11 +14,13 @@ import {
   rulePropType,
   thresholdPropType
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { close } from 'in-components/DialogPresenter/store';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -36,6 +38,8 @@ export default function PotentialProblemContentControls({
   threshold,
   renderSmartAlertDialogComponent
 }) {
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const linkToUnboundAnalytics = getLinkToUnboundAnalytics(
     {
@@ -73,27 +77,42 @@ export default function PotentialProblemContentControls({
         {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>
       {role.canConfigureApplicationSmartAlerts && applicationId && applicationLabel && (
-        <Button
-          kind="secondaryDarker"
-          onClick={() => {
-            close();
-            addActiveDialog(
-              renderSmartAlertDialogComponent({
-                rule,
-                threshold,
-                applicationLabel,
-                boundaryScope,
-                granularity: defaultGranularity
-              })
-            );
-            trackCreateSmartAlert({
-              metricName: rule.metricName
-            });
-          }}
-          icon="lib_alerts_create"
-        >
-          {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
-        </Button>
+        <>
+          <Button
+            kind="secondaryDarker"
+            onClick={() => {
+              close();
+              addActiveDialog(
+                renderSmartAlertDialogComponent({
+                  rule,
+                  threshold,
+                  applicationLabel,
+                  boundaryScope,
+                  granularity: defaultGranularity
+                })
+              );
+              trackCreateSmartAlert({
+                metricName: rule.metricName
+              });
+            }}
+            icon="lib_alerts_create"
+          >
+            {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
+          </Button>
+          {applicationSmartAlertFullScreenDesignEnabled && (
+            <Button
+              icon="lib_alerts_create"
+              kind="secondaryDarker"
+              href={smartAlertCreatePath}
+              onClick={e => {
+                e.stopPropagation();
+                close();
+              }}
+            >
+              {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
+            </Button>
+          )}
+        </>
       )}
     </>
   );
