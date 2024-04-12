@@ -67,7 +67,7 @@
     "allApplications": "All applications",
     "allWebsites": "All websites",
     "allMobileApps": "All mobile apps",
-    "businessMonitoringAccessAllMessage":"All business processes",
+    "businessMonitoringAccessAllMessage": "All business processes",
     "kubernetes": "Kubernetes",
     "allSynthetics": "All Synthetic tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
@@ -737,6 +737,17 @@
     "timeoutsSuccessfullySaved": "Timeouts successfully saved.",
     "disableTwoFactor": "Disable two-factor",
     "saveToken": "Save token",
+    "profile": {
+      "pageName": "Profile",
+      "email": "Email",
+      "emailHint": "The email to identify the user account on Instana. You cannot change the email after the user account is created.",
+      "name": "Name",
+      "nameHint": "Enter your first name (given name) and last name (family name) without a comma.",
+      "saving": "Saving new name",
+      "saved": "Saved new name",
+      "failed": "Failed to save new name"
+    },
+
     "twoFactorAuthentication": "Two-factor authentication",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "Two-factor authentication is currently disabled for this user.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Enter the 2FA token from your authenticator app to complete configuration:",

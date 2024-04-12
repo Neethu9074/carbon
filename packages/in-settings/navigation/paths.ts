@@ -21,6 +21,7 @@ export const userSettingsCommunication = `${userSettings}/communications`;
 export const userSettingsPersonalApiTokens = `${userSettings}/personal-api-tokens`;
 export const userSettingsPasswordChange = `${userSettings}/password/change`;
 export const userSettingsTwoFactor = `${userSettings}/2fa`;
+export const userSettingsProfile = `${userSettings}/profile`;
 
 export const teamSettings = `${settingsPath}/team`;
 
