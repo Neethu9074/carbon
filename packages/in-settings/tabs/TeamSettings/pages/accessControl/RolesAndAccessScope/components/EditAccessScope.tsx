@@ -32,13 +32,9 @@ import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
-import {
-  applicationContributionFilterEnabled,
-  syntheticRbacEnabled,
-  bizopsRbacEnabled
-} from 'in-services/featureFlags';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
+import { applicationContributionFilterEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -366,7 +362,6 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
       ];
 
   // Filter out areas the user does not have permissions for
-  navItems = bizopsRbacEnabled ? navItems : navItems.filter(it => it.scrollId !== '4.5-bizops');
   navItems = hasAPlatformAccess ? navItems : navItems.filter(it => it.scrollId !== '6-platforms');
 
   return (
