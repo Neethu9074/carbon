@@ -23,11 +23,11 @@
   }
 
   .dateTime {
-    margin: 0.5rem 0 0.5rem 0;
+    margin: 0.7rem 0 0.7rem 0;
   }
 
   .healthColumn {
-    margin: 0.5rem 0.5rem 0 0.5rem;
+    margin: 0.4rem 1rem 0.4rem 0;
   }
 
   .copyButtonWrapper,

@@ -12,6 +12,7 @@ import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants'
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
+import { carbonPillEnabled } from 'in-services/featureFlags';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
 import { LogTag, TagFilter } from 'in-types';
 
@@ -33,7 +34,8 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
   }
 
   const isExtraLogLevel = logLevel === extraChartLogLevel?.toUpperCase();
-  const standardLogLevelColor = logPillColorMap[logLevel.toLowerCase()] ?? 'cool-gray';
+  const standardLogLevelColor =
+    logPillColorMap[logLevel.toLowerCase()] ?? (carbonPillEnabled ? 'cool-gray' : 'high-contrast');
   const extraLogLevelColor = 'teal';
 
   const color = isExtraLogLevel ? extraLogLevelColor : standardLogLevelColor;
@@ -41,9 +43,13 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
   return (
     <Link href={onSelectTagHref && onSelectTagHref(tagFilter(LOG_LEVEL, EQUALS, logLevel))}>
       {
-        // @ts-expect-error the type definition in ui-foundation is not correct,
-        // yellow is not accepted since 3.x
-        <Pill className={locals.pill} type={color} lightenOpacity={0}>
+        <Pill
+          className={carbonPillEnabled ? locals.pill : locals.pill + ' ' + locals.pillExtaMargin}
+          // @ts-expect-error the type definition in ui-foundation is not correct,
+          // yellow is not accepted since 3.x
+          type={color}
+          lightenOpacity={0}
+        >
           {logLevel}
         </Pill>
       }
