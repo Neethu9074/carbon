@@ -11,9 +11,10 @@ import {
   sapInstanceListFullyQualified,
   sapDbInstanceListFullyQualified
 } from 'in-sap/navigation/paths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
+// TODO: fix the depreciation to use useNavigate instead
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import connectTo from 'in-hoc/connectTo';

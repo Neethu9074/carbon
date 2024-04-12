@@ -564,5 +564,10 @@ module.exports = exports = [
     uiClientKey: 'rawTraceDownloadEnabled',
     instanaCtlKey: 'feature.application.raw.trace.download.enabled',
     defaultValue: false
-  }
+  },
+  {
+    uiClientKey: 'carbonTabsEnabled',
+    instanaCtlKey: 'feature.carbon.tabs.enabled',
+    defaultValue: false
+  },
 ];

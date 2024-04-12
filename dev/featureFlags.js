@@ -120,5 +120,6 @@ module.exports = {
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
-  rawTraceDownloadEnabled: false
+  rawTraceDownloadEnabled: false,
+  carbonTabsEnabled: true,
 };

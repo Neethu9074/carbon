@@ -16,7 +16,7 @@ import { t } from '@instana/i18n-react';
 import {
   SecondLevelNavigation,
   SecondLevelNavigationItem
-} from 'in-components/SecondLevelNavigation/SecondLevelNavigation';
+} from '@instana/components';
 import { ResultImages, ViewScreenshotsDialogProps, dummyTestResultImages } from 'in-synthetics/utils/constants';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';

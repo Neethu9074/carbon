@@ -8,7 +8,7 @@ import React, { ComponentType, ReactNode } from 'react';
 import { HorizontalIndicator } from '@instana/components';
 import { Result } from '@instana/types';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { Tab, TabHeaderProps } from 'in-components/LocationAwareTabView/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -41,13 +41,19 @@ export default function Header<TabData, TabProps extends {} = {}>({
   additionalHeader,
   tabChangeTracker
 }: HeaderProps<TabData, TabProps>) {
+
+  // Workaround for finding out selectedIndex using the same logic as below. This is for carbonVariant of SecondLevelNavigation
+  const selectedIndex = tabs?.findIndex((tab) => {
+    return location && location.pathname.indexOf(tab.path) === 0
+  }) || 0;
+
   return (
     <div className={locals.header}>
       <HeaderComponent result={result} {...(props as TabProps)} />
 
       <DashboardHeaderModule theme={themes.light}>
         {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
-          <SecondLevelNavigation>
+          <SecondLevelNavigation selectedIndex={selectedIndex}>
             {tabs.map(tab => (
               <TabComponent
                 key={tab.label}
