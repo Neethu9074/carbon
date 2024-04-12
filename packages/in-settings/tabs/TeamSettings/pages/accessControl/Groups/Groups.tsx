@@ -138,31 +138,29 @@ const Groups = () => {
   };
 
   return (
-    <>
-      <List
-        title={t('in-settings:tabs.groups')}
-        getHeader={defaultHeaderWithCount(t('in-settings:tabs.groups'))}
-        getEntityName={getEntityName}
-        columnDefinitions={columnDefinitions}
-        tableActions={tableActions}
-        loadEntities={loadEntities}
-        initialOrderBy="name"
-        onCreateNew={() => goToPath(teamSettingsAccessControlGroupNew)}
-        labelNew={t('in-settings:tabs.addGroup')}
-        searchAttributes={['name']}
-        searchPlaceholder={t('in-settings:components.search')}
-        onRowClick={(group: ApiGroup) => {
-          goToPath(getEntityHref(teamSettingsAccessControlGroups, group.id));
-        }}
-        customDeleteTooltipMessage={(group: ApiGroup) =>
-          group?.name === groupNameDefault || group?.name === groupNameOwner
-            ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
-            : t('in-settings:components.deleteEntity', { entity: group.name })
-        }
-        customDialogMessage={(group: ApiGroup) => getDialogMessage(group)}
-        boundedPath="/groups"
-      />
-    </>
+    <List
+      title={t('in-settings:tabs.groups')}
+      getHeader={defaultHeaderWithCount(t('in-settings:tabs.groups'))}
+      getEntityName={getEntityName}
+      columnDefinitions={columnDefinitions}
+      tableActions={tableActions}
+      loadEntities={loadEntities}
+      initialOrderBy="name"
+      onCreateNew={() => goToPath(teamSettingsAccessControlGroupNew)}
+      labelNew={t('in-settings:tabs.addGroup')}
+      searchAttributes={['name']}
+      searchPlaceholder={t('in-settings:components.search')}
+      onRowClick={(group: ApiGroup) => {
+        goToPath(getEntityHref(teamSettingsAccessControlGroups, group.id));
+      }}
+      customDeleteTooltipMessage={(group: ApiGroup) =>
+        group?.name === groupNameDefault || group?.name === groupNameOwner
+          ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
+          : t('in-settings:components.deleteEntity', { entity: group.name })
+      }
+      customDialogMessage={(group: ApiGroup) => getDialogMessage(group)}
+      boundedPath="/groups"
+    />
   );
 };
 
