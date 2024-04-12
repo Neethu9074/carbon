@@ -11,12 +11,42 @@ export default {
   component: Input
 };
 
-export const WithError = () => {
+export const TextWithError = () => {
   return <Input hasError />;
 };
 
-export const WithErrorAndHiddenValidationInfoOnFocus = () => {
-  return <Input hasError hideValidityInformationOnFocus />;
+export const NumberNoDefaultValue = () => {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', rowGap: '1rem', width: '25%' }}>
+      <Input type="number" />
+      <Input type="number" carbonVariant />
+    </div>
+  );
 };
 
-export const Default = () => <Input />;
+export const NumberDefaultValueAsEmptyString = () => {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', rowGap: '1rem', width: '25%' }}>
+      <Input type="number" placeholder="#" value="" />
+      <Input type="number" placeholder="#" value="" carbonVariant />
+    </div>
+  );
+};
+
+export const NumberWithError = () => {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', rowGap: '1rem', width: '25%' }}>
+      <Input type="number" hasError />
+      <Input type="number" hasError carbonVariant />
+    </div>
+  );
+};
+
+export const WithErrorAndHiddenValidationInfoOnFocus = () => {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', rowGap: '1rem', width: '25%' }}>
+      <Input hasError type="number" hideValidityInformationOnFocus />
+      <Input hasError type="number" hideValidityInformationOnFocus carbonVariant />
+    </div>
+  );
+};
