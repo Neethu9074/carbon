@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Create new group",
-    "dialogTitle_edit": "Edit access scope",
+    "dialogTitle_edit": "Edit access configuration",
     "editButton": "Edit",
     "productArea": "Access configuration for {{tenantUnit}}-{{tenant}}"
   },
