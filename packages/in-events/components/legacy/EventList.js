@@ -3,30 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { pageNumberUrlParameter } from 'in-events/navigation/urlParameters';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import AIEventListRow from 'in-events/components/legacy/AIEventListRow';
 import EventListItem from 'in-events/components/legacy/EventListItem';
-import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { getEventType, getServiceIds } from 'in-stores/events';
 import { emptyList } from 'in-services/fixedImmutables';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import Pagination from 'in-components/Pagination';
-import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
 import { t } from 'in-i18n';
 
 export default function IncidentEventList({
   incident,
+  recentEvents,
+  pageState,
+  setPageURLState,
   latestSnapshot,
   snapshot,
   expandedEventOnClickInTimeline,
@@ -44,17 +43,11 @@ export default function IncidentEventList({
     .toArray()
     .filter(issue => issue !== incident.getIn(['triggeringEvent'], ''));
 
-  const [{ relatedEventsPage }, setState] = useUrlState({
-    bind: [pageNumberUrlParameter]
-  });
-  const [pageState, setPage] = useState(eventsPath && relatedEventsPage ? relatedEventsPage : 1);
-
   const incidentHasRCAProperty = useMemo(
     () =>
       incident.get('metadata').has('probableRootCause') && !incident.get('metadata').get('probableRootCause').isEmpty(),
     [incident]
   );
-  if (!triggeringEvent) return <ListRow title={t('in-events:titleTriggerEvent')} />;
 
   const triggeringProblemId = incident.getIn(['problem', 'id']);
 
@@ -62,6 +55,7 @@ export default function IncidentEventList({
   const serviceIds = getServiceIds(incident);
   const pageSize = 10;
 
+  if (!triggeringEvent) return <ListRow title={t('in-events:titleTriggerEvent')} />;
   return (
     <>
       {incidentHasRCAProperty && rcaUIEnabled && (
@@ -83,15 +77,14 @@ export default function IncidentEventList({
         highlightEventOnHover={highlightEventOnHover}
       />
       <PaginatedListRow
-        currentSetOfEvents={relatedEvents.slice(pageSize * (relatedEventsPage - 1), pageSize * relatedEventsPage)}
+        currentSetOfEvents={recentEvents.filter(e => e.get('id') !== triggeringEvent.get('id'))}
         title={t('in-events:titleRelatedEvents', {
           eventCount: relatedEvents.length
         })}
         currentPage={pageState}
         numPages={Math.ceil(relatedEvents.length / pageSize)}
         onChange={({ page }) => {
-          setPage(page);
-          setState({ relatedEventsPage: page });
+          setPageURLState({ relatedEventsPage: page });
         }}
         triggeringProblemId={triggeringProblemId}
         latestSnapshot={latestSnapshot}
@@ -117,21 +110,13 @@ function PaginatedListRow({
   setExpandedEventOnClickInTimeline,
   highlightEventOnHover
 }) {
-  const events =
-    useObservable(
-      combineLatest(currentSetOfEvents.map(getEvent))
-        .map(events => events.filter(e => e && !e.isEmpty()))
-        .throttle(250),
-      [currentSetOfEvents]
-    ) ?? null;
-
-  if (!events) return <LoadingIndicator />;
+  if (!currentSetOfEvents) return <LoadingIndicator />;
 
   return (
     <Row withoutSideMargin>
       <Col xs>
         <Card title={title}>
-          {events.map(_event => (
+          {currentSetOfEvents?.map(_event => (
             <EventListItem
               key={_event.get('id')}
               triggeringProblemId={triggeringProblemId}

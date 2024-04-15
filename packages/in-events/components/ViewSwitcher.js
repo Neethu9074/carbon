@@ -8,7 +8,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { agentMonitoringIssuesEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -19,12 +19,28 @@ import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 
+const selectedEventTypeMap = {
+  incident: 1,
+  issue: 2,
+  change: 3,
+  agent_monitoring_issue: 4
+}
+
 export default function ViewSwitcher({ selectedEventType }) {
   const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
 
+  // Workaround for finding out selectedIndex using the same logic as below. This is for carbonVariant of SecondLevelNavigation
+  let selectedIndex = 0;
+
+  if(!selectedEventType) {
+    selectedIndex = 0;
+  } else {
+    selectedIndex = selectedEventTypeMap[selectedEventType];
+  }
+
   return (
     <div className={locals.wrapper}>
-      <SecondLevelNavigation>
+      <SecondLevelNavigation selectedIndex={selectedIndex}>
         <AllEventsNavigationItem selectedEventType={selectedEventType} />
         <IncidentEventsNavigationItem selectedEventType={selectedEventType} />
         <IssueEventsNavigationItem selectedEventType={selectedEventType} />

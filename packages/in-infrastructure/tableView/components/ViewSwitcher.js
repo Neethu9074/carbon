@@ -15,7 +15,7 @@ import {
   infraSmartAlerts,
   infraAlertDetailsFullyQualifiedPath
 } from 'in-stores/navigation/paths/mainPaths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';

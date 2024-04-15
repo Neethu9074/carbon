@@ -326,11 +326,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'bizopsRbacEnabled',
-    instanaCtlKey: 'feature.bizops.rbac.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
@@ -569,5 +564,10 @@ module.exports = exports = [
     uiClientKey: 'rawTraceDownloadEnabled',
     instanaCtlKey: 'feature.application.raw.trace.download.enabled',
     defaultValue: false
-  }
+  },
+  {
+    uiClientKey: 'carbonTabsEnabled',
+    instanaCtlKey: 'feature.carbon.tabs.enabled',
+    defaultValue: false
+  },
 ];
