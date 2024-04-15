@@ -416,6 +416,8 @@ export interface AdvancedModeProps {
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
   certificateCheckHostNameError: InvalidCertificateParams;
   setCertificateCheckHostNameError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
+  certificateCheckPortError: InvalidCertificateParams;
+  setCertificateCheckPortError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
   certificateCheckDaysRemainingError: InvalidCertificateParams;
   setCertificateCheckDaysRemainingError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
 }

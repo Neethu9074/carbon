@@ -56,6 +56,8 @@ const AdvancedMode = ({
   setInvalidTimeout,
   certificateCheckHostNameError,
   setCertificateCheckHostNameError,
+  certificateCheckPortError,
+  setCertificateCheckPortError,
   certificateCheckDaysRemainingError,
   setCertificateCheckDaysRemainingError
 }: AdvancedModeProps) => {
@@ -99,6 +101,8 @@ const AdvancedMode = ({
             setInvalidTimeout={setInvalidTimeout}
             certificateCheckHostNameError={certificateCheckHostNameError}
             setCertificateCheckHostNameError={setCertificateCheckHostNameError}
+            certificateCheckPortError={certificateCheckPortError}
+            setCertificateCheckPortError={setCertificateCheckPortError}
             certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
             setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />

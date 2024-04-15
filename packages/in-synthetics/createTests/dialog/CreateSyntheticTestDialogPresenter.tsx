@@ -113,6 +113,11 @@ const CreateSyntheticTestDialogPresenter = ({
     message: '',
     touched: false
   });
+  const [certificateCheckPortError, setCertificateCheckPortError] = useState({
+    invalid: false,
+    message: '',
+    touched: false
+  });
 
   /**
    * A single form is being rendered in multiple pages in the simple mode
@@ -191,7 +196,9 @@ const CreateSyntheticTestDialogPresenter = ({
     return (
       syntheticTypeField.value === 'HTTPScript' &&
       certificateCheckField.value &&
-      (certificateCheckHostNameError.invalid || certificateCheckDaysRemainingError.invalid)
+      (certificateCheckHostNameError.invalid ||
+        certificateCheckDaysRemainingError.invalid ||
+        certificateCheckPortError.invalid)
     );
   };
 
@@ -358,6 +365,8 @@ const CreateSyntheticTestDialogPresenter = ({
             setInvalidTimeout={setInvalidTimeout}
             certificateCheckHostNameError={certificateCheckHostNameError}
             setCertificateCheckHostNameError={setCertificateCheckHostNameError}
+            certificateCheckPortError={certificateCheckPortError}
+            setCertificateCheckPortError={setCertificateCheckPortError}
             certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
             setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />
