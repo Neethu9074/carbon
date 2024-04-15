@@ -8,6 +8,12 @@ import { Field, MapForm } from 'formalistic';
 import { CustomEventWebsiteAlertRule } from '@instana/types';
 
 import {
+  getStaticThresholdHigherOrLowerOperatorText,
+  getStatusCodeSimpleAboveOrBelowOperatorText,
+  getThresholdHigherOrLowerOperatorText,
+  getThroughputSimpleHighOrLowOperatorText
+} from 'in-alerting/smart-alerts/eum/form/formUtils';
+import {
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
@@ -169,20 +175,6 @@ function getSlownessSimpleHighOrLowOperatorText(aggregationText: string, operato
     : t('in-alerting:smartAlerts.eum.form.slownessSimpleLowOperatorText', { aggregationText });
 }
 
-function getThroughputSimpleHighOrLowOperatorText(metricLabel: string, operator: ThresholdOperator) {
-  return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.throughputSimpleHighOperatorText', { metricLabel })
-    : t('in-alerting:smartAlerts.eum.form.throughputSimpleLowOperatorText', { metricLabel });
-}
-
-function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel: string, operator: ThresholdOperator) {
-  return isGreaterOperator(operator)
-    ? t('in-alerting:smartAlerts.eum.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel })
-    : t('in-alerting:smartAlerts.eum.form.statusCodeSimpleBelowOperatorText', {
-        statusCodeLabel
-      });
-}
-
 function getSlownessSimpleAboveOrBelowOperatorText(aggregationText: string, operator: ThresholdOperator) {
   return isGreaterOperator(operator)
     ? t('in-alerting:smartAlerts.eum.form.slownessSimpleAboveOperatorText', { aggregationText })
@@ -217,51 +209,5 @@ function getSlownessGreaterOrLessOperatorText(
       });
     default:
       throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator: operator }));
-  }
-}
-
-function getStaticThresholdHigherOrLowerOperatorText(
-  metricLabel: string,
-  operator: ThresholdOperator,
-  thresholdValue: string | number
-) {
-  switch (operator) {
-    case '>':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    case '>=':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdHigherEqualsOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    case '<':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    case '<=':
-      return t('in-alerting:smartAlerts.eum.form.staticThresholdLowerEqualsOperatorText', {
-        metricLabel,
-        thresholdValue
-      });
-    default:
-      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
-  }
-}
-
-function getThresholdHigherOrLowerOperatorText(metricLabel: string, operator: ThresholdOperator) {
-  switch (operator) {
-    case '>':
-      return t('in-alerting:smartAlerts.eum.form.thresholdHigherOperatorText', { metricLabel });
-    case '>=':
-      return t('in-alerting:smartAlerts.eum.form.thresholdHigherEqualsOperatorText', { metricLabel });
-    case '<':
-      return t('in-alerting:smartAlerts.eum.form.thresholdLowerOperatorText', { metricLabel });
-    case '<=':
-      return t('in-alerting:smartAlerts.eum.form.thresholdLowerEqualsOperatorText', { metricLabel });
-    default:
-      throw Error(t('in-alerting:smartAlerts.eum.form.unsupportedOperator', { operator }));
   }
 }
