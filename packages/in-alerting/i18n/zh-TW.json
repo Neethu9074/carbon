@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "有效負載",
             "title": "自訂有效負載"
-          },
-          "actionsOptional": {
-            "label": "動作",
-            "title": "動作關聯"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "針對每個評估範圍計算",
         "timeThresholdConfigNumberOfViolations": "度量違規數",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
+        "granularityTooltipText": "這裡設定的時間精度將決定評估臨界值的頻率。",
         "timeThresholdConfigNumberOfTracesThreshold": "受到影響的追蹤數",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響使用者數",
         "timeThresholdConfigAtLeast": "至少",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "範圍：該狀況發生在何處？",
         "thresholdLabel": "臨界值",
         "thresholdTitle": "臨界值：何時違反條件？",
-        "userImpactInfo": "使用者影響臨界值只會考量已鑑別使用者。",
         "payloadsLabel": "有效負載",
         "payloadsTitle": "自訂有效負載"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "範圍",
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleTimeThreshold": "時間臨界值",
-        "alertConfigurationTitleAlertProperties": "警示內容",
-        "predictiveTrigger": {
-          "title": "提前預測觸發警示"
-        }
+        "alertConfigurationTitleAlertProperties": "警示內容"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "時間臨界值：您希望何時收到警示？"
         },
         "predictiveTrigger": {
-          "title": "預測觸發",
+          "title": "已停用預測警示",
+          "alertTitle": "在預測違規之前將觸發警示 {{value}}",
           "timeToFailure": "失敗時間"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "範圍",
-          "title": "範圍：該狀況發生在何處？"
+          "title": "範圍：該狀況發生在何處？",
+          "metric": "度量"
         },
         "threshold": {
           "label": "臨界值",
-          "title": "臨界值：何時違反條件？"
+          "title": "臨界值：何時違反條件？",
+          "tooltipText": "這裡定義的臨界值將根據下列指定的時間精度來評估。"
         },
         "timeThreshold": {
           "label": "時間臨界值",
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
-        "noMetricSelected": "未選取度量值"
+        "noDataForSelectedGroup": "指定的過濾器和分組組合沒有可用的資料。"
       },
-      "logs": "日誌"
+      "logCount": "日誌計數"
     }
   }
 }

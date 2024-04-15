@@ -415,6 +415,7 @@
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "注销",
+    "viewSwitcherCustomDashboards": "定制仪表板",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
     "newUiClientVersionAvailableButtonReloadToUpdate": "重新加载以更新"
   },

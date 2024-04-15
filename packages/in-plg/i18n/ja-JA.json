@@ -50,7 +50,7 @@
       "agentKey": "エージェント・キー"
     },
     "common": {
-      "agentCatalog": "エージェント・カタログ",
+      "agentDeployment": "エージェントのデプロイメント",
       "step1": "ステップ 1: ",
       "step2": "ステップ 2: ",
       "step3": "ステップ 3: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "ようこそ",
     "viewAll": "すべて表示",
+    "search": "検索",
+    "addMore": "追加",
+    "UrlShortener": "URL 短縮形",
     "consumeData": {
-      "title": "データの取り込み",
-      "description": "開始して最初のエージェントをデプロイします。",
+      "title": "サービスのディスカバー",
+      "description": "まず、Instana がモニター対象のサービスやその他のデータをディスカバーできるようにします。",
       "buttonName": "エージェントのデプロイ",
       "buttonType": "1 次"
     },
     "inviteTeammates": {
       "title": "チームメイトの招待",
       "description": "同僚とコラボレーションします。",
-      "buttonName": "招待を送信する",
+      "buttonName": "ユーザーの管理",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "次のステップ",
-      "description": "「?」をクリックすると、セットアップ・ステップがさらに表示されます。 右上隅に表示されます。",
+      "description": "その他のツアーや追加のサポートをご覧ください。",
       "buttonName": "回答を見る",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "CPU 使用率",
         "created": "作成日",
         "started": "開始済み"
+      },
+      "syntheticWidget": {
+        "label": "シンセティック・モニタリング",
+        "na": "該当なし",
+        "name": "名前",
+        "type": "タイプ",
+        "successRate": "成功率",
+        "latency": "待ち時間",
+        "lastTestRunOn": "最終テスト実行日",
+        "version": "バージョン",
+        "timeThreshold": "時間しきい値",
+        "testsApplied": "適用されるテスト"
+      },
+      "dashboardWidget": {
+        "label": "マイ・カスタム・ダッシュボード",
+        "name": "名前",
+        "owner": "所有者",
+        "permissions": "権限"
       }
     },
     "noData": {
@@ -533,7 +554,45 @@
       "businessMonitoringWidget": {
         "header": "ビジネス・プロセスがありません",
         "description": "IBM Business Automation Workflow を有効にするか、Instana を構成してビジネス・プロセスからビジネス・データを収集して保管します。"
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "シンセティック・テストなし",
+          "description": "特定の連続間隔で実行するようにシンセティック・テストを構成します。",
+          "buttonName": "シンセティック・テストの追加"
+        },
+        "location": {
+          "header": "シンセティック・ロケーションがありません",
+          "description": "特定の連続した間隔で実行するようにシンセティック・ロケーションを構成します。"
+        },
+        "smartalerts": {
+          "header": "ノー・シンセティック・スマートルツ",
+          "description": "特定の連続した間隔で実行するように、シンセティック・スマート・バーツを構成します。",
+          "buttonName": "合成スマート・バーツの追加"
+        }
+      },
+      "dashboardWidget": {
+        "header": "カスタム・ダッシュボードがありません",
+        "description": "独自のカスタム・ダッシュボードを作成します。",
+        "buttonName": "カスタム・ダッシュボードの作成"
       }
+    },
+    "ariaLabel": {
+      "shareButton": "「共有」ボタン",
+      "searchButton": "「検索」ボタン",
+      "addButton": "「追加」ボタン",
+      "handleButton": "「ハンドル」ボタン"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "例: ヨーロッパ",
+      "Add": "追加"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "始めに"
     }
   }
 }

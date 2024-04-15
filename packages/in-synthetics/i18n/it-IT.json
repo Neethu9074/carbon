@@ -237,11 +237,13 @@
       "failureTitle": "Non riuscito.",
       "failureMessageCreate": "Impossibile creare il test sintetico: {{errorMessage}}",
       "failureMessageUpdate": "Impossibile aggiornare il test sintetico: {{errorMessage}}",
-      "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
+      "failureMesssageDelete": "Impossibile eliminare il test sintetico: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Ubicazione eliminata correttamente",
-      "failureMesssageDelete": "Impossibile eliminare l'ubicazione. Riprovare più tardi"
+      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "successMessageDeactivate": "L'ubicazione è stata disattivata correttamente",
+      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
       "dialogTitle": "Modifica test {{syntheticType}}",
@@ -279,20 +281,32 @@
         "datacenterCode": "Codice data center",
         "datacenterName": "Nome data center",
         "provider": "Provider",
-        "locationName": "Nome di visualizzazione ubicazione",
+        "locationName": "Nome ubicazione",
+        "displayName": "Nome di visualizzazione",
+        "locationStatus": "Stato",
         "status": "Stato di attivazione",
-        "datacentersSubtitle": "Attivare un'ubicazione gestita da Instana in uno dei data center disponibili. Per ulteriori informazioni, consultare <linkDatacenters>Distribuzione PoP sintetico</linkDatacenters>.",
+        "datacentersSubtitle": "Attivare un'ubicazione gestita da Instana in uno dei data center disponibili. Per ulteriori informazioni, fare riferimento a <linkDatacenters>Utilizzo di un host PoPInstana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Le ubicazioni sono in fase di distribuzione",
-          "message": "Stiamo configurando le nuove ubicazioni presso i data center seguenti. Attendere mentre completiamo la distribuzione automatica. Una volta terminata, è possibile trovare le nuove ubicazioni nella scheda Ubicazioni. <strong>Questa operazione può richiedere fino a 10 minuti.</strong>",
+          "message": "Stiamo configurando le nuove ubicazioni presso i data center seguenti. Attendere mentre completiamo la distribuzione automatica. Una volta terminata, è possibile trovare le nuove ubicazioni nella scheda Ubicazioni. <strong>Questa operazione può richiedere fino a 10 minuti per ogni datacenter selezionato.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Codice data center",
               "datacenterName": "Nome data center",
-              "locationName": "Nome di visualizzazione ubicazione",
+              "locationName": "Nome ubicazione",
               "datacenterStatus": "Stato di attivazione"
             }
-          }
+          },
+          "activateLocationLoadingMessage": "Attivazione dei datacenter",
+          "activationRejectedMessageSingleDatacenter": "La richiesta di attivazione per {{rejectedDatacentersList}} non può essere elaborata poiché è già stata attivata",
+          "activationRejectedMessageMultipleDatacenters": "La richiesta di attivazione per {{rejectedDatacentersList}} non può essere elaborata poiché sono già state attivate"
+        },
+        "deactivateDatacenter": {
+          "title": "Disattiva ubicazione",
+          "deactivateMessage": "Si desidera disattivare l'ubicazione <strong>{{locationDisplayLabel}}</strong>?<br/><br/>La disattivazione di un'ubicazione può richiedere fino a 10 minuti. Si prega di essere pazienti mentre si annulla la fornitura per voi. Una volta terminato, lo stato dell'ubicazione sarà Non in linea.<br/>",
+          "warningMessage": "La disattivazione non è in corso. L'ubicazione sarà disponibile e potrà essere riattivata. Per rimuovere completamente l'ubicazione gestita, eliminare l'ubicazione una volta che lo stato diventa Non in linea.",
+          "activeStatus": "Attivo",
+          "deactivateButton": "Disattiva"
         }
       },
       "validators": {
@@ -329,7 +343,7 @@
         "simpleTab": "Semplice",
         "redisTab": "TLS Redis",
         "title": "Comandi PoP sintetici",
-        "subTitle": "Utilizzare questi modelli di codice come riferimento. Per ulteriori informazioni, consultare <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "subTitle": "Utilizzare questi modelli di codice come riferimento. Per ulteriori informazioni, vedi <documentationLink>Distribuzione di un host PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Se si desidera abilitare Redis TLS, è necessario disporre della propria coppia certificato-chiave X.509 (`tls.crt`, `tls.key`) e il file del certificato root CA (`ca.crt`).\n\nSe non si dispone dei file chiave/cert, è anche possibile utilizzare il comando openssl per generarne di nuovi, fare riferimento agli esempi seguenti:",
@@ -383,9 +397,10 @@
       "success": "Riuscito",
       "failure": "Non riuscito",
       "popVersion": "Versione",
-      "noActionsAllowed": "NA",
-      "deleteRestrictedDescription": "Le ubicazioni gestite non possono essere eliminate.",
-      "deleteLocationBroswerRefreshInfo": "Ci vorrà del tempo prima che l'ubicazione scompaia dall'elenco delle ubicazioni e potrebbe essere necessario un aggiornamento del browser."
+      "deleteLocationBroswerRefreshInfo": "Ci vorrà del tempo prima che l'ubicazione scompaia dall'elenco delle ubicazioni e potrebbe essere necessario un aggiornamento del browser.",
+      "deactivateLocation": {
+        "deactivate": "Disattiva"
+      }
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",

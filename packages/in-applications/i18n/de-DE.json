@@ -7,6 +7,8 @@
   "labelCall": "Aufruf",
   "labelTrace": "Trace",
   "linkDownload": "Herunterladen",
+  "linkDownloadCalls": "Download-Aufrufe",
+  "linkDownloadRawTrace": "Unaufbereiteten Trace herunterladen",
   "labelCalls": "Aufrufe",
   "labelCallsPerSecondFull": "Aufrufe pro Sekunde",
   "labelTraces": "Traces",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "Anwendungsbereich.",
       "stepTitleApplicationUsesBoundaryScope": "Diese Anwendungsperspektive verwendet <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "Die Konfiguration der Anwendungsperspektive wird im Nur-Lese-Modus angezeigt.",
+      "readOnlyRestrictingApplication": "Diese Anwendungsperspektive wird automatisch vom Beitragsfilter erstellt und aktualisiert, der in <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig> definiert ist.",
+      "accessConfiguration": "Zugriffskonfiguration",
       "stepTitleBuiltInSmartAlertsScope": "Bereich für integrierte Smart Alerts.",
       "noBuiltInSmartAlertsActive": "Es sind keine integrierten Smart Alerts für diese Anwendungsperspektive aktiv.",
       "optionNoDownstreamServices": "Keine nachgeordneten Services",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "Übergeordneter Aufruf kann derzeit nicht geladen werden",
       "callTreeLoadingOfCallsFailed": "Aufrufe können derzeit nicht geladen werden",
       "retry": "Wiederholen Sie die Aktion",
-      "treeHeaderLatency": "Latenzzeit für Rootaufrufe"
+      "treeHeaderLatency": "Latenzzeit für Rootaufrufe",
+      "loadingDashboard": {
+        "defaultTitle": "Dies dauert etwas länger als erwartet...",
+        "retryTitle": "Versuch... {{retry}}/3",
+        "loadingMessage": "Wir brauchen mehr Zeit, um den Trace mit der ID {{traceId}} zu laden."
+      },
+      "retryErrorMessage": {
+        "title": "Trace mit ID {{traceId}} konnte nicht gefunden werden.",
+        "reasonHeader": "Mögliche Ursachen sind:",
+        "traceDropped": "Der Trace wurde gelöscht",
+        "noInstanaTrace": "Der Trace ist kein Instana-Trace",
+        "outsideRetention": "Der Trace liegt außerhalb des Instana-Aufbewahrungszeitraums"
+      }
     }
   },
   "tabs": {

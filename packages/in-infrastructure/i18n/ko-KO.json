@@ -132,5 +132,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "인프라 스마트 경보"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "태그 선택",
+    "titleAddATag": "태그 추가",
+    "messagePleaseSelectAtMostTags": "최대 {{maximumNumberOfTags}}개의 태그를 선택하십시오."
   }
 }

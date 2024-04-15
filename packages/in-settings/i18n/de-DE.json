@@ -67,10 +67,10 @@
     "allApplications": "Alle Anwendungen",
     "allWebsites": "Alle Websites",
     "allMobileApps": "Alle mobilen Apps",
+    "businessMonitoringAccessAllMessage": "Alle Geschäftsprozesse",
     "kubernetes": "Kubernetes",
     "allSynthetics": "Alle synthetischen Tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} Berechtigungen",
-    "role": "Angepasst",
     "role_owner": "Eigner",
     "role_viewer": "Anzeigeberechtigter",
     "role_permissions": "Unbekannt - Zugriff auf {{quantityOfAreas}}",
@@ -84,6 +84,7 @@
     "platform_permissions": "Zugriff auf {{quantityOfAreas}}",
     "analyticsContentMessage": "Kann Daten in Analytics anzeigen, die durch den Zugriffsbereich in Websites, mobilen Apps, Anwendungen, Plattformen und Infrastruktur definiert sind",
     "infrastructureContentMessage": "Kann Entitäten anzeigen, die durch den Zugriffsbereich in Anwendungen, Plattformen, Infrastruktur und optional durch DFQ definiert sind",
+    "infrastructureAccessAllMessage": "Alle Entitäten",
     "eventsAndAlertsContentMessage": "Kann Ereignisse und Alerts entsprechend dem Zugriffsbereich anzeigen, der in Websites, mobilen Apps, Anwendungen, synthetischer Überwachung, Plattformen und Infrastruktur definiert ist",
     "permissions": "Berechtigungen",
     "additionalPermissions": "Zusätzliche Berechtigungen",
@@ -112,6 +113,7 @@
     "title_mobileApps": "Mobile Apps",
     "title_platforms": "Plattformen",
     "title_websites": "Websites",
+    "title_businessMonitoring": "Business Monitoring",
     "title_syntheticMonitoring": "Überwachung der synthetischen Transaktionen"
   },
   "headingSection": {
@@ -136,11 +138,11 @@
     "descriptionLimitedAccess_applications": "Wählen Sie die Rolle aus und fügen Sie unten Anwendungen hinzu, um Zugriff zu erteilen.",
     "descriptionAccessAll_applications": "Auf alle Anwendungen kann mit der ausgewählten Rolle zugegriffen werden.",
     "deleteButton": "{{name}} aus Liste entfernen",
-    "infrastructureAccessScope": "Zugriffsbereich",
     "infrastructureDfqHeader": "Abfrage des dynamischen Fokus (DFQ)",
     "infrastructureDfqUse": "Außerdem können Sie die folgende Abfrage des dynamischen Fokus verwenden, um Zugriff auf die Infrastruktur zu erteilen.",
     "infrastructureDfqMore": "Weitere Informationen.",
-    "descriptionViewerAccess_infrastructure": "Es können alle Entitätsdashboards angezeigt werden, die sich auf den Zugriff für Anwendungen und Plattformen beziehen.",
+    "infrastructureDfqToggleLabel": "Zusätzlicher Zugriff mit Dynamic Focus Query (DFQ)",
+    "infrastructureDfq_mayNotBeBlank": "Der Wert darf nicht leer sein.",
     "descriptionAccessAll_kubernetes": "Alle Namensbereiche und Cluster können angezeigt werden.",
     "descriptionAccessNo_kubernetes": "Kein Zugriff auf Namensbereiche und Cluster.",
     "descriptionAccessLimited_kubernetes": "Wählen Sie die Namensbereiche und Cluster unten aus, um Zugriff zu erteilen.",
@@ -152,7 +154,7 @@
     "descriptionAccessAll_synthetics": "Auf alle synthetischen Tests kann mit der ausgewählten Rolle zugegriffen werden.",
     "descriptionLimitedAccess_synthetics": "Wählen Sie die Rolle aus und fügen Sie unten synthetische Tests hinzu, um Zugriff zu erteilen.",
     "contribution_filter": "Filter für Beiträge",
-    "contributionFilter_description": "Der Beitragsfilter wird beim Erstellen neuer Anwendungskonfigurationen angewendet. In der Anwendungskonfiguration kann der Beitragsfilter mit Filtertags nach einem Operator {{logicalOperator}} eingegrenzt werden",
+    "contributionFilter_description": "Der Beitragsfilter wird beim Erstellen neuer Anwendungskonfigurationen angewendet. In der Anwendungskonfiguration kann der Beitragsfilter mit Filtertags nach einem Operator {{logicalOperator}} optimiert werden. Eine Anwendungsperspektive, die die Ergänzungsfiltertags verwendet, wird nach dem Speichern automatisch erstellt.",
     "contributionFilter_downstreamCalls": "Bestimmen Sie die maximale Ebene zusätzlicher Informationen, die in die Anwendungsperspektiven eingebunden werden können",
     "contributionFilter_name": "Name",
     "contributionFilter_name_mayNotBeBlank": "Der Name des Beitragsfilters darf nicht leer sein.",
@@ -183,6 +185,10 @@
     "description_no_access_infrastructure": "Kein Zugriff: Zugriff auf Infrastruktur verweigert.",
     "description_no_access_synthetics": "Kein Zugriff: Der Zugriff auf die synthetische Überwachung wird verweigert.",
     "description_access_all": "Zugriff auf alle ohne Einschränkung",
+    "title_access_all_bizops": "Unbegrenzter Zugriff",
+    "title_no_access_bizops": "Zugriff verweigert",
+    "description_access_all_bizops": "Alle Funktionen von Business Monitoring sind ohne Einschränkung zugänglich.",
+    "description_no_access_bizops": "Der Zugriff auf Business Monitoring wird verweigert.",
     "description_access_all_except_contributor": "Zugriff auf alles (mit Ausnahme derjenigen, auf die als Beitragender zugegriffen wird)",
     "role": "Rolle auswählen",
     "roleSelection": "Rolle",
@@ -197,9 +203,10 @@
     "roleTooltip_synthetics": "Viewer: Möglichkeit zum Anzeigen von Dashboards für synthetische Tests (Konfiguration kann nicht angezeigt werden). <br /> Eigner: Möglichkeit zum Erstellen neuer synthetischer Tests. Sie können synthetische Tests anzeigen, konfigurieren und löschen sowie synthetische Positionen anzeigen und löschen.",
     "contribution_filter_accessScope": "Bereich mit eingeschränktem Zugriff (Anzeigeberechtigter)",
     "contribution_filter_warning": {
-      "firstParagraph": "Jede Änderung, die Sie speichern, aktualisiert alle Anwendungsperspektiven, die diesen Beitragsfilter verwenden.",
-      "secondParagraph": "Wenn Sie den Zugriffstyp ändern, wird der Beitragsfilter gelöscht. Alle Anwendungsperspektiven, die den Beitragsfilter verwenden, können von jedem Benutzer mit Eignerzugriff im Abschnitt \"Anwendungen\" bearbeitet werden."
-    }
+      "firstParagraph": "Jede Änderung, die Sie speichern, wirkt sich auf alle Anwendungsperspektiven aus, die diesen Beitragsfilter verwenden, sowie auf die Anwendungsperspektive, die automatisch mit Beitragsfiltertags erstellt wird.",
+      "secondParagraph": "Wenn Sie den Zugriffstyp ändern, wird der Beitragsfilter gelöscht. Die Beitragsfiltertags für alle zugehörigen Konfigurationen der Anwendungsperspektive können von allen Benutzern mit Eigentümerzugriff auf den Abschnitt \"Anwendungen\" bearbeitet werden."
+    },
+    "applicationCreatedUsingContributionFilter": "Diese Anwendungsperspektive wird mithilfe des Beitragsfilters automatisch erstellt und aktualisiert."
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +217,18 @@
       "limited_access": {
         "access_level": "Nur auf die aufgelisteten Anwendungen mit dem ausgewählten Zugriffstyp und alle zusätzlichen Berechtigungen zugreifen.",
         "access_level_contributor": "Sie finden die Anwendungen mit Entwicklerzugriff im Teilfenster für die Zugriffskonfiguration für die Benutzer-oder Gruppendetails. <br /><br />Greifen Sie auf die Anwendungsperspektiven mit dem Beitragsfilter zu, der als Mitarbeiter angewendet wird. <br />Auf die ausgewählten Anwendungsperspektiven als Viewer zugreifen",
-        "role_permissions_contributor": "Erstellen Sie Anwendungsdashboards mit angewendetem Beitragsfilter. Sie können diese Anwendungsdashboards anzeigen, konfigurieren und löschen, die für den Beitragsfilter erstellt wurden."
+        "role_permissions_contributor": "Erstellen Sie Anwendungsperspektiven mit angewendetem Beitragsfilter. Sie können diese für den Beitragsfilter erstellten Anwendungsperspektiven anzeigen, konfigurieren und löschen."
       },
       "role_permissions_owner": "Erstellen, konfigurieren, anzeigen und löschen Sie Anwendungsperspektiven.",
       "role_permissions_viewer": "Anwendungsperspektiven und ihre Konfiguration anzeigen."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "Greifen Sie auf alle Entitätsdashboards unter dieser Einheit zu, die sich auf den Zugriff für Anwendungen und Plattformen beziehen."
+      "access_all": {
+        "access_level": "Greifen Sie auf alle Entitätsdashboards mit den ausgewählten Berechtigungen zu."
       },
-      "role_permissions_owner": "Entitätsdashboards anzeigen.",
+      "limited_access": {
+        "access_level": "Greifen Sie nur auf die Entitäten zu, die über den Zugriff angezeigt werden können, der für die anderen Instanzerschnitte erteilt wurde."
+      },
       "role_permissions_viewer": "Entitätsdashboards anzeigen."
     },
     "kubernetes": {
@@ -293,7 +302,7 @@
     "backToParentViewName": "Zurück zu {{parentViewName}}",
     "search": "Suchen...",
     "confirmRemoveItem": "Sind Sie sicher, dass Sie <strong>{{itemName}}</strong> entfernen möchten?",
-    "confirmSaveGroup": "Durch Speichern dieser Aktualisierungen wird der Beitragsfilter aus {{numberOfContributorAPs}} Anwendungsperspektiven entfernt und inaktiviert",
+    "confirmSaveGroup": "Beim Speichern dieser Aktualisierungen wird der Beitragsfilter gelöscht.<br/>Die Beitragsfiltertags in <strong>{{numberOfContributorAPs}}</strong> Konfigurationen der Anwendungsperspektive werden von allen Benutzern mit Eignerzugriff im Abschnitt \"Anwendungen\" bearbeitbar.<br/><br/>Stellen Sie sicher, dass Sie Anwendungsperspektiven ausgewählt haben, um Zugriff im Falle eines eingeschränkten Zugriffsbereichs zu erteilen.",
     "enable": "Aktivieren",
     "disable": "Inaktivieren",
     "deleteEntity": "{{entity}} löschen.",
@@ -487,23 +496,13 @@
     "alertChannels": "Alertkanäle",
     "alertChannelEntityName": "Alertkanal {{entityName}}",
     "noEventsSelected": "Keine Ereignisse ausgewählt",
-    "noActionsSelected": "Keine Aktionen ausgewählt",
-    "addActions": "Aktionen hinzufügen",
     "addEvents": "Ereignisse hinzufügen",
     "pleaseSelectAtLeastOneEvent": "Wählen Sie mindestens ein Ereignis aus.",
-    "pleaseSelectAtLeastOneAction": "Wählen Sie mindestens eine Aktion aus.",
     "addNumberOfItemsEvent": "{{count}} Ereignis hinzufügen",
     "addNumberOfItemsEvent_plural": "{{count}} Ereignisse hinzufügen",
-    "addNumberOfItemsAction": "Aktion {{count}} hinzufügen",
-    "addNumberOfItemsAction_plural": "{{count}} Aktionen hinzufügen",
-    "addNumberOfItemsAction_0": "{{count}} Aktionen hinzufügen",
-    "addNumberOfItemsAction_1": "{{count}} Aktionen hinzufügen",
-    "addNumberOfItemsAction_2": "{{count}} Aktionen hinzufügen",
     "addNumberOfItemsEvent_0": "{{count}} Ereignisse hinzufügen",
     "addNumberOfItemsEvent_1": "{{count}} Ereignisse hinzufügen",
     "addNumberOfItemsEvent_2": "{{count}} Ereignisse hinzufügen",
-    "actionAssociationsStep": "{{step}}. Aktionszuordnungen",
-    "ActionAssociations": "Aktionszuordnungen",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Vorsicht!</strong> Alle Ereignisse, die den Ereignistypen entsprechen, gehen in den Benachrichtigungsdatenstrom ein.",
     "dfqFormDesc": "Eine <strong>nicht leere</strong> Filterabfrage, die definiert, für welche Entitäten die Konfiguration angewendet wird. Wählen Sie <em>\"Anwenden auf: Alle verfügbaren Entitäten\"</em> aus, wenn Sie möchten, dass diese Regel auf alle Entitäten angewendet wird. Weitere Informationen zur Syntax finden Sie in unserer <docLink>Dokumentation</docLink>.",
     "addNumberOfItemsApplicationPerspective": "{{count}} Anwendungsperspektive hinzufügen",
@@ -801,7 +800,8 @@
     "groupDeleteTooltip_Default": "Die Standardgruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "groupDeleteTooltip_Owner": "Eignergruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "deleteGroupMessage": "Möchten Sie <strong>{{groupName}}</strong> wirklich aus allen Einheiten in diesem Tenant entfernen?",
-    "thisWillRemoveContributionFilterMessage": "Dadurch wird der Beitragsfilter aus <strong>{{apCount}}</strong> Anwendungsperspektiven entfernt und inaktiviert",
+    "thisWillRemoveContributionFilterMessage": "Dadurch wird <strong>{{apCount}}</strong> Anwendungsperspektiven aus dem Beitragsfilter entfernt",
+    "thisWillRemoveContributionFilterFromOtherUnits": "Dadurch werden <strong>{{apCount}}</strong> Anwendungsperspektiven aus dem Beitragsfilter und allen Beitragsfiltern, die in anderen Einheiten definiert sind, entfernt",
     "addGroup": "Neue Gruppe",
     "pendingInvitations": "Anstehende Einladungen",
     "revoke": "Widerrufen",
@@ -1123,6 +1123,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow-Alertkanal",
     "serviceNowUsernameTooltip": "Benutzername und Kennwort sollten für einen ServiceNow-Benutzer mit Berechtigung zum Erstellen von Vorfällen gelten.",
+    "autoCloseIncidents": "Vorfälle automatisch schließen",
     "showPasswordTooltip": "Kennwort anzeigen",
     "hidePasswordTooltip": "Kennwort verbergen",
     "scope": "Umfang",

@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "Wir raten dazu, den Instana-AWS-Sensor auf einer dedizierten, virtuellen EC2-Linux-Maschine \"Aktuelle Generation, allgemeiner Zweck\" auszuführen. Die m4.large-Instanzen sind zum Beispiel perfekt für die Task geeignet. Verwenden Sie die folgenden \"Benutzerdaten\", wenn Sie die dedizierte virtuelle EC2-Maschine einrichten. ",
+    "description": "Es wird empfohlen, den Instana- AWS-Sensor auf einer dedizierten Linux Virtual Machine EC2, \"Current Generation General Purpose\", auszuführen. Die m5.large-Instanzen sind beispielsweise perfekt für die Task geeignet. Verwenden Sie Folgendes als \"Benutzerdaten\", wenn sich die dedizierte EC2 Virtual Machine im Leerlauf befindet.",
     "help": {
       "title": "Benutzerdaten in AWS EC2",
       "text": "Weitere Informationen zur Verwendung des obigen Scripts mit den Benutzerdaten in AWS EC2 finden Sie auf der Seite <go>\"Befehle auf Ihrer Linux-Instanz beim Starten ausführen\".</go>"

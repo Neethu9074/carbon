@@ -50,7 +50,7 @@
       "agentKey": "代理程序密钥"
     },
     "common": {
-      "agentCatalog": "代理程序目录",
+      "agentDeployment": "代理程序部署",
       "step1": "步骤 1： ",
       "step2": "步骤 2： ",
       "step3": "步骤 3： ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "欢迎",
     "viewAll": "查看所有",
+    "search": "搜索",
+    "addMore": "添加",
+    "UrlShortener": "URL 缩写程序",
     "consumeData": {
-      "title": "使用数据",
-      "description": "开始并部署第一个代理程序。",
+      "title": "发现服务",
+      "description": "首先，启用 Instana 以发现要监视的服务和其他数据。",
       "buttonName": "部署代理程序",
       "buttonType": "主"
     },
     "inviteTeammates": {
       "title": "邀请队友",
       "description": "与同事合作。",
-      "buttonName": "发送邀请",
+      "buttonName": "管理用户",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "后续步骤",
-      "description": "单击右上角的“?”符号， 了解更多设置步骤。",
+      "description": "查找更多教程和其他支持。",
       "buttonName": "获取答案",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "CPU 使用率",
         "created": "创建时间",
         "started": "已启动"
+      },
+      "syntheticWidget": {
+        "label": "合成监视",
+        "na": "不适用",
+        "name": "名称",
+        "type": "Type",
+        "successRate": "成功率",
+        "latency": "等待时间",
+        "lastTestRunOn": "上次测试运行时间",
+        "version": "版本",
+        "timeThreshold": "时间阈值",
+        "testsApplied": "已应用的测试"
+      },
+      "dashboardWidget": {
+        "label": "我的定制仪表板",
+        "name": "名称",
+        "owner": "所有者",
+        "permissions": "许可权"
       }
     },
     "noData": {
@@ -533,7 +554,45 @@
       "businessMonitoringWidget": {
         "header": "无业务流程",
         "description": "启用 IBM Business Automation Workflow 或配置 Instana，以从业务流程捕获业务数据并进行存储。"
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "无合成测试",
+          "description": "将合成测试配置为按照特定连续时间间隔运行。",
+          "buttonName": "添加合成测试"
+        },
+        "location": {
+          "header": "无合成位置",
+          "description": "配置合成位置以按特定连续时间间隔运行。"
+        },
+        "smartalerts": {
+          "header": "无合成智能警告",
+          "description": "将合成智能警告配置为按照特定连续时间间隔运行。",
+          "buttonName": "添加合成智能警告"
+        }
+      },
+      "dashboardWidget": {
+        "header": "无定制仪表板",
+        "description": "创建您自己的定制仪表板。",
+        "buttonName": "创建定制仪表板"
       }
+    },
+    "ariaLabel": {
+      "shareButton": "“共享”按钮",
+      "searchButton": "“搜索”按钮",
+      "addButton": "\"添加\"按钮",
+      "handleButton": "“手柄”按钮"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "例如，欧洲",
+      "Add": "添加"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "入门"
     }
   }
 }

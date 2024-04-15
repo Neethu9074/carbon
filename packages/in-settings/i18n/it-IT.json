@@ -67,10 +67,10 @@
     "allApplications": "Tutte le applicazioni",
     "allWebsites": "Tutti i siti web",
     "allMobileApps": "Tutte le App mobili",
+    "businessMonitoringAccessAllMessage": "Tutti i processi di business",
     "kubernetes": "Kubernetes",
     "allSynthetics": "Tutti i test sintetici",
     "countOfPermissions": "Autorizzazioni {{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}}",
-    "role": "Personalizzato",
     "role_owner": "Proprietario",
     "role_viewer": "Visualizzatore",
     "role_permissions": "Accesso sconosciuto {{quantityOfAreas}}",
@@ -84,6 +84,7 @@
     "platform_permissions": "Accesso {{quantityOfAreas}}",
     "analyticsContentMessage": "Consente di visualizzare i dati nell'analytics definiti dall'ambito di accesso in siti web, app per dispositivi mobili, applicazioni, piattaforme e infrastruttura",
     "infrastructureContentMessage": "Può visualizzare le entità definite dall'ambito di accesso in applicazioni, piattaforme, infrastruttura e, facoltativamente, da DFQ",
+    "infrastructureAccessAllMessage": "Tutte le entità",
     "eventsAndAlertsContentMessage": "Può visualizzare eventi e avvisi in base all'ambito di accesso definito in siti web, app mobili, applicazioni, monitoraggio sintetico, piattaforme e infrastruttura",
     "permissions": "Autorizzazioni",
     "additionalPermissions": "Autorizzazioni aggiuntive",
@@ -112,6 +113,7 @@
     "title_mobileApps": "App mobili",
     "title_platforms": "Piattaforme",
     "title_websites": "Siti web",
+    "title_businessMonitoring": "Monitoraggio aziendale",
     "title_syntheticMonitoring": "Monitoraggio sintetico"
   },
   "headingSection": {
@@ -136,11 +138,11 @@
     "descriptionLimitedAccess_applications": "Selezionare il ruolo e aggiungere le applicazioni riportate di seguito per concedere l'accesso.",
     "descriptionAccessAll_applications": "È possibile accedere a tutte le applicazioni con il ruolo selezionato.",
     "deleteButton": "Rimuovi {{name}} dall'elenco",
-    "infrastructureAccessScope": "Ambito accesso",
     "infrastructureDfqHeader": "DFQ (dynamic focus query)",
     "infrastructureDfqUse": "Inoltre, è possibile utilizzare la query di focus dinamica riportata di seguito per concedere l'accesso all'infrastruttura.",
     "infrastructureDfqMore": "Ulteriori informazioni.",
-    "descriptionViewerAccess_infrastructure": "È possibile visualizzare tutti i dashboard di entità, che sono correlati all'accesso concesso all'applicazione e alle piattaforme.",
+    "infrastructureDfqToggleLabel": "Accesso aggiuntivo utilizzando DFQ (dynamic focus query)",
+    "infrastructureDfq_mayNotBeBlank": "Il valore non deve essere vuoto.",
     "descriptionAccessAll_kubernetes": "È possibile visualizzare tutti gli spazi dei nomi e i cluster.",
     "descriptionAccessNo_kubernetes": "Nessun accesso agli spazi dei nomi e ai cluster.",
     "descriptionAccessLimited_kubernetes": "Selezionare gli spazi dei nomi e i cluster riportati di seguito per concedere l'accesso.",
@@ -152,7 +154,7 @@
     "descriptionAccessAll_synthetics": "È possibile accedere a tutti i test sintetici con il ruolo selezionato.",
     "descriptionLimitedAccess_synthetics": "Selezionare il ruolo e aggiungere i test sintetici riportati di seguito per concedere l'accesso.",
     "contribution_filter": "Filtro di contributo",
-    "contributionFilter_description": "Il filtro di contributo viene applicato quando si creano nuove configurazioni dell'applicazione. Nella configurazione dell'applicazione, il filtro di contributo può essere perfezionato con tag di filtro dopo un operatore {{logicalOperator}}",
+    "contributionFilter_description": "Il filtro di contributo viene applicato quando si creano nuove configurazioni dell'applicazione. Nella configurazione dell'applicazione, il filtro di contribuzione può essere perfezionato con tag di filtro dopo un operatore {{logicalOperator}}. Una prospettiva dell'applicazione che utilizza i tag del filtro di contribuzione viene creata automaticamente una volta salvato.",
     "contributionFilter_downstreamCalls": "Determinare il massimo livello di informazioni aggiuntive che possono essere incluse nelle prospettive dell'applicazione",
     "contributionFilter_name": "Nome",
     "contributionFilter_name_mayNotBeBlank": "Il nome del filtro di contribuzione non deve essere vuoto.",
@@ -183,6 +185,10 @@
     "description_no_access_infrastructure": "Nessun accesso: l'accesso all'infrastruttura è stato negato.",
     "description_no_access_synthetics": "Nessun accesso: l'accesso al monitoraggio sintetico è stato negato.",
     "description_access_all": "Accedi a tutto senza limitazione",
+    "title_access_all_bizops": "Accesso illimitato",
+    "title_no_access_bizops": "Accesso negato",
+    "description_access_all_bizops": "Tutte le funzioni del monitoraggio aziendale sono accessibili senza limitazioni.",
+    "description_no_access_bizops": "L'accesso al monitoraggio aziendale è negato.",
     "description_access_all_except_contributor": "Accedi a tutti - tranne quelli a cui si accede come contributore",
     "role": "Seleziona un ruolo",
     "roleSelection": "Ruolo",
@@ -197,9 +203,10 @@
     "roleTooltip_synthetics": "Visualizzatore: possibilità di visualizzare i dashboard di test sintetici (non è possibile visualizzare la configurazione). <br /> Proprietario: Possibilità di creare nuovi test sintetici, visualizzare, configurare ed eliminare test sintetici e visualizzare ed eliminare ubicazioni sintetiche.",
     "contribution_filter_accessScope": "Ambito di accesso limitato (visualizzatore)",
     "contribution_filter_warning": {
-      "firstParagraph": "Qualsiasi modifica salvata aggiornerà tutte le prospettive dell'applicazione che utilizzano questo filtro di contributo.",
-      "secondParagraph": "Se si modifica il tipo di accesso, il filtro di contribuzione viene eliminato. Tutte le prospettive dell'applicazione che utilizzano il filtro di contribuzione possono essere modificate da qualsiasi utente con accesso proprietario nella sezione Applicazioni."
-    }
+      "firstParagraph": "Qualsiasi modifica salvata influisce su tutte le prospettive dell'applicazione che utilizzano questo filtro di contribuzione, nonché sulla prospettiva dell'applicazione, che viene creata automaticamente utilizzando i tag del filtro di contribuzione.",
+      "secondParagraph": "Se si modifica il tipo di accesso, il filtro di contribuzione viene eliminato. I tag del filtro di contribuzione su tutte le configurazioni della prospettiva dell'applicazione correlate diventano modificabili da qualsiasi utente con accesso di proprietario nella sezione Applicazioni."
+    },
+    "applicationCreatedUsingContributionFilter": "Questa prospettiva dell'applicazione viene creata e aggiornata automaticamente utilizzando il filtro di contribuzione."
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +217,18 @@
       "limited_access": {
         "access_level": "Accedere solo alle applicazioni elencate con il tipo di accesso selezionato e eventuali autorizzazioni aggiuntive.",
         "access_level_contributor": "È possibile trovare le applicazioni con accesso contributore nel riquadro di configurazione dell'accesso nei dettagli dell'utente o del gruppo. <br /><br />Accedere alle prospettive dell'applicazione con il filtro di contribuzione applicato come contributore. <br />Accedere alle prospettive dell'applicazione selezionate come visualizzatore",
-        "role_permissions_contributor": "Creare i dashboard dell'applicazione con il filtro di contributo applicato; visualizzare, configurare ed eliminare questi dashboard dell'applicazione creati per il filtro di contributo."
+        "role_permissions_contributor": "Creare le prospettive dell'applicazione con il filtro di contribuzione applicato; visualizzare, configurare ed eliminare queste prospettive dell'applicazione create per il filtro di contribuzione."
       },
       "role_permissions_owner": "Creare, configurare, visualizzare ed eliminare le prospettive dell'applicazione.",
       "role_permissions_viewer": "Visualizzare le prospettive dell'applicazione e la relativa configurazione."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "Accedere a tutti i dashboard di entità in questa unità, che sono correlati all'accesso concesso all'applicazione e alle piattaforme."
+      "access_all": {
+        "access_level": "Accedere a tutti i dashboard di entità con le autorizzazioni selezionate."
       },
-      "role_permissions_owner": "Visualizzare i dashboard di entità.",
+      "limited_access": {
+        "access_level": "Accedere solo alle entità che possono essere visualizzate attraverso l'accesso concesso sulle altre sezioni Instana."
+      },
       "role_permissions_viewer": "Visualizzare i dashboard di entità."
     },
     "kubernetes": {
@@ -293,7 +302,7 @@
     "backToParentViewName": "Torna a {{parentViewName}}",
     "search": "Cerca...",
     "confirmRemoveItem": "Si è sicuri di voler rimuovere <strong>{{itemName}}</strong>?",
-    "confirmSaveGroup": "Il salvataggio di questi aggiornamenti rimuoverà il filtro di contributo da {{numberOfContributorAPs}} prospettive dell'applicazione e sarà disabilitato",
+    "confirmSaveGroup": "Il salvataggio di questi aggiornamenti eliminerà il filtro di contribuzione.<br/>Le tag del filtro di contribuzione in <strong>{{numberOfContributorAPs}}le configurazioni della prospettiva dell'applicazione</strong> diventano modificabili da qualsiasi utente con accesso di proprietario nella sezione Applicazioni.<br/><br/>Assicurarsi di aver selezionato le prospettive dell'applicazione per concedere l'accesso in caso di ambito di accesso limitato.",
     "enable": "Abilita",
     "disable": "Disabilita",
     "deleteEntity": "Elimina {{entity}}.",
@@ -487,23 +496,13 @@
     "alertChannels": "Canali di avviso",
     "alertChannelEntityName": "canale di avviso {{entityName}}",
     "noEventsSelected": "Nessun evento selezionato",
-    "noActionsSelected": "Nessuna azione selezionata",
-    "addActions": "Aggiungi azioni",
     "addEvents": "Aggiungi eventi",
     "pleaseSelectAtLeastOneEvent": "Selezionare almeno un evento.",
-    "pleaseSelectAtLeastOneAction": "Selezionare almeno un'azione.",
     "addNumberOfItemsEvent": "Aggiungi {{count}} evento",
     "addNumberOfItemsEvent_plural": "Aggiungi {{count}} eventi",
-    "addNumberOfItemsAction": "Aggiungi {{count}} azione",
-    "addNumberOfItemsAction_plural": "Aggiungi {{count}} azioni",
-    "addNumberOfItemsAction_0": "Aggiungi {{count}} azioni",
-    "addNumberOfItemsAction_1": "Aggiungi {{count}} azioni",
-    "addNumberOfItemsAction_2": "Aggiungi {{count}} azioni",
     "addNumberOfItemsEvent_0": "Aggiungi {{count}} eventi",
     "addNumberOfItemsEvent_1": "Aggiungi {{count}} eventi",
     "addNumberOfItemsEvent_2": "Aggiungi {{count}} eventi",
-    "actionAssociationsStep": "{{step}}. Associazioni azione",
-    "ActionAssociations": "Associazioni azione",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Attenzione!</strong> Tutti gli eventi che corrispondono ai tipi di evento entreranno nello stream di notifica.",
     "dfqFormDesc": "Una query di filtro <strong>non vuota</strong> che definisce le entità per cui verrà applicata la configurazione. Selezionare <em>\"Applica a: Tutte le entità disponibili\"</em> se si desidera che questa regola venga applicata a tutte le entità. Per ulteriori informazioni sulla sintassi, consultare la <docLink>documentazione</docLink>.",
     "addNumberOfItemsApplicationPerspective": "Aggiungi {{count}} prospettiva applicazione",
@@ -801,7 +800,8 @@
     "groupDeleteTooltip_Default": "Il gruppo Default è un gruppo integrato e non può essere eliminato o rinominato.",
     "groupDeleteTooltip_Owner": "Il gruppo Owner è un gruppo integrato e non può essere eliminato o rinominato.",
     "deleteGroupMessage": "Si è sicuri di voler rimuovere <strong>{{groupName}}</strong> da tutte le unità su questo tenant?",
-    "thisWillRemoveContributionFilterMessage": "In questo modo si rimuoverà il filtro di contributo da <strong>{{apCount}}</strong> prospettive dell'applicazione e sarà disabilitato",
+    "thisWillRemoveContributionFilterMessage": "Questa operazione rimuoverà <strong>{{apCount}}</strong> numero di prospettive dell'applicazione dal filtro di contribuzione",
+    "thisWillRemoveContributionFilterFromOtherUnits": "Questa operazione rimuoverà <strong>{{apCount}}</strong> numero di prospettive dell'applicazione dal filtro di contribuzione e qualsiasi filtro di contribuzione definito su altre unità",
     "addGroup": "Nuovo gruppo",
     "pendingInvitations": "Inviti in sospeso",
     "revoke": "Revoca",
@@ -1123,6 +1123,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "Canale di avviso ServiceNow",
     "serviceNowUsernameTooltip": "Il nome utente e la password devono essere per un utente ServiceNow con autorizzazione per creare gli incidenti.",
+    "autoCloseIncidents": "Chiudi incidenti automaticamente",
     "showPasswordTooltip": "Mostra password",
     "hidePasswordTooltip": "Nascondi password",
     "scope": "Ambito",

@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "有效内容",
             "title": "定制有效内容"
-          },
-          "actionsOptional": {
-            "label": "操作",
-            "title": "操作关联"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "为每个评估窗口计算",
         "timeThresholdConfigNumberOfViolations": "指标违例数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
+        "granularityTooltipText": "此处设置的时间粒度将确定对阈值进行求值的频率。",
         "timeThresholdConfigNumberOfTracesThreshold": "受影响的跟踪数",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影响的用户数",
         "timeThresholdConfigAtLeast": "至少",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "作用域：这种情况在哪里发生？",
         "thresholdLabel": "阈值",
         "thresholdTitle": "阈值：何时违反条件？",
-        "userImpactInfo": "对于用户影响的阈值，仅考虑已认证的用户。",
         "payloadsLabel": "有效内容",
         "payloadsTitle": "定制有效内容"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "作用域",
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleTimeThreshold": "时间阈值",
-        "alertConfigurationTitleAlertProperties": "警报属性",
-        "predictiveTrigger": {
-          "title": "提前预测触发警报"
-        }
+        "alertConfigurationTitleAlertProperties": "警报属性"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "时间阈值：您希望何时收到警报？"
         },
         "predictiveTrigger": {
-          "title": "预测触发器",
+          "title": "已禁用预测警报",
+          "alertTitle": "将在预测违例之前触发警报 {{value}}",
           "timeToFailure": "失败时间"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "作用域",
-          "title": "作用域：这种情况在哪里发生？"
+          "title": "作用域：这种情况在哪里发生？",
+          "metric": "指标"
         },
         "threshold": {
           "label": "阈值",
-          "title": "阈值：何时违反条件？"
+          "title": "阈值：何时违反条件？",
+          "tooltipText": "将根据下面指定的时间粒度对此处定义的阈值进行求值。"
         },
         "timeThreshold": {
           "label": "时间阈值",
@@ -1345,9 +1341,9 @@
           },
           "alertPropertiesTitlePlaceholder": "日志智能警报",
           "descriptionPlaceholder": {
-            "logsCount_higherThan": "日志计数大于 {{value}}。",
+            "logsCount_higherThan": "日志计数高于 {{value}}。",
             "logsCount_higherEqual": "日志计数大于或等于 {{value}}。",
-            "logsCount_lowerThan": "日志计数小于 {{value}}。",
+            "logsCount_lowerThan": "日志计数低于 {{value}}。",
             "logsCount_lowerEqual": "日志计数小于或等于 {{value}}。"
           }
         },
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
-        "noMetricSelected": "未选择度量"
+        "noDataForSelectedGroup": "指定过滤器和分组组合无可用数据。"
       },
-      "logs": "日志"
+      "logCount": "日志计数"
     }
   }
 }

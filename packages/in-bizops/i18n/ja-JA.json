@@ -15,7 +15,8 @@
     "noData": "表示可能なデータがありません",
     "healthLabel": "正常性",
     "startLabel": "開始済み",
-    "unnamedActivity": "(名前なしアクティビティー) {{activityType}}"
+    "unnamedActivity": "(名前なしアクティビティー) {{activityType}}",
+    "unnamedService": "(無名サービス)"
   },
   "navigation": {
     "businessMonitoring": "ビジネス・モニタリング"
@@ -27,12 +28,15 @@
       "summaryTab": "サマリー",
       "activitiesTab": "アクティビティー",
       "widgets": {
-        "topActivities": "上位のアクティビティー (カウント)",
+        "topActivities": "上位アクティビティー",
         "infrastructureIssuesAndChanges": "インフラストラクチャーの問題 & 変更",
         "viewAll": "すべてのアクティビティーの表示",
         "processCount": "数",
         "processCountTotal": "合計",
-        "processErrors": "エラー"
+        "processErrors": "エラー",
+        "processLatency": "待ち時間",
+        "processCalls": "呼び出し",
+        "processErroneous": "エラーのある呼び出し率"
       }
     },
     "activity": {
@@ -41,7 +45,9 @@
       "widgets": {
         "duration": "期間",
         "activityCount": "数",
-        "activityErrors": "エラー"
+        "activityErrors": "エラー",
+        "topServices": "上位サービス",
+        "activityLatency": "待ち時間"
       },
       "timespans": {
         "minute": "1 分",

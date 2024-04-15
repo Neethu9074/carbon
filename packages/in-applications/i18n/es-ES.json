@@ -7,6 +7,8 @@
   "labelCall": "Llamada",
   "labelTrace": "Rastreo",
   "linkDownload": "Descargar",
+  "linkDownloadCalls": "Descargar llamadas",
+  "linkDownloadRawTrace": "Descargar rastreo sin formato",
   "labelCalls": "Llamadas",
   "labelCallsPerSecondFull": "Llamadas por segundo",
   "labelTraces": "Rastreos",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "Ámbito de aplicación.",
       "stepTitleApplicationUsesBoundaryScope": "Esta perspectiva de aplicación utiliza <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "Está viendo esta configuración de perspectiva de la aplicación en modalidad de sólo lectura.",
+      "readOnlyRestrictingApplication": "El filtro de contribución definido en <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig> crea y actualiza automáticamente esta perspectiva de aplicación.",
+      "accessConfiguration": "Configuración de acceso",
       "stepTitleBuiltInSmartAlertsScope": "Ámbito de alertas inteligentes incorporadas",
       "noBuiltInSmartAlertsActive": "No hay alertas inteligentes activas incorporadas para esta perspectiva de aplicación.",
       "optionNoDownstreamServices": "No hay servicios en sentido descendente",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "La llamada padre no se puede cargar en este momento",
       "callTreeLoadingOfCallsFailed": "Las llamadas no se pueden cargar en este momento",
       "retry": "Intentar de nuevo",
-      "treeHeaderLatency": "Latencia de llamada raíz"
+      "treeHeaderLatency": "Latencia de llamada raíz",
+      "loadingDashboard": {
+        "defaultTitle": "Esto está tardando un poco más de lo esperado...",
+        "retryTitle": "Intentando... {{retry}}/3",
+        "loadingMessage": "Tenga paciencia, necesitamos más tiempo para cargar el rastreo con el ID {{traceId}}."
+      },
+      "retryErrorMessage": {
+        "title": "No se ha podido encontrar el rastreo con el ID {{traceId}}.",
+        "reasonHeader": "Las razones posibles incluyen:",
+        "traceDropped": "el rastreo se ha descartado",
+        "noInstanaTrace": "el rastreo no es un rastreo de Instana",
+        "outsideRetention": "el rastreo está fuera del periodo de retención de Instana"
+      }
     }
   },
   "tabs": {

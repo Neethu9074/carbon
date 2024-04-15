@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "Nous conseillons d'exécuter le capteur Instana AWS sur une machine virtuelle Linux EC2 dédiée, \"Nouvelle génération à usage général\". Les instances m4.large, par exemple, sont parfaitement adaptées à la tâche. Utilisez ce qui suit en tant que \"Données utilisateur\" lors du lancement de la machine virtuelle EC2 dédiée.",
+    "description": "Il est conseillé d'exécuter le capteur Instana AWS sur une machine virtuelle Linux EC2 dédiée, \"Fonction générale de la génération actuelle\". Par exemple, les instances m5.large sont parfaitement adaptées à la tâche. Utilisez ce qui suit comme \"Données utilisateur\" lors du lancement de la machine virtuelle EC2 dédiée.",
     "help": {
       "title": "Données utilisateur dans AWS EC2",
       "text": "Pour plus d'informations sur l'utilisation du script ci-dessus avec les données utilisateur dans AWS EC2, reportez-vous à la <go>page \"Running Commands on Your Linux Instance at Launch\"</go>."

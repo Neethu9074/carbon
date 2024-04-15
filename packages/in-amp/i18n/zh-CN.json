@@ -53,7 +53,12 @@
       "apmHosts": "APM 主机",
       "purchased": "已购买",
       "infrastructureUsage": "基础架构使用情况",
-      "iqmHosts": "IQM 主机"
+      "iqmHosts": "IQM 主机",
+      "syntheticPops": "合成受管 PoPs",
+      "resourceUnits": "资源单元数",
+      "consumedUnits": "耗用的单元数",
+      "addons": "附加组件",
+      "helperText": "每种类型的操作所使用的资源单元数。 对于简单测试，将使用系数 0.025 计算单位，对于 API 测试，将使用系数 0.042 计算单位，对于浏览器测试，将使用系数 1.000 计算单位。"
     },
     "activationAdoption": {
       "activationAdoption": "激活并采用",
