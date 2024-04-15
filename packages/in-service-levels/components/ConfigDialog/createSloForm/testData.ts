@@ -169,128 +169,32 @@ export const testWebsiteSloConfig: ServiceLevelObjectiveConfiguration = {
   ...sharedSloConfigFields
 };
 
-export const testApplicationFormwithoutService: SloForm = createMapForm({
+export const testApplicationFormwithEndpoint = createMapForm({
   items: {
-    entity: createMapForm({
-      items: {
-        entityId: createField<string>({ value: '11111' }),
-        type: createField<SloEntityType>({ value: 'application' })
-      }
-    }),
-    indicator: createMapForm({
-      items: {
-        aggregation: createField<AggregationType>({ value: 'MAX' }),
-        badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
-        goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        threshold: createField<number | undefined>({ value: 66 }),
-        type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })
-      }
-    }),
     scope: createMapForm({
       items: {
-        beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
-        boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
         endpointId: createField<string>({ value: 'endpoindNotEmpty' }),
-        includeInternal: createField<boolean>({ value: true }),
-        includeSynthetic: createField<boolean>({ value: false }),
         serviceId: createField<string>({ value: '' }),
         tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
       }
-    }),
-    objective: createMapForm({
-      items: {
-        target: createField<number | undefined>({ value: 1 }),
-        startTimestamp: createMapForm({
-          items: {
-            date: createField<string>({ value: '2020-01-01' }),
-            time: createField<string>({ value: '' })
-          }
-        }),
-        duration: createField<number>({ value: 100 }),
-        durationUnit: createField<DurationUnitType>({ value: 'day' }),
-        type: createField<TimeWindowType>({ value: 'fixed' })
-      }
-    }),
-    nameTags: createMapForm({
-      items: {
-        name: createField<string>({ value: 'Vending Machine' }),
-        tags: createField<string[]>({ value: ['candies', 'drinks', 'toilet paper'] })
-      }
     })
   }
-});
+}) as unknown as SloForm;
 
-export const testApplicationFormwithoutEndpoint: SloForm = createMapForm({
+export const testApplicationFormwithService = createMapForm({
   items: {
-    entity: createMapForm({
-      items: {
-        entityId: createField<string>({ value: '11111' }),
-        type: createField<SloEntityType>({ value: 'application' })
-      }
-    }),
-    indicator: createMapForm({
-      items: {
-        aggregation: createField<AggregationType>({ value: 'MAX' }),
-        badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
-        goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        threshold: createField<number | undefined>({ value: 66 }),
-        type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })
-      }
-    }),
     scope: createMapForm({
       items: {
-        beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
-        boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
         endpointId: createField<string>({ value: '' }),
-        includeInternal: createField<boolean>({ value: true }),
-        includeSynthetic: createField<boolean>({ value: false }),
-        serviceId: createField<string>({ value: '12345' }),
+        serviceId: createField<string>({ value: 'withserviceID' }),
         tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
-      }
-    }),
-    objective: createMapForm({
-      items: {
-        target: createField<number | undefined>({ value: 1 }),
-        startTimestamp: createMapForm({
-          items: {
-            date: createField<string>({ value: '2020-01-01' }),
-            time: createField<string>({ value: '' })
-          }
-        }),
-        duration: createField<number>({ value: 100 }),
-        durationUnit: createField<DurationUnitType>({ value: 'day' }),
-        type: createField<TimeWindowType>({ value: 'fixed' })
-      }
-    }),
-    nameTags: createMapForm({
-      items: {
-        name: createField<string>({ value: 'Vending Machine' }),
-        tags: createField<string[]>({ value: ['candies', 'drinks', 'toilet paper'] })
       }
     })
   }
-});
+}) as unknown as SloForm;
 
-export const testApplicationFormwithoutServicandEndpoint: SloForm = createMapForm({
+export const testApplicationFormwithoutServiceandEndpoint = createMapForm({
   items: {
-    entity: createMapForm({
-      items: {
-        entityId: createField<string>({ value: '11111' }),
-        type: createField<SloEntityType>({ value: 'application' })
-      }
-    }),
-    indicator: createMapForm({
-      items: {
-        aggregation: createField<AggregationType>({ value: 'MAX' }),
-        badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
-        goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        threshold: createField<number | undefined>({ value: 66 }),
-        type: createField<ServiceLevelIndicatorType>({ value: 'timeBased' })
-      }
-    }),
     scope: createMapForm({
       items: {
         beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
@@ -301,26 +205,6 @@ export const testApplicationFormwithoutServicandEndpoint: SloForm = createMapFor
         serviceId: createField<string>({ value: '' }),
         tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
       }
-    }),
-    objective: createMapForm({
-      items: {
-        target: createField<number | undefined>({ value: 1 }),
-        startTimestamp: createMapForm({
-          items: {
-            date: createField<string>({ value: '2020-01-01' }),
-            time: createField<string>({ value: '' })
-          }
-        }),
-        duration: createField<number>({ value: 100 }),
-        durationUnit: createField<DurationUnitType>({ value: 'day' }),
-        type: createField<TimeWindowType>({ value: 'fixed' })
-      }
-    }),
-    nameTags: createMapForm({
-      items: {
-        name: createField<string>({ value: 'Vending Machine' }),
-        tags: createField<string[]>({ value: ['candies', 'drinks', 'toilet paper'] })
-      }
     })
   }
-});
+}) as unknown as SloForm;

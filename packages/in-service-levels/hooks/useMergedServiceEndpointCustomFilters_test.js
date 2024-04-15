@@ -7,24 +7,26 @@
 import { renderHook } from '@testing-library/react-hooks';
 
 import { just } from '@instana/observables';
-import { TagFilter } from '@instana/types';
 
 import {
   testApplicationForm,
-  testApplicationFormwithoutEndpoint,
-  testApplicationFormwithoutServicandEndpoint,
-  testApplicationFormwithoutService
+  testApplicationFormwithEndpoint,
+  testApplicationFormwithoutServiceandEndpoint,
+  testApplicationFormwithService
 } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 import useMergedServiceEndpointCustomFilters from 'in-service-levels/hooks/useMergedServiceEndpointCustomFilters';
-import getEndpointInfoOriginal from 'in-applications/subscriptions/getEndpointInfo';
-import getServiceLabelOriginal from 'in-applications/subscriptions/getServiceLabel';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { success } from 'in-services/util/result';
 
-jest.mock('in-applications/subscriptions/getServiceLabel');
-const getServiceLabel = getServiceLabelOriginal as jest.MockedFunction<typeof getServiceLabelOriginal>;
-
-jest.mock('in-applications/subscriptions/getEndpointInfo');
-const getEndpointInfo = getEndpointInfoOriginal as jest.MockedFunction<typeof getEndpointInfoOriginal>;
+jest.mock('in-applications/subscriptions/getServiceLabel', () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
+jest.mock('in-applications/subscriptions/getEndpointInfo', () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
 
 describe('useMergedServiceEndpointCustomFilters', () => {
   beforeAll(() => {
@@ -43,15 +45,33 @@ describe('useMergedServiceEndpointCustomFilters', () => {
           label: 'Purchase snack',
           serviceId: 'shoppingCartId',
           technologies: [],
-          type: 'HTTP' as const
+          type: 'HTTP'
         })
       )
     );
   });
   it('should return configured service and endpoint expression when service and endpoint names are provided', () => {
     const givenForm = testApplicationForm;
-    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
-
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
+    getServiceLabel.mockReturnValue(
+      just(
+        success({
+          label: 'Shopping cart',
+          id: 'shoppingCartId'
+        })
+      )
+    );
+    getEndpointInfo.mockReturnValue(
+      just(
+        success({
+          id: 'purchaseSnackId',
+          label: 'Purchase snack',
+          serviceId: 'shoppingCartId',
+          technologies: [],
+          type: 'HTTP'
+        })
+      )
+    );
     expect(result.current).toEqual([
       {
         entity: 'NOT_APPLICABLE',
@@ -77,23 +97,8 @@ describe('useMergedServiceEndpointCustomFilters', () => {
   });
 
   it('should return correct configured service expression when only service name is provided', () => {
-    const givenForm = testApplicationFormwithoutService;
-    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
-    expect(result.current).toEqual([
-      {
-        entity: 'NOT_APPLICABLE',
-        key: 'DESTINATION',
-        name: 'endpoint.name',
-        operator: 'EQUALS',
-        type: 'TAG_FILTER',
-        value: 'Purchase snack'
-      }
-    ]);
-  });
-
-  it('should return correct configured endpoint expression when only endpoint name is provided', () => {
-    const givenForm = testApplicationFormwithoutEndpoint;
-    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
+    const givenForm = testApplicationFormwithService;
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
     expect(result.current).toEqual([
       {
         entity: 'NOT_APPLICABLE',
@@ -106,9 +111,24 @@ describe('useMergedServiceEndpointCustomFilters', () => {
     ]);
   });
 
+  it('should return correct configured endpoint expression when only endpoint name is provided', () => {
+    const givenForm = testApplicationFormwithEndpoint;
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
+    expect(result.current).toEqual([
+      {
+        entity: 'NOT_APPLICABLE',
+        key: 'DESTINATION',
+        name: 'endpoint.name',
+        operator: 'EQUALS',
+        type: 'TAG_FILTER',
+        value: 'Purchase snack'
+      }
+    ]);
+  });
+
   it('should return correct tagFilter expression when neither service nor endpoint names are provided', () => {
-    const givenForm = testApplicationFormwithoutServicandEndpoint;
-    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
+    const givenForm = testApplicationFormwithoutServiceandEndpoint;
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
     expect(result.current).toEqual([]);
   });
 });
