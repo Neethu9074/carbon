@@ -15,7 +15,7 @@ import {
   testApplicationFormwithoutServicandEndpoint,
   testApplicationFormwithoutService
 } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
-import useMakeServiceEndpointCustom from 'in-service-levels/hooks/useMakeServiceEndpointCustom';
+import useMergedServiceEndpointCustomFilters from 'in-service-levels/hooks/useMergedServiceEndpointCustomFilters';
 import getEndpointInfoOriginal from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabelOriginal from 'in-applications/subscriptions/getServiceLabel';
 import { success } from 'in-services/util/result';
@@ -26,7 +26,7 @@ const getServiceLabel = getServiceLabelOriginal as jest.MockedFunction<typeof ge
 jest.mock('in-applications/subscriptions/getEndpointInfo');
 const getEndpointInfo = getEndpointInfoOriginal as jest.MockedFunction<typeof getEndpointInfoOriginal>;
 
-describe('useMakeServiceEndpointCustom', () => {
+describe('useMergedServiceEndpointCustomFilters', () => {
   beforeAll(() => {
     getServiceLabel.mockReturnValue(
       just(
@@ -48,9 +48,9 @@ describe('useMakeServiceEndpointCustom', () => {
       )
     );
   });
-  it('should return correct tagFilter expression when service and endpoint names are provided', () => {
+  it('should return configured service and endpoint expression when service and endpoint names are provided', () => {
     const givenForm = testApplicationForm;
-    const { result } = renderHook(() => useMakeServiceEndpointCustom(givenForm) as unknown as TagFilter);
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
 
     expect(result.current).toEqual([
       {
@@ -76,9 +76,9 @@ describe('useMakeServiceEndpointCustom', () => {
     ]);
   });
 
-  it('should return correct tagFilter expression when only service name is provided', () => {
+  it('should return correct configured service expression when only service name is provided', () => {
     const givenForm = testApplicationFormwithoutService;
-    const { result } = renderHook(() => useMakeServiceEndpointCustom(givenForm) as unknown as TagFilter);
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
     expect(result.current).toEqual([
       {
         entity: 'NOT_APPLICABLE',
@@ -91,9 +91,9 @@ describe('useMakeServiceEndpointCustom', () => {
     ]);
   });
 
-  it('should return correct tagFilter expression when only endpoint name is provided', () => {
+  it('should return correct configured endpoint expression when only endpoint name is provided', () => {
     const givenForm = testApplicationFormwithoutEndpoint;
-    const { result } = renderHook(() => useMakeServiceEndpointCustom(givenForm) as unknown as TagFilter);
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
     expect(result.current).toEqual([
       {
         entity: 'NOT_APPLICABLE',
@@ -108,7 +108,7 @@ describe('useMakeServiceEndpointCustom', () => {
 
   it('should return correct tagFilter expression when neither service nor endpoint names are provided', () => {
     const givenForm = testApplicationFormwithoutServicandEndpoint;
-    const { result } = renderHook(() => useMakeServiceEndpointCustom(givenForm) as unknown as TagFilter);
+    const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm) as unknown as TagFilter);
     expect(result.current).toEqual([]);
   });
 });

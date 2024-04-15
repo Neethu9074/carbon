@@ -10,7 +10,7 @@ import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/compone
 import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
-export default function SloScopeServiceEndpointForm() {
+export default function SloScopeServiceEndpointPanel() {
   const { form, mode, onChange } = useContext(SloFormContext);
   const applicationIdField = form.getIn(['entity', 'entityId']);
   const endpointIdField = form.getIn(['scope', 'endpointId']);

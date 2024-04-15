@@ -9,7 +9,7 @@ import React, { useContext, useState } from 'react';
 import { Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import SloScopeServiceEndpointForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloScopeServiceEndpointForm';
+import SloScopeServiceEndpointPanel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloScopeServiceEndpointPanel';
 import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import TabSelect, {
   TabSelectHeader,
@@ -25,12 +25,9 @@ export default function ScopeSelection() {
 
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
   const isCustomTag = tagFilterExpressionField.value.length > 0;
-  const service = form.getIn(['scope', 'serviceId']);
-  const endpoint = form.getIn(['scope', 'endpointId']);
   const scopeSelection = isCustomTag ? 'custom' : 'serviceEndpoint';
   const [scope, setScope] = useState(scopeSelection);
   const isFormInEditMode = mode === 'EDIT';
-  const hasServiceEndpoint = (isFormInEditMode && isCustomTag && Boolean(service.value)) || Boolean(endpoint.value);
 
   return (
     <TabSelect
@@ -62,15 +59,10 @@ export default function ScopeSelection() {
       </TabSelectMenu>
       <TabSelectPanels>
         <TabSelectPanel id="serviceEndpoint">
-          <SloScopeServiceEndpointForm />
+          <SloScopeServiceEndpointPanel />
         </TabSelectPanel>
         <TabSelectPanel id="custom">
-          <ApplicationTagFilterBuilder
-            form={form}
-            onChange={onChange}
-            readOnly={isFormInEditMode}
-            hasServiceEndpoint={hasServiceEndpoint}
-          />
+          <ApplicationTagFilterBuilder />
         </TabSelectPanel>
       </TabSelectPanels>
     </TabSelect>

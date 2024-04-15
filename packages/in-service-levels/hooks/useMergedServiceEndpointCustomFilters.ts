@@ -14,7 +14,7 @@ import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import { operators, entityTypes } from 'in-analyze/applicationFilter';
 
-export default function useMakeServiceEndpointCustom(form: SloForm): FormModelElement[] {
+export default function useMergedServiceEndpointCustomFilters(form: SloForm): FormModelElement[] {
   const serviceName = form.getIn(['scope', 'serviceId']).value;
   const endpointName = form.getIn(['scope', 'endpointId']).value;
   const tagFilterValue = form.getIn(['scope', 'tagFilterExpression']).value;

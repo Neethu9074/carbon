@@ -12,6 +12,8 @@ import { titleWidth } from 'in-service-levels/constants';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
+import locals from './BoundaryScopeConfigurator.mless';
+
 interface EndpointSelectBoxProps {
   applicationId: string;
   boundaryScope: ApplicationBoundaryScope;
@@ -42,7 +44,7 @@ export default function EndpointSelectBox({
   });
 
   return (
-    <div>
+    <div className={locals.endpointField}>
       <SelectInSection
         disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
         hasError={hasError}

@@ -26,7 +26,7 @@ const defaultContext: SloFormContextProps = {
   form: defaultForm,
   mode: 'NEW',
   onChange: defaultForm.updateIn,
-  setForm: () => {}
+  setForm: _form => {}
 };
 
 const SloFormContext = createContext<SloFormContextProps>(defaultContext);
