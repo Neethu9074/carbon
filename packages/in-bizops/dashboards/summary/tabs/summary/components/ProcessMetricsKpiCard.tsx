@@ -57,9 +57,9 @@ export default connectTo(
           let kpiValue: number | undefined = undefined;
           if (metric === 'COUNT') {
             // the metric for started_processes looks like [[id, value]]
-            kpiValue = result?.data?.metrics.started_processes[0][1];
+            kpiValue = result?.data?.metrics?.started_processes[0][1];
           } else if (metric === 'ERRORS') {
-            kpiValue = result?.data?.metrics.erroneous_call_count[0][1];
+            kpiValue = result?.data?.metrics?.erroneous_call_count[0][1];
           }
 
           return (
