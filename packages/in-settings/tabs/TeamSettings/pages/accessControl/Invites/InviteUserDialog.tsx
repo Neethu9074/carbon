@@ -238,7 +238,7 @@ export default function InviteUserDialog() {
       <form onSubmit={onSubmitInvitation(canSelectGroup)}>
         <div role="form" className={locals.dialogBody}>
           <Stack direction="vertical" gap="xxsmall">
-            <StackItem>{message && <Message type={message?.type} withIcon title={message?.text} small />}</StackItem>
+            <StackItem>{message && <Message type={message?.type} title={message?.text} small withIcon />}</StackItem>
             <div className={locals.description}>
               <Typography variant="body-regular" component="div">
                 {t('in-settings:tabs.inviteDescription', { tenant: config.tenant })}
