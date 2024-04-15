@@ -86,4 +86,8 @@
   .break {
     flex-basis: 100%;
   }
+
+  .squareHover:before {
+    border-radius: var(--ids-border-radius-option-small);
+  }
 }
