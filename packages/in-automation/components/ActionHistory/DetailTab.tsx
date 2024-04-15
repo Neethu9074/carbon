@@ -23,6 +23,7 @@ import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionD
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -30,7 +31,9 @@ import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { Action, ActionInstance, ActorType } from 'in-types';
+import IconButton from 'in-components/IconButton/IconButton';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -167,7 +170,7 @@ export default function DetailTab({
       actionLane: inActionLane
     },
     {
-      label: t('in-automation:actionHistory.actionContent'),
+      label: t('in-automation:actionHistory.action'),
       value: actionName,
       isLink: true,
       isObservable: true,
@@ -183,7 +186,25 @@ export default function DetailTab({
         ),
       actionLane: inActionLane
     },
-    { label: t('in-automation:actionHistory.actionInstanceId'), value: id },
+    {
+      label: t('in-automation:actionHistory.actionInstanceId'),
+      value: (
+        <div className={locals.manualContentMarkdown}>
+          {id}
+          <CopyToClipboard getText={() => id ?? ''}>
+            {refSetter => (
+              <span ref={refSetter}>
+                <IconButton
+                  color={themes.default.ids.color.option.blue['500']}
+                  onClick={stopPropagationAndPreventDefault}
+                  type="lib_actions_copy"
+                />
+              </span>
+            )}
+          </CopyToClipboard>
+        </div>
+      )
+    },
     {
       label: t('in-automation:actionHistory.hostsLimit'),
       actionLane: false,
@@ -202,7 +223,6 @@ export default function DetailTab({
       )
     }
   ];
-
   if (isAnsible(type)) {
     const ansibleUrl = metadata?.find(data => data.name === 'ansibleUrl');
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
