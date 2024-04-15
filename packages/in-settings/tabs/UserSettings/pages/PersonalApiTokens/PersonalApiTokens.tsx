@@ -28,6 +28,8 @@ import { config } from 'in-services/config';
 import { user } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
+import locals from './PersonalApiTokens.mless';
+
 const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
   const observer = create<PersonalApiToken[]>();
   getPersonalApiTokens(userId).subscribe(it => {
@@ -52,7 +54,7 @@ export default function PersonalApiTokens() {
   return (
     <>
       {unitsData.length > 1 && (
-        <Message type={'neutral'} withIcon>
+        <Message className={locals.message} type={'neutral'} inline withIcon>
           <Trans
             i18nKey="in-settings:tabs.personalApiTokenUnits"
             values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}

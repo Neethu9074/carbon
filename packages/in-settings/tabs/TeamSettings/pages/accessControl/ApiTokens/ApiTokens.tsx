@@ -43,7 +43,7 @@ export default function ApiTokens() {
   return (
     <>
       {unitsData.length > 1 && (
-        <Message type={'neutral'} withIcon>
+        <Message className={locals.message} type={'neutral'} inline withIcon>
           <Trans
             i18nKey="in-settings:tabs.apiTokenUnits"
             values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}

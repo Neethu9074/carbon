@@ -92,7 +92,7 @@ const Groups = () => {
 
   useEffect(() => {
     const result$ = getTenantsWithUnits();
-    result$.once(data => {
+    const disposable = result$.once(data => {
       if (data[config.tenant]?.length > 0) {
         const fetchedTenantWithUnits = data[config.tenant][0] as TenantsWithUnits;
         setTenantsWithUnits(fetchedTenantWithUnits);
@@ -108,6 +108,9 @@ const Groups = () => {
         }
       }
     });
+    return () => {
+      disposable?.dispose();
+    };
   }, [columnDefinitions]);
 
   const getDialogMessage = (group: ApiGroup) => {

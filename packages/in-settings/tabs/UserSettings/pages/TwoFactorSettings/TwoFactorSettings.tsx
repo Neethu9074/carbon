@@ -92,7 +92,7 @@ function render(props: TwoFactorSettingsProps) {
 }
 function TwoFactorDisabled() {
   return (
-    <Message withIcon type="neutral">
+    <Message type="neutral" inline withIcon>
       {t('in-settings:tabs.twoFactorAuthenticationIsCurrentlyDisabledForThisUser')}
     </Message>
   );
@@ -141,7 +141,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }: TwoFactorS
 function TwoFactorVerified({ twoFactorCredentials }: TwoFactorSettingsProps) {
   return (
     <>
-      <Message withIcon type="success">
+      <Message type="success" inline withIcon>
         {t('in-settings:tabs.twoFactorAuthenticationIsEnabledAndVerified')}
       </Message>
       <Section className={locals.scratchCodesSection}>
