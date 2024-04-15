@@ -122,7 +122,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           <Typography variant="body-regular">
             <Trans i18nKey="in-synthetics:dashboard.testList.labelConfirmRemoveTest" values={{ testLabel }} />
           </Typography>
-          <Message type="warning" withIcon>
+          <Message type="warning" withIcon inline>
             {t('in-synthetics:dashboard.configuration.dialog.deleteTestBrowserRefreshInfo')}
           </Message>
           <Label htmlFor="reason">
