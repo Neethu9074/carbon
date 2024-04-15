@@ -126,7 +126,7 @@ describe('useMergedServiceEndpointCustomFilters', () => {
     ]);
   });
 
-  it('should return correct tagFilter expression when neither service nor endpoint names are provided', () => {
+  it('should return empty expression when neither service nor endpoint names are provided', () => {
     const givenForm = testApplicationFormwithoutServiceandEndpoint;
     const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
     expect(result.current).toEqual([]);
