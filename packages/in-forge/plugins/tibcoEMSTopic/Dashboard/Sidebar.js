@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { Collapsible } from '@instana/components';
+
 import Info from 'in-forge/plugins/tibcoEMSTopic/Info';
 import { t } from 'in-i18n';
 

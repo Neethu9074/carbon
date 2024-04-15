@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "Si consiglia di eseguire il sensore AWS Instana su una macchina virtuale Linux per \"Uso generale di generazione attuale\" EC2 dedicata. Le istanze m4.large, ad esempio, sono perfettamente adatte per l'attività. Utilizzare quanto segue come \"Dati utente\" durante la creazione della macchina virtuale EC2 dedicata.",
+    "description": "Ti consigliamo di eseguire il sensore Instana AWS su una macchina virtuale EC2dedicata, \"Current Generation General Purpose\" Linux. Le istanze m5.large, ad esempio, sono perfettamente adatte all'attività. Utilizzare quanto segue come \"Dati utente\" quando si avvia la macchina virtuale EC2 dedicata.",
     "help": {
       "title": "Dati utente in AWS EC2",
       "text": "Per ulteriori informazioni sull'utilizzo dello script precedente con Dati utente in AWS EC2, fare riferimento alla pagina <go>\"Esecuzione di comandi sull'istanza Linux durante l'avvio\"</go>."

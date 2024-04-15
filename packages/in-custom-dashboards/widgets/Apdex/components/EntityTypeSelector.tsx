@@ -6,10 +6,10 @@
 
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import { ApdexEntityTypes, AvailableEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 import { t } from 'in-i18n';
 
 export interface EntityTypeSelectorProps {

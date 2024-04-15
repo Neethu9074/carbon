@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import getEcsContainersForEcsTask from 'in-subscription/getEcsContainersForEcsTask';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/awsEcsTask/Info';
 import { t } from 'in-i18n';

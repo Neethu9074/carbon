@@ -415,6 +415,7 @@
     "viewSwitcherLabelzhmc": "HMC do IBM Z",
     "viewSwitcherLabelPlatforms": "Plataformas",
     "viewSwitcherButtonSignOut": "Sair",
+    "viewSwitcherCustomDashboards": "Painéis customizados",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nova versão da IU da Instana disponível",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Recarregue para atualizar"
   },

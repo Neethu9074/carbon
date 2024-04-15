@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import Info from 'in-forge/plugins/azureDatabricks/Info';
+import { Collapsible } from '@instana/components';
+
 // @ts-expect-error Module needs to be translated to TS
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import Info from 'in-forge/plugins/azureDatabricks/Info';
 import { t } from 'in-i18n';
 
 export default function AzureDatabricksSidebar({ snapshot }: { snapshot: SnapshotData }) {

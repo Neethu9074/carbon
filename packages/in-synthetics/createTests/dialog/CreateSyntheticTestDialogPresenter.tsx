@@ -102,6 +102,18 @@ const CreateSyntheticTestDialogPresenter = ({
   const [customProperties, setCustomProperties] = useState(getDefaultCustomProperties(form));
   const [invalidCustomProperty, setInvalidCustomProperty] = useState({ invalid: false, message: '' });
 
+  // Certificate Check API Script
+  const [certificateCheckHostNameError, setCertificateCheckHostNameError] = useState({
+    invalid: true,
+    message: '',
+    touched: false
+  });
+  const [certificateCheckDaysRemainingError, setCertificateCheckDaysRemainingError] = useState({
+    invalid: true,
+    message: '',
+    touched: false
+  });
+
   /**
    * A single form is being rendered in multiple pages in the simple mode
    * It makes the form validation hard as on clicking the proceed button it has to validate only the rendered
@@ -174,6 +186,15 @@ const CreateSyntheticTestDialogPresenter = ({
     );
   };
 
+  const certificateCheckErrorExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    const certificateCheckField = configForm.get('certificateCheck') as Field<boolean>;
+    return (
+      syntheticTypeField.value === 'HTTPScript' &&
+      certificateCheckField.value &&
+      (certificateCheckHostNameError.invalid || certificateCheckDaysRemainingError.invalid)
+    );
+  };
+
   const isProceedDisabledAdvanced = () => {
     const configForm = form.get('configuration') as MapForm<any>;
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
@@ -192,6 +213,7 @@ const CreateSyntheticTestDialogPresenter = ({
       HTTPActionErrorsExist(configForm, syntheticTypeField) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       scriptErrorExist(configForm, syntheticTypeField) ||
+      certificateCheckErrorExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -334,6 +356,10 @@ const CreateSyntheticTestDialogPresenter = ({
             setInvalidCustomProperty={setInvalidCustomProperty}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
+            certificateCheckHostNameError={certificateCheckHostNameError}
+            setCertificateCheckHostNameError={setCertificateCheckHostNameError}
+            certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
+            setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />
         )}
       </div>

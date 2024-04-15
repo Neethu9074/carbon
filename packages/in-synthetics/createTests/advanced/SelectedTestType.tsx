@@ -16,6 +16,7 @@ import SimpleOrScriptOption from 'in-synthetics/createTests/advanced/SimpleOrScr
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
 
@@ -46,6 +47,13 @@ const scriptAPIDescription = (
   <>
     <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
     <p>{t('in-synthetics:dialog.createTest.bluePrint.apiScript.whenToUse.line1')}</p>
+  </>
+);
+
+const certificateCheckDescription = (
+  <>
+    <b>{t('in-synthetics:dialog.createTest.bluePrint.title')}</b>
+    <p>{t('in-synthetics:dialog.createTest.bluePrint.certificateCheck.whenToUse.line1')}</p>
   </>
 );
 
@@ -105,6 +113,18 @@ const SelectedTestType = ({
         );
       case 'Internet Services':
         return <RenderInternetServices selectedBlueprint={selectedBlueprint} />;
+      case 'Certificate Check':
+        return (
+          <RenderCertificateCheck
+            selectedBlueprint={selectedBlueprint}
+            setTestTypeSelected={setTestTypeSelected}
+            testTypeSelected={testTypeSelected}
+            commonAttributes={commonAttributes}
+            setCommonAttributes={setCommonAttributes}
+            isUpdateConfig={isUpdateConfig}
+            setScriptDetails={setScriptDetails}
+          />
+        );
       default:
         return (
           <RenderHttpTests
@@ -155,6 +175,56 @@ const SelectedTestType = ({
   );
 };
 
+// Certificate Check
+interface RenderCertificateCheckProps {
+  selectedBlueprint: AdvancedBluePrint;
+  setTestTypeSelected: (t: TestTypeSelected) => void;
+  testTypeSelected: TestTypeSelected;
+  commonAttributes: Record<string, any>;
+  setCommonAttributes: (type: Record<string, any>) => void;
+  isUpdateConfig: boolean;
+  setScriptDetails: React.Dispatch<React.SetStateAction<Code>>;
+}
+
+const RenderCertificateCheck = ({
+  selectedBlueprint,
+  setTestTypeSelected,
+  testTypeSelected,
+  commonAttributes,
+  setCommonAttributes,
+  isUpdateConfig,
+  setScriptDetails
+}: RenderCertificateCheckProps) => {
+  const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
+  return (
+    <>
+      <h3 className={locals.headline}>
+        <span>{selectedBlueprint.description.headline}</span>
+      </h3>
+      <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
+      <Row>
+        <Col lg={6} className={locals.column}>
+          <SimpleOrScriptOption
+            checked={!testTypeSelected?.api.script ? script : testTypeSelected?.api.script}
+            title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckTitle')}
+            description={certificateCheckDescription}
+            onChange={() => {
+              //@ts-expect-error
+              setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
+                return { ...prevState, api: { simple: false, script: true } };
+              });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'HTTPScript' });
+              setScriptDetails({ modified: false, name: '' });
+            }}
+            disabled={isUpdateConfig}
+            asRadioButton
+          />
+        </Col>
+      </Row>
+    </>
+  );
+};
+
 interface RenderHttpTestsProps {
   selectedBlueprint: AdvancedBluePrint;
   testTypeSelected: TestTypeSelected;
@@ -176,6 +246,8 @@ const RenderHttpTests = ({
 }: RenderHttpTestsProps) => {
   const simple: boolean = commonAttributes.syntheticType === 'HTTPAction' ? true : false;
   const script: boolean = commonAttributes.syntheticType === 'HTTPScript' ? true : false;
+  const isCertificateCheckScript: boolean =
+    selectedBlueprint.type === 'Certificate Check' && syntheticCertificateCheckEnabled;
   return (
     <>
       <h3 className={locals.headline}>
@@ -202,6 +274,7 @@ const RenderHttpTests = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
+            isCertificateCheckScript={isCertificateCheckScript}
           />
         </Col>
         <Col lg={6} className={locals.column}>
@@ -223,6 +296,7 @@ const RenderHttpTests = ({
             }}
             disabled={isUpdateConfig}
             asRadioButton
+            isCertificateCheckScript={isCertificateCheckScript}
           />
         </Col>
       </Row>

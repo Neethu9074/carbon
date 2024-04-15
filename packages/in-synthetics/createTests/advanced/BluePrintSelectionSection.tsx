@@ -12,9 +12,9 @@ import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { syntheticBrowserCreateTestEnabled, syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Menu from 'in-components/Menu';
 
@@ -107,7 +107,7 @@ const SelectionMenu = ({
   return (
     <div className={classNames(locals.container, { [locals.disabled]: isUpdateConfig })}>
       <Menu
-        items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled)}
+        items={getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled, syntheticCertificateCheckEnabled)}
         addRightSeparator
         onItemClick={item => {
           setCommonAttributes({ ...commonAttributes, syntheticType: '' });

@@ -5,10 +5,11 @@
 
 import React, { Fragment } from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { positiveNumber } from 'in-services/formatters/number';
 import { minutes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

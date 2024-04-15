@@ -6,6 +6,7 @@
 import React, { Fragment, useEffect } from 'react';
 
 import { ResultPrecisionDetails } from '@instana/types';
+import { ButtonGroup } from '@instana/components';
 import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -21,7 +22,6 @@ import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/servi
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
-import ButtonGroup from 'in-components/ButtonGroup';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

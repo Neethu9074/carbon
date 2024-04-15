@@ -5,7 +5,12 @@
 
 import React from 'react';
 
-import FormFooter, { SaveButton, CancelButton, DeleteButton } from 'in-components/form/FormFooter/FormFooter';
+import FormFooter, {
+  SaveButton,
+  CancelButton,
+  DeleteButton,
+  PreviousButton
+} from 'in-components/form/FormFooter/FormFooter';
 
 export default {
   component: FormFooter
@@ -17,6 +22,7 @@ export const Default = () => {
       <SaveButton />
       <CancelButton />
       <DeleteButton />
+      <PreviousButton />
     </FormFooter>
   );
 };

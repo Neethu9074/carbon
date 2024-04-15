@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "我们建议在专用的 EC2“当前代通用”Linux 虚拟机上运行 Instana AWS 传感器。例如，m4.large 实例完全适合该任务。在启动专用 EC2 虚拟机时，请将以下内容用作“用户数据”。",
+    "description": "我们建议在专用 EC2（最新一代通用 Linux 虚拟机）上运行 Instana AWS 传感器。 例如，m5.large 实例完美适合运行该任务。 在旋转专用 EC2 虚拟机时，请将以下内容用作“用户数据”。",
     "help": {
       "title": "AWS EC2 中的用户数据",
       "text": "有关如何将上述脚本用于 AWS EC2 中用户数据的更多信息，请参阅<go>“启动时对您的 Linux 实例运行命令”页面。</go> "

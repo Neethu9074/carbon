@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "Contenus",
             "title": "Contenu personnalisé"
-          },
-          "actionsOptional": {
-            "label": "Actions",
-            "title": "Associations d'action"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculer pour chaque fenêtre d'évaluation",
         "timeThresholdConfigNumberOfViolations": "Nombre de violations de mesures",
         "timeThresholdConfigEvaluationGranularity": "Granularité de l'évaluation",
+        "granularityTooltipText": "La granularité temporelle définie ici détermine la fréquence d'évaluation du seuil.",
         "timeThresholdConfigNumberOfTracesThreshold": "Nombre de traces impactées",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Nombre d'utilisateurs impactés",
         "timeThresholdConfigAtLeast": "Au moins",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "Porté : où cette condition se produit-elle ?",
         "thresholdLabel": "Seuil",
         "thresholdTitle": "Seuil : Quand la condition n'est-elle pas respectée ?",
-        "userImpactInfo": "Seuls les utilisateurs authentifiés sont pris en compte pour le seuil d'impact utilisateur.",
         "payloadsLabel": "Contenus",
         "payloadsTitle": "Contenus personnalisés"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "Portée",
         "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
         "alertConfigurationTitleTimeThreshold": "Seuil de temps",
-        "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
-        "predictiveTrigger": {
-          "title": "Déclencher l'alerte de manière prédictive à l'avance"
-        }
+        "alertConfigurationTitleAlertProperties": "Propriétés d'alerte"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "Seuil de temps : quand voulez-vous être alerté ?"
         },
         "predictiveTrigger": {
-          "title": "Déclencheur prédictif",
+          "title": "Les alertes prédictives sont désactivées",
+          "alertTitle": "L'alerte sera déclenchée {{value}} avant la violation prévue",
           "timeToFailure": "Délai jusqu'à l'échec"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Portée",
-          "title": "Porté : où cette condition se produit-elle ?"
+          "title": "Porté : où cette condition se produit-elle ?",
+          "metric": "Métrique"
         },
         "threshold": {
           "label": "Seuil",
-          "title": "Seuil : Quand la condition n'est-elle pas respectée ?"
+          "title": "Seuil : Quand la condition n'est-elle pas respectée ?",
+          "tooltipText": "La valeur de seuil définie ici sera évaluée en fonction de la granularité temporelle spécifiée ci-dessous."
         },
         "timeThreshold": {
           "label": "Seuil de temps",
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
-        "noMetricSelected": "Aucune métrique sélectionnée"
+        "noDataForSelectedGroup": "Aucune donnée n'est disponible pour la combinaison de filtres et de regroupements spécifiée."
       },
-      "logs": "Journaux"
+      "logCount": "Nombre de journaux"
     }
   }
 }

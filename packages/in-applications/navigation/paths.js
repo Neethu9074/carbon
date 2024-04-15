@@ -82,6 +82,8 @@ export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
 
+export const smartAlertPath = '/applicationSmartalerts';
+
 export const analyzePath = '/analyze';
 
 export const analyzeTwoParameters = createParameters(analyzePath);

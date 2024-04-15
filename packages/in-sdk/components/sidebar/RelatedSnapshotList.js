@@ -5,12 +5,13 @@
 
 import React, { Fragment } from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import {
   trackSidebarRelatedEntitiesExpanded,
   trackSidebarRelatedEntitiesClicked
 } from 'in-infrastructure/tracking/tracking';
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';

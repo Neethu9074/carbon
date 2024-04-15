@@ -15,12 +15,12 @@ import locals from './ConfigureIdPInfoMessage.mless';
 export default function ConfigureIdPInfoMessage() {
   return (
     <>
-      <Message withIcon className={locals.message}>
+      <Message withIcon className={locals.message} inline>
         <Trans
           i18nKey="in-settings:tabs.configureIdPCanBeDeletedThroughAPI"
           components={{
             supportLink: (
-              // @ts-expect-error required prop children will be filled via i18n translation
+              //@ts-expect-error required prop children will be filled via i18n translation
               <Link
                 external
                 href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-configuring-authentication"

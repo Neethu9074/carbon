@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "積載量",
             "title": "カスタム・ペイロード"
-          },
-          "actionsOptional": {
-            "label": "アクション",
-            "title": "アクションの関連付け"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "評価ウィンドウごとに計算",
         "timeThresholdConfigNumberOfViolations": "メトリック違反の数",
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
+        "granularityTooltipText": "ここで設定する時間の細分度によって、しきい値が評価される頻度が決まります。",
         "timeThresholdConfigNumberOfTracesThreshold": "影響を受けたトレースの数",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザー数",
         "timeThresholdConfigAtLeast": "最小",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "スコープ: 状況が発生している場所",
         "thresholdLabel": "しきい値",
         "thresholdTitle": "しきい値: どのような場合に条件に違反するか",
-        "userImpactInfo": "ユーザーへの影響のしきい値として考慮されるのは、認証されたユーザーのみです。",
         "payloadsLabel": "積載量",
         "payloadsTitle": "カスタム・ペイロード"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "範囲",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
-        "predictiveTrigger": {
-          "title": "事前にアラートを予測的にトリガーする"
-        }
+        "alertConfigurationTitleAlertProperties": "アラートのプロパティー"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "時間しきい値: アラートを出すタイミング"
         },
         "predictiveTrigger": {
-          "title": "予測トリガー",
+          "title": "予測アラートが無効になっています",
+          "alertTitle": "アラートは、予測される違反の前に {{value}} トリガーされます",
           "timeToFailure": "障害までの時間"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "範囲",
-          "title": "スコープ: 状況が発生している場所"
+          "title": "スコープ: 状況が発生している場所",
+          "metric": "メトリック"
         },
         "threshold": {
           "label": "しきい値",
-          "title": "しきい値: どのような場合に条件に違反するか"
+          "title": "しきい値: どのような場合に条件に違反するか",
+          "tooltipText": "ここで定義されたしきい値は、以下で指定された時間の細分度に基づいて評価されます。"
         },
         "timeThreshold": {
           "label": "時間しきい値",
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
-        "noMetricSelected": "メトリックが選択されていない"
+        "noDataForSelectedGroup": "指定されたフィルターとグループ化の組み合わせで使用可能なデータがありません。"
       },
-      "logs": "Logs"
+      "logCount": "ログ・カウント"
     }
   }
 }

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.js';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 import Info from '../Info';
 

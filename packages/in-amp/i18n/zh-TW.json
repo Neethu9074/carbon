@@ -53,7 +53,12 @@
       "apmHosts": "APM 主機",
       "purchased": "已採購",
       "infrastructureUsage": "基礎架構使用情形",
-      "iqmHosts": "IQM 主機"
+      "iqmHosts": "IQM 主機",
+      "syntheticPops": "綜合管理的 PoPs",
+      "resourceUnits": "資源單位數",
+      "consumedUnits": "已耗用單元數",
+      "addons": "附加程式",
+      "helperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。"
     },
     "activationAdoption": {
       "activationAdoption": "啟動與採用",

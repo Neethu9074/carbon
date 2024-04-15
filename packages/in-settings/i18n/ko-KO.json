@@ -67,10 +67,10 @@
     "allApplications": "모든 애플리케이션",
     "allWebsites": "모든 웹 사이트",
     "allMobileApps": "모든 모바일 앱",
+    "businessMonitoringAccessAllMessage": "모든 비즈니스 프로세스",
     "kubernetes": "Kubernetes",
     "allSynthetics": "모든 합성 테스트",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}}개 권한",
-    "role": "사용자 정의",
     "role_owner": "소유자",
     "role_viewer": "뷰어",
     "role_permissions": "알 수 없음 - {{quantityOfAreas}} 액세스",
@@ -84,6 +84,7 @@
     "platform_permissions": "{{quantityOfAreas}} 액세스",
     "analyticsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 플랫폼 및 인프라에서 액세스 범위로 정의된 분석에서 데이터를 볼 수 있음",
     "infrastructureContentMessage": "애플리케이션, 플랫폼, 인프라에서 액세스 범위 및 선택적으로 DFQ로 정의된 엔티티를 볼 수 있음",
+    "infrastructureAccessAllMessage": "모든 엔티티",
     "eventsAndAlertsContentMessage": "웹 사이트, 모바일 앱, 애플리케이션, 합성 모니터링, 플랫폼 및 인프라에 정의된 액세스 범위에 따라 이벤트 및 경보를 볼 수 있음",
     "permissions": "권한",
     "additionalPermissions": "추가 권한",
@@ -112,6 +113,7 @@
     "title_mobileApps": "모바일 앱",
     "title_platforms": "플랫폼",
     "title_websites": "웹 사이트",
+    "title_businessMonitoring": "비즈니스 모니터링",
     "title_syntheticMonitoring": "합성 모니터링"
   },
   "headingSection": {
@@ -136,11 +138,11 @@
     "descriptionLimitedAccess_applications": "역할을 선택하고 아래 애플리케이션을 추가하여 액세스 권한을 부여하십시오.",
     "descriptionAccessAll_applications": "선택한 역할로 모든 애플리케이션에 액세스할 수 있습니다.",
     "deleteButton": "목록에서 {{name}} 제거",
-    "infrastructureAccessScope": "액세스 범위",
     "infrastructureDfqHeader": "동적 초점 쿼리(DFQ)",
     "infrastructureDfqUse": "또한, 아래의 동적 초점 쿼리를 사용하여 인프라에 대한 액세스 권한을 부여할 수 있습니다.",
     "infrastructureDfqMore": "자세히 보기",
-    "descriptionViewerAccess_infrastructure": "애플리케이션 및 플랫폼에 부여된 액세스 권한과 관련된 모든 엔티티 대시보드를 볼 수 있습니다.",
+    "infrastructureDfqToggleLabel": "동적 초점 쿼리(DFQ)를 사용한 추가 액세스",
+    "infrastructureDfq_mayNotBeBlank": "값은 공백이 아니어야 합니다.",
     "descriptionAccessAll_kubernetes": "모든 네임스페이스 및 클러스터를 볼 수 있습니다.",
     "descriptionAccessNo_kubernetes": "네임스페이스 및 클러스터에 대한 액세스 권한이 없습니다.",
     "descriptionAccessLimited_kubernetes": "액세스 권한을 부여하려면 아래에서 네임스페이스와 클러스터를 선택합니다.",
@@ -152,7 +154,7 @@
     "descriptionAccessAll_synthetics": "선택한 역할로 모든 합성 테스트에 액세스할 수 있습니다.",
     "descriptionLimitedAccess_synthetics": "역할을 선택하고 아래 합성 테스트를 추가하여 액세스 권한을 부여하십시오.",
     "contribution_filter": "컨트리뷰션 필터",
-    "contributionFilter_description": "컨트리뷰션 필터는 새 애플리케이션 구성을 작성할 때 적용됩니다. 애플리케이션 구성에서 {{logicalOperator}} 연산자 다음에 필터 태그를 사용하여 컨트리뷰션 필터를 세분화할 수 있습니다.",
+    "contributionFilter_description": "컨트리뷰션 필터는 새 애플리케이션 구성을 작성할 때 적용됩니다. 애플리케이션 구성에서 {{logicalOperator}} 연산자 다음에 필터 태그로 컨트리뷰션 필터를 세분화할 수 있습니다. 저장하면 컨트리뷰션 필터 태그를 사용하는 애플리케이션 퍼스펙티브가 자동으로 작성됩니다.",
     "contributionFilter_downstreamCalls": "애플리케이션 퍼스펙티브에 포함될 수 있는 추가 정보의 최대 레벨을 판별하십시오.",
     "contributionFilter_name": "이름",
     "contributionFilter_name_mayNotBeBlank": "컨트리뷰션 필터 이름은 공백이 아니어야 합니다.",
@@ -183,6 +185,10 @@
     "description_no_access_infrastructure": "액세스 없음: 인프라에 대한 액세스가 거부되었습니다.",
     "description_no_access_synthetics": "액세스 없음: 합성 모니터링에 대한 액세스가 거부되었습니다.",
     "description_access_all": "제한 없이 모두 액세스",
+    "title_access_all_bizops": "무제한 액세스",
+    "title_no_access_bizops": "액세스가 거부됨",
+    "description_access_all_bizops": "비즈니스 모니터링의 모든 기능에 제한 없이 액세스할 수 있습니다.",
+    "description_no_access_bizops": "비즈니스 모니터링에 대한 액세스가 거부되었습니다.",
     "description_access_all_except_contributor": "모두 액세스-컨트리뷰터로 액세스되는 항목을 제외하고 모두 액세스",
     "role": "역할 선택",
     "roleSelection": "역할",
@@ -197,9 +203,10 @@
     "roleTooltip_synthetics": "뷰어: 합성 테스트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). <br /> 소유자: 새 합성 테스트를 작성하고, 합성 테스트를 보고, 구성 및 삭제하고, 합성 위치를 보고 삭제할 수 있습니다.",
     "contribution_filter_accessScope": "제한된 액세스 범위 (뷰어)",
     "contribution_filter_warning": {
-      "firstParagraph": "저장하는 변경사항은 이 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브를 업데이트합니다.",
-      "secondParagraph": "액세스 유형을 변경하면 컨트리뷰션 필터가 삭제됩니다. 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브는 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 편집할 수 있습니다."
-    }
+      "firstParagraph": "저장하는 변경사항은 이 컨트리뷰션 필터를 사용하는 모든 애플리케이션 퍼스펙티브 및 컨트리뷰션 필터 태그를 사용하여 자동으로 작성되는 애플리케이션 퍼스펙티브에 영향을 줍니다.",
+      "secondParagraph": "액세스 유형을 변경하면 컨트리뷰션 필터가 삭제됩니다. 모든 관련 애플리케이션 퍼스펙티브 구성의 컨트리뷰션 필터 태그는 애플리케이션 섹션에 대한 소유자 액세스 권한이 있는 모든 사용자가 편집할 수 있습니다."
+    },
+    "applicationCreatedUsingContributionFilter": "이 애플리케이션 퍼스펙티브는 컨트리뷰션 필터를 사용하여 자동으로 작성되고 업데이트됩니다."
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +217,18 @@
       "limited_access": {
         "access_level": "선택한 액세스 유형 및 추가 권한이 있는 나열된 애플리케이션에만 액세스합니다.",
         "access_level_contributor": "사용자 또는 그룹 세부사항의 액세스 구성 분할창에서 컨트리뷰터 액세스 권한이 있는 애플리케이션을 찾을 수 있습니다. <br /><br />컨트리뷰터로 적용된 컨트리뷰션 필터를 사용하여 애플리케이션 퍼스펙티브에 액세스합니다. <br />선택한 애플리케이션 퍼스펙티브를 뷰어로 액세스",
-        "role_permissions_contributor": "컨트리뷰션 필터가 적용된 애플리케이션 대시보드를 작성하십시오. 컨트리뷰션 필터에 대해 작성된 이러한 애플리케이션 대시보드를 보고, 구성하고, 삭제하십시오."
+        "role_permissions_contributor": "컨트리뷰션 필터가 적용된 애플리케이션 퍼스펙티브를 작성하십시오. 컨트리뷰션 필터에 대해 작성된 이러한 애플리케이션 퍼스펙티브를 보고, 구성하고, 삭제하십시오."
       },
       "role_permissions_owner": "애플리케이션 퍼스펙티브를 작성, 구성, 보기 및 삭제합니다.",
       "role_permissions_viewer": "애플리케이션 퍼스펙티브 및 해당 구성을 봅니다."
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "애플리케이션 및 플랫폼에 부여된 액세스와 관련된 이 단위 아래의 모든 엔티티 대시보드에 액세스합니다."
+      "access_all": {
+        "access_level": "선택한 권한으로 모든 엔티티 대시보드에 액세스하십시오."
       },
-      "role_permissions_owner": "엔티티 대시보드를 봅니다.",
+      "limited_access": {
+        "access_level": "다른 Instana 섹션에서 부여된 액세스를 통해 볼 수 있는 엔티티에만 액세스하십시오."
+      },
       "role_permissions_viewer": "엔티티 대시보드를 봅니다."
     },
     "kubernetes": {
@@ -293,7 +302,7 @@
     "backToParentViewName": "{{parentViewName}}(으)로 돌아가기",
     "search": "검색...",
     "confirmRemoveItem": "<strong>{{itemName}}</strong>을(를) 제거하시겠습니까?",
-    "confirmSaveGroup": "이러한 업데이트를 저장하면 {{numberOfContributorAPs}} 애플리케이션 퍼스펙티브에서 컨트리뷰션 필터가 제거되고 사용 안함으로 설정됩니다.",
+    "confirmSaveGroup": "이러한 업데이트를 저장하면 컨트리뷰션 필터가 삭제됩니다.<br/> <strong>{{numberOfContributorAPs}}</strong> 애플리케이션 퍼스펙티브 구성의 컨트리뷰션 필터 태그는 애플리케이션 섹션에서 소유자 액세스 권한이 있는 모든 사용자가 편집할 수 있습니다.<br/><br/>제한된 액세스 범위의 경우 액세스 권한을 부여하도록 애플리케이션 퍼스펙티브를 선택했는지 확인하십시오.",
     "enable": "사용",
     "disable": "사용 안함",
     "deleteEntity": "{{entity}} 삭제.",
@@ -487,23 +496,13 @@
     "alertChannels": "경보 채널",
     "alertChannelEntityName": "{{entityName}} 경보 채널",
     "noEventsSelected": "선택한 이벤트 없음",
-    "noActionsSelected": "조치가 선택되지 않음",
-    "addActions": "조치 추가",
     "addEvents": "이벤트 추가",
     "pleaseSelectAtLeastOneEvent": "하나 이상의 이벤트를 선택하십시오.",
-    "pleaseSelectAtLeastOneAction": "하나 이상의 조치를 선택하십시오.",
     "addNumberOfItemsEvent": "{{count}}개 이벤트 추가",
     "addNumberOfItemsEvent_plural": "{{count}}개 이벤트 추가",
-    "addNumberOfItemsAction": "{{count}}개의 조치 추가",
-    "addNumberOfItemsAction_plural": "{{count}}개의 조치 추가",
-    "addNumberOfItemsAction_0": "{{count}}개의 조치 추가",
-    "addNumberOfItemsAction_1": "{{count}}개의 조치 추가",
-    "addNumberOfItemsAction_2": "{{count}}개의 조치 추가",
     "addNumberOfItemsEvent_0": "{{count}}개 이벤트 추가",
     "addNumberOfItemsEvent_1": "{{count}}개 이벤트 추가",
     "addNumberOfItemsEvent_2": "{{count}}개 이벤트 추가",
-    "actionAssociationsStep": "{{step}}. 조치 연관",
-    "ActionAssociations": "조치 연관",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>주의!</strong> 이벤트 유형이 일치하는 모든 이벤트는 알림 스트림을 입력합니다.",
     "dfqFormDesc": "구성이 적용되는 엔티티에 대해 정의하는 <strong>비어 있지 않은</strong> 필터 조회입니다. 모든 엔티티에 이 규칙을 적용하려는 경우 <em>\"적용 대상: 사용 가능한 모든 엔티티\"</em>를 선택하십시오. 구문에 대한 자세한 정보는 <docLink>문서</docLink>를 참조하십시오.",
     "addNumberOfItemsApplicationPerspective": "{{count}}개 애플리케이션 퍼스펙티브 추가",
@@ -801,7 +800,8 @@
     "groupDeleteTooltip_Default": "기본 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
     "groupDeleteTooltip_Owner": "소유자 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
     "deleteGroupMessage": "이 테넌트의 모든 단위에서 <strong>{{groupName}}</strong>을(를) 제거하시겠습니까?",
-    "thisWillRemoveContributionFilterMessage": "이렇게 하면 <strong>{{apCount}}</strong> 애플리케이션 퍼스펙티브에서 컨트리뷰션 필터가 제거되고 사용 안함으로 설정됩니다.",
+    "thisWillRemoveContributionFilterMessage": "그러면 컨트리뷰션 필터에서 <strong>{{apCount}}</strong>개의 애플리케이션 퍼스펙티브가 제거됨",
+    "thisWillRemoveContributionFilterFromOtherUnits": "이렇게 하면 다른 단위에 정의된 컨트리뷰션 필터 및 컨트리뷰션 필터에서 <strong>{{apCount}}</strong>개의 애플리케이션 퍼스펙티브가 제거됩니다.",
     "addGroup": "새 그룹",
     "pendingInvitations": "보류 중인 초대",
     "revoke": "취소",
@@ -1123,6 +1123,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow 경보 채널",
     "serviceNowUsernameTooltip": "사용자 이름 및 비밀번호는 인시던트 작성 권한이 있는 ServiceNow 사용자에 대한 항목이어야 합니다.",
+    "autoCloseIncidents": "인시던트 자동 닫기",
     "showPasswordTooltip": "비밀번호 표시",
     "hidePasswordTooltip": "비밀번호 숨기기",
     "scope": "범위",

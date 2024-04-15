@@ -73,7 +73,7 @@ function highlight(matchResult: Fuzzysort.KeysResult<Options>): Options {
   var label = highlightResult(matchResult[0]);
   var description = highlightResult(matchResult[1]);
   let parentLabels = [];
-  if (matchResult.obj.parentLabels.length > 0) {
+  if (matchResult.obj.parentLabels?.length > 0) {
     const parentLabel0Highlighted = highlightResult(matchResult[2]);
     parentLabels.push((parentLabel0Highlighted && <>{parentLabel0Highlighted}</>) || matchResult.obj.parentLabels[0]);
     if (matchResult.obj.parentLabels.length > 1) {

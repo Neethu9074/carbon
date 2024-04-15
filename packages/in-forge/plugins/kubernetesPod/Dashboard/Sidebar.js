@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 import Info from '../Info';
 

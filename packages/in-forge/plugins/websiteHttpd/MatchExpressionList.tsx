@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 
 export default function MatchExpressionList({ snapshot }: { snapshot: any }) {
@@ -18,24 +19,24 @@ export default function MatchExpressionList({ snapshot }: { snapshot: any }) {
   }
 
   return (
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>
-          {t('in-forge:plugins.eum.matchExpressionsWithSize', { size: matchExpressions.size })}
-        </Collapsible.Header>
-        <Collapsible.Content>
-          <DescriptionList>
-            {matchExpressions
-              .map((matchExpression: any) => (
-                <DescriptionItem
-                  key={[matchExpression.get('key'), matchExpression.get('operator')].join(':')}
-                  title={matchExpression.get('key')}
-                >
-                  {[matchExpression.get('operator'), matchExpression.get('values').join(', ')].join(' ')}
-                </DescriptionItem>
-              ))
-              .toArray()}
-          </DescriptionList>
-        </Collapsible.Content>
-      </Collapsible>
+    <Collapsible initiallyOpen>
+      <Collapsible.Header>
+        {t('in-forge:plugins.eum.matchExpressionsWithSize', { size: matchExpressions.size })}
+      </Collapsible.Header>
+      <Collapsible.Content>
+        <DescriptionList>
+          {matchExpressions
+            .map((matchExpression: any) => (
+              <DescriptionItem
+                key={[matchExpression.get('key'), matchExpression.get('operator')].join(':')}
+                title={matchExpression.get('key')}
+              >
+                {[matchExpression.get('operator'), matchExpression.get('values').join(', ')].join(' ')}
+              </DescriptionItem>
+            ))
+            .toArray()}
+        </DescriptionList>
+      </Collapsible.Content>
+    </Collapsible>
   );
 }

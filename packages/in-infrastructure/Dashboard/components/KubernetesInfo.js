@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import {
   useDeploymentDashboard,
   useNamespaceDashboard,
@@ -21,7 +23,6 @@ import getPodForContainerSubscription from 'in-subscription/podForContainer';
 import getNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import getClusterForPodSubscription from 'in-subscription/clusterForPod';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';

@@ -6,10 +6,11 @@
 
 import React, { Fragment } from 'react';
 
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { Collapsible } from '@instana/components';
+
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Info from 'in-forge/plugins/drbdDevice/Info';
 import { t } from 'in-i18n';
-import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 export default function DrbdDeviceSidebar({ snapshot }: { snapshot: SnapshotData }) {
   return (

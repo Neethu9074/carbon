@@ -20,11 +20,13 @@ import {
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracker';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
@@ -152,6 +154,20 @@ function renderButtonLine(props) {
     />
   );
 
+  const smartAlertCreateButton = isGlobalAlertConfig ? (
+    <CreateSmartAlertButton
+      isGlobal
+      buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlert')}
+      isFloatingButton
+    />
+  ) : (
+    <CreateSmartAlertButton
+      isGlobal={false}
+      buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
+      isFloatingButton
+    />
+  );
+
   const allowActionButtons = isGlobalAlertConfig
     ? role.canConfigureGlobalApplicationSmartAlerts
     : role.canConfigureApplicationSmartAlerts;
@@ -178,7 +194,9 @@ function renderButtonLine(props) {
         timeConfig={timeConfig}
         groupBy={createGroupBy('service.name', DESTINATION)}
       />
-
+      {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && (
+        <FloatingActionButtons>{smartAlertCreateButton}</FloatingActionButtons>
+      )}
       {showAlertButton && <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>}
     </>
   );

@@ -132,5 +132,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "基础架构智能警报"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "选择标记",
+    "titleAddATag": "添加标记",
+    "messagePleaseSelectAtMostTags": "请最多选择 {{maximumNumberOfTags}} 个标记。"
   }
 }

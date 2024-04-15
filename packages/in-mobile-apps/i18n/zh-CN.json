@@ -7,6 +7,26 @@
     "crash": "崩溃"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "活动名称",
+          "activityClassName": "活动类名",
+          "activityLocalPathName": "活动本地路径",
+          "fragmentScreenName": "片段名称",
+          "fragmentClassName": "片段类名",
+          "fragmentLocalPathName": "片段本地路径",
+          "activeFragmentList": "活动片段列表",
+          "activityResumeTime": "活动恢复时间",
+          "fragmentResumeTime": "片段恢复时间"
+        },
+        "ios": {
+          "accessibilityLabel": "辅助功能选项标签",
+          "navigationItemTitle": "导航项标题",
+          "className": "类名"
+        }
+      }
+    },
     "uniqueUsers": "唯一用户数",
     "metrics": {
       "timestampMetricName": "时间戳记",

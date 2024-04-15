@@ -50,7 +50,7 @@
       "agentKey": "Clave de agente"
     },
     "common": {
-      "agentCatalog": "Catálogo de agentes",
+      "agentDeployment": "Despliegue del agente",
       "step1": "Paso 1: ",
       "step2": "Paso 2: ",
       "step3": "Paso 3: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "Bienvenido",
     "viewAll": "Ver todo",
+    "search": "Búsqueda",
+    "addMore": "Añadir",
+    "UrlShortener": "Simplificador de URL",
     "consumeData": {
-      "title": "Consumir datos",
-      "description": "Empiece y despliegue el primer agente.",
+      "title": "Servicios de descubrimiento",
+      "description": "Empiece habilitando Instana para descubrir los servicios y otros datos a supervisar.",
       "buttonName": "Desplegar agente",
       "buttonType": "primario"
     },
     "inviteTeammates": {
       "title": "Invitar a compañeros de equipo",
       "description": "Colabore con sus colegas.",
-      "buttonName": "Enviar invitación",
+      "buttonName": "Gestionar usuarios",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "Próximos pasos",
-      "description": "Busque más pasos de configuración pulsando el símbolo ? en la esquina superior derecha.",
+      "description": "Encuentre más visitas guiadas y apoyo adicional.",
       "buttonName": "Obtener respuestas",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "Uso de CPU",
         "created": "Creado",
         "started": "Iniciado"
+      },
+      "syntheticWidget": {
+        "label": "Supervisión sintética",
+        "na": "N/A",
+        "name": "Nombre",
+        "type": "Tipo",
+        "successRate": "Tasa de éxito",
+        "latency": "Latencia",
+        "lastTestRunOn": "Última ejecución de la prueba el",
+        "version": "Versión",
+        "timeThreshold": "Umbral de tiempo",
+        "testsApplied": "Pruebas aplicadas"
+      },
+      "dashboardWidget": {
+        "label": "Mis paneles personalizados",
+        "name": "Nombre",
+        "owner": "Propietario",
+        "permissions": "Permisos"
       }
     },
     "noData": {
@@ -533,7 +554,45 @@
       "businessMonitoringWidget": {
         "header": "No hay procesos empresariales",
         "description": "Habilite IBM Business Automation Workflow o configure Instana para capturar y almacenar datos de negocio de procesos de negocio."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "No hay pruebas sintéticas",
+          "description": "Configure las pruebas sintéticas para que se ejecuten a intervalos continuos específicos.",
+          "buttonName": "Añadir prueba sintética"
+        },
+        "location": {
+          "header": "No hay ubicación sintética",
+          "description": "Configure la ubicación sintética para que se ejecute a intervalos continuos específicos."
+        },
+        "smartalerts": {
+          "header": "No hay alertas inteligentes sintéticas",
+          "description": "Configure las alertas inteligentes sintéticas para que se ejecuten a intervalos continuos específicos",
+          "buttonName": "Añadir alertas inteligentes sintéticas"
+        }
+      },
+      "dashboardWidget": {
+        "header": "No hay paneles de control personalizados",
+        "description": "Cree su propio panel de control personalizado.",
+        "buttonName": "Crear panel de control personalizado"
       }
+    },
+    "ariaLabel": {
+      "shareButton": "Botón Compartir",
+      "searchButton": "Botón Buscar",
+      "addButton": "Botón Añadir",
+      "handleButton": "Botón Manejar"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "por ejemplo, Europa",
+      "Add": "Añadir"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "Guía de inicio"
     }
   }
 }

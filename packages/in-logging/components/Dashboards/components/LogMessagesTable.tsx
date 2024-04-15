@@ -68,6 +68,8 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, AdditionalProps>[] = [
     getContent(item: LogMessageItem) {
       const color = logPillColorMap[item.level.toLowerCase()]  ?? 'high-contrast';
       return (
+        // @ts-expect-error the type definition in ui-foundation is not correct,
+        // yellow is not accepted since version 3.0
         <Pill className={locals.logLevelPill} type={color}>
           {item.level}
         </Pill>
@@ -97,14 +99,17 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, AdditionalProps>[] = [
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
-        (timeConfig && result) && <SparkChart
-          loading={result?.progress?.loading}
-          rollup={getSparkChartGranularity(timeConfig)}
-          timeConfig={getResolvedTimeConfig(timeConfig, result as TimeResult)}
-          metrics={item.metrics.logs}
-          metric={item.metrics.logsAgg}
-          tooltipFormatter={number.compact}
-        />
+        timeConfig &&
+        result && (
+          <SparkChart
+            loading={result?.progress?.loading}
+            rollup={getSparkChartGranularity(timeConfig)}
+            timeConfig={getResolvedTimeConfig(timeConfig, result as TimeResult)}
+            metrics={item.metrics.logs}
+            metric={item.metrics.logsAgg}
+            tooltipFormatter={number.compact}
+          />
+        )
       );
     }
   }

@@ -15,7 +15,8 @@
     "noData": "Aucune donnée disponible",
     "healthLabel": "Intégrité",
     "startLabel": "Démarré",
-    "unnamedActivity": "(Activité sans nom) {{activityType}}"
+    "unnamedActivity": "(Activité sans nom) {{activityType}}",
+    "unnamedService": "(Service sans nom)"
   },
   "navigation": {
     "businessMonitoring": "Surveillance métier"
@@ -27,12 +28,15 @@
       "summaryTab": "Récapitulatif",
       "activitiesTab": "Activités",
       "widgets": {
-        "topActivities": "Principales activités (nombre)",
+        "topActivities": "Activités principales",
         "infrastructureIssuesAndChanges": "Problèmes et changements d'infrastructure",
         "viewAll": "Afficher toutes les activités",
         "processCount": "Nombre",
         "processCountTotal": "total",
-        "processErrors": "Erreurs"
+        "processErrors": "Erreurs",
+        "processLatency": "Temps d'attente",
+        "processCalls": "Appels",
+        "processErroneous": "Taux d'appels erronés"
       }
     },
     "activity": {
@@ -41,7 +45,9 @@
       "widgets": {
         "duration": "Durée",
         "activityCount": "Nombre",
-        "activityErrors": "Erreurs"
+        "activityErrors": "Erreurs",
+        "topServices": "Principaux services",
+        "activityLatency": "Temps d'attente"
       },
       "timespans": {
         "minute": "1 minute",

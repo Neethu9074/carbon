@@ -10,7 +10,6 @@ module.exports = {
   agentMonitoringIssuesEnabled: true,
   businessObservabilityEnabled: true,
   bizopsGoldenSignalsEnabled: true,
-  bizopsRbacEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -45,6 +44,8 @@ module.exports = {
   carbonShellEnabled: true,
   carbonPillEnabled: true,
   carbonMessageEnabled: false,
+  carbonAccordionEnabled: true,
+  carbonContentSwitcherEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
@@ -115,8 +116,10 @@ module.exports = {
   agentInstallationV2Enabled: true,
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
+  applicationSmartAlertFullScreenDesignEnabled: true,
   welcomePageV2Enabled: false,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
-  rawTraceDownloadEnabled: false
+  rawTraceDownloadEnabled: false,
+  carbonTabsEnabled: true,
 };

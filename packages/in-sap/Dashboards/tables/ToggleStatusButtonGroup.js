@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import ButtonGroup from 'in-components/ButtonGroup';
+import { ButtonGroup } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function ToggleStatusButtonGroup({ setSelectedStatus, selectedStatus }) {

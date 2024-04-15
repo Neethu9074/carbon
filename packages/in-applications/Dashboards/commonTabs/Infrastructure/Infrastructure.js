@@ -8,6 +8,7 @@ import React from 'react';
 
 import { fromPromise, just } from '@instana/observables';
 import { Link, SvgIcon } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -46,7 +47,6 @@ import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
-import ButtonGroup from 'in-components/ButtonGroup';
 import PluginIcon from 'in-components/PluginIcon';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';

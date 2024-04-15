@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/netCoreRuntimePlatform/Info';
 import { t } from 'in-i18n';
 

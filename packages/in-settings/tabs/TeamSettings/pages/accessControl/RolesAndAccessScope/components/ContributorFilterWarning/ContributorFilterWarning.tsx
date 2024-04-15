@@ -14,7 +14,7 @@ import locals from './ContributorFilterWarning.mless';
 
 export const ContributorFilterWarning = () => {
   return (
-    <Message type="warning" small className={locals.warningMessage}>
+    <Message type="warning" className={locals.warningMessage} inline small>
       <p>
         <Trans i18nKey="in-settings:permissionScope.contribution_filter_warning.firstParagraph" />
       </p>

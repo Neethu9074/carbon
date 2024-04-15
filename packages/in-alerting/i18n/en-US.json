@@ -28,6 +28,7 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
     "groupBy": "Group By",
     "noChannelAvailable": "No Alert Channels available",
+    "optional": "Optional",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",
@@ -478,6 +479,14 @@
         "viewAlertDetails": "View alert details for configuration: {{name}}",
         "eventsWarningIcon": "Events warning icon",
         "eventsCriticalIcon": "Events critical icon"
+      },
+      "tearSheet": {
+        "step1Title": "Pick a template",
+        "step2Title": "Define the scope",
+        "step3Title": "Define when to get alerted",
+        "step4Title": "Define alert properties and channels",
+        "step5Title": "Logs",
+        "step6Title": "Choose actions"
       }
     },
     "details": {
@@ -582,6 +591,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancel",
+        "previousTitle": "Previous",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",

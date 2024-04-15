@@ -13,7 +13,7 @@ import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-serv
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getHostByKubernetesNodeId from 'in-kubernetes/Dashboards/utils/getHostByKubernetesNodeId';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import EntityLink from 'in-components/EntityLink';
@@ -29,6 +29,7 @@ export default connectTo(
     const isLoading = host && get(host, ['progress', 'loading']);
     const isHostUnmonitored = host && host.errors.length > 0;
     const isEksNode = labels.find(item => item.key === 'eks.amazonaws.com/compute-type' && item.value === 'fargate');
+    const getDashboardLink = useGetDashboardLink();
 
     if (isLoading) {
       return (
@@ -74,7 +75,7 @@ export default connectTo(
                 <EntityLink
                   snapshot={host.data}
                   label={getLabel(host.data)}
-                  href$={getDashboardLink(host.data.get('id'), {
+                  href={getDashboardLink(host.data.get('id'), {
                     pathname: '/physical/dashboard',
                     to: timeConfig.to,
                     focusedMoment: timeConfig.to

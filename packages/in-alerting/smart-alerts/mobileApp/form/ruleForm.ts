@@ -26,6 +26,7 @@ export default function createRuleForm(rule: MobileAppAlertRule): MapForm<any> {
 
   switch (alertType) {
     case 'throughput':
+    case 'crash':
       return baseForm;
     case 'statusCode':
       return extendForStatusCode(baseForm, rule as StatusCodeMobileAppAlertRule);

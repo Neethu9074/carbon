@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import PodmanPodInfo from 'in-forge/plugins/podman/PodmanPodInfo';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Info from 'in-forge/plugins/podman/Info';
 import { t } from 'in-i18n';

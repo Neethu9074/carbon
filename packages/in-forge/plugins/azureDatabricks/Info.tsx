@@ -10,8 +10,11 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { t } from 'in-i18n';
 
+export const NOT_AVAILABLE = 'Not Available';
+
 export default function Info({ snapshot }: { snapshot: SnapshotData }) {
   const data = snapshot.get('data');
+  const metastore = data.get('unityCatalog.metastore');
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.azureDatabricks.infoName')}>{data.get('name')}</DescriptionItem>
@@ -25,9 +28,9 @@ export default function Info({ snapshot }: { snapshot: SnapshotData }) {
         {data.get('subscription')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.azureDatabricks.infoType')}>{data.get('type')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.azureDatabricks.infoMetastore')}>
-        {data.get('unityCatalog.metastore')}
-      </DescriptionItem>
+      {metastore != NOT_AVAILABLE && (
+        <DescriptionItem title={t('in-forge:plugins.azureDatabricks.infoMetastore')}>{metastore}</DescriptionItem>
+      )}
     </DescriptionList>
   );
 }

@@ -7,6 +7,8 @@
   "labelCall": "呼び出し",
   "labelTrace": "トレース",
   "linkDownload": "ダウンロード",
+  "linkDownloadCalls": "呼び出しのダウンロード",
+  "linkDownloadRawTrace": "ロー・トレースのダウンロード",
   "labelCalls": "呼び出し",
   "labelCallsPerSecondFull": "一秒当たりの呼び出しの数",
   "labelTraces": "トレース",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "アプリケーション・スコープ。",
       "stepTitleApplicationUsesBoundaryScope": "このアプリケーション・パースペクティブは <strong>{{boundaryScope}}</strong> を使用します",
       "readOnlyApplicationConfiguration": "このアプリケーション・パースペクティブの構成を読み取り専用モードで表示しています。",
+      "readOnlyRestrictingApplication": "このアプリケーション・パースペクティブは、<linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig> で定義されたコントリビューション・フィルターによって自動的に作成および更新されます。",
+      "accessConfiguration": "アクセスの構成",
       "stepTitleBuiltInSmartAlertsScope": "組み込みスマート・アラートのスコープ。",
       "noBuiltInSmartAlertsActive": "このアプリケーション・パースペクティブ用の組み込みスマート・アラートはありません。",
       "optionNoDownstreamServices": "ダウンストリーム・サービスなし",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "現時点では親呼び出しをロードできません",
       "callTreeLoadingOfCallsFailed": "現時点ではコールをロードできません",
       "retry": "もう一度試してください",
-      "treeHeaderLatency": "ルート呼び出し待ち時間"
+      "treeHeaderLatency": "ルート呼び出し待ち時間",
+      "loadingDashboard": {
+        "defaultTitle": "これには予想よりも少し時間がかかっています...",
+        "retryTitle": "試行中... {{retry}}/3",
+        "loadingMessage": "ID {{traceId}} のトレースをロードするには、さらに時間が必要です。"
+      },
+      "retryErrorMessage": {
+        "title": "ID {{traceId}} のトレースが見つかりませんでした。",
+        "reasonHeader": "考えられる理由は次のとおりです。",
+        "traceDropped": "トレースはドロップされました",
+        "noInstanaTrace": "トレースは Instana トレースではありません",
+        "outsideRetention": "トレースが Instana の保存期間外である"
+      }
     }
   },
   "tabs": {

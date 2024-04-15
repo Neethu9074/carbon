@@ -237,11 +237,13 @@
       "failureTitle": "Fehlgeschlagen!",
       "failureMessageCreate": "Erstellen des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
       "failureMessageUpdate": "Aktualisieren des synthetischen Tests fehlgeschlagen: {{errorMessage}}",
-      "failuteMesssageDelete": "Der synthetische Test konnte nicht gelöscht werden. Versuchen Sie es später erneut."
+      "failureMesssageDelete": "Löschen des synthetischen Tests fehlgeschlagen: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "Position erfolgreich gelöscht",
-      "failureMesssageDelete": "Löschen der Position fehlgeschlagen. Wiederholen Sie den Versuch zu einem späteren Zeitpunkt"
+      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "successMessageDeactivate": "Position erfolgreich deaktiviert",
+      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
       "dialogTitle": "Test {{syntheticType}} bearbeiten",
@@ -279,20 +281,32 @@
         "datacenterCode": "Rechenzentrumscode",
         "datacenterName": "Rechenzentrumsname",
         "provider": "Provider",
-        "locationName": "Anzeigename des Standorts",
+        "locationName": "Standortname",
+        "displayName": "Anzeigename",
+        "locationStatus": "Status",
         "status": "Aktivierungsstatus",
-        "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Instanziiertes PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Standorte werden implementiert",
-          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten dauern.</strong>",
+          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten für jedes ausgewählte Rechenzentrum dauern.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Rechenzentrumscode",
               "datacenterName": "Rechenzentrumsname",
-              "locationName": "Anzeigename des Standorts",
+              "locationName": "Standortname",
               "datacenterStatus": "Aktivierungsstatus"
             }
-          }
+          },
+          "activateLocationLoadingMessage": "Rechenzentren aktivieren",
+          "activationRejectedMessageSingleDatacenter": "Aktivierungsanforderung für {{rejectedDatacentersList}} kann nicht bearbeitet werden, da sie bereits aktiviert wurde",
+          "activationRejectedMessageMultipleDatacenters": "Aktivierungsanforderung für {{rejectedDatacentersList}} kann nicht bearbeitet werden, da sie bereits aktiviert wurden"
+        },
+        "deactivateDatacenter": {
+          "title": "Position deaktivieren",
+          "deactivateMessage": "Möchten Sie die Position <strong>{{locationDisplayLabel}}</strong> wirklich deaktivieren?<br/><br/>Die Inaktivierung einer Position kann bis zu 10 Minuten dauern. Bitte haben Sie Geduld, während wir die Bereitstellung für Sie zurücknehmen. Wenn dieser Vorgang abgeschlossen ist, lautet der Standortstatus \"Offline\".<br/>",
+          "warningMessage": "Die Inaktivierung wird nicht gelöscht. Die Position ist verfügbar und kann wieder aktiviert werden. Um den verwalteten Standort vollständig zu löschen, löschen Sie den Standort, sobald sich sein Status in \"Offline\" ändert.",
+          "activeStatus": "Aktiv",
+          "deactivateButton": "Deaktivieren"
         }
       },
       "validators": {
@@ -329,7 +343,7 @@
         "simpleTab": "Einfach",
         "redisTab": "Redis-TLS",
         "title": "Synthetische PoP-Befehle",
-        "subTitle": "Verwenden Sie diese Codevorlagen als Referenz. Weitere Informationen finden Sie unter <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "subTitle": "Verwenden Sie diese Codevorlagen als Referenz. Weitere Informationen finden Sie unter <documentationLink>Selbst gehosteten PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Wenn Sie Redis TLS aktivieren möchten, benötigen Sie Ihr X.509-Zertifikatsschlüsselpaar (`tls.crt`, `tls.key`) und die CA-Stammzertifikatsdatei (`ca.crt`).\n\nWenn Sie Ihre Schlüssel-/Zertifikatsdateien nicht haben, können Sie auch den Befehl 'openssl' verwenden, um neue Dateien zu generieren (siehe die folgenden Beispiele):",
@@ -383,9 +397,10 @@
       "success": "Erfolgreich",
       "failure": "Fehlgeschlagen",
       "popVersion": "Version",
-      "noActionsAllowed": "Nicht verfügbar",
-      "deleteRestrictedDescription": "Verwaltete Standorte können nicht gelöscht werden.",
-      "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist."
+      "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist.",
+      "deactivateLocation": {
+        "deactivate": "Deaktivieren"
+      }
     },
     "summary": {
       "successRate": "Erfolgsquote",

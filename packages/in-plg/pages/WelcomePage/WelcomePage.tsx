@@ -16,7 +16,7 @@ import locals from 'in-plg/pages/WelcomePage/WelcomePage.mless';
 export default function WelcomePage() {
   return (
     <div className={locals.container}>
-      <ThemeProvider theme={'g10'}>
+      <ThemeProvider theme="g10">
         <WelcomeHeader />
         <Stack direction="vertical">
           <PageContent />

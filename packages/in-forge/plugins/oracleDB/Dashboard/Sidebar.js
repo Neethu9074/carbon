@@ -6,8 +6,9 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import InstanceInfo from './instance/InstanceInfo';
 import RACInfo from './rac/RacInfo';
 import { t } from 'in-i18n';

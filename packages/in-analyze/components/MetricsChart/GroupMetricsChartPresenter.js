@@ -6,12 +6,13 @@
 import { find } from 'lodash';
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
+
 // eslint-disable-next-line no-restricted-imports
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { identity } from 'in-services/util/function';
-import ButtonGroup from 'in-components/ButtonGroup';
 
 import locals from './GroupMetricsChartPresenter.mless';
 

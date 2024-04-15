@@ -49,6 +49,12 @@ import {
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
 import {
+  playwithEnabled,
+  playWithReleaseEnabled,
+  actionAutomationEnabled,
+  welcomePageV2Enabled
+} from 'in-services/featureFlags';
+import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
@@ -69,11 +75,12 @@ import { openstack, regionListFullyQualified } from 'in-openstack/navigation/pat
 import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
 import { click as internalToggleClick } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
+// @ts-expect-error needs ts migration
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 // @ts-expect-error no declaration file
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
-import { playwithEnabled, playWithReleaseEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 // @ts-expect-error no declaration file
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 // @ts-expect-error no declaration file
@@ -116,6 +123,20 @@ function HomeLink() {
       icon="lib_home"
       href={createHrefToPath(path)}
       label={t('in-cockpit:cockpit.home')}
+    />
+  );
+}
+
+function CustomDashboards() {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  return (
+    <MenuItem
+      id="main-nav-custom-dashboards"
+      icon="lib_custom_dashboard"
+      label={t('in-components:mainNavigation.viewSwitcherCustomDashboards')}
+      isActive={matchLocation(customDashboardsPath)}
+      href={createHrefToPath(customDashboardsPath)}
     />
   );
 }
@@ -600,6 +621,7 @@ export default function CarbonUIShell({ onViewSwitched }: CarbonUIShellProps) {
       <Platforms />
       <Infrastructure />
       <MenuItem isDivider />
+      {welcomePageV2Enabled && <CustomDashboards />}
       <Synthetics />
       <Analyze />
       <Incidents />

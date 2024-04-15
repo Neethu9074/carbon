@@ -132,5 +132,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "基礎架構智慧型警示"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "選取標籤",
+    "titleAddATag": "新增標籤",
+    "messagePleaseSelectAtMostTags": "請最多選取 {{maximumNumberOfTags}} 個標籤。"
   }
 }

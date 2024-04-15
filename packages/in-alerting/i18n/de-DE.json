@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "Nutzdaten",
             "title": "Angepasste Nutzdaten"
-          },
-          "actionsOptional": {
-            "label": "Aktionen",
-            "title": "Aktionszuordnungen"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Für jedes Auswertungsfenster berechnen",
         "timeThresholdConfigNumberOfViolations": "Anzahl der Messwertverstöße",
         "timeThresholdConfigEvaluationGranularity": "Evaluierungsgranularität",
+        "granularityTooltipText": "Die hier festgelegte Zeitunterteilung bestimmt die Häufigkeit, mit der der Schwellenwert ausgewertet wird.",
         "timeThresholdConfigNumberOfTracesThreshold": "Anzahl betroffener Traces",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Anzahl der betroffenen Benutzer",
         "timeThresholdConfigAtLeast": "Mindestens",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "Bereich: Wo geschieht die Bedingung?",
         "thresholdLabel": "Schwellenwert",
         "thresholdTitle": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?",
-        "userImpactInfo": "Nur authentifizierte Benutzer werden für den Benutzerauswirkungsschwellenwert berücksichtigt.",
         "payloadsLabel": "Nutzdaten",
         "payloadsTitle": "Angepasste Nutzdaten"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "Umfang",
         "alertConfigurationTitleAlertChannels": "Alertkanäle",
         "alertConfigurationTitleTimeThreshold": "Zeitschwellenwert",
-        "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
-        "predictiveTrigger": {
-          "title": "Alert im Voraus vorhersagen"
-        }
+        "alertConfigurationTitleAlertProperties": "Alerteigenschaften"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "Zeitschwellenwert: Wann möchten Sie alarmiert werden?"
         },
         "predictiveTrigger": {
-          "title": "Vorhersageauslöser",
+          "title": "Vorhersagealerts sind deaktiviert",
+          "alertTitle": "Alert wird {{value}} vor vorhergesagtem Verstoß ausgelöst",
           "timeToFailure": "Zeit bis zum Ausfall"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Umfang",
-          "title": "Bereich: Wo geschieht die Bedingung?"
+          "title": "Bereich: Wo geschieht die Bedingung?",
+          "metric": "Metrik"
         },
         "threshold": {
           "label": "Schwellenwert",
-          "title": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?"
+          "title": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?",
+          "tooltipText": "Der hier definierte Schwellenwert wird basierend auf der unten angegebenen Zeitunterteilung ausgewertet."
         },
         "timeThreshold": {
           "label": "Zeitschwellenwert",
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
-        "noMetricSelected": "Keine Metrik ausgewählt"
+        "noDataForSelectedGroup": "Für die angegebene Kombination aus Filtern und Gruppierung sind keine Daten verfügbar."
       },
-      "logs": "Protokolle"
+      "logCount": "Anzahl der Protokolle"
     }
   }
 }

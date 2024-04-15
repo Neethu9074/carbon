@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import LambdaFunctionLink from 'in-forge/plugins/awsLambdaVersion/LambdaFunctionLink';
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getRuntimeByKey } from 'in-sdk/snapshot/runtimes';
 import List from 'in-sdk/components/sidebar/List';

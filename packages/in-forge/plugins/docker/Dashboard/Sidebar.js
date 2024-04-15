@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KubernetesInfo from 'in-infrastructure/Dashboard/components/KubernetesInfo';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import MarathonInfo from 'in-forge/plugins/docker/MarathonInfo';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
 import Ports from 'in-forge/plugins/docker/Ports';
 import Info from 'in-forge/plugins/docker/Info';

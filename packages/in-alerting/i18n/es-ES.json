@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "Cargas útiles",
             "title": "Carga útil personalizada"
-          },
-          "actionsOptional": {
-            "label": "Acciones",
-            "title": "Asociaciones de acción"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
         "timeThresholdConfigNumberOfViolations": "Número de violaciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
+        "granularityTooltipText": "La granularidad de tiempo establecida aquí determinará la frecuencia con la que se evalúa el umbral.",
         "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreos afectados",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuarios afectados",
         "timeThresholdConfigAtLeast": "Al menos",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "Ámbito: ¿Dónde se está produciendo la condición?",
         "thresholdLabel": "Umbral",
         "thresholdTitle": "Umbral: ¿Cuándo se infringe la condición?",
-        "userImpactInfo": "Sólo se tienen en cuenta los usuarios autenticados en el umbral de impacto de usuario.",
         "payloadsLabel": "Cargas útiles",
         "payloadsTitle": "Cargas útiles personalizadas"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "Ámbito",
         "alertConfigurationTitleAlertChannels": "Canales de alerta",
         "alertConfigurationTitleTimeThreshold": "Umbral de tiempo",
-        "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
-        "predictiveTrigger": {
-          "title": "Desencadenar la alerta de forma predictiva por adelantado"
-        }
+        "alertConfigurationTitleAlertProperties": "Propiedades de alerta"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "Umbral de tiempo: ¿Cuándo desea ser alertado?"
         },
         "predictiveTrigger": {
-          "title": "Desencadenante predictivo",
+          "title": "Las alertas predictivas están inhabilitadas",
+          "alertTitle": "La alerta se desencadenará {{value}} antes de la violación prevista",
           "timeToFailure": "Tiempo hasta anomalía"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Ámbito",
-          "title": "Ámbito: ¿Dónde se está produciendo la condición?"
+          "title": "Ámbito: ¿Dónde se está produciendo la condición?",
+          "metric": "Métrica"
         },
         "threshold": {
           "label": "Umbral",
-          "title": "Umbral: ¿Cuándo se infringe la condición?"
+          "title": "Umbral: ¿Cuándo se infringe la condición?",
+          "tooltipText": "El valor de umbral definido aquí se evaluará basándose en la granularidad de tiempo especificada a continuación."
         },
         "timeThreshold": {
           "label": "Umbral de tiempo",
@@ -1345,8 +1341,8 @@
           },
           "alertPropertiesTitlePlaceholder": "Alerta inteligente de registros",
           "descriptionPlaceholder": {
-            "logsCount_higherThan": "El recuento de registros es superior a {{value}}.",
-            "logsCount_higherEqual": "El recuento de registros es mayor o igual que {{value}}.",
+            "logsCount_higherThan": "El recuento de registros es mayor que {{value}}.",
+            "logsCount_higherEqual": "El recuento de registros es mayor que o igual a {{value}}.",
             "logsCount_lowerThan": "El recuento de registros es inferior a {{value}}.",
             "logsCount_lowerEqual": "El recuento de registros es inferior o igual a {{value}}."
           }
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
-        "noMetricSelected": "No se ha seleccionado ninguna métrica"
+        "noDataForSelectedGroup": "No hay datos disponibles para los filtros y la combinación de agrupación especificados."
       },
-      "logs": "Registros"
+      "logCount": "Recuento de registros"
     }
   }
 }

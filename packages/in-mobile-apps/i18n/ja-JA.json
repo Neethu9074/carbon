@@ -7,6 +7,26 @@
     "crash": "異常終了"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "アクティビティー名",
+          "activityClassName": "アクティビティー・クラス名",
+          "activityLocalPathName": "アクティビティー・ローカル・パス",
+          "fragmentScreenName": "フラグメント名",
+          "fragmentClassName": "フラグメント・クラス名",
+          "fragmentLocalPathName": "フラグメント・ローカル・パス",
+          "activeFragmentList": "アクティブ・フラグメント・リスト",
+          "activityResumeTime": "アクティビティー再開時刻",
+          "fragmentResumeTime": "フラグメント再開時刻"
+        },
+        "ios": {
+          "accessibilityLabel": "アクセシビリティー・ラベル",
+          "navigationItemTitle": "ナビゲーション項目のタイトル",
+          "className": "クラス名"
+        }
+      }
+    },
     "uniqueUsers": "固有ユーザー",
     "metrics": {
       "timestampMetricName": "タイム・スタンプ",

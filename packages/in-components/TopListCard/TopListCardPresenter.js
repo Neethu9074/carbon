@@ -7,13 +7,13 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
+import { ButtonGroup } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-components/TopListCard/List';
 import { t } from 'in-i18n';
 

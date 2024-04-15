@@ -7,6 +7,8 @@
   "labelCall": "Chiamata",
   "labelTrace": "Traccia",
   "linkDownload": "Scarica",
+  "linkDownloadCalls": "Chiamate di download",
+  "linkDownloadRawTrace": "Scarica traccia non elaborata",
   "labelCalls": "Chiamate",
   "labelCallsPerSecondFull": "Chiamate al secondo",
   "labelTraces": "Tracce",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "Ambito dell'applicazione.",
       "stepTitleApplicationUsesBoundaryScope": "Questa prospettiva dell'applicazione utilizza <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "Questa configurazione della prospettiva dell'applicazione è visualizzata in modalità di sola lettura.",
+      "readOnlyRestrictingApplication": "Questa prospettiva dell'applicazione viene creata e aggiornata automaticamente dal filtro di contributo definito in <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig>.",
+      "accessConfiguration": "configurazione di accesso",
       "stepTitleBuiltInSmartAlertsScope": "Ambito avvisi smart incorporati.",
       "noBuiltInSmartAlertsActive": "Nessun avviso smart integrato attivo per questa prospettiva dell'applicazione.",
       "optionNoDownstreamServices": "Nessun servizio di downstream",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "La chiamata principale non può essere caricata in questo momento",
       "callTreeLoadingOfCallsFailed": "Impossibile caricare le chiamate in questo momento",
       "retry": "Riprova",
-      "treeHeaderLatency": "Latenza chiamata root"
+      "treeHeaderLatency": "Latenza chiamata root",
+      "loadingDashboard": {
+        "defaultTitle": "Questo processo sta impiegando più tempo del previsto...",
+        "retryTitle": "Tentativo in corso... {{retry}}/3",
+        "loadingMessage": "Abbiamo bisogno di più tempo per caricare la traccia con ID {{traceId}}."
+      },
+      "retryErrorMessage": {
+        "title": "Impossibile trovare la traccia con ID {{traceId}}.",
+        "reasonHeader": "Le cause possibili includono:",
+        "traceDropped": "la traccia è stata eliminata",
+        "noInstanaTrace": "la traccia non è una traccia Instana",
+        "outsideRetention": "la traccia non rientra nel periodo di conservazione di Instana"
+      }
     }
   },
   "tabs": {

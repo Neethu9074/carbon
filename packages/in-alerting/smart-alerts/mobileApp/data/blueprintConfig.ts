@@ -67,7 +67,7 @@ interface BluePrintBase {
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 }
 
-export type MobileAlertType = 'customEvent' | 'statusCode' | 'throughput';
+export type MobileAlertType = MobileAppAlertRule['alertType'];
 
 const mobileAppThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions,

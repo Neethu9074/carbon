@@ -7,9 +7,18 @@
 import { Observable } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
-import { dashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
+import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 
 export type GetContentFunction = (options: any) => React.ReactNode;
+
+export interface WidgetProps {
+  config: any;
+  timeConfig: TimeConfig;
+  widgetLabel: string;
+  dashboardTileProps: DashboardTileParamProps;
+  maxItems?: number;
+  viewAll?: boolean;
+}
 
 export type GetItemsFunction = (options: {
   timeConfig?: TimeConfig;
@@ -21,51 +30,28 @@ export type GetItemsFunction = (options: {
 
 export type AddMoreFunction = () => void;
 
-export interface ApplicationProps {
-  config: any;
-  timeConfig: TimeConfig;
+export interface ApplicationProps extends WidgetProps {
   applicationId: string;
-  widgetLabel: string;
-  dashboardTileProps?: dashboardTileParamProps;
 }
 
-export interface WidgetProps {
-  config: any;
-  timeConfig: TimeConfig;
-  widgetLabel: string;
-  dashboardTileProps: dashboardTileParamProps;
-}
-
-export interface InfraProps {
-  config: any;
-  timeConfig: TimeConfig;
+export interface InfraProps extends WidgetProps {
   infraType: string;
-  widgetLabel: string;
-  dashboardTileProps: dashboardTileParamProps;
 }
 
-export interface SyntheticProps {
-  config: any;
-  timeConfig: TimeConfig;
-  widgetLabel: string;
+export interface SyntheticProps extends WidgetProps {
   syntheticType: string;
-  dashboardTileProps: dashboardTileParamProps;
 }
 
-export interface DatatableWidgetProps {
+export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   headers: [];
   getItems: GetItemsFunction;
-  timeConfig: TimeConfig;
+  addMore: AddMoreFunction;
+  addData: AddMoreFunction;
   columnDefinitions: [];
   hasAddMore?: boolean;
   viewAll?: boolean;
-  addMore: AddMoreFunction;
-  addData: AddMoreFunction;
   href?: string;
-  infraType?: string;
   label: string;
-  syntheticType?: string;
-  dashboardTileProps: dashboardTileParamProps;
   isDashboardWidget?: boolean;
 }
 

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';

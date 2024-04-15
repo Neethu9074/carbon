@@ -4,6 +4,7 @@
  */
 
 import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
+import AlertConfigTearSheet from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet';
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMapping';
 import SyntheticCallConfig from 'promise-loader?global,applications!in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
@@ -29,8 +30,10 @@ import {
   newServiceView,
   serviceDashboard,
   servicesList,
-  analyzePath
+  analyzePath,
+  smartAlertPath
 } from 'in-applications/navigation/paths';
+import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { role } from 'in-stores/user';
 
@@ -50,6 +53,11 @@ export default function applicationRoutes() {
     );
   }
   appRoutes.push([
+    applicationSmartAlertFullScreenDesignEnabled && (
+      <Route exact path={[smartAlertPath]} key="applicationPerspectiveSmartAlerts">
+        {renderAsyncRouteChildren(AlertConfigTearSheet)}
+      </Route>
+    ),
     <Route key="applicationPerspectiveNewApplicationWaiter" path={`${newApplicationWaiterView}/:appId/:appName`}>
       {renderAsyncRouteChildren(NewApplicationWaiter)}
     </Route>,

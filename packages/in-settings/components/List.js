@@ -503,22 +503,40 @@ function addDeleteAction(
         ? customDeleteTooltipMessage(entity)
         : t('in-settings:components.deleteEntity', { entity: getEntityName(entity) });
 
-      return (
-        <div className={locals.deleteWrapper}>
+      if (disabled) {
+        // Only show icon for disabled delete
+        return (
           <Tooltip content={tooltipContent} delay={500}>
-            <Delete
-              {...actionDefinition}
-              disabled={disabled}
-              entity={entity}
-              getEntityName={getEntityName}
-              doDelete={doDelete}
-              setErrorMessage={setErrorMessage}
-              dialogMessage={customDialogMessage}
-              confirmLabel={customDialogConfirmLabel}
-            />
+            <div className={locals.deleteIcon}>
+              <SvgIcon
+                className={classNames({
+                  [locals.icon]: true,
+                  [locals.disabled]: disabled
+                })}
+                type="lib_actions_delete"
+                data-testid="deleteIcon"
+              />
+            </div>
           </Tooltip>
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div className={locals.deleteWrapper}>
+            <Tooltip content={tooltipContent} delay={500}>
+              <Delete
+                {...actionDefinition}
+                disabled={disabled}
+                entity={entity}
+                getEntityName={getEntityName}
+                doDelete={doDelete}
+                setErrorMessage={setErrorMessage}
+                dialogMessage={customDialogMessage}
+                confirmLabel={customDialogConfirmLabel}
+              />
+            </Tooltip>
+          </div>
+        );
+      }
     }
   });
 }

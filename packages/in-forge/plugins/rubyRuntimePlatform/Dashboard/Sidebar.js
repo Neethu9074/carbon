@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/rubyRuntimePlatform/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import { t } from 'in-i18n';

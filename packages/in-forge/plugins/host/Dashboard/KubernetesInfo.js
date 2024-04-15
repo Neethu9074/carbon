@@ -7,13 +7,13 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { Collapsible } from '@instana/components';
 
 import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernetesClusterByNode';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 import { useClusterDashboard, useNodeDashboard } from 'in-kubernetes/navigation/paths';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

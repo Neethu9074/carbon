@@ -7,14 +7,14 @@ import React, { Fragment } from 'react';
 
 import ProcessingComponents from 'in-internal/monitoringUnit/unit/ProcessingComponents';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
+import { canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import { Row, Col } from 'in-components/layout/Grid';
-import { isInstanaEmail } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function Landing({ timeConfig, tenant, unit }) {
   return (
     <Fragment>
-      {isInstanaEmail && (
+      {canSeeExtendedInternalMonitoring && (
         <Row>
           <Col lg={12}>
             <SloViolationsChart

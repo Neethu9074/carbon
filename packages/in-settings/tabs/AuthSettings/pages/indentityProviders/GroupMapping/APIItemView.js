@@ -55,7 +55,7 @@ function MessageWrapper({ message }) {
   const text = message.text || message.message;
   return (
     <TemporaryPresenter duration={5000} id={id}>
-      <Message className={locals.messageWrapper} type={message.type} withIcon small>
+      <Message className={locals.messageWrapper} type={message.type} inline withIcon small>
         {text}
       </Message>
     </TemporaryPresenter>

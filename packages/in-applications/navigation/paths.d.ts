@@ -17,6 +17,8 @@ export declare const applicationDashboard: string;
 export declare const getLinkToAlertConfig: string;
 export declare const getLinkToGlobalAlertConfigWithoutAPDashboard: string;
 export declare const globalAlertDetails: string;
+export declare const globalSmartAlertPath: string;
+export declare const smartAlertPath: string;
 
 interface ChartedMetric {
   metricId: string;

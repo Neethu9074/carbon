@@ -6,10 +6,10 @@
 import React from 'react';
 
 import { fromPromise } from '@instana/observables';
+import { Collapsible } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { getSnapshot, getFoundations } from 'in-stores/snapshot';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getPluginName } from 'in-sdk/pluginName';

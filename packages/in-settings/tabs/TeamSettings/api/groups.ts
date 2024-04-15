@@ -72,7 +72,7 @@ function getGroupsAsResultObservableInternal(_arg: undefined) {
 }
 
 export const getGroupAsResultObservable = memoize(getGroupAsResultObservableInternal, groupId => groupId, 60000);
-function getGroupAsResultObservableInternal(groupId: string) {
+function getGroupAsResultObservableInternal(groupId: string): Observable<Result<ApiGroup[]>> {
   return refreshSignalTeams.flatMap(() =>
     createObservable(
       http({

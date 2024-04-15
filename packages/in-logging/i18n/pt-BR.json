@@ -6,6 +6,8 @@
   "logsOverTime_ERROR": "Erro",
   "logsOverTime_WARN": "Avisar ",
   "logsOverTime_INFO": "Informações",
+  "logsOverTime_FATAL": "Fatal",
+  "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
   "addAsFilter": "Incluir como filtro",
   "addAsGroup": "Incluir como grupo",
@@ -50,6 +52,6 @@
   "warn_plural": "{{count}} Avisos",
   "process": "Processo",
   "host": "Host",
-  "fileOnHost":"no",
+  "fileOnHost": "em",
   "file": "Arquivo"
 }

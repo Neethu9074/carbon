@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import { ButtonGroup } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import { MonitoringSource, MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
-import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
 import locals from './MonitoringSourceSelector.mless';

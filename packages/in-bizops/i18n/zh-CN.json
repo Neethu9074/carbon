@@ -15,7 +15,8 @@
     "noData": "无可用数据",
     "healthLabel": "运行状况",
     "startLabel": "开始",
-    "unnamedActivity": "（未命名的活动）{{activityType}}"
+    "unnamedActivity": "（未命名的活动）{{activityType}}",
+    "unnamedService": "(未命名服务)"
   },
   "navigation": {
     "businessMonitoring": "业务监视"
@@ -27,12 +28,15 @@
       "summaryTab": "摘要",
       "activitiesTab": "活动",
       "widgets": {
-        "topActivities": "排名靠前的活动（计数）",
+        "topActivities": "顶级活动",
         "infrastructureIssuesAndChanges": "基础架构问题和更改",
         "viewAll": "查看所有活动",
         "processCount": "计数",
         "processCountTotal": "总数",
-        "processErrors": "错误"
+        "processErrors": "错误",
+        "processLatency": "等待时间",
+        "processCalls": "调用数",
+        "processErroneous": "错误调用率"
       }
     },
     "activity": {
@@ -41,7 +45,9 @@
       "widgets": {
         "duration": "持续时间",
         "activityCount": "计数",
-        "activityErrors": "错误"
+        "activityErrors": "错误",
+        "topServices": "排名靠前的服务",
+        "activityLatency": "等待时间"
       },
       "timespans": {
         "minute": "1 分钟",

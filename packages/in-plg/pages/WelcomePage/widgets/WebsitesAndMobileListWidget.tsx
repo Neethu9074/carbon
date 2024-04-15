@@ -27,12 +27,12 @@ import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
+import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 import { useGenerateLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { playwithEnabled } from 'in-services/featureFlags';
-import { dashboardTileParamProps } from '../PageContent';
 import { timeConfig$ } from 'in-stores/time/config';
 import DatatableWrapper from './DatatableWrapper';
 
@@ -98,7 +98,7 @@ interface Props {
   timeConfig: typeof timeConfig$;
   type: string;
   widgetLabel: string;
-  dashboardTileProps: dashboardTileParamProps;
+  dashboardTileProps: DashboardTileParamProps;
 }
 
 export default connectTo(() => ({

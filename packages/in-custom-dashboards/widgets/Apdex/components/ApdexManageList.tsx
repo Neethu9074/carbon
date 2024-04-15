@@ -57,19 +57,25 @@ export default function ApdexManageList({
   const onShowSlideInContentChange = () => onChange(undefined);
 
   const onCreateConfig = () => {
-    track(APDEX_MANAGEMENT_CREATE_START, { entityType });
+    track(APDEX_MANAGEMENT_CREATE_START, {
+      entityType
+    });
     setEditableApdexConfig({});
     onShowCreateForm(false);
   };
 
   const onEditConfig = (config: ApdexConfiguration) => {
-    track(APDEX_MANAGEMENT_EDIT_START, { entityType });
+    track(APDEX_MANAGEMENT_EDIT_START, {
+      entityType
+    });
     setEditableApdexConfig(config);
     onShowCreateForm(true);
   };
 
   const onDeleteApdexConfig = (id: string) => {
-    track(APDEX_MANAGEMENT_DELETE, { entityType });
+    track(APDEX_MANAGEMENT_DELETE, {
+      entityType
+    });
 
     deleteApdexConfiguration(id)
       .filter(result => !isLoading(result))

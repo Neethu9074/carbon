@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Create new group",
-    "dialogTitle_edit": "Edit access scope",
+    "dialogTitle_edit": "Edit access configuration",
     "editButton": "Edit",
     "productArea": "Access configuration for {{tenantUnit}}-{{tenant}}"
   },
@@ -67,7 +67,7 @@
     "allApplications": "All applications",
     "allWebsites": "All websites",
     "allMobileApps": "All mobile apps",
-    "businessMonitoringAccessAllMessage":"All business processes",
+    "businessMonitoringAccessAllMessage": "All business processes",
     "kubernetes": "Kubernetes",
     "allSynthetics": "All Synthetic tests",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
@@ -737,6 +737,17 @@
     "timeoutsSuccessfullySaved": "Timeouts successfully saved.",
     "disableTwoFactor": "Disable two-factor",
     "saveToken": "Save token",
+    "profile": {
+      "pageName": "Profile",
+      "email": "Email",
+      "emailHint": "The email to identify the user account on Instana. You cannot change the email after the user account is created.",
+      "name": "Name",
+      "nameHint": "Enter your first name (given name) and last name (family name) without a comma.",
+      "saving": "Saving new name",
+      "saved": "Saved new name",
+      "failed": "Failed to save new name"
+    },
+
     "twoFactorAuthentication": "Two-factor authentication",
     "twoFactorAuthenticationIsCurrentlyDisabledForThisUser": "Two-factor authentication is currently disabled for this user.",
     "enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration": "Enter the 2FA token from your authenticator app to complete configuration:",
@@ -1165,7 +1176,12 @@
     "createIDPConfirmationDescription": "Pending invitations will be deleted. Users are automatically provisioned from your identity provider (IdP).",
     "revokeInvitationForUserWithEmail": "Revoke the invitation to join the {{tenant}} tenant for {{email}}",
     "invitationValidUntil": "Invitation valid until",
-    "invitedBy": "Invited by"
+    "invitedBy": "Invited by",
+    "accessAll": "Access all",
+    "access": "Access",
+    "accessForTenantUnit": "Access for {{tenantUnit}}-{{tenant}}",
+    "numberOfMembers": "Number of members",
+    "groupEntityName": "group {{entityName}}"
   },
   "languageSelection": {
     "language": "Language",

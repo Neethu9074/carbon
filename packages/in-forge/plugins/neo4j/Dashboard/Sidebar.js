@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import { hitRate, siPrefix } from 'in-services/formatters/number';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 import Info from '../Info';
 

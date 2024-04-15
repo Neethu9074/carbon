@@ -5,8 +5,9 @@
 
 import React, { Fragment } from 'react';
 
+import { Collapsible } from '@instana/components';
+
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import HaInfo from '../HaInfo';
 import { t } from 'in-i18n';
 import Info from '../Info';

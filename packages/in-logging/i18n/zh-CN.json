@@ -6,6 +6,8 @@
   "logsOverTime_ERROR": "错误",
   "logsOverTime_WARN": "警告 ",
   "logsOverTime_INFO": "参考信息",
+  "logsOverTime_FATAL": "致命",
+  "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查询配置无效。请在继续之前处理验证失败。",
   "addAsFilter": "添加为过滤器",
   "addAsGroup": "添加为组",
@@ -50,6 +52,6 @@
   "warn_plural": "{{count}} 个警告",
   "process": "处理",
   "host": "主机",
-  "fileOnHost": "在",
+  "fileOnHost": "于",
   "file": "文件"
 }

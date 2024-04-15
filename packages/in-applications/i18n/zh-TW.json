@@ -7,6 +7,8 @@
   "labelCall": "呼叫",
   "labelTrace": "追蹤",
   "linkDownload": "下載",
+  "linkDownloadCalls": "下載呼叫",
+  "linkDownloadRawTrace": "下載原始追蹤",
   "labelCalls": "呼叫",
   "labelCallsPerSecondFull": "每秒呼叫數",
   "labelTraces": "追蹤",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "應用程式範圍。",
       "stepTitleApplicationUsesBoundaryScope": "此應用程式視景使用 <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "您正在以唯讀模式檢視這個應用程式視景配置。",
+      "readOnlyRestrictingApplication": "此應用程式視景由 <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig> 中定義的要素項過濾器自動建立及更新。",
+      "accessConfiguration": "存取配置",
       "stepTitleBuiltInSmartAlertsScope": "內建智慧型警示範圍。",
       "noBuiltInSmartAlertsActive": "此應用程式視景沒有作用中的內建「智慧型警示」。",
       "optionNoDownstreamServices": "無下游服務",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "此時無法載入母項呼叫",
       "callTreeLoadingOfCallsFailed": "此時無法載入通話",
       "retry": "請再試一次",
-      "treeHeaderLatency": "根呼叫延遲"
+      "treeHeaderLatency": "根呼叫延遲",
+      "loadingDashboard": {
+        "defaultTitle": "這比預期的時間要長一點…",
+        "retryTitle": "正在嘗試…{{retry}}/3",
+        "loadingMessage": "請耐心等待，我們需要更多時間來載入 ID 為 {{traceId}} 的追蹤。"
+      },
+      "retryErrorMessage": {
+        "title": "找不到 ID 為 {{traceId}} 的追蹤。",
+        "reasonHeader": "可能的原因包括：",
+        "traceDropped": "已捨棄追蹤",
+        "noInstanaTrace": "追蹤不是 Instana 追蹤",
+        "outsideRetention": "追蹤超出 Instana 保留期間"
+      }
     }
   },
   "tabs": {

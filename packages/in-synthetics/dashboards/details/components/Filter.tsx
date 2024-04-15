@@ -6,12 +6,12 @@
 
 import React, { ReactChild } from 'react';
 
+import { ButtonGroup } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { FilterProps } from 'in-synthetics/utils/constants';
 import { isNotBlank } from 'in-services/util/string';
-import ButtonGroup from 'in-components/ButtonGroup';
 
 import locals from './Filter.mless';
 

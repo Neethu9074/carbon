@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
+import { Field, Item, MapForm, ValidationResult, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
@@ -20,9 +20,12 @@ import {
   SliderState,
   Zip,
   scriptTestType,
-  Script
+  Script,
+  InvalidCertificateParams
 } from 'in-synthetics/utils/constants';
+import { certificateCheckScriptUpdater } from 'in-synthetics/createTests/utils/certificateCheckScriptUpdater';
 import { createZipScriptConfigurationForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
+import { certificateCheckBasicScript } from 'in-synthetics/createTests/utils/certificateCheckBasicScript';
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 // eslint-disable-next-line no-restricted-imports
@@ -31,6 +34,7 @@ import AddScriptDialogContent from 'in-synthetics/createTests/advanced/AddScript
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
 import { scriptDetailsUpdater } from 'in-synthetics/createTests/utils/scriptDetailsUpdater';
 import { timeoutValidator } from 'in-synthetics/createTests/validators/configValidators';
+import { checkForInvalidHost } from 'in-synthetics/createTests/validators/urlValidator';
 import { displayRetryIntervalSlider } from 'in-synthetics/utils/sliderHelperFunctions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
@@ -62,6 +66,10 @@ interface ScriptProps {
   isBrowser: boolean;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
+  certificateCheckHostNameError: InvalidCertificateParams;
+  setCertificateCheckHostNameError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
+  certificateCheckDaysRemainingError: InvalidCertificateParams;
+  setCertificateCheckDaysRemainingError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
 }
 
 export default function ScriptsSection({
@@ -76,13 +84,32 @@ export default function ScriptsSection({
   setCommonAttributes,
   isBrowser,
   invalidTimeout,
-  setInvalidTimeout
+  setInvalidTimeout,
+  certificateCheckHostNameError,
+  setCertificateCheckHostNameError,
+  certificateCheckDaysRemainingError,
+  setCertificateCheckDaysRemainingError
 }: ScriptProps) {
   const configForm = form.get('configuration') as MapForm<any>;
   const syntheticType = (configForm.get('syntheticType') as Field<string>).value;
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
   const [script, setScript] = useState(scriptDetailsUpdater(configForm, isUpdateConfig, isUpdated, scriptDetails));
   const [zipFile, setZipFile] = useState<Zip>({ name: '', files: [] });
+
+  // Certificate Check implementation
+  const certificateCheck = configForm.get('certificateCheck') as Field<boolean>;
+  const [basicScript, setBasicScript] = useState(certificateCheckBasicScript);
+  let certificateCheckScript: string[] = ['', ''];
+  if (certificateCheck) {
+    const startIndex = script.text.lastIndexOf('("');
+    const endIndex = script.text.lastIndexOf('");');
+    certificateCheckScript = script.text
+      .substring(startIndex + 2, endIndex)
+      .split(',')
+      .map(arg => arg.replaceAll('"', '').trim());
+  }
+  const [hostName, setHostName] = useState(isUpdateConfig ? certificateCheckScript[0] : '');
+  const [daysRemaining, setDaysRemaining] = useState(isUpdateConfig ? certificateCheckScript[1] : '');
 
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
@@ -252,77 +279,188 @@ export default function ScriptsSection({
     return updatedForm;
   };
 
+  const getScriptSection = (certificateCheckField: Field<boolean>) => {
+    if (certificateCheckField != undefined && certificateCheck.value) {
+      return (
+        <div className={locals.configContainer}>
+          <FormGroup className={locals.descriptionInput}>
+            <Label>{t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputHostName')}</Label>
+            <Input
+              name="hostName"
+              value={hostName}
+              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                const valueNotBlank: ValidationResult = notBlankValidator(target.value);
+                const valueUndefined: ValidationResult = notUndefinedValidator(target.value);
+                const invalidHostNameFormat: ValidationResult = checkForInvalidHost(target.value);
+                if (valueUndefined) {
+                  setCertificateCheckHostNameError({
+                    invalid: true,
+                    message: valueUndefined[0].message!,
+                    touched: true
+                  });
+                } else if (valueNotBlank!.length > 0) {
+                  setCertificateCheckHostNameError({
+                    invalid: true,
+                    message: valueNotBlank![0].message!,
+                    touched: true
+                  });
+                } else if (invalidHostNameFormat) {
+                  setCertificateCheckHostNameError({
+                    invalid: true,
+                    message: invalidHostNameFormat[0].message!,
+                    touched: true
+                  });
+                } else {
+                  setCertificateCheckHostNameError({ invalid: false, message: '', touched: true });
+                }
+                // form gets updated within certificateCheckScriptUpdater()
+                setBasicScript(
+                  certificateCheckScriptUpdater(basicScript, target.value, daysRemaining, form, updateForm)
+                );
+                setHostName(target.value);
+              }}
+              hasError={certificateCheckHostNameError.invalid && certificateCheckHostNameError.touched}
+            />
+            {certificateCheckHostNameError.invalid && (
+              <ValidationBlock>{certificateCheckHostNameError.message}</ValidationBlock>
+            )}
+            <div className={locals.top}>
+              <Stack direction="horizontal">
+                <div className={locals.alignText}>
+                  {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputDaysLine1')}
+                </div>
+                <Input
+                  name="days"
+                  value={daysRemaining}
+                  onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                    const valueNotBlank: ValidationResult = notBlankValidator(target.value);
+                    const valueUndefined: ValidationResult = notUndefinedValidator(target.value);
+                    const valueIsNumber: ValidationResult = numberValidator(+target.value);
+                    const valueNotNegative: ValidationResult = minValidator(0)(+target.value);
+                    if (valueNotBlank!.length > 0) {
+                      setCertificateCheckDaysRemainingError({
+                        invalid: true,
+                        message: valueNotBlank![0].message!,
+                        touched: true
+                      });
+                    } else if (valueUndefined) {
+                      setCertificateCheckDaysRemainingError({
+                        invalid: true,
+                        message: valueUndefined[0].message!,
+                        touched: true
+                      });
+                    } else if (valueIsNumber) {
+                      setCertificateCheckDaysRemainingError({
+                        invalid: true,
+                        message: valueIsNumber[0].message!,
+                        touched: true
+                      });
+                    } else if (valueNotNegative) {
+                      setCertificateCheckDaysRemainingError({
+                        invalid: true,
+                        message: valueNotNegative[0].message!,
+                        touched: true
+                      });
+                    } else {
+                      setCertificateCheckDaysRemainingError({ invalid: false, message: '', touched: true });
+                    }
+                    // form gets updated within certificateCheckScriptUpdater()
+                    setBasicScript(
+                      certificateCheckScriptUpdater(basicScript, hostName, target.value, form, updateForm)
+                    );
+                    setDaysRemaining(target.value);
+                  }}
+                  hasError={certificateCheckDaysRemainingError.invalid && certificateCheckDaysRemainingError.touched}
+                />
+                <div className={locals.alignText}>
+                  {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputDaysLine2')}
+                </div>
+              </Stack>
+            </div>
+            {certificateCheckDaysRemainingError.invalid && (
+              <ValidationBlock>{certificateCheckDaysRemainingError.message}</ValidationBlock>
+            )}
+          </FormGroup>
+        </div>
+      );
+    } else {
+      return (
+        <List
+          getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
+          columnDefinitions={columnDefinition}
+          renderNoDataAvailable={() => (
+            <NoDataAvailable
+              type="lib_help_error_warning_outline"
+              height={100}
+              className={locals.boldText}
+              text={t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptNotAdded')}
+            />
+          )}
+          pageSize={1}
+          initialOrderBy={''}
+          rightHeader={
+            <Button
+              className={locals.selectButton}
+              kind="action"
+              onClick={() => {
+                setSliderState({
+                  slideInConfig: {
+                    component: (
+                      <AddScriptDialogContent
+                        form={form}
+                        scriptContent={script}
+                        zipFileDetails={zipFile}
+                        setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                        onSubmit={(scriptContent, zipFileContent) => {
+                          const testType = isBrowser
+                            ? scriptTestType(scriptContent.extension, syntheticType)
+                            : syntheticType;
+                          const columnLabelUpdated = isBlank(scriptContent.extension)
+                            ? ''
+                            : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName');
+                          updateForm(getupdatedForm(scriptContent, testType));
+                          setScript(scriptContent);
+                          setZipFile(zipFileContent);
+                          setSliderState({
+                            slideInConfig: {},
+                            isVisible: false
+                          });
+                          setColumnLabel(columnLabelUpdated);
+                          setIsUpdated(true);
+                          if (isBrowser) {
+                            setCommonAttributes({ ...commonAttributes, syntheticType: testType });
+                          }
+                        }}
+                        setSliderState={setSliderState}
+                        isBrowser={isBrowser}
+                      />
+                    ),
+                    title: title
+                  },
+                  isVisible: true
+                });
+              }}
+              icon={
+                script.text !== '' || (isUpdateConfig && !isUpdated)
+                  ? 'lib_actions_edit'
+                  : 'lib_openclose_add_circle_outline'
+              }
+            >
+              {script.text !== '' || (isUpdateConfig && !isUpdated)
+                ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
+                : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')}
+            </Button>
+          }
+          isSearchable={false}
+          loadEntities={loadEntities}
+        />
+      );
+    }
+  };
+
   return (
     <>
-      <List
-        getHeader={() => t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptLabel')}
-        columnDefinitions={columnDefinition}
-        renderNoDataAvailable={() => (
-          <NoDataAvailable
-            type="lib_help_error_warning_outline"
-            height={100}
-            className={locals.boldText}
-            text={t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptNotAdded')}
-          />
-        )}
-        pageSize={1}
-        initialOrderBy={''}
-        rightHeader={
-          <Button
-            className={locals.selectButton}
-            kind="action"
-            onClick={() => {
-              setSliderState({
-                slideInConfig: {
-                  component: (
-                    <AddScriptDialogContent
-                      form={form}
-                      scriptContent={script}
-                      zipFileDetails={zipFile}
-                      setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                      onSubmit={(scriptContent, zipFileContent) => {
-                        const testType = isBrowser
-                          ? scriptTestType(scriptContent.extension, syntheticType)
-                          : syntheticType;
-                        const columnLabelUpdated = isBlank(scriptContent.extension)
-                          ? ''
-                          : t('in-synthetics:dialog.createTest.advancedMode.configStep.scriptFileName');
-                        updateForm(getupdatedForm(scriptContent, testType));
-                        setScript(scriptContent);
-                        setZipFile(zipFileContent);
-                        setSliderState({
-                          slideInConfig: {},
-                          isVisible: false
-                        });
-                        setColumnLabel(columnLabelUpdated);
-                        setIsUpdated(true);
-                        if (isBrowser) {
-                          setCommonAttributes({ ...commonAttributes, syntheticType: testType });
-                        }
-                      }}
-                      setSliderState={setSliderState}
-                      isBrowser={isBrowser}
-                    />
-                  ),
-                  title: title
-                },
-                isVisible: true
-              });
-            }}
-            icon={
-              script.text !== '' || (isUpdateConfig && !isUpdated)
-                ? 'lib_actions_edit'
-                : 'lib_openclose_add_circle_outline'
-            }
-          >
-            {script.text !== '' || (isUpdateConfig && !isUpdated)
-              ? t('in-synthetics:dialog.createTest.advancedMode.configStep.editscriptAction')
-              : t('in-synthetics:dialog.createTest.advancedMode.configStep.addscriptAction')}
-          </Button>
-        }
-        isSearchable={false}
-        loadEntities={loadEntities}
-      />
+      {getScriptSection(certificateCheck)}
       <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>
           <Label className={locals.timeoutLabel}>

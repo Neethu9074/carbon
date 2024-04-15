@@ -48,6 +48,9 @@ export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const carbonShellEnabled = isFeatureFlagEnabled('carbonShellEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
+export const carbonAccordionEnabled = isFeatureFlagEnabled('carbonAccordionEnabled');
+export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
+export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -145,6 +148,12 @@ export const lastValueForNonTimeSeriesWidgetEnabled = isFeatureFlagEnabled('last
 
 export const logSmartAlertsEnabled = isFeatureFlagEnabled('logSmartAlertsEnabled');
 
+//New Smart alert Design implementation
+
+export const applicationSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled(
+  'applicationSmartAlertFullScreenDesignEnabled'
+);
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
@@ -163,7 +172,6 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGoldenSignalsEnabled = isFeatureFlagEnabled('bizopsGoldenSignalsEnabled');
-export const bizopsRbacEnabled = isFeatureFlagEnabled('bizopsRbacEnabled');
 
 // ########################################################################################
 // Chart gap hiding

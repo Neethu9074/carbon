@@ -8,7 +8,6 @@
 :local {
   .tagValue {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: 1rem;
   }
@@ -85,5 +84,9 @@
 
   .break {
     flex-basis: 100%;
+  }
+
+  .squareHover:before {
+    border-radius: var(--ids-border-radius-option-small);
   }
 }
