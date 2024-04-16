@@ -73,8 +73,7 @@ const getColumnDefinitions = ({
 ];
 
 export default function TagsTable({ form, setForm, onChange, isEditable = true }: TagsTableProps) {
-  const isNotEditable = !isEditable;
-  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
+  const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable: !isEditable });
   const tags = (form.get('tags') as Field<Tag[]>).value;
 
   return (
