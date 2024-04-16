@@ -3,16 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
-export default (() => {
-  let worker = null;
+import { APMapEdge, APMapNode, ApplicationMapNodePosition } from 'in-applications/types';
 
-  function call(layouter, data, onFinished) {
+type Layouter = 'flow' | 'force';
+interface ExtendedWorker extends Worker {
+  hasReturned?: boolean;
+}
+interface GraphStructure {
+  nodes: Map<string, APMapNode>;
+  edges: Map<string, APMapEdge>;
+  positionsMap: Map<string, ApplicationMapNodePosition>;
+}
+export default (() => {
+  let worker: ExtendedWorker | null = null;
+
+  function call(layouter: Layouter, data: GraphStructure, onFinished: (arg0: any) => void) {
     disposeRunning();
     worker = new Worker(new URL('in-applications/ApplicationMap/misc/layouting/layout.worker', import.meta.url), {
       name: 'layoutingWorker'
     });
-    worker.onmessage = function(e) {
-      worker.hasReturned = true;
+    worker.onmessage = function (e: MessageEvent) {
+      if (worker) {
+        worker.hasReturned = true;
+      }
       disposeRunning();
       onFinished(e.data);
     };
@@ -34,7 +47,7 @@ export default (() => {
   return { call, disposeRunning };
 })();
 
-function cloneData(originalData) {
+function cloneData(originalData: GraphStructure): GraphStructure {
   const clonedNodes = new Map();
   const nodeIds = originalData.nodes.keys();
   for (const id of nodeIds) {
