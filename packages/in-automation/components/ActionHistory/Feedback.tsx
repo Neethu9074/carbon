@@ -69,56 +69,58 @@ export default function Feedback({ id = '', feedback, comment, setHasStaleFeedba
         })
       }
     >
-      <div className={locals.feedbackForm}>
-        {error && (
-          <Message withIcon type="error" className={locals.message}>
-            {t('in-automation:actionHistory.feedbackError')}
-          </Message>
-        )}
-        {success && (
-          <Message withIcon type="success" className={locals.message}>
-            <b>{t('in-automation:actionHistory.feedbackSuccessTitle')}</b>{' '}
-            {t('in-automation:actionHistory.feedbackSuccessMessage')}
-          </Message>
-        )}
+      <div className={locals.feedbackDiv}>
+        <div className={locals.feedbackForm}>
+          {error && (
+            <Message withIcon type="error" className={locals.message}>
+              {t('in-automation:actionHistory.feedbackError')}
+            </Message>
+          )}
+          {success && (
+            <Message withIcon type="success" className={locals.message}>
+              <b>{t('in-automation:actionHistory.feedbackSuccessTitle')}</b>{' '}
+              {t('in-automation:actionHistory.feedbackSuccessMessage')}
+            </Message>
+          )}
 
-        <Label className={locals.prompt}>{t('in-automation:actionHistory.inputPrompt')}</Label>
-        <Stack gap="xxsmall">
-          {[
-            t('in-automation:actionHistory.unhappyFeedback'),
-            t('in-automation:actionHistory.dissatisfiedFeedback'),
-            t('in-automation:actionHistory.neutralFeedback'),
-            t('in-automation:actionHistory.satisfiedFeedback'),
-            t('in-automation:actionHistory.verySatisfiedFeedback')
-          ].map((label, i) => (
-            <CheckboxFancy
-              asRadioButton
-              label={label}
-              key={label}
-              labelClassName={locals.checkboxLabel}
-              checked={i + 1 == form.get('feedback').value}
-              onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue(i + 1)))}
-            />
-          ))}
-        </Stack>
-        {feedbackField.touched && !feedbackField.valid && (
-          <span className={locals.feedbackError}>{t('in-automation:actionHistory.feedbackNotSelectedError')}</span>
-        )}
-        <Label className={locals.commentLabel}>{t('in-automation:actionHistory.additionalFeedback')}</Label>
-        <TextArea
-          className={locals.commentBox}
-          value={form.get('comment').value}
-          onChange={e =>
-            setForm(form.updateIn(['comment'], field => field.setValue((e.target as HTMLInputElement).value)))
-          }
-        />
+          <Label className={locals.prompt}>{t('in-automation:actionHistory.inputPrompt')}</Label>
+          <Stack gap="xxsmall">
+            {[
+              t('in-automation:actionHistory.unhappyFeedback'),
+              t('in-automation:actionHistory.dissatisfiedFeedback'),
+              t('in-automation:actionHistory.neutralFeedback'),
+              t('in-automation:actionHistory.satisfiedFeedback'),
+              t('in-automation:actionHistory.verySatisfiedFeedback')
+            ].map((label, i) => (
+              <CheckboxFancy
+                asRadioButton
+                label={label}
+                key={label}
+                labelClassName={locals.checkboxLabel}
+                checked={i + 1 == form.get('feedback').value}
+                onChange={() => setForm(form.updateIn(['feedback'], field => field.setValue(i + 1)))}
+              />
+            ))}
+          </Stack>
+          {feedbackField.touched && !feedbackField.valid && (
+            <span className={locals.feedbackError}>{t('in-automation:actionHistory.feedbackNotSelectedError')}</span>
+          )}
+          <Label className={locals.commentLabel}>{t('in-automation:actionHistory.additionalFeedback')}</Label>
+          <TextArea
+            className={locals.commentBox}
+            value={form.get('comment').value}
+            onChange={e =>
+              setForm(form.updateIn(['comment'], field => field.setValue((e.target as HTMLInputElement).value)))
+            }
+          />
+        </div>
+        <FormFooter>
+          <CancelButton onClick={close} />
+          <SaveButton form={form} isSaving={isSaving}>
+            {t('in-automation:actionHistory.saveButton')}
+          </SaveButton>
+        </FormFooter>
       </div>
-      <FormFooter>
-        <CancelButton onClick={close} />
-        <SaveButton form={form} isSaving={isSaving}>
-          {t('in-automation:actionHistory.saveButton')}
-        </SaveButton>
-      </FormFooter>
     </Form>
   );
 }

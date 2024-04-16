@@ -34,4 +34,12 @@
     height: 10em;
     width: 100%;
   }
+  .feedbackDiv {
+    display: flex;
+    flex-direction: column;
+    height: 38rem;
+    .feedbackForm {
+      flex-grow: 1;
+    }
+  }
 }

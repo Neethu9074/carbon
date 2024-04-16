@@ -28,4 +28,10 @@
       color: #3c444d;
     }
   }
+
+  .contentDiv {
+    width: 55rem;
+    height: 40rem;
+    overflow-y: auto;
+  }
 }

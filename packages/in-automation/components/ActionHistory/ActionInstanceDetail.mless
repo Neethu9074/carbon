@@ -57,8 +57,7 @@
   .detailDialog {
     section {
       width: auto;
-      max-width: 60vw;
-      min-width: 40vw;
+      overflow-y: hidden;
     }
     .detailsLink {
       display: flex;
@@ -84,5 +83,9 @@
         }
       }
     }
+  }
+
+  .titleWrapper {
+    gap: 1rem;
   }
 }

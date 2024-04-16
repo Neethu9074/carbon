@@ -8,9 +8,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { ActionInstanceDialogTitle } from 'in-automation/components/ActionHistory/ActionInstanceDialogTitle';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import TabPane from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/TabPane';
 import Tabs from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/Tabs';
+import DetailsOutputTab from 'in-automation/components/ActionHistory/DetailsOutputTab';
 import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParamsTab';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -82,7 +84,12 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
 
   return (
     <div className={locals.detailDialog}>
-      <Dialog title={title} onClose={close} withoutBodyPadding>
+      <Dialog
+        title={<ActionInstanceDialogTitle title={title} status={data?.status} />}
+        onClose={close}
+        doNotCloseOnOutsideClick
+        withoutBodyPadding
+      >
         {errors.length > 0 ? (
           <ErroneousResultPresenter errors={[...errors]} />
         ) : (
@@ -91,6 +98,14 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
               <DashboardHeaderShadowModule />
               <DetailTab id={id} properties={data} />
             </TabPane>
+
+            {data?.output !== null && data?.output?.trim().length !== 0 ? (
+              <TabPane title={t('in-automation:actionHistory.output')}>
+                <DashboardHeaderShadowModule />
+                <DetailsOutputTab output={data?.output} />
+              </TabPane>
+            ) : null}
+
             <TabPane title={t('in-automation:actionHistory.inputParameters')}>
               <DashboardHeaderShadowModule />
               <DetailParamsTab inputParameters={data?.inputParameters} />
