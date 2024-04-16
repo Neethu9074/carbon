@@ -531,6 +531,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'shareAndInviteEnabled',
+    instanaCtlKey: 'feature.share.and.invite.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
     instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
     defaultValue: false
@@ -544,5 +549,5 @@ module.exports = exports = [
     uiClientKey: 'carbonTabsEnabled',
     instanaCtlKey: 'feature.carbon.tabs.enabled',
     defaultValue: false
-  },
+  }
 ];
