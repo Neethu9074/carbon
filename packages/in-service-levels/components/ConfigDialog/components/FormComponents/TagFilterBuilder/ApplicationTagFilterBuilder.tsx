@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Button, Stack, StackItem, Typography } from '@instana/components';
+import { Button, StackItem } from '@instana/components';
 
 import ApplicationTagFilterBuilderContent from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilderContent';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -19,9 +19,7 @@ export default function ApplicationTagFilterBuilder() {
   const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
 
   return (
-    <Stack gap="small">
-      <Typography variant="heading-200">{t('in-service-levels:createSloDialog.custom')}</Typography>
-      <Typography variant="body-regular">{t('in-service-levels:createSloDialog.customDescription')}</Typography>
+    <>
       {!isScopeSelected ? (
         <StackItem>
           <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
@@ -31,6 +29,6 @@ export default function ApplicationTagFilterBuilder() {
       ) : (
         <ApplicationTagFilterBuilderContent />
       )}
-    </Stack>
+    </>
   );
 }

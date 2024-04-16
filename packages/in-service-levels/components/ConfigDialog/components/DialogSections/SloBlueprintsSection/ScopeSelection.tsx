@@ -6,7 +6,7 @@
 
 import React, { useContext, useState } from 'react';
 
-import { Typography } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import SloScopeServiceEndpointPanel from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloScopeServiceEndpointPanel';
@@ -62,7 +62,11 @@ export default function ScopeSelection() {
           <SloScopeServiceEndpointPanel />
         </TabSelectPanel>
         <TabSelectPanel id="custom">
-          <ApplicationTagFilterBuilder />
+          <Stack gap="small">
+            <Typography variant="heading-200">{t('in-service-levels:createSloDialog.custom')}</Typography>
+            <Typography variant="body-regular">{t('in-service-levels:createSloDialog.customDescription')}</Typography>
+            <ApplicationTagFilterBuilder />
+          </Stack>
         </TabSelectPanel>
       </TabSelectPanels>
     </TabSelect>
