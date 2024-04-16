@@ -37,7 +37,8 @@ const TestTypeSection = ({ test }: Props) => {
       WebpageAction: { testType: 'Webpage', subTestType: 'Simple' },
       WebpageScript: { testType: 'Webpage', subTestType: 'Script' },
       DNSAction: { testType: 'DNS', subTestType: 'Simple' },
-      NotConfigured: { testType: '', subTestType: '' }
+      NotConfigured: { testType: '', subTestType: '' },
+      SSLCertificate: { testType: '', subTestType: '' }
     };
 
     //@ts-expect-error expression of type 'string' can't be used to index type 'TypeMap'.
