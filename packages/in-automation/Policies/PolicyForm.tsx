@@ -483,7 +483,7 @@ function SelectTrigger({
           <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.eventTrigger')}</Label>
         }
         rightHeader={
-          role?.canConfigureAutomationPolicies ? (
+          role?.canConfigureAutomationPolicies && (
             <Button
               kind="action"
               onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
@@ -491,8 +491,6 @@ function SelectTrigger({
             >
               {t('in-automation:policies.addEventTrigger')}
             </Button>
-          ) : (
-            <div />
           )
         }
         fixedLayout
@@ -763,7 +761,7 @@ function SelectAction({
         columnDefinitions={columnDefinitions}
         result={result}
         rightHeader={
-          role?.canConfigureAutomationPolicies ? (
+          role?.canConfigureAutomationPolicies && (
             <Button
               kind="action"
               onClick={() => addActiveDialog(<SelectActionDialog setForm={setForm} actions={actions} form={form} />)}
@@ -771,8 +769,6 @@ function SelectAction({
             >
               {t('in-automation:policies.addAction')}
             </Button>
-          ) : (
-            <div />
           )
         }
         fixedLayout
