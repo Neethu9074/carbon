@@ -561,6 +561,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
     defaultValue: false
@@ -576,9 +577,14 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'carbonInputEnabled',
+    instanaCtlKey: 'feature.carbon.input.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
-    defaultValue: false
+    default: false
   },
   {
     uiClientKey: 'lastValueForNonTimeSeriesWidgetEnabled',
