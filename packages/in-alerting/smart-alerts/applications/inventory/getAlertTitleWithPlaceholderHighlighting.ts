@@ -5,12 +5,21 @@
 
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
+import { AlertEvaluationType } from 'in-types';
 
-export default function AlertTitleWithPlaceholderHighlighting({ configName, evaluationType }) {
+interface GetAlertTitleWithPlaceholderHighlightingParams {
+  evaluationType: AlertEvaluationType;
+  configName: string;
+}
+
+export default function getAlertTitleWithPlaceholderHighlighting({
+  configName,
+  evaluationType
+}: GetAlertTitleWithPlaceholderHighlightingParams) {
   return replacePlaceholdersWithHighlighting(evaluationType, configName);
 }
 
-export function replacePlaceholdersWithHighlighting(evaluationType, configName) {
+export function replacePlaceholdersWithHighlighting(evaluationType: AlertEvaluationType, configName: string) {
   const placeholders = placeholdersByEvaluationType[evaluationType];
 
   return replacePlaceholdersWithMarkup(placeholders, configName);

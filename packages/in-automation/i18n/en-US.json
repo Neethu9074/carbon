@@ -289,7 +289,6 @@
     "custom": "Custom",
     "event": "Event",
     "entityType": "Entity type",
-    "properties": "Properties",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "infraSmartAlert": "Infrastructure Smart Alert",
@@ -309,6 +308,7 @@
     "manualAutomatic": "Manual, Automatic",
     "policyType": "Policy Type",
     "noPolicies": "There are no policies configured.",
+    "filterApplied": "Filter Applied",
     "createDialog": {
       "success": {
         "title": "Policy was created successfully.",

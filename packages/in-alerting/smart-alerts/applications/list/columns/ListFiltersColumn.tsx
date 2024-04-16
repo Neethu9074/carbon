@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ApplicationAlertRuleUnion, ThresholdConfigUnion } from 'in-types';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -14,7 +15,14 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
 
 const maxFilterToDisplay = 3;
-export default function ListFilterColumn({ tagFilterExpression, rule, threshold }) {
+
+interface ListFilterColumnProps {
+  tagFilterExpression: FormModelElement[];
+  rule: ApplicationAlertRuleUnion;
+  threshold: ThresholdConfigUnion;
+}
+
+export default function ListFilterColumn({ tagFilterExpression, rule, threshold }: ListFilterColumnProps) {
   const { QueryBuilder } = getQueryBuilderForAlertType(rule.alertType, threshold.type);
 
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
@@ -47,13 +55,13 @@ export default function ListFilterColumn({ tagFilterExpression, rule, threshold 
   );
 }
 
-function getFiltersCount(tagFilterExpression) {
+function getFiltersCount(tagFilterExpression: FormModelElement[]) {
   return tagFilterExpression.reduce((count, element) => {
     return element.type === 'TAG_FILTER' ? count + 1 : count;
   }, 0);
 }
 
-function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
+function getLimitedNumberOfFilters(tagFilterExpression: FormModelElement[], maxFilterToDisplay: number) {
   const filtersToDisplay = [];
   let tagFilterCount = 0;
 
@@ -70,9 +78,3 @@ function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
 
   return filtersToDisplay;
 }
-
-ListFilterColumn.propTypes = {
-  rule: PropTypes.object.isRequired,
-  threshold: PropTypes.object.isRequired,
-  tagFilterExpression: PropTypes.object.isRequired
-};
