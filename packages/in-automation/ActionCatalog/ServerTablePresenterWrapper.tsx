@@ -44,6 +44,7 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
   customAddRow?: () => void;
   customAddRowLabel?: string;
   ticketIdParameterExist?: boolean;
+  showAddRowButton?: boolean;
 }
 const hasNameProperty = (obj: any): obj is { name: string } => obj && typeof obj.name === 'string';
 
@@ -58,7 +59,8 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
   setForm,
   customAddRow,
   customAddRowLabel,
-  ticketIdParameterExist = false
+  ticketIdParameterExist = false,
+  showAddRowButton = true
 }: ServerTablePresenterWrapperProps<VALUETYPE>) {
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
@@ -99,8 +101,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       );
     }
   };
-
-  const isNotEditable = useContext(isNotEditableContext);
+  const isNotEditable = useContext(isNotEditableContext) || !showAddRowButton;
   const columnDefinitionsToShow = deepCopy(columnDefinitions);
   if (!isNotEditable) {
     columnDefinitionsToShow.push(deleteRowColumn);

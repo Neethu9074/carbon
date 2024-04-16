@@ -21,6 +21,7 @@ interface TagsTableProps {
   form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetFormFunction;
+  showAddRowButton?: boolean;
 }
 
 export interface Tag {
@@ -71,7 +72,7 @@ const getColumnDefinitions = ({
   }
 ];
 
-export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
+export default function TagsTable({ form, setForm, onChange, showAddRowButton = true }: TagsTableProps) {
   const isNotEditable = useContext(isNotEditableContext);
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
   const tags = (form.get('tags') as Field<Tag[]>).value;
@@ -84,6 +85,7 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
       formKey="tags"
       defaultRow={''}
       setForm={setForm}
+      showAddRowButton={showAddRowButton}
       noDataMessage={t('in-automation:noTagsConfigured')}
     />
   );

@@ -183,6 +183,7 @@ function DetailsSection({
             id="policy-name"
             type="text"
             value={field.value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form => form!.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
             }
@@ -204,6 +205,7 @@ function DetailsSection({
           <TextArea
             id="policy-description"
             value={field.value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
                 form!.updateIn(['description'], item =>
@@ -223,6 +225,7 @@ function DetailsSection({
         <TagsTable
           form={form}
           setForm={setForm}
+          showAddRowButton={role?.canConfigureAutomationPolicies}
           onChange={(fieldName, value) =>
             //@ts-expect-error
             setForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
@@ -321,6 +324,7 @@ function TypeSection({
           <CheckboxFancy
             label={t('in-automation:policies.manual')}
             checked={type.get('manual').value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
                 form!
@@ -334,6 +338,7 @@ function TypeSection({
           <CheckboxFancy
             label={t('in-automation:policies.automatic')}
             checked={type.get('automatic').value}
+            disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
                 form!
@@ -478,13 +483,17 @@ function SelectTrigger({
           <Label hasError={!triggerId.valid && triggerId.touched}>{t('in-automation:policies.eventTrigger')}</Label>
         }
         rightHeader={
-          <Button
-            kind="action"
-            onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-automation:policies.addEventTrigger')}
-          </Button>
+          role?.canConfigureAutomationPolicies ? (
+            <Button
+              kind="action"
+              onClick={() => addActiveDialog(<SelectTriggerDialog form={form} setForm={setForm} triggers={triggers} />)}
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-automation:policies.addEventTrigger')}
+            </Button>
+          ) : (
+            <div />
+          )
         }
         fixedLayout
       />
@@ -707,7 +716,7 @@ function SelectAction({
     isGithub(selectedAction?.type) ||
     isGitlab(selectedAction?.type) ||
     isJira(selectedAction?.type);
-  if (executableAction) {
+  if (executableAction && role?.canConfigureAutomationPolicies) {
     columnDefinitions.push({
       id: 'configure',
       label: '',
@@ -754,13 +763,17 @@ function SelectAction({
         columnDefinitions={columnDefinitions}
         result={result}
         rightHeader={
-          <Button
-            kind="action"
-            onClick={() => addActiveDialog(<SelectActionDialog setForm={setForm} actions={actions} form={form} />)}
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-automation:policies.addAction')}
-          </Button>
+          role?.canConfigureAutomationPolicies ? (
+            <Button
+              kind="action"
+              onClick={() => addActiveDialog(<SelectActionDialog setForm={setForm} actions={actions} form={form} />)}
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-automation:policies.addAction')}
+            </Button>
+          ) : (
+            <div />
+          )
         }
         fixedLayout
       />
