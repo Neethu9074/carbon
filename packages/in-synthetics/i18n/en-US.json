@@ -257,9 +257,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "Successfully deleted the location",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "Successfully deactivated the location",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "Successfully activated the location"
     },
     "updateTest": {
       "dialogTitle": "Edit {{syntheticType}} Test",
@@ -323,7 +323,10 @@
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
           "deactivateButton": "Deactivate"
-        }
+        },
+        "activate": "Activate",
+        "okay": "Okay",
+        "activateLocation": "Activate Location"
       },
       "validators": {
         "theValueMustNotBeEmpty": "At least one datacenter needs to be selected"

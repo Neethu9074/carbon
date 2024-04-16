@@ -6,7 +6,7 @@
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
 
-type ActionType = 'create' | 'delete' | 'update' | 'deactivate';
+type ActionType = 'create' | 'delete' | 'update' | 'deactivate' | 'activate';
 
 // Contexts available will be "test" deletion dialog and "location" deletion dialog
 
@@ -27,6 +27,9 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
       break;
     case 'deactivate':
       message = t('in-synthetics:dialog.locationFeedback.successMessageDeactivate');
+      break;
+    case 'activate':
+      message = t('in-synthetics:dialog.locationFeedback.successMessageActivate');
       break;
     default:
       message = '';
@@ -52,13 +55,14 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
     case 'delete':
       message =
         context === 'locations'
-          ? t('in-synthetics:dialog.locationFeedback.failureMesssageDelete', { deleteLocationErrorMessage: error })
+          ? t('in-synthetics:dialog.locationFeedback.failureMesssage', { errorMessage: error })
           : t('in-synthetics:dialog.feedback.failureMesssageDelete', { errorMessage: error });
       break;
     case 'deactivate':
-      message = t('in-synthetics:dialog.locationFeedback.failureMesssageDeactivate', {
-        deactivateLocationErrorMessage: error
-      });
+      message = t('in-synthetics:dialog.locationFeedback.failureMesssage', { errorMessage: error });
+      break;
+    case 'activate':
+      message = t('in-synthetics:dialog.locationFeedback.failureMesssage', { errorMessage: error });
       break;
     default:
       message = '';
@@ -87,3 +91,7 @@ export const showDeleteSuccessMessage = (context?: string) => showSuccessMessage
 export const showLocationDeactivateSuccessMessage = () => showSuccessMessage('deactivate');
 
 export const showLocationDeactivateErrorMessage = (error: string) => showErrorMessage('deactivate', undefined, error);
+
+export const showLocationActivateSuccessMessage = () => showSuccessMessage('activate');
+
+export const showLocationActivateErrorMessage = (error: string) => showErrorMessage('activate', undefined, error);

@@ -203,7 +203,7 @@ export const getSyntheticTagCatalog =
 
 export const getDatacenters = memoize(getDatacentersInternal, (id: string) => id, 5000);
 
-function getDatacentersInternal(): Observable<unknown> {
+export function getDatacentersInternal(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,

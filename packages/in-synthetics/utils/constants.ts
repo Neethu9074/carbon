@@ -17,7 +17,8 @@ import {
   TestResultSubtransaction,
   Error,
   PoPInstallationProperties,
-  TestResultMetadata
+  TestResultMetadata,
+  SyntheticDatacenter
 } from 'in-types';
 import { syntheticsPath, resultsTab, syntheticLocationPath } from 'in-synthetics/navigation/paths';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
@@ -45,6 +46,14 @@ export const scriptTestType = (fileExtension: string, syntheticType: string) => 
   if (fileExtension === 'js' || fileExtension === 'zip') return 'BrowserScript';
   if (fileExtension === 'side') return 'WebpageScript';
   return syntheticType;
+};
+
+export const dummySyntheticDatacenter: SyntheticDatacenter = {
+  cityName: '',
+  code: '',
+  countryName: '',
+  label: '',
+  provider: ''
 };
 
 export const dummyLocations = {
