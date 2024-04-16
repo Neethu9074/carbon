@@ -98,24 +98,11 @@ export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlerts
 // Synthetics test and  dashboard
 export const syntheticsEnabled = isFeatureFlagEnabled('syntheticsEnabled');
 
-// Synthetic BrowserScript feature flags
-export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrowserScriptEnabled');
-export const syntheticBrowserCreateTestEnabled = isFeatureFlagEnabled('syntheticBrowserCreateTestEnabled');
-
-// Synthetic credential feature flag
-export const syntheticsKeystoreEnabled = isFeatureFlagEnabled('syntheticsKeystoreEnabled');
-
-// Synthetic RBAC feature flag
-export const syntheticRbacEnabled = isFeatureFlagEnabled('syntheticRbacEnabled');
-
 // Synthetic Custom Dashboard feature flag
 export const syntheticCustomDashboardEnabled = isFeatureFlagEnabled('syntheticCustomDashboardEnabled');
 
 // Synthetic Instana Hosted PoP feature flag
 export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticInstanaHostedPoPEnabled');
-
-// Synthetic Instana Deploy PoP feature flag
-export const syntheticUpdateDeployPoPEnabled = isFeatureFlagEnabled('syntheticUpdateDeployPoPEnabled');
 
 // Synthetic Certificate Check Enabled feature flag
 export const syntheticCertificateCheckEnabled = isFeatureFlagEnabled('syntheticCertificateCheckEnabled');
@@ -233,6 +220,7 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
+export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', false);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 

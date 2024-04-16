@@ -7,6 +7,26 @@
     "crash": "충돌"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "활동 이름",
+          "activityClassName": "활동 클래스 이름",
+          "activityLocalPathName": "활동 로컬 경로",
+          "fragmentScreenName": "단편 이름",
+          "fragmentClassName": "단편 클래스 이름",
+          "fragmentLocalPathName": "단편 로컬 경로",
+          "activeFragmentList": "활성 단편 목록",
+          "activityResumeTime": "활동 재개 시간",
+          "fragmentResumeTime": "단편 재개 시간"
+        },
+        "ios": {
+          "accessibilityLabel": "내게 필요한 옵션 레이블",
+          "navigationItemTitle": "탐색 항목 제목",
+          "className": "클래스 이름"
+        }
+      }
+    },
     "uniqueUsers": "고유 사용자",
     "metrics": {
       "timestampMetricName": "시간소인",

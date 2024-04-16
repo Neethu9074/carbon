@@ -415,6 +415,7 @@
     "viewSwitcherLabelzhmc": "Console HMC IBM Z",
     "viewSwitcherLabelPlatforms": "Plateformes",
     "viewSwitcherButtonSignOut": "Se déconnecter",
+    "viewSwitcherCustomDashboards": "Tableaux de bord personnalisés",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nouvelle version de l'interface utilisateur Instana disponible",
     "newUiClientVersionAvailableButtonReloadToUpdate": "Recharger pour mettre à jour"
   },

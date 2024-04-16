@@ -191,8 +191,8 @@
       "unit_plural": "calls",
       "unit_application_plural": "calls",
       "unit_website_plural": "balizas",
-      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t (in-service-levels:sloChart.sloFormatter.unit, {\"contexto\": \"{{entityType}}\", \"recuento\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t (in-service-levels:sloChart.sloFormatter.unit, {\"contexto\": \"{{entityType}}\", \"recuento\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Estado",
@@ -218,6 +218,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "Servicio: {{label}}",
+        "endpoint": "Punto final: {{label}}",
         "tooltip": "SLO de {{context}}"
       },
       "entityTypeFilter": {
@@ -292,7 +293,8 @@
           "filterInfo": {
             "goodEventFilters": "Filtros de sucesos correctos:",
             "badEventFilters": "Filtros de sucesos incorrectos:"
-          }
+          },
+          "approximateTooltip": "Los datos se han agregado. Ver una ventana de tiempo más corta para ver más detalles"
         }
       },
       "entitySection": {

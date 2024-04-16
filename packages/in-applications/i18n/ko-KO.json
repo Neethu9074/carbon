@@ -7,6 +7,8 @@
   "labelCall": "호출",
   "labelTrace": "추적",
   "linkDownload": "다운로드",
+  "linkDownloadCalls": "다운로드 호출",
+  "linkDownloadRawTrace": "원시 추적 다운로드",
   "labelCalls": "호출",
   "labelCallsPerSecondFull": "초당 호출 수",
   "labelTraces": "추적",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "애플리케이션 범위.",
       "stepTitleApplicationUsesBoundaryScope": "이 애플리케이션 퍼스펙티브는 <strong>{{boundaryScope}}</strong>을(를) 사용합니다.",
       "readOnlyApplicationConfiguration": "이 애플리케이션 퍼스펙티브 구성을 읽기 전용 모드로 보고 있습니다.",
+      "readOnlyRestrictingApplication": "이 애플리케이션 퍼스펙티브는 <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig>에 정의된 컨트리뷰션 필터에 의해 자동으로 작성되고 업데이트됩니다.",
+      "accessConfiguration": "액세스 구성",
       "stepTitleBuiltInSmartAlertsScope": "기본 제공 스마트 경보 범위.",
       "noBuiltInSmartAlertsActive": "이 애플리케이션 퍼스펙티브에 대해 활성화된 기본 제공 스마트 경보가 없습니다.",
       "optionNoDownstreamServices": "다운스트림 서비스 없음",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "지금은 상위 호출을 로드할 수 없습니다",
       "callTreeLoadingOfCallsFailed": "지금은 호출을 로드할 수 없습니다",
       "retry": "다시 시도",
-      "treeHeaderLatency": "루트 호출 지연"
+      "treeHeaderLatency": "루트 호출 지연",
+      "loadingDashboard": {
+        "defaultTitle": "예상보다 조금 더 오래 걸리고 있습니다...",
+        "retryTitle": "시도 중... {{retry}}/3",
+        "loadingMessage": "ID가 {{traceId}}인 추적을 로드하려면 더 많은 시간이 필요합니다."
+      },
+      "retryErrorMessage": {
+        "title": "ID가 {{traceId}}인 추적을 찾을 수 없습니다.",
+        "reasonHeader": "가능한 원인은 다음과 같습니다.",
+        "traceDropped": "추적이 삭제됨",
+        "noInstanaTrace": "추적이 Instana 추적이 아님",
+        "outsideRetention": "추적이 Instana 보존 기간을 벗어남"
+      }
     }
   },
   "tabs": {

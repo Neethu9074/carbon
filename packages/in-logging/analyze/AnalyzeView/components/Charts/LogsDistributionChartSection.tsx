@@ -32,6 +32,7 @@ import { t } from 'in-i18n';
 import locals from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection.mless';
 
 const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
+const title = `${t('in-logging:logs')} (${t('in-logging:sum')})`;
 
 export default function LogsDistributionChartSection(props: LogsDistributionChartSectionProps) {
   const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
@@ -118,10 +119,10 @@ function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
   if (logGroupsResult.data) {
     return (
       <UnifiedMetricsChart
-        renderPreChartContent={LogsChartLegend}
         customHeight={customChartHeight}
         automaticallySize={false}
-        renderLegend={false}
+        renderLegend
+        title={title}
         excludedContextMenuActions={['globalHighlight', 'download']}
         config={config}
         renderErrorDetail
@@ -170,10 +171,10 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
 
   return (
     <UnifiedMetricsChart
-      renderPreChartContent={LogsChartLegend}
       customHeight={customChartHeight}
       automaticallySize={false}
-      renderLegend={false}
+      renderLegend
+      title={title}
       config={{
         y1: {
           colors,
@@ -187,16 +188,6 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
         type: 'TIME_SERIES'
       }}
     />
-  );
-}
-
-function LogsChartLegend() {
-  return (
-    <div className={locals.header}>
-      <span className={locals.title}>
-        {t('in-logging:logs')} ({t('in-logging:sum')})
-      </span>
-    </div>
   );
 }
 

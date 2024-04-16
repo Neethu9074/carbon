@@ -90,9 +90,9 @@ export default connectTo(
             // need to get the corresponding activity from subscription.
             // if a backend method to get a single subscription is added,
             // this should be replaced with the single getter
-            kpiValue = result?.data?.items?.[0].metrics.activities_count[0][1];
+            kpiValue = result?.data?.items?.[0] && result?.data?.items?.[0].metrics.activities_count[0][1];
           } else if (metric === 'ERRORS') {
-            kpiValue = result?.data?.items?.[0].metrics.erroneous_call_count[0][1];
+            kpiValue = result?.data?.items?.[0] && result?.data?.items?.[0].metrics.erroneous_call_count[0][1];
           }
 
           return (

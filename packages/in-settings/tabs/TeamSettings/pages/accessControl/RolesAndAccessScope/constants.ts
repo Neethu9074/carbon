@@ -15,7 +15,7 @@ import {
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import { infraSmartAlertsEnabled, logSmartAlertsEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
+import { infraSmartAlertsEnabled, logSmartAlertsEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -196,10 +196,10 @@ export const customDashboardCapabilities: Array<CapabilityType> = [
 
 export const syntheticMonitoringCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
-  ...(syntheticRbacEnabled ? [] : [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS]),
-  ...(syntheticRbacEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_TESTS]),
-  ...(syntheticRbacEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_LOCATIONS]),
-  ...(syntheticRbacEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS])
+  ...(syntheticsEnabled ? [] : [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS]),
+  ...(syntheticsEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_TESTS]),
+  ...(syntheticsEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_LOCATIONS]),
+  ...(syntheticsEnabled ? [] : [Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS])
 ];
 
 export const agentsCapabilities: Array<CapabilityType> = [
@@ -228,7 +228,7 @@ export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...mixedCapabilities,
   ...logCapabilities,
   ...customDashboardCapabilities,
-  ...(syntheticRbacEnabled ? [] : [...syntheticMonitoringCapabilities]),
+  ...(syntheticsEnabled ? [] : [...syntheticMonitoringCapabilities]),
   ...agentsCapabilities,
   ...accessControlCapabilities,
   ...automationCapabilities

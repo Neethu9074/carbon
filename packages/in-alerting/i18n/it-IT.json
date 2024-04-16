@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "Payload",
             "title": "Payload personalizzato"
-          },
-          "actionsOptional": {
-            "label": "Azioni",
-            "title": "Associazioni azione"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcola per ogni finestra di valutazione",
         "timeThresholdConfigNumberOfViolations": "Numero di violazioni metriche",
         "timeThresholdConfigEvaluationGranularity": "Granularità valutazione",
+        "granularityTooltipText": "La granularità temporale qui impostata determinerà la frequenza con cui viene valutata la soglia.",
         "timeThresholdConfigNumberOfTracesThreshold": "Numero di tracce interessate",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Numero di utenti con impatto",
         "timeThresholdConfigAtLeast": "Almeno",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "Ambito: dove si sta verificando la condizione?",
         "thresholdLabel": "Soglia",
         "thresholdTitle": "Soglia: quando viene violata la condizione?",
-        "userImpactInfo": "Solo gli utenti autenticati sono presi in considerazione per la soglia di impatto utente.",
         "payloadsLabel": "Payload",
         "payloadsTitle": "Payload personalizzati"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "Ambito",
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
         "alertConfigurationTitleTimeThreshold": "Soglia temporale",
-        "alertConfigurationTitleAlertProperties": "Proprietà avviso",
-        "predictiveTrigger": {
-          "title": "Attiva come previsione l'avviso in anticipo"
-        }
+        "alertConfigurationTitleAlertProperties": "Proprietà avviso"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
         },
         "predictiveTrigger": {
-          "title": "Trigger predittivo",
+          "title": "Gli avvisi predittivi sono disabilitati",
+          "alertTitle": "L'avviso verrà attivato {{value}} prima della violazione prevista",
           "timeToFailure": "Tempo prima di un malfunzionamento"
         },
         "alertChannel": {
@@ -1292,7 +1286,7 @@
     "logs": {
       "alertDetails": {
         "alertConfiguration": "Configurazione avviso",
-        "metricName": "Conteggio dei log",
+        "metricName": "Conteggio log",
         "alertConfigurationTitleScope": "Ambito",
         "noScopeSelected": "Nessun filtro di ambito o gruppo configurato.",
         "alertConfigurationTitleTimeThreshold": "Soglia temporale",
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Ambito",
-          "title": "Ambito: dove si sta verificando la condizione?"
+          "title": "Ambito: dove si sta verificando la condizione?",
+          "metric": "Metrica"
         },
         "threshold": {
           "label": "Soglia",
-          "title": "Soglia: quando viene violata la condizione?"
+          "title": "Soglia: quando viene violata la condizione?",
+          "tooltipText": "Il valore di soglia qui definito verrà valutato in base alla granularità temporale specificata di seguito."
         },
         "timeThreshold": {
           "label": "Soglia temporale",
@@ -1345,10 +1341,10 @@
           },
           "alertPropertiesTitlePlaceholder": "Avviso smart dei log",
           "descriptionPlaceholder": {
-            "logsCount_higherThan": "Il conteggio dei log è superiore a {{value}}.",
-            "logsCount_higherEqual": "Il conteggio dei log è superiore o uguale a {{value}}.",
-            "logsCount_lowerThan": "Il conteggio dei log è inferiore a {{value}}.",
-            "logsCount_lowerEqual": "Il conteggio dei log è inferiore o uguale a {{value}}."
+            "logsCount_higherThan": "Il conteggio del log è superiore a {{value}}.",
+            "logsCount_higherEqual": "Il conteggio del log è superiore o uguale a {{value}}.",
+            "logsCount_lowerThan": "Il conteggio del log è minore di {{value}}.",
+            "logsCount_lowerEqual": "Il conteggio del log è inferiore o uguale a {{value}}."
           }
         },
         "customPayloads": {
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
-        "noMetricSelected": "Nessuna metrica selezionata"
+        "noDataForSelectedGroup": "Non sono disponibili dati per la combinazione di filtri e il raggruppamento specificata."
       },
-      "logs": "Log"
+      "logCount": "Conteggio log"
     }
   }
 }

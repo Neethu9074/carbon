@@ -187,11 +187,11 @@
     "sloFormatter": {
       "unit": "호출",
       "unit_application": "호출",
-      "unit_website": "비콘",
+      "unit_website": "경고",
       "unit_plural": "호출",
       "unit_application_plural": "호출",
-      "unit_website_plural": "비콘",
-      "thousandCallsFormat": "{{count}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "unit_website_plural": "경고",
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
       "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
@@ -218,6 +218,7 @@
     "components": {
       "sloEntityInfo": {
         "service": "서비스: {{label}}",
+        "endpoint": "엔드포인트: {{label}}",
         "tooltip": "{{context}} SLO"
       },
       "entityTypeFilter": {
@@ -292,7 +293,8 @@
           "filterInfo": {
             "goodEventFilters": "유용한 이벤트 필터:",
             "badEventFilters": "잘못된 이벤트 필터:"
-          }
+          },
+          "approximateTooltip": "데이터가 집계되었습니다. 세부사항을 보려면 더 짧은 시간 창을 보십시오."
         }
       },
       "entitySection": {

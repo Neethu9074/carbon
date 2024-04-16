@@ -7,6 +7,26 @@
     "crash": "損毀"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "活動名稱",
+          "activityClassName": "活動類別名稱",
+          "activityLocalPathName": "活動本端路徑",
+          "fragmentScreenName": "片段名稱",
+          "fragmentClassName": "片段類別名稱",
+          "fragmentLocalPathName": "片段本端路徑",
+          "activeFragmentList": "作用中片段清單",
+          "activityResumeTime": "活動回復時間",
+          "fragmentResumeTime": "片段回復時間"
+        },
+        "ios": {
+          "accessibilityLabel": "協助工具標籤",
+          "navigationItemTitle": "導覽項目標題",
+          "className": "類別名稱"
+        }
+      }
+    },
     "uniqueUsers": "唯一使用者",
     "metrics": {
       "timestampMetricName": "時間戳記",

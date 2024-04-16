@@ -237,11 +237,13 @@
       "failureTitle": "Echec !",
       "failureMessageCreate": "Échec de la création du test synthétique {{errorMessage}}",
       "failureMessageUpdate": "Échec de la mise à jour du test synthétique {{errorMessage}}",
-      "failuteMesssageDelete": "Echec de la suppression du test synthétique. Réessayez plus tard"
+      "failureMesssageDelete": "Echec de la suppression du test synthétique : {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "La suppression de l'emplacement a abouti",
-      "failureMesssageDelete": "Echec de la suppression de l'emplacement. Veuillez réessayer ultérieurement."
+      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "successMessageDeactivate": "L'emplacement a été désactivé",
+      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
       "dialogTitle": "Éditer le test {{syntheticType}}",
@@ -279,20 +281,32 @@
         "datacenterCode": "Code du centre de données",
         "datacenterName": "Nom du centre de données",
         "provider": "Fournisseur",
-        "locationName": "Nom d'affichage de la localisation",
+        "locationName": "Nom de l'emplacement",
+        "displayName": "Nom d'affichage",
+        "locationStatus": "Statut",
         "status": "Statut d'activation",
-        "datacentersSubtitle": "Activez un emplacement géré Instana dans l'un des centres de données disponibles. Pour plus d'informations, voir <linkDatacenters>Synthetic PoP Deployment</linkDatacenters>.",
+        "datacentersSubtitle": "Activez un emplacement géré Instana dans l'un des centres de données disponibles. Pour plus d'informations, voir <linkDatacenters>Utilisation d'un PoP hébergé par Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Des emplacements sont en cours de déploiement",
-          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Cette opération peut prendre jusqu'à 10 minutes.</strong>",
+          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Cette opération peut prendre jusqu'à 10 minutes pour chaque centre de données sélectionné.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Code du centre de données",
               "datacenterName": "Nom du centre de données",
-              "locationName": "Nom d'affichage de la localisation",
+              "locationName": "Nom de l'emplacement",
               "datacenterStatus": "Statut d'activation"
             }
-          }
+          },
+          "activateLocationLoadingMessage": "Activation des centres de données en cours",
+          "activationRejectedMessageSingleDatacenter": "La demande d'activation pour {{rejectedDatacentersList}} ne peut pas être traitée car l'activation est déjà effective",
+          "activationRejectedMessageMultipleDatacenters": "La demande d'activation pour {{rejectedDatacentersList}} ne peut pas être traitée car l'activation est déjà effective"
+        },
+        "deactivateDatacenter": {
+          "title": "Désactiver l'emplacement",
+          "deactivateMessage": "Voulez-vous vraiment désactiver l'emplacement <strong>{{locationDisplayLabel}}</strong> ?<br/><br/>La désactivation d'un emplacement peut prendre jusqu'à 10 minutes. Veuillez patienter pendant l'annulation de l'accès. Une fois l'opération terminée, le statut de l'emplacement sera Hors ligne.<br/>",
+          "warningMessage": "La désactivation n'équivaut pas à une suppression. L'emplacement sera disponible et pourra être réactivé. Pour retirer complètement l'emplacement géré, supprimez l'emplacement une fois que son statut est Hors ligne.",
+          "activeStatus": "Actif",
+          "deactivateButton": "Désactiver"
         }
       },
       "validators": {
@@ -329,7 +343,7 @@
         "simpleTab": "Simple",
         "redisTab": "TLS Redis",
         "title": "Commandes PoP synthétiques",
-        "subTitle": "Utilisez ces modèles de code comme référence. Pour plus d'informations, voir <documentationLink>Déploiement PoP synthétique</documentationLink>",
+        "subTitle": "Utilisez ces modèles de code comme référence. Pour plus d'informations, voir <documentationLink>Déploiement d'un PoP autohébergé</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<nomDeVotreCluster>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<votreMotDePasse>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<nomDeVotreCluster>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Si vous voulez activer le protocole Redis TLS, vous devez disposer de votre fichier de paire clé/certificat X.509 (`tls.crt`, `tls.key`) et de votre fichier de certificat racine de l'autorité de certification (`ca.crt`).\n\nSi vous ne disposez pas de vos fichiers de clés et de certificats, vous pouvez utiliser la commande openssl pour en générer de nouveaux. Reportez-vous aux exemples ci-dessous :",
@@ -383,9 +397,10 @@
       "success": "Succès",
       "failure": "Échec",
       "popVersion": "Version",
-      "noActionsAllowed": "ND",
-      "deleteRestrictedDescription": "Les emplacements gérés ne peuvent pas être supprimés.",
-      "deleteLocationBroswerRefreshInfo": "La disparition de l'emplacement de la liste des emplacements prend un certain temps et peut nécessiter une actualisation du navigateur."
+      "deleteLocationBroswerRefreshInfo": "La disparition de l'emplacement de la liste des emplacements prend un certain temps et peut nécessiter une actualisation du navigateur.",
+      "deactivateLocation": {
+        "deactivate": "Désactiver"
+      }
     },
     "summary": {
       "successRate": "Taux de réussite",

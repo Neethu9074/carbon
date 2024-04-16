@@ -65,10 +65,7 @@ module.exports = {
   actionAutomationEnabled: true,
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
-  syntheticBrowserScriptEnabled: true,
-  syntheticBrowserCreateTestEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
-  syntheticsKeystoreEnabled: true,
   controlPlaneEnabled: true,
   largeTracesV2Enabled: true,
   limitVisibleNestingLevelsInTraceEnabled: false,
@@ -89,7 +86,6 @@ module.exports = {
   sloV2Enabled: true,
   sloEnabled: true,
   sloSmartAlertsEnabled: false,
-  syntheticRbacEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   infraSmartAlertsEnabled: true,
@@ -107,7 +103,6 @@ module.exports = {
   applicationContributionFilterEnabled: true,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
-  syntheticUpdateDeployPoPEnabled: true,
   syntheticCertificateCheckEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
@@ -122,4 +117,5 @@ module.exports = {
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   rawTraceDownloadEnabled: false,
   carbonTabsEnabled: true,
+  shareAndInviteEnabled: false
 };

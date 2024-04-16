@@ -75,7 +75,7 @@ export default function ActivityErrorsChart({ processId, activityName }: Activit
 
   // create chart wrapper result from subscription
   let chartWrapperResult: Result<MetricData>;
-  if (activityResponse) {
+  if (activityResponse && activityResponse?.data?.items?.[0]) {
     chartWrapperResult = {
       errors: activityResponse.data === null ? activityResponse.errors : [],
       progress: activityResponse.progress,

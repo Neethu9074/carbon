@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "我們建議在專用 EC2、當代一般用途 Linux 虛擬機器上執行 Instana AWS 感應器。例如，m4.large 實例就相當適合用於作業。在啟動專用的 EC2 虛擬機器時，請使用下列項目作為「使用者資料」。",
+    "description": "我們建議在專用的 EC2「最新通用」Linux 虛擬機器上執行 Instana AWS 感應器。 例如，m5.large 實例就相當適合用於作業。 在啟動專用 EC2 虛擬機器時，請使用下列內容作為「使用者資料」。",
     "help": {
       "title": "AWS EC2 中的使用者資料",
       "text": "如需如何使用「AWS EC2 中的使用者資料」來操作上述 Script 的相關資訊，請參閱<go>「啟動時在 Linux 實例上執行指令」頁面</go>。"

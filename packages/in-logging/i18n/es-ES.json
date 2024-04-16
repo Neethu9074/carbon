@@ -6,6 +6,8 @@
   "logsOverTime_ERROR": "Error",
   "logsOverTime_WARN": "Avisos ",
   "logsOverTime_INFO": "Información",
+  "logsOverTime_FATAL": "Muy grave",
+  "logsOverTime_NEXTLOGLEVEL": "{{label}}",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
   "addAsFilter": "Añadir como filtro",
   "addAsGroup": "Añadir como grupo",
@@ -50,6 +52,6 @@
   "warn_plural": "{{count}} avisos",
   "process": "Proceso",
   "host": "Host",
-  "fileOnHost": "en el",
-  "file": "Fichero"
+  "fileOnHost": "act",
+  "file": "Archivo"
 }

@@ -50,7 +50,7 @@
       "agentKey": "에이전트 키"
     },
     "common": {
-      "agentCatalog": "에이전트 카탈로그",
+      "agentDeployment": "에이전트 배치",
       "step1": "1단계: ",
       "step2": "2단계: ",
       "step3": "3단계: ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "시작",
     "viewAll": "모두 보기",
+    "search": "검색",
+    "addMore": "추가",
+    "UrlShortener": "URL 단축기",
     "consumeData": {
-      "title": "데이터 이용",
-      "description": "첫 번째 에이전트를 시작하고 배치하십시오.",
+      "title": "서비스 감지",
+      "description": "먼저 Instana를 사용으로 설정하여 모니터링할 서비스와 기타 데이터를 검색하십시오.",
       "buttonName": "에이전트 배치",
       "buttonType": "기본"
     },
     "inviteTeammates": {
       "title": "팀 동료 초대",
       "description": "동료와 협업하십시오.",
-      "buttonName": "초대 보내기",
+      "buttonName": "사용자 관리",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "다음 단계",
-      "description": "?를 클릭하여 추가 설정 단계를 찾으십시오. 오른쪽 상단 모서리에 있는 기호입니다.",
+      "description": "더 많은 둘러보기 및 추가 지원을 찾으십시오.",
       "buttonName": "답변 받기",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "CPU 사용량",
         "created": "작성일시",
         "started": "시작됨"
+      },
+      "syntheticWidget": {
+        "label": "합성 모니터링",
+        "na": "해당사항 없음",
+        "name": "이름",
+        "type": "유형",
+        "successRate": "성공률",
+        "latency": "대기 시간",
+        "lastTestRunOn": "마지막 테스트 실행 시간",
+        "version": "버전",
+        "timeThreshold": "시간 임계값",
+        "testsApplied": "적용된 테스트 수"
+      },
+      "dashboardWidget": {
+        "label": "내 사용자 정의 대시보드",
+        "name": "이름",
+        "owner": "소유자",
+        "permissions": "권한"
       }
     },
     "noData": {
@@ -533,7 +554,45 @@
       "businessMonitoringWidget": {
         "header": "비즈니스 프로세스 없음",
         "description": "IBM Business Automation Workflow를 사용으로 설정하거나 비즈니스 프로세스에서 비즈니스 데이터를 캡처하고 저장하도록 Instana를 구성하십시오."
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "합성 테스트 없음",
+          "description": "특정 연속 간격으로 실행되도록 합성 테스트를 구성하십시오.",
+          "buttonName": "합성 테스트 추가"
+        },
+        "location": {
+          "header": "합성 위치 없음",
+          "description": "특정 연속 간격으로 실행되도록 합성 위치를 구성하십시오."
+        },
+        "smartalerts": {
+          "header": "합성 스마트 경보 없음",
+          "description": "특정한 연속 간격으로 실행되도록 합성 스마트 경보를 구성하십시오.",
+          "buttonName": "합성 스마트 경보 추가"
+        }
+      },
+      "dashboardWidget": {
+        "header": "사용자 정의 대시보드 없음",
+        "description": "사용자 정의 대시보드를 작성하십시오.",
+        "buttonName": "사용자 정의 대시보드 작성"
       }
+    },
+    "ariaLabel": {
+      "shareButton": "공유 단추",
+      "searchButton": "검색 단추",
+      "addButton": "추가 단추",
+      "handleButton": "처리 단추"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "예: 유럽",
+      "Add": "추가"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "시작하기"
     }
   }
 }

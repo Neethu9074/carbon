@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "페이로드",
             "title": "사용자 정의 페이로드"
-          },
-          "actionsOptional": {
-            "label": "조치",
-            "title": "조치 연관"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "각 평가 창에 대한 계산",
         "timeThresholdConfigNumberOfViolations": "메트릭 위반 수",
         "timeThresholdConfigEvaluationGranularity": "평가 단위",
+        "granularityTooltipText": "여기에 설정된 시간 단위는 임계값이 평가되는 빈도를 판별합니다.",
         "timeThresholdConfigNumberOfTracesThreshold": "영향을 받은 추적 수",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "영향을 받는 사용자 수",
         "timeThresholdConfigAtLeast": "최소",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "범위: 조건이 발생하는 위치",
         "thresholdLabel": "임계값",
         "thresholdTitle": "임계값: 조건이 위반되는 경우는 언제입니까?",
-        "userImpactInfo": "인증된 사용자만 사용자 영향 임계값에 대해 고려됩니다.",
         "payloadsLabel": "페이로드",
         "payloadsTitle": "사용자 정의 페이로드"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "범위",
         "alertConfigurationTitleAlertChannels": "경보 채널",
         "alertConfigurationTitleTimeThreshold": "시간 임계값",
-        "alertConfigurationTitleAlertProperties": "경보 특성",
-        "predictiveTrigger": {
-          "title": "미리 경보를 예측적으로 트리거"
-        }
+        "alertConfigurationTitleAlertProperties": "경보 특성"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "시간 임계값: 경보를 수신하려는 항목"
         },
         "predictiveTrigger": {
-          "title": "예측 트리거",
+          "title": "예측 경보 사용 안함",
+          "alertTitle": "예측된 위반 전에 경보가 트리거됨 {{value}}",
           "timeToFailure": "실패 시간"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "범위",
-          "title": "범위: 조건이 발생하는 위치"
+          "title": "범위: 조건이 발생하는 위치",
+          "metric": "메트릭"
         },
         "threshold": {
           "label": "임계값",
-          "title": "임계값: 조건이 위반되는 경우는 언제입니까?"
+          "title": "임계값: 조건이 위반되는 경우는 언제입니까?",
+          "tooltipText": "여기에 정의된 임계값은 아래에 지정된 시간 단위를 기반으로 평가됩니다."
         },
         "timeThreshold": {
           "label": "시간 임계값",
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "0 이상인 수를 제공하십시오.",
-        "noMetricSelected": "메트릭이 선택되지 않음"
+        "noDataForSelectedGroup": "지정된 필터 및 그룹화 조합에 사용 가능한 데이터가 없습니다."
       },
-      "logs": "로그"
+      "logCount": "로그 개수"
     }
   }
 }

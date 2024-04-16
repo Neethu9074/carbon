@@ -18,12 +18,18 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
+import { APMapGraphEdge, TransformedAPMapNode } from 'in-applications/types';
+//@ts-expect-error Need TS migration
+import { Graph } from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/Graph';
+
 const minimumLength = 1;
 
-export function longestPathRanking(graph) {
-  const visited = {};
+export function longestPathRanking(graph: Graph) {
+  const visited: {
+    [key: string]: boolean;
+  } = {};
 
-  function dfs(val, nodeName) {
+  function dfs(_val: null, nodeName: string) {
     const node = graph.getNode(nodeName);
     if (!node) {
       return undefined;
@@ -33,8 +39,8 @@ export function longestPathRanking(graph) {
 
       let rank = graph
         .outgoingEdges(nodeName)
-        .map(edge => dfs(null, edge.target) - minimumLength)
-        .sort((a, b) => a - b)[0];
+        .map((edge: APMapGraphEdge) => dfs(null, edge.target) - minimumLength)
+        .sort((a: number, b: number) => a - b)[0];
 
       if (rank === undefined) {
         rank = 0;
@@ -47,7 +53,7 @@ export function longestPathRanking(graph) {
   graph.entryNodes().forEach(dfs);
 }
 
-export function normalizeRanks(graph) {
+export function normalizeRanks(graph: Graph) {
   let i;
   let lowestRank = Infinity;
   // First make the ranks positive
@@ -61,16 +67,16 @@ export function normalizeRanks(graph) {
   }
 }
 
-export function forcePrimaryRankPromotions(graph) {
+export function forcePrimaryRankPromotions(graph: Graph) {
   let entryNodes = graph.entryNodes();
-  entryNodes.forEach(entryNode => {
+  entryNodes.forEach((entryNode: TransformedAPMapNode) => {
     entryNode.rank = 0;
   });
 }
 
-export function forceSecondaryRankPromotions(graph) {
+export function forceSecondaryRankPromotions(graph: Graph) {
   let entryNodes = graph.entryNodes();
-  entryNodes.forEach((entryNode, key) => {
+  entryNodes.forEach((_entryNode: TransformedAPMapNode, key: string) => {
     const outgoingNodes = graph.outgoingNodes(key);
     for (let j = 0; j < outgoingNodes.length; j++) {
       const node = graph.getNode(outgoingNodes[j]);

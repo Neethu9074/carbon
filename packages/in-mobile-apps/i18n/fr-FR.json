@@ -7,6 +7,26 @@
     "crash": "Panne"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "Nom d'activité",
+          "activityClassName": "Nom de la classe d'activité",
+          "activityLocalPathName": "Chemin d'accès local de l'activité",
+          "fragmentScreenName": "Nom du fragment",
+          "fragmentClassName": "Nom de la classe de fragment",
+          "fragmentLocalPathName": "Chemin d'accès local du fragment",
+          "activeFragmentList": "Liste des fragments actifs",
+          "activityResumeTime": "Heure de reprise de l'activité",
+          "fragmentResumeTime": "Heure de reprise du fragment"
+        },
+        "ios": {
+          "accessibilityLabel": "Libellé d'accessibilité",
+          "navigationItemTitle": "Titre de l'élément de navigation",
+          "className": "Nom de classe"
+        }
+      }
+    },
     "uniqueUsers": "Utilisateurs uniques",
     "metrics": {
       "timestampMetricName": "horodatage",

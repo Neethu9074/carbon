@@ -66,6 +66,7 @@ export interface TransformedAPMapNode {
   outgoingConnections: TransformedAPMapNode[];
   incomingConnections: TransformedAPMapNode[];
   __touched: boolean;
+  connected?: boolean;
   x?: number;
   y?: number;
 }

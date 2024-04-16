@@ -59,7 +59,7 @@
   },
   "roleAndAccessScope": {
     "dialogTitle": "Create new group",
-    "dialogTitle_edit": "Edit access scope",
+    "dialogTitle_edit": "Edit access configuration",
     "editButton": "Edit",
     "productArea": "Access configuration for {{tenantUnit}}-{{tenant}}"
   },
@@ -444,6 +444,7 @@
     "someEmailsHaveFailedToSend": "Some emails have failed to send",
     "inviteUserToTenant": "Invite user to {{tenant}}",
     "anotherUser": "Another user",
+    "inviteUsertoDefaultGroup": "You don’t have enough permissions to select a group for the invitation. Invited user will be added to the default group.",
     "permissionEntityLabel": "permission {{entityLabel}}",
     "addToAGroup": "Add to a group",
     "failedToAddUserToGroups": "Failed to add user to groups: {{err}}",

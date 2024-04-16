@@ -255,10 +255,6 @@
           "payloadsOptional": {
             "label": "Cargas úteis",
             "title": "Carga útil customizada"
-          },
-          "actionsOptional": {
-            "label": "Ações",
-            "title": "Associações de ação"
           }
         }
       },
@@ -661,6 +657,7 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada janela de avaliação",
         "timeThresholdConfigNumberOfViolations": "Número de violações de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidade da avaliação",
+        "granularityTooltipText": "A granularidade de tempo configurada aqui determinará a frequência com que o limite é avaliado.",
         "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreios afetados",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuários afetados",
         "timeThresholdConfigAtLeast": "Pelo menos",
@@ -1152,7 +1149,6 @@
         "scopeTitle": "Escopo: onde a condição está acontecendo?",
         "thresholdLabel": "Limite",
         "thresholdTitle": "Limite: quando a condição é violada?",
-        "userImpactInfo": "Apenas usuários autenticados são considerados para o limite de impacto de usuário.",
         "payloadsLabel": "Cargas úteis",
         "payloadsTitle": "Cargas úteis customizadas"
       }
@@ -1212,10 +1208,7 @@
         "alertConfigurationTitleScope": "Escopo",
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleTimeThreshold": "Limite de tempo",
-        "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
-        "predictiveTrigger": {
-          "title": "Acionar preditivamente o alerta com antecedência"
-        }
+        "alertConfigurationTitleAlertProperties": "Propriedades de alerta"
       },
       "list": {
         "columns": {
@@ -1259,7 +1252,8 @@
           "title": "Limite de tempo: quando você quer ser alertado?"
         },
         "predictiveTrigger": {
-          "title": "Acionador preditivo",
+          "title": "Alertas preditivos estão desativados",
+          "alertTitle": "O alerta será acionado {{value}} antes da violação prevista",
           "timeToFailure": "Tempo para falha"
         },
         "alertChannel": {
@@ -1323,11 +1317,13 @@
       "advancedModeContainer": {
         "scope": {
           "label": "Escopo",
-          "title": "Escopo: onde a condição está acontecendo?"
+          "title": "Escopo: onde a condição está acontecendo?",
+          "metric": "Métrica"
         },
         "threshold": {
           "label": "Limite",
-          "title": "Limite: quando a condição é violada?"
+          "title": "Limite: quando a condição é violada?",
+          "tooltipText": "O valor do limite definido aqui será avaliado com base na granulidade de tempo especificada abaixo."
         },
         "timeThreshold": {
           "label": "Limite de tempo",
@@ -1346,9 +1342,9 @@
           "alertPropertiesTitlePlaceholder": "Alerta inteligente de logs",
           "descriptionPlaceholder": {
             "logsCount_higherThan": "A contagem de logs é maior que {{value}}.",
-            "logsCount_higherEqual": "A contagem de logs é maior ou igual a {{value}}.",
+            "logsCount_higherEqual": "A contagem de logs é maior que ou igual a {{value}}.",
             "logsCount_lowerThan": "A contagem de logs é menor que {{value}}.",
-            "logsCount_lowerEqual": "A contagem de logs é menor ou igual a {{value}}."
+            "logsCount_lowerEqual": "A contagem de logs é menor que ou igual a {{value}}."
           }
         },
         "customPayloads": {
@@ -1359,9 +1355,9 @@
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
-        "noMetricSelected": "Nenhuma métrica selecionada"
+        "noDataForSelectedGroup": "Não há dados disponíveis para a combinação especificada de filtros e agrupamento."
       },
-      "logs": "Logs"
+      "logCount": "Contagem de logs"
     }
   }
 }

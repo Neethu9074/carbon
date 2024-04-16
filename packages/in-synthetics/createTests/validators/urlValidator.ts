@@ -145,7 +145,7 @@ const checkAuthentication = (user_pass: string[]): ValidationResult => {
   return undefined;
 };
 
-const checkForInvalidPort = (port: string): ValidationResult => {
+export const checkForInvalidPort = (port: string): ValidationResult => {
   if (port != '' && port.length > 0) {
     const portInt = parseInt(port, 10);
     if (!/^\d+$/.test(port) || portInt <= 0 || portInt > 65535) {

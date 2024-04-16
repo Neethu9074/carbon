@@ -237,11 +237,13 @@
       "failureTitle": "失败！",
       "failureMessageCreate": "未能创建合成测试：{{errorMessage}}",
       "failureMessageUpdate": "未能更新合成测试：{{errorMessage}}",
-      "failuteMesssageDelete": "未能删除合成测试。 请稍后重试"
+      "failureMesssageDelete": "未能删除合成测试: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "已成功删除位置",
-      "failureMesssageDelete": "无法删除该位置。 请稍后重试"
+      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "successMessageDeactivate": "已成功取消激活位置",
+      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
       "dialogTitle": "编辑 {{syntheticType}} 测试",
@@ -279,20 +281,32 @@
         "datacenterCode": "数据中心代码",
         "datacenterName": "数据中心名称",
         "provider": "提供程序",
-        "locationName": "位置显示名称",
+        "locationName": "位置名称",
+        "displayName": "显示名称",
+        "locationStatus": "状态",
         "status": "激活状态",
-        "datacentersSubtitle": "在其中一个可用数据中心内激活 Instana 受管位置。 有关更多信息，请参阅<linkDatacenters>合成 PoP 部署</linkDatacenters>。",
+        "datacentersSubtitle": "在其中一个可用数据中心内激活 Instana 受管位置。 有关更多信息，请参阅 <linkDatacenters>使用 Instana 托管的 PoP</linkDatacenters>。",
         "confirmationDialog": {
           "headline": "正在部署位置",
-          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>这可能最多需要 10 分钟。</strong>",
+          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>对于每个选定的数据中心，这可能需要最多 10 分钟时间。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "数据中心代码",
               "datacenterName": "数据中心名称",
-              "locationName": "位置显示名称",
+              "locationName": "位置名称",
               "datacenterStatus": "激活状态"
             }
-          }
+          },
+          "activateLocationLoadingMessage": "激活数据中心",
+          "activationRejectedMessageSingleDatacenter": "无法处理 {{rejectedDatacentersList}} 的激活请求，因为此数据中心已激活",
+          "activationRejectedMessageMultipleDatacenters": "无法处理 {{rejectedDatacentersList}} 的激活请求，因为这些数据中心已激活"
+        },
+        "deactivateDatacenter": {
+          "title": "取消激活位置",
+          "deactivateMessage": "确定要取消激活位置 <strong>{{locationDisplayLabel}}</strong> 吗?<br/><br/>取消激活某个位置可能最多需要 10 分钟时间。 请耐心等待我们为您取消供应。 完成此操作后，位置状态将为“脱机”。<br/>",
+          "warningMessage": "未删除取消激活。 该位置将可用，并且可以再次激活。 要完全除去受管位置，请在该位置的状态更改为“脱机”后再删除该位置。",
+          "activeStatus": "活动",
+          "deactivateButton": "停用"
         }
       },
       "validators": {
@@ -329,7 +343,7 @@
         "simpleTab": "简单",
         "redisTab": "Redis TLS",
         "title": "合成的 PoP 命令",
-        "subTitle": "请使用这些代码模板作为参考。 有关更多信息，请参阅<documentationLink>合成 PoP 部署</documentationLink>",
+        "subTitle": "请使用这些代码模板作为参考。 有关更多信息，请参阅<documentationLink>部署自托管 PoP</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "如果要启用 Redis TLS，那么需要具有 X.509 证书密钥对（“tls.crt”、“tls.key”）和 CA 根证书文件（“ca.crt”）。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令来生成新的密钥/证书文件，请参阅以下示例：",
@@ -383,9 +397,10 @@
       "success": "成功",
       "failure": "失败",
       "popVersion": "版本",
-      "noActionsAllowed": "不适用",
-      "deleteRestrictedDescription": "无法删除受管位置。",
-      "deleteLocationBroswerRefreshInfo": "该位置需要一些时间才能从位置列表中消失，并且可能需要浏览器刷新。"
+      "deleteLocationBroswerRefreshInfo": "该位置需要一些时间才能从位置列表中消失，并且可能需要浏览器刷新。",
+      "deactivateLocation": {
+        "deactivate": "停用"
+      }
     },
     "summary": {
       "successRate": "成功率",

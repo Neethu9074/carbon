@@ -67,10 +67,10 @@
     "allApplications": "所有应用程序",
     "allWebsites": "所有 Web 站点",
     "allMobileApps": "所有移动应用程序",
+    "businessMonitoringAccessAllMessage": "所有业务流程",
     "kubernetes": "Kubernetes",
     "allSynthetics": "所有合成测试",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} 个（共 {{totalNumberOfAreaCapabilities}} 个）许可权",
-    "role": "定制",
     "role_owner": "所有者",
     "role_viewer": "查看者",
     "role_permissions": "未知 - 访问 {{quantityOfAreas}}",
@@ -84,6 +84,7 @@
     "platform_permissions": "访问 {{quantityOfAreas}}",
     "analyticsContentMessage": "可以在 Web 站点、移动应用程序、应用程序、平台和基础架构中的访问范围定义的分析中查看数据",
     "infrastructureContentMessage": "可以在应用程序、平台和基础结构中查看由访问作用域定义的实体，也可以通过 DFQ 查看（可选）",
+    "infrastructureAccessAllMessage": "所有实体",
     "eventsAndAlertsContentMessage": "可以根据 Web 站点、移动应用程序、应用程序、合成监控、平台和基础架构中定义的访问作用域来查看事件和警报",
     "permissions": "许可权",
     "additionalPermissions": "其他许可权",
@@ -112,6 +113,7 @@
     "title_mobileApps": "移动应用程序",
     "title_platforms": "平台",
     "title_websites": "Web 站点",
+    "title_businessMonitoring": "业务监视",
     "title_syntheticMonitoring": "合成监视"
   },
   "headingSection": {
@@ -136,11 +138,11 @@
     "descriptionLimitedAccess_applications": "选择角色并添加以下应用程序以授予访问权。",
     "descriptionAccessAll_applications": "可以使用所选角色访问所有应用程序。",
     "deleteButton": "从列表中除去 {{name}}",
-    "infrastructureAccessScope": "访问范围",
     "infrastructureDfqHeader": "动态焦点查询 (DFQ)",
     "infrastructureDfqUse": "此外，您还可以使用下面的动态焦点查询来授予对基础架构的访问权。",
     "infrastructureDfqMore": "了解更多信息。",
-    "descriptionViewerAccess_infrastructure": "可以查看所有实体仪表板，这些仪表板与授予应用程序和平台的访问权相关。",
+    "infrastructureDfqToggleLabel": "其他使用动态焦点查询 (DFQ) 的访问",
+    "infrastructureDfq_mayNotBeBlank": "值不能为空。",
     "descriptionAccessAll_kubernetes": "可以查看所有名称空间和集群。",
     "descriptionAccessNo_kubernetes": "无法访问名称空间和集群。",
     "descriptionAccessLimited_kubernetes": "选择下面的名称空间和集群以授予访问权。",
@@ -152,7 +154,7 @@
     "descriptionAccessAll_synthetics": "可以使用所选角色访问所有合成测试。",
     "descriptionLimitedAccess_synthetics": "选择角色并在下面添加合成测试以授予访问权。",
     "contribution_filter": "添加项过滤器",
-    "contributionFilter_description": "创建新的应用程序配置时，将应用添加项过滤器。 在应用程序配置上，可以在 {{logicalOperator}} 运算符之后使用过滤器标记来优化添加项过滤器",
+    "contributionFilter_description": "创建新的应用程序配置时，将应用添加项过滤器。 在应用程序配置上，可以在 {{logicalOperator}} 运算符之后使用过滤器标记来优化添加项过滤器。 在您保存后，系统将自动创建一个使用添加项过滤器标记的应用程序透视图。",
     "contributionFilter_downstreamCalls": "确定可以包含在应用程序透视图中的其他信息的最大级别",
     "contributionFilter_name": "名称",
     "contributionFilter_name_mayNotBeBlank": "添加项过滤器名称不得为空。",
@@ -183,6 +185,10 @@
     "description_no_access_infrastructure": "无访问权：拒绝访问基础结构。",
     "description_no_access_synthetics": "无访问权：拒绝访问合成监视。",
     "description_access_all": "全部访问，但不限于",
+    "title_access_all_bizops": "无限制访问",
+    "title_no_access_bizops": "访问被拒绝",
+    "description_access_all_bizops": "业务监控的所有功能都可访问，无任何限制。",
+    "description_no_access_bizops": "对业务监视的访问遭到拒绝。",
     "description_access_all_except_contributor": "全部访问 - 作为添加者访问的对象除外",
     "role": "选择一个角色",
     "roleSelection": "角色",
@@ -197,9 +203,10 @@
     "roleTooltip_synthetics": "查看者：能够查看合成测试仪表板（无法查看配置）。 <br /> 所有者：能够创建新的合成测试；查看、配置和删除合成测试，以及查看和删除合成位置。",
     "contribution_filter_accessScope": "受限访问作用域（查看者）",
     "contribution_filter_warning": {
-      "firstParagraph": "您保存的任何更改都将更新使用此添加项过滤器的所有应用程序透视图。",
-      "secondParagraph": "如果更改访问权类型，那么将删除添加项过滤器。 具有“应用程序”部分所有者访问权的任何用户都可以编辑所有使用添加项过滤器的应用程序透视图。"
-    }
+      "firstParagraph": "您保存的任何更改都会影响使用此添加项过滤器的所有应用程序透视图，还会影响使用添加项过滤器标记自动创建的应用程序透视图。",
+      "secondParagraph": "如果更改访问权类型，那么将删除添加项过滤器。 在“应用程序”部分中具有所有者访问权的任何用户都可以编辑所有相关应用程序透视图配置上的添加项过滤器标记。"
+    },
+    "applicationCreatedUsingContributionFilter": "此应用程序透视图是使用添加项过滤器自动创建和更新的。"
   },
   "configurationSummary": {
     "application": {
@@ -210,16 +217,18 @@
       "limited_access": {
         "access_level": "使用所选访问权类型和任何其他许可权来仅访问所列的应用程序。",
         "access_level_contributor": "您可以在用户或组详细信息上的“访问配置”窗格中找到具有添加者访问权的应用程序。 <br /><br />使用作为添加者应用的添加项过滤器来访问应用程序透视图。 <br />以查看者身份访问所选应用程序透视图",
-        "role_permissions_contributor": "创建应用了添加项过滤器的应用程序仪表板；查看、配置和删除为添加项过滤器创建的这些应用程序仪表板。"
+        "role_permissions_contributor": "在应用添加项过滤器的情况下创建应用程序透视图；查看、配置和删除为添加项过滤器创建的这些应用程序透视图。"
       },
       "role_permissions_owner": "创建、配置、查看和删除应用程序透视图。",
       "role_permissions_viewer": "查看应用程序透视图及其配置。"
     },
     "infrastructure": {
-      "limited_access": {
-        "access_level": "访问此单元下的所有实体仪表板，这些仪表板与授予给应用程序和平台的访问权相关。"
+      "access_all": {
+        "access_level": "访问配置了所选许可权的所有实体仪表板。"
       },
-      "role_permissions_owner": "查看实体仪表板。",
+      "limited_access": {
+        "access_level": "仅限访问通过对其他 Instana 部分授予的访问权能够查看的实体。"
+      },
       "role_permissions_viewer": "查看实体仪表板。"
     },
     "kubernetes": {
@@ -293,7 +302,7 @@
     "backToParentViewName": "返回到 {{parentViewName}}",
     "search": "搜索...",
     "confirmRemoveItem": "确定要移除 <strong>{{itemName}}</strong> 吗?",
-    "confirmSaveGroup": "保存这些更新将从 {{numberOfContributorAPs}} 个应用程序透视图中除去添加项过滤器，并将其禁用",
+    "confirmSaveGroup": "保存这些更新将删除添加项过滤器。<br/>对“应用程序”部分具有所有者访问权的任何用户均可编辑 <strong>{{numberOfContributorAPs}}</strong> 应用程序透视图配置上的添加项过滤器标记。<br/><br/>请确保您已选择应用程序透视图，以便在访问范围受限的情况下授予访问权。",
     "enable": "启用",
     "disable": "禁用",
     "deleteEntity": "删除 {{entity}}。",
@@ -487,23 +496,13 @@
     "alertChannels": "警报通道",
     "alertChannelEntityName": "警报通道 {{entityName}}",
     "noEventsSelected": "未选择事件",
-    "noActionsSelected": "未选择任何操作",
-    "addActions": "添加操作",
     "addEvents": "添加事件",
     "pleaseSelectAtLeastOneEvent": "请至少选择一个事件。",
-    "pleaseSelectAtLeastOneAction": "请至少选择一项操作。",
     "addNumberOfItemsEvent": "添加 {{count}} 个事件",
     "addNumberOfItemsEvent_plural": "添加 {{count}} 个事件",
-    "addNumberOfItemsAction": "添加 {{count}} 项操作",
-    "addNumberOfItemsAction_plural": "添加 {{count}} 项操作",
-    "addNumberOfItemsAction_0": "添加 {{count}} 项操作",
-    "addNumberOfItemsAction_1": "添加 {{count}} 项操作",
-    "addNumberOfItemsAction_2": "添加 {{count}} 项操作",
     "addNumberOfItemsEvent_0": "添加 {{count}} 个事件",
     "addNumberOfItemsEvent_1": "添加 {{count}} 个事件",
     "addNumberOfItemsEvent_2": "添加 {{count}} 个事件",
-    "actionAssociationsStep": "{{step}}. 操作关联",
-    "ActionAssociations": "操作关联",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>注意！</strong> 与事件类型匹配的所有事件都将进入通知流。",
     "dfqFormDesc": "定义对哪些实体应用配置的<strong>非空</strong>过滤器查询。如果要将此规则应用于所有实体，请选择<em>“应用于：所有可用实体”</em>。有关语法的更多信息，请参阅<docLink>文档</docLink>。",
     "addNumberOfItemsApplicationPerspective": "添加 {{count}} 个应用程序透视图",
@@ -801,7 +800,8 @@
     "groupDeleteTooltip_Default": "缺省组是内置组，无法删除或重命名。",
     "groupDeleteTooltip_Owner": "所有者组是内置组，无法删除或重命名。",
     "deleteGroupMessage": "确定要从此租户上的所有单元中除去 <strong>{{groupName}}</strong> 吗？",
-    "thisWillRemoveContributionFilterMessage": "这将从 <strong>{{apCount}}</strong> 个应用程序透视图中除去添加项过滤器，并将其禁用",
+    "thisWillRemoveContributionFilterMessage": "这将从添加项过滤器中除去 <strong>{{apCount}}</strong> 个应用程序透视图",
+    "thisWillRemoveContributionFilterFromOtherUnits": "这将从添加项过滤器以及其他单元上定义的任何添加项过滤器中除去 <strong>{{apCount}}</strong> 个应用程序透视图",
     "addGroup": "新建组",
     "pendingInvitations": "待处理邀请",
     "revoke": "撤销",
@@ -1123,6 +1123,7 @@
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow 警报通道",
     "serviceNowUsernameTooltip": "用户名和密码应该是具有创建突发事件许可权的 ServiceNow 用户的用户名和密码。",
+    "autoCloseIncidents": "自动关闭事件",
     "showPasswordTooltip": "显示密码",
     "hidePasswordTooltip": "隐藏密码",
     "scope": "作用域",

@@ -7,6 +7,8 @@
   "labelCall": "调用",
   "labelTrace": "跟踪",
   "linkDownload": "下载",
+  "linkDownloadCalls": "下载调用",
+  "linkDownloadRawTrace": "下载原始跟踪",
   "labelCalls": "调用数",
   "labelCallsPerSecondFull": "每秒调用数",
   "labelTraces": "跟踪",
@@ -520,6 +522,8 @@
       "stepTitleApplicationScope": "应用程序作用域。",
       "stepTitleApplicationUsesBoundaryScope": "此应用程序透视图使用 <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "您正在以只读方式查看此应用程序透视图配置。",
+      "readOnlyRestrictingApplication": "此应用程序透视图是由 <linkToGroupConfig>{{groupConfigLabel}}</linkToGroupConfig> 中定义的添加项过滤器自动创建和更新的。",
+      "accessConfiguration": "访问配置",
       "stepTitleBuiltInSmartAlertsScope": "内置智能警报范围。",
       "noBuiltInSmartAlertsActive": "没有针对此应用程序透视图处于活动状态的内置智能警报。",
       "optionNoDownstreamServices": "无下游服务",
@@ -600,7 +604,19 @@
       "callTreeLoadingOfParentFailed": "此时无法装入父调用",
       "callTreeLoadingOfCallsFailed": "此时无法装入调用",
       "retry": "请重试",
-      "treeHeaderLatency": "根调用等待时间"
+      "treeHeaderLatency": "根调用等待时间",
+      "loadingDashboard": {
+        "defaultTitle": "花费的时间超过预期...",
+        "retryTitle": "正在尝试 ... {{retry}}/3",
+        "loadingMessage": "请稍候，我们需要更多时间来装入标识为 {{traceId}} 的跟踪。"
+      },
+      "retryErrorMessage": {
+        "title": "找不到标识为 {{traceId}} 的跟踪。",
+        "reasonHeader": "可能的原因包括：",
+        "traceDropped": "跟踪已删除",
+        "noInstanaTrace": "跟踪不是 Instana 跟踪",
+        "outsideRetention": "跟踪在 Instana 保留期之外"
+      }
     }
   },
   "tabs": {

@@ -237,11 +237,13 @@
       "failureTitle": "Failed!",
       "failureMessageCreate": "No se ha podido crear la prueba sintética: {{errorMessage}}",
       "failureMessageUpdate": "No se ha podido actualizar la prueba sintética: {{errorMessage}}",
-      "failuteMesssageDelete": "No se ha podido suprimir la prueba sintética. Inténtelo más tarde."
+      "failureMesssageDelete": "No se ha podido suprimir la prueba sintética: {{errorMessage}}"
     },
     "locationFeedback": {
       "successMessageDelete": "La ubicación se ha suprimido correctamente",
-      "failureMesssageDelete": "No se ha podido suprimir la ubicación. Inténtelo más tarde"
+      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "successMessageDeactivate": "La ubicación se ha desactivado correctamente",
+      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
     },
     "updateTest": {
       "dialogTitle": "Editar prueba {{syntheticType}}",
@@ -279,20 +281,32 @@
         "datacenterCode": "Código de centro de datos",
         "datacenterName": "Nombre del centro de datos",
         "provider": "Proveedor",
-        "locationName": "Nombre de visualización de la ubicación",
+        "locationName": "Nombre de ubicación",
+        "displayName": "Nombre de visualización",
+        "locationStatus": "Estado",
         "status": "Estado de activación",
-        "datacentersSubtitle": "Active una ubicación gestionada por Instana en uno de los centros de datos disponibles. Para obtener más información, consulte <linkDatacenters>Despliegue de PoP sintético</linkDatacenters>.",
+        "datacentersSubtitle": "Active una ubicación gestionada por Instana en uno de los centros de datos disponibles. Para obtener más información, consulte <linkDatacenters>Utilización de un PoP alojado en Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Las ubicaciones se están desplegando",
-          "message": "Estamos configurando sus nuevas ubicaciones en los siguientes centros de datos. Tenga paciencia mientras se realiza el despliegue automáticamente. Cuando haya terminado, podrá encontrar las nuevas ubicaciones en la pestaña de ubicaciones. <strong>Esto puede tardar hasta 10 minutos.</strong>",
+          "message": "Estamos configurando sus nuevas ubicaciones en los siguientes centros de datos. Tenga paciencia mientras se realiza el despliegue automáticamente. Cuando haya terminado, podrá encontrar las nuevas ubicaciones en la pestaña de ubicaciones. <strong>Esto puede tardar hasta 10 minutos para cada centro de datos seleccionado.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Código de centro de datos",
               "datacenterName": "Nombre del centro de datos",
-              "locationName": "Nombre de visualización de la ubicación",
+              "locationName": "Nombre de ubicación",
               "datacenterStatus": "Estado de activación"
             }
-          }
+          },
+          "activateLocationLoadingMessage": "Activación de centros de datos",
+          "activationRejectedMessageSingleDatacenter": "La solicitud de activación para {{rejectedDatacentersList}} no se puede procesar porque ya se ha activado",
+          "activationRejectedMessageMultipleDatacenters": "La solicitud de activación para {{rejectedDatacentersList}} no se puede procesar porque ya se han activado"
+        },
+        "deactivateDatacenter": {
+          "title": "Desactivar ubicación",
+          "deactivateMessage": "¿Seguro que desea desactivar la ubicación <strong>{{locationDisplayLabel}}</strong>?<br/><br/>La desactivación de una ubicación puede tardar hasta 10 minutos. Tenga paciencia mientras nosotros lo desactivamos por usted. Cuando finalice, el estado de la ubicación será Fuera de línea.<br/>",
+          "warningMessage": "La desactivación no se está suprimiendo. La ubicación estará disponible y se podrá activar de nuevo. Para eliminar completamente la ubicación gestionada, suprima la ubicación una vez que su estado cambie a Fuera de línea.",
+          "activeStatus": "Activo",
+          "deactivateButton": "Desactivar"
         }
       },
       "validators": {
@@ -329,7 +343,7 @@
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
         "title": "Mandatos PoP sintéticos",
-        "subTitle": "Utilice estas plantillas de código como referencia. Para obtener más información, consulte <documentationLink>Despliegue de PoP sintético</documentationLink>",
+        "subTitle": "Utilice estas plantillas de código como referencia. Para obtener más información, consulte <documentationLink>Despliegue de un PoP autoalojado</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
         "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
         "tlsInstructions": "Si desea habilitar Redis TLS, debe tener el par de claves de certificado X.509 (`tls.crt`, `tls.key`) y el archivo de certificado raíz de CA (`ca.crt`).\n\nSi no tiene los archivos de claves/certificados, también puede utilizar el mandato openssl para generar otros nuevos; consulte los ejemplos siguientes:",
@@ -383,9 +397,10 @@
       "success": "Éxito",
       "failure": "Fallidas",
       "popVersion": "Versión",
-      "noActionsAllowed": "N/D",
-      "deleteRestrictedDescription": "Las ubicaciones gestionadas no se pueden suprimir.",
-      "deleteLocationBroswerRefreshInfo": "La ubicación tardará algún tiempo en desaparecer de la lista de ubicaciones y puede requerir una renovación del navegador."
+      "deleteLocationBroswerRefreshInfo": "La ubicación tardará algún tiempo en desaparecer de la lista de ubicaciones y puede requerir una renovación del navegador.",
+      "deactivateLocation": {
+        "deactivate": "Desactivar"
+      }
     },
     "summary": {
       "successRate": "Tasa de éxito",

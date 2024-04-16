@@ -7,6 +7,26 @@
     "crash": "Travamento"
   },
   "analyzeView": {
+    "eumTags": {
+      "viewTransition": {
+        "android": {
+          "activityScreenName": "Nome da atividade",
+          "activityClassName": "Nome da classe de atividade",
+          "activityLocalPathName": "Caminho local da atividade",
+          "fragmentScreenName": "Nome do fragmento",
+          "fragmentClassName": "Nome da classe de fragmento",
+          "fragmentLocalPathName": "Caminho local do fragmento",
+          "activeFragmentList": "Lista de fragmentos ativos",
+          "activityResumeTime": "Tempo de continuação da atividade",
+          "fragmentResumeTime": "Tempo de continuação do fragmento"
+        },
+        "ios": {
+          "accessibilityLabel": "Rótulo de acessibilidade",
+          "navigationItemTitle": "Título do item de navegação",
+          "className": "Nome da classe"
+        }
+      }
+    },
     "uniqueUsers": "Usuários exclusivos",
     "metrics": {
       "timestampMetricName": "registro de data e hora",

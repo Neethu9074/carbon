@@ -87,6 +87,7 @@ export function TagValue({
                 type="lib_group_by"
                 href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
                 onClick={() => trackGroupClick(resolvedValue)}
+                className={locals.squareHover}
               />
             </Tooltip>
           )}
@@ -97,12 +98,20 @@ export function TagValue({
                 type="lib_actions_filter"
                 href={onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter)}
                 onClick={() => trackFilterClick(tag, value)}
+                className={locals.squareHover}
               />
             </Tooltip>
           )}
           <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
             <CopyToClipboard getText={() => resolvedValue}>
-              {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />}
+              {copyToClipboardRef => (
+                <IconButton
+                  className={locals.squareHover}
+                  ref={copyToClipboardRef}
+                  iconSize={'xs'}
+                  type="lib_actions_copy"
+                />
+              )}
             </CopyToClipboard>
           </Tooltip>
         </div>

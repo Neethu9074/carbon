@@ -1,6 +1,6 @@
 {
   "aws": {
-    "description": "Aconselhamos a execução do sensor da Instana AWS em um EC2 dedicado, \"Propósito geral de geração atual\" Máquina virtual Linux. As instâncias m4.large, por exemplo, são perfeitamente adequadas para a tarefa. Use o seguinte como \"Dados do usuário\" ao criar a Máquina virtual EC2 dedicada.",
+    "description": "É aconselhável executar o sensor Instana AWS em uma máquina virtual Linux de \"Propósito geral da geração atual\" do EC2 dedicado. As instâncias m5.large, por exemplo, são perfeitamente adequadas à tarefa. Use como \"Dados do usuário\" a seguir ao girar a máquina virtual dedicada do EC2.",
     "help": {
       "title": "Dados do usuário no EC2 da AWS",
       "text": "Para obter mais informações sobre como usar o script acima com Dados do usuário no AWS EC2, consulte a página <go>\"Executando comandos em sua Instância do Linux na ativação\"</go>."

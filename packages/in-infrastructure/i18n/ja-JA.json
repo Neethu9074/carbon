@@ -132,5 +132,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "インフラストラクチャー・スマート・アラート"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "タグの選択",
+    "titleAddATag": "タグの追加",
+    "messagePleaseSelectAtMostTags": "最大 {{maximumNumberOfTags}} 個のタグを選択してください。"
   }
 }

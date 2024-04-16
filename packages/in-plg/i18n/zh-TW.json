@@ -50,7 +50,7 @@
       "agentKey": "代理程式金鑰"
     },
     "common": {
-      "agentCatalog": "代理程式型錄",
+      "agentDeployment": "代理程式部署",
       "step1": "步驟 1： ",
       "step2": "步驟 2： ",
       "step3": "步驟 3： ",
@@ -416,21 +416,24 @@
   "welcomepage": {
     "heading": "歡迎使用",
     "viewAll": "檢視全部",
+    "search": "搜尋",
+    "addMore": "新增",
+    "UrlShortener": "URL 縮短程式",
     "consumeData": {
-      "title": "耗用資料",
-      "description": "開始並部署您的第一個代理程式。",
+      "title": "探索服務",
+      "description": "首先讓 Instana 探索您的服務及其他要監視的資料。",
       "buttonName": "部署代理程式",
       "buttonType": "主要"
     },
     "inviteTeammates": {
       "title": "邀請隊友",
       "description": "與您的同事分工合作。",
-      "buttonName": "傳送邀請",
+      "buttonName": "管理使用者",
       "buttonType": "ghost"
     },
     "nextSteps": {
       "title": "下一步",
-      "description": "按一下？以尋找其他設定的設定步驟 右上角的符號。",
+      "description": "尋找更多導覽及其他支援。",
       "buttonName": "取得答案",
       "buttonType": "ghost"
     },
@@ -500,6 +503,24 @@
         "cpuUsage": "CPU 使用率",
         "created": "已建立",
         "started": "已開始"
+      },
+      "syntheticWidget": {
+        "label": "綜合監視",
+        "na": "N/A",
+        "name": "名稱",
+        "type": "類型",
+        "successRate": "成功率",
+        "latency": "延遲",
+        "lastTestRunOn": "前次測試執行時間",
+        "version": "版本",
+        "timeThreshold": "時間臨界值",
+        "testsApplied": "已套用測試"
+      },
+      "dashboardWidget": {
+        "label": "我的自訂儀表板",
+        "name": "名稱",
+        "owner": "擁有者",
+        "permissions": "權限"
       }
     },
     "noData": {
@@ -533,7 +554,45 @@
       "businessMonitoringWidget": {
         "header": "無商業程序",
         "description": "啟用 IBM Business Automation Workflow 或配置 Instana，以從商業程序擷取及儲存商業資料。"
+      },
+      "syntheticWidget": {
+        "test": {
+          "header": "無綜合測試",
+          "description": "配置綜合測試以特定的連續間隔執行。",
+          "buttonName": "新增綜合測試"
+        },
+        "location": {
+          "header": "無綜合位置",
+          "description": "配置綜合位置以特定的連續間隔執行。"
+        },
+        "smartalerts": {
+          "header": "無綜合 Smartalert",
+          "description": "配置綜合 Smartalert 以特定的連續間隔執行。",
+          "buttonName": "新增綜合 Smartalert"
+        }
+      },
+      "dashboardWidget": {
+        "header": "無自訂儀表板",
+        "description": "建立您自己的自訂儀表板。",
+        "buttonName": "建立自訂儀表板"
       }
+    },
+    "ariaLabel": {
+      "shareButton": "共用按鈕",
+      "searchButton": "搜尋按鈕",
+      "addButton": "「新增」按鈕",
+      "handleButton": "控點按鈕"
+    }
+  },
+  "Components": {
+    "AgentzoneLister": {
+      "EGEurope": "例如：歐洲",
+      "Add": "新增"
+    }
+  },
+  "assistme": {
+    "dataSearchContext": {
+      "gettingStarted": "入門"
     }
   }
 }

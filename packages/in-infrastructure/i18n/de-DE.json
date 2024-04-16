@@ -132,5 +132,10 @@
   },
   "smartAlertView": {
     "smartAlertTab": "Intelligente Alerts für Infrastruktur"
+  },
+  "tagConfigurator": {
+    "buttonSelectTags": "Tags auswählen",
+    "titleAddATag": "Tag hinzufügen",
+    "messagePleaseSelectAtMostTags": "Wählen Sie höchstens {{maximumNumberOfTags}} Tags aus."
   }
 }

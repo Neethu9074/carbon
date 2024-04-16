@@ -13,7 +13,6 @@ import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
-import { syntheticBrowserCreateTestEnabled, syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
@@ -22,6 +21,7 @@ import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLoca
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
+import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
@@ -56,12 +56,14 @@ const AdvancedMode = ({
   setInvalidTimeout,
   certificateCheckHostNameError,
   setCertificateCheckHostNameError,
+  certificateCheckPortError,
+  setCertificateCheckPortError,
   certificateCheckDaysRemainingError,
   setCertificateCheckDaysRemainingError
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticBrowserCreateTestEnabled, syntheticCertificateCheckEnabled)[
+    getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)[
       testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
     ]
   );
@@ -99,6 +101,8 @@ const AdvancedMode = ({
             setInvalidTimeout={setInvalidTimeout}
             certificateCheckHostNameError={certificateCheckHostNameError}
             setCertificateCheckHostNameError={setCertificateCheckHostNameError}
+            certificateCheckPortError={certificateCheckPortError}
+            setCertificateCheckPortError={setCertificateCheckPortError}
             certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
             setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />

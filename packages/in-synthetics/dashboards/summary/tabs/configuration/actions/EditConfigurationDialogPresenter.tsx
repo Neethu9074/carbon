@@ -159,7 +159,11 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     message: '',
     touched: false
   });
-
+  const [certificateCheckPortError, setCertificateCheckPortError] = useState({
+    invalid: false,
+    message: '',
+    touched: false
+  });
   const formId = 'create-synthetics-test-form';
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
@@ -196,7 +200,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     return (
       syntheticTypeField.value === 'HTTPScript' &&
       certificateCheckField.value &&
-      (certificateCheckHostNameError.invalid || certificateCheckDaysRemainingError.invalid)
+      (certificateCheckHostNameError.invalid ||
+        certificateCheckDaysRemainingError.invalid ||
+        certificateCheckPortError.invalid)
     );
   };
 
@@ -322,6 +328,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           setInvalidTimeout={setInvalidTimeout}
           certificateCheckHostNameError={certificateCheckHostNameError}
           setCertificateCheckHostNameError={setCertificateCheckHostNameError}
+          certificateCheckPortError={certificateCheckPortError}
+          setCertificateCheckPortError={setCertificateCheckPortError}
           certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
           setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
         />

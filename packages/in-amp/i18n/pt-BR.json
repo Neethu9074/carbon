@@ -53,7 +53,12 @@
       "apmHosts": "Hosts APM",
       "purchased": "Comprado",
       "infrastructureUsage": "Uso da infraestrutura",
-      "iqmHosts": "Hosts IQM"
+      "iqmHosts": "Hosts IQM",
+      "syntheticPops": "PoPs gerenciados sintéticos",
+      "resourceUnits": "Unidades de recurso",
+      "consumedUnits": "Unidades consumidas",
+      "addons": "Complementos",
+      "helperText": "O número de unidades de recurso consumidas por cada tipo de ação. As unidades são calculadas com um fator de 0,025 para testes simples, 0,042 para testes de API e 1,000 para testes do navegador."
     },
     "activationAdoption": {
       "activationAdoption": "Ativação e adoção",
