@@ -3,21 +3,26 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip';
+import { ApplicationNode } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
 
-export default function ListEntityNameColumn({ applications, isGlobalSmartAlertConfig }) {
+type Applications = Record<string, ApplicationNode>;
+interface ListEntityNameColumnProps {
+  applications: Applications;
+  isGlobalSmartAlertConfig: boolean;
+}
+
+export default function ListEntityNameColumn({ applications, isGlobalSmartAlertConfig }: ListEntityNameColumnProps) {
   return (
     <div className={locals.ellipsis}>
       {isGlobalSmartAlertConfig ? (
@@ -29,11 +34,19 @@ export default function ListEntityNameColumn({ applications, isGlobalSmartAlertC
   );
 }
 
-function IndividualAlertsSelectionLabel({ applications }) {
-  const applicationId = firstApplicationId(applications);
+interface SelectionLabelProps {
+  applications: Applications;
+}
 
-  const { label } =
-    useObservable(() => getApplication({ id: applicationId }).map(({ data }) => data ?? ''), [applicationId]) ?? {};
+function IndividualAlertsSelectionLabel({ applications }: SelectionLabelProps) {
+  const applicationId = firstApplicationId(applications) ?? '';
+
+  const application = useObservable(
+    () => getApplication({ id: applicationId }).map(({ data }) => data),
+    [applicationId]
+  );
+
+  const { label } = application ?? {};
 
   return label ? (
     <Tooltip themeStyle="light" content={label} align="topMiddle" delay={500}>
@@ -42,7 +55,7 @@ function IndividualAlertsSelectionLabel({ applications }) {
   ) : null;
 }
 
-function GlobalAlertsSelectionLabel({ applications }) {
+function GlobalAlertsSelectionLabel({ applications }: SelectionLabelProps) {
   const applicationIds = Object.values(applications);
   const label = t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
     count: applicationIds.length
@@ -53,8 +66,3 @@ function GlobalAlertsSelectionLabel({ applications }) {
     </Tooltip>
   );
 }
-
-ListEntityNameColumn.propTypes = {
-  applications: applicationsItemTreePropType.isRequired,
-  isGlobalSmartAlertConfig: PropTypes.bool
-};
