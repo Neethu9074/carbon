@@ -276,21 +276,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticBrowserScriptEnabled',
-    instanaCtlKey: 'feature.synthetic.browser.script.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticBrowserCreateTestEnabled',
-    instanaCtlKey: 'feature.synthetic.browser.create.test.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticsKeystoreEnabled',
-    instanaCtlKey: 'feature.synthetics.keystore.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
     instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
     defaultValue: true
@@ -381,11 +366,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticRbacEnabled',
-    instanaCtlKey: 'feature.synthetic.rbac.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticCustomDashboardEnabled',
     instanaCtlKey: 'feature.synthetic.custom.dashboard.enabled',
     defaultValue: false
@@ -393,11 +373,6 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticInstanaHostedPoPEnabled',
     instanaCtlKey: 'feature.synthetic.instana.hosted.pop.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'syntheticUpdateDeployPoPEnabled',
-    instanaCtlKey: 'feature.synthetic.update.deploy.pop.enabled',
     defaultValue: false
   },
   {

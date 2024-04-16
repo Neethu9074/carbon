@@ -10,19 +10,18 @@ import { Ul } from '@instana/components';
 
 import {
   agentsCapabilities,
-  syntheticMonitoringCapabilities,
   automationCapabilities,
   customDashboardCapabilities,
   mixedCapabilities,
   logCapabilities,
-  accessControlCapabilities
+  accessControlCapabilities,
+  ProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getCapabilitiesSectionData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getCapabilitiesSectionData';
 import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
-import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { syntheticsEnabled, actionAutomationEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const GlobalFunctionsSection = () => {
@@ -45,12 +44,6 @@ export const GlobalFunctionsSection = () => {
         capabilities={customDashboardCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.DASHBOARD })}
       />
-      {syntheticsEnabled && !syntheticRbacEnabled ? (
-        <CapabilitySubsection
-          capabilities={syntheticMonitoringCapabilities}
-          headerText={t('in-settings:productAreas.permissions', { context: ProductArea.SYNTHETICS })}
-        />
-      ) : null}
       {actionAutomationEnabled ? (
         <CapabilitySubsection
           capabilities={automationCapabilities}

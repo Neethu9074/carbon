@@ -30,7 +30,6 @@ import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeCont
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
@@ -92,9 +91,7 @@ const CreateSyntheticTestDialogPresenter = ({
     title: null,
     onClose: null
   });
-  const [selectedBlueprint, setSelectedBlueprint] = useState(
-    getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0]
-  );
+  const [selectedBlueprint, setSelectedBlueprint] = useState(getSimpleBlueprintConfig()[0]);
   const [headers, setHeaders] = useState(getDefaultHeaders(form));
   const [invalidHeader, setInvalidHeader] = useState({ invalid: false, message: '' });
   const [invalidJSON, setInvalidJSON] = useState({ invalid: false, message: '' });

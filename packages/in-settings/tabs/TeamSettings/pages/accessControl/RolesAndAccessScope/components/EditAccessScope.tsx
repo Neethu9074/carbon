@@ -33,8 +33,8 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
+import { applicationContributionFilterEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
-import { applicationContributionFilterEnabled, syntheticRbacEnabled } from 'in-services/featureFlags';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -255,7 +255,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     }
   ];
 
-  navItems = syntheticRbacEnabled
+  navItems = syntheticsEnabled
     ? [
         ...navItems,
         {

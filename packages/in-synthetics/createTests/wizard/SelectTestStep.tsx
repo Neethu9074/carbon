@@ -10,7 +10,6 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { Script } from 'in-synthetics/utils/constants';
 import { Error as ScriptError } from 'in-types';
@@ -46,7 +45,7 @@ export default function SelectTestStep({
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
       <Menu
-        items={getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)}
+        items={getSimpleBlueprintConfig()}
         addRightSeparator
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {

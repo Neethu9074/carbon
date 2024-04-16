@@ -14,7 +14,6 @@ import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetic
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
-import { syntheticBrowserCreateTestEnabled } from 'in-services/featureFlags';
 import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracker';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
 import { createTest } from 'in-synthetics/api';
@@ -24,7 +23,7 @@ interface CreateSyntheticTestDialogProps {
 }
 
 const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) => {
-  const selectedBlueprint = getSimpleBlueprintConfig(syntheticBrowserCreateTestEnabled)[0];
+  const selectedBlueprint = getSimpleBlueprintConfig()[0];
   const [form, updateForm] = useState(() => createForm(true, selectedBlueprint));
   const [isSaving, setIsSaving] = useState(false);
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);

@@ -19,7 +19,7 @@ import { MobileAppsSection } from 'in-settings/tabs/TeamSettings/pages/accessCon
 import { PlatformsSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Platforms/PlatformsSection';
 import { WebsitesSection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/Websites/WebsitesSection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
-import { syntheticRbacEnabled } from 'in-services/featureFlags';
+import { syntheticsEnabled } from 'in-services/featureFlags';
 
 interface RolesAndAccessScopeOverviewProps {
   permissionsSet: PermissionSet;
@@ -35,7 +35,7 @@ export default function RolesAndAccessScopeOverview({ permissionsSet }: RolesAnd
         <ApplicationsSection />
         <PlatformsSection />
         <InfrastructureSection />
-        {syntheticRbacEnabled && <SyntheticMonitoringSection />}
+        {syntheticsEnabled && <SyntheticMonitoringSection />}
         <EventsAndAlertsSection />
         <GlobalFunctionsSection />
       </RolesAndAccessScopeContext.Provider>

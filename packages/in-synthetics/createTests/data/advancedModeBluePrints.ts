@@ -51,16 +51,9 @@ const certificateCheckBlueprint: AdvancedBluePrint = {
 
 const advancedBluePrintConfig: readonly Readonly<AdvancedBluePrint>[] = Object.freeze([]);
 
-export const getAdvancedBlueprintConfig = (isBrowserEnabled: boolean, isCertificateCheckEnabled: boolean) => {
-  if (isBrowserEnabled) {
-    if (isCertificateCheckEnabled) {
-      return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
-    } else {
-      return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
-    }
-  }
+export const getAdvancedBlueprintConfig = (isCertificateCheckEnabled: boolean) => {
   if (isCertificateCheckEnabled) {
-    return advancedBluePrintConfig.concat(apiBlueprint, certificateCheckBlueprint);
+    return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
   }
-  return advancedBluePrintConfig.concat(apiBlueprint);
+  return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
 };
