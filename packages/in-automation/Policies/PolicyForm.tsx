@@ -225,7 +225,7 @@ function DetailsSection({
         <TagsTable
           form={form}
           setForm={setForm}
-          showAddRowButton={role?.canConfigureAutomationPolicies}
+          isEditable={role?.canConfigureAutomationPolicies}
           onChange={(fieldName, value) =>
             //@ts-expect-error
             setForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))

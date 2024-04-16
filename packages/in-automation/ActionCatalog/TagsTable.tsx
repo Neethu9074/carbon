@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { ChangeEvent, useContext } from 'react';
 import { MapForm, Field } from 'formalistic';
+import React, { ChangeEvent } from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
@@ -21,7 +21,7 @@ interface TagsTableProps {
   form: MapForm<any>;
   onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetFormFunction;
-  showAddRowButton?: boolean;
+  isEditable?: boolean;
 }
 
 export interface Tag {
@@ -72,8 +72,8 @@ const getColumnDefinitions = ({
   }
 ];
 
-export default function TagsTable({ form, setForm, onChange, showAddRowButton = true }: TagsTableProps) {
-  const isNotEditable = useContext(isNotEditableContext);
+export default function TagsTable({ form, setForm, onChange, isEditable = true }: TagsTableProps) {
+  const isNotEditable = !isEditable;
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable });
   const tags = (form.get('tags') as Field<Tag[]>).value;
 
@@ -85,7 +85,7 @@ export default function TagsTable({ form, setForm, onChange, showAddRowButton = 
       formKey="tags"
       defaultRow={''}
       setForm={setForm}
-      showAddRowButton={showAddRowButton}
+      isEditable={isEditable}
       noDataMessage={t('in-automation:noTagsConfigured')}
     />
   );
