@@ -57,7 +57,7 @@ export default function App() {
                   <MainNavigation />
                 </ErrorBoundary>
 
-                <div className={carbonShell ? locals.contentCarbon : locals.content}>
+                <div className={carbonShell ? locals.contentCarbon : locals.content} id="content" role="main">
                   <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
                 </div>
 
