@@ -124,7 +124,7 @@ function Suggestions({
         count={getMetric(suggestion)}
         onChange={() => {
           setNumberOfPresentedRows(prev => Math.max(prev - 1, 0));
-          tracker.suggestionClicked({ dataSource, tagName: tag, tagValue: suggestion });
+          tracker.suggestionClicked({ dataSource, tagName: tag, tagValue: suggestion.value });
           addToSelection?.(suggestion.value);
         }}
       />
