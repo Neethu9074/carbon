@@ -47,6 +47,7 @@ export interface Role {
   canConfigureGlobalLogSmartAlerts: boolean;
   canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
+  canConfigureTeams: boolean;
   canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
