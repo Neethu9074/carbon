@@ -284,6 +284,7 @@ function ScopeSection({
                 id="policy-applyOn"
                 value={field.value}
                 isClearable={false}
+                disabled={!role?.canConfigureAutomationPolicies}
                 onChange={e =>
                   setForm(form =>
                     form!.updateIn(['scope', 'applyOn'], item =>
@@ -307,6 +308,7 @@ function ScopeSection({
               <Label hasError={!scope.valid && field.touched}>{t('in-automation:policies.dynamicFocusQuery')}</Label>
               <DfqSearchBar
                 theme="light"
+                disabled={!role?.canConfigureAutomationPolicies}
                 onQueryValueChange={value => {
                   setForm(form => form!.updateIn(['scope', 'query'], item => item.setValue(value).setTouched(true)));
                 }}
