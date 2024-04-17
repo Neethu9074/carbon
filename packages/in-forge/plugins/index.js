@@ -314,6 +314,7 @@ import './awsElb';
 import './awsEmr';
 import './awsRds';
 import './awsSqs';
+import './awsSns';
 import './consul';
 import './docker';
 import './podman';

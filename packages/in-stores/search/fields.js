@@ -35,6 +35,7 @@ const helpTexts = {
   'entity.aws.redshift': t('in-stores:search.fieldsEntityAwsRedshift'),
   'entity.aws.redshift.cluster': t('in-stores:search.fieldsEntityAwsRedshiftCluster'),
   'entity.aws.redshift.node': t('in-stores:search.fieldsEntityAwsRedshiftNode'),
+  'entity.aws.sns': t('in-stores:search.fieldsEntityAwsSns'),
   'entity.azure.service': t('in-stores:search.fieldsEntityAzureService'),
   'entity.azure.service.apim': t('in-stores:search.fieldsEntityAzureServiceApim'),
   'entity.azure.service.apim.api': t('in-stores:search.fieldsEntityAzureServiceApimApi'),

@@ -266,6 +266,7 @@
     "fieldsEntityAwsRedshift": "AWS Redshift",
     "fieldsEntityAwsRedshiftCluster": "AWS Redshift Cluster",
     "fieldsEntityAwsRedshiftNode": "AWS Redshift Node",
+    "fieldsEntityAwsSns": "AWS SNS",
     "fieldsEntityTomcat": "Apache Tomcat",
     "fieldsEntityTuxedoDomain": "Oracle Tuxedo Domain",
     "fieldsEntityTuxedoMachine": "Tuxedo Machine",
