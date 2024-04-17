@@ -485,7 +485,6 @@
         "step2Title": "Define the scope",
         "step3Title": "Define when to get alerted",
         "step4Title": "Define alert properties and channels",
-        "step5Title": "Logs",
         "step6Title": "Choose actions"
       }
     },

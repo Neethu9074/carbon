@@ -22,7 +22,7 @@ interface AlertingTearSheetFooterProps {
   form: MapForm<SA_FORM_DATA>;
 }
 
-export function AlertingTearSheetFooter({
+export default function AlertingTearSheetFooter({
   form,
   formId,
   actions,

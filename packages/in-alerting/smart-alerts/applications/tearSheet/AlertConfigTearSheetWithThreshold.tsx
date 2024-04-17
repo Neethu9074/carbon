@@ -4,17 +4,31 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Field, MapForm, MapFormItems } from 'formalistic';
-import React from 'react';
+import { Field, Item, MapForm, MapFormItems, MapPath } from 'formalistic';
+import React, { ReactNode, useMemo } from 'react';
 
-import { ApplicationAlertConfig } from '@instana/types';
+import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 
+// import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
+// import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+//@ts-expect-error TS migration
+import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
+import {
+  getStepRenderers,
+  stepConfigs,
+  getFooterActions
+} from 'in-alerting/smart-alerts/applications/tearSheet/steps/TearSheetStepConfigs';
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/applications/hooks/useCalculateThresholdOnBackendSignalEmitter';
+import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
-import AlertingTearSheetContent from 'in-alerting/components/AlertingTearSheetContent';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { days } from 'in-services/time/time';
-import { t } from 'in-i18n';
+
+// import { useObservable } from '@instana/hooks';
 
 /**
  * Timeframe used for the tag-suggestions in QB2.
@@ -26,56 +40,36 @@ export const tagSuggestionTimeConfig = {
 
 const FORM_ID = 'smart-alert-editor';
 
-const stepConfigs = [
-  {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step1Title'),
-    validateIntermediately: []
-  },
-  {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step2Title'),
-    validateIntermediately: [],
-    isOptional: true
-  },
-  {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title'),
-    validateIntermediately: [],
-    isOptional: true
-  },
-  {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
-    validateIntermediately: [],
-    isOptional: true
-  },
-  {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
-    validateIntermediately: [],
-    hidden: true,
-    isBeta: true,
-    isOptional: true
-  },
-  {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step6Title'),
-    validateIntermediately: [],
-    hidden: true,
-    isOptional: true
-  }
-];
 export interface AP_FORM_DATA extends MapFormItems {
   rule: Field<{ alertType: string }>; // TODO add application form data here
 }
 
 // TODO props need to be updated
-interface AlertConfigTearSheetWithThresholdProps {
+export interface AlertConfigTearSheetWithThresholdProps {
   form: MapForm<AP_FORM_DATA>;
-  isGlobalSmartAlert: boolean;
-  withTrackCreate: VoidFunction;
-  withTrackClose: VoidFunction;
+  isGlobalSmartAlert?: boolean;
+  editMode?: boolean;
+  migrationMode?: boolean;
+  scopeMigrationDetails?: { query?: string; result: string };
   updateForm: (form: MapForm<any>) => void;
+  granularity: number;
+  onChange: (path: MapPath<any>, updater: (item: Item) => Item) => void;
+  onChartViewConfigChange: (arg: number) => void;
+  selectedChartViewConfigIndex: number;
+  setForm: (form: MapForm<any>) => void;
+  timeConfig: TimeConfig;
+  withTrackClose: () => void; // TODO check typedef once redirection is implemented
+  withTrackCreate: (simpleMode: boolean) => void;
   isSaving: boolean;
+  messages: EnrichedError[];
+  initialConfiguredApplications?: object;
 }
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
   const { form, isGlobalSmartAlert } = props;
+
+  useCalculateThresholdOnBackendSignalEmitter(form);
+
   const alertConfigWithFormModel = form.toJS() as unknown as ApplicationAlertConfig;
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
@@ -89,13 +83,52 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   );
 }
 
-type ExtendedProps = AlertConfigTearSheetWithThresholdProps & {
+export interface TearSheetWithQueryValidationProps extends AlertConfigTearSheetWithThresholdProps {
   alertConfigWithFormModel: ApplicationAlertConfig;
   blueprintConfig: BluePrint;
-};
+}
 
-function SmartAlertConfigTearSheetWithQueryValidation(props: ExtendedProps) {
-  const { form, withTrackCreate, withTrackClose, updateForm, isSaving } = props;
+export interface SlideInConfig {
+  title?: string;
+  component?: ReactNode;
+}
+
+function SmartAlertConfigTearSheetWithQueryValidation({
+  alertConfigWithFormModel,
+  blueprintConfig,
+  ...props
+}: TearSheetWithQueryValidationProps) {
+  const { migrationMode, form, updateForm, editMode, withTrackCreate, withTrackClose, isSaving } = props;
+
+  // we are validating only the user-defined part, not the whole enriched form model here,
+  // because only that part can ever be invalid
+  const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
+  const { isQueryValid, getTagCatalog } = useMemo(() => {
+    const thresholdType = threshold.type;
+    return getQueryBuilderForAlertType(rule.alertType, thresholdType);
+  }, [rule.alertType, threshold.type]);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
+
+  const updateTagFilterExpression = (filteredTagFilterExpression: any) => {
+    updateForm(form.updateIn(['tagFilterExpression'], (f: any) => f.setValue(filteredTagFilterExpression)));
+  };
+
+  useRemoveInvalidTagsFromFilterExpression(
+    getTagCatalog,
+    tagFilterExpression as unknown as FormModelElement[],
+    updateTagFilterExpression
+  );
+
+  // const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
+
+  // const [thresholdResult, setThresholdResult] = useState();
+  // useThresholdSuggestion(form, updateForm, setThresholdResult, {
+  //   isGlobalSmartAlert,
+  //   isValid,
+  //   alertConfigWithFormModel,
+  //   blueprintConfig
+  // });
 
   const { step, setStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
@@ -105,39 +138,15 @@ function SmartAlertConfigTearSheetWithQueryValidation(props: ExtendedProps) {
     onClose: withTrackClose
   });
 
-  const actions: AlertingFooterActions[] = [
-    {
-      kind: 'ghost',
-      isLeftAlign: true,
-      label: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
-      onClick: () => undefined
-    },
-    {
-      kind: 'secondary',
-      isLeftAlign: false,
-      label: t('in-alerting:smartAlerts.components.smartAlertDialog.previousTitle'),
-      onClick: backOrCancel
-    },
-    {
-      kind: 'primary',
-      isLeftAlign: false,
-      label: t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate'),
-      onClick: handleSubmit
-    }
-  ];
+  // const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);  // TODO use this validation
+  //@ts-expect-error
+  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel);
 
-  const stepRenderers: (() => JSX.Element)[] = [
-    () => (
-      <AlertingTearSheetContent title={stepConfigs[0].title}>
-        <></>
-      </AlertingTearSheetContent>
-    ),
-    () => <AlertingTearSheetContent title={stepConfigs[1].title}> {''}</AlertingTearSheetContent>,
-    () => <AlertingTearSheetContent title={stepConfigs[2].title}> {''}</AlertingTearSheetContent>,
-    () => <AlertingTearSheetContent title={stepConfigs[3].title}> {''}</AlertingTearSheetContent>,
-    () => <AlertingTearSheetContent title={stepConfigs[4].title}> {''}</AlertingTearSheetContent>,
-    () => <AlertingTearSheetContent title={stepConfigs[5].title}> {''}</AlertingTearSheetContent>
-  ];
+  const stepRenderers = getStepRenderers(props);
+
+  // const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
+  // const applications = form.get('applications')?.value || {};
+  // const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
 
   return (
     <AlertingTearSheet
@@ -148,6 +157,9 @@ function SmartAlertConfigTearSheetWithQueryValidation(props: ExtendedProps) {
       isSaving={isSaving}
       formId={FORM_ID}
       form={form}
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
+      migrationMode={migrationMode}
+      handleSubmit={handleSubmit}
     >
       {stepRenderers.map(
         (Renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) =>

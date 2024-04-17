@@ -6,8 +6,7 @@
 
 :local {
   .contentArea {
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: 100%;
     padding-right: 2rem;
     padding-bottom: 2rem;
   }
