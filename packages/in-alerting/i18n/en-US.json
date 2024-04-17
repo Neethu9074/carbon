@@ -1177,7 +1177,6 @@
         "ruleMetricNameOptionThroughputSessions": "Sessions",
         "ruleMetricNameOptionThroughputViews": "Views",
         "errorPleaseProvideCustomEventName": "Please provide a custom event name",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}} is anomalously high",
         "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}} is anomalously low",
         "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}} is above the expectation.",

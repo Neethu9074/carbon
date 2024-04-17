@@ -1,7 +1,6 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import { createField, createMapForm, MapForm } from 'formalistic';
@@ -11,13 +10,14 @@ import { isAdaptiveBaselineData, ThresholdType } from '@instana/types';
 import {
   AdaptiveBaselineData,
   HistoricBaselineConfig,
-  isHistoricBaselineConfig,
-  isStaticThresholdConfig,
   StaticThresholdConfig,
   ThresholdConfig,
   ThresholdConfigUnion,
-  ThresholdOperator
+  ThresholdOperator,
+  isHistoricBaselineConfig,
+  isStaticThresholdConfig
 } from 'in-types';
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { MobileAlertType } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -27,36 +27,18 @@ export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
   threshold: ThresholdConfigUnion | undefined, // supporting old javascript based code
-  alertType: MobileAlertType
+  alertType: WebsitesAlertType | MobileAlertType
 ): MapForm<any> {
   if (!threshold) {
     return createBaselineEnabledForm();
   }
 
   switch (alertType) {
+    case 'specificJsError':
+      return createStaticThresholdForm(threshold as StaticThresholdConfig);
     default:
       return createBaselineEnabledForm(threshold);
   }
-}
-
-function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm<any> {
-  return createBaseForm(threshold).put(
-    'value',
-    createField({
-      value: threshold?.value ?? null,
-      validator: num => {
-        if (typeof num !== 'number' || num < 0) {
-          return [
-            {
-              severity: 'error',
-              message: t('in-alerting:smartAlerts.mobileApp.form.errorPleaseProvideANumberGreaterEqualsToZero')
-            }
-          ];
-        }
-        return null;
-      }
-    })
-  );
 }
 
 function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm<any> {
@@ -73,6 +55,26 @@ function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm<any> {
   }
 
   throw new Error(`Unknown threshold type ${threshold?.type}.`);
+}
+
+function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm<any> {
+  return createBaseForm(threshold).put(
+    'value',
+    createField({
+      value: threshold?.value ?? null,
+      validator: num => {
+        if (typeof num !== 'number' || num < 0) {
+          return [
+            {
+              severity: 'error',
+              message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideANumberGreaterEqualsToZero')
+            }
+          ];
+        }
+        return null;
+      }
+    })
+  );
 }
 
 function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm<any> {

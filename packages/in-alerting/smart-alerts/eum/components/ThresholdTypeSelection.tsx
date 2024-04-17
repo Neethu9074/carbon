@@ -9,16 +9,17 @@ import React from 'react';
 
 import { Stack, Spacer } from '@instana/components';
 
-import { onThresholdTypeChange as mobileAppOnThresholdTypeChange } from 'in-alerting/smart-alerts/mobileApp/form/thresholdTypeForm';
-import { onThresholdTypeChange as websiteOnThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { getOptionsFilterForThresholdTyp } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
+import { useOnThresholdTypeChange } from 'in-alerting/smart-alerts/eum/hooks/useOnThresholdTypeChange';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
 import { ThresholdTypeOptions } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { eumType as mobileAppEum } from 'in-alerting/smart-alerts/mobileApp/constants';
+import mobileAppCreateRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
+import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 interface ThresholdTypeSelectionProps {
@@ -38,6 +39,8 @@ export default function ThresholdTypeSelection({
   const thresholdType = form.get('threshold').get('type')?.value;
   const options = thresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(thresholdType));
   const thresholdComboBoxValue = getThresholdComboBoxValue(form);
+  const websiteOnThresholdTypeChange = useOnThresholdTypeChange(websiteCreateRuleForm);
+  const mobileAppOnThresholdTypeChange = useOnThresholdTypeChange(mobileAppCreateRuleForm);
 
   return (
     <>
