@@ -36,6 +36,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
+import { tag_not_present_group } from '../constants';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -285,7 +286,7 @@ function getTableData({
           ];
         })
     ),
-    missingPlaceholder: 'tag_not_present_group'
+    missingPlaceholder: tag_not_present_group
   });
 }
 

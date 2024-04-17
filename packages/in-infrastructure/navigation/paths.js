@@ -96,6 +96,12 @@ export const queryMatrixParameter = {
   initialState: ''
 };
 
+export const showGroupsWithMissingTagsParameter = {
+  path: infraExplorePath,
+  name: 'showGroupsWithMissingTags',
+  initialState: undefined
+};
+
 export const resetMetricsAndOrderOnTypeChange = {
   bind: [
     {
@@ -120,7 +126,7 @@ export function useLinkToExplore() {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    ({ tagFilterExpression, group, groupBy, type, metrics, order, timeConfig, chartedMetrics, fromEventPage }) => {
+    ({ tagFilterExpression, group, groupBy, type, metrics, order, timeConfig, chartedMetrics, fromEventPage, showGroupsWithMissingTags }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = infraExplorePath;
@@ -167,6 +173,10 @@ export function useLinkToExplore() {
 
       if (chartedMetrics) {
         setMatrixKey(clonedLocation, chartedMetricsMatrixParameter, chartedMetrics);
+      }
+
+      if (showGroupsWithMissingTags) {
+        setMatrixKey(clonedLocation, showGroupsWithMissingTagsParameter, showGroupsWithMissingTags);
       }
 
       setMatrixKey(clonedLocation, dataSourcerMatrixParameter, 'infrastructure');

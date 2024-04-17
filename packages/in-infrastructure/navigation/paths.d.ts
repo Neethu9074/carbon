@@ -26,6 +26,7 @@ interface GetLinkToExploreProps {
   groupBy?: Partial<Grouping[]>;
   chartedMetrics?: Array<MetricItem>;
   fromEventPage?: boolean;
+  showGroupsWithMissingTags?: boolean;
 }
 
 export function isInfraExploreView(): boolean[];

@@ -823,7 +823,8 @@
           },
           "formatter": "Formatter",
           "searchPlaceholder": "Search",
-          "countGroup": "Show group count"
+          "countGroup": "Show group count",
+          "showGroupsWithMissingTags": "Show groups with missing tags"
         }
       },
       "dataSource": {

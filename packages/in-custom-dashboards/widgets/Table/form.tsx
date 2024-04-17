@@ -11,7 +11,8 @@ import {
   createGroupField,
   createSortingField,
   createTableSizeField,
-  createCountGroupField
+  createCountGroupField,
+  createShowGroupsWithMissingTagsField
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error needs ts migration
 import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
@@ -51,7 +52,8 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
           withFormatter: false
         }),
         sorting: createSortingField(savedState),
-        countGroup: createCountGroupField(savedState)
+        countGroup: createCountGroupField(savedState),
+        showGroupsWithMissingTags: createShowGroupsWithMissingTagsField(savedState)
       })
     }
   });

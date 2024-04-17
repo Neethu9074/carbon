@@ -38,6 +38,7 @@ import {
   typeMatrixParameter,
   chartedMetricsMatrixParameter,
   queryMatrixParameter,
+  showGroupsWithMissingTagsParameter,
   useLinkToExplore as useLinkToInfraEntityExplore,
   defaultInfraExploreViewParams
 } from 'in-infrastructure/navigation/paths';
@@ -91,7 +92,8 @@ const urlStateDefinition = {
     orderMatrixParameter,
     typeMatrixParameter,
     chartedMetricsMatrixParameter,
-    queryMatrixParameter
+    queryMatrixParameter,
+    showGroupsWithMissingTagsParameter
   ],
   resets: [resetMetricsAndOrderOnTypeChange],
   replaceHistory: false
@@ -118,7 +120,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
       type: urlType,
       order: urlOrder,
       chartedMetrics: urlChartedMetrics,
-      query: urlQuery
+      query: urlQuery,
+      showGroupsWithMissingTags
     },
     setUrl
   ] = useUrlState(urlStateDefinition);
@@ -200,6 +203,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             refreshFixatedTimeConfig={() => {}}
             chartedMetrics={chartedMetrics}
             backendGroupBy={backendGroupBy}
+            showGroupsWithMissingTags={showGroupsWithMissingTags}
           />
         </Stack>
       </LeftRightPadding>
@@ -226,7 +230,8 @@ function Content({
   kpiDefinitions,
   tagCatalog,
   chartedMetrics,
-  backendGroupBy
+  backendGroupBy,
+  showGroupsWithMissingTags
 }) {
   const setMetrics = useCallback(
     metrics => setUrl({ metrics, order: getUpdatedOrder(order, metrics, backendGroupBy) }),
@@ -359,6 +364,7 @@ function Content({
       catalogQuery={catalogQuery}
       onChartedMetricsChange={onChartedMetricsChange}
       chartedMetrics={chartedMetrics}
+      showGroupsWithMissingTags={showGroupsWithMissingTags}
     />
   );
 
@@ -393,7 +399,8 @@ function List({
   setTags,
   catalogQuery,
   onChartedMetricsChange,
-  chartedMetrics
+  chartedMetrics,
+  showGroupsWithMissingTags
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
@@ -441,6 +448,7 @@ function List({
         metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
         query={catalogQuery.value}
         onQueryChange={catalogQuery.onChange}
+        showGroupsWithMissingTags={showGroupsWithMissingTags}
       />
     );
   }

@@ -37,16 +37,16 @@ import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fi
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel'
+import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
+import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { typeTag } from 'in-infrastructure/Explore/constants';
-import { toGroupTag } from 'in-infrastructure/Explore/utils';
 import { getFormatter } from 'in-stores/metric/formatters';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -76,7 +76,8 @@ export default function GroupedInfrastructure(props) {
     fixedLayout = true,
     retrievalSize = 20,
     getTotalItems,
-    onItemClicked
+    onItemClicked,
+    showGroupsWithMissingTags
   } = props;
 
   const previousMetrics = usePrevious(metrics);
@@ -102,9 +103,10 @@ export default function GroupedInfrastructure(props) {
         metrics,
         granularity,
         cursor,
-        retrievalSize
+        retrievalSize,
+        missingPlaceholder: showGroupsWithMissingTags ? tag_not_present_group : undefined
       }),
-    [timeConfig, backendQueryModel, backendGroupBy, order, type, ...dependencies]
+    [timeConfig, backendQueryModel, backendGroupBy, order, type, showGroupsWithMissingTags, ...dependencies]
   );
 
   // Send totalHits
@@ -134,7 +136,6 @@ export default function GroupedInfrastructure(props) {
 function Presenter({
   totalRepresentedItemCount,
   totalRetainedItemCount,
-  tagFilterExpression,
   backendQueryModel,
   backendGroupBy,
   canLoadMore,
@@ -143,7 +144,6 @@ function Presenter({
   setMetrics,
   totalHits,
   setOrder,
-  groupBy,
   cursor,
   isHeaderVisible,
   isTableMode,
@@ -169,13 +169,15 @@ function Presenter({
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
-    item => ({
+    item => {
+      return {
       groupBy: emptyArray,
       tagFilterExpression: joinExpressions({
-        expressions: [tagFilterExpression, joinExpressions({ expressions: toTagFilters(item.tags, groupBy) })]
+        expressions: [fromBackendModel(backendQueryModel), joinExpressions({ expressions: toTagFilters(item.tags) })]
       })
-    }),
-    [tagFilterExpression, groupBy]
+      };
+    },
+    [backendQueryModel]
   );
 
   const columnDefinitions = columns({
@@ -450,7 +452,8 @@ export function getGroups({
   metrics,
   retrievalSize,
   granularity,
-  fullData = false
+  fullData = false,
+  missingPlaceholder
 }) {
   if (!backendQueryModel) {
     return just(pendingResult);
@@ -498,7 +501,8 @@ export function getGroups({
           ];
         })
     ),
-    order
+    order,
+    missingPlaceholder
   });
 }
 
@@ -527,30 +531,27 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-export function toTagFilters(tags, tagType, groupBy) {
-  return Object.entries(tags).map(([tag, value]) => ({
+export function toTagFilters(tags) {
+  return Object.entries(tags).map(([tag, value]) => toTagFilter(tag, value));
+}
+
+function toTagFilter(tag, value) {
+  if (value === tag_not_present_group) {
+    return {
+      type: TAG_FILTER_TYPE,
+      operator: IS_EMPTY,
+      name: tag
+    }
+  }
+  return {
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
-    name: getName(tag, groupBy),
-    key: getKey(tag, groupBy),
+    name: tag,
     value
-  }));
+  }
 }
 
 const defaultGroupIcon = 'lib_views_tag';
-
-function getGroupByTag(tag, groupBy) {
-  return groupBy?.find(group => toGroupTag(group) === tag);
-}
-
-function getName(tag, groupBy) {
-  const group = getGroupByTag(tag, groupBy);
-  return group ? group.groupbyTag : tag;
-}
-
-function getKey(tag, groupBy) {
-  return getGroupByTag(tag, groupBy)?.groupbyTagSecondLevelKey;
-}
 
 function getGroupPlugin(group) {
   const plugin = group.tags[typeTag];
@@ -565,10 +566,14 @@ export function getGroupIcon(group) {
 export function getGroupTagValue(group, key) {
   if (key === typeTag) {
     const plugin = getGroupPlugin(group);
-    return plugin ? getPluginName(group.tags[typeTag]) : group.tags[key];
+    return plugin ? getPluginName(group.tags[typeTag]) : replaceTagNotPresentPlaceholder(group.tags[key]);
   } else {
-    return group.tags[key];
+    return replaceTagNotPresentPlaceholder(group.tags[key]);
   }
+}
+
+function replaceTagNotPresentPlaceholder(value) {
+  return value === tag_not_present_group ? <div className={locals.italic}>{t('in-infrastructure:explore.tagNotPresent')}</div> : value;
 }
 
 function processData(items, columns) {

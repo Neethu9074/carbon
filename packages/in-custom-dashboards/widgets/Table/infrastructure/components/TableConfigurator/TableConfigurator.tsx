@@ -16,7 +16,8 @@ import {
   metricLabel,
   aggregation as aggregationFieldName,
   grouping,
-  countGroup
+  countGroup,
+  showGroupsWithMissingTags
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error
 import { MetricsForAxis as MetricsForColumns } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -65,6 +66,7 @@ export default function TableConfigurator({
 }: TableConfiguratorProps) {
   const tagFilterExpressionFieldValue = form.get(tagFilterExpressionFieldName)?.value;
   const counterField = form.get(countGroup)?.value;
+  const showGroupsWithMissingTagsField = form.get(showGroupsWithMissingTags)?.value;
   const datasetsColumnsField = form.get(datasets);
   const metricsSize = datasetsColumnsField.get(metricsPath).size;
   const groups = form.get(grouping).value;
@@ -113,6 +115,18 @@ export default function TableConfigurator({
                       onChange={({ target }) =>
                         updateForm(
                           form.updateIn([countGroup], field => field.setValue(target.checked).setTouched(true))
+                        )
+                      }
+                    />
+                  </Stack>
+                </Section>
+                <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.showGroupsWithMissingTags')}>
+                  <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
+                    <CheckboxFancy
+                      checked={showGroupsWithMissingTagsField}
+                      onChange={({ target }) =>
+                        updateForm(
+                          form.updateIn([showGroupsWithMissingTags], field => field.setValue(target.checked).setTouched(true))
                         )
                       }
                     />
