@@ -549,5 +549,10 @@ module.exports = exports = [
     uiClientKey: 'carbonTabsEnabled',
     instanaCtlKey: 'feature.carbon.tabs.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'automationActionInstanceFeedbackEnabled',
+    instanaCtlKey: 'automation.action.instance.feedback.enabled',
+    defaultValue: false
   }
 ];
