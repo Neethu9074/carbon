@@ -30,6 +30,11 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import {
+  ExtractContributionFilterNameFunction,
+  ExtractIdFunction,
+  ExtractNameFunction
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -38,10 +43,6 @@ import TabSelect, {
   TabSelectPanels
 } from 'in-components/TabSelect';
 import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccessPanel';
-import {
-  ExtractIdFunction,
-  ExtractNameFunction
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
 import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
@@ -64,6 +65,7 @@ export interface PermissionSectionProps<I extends Object, FORM_TYPE extends MapF
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
+  extractContributionFilterName?: ExtractContributionFilterNameFunction<I>;
   productArea: LimitableProductArea;
   icon: string;
   entityPermissionKey: EntityPermissionKey;
@@ -83,6 +85,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
   observable,
   extractId,
   extractName,
+  extractContributionFilterName,
   form,
   setForm,
   setSubSlideConfig,
@@ -267,6 +270,7 @@ export default function PermissionSection<I extends Object, FORM_TYPE extends Ma
                 observable={observable}
                 extractId={extractId}
                 extractName={extractName}
+                extractContributionFilterName={extractContributionFilterName}
                 setForm={setForm}
                 roleTooltipText={roleTooltipText}
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.LIMITED_ACCESS)}

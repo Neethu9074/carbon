@@ -165,7 +165,8 @@
     "doneButton": "Done"
   },
   "selectEntityDialog": {
-    "nameColumnHead": "Name"
+    "nameColumnHead": "Name",
+    "contributionFilterColumnHead": "Contribution filter"
   },
   "permissionScope": {
     "access_level": "Access level",

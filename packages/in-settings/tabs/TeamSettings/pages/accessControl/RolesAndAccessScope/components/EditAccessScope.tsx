@@ -225,6 +225,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           icon="lib_application"
           extractId={({ id }) => id}
           extractName={({ name }) => name}
+          extractContributionFilterName={({ supplementary }) => supplementary ?? ''}
           {...formControlProps}
           {...slideControlProps}
           setValid={setValidContributionFilterName}
