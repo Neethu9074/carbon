@@ -9,7 +9,6 @@
   }
 
   .message {
-    width: 100%;
     max-inline-size: none;
   }
 }
