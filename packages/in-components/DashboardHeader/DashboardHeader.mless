@@ -8,6 +8,7 @@
 :local {
   .dashboardHeader {
     padding: 0 1.5rem;
+    .print(none);
   }
 
   .borderBottom {

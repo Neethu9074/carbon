@@ -14,3 +14,11 @@
   background: var(--ids-color-option-teal-500);
   border-radius: var(--ids-border-radius-option-large);
 }
+
+.react-grid-item {
+  @media print {
+    transform: unset !important;
+    position: relative !important;
+    margin: 1.25rem 0;
+  }
+}
