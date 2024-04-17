@@ -230,3 +230,7 @@ export const serviceNowAutoCloseAndCustomPayloadsEnabled = isFeatureFlagEnabled(
 );
 
 export const rawTraceDownloadEnabled = isFeatureFlagEnabled('rawTraceDownloadEnabled', false);
+export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
+  'automationActionInstanceFeedbackEnabled',
+  false
+);

@@ -15,6 +15,7 @@ import Tabs from 'in-automation/components/ActionHistory/actionInstanceDetailTab
 import DetailsOutputTab from 'in-automation/components/ActionHistory/DetailsOutputTab';
 import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParamsTab';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { automationActionInstanceFeedbackEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getActionInstance from 'in-automation/subscriptions/getActionInstance';
 import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
@@ -110,10 +111,12 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
               <DashboardHeaderShadowModule />
               <DetailParamsTab inputParameters={data?.inputParameters} />
             </TabPane>
-            <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
-              <DashboardHeaderShadowModule />
-              <Feedback id={id} feedback={feedback} comment={comment} setHasStaleFeedback={setHasStaleFeedback} />
-            </TabPane>
+            {automationActionInstanceFeedbackEnabled ? (
+              <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
+                <DashboardHeaderShadowModule />
+                <Feedback id={id} feedback={feedback} comment={comment} setHasStaleFeedback={setHasStaleFeedback} />
+              </TabPane>
+            ) : null}
           </Tabs>
         )}
       </Dialog>
