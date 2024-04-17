@@ -52,4 +52,8 @@
   .wrapper {
     display: inline-flex;
   }
+  .smallColumn {
+    max-width: 18rem;
+    .ellipsis();
+  }
 }

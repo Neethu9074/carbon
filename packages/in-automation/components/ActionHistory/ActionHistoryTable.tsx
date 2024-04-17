@@ -26,42 +26,70 @@ import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionI
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { actionHistoryInstanceViewTracker } from 'in-automation/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import FourLineWrapper from '../FourLineWrapper/FourLineWrapper';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { formatDateTime } from 'in-services/formatters/date';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 import locals from './ActionHistoryTable.mless';
 
-const columnDefinitions = [
+const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   {
     label: t('in-automation:actionHistory.name'),
     id: 'actionName',
+    // ellipsis: true,
+    width: 20,
+    sortable: true,
     getContent(row: ActionInstance) {
       return (
-        <FourLineWrapper>
-          <Typography variant="body-regular">{row.actionName}</Typography>
-        </FourLineWrapper>
+        <Tooltip content={row.actionName} align="topLeft" delay={500}>
+          <WithSubscript subscript={getType(row.type)}>
+            <div
+              className={classNames({
+                [locals.smallColumn]: row.actionName.length > 60
+              })}
+            >
+              <Typography variant="body-regular">{row.actionName}</Typography>
+            </div>
+          </WithSubscript>
+        </Tooltip>
       );
     }
   },
   {
-    label: t('in-automation:actionHistory.type'),
-    id: 'type',
+    label: t('in-automation:actionHistory.initiator'),
+    id: 'initiator',
+    sortable: true,
+    width: 15,
     getContent(row: ActionInstance) {
-      return getType(row.type);
+      //const v = 'policy_testagvaghsvgavdgasvdghavsdghsvhg_56124651r5w612r5621r52r56';
+      return (
+        <Tooltip content={row.actorName} align="topLeft" delay={500}>
+          <div
+            className={classNames({
+              [locals.smallColumn]: row.actorName && row.actorName?.length > 60
+            })}
+          >
+            <Typography variant="body-regular">{row.actorName}</Typography>
+          </div>
+        </Tooltip>
+      );
     }
   },
   {
     label: t('in-automation:actionHistory.startTime'),
     id: 'startDate',
+    sortable: true,
+    width: 15,
     getContent(row: ActionInstance) {
       return row.startDate ? formatDateTime(row.startDate) : formatDateTime(null);
     }
@@ -69,6 +97,8 @@ const columnDefinitions = [
   {
     label: t('in-automation:actionHistory.endTime'),
     id: 'endDate',
+    sortable: true,
+    width: 15,
     getContent(row: ActionInstance) {
       return row.endDate ? formatDateTime(row.endDate) : formatDateTime(null);
     }
@@ -76,17 +106,27 @@ const columnDefinitions = [
   {
     label: t('in-automation:actionHistory.eventName'),
     id: 'problemText',
+    sortable: true,
+    width: 25,
     getContent(row: ActionInstance) {
       return (
-        <FourLineWrapper>
-          <Typography variant="body-regular">{row.problemText}</Typography>
-        </FourLineWrapper>
+        <Tooltip content={row.problemText} align="topLeft" delay={500}>
+          <div
+            className={classNames({
+              [locals.smallColumn]: row?.problemText && row?.problemText.length > 60
+            })}
+          >
+            <Typography variant="body-regular">{row.problemText}</Typography>
+          </div>
+        </Tooltip>
       );
     }
   },
   {
     label: t('in-automation:actionHistory.status'),
     id: 'status',
+    sortable: true,
+    width: 10,
     getContent(row: ActionInstance) {
       return row.status ? getStatus(row.status) : t('in-automation:actionHistory.unknown');
     }
@@ -159,7 +199,6 @@ export function GetActionInstanceListData({
 export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
-
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
@@ -182,7 +221,7 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       }}
       searchWidth={350}
       searchMaxWidth={450}
-      searchPlaceholder={t('in-automation:actionHistory.filterNameOrActionInstanceId')}
+      searchPlaceholder={t('in-automation:actionHistory.filter')}
       eventId={eventId}
     />
   );

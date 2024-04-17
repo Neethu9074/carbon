@@ -236,7 +236,7 @@
     "inputParameters": "Input Parameters",
     "feedbackTab": "Feedback",
     "properties": "Properties",
-    "filterNameOrActionInstanceId": "Filter by  Name, Event Name or Action Instance ID",
+    "filter": "Filter",
     "inputPrompt": "Tell us about your experience with this action:",
     "unhappyFeedback": "I am extremely dissatisfied",
     "dissatisfiedFeedback": "I am dissatisfied",
