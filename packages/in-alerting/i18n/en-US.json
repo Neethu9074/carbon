@@ -484,8 +484,7 @@
         "step1Title": "Pick a template",
         "step2Title": "Define the scope",
         "step3Title": "Define when to get alerted",
-        "step4Title": "Define alert properties and channels",
-        "step6Title": "Choose actions"
+        "step4Title": "Define alert properties and channels"
       }
     },
     "details": {
