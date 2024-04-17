@@ -7,4 +7,9 @@
   .linkToWebsite {
     font-size: 1.2rem;
   }
+
+  .message {
+    width: 100%;
+    max-inline-size: none;
+  }
 }
