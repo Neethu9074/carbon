@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { UIShell, MenuItem } from '@instana/components';
+import { UIShell, MenuItem, SideNavMenu, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -253,7 +253,10 @@ function Platforms() {
   }
 
   return (
-    <MenuItem icon="lib_platforms_inverted" label={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}>
+    <SideNavMenu
+      renderIcon={() => <SvgIcon color="white" size="s" type="lib_platforms_inverted" />}
+      title={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
+    >
       {/* Keep the list of platforms sorted alphabetically */}
       {hasPCFAccess && (
         <MenuItem
@@ -320,7 +323,7 @@ function Platforms() {
           isActive={matchLocation(vsphere)}
         />
       )}
-    </MenuItem>
+    </SideNavMenu>
   );
 }
 
@@ -533,7 +536,10 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
         href={createHrefToPath(settingsPath)}
       />
       <InternalView />
-      <MenuItem icon="lib_menu_additional_resources" label={t('in-components:mainNavigation.viewSwitcherLabelMore')}>
+      <SideNavMenu
+        renderIcon={() => <SvgIcon color="white" size="s" type="lib_menu_additional_resources" />}
+        title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
+      >
         {tenantSwitcherEnabled && (
           <MenuItem
             id="main-nav-tenants"
@@ -591,7 +597,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
             }
           />
         </div>
-      </MenuItem>
+      </SideNavMenu>
     </>
   );
 }
