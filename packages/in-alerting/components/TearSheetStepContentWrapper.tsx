@@ -17,20 +17,31 @@ export interface TearSheetStepContentWrapperProps {
   headline: string;
   children: React.ReactNode;
   titleToolTipText?: string;
+  description?: string;
 }
 
 export default function TearSheetStepContentWrapper({
   headline,
   children,
-  titleToolTipText
+  titleToolTipText,
+  description
 }: TearSheetStepContentWrapperProps) {
   return (
     <div className={locals.container}>
       <Typography variant="heading-300">
         {headline}
+        {description && (
+          <Typography variant="body-small">
+            <div className={locals.description}>{description} </div>
+          </Typography>
+        )}
         {titleToolTipText && (
           <Tooltip align="bottomMiddle" content={titleToolTipText}>
-            <SvgIcon type="lib_help_error_info_outline" color={themes.default.ids.color.option.neutral['600']} />
+            <SvgIcon
+              type="lib_help_error_info_outline"
+              color={themes.default.ids.color.option.neutral['600']}
+              size={'l'}
+            />
           </Tooltip>
         )}
       </Typography>

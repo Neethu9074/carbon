@@ -9,7 +9,6 @@ import React, { ReactNode, useMemo } from 'react';
 
 import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 
-// import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
 // import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 //@ts-expect-error TS migration
@@ -161,10 +160,10 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       migrationMode={migrationMode}
       handleSubmit={handleSubmit}
     >
-      {stepRenderers.map(
-        (Renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) =>
-          step === idx && <Renderer {...props} key={idx} />
-      )}
+      {stepRenderers.map((renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) => {
+        return step === idx && renderer(props);
+        // return step === idx && <Renderer {...props} key={idx} />; // TODO check why this is having rerender issues
+      })}
     </AlertingTearSheet>
   );
 }

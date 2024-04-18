@@ -1,29 +1,28 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
+import { tearSheetBoundaryScopes as boundaryScopes } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
 import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import {
   hasSubEntitySelection,
   resetEntitySelection
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { boundaryScopes } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsSwitch.mless';
-
-export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalSmartAlert }) {
+export default function TearSheetInboundOutboundCallsSwitch({ form, updateForm, isGlobalSmartAlert }) {
   const boundaryScope = form.get('boundaryScope').value;
   const applications = form.get('applications').value;
 
   return (
-    <div className={locals.inboundOutboundCallsSwitchContainer}>
+    <div>
       <Row>
         <Col lg={6}>
           <InboundOrAllCallsOption

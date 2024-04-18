@@ -6,7 +6,6 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { boundaryScopes } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
 import OptionBox from 'in-applications/components/OptionBox';
 import { BoundaryScope } from 'in-types';
 
@@ -16,12 +15,14 @@ interface InboundOrAllCallsOptionProps {
   boundaryScope: BoundaryScope; // This is the currently selected value
   scope: Exclude<BoundaryScope, 'DEFAULT'>; // This is the scope to display in this option
   onBoundaryStateChange: (newValue: { boundaryScope: Exclude<BoundaryScope, 'DEFAULT'> }) => void;
+  boundaryScopes: any;
 }
 
 export default function InboundOrAllCallsOption({
   boundaryScope,
   onBoundaryStateChange,
-  scope
+  scope,
+  boundaryScopes
 }: InboundOrAllCallsOptionProps) {
   const { icon, text, dashboard } = boundaryScopes.info[scope];
   return (

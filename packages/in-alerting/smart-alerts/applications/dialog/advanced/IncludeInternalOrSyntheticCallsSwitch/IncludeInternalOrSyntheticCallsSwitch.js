@@ -3,7 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
+
+import { Typography } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import {
   hasSubEntitySelection,
@@ -17,24 +21,45 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/InboundOrAllCallsSwitch.mless';
 
-export default function IncludeInternalOrSyntheticCallsSwitch({ form, updateForm, isGlobalSmartAlert }) {
+export default function IncludeInternalOrSyntheticCallsSwitch({
+  form,
+  updateForm,
+  isGlobalSmartAlert,
+  isTearsheet = false
+}) {
   const includeInternal = form.get('includeInternal').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const applications = form.get('applications').value;
 
+  const includeInternalLabelContent = getLabelDescriptionWithIcon(
+    'lib_application_call',
+    callLabels['includeInternal'],
+    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeInternal.text')
+  );
+
+  const includeSyntheticLabelContent = getLabelDescriptionWithIcon(
+    'lib_synthetic',
+    callLabels['includeSynthetic'],
+    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeSynthetic.text')
+  );
+
   return (
-    <div className={locals.container}>
+    <div
+      className={classNames({
+        [locals.container]: !isTearsheet
+      })}
+    >
       <Row>
         <Col lg={6} className={locals.column}>
           <CheckboxFancy
-            label={callLabels['includeInternal']}
+            label={isTearsheet ? includeInternalLabelContent : callLabels['includeInternal']}
             checked={includeInternal}
             onChange={() => handleChange('includeInternal', includeInternal)}
           />
         </Col>
         <Col lg={6} className={locals.column}>
           <CheckboxFancy
-            label={callLabels['includeSynthetic']}
+            label={isTearsheet ? includeSyntheticLabelContent : callLabels['includeSynthetic']}
             checked={includeSynthetic}
             onChange={() => handleChange('includeSynthetic', includeSynthetic)}
           />
@@ -95,3 +120,21 @@ const callLabels = Object.freeze({
     'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCalls.includeSyntheticCalls'
   )
 });
+
+function getLabelDescriptionWithIcon(icon, label, description) {
+  return (
+    <div className={locals.wrapper}>
+      <SvgIcon type={icon} className={locals.icon} />
+      <div className={locals.content}>
+        <Typography variant="body-large">
+          <div className={locals.title}>{label}</div>
+        </Typography>
+        <div className={locals.description}>
+          <Typography variant="body-small">
+            <p className={locals.description}>{description}</p>
+          </Typography>
+        </div>
+      </div>
+    </div>
+  );
+}

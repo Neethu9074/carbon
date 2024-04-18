@@ -426,7 +426,7 @@
         "thresholdFormBaselineIsEmpty": "baseline is empty"
       },
       "simple": {
-        "simpleAlertStep1Headline": "What do you want to be alerted on?",
+        "simpleAlertStep1Headline": "Choose the issue that you want to be alerted on",
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
@@ -484,7 +484,40 @@
         "step1Title": "Pick a template",
         "step2Title": "Define the scope",
         "step3Title": "Define when to get alerted",
-        "step4Title": "Define alert properties and channels"
+        "step4Title": "Define alert properties and channels",
+        "callsInScope": {
+          "title": "Choose calls in scope ",
+          "description": "This determines which services or endpoints are available for selection."
+        },
+        "includeHiddenCalls": {
+          "title": "Include hidden calls (optional) ",
+          "description": "Hidden calls do not appear in built-in dashboards."
+        },
+        "serviceEndPointSelection": "Services or endpoints for selected calls",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "Inbound Calls",
+              "dashboard": "For detecting issues as perceived by consumers of this application",
+              "overrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration."
+            },
+            "all": {
+              "text": "All Calls",
+              "dashboard": "For detecting issues in any service or endpoint within this application.",
+              "overrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "Internal calls are work done inside a service and correspond to intermediate spans in custom tracing"
+            },
+            "includeSynthetic": {
+              "text": "Synthetic calls have a synthetic endpoint as their destination, such as calls to health-check endpoints"
+            }
+          }
+        }
       }
     },
     "details": {
