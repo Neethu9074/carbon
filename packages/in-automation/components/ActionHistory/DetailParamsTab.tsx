@@ -95,7 +95,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
   ];
 
   return (
-    <div className={locals.paramsTab}>
+    <div className={locals.instanceTabContent}>
       <ServerTablePresenter
         columnDefinitions={columnDefinitions}
         noDataMessage={t('in-automation:actionHistory.noParams')}
