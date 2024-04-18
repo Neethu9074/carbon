@@ -46,9 +46,7 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   {
     label: t('in-automation:actionHistory.name'),
     id: 'actionName',
-    // ellipsis: true,
     width: 20,
-    sortable: true,
     getContent(row: ActionInstance) {
       return (
         <Tooltip content={row.actionName} align="topLeft" delay={500}>
@@ -68,10 +66,8 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   {
     label: t('in-automation:actionHistory.initiator'),
     id: 'initiator',
-    sortable: true,
     width: 15,
     getContent(row: ActionInstance) {
-      //const v = 'policy_testagvaghsvgavdgasvdghavsdghsvhg_56124651r5w612r5621r52r56';
       return (
         <Tooltip content={row.actorName} align="topLeft" delay={500}>
           <div
@@ -88,7 +84,6 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   {
     label: t('in-automation:actionHistory.startTime'),
     id: 'startDate',
-    sortable: true,
     width: 15,
     getContent(row: ActionInstance) {
       return row.startDate ? formatDateTime(row.startDate) : formatDateTime(null);
@@ -97,7 +92,6 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   {
     label: t('in-automation:actionHistory.endTime'),
     id: 'endDate',
-    sortable: true,
     width: 15,
     getContent(row: ActionInstance) {
       return row.endDate ? formatDateTime(row.endDate) : formatDateTime(null);
@@ -106,7 +100,6 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   {
     label: t('in-automation:actionHistory.eventName'),
     id: 'problemText',
-    sortable: true,
     width: 25,
     getContent(row: ActionInstance) {
       return (
