@@ -18,7 +18,6 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -60,7 +59,6 @@ export default function WorkloadControllerDashboard({
 
   return (
     <>
-      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.deployment_summary} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,

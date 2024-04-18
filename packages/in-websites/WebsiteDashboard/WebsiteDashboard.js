@@ -24,7 +24,6 @@ import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -90,10 +89,6 @@ export default function WebsiteDashboard() {
 
   return (
     <>
-      <PageTracker
-        parentProductArea={productAreas.websites_mobile_apps}
-        parentPageName={props.pageId ? pageNames.website_summary : pageNames.website}
-      />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.websites_mobile_apps,

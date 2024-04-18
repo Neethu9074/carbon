@@ -42,7 +42,6 @@ export default function SmartAlertList() {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
-            pageName: pageNames.synthetic_monitoring_alert,
             pagePath: location?.pathname,
             productArea: productAreas.synthetic_monitoring,
             pageRootName: pageNames.smart_alerts

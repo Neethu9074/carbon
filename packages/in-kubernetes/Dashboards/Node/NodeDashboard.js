@@ -19,7 +19,6 @@ import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
-import PageTracker from 'in-services/tracking/segment/PageTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -48,7 +47,6 @@ export default function NodeDashboard({ location }) {
 
   return (
     <>
-      <PageTracker parentProductArea={productAreas.kubernetes} parentPageName={pageNames.node_summary} />
       <ViewTrackingMeta
         data={{
           productArea: productAreas.kubernetes,

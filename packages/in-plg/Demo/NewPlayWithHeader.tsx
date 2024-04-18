@@ -17,6 +17,7 @@ import {
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { CTA_CLICKED } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
 import locals from './PlayWithHeader.mless';
@@ -53,7 +54,7 @@ export default function NewPlayWithHeader() {
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
         onClick={() => {
           eventTracker({
-            eventName: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
+            eventName: CTA_CLICKED,
             parentProductArea: productAreas.home,
             parentPageName: pageNames.home
           });
