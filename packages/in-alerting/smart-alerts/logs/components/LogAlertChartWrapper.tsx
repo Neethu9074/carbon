@@ -27,12 +27,13 @@ import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/Al
 import { SelectedMetric, getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getChartConfig, getUnifiedMetricConfig } from 'in-alerting/smart-alerts/logs/components/LogChartUtils';
 import getLogMetricsAlertPreview from 'in-alerting/smart-alerts/logs/subscriptions/getLogMetricsAlertPreview';
+import { zeroFillAndClipMetric, applyPostProcessing, Metrics } from 'in-alerting/components/Chart/chartUtils';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { useResultData } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { finishedProgress, indeterminateProgress } from 'in-services/fixedObjects';
-import { Config, MetricData } from 'in-custom-dashboards/widgets/Chart/types';
 import { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -111,11 +112,19 @@ export default function LogAlertChartWrapper({
     };
   }
 
-  const metricChartProps = { ...chartProps, result: metricResults as Result<MetricData> };
+  const metricChartProps = { ...chartProps, result: metricResults as Metrics };
+
+  // The logs API is inconsistent with other metric APIs and does not adjust the
+  // window endtime or return the adjustedWindowSize, so we'll patch the return values.
+  // NB: We should only zerofill log metrics which are aggregated by sum(count, message size, etc)
+  const windowEnd = metricChartProps.result.time - (metricChartProps.result.time % granularity);
+  const updatedResult = { ...metricChartProps.result, time: windowEnd, adjustedWindowSize: timeConfig.windowSize };
+  const zeroFilledResult = applyPostProcessing(updatedResult, zeroFillAndClipMetric, granularity);
+
   return (
     <ChartWrapper
       showNoDataInfoWhenEmpty
-      {...metricChartProps}
+      {...{ ...metricChartProps, result: zeroFilledResult }}
       metricsConfiguration={extendMetricConfiguration(chartProps)}
       granularity={granularity}
       renderPreChartContent={props => {
