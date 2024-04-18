@@ -256,6 +256,7 @@ function Platforms() {
     <SideNavMenu
       renderIcon={() => <SvgIcon color="white" size="s" type="lib_platforms_inverted" />}
       title={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
+      isSideNavExpanded
     >
       {/* Keep the list of platforms sorted alphabetically */}
       {hasPCFAccess && (
@@ -539,6 +540,7 @@ function SettingsAndMore({ onViewSwitched }: CarbonUIShellProps) {
       <SideNavMenu
         renderIcon={() => <SvgIcon color="white" size="s" type="lib_menu_additional_resources" />}
         title={t('in-components:mainNavigation.viewSwitcherLabelMore')}
+        isSideNavExpanded
       >
         {tenantSwitcherEnabled && (
           <MenuItem
