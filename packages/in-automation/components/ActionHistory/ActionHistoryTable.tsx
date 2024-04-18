@@ -65,7 +65,7 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
   },
   {
     label: t('in-automation:actionHistory.initiator'),
-    id: 'initiator',
+    id: 'actorName',
     width: 15,
     getContent(row: ActionInstance) {
       return (
