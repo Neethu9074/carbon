@@ -176,7 +176,7 @@ export default function LogDna() {
             message={message}
             loading={loading || saving.saving}
             hasCancelButton={false}
-            saveEnabled={enabled && !areFieldsInvalid(form)}
+            saveEnabled={!enabled || !areFieldsInvalid(form)}
           />
         </form>
       )}
