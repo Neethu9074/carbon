@@ -55,6 +55,9 @@ export default function PodDashboard({ location }) {
     useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
 
   const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
+  const allTabs = hasPrometheusEndpoints
+    ? tabs
+    : tabs.filter(tab => tab.label !== t('in-kubernetes:dashboards.prometheusMetrics'));
 
   return (
     <>
@@ -86,7 +89,7 @@ export default function PodDashboard({ location }) {
         })}
         HeaderComponent={Header}
         location={location}
-        tabs={hasPrometheusEndpoints ? tabs : tabs.slice(0, -1)}
+        tabs={allTabs}
         tabChangeTracker={podTabChange}
         props={props}
         renderErrors={errors => (
