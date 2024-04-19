@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { TraceActivityTreeNode, LogItem } from '@instana/types/typeDefinitions';
 import { Progress, TimeConfig } from '@instana/types';
 
-export type LogLevel = 'WARN' | 'ERROR' | 'INFO' | 'DEBUG' | 'TRACE' | 'UNKNOWN' | 'FATAL' | 'NEXTLOGLEVEL';
+export type LogLevel = 'WARN' | 'ERROR' | 'INFO' | 'DEBUG' | 'TRACE' | 'NONE' | 'UNKNOWN' | 'FATAL' | 'NEXTLOGLEVEL';
 export type LowercaseLogLevel = Lowercase<LogLevel>;
 
 export type SetSelectedLogStateType = Dispatch<SetStateAction<TraceActivityTreeNode | LogItem> | null>;
