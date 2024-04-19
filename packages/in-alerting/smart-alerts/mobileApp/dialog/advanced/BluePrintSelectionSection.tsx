@@ -38,6 +38,7 @@ export default function BluePrintSelectionSection(props: BluePrintSelectionSecti
         blueprintConfigs={blueprintConfigs}
         createBlueprintForm={createBlueprintForm}
       />
+      {/* section to handle blueprint specific additional selection for advance mode. e.g. status code or custom event */}
       <AlertTypeSwitch
         alertType={alertType}
         renderStatusCode={() => (

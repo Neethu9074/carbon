@@ -25,6 +25,7 @@ import { UpdateForm } from 'in-alerting/smart-alerts/mobileApp/dialog/simple/sim
 import ProvideCustomEvent from 'in-alerting/smart-alerts/eum/components/ProvideCustomEvent';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/mobileApp/components/AlertTypeSwitch';
 import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideStatusCode';
+import ProvideCrash from 'in-alerting/smart-alerts/mobileApp/dialog/simple/ProvideCrash';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { eumType } from 'in-alerting/smart-alerts/mobileApp/constants';
 import Menu, { MenuItem } from 'in-components/Menu';
@@ -64,6 +65,11 @@ export default function SimpleAlertConfigDialogStep1({
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}
+        renderCrash={() => (
+          <SelectedBlueprintPresenter title={headline ?? ''} description={text}>
+            <ProvideCrash form={form} updateForm={updateForm} />
+          </SelectedBlueprintPresenter>
+        )}
         renderCustomEvent={() => (
           <SelectedBlueprintPresenter title={headline ?? ''} description={text}>
             <ProvideCustomEvent

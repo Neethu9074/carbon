@@ -27,7 +27,7 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import useThresholdSuggestion from 'in-alerting/smart-alerts/eum/hooks/useThresholdSuggestion';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { days } from 'in-services/time';
 
 /**

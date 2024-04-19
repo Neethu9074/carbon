@@ -15,7 +15,7 @@ import { getBlueprintConfig, WebsitesAlertType } from 'in-alerting/smart-alerts/
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
 

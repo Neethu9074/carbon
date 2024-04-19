@@ -21,7 +21,7 @@ import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/t
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { HistoricBaselineConfig, MobileAppAlertRule, StaticThresholdConfig } from 'in-types';
-import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 
 export default function createBlueprintForm(

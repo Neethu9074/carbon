@@ -6,7 +6,7 @@
 import { expect } from 'chai';
 
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 
 describe('in-websites/alerting/form/thresholdForm', () => {
   describe('when alertType is slowness', () => {

@@ -37,8 +37,8 @@ import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScro
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
-import createThresholdForm from 'in-alerting/smart-alerts/mobileApp/form/thresholdForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
 import { days } from 'in-services/time';
 
 /**
