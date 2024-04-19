@@ -163,13 +163,14 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
               ))}
             <SyntheticIcon />
             {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
-            {typeof label === 'string' ? (
-              <Tooltip content={label} delay={500}>
-                <span className={locals.label}>{label}</span>
-              </Tooltip>
-            ) : (
-              <span className={locals.label}>{label}</span>
-            )}
+            {label &&
+              (typeof label === 'string' ? (
+                <Tooltip content={label} delay={500}>
+                  <h1 className={locals.label}>{label}</h1>
+                </Tooltip>
+              ) : (
+                <h1 className={locals.label}>{label}</h1>
+              ))}
             {renderMetaInformation && renderMetaInformation(props)}
             {isBeta && <BetaBadge />}
           </div>
@@ -229,7 +230,7 @@ function Context(props: ContextProps) {
           <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
         )}
         <Link href={props.headerHref$} onClick={props.onHeaderClick}>
-          <span className={locals.headerLink}>{renderContext(props)}</span>
+          <h1 className={locals.headerLink}>{renderContext(props)}</h1>
         </Link>
         {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
       </div>
@@ -242,7 +243,7 @@ function Context(props: ContextProps) {
         ) : (
           <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
         )}
-        <span className={locals.context}>{renderContext(props)}</span>
+        <h1 className={locals.context}>{renderContext(props)}</h1>
         {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
       </div>
     );
