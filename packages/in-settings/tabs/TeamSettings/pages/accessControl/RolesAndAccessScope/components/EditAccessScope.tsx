@@ -33,12 +33,12 @@ import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getAllMobileAppsForEntitySelectionWithDefaults } from 'in-mobile-apps/subscriptions/getAllMobileAppsForEntitySelection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
-import { applicationContributionFilterEnabled, syntheticsEnabled } from 'in-services/featureFlags';
 import { getAllWebsitesForEntitySelectionWithDefaults } from 'in-websites/subscriptions/getAllWebsitesForEntitySelection';
 import { amountPlatformAccesses, hasAPlatformAccess, hasKubernetesAccess } from 'in-stores/permission';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
+import { syntheticsEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
@@ -88,9 +88,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
     }
   };
 
-  if (applicationContributionFilterEnabled) {
-    validateContributionFilter();
-  }
+  validateContributionFilter();
 
   const formControlProps: FormControlProps<FORM_TYPE> = {
     form,
@@ -114,11 +112,7 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
               value={groupNameField?.value}
               setValue={(value: string) => {
                 const updatedForm = updateFormField(form, 'name', value, true);
-                if (applicationContributionFilterEnabled) {
-                  setForm(updateFormField(updatedForm, 'label', value, true));
-                } else {
-                  setForm(updatedForm);
-                }
+                setForm(updateFormField(updatedForm, 'label', value, true));
               }}
             />
           )

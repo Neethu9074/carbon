@@ -18,13 +18,6 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 import { LimitedAccessScope } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
-// Enable feature flag for test
-jest.mock('in-services/featureFlags', () => ({
-  get applicationContributionFilterEnabled() {
-    return true;
-  }
-}));
-
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData', () => {
   describe('returns correct data and calls the translation function with correct params for websites product area', () => {
     beforeEach(() => {

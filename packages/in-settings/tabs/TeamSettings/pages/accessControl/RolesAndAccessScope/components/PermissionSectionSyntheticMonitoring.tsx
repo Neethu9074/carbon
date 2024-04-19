@@ -60,8 +60,6 @@ export interface PermissionSectionSyntheticProps<I extends Object, FORM_TYPE ext
 
 export default function PermissionSectionSyntheticMonitoring<I extends Object, FORM_TYPE extends MapFormItems>({
   title,
-  accessAllDescription,
-  limitedAccessDescription,
   addButtonLabel,
   roleTooltipText,
   icon,
@@ -129,13 +127,11 @@ export default function PermissionSectionSyntheticMonitoring<I extends Object, F
                 onChangeRole={selected => onUpdatePermissionSet(selected, ScopedPermissionItem.ACCESS_ALL)}
                 entityPermissionKey={entityPermissionKey}
                 roleTooltipText={roleTooltipText}
-                description={accessAllDescription}
               />
             )}
             {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel productArea={productArea} />}
             {context === ScopedPermissionItem.LIMITED_ACCESS && (
               <LimitedAccessPanel
-                description={limitedAccessDescription}
                 addButtonLabel={addButtonLabel}
                 entityPermissionKey={entityPermissionKey}
                 role={role}

@@ -17,7 +17,6 @@ import {
 import useFetchedStateObservable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/hooks/useFetchedStateObservable';
 import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/SelectItemForm';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -282,7 +281,7 @@ function getColumnDefinition<I extends Object>({
         return <>{name}</>;
       }
     },
-    ...(extractContributionFilterName && applicationContributionFilterEnabled
+    ...(extractContributionFilterName
       ? [
           {
             id: 'restrictingApplicationName',

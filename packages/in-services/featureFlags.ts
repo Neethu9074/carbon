@@ -213,8 +213,6 @@ export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummar
 export const incidentSummarizationTimelineEnabled = isFeatureFlagEnabled('incidentSummarizationTimelineEnabled', true);
 export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', false);
 
-export const applicationContributionFilterEnabled = isFeatureFlagEnabled('applicationContributionFilterEnabled', true);
-
 export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);

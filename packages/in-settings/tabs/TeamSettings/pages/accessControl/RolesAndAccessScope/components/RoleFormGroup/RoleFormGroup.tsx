@@ -6,8 +6,6 @@
 
 import React, { useEffect } from 'react';
 
-import { SvgIcon, Typography } from '@instana/components';
-
 import {
   AreaRolesWithContributorOptionsType,
   AreaRoleOptionsType
@@ -16,10 +14,8 @@ import RoleSelect, {
   RoleSelectProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleSelect';
 import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import Label from 'in-components/form/Label/Label';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './RoleFormGroup.mless';
@@ -27,14 +23,12 @@ import locals from './RoleFormGroup.mless';
 interface RoleFormGroupProps extends Omit<RoleSelectProps, 'defaultRole'> {
   defaultRole: AreaRoleType;
   htmlFor: string;
-  tooltipText: string | React.ReactElement;
   options?: AreaRolesWithContributorOptionsType | AreaRoleOptionsType;
   roleDescription?: string;
 }
 
 export default function RoleFormGroup({
   htmlFor,
-  tooltipText,
   value,
   defaultRole,
   onChange,
@@ -50,28 +44,15 @@ export default function RoleFormGroup({
 
   return (
     <>
-      {applicationContributionFilterEnabled ? (
-        <FormGroup>
-          <Label htmlFor={htmlFor} className={locals.accessType_label}>
-            {t('in-settings:permissionScope.access_type')}
-          </Label>
-          <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
-          <Label htmlFor={htmlFor} className={locals.accessType_description}>
-            {roleDescription}
-          </Label>
-        </FormGroup>
-      ) : (
-        <FormGroup>
-          <Label htmlFor={htmlFor} className={locals.label}>
-            <Typography variant="body-regular">{t('in-settings:permissionScope.roleSelection')}</Typography>
-
-            <Tooltip content={tooltipText} delay={500} align="bottomMiddle">
-              <SvgIcon type="lib_help_error_info_outline" size="xs" />
-            </Tooltip>
-          </Label>
-          <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
-        </FormGroup>
-      )}
+      <FormGroup>
+        <Label htmlFor={htmlFor} className={locals.accessType_label}>
+          {t('in-settings:permissionScope.access_type')}
+        </Label>
+        <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} options={options} />
+        <Label htmlFor={htmlFor} className={locals.accessType_description}>
+          {roleDescription}
+        </Label>
+      </FormGroup>
     </>
   );
 }

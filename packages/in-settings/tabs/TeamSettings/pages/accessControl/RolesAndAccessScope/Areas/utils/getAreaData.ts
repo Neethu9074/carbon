@@ -22,7 +22,6 @@ import {
 } from 'in-stores/permission';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 type ProductAreaWithApplicationData = Extract<ProductAreaType, 'WEBSITE' | 'APPLICATION' | 'MOBILE_APP'>;
@@ -82,9 +81,7 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
 
   const hasFullAreaAccess = areaAccessScope === ScopedPermissionItem.ACCESS_ALL;
   const isApplicationSectionWithContributor =
-    applicationContributionFilterEnabled &&
-    area === ProductArea.APPLICATION &&
-    permissionsSet.restrictedApplicationFilter;
+    area === ProductArea.APPLICATION && permissionsSet.restrictedApplicationFilter;
   const areaItemIdsWithAccess = isApplicationSectionWithContributor
     ? areaItemIds.filter(areaItem => areaItem.scopeRoleId !== ScopeRoles.Contributor).map(areaItem => areaItem.scopeId)
     : areaItemIds.map(areaItemData => areaItemData.scopeId);

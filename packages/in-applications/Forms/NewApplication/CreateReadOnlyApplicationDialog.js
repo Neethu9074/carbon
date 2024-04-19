@@ -16,7 +16,6 @@ import CreateApplicationQueryBuilder from 'in-applications/creation/components/C
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import { getGroupInfoByRestrictingApplicationId } from 'in-settings/tabs/TeamSettings/api/groups';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { applicationContributionFilterEnabled } from 'in-services/featureFlags';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -98,7 +97,7 @@ export default connectTo(
                       <strong>{t('in-applications:forms.newApplication.descriptionOperatorsCreationEnabled')}</strong>
                     </DescriptionText>
                     <div className={locals.queryBuilder}>
-                      {applicationContributionFilterEnabled && appConfig.data && appConfig.data.contributionFilter && (
+                      {appConfig.data && appConfig.data.contributionFilter && (
                         <div className={locals.contributionFilter}>
                           <ContributionFilterDropdown
                             userRestrictedApplications={createUserRestrictedApplication(appConfig.data)}

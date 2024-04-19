@@ -100,7 +100,6 @@ module.exports = {
   autoFormatterTimeSeriesEnabled: true,
   multiGroupTimeSeriesEnabled: true,
   disableInvitesWithIdpEnabled: false,
-  applicationContributionFilterEnabled: true,
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticCertificateCheckEnabled: true,
