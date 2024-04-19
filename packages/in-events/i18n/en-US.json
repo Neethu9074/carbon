@@ -21,6 +21,7 @@
   "titleIncidentTimeline": "Incident Timeline",
   "titleIncidentTriggeredBy": "Incident triggered by:",
   "titleAnalyzeCustomEvents": "Analyze Custom Events",
+  "titleAnalyzeCrash": "Analyze Crashes",
   "titleAnalyzeHTTPRequests": "Analyze HTTP Requests",
   "titleAnalyzeJsErrors": "Analyze JS Errors",
   "titleAnalyzePageLoads": "Analyze Page Loads",

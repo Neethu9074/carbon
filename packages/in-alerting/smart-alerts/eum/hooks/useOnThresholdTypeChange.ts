@@ -1,0 +1,59 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import { Field, MapForm } from 'formalistic';
+import { useCallback } from 'react';
+
+import { MobileAppAlertRule, WebsiteAlertRule } from '@instana/types';
+
+import {
+  updateFormIfAdaptiveBaseline,
+  updateFormIfHistoricBaseline
+} from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
+import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { Granularity, ThresholdType } from 'in-types';
+
+export function useOnThresholdTypeChange(
+  createRuleForm: ((rule: WebsiteAlertRule) => MapForm<any>) | ((rule: MobileAppAlertRule) => MapForm<any>)
+) {
+  return useCallback(
+    (typeWithOptionalSeasonality: string, form: MapForm<any>, updateForm: (form: MapForm<any>) => void) => {
+      const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
+      const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
+
+      const rule = form.get('rule')!.toJS();
+      const { alertType } = rule;
+      let newThresholdForm: MapForm<any> = createThresholdForm(
+        {
+          ...form.get('threshold')!.toJS(),
+          type: updatedThresholdType
+        },
+        alertType
+      );
+
+      if (updatedThresholdType === HISTORIC_BASELINE) {
+        const seasonality = typeSeasonalityParts[1];
+        newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
+          (f as Field<string>).setValue(seasonality).setTouched(true)
+        );
+      }
+
+      const ruleWithoutAggregation = { ...rule, aggregation: null };
+      // aggregation will be reset to default value
+      const newRuleForm = createRuleForm(ruleWithoutAggregation);
+
+      let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
+
+      const granularity = (form.get('granularity') as Field<Granularity>).value;
+      updatedForm = updateFormIfAdaptiveBaseline(updatedForm, updatedThresholdType, granularity);
+      updatedForm = updateFormIfHistoricBaseline(updatedForm, updatedThresholdType, granularity);
+
+      updateForm(updatedForm);
+    },
+    [createRuleForm]
+  );
+}
