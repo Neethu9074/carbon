@@ -103,7 +103,6 @@
   .label {
     color: var(--ids-color-option-neutral-900);
     margin-right: 0.75rem;
-    margin-top: 0.1rem;
   }
 
   .buttonLine {
