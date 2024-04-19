@@ -97,24 +97,31 @@ export default function tableSpaceTable({ snapshot, timeConfig }: { snapshot: Sn
   const snapshotId = snapshot.get('id') as string;
   const uniqueKeys = new Set();
 
-  const rows = snapshot
-    .getIn(['data', 'db.tablespace.size'], List())
-    .map((_value: any, key: string) => {
-      if (!uniqueKeys.has(key)) {
-        uniqueKeys.add(key);
-        return {
-          key: key,
-          name: key,
-          timeConfig,
-          snapshotId
-        };
-      }
-      return null;
-    })
-    .filter(Boolean)
-    .valueSeq()
-    .toArray();
+  const semconvens = ['size', 'utilization', 'used', 'max'];
+  let rows = [];
+  for (const semconv of semconvens) {
+    const data = snapshot.getIn(['data', `db.tablespace.${semconv}`], List());
+    if (data.size > 0) {
+      rows = data
+        .map((_value: any, key: string) => {
+          if (!uniqueKeys.has(key)) {
+            uniqueKeys.add(key);
+            return {
+              key: key,
+              name: key,
+              timeConfig,
+              snapshotId
+            };
+          }
+          return null;
+        })
+        .filter(Boolean)
+        .valueSeq()
+        .toArray();
 
+      break;
+    }
+  }
   if (rows.length === 0) {
     return null;
   }
