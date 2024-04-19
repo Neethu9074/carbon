@@ -99,6 +99,13 @@ const UserRenderer = props => {
     saveItem(userMail, form, setMessage);
   };
 
+  const setUserNameLocally = nextName => {
+    // @ts-expect-error global access (window)
+    window.instana.user.preferredName = nextName;
+    // @ts-expect-error global access (window)
+    window.instana.user.fullName = nextName;
+  };
+
   const saveItem = (userMail, form, setMessage) => {
     setMessage({
       message: t('in-settings:tabs.savingNewName'),
@@ -115,6 +122,8 @@ const UserRenderer = props => {
       },
       error => setMessage({ text: t('in-settings:tabs.failedToChangeName', { err: error.message }), type: 'error' })
     );
+
+    setUserNameLocally(form.get('fullName').value);
   };
 
   const handleDeleteUser = (fullName, userId) => {
