@@ -43,10 +43,15 @@ export default function IncidentEventList({
     .toArray()
     .filter(issue => issue !== incident.getIn(['triggeringEvent'], ''));
 
+  const legacyRootCausePropertyCheck =
+    incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
+
+  const RootCausePropertyCheck =
+    incident.hasIn(['metadata', 'probableCause']) && !incident.getIn(['metadata', 'probableCause']).isEmpty();
+
   const incidentHasRCAProperty = useMemo(
-    () =>
-      incident.get('metadata').has('probableRootCause') && !incident.get('metadata').get('probableRootCause').isEmpty(),
-    [incident]
+    () => legacyRootCausePropertyCheck || RootCausePropertyCheck,
+    [RootCausePropertyCheck, legacyRootCausePropertyCheck]
   );
 
   const triggeringProblemId = incident.getIn(['problem', 'id']);
