@@ -433,7 +433,9 @@ export const SYNTHETIC_TEST_CLICK = 'synthetic.monitoring.test.click';
 export const SYNTHETIC_TAB_INAPP_CLICK = 'synthetic.monitoring.application.test.click';
 
 export const SYNTHETIC_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.create.click';
+export const SYNTHETIC_WIZARD__CREATE_TEST_TYPE_SWITCH = 'synthetic.monitoring.test.create.wizard.type.switch';
 export const SYNTHETIC_CREATE_ADVANCED_BUTTON_CLICK = 'synthetic.monitoring.test.create.advanced.click';
+export const SYNTHETIC_ADVANCED__CREATE_TEST_TYPE_SWITCH = 'synthetic.monitoring.test.create.advanced.type.switch';
 export const SYNTHETIC_ADVANCED_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.advanced.create.click';
 export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.wizard.create.click';
 

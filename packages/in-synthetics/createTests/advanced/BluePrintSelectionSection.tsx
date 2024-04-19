@@ -14,6 +14,7 @@ import { t } from '@instana/i18n-react';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracker';
 import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Menu from 'in-components/Menu';
@@ -110,6 +111,10 @@ const SelectionMenu = ({
         items={getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)}
         addRightSeparator
         onItemClick={item => {
+          // Tracker
+          syntheticAdvancedCreateTestTypeSwitch({
+            detail: `Switched to create ${item.type} test section from advanced mode`
+          });
           setCommonAttributes({ ...commonAttributes, syntheticType: '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
