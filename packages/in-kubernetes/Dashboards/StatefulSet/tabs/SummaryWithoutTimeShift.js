@@ -7,25 +7,22 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: statefulSet }) {
   const snapshotId = statefulSet.id;
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-  const statefulSetTagId = tagEquals('id.kubernetesStatefulSet', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('statefulSet', snapshotId, timeConfig);
 
   return (
     <>
@@ -146,7 +143,7 @@ export default function Summary({ timeConfig, data: statefulSet }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(statefulSetTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>
