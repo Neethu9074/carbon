@@ -37,6 +37,7 @@
   }
 
   .downloadDropdown {
+    display: flex;
     flex-direction: column;
   }
   .downloadOption {
