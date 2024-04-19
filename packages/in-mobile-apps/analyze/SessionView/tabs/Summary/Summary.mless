@@ -7,4 +7,8 @@
   .linkToMobileApp {
     font-size: 1.2rem;
   }
+
+  .message {
+    max-inline-size: none;
+  }
 }
