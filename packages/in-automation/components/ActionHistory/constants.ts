@@ -5,9 +5,9 @@
  */
 
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
-import { actionHistoryPath } from 'in-automation/navigation/paths';
+import { actionHistory } from 'in-automation/navigation/paths';
 import { Options } from 'in-hooks/useUrlState';
-export const pathSegment = actionHistoryPath;
+export const pathSegment = actionHistory;
 export const matrixPrefix = '';
 
 export interface FilterState {

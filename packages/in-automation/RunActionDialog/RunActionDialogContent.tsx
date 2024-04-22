@@ -40,6 +40,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import { actionHistoryPath, actionHistory } from 'in-automation/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -49,7 +50,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
@@ -109,7 +109,7 @@ export default function RunActionDialogContent({
   function getLinkToActionHistory(id: string) {
     const path = location;
     path.pathname = actionHistoryPath;
-    setOrDeleteMatrixKey(path, actionHistoryPath, 'query', id);
+    setOrDeleteMatrixKey(path, actionHistory, 'query', id);
     return createHref(path);
   }
 
