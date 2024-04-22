@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { themes } from '@instana/design-tokens';
 import { HistoricBaselineData, Result, ResultPrecisionDetails } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 import { Message } from '@instana/components';
 
 import { hasError } from 'in-services/util/result';
@@ -24,7 +24,11 @@ export default function HistoricBaselineErrorMessage({ thresholdResult }: Histor
   if (hasError(thresholdResult)) {
     return (
       <Message type="neutral" iconColor={themes.default.ids.color.option.red['500']} withIcon>
-        <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageInsufficientDataToCompute" />
+        {getErrorCode(thresholdResult) === 'VALIDATION' ? (
+          <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineValidationMessageInsufficientDataToCompute" />
+        ) : (
+          <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineGenericErrorMessage" />
+        )}
         <br />
         <b>{`${t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')} `}</b>
         {getErrorReason(thresholdResult)}
@@ -45,4 +49,8 @@ export default function HistoricBaselineErrorMessage({ thresholdResult }: Histor
 
 function getErrorReason(thresholdResult: HistoricBaselineErrorMessageType) {
   return thresholdResult.errors[0].message;
+}
+
+function getErrorCode(thresholdResult: HistoricBaselineErrorMessageType) {
+  return thresholdResult.errors[0].code;
 }
