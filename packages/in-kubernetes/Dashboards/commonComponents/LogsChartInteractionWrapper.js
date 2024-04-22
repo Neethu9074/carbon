@@ -75,10 +75,8 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
     }
   ];
 
-  const logsButton = tagFilterExpression ? (
+  const logsButton = tagFilterExpression && (
     <AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} isHovered$={isHovered$} />
-  ) : (
-    <></>
   );
 
   return (

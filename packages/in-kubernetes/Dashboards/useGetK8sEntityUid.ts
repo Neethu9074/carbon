@@ -14,32 +14,19 @@ import { andQuery, tagEquals } from 'in-kubernetes/Dashboards/commonComponents/L
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { getSnapshot } from 'in-stores/snapshot';
 
-const ENTITY_UID_PROPERTY_PATH = {
-  pod: 'data.uid',
-  cluster: 'data.clusterUuid',
-  node: 'data.uid',
-  namespace: 'data.uid',
-  deployment: 'data.uid',
-  statefulSet: 'data.uid',
-  daemonSet: 'data.uid',
-  service: 'data.uid',
-  deploymentConfig: 'data.uid'
-};
-
-const ENTITY_UID_TAG = {
-  pod: 'kubernetes.pod.uid',
-  cluster: 'kubernetes.cluster.uuid',
-  node: 'kubernetes.node.uid',
-  namespace: 'kubernetes.namespace.uid',
-  deployment: 'kubernetes.deployment.uid',
-  statefulSet: 'kubernetes.statefulset.uid',
-  daemonSet: 'kubernetes.daemonset.uid',
-  service: 'kubernetes.service.uid',
-  deploymentConfig: 'kubernetes.deploymentconfig.uid'
-};
+type K8sEntityType =
+  | 'pod'
+  | 'cluster'
+  | 'node'
+  | 'namespace'
+  | 'deployment'
+  | 'statefulSet'
+  | 'daemonSet'
+  | 'service'
+  | 'deploymentConfig';
 
 export function useGetK8sEntityUid(
-  entityType: keyof typeof ENTITY_UID_PROPERTY_PATH,
+  entityType: K8sEntityType,
   snapshotId: string,
   timeConfig: TimeConfig
 ): {
@@ -48,8 +35,11 @@ export function useGetK8sEntityUid(
 } {
   const snapshot = useObservable(snapshotId ? getSnapshot(snapshotId) : just(null), [snapshotId, timeConfig]);
 
-  const entityUid = snapshot ? get(snapshot.toJS(), ENTITY_UID_PROPERTY_PATH[entityType]) : null;
-  const tagFilterExpression = entityUid && andQuery(tagEquals(ENTITY_UID_TAG[entityType], entityUid));
+  const entityPropertyPath = entityType === 'cluster' ? 'data.clusterUuid' : 'data.uid';
+  const entityUIDTag =
+    entityType === 'cluster' ? 'kubernetes.cluster.uuid' : `kubernetes.${entityType.toLowerCase()}.uid`;
+  const entityUid = snapshot ? get(snapshot.toJS(), entityPropertyPath) : null;
+  const tagFilterExpression = entityUid && andQuery(tagEquals(entityUIDTag, entityUid));
 
   return { entityUid, tagFilterExpression };
 }
