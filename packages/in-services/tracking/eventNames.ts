@@ -261,6 +261,11 @@ export const SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB = 'settings.maintenance.t
 export const SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB = 'settings.maintenance.tab.expired';
 export const SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT = 'settings.maintenance.feedback.submit';
 
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED = 'settings.logsManagement.deleteLogs.clicked';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED = 'settings.logsManagement.deleteLogs.submitted';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS = 'settings.logsManagement.deleteLogs.success';
+export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR = 'settings.logsManagement.deleteLogs.error';
+
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
 export const ONBOARDING_HELP_AND_SUPPORT_CLICKED = 'onboardingNewUnit.helpAndSupport.clicked';
