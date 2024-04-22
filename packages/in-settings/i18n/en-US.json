@@ -544,7 +544,7 @@
     "applicationPerspectiveEntityLabel": "Application Perspective {{entityLabel}}",
     "keyEquals": "key equals",
     "selectTag": "Select Tag",
-    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification. Please refer to the <docLink>Custom Payload documentation</docLink> for more details.",
+    "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification. Please refer to the <docLink>Custom Payload documentation </docLink> for more details.",
     "anErrorOccurredPleaseTryAgain": "An error occurred, please try again.",
     "custom": "Custom",
     "theValueMustNotBeBlank": "The value must not be blank.",

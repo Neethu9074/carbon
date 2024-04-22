@@ -275,7 +275,13 @@ export default function AlertHeader({
         />
       )}
       {!isLatestVersionDeleted && isNotLatestRevision && (
-        <Message withIcon className={locals.bottomSpace}>
+        <Message
+          withIcon
+          className={classNames({
+            [locals.bottomSpace]: true,
+            [locals.whiteSpace]: true
+          })}
+        >
           <Trans
             i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
             values={{ description: alertRevision.description }}

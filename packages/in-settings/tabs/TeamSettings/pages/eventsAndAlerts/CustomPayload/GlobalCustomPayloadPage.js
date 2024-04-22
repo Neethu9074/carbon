@@ -41,6 +41,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { carbonMessageEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -48,6 +49,8 @@ import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+
+import locals from './GlobalCustomPayload.mless';
 
 const logger = createLogger('customPayloadConfig');
 
@@ -102,11 +105,17 @@ export function GlobalCustomPayload(props) {
       <Title title={t('in-settings:tabs.configureCustomPayloadForAlerts')} />
       <SubViewHeader>{t('in-settings:tabs.configureCustomPayload')}</SubViewHeader>
       <Section>
-        <Message withIcon small>
+        <Message withIcon small className={locals.whiteSpace}>
           <Trans
             i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
             components={{
-              docLink: <Link size="sm" href="https://ibm.biz/alerts-custom-payloads" external />
+              docLink: (
+                <Link
+                  size={carbonMessageEnabled ? 'md' : 'sm'}
+                  href="https://ibm.biz/alerts-custom-payloads"
+                  external
+                />
+              )
             }}
           />
         </Message>
