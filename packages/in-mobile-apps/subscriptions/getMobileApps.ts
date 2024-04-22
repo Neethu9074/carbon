@@ -1,17 +1,29 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
+
+import { GetMobileAppsQuery, Result, PaginatedResult, MobileAppItem, OrderDirection, TimeConfig } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { collationLanguage } from 'in-i18n';
 
-const getMobileApps = createResultSubscriptionFactory({
+const getMobileApps = createResultSubscriptionFactory<GetMobileAppsQuery, Result<PaginatedResult<MobileAppItem>>>({
   eventId: 'getMobileApps',
   trackSubscriptionStatistics: true
 });
 export default getMobileApps;
+
+export interface GetMobileAppsWithDefaultsProp {
+  query?: string;
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  timeConfig: TimeConfig;
+}
 
 export function getMobileAppsWithDefaults({
   query = '',
@@ -20,7 +32,7 @@ export function getMobileAppsWithDefaults({
   orderBy = 'sessionsAgg',
   orderDirection = 'DESC',
   timeConfig
-}) {
+}: GetMobileAppsWithDefaultsProp) {
   return getMobileApps({
     pagination: {
       page,

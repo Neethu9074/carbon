@@ -16,8 +16,6 @@ import { Button } from '@instana/legacy';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 // @ts-expect-error Could not find a declaration file for module
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
-// @ts-expect-error Could not find a declaration file for module
-import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import {
   crashesTabFullyQualified,
   detailsPath,
@@ -36,6 +34,7 @@ import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/Mo
 import MobileAppTopList from 'in-mobile-apps/MobileAppDashboard/components/MobileAppTopList';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
+import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -78,9 +77,27 @@ export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
   if (crashId) {
     observables.result = getMobileAppBeacons({
       tagFilters: [
-        { name: 'mobileBeacon.type', stringValue: beaconType, operator: 'EQUALS' },
-        { name: 'mobileBeacon.mobileApp.id', stringValue: mobileAppId, operator: 'EQUALS' },
-        { name: 'mobileBeacon.error.message', stringValue: crashId, operator: 'EQUALS' }
+        {
+          name: 'mobileBeacon.type',
+          stringValue: beaconType,
+          operator: 'EQUALS',
+          type: 'TAG_FILTER',
+          entity: 'NOT_APPLICABLE'
+        },
+        {
+          name: 'mobileBeacon.mobileApp.id',
+          stringValue: mobileAppId,
+          operator: 'EQUALS',
+          type: 'TAG_FILTER',
+          entity: 'NOT_APPLICABLE'
+        },
+        {
+          name: 'mobileBeacon.error.message',
+          stringValue: crashId,
+          operator: 'EQUALS',
+          type: 'TAG_FILTER',
+          entity: 'NOT_APPLICABLE'
+        }
       ],
       timeConfig: timeConfig,
       order: {

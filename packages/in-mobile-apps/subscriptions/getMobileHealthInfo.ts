@@ -4,9 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import { GetMobileHealthInfoQuery, Result, EntityHealthInfo } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetMobileHealthInfoQuery, Result<EntityHealthInfo>>({
   eventId: 'getMobileHealthInfo',
   trackSubscriptionStatistics: true
 });

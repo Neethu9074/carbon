@@ -8,7 +8,6 @@
 import { empty, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-//@ts-expect-error needs TS migration
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { Result, MobileApp } from 'in-types';
 

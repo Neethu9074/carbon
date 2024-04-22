@@ -18,11 +18,10 @@ import {
 
 import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricsThresholdSuggestion';
 import getMobileAppMetricAlertsPreview from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricAlertsPreview';
-//@ts-expect-error needs TS migration
-import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
+import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 //@ts-expect-error

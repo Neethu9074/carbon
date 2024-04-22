@@ -6,18 +6,12 @@
 
 import React, { Fragment } from 'react';
 
-import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
+import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem, OrderDirection } from '@instana/types';
 import { Link } from '@instana/components';
 import { Button } from '@instana/legacy';
 
-import {
-  sessionIdUrlParameter,
-  tagFiltersInDashboardUrlParameter,
-  mobileAppIdUrlParameter
-  // @ts-expect-error Could not find a declaration file for module
-} from 'in-mobile-apps/navigation/urlParameters';
 // @ts-expect-error Could not find a declaration file for module
-import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
+import { sessionIdUrlParameter, tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 // @ts-expect-error Could not find a declaration file for module
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 // @ts-expect-error Could not find a declaration file for module
@@ -25,11 +19,14 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error Could not find a declaration file for module
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Could not find a declaration file for module
+import { mobileAppIdUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+// @ts-expect-error Could not find a declaration file for module
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Could not find a declaration file for module
 import changeExplanation from 'in-mobile-apps/emptyListExplanation';
 // @ts-expect-error Could not find a declaration file for module
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { useLinkToAnalyze, useLinkToCrash } from 'in-mobile-apps/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -202,7 +199,7 @@ interface GetTableDataProp {
   page: number;
   pageSize: number;
   orderBy: string;
-  orderDirection: string;
+  orderDirection: OrderDirection;
   timeConfig: TimeConfig;
   tagFilters: TagFilter[];
 }

@@ -6,11 +6,9 @@
 
 import React from 'react';
 
-import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem } from '@instana/types';
+import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem, OrderDirection } from '@instana/types';
 import { Link } from '@instana/components';
 
-// @ts-expect-error Could not find a declaration file for module
-import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 // @ts-expect-error Could not find a declaration file for module
 import { mobileAppIdUrlParameter, viewIdUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
 // @ts-expect-error Could not find a declaration file for module
@@ -23,6 +21,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Could not find a declaration file for module
 import emptyListExplanation from 'in-mobile-apps/emptyListExplanation';
+import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -131,7 +130,7 @@ interface GetTableDataProp {
   page: number;
   pageSize: number;
   orderBy: string;
-  orderDirection: string;
+  orderDirection: OrderDirection;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
 }

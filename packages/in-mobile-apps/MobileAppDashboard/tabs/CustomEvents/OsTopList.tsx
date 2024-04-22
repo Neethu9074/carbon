@@ -10,8 +10,6 @@ import { AggregationType } from '@instana/types';
 import { Link } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
-import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
-// @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 // @ts-expect-error Could not find a declaration file for module
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
@@ -21,6 +19,7 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 // @ts-expect-error Could not find a declaration file for module
 import { affectedUsers } from 'in-websites/formatters';
+import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { UrlMatrixParamConfig } from 'in-applications/types';
 import { number } from 'in-services/formatters/number';
