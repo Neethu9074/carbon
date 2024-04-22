@@ -10,7 +10,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehaviorLLM';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -18,6 +18,7 @@ import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -88,8 +89,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.token');
               }),
-              type: 'line'
+              type: 'line',
+              aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -108,8 +111,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.cost');
               }),
-              type: 'line'
+              type: 'line',
+              aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -128,8 +133,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.count');
               }),
-              type: 'line'
+              type: 'line',
+              aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
