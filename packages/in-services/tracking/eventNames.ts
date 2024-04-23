@@ -375,6 +375,7 @@ export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';
+export const ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED = 'analyze.custom.widget.see.in.logs.clicked';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
