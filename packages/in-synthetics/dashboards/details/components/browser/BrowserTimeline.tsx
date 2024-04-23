@@ -55,7 +55,7 @@ const OverviewChart = ({ width, entries, earliestTimestamp, endTimestamp }: Over
   scale.setRangeTo(1);
 
   return (
-    <div className={local.timelineContainer}>
+    <div className={local.timelineContainer} data-testid="timeline-container">
       <HorizontalAxis
         align="top"
         width={width}
