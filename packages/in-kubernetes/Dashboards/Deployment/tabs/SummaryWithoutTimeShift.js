@@ -8,21 +8,18 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { timeByMillisTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import { useDeploymentDashboard } from 'in-kubernetes/navigation/paths';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 const noActivity = t('in-kubernetes:dashboards.noActivity');
@@ -31,7 +28,7 @@ const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 export default function Summary({ timeConfig, data: deployment }) {
   const snapshotId = deployment.id;
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-  const deploymentTagId = tagEquals('id.kubernetesDeployment', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('deployment', snapshotId, timeConfig);
   const viewAllHref = useDeploymentDashboard(snapshotId, { tab: '/conditions' });
 
   return (
@@ -152,7 +149,7 @@ export default function Summary({ timeConfig, data: deployment }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(deploymentTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>
