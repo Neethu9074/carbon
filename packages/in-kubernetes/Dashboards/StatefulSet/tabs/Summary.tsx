@@ -20,6 +20,7 @@ import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonCo
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -34,6 +35,8 @@ import { t } from 'in-i18n';
 export default function Summary({ timeConfig, data: statefulSet }: any) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = statefulSet.id;
+
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('statefulSet', snapshotId, timeConfig);
 
   const { usage, limits, requests, pending, allocated, unscheduled, unready, available, desired } = k8sChartColors;
 
@@ -292,7 +295,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={statefulSetQuery} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>

@@ -21,6 +21,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 import { zeroDecimalPlaces, percentage, number, bytes } from 'in-services/formatters/number';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { useNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
@@ -49,6 +50,8 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
   const nodeQuery = andQuery(nodeTagId);
   const tagFilterExpression = toBackendQueryModel(nodeQuery);
   const type = plugins.kubernetesNode;
+
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('node', snapshotId, timeConfig);
 
   const kpiWidth = 2;
 
@@ -343,7 +346,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={nodeQuery} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>

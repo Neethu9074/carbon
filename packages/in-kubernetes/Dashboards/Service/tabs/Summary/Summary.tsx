@@ -23,6 +23,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -44,6 +45,8 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: service }: SummaryProps) {
   const snapshotId = service.id;
   const { limits, requests, usage } = k8sPodAndServiceChart;
+
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('service', snapshotId, timeConfig);
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,
@@ -278,7 +281,7 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={serviceQuery} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
 

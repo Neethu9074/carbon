@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { xor } from 'lodash';
 
+import { LoadingSkeleton } from '@instana/components';
 import { create, just } from '@instana/observables';
 
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -60,7 +61,7 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
   const groupFilters = filteredGroups.map(group =>
     getValueMatchTagFilter({ name: LOG_LEVEL, value: group, operator: NOT_EQUAL })
   );
-  const UALinkTagFilters = andQuery(...groupFilters, ...tagFilterExpression);
+  const UALinkTagFilters = tagFilterExpression && andQuery(...groupFilters, ...tagFilterExpression);
   const additionalContextMenuButtons = [
     {
       name: 'analyze',
@@ -82,19 +83,24 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
     }
   ];
 
-  const logsButton = (
+  const logsButton = UALinkTagFilters && (
     <AnalyzeLogsButton tagFilterExpression={UALinkTagFilters} timeConfig={timeConfig} isHovered$={isHovered$} />
   );
+
   return (
     <div onMouseEnter={() => isHovered$.emit(true)} onMouseLeave={() => isHovered$.emit(false)}>
       <DashboardSection title={'Logs'} button={logsButton}>
-        <LogsChart
-          tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
-          additionalContextMenuButtons={additionalContextMenuButtons}
-          onLegendItemToggle={(chartConfig, label) => {
-            setFilteredGroups(prevState => xor([label.trim().toUpperCase()], prevState));
-          }}
-        />
+        {!UALinkTagFilters ? (
+          <LoadingSkeleton style={{ display: 'block', height: '12rem', width: '100%' }} />
+        ) : (
+          <LogsChart
+            tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
+            additionalContextMenuButtons={additionalContextMenuButtons}
+            onLegendItemToggle={(chartConfig, label) => {
+              setFilteredGroups(prevState => xor([label.trim().toUpperCase()], prevState));
+            }}
+          />
+        )}
       </DashboardSection>
     </div>
   );

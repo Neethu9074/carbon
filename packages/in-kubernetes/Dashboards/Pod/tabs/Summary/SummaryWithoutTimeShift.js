@@ -9,24 +9,21 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  LogsChartInteractionWrapper,
-  tagEquals,
-  andQuery
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { bytesTwoDecimalPlaces, twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
@@ -42,7 +39,7 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
 
   const kpiWidth = 2;
 
-  const podTagId = tagEquals('id.kubernetesPod', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('pod', snapshotId, timeConfig);
   const viewAllHref = usePodDashboard(snapshotId, { tab: '/conditions' });
 
   return (
@@ -202,7 +199,7 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(podTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>
