@@ -549,5 +549,10 @@ module.exports = exports = [
     uiClientKey: 'automationActionInstanceFeedbackEnabled',
     instanaCtlKey: 'automation.action.instance.feedback.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'orbitalEnabled',
+    instanaCtlKey: 'feature.orbital.enabled',
+    defaultValue: false
   }
 ];

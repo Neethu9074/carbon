@@ -45,8 +45,7 @@ const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
 };
 
 export default function PersonalApiTokens() {
-  // @ts-expect-error no types available
-  const userId = user.id;
+  const userId = user?.id ?? '';
 
   const tenantWithUnits = useObservable(getTenantsWithUnits, []);
   const unitsData = tenantWithUnits?.[config.tenant] || [];

@@ -117,5 +117,6 @@ module.exports = {
   rawTraceDownloadEnabled: false,
   carbonTabsEnabled: true,
   shareAndInviteEnabled: true,
-  automationActionInstanceFeedbackEnabled: false
+  automationActionInstanceFeedbackEnabled: false,
+  orbitalEnabled: false
 };
