@@ -18,7 +18,8 @@ export default function SimpleAlertConfigDialogStep2({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
-  QueryBuilderComponent
+  QueryBuilderComponent,
+  thresholdResult
 }) {
   return (
     <SimpleModeStepContentWrapper
@@ -39,6 +40,7 @@ export default function SimpleAlertConfigDialogStep2({
           form={form}
           onChartViewConfigChange={onChartViewConfigChange}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          thresholdResult={thresholdResult}
         />
       </div>
     </SimpleModeStepContentWrapper>
