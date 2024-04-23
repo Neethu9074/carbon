@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 
 import {
   Code,
+  SSLCertificateTest,
   SlideInConfig,
   SlideInHeader,
   SliderState,
@@ -256,6 +257,7 @@ const CreateSyntheticTestDialogPresenter = ({
     if (selectedBlueprint.type === apiScriptTest) return { ...prevState, api: { simple: false, script: true } };
     if (selectedBlueprint.type === browserSimpleTest) return { ...prevState, browser: { simple: true, script: false } };
     if (selectedBlueprint.type === browserScriptTest) return { ...prevState, browser: { simple: false, script: true } };
+    if (selectedBlueprint.type === SSLCertificateTest) return { ...prevState, ssl: { simple: true } };
   };
 
   return (

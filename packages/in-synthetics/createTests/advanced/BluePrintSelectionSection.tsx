@@ -119,7 +119,12 @@ const SelectionMenu = ({
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
-            return { ...prevState, api: { simple: false, script: false }, browser: { simple: false, script: false } };
+            return {
+              ...prevState,
+              api: { simple: false, script: false },
+              browser: { simple: false, script: false },
+              ssl: { simple: false }
+            };
           });
           setRenderSectionsCounter(0);
           setHeaders([

@@ -5,8 +5,14 @@
 
 import { createMapForm, createField } from 'formalistic';
 
+import {
+  apiScriptTest,
+  apiSimpleTest,
+  browserScriptTest,
+  browserSimpleTest,
+  SSLCertificateTest
+} from 'in-synthetics/utils/constants';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
-import { apiScriptTest, apiSimpleTest, browserScriptTest, browserSimpleTest } from 'in-synthetics/utils/constants';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
@@ -46,10 +52,9 @@ export function createForm(
 
   const getApiScriptTestConfig = () => {
     return !savedState?.script
-    ? createAdvancedScriptConfigurationForm(advancedModeBlueprintType, savedState)
-    : createScriptConfigurationForm(simpleMode, savedState);
+      ? createAdvancedScriptConfigurationForm(advancedModeBlueprintType, savedState)
+      : createScriptConfigurationForm(simpleMode, savedState);
   };
-
   if (simpleMode) {
     switch (wizardModeBlueprintTestType) {
       case apiScriptTest:
@@ -84,6 +89,9 @@ export function createForm(
       case browserSimpleTest:
         config = createAdvancedWebpageActionConfigurationForm(savedState);
         break;
+      case 'SSLCertificate':
+      case SSLCertificateTest:
+        config = createAdvancedSSLCertificateConfigurationForm(savedState);
     }
   }
 
@@ -306,7 +314,7 @@ function createWebpageActionConfigurationForm(savedState?: Record<string, any>) 
 }
 
 function createAdvancedScriptConfigurationForm(type: string | undefined, savedState?: Record<string, any>) {
-  const checkCertificate: boolean = type === 'Certificate Check' ? true : false;
+  const checkCertificate: boolean = type === SSLCertificateTest ? true : false;
   let configuration = createMapForm()
     .put(
       'syntheticType',
@@ -496,6 +504,69 @@ function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string
       'url',
       createField({
         value: savedState?.url ?? '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
+      })
+    )
+    .put(
+      'timeout',
+      createField({
+        value: savedState?.timeout ?? '0m',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'retries',
+      createField({
+        value: savedState?.retries ?? 0,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'markSyntheticCall',
+      createField({
+        value: savedState?.markSyntheticCall ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
+}
+
+function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'SSLCertificate',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'hostname',
+      createField({
+        value: savedState?.url ?? '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
+      })
+    )
+    .put(
+      'port',
+      createField({
+        value: savedState?.port ?? 443,
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+      })
+    )
+    .put(
+      'daysRemainingCheck',
+      createField({
+        value: savedState?.daysRemainingCheck ?? '',
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,

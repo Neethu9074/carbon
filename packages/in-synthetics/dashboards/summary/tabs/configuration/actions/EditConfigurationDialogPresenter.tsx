@@ -69,6 +69,9 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     browser: {
       simple: syntheticType === 'WebpageAction',
       script: syntheticType === 'BrowserScript' || syntheticType === 'WebpageScript'
+    },
+    ssl: {
+      simple: syntheticType === 'SSLCertificate'
     }
   });
   const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<SlideInHeader>({

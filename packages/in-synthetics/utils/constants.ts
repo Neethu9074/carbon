@@ -38,6 +38,7 @@ export const apiSimpleTest = 'API Simple';
 export const apiScriptTest = 'API Script';
 export const browserSimpleTest = 'Browser Simple';
 export const browserScriptTest = 'Browser Script';
+export const SSLCertificateTest = 'Certificate Check';
 export const expectStatus = 'Expect Status';
 export const expectJson = 'Expect JSON';
 export const expectMatch = 'Expect Match';
@@ -520,9 +521,14 @@ export interface SimpleOrScript {
   script: boolean;
 }
 
+interface Simple {
+  simple: boolean;
+}
+
 export interface TestTypeSelected {
   api: SimpleOrScript;
   browser: SimpleOrScript;
+  ssl: Simple;
 }
 
 export interface Invalid {

@@ -24,7 +24,9 @@ interface CreateSyntheticTestDialogProps {
 
 const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) => {
   const selectedBlueprint = getSimpleBlueprintConfig()[0];
-  const [form, updateForm] = useState(() => createForm(true, selectedBlueprint));
+  const [form, updateForm] = useState(() => {
+    return createForm(true, selectedBlueprint);
+  });
   const [isSaving, setIsSaving] = useState(false);
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
   const [scriptDetails, setScriptDetails] = useState<Code>({ modified: false, name: '' });
@@ -33,7 +35,8 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
   const [slideConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
   const [testTypeSelected, setTestTypeSelected] = useState<TestTypeSelected>({
     api: { simple: false, script: false },
-    browser: { simple: false, script: false }
+    browser: { simple: false, script: false },
+    ssl: { simple: false }
   });
   const [renderSectionsCounter, setRenderSectionsCounter] = useState(0);
   const formId = 'create-synthetics-test-form';
