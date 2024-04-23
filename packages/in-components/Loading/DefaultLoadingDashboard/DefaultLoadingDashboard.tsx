@@ -21,9 +21,14 @@ type CustomLoadingMessage = {
 interface DefaultLoadingDashboardProps {
   lightMode?: boolean;
   customLoadingMessage?: CustomLoadingMessage;
+  fullInlineWidth?: boolean;
 }
 
-export default function DefaultLoadingDashboard({ lightMode, customLoadingMessage }: DefaultLoadingDashboardProps) {
+export default function DefaultLoadingDashboard({
+  lightMode,
+  customLoadingMessage,
+  fullInlineWidth
+}: DefaultLoadingDashboardProps) {
   const kpiClassName = classNames({
     [locals.skeletonKpi]: true,
     [locals.lightMode]: lightMode
@@ -39,7 +44,7 @@ export default function DefaultLoadingDashboard({ lightMode, customLoadingMessag
       {customLoadingMessage && (
         <Row className={locals.firstRow}>
           <Col lg={12}>
-            <Message type="neutral" title={customLoadingMessage.title} bold fullInlineWidth>
+            <Message type="neutral" title={customLoadingMessage.title} bold fullInlineWidth={fullInlineWidth}>
               {customLoadingMessage.description && <span>{customLoadingMessage.description}</span>}
             </Message>
           </Col>

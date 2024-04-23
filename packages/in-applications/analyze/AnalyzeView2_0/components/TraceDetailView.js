@@ -222,7 +222,7 @@ function Header(props) {
 
 function LoadingDashboard({ traceId, retry }) {
   if (retry === 0) {
-    return <DefaultLoadingDashboard lightMode />;
+    return <DefaultLoadingDashboard lightMode fullInlineWidth />;
   }
 
   let customLoadingTitle = t('in-applications:traceDetail.components.loadingDashboard.defaultTitle');
@@ -235,7 +235,7 @@ function LoadingDashboard({ traceId, retry }) {
     description: t('in-applications:traceDetail.components.loadingDashboard.loadingMessage', { traceId })
   };
 
-  return <DefaultLoadingDashboard lightMode customLoadingMessage={customLoadingMessage} />;
+  return <DefaultLoadingDashboard lightMode customLoadingMessage={customLoadingMessage} fullInlineWidth />;
 }
 
 function RetryErrorMessage({ traceId }) {
