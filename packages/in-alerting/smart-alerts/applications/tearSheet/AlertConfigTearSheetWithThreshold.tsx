@@ -5,12 +5,10 @@
  */
 
 import { Field, Item, MapForm, MapFormItems, MapPath } from 'formalistic';
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 
 import { ApplicationAlertConfig, TimeConfig } from '@instana/types';
 
-// import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
-import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 //@ts-expect-error TS migration
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import {
@@ -19,7 +17,10 @@ import {
   getFooterActions
 } from 'in-alerting/smart-alerts/applications/tearSheet/steps/TearSheetStepConfigs';
 import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/applications/hooks/useCalculateThresholdOnBackendSignalEmitter';
+//@ts-expect-error TS migration
+import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -43,7 +44,6 @@ export interface AP_FORM_DATA extends MapFormItems {
   rule: Field<{ alertType: string }>; // TODO add application form data here
 }
 
-// TODO props need to be updated
 export interface AlertConfigTearSheetWithThresholdProps {
   form: MapForm<AP_FORM_DATA>;
   isGlobalSmartAlert?: boolean;
@@ -97,7 +97,8 @@ function SmartAlertConfigTearSheetWithQueryValidation({
   blueprintConfig,
   ...props
 }: TearSheetWithQueryValidationProps) {
-  const { migrationMode, form, updateForm, editMode, withTrackCreate, withTrackClose, isSaving } = props;
+  const { migrationMode, form, updateForm, editMode, withTrackCreate, withTrackClose, isSaving, isGlobalSmartAlert } =
+    props;
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
@@ -119,15 +120,15 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     updateTagFilterExpression
   );
 
-  // const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
+  const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
-  // const [thresholdResult, setThresholdResult] = useState();
-  // useThresholdSuggestion(form, updateForm, setThresholdResult, {
-  //   isGlobalSmartAlert,
-  //   isValid,
-  //   alertConfigWithFormModel,
-  //   blueprintConfig
-  // });
+  const [thresholdResult, setThresholdResult] = useState();
+  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+    isGlobalSmartAlert,
+    isValid,
+    alertConfigWithFormModel,
+    blueprintConfig
+  });
 
   const { step, setStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
@@ -159,6 +160,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       isTagFilterFormModelValid={isTagFilterFormModelValid}
       migrationMode={migrationMode}
       handleSubmit={handleSubmit}
+      thresholdResult={thresholdResult}
     >
       {stepRenderers.map((renderer: (props: AlertConfigTearSheetWithThresholdProps) => JSX.Element, idx: number) => {
         return step === idx && renderer(props);

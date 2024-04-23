@@ -7,6 +7,8 @@
 import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 import { MapForm } from 'formalistic';
 
+import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
+
 import { AP_FORM_DATA } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 import AlertingTearSheetFooter from 'in-alerting/components/AlertingTearSheetFooter';
 import AlertingTearSheetSteps from 'in-alerting/components/AlertingTearSheetSteps';
@@ -42,6 +44,7 @@ export interface AlertingTearSheetProps {
   handleSubmit: () => void;
   isTagFilterFormModelValid?: boolean;
   migrationMode?: boolean;
+  thresholdResult: Result<StaticThresholdData | AdaptiveBaselineData | HistoricBaselineData> | undefined | null;
 }
 
 export default function AlertingTearSheet(props: AlertingTearSheetProps) {

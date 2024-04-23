@@ -517,6 +517,24 @@
               "text": "Synthetic calls have a synthetic endpoint as their destination, such as calls to health-check endpoints"
             }
           }
+        },
+        "threshold": {
+          "title": "Set a value for the violation threshold",
+          "description": "Choose metric, violation threshold and time window to evaluate the violation."
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "A threshold value that automatically adapts to the changes of the underlying metric is applied."
+            },
+            "static": {
+              "description": "A constant threshold value is applied and it does not change over time."
+            }
+          }
+        },
+        "alertChart": {
+          "title": "Alerts preview",
+          "description": "Shows how alerts would have triggered based on historical metric data."
         }
       }
     },

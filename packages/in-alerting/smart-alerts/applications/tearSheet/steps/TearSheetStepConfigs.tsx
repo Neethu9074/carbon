@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+//@ts-expect-error TS migration
+import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep4';
 //@ts-expect-error
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep1';
 import { AlertConfigTearSheetWithThresholdProps } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
@@ -46,7 +48,11 @@ export const getStepRenderers = (props: AlertConfigTearSheetWithThresholdProps) 
       <AlertConfigTearSheetStep2 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => <AlertingTearSheetContent title={stepConfigs[2].title}>{''}</AlertingTearSheetContent>,
+  () => (
+    <AlertingTearSheetContent title={stepConfigs[2].title}>
+      <AlertConfigTearSheetStep4 {...props} />
+    </AlertingTearSheetContent>
+  ),
   () => <AlertingTearSheetContent title={stepConfigs[3].title}>{''}</AlertingTearSheetContent>,
   () => <AlertingTearSheetContent title={stepConfigs[4].title}>{''}</AlertingTearSheetContent>
 ];
