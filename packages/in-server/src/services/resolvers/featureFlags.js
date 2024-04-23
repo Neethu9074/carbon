@@ -501,8 +501,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonButtonEnabled',
-    instanaCtlKey: 'feature.carbon.button.enabled',
+    uiClientKey: 'carbonIconButtonEnabled',
+    instanaCtlKey: 'feature.carbon.iconbutton.enabled',
     defaultValue: false
   },
   {
