@@ -4504,10 +4504,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@useorbital/client-sdk@^1.1.1":
-  version "1.1.1"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@useorbital/client-sdk/-/client-sdk-1.1.1.tgz#3cf85699ad65c458a85dc4598b917734e3e3b9d5"
-  integrity sha512-wnKuHsAWHfM0+9eYd1i3yB05jc0YsO95RfqeZjrwPHFihSNcLwgwrtTKIm4UOtfnXk2AQNafbjiqkkhZPJxozg==
+"@useorbital/client-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@useorbital/client-sdk/-/client-sdk-1.2.0.tgz#42e5805b5f93688d31abf338d24026583f2b75c4"
+  integrity sha512-q14pVSEguHN8q8VRHc+9kSBFc0KCmjma+tLul9A9bLEzA6fC4mpblGI78hQiWt8DD5t+OpsYBYk1Aa3YNbJX6w==
   dependencies:
     "@bitchcraft/unicorn-logger" "^1.1.1"
 
