@@ -35,11 +35,12 @@ export default function ApplicationTagFilterBuilderContent() {
 
   return (
     <StackItem>
-      {shouldRenderExplanationText ? (
+      {shouldRenderExplanationText && (
         <Typography variant="body-regular">
           {t('in-service-levels:components.tagFilterBuilder.filterAbscenseExplanation')}
         </Typography>
-      ) : !isFormInEditMode ? (
+      )}
+      {!shouldRenderExplanationText && !isFormInEditMode && (
         <ClearableTagFilterQueryBuilder
           applicationId={applicationIdField.value}
           onChange={newFilterExpression =>
@@ -49,7 +50,8 @@ export default function ApplicationTagFilterBuilderContent() {
           }
           value={requiresMergedFilters ? custom : tagFilterExpressionField.value}
         />
-      ) : (
+      )}
+      {!shouldRenderExplanationText && isFormInEditMode && (
         <QueryBuilder
           onChange={newFilterExpression =>
             onChange(['scope', 'tagFilterExpression'], () =>

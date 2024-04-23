@@ -13,13 +13,23 @@ import { t } from 'in-i18n';
 
 interface DisabledTagFilterButtonProps {
   width?: string;
+  noCustomTitle?: boolean;
 }
-export default function DisabledTagFilterButton({ width }: DisabledTagFilterButtonProps) {
+export default function DisabledTagFilterButton({ width, noCustomTitle }: DisabledTagFilterButtonProps) {
   return (
-    <Section title={t('in-service-levels:createSloDialog.customFilter')} titleWidth={width}>
-      <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
-        {t('in-components:queryBuilder.components.filterButtonAddFilter')}
-      </Button>
-    </Section>
+    <>
+      {!noCustomTitle && (
+        <Section title={t('in-service-levels:createSloDialog.customFilter')} titleWidth={width}>
+          <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+            {t('in-components:queryBuilder.components.filterButtonAddFilter')}
+          </Button>
+        </Section>
+      )}
+      {noCustomTitle && (
+        <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
+          {t('in-components:queryBuilder.components.filterButtonAddFilter')}
+        </Button>
+      )}
+    </>
   );
 }

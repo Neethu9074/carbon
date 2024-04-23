@@ -6,11 +6,11 @@
 
 import React, { useContext } from 'react';
 
-import { Button, StackItem } from '@instana/components';
+import { StackItem } from '@instana/components';
 
 import ApplicationTagFilterBuilderContent from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilderContent';
+import DisabledTagFilterButton from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/DisabledTagFilterButton';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { t } from 'in-i18n';
 
 export default function ApplicationTagFilterBuilder() {
   const { form } = useContext(SloFormContext);
@@ -22,9 +22,7 @@ export default function ApplicationTagFilterBuilder() {
     <>
       {!isScopeSelected ? (
         <StackItem>
-          <Button size="compact" icon="lib_openclose_add" kind="subtle" disabled>
-            {t('in-components:queryBuilder.components.filterButtonAddFilter')}
-          </Button>
+          <DisabledTagFilterButton noCustomTitle />
         </StackItem>
       ) : (
         <ApplicationTagFilterBuilderContent />

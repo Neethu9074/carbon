@@ -5,16 +5,13 @@
  */
 
 import { renderHook } from '@testing-library/react-hooks';
+import { createField, createMapForm } from 'formalistic';
 
 import { just } from '@instana/observables';
 
-import {
-  testApplicationForm,
-  testApplicationFormwithEndpoint,
-  testApplicationFormwithoutServiceandEndpoint,
-  testApplicationFormwithService
-} from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
 import useMergedServiceEndpointCustomFilters from 'in-service-levels/hooks/useMergedServiceEndpointCustomFilters';
+import { testApplicationForm } from 'in-service-levels/components/ConfigDialog/createSloForm/testData';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { success } from 'in-services/util/result';
@@ -97,7 +94,17 @@ describe('useMergedServiceEndpointCustomFilters', () => {
   });
 
   it('should return correct configured service expression when only service name is provided', () => {
-    const givenForm = testApplicationFormwithService;
+    const givenForm = createMapForm({
+      items: {
+        scope: createMapForm({
+          items: {
+            endpointId: createField({ value: '' }),
+            serviceId: createField({ value: 'withserviceID' }),
+            tagFilterExpression: createField({ value: fromBackendModel(undefined) })
+          }
+        })
+      }
+    });
     const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
     expect(result.current).toEqual([
       {
@@ -112,7 +119,17 @@ describe('useMergedServiceEndpointCustomFilters', () => {
   });
 
   it('should return correct configured endpoint expression when only endpoint name is provided', () => {
-    const givenForm = testApplicationFormwithEndpoint;
+    const givenForm = createMapForm({
+      items: {
+        scope: createMapForm({
+          items: {
+            endpointId: createField({ value: 'endpoindNotEmpty' }),
+            serviceId: createField({ value: '' }),
+            tagFilterExpression: createField({ value: fromBackendModel(undefined) })
+          }
+        })
+      }
+    });
     const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
     expect(result.current).toEqual([
       {
@@ -127,7 +144,17 @@ describe('useMergedServiceEndpointCustomFilters', () => {
   });
 
   it('should return empty expression when neither service nor endpoint names are provided', () => {
-    const givenForm = testApplicationFormwithoutServiceandEndpoint;
+    const givenForm = createMapForm({
+      items: {
+        scope: createMapForm({
+          items: {
+            endpointId: createField({ value: '' }),
+            serviceId: createField({ value: '' }),
+            tagFilterExpression: createField({ value: fromBackendModel(undefined) })
+          }
+        })
+      }
+    });
     const { result } = renderHook(() => useMergedServiceEndpointCustomFilters(givenForm));
     expect(result.current).toEqual([]);
   });
