@@ -33,7 +33,15 @@
     margin: (@grid__gutter * 1px) 0;
   }
   .errorReasons {
-    margin-left: calc(2rem);
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    span {
+      width: 100%;
+    }
+    ul {
+      margin-bottom: 0;
+    }
   }
 
   .downloadDropdown {
