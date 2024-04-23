@@ -48,7 +48,6 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
   const [creating, setCreating] = useState<boolean>(false);
   const [errors, setErrors] = useState<Error[] | undefined>();
 
-  // @ts-expect-error not types available...
   const userId = user?.id ?? ('' as string);
 
   /**

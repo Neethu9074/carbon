@@ -57,6 +57,7 @@ export interface Role {
 }
 
 export interface User {
+  id?: string;
   email: string;
   role?: Role;
   tenants: Tenant[];
