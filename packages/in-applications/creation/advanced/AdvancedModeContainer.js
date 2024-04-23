@@ -74,7 +74,7 @@ export default function AdvancedModeContainer({ form, updateForm, errorMessage, 
               />
               <TouchedMessages field={labelField} />
               {errorMessage && (
-                <Message className={locals.errorMessage} type="error" withIcon small>
+                <Message className={locals.errorMessage} type="error" withIcon small fullInlineWidth>
                   {errorMessage}
                 </Message>
               )}

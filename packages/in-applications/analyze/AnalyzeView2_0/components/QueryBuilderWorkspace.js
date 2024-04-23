@@ -175,7 +175,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
             />
           </Sections>
           {!isValid && !isLoading && (
-            <Message type="error" withIcon small>
+            <Message type="error" withIcon small fullInlineWidth>
               {t('in-applications:analyze.invalidQueryConfig')}
             </Message>
           )}

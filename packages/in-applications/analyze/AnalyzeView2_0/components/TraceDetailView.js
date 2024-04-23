@@ -247,6 +247,7 @@ function RetryErrorMessage({ traceId }) {
         bold
         withIcon
         className={locals.errorMessage}
+        fullInlineWidth
       >
         <div className={locals.errorReasons}>
           <span>{t('in-applications:traceDetail.components.retryErrorMessage.reasonHeader')}</span>
