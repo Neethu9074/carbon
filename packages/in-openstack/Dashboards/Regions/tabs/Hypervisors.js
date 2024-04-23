@@ -11,8 +11,8 @@ import getOpenstackHypervisors from 'in-openstack/subscriptions/getOpenstackHype
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
-import { megaBytes, number, percentage } from 'in-services/formatters/number';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
+import { megaBytes, number } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
@@ -34,13 +34,6 @@ const columnDefinitions = [
       const regionId = props.regionId;
 
       return <LabelContent label={item.label} id={item.id} regionId={regionId} />;
-    }
-  },
-  {
-    id: 'id',
-    label: t('in-openstack:id'),
-    getContent(item) {
-      return item.openstackItem.id;
     }
   },
   {
@@ -67,7 +60,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="cpuUsage"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={percentage.compact}
+          formatter={number.compact}
         />
       );
     }
@@ -97,7 +90,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="memoryUsage"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={percentage.compact}
+          formatter={megaBytes.compact}
         />
       );
     }
@@ -127,7 +120,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="storageUsage"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={percentage.compact}
+          formatter={number.detailed}
         />
       );
     }
