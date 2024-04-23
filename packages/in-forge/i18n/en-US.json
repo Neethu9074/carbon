@@ -12575,7 +12575,23 @@
       "entityType": "Entity Type",
       "instanceId": "Instance ID",
       "dashboard": {
-        "gpuTemp": "GPU Temp"
+        "gpuTemp": "GPU Temperature (Celsius)",
+        "powerUsage": "GPU Power Usage (W)",
+        "smClocks": "GPU SM Clocks (HZ)",
+        "memoryClocks": "GPU Memory Clocks (HZ)",
+        "gpuUtil": "GPU Utilization (%)",
+        "memoryCpyUtil": "GPU Memory Cpy Utilization (%)",
+        "frambufferMemUsed": "GPU Framebuffer Memory Used (MiB)",
+        "frambufferMemFree": "GPU Framebuffer Memory Free (MiB)"
+      },
+      "container":{
+        "containerName": "Container Name",
+        "podName": "Pod Name",
+        "namespaceName": "Namespace",
+        "gpuNumber": "GUP Number",
+        "gpuUtil": "GPU Utilization Details",
+        "memoryCpyUtil": "GPU Memory Cpy Utilization Details",
+        "util": "Utilization"
       }
     },
     "otelHost": {
