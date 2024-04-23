@@ -77,7 +77,6 @@
     "memoryUsage": "Used Memory",
     "cpuUsage": "Used CPU",
     "instanceCount": "Instance Count",
-    "storage": "Storage",
     "currentWorkload":"Current Workload",
     "diskDetails": "Disk Information",
     "networkInterfaceControllers": "Network Interface Controllers",
