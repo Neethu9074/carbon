@@ -9,11 +9,8 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  LogsChartInteractionWrapper,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, percentage, twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
@@ -21,11 +18,12 @@ import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sCha
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { useClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 const showUsage = k8sClusterUsageEnabled;
@@ -36,7 +34,7 @@ export default function Summary({ timeConfig, data: cluster }) {
   const { running, limits, requests, usage } = k8sChartColors;
   const { pending, capacity, allocated } = k8sClusterChart;
 
-  const clusterTagId = tagEquals('id.kubernetesCluster', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('cluster', snapshotId, timeConfig);
 
   const allItemsNodesHrefs = useClusterDashboard(cluster.id, {
     tab: '/nodes'
@@ -172,7 +170,7 @@ export default function Summary({ timeConfig, data: cluster }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={[clusterTagId]} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row verticallyStretchColumns>

@@ -7,29 +7,26 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
 export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
   const snapshotId = service.id;
   const { limits, requests, usage } = k8sPodAndServiceChart;
-  const serviceTagId = tagEquals('id.kubernetesService', snapshotId);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('service', snapshotId, timeConfig);
 
   return (
     <>
@@ -142,7 +139,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={andQuery(serviceTagId)} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row>

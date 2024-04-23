@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { create, just } from '@instana/observables';
 
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -74,16 +75,21 @@ export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig })
     }
   ];
 
-  const logsButton = (
+  const logsButton = tagFilterExpression && (
     <AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} isHovered$={isHovered$} />
   );
+
   return (
     <div onMouseEnter={() => isHovered$.emit(true)} onMouseLeave={() => isHovered$.emit(false)}>
       <DashboardSection title={'Logs'} button={logsButton}>
-        <LogsChart
-          tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
-          additionalContextMenuButtons={additionalContextMenuButtons}
-        />
+        {!tagFilterExpression ? (
+          <LoadingSkeleton style={{ display: 'block', height: '12rem', width: '100%' }} />
+        ) : (
+          <LogsChart
+            tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
+            additionalContextMenuButtons={additionalContextMenuButtons}
+          />
+        )}
       </DashboardSection>
     </div>
   );

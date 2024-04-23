@@ -31,6 +31,7 @@ import { k8sChartColors, k8sClusterChart } from 'in-kubernetes/components/K8sCha
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { useClusterDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
@@ -50,6 +51,8 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = cluster.id;
+
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('cluster', snapshotId, timeConfig);
 
   const { running, limits, requests, usage } = k8sChartColors;
   const { pending, capacity, allocated } = k8sClusterChart;
@@ -322,7 +325,7 @@ export default function Summary({ timeConfig, data: cluster }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={[clusterTagId]} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
 

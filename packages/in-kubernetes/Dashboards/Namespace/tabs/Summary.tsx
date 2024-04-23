@@ -34,6 +34,7 @@ import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sC
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { useNamespaceDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -52,6 +53,8 @@ interface SummaryProps {
 export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = namespace.id;
+
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('namespace', snapshotId, timeConfig);
 
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
@@ -374,7 +377,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
       </Row>
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper tagFilterExpression={namespaceQuery} timeConfig={timeConfig} />
+          <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
       <Row verticallyStretchColumns>
