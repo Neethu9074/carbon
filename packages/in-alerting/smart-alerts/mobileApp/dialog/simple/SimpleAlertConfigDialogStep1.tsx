@@ -36,7 +36,8 @@ export default function SimpleAlertConfigDialogStep1({
   setSliderState,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  thresholdResult
 }: AlertConfigDialogPresenterProps & MainDialogControl & UpdateForm) {
   const alertType = form.get('rule').get('alertType').value;
   const metricName = form.get('rule').get('metricName').value;
@@ -90,6 +91,7 @@ export default function SimpleAlertConfigDialogStep1({
         form={form}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        thresholdResult={thresholdResult}
       />
     </SimpleModeStepContentWrapper>
   );
