@@ -37,6 +37,9 @@ const cols = [
       getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   }

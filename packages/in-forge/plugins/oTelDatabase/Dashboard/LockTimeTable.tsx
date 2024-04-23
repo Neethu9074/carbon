@@ -67,6 +67,9 @@ const lockTimeCol = {
     getContent: seconds.detailed,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return 130;
     }
   }
 };

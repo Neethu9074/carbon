@@ -35,16 +35,31 @@ export default function OtelHostDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.otelHost.dashboard.cpuUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="cpu.user" formatter={percentageTwoDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshot.get('id')}
+            metric="cpu.user"
+            formatter={percentageTwoDecimalPlaces}
+            windowForLatest={130}
+          />
         </KpiKeyValue>
 
         <KpiKeyValue label={t('in-forge:plugins.otelHost.dashboard.memoryUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={bytesTwoDecimalPlaces} />
+          <MetricValue
+            snapshotId={snapshot.get('id')}
+            metric="memory.used"
+            formatter={bytesTwoDecimalPlaces}
+            windowForLatest={130}
+          />
         </KpiKeyValue>
 
         {!(isWindows(snapshot) || isZos(snapshot)) && (
           <KpiKeyValue label={t('in-forge:plugins.otelHost.dashboard.cpuLoad')}>
-            <MetricValue snapshotId={snapshot.get('id')} metric="load.avg_1m" formatter={twoDecimalPlaces} />
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="load.avg_1m"
+              formatter={twoDecimalPlaces}
+              windowForLatest={130}
+            />
           </KpiKeyValue>
         )}
       </KpiSection>

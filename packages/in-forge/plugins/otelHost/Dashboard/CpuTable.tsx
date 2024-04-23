@@ -43,6 +43,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -60,6 +63,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -77,6 +83,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -94,6 +103,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -111,6 +123,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -128,6 +143,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -145,6 +163,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   }

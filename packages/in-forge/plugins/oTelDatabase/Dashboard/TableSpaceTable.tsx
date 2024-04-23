@@ -38,6 +38,9 @@ const sizeCol = {
     getContent: bytesTwoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return 130;
     }
   }
 };
@@ -55,6 +58,9 @@ const usedCol = {
     getContent: bytesTwoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return 130;
     }
   }
 };
@@ -72,6 +78,9 @@ const utilizationCol = {
     getContent: number.detailed,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return 130;
     }
   }
 };
@@ -89,6 +98,9 @@ const maxCol = {
     getContent: bytesTwoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return 130;
     }
   }
 };

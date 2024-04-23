@@ -39,6 +39,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -55,6 +58,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -71,6 +77,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -87,6 +96,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -103,6 +115,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -119,6 +134,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -135,6 +153,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   },
@@ -151,6 +172,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return 130;
       }
     }
   }
