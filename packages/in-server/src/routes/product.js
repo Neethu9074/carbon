@@ -11,7 +11,6 @@ const fs = require('fs');
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
 const { getMixpanelToken } = require('../services/mixpanel');
-const { getOrbitalSpaceID } = require('../services/orbital');
 const { getSegmentKey } = require('../services/segment');
 const buildInformation = require('../../assets/build.json');
 const configResolver = require('../services/config');
@@ -186,7 +185,6 @@ router.get('/', async (req, res) => {
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
-        orbitalSpaceID: getOrbitalSpaceID(loggedUser, termsAndPrivacy.testingGroup),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
