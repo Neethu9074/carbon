@@ -16,7 +16,8 @@ import {
   matrixPrefix,
   pathSegment,
   actionTypesUrlParameter,
-  actionStatusesUrlParameter
+  actionStatusesUrlParameter,
+  getActorType
 } from 'in-automation/components/ActionHistory/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -70,13 +71,15 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
     getContent(row: ActionInstance) {
       return (
         <Tooltip content={row.actorName} align="topLeft" delay={500}>
-          <div
-            className={classNames({
-              [locals.smallColumn]: row.actorName && row.actorName?.length > 60
-            })}
-          >
-            <Typography variant="body-regular">{row.actorName}</Typography>
-          </div>
+          <WithSubscript subscript={getActorType(row.actorType ?? 'ACTOR_UNKNOWN')}>
+            <div
+              className={classNames({
+                [locals.smallColumn]: row.actorName && row.actorName.length > 60
+              })}
+            >
+              <Typography variant="body-regular">{row.actorName}</Typography>
+            </div>
+          </WithSubscript>
         </Tooltip>
       );
     }

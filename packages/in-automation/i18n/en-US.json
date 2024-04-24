@@ -256,7 +256,9 @@
     "timeout": "Timeout",
     "issueUrl": "Issue url",
     "taskUrl": "Task url",
-    "output": "Output"
+    "output": "Output",
+    "user": "User",
+    "apiToken": "API Token"
   },
   "actionLanes": {
     "buttonInvestigate": "Investigate"
