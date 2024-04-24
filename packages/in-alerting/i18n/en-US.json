@@ -434,7 +434,9 @@
       },
       "components": {
         "createSmartAlert": "Add Smart Alert",
+        "createSmartAlertNew": "Add Smart Alert (New)",
         "createGlobalSmartAlert": "Add Global Smart Alert",
+        "createGlobalSmartAlertNew": "Add Global Smart Alert (New)",
         "provideLogMessageSelectLogMessage": "Select Log Message",
         "provideLogMessageLogLevel": "Log Level",
         "provideLogMessageErrorMessage": "Error Message",

@@ -22,6 +22,7 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
@@ -51,6 +52,8 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
 const urlStateDefinition = {
   bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
@@ -143,7 +146,7 @@ function renderButtonLine(props) {
   const { applicationId, timeConfig, boundaryScope, location } = props;
   const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
 
-  const AddSmartAlertButton = isGlobalAlertConfig ? (
+  const addSmartAlertButton = isGlobalAlertConfig ? (
     <CreateGlobalSmartAlertButton location={location} />
   ) : (
     <CreateSmartAlert
@@ -157,14 +160,16 @@ function renderButtonLine(props) {
   const smartAlertCreateButton = isGlobalAlertConfig ? (
     <CreateSmartAlertButton
       isGlobal
-      buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlert')}
+      buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlertNew')}
       isFloatingButton
+      isMenuItem
     />
   ) : (
     <CreateSmartAlertButton
       isGlobal={false}
-      buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
+      buttonName={t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
       isFloatingButton
+      isMenuItem
     />
   );
 
@@ -194,10 +199,19 @@ function renderButtonLine(props) {
         timeConfig={timeConfig}
         groupBy={createGroupBy('service.name', DESTINATION)}
       />
+
       {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>{smartAlertCreateButton}</FloatingActionButtons>
+        <FloatingActionButtons>
+          <FloatingActionButtonMenu>
+            {showAlertButton && <span className={locals.floatingBtnMenu}>{addSmartAlertButton}</span>}
+            {showAlertButton && applicationSmartAlertFullScreenDesignEnabled && <>{smartAlertCreateButton}</>}
+          </FloatingActionButtonMenu>
+        </FloatingActionButtons>
       )}
-      {showAlertButton && <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>}
+
+      {showAlertButton && !applicationSmartAlertFullScreenDesignEnabled && (
+        <FloatingActionButtons>{addSmartAlertButton}</FloatingActionButtons>
+      )}
     </>
   );
 }

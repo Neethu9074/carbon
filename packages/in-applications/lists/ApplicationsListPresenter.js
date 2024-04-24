@@ -254,17 +254,15 @@ export default function ApplicationsListPresenter({
           )}
 
           {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton renderAsSimpleButton />}
+          {role.canConfigureGlobalApplicationSmartAlerts && applicationSmartAlertFullScreenDesignEnabled && (
+            <CreateSmartAlertButton
+              isGlobal
+              buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlertNew')}
+              isFloatingButton
+            />
+          )}
         </FloatingActionButtonMenu>
       </FloatingActionButtons>
-      {role.canConfigureGlobalApplicationSmartAlerts && applicationSmartAlertFullScreenDesignEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlertButton
-            isGlobal
-            buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlert')}
-            isFloatingButton
-          />
-        </FloatingActionButtons>
-      )}
     </Sticky>
   );
 }
