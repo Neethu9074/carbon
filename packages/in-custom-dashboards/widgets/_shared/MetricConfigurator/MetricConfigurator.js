@@ -42,7 +42,8 @@ export default function MetricConfigurator({
   type,
   maxGrouping,
   displayDFQ = true,
-  withLastValue = false
+  withLastValue = false,
+  withEmptyValueFilterSection
 }) {
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
@@ -166,6 +167,7 @@ export default function MetricConfigurator({
         dataSourceSection={dataSource ? undefined : dataSourceSection}
         displayDFQ={displayDFQ}
         withLastValue={withLastValue}
+        withEmptyValueFilterSection={withEmptyValueFilterSection}
       />
     );
   }

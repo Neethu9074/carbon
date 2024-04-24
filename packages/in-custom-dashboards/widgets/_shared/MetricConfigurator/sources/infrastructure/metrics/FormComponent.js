@@ -68,7 +68,8 @@ export default function FormComponent({
   isTypePrefilled = false,
   withAggregationInMetrics = true,
   maxGrouping = 50,
-  withLastValue = false
+  withLastValue = false,
+  withEmptyValueFilterSection
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
@@ -331,6 +332,8 @@ export default function FormComponent({
       {timeShiftConfiguration}
 
       {labelSection}
+
+      {withEmptyValueFilterSection}
     </Stack>
   );
 }

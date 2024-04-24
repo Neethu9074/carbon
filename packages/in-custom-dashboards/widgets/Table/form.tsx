@@ -49,7 +49,8 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
           withColorConfiguration: true,
           withMetricFormatter: true,
           withRenderer: false,
-          withFormatter: false
+          withFormatter: false,
+          withEmptyValueFilter: true
         }),
         sorting: createSortingField(savedState),
         countGroup: createCountGroupField(savedState),

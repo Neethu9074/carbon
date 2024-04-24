@@ -824,7 +824,8 @@
           "formatter": "Formatter",
           "searchPlaceholder": "Search",
           "countGroup": "Show group count",
-          "showGroupsWithMissingTags": "Show groups with missing tags"
+          "showGroupsWithMissingTags": "Show groups with missing tags",
+          "filterEmptyValues": "Filter empty values"
         }
       },
       "dataSource": {
