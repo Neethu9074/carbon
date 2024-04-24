@@ -16,7 +16,7 @@ if (isRequiringInstanaRocks()) {
 if (serverConfig.mixpanelToken) {
   allowedScriptOrigins.push('https://cdn.mxpnl.com');
 }
-allowedScriptOrigins.push('*.useorbital.com');
+
 allowedScriptOrigins.push('https://cdn.walkme.com');
 allowedScriptOrigins.push('https://playerserver.walkme.com');
 allowedScriptOrigins.push('https://ec.walkme.com');
