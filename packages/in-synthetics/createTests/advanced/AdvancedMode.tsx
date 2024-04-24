@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 
 import { getAllApplicationsForEntitySelectionWithDefaults } from 'in-applications/subscriptions/getAllApplicationsForEntitySelection';
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
@@ -114,6 +115,15 @@ const AdvancedMode = ({
       case 'WebpageAction':
         return (
           <BrowserSimpleConfiguration
+            form={form}
+            updateForm={updateForm}
+            invalidTimeout={invalidTimeout}
+            setInvalidTimeout={setInvalidTimeout}
+          />
+        );
+      case 'SSLCertificate':
+        return (
+          <SSLCertificateConfiguration
             form={form}
             updateForm={updateForm}
             invalidTimeout={invalidTimeout}

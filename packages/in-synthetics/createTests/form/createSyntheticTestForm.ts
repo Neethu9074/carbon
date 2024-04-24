@@ -12,13 +12,16 @@ import {
   browserSimpleTest,
   SSLCertificateTest
 } from 'in-synthetics/utils/constants';
+import urlValidator, {
+  checkForInvalidHost,
+  checkForInvalidPort
+} from 'in-synthetics/createTests/validators/urlValidator';
 import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { regExpValidator, statusCodeValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/validator';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import urlValidator from 'in-synthetics/createTests/validators/urlValidator';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
@@ -527,12 +530,12 @@ function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<strin
     .put(
       'hostname',
       createField({
-        value: savedState?.url ?? '',
+        value: savedState?.hostname ?? '',
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,
           notBlankValidator,
-          urlValidator
+          checkForInvalidHost
         )
       })
     )
@@ -540,19 +543,14 @@ function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<strin
       'port',
       createField({
         value: savedState?.port ?? 443,
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0), checkForInvalidPort)
       })
     )
     .put(
       'daysRemainingCheck',
       createField({
         value: savedState?.daysRemainingCheck ?? '',
-        validator: composeAndShortCircuitOnError(
-          notUndefinedValidator,
-          stringValidator,
-          notBlankValidator,
-          urlValidator
-        )
+        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
       })
     )
     .put(
