@@ -13,6 +13,7 @@ import { formatTime } from '@instana/format-date';
 import {
   createThresholdFieldValidator,
   dateFieldValidator,
+  indicatorFormValidator,
   noBlankEntitySelection,
   noInvalidTagFilterExpression,
   targetFieldValidator,
@@ -33,9 +34,9 @@ import {
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { isCustomBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
 import { defaultBlueprint, ServiceLevelErrors } from 'in-service-levels/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { isCustomBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
 import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
@@ -170,7 +171,8 @@ export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfi
         items: getEntityFieldsFromSloConfig(sloConfig)
       }),
       indicator: createMapForm({
-        items: getIndicatorFormFieldsFromSloConfig(sloConfig)
+        items: getIndicatorFormFieldsFromSloConfig(sloConfig),
+        validator: indicatorFormValidator
       }),
       scope: createMapForm({
         items: getScopeFieldsFromSloConfig(sloConfig)

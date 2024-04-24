@@ -10,6 +10,7 @@ import { DurationUnitType } from '@instana/types';
 
 import {
   dateFieldValidator,
+  indicatorFormValidator,
   noBlankEntitySelection,
   noInvalidTagFilterExpression,
   targetFieldValidator,
@@ -131,7 +132,8 @@ export const createSloFormFromForm = (form: SloForm): SloForm => {
         items: getEntityFieldsFromForm(form)
       }),
       indicator: createMapForm({
-        items: getIndicatorFieldsFromForm(form)
+        items: getIndicatorFieldsFromForm(form),
+        validator: indicatorFormValidator
       }),
       scope: createMapForm({
         items: getScopeFieldsFromForm(form)

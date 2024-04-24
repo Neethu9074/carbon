@@ -18,6 +18,7 @@ export default function MatchingSloTimeWindowsCard() {
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
 
   const matchingTimeWindows = calculateMatchTimeWindow(timeWindows);
+  const hasMatchingTimeWindows = timeWindows.length > 0;
 
   return (
     <Card>
@@ -33,6 +34,9 @@ export default function MatchingSloTimeWindowsCard() {
             </TimeWindowPill>
           );
         })}
+        {!hasMatchingTimeWindows && (
+          <TimeWindowPill color="default.ids.color.option.neutral.400">No matching time window found</TimeWindowPill>
+        )}
       </Stack>
     </Card>
   );

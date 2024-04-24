@@ -18,6 +18,7 @@
     "noSelection": "None selected",
     "loadMore": "Load more",
     "noData": "No data available",
+    "noMatchingTimeWindows": "There is no matching time window for the selected period. This usually happens if the selected time window is prior the creation date of the SLO.",
     "serverErrors": {
       "sloLimitReachedError": "The maximum number of service level objective configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
     },
@@ -151,6 +152,8 @@
     "errorTimeWindowMin": "The time window must be at least one day long",
     "errorInvalidExpression": "The filters entered are not valid",
     "errorBlankEntity": "Please select an entity from the list",
+    "errorEmptyGoodFilter": "A good filter must be defined",
+    "errorEqualTagFilter": "Good and bad filters must not be identical",
     "nameAndTagsTitle": "Set Details",
     "sloNameLabel": "SLO Name",
     "sloNamePlaceholder": "Enter name",

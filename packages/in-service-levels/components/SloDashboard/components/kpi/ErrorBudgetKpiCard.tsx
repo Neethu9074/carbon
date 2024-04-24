@@ -10,6 +10,8 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
+import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { minutes } from 'in-services/formatters/number';
@@ -23,6 +25,12 @@ interface ErrorBudgetKpiCardProps {
 export default function ErrorBudgetKpiCard({ configuration }: ErrorBudgetKpiCardProps) {
   const { id, entity } = configuration;
   const timeConfig = useTimeConfig();
+  const { timeWindows } = useSloTimeWindowContext();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+
+  if (!hasMatchingTimeWindows)
+    return <NoValueKpiCard title={t('in-service-levels:sloDashboard.components.errorBudgetKpiCard.remainingBudget')} />;
+
   const formatter =
     configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : createSloEventFormatter(entity);
 

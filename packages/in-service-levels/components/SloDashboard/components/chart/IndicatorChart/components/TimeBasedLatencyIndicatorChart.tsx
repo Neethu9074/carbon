@@ -40,6 +40,7 @@ import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { millis } from 'in-services/formatters/number';
 
@@ -54,6 +55,7 @@ export default function TimeBasedLatencyIndicatorChart({
   const sloZoomInAction = useSloZoomInAction();
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
+  const hasMatchingTimeWindows = timeWindows.length > 0;
   const granularity = calculateTrafficGranularity(timeConfig);
   const metricConfiguration = useSliMetricConfiguration<LatencyBlueprintIndicator>(
     entity,
@@ -63,10 +65,10 @@ export default function TimeBasedLatencyIndicatorChart({
     getMetricConfig
   );
   const result: Result<UnifiedMetricsResult[]> =
-    useObservable(
-      () => getUnifiedMetrics({ metrics: metricConfiguration }),
-      [generateStableHash(metricConfiguration)]
-    ) ?? pendingResult;
+    useObservable(() => {
+      if (!hasMatchingTimeWindows) return successObservable([]);
+      return getUnifiedMetrics({ metrics: metricConfiguration });
+    }, [generateStableHash(metricConfiguration), hasMatchingTimeWindows]) ?? pendingResult;
 
   const metrics = result.data?.filter(r => r.id.startsWith('timeWindow')) ?? [];
   const metricValues = copyFirstBucketOfSubsequentDataSeries(metrics.map(metric => metric.values as MetricDataSeries));

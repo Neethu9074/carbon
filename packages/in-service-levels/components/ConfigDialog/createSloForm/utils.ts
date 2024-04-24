@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field } from 'formalistic';
+import { Item } from 'formalistic';
 
 import {
   ApplicationSloEntity,
@@ -20,7 +20,7 @@ import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { parseDateTime } from 'in-services/formatters/date';
 
-export function isFieldValid<VALUE_TYPE>(field: Field<VALUE_TYPE>) {
+export function isFieldValid(field: Item): boolean {
   return field.valid || !field.touched;
 }
 
