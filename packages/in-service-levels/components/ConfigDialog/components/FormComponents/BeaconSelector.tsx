@@ -6,9 +6,10 @@
 
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import { enabledBeaconTypes } from 'in-service-levels/constants';
 import { SloBeaconTypes } from 'in-service-levels/types';
-import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 
 interface BeaconSelectorProps {

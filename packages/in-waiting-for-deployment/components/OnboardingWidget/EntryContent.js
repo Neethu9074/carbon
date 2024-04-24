@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 
 import locals from './EntryContent.mless';

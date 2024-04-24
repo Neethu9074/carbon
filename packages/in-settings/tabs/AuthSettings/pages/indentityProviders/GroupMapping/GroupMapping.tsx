@@ -20,6 +20,7 @@ import React, { useState } from 'react';
 import { Link, SvgIcon, Message } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -59,7 +60,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import SearchInput from 'in-components/SearchInput';
 import { error } from 'in-services/util/result';
-import Select from 'in-components/form/Select';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';

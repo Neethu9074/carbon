@@ -6,8 +6,9 @@
 import { render, cleanup } from '@testing-library/react';
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import AggregationSelectorWithUrlState from 'in-components/AggregationSelectorWithUrlState';
-import Select from 'in-components/form/Select';
 import useUrlState from 'in-hooks/useUrlState';
 
 const mockSetUrlState = jest.fn();
@@ -17,9 +18,9 @@ jest.mock('in-hooks/useUrlState', () => ({
   __esModule: true
 }));
 
-jest.mock('in-components/form/Select', () => ({
-  default: jest.fn(() => <div />),
-  __esModule: true
+jest.mock('@instana/components', () => ({
+  ...jest.requireActual('@instana/components'),
+  Select: jest.fn(() => <div />)
 }));
 
 describe('in-components/AggregationSelectorWithUrlState', () => {

@@ -7,9 +7,9 @@
 import React from 'react';
 
 import { AggregationType } from '@instana/types';
+import { Select } from '@instana/components';
 
 import { timeAggregationOptions } from 'in-service-levels/constants';
-import Select from 'in-components/form/Select';
 
 interface AggregationSelectorInputProps {
   disabled?: boolean;

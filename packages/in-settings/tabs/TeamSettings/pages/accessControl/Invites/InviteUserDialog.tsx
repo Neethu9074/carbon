@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { Message, Stack, StackItem } from '@instana/components';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -33,7 +34,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';

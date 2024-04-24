@@ -8,6 +8,7 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
@@ -17,7 +18,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';

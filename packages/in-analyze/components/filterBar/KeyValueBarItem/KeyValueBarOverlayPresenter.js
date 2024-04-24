@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
@@ -16,7 +17,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { emptyArray } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

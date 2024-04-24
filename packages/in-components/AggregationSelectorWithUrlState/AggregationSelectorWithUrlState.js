@@ -6,8 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import { aggregationLabels } from 'in-stores/metric/metric';
-import Select from 'in-components/form/Select';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './AggregationSelectorWithUrlState.mless';

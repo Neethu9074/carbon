@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import PaginatedMetricList from 'in-components/MetricConfigurator/PaginatedMetricList';
 import DraggableItemSelector from 'in-components/DraggableItemSelector';
 import { Col } from 'in-components/layout/Grid';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 

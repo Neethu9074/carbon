@@ -7,13 +7,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Spacer } from '@instana/components';
+import { Select } from '@instana/components';
 import { Toggle } from '@instana/legacy';
 
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 
 import locals from './GroupingConfiguration.mless';

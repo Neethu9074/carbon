@@ -8,6 +8,7 @@ import React from 'react';
 import { getThemeOverride, Link, setThemeOverride, Spacer, Stack } from '@instana/components';
 import { Toggle, Button } from '@instana/legacy';
 import { themes } from '@instana/design-tokens';
+import { Select } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -21,7 +22,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
-import Select from 'in-components/form/Select';
 import Title from 'in-components/Title';
 
 import locals from './UiConfig.mless';

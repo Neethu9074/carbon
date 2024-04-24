@@ -8,6 +8,7 @@ import React from 'react';
 import { SvgIcon, Li, Ul, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { createApplicationHealthForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';
@@ -17,7 +18,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { pendingResult } from 'in-services/fixedObjects';
 import Header from 'in-components/workspace/Header';
 import Label from 'in-components/form/Label/Label';
-import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

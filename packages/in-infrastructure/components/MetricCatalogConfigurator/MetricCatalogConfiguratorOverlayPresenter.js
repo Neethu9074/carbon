@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Select } from '@instana/components';
+
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
@@ -14,7 +16,6 @@ import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 

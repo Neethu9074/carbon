@@ -9,6 +9,7 @@ import React from 'react';
 
 import { DynamicFieldValue } from '@instana/types';
 import { SvgIcon } from '@instana/components';
+import { Select } from '@instana/components';
 
 import {
   ViewModel,
@@ -27,7 +28,6 @@ import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/back
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
-import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

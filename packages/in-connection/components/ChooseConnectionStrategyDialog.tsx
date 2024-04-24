@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { Select } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import { activeStrategy, setStrategy, ConnectionStrategy } from 'in-connection/strategy';
@@ -15,7 +16,6 @@ import SaveButton from 'in-components/form/SaveButton';
 import FormGroup from 'in-components/form/FormGroup';
 import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
-import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
@@ -55,9 +55,9 @@ export default function ChooseConnectionStrategyDialog() {
               onChange={(e: any) => setConnectionStrategy(e.target.value)}
               autoFocus
             >
-              <StrategyOption strategy="auto" />
-              <StrategyOption strategy="alwaysWebsockets" />
-              <StrategyOption strategy="alwaysPolling" />
+              <option value={'auto'}>{t('in-connection:strategy', { context: 'auto' })}</option>
+              <option value={'alwaysWebsockets'}>{t('in-connection:strategy', { context: 'alwaysWebsockets' })}</option>
+              <option value={'alwaysPolling'}>{t('in-connection:strategy', { context: 'alwaysPolling' })}</option>
             </Select>
           </FormGroup>
 
@@ -69,12 +69,4 @@ export default function ChooseConnectionStrategyDialog() {
       </form>
     </Dialog>
   );
-}
-
-interface StrategyOptionProps {
-  strategy: ConnectionStrategy;
-}
-
-function StrategyOption({ strategy }: StrategyOptionProps) {
-  return <option value={strategy}>{t('in-connection:strategy', { context: strategy })}</option>;
 }

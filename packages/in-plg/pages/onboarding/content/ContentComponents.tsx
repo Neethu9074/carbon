@@ -17,6 +17,7 @@ import {
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
+import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import { notBlankValidator } from 'in-services/validators/string';
@@ -24,7 +25,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FormInput from 'in-components/form/Input/Input';
 import InputComponent from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Select from 'in-components/form/Select';
 import { region } from 'in-services/config';
 
 import locals from './ContentComponents.mless';

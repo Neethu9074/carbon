@@ -6,7 +6,8 @@
 import React, { forwardRef, ReactNode } from 'react';
 import classNames from 'classnames';
 
-import Select, { Props as SelectProps } from 'in-components/form/Select';
+import { Select, SelectProps } from '@instana/components';
+
 import Section from 'in-components/workspace/Section';
 
 import locals from './SelectInSection.mless';
