@@ -18,7 +18,7 @@ import {
   teamSettingsAccessControlUsers,
   teamSettingsAccessControlApiTokens
 } from 'in-settings/navigation/paths';
-import { isAnsible, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
+import { isAnsible, isGithub, isGitlab, isJira, isExternal } from 'in-automation/ActionCatalog/shared';
 import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
@@ -122,7 +122,11 @@ export default function DetailTab({
       isLink: true,
       actionLane: inActionLane,
       stringLink: link,
-      showCondition: (output === null || output?.trim().length === 0) && status !== 'SUBMITTED' && status !== 'TIMEOUT'
+      showCondition:
+        (output === null || output?.trim().length === 0) &&
+        status !== 'SUBMITTED' &&
+        status !== 'TIMEOUT' &&
+        !isExternal(type)
     },
     {
       label: t('in-automation:actionHistory.startTime'),
