@@ -43,8 +43,6 @@ export function createForm(
 ) {
   // @ts-expect-error testType does not exist in advanced mode blueprint
   const advancedModeBlueprintTestType: string = selectedBlueprint?.testType;
-  const advancedModeBlueprintType: string | undefined = selectedBlueprint?.type;
-
   const wizardModeBlueprintTestType: string | undefined = selectedBlueprint?.type;
   let config: any;
 
@@ -52,7 +50,7 @@ export function createForm(
 
   const getApiScriptTestConfig = () => {
     return !savedState?.script
-      ? createAdvancedScriptConfigurationForm(advancedModeBlueprintType, savedState)
+      ? createAdvancedScriptConfigurationForm(savedState)
       : createScriptConfigurationForm(simpleMode, savedState);
   };
   if (simpleMode) {
@@ -313,9 +311,8 @@ function createWebpageActionConfigurationForm(savedState?: Record<string, any>) 
     );
 }
 
-function createAdvancedScriptConfigurationForm(type: string | undefined, savedState?: Record<string, any>) {
-  const checkCertificate: boolean = type === SSLCertificateTest ? true : false;
-  let configuration = createMapForm()
+function createAdvancedScriptConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
     .put(
       'syntheticType',
       createField({
@@ -343,24 +340,7 @@ function createAdvancedScriptConfigurationForm(type: string | undefined, savedSt
         value: savedState?.markSyntheticCall ?? true,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
-    )
-    .put(
-      'certificateCheck',
-      createField({
-        value: savedState?.certificateCheck ?? checkCertificate,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
-      })
     );
-  if (checkCertificate) {
-    return configuration.put(
-      'script',
-      createField({
-        value: savedState?.script,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    );
-  }
-  return configuration;
 }
 
 export function createZipScriptConfigurationForm(bundle: string, scriptFile: string) {

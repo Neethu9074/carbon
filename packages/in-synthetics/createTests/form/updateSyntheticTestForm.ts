@@ -254,13 +254,6 @@ function createScriptFileConfigurationForm(configuration: Record<string, any>) {
         value: configuration?.markSyntheticCall,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
       })
-    )
-    .put(
-      'certificateCheck',
-      createField({
-        value: configuration?.certificateCheck,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
-      })
     );
 
   if (configuration?.retryInterval) {

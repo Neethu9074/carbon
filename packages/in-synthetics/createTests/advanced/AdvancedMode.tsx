@@ -53,13 +53,7 @@ const AdvancedMode = ({
   invalidCustomProperty,
   setInvalidCustomProperty,
   invalidTimeout,
-  setInvalidTimeout,
-  certificateCheckHostNameError,
-  setCertificateCheckHostNameError,
-  certificateCheckPortError,
-  setCertificateCheckPortError,
-  certificateCheckDaysRemainingError,
-  setCertificateCheckDaysRemainingError
+  setInvalidTimeout
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
@@ -99,12 +93,6 @@ const AdvancedMode = ({
             isBrowser={syntheticType === 'HTTPScript' ? false : true}
             invalidTimeout={invalidTimeout}
             setInvalidTimeout={setInvalidTimeout}
-            certificateCheckHostNameError={certificateCheckHostNameError}
-            setCertificateCheckHostNameError={setCertificateCheckHostNameError}
-            certificateCheckPortError={certificateCheckPortError}
-            setCertificateCheckPortError={setCertificateCheckPortError}
-            certificateCheckDaysRemainingError={certificateCheckDaysRemainingError}
-            setCertificateCheckDaysRemainingError={setCertificateCheckDaysRemainingError}
           />
         );
       case 'HTTPAction':

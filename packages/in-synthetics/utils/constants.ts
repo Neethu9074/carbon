@@ -424,12 +424,6 @@ export interface AdvancedModeProps {
   setInvalidCustomProperty: React.Dispatch<React.SetStateAction<Invalid>>;
   invalidTimeout: Invalid;
   setInvalidTimeout: React.Dispatch<React.SetStateAction<Invalid>>;
-  certificateCheckHostNameError: InvalidCertificateParams;
-  setCertificateCheckHostNameError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
-  certificateCheckPortError: InvalidCertificateParams;
-  setCertificateCheckPortError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
-  certificateCheckDaysRemainingError: InvalidCertificateParams;
-  setCertificateCheckDaysRemainingError: React.Dispatch<React.SetStateAction<InvalidCertificateParams>>;
 }
 
 export interface SlideInConfig {
@@ -594,7 +588,3 @@ export const retriesObject: { label: string; value: number }[] = [
 ];
 
 export const datacenterProviderMap = new Map([['aws', 'AWS']]);
-
-export interface InvalidCertificateParams extends Invalid {
-  touched: boolean;
-}

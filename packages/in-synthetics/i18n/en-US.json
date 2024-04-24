@@ -230,12 +230,6 @@
           "propertyValue": "Value",
           "addProperty": "Add Property",
           "propertyNameMustBeUnique": "Property name must be unique."
-        },
-        "certificateCheck": {
-          "inputHostName": "Host Name",
-          "inputPortNumber": "Port",
-          "inputDaysLine1": "Test will fail when there are",
-          "inputDaysLine2": "days remaining before expiration."
         }
       }
     },
