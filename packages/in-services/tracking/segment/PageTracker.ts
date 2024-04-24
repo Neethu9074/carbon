@@ -47,6 +47,8 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
 
     const url = window.location.href;
     const path = window.location.pathname;
+    const userSelfDefinedRole =
+      window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
 
     combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
       const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
@@ -78,6 +80,7 @@ const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerP
         url: url,
         user: {
           bluemixId: userId,
+          role: userSelfDefinedRole,
           tenantId: instanceId
         }
       });

@@ -15,8 +15,7 @@ import {
   PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { pageNames } from 'in-services/tracking/pageNames';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
@@ -53,11 +52,14 @@ export default function NewPlayWithHeader() {
         target="_blank"
         href="https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345&utm_source=playwith"
         onClick={() => {
-          eventTracker({
-            eventName: CTA_CLICKED,
-            parentProductArea: productAreas.home,
-            parentPageName: pageNames.home
-          });
+          const { parentPageName, parentProductArea } = getViewTrackingMetaData();
+          if (parentPageName && parentProductArea) {
+            eventTracker({
+              eventName: CTA_CLICKED,
+              parentProductArea,
+              parentPageName
+            });
+          }
           track(PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED, getPageType(location.pathname));
         }}
         icon="lib_arrow_short_right"

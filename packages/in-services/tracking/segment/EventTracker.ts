@@ -37,10 +37,15 @@ let productPlanType: string;
 let instanceId: string;
 let tenantUnitName: string;
 let userId: string;
+
 const segment = Segment();
-const url = window.location.href;
-const path = window.location.pathname;
+
 export const eventTracker = ({ eventName, parentProductArea, parentPageName }: EventTrackerProps) => {
+  const url = window.location.href;
+  const path = window.location.pathname;
+  const userSelfDefinedRole =
+    window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+
   combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
     const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
     const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
@@ -72,6 +77,7 @@ export const eventTracker = ({ eventName, parentProductArea, parentPageName }: E
       url: url,
       user: {
         bluemixId: userId,
+        role: userSelfDefinedRole,
         tenantId: instanceId
       }
     });

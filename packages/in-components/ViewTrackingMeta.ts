@@ -11,6 +11,10 @@ import { emptyObject } from 'in-services/fixedObjects';
 interface Props {
   data: any;
 }
+interface EventTrackerProps {
+  parentProductArea: string | null;
+  parentPageName: string | null;
+}
 
 const useSideEffect = createSideEffectHook(
   (propsList: Props[]) =>
@@ -31,7 +35,25 @@ export default function ViewTrackingMeta({ data }: Props) {
       parentProductArea: productArea,
       parentPageName: pageRootName
     });
+    setViewTrackingDataValues(productArea, pageRootName);
   }
   useSideEffect(data);
   return null;
 }
+
+const createDynamicEventTracker = () => {
+  let dynamicEventTrackerProperties: EventTrackerProps = {
+    parentProductArea: null,
+    parentPageName: null
+  };
+  const setViewTrackingDataValues = (productArea: string, pageRootName: string) => {
+    dynamicEventTrackerProperties = { parentProductArea: productArea, parentPageName: pageRootName };
+  };
+
+  const getViewTrackingMetaData = (): EventTrackerProps => {
+    return dynamicEventTrackerProperties;
+  };
+
+  return { setViewTrackingDataValues, getViewTrackingMetaData };
+};
+export const { setViewTrackingDataValues, getViewTrackingMetaData } = createDynamicEventTracker();
