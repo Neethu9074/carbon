@@ -11,6 +11,8 @@ import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/applications/tea
 //@ts-expect-error
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep1';
 import { AlertConfigTearSheetWithThresholdProps } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
+//@ts-expect-error
+import AlertConfigTearSheetStep5 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep5';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep2';
 import AlertingTearSheetContent from 'in-alerting/components/AlertingTearSheetContent';
 import { t } from 'in-i18n';
@@ -53,7 +55,11 @@ export const getStepRenderers = (props: AlertConfigTearSheetWithThresholdProps) 
       <AlertConfigTearSheetStep4 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => <AlertingTearSheetContent title={stepConfigs[3].title}>{''}</AlertingTearSheetContent>,
+  () => (
+    <AlertingTearSheetContent title={stepConfigs[3].title}>
+      <AlertConfigTearSheetStep5 {...props} />
+    </AlertingTearSheetContent>
+  ),
   () => <AlertingTearSheetContent title={stepConfigs[4].title}>{''}</AlertingTearSheetContent>
 ];
 

@@ -144,10 +144,6 @@ function SmartAlertConfigTearSheetWithQueryValidation({
 
   const stepRenderers = getStepRenderers(props);
 
-  // const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
-  // const applications = form.get('applications')?.value || {};
-  // const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
-
   return (
     <AlertingTearSheet
       step={step}

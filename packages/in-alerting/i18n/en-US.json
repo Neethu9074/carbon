@@ -496,6 +496,8 @@
           "description": "Hidden calls do not appear in built-in dashboards."
         },
         "serviceEndPointSelection": "Services or endpoints for selected calls",
+        "AlertPropertiesTitle": "What properties do you want to set for this alert?",
+        "AlertChannelTitle": "Where do you want to be notified for alert?",
         "inboundOutboundCalls": {
           "config": {
             "inbound": {
@@ -537,6 +539,9 @@
         "alertChart": {
           "title": "Alerts preview",
           "description": "Shows how alerts would have triggered based on historical metric data."
+        },
+        "alertProperties": {
+          "previewTitle": "Alert preview"
         }
       }
     },
