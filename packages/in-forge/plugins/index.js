@@ -165,6 +165,7 @@ import './rabbitMqCluster';
 import './awsRedshiftNode';
 import './ibmiNetworkInfo';
 import './azureDatabricks';
+import './azurePostgreSQL';
 import './drbdConnection';
 import './drbdPeerDevice';
 import './aceMessageFlow';
