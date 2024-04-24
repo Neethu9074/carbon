@@ -84,10 +84,7 @@ export default function AIEventListRow({ title, incident, incidentHasRCAProperty
             selectedSnapshotMetadata={
               isLegacy
                 ? incident.get('metadata').get('probableRootCauseSnapshotMetadata').get(currentRCAEntity)
-                : incident.getIn(
-                    ['metadata', 'probableCause', 'probableRootCauseSnapshotMetadata', currentRCAEntity],
-                    null
-                  )
+                : incident.getIn(['metadata', 'rootCause', 'probableRootCauseSnapshotMetadata', currentRCAEntity], null)
             }
             eventsRelatedToEntity={eventsRelatedToEntity}
             probabilityScore={extractProbabilityScoreForProbableRootCause(
@@ -235,7 +232,7 @@ function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, 
       return iterateThroughRCAEventsAndReturnMapOfIDWithEvents(legacyProbableRootCauseFromIncident, isLegacy);
     }
   } else {
-    const probableRootCauseEvents = incident.getIn(['metadata', 'probableCause', 'rcaEvents'], null);
+    const probableRootCauseEvents = incident.getIn(['metadata', 'rootCause', 'rcaSnapshotsEvents'], null);
     if (probableRootCauseEvents)
       return iterateThroughRCAEventsAndReturnMapOfIDWithEvents(probableRootCauseEvents, isLegacy);
   }
@@ -245,7 +242,7 @@ function extractProbableRootCauseFromIncident(incident, incidentHasRCAProperty, 
 function iterateThroughRCAEventsAndReturnMapOfIDWithEvents(rcaEventsList, isLegacy) {
   let probableRootCauseWithSnapshotIDsAsKeys = Map();
   const snapshotIDKey = isLegacy ? 'RCASnapshotID' : 'rcaSnapshotID';
-  const rcaEventsKey = isLegacy ? 'rcaEvents' : 'rcaSnapshotsEvents';
+  const rcaEventsKey = 'rcaEvents';
   rcaEventsList.forEach(snapshot => {
     if (!snapshot || !snapshot.has(snapshotIDKey) || !snapshot.has(rcaEventsKey)) return null;
 
@@ -266,7 +263,7 @@ function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedS
   let probableRootCauseArray;
 
   if (!isLegacy) {
-    probableRootCauseArray = incidentMetadata.getIn(['probableCause', 'rcaEvents']);
+    probableRootCauseArray = incidentMetadata.getIn(['rootCause', 'rcaEvents']);
   } else {
     probableRootCauseArray = incidentMetadata.getIn(['probableRootCause'], null);
   }

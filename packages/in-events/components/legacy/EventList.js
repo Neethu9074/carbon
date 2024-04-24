@@ -47,8 +47,7 @@ export default function IncidentEventList({
     incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
 
   const RootCausePropertyCheck =
-    incident.hasIn(['metadata', 'probableCause']) && !incident.getIn(['metadata', 'probableCause']).isEmpty();
-
+    incident.hasIn(['metadata', 'rootCause']) && !incident.getIn(['metadata', 'rootCause']).isEmpty();
   const incidentHasRCAProperty = useMemo(
     () => legacyRootCausePropertyCheck || RootCausePropertyCheck,
     [RootCausePropertyCheck, legacyRootCausePropertyCheck]
