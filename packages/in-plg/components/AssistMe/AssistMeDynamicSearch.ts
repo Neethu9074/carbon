@@ -22,6 +22,8 @@ import {
   syntheticLocationPath
 } from 'in-synthetics/navigation/paths';
 //@ts-expect-error TS migration needed
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+//@ts-expect-error TS migration needed
 import { openstack } from 'in-openstack/navigation/paths';
 import { physicalPath, agentsPath, eventsPath } from 'in-stores/navigation/paths/mainPaths';
 //@ts-expect-error TS migration needed
@@ -110,5 +112,6 @@ const SEARCH_WORD_MAP = {
   [logManagement]: t('in-plg:assistme.dataSearchContext.logManagement'),
   [audit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
   [authSettings]: t('in-plg:assistme.dataSearchContext.authSettings'),
-  [agentsPath]: t('in-plg:assistme.dataSearchContext.installAgent')
+  [agentsPath]: t('in-plg:assistme.dataSearchContext.installAgent'),
+  [customDashboardsPath]: t('in-plg:assistme.dataSearchContext.customDashboard')
 };

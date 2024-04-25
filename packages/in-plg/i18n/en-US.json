@@ -623,7 +623,8 @@
     "customPayload": "custom payload",
     "eventsPage": "managing events",
     "logManagement": "logging",
-    "configuringAndMonitoring":"configuring and monitoring"
+    "configuringAndMonitoring":"configuring and monitoring",
+    "customDashboard": "custom dashboard"
     }
   }
 }
