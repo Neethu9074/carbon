@@ -19,6 +19,7 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
 import { kubernetesTimeShiftSelectTracker, podTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
@@ -53,6 +54,11 @@ export default function PodDashboard({ location }) {
 
   const prometheusEndpoints =
     useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
+  const { loading } = prometheusEndpoints.progress;
+
+  if (loading) {
+    return <LoadingIndicator />;
+  }
 
   const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
   const allTabs = hasPrometheusEndpoints
