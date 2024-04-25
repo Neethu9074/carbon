@@ -263,13 +263,14 @@ function extractProbabilityScoreForProbableRootCause(incidentMetadata, selectedS
   let probableRootCauseArray;
 
   if (!isLegacy) {
-    probableRootCauseArray = incidentMetadata.getIn(['rootCause', 'rcaEvents']);
+    probableRootCauseArray = incidentMetadata.getIn(['rootCause', 'rcaSnapshotsEvents']);
   } else {
     probableRootCauseArray = incidentMetadata.getIn(['probableRootCause'], null);
   }
 
   const snapshotIDKey = isLegacy ? 'RCASnapshotID' : 'rcaSnapshotID';
-  const rcaProbKey = isLegacy ? 'rcaProbFailure' : 'rcaProbFailure';
+  const rcaProbKey = 'rcaProbFailure';
+
   if (List.isList(probableRootCauseArray)) {
     const foundSnapshot = probableRootCauseArray.find(
       snapshotData => snapshotData.get(snapshotIDKey) === selectedSnapshot
