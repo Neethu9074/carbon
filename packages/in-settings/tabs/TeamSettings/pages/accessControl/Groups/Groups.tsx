@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Observable, create } from '@instana/observables';
 import { ApiGroup, PermissionSet } from '@instana/types';
@@ -19,8 +19,8 @@ import { ProductAreaPermissionMap } from 'in-settings/tabs/TeamSettings/pages/ac
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { deleteGroup, getGroupAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { TenantsWithUnits, getTenantsWithUnits } from 'in-api/account';
 import { config } from 'in-services/config';
 import { Trans, t } from 'in-i18n';
 
@@ -48,7 +48,7 @@ const determineAccess = (permissionSet: PermissionSet) => {
   return t('in-settings:tabs.accessAll');
 };
 
-const defaultColumnDefinitions = [
+const getColumnDefinitions = (accessColumnHeadLabel: string) => [
   {
     id: 'name',
     label: t('in-settings:tabs.name'),
@@ -65,7 +65,7 @@ const defaultColumnDefinitions = [
   },
   {
     id: 'access',
-    label: t('in-settings:tabs.access'),
+    label: accessColumnHeadLabel,
     width: 15,
     getContent: ({ permissionSet }: ApiGroup) => determineAccess(permissionSet),
     getValue: ({ permissionSet }: ApiGroup) => determineAccess(permissionSet)
@@ -87,31 +87,13 @@ const loadEntities = (): Observable<ApiGroup[]> => {
 
 const Groups = () => {
   const { goToPath } = useNavigation();
-  const [tenantWithUnits, setTenantsWithUnits] = useState({});
-  const [columnDefinitions, setColumnDefinitions] = useState(defaultColumnDefinitions);
+  const { showTenantInfo } = useTenantUnitsInfo();
 
-  useEffect(() => {
-    const result$ = getTenantsWithUnits();
-    const disposable = result$.once(data => {
-      if (data[config.tenant]?.length > 0) {
-        const fetchedTenantWithUnits = data[config.tenant][0] as TenantsWithUnits;
-        setTenantsWithUnits(fetchedTenantWithUnits);
+  const accessColumnHeadLabel = !showTenantInfo
+    ? t('in-settings:tabs.access')
+    : t('in-settings:tabs.accessForTenantUnit', { tenantUnit: config?.tenantUnit, tenant: config?.tenant });
 
-        if (columnDefinitions?.length > 2) {
-          const newColumnDefinitions = [...columnDefinitions];
-          // Update access label with tenant unit
-          newColumnDefinitions[2].label =
-            fetchedTenantWithUnits?.[config.tenant]?.length > 1
-              ? t('in-settings:tabs.accessForTenantUnit', { tenantUnit: config?.tenantUnit, tenant: config?.tenant })
-              : t('in-settings:tabs.access');
-          setColumnDefinitions(newColumnDefinitions);
-        }
-      }
-    });
-    return () => {
-      disposable?.dispose();
-    };
-  }, [columnDefinitions]);
+  const columnDefinitions = getColumnDefinitions(accessColumnHeadLabel);
 
   const getDialogMessage = (group: ApiGroup) => {
     const contributorApplicationIds = group?.permissionSet?.applicationIds?.filter(
@@ -122,7 +104,7 @@ const Groups = () => {
 
     return (
       <>
-        {Array.isArray(tenantWithUnits) && tenantWithUnits.length > 1 ? (
+        {showTenantInfo ? (
           <Trans i18nKey="in-settings:tabs.deleteGroupMessage" values={{ groupName: group?.name }} />
         ) : (
           <Trans i18nKey="in-settings:components.confirmRemoveItem" values={{ itemName: group?.name }} />
@@ -130,10 +112,17 @@ const Groups = () => {
         {isContributorApplicationIdPresent && (
           <>
             <br />
-            <Trans
-              i18nKey="in-settings:tabs.thisWillRemoveContributionFilterMessage"
-              values={{ apCount: contributorApplicationIds.length }}
-            />
+            {showTenantInfo ? (
+              <Trans
+                i18nKey="in-settings:tabs.thisWillRemoveContributionFilterFromOtherUnits"
+                values={{ apCount: contributorApplicationIds.length }}
+              />
+            ) : (
+              <Trans
+                i18nKey="in-settings:tabs.thisWillRemoveContributionFilterMessage"
+                values={{ apCount: contributorApplicationIds.length }}
+              />
+            )}
           </>
         )}
       </>
