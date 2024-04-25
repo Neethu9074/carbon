@@ -295,35 +295,37 @@ export default function DetailTab({
   };
 
   return (
-    <table
-      className={classNames({
-        [locals.ActionInstanceDetailsTable]: true,
-        [locals.ActionLaneTable]: inActionLane
-      })}
-    >
-      <thead className={locals.headerRow}>
-        <tr>
-          <th>{t('in-automation:actionHistory.property')}</th>
-          <th>{t('in-automation:actionHistory.value')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {tableData.map(
-          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
-            renderRow(
-              label,
-              value,
-              isLink,
-              ObservableLink,
-              stringLink,
-              showCondition,
-              actionLane,
-              inActionLane,
-              onClick
-            )
-        )}
-      </tbody>
-    </table>
+    <div className={locals.instanceTabContent}>
+      <table
+        className={classNames({
+          [locals.ActionInstanceDetailsTable]: true,
+          [locals.ActionLaneTable]: inActionLane
+        })}
+      >
+        <thead className={locals.headerRow}>
+          <tr>
+            <th>{t('in-automation:actionHistory.property')}</th>
+            <th>{t('in-automation:actionHistory.value')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map(
+            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
+              renderRow(
+                label,
+                value,
+                isLink,
+                ObservableLink,
+                stringLink,
+                showCondition,
+                actionLane,
+                inActionLane,
+                onClick
+              )
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

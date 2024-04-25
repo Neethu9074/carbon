@@ -50,13 +50,16 @@
     }
   }
 
-  .paramsTab {
+  .instanceTabContent {
     margin: 0rem 3rem 3rem 3rem;
+    height: 45rem;
+    overflow-y: auto;
   }
 
   .detailDialog {
     section {
-      width: auto;
+      width: 65rem;
+      height: 55rem;
       overflow-y: hidden;
     }
     .detailsLink {
