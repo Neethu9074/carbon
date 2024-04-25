@@ -36,8 +36,8 @@ import { addTagFilters } from 'in-components/QueryBuilder/transformation/backend
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel'
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -110,7 +110,10 @@ export default function GroupedInfrastructure(props) {
   );
 
   // Send totalHits
-  useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
+  useEffect(
+    () => totalHits && getTotalItems?.(showGroupsWithMissingTags ? totalHits + 1 : totalHits),
+    [getTotalItems, showGroupsWithMissingTags, totalHits]
+  );
 
   return (
     <Presenter
@@ -171,10 +174,10 @@ function Presenter({
   const getParamsForGroup = useCallback(
     item => {
       return {
-      groupBy: emptyArray,
-      tagFilterExpression: joinExpressions({
-        expressions: [fromBackendModel(backendQueryModel), joinExpressions({ expressions: toTagFilters(item.tags) })]
-      })
+        groupBy: emptyArray,
+        tagFilterExpression: joinExpressions({
+          expressions: [fromBackendModel(backendQueryModel), joinExpressions({ expressions: toTagFilters(item.tags) })]
+        })
       };
     },
     [backendQueryModel]
@@ -541,14 +544,14 @@ function toTagFilter(tag, value) {
       type: TAG_FILTER_TYPE,
       operator: IS_EMPTY,
       name: tag
-    }
+    };
   }
   return {
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
     name: tag,
     value
-  }
+  };
 }
 
 const defaultGroupIcon = 'lib_views_tag';
@@ -573,7 +576,11 @@ export function getGroupTagValue(group, key) {
 }
 
 function replaceTagNotPresentPlaceholder(value) {
-  return value === tag_not_present_group ? <div className={locals.italic}>{t('in-infrastructure:explore.tagNotPresent')}</div> : value;
+  return value === tag_not_present_group ? (
+    <div className={locals.italic}>{t('in-infrastructure:explore.tagNotPresent')}</div>
+  ) : (
+    value
+  );
 }
 
 function processData(items, columns) {
