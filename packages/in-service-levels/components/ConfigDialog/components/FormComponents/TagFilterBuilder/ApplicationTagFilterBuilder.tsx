@@ -18,15 +18,11 @@ export default function ApplicationTagFilterBuilder() {
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
   const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
 
-  return (
-    <>
-      {!isScopeSelected ? (
-        <StackItem>
-          <DisabledTagFilterButton noCustomTitle />
-        </StackItem>
-      ) : (
-        <ApplicationTagFilterBuilderContent />
-      )}
-    </>
+  return !isScopeSelected ? (
+    <StackItem>
+      <DisabledTagFilterButton noCustomTitle />
+    </StackItem>
+  ) : (
+    <ApplicationTagFilterBuilderContent />
   );
 }
