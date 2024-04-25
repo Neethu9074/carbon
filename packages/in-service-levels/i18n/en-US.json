@@ -125,18 +125,22 @@
     }
   },
   "createSloDialog": {
-    "customFilter": "Custom Filter (optional)",
+    "customFilter": "Custom Filter",
+    "custom": "Custom",
+    "customDescription": "Set a custom filter to select services and/or endpoints",
     "title": "Create Service Level Objective (SLO)",
     "selectIndicator": "Select Blueprint",
     "selectEntityNavItem": "Set Entity",
     "selectEntityTitle": "Select an entity to add SLO to:",
     "selectScopeNavItem": "Set Scope",
+    "SelectServiceandEndpoint": "Select Service and Endpoint",
     "selectIndicatorNavItem": "Set Indicator",
     "beaconTypes": {
       "beaconLabel_httpRequest": "HTTP Requests",
       "beaconLabel_pageLoad": "Website Page Loads",
       "beaconLabel_custom": "Website Custom Events"
     },
+    "serviceAndEndpoint": "Service & Endpoint",
     "selectObjectiveTitle": "Set Objective",
     "sloTarget": "SLO Target",
     "timeWindow": "Time Window",

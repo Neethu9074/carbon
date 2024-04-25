@@ -12,6 +12,8 @@ import { titleWidth } from 'in-service-levels/constants';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
+import locals from './BoundaryScopeConfigurator.mless';
+
 interface EndpointSelectBoxProps {
   applicationId: string;
   boundaryScope: ApplicationBoundaryScope;
@@ -42,25 +44,27 @@ export default function EndpointSelectBox({
   });
 
   return (
-    <SelectInSection
-      disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
-      hasError={hasError}
-      id="new-sli-endpoint-selection"
-      label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
-      onChange={({ target }) => onChange?.(target?.value)}
-      titleWidth={width ? width : titleWidth}
-      value={value ?? ''}
-    >
-      {status === 'pending' ? (
-        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>
-      ) : (
-        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')}</option>
-      )}
-      {endpointsPage?.items.map(({ endpoint }) => (
-        <option value={endpoint.id} key={endpoint.id}>
-          {endpoint.label}
-        </option>
-      ))}
-    </SelectInSection>
+    <div className={locals.endpointField}>
+      <SelectInSection
+        disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
+        hasError={hasError}
+        id="new-sli-endpoint-selection"
+        label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
+        onChange={({ target }) => onChange?.(target?.value)}
+        titleWidth={width ? width : titleWidth}
+        value={value ?? ''}
+      >
+        {status === 'pending' ? (
+          <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>
+        ) : (
+          <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')}</option>
+        )}
+        {endpointsPage?.items.map(({ endpoint }) => (
+          <option value={endpoint.id} key={endpoint.id}>
+            {endpoint.label}
+          </option>
+        ))}
+      </SelectInSection>
+    </div>
   );
 }

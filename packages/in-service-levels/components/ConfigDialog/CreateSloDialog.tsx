@@ -146,7 +146,7 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
 
   return (
     <SloFormContext.Provider
-      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm) }}
+      value={{ form, mode, onChange: (path, fn) => updateForm(form.updateIn(path, fn) as SloForm), setForm }}
     >
       <ConfigDialogTimeConfigContextModification>
         <ConfigDialog
