@@ -477,9 +477,10 @@ export function getGroups({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric }) => metric !== undefined && metric !== null)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, filterEmptyValue }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
+          const required = filterEmptyValue || undefined;
           return [
             [
               id,
@@ -488,7 +489,8 @@ export function getGroups({
                 granularity: kpiGranularity,
                 aggregation,
                 crossSeriesAggregation,
-                regex
+                regex,
+                required
               }
             ],
             [
@@ -498,7 +500,8 @@ export function getGroups({
                 granularity,
                 aggregation,
                 crossSeriesAggregation,
-                regex
+                regex,
+                required
               }
             ]
           ];
@@ -667,7 +670,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
       formatterId,
       isFormatterSelected,
       label: metricLabel,
-      lastValue
+      lastValue,
+      filterEmptyValue
     }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
@@ -681,7 +685,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         aggregation,
         formatterId,
         isFormatterSelected,
-        lastValue
+        lastValue,
+        filterEmptyValue
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
