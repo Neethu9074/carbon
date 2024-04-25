@@ -37,7 +37,7 @@ export function useGetK8sEntityUid(
 
   const entityPropertyPath = entityType === 'cluster' ? 'data.clusterUuid' : 'data.uid';
   const entityUIDTag =
-    entityType === 'cluster' ? 'kubernetes.cluster.uuid' : `kubernetes.${entityType.toLowerCase()}.uid`;
+    entityType === 'cluster' ? 'kubernetes.cluster.uuid' : `openshift.${entityType.toLowerCase()}.uid`;
   const entityUid = snapshot ? get(snapshot.toJS(), entityPropertyPath) : null;
   const tagFilterExpression = entityUid && andQuery(tagEquals(entityUIDTag, entityUid));
 
