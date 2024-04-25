@@ -98,7 +98,7 @@
         },
         "certificateCheck": {
           "whenToUse": {
-            "line1": "Check whether the website certificate is going to expire or not using this script"
+            "line1": "Check whether the web server certificate is going to expire or not using this test."
           }
         }
       },
@@ -672,7 +672,10 @@
       "retryIntervalFieldLabel": "Retry Interval",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} second",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} seconds",
-      "markSyntheticCall": "Mark Synthetic Call"
+      "markSyntheticCall": "Mark Synthetic Call",
+      "hostname": "Hostname",
+      "port": "Port",
+      "daysRemaining": "Days Remaining"
     }
   }
 }

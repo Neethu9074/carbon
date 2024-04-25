@@ -206,6 +206,9 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     case 'WebpageScript':
       testType = 'Webpage Script';
       break;
+    case 'SSLCertificate':
+      testType = 'Certificate Check';
+      break;
   }
   return (
     <Card
