@@ -35,11 +35,12 @@ export default function Summary({ test }: SummaryProps) {
   const timeShiftConfig: TimeShift = useTimeShiftConfig();
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
+  const testType = getMatrixParameter(location, syntheticsDashboard, 'type');
+  const isHTTPAction: boolean = testType === 'HTTPAction' ? true : false;
+  const isSSLCertificate = testType === 'SSLCertificate' ? true : false;
   const locationDisplayLabels: string =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels') ?? '';
   const locationIds: string = getMatrixParameter(location, syntheticsDashboard, 'locationIds') ?? '';
-
   const tagFilters = [
     {
       stringValue: testId,
@@ -138,26 +139,28 @@ export default function Summary({ test }: SummaryProps) {
             }}
           />
         </Col>
-        <Col xs>
-          <BigNumberKpiCard
-            title={t('in-synthetics:dashboard.summary.avgResponseSize')}
-            formatter={bytes.detailed}
-            useMaxAvailableHeight
-            config={{
-              metricConfiguration: {
-                aggregation: 'MEAN',
-                metric: 'response_size',
-                source: 'SYNTHETICS',
-                tagFilters: tagFilters,
-                // @ts-expect-error
-                timeShift: timeShiftConfig.offset
-              },
-              // Need to add the companion metric config
-              comparisonDecreaseColor: 'redish',
-              comparisonIncreaseColor: 'greenish'
-            }}
-          />
-        </Col>
+        {!isSSLCertificate && (
+          <Col xs>
+            <BigNumberKpiCard
+              title={t('in-synthetics:dashboard.summary.avgResponseSize')}
+              formatter={bytes.detailed}
+              useMaxAvailableHeight
+              config={{
+                metricConfiguration: {
+                  aggregation: 'MEAN',
+                  metric: 'response_size',
+                  source: 'SYNTHETICS',
+                  tagFilters: tagFilters,
+                  // @ts-expect-error
+                  timeShift: timeShiftConfig.offset
+                },
+                // Need to add the companion metric config
+                comparisonDecreaseColor: 'redish',
+                comparisonIncreaseColor: 'greenish'
+              }}
+            />
+          </Col>
+        )}
       </Row>
       <Row>
         <Col xs>
@@ -169,6 +172,11 @@ export default function Summary({ test }: SummaryProps) {
             renderPostChartContent={MarkerLanes}
           />
         </Col>
+        {isSSLCertificate && (
+          <Col xs>
+            <ResultsTopList testId={testId} />
+          </Col>
+        )}
         <Col xs>
           <ResponseTime
             testId={testId}
@@ -178,7 +186,7 @@ export default function Summary({ test }: SummaryProps) {
             renderPostChartContent={MarkerLanes}
           />
         </Col>
-        {testType && !test.progress.loading && (
+        {isHTTPAction && !test.progress.loading && (
           <Col xs>
             <NetworkTimings
               testId={testId}
@@ -193,21 +201,25 @@ export default function Summary({ test }: SummaryProps) {
       <Row>
         {!test.progress.loading && (
           <>
-            <Col lg={testType ? 4 : 6}>
-              <ResponseSize
-                testId={testId}
-                locationIds={locationIds}
-                locationDisplayLabels={locationDisplayLabels}
-                timeShiftConfig={timeShiftConfig}
-                renderPostChartContent={MarkerLanes}
-              />
-            </Col>
-            <Col lg={testType ? 4 : 6}>
-              <ResultsTopList testId={testId} />
-            </Col>
+            {!isSSLCertificate && (
+              <>
+                <Col lg={isHTTPAction ? 4 : 6}>
+                  <ResponseSize
+                    testId={testId}
+                    locationIds={locationIds}
+                    locationDisplayLabels={locationDisplayLabels}
+                    timeShiftConfig={timeShiftConfig}
+                    renderPostChartContent={MarkerLanes}
+                  />
+                </Col>
+                <Col lg={isHTTPAction ? 4 : 6}>
+                  <ResultsTopList testId={testId} />
+                </Col>
+              </>
+            )}
           </>
         )}
-        {testType && (
+        {isHTTPAction && (
           <Col lg={4}>
             <ResponseStatus test={test} />
           </Col>
