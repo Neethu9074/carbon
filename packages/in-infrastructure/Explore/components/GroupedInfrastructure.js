@@ -36,8 +36,8 @@ import { addTagFilters } from 'in-components/QueryBuilder/transformation/backend
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -110,7 +110,10 @@ export default function GroupedInfrastructure(props) {
   );
 
   // Send totalHits
-  useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
+  useEffect(
+    () => totalHits && getTotalItems?.(showGroupsWithMissingTags ? totalHits + 1 : totalHits),
+    [getTotalItems, showGroupsWithMissingTags, totalHits]
+  );
 
   return (
     <Presenter
