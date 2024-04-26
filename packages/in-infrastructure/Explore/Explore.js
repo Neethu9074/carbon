@@ -132,8 +132,12 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const validGroupResult = isGroupingConfigurationValid(group, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid = tagFilterExpression.length === 0 || (validTagFilterExpressionResult.data === true && validGroupResult.data === true);
-  const isInvalid = tagFilterExpression.length > 0 && (validTagFilterExpressionResult.data === false || validGroupResult.data === false);
+  const isValid =
+    tagFilterExpression.length === 0 ||
+    (validTagFilterExpressionResult.data === true && validGroupResult.data === true);
+  const isInvalid =
+    tagFilterExpression.length > 0 &&
+    (validTagFilterExpressionResult.data === false || validGroupResult.data === false);
 
   const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
 
@@ -485,14 +489,10 @@ function List({
 }
 
 export function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
-  const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ metric, aggregation, label, regex }) => ({
-      metric,
-      aggregation,
-      label: mapData(metricMetadatas, data => data[metric]?.label)?.data ?? label,
-      regex
-    })
-  );
+  const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(item => ({
+    ...item,
+    label: mapData(metricMetadatas, data => data[item.metric]?.label)?.data ?? item.label
+  }));
 
   const uniqueMetricsLabels = getUniqueMetricsLabels(uniqueMetrics);
 

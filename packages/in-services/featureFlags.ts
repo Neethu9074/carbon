@@ -33,6 +33,7 @@ export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
   true
 );
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
+export const infraExploreFilterEmptyValueEnabled = isFeatureFlagEnabled('infraExploreFilterEmptyValueEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
