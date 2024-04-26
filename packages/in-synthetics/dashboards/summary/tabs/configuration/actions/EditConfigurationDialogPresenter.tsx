@@ -247,11 +247,21 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     </FormFooter>
   );
 
+  const getDialogTitle = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 'Browser';
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 'API';
+    } else {
+      return 'SSL Certificate';
+    }
+  };
+
   return (
     <DialogWithSlideInView
       footer={footer}
       title={t('in-synthetics:dialog.updateTest.dialogTitle', {
-        syntheticType: testTypeSelected.browser.simple || testTypeSelected.browser.script ? 'Browser' : 'API'
+        syntheticType: getDialogTitle()
       })}
       slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>

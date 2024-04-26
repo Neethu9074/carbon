@@ -48,7 +48,6 @@ export default function SSLCertificateConfiguration({
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
   const retryIntervalField = configForm.get('retryInterval') as Field<number>;
-  const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
 
   const [timeout, setTimeout] = useState({
     value: timeoutField.value.replace(/\D/g, ''),
@@ -220,30 +219,14 @@ export default function SSLCertificateConfiguration({
               <ActionTitle>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
               </ActionTitle>
-              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
+              <Description>
+                {getRetryIntervalDescriptionText(retriesField.value, retryIntervalField?.value)}
+              </Description>
               {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
               <TouchedMessages field={retryIntervalField} />
             </Section>
           )}
         </FormGroup>
-      </div>
-      <div className={locals.configContainer}>
-        <Stack direction="horizontal">
-          <CheckboxFancy
-            wrapperClassName={locals.configCheckbox}
-            onChange={({ target }) => {
-              updateForm(
-                form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
-                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
-                )
-              );
-            }}
-            checked={markSyntheticCall.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-            disabled={false}
-          />
-        </Stack>
       </div>
     </>
   );

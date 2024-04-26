@@ -57,10 +57,17 @@ const AdvancedMode = ({
   setInvalidTimeout
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
+  const getSelectedBlueprintIndex = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 1;
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 0;
+    } else {
+      return 2;
+    }
+  };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)[
-      testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
-    ]
+    getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)[getSelectedBlueprintIndex()]
   );
   const timeConfig = useTimeConfig();
   const applications: Result<GroupPermissionEntity[]> =
