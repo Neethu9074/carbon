@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Card, Message, Link } from '@instana/components';
+import { Card, Message, Link, Pill } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -26,7 +26,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
-import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 

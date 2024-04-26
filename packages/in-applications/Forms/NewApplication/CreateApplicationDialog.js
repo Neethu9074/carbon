@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Card, Message, Spacer } from '@instana/components';
+import { Card, Message, Spacer, Pill } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -35,7 +35,6 @@ import { isBlank } from 'in-services/util/string';
 import { noop } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Pill from 'in-components/Pill';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';

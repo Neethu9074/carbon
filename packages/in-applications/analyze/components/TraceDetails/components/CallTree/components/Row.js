@@ -6,9 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import { ShowHiddenParentNestingLevelNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ShowHiddenParentNestingLevelNode';
 import {
@@ -34,7 +34,6 @@ import CallTimeAxis from 'in-applications/analyze/components/TraceDetails/compon
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Row.mless';

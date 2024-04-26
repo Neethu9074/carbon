@@ -6,9 +6,8 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { SvgIcon, Pill, Select } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
-import { Select } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
@@ -21,7 +20,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './ServiceExtractionRuleDialog.mless';

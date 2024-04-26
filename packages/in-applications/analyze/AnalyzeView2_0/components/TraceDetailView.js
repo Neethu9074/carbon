@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Message, SvgIcon, Link } from '@instana/components';
+import { Message, SvgIcon, Link, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Button } from '@instana/legacy';
@@ -58,7 +58,6 @@ import { hours, seconds } from 'in-services/time';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './TraceDetailView.mless';

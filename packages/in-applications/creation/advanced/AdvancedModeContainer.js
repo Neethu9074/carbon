@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Message, Stack, Spacer } from '@instana/components';
+import { Message, Stack, Spacer, Pill } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import BuiltInGlobalSmartAlertsPermissionWrapper from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
@@ -26,7 +26,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Pill from 'in-components/Pill';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';
