@@ -1277,6 +1277,13 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha1-daLotRy3WKdVPWgEpZMteqznXDk=
 
+"@bitchcraft/unicorn-logger@^1.1.1":
+  version "1.1.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@bitchcraft/unicorn-logger/-/unicorn-logger-1.1.1.tgz#073882b3c29f03385b5839ed3d3f106a0413a7e8"
+  integrity sha512-vb7zaywBtmqU+MtwrEejahOUDk7fV8EPoTo9J9Zqx1u3VSJq7QlKMe51DCEvccr9mjlNoOVZbD38rDkwfztZ8A==
+  dependencies:
+    debug "^3.1.0"
+
 "@carbon/colors@11.21.0", "@carbon/colors@^11.21.0":
   version "11.21.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@carbon/colors/-/colors-11.21.0.tgz#46be56ce835247dd6bb6723fd353f5d415ed3201"
@@ -4497,6 +4504,13 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
+"@useorbital/client-sdk@^1.2.0":
+  version "1.2.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@useorbital/client-sdk/-/client-sdk-1.2.0.tgz#42e5805b5f93688d31abf338d24026583f2b75c4"
+  integrity sha512-q14pVSEguHN8q8VRHc+9kSBFc0KCmjma+tLul9A9bLEzA6fC4mpblGI78hQiWt8DD5t+OpsYBYk1Aa3YNbJX6w==
+  dependencies:
+    "@bitchcraft/unicorn-logger" "^1.1.1"
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
@@ -6976,7 +6990,7 @@ debug@4.3.4, debug@^4.3.2, debug@^4.3.4:
   dependencies:
     ms "2.1.2"
 
-debug@^3.1.1, debug@^3.2.7:
+debug@^3.1.0, debug@^3.1.1, debug@^3.2.7:
   version "3.2.7"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
   integrity sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=

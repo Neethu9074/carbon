@@ -559,5 +559,10 @@ module.exports = exports = [
     uiClientKey: 'infraExploreFilterEmptyValueEnabled',
     instanaCtlKey: 'feature.infrastructure.explore.filter.empty.value.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'orbitalEnabled',
+    instanaCtlKey: 'feature.orbital.enabled',
+    defaultValue: false
   }
 ];
