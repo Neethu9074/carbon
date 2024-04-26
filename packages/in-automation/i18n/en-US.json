@@ -316,7 +316,17 @@
       },
       "failure": {
         "title": "Failed to created policy.",
-        "content": "There was a problem creating this policy: \"{{name}}\"."
+        "content": "There was a problem creating this policy: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Policy was updated successfully.",
+        "content": "Policy \"{{name}}\" has been updated successfully."
+      },
+      "failure": {
+        "title": "Failed to update policy.",
+        "content": "There was a problem updating this policy: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -330,7 +340,7 @@
       },
       "failure": {
         "title": "Failed to create policies.",
-        "content": "There was a problem creating the policies:{{error}}"
+        "content": "There was a problem creating the policies: {{error}}"
       }
     },
     "deleteDialog": {
