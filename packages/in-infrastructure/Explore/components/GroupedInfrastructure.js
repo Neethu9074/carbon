@@ -676,8 +676,7 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
       formatterId,
       isFormatterSelected,
       label: metricLabel,
-      lastValue,
-      filterEmptyValue
+      lastValue
     }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
@@ -691,8 +690,7 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         aggregation,
         formatterId,
         isFormatterSelected,
-        lastValue,
-        filterEmptyValue
+        lastValue
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
