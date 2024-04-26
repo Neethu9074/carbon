@@ -458,9 +458,19 @@ interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'ac
   resolvedDynamicParameters: ResolvedDynamicParamValue[];
 }
 
-function getAgent(volatileId: VolatileId, agentSnapShots: OUT, executeOrNewPolicy: NewPolicy | Policy | undefined) {
+function getAgent(
+  volatileId: VolatileId,
+  agentSnapShots: OUT,
+  policy: NewPolicy | undefined,
+  executePolicy: Policy | undefined
+) {
+  const executeOrNewPolicy = policy || executePolicy;
   if (executeOrNewPolicy) {
-    return executeOrNewPolicy.typeConfigurations[0]?.runnable?.runConfiguration?.actions[0]?.agentId ?? '';
+    const agentId = executeOrNewPolicy.typeConfigurations[0]?.runnable?.runConfiguration?.actions[0]?.agentId ?? '';
+    if (agentId === TRIGGERING_AGENT && executePolicy) {
+      return volatileId.host_id;
+    }
+    return agentId;
   }
   return (
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
@@ -479,9 +489,9 @@ function getParameterFromName(policy: NewPolicy | undefined, name: string) {
   );
 }
 
-function getHostLimit(policy: NewPolicy | undefined): Options {
-  if (policy) {
-    const param = getParameterFromName(policy, 'hostsLimit');
+function getHostLimit(executeOrNewPolicy: NewPolicy | Policy | undefined): Options {
+  if (executeOrNewPolicy) {
+    const param = getParameterFromName(executeOrNewPolicy, 'hostsLimit');
     if (param) {
       const hostsLimit = param.value.split(',');
       return hostsLimit.map(host => {
@@ -523,7 +533,7 @@ function createForm({
     .put(
       'targetAgent',
       createField({
-        value: getAgent(volatileId, agentSnapShots, executeOrNewPolicy),
+        value: getAgent(volatileId, agentSnapShots, policy, executePolicy),
         validator: notBlankValidator
       })
     )
@@ -586,7 +596,7 @@ function createForm({
         }, {})
       })
     )
-    .put('hostsLimit', createField({ value: getHostLimit(policy) }));
+    .put('hostsLimit', createField({ value: getHostLimit(executeOrNewPolicy) }));
 }
 
 const formatResolvedValue = (value: string) => {

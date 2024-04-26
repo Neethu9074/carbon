@@ -29,11 +29,11 @@ import SectionLine from 'in-settings/components/SectionLine';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import Form from 'in-components/form/binding/Form';
+import { Action, Error, Policy } from 'in-types';
 import { seconds } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
-import { Action, Policy } from 'in-types';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
 
@@ -129,9 +129,13 @@ function PolicyDetails({ id, isNew, isCopy }: PolicyDetailsProps) {
           const name = (form as PolicyForm).get('name').value;
           doSubmit({
             payload: { form: form as PolicyForm, id, isNew, triggers, actions },
-            onError: () => onSaveFailure(name),
+            onError: res => {
+              if (isNew) onSaveFailure(res?.errors);
+              else onEditFailure(res?.errors);
+            },
             onSuccess: () => {
-              onSaveSuccess(name);
+              if (isNew) onSaveSuccess(name);
+              else onEditSuccess(name);
               navigateToPolicies();
             }
           });
@@ -183,16 +187,88 @@ function onSaveSuccess(name: string) {
   );
 }
 
-function onSaveFailure(name: string) {
+function onSaveFailure(errors: Error[] | undefined) {
+  if (errors) {
+    errors.forEach(error =>
+      addMessage(
+        {
+          type: 'danger',
+          timeout: seconds.toMillis(6),
+          title: t('in-automation:policies.createDialog.failure.title'),
+          content: (
+            <Trans
+              i18nKey="in-automation:policies.createDialog.failure.content"
+              values={{ errorMessage: error.message }}
+            />
+          )
+        },
+        'policy-save-failure'
+      )
+    );
+  } else {
+    addMessage(
+      {
+        type: 'danger',
+        timeout: seconds.toMillis(6),
+        title: t('in-automation:policies.createDialog.failure.title'),
+        content: (
+          <Trans
+            i18nKey="in-automation:policies.createDialog.failure.content"
+            values={{ errorMessage: t('in-components:error.erroneousResultPresenterMessage') }}
+          />
+        )
+      },
+      'policy-save-failure'
+    );
+  }
+}
+
+function onEditSuccess(name: string) {
   addMessage(
     {
-      type: 'danger',
-      timeout: seconds.toMillis(6),
-      title: t('in-automation:policies.createDialog.failure.title'),
-      content: t('in-automation:policies.createDialog.failure.content', {
+      type: 'info',
+      timeout: seconds.toMillis(4),
+      title: t('in-automation:policies.editDialog.success.title'),
+      content: t('in-automation:policies.editDialog.success.content', {
         name
       })
     },
-    'policy-save-failure'
+    'policy-edit-success'
   );
+}
+
+function onEditFailure(errors: Error[] | undefined) {
+  if (errors) {
+    errors.forEach(error =>
+      addMessage(
+        {
+          type: 'danger',
+          timeout: seconds.toMillis(6),
+          title: t('in-automation:policies.editDialog.failure.title'),
+          content: (
+            <Trans
+              i18nKey="in-automation:policies.editDialog.failure.content"
+              values={{ errorMessage: error.message }}
+            />
+          )
+        },
+        'policy-edit-failure'
+      )
+    );
+  } else {
+    addMessage(
+      {
+        type: 'danger',
+        timeout: seconds.toMillis(6),
+        title: t('in-automation:policies.editDialog.failure.title'),
+        content: (
+          <Trans
+            i18nKey="in-automation:policies.editDialog.failure.content"
+            values={{ errorMessage: t('in-components:error.erroneousResultPresenterMessage') }}
+          />
+        )
+      },
+      'policy-edit-failure'
+    );
+  }
 }
