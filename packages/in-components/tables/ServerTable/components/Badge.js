@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Pill from 'in-components/Pill';
+import { Pill } from '@instana/components';
 
 import locals from './Badge.mless';
 
