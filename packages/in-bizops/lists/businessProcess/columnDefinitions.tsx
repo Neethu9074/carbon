@@ -87,8 +87,8 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
           //@ts-expect-error
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.started_processes}
-          metric={item.metrics.started_processes[0][1]}
+          metrics={item.metrics.started_processes_array}
+          metric={item.metrics.started_processes_total[0][1]}
           tooltipFormatter={number.compact}
         />
       );
