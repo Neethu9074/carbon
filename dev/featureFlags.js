@@ -120,5 +120,6 @@ module.exports = {
   carbonTabsEnabled: true,
   shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
-  infraExploreFilterEmptyValueEnabled: true
+  infraExploreFilterEmptyValueEnabled: true,
+  orbitalEnabled: false
 };

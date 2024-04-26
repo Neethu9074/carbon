@@ -55,6 +55,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
+    orbitalSpaceID: '9WaNpjuleRmP',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
 

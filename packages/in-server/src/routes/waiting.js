@@ -91,6 +91,7 @@ function sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints, csr
         token: csrf
       }),
       mixpanelToken: serverConfig.mixpanelToken,
+      orbitalSpaceID: serverConfig.orbitalSpaceID,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

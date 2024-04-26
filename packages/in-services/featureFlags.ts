@@ -235,3 +235,4 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
   false
 );
+export const orbitalEnabled = isFeatureFlagEnabled('orbitalEnabled', false);
