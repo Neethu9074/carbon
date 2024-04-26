@@ -14,6 +14,7 @@ export interface MetricItem {
   crossSeriesAggregation?: AggregationType;
   regex?: boolean;
   label?: string;
+  filterEmptyValue?: boolean;
 }
 
 interface GetLinkToExploreProps {

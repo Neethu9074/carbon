@@ -118,6 +118,7 @@ module.exports = {
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   rawTraceDownloadEnabled: false,
   carbonTabsEnabled: true,
-  shareAndInviteEnabled: false,
-  automationActionInstanceFeedbackEnabled: false
+  shareAndInviteEnabled: true,
+  automationActionInstanceFeedbackEnabled: false,
+  infraExploreFilterEmptyValueEnabled: true
 };
