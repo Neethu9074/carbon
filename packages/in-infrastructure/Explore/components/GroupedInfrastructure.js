@@ -109,11 +109,17 @@ export default function GroupedInfrastructure(props) {
     [timeConfig, backendQueryModel, backendGroupBy, order, type, showGroupsWithMissingTags, ...dependencies]
   );
 
-  // Send totalHits
-  useEffect(
-    () => totalHits && getTotalItems?.(showGroupsWithMissingTags ? totalHits + 1 : totalHits),
-    [getTotalItems, showGroupsWithMissingTags, totalHits]
+  const hasTagNotPresent = cursorPaginatedProps?.items?.some(({ tags }) =>
+    Object.values(tags).some(value => value === tag_not_present_group)
   );
+
+  // Send totalHits
+  useEffect(() => {
+    if (totalHits) {
+      const isShowingGroupsWithMissingTags = showGroupsWithMissingTags && hasTagNotPresent;
+      getTotalItems?.(isShowingGroupsWithMissingTags ? totalHits + 1 : totalHits);
+    }
+  }, [getTotalItems, hasTagNotPresent, showGroupsWithMissingTags, totalHits]);
 
   return (
     <Presenter
