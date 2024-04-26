@@ -22,6 +22,7 @@ import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/ho
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+import useAlertingTearSheetAction from 'in-alerting/smart-alerts/applications/tearSheet/hooks/useAlertingTearSheetAction';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { BluePrint, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
@@ -138,9 +139,11 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     onClose: withTrackClose
   });
 
+  const { cancelTearSheet } = useAlertingTearSheetAction();
+
   // const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);  // TODO use this validation
   //@ts-expect-error
-  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel);
+  const actions: AlertingFooterActions[] = getFooterActions(editMode, backOrCancel, cancelTearSheet);
 
   const stepRenderers = getStepRenderers(props);
 

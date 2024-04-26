@@ -19,7 +19,8 @@ export type AlertingFooterActions = {
   kind: string;
   isLeftAlign: boolean;
   label: string;
-  onClick: (arg?: React.MouseEvent<Element, MouseEvent> | number) => void;
+  onClick?: (arg?: React.MouseEvent<Element, MouseEvent> | number) => void;
+  href?: string;
 };
 
 export type AlertingTearSheetStepConfigs = {

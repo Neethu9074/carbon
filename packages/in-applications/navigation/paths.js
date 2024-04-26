@@ -337,7 +337,8 @@ export const isApplicationsView = getRootPathPredicate(
   servicesList,
   serviceDashboard,
   endpointDashboard,
-  alertsList
+  alertsList,
+  smartAlertPath
 );
 
 function useLinkToList(pathName, keyPrefix) {

@@ -42,7 +42,7 @@ export default function AlertingTearSheetFooter({
           {leftAction.map(
             (action: AlertingFooterActions) =>
               action.kind === 'ghost' && (
-                <CancelButton key={action.label} onClick={() => action.onClick}>
+                <CancelButton key={action.label} href={action.href}>
                   {action.label}
                 </CancelButton>
               )
@@ -55,7 +55,11 @@ export default function AlertingTearSheetFooter({
           {rightAction.map((action: AlertingFooterActions) => (
             <>
               {action.kind === 'secondary' && (
-                <PreviousButton key={action.label} onClick={() => action.onClick(step)} isDisabled={step === 0}>
+                <PreviousButton
+                  key={action.label}
+                  onClick={() => action.onClick && action.onClick(step)}
+                  isDisabled={step === 0}
+                >
                   {action.label}
                 </PreviousButton>
               )}

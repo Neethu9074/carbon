@@ -63,12 +63,16 @@ export const getStepRenderers = (props: AlertConfigTearSheetWithThresholdProps) 
   () => <AlertingTearSheetContent title={stepConfigs[4].title}>{''}</AlertingTearSheetContent>
 ];
 
-export const getFooterActions = (editMode: boolean | undefined, backOrCancel: (oldStep: number) => void) => [
+export const getFooterActions = (
+  editMode: boolean | undefined,
+  backOrCancel: (oldStep: number) => void,
+  cancelTearSheet: () => string
+) => [
   {
     kind: 'ghost',
     isLeftAlign: true,
     label: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
-    onClick: () => undefined
+    href: cancelTearSheet()
   },
   {
     kind: 'secondary',
