@@ -16,9 +16,12 @@ import PrometheusCustomMetrics from 'in-forge/plugins/prometheus/Dashboard/Prome
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent/SideNavigationAndContent';
 import { getKubernetesPrometheusMetricsWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesPrometheusMetrics';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 interface PrometheusMetricsProps {
@@ -80,9 +83,22 @@ interface PrometheusCustomMetricProps extends Result<PaginatedResult<KubernetesP
 function PrometheusCustomMetric({ snapshotId, ...props }: Readonly<PrometheusCustomMetricProps>) {
   const snapshot = useObservable(() => getSnapshot(snapshotId), [snapshotId]) ?? pendingResult;
   const isLoading = snapshot && get(snapshot, ['progress', 'loading']);
+  const timeConfig = useTimeConfig();
+  const metricIdsResult = useMetricIds({ snapshotId, timeConfig });
+  const hasPrometheusMetrics = Array.isArray(metricIdsResult?.data) && metricIdsResult?.data?.length > 0;
 
   if (isLoading) {
     return <LoadingIndicator />;
+  }
+
+  if (!hasPrometheusMetrics) {
+    return (
+      <NoDataAvailable
+        title={t('in-kubernetes:dashboards.noDataAvailable.prometheusMetricsTitle')}
+        text={t('in-kubernetes:dashboards.noDataAvailable.prometheusMetricsDescription')}
+        height={140}
+      />
+    );
   }
 
   return <PrometheusCustomMetrics snapshot={snapshot} {...props} />;
