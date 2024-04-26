@@ -480,7 +480,10 @@
       "locationLabel": "Location",
       "failures": "Failures",
       "status": "Status",
-      "success": "Success"
+      "success": "Success",
+      "daysRemaining": "Days Remaining",
+      "smallerTimeFrameTitle": "No results for this time frame",
+      "smallerTimeFrameDescription": "Please pick a bigger time frame, as SSL Certificate test run every 24 hours"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
