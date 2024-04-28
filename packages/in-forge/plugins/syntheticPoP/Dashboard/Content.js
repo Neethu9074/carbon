@@ -19,6 +19,7 @@ export default function SyntheticPoPDashboard({ snapshot, timeConfig }) {
   const browserStatus = snapshot.getIn(['data', 'browserscript.workloadStatus']);
   const javascriptStatus = snapshot.getIn(['data', 'javascript.workloadStatus']);
   const httpStatus = snapshot.getIn(['data', 'http.workloadStatus']);
+  const ismStatus = snapshot.getIn(['data', 'ism.workloadStatus']);
 
   return (
     <>
@@ -74,6 +75,23 @@ export default function SyntheticPoPDashboard({ snapshot, timeConfig }) {
             />
           </KpiKeyValue>
         )}
+        {ismStatus && (
+          <KpiKeyValue label={t('in-forge:plugins.syntheticPoP.dashboard.ismKPI')}>
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="ism.scheduledTasks"
+              formatter={number.compact}
+              timeWindowAggregation="sum"
+            />
+            {'/'}
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric="ism.completedTasks"
+              formatter={number.compact}
+              timeWindowAggregation="sum"
+            />
+          </KpiKeyValue>
+        )}
       </KpiSection>
 
       <DashboardSection title={t('in-forge:plugins.syntheticPoP.dashboard.activeTestCount')}>
@@ -83,11 +101,12 @@ export default function SyntheticPoPDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['http.activeTests', 'javascript.activeTests', 'browserscript.activeTests'],
+            metrics: ['http.activeTests', 'javascript.activeTests', 'browserscript.activeTests', 'ism.activeTests'],
             labels: [
               t('in-forge:plugins.syntheticPoP.dashboard.http'),
               t('in-forge:plugins.syntheticPoP.dashboard.javascript'),
-              t('in-forge:plugins.syntheticPoP.dashboard.browser')
+              t('in-forge:plugins.syntheticPoP.dashboard.browser'),
+              t('in-forge:plugins.syntheticPoP.dashboard.ism')
             ],
             type: 'stackedArea',
             formatter: number.compact
@@ -171,6 +190,34 @@ export default function SyntheticPoPDashboard({ snapshot, timeConfig }) {
             y2={{
               min: 0,
               metrics: ['browserscript.queueDepth'],
+              labels: [t('in-forge:plugins.syntheticPoP.dashboard.queueDepth')],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
+      {ismStatus && (
+        <DashboardSection title={t('in-forge:plugins.syntheticPoP.dashboard.ismWorkload')}>
+          <ChartExplanation>{t('in-forge:plugins.syntheticPoP.dashboard.ismWorkloadDes')}</ChartExplanation>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['ism.scheduledTasks', 'ism.completedTasks'],
+              labels: [
+                t('in-forge:plugins.syntheticPoP.dashboard.scheduled'),
+                t('in-forge:plugins.syntheticPoP.dashboard.completed')
+              ],
+              type: 'line',
+              formatter: number.compact,
+              aggregation: 'sum'
+            }}
+            y2={{
+              min: 0,
+              metrics: ['ism.queueDepth'],
               labels: [t('in-forge:plugins.syntheticPoP.dashboard.queueDepth')],
               type: 'line',
               formatter: number.compact
