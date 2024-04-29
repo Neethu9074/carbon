@@ -8,7 +8,6 @@ import React from 'react';
 
 import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
-import { Message } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Could not find declaration type
@@ -40,7 +39,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
-import { hours } from 'in-services/time/time';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
 
@@ -167,7 +165,6 @@ interface ResultListProps {
 export default function ResultsList({ test }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
-  const timeFrameSelectedInHours = Math.floor(timeConfig.windowSize / hours.toMillis(1));
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
   const isSSLCertificate = testType === 'SSLCertificate';
@@ -212,16 +209,7 @@ export default function ResultsList({ test }: ResultListProps) {
     matrixPrefix
   });
 
-  const isSSLCertificateTimeFrame: boolean = isSSLCertificate && timeFrameSelectedInHours < 24;
-
-  return isSSLCertificateTimeFrame ? (
-    <Message
-      withIcon
-      title={t('in-synthetics:dashboard.resultsListPage.smallerTimeFrameTitle')}
-      description={t('in-synthetics:dashboard.resultsListPage.smallerTimeFrameDescription')}
-      bold
-    />
-  ) : (
+  return (
     <>
       <ServerTableWithUrlState
         get={getSynthTableData}

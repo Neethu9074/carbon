@@ -85,7 +85,7 @@ const SelectedTestType = ({
 }: SelectedTestTypeProps) => {
   const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
-    commonAttributes['testFrequency'] = selectedBlueprint.type === SSLCertificateTest ? 120 : 15;
+    commonAttributes['testFrequency'] = selectedBlueprint.type === SSLCertificateTest ? 1440 : 15;
     commonAttributes['locations'] = form.get('locations').value;
     commonAttributes['label'] = form.get('label').value;
     commonAttributes['description'] = form.get('description').value;
