@@ -2042,10 +2042,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@ibm/telemetry-js/-/telemetry-js-1.3.0.tgz#321f2ed4bbbc78d69dc1ee9cb6f83d2d2af9baef"
   integrity sha512-9gIkyF2B9RizWN6rsdQN76DN6D+/Xbr4HGTwm6EUujfXvEVtWbf4jzxDFwKvZkeTC2tjHpkUNJQKdivbMKt8yg==
 
-"@instana/components@3.8.0", "@instana/components@^3.8.0":
-  version "3.8.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-3.8.0.tgz#aaaa2f2e40cf60ba540601834d16922c10f74892"
-  integrity sha512-dw+2aooYyH+OH8yPGWTrg/cAmd+HQETXa2sMFZnMDu3XSpSt4c3YYOOlxhw3gRdfsT86AbqYgBDyK+VjbUZMrw==
+"@instana/components@3.8.1", "@instana/components@^3.8.1":
+  version "3.8.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-3.8.1.tgz#a5a6cd99c09be6208b853a87c7e95ed9bfb4ba7e"
+  integrity sha512-89UwPI+L0LXciAD1VG7vqadT2ngsRGaryBsg5pG53kBMu0Qc5N6edo+tt70LDlkjyj+vreOORj3b+ZnCquK9Lw==
   dependencies:
     "@carbon/colors" "11.21.0"
     "@carbon/icons-react" "11.39.0"
@@ -2142,12 +2142,12 @@
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/legacy@3.4.17":
-  version "3.4.17"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.4.17.tgz#40e6bdd8300cff35f2156d9adf7649d56a0e22a1"
-  integrity sha512-dz6M/QCbDf0RGI0DCrtYaOLE18AY1z6uWT8gcCZNSdIc1X1rj1Wx67DDHEIo/b1Zyf+TBMkQeOx8clR5NfmsMA==
+"@instana/legacy@3.4.18":
+  version "3.4.18"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/legacy/-/@instana/legacy-3.4.18.tgz#6e2237b050e673465547728f87ce04e662926b49"
+  integrity sha512-s1JF16MQ2U5frY8RfckesYqo/t5LUVBDwKQwRdOOXZqRzqJ7d9nu4qf4+UXrBGrqUcoGtOXF8G+iz/EPAtNWkg==
   dependencies:
-    "@instana/components" "^3.8.0"
+    "@instana/components" "^3.8.1"
     "@instana/design-tokens" "^1.26.0"
     "@instana/format-date" "^1.6.7"
     "@instana/format-numbers" "^1.5.5"
