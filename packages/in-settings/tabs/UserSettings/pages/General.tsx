@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { getThemeOverride, Link, setThemeOverride, Spacer, Stack } from '@instana/components';
-import { Toggle, Button } from '@instana/legacy';
+import { getThemeOverride, Link, setThemeOverride, Spacer, Stack, Toggle } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Select } from '@instana/components';
+import { Button } from '@instana/legacy';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -50,7 +50,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="maintenance-notes"
           checked={settings['showMaintenanceNotes']}
-          onChange={e => saveSetting('showMaintenanceNotes', e.target.checked)}
+          onToggle={e => saveSetting('showMaintenanceNotes', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -62,7 +62,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="chart-quality"
           checked={settings['charts_adaptToDevicePixelRatio']}
-          onChange={e => saveSetting('charts_adaptToDevicePixelRatio', e.target.checked)}
+          onToggle={e => saveSetting('charts_adaptToDevicePixelRatio', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -101,7 +101,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="format-time"
           checked={settings['formatTimestampsAsUtc']}
-          onChange={e => saveSetting('formatTimestampsAsUtc', e.target.checked)}
+          onToggle={e => saveSetting('formatTimestampsAsUtc', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -118,7 +118,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="format-numbers"
           checked={settings['formatNumbersAccordingToEnUs'] || false}
-          onChange={e => saveSetting('formatNumbersAccordingToEnUs', e.target.checked)}
+          onToggle={e => saveSetting('formatNumbersAccordingToEnUs', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup noHelpTextSpacer>
