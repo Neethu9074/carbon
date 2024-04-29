@@ -52,6 +52,7 @@ export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled')
 export const carbonAccordionEnabled = isFeatureFlagEnabled('carbonAccordionEnabled');
 export const carbonSelectEnabled = isFeatureFlagEnabled('carbonSelectEnabled');
 export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
+export const carbonTextAreaEnabled = isFeatureFlagEnabled('carbonTextAreaEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
 

@@ -6,9 +6,10 @@
 import React, { forwardRef } from 'react';
 import { Field } from 'formalistic';
 
+import { TextArea } from '@instana/components';
+
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import TextArea from 'in-components/form/TextArea/TextArea';
 
 import locals from './AlertPropertiesTextArea.mless';
 

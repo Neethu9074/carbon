@@ -7,6 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
 import { GroupPermissionEntity, Result } from '@instana/types';
+import { TextArea } from '@instana/components';
 
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -19,7 +20,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import Section from 'in-synthetics/createTests/wizard/Section';
 import FormGroup from 'in-components/form/FormGroup';
-import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
