@@ -83,6 +83,7 @@ import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error no declaration file
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
+import { isAnalyzeView as isLogsAnalyzeView, logsPathWithDataSource } from 'in-logging/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
@@ -92,7 +93,6 @@ import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/
 import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { isBizOpsView, businessProcessPath } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -258,7 +258,7 @@ function Infrastructure() {
 }
 
 function Analyze() {
-  const { matchLocation } = useNavigation();
+  const { matchLocation, createHrefToPath } = useNavigation();
   const isActiveLegacy = useObservable(
     any(isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView, isLogsAnalyzeView, isInfraExploreView()),
     []
@@ -272,7 +272,7 @@ function Analyze() {
   const getLinkToMobileAppAnalyze = useLinkToMobileAppAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
 
-  if (!hasAnalyzeAccess) {
+  if (!hasAnalyzeAccess && !role?.canViewLogs) {
     return null;
   }
 
@@ -296,6 +296,8 @@ function Analyze() {
               )
             ),
           hasWebsitesAccess && just(analyzeHref),
+          // eslint-disable-next-line no-console
+          role?.canViewLogs && just(createHrefToPath(logsPathWithDataSource)),
           hasMobileAppsAccess &&
             just(
               getLinkToMobileAppAnalyze({
