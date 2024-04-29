@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,14 +9,14 @@ import React from 'react';
 import { AggregationType, KubernetesNamespace, ResultType, TimeConfig } from '@instana/types';
 
 import {
-  resourceQuotaPercentage,
-  resourceQuotaNumber,
   resourceQuotaBytes,
+  resourceQuotaNumber,
+  resourceQuotaPercentage,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
 import {
-  LogsChartInteractionWrapper,
   andQuery,
+  LogsChartInteractionWrapper,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -33,15 +33,15 @@ import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBig
 import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sChartColors';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { useNamespaceDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { summaryTab, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { Row, Col } from 'in-components/layout/Grid';
+import { getChartGranularity } from 'in-stores/metric/metric';
+import { formatDuration } from 'in-services/formatters/date';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -54,7 +54,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = namespace.id;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('namespace', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.namespace', snapshotId, timeConfig);
 
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
