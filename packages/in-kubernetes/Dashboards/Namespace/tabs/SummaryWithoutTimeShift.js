@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -22,15 +22,15 @@ import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricF
 import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sChartColors';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
+import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
-import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 const resourceQuotaSet = v => v !== -1;
@@ -41,7 +41,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('namespace', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.namespace', snapshotId, timeConfig);
 
   const allDeploymentsHrefs = useNamespaceDashboard(namespace.id, {
     tab: '/deployments'

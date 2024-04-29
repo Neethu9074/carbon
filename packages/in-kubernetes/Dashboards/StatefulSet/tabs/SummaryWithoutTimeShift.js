@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -10,8 +11,8 @@ import { Card } from '@instana/components';
 import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
@@ -22,7 +23,7 @@ import { t } from 'in-i18n';
 export default function Summary({ timeConfig, data: statefulSet }) {
   const snapshotId = statefulSet.id;
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('statefulSet', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.statefulSet', snapshotId, timeConfig);
 
   return (
     <>
