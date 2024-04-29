@@ -608,6 +608,11 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Loading Screenshots",
         "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
+      },
+      "sslCertificate": {
+        "daysRemaining": "Days Remaining",
+        "dateOfIssue": "Date of Issue",
+        "dateOfExpiry": "Date of Expiry"
       }
     },
     "noDataAvailable": {
