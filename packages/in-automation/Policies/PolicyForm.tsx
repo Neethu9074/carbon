@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Link, Spacer, Stack, Typography } from '@instana/components';
+import { TextArea } from '@instana/components';
 import { Button } from '@instana/legacy';
 
 import {
@@ -97,7 +98,6 @@ import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import TagsTable from 'in-automation/ActionCatalog/TagsTable';
 import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
 import Tooltip from 'in-components/Tooltip/Tooltip';

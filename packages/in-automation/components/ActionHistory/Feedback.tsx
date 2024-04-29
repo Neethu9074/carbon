@@ -8,6 +8,7 @@ import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { TextArea } from '@instana/components';
 
 import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -16,7 +17,6 @@ import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { updateActionInstanceFeedback } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
-import TextArea from 'in-components/form/TextArea/TextArea';
 import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';

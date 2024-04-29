@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
 import { Spacer, Toggle } from '@instana/components';
+import { TextArea } from '@instana/components';
 
 import {
   severityOptions,
@@ -19,7 +20,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import HelpText from 'in-components/form/HelpText';
-import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';

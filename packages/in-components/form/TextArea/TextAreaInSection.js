@@ -7,7 +7,8 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import TextArea from 'in-components/form/TextArea/TextArea';
+import { TextArea } from '@instana/components';
+
 import Section from 'in-components/workspace/Section';
 
 import locals from './TextAreaInSection.mless';
