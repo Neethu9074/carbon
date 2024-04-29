@@ -582,9 +582,7 @@
     "ariaLabel": {
       "search": "Search",
       "shareButton": "Share button",
-      "searchButton": "Search button",
       "add": "Add",
-      "addButton": "Add button",
       "handleButton": "Handle button"
     }
   },
