@@ -69,6 +69,8 @@ export const KEY_VALUE_PAIR = [
   IS_BLANK
 ];
 
+export const KEY_NUMBER_PAIR = NUMBER;
+
 const ADDITIONAL_OPERATORS_BY_SOURCE_AND_TYPE: { [source: string]: { [type: string]: TagFilterOperator[] } } = {
   infrastructure: {
     STRING: [NOT_BLANK, IS_BLANK],
@@ -105,7 +107,7 @@ export function getDefaultOperators({ type, idTag = false }: { type: string; idT
     return KEY_VALUE_PAIR;
   }
   if (type === 'KEY_NUMBER_PAIR') {
-    return NUMBER;
+    return KEY_NUMBER_PAIR;
   }
   return emptyArray;
 }

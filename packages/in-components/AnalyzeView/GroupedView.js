@@ -28,6 +28,7 @@ import {
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ua2LoadedMore, ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
+import { BOOLEAN, KEY_NUMBER_PAIR, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -35,7 +36,6 @@ import { getLabel as defaultGetLabel, GROUP_COLORS } from 'in-components/Analyze
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
-import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -247,7 +247,7 @@ export default function GroupedView(props) {
       operator: NOT_EMPTY,
       name: groupBy.groupbyTag
     };
-    if (groupByTagType === KEY_VALUE_PAIR) {
+    if (groupByTagType === KEY_VALUE_PAIR || groupByTagType === KEY_NUMBER_PAIR) {
       excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
     }
     return excludeMissingGroupTagFilter;
