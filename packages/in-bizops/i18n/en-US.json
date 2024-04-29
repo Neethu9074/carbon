@@ -15,6 +15,7 @@
     "noData": "No data available",
     "healthLabel": "Health",
     "startLabel": "Started",
+    "latencyLabel": "Latency",
     "unnamedActivity": "(Unnamed Activity) {{activityType}}",
     "unnamedService": "(Unnamed Service)"
   },
@@ -42,12 +43,14 @@
     "activity": {
       "pageTitle": "Business Activity",
       "summaryTab": "Summary",
+      "servicesTab": "Services",
       "widgets": {
         "duration": "Duration",
         "activityCount": "Count",
         "activityErrors": "Errors",
         "topServices": "Top Services",
-        "activityLatency": "Latency"
+        "activityLatency": "Latency",
+        "viewAll": "View all services"
       },
       "timespans": {
         "minute": "1 minute",
