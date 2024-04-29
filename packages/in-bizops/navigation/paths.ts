@@ -9,6 +9,7 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 export const summaryTab = '/summary';
 export const activitiesTab = '/activities';
 export const alertsTab = '/alerts';
+export const servicesTab = '/services';
 
 export const businessProcessPath = '/businessProcesses';
 export const activitiesPath = '/bizopsActivities';
@@ -20,6 +21,7 @@ export const businessProcessAlertListPath = `${businessProcessDashboard}${alerts
 export const businessProcessSummaryPath = `${businessProcessDashboard}${summaryTab}`;
 export const businessProcessActivityListPath = `${businessProcessDashboard}${activitiesTab}`;
 export const businessActivitySummaryPath = `${businessActivityDashboard}${summaryTab}`;
+export const businessActivityServiceListPath = `${businessActivityDashboard}${servicesTab}`;
 
 export const isBizOpsView = getRootPathPredicate(
   businessProcessPath,
